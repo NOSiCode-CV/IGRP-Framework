@@ -24,6 +24,9 @@ public class LdapPerson {
 	private String mailNickname;
 	private String distinguishedName;
 	private String sAMAccountName;
+	
+	private String fullName;
+	private String lastName;
 
 	public String getMail() {
 		return mail;
@@ -169,6 +172,22 @@ public class LdapPerson {
 		this.sn = sn;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	@Override
 	public String toString() {
 		return "LdapPerson [uid=" + uid + ", sn=" + sn + ", mail=" + mail + ", proxyAddresses=" + proxyAddresses
@@ -176,6 +195,7 @@ public class LdapPerson {
 				+ lastLogoff + ", cn=" + cn + ", sAMAccountType=" + sAMAccountType + ", givenName=" + givenName
 				+ ", displayName=" + displayName + ", userPrincipalName=" + userPrincipalName + ", pwdLastSet="
 				+ pwdLastSet + ", lastLogonTimestamp=" + lastLogonTimestamp + ", mailNickname=" + mailNickname
-				+ ", distinguishedName=" + distinguishedName + ", sAMAccountName=" + sAMAccountName + "]";
+				+ ", distinguishedName=" + distinguishedName + ", sAMAccountName=" + sAMAccountName + ", fullName="
+				+ fullName + ", lastName=" + lastName + "]";
 	}
 }

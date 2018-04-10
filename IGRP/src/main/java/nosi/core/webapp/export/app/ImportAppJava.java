@@ -107,7 +107,7 @@ public class ImportAppJava {
 			path = classJavaPath+"pages"+File.separator+c.getFolder().toLowerCase();
 			pathWorkSpace = this.config.getBasePahtClassWorkspace(this.app.getDad())+File.separator+"pages"+File.separator+c.getFolder().toLowerCase();
 		}else if(c.getType().equalsIgnoreCase("dao")) {
-			path = classJavaPath+"dao"+File.separator+folderPage.toLowerCase();		
+			path = classJavaPath+"dao"+File.separator+folderPage.toLowerCase();	
 			pathWorkSpace = this.config.getBasePahtClassWorkspace(this.app.getDad())+File.separator+"dao"+File.separator+c.getFolder().toLowerCase();	
 		}else if(c.getType().equalsIgnoreCase("services")) {
 			path = classJavaPath+"services"+File.separator+folderPage.toLowerCase();	

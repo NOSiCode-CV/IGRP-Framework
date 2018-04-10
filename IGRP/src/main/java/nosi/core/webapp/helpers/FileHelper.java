@@ -77,9 +77,10 @@ public class FileHelper {
 			File folder = new File(path);
 			File[] listOfFiles = folder.listFiles();
 		    for (int i = 0; i < listOfFiles.length; i++) {
-		      if (listOfFiles[i].isDirectory()) {
+		      if (listOfFiles[i].isDirectory()) 
 		         this.listFilesDirectory(path+listOfFiles[i].getName());
-		      }
+		      else
+		    	  this.files.put(listOfFiles[i].getName(), listOfFiles[i].getAbsolutePath());
 		    }
 		    return this.files;
 			}

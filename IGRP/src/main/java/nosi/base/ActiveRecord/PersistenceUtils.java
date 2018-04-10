@@ -80,8 +80,8 @@ public class PersistenceUtils {
         	cfg.getProperties().setProperty("hibernate.connection.provider_class","org.hibernate.connection.C3P0ConnectionProvider");
         	
         	// Closing connections 
-        	cfg.getProperties().setProperty("hibernate.c3p0.maxIdleTime","60"); // 60s to close all unused connection 
-        	cfg.getProperties().setProperty("hibernate.c3p0.maxIdleTimeExcessConnections","30"); // aggressively ... close all unused connection 30s 
+        	cfg.getProperties().setProperty("hibernate.c3p0.maxIdleTime","30"); // 30s to close all unused connection 
+        	cfg.getProperties().setProperty("hibernate.c3p0.maxIdleTimeExcessConnections","15"); // aggressively ... close all unused connection 15s 
         	
         	
         	// Go to http://www.mchange.com/projects/c3p0/#configuring_to_debug_and_workaround_broken_clients 

@@ -7,15 +7,26 @@ import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Properties;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+import org.wso2.carbon.um.ws.service.AddUser;
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
+import service.client.WSO2UserStub;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 
@@ -42,44 +53,95 @@ public class LdapUserController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			
-			File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
-			LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-			NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-			LdapPerson person = new LdapPerson(); 
-			person.setCn(model.getCommon_name().trim()); 
-			person.setSn(model.getSurname().trim());
-			try {
-				String aux = model.getEmail_1().trim().split("@")[0];
-				person.setUid(aux);
-			}catch(Exception e) {
-				person.setUid(model.getEmail_1().trim());
-			}
-			person.setMail(model.getEmail_1().trim());
-			person.setDisplayName(model.getCommon_name().trim() + " " + model.getSurname().trim());
-			person.setGivenName(model.getCommon_name().trim() + " " + model.getSurname().trim());
-			ldap.createUser(person);
-			String error = ldap.getError();
-			if(error != null) {
-				Core.setMessageError(error);
-				return this.forward("igrp","LdapUser","index");
-			}else 
-				Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
-				
-			/** End **/
+			boolean success = false;
 			
-			/*if(model.save(model)){
-				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
-			 }else{
-				Core.setMessageError(gt("Mesagem de Erro"));
-			 return this.forward("igrp","LdapUser","index");
+			Properties settings = loadIdentityServerSettings();
+			if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
+				success = addThroughIds(model, settings);
+			}else {
+				success = addThroughLdap(model);
 			}
-			*/
+			
+			return this.forward("igrp","LdapUser","index");
+			
+			/** End **/
 		}
 		return this.redirect("igrp","LdapUser","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	private boolean addThroughLdap(LdapUser model) {
+		boolean flag = false;
+		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
+		LdapPerson person = new LdapPerson(); 
+		person.setCn(model.getCommon_name().trim()); 
+		person.setSn(model.getSurname().trim());
+		try {
+			String aux = model.getEmail_1().trim().split("@")[0];
+			person.setUid(aux);
+		}catch(Exception e) {
+			person.setUid(model.getEmail_1().trim());
+		}
+		person.setMail(model.getEmail_1().trim());
+		person.setDisplayName(model.getCommon_name().trim() + " " + model.getSurname().trim());
+		person.setGivenName(model.getCommon_name().trim() + " " + model.getSurname().trim());
+		ldap.createUser(person);
+		String error = ldap.getError();
+		if(error != null)
+			Core.setMessageError(error);
+		else {
+			flag = true;
+			Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
+		}
+		return flag;
+	}
+	
+	private boolean addThroughIds(LdapUser model, Object ...obj) {
+		boolean flag = false;
+		
+		Properties settings = (Properties) obj[0];
+		
+		
+		
+		return flag;
+	}
+	
+	
+	public static void main( String[] args ){
+    	try {
+            boolean flag = false;
+             URL url = null;
+        try {
+            url = new URL("https://10.4.2.118:9443/services/RemoteUserStoreManagerService?wsdl");
+        } catch (MalformedURLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+            WSO2UserStub.disableSSL(); 
+            
+            WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
+            
+            stub.applyHttpBasicAuthentication("admin@wso2.com", "cloudadmin", 2);
+            
+            AddUser addUser = new AddUser();
+            addUser.setRequirePasswordChange(false);
+          //  addUser.setUserName(new JAXBElement<String>(new QName(""), String.class, value));
+            
+            stub.getOperations().addUser(null);
+            
+          //  System.err.println("Success " + );
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+	
+	
+	
 	
 	public Response actionIndex_(@RParam(rParamName = "email") String email) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
@@ -160,6 +222,31 @@ public class LdapUserController extends Controller {
 		view.btn_gravar.setLink("igrp", "ldap-user", "index_&email=" + email);
 		return this.renderView(view);
 		
+	}
+	
+	private Properties loadIdentityServerSettings() {
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "ids";
+		String fileName = "wso2-ids.xml";
+		File file = new File(path + File.separator + fileName);
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return props;
 	}
 	
 	/*----#END-PRESERVED-AREA----*/

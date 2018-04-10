@@ -137,7 +137,8 @@ public class ExportAppJava {
 				String pathPages = classJavaPath+"pages"+File.separator;
 				this.getJavaFiles(pathPages,"pages");
 				//Get class DAO 
-				String pathDao = classJavaPath+"dao"+File.separator;			
+				String pathDao = classJavaPath+"dao"+File.separator;	
+				
 				this.getJavaFiles(pathDao,"dao");
 				// Get class Services 
 				String pathServices = classJavaPath+"services"+File.separator;			
@@ -172,7 +173,12 @@ public class ExportAppJava {
 					folder = folder.substring(0, f.getKey().indexOf("$"));
 				}
 				folder = folder.replaceAll(".java", "").replaceAll(".class", "").replaceAll("View", "").replaceAll("Controller", "");
-				jcJavaPageC.setFolder(folder);
+				
+				if(type.equalsIgnoreCase("dao") || type.equalsIgnoreCase("services"))
+					jcJavaPageC.setFolder("");
+				else 
+					jcJavaPageC.setFolder(folder);
+				
 				this.files.add(jcJavaPageC);
 			});
 		}
