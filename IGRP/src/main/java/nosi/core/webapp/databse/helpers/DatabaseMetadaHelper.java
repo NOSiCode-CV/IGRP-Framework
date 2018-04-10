@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import nosi.core.config.Connection;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -229,6 +230,10 @@ public class DatabaseMetadaHelper {
 			java.sql.Connection con = Connection.getConnection(config.getName());
 			ResultSet schemas = null;
 			try {
+				if(con==null) {
+					Core.setMessageError("Falha na conexão com a base de dados");
+					return schemasMap;
+				}else {					
 				DatabaseMetaData metaData = con.getMetaData();
 				schemas = metaData.getSchemas();
 			    while (schemas.next()) {
@@ -237,7 +242,8 @@ public class DatabaseMetadaHelper {
 			    		schemasMap.put(s,s);
 			    	}
 			    }
-			} catch (SQLException e) {
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}finally {
 				try {

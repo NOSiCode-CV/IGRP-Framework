@@ -1,6 +1,7 @@
 package nosi.webapps.igrp_studio.pages.partilhageral;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
+import java.sql.Date;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
@@ -18,11 +19,7 @@ public class Partilhageral extends Model{
 	@RParam(rParamName = "p_aplicacao_destino")
 	private String aplicacao_destino;
 	
-	@RParam(rParamName = "p_estado")
-	private String[] estado;
-	
 	private List<Table_1> table_1 = new ArrayList<>();	
-	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
@@ -57,18 +54,12 @@ public class Partilhageral extends Model{
 	public String getAplicacao_destino(){
 		return this.aplicacao_destino;
 	}
-	
-	public String[] getEstado() {
-		return estado;
-	}
-	public void setEstado(String[] estado) {
-		this.estado = estado;
-	}
+
 
 	public static class Table_1{
 		private int estado;
 		private int estado_check;
-		private String descricao;
+		private String nome;
 		public void setEstado(int estado){
 			this.estado = estado;
 		}
@@ -82,11 +73,11 @@ public class Partilhageral extends Model{
 			return this.estado_check;
 		}
 
-		public void setDescricao(String descricao){
-			this.descricao = descricao;
+		public void setNome(String nome){
+			this.nome = nome;
 		}
-		public String getDescricao(){
-			return this.descricao;
+		public String getNome(){
+			return this.nome;
 		}
 
 	}

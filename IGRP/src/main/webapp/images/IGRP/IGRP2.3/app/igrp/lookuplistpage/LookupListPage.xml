@@ -34,29 +34,6 @@
     </plsql>
     <content>
         <title>Lista de Pagina Para Lookup</title>
-        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <componentes name="p_componentes" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
-                    <label>Componentes</label>
-                    <value/>
-                </componentes>
-                <paginas name="p_paginas" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
-                    <label>Páginas</label>
-                    <value/>
-                </paginas>
-            </fields>
-        </tabcontent_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
-                <title>Gravar</title>
-                <app>igrp</app>
-                <page>LookupListPage</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
-            </item>
-        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
@@ -83,15 +60,15 @@
                 </env_fk>
                 <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome Pagina</label>
-                    <value>Stract sit iste sit natus</value>
+                    <value>Laudantium totam stract sed doloremque</value>
                 </page>
                 <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descricao Pagina</label>
-                    <value>Totam stract amet sed voluptatem</value>
+                    <value>Consectetur totam dolor deserunt sit</value>
                 </page_descr>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar2">
+                <item type="form" code="" class="primary" rel="pesquisar">
                     <title>Pesquisar</title>
                     <app>igrp</app>
                     <page>Dominio</page>
@@ -102,52 +79,6 @@
                 </item>
             </tools-bar>
         </form_1>
-        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
-                    <label>Aplicacao</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </aplicacao>
-                <nome_componente name="p_nome_componente" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome Componente</label>
-                    <value>Magna sed aliqua omnis voluptatem</value>
-                </nome_componente>
-                <descricao_componente name="p_descricao_componente" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Descricao Componente</label>
-                    <value>Lorem rem mollit rem consectetur</value>
-                </descricao_componente>
-                <hidden name="p_task_id" type="hidden" maxlength="100" java-type="" tag="task_id"/>
-            </fields>
-            <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar1">
-                    <title>Pesquisar</title>
-                    <app>igrp</app>
-                    <page>LookupListPage</page>
-                    <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml?</parameter>
-                    <target>submit</target>
-                    <img>primary|fa-search</img>
-                </item>
-            </tools-bar>
-        </form_2>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <nome_pagina name="p_nome_pagina" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
@@ -161,102 +92,32 @@
             <table>
                 <value>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Sit ut amet totam officia</nome_pagina>
-                        <descricao name="p_descricao">Amet officia doloremque natus</descricao>
+                        <nome_pagina name="p_nome_pagina">Aliqua consectetur adipiscing</nome_pagina>
+                        <descricao name="p_descricao">Voluptatem adipiscing iste lab</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Unde lorem sed laudantium sed</nome_pagina>
-                        <descricao name="p_descricao">Accusantium stract lorem lauda</descricao>
+                        <nome_pagina name="p_nome_pagina">Voluptatem ut mollit sit accus</nome_pagina>
+                        <descricao name="p_descricao">Doloremque consectetur unde ap</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Magna doloremque sit rem sit</nome_pagina>
-                        <descricao name="p_descricao">Iste adipiscing ut iste sed</descricao>
+                        <nome_pagina name="p_nome_pagina">Perspiciatis officia labore do</nome_pagina>
+                        <descricao name="p_descricao">Aliqua ut lorem mollit elit</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Sit laudantium perspiciatis ma</nome_pagina>
-                        <descricao name="p_descricao">Amet omnis aliqua totam natus</descricao>
+                        <nome_pagina name="p_nome_pagina">Ut sed officia perspiciatis vo</nome_pagina>
+                        <descricao name="p_descricao">Ut totam labore unde officia</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Dolor officia anim officia lab</nome_pagina>
-                        <descricao name="p_descricao">Ipsum totam aperiam stract tot</descricao>
+                        <nome_pagina name="p_nome_pagina">Doloremque deserunt accusantiu</nome_pagina>
+                        <descricao name="p_descricao">Laudantium stract totam lorem</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
             </table>
         </table_1>
-        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
-            <fields>
-                <selecionar name="p_selecionar" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true" desc="true">
-                    <label/>
-                </selecionar>
-                <titulo name="p_titulo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
-                    <label>Título</label>
-                </titulo>
-                <t_nome_componente name="p_t_nome_componente" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
-                    <label>Nome Componente</label>
-                </t_nome_componente>
-                <t_descricao_componente name="p_t_descricao_componente" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
-                    <label>Descrição Componente</label>
-                </t_descricao_componente>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
-                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
-                        <titulo name="p_titulo" desc="true">Sit iste deserunt lorem rem</titulo>
-                        <titulo_desc name="p_titulo_desc">Sit iste deserunt lorem rem</titulo_desc>
-                        <t_nome_componente name="p_t_nome_componente" desc="true">Sed unde laudantium anim omnis</t_nome_componente>
-                        <t_nome_componente_desc name="p_t_nome_componente_desc">Sed unde laudantium anim omnis</t_nome_componente_desc>
-                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Omnis doloremque consectetur s</t_descricao_componente>
-                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Omnis doloremque consectetur s</t_descricao_componente_desc>
-                    </row>
-                    <row>
-                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
-                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
-                        <titulo name="p_titulo" desc="true">Lorem mollit adipiscing sit de</titulo>
-                        <titulo_desc name="p_titulo_desc">Lorem mollit adipiscing sit de</titulo_desc>
-                        <t_nome_componente name="p_t_nome_componente" desc="true">Ut officia ipsum natus iste</t_nome_componente>
-                        <t_nome_componente_desc name="p_t_nome_componente_desc">Ut officia ipsum natus iste</t_nome_componente_desc>
-                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Sit consectetur accusantium do</t_descricao_componente>
-                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Sit consectetur accusantium do</t_descricao_componente_desc>
-                    </row>
-                    <row>
-                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
-                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
-                        <titulo name="p_titulo" desc="true">Aperiam perspiciatis dolor sit</titulo>
-                        <titulo_desc name="p_titulo_desc">Aperiam perspiciatis dolor sit</titulo_desc>
-                        <t_nome_componente name="p_t_nome_componente" desc="true">Ut amet aperiam iste officia</t_nome_componente>
-                        <t_nome_componente_desc name="p_t_nome_componente_desc">Ut amet aperiam iste officia</t_nome_componente_desc>
-                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Ipsum sit iste deserunt sit</t_descricao_componente>
-                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Ipsum sit iste deserunt sit</t_descricao_componente_desc>
-                    </row>
-                    <row>
-                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
-                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
-                        <titulo name="p_titulo" desc="true">Rem amet ipsum rem sed</titulo>
-                        <titulo_desc name="p_titulo_desc">Rem amet ipsum rem sed</titulo_desc>
-                        <t_nome_componente name="p_t_nome_componente" desc="true">Accusantium mollit unde adipis</t_nome_componente>
-                        <t_nome_componente_desc name="p_t_nome_componente_desc">Accusantium mollit unde adipis</t_nome_componente_desc>
-                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Amet perspiciatis sed voluptat</t_descricao_componente>
-                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Amet perspiciatis sed voluptat</t_descricao_componente_desc>
-                    </row>
-                    <row>
-                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
-                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
-                        <titulo name="p_titulo" desc="true">Elit ut sed iste stract</titulo>
-                        <titulo_desc name="p_titulo_desc">Elit ut sed iste stract</titulo_desc>
-                        <t_nome_componente name="p_t_nome_componente" desc="true">Amet unde doloremque magna nat</t_nome_componente>
-                        <t_nome_componente_desc name="p_t_nome_componente_desc">Amet unde doloremque magna nat</t_nome_componente_desc>
-                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Amet natus perspiciatis natus</t_descricao_componente>
-                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Amet natus perspiciatis natus</t_descricao_componente_desc>
-                    </row>
-                </value>
-            </table>
-        </formlist_1>
     </content>
 </rows>

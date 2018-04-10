@@ -16,6 +16,7 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.Permission;
@@ -308,6 +309,39 @@ public class ExecucaoTarefasController extends Controller {
 	private User getUser(){
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
+
+	
+	public Response actionProcessEditTask() throws IOException, ServletException{
+		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
+		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
+		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
+		boolean result = false;
+		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
+		String[] p_prm_file_name_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk");
+		p_prm_file_name_fk = p_prm_file_name_fk==null?Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk_desc"):p_prm_file_name_fk;
+		String[] p_prm_file_description_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_description_fk");
+		if(Core.isNotNull(taskId)){
+			TaskServiceQuery taskS = new TaskServiceQuery();
+			taskS.addFilter("taskId", taskId);
+			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
+				ProcessInstancesService p = new ProcessInstancesService();
+				p.setId(task.getProcessInstanceId());
+				Core.getParameters().entrySet().stream().forEach(param-> {
+					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
+				});	
+				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+				result = p.submitVariables();
+				new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+				if(result){
+					Core.setMessageSuccess();
+				}else{
+					Core.setMessageError();
+				}
+				return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
+			}
+		}		
+		return this.redirect("igrp", "ErrorPage", "exception");
+	}
 	
 	public Response actionProcessTask() throws IOException, ServletException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
@@ -317,6 +351,7 @@ public class ExecucaoTarefasController extends Controller {
 		ResponseError result = null;
 		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
 		String[] p_prm_file_name_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk");
+		p_prm_file_name_fk = p_prm_file_name_fk==null?Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk_desc"):p_prm_file_name_fk;
 		String[] p_prm_file_description_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_description_fk");
 		if(Core.isNotNull(taskId)){
 			result = this.processTask(taskId,customForm,content,parts,p_prm_file_name_fk,p_prm_file_description_fk);
@@ -397,7 +432,6 @@ public class ExecucaoTarefasController extends Controller {
 				task.submitVariables();
 			}
 		}
-		
 		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;

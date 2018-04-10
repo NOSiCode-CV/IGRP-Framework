@@ -16,12 +16,12 @@ public class NovoMenuView extends View {
 	public Field env_fk;
 	public Field action_fk;
 	public Field detalhes;
-	public Field descr;
-	public Field orderby;
+	public Field titulo;
 	public Field self_id;
 	public Field status;
 	public Field status_check;
 	public Field extra;
+	public Field orderby;
 	public Field target;
 	public Field link;
 	public Field flg_base;
@@ -57,13 +57,9 @@ public class NovoMenuView extends View {
 		detalhes.setLabel(gt("Detalhes"));
 		detalhes.propertie().add("name","p_detalhes").add("type","separator").add("maxlength","30");
 		
-		descr = new TextField(model,"descr");
-		descr.setLabel(gt("Título"));
-		descr.propertie().add("name","p_descr").add("type","text").add("maxlength","80").add("required","true");
-		
-		orderby = new NumberField(model,"orderby");
-		orderby.setLabel(gt("Ordem"));
-		orderby.propertie().add("name","p_orderby").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("java-type","int");
+		titulo = new TextField(model,"titulo");
+		titulo.setLabel(gt("Título"));
+		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","80").add("required","true");
 		
 		self_id = new ListField(model,"self_id");
 		self_id.setLabel(gt("Menu pai"));
@@ -71,11 +67,15 @@ public class NovoMenuView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		extra = new SeparatorField(model,"extra");
 		extra.setLabel(gt("Extra"));
 		extra.propertie().add("name","p_extra").add("type","separator").add("maxlength","30");
+		
+		orderby = new NumberField(model,"orderby");
+		orderby.setLabel(gt("Posição"));
+		orderby.propertie().add("name","p_orderby").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("java-type","int");
 		
 		target = new ListField(model,"target");
 		target.setLabel(gt("Target"));
@@ -87,7 +87,7 @@ public class NovoMenuView extends View {
 		
 		flg_base = new CheckBoxField(model,"flg_base");
 		flg_base.setLabel(gt("Público?"));
-		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true");
+		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		p_area = new HiddenField(model,"p_area");
 		p_area.setLabel(gt(""));
@@ -118,11 +118,11 @@ public class NovoMenuView extends View {
 		form_1.addField(env_fk);
 		form_1.addField(action_fk);
 		form_1.addField(detalhes);
-		form_1.addField(descr);
-		form_1.addField(orderby);
+		form_1.addField(titulo);
 		form_1.addField(self_id);
 		form_1.addField(status);
 		form_1.addField(extra);
+		form_1.addField(orderby);
 		form_1.addField(target);
 		form_1.addField(link);
 		form_1.addField(flg_base);
@@ -139,32 +139,20 @@ public class NovoMenuView extends View {
 	public void setModel(NovoMenu model) {
 		
 		env_fk.setValue(model);
-
 		action_fk.setValue(model);
-
 		detalhes.setValue(model);
-
-		descr.setValue(model);
-
-		orderby.setValue(model);
-
+		titulo.setValue(model);
 		self_id.setValue(model);
-
 		status.setValue(model);
-
 		extra.setValue(model);
-
+		orderby.setValue(model);
 		target.setValue(model);
-
 		link.setValue(model);
-
 		flg_base.setValue(model);
-
 		p_area.setValue(model);
-
 		p_img_src.setValue(model);
+		p_id.setValue(model);	
 
-		p_id.setValue(model);
-	
+		
 	}
 }

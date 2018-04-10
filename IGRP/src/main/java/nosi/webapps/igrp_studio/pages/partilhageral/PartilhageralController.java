@@ -4,11 +4,9 @@ package nosi.webapps.igrp_studio.pages.partilhageral;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
 import java.util.Optional;
 import java.util.ArrayList;
@@ -18,9 +16,8 @@ import nosi.core.webapp.Igrp;
 
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;		
-/*----#end-code----*/
 import nosi.webapps.igrp.dao.Share;
-
+/*----#end-code----*/
 
 
 public class PartilhageralController extends Controller {		
@@ -28,31 +25,34 @@ public class PartilhageralController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Partilhageral model = new Partilhageral();
-		PartilhageralView view = new PartilhageralView();
 		model.load();
-		
+		PartilhageralView view = new PartilhageralView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadTable_1( Core.query( "SELECT 'estado' as estado,'descricao' as descricao " ) );
+		model.loadTable_1(Core.query(null,"SELECT 'estado' as estado,'nome' as nome "));
+		
 		view.aplicacao_origem.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		view.elemento.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		view.aplicacao_destino.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
-		
-		view.elemento.setSqlQuery(null,"(((((SELECT '' as ID,'-- Elemento --' as NAME) union all (SELECT 'PAGE' as ID,'PAGE' as NAME)) union all (SELECT 'WORKFLOW' as ID,'WORKFLOW' as NAME)) "
-				+ "union all (SELECT 'SERVICE' as ID,'SERVICE' as NAME)) union all (SELECT 'REPORT' as ID,'REPORT' as NAME))");
-		
 		view.aplicacao_origem.setValue(new Application().getAllApps());
+		view.elemento.setSqlQuery(null,"(("
+//				+ "(((SELECT '' as ID,'-- Elemento --' as NAME) union all (""
+				+ "SELECT 'PAGE' as ID,'Page' as NAME))");
+//				+ "union all (SELECT 'WORKFLOW' as ID,'WORKFLOW' as NAME)) "
+//				+ "union all (SELECT 'SERVICE' as ID,'SERVICE' as NAME)) "
+//				+ "union all (SELECT 'REPORT' as ID,'REPORT' as NAME))");		
+		
 		view.aplicacao_destino.setSqlQuery(null,"SELECT '' as ID,'-- Selecionar --' as NAME ");
 		
 		Optional.of(model.getAplicacao_origem()).ifPresent(
 				v -> {
 					try {
-						view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Integer.parseInt((v))));
+						view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Integer.parseInt((v))));					
 						}
 					catch(Exception e) {}
 					}
@@ -92,8 +92,8 @@ public class PartilhageralController extends Controller {
 									row.setEstado(page.getId()); 
 									row.setEstado_check(page.getId());
 								}
-							}
-							row.setDescricao(page.getPage_descr());
+							}                          
+							row.setNome(page.getPage_descr()+" ("+page.getPage()+")");
 							t.add(row);
 						}
 					break;
@@ -111,49 +111,47 @@ public class PartilhageralController extends Controller {
 		}
 		
 		/*----#end-code----*/
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
 	
-public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Partilhageral model = new Partilhageral();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code: 
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		if(model.save(model)){
 			Core.setMessageSuccess();
 		 }else{
 			Core.setMessageError();
-		 return this.forward("igrp_studio","Partilha_geral","index");
+		 return this.forward("igrp_studio","Partilhageral","index");
 		}
-		 
-		----#gen-example */
 		
+		----#gen-example */
 		/*----#start-code(partilhar)----*/
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
 			//System.out.println("Entrado ... ");
 			sharePage(model);
-			return forward("igrp_studio","Partilhageral","index");
+			return this.forward("igrp_studio","Partilhageral","index");
 		}
-		/*----#end-code----*/ 
-		return this.redirect("igrp_studio","Partilhageral","index");
+
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","Partilhageral","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
 		
 	private void sharePage(Partilhageral model) {
 		List<Share> shares = new ArrayList<Share>();
-		try {
+		if(Core.isInt(model.getAplicacao_origem()) && Core.isInt(model.getAplicacao_destino())) {			
+			
 			shares = new Share().find().andWhere("env.id", "=", Integer.parseInt(model.getAplicacao_destino()))
 					.andWhere("owner.id", "=", Integer.parseInt(model.getAplicacao_origem()))
 					.andWhere("type", "=", "PAGE").all();
-		}catch(Exception e) {}
 		
 		List<Share> sharesRemoved = new ArrayList<Share>();
 		try {
@@ -166,11 +164,11 @@ public Response actionPartilhar() throws IOException, IllegalArgumentException, 
 			s.setStatus(0);
 			s.update();
 		}
-
-		if(model.getEstado() != null && model.getEstado().length > 0) {
+			String[] estados=Core.getParamArray("p_estado");
+		if(Core.isNotNull(estados) && estados.length > 0) {
 			boolean flag = false;
-			for(String obj : model.getEstado()) {
-			try {
+			for(String obj : estados) {
+		
 			for(Share s : shares) {
 				if(new String(s.getType_fk() + "").equals(obj)) {
 					s.setStatus(1);
@@ -190,16 +188,18 @@ public Response actionPartilhar() throws IOException, IllegalArgumentException, 
 			share.setEnv(app2);
 			share.setStatus(1);
 			share.setType("PAGE");
-			share.setType_fk(Integer.parseInt(obj));
+			share.setType_fk(Integer.parseInt(obj));	
 			share = share.insert();
+			if(share != null){
+				Core.setMessageSuccess();
+			 }else{
+				Core.setMessageError();			
+			}
 			
-		}catch(Exception e) {
-				Core.setMessageError();
-				break;
 			}
 		}
-			}
+			}else
+			Core.setMessageError();
 	}
 	/*----#end-code----*/
-	
-}
+	}

@@ -45,6 +45,7 @@ import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.xml.XMLExtractComponent;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Domain;
@@ -133,14 +134,13 @@ public class PageController extends Controller {
                 action.setIsComponent((short) model.getComponente());
 				action = action.update();
 				if (action != null)
-					Core.setMessageSuccess(gt("PÃ¡gina atualizada com sucesso."));
+					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
 				else
 					Core.setMessageError();
 				return this.redirect("igrp", "page", "index", new String[] { "p_id_page" }, new String[] { idPage + "" });
-//				_________________________________________________
-			} else {
+//				_________________________________________________Edit/update page
+			} else if(checkifexists(app.findOne(Integer.parseInt(model.getEnv_fk())), model)){
 				// New page
-
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
 				action.setPage_descr(model.getPage_descr());
@@ -150,6 +150,8 @@ public class PageController extends Controller {
 				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
 				action.setAction("index");
                 action.setIsComponent((short) model.getComponente());
+                action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
+						+ "/" + action.getPage() + ".xsl");
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
 							FlashMessage.WARNING_PAGE_INVALID);
@@ -178,8 +180,12 @@ public class PageController extends Controller {
 					Core.setMessageError();
 					return this.forward("igrp", "page", "index");
 				}
+//				_________________________________________________New page
+			}else {
+				Core.setMessageWarning("Este code já existe. Por favor editar.");
+				return this.forward("igrp", "page", "index");
 			}
-
+				
 		}
 
 		/*----#end-code----*/
@@ -189,7 +195,17 @@ public class PageController extends Controller {
 		
 	}
 	
+
+
 	/*----#start-code(custom_actions)----*/
+	
+	private boolean checkifexists(Application application, Page model) {
+		// TODO Auto-generated method stub
+		return Core.isNull(new Action().find().andWhere("package_name","=", "nosi.webapps." + application.getDad().toLowerCase() + ".pages."+model.getPage()).one());
+		 
+		
+		 
+	}
 	
 	private void createSvnRepo(Action page){
 		Svn  svnapi = new Svn();
@@ -331,15 +347,10 @@ public class PageController extends Controller {
 										FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 							}
 						}
-				}else {//save xml if is component
-					ac.setXmlContent(FileHelper.convertToString(fileXml));
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson().toJson(new MapErrorCompile(ac.getIsComponent()==0?"Compilação efetuada com sucesso":"Componente registado com sucesso", null));
-					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
-							+ "/" + ac.getPage() + ".xsl");
-					ac.update();					
+							
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 					return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 				}

@@ -378,7 +378,15 @@ public final class Core {	/** Not inherit
 	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(PesquisaSNIAC pesquisa){
 		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia SNIAC via Biztalk
+	 * 
+	 * @param num_idnt_civil_pes
+	 * @param num_registo_pes
+	 * @param nome_pes
+	 * @param data_nasc_pes
+	 * @param id_tp_doc_pes
+	 * @return
+	 */
 	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(Integer num_idnt_civil_pes, String num_registo_pes, String nome_pes, String data_nasc_pes,
 			Integer id_tp_doc_pes){
 		return getBizTalkPesquisaSNIAC(new PesquisaSNIAC(num_idnt_civil_pes, num_registo_pes, nome_pes, data_nasc_pes, id_tp_doc_pes));
@@ -392,7 +400,12 @@ public final class Core {	/** Not inherit
 	public static PesquisaBI getBizTalkPesquisaBI(PesquisaBI pesquisa){
 		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia BI via Biztalk
+	 * 
+	 * @param bi
+	 * @param nome
+	 * @return
+	 */
 	public static PesquisaBI getBizTalkPesquisaBI(Integer bi, String nome){
 		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
 	}	
@@ -405,7 +418,12 @@ public final class Core {	/** Not inherit
 	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
 		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia NIF via Biztalk
+	 * 
+	 * @param numero
+	 * @param nome
+	 * @return
+	 */
 	public static PesquisaNIF getBizTalkPesquisaNIF(Integer numero, String nome){
 		return getBizTalkPesquisaNIF(new PesquisaNIF(numero, nome));
 	}
@@ -418,7 +436,13 @@ public final class Core {	/** Not inherit
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa){
 		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia Nascimento via Biztalk
+	 * 
+	 * @param nome
+	 * @param numero_registo
+	 * @param data_nascimento
+	 * @return
+	 */
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(String nome, Integer numero_registo, String data_nascimento){
 		return getBizTalkPesquisaNascimento(new PesquisaNascimento(nome, numero_registo, data_nascimento));
 	}	
@@ -431,7 +455,14 @@ public final class Core {	/** Not inherit
 	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
 		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia Hierarquia CAE via Biztalk
+	 * 
+	 * @param id
+	 * @param codigo
+	 * @param crpcae_id
+	 * @param self_id
+	 * @return
+	 */
 	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(String id, String codigo, String crpcae_id, String self_id){
 		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
 	}
@@ -524,7 +555,12 @@ public final class Core {	/** Not inherit
 		}
 		return false;
 	}
-	
+	/**Verifies if the String is a Integer, than returns the parse of it, else returns 0
+	 *  
+	 * @param value
+	 * @return Integer.parseInt(value) or 0
+	 * 
+	 */
 	public static Integer toInt(String value) {
 		if(Core.isInt(value))
 			return Integer.parseInt(value);
@@ -542,12 +578,24 @@ public final class Core {	/** Not inherit
 			return Short.parseShort(value);
 		return 0;
 	}
+	/**Verifies if the String is a Double, than returns the parse of it, else returns 0
+	 *  
+	 * @param value
+	 * @return Double.parseDouble(value) or 0
+	 * 
+	 */
 	public static Double toDouble(String value) {
 		if(Core.isDouble(value))
 			return Double.parseDouble(value);
 		return 0.0;
 	}
-
+	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
+	 * {@value}
+	 * @ 
+	 * @param value
+	 * @return Float.parseFloat(value) or 0
+	 * 
+	 */
 	public static Float toFloat(String value) {
 		if(Core.isFloat(value))
 			return Float.parseFloat(value);
@@ -660,62 +708,108 @@ public final class Core {	/** Not inherit
 		return Igrp.getInstance().getRequest().getParameterMap();
 	}
 	
-	public static void setParam(String name,Object value) {
-		if(Igrp.getInstance().getRequest()!=null)
-			Igrp.getInstance().getRequest().setAttribute(name, value);
-	}
-	
-	public static void setParam(String name,Object[] value) {
-		if(Igrp.getInstance().getRequest()!=null)
-			Igrp.getInstance().getRequest().setAttribute(name, value);
-	}
-	
 	public static String getParam(String name) {
-		Object v = Igrp.getInstance().getRequest().getAttribute(name);
+		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		if(Core.isNull(v))
+			v = Core.getAttribute(name);
 		return v!=null?v.toString():"";
 	}
 
 	public static Integer getParamInt(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toInt(x):0;
 	}
 	
 	public static Double getParamDouble(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toDouble(x):0;
 	}
 
 	public static Short getParamShort(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toShort(x):0;
 	}
+	
 	public static Float getParamFloat(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toFloat(x):0;
 	}
+	
 	public static Long getParamLong(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toLong(x):0;
 	}
+	
 	public static String[] getParamArray(String name) {
-		if(Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])
-			return (String[]) Igrp.getInstance().getRequest().getAttribute(name);
-		return new String[] {Igrp.getInstance().getRequest().getAttribute(name).toString()};
-	}
-	
-	public static String getTaskVariable(String taskDefinitionKey,String variableName) {		
-		String id = getTaskId();
-		if(Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
-			if(task1!=null && task1.size() > 0) {
-				List<TaskVariables> vars = task1.get(0).getVariables();
-				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
-				return (var!=null && var.size() > 0)?(String) var.get(0).getValue():"";
-			}
+		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
+		if(value == null) {
+			value = Core.getAttributeArray(name);
 		}
-		return "";
+		return value;
 	}
 	
+	public static void setAttribute(String name,Object value) {
+		Igrp.getInstance().getRequest().setAttribute(name, value);
+	}
+	
+	public static String getAttribute(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
+			String v = (String) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return v;
+		}
+		return null;
+	}	
+	
+	public static String[] getAttributeArray(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && Igrp.getInstance().getRequest().getAttribute(name) instanceof String[]) {
+			String [] value = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return value;
+		}
+		return null;
+	}
+	
+	public static String getTaskVariable(String taskDefinitionKey,String variableName) { 
+        List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
+        if(vars!=null) {
+	        List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+	        return (var!=null && var.size() > 0)?(String) var.get(var.size()-1).getValue():"";
+        }
+	    return "";
+	  }
+	  
+	  public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {    
+	    String id = Core.getExecutionId();
+	    if(Core.isNotNull(id)) {
+	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
+	      if(task1!=null && task1.size() > 0) {
+	        return task1.get(task1.size()-1).getVariables();
+	      }
+	    }
+	    return null;
+	  }
+	  
+	  public static HistoricTaskService getTaskHistory(String taskDefinitionKey) {    
+	    String id = Core.getExecutionId();
+	    if(Core.isNotNull(id)) {
+	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
+	      if(task1!=null && task1.size() > 0) {
+	        return task1.get(task1.size()-1);
+	      }
+	    }
+	    return null;
+	  }
 	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v)?Core.toInt(v):0;
@@ -747,15 +841,15 @@ public final class Core {	/** Not inherit
 		return Core.isNotNull(v)?true:false;
 	}
 	
-	private static String getTaskId() {
-		String taskId = Core.getParam("taskId");
-		String taskExecutionId = Core.getParam("taskExecutionId");
-		if(Core.isNotNull(taskExecutionId)) {
-			return taskExecutionId;
-		}
-		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
-		return (task!=null && task.size() > 0)?task.get(0).getExecutionId():null;
-	}
+	private static String getExecutionId() {
+	    String taskId = Core.getParam("taskId");
+	    String taskExecutionId = Core.getParam("taskExecutionId");
+	    if(Core.isNotNull(taskExecutionId)) {
+	      return taskExecutionId;
+	    }
+	    List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+	    return (task!=null && task.size() > 0)?task.get(task.size()-1).getExecutionId():null;
+  	}
 	
 	public static void addTaskVariableLong(String taskDefinitionKey,String variableName,Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
@@ -910,12 +1004,12 @@ public final class Core {	/** Not inherit
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1,Object[] array2,Predicate<? super Integer> filter) {
-		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 && array1.length==array2.length)
+		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0)
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().filter(filter).collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
 		return null;
 	}
 	public static Map<Object, Object> mapArray(Object[] array1,Object[] array2) {
-		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 && array1.length==array2.length)
+		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 )
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
 		return null;
 	}

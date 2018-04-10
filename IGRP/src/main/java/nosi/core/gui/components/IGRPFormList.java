@@ -1,6 +1,7 @@
 package nosi.core.gui.components;
 
 import nosi.core.gui.fields.Field;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
@@ -58,7 +59,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 					String val = IgrpHelper.getValue(obj, field.getName());
-					if(val==null || val.equals("")){
+					if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
 						val = field.getValue().toString();
 					}
 					String []aux = val.split("_"); // this symbol underscore ... will be the reserved char

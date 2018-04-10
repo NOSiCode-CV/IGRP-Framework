@@ -18,7 +18,7 @@
      <xsl:template name="gen-field-view">
 		<xsl:param name="type" /> 
         <xsl:for-each select="//rows/content/*/fields/*">
-            <xsl:if test="not(@name=preceding::node()/@name)">
+            <!--<xsl:if test="not(@name=preceding::node()/@name)"> -->
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
 						<xsl:value-of select="$tab"/>
@@ -101,7 +101,42 @@
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 						</xsl:if>
-
+						
+						<xsl:if test="@type='lookup'">
+						
+							<xsl:variable name="lookupName" select="name()"/>
+							
+							<xsl:variable name="lu_app" select="@app"/>
+							<xsl:variable name="lu_page" select="@page"/>
+							<xsl:variable name="lu_act" select="@action"/>
+							
+							<xsl:variable name="lookup_action">
+								<xsl:value-of select="concat($double_quotes,$lu_app,$double_quotes)"/><xsl:text>,</xsl:text>
+								<xsl:value-of select="concat($double_quotes,$lu_page,$double_quotes)"/><xsl:text>,</xsl:text>
+								<xsl:value-of select="concat($double_quotes,$lu_act,$double_quotes)"/>
+							</xsl:variable>			
+				
+							<xsl:value-of select="$lookupName"/><xsl:text>.setLookup(</xsl:text><xsl:value-of select="$lookup_action"/><xsl:text>);</xsl:text>
+							
+							<xsl:value-of select="concat($newline,$tab2)"/>
+							
+							<xsl:value-of select="$lookupName"/><xsl:text>.addParam("target","_blank");</xsl:text>
+							<xsl:value-of select="concat($newline,$tab2)"/>
+							
+							<xsl:for-each select="lookupParams/param">
+							
+								<xsl:variable name="lookupParam">
+									<xsl:value-of select="concat($double_quotes,@name,$double_quotes,',',$double_quotes,.,$double_quotes)"/>
+								</xsl:variable>
+				
+								<xsl:value-of select="$lookupName"/><xsl:text>.addParam(</xsl:text><xsl:value-of select="$lookupParam"/><xsl:text>);</xsl:text>
+								
+								<xsl:value-of select="concat($newline,$tab2)"/>
+								
+							</xsl:for-each>
+							
+						</xsl:if>
+			
 						<!-- 
 							add recursive properies
 							date_1.propertie().add("name","p_date_1").add("type","date");
@@ -119,7 +154,7 @@
 						</xsl:variable>
 <!-- 						<xsl:value-of select="$newline"/> -->
 <!-- 						<xsl:value-of select="$tab2"/> -->
-				 		<xsl:if test="$container_type='table' and (@type='checkbox' or @type='radio')">
+				 		<xsl:if test="($container_type='table' or $container_type='formlist' or $container_type='separatorlist') and (@type='checkbox' or @type='radio')">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 					 		<xsl:value-of select="concat($tag_name,'_check = new ')"/>
@@ -172,12 +207,12 @@
 								</xsl:choose>
 						 	</xsl:variable>
 						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
-							<xsl:value-of select="$newline"/>
+							
 					 	</xsl:if>
 					</xsl:when>
 				</xsl:choose>				
 				<!-- <xsl:value-of select="$newline"/> -->
-			</xsl:if>
+			<!-- </xsl:if> -->
 		</xsl:for-each>
 	</xsl:template>
 

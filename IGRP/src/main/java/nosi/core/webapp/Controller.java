@@ -46,6 +46,33 @@ public abstract class Controller{
 	protected QueryString addQueryString(String name,Object value) {
 		return this.queryString().addQueryString(name, value);
 	}
+
+	protected String[] getQueryArray(String name) {
+		return Core.getParamArray(name);
+	}
+	
+	protected String getQueryString(String name) {
+		return Core.getParam(name);
+	}	
+
+	protected Integer getQueryStringInteger(String name) {
+		return Core.getParamInt(name);
+	}	
+	
+	protected Long getQueryStringLong(String name) {
+		return Core.getParamLong(name);
+	}
+
+	protected Short getQueryStringShort(String name) {
+		return Core.getParamShort(name);
+	}	
+	protected Float getQueryStringFloat(String name) {
+		return Core.getParamFloat(name);
+	}	
+
+	protected Double getQueryStringDouble(String name) {
+		return Core.getParamDouble(name);
+	}
 	
 	public Controller(){this.view = null;}
 	
@@ -93,7 +120,7 @@ public abstract class Controller{
 		qs = "";
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
 			queryString.getQueryString().entrySet().stream().forEach(q->{
-				qs  += "&"+q.getKey()+"="+q.getValue();
+				qs+=("&"+q.getKey()+"="+ q.getValue());
 			});
 		}
 		return this.redirect_(Route.toUrl(app, page, action, qs));
@@ -204,7 +231,7 @@ public abstract class Controller{
 	
 	private static void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
-		String r = Core.isNotNull(app.getRequest().getAttribute("r"))?app.getRequest().getAttribute("r").toString():"igrp/login/login";
+		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";
 		if(r!=null){
 			synchronized (Config.PATTERN_CONTROLLER_NAME) {
 				String auxPattern = Config.PATTERN_CONTROLLER_NAME;
@@ -264,7 +291,7 @@ public abstract class Controller{
 	protected Response call(String app, String page, String action,QueryString queryString) {
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
 			queryString.getQueryString().entrySet().stream().forEach(q->{
-				Core.setParam(q.getKey(), q.getValue());
+				Core.setAttribute(q.getKey(), q.getValue());
 			});
 		}
 		String auxcontrollerPath = this.config.getPackage(app,page,action);
@@ -276,6 +303,19 @@ public abstract class Controller{
 	}
 	
 	
+	protected Response forward(String app, String page, String action, QueryString queryString) {
+		qs = "";
+		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
+			queryString.getQueryString().entrySet().stream().forEach(q->{
+				qs+=("&"+q.getKey()+"="+ q.getValue());
+			});
+		}
+		Response resp = new Response();
+		resp.setType(3);
+		resp.setUrl(Route.toUrl(app, page, action,qs));
+		return resp;
+	}
+
 	protected final Response xSend(FileRest file, String name, String contentType, boolean download) {
 		Response response = new Response();
 		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");

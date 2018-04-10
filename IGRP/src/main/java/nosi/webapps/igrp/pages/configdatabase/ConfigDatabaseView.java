@@ -4,6 +4,10 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class ConfigDatabaseView extends View {
 	
@@ -15,25 +19,23 @@ public class ConfigDatabaseView extends View {
 	public Field config;
 	public Field hostname;
 	public Field port;
+	public Field nome_de_bade_dados;
+	public Field credenciais;
 	public Field username;
 	public Field password;
-	public Field nome_de_bade_dados;
-	public Field tipo_de_base_de_dados_tabela;
 	public Field nome_de_conexao_tabela;
 	public Field hostname_tabela;
 	public Field porta_tabela;
-	public Field user_name_tabela;
 	public Field nome_base_de_dados_tabela;
+	public Field user_name_tabela;
+	public Field tipo_de_base_de_dados_tabela;
 	public Field paragraph_1_text;
-	public Field sectionheader_2_text;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 	public IGRPForm paragraph_1;
-	public IGRPForm sectionheader_2;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_testar_conexao;
 	public IGRPButton btn_gravar;
 	public ConfigDatabaseView(){
 
@@ -43,10 +45,9 @@ public class ConfigDatabaseView extends View {
 		form_1 = new IGRPForm("form_1","");
 		table_1 = new IGRPTable("table_1","");
 		paragraph_1 = new IGRPForm("paragraph_1","Example");
-		sectionheader_2 = new IGRPForm("sectionheader_2","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("Configuração de base de dados"));
+		sectionheader_1_text.setValue(gt("Configuração da base de dados"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		aplicacao = new ListField(model,"aplicacao");
@@ -54,11 +55,11 @@ public class ConfigDatabaseView extends View {
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("java-type","");
 		
 		tipo_base_dados = new ListField(model,"tipo_base_dados");
-		tipo_base_dados.setLabel(gt("Tipo Base Dados"));
+		tipo_base_dados.setLabel(gt("Tipo de base de dados"));
 		tipo_base_dados.propertie().add("name","p_tipo_base_dados").add("type","select").add("multiple","false").add("maxlength","20").add("required","true").add("domain","").add("java-type","");
 		
 		nome_de_conexao = new TextField(model,"nome_de_conexao");
-		nome_de_conexao.setLabel(gt("Nome de conexão"));
+		nome_de_conexao.setLabel(gt("Nome da conexão"));
 		nome_de_conexao.propertie().add("name","p_nome_de_conexao").add("type","text").add("maxlength","30").add("required","true");
 		
 		config = new SeparatorField(model,"config");
@@ -66,12 +67,20 @@ public class ConfigDatabaseView extends View {
 		config.propertie().add("name","p_config").add("type","separator").add("maxlength","30");
 		
 		hostname = new TextField(model,"hostname");
-		hostname.setLabel(gt("Hostname"));
+		hostname.setLabel(gt("Host"));
 		hostname.propertie().add("name","p_hostname").add("type","text").add("maxlength","100").add("required","true");
 		
 		port = new NumberField(model,"port");
 		port.setLabel(gt("Porta"));
-		port.propertie().add("name","p_port").add("type","number").add("maxlength","30").add("required","true").add("min","").add("max","").add("java-type","");
+		port.propertie().add("name","p_port").add("type","number").add("maxlength","30").add("required","true").add("min","").add("max","").add("java-type","int");
+		
+		nome_de_bade_dados = new TextField(model,"nome_de_bade_dados");
+		nome_de_bade_dados.setLabel(gt("Nome da base de dados"));
+		nome_de_bade_dados.propertie().add("name","p_nome_de_bade_dados").add("type","text").add("maxlength","50").add("required","true");
+		
+		credenciais = new SeparatorField(model,"credenciais");
+		credenciais.setLabel(gt("Credenciais"));
+		credenciais.propertie().add("name","p_credenciais").add("type","separator").add("maxlength","30");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
@@ -81,16 +90,8 @@ public class ConfigDatabaseView extends View {
 		password.setLabel(gt("Password"));
 		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false");
 		
-		nome_de_bade_dados = new TextField(model,"nome_de_bade_dados");
-		nome_de_bade_dados.setLabel(gt("Nome de Bade Dados"));
-		nome_de_bade_dados.propertie().add("name","p_nome_de_bade_dados").add("type","text").add("maxlength","50").add("required","true");
-		
-		tipo_de_base_de_dados_tabela = new TextField(model,"tipo_de_base_de_dados_tabela");
-		tipo_de_base_de_dados_tabela.setLabel(gt("Tipo de base de dados"));
-		tipo_de_base_de_dados_tabela.propertie().add("name","p_tipo_de_base_de_dados_tabela").add("type","text").add("maxlength","30");
-		
 		nome_de_conexao_tabela = new TextField(model,"nome_de_conexao_tabela");
-		nome_de_conexao_tabela.setLabel(gt("Nome de conexão"));
+		nome_de_conexao_tabela.setLabel(gt("Nome da conexão"));
 		nome_de_conexao_tabela.propertie().add("name","p_nome_de_conexao_tabela").add("type","text").add("maxlength","30");
 		
 		hostname_tabela = new TextField(model,"hostname_tabela");
@@ -101,31 +102,27 @@ public class ConfigDatabaseView extends View {
 		porta_tabela.setLabel(gt("Porta"));
 		porta_tabela.propertie().add("name","p_porta_tabela").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false");
 		
+		nome_base_de_dados_tabela = new TextField(model,"nome_base_de_dados_tabela");
+		nome_base_de_dados_tabela.setLabel(gt("Nome da base de dados"));
+		nome_base_de_dados_tabela.propertie().add("name","p_nome_base_de_dados_tabela").add("type","text").add("maxlength","30");
+		
 		user_name_tabela = new TextField(model,"user_name_tabela");
-		user_name_tabela.setLabel(gt("User Name"));
+		user_name_tabela.setLabel(gt("Username"));
 		user_name_tabela.propertie().add("name","p_user_name_tabela").add("type","text").add("maxlength","30");
 		
-		nome_base_de_dados_tabela = new TextField(model,"nome_base_de_dados_tabela");
-		nome_base_de_dados_tabela.setLabel(gt("Nome Base de dados"));
-		nome_base_de_dados_tabela.propertie().add("name","p_nome_base_de_dados_tabela").add("type","text").add("maxlength","30");
+		tipo_de_base_de_dados_tabela = new TextField(model,"tipo_de_base_de_dados_tabela");
+		tipo_de_base_de_dados_tabela.setLabel(gt("Tipo de base de dados"));
+		tipo_de_base_de_dados_tabela.propertie().add("name","p_tipo_de_base_de_dados_tabela").add("type","text").add("maxlength","30");
 		
 		paragraph_1_text = new TextField(model,"paragraph_1_text");
 		paragraph_1_text.setLabel(gt(""));
 		paragraph_1_text.setValue(gt("DEVNOSI = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP) (HOST = nosidev02.gov.cv) (PORT=1521)) (CONNECT_DATA = (SERVER = DEDICATED) SERVICE_NAME = devnosi.gov.cv) ) )"));
 		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
 		
-		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
-		sectionheader_2_text.setLabel(gt(""));
-		sectionheader_2_text.setValue(gt("Conexões Existente"));
-		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("maxlength","4000");
-		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_testar_conexao = new IGRPButton("Testar conexão","igrp","ConfigDatabase","testar_conexao","submit","success|fa-check","","");
-		btn_testar_conexao.propertie.add("type","specific").add("rel","testar_conexao");
-
-		btn_gravar = new IGRPButton("Gravar","igrp","ConfigDatabase","gravar","submit","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Testar conexão e gravar ","igrp","ConfigDatabase","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 		
 	}
@@ -142,33 +139,29 @@ public class ConfigDatabaseView extends View {
 		form_1.addField(config);
 		form_1.addField(hostname);
 		form_1.addField(port);
+		form_1.addField(nome_de_bade_dados);
+		form_1.addField(credenciais);
 		form_1.addField(username);
 		form_1.addField(password);
-		form_1.addField(nome_de_bade_dados);
 
-		table_1.addField(tipo_de_base_de_dados_tabela);
 		table_1.addField(nome_de_conexao_tabela);
 		table_1.addField(hostname_tabela);
 		table_1.addField(porta_tabela);
-		table_1.addField(user_name_tabela);
 		table_1.addField(nome_base_de_dados_tabela);
+		table_1.addField(user_name_tabela);
+		table_1.addField(tipo_de_base_de_dados_tabela);
 
 		paragraph_1.addField(paragraph_1_text);
 
-		sectionheader_2.addField(sectionheader_2_text);
-
-		toolsbar_1.addButton(btn_testar_conexao);
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
 		this.addToPage(paragraph_1);
-		this.addToPage(sectionheader_2);
 		this.addToPage(toolsbar_1);
 	}
 		
 	public void setModel(ConfigDatabase model) {
-		
 		aplicacao.setValue(model);
 
 		tipo_base_dados.setValue(model);
@@ -181,13 +174,13 @@ public class ConfigDatabaseView extends View {
 
 		port.setValue(model);
 
+		nome_de_bade_dados.setValue(model);
+
+		credenciais.setValue(model);
+
 		username.setValue(model);
 
 		password.setValue(model);
-
-		nome_de_bade_dados.setValue(model);
-
-		tipo_de_base_de_dados_tabela.setValue(model);
 
 		nome_de_conexao_tabela.setValue(model);
 
@@ -195,9 +188,11 @@ public class ConfigDatabaseView extends View {
 
 		porta_tabela.setValue(model);
 
+		nome_base_de_dados_tabela.setValue(model);
+
 		user_name_tabela.setValue(model);
 
-		nome_base_de_dados_tabela.setValue(model);
+		tipo_de_base_de_dados_tabela.setValue(model);
 	
 		table_1.loadModel(model.getTable_1());
 

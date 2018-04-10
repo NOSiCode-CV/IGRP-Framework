@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
-
 import javax.servlet.http.HttpServletRequest;
-
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -252,6 +250,29 @@ public class Config {
 							+ "\tview.title = \""+title+"\";\n"
 							+ "\treturn this.renderView(view,true);\n"
 						+ "\t}\n"
+				  + "}";
+	}
+	
+	public String getDefaultTaskController(String app,String processId,String taskId,String codigo){
+		return "package nosi.webapps."+app.toLowerCase()+".process;\n"
+				 + "import java.io.IOException;\n"
+				 + "import nosi.core.webapp.Response;\n"
+				 + "import nosi.core.webapp.Controller;\n" 
+				 + "import nosi.core.xml.XMLExtractComponent;\n"
+				 + "import java.util.List;\n" 
+				 + "import nosi.webapps.igrp.dao.TaskComponent;\n\n"
+				 + "public class "+processId+"_"+taskId+"Controller extends Controller {	\n"
+						+ "\t public Response actionIndex() throws IOException{\n"
+						+ "\t String content = \"\";\n"
+						+ "\t XMLExtractComponent comp = new XMLExtractComponent();\n"
+						+ "\t List<TaskComponent> components = new TaskComponent().find().andWhere(\"codigo\", \"=\",\""+codigo+"\").all();\n"
+								+ "\t if(components !=null && components.size() > 0) {\n" + 
+								"			for(TaskComponent c:components){\n" + 
+								"				content = comp.joinComponent(c.getAction().getXmlContent());\n" + 
+								"			}\n" + 
+								"		}\n"
+							+ "\t return this.renderView(content);\n"
+						+ "\t }\n"
 				  + "}";
 	}
 	

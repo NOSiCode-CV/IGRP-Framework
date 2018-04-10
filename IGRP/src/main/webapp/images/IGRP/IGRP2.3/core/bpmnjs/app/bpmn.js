@@ -7,8 +7,10 @@
    bpmn.app  = $('#form_1_env_fk').val();
    bpmn.new  = path+'/core/bpmnjs/resources/initial.bpmn';
 
-   var bpmLookup = $('[input-rel="form_1_formkey"]'),
-      lookupHref = bpmLookup.attr('href');
+   var bpmLookup     = $('[input-rel="form_1_formkey"]'),
+      lookupHref     = bpmLookup.attr('href'),
+      hrefAfterApp   = lookupHref,
+      pdid           = null;
 
    $.IGRP.component('bpmn',{
       importXML : function(l){
@@ -20,8 +22,10 @@
                if (err) {
                   $('body').removeClass('shown');
                   console.error(err);
-               } else
+               } else{
+                  pdid = $('#camunda-id').val();
                   $('body').addClass('shown');
+               }
             });
          },'text');
       },
@@ -40,7 +44,7 @@
                      var param = url.substring(url.indexOf("?")+1),
                         p      = param.split("&");
 
-                     for(var i=0; i < p.length; i++){
+                     for(var i = 0; i < p.length; i++){
                         var v = p[i].split("=");
                         if(v[0].toLowerCase() != "p_env_frm_url"){
                            arrayItem.push({name:v[0],value:v[1]});
@@ -93,28 +97,27 @@
                $('.addArea').addClass('active');
                $.ajax({
                   url  : $.IGRP.utils.getPageUrl(),
-                  data : param
-               })
-               .fail(function(e){
-                  $.IGRP.notify({
-                     message : 'Not Found',
-                     type    : 'danger'
-                  });
-               })
-               .done(function(data){
-                  $('#tabprocessos').XMLTransform({
-                     xsl       : path+"/core/bpmnjs/xsl/bpmn-tree-menu.tmpl.xsl",
-                     xslParams : {template : 'tree-menu'},
-                     xml       : $(data).find('rows content gen_table table').getXMLDocument(),
-                     complete  : function(){
-                        try{
-                           com.importXML(bpmn.new);
-                        }catch(e){null;}
+                  data : param,
+                  success : function(data){
+                     $('#tabprocessos').XMLTransform({
+                        xsl       : path+"/core/bpmnjs/xsl/bpmn-tree-menu.tmpl.xsl",
+                        xslParams : {template : 'tree-menu'},
+                        xml       : $(data).find('rows content gen_table table').getXMLDocument(),
+                        complete  : function(){
+                           try{
+                              com.importXML(bpmn.new);
+                           }catch(e){null;}
 
-                        if (lookupHref)
-                           bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+param);
-                     }
-                  });
+                           com.lookupSetHref(param);
+                        }
+                     });
+                  },
+                  error : function(e){
+                     $.IGRP.notify({
+                        message : 'Not Found',
+                        type    : 'danger'
+                     });
+                  } 
                });
             }else
                $('.addArea').removeClass('active');
@@ -149,6 +152,12 @@
             }
          });
       },
+      lookupSetHref : function(param){
+         if(lookupHref){
+            hrefAfterApp = $.IGRP.utils.getUrl(lookupHref)+param;
+            bpmLookup.attr('href',hrefAfterApp);
+         }
+      },
       utils : function(){
          $('#js-properties-panel').on('click','button',function(e){
             e.preventDefault();
@@ -160,17 +169,31 @@
               $("#camunda-form-key").attr('rel','igrp').trigger('change');
             };
          }
-                           
-         if (bpmn.app && lookupHref) 
-            bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);
+
+         if (bpmn.app)
+            com.lookupSetHref('p_env_fk='+bpmn.app);
+
+            //bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);
 
          bpmLookup.on('click',function(e){
-            var href =  $.IGRP.utils.getUrl($(this).attr('href'));
-               href  += 'p_general_id='+$('#camunda-id').val();
-            $(this).attr('href',href);
-         });
+            var href =  $.IGRP.utils.getUrl(hrefAfterApp),
+               gid   = $('#camunda-id').val();
 
-         //$('#igrp-contents .js-panel').height($(document).height() - ($('#igrp-top-nav').height()));
+            if (gid){
+               href  += 'p_general_id='+gid;
+               
+               if (pdid)
+                  href += '&p_process_id='+pdid;
+
+               $(this).attr('href',href);
+            }else{
+               $.IGRP.notify({
+                  message : 'Campo id do Separador General é Obrigatorio.',
+                  type    : 'danger'
+               });
+               return false;
+            }
+         });
       },
       init:function(){
          com = this;

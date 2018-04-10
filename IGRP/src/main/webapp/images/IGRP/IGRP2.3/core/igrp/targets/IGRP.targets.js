@@ -346,7 +346,8 @@
 
 			if (p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
 				mWindow = window;
-
+			
+			p.url = setTargetParameter(p.url);
 
 			$.IGRP.components.rightPanel.set(p);
 			
@@ -358,7 +359,7 @@
 			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize();
 			
 			$.IGRP.components.iframeNav.set({
-				url    :$.IGRP.utils.getUrl(p.url)+formData,
+				url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
 				clicked:p.clicked
 			});
 			
@@ -438,9 +439,8 @@
 				}
 				
 				//_window.location.reload(true);
-
-				_window.location.href = $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href;
-				
+				//_window.location.href = $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href;
+				location.reload(true);
 				if(popup)
 					close();
 

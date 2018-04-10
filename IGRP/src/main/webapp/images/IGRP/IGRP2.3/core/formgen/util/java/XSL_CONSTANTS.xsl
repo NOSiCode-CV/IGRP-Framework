@@ -79,6 +79,7 @@
 
     <xsl:variable name="import_model">
         <xsl:text>import nosi.core.webapp.Model;</xsl:text>
+          <xsl:value-of select="$newline"/>
         <xsl:text>import java.sql.Date;</xsl:text>
     </xsl:variable>
 
@@ -377,11 +378,11 @@
             </xsl:call-template>
         </xsl:variable>
         
-        <xsl:value-of select="$newline"/>
+<!--         <xsl:value-of select="$newline"/> -->
         
-        <xsl:if test="$tabCode">
-            <xsl:value-of select="$indentation"/>
-        </xsl:if>
+<!--         <xsl:if test="$tabCode"> -->
+<!--             <xsl:value-of select="$indentation"/> -->
+<!--         </xsl:if> -->
         
         <xsl:value-of select="$newline"/>
 
@@ -407,10 +408,7 @@
         
         <xsl:value-of select="$text"/>
         
-        <xsl:if test="$tabCode">
-            <xsl:value-of select="$indentation"/>
-        </xsl:if>
-		
+
 		<xsl:if test="$end = true()">
 	        <xsl:call-template name="end-code">
 	            <xsl:with-param name="type" select="$type"/>
@@ -423,11 +421,11 @@
             <xsl:value-of select="$indentation"/>
         </xsl:if>
         
-        <xsl:value-of select="$newline"/>
+<!--         <xsl:value-of select="$newline"/> -->
         
-        <xsl:if test="$tabCode">
-            <xsl:value-of select="$indentation"/>
-        </xsl:if>
+<!--         <xsl:if test="$tabCode"> -->
+<!--             <xsl:value-of select="$indentation"/> -->
+<!--         </xsl:if> -->
 
     </xsl:template>
 
@@ -439,12 +437,11 @@
 
     <xsl:template name="start-example">
         <xsl:call-template name="newlineTab2"/>
-        <xsl:call-template name="newlineTab2"/>
         <xsl:text>/*----#gen-example</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>This is an example of how you can implement your code:</xsl:text>
+        <xsl:text>  This is an example of how you can implement your code:</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>Change 'null' param with your db connection name added in application builder.</xsl:text>
+        <xsl:text>  In a .query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
         <xsl:call-template name="newlineTab2"/>
     </xsl:template>
 

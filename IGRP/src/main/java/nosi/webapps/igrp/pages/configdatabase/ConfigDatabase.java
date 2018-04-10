@@ -1,7 +1,10 @@
 package nosi.webapps.igrp.pages.configdatabase;
-import nosi.core.webapp.Model;
+import nosi.core.config.Config;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +23,16 @@ public class ConfigDatabase extends Model{
 	private String hostname;
 	@RParam(rParamName = "p_port")
 	private int port;
+	@RParam(rParamName = "p_nome_de_bade_dados")
+	private String nome_de_bade_dados;
+	@RParam(rParamName = "p_credenciais")
+	private String credenciais;
 	@RParam(rParamName = "p_username")
 	private String username;
 	@RParam(rParamName = "p_password")
 	private String password;
-	@RParam(rParamName = "p_nome_de_bade_dados")
-	private String nome_de_bade_dados;
 	@RParam(rParamName = "p_paragraph_1_text")
 	private String paragraph_1_text;
-	@RParam(rParamName = "p_sectionheader_2_text")
-	private String sectionheader_2_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -88,6 +91,20 @@ public class ConfigDatabase extends Model{
 		return this.port;
 	}
 	
+	public void setNome_de_bade_dados(String nome_de_bade_dados){
+		this.nome_de_bade_dados = nome_de_bade_dados;
+	}
+	public String getNome_de_bade_dados(){
+		return this.nome_de_bade_dados;
+	}
+	
+	public void setCredenciais(String credenciais){
+		this.credenciais = credenciais;
+	}
+	public String getCredenciais(){
+		return this.credenciais;
+	}
+	
 	public void setUsername(String username){
 		this.username = username;
 	}
@@ -102,42 +119,21 @@ public class ConfigDatabase extends Model{
 		return this.password;
 	}
 	
-	public void setNome_de_bade_dados(String nome_de_bade_dados){
-		this.nome_de_bade_dados = nome_de_bade_dados;
-	}
-	public String getNome_de_bade_dados(){
-		return this.nome_de_bade_dados;
-	}
-	
 	public void setParagraph_1_text(String paragraph_1_text){
 		this.paragraph_1_text = paragraph_1_text;
 	}
 	public String getParagraph_1_text(){
 		return this.paragraph_1_text;
 	}
-	
-	public void setSectionheader_2_text(String sectionheader_2_text){
-		this.sectionheader_2_text = sectionheader_2_text;
-	}
-	public String getSectionheader_2_text(){
-		return this.sectionheader_2_text;
-	}
 
 
 	public static class Table_1{
-		private String tipo_de_base_de_dados_tabela;
 		private String nome_de_conexao_tabela;
 		private String hostname_tabela;
-		private String porta_tabela;
-		private String user_name_tabela;
+		private int porta_tabela;
 		private String nome_base_de_dados_tabela;
-		public void setTipo_de_base_de_dados_tabela(String tipo_de_base_de_dados_tabela){
-			this.tipo_de_base_de_dados_tabela = tipo_de_base_de_dados_tabela;
-		}
-		public String getTipo_de_base_de_dados_tabela(){
-			return this.tipo_de_base_de_dados_tabela;
-		}
-
+		private String user_name_tabela;
+		private String tipo_de_base_de_dados_tabela;
 		public void setNome_de_conexao_tabela(String nome_de_conexao_tabela){
 			this.nome_de_conexao_tabela = nome_de_conexao_tabela;
 		}
@@ -152,11 +148,18 @@ public class ConfigDatabase extends Model{
 			return this.hostname_tabela;
 		}
 
-		public void setPorta_tabela(String porta_tabela){
+		public void setPorta_tabela(int porta_tabela){
 			this.porta_tabela = porta_tabela;
 		}
-		public String getPorta_tabela(){
+		public int getPorta_tabela(){
 			return this.porta_tabela;
+		}
+
+		public void setNome_base_de_dados_tabela(String nome_base_de_dados_tabela){
+			this.nome_base_de_dados_tabela = nome_base_de_dados_tabela;
+		}
+		public String getNome_base_de_dados_tabela(){
+			return this.nome_base_de_dados_tabela;
 		}
 
 		public void setUser_name_tabela(String user_name_tabela){
@@ -166,11 +169,11 @@ public class ConfigDatabase extends Model{
 			return this.user_name_tabela;
 		}
 
-		public void setNome_base_de_dados_tabela(String nome_base_de_dados_tabela){
-			this.nome_base_de_dados_tabela = nome_base_de_dados_tabela;
+		public void setTipo_de_base_de_dados_tabela(String tipo_de_base_de_dados_tabela){
+			this.tipo_de_base_de_dados_tabela = tipo_de_base_de_dados_tabela;
 		}
-		public String getNome_base_de_dados_tabela(){
-			return this.nome_base_de_dados_tabela;
+		public String getTipo_de_base_de_dados_tabela(){
+			return this.tipo_de_base_de_dados_tabela;
 		}
 
 	}

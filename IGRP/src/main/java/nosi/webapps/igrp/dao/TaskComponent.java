@@ -31,21 +31,25 @@ public class TaskComponent extends BaseActiveRecord<TaskComponent> implements Se
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column(unique=true,nullable=false)
+	@Column(nullable=false)
+	private String taskId;
+	@Column(nullable=false)
+	private String processId;
+	@Column(nullable=false)
 	private String codigo;
 	private short ordem;
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ACTION_COMPONENT_FK"),nullable=false)
 	private Action action;
-	private String taskId;
-	private String title;
+	private String title;	
 	
-	public TaskComponent(short ordem,String taskId,String codigo,String title, Action action) {
+	public TaskComponent(String taskId, String processId, String codigo, short ordem, Action action, String title) {
 		super();
+		this.taskId = taskId;
+		this.processId = processId;
+		this.codigo = codigo;
 		this.ordem = ordem;
 		this.action = action;
-		this.taskId = taskId;
-		this.codigo = codigo;
 		this.title = title;
 	}
 	
@@ -95,11 +99,17 @@ public class TaskComponent extends BaseActiveRecord<TaskComponent> implements Se
 		this.title = title;
 	}
 
-	@Override
-	public String toString() {
-		return "TaskComponent [id=" + id + ", codigo=" + codigo + ", ordem=" + ordem + ", action=" + action
-				+ ", taskId=" + taskId + ", title=" + title + "]";
+	public String getProcessId() {
+		return processId;
 	}
 
-	
+	public void setProcessId(String processId) {
+		this.processId = processId;
+	}
+
+	@Override
+	public String toString() {
+		return "TaskComponent [id=" + id + ", taskId=" + taskId + ", processId=" + processId + ", codigo=" + codigo
+				+ ", ordem=" + ordem + ", action=" + action + ", title=" + title + "]";
+	}
 }

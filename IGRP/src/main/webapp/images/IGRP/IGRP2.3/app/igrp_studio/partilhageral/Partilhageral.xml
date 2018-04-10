@@ -30,32 +30,21 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=211</preserve_url>
     </plsql>
     <content>
-        <title>Partilha Geral - Inter Aplicações (Páginas)</title>
+        <title>Partilha geral</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Partilha Geral - Inter Aplicações (Páginas) </value>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="40">
+                    <value>Partilha geral entre aplicações</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="partilhar">
-                <title>Partilhar</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>submit</target>
-                <img>success|fa-share-alt-square</img>
-                <preview>undefined</preview>
-            </item>
-        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao_origem name="p_aplicacao_origem" type="select" multiple="false" domain="" maxlength="50" required="true" change="true" disabled="false" right="false" java-type="">
-                    <label>Aplicação Origem</label>
+                    <label>Aplicação origem</label>
                     <list>
                         <option/>
                         <option>
@@ -75,9 +64,10 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </aplicacao_origem>
-                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
-                    <label>Elemento</label>
+                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="true" java-type="">
+                    <label>Tipo</label>
                     <list>
                         <option/>
                         <option>
@@ -98,8 +88,51 @@
                         </option>
                     </list>
                 </elemento>
-                <aplicacao_destino name="p_aplicacao_destino" type="select" multiple="false" domain="" maxlength="50" required="true" change="true" disabled="false" right="false" java-type="">
-                    <label>Aplicação Destino</label>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
+                    <label>Estado</label>
+                </estado>
+                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome (code)</label>
+                </nome>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <nome name="p_nome">Officia adipiscing magna ut amet adipiscing omnis adipiscing deserunt amet elit officia labore persp</nome>
+                    </row>
+                    <row>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <nome name="p_nome">Officia amet accusantium consectetur lorem omnis rem sit aperiam stract accusantium magna sit rem am</nome>
+                    </row>
+                    <row>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <nome name="p_nome">Rem ipsum rem officia magna amet labore accusantium natus iste labore stract dolor magna unde deseru</nome>
+                    </row>
+                    <row>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <nome name="p_nome">Consectetur doloremque amet consectetur stract rem consectetur aliqua voluptatem natus unde stract l</nome>
+                    </row>
+                    <row>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <nome name="p_nome">Adipiscing omnis stract perspiciatis omnis iste elit deserunt ut officia sed stract anim aliqua sit</nome>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao_destino name="p_aplicacao_destino" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
+                    <label>Aplicação destino</label>
                     <list>
                         <option/>
                         <option>
@@ -119,47 +152,20 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </aplicacao_destino>
             </fields>
-        </form_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields>
-                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
-                    <label>Estado</label>
-                </estado>
-                <descricao name="p_descricao" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
-                    <label>Descrição</label>
-                </descricao>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Deserunt sit consectetur aliqua voluptatem elit aliqua elit dolor sit laudantium adipiscing totam re</descricao>
-                    </row>
-                    <row>
-                        <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Perspiciatis amet aperiam accusantium ut anim stract sit mollit omnis mollit sit iste aliqua consect</descricao>
-                    </row>
-                    <row>
-                        <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Ipsum sit labore sed magna laudantium voluptatem totam sit anim aperiam ut unde officia doloremque m</descricao>
-                    </row>
-                    <row>
-                        <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Mollit elit sed consectetur iste rem mollit totam sit anim aliqua iste lorem totam rem officia volup</descricao>
-                    </row>
-                    <row>
-                        <estado name="p_estado" check="true" desc="true">1</estado>
-                        <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Omnis adipiscing anim magna accusantium consectetur iste deserunt unde consectetur iste elit dolor a</descricao>
-                    </row>
-                </value>
-            </table>
-        </table_1>
+        </form_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="partilhar">
+                <title>Partilhar</title>
+                <app>igrp_studio</app>
+                <page>Partilhageral</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-share-alt</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xml</preview>
+            </item>
+        </toolsbar_1>
     </content>
 </rows>

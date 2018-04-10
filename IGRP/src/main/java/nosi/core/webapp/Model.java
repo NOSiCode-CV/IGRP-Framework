@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
+import com.google.gson.Gson;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
@@ -18,6 +20,9 @@ import java.lang.annotation.Annotation;
 import java.lang.Long;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
+import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.HistoricTaskService;
+import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -43,7 +48,7 @@ public abstract class Model { // IGRP super model
 				for(Field field:this.getClass().getDeclaredFields()) {
 					try {
 						if(field.getAnnotation(RParam.class)!=null)
-							Core.setParam(field.getAnnotation(RParam.class).rParamName(), tuple.get(field.getName()));
+							this.setField(field,  tuple.get(field.getName()));
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
 			}		
@@ -57,26 +62,20 @@ public abstract class Model { // IGRP super model
 	public void loadFromTask(String taskId) {
 		Class<? extends Model> c = this.getClass();
 		for(Field field:c.getDeclaredFields()) {
-			field.setAccessible(true);
-			try {
-				if	(field.getType().getName().equalsIgnoreCase("int") || field.getType().getName().equalsIgnoreCase("java.lang.integer"))
-					field.setInt(this,Core.getTaskVariableInt(taskId, field.getAnnotation(RParam.class).rParamName()));
-				else if	(field.getType().getName().equalsIgnoreCase("long") || field.getType().getName().equalsIgnoreCase("java.lang.long"))
-					field.setLong(this,Core.getTaskVariableLong(taskId, field.getAnnotation(RParam.class).rParamName()));
-				else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
-					field.setShort(this,Core.getTaskVariableShort(taskId, field.getAnnotation(RParam.class).rParamName()));
-				else if( field.getType().getName().equalsIgnoreCase("float") || field.getType().getName().equalsIgnoreCase("java.lang.float"))
-					field.setFloat(this,Core.getTaskVariableFloat(taskId, field.getAnnotation(RParam.class).rParamName()));
-				else if(field.getType().getName().equalsIgnoreCase("double") || field.getType().getName().equalsIgnoreCase("java.lang.double"))
-					field.setDouble(this,Core.getTaskVariableDouble(taskId, field.getAnnotation(RParam.class).rParamName()));
-				else if	(field.getType().getName().equalsIgnoreCase("boolean") || field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
-					field.setBoolean(this,Core.getTaskVariableBoolean(taskId, field.getAnnotation(RParam.class).rParamName()));
-				else
-					field.set(this,Core.getTaskVariable(taskId, field.getAnnotation(RParam.class).rParamName()));
-
-			}catch(java.lang.IllegalArgumentException | IllegalAccessException | java.lang.NullPointerException e) {
-				
-			}
+				field.setAccessible(true);
+				HistoricTaskService hts = Core.getTaskHistory(taskId);
+				if(hts.getVariables() !=null) {
+					List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
+					String json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
+					if(Core.isNotNull(json)) {
+						CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
+						if(custom.getRows()!=null){
+							custom.getRows().stream().filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName())).forEach(v->{
+								this.setField(field,v.getValue()[0]);
+							});
+						}
+					}
+				}
 		}
 	}
 	
@@ -114,32 +113,13 @@ public abstract class Model { // IGRP super model
 		for(Field m : c.getDeclaredFields()){
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
-			if(m.getType().isArray()){
-				
+			if(m.getType().isArray()){				
 				String []aux = null;
-				if(Igrp.getInstance().getRequest().getAttribute(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-								m.getAnnotation(RParam.class).rParamName()
-								: m.getName() // default case use the name of field
-						) instanceof String) {
-					aux = new String[] { (String) Igrp.getInstance().getRequest().getAttribute(
-							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-									m.getAnnotation(RParam.class).rParamName()
-									: m.getName() // default case use the name of field
-							)};
-				}
-				if(Igrp.getInstance().getRequest().getAttribute(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-								m.getAnnotation(RParam.class).rParamName()
-								: m.getName() // default case use the name of field
-						) instanceof String[]) {
-					aux =  (String[]) Igrp.getInstance().getRequest().getAttribute(
+					aux =  (String[]) Igrp.getInstance().getRequest().getParameterValues(
 							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 									m.getAnnotation(RParam.class).rParamName()
 									: m.getName() // default case use the name of field
 							);
-				}
-				
 				if(aux != null){
 					// Awesome !!! We need make casts for all [] primitive type ... pff
 					switch(typeName){
@@ -175,7 +155,7 @@ public abstract class Model { // IGRP super model
 								m.getAnnotation(RParam.class).rParamName()
 							  : m.getName();
 				
-				Object o = Igrp.getInstance().getRequest().getAttribute(name); // default case use the name of field 
+				Object o = Igrp.getInstance().getRequest().getParameter(name); // default case use the name of field 
 				
 				String aux = "";
 				if(o != null)
@@ -257,8 +237,8 @@ public abstract class Model { // IGRP super model
 					m.setAccessible(true);
 					aux.add(m.getName());
 					
-					String []values1 = (String[]) Igrp.getInstance().getRequest().getAttribute("p_" + m.getName() + "_fk");
-					String []values2 = (String[]) Igrp.getInstance().getRequest().getAttribute("p_" + m.getName() + "_fk_desc");
+					String []values1 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk");
+					String []values2 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk_desc");
 					
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
@@ -308,6 +288,28 @@ public abstract class Model { // IGRP super model
 	/*
 	 * Errors/validation purpose (begin)
 	 * */
+	private void setField(Field field,Object value) {
+		if(field !=null && value!=null) {
+			try {
+				if	(field.getType().getName().equalsIgnoreCase("int") || field.getType().getName().equalsIgnoreCase("java.lang.integer"))
+						field.setInt(this,Core.toInt(value.toString()));
+				else if	(field.getType().getName().equalsIgnoreCase("long") || field.getType().getName().equalsIgnoreCase("java.lang.long"))
+					field.setLong(this,Core.toLong(value.toString()));
+				else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
+					field.setShort(this,Core.toShort(value.toString()));
+				else if( field.getType().getName().equalsIgnoreCase("float") || field.getType().getName().equalsIgnoreCase("java.lang.float"))
+					field.setFloat(this,Core.toFloat(value.toString()));
+				else if(field.getType().getName().equalsIgnoreCase("double") || field.getType().getName().equalsIgnoreCase("java.lang.double"))
+					field.setDouble(this,Core.toDouble(value.toString()));
+				else if	(field.getType().getName().equalsIgnoreCase("boolean") || field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
+					field.setBoolean(this,(boolean)value);
+				else
+					field.set(this,value);
+			}catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	private void createErrorsPool(){
 		this.errors = new HashMap<String, ArrayList<String>>();

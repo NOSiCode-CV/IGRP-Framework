@@ -4,8 +4,11 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
+import java.sql.Date;
 import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class TransacaoOrganicaView extends View {
 	
@@ -80,8 +83,13 @@ public class TransacaoOrganicaView extends View {
 	}
 		
 	public void setModel(TransacaoOrganica model) {
-			
-		table_1.loadModel(model.getTable_1());
+		
+		transacao.setValue(model);
+		nome.setValue(model);
+		p_id.setValue(model);
+		p_type.setValue(model);	
 
+		table_1.loadModel(model.getTable_1());
+		
 	}
 }

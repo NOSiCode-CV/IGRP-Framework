@@ -23,7 +23,6 @@ import nosi.webapps.igrp.dao.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;

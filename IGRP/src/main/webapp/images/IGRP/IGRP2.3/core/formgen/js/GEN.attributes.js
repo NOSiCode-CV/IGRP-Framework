@@ -57,6 +57,51 @@
 
 			return html;
 
+		},
+		
+		formlist : function(o){
+			
+			o.name = o.name || 'flist-attr'+(new Date().getTime());
+			
+			var flist = $('<div class="box clean box-table-contents" gen-class="" item-name="'+o.name+'"><div class="box-body table-box"><table id="'+o.name+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_'+o.name+'" data-control="data-'+o.flistName+'"><thead><tr><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="'+o.name+'"><i class="fa fa-plus"/></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_'+o.name+'_id" value=""/><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="'+o.name+'"><i class="fa fa-times"/></span></td></tr></tbody></table></div></div>');
+			
+			var getInput = function(f){
+				return '<input type="'+f.type+'" name="p_'+f.tag+'_fk" value="" class="text form-control" rel="F_'+o.name+'"/>';
+			};
+			
+			if(o.fields){
+				
+				for(var f in o.fields){
+					
+					var field = o.fields[f],
+					
+						label = field.label || f,
+						
+						rows = field.rows && field.rows[0] ? field.rows : [];
+					
+					field.tag = f;
+					
+					$('<th><span>'+label+'</span></th>').insertBefore( $('thead .table-btn.add',flist) );
+					
+					$('<td align="" data-row="0" data-title="'+label+'" class="'+field.type+'" item-name="'+f+'">'+
+						'<input type="hidden" name="p_'+f+'_fk_desc" value=""/>'+
+							'<div class="form-group" item-name="'+f+'" item-type="'+field.type+'">'+
+								getInput( field )+
+							'</div>'+
+						'</td>').insertBefore( $('tbody .table-btn.delete',flist) );
+					
+					
+				}
+			}
+			
+			$('.IGRP_formlist',flist).IGRP_formlist({
+
+				data : o.data
+
+			});
+			
+			return flist
+			
 		}
 
 	}
@@ -67,7 +112,7 @@
 			
 			var type = options && options.type ? options.type : null,
 
-				html = null;
+				html = false;
 
 			if(attrTypes[type])
 

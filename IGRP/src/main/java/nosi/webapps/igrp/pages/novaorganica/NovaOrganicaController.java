@@ -1,7 +1,14 @@
 
 package nosi.webapps.igrp.pages.novaorganica;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -13,36 +20,72 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
 
-public class NovaOrganicaController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+
+public class NovaOrganicaController extends Controller {		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		NovaOrganica model = new NovaOrganica();
+		NovaOrganicaView view = new NovaOrganicaView();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		
+		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.organizacao_pai.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
 
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-			model.load();
-		} else
+
+		if (!Igrp.getMethod().equalsIgnoreCase("post")) 		
 			model.setAplicacao(Core.getParam("id_app"));
-		model.setAtivo(1);
-		NovaOrganicaView view = new NovaOrganicaView(model);
+		model.setAtivo(1);	
 		// Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organizacao_pai.setVisible(false);
 		// view.organica_pai.setValue(model.getAplicacao() != 0 ?
 		// organization.getListOrganizations(model.getAplicacao()) : null);
+	
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		NovaOrganica model = new NovaOrganica();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","NovaOrganica","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			NovaOrganica model = new NovaOrganica();
-			Organization organization = new Organization();
-			model.load();
-			organization.setCode(model.getCodigo());
+			
+			Organization organization = new Organization();		
+			organization.setCode(model.getCodigo()+"."+model.getAplicacao());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
 			/*
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
@@ -64,15 +107,19 @@ public class NovaOrganicaController extends Controller {
 			return this.redirect("igrp", "nova-organica", "index");
 		}
 		Core.setMessageError(gt("Invalid request ..."));
-		return this.redirect("igrp", "nova-organica", "index");
-		/*----#END-PRESERVED-AREA----*/
-	}
 
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","NovaOrganica","index", this.queryString());
+		
+	}
+	
+	/*----#start-code(custom_actions)----*/
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovaOrganica model = new NovaOrganica();
-
+		NovaOrganicaView view = new NovaOrganicaView();
+        model.load();
 		Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());
@@ -83,14 +130,13 @@ public class NovaOrganicaController extends Controller {
 		 * model.setOrganica_pai(organization.getOrganization().getId()); }
 		 */
 		model.setAtivo(organization.getStatus());
-
-		NovaOrganicaView view = new NovaOrganicaView(model);
 		view.aplicacao.setValue(new Application().getListApps());
 		// view.organica_pai.setValue(model.getAplicacao() != 0 ?
 		// organization.getListOrganizations() : null);
 		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));
 		view.organizacao_pai.setVisible(false);
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);
+      	view.setModel(model);
 		return this.renderView(view);
 	}
 
@@ -133,5 +179,9 @@ public class NovaOrganicaController extends Controller {
 				new String[] { idOrganica + "" });
 	}
 
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

@@ -15,10 +15,8 @@ public class NovoMenu extends Model{
 	private int action_fk;
 	@RParam(rParamName = "p_detalhes")
 	private String detalhes;
-	@RParam(rParamName = "p_descr")
-	private String descr;
-	@RParam(rParamName = "p_orderby")
-	private int orderby;
+	@RParam(rParamName = "p_titulo")
+	private String titulo;
 	@RParam(rParamName = "p_self_id")
 	private int self_id;
 	@RParam(rParamName = "p_status")
@@ -27,6 +25,8 @@ public class NovoMenu extends Model{
 	private int status_check;
 	@RParam(rParamName = "p_extra")
 	private String extra;
+	@RParam(rParamName = "p_orderby")
+	private int orderby;
 	@RParam(rParamName = "p_target")
 	private String target;
 	@RParam(rParamName = "p_link")
@@ -70,18 +70,11 @@ public class NovoMenu extends Model{
 		return this.detalhes;
 	}
 	
-	public void setDescr(String descr){
-		this.descr = descr;
+	public void setTitulo(String titulo){
+		this.titulo = titulo;
 	}
-	public String getDescr(){
-		return this.descr;
-	}
-	
-	public void setOrderby(int orderby){
-		this.orderby = orderby;
-	}
-	public int getOrderby(){
-		return this.orderby;
+	public String getTitulo(){
+		return this.titulo;
 	}
 	
 	public void setSelf_id(int self_id){
@@ -109,6 +102,13 @@ public class NovoMenu extends Model{
 	}
 	public String getExtra(){
 		return this.extra;
+	}
+	
+	public void setOrderby(int orderby){
+		this.orderby = orderby;
+	}
+	public int getOrderby(){
+		return this.orderby;
 	}
 	
 	public void setTarget(String target){
