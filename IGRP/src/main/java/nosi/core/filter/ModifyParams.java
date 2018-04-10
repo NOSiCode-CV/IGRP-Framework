@@ -9,8 +9,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.EncrypDecrypt;
-import nosi.core.webapp.helpers.Route;
 
 /**
  * Emanuel
@@ -33,30 +31,6 @@ public class ModifyParams implements Filter{
 		//Transform params into attributes
 		this.req = (HttpServletRequest) request;
 		request.setCharacterEncoding(this.encoding);
-		request.getParameterMap().entrySet().stream().forEach(p->{	
-			if(p.getKey().equals("r")) {
-				String r = p.getValue()[0].toString();
-				req.setAttribute(p.getKey(),r);
-				if(ScapeUrlEncrypt.getScapeUrl().containsKey(r)){
-					req.setAttribute(p.getKey(),r);
-				}else {
-					r = Core.isNotNull(r) ? r : EncrypDecrypt.encrypt("igrp/login/login");
-					r = Route.urlEncoding(r);
-					r = EncrypDecrypt.decrypt(r);
-					r = Route.resolveRParam(r);
-					req.setAttribute(p.getKey(),r);
-				}
-			}else {
-				if(p.getValue().length == 1) {//If singular parameter 
-					req.setAttribute(p.getKey(), p.getValue()[0]);
-				}
-				else if(p.getValue().length > 1){//If array parameter
-					req.setAttribute(p.getKey(), (String[]) p.getValue());
-				}else {//If Single Parameter with null value
-					req.setAttribute(p.getKey(), null);
-				}
-			}
-		});
 		chain.doFilter(req, response);
 	}
 

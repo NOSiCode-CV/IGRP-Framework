@@ -8,17 +8,13 @@ import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.gui.page.Page;
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.transform.TransformerConfigurationException;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
 import nosi.core.webapp.helpers.FileHelper;

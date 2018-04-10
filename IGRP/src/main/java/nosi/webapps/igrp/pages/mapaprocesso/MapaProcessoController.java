@@ -72,7 +72,7 @@ public class MapaProcessoController extends Controller{
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {
 				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
-				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
+				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
 				String content = comp.removeXMLButton(resp.getContent());
 				XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formData.getFormKey()+"&amp;app="+idApp, "utf-8");
 				xml.addXml(this.getConfig().getHeader(null));

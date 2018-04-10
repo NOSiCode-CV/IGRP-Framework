@@ -48,7 +48,7 @@ public abstract class Model { // IGRP super model
 				for(Field field:this.getClass().getDeclaredFields()) {
 					try {
 						if(field.getAnnotation(RParam.class)!=null)
-							Core.setParam(field.getAnnotation(RParam.class).rParamName(), tuple.get(field.getName()));
+							this.setField(field,  tuple.get(field.getName()));
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
 			}		
@@ -113,32 +113,13 @@ public abstract class Model { // IGRP super model
 		for(Field m : c.getDeclaredFields()){
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
-			if(m.getType().isArray()){
-				
+			if(m.getType().isArray()){				
 				String []aux = null;
-				if(Igrp.getInstance().getRequest().getAttribute(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-								m.getAnnotation(RParam.class).rParamName()
-								: m.getName() // default case use the name of field
-						) instanceof String) {
-					aux = new String[] { (String) Igrp.getInstance().getRequest().getAttribute(
-							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-									m.getAnnotation(RParam.class).rParamName()
-									: m.getName() // default case use the name of field
-							)};
-				}
-				if(Igrp.getInstance().getRequest().getAttribute(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-								m.getAnnotation(RParam.class).rParamName()
-								: m.getName() // default case use the name of field
-						) instanceof String[]) {
-					aux =  (String[]) Igrp.getInstance().getRequest().getAttribute(
+					aux =  (String[]) Igrp.getInstance().getRequest().getParameterValues(
 							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 									m.getAnnotation(RParam.class).rParamName()
 									: m.getName() // default case use the name of field
 							);
-				}
-				
 				if(aux != null){
 					// Awesome !!! We need make casts for all [] primitive type ... pff
 					switch(typeName){
@@ -174,7 +155,7 @@ public abstract class Model { // IGRP super model
 								m.getAnnotation(RParam.class).rParamName()
 							  : m.getName();
 				
-				Object o = Igrp.getInstance().getRequest().getAttribute(name); // default case use the name of field 
+				Object o = Igrp.getInstance().getRequest().getParameter(name); // default case use the name of field 
 				
 				String aux = "";
 				if(o != null)
@@ -256,8 +237,8 @@ public abstract class Model { // IGRP super model
 					m.setAccessible(true);
 					aux.add(m.getName());
 					
-					String []values1 = (String[]) Igrp.getInstance().getRequest().getAttribute("p_" + m.getName() + "_fk");
-					String []values2 = (String[]) Igrp.getInstance().getRequest().getAttribute("p_" + m.getName() + "_fk_desc");
+					String []values1 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk");
+					String []values2 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk_desc");
 					
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
