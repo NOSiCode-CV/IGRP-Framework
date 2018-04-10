@@ -11,13 +11,12 @@ public class Route {
 	public static String toUrl(String app, String page, String action, String qs){
 		qs += getQueryString(action);
 		String target = "";
-		if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String) {
-			target = Igrp.getInstance().getRequest().getAttribute("target").toString();
-		}else if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String[]) {
-			target =  ((String[])Igrp.getInstance().getRequest().getAttribute("target"))[0];
+		if(Core.getParam("target") !=null ) {
+			target = Core.getParam("target");
 		}
 		qs += Core.isNotNull(target)?"&target="+target:"";
 		action = resolveAction(action);
+
 		String aux = "?r=" + EncrypDecrypt.encrypt(app+ "/" +page+ "/" +action) + (qs.equals("") || qs == null ? "" : "&"+ qs);
 		return aux.replaceAll("&&", "&");
 	}
