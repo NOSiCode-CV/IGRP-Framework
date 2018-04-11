@@ -125,7 +125,7 @@
  	
  			if(fields.valid())
  				$.IGRP.utils.openWin({
- 					url    : $.IGRP.utils.getUrl(p.url)+form.serialize(),
+ 					url    : setTargetParameter($.IGRP.utils.getUrl(p.url))+form.serialize(),
 	 				width  : 980,
 	 				height : 520,
 	 				win    : 'IGRP'
@@ -311,7 +311,7 @@
 		var _blank       = function(p){
 			var d = new Date();
 			$.IGRP.utils.openWin({
-				url    : p.url,
+				url    : setTargetParameter(p.url),
 				width  : 980,
 				height : 520,
 				win    : 'IGRP-'+d.getMilliseconds()
@@ -438,11 +438,13 @@
 					mWindow = null;
 				}
 				
-				//_window.location.reload(true);
-				//_window.location.href = $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href;
-				location.reload(true);
 				if(popup)
+				
 					close();
+					
+				_window.location.reload();
+				
+
 
 			}catch(e){null;}
 		};
@@ -469,11 +471,12 @@
 		
 		var setTargetParameter = function(url){
 			
-			if(url.indexOf('target=_blank') == -1){
-				var symb = getParameterSymbol(url);
-				url+=symb+'target=_blank';
+			if(url){
+				if(url.indexOf('target=_blank') == -1){
+					var symb = getParameterSymbol(url);
+					url+=symb+'target=_blank';
+				}
 			}
-			console.log(url);
 			return url;
 		}
 		

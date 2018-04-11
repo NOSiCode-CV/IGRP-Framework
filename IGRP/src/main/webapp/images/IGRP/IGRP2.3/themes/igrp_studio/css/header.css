@@ -77,7 +77,7 @@ body.sidebar-off .navbar-brand{
 #igrp-top-menu>li>a:focus{
 	/*border-bottom-color:#337ab7;;*/
 	background: rgba(0,0,0,.01);
-	color: #5cb85c
+	color: #008900
 }
 
 .gen-tab-holder[tab-template="clean"]>ul.nav-tabs>li.active>a{

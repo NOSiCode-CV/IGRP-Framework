@@ -46,7 +46,7 @@ body {
 
 .treeview-menu>li.active>a,
 .treeview-menu>li>a:hover {
-    color: #5cb85c;
+    color: #008900;
 }
 
 @media (min-width: 768px) {
@@ -84,7 +84,7 @@ body {
 /* IGRP STYLE */
 /*GLOBAL*/
 a { 
-  color:#5cb85c;
+  color:#008900;
 }
 
 
@@ -93,7 +93,7 @@ a {
 /*TOPNAV*/
 
 #igrp-top-nav.navbar {
- background: #5cb85c;
+ background: #008900;
 }
 
 .navbar-brand{
@@ -161,7 +161,7 @@ a:focus, a:hover{
 
 
 body[template="c_cidadao"] .btn-list-item .card .card-container{
-  background: #5cb85c
+  background: #008900
 }
 
 /*THEMES*/
@@ -181,7 +181,7 @@ body[template="c_cidadao"] .btn-list-item .card .card-container{
 
 /*BUTTONS*/
 .btn-primary{
-  background-color: #5cb85c;
+  background-color: #008900;
   border-color: rgb(55, 135, 177);
 }
 
@@ -202,7 +202,7 @@ body[template="c_cidadao"] .btn-list-item .card .card-container{
 }
 
 .btn-success.btn-outline {
-    color: #5cb85c;
+    color: #008900;
 }
 
 .btn-info.btn-outline {

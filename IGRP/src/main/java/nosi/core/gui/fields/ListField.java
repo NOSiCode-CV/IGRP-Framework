@@ -44,7 +44,7 @@ public class ListField extends AbstractField {
 	public void setQuery(QueryHelper query,String prompt) {
 		List<Column> cols = DatabaseMetadaHelper.getCollumns(query.getConnectionName(), query.getSql());
 		Map<Object,Object> map = new LinkedHashMap<>();
-		map.put(null, Core.isNotNull(prompt)?prompt:gt("--- Selecionar ---"));
+		map.put(null, Core.isNotNull(prompt)?prompt:gt("-- Selecionar --"));
 		for(Tuple t:query.getResultList()){
 			try {
 				map.put(t.get(cols.get(0).getName()), t.get(cols.get(1).getName()));

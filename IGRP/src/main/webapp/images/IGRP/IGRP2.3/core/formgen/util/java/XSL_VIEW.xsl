@@ -43,7 +43,7 @@
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$newline"/>			
 		<xsl:value-of select="$tab2"/>	
-		<xsl:for-each select="//rows/content/*[@type='table']">
+		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist']">
 			
 			<xsl:variable name="upperTag">
 				<xsl:call-template name="gen-className">
