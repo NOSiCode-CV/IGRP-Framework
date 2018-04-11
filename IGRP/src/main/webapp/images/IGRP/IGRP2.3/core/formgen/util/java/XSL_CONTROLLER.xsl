@@ -509,7 +509,7 @@
 	 		<xsl:call-template name="newlineTab2"/>	
 	 			<xsl:choose>
 	 				<xsl:when test="@type='hidden'">
-						<xsl:value-of select="concat('view.',@name,'.setParam(true);')"/>
+						<xsl:value-of select="concat('view.',@tag,'.setParam(true);')"/>
 	 				</xsl:when>
 	 				<xsl:otherwise>
 						<xsl:value-of select="concat('view.',local-name(),'.setParam(true);')"/>
