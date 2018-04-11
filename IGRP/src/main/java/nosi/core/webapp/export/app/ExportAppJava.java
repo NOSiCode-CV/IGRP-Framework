@@ -130,17 +130,31 @@ public class ExportAppJava {
 			//Get xml, json and xsl
 			String xslXMLJsonPath = config.getBaseServerPahtXsl(this.app)+File.separator;			
 			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");			
-			String classJavaPath = config.getPathServerClass(this.app.getDad());
-			//Get classes Pages in format .java and .class 
-			String pathPages = classJavaPath+"pages"+File.separator;
-			this.getJavaFiles(pathPages,"pages");
-			//Get class DAO
-			String pathDao = classJavaPath+"dao"+File.separator;			
-			this.getJavaFiles(pathDao,"dao");
-			//Get class Services
-			String pathServices = classJavaPath+"services"+File.separator;			
-			this.getJavaFiles(pathServices,"services");			
 			
+			if(Core.isNotNull(config.getWorkspace()) && FileHelper.dirExists(config.getWorkspace())) {
+				String classJavaPath = config.getBasePahtClassWorkspace(this.app.getDad()) + File.separator;
+				//Get classes Pages in format .java and .class 
+				String pathPages = classJavaPath+"pages"+File.separator;
+				this.getJavaFiles(pathPages,"pages");
+				//Get class DAO 
+				String pathDao = classJavaPath+"dao"+File.separator;	
+				
+				this.getJavaFiles(pathDao,"dao");
+				// Get class Services 
+				String pathServices = classJavaPath+"services"+File.separator;			
+				this.getJavaFiles(pathServices,"services");	
+			}else {
+				String classJavaPath = config.getPathServerClass(this.app.getDad());
+				//Get classes Pages in format .java and .class 
+				String pathPages = classJavaPath+"pages"+File.separator;
+				this.getJavaFiles(pathPages,"pages");
+				//Get class DAO
+				String pathDao = classJavaPath+"dao"+File.separator;			
+				this.getJavaFiles(pathDao,"dao");
+				//Get class Services
+				String pathServices = classJavaPath+"services"+File.separator;			
+				this.getJavaFiles(pathServices,"services");	
+			}
 			return new Gson().toJson(files);
 		}
 		return null;
@@ -159,7 +173,12 @@ public class ExportAppJava {
 					folder = folder.substring(0, f.getKey().indexOf("$"));
 				}
 				folder = folder.replaceAll(".java", "").replaceAll(".class", "").replaceAll("View", "").replaceAll("Controller", "");
-				jcJavaPageC.setFolder(folder);
+				
+				if(type.equalsIgnoreCase("dao") || type.equalsIgnoreCase("services"))
+					jcJavaPageC.setFolder("");
+				else 
+					jcJavaPageC.setFolder(folder);
+				
 				this.files.add(jcJavaPageC);
 			});
 		}
