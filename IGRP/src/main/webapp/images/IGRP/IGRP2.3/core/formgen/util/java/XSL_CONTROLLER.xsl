@@ -302,17 +302,17 @@
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
-						<xsl:value-of select="concat('','if(model.save(model)){')"/>
-						<xsl:call-template name="newlineTab2"/>	
-						<xsl:value-of select="$tab"/>
-						<xsl:value-of select="concat('','Core.setMessageSuccess();')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="' }else{'"/>						
-						<xsl:call-template name="newlineTab2"/>		
-						<xsl:value-of select="$tab"/>						
-						<xsl:value-of select="concat('','Core.setMessageError();')"/>
-						<xsl:call-template name="newlineTab2"/>	
+<!-- 						<xsl:value-of select="concat('','if(model.save(model)){')"/> -->
+<!-- 						<xsl:call-template name="newlineTab2"/>	 -->
+<!-- 						<xsl:value-of select="$tab"/> -->
+<!-- 						<xsl:value-of select="concat('','Core.setMessageSuccess();')"/> -->
+<!-- 						<xsl:value-of select="$newline"/> -->
+<!-- 						<xsl:value-of select="$tab2"/> -->
+<!-- 						<xsl:value-of select="' }else{'"/>						 -->
+<!-- 						<xsl:call-template name="newlineTab2"/>		 -->
+<!-- 						<xsl:value-of select="$tab"/>						 -->
+<!-- 						<xsl:value-of select="concat('','Core.setMessageError();')"/> -->
+<!-- 						<xsl:call-template name="newlineTab2"/>	 -->
 
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>							
 						<xsl:value-of select="$newline"/>
@@ -527,10 +527,10 @@
 	 			<xsl:call-template name="generateCommentConnectionName"/>
 		 		<xsl:choose>
 		 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">
-		 					<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,@conn,$double_quotes,',',$double_quotes,@schemaName,$double_quotes,',',$double_quotes,@tableName,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,');')"/>
+		 					<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(',$double_quotes,@conn,$double_quotes,',',$double_quotes,@schemaName,$double_quotes,',',$double_quotes,@tableName,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,'));')"/>
 		 			</xsl:when>
 		 			<xsl:otherwise>
-		 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,');')"/>
+		 				<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,'));')"/>
 		 			</xsl:otherwise>
 		 		</xsl:choose>		 		
 			</xsl:for-each>			

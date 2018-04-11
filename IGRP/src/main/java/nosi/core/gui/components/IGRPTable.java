@@ -209,8 +209,6 @@ public class IGRPTable extends IGRPComponent{
 			for(Field field:this.fields){
 				if(field.isParam()){
 					String value= IgrpHelper.getValue(l,  field.propertie().getProperty("isLookup")=="true"  ? field.getValue().toString() : field.getName().toLowerCase());
-					
-					
 					if(Core.isNull(value))
 						value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());
 					this.xml.setElement("param", field.getName()+"="+ value);
