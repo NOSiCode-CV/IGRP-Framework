@@ -90,6 +90,8 @@ public class Query {
 		    		st.close();
 		    	if(rs!=null)
 		    		rs.close();
+		    	if(con!=null)
+		    		con.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -119,6 +121,8 @@ public class Query {
 		    		st.close();
 		    	if(rs!=null)
 		    		rs.close();
+		    	if(con!=null)
+		    		con.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -178,10 +182,20 @@ public class Query {
 			ResultSet rs = ps.executeQuery(sql);
 			q.setResultSet(rs,ps);
 			q.setMetadata(rs.getMetaData());
+			rs.close();
 		} catch (SQLException e) {
 			q.setError(e.getMessage());
 			q.setError(true);
-			q.close();
+		}finally {
+			try {
+				if(q!=null)
+					q.close();
+				if(conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return q; 
 	}
