@@ -244,9 +244,16 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		Session currentSession = new Session();
 		currentSession.setUser(new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()));
 		User user = ((User)Igrp.getInstance().getUser().getIdentity());
-		currentSession.setApplication(new Application().findOne(user.getAplicacao().getId()));
+		
 		currentSession.setOrganization(profile.getOrganization());
 		currentSession.setProfileType(profile.getProfileType());
+		try {
+			currentSession.setApplication(new Application().findOne(user.getAplicacao().getId()));
+		}catch(Exception e) {
+			currentSession.setApplication(profile.getOrganization().getApplication());
+			//e.printStackTrace();
+		}
+		
 		currentSession.setIpAddress(currentSession.getClientIpAddr());
 		currentSession.setSessionId(Igrp.getInstance().getRequest().getRequestedSessionId());
 		currentSession.setUserName(user.getUser_name());

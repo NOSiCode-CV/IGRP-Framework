@@ -18,20 +18,37 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.xml.bind.JAXB;
 
 import static nosi.core.i18n.Translator.gt;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceException;
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServicePortType;
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServiceUserStoreException_Exception;
+import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+import service.client.WSO2UserStub;
 /**
  * Marcel Iekiny
  * Oct 4, 2017
  */
-public class LoginController extends Controller {
-
+public class LoginController extends Controller {	
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
@@ -207,21 +224,67 @@ public class LoginController extends Controller {
 	}
 	
 	// Use ldap protocol to make login 
+	
+	private boolean authenticate_(String username, String password, boolean viaIds, Object ...objects) {
+		ArrayList<LdapPerson> personArray = (ArrayList<LdapPerson>) objects[1];
+		if(viaIds) {
+			Properties settings = (Properties) objects[0];
+			boolean flag = false;
+			try {
+	           URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
+	           WSO2UserStub.disableSSL();
+	           WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
+	           stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	           flag = stub.getOperations().authenticate(username, password);
+	          
+	           //System.out.println("Success: " + flag);
+	           
+	           // Pesquisar user from Ids 
+	           List<ClaimDTO> result = stub.getOperations().getUserClaimValues(username, "");
+	           LdapPerson ldapPerson = new LdapPerson();
+	            result.forEach(obj -> {
+	            	switch(obj.getClaimUri().getValue()){
+	            		case "http://wso2.org/claims/displayName": ldapPerson.setDisplayName(obj.getValue().getValue()); break;
+	            		case "http://wso2.org/claims/givenname": ldapPerson.setGivenName(obj.getValue().getValue()); break;
+	            		case "http://wso2.org/claims/emailaddress": 
+	            			ldapPerson.setUid(obj.getValue().getValue());
+	            			ldapPerson.setMail(obj.getValue().getValue()); 
+	            		break;
+	            		case "http://wso2.org/claims/fullname": ldapPerson.setFullName(obj.getValue().getValue()); break;
+	            		case "http://wso2.org/claims/lastname": ldapPerson.setLastName(obj.getValue().getValue()); break;
+	            		
+	            	}
+	               // System.out.println(obj.getClaimUri().getValue() + " = " + obj.getValue().getValue());
+	            });
+	            personArray.add(ldapPerson);
+	            
+	        } catch (Exception ex) {
+	        	flag = false;
+	            ex.printStackTrace();
+	        }
+			return flag;
+		}
+		
+		NosiLdapAPI ldap = (NosiLdapAPI) objects[0];
+		return ldap.validateLogin(username, password, personArray);
+	}
+	
 	private boolean loginWithLdap(String username, String password){
 		boolean success = false;
 		
-		/** Begin ldap AD logic here **/  
+		Properties settings = loadIdentityServerSettings();
+		
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		
-		success = ldap.validateLogin(username, password, personArray);
-		
-		
-		//System.out.println(ldap.getError());
-		/** End **/ 
+		if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
+			success = authenticate_(username, password, true, settings, personArray);
+		}else {
+			success = authenticate_(username, password, false, ldap, personArray);
+			//System.out.println(ldap.getError()); 
+		}
 		
 		if(success) {
 			// Verify if this credentials exist in DB 
@@ -233,24 +296,7 @@ public class LoginController extends Controller {
 					user.update();
 				}*/
 				/** Begin create user session **/
-				if(user.getStatus() == 1){				
-					Profile profile = new Profile().getByUser(user.getId());
-						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
-							if(!Session.afterLogin(profile)) {
-								success = false;
-								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Error no registo session ..."));
-								//String backUrl = Route.previous(); // remember the last url that was requested by the user
-							}
-						}
-						else {
-							success = false;
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inválido ..."));
-						}
-				}
-				else {
-					success = false;
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
-				}
+				success = createSessionLdapAuthentication(user);
 				/** End create user session **/ 
 				
 			}else {
@@ -260,12 +306,18 @@ public class LoginController extends Controller {
 					User newUser = new User();
 					newUser.setUser_name(username);
 					
-					//ArrayList<LdapPerson> personArray = ldap.getUser(username + "@gov.cv");
-					
 					if (personArray != null && personArray.size() > 0) 
 						for(int i = 0; i < personArray.size(); i++) {
 							LdapPerson p = personArray.get(i);
-							newUser.setName(p.getName());
+							
+							if(p.getName() != null && !p.getName().isEmpty())
+								newUser.setName(p.getName());
+							else
+								if(p.getDisplayName() != null && !p.getDisplayName().isEmpty())
+									newUser.setName(p.getDisplayName());
+								else
+									newUser.setName(p.getFullName());
+							
 							newUser.setEmail(p.getMail().toLowerCase());
 						}
 					
@@ -306,7 +358,7 @@ public class LoginController extends Controller {
 							role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
 							role.setUser(newUser);
 							role = role.insert();
-							return loginWithLdap(username, password);
+							return createSessionLdapAuthentication(newUser);
 						}
 						
 					}
@@ -322,6 +374,57 @@ public class LoginController extends Controller {
 		
 		return success;
 	}
+	
+	private boolean createSessionLdapAuthentication(User user) {
+		boolean result = true;
+		if(user.getStatus() == 1){				
+			Profile profile = new Profile().getByUser(user.getId());
+				if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
+					if(!Session.afterLogin(profile)) {
+						result = false;
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Error no registo session ..."));
+						//String backUrl = Route.previous(); // remember the last url that was requested by the user
+					}
+				}
+				else {
+					result = false;
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inválido ..."));
+				}
+		}
+		else {
+			result = false;
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
+		}
+		return result;
+	}
+	
+	private Properties loadIdentityServerSettings() {
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "ids";
+		String fileName = "wso2-ids.xml";
+		File file = new File(path + File.separator + fileName);
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return props;
+	}
+	
+	
+	/** **/
 	
 	private boolean generateOauth2Response(StringBuilder oauth2ServerUrl/*INOUT var*/, User user, String response_type, String client_id, String redirect_uri, String scope ) {
 		boolean result = true;
