@@ -15,6 +15,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
+
 import nosi.core.config.Config;
 /**
  * @author: Emanuel Pereira
@@ -523,7 +525,15 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	      }
 	      e.printStackTrace();
 		} finally {
-		   session.close();
+			 if(session != null){
+				/* transaction = session.getTransaction();
+		            if(transaction != null && transaction.isActive() && transaction.getStatus() != TransactionStatus.ROLLING_BACK &&
+		            		transaction.getStatus() != TransactionStatus.ROLLED_BACK){
+		            	transaction.rollback();
+		            	System.out.println("Rollback efetuado 1");
+		            }*/
+		            session.close();
+		        }
 		}
 		this.closeConnection();
 		return this.className;
@@ -550,7 +560,15 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	      }
 	      e.printStackTrace();
 		} finally {
-		   session.close();
+			if(session != null){
+				/* transaction = session.getTransaction();
+		            if(transaction != null && transaction.isActive() && transaction.getStatus() != TransactionStatus.ROLLING_BACK &&
+		            		transaction.getStatus() != TransactionStatus.ROLLED_BACK){
+		            	transaction.rollback();
+		            	System.out.println("Rollback efetuado 2");
+		            }*/
+		       session.close();
+		        }
 		}
 		this.closeConnection();
 		return list;
