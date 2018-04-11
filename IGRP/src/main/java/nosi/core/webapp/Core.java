@@ -567,16 +567,33 @@ public final class Core {	/** Not inherit
 		return 0;
 	}
 
+	public static Integer toInt(String value,int defaultValue) {
+		if(Core.isInt(value))
+			return Integer.parseInt(value);
+		return defaultValue;
+	}
 	public static Long toLong(String value) {
 		if(Core.isInt(value))
 			return Long.parseLong(value);
 		return (long) 0;
+	}
+
+	public static Long toLong(String value,long defaultValue) {
+		if(Core.isInt(value))
+			return Long.parseLong(value);
+		return defaultValue;
 	}
 	
 	public static Short toShort(String value) {
 		if(Core.isInt(value))
 			return Short.parseShort(value);
 		return 0;
+	}
+	
+	public static Short toShort(String value,short defaultValue) {
+		if(Core.isInt(value))
+			return Short.parseShort(value);
+		return defaultValue;
 	}
 	/**Verifies if the String is a Double, than returns the parse of it, else returns 0
 	 *  
@@ -589,6 +606,11 @@ public final class Core {	/** Not inherit
 			return Double.parseDouble(value);
 		return 0.0;
 	}
+	public static Double toDouble(String value,double defaultValue) {
+		if(Core.isDouble(value))
+			return Double.parseDouble(value);
+		return defaultValue;
+	}
 	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
 	 * {@value}
 	 * @ 
@@ -600,6 +622,12 @@ public final class Core {	/** Not inherit
 		if(Core.isFloat(value))
 			return Float.parseFloat(value);
 		return (float) 0;
+	}
+
+	public static Float toFloat(String value,float defaultValue) {
+		if(Core.isFloat(value))
+			return Float.parseFloat(value);
+		return defaultValue;
 	}
 	
 	public static QueryHelper insert(String connectionName,String tableName) {
