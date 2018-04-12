@@ -57,17 +57,29 @@ public class IGRPSeparatorList extends IGRPTable {
 	@Override
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
+			
+			int i = 0;
+			
 			for(Object obj:this.data){
+				
+				
+				
+				
 				this.xml.startElement("row");
 				if(this.buttons.size() > 0){
 					this.xml.startElement("context-menu");
+					
 					for(Field field:this.fields){
 						if(field.isParam())
 							this.xml.setElement("param", field.getName()+"="+IgrpHelper.getValue(obj, field.getName()));
+						
 					}
+					
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
+					
+					
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 					String val = IgrpHelper.getValue(obj, field.getName());
@@ -89,6 +101,9 @@ public class IGRPSeparatorList extends IGRPTable {
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + aux[0] + "\"></hidden>");
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + aux[1] + "\"></hidden>");
 				}
+				
+				//this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + "p_" + "separatorlist_1" + "_id"+ "\" type=\"hidden\" value=\"" + (++i)  + "\"></hidden>");
+				
 				this.xml.endElement();
 			}
 		}
@@ -108,6 +123,9 @@ public class IGRPSeparatorList extends IGRPTable {
 			this.xml.endElement();
 		this.xml.endElement();
 		this.xml.endElement();
+		
+		//System.out.println(this.xml.toString());
+		
 		return this.xml.toString();
 	}
 	

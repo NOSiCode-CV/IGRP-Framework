@@ -112,11 +112,12 @@ public class LdapUserController extends Controller {
 	
 	
 	public static void main( String[] args ){
+		String uri = "https://10.4.2.118:9443/services/RemoteUserStoreManagerService?wsdl";
     	try {
             boolean flag = false;
              URL url = null;
         try {
-            url = new URL("https://10.4.2.118:9443/services/RemoteUserStoreManagerService?wsdl");
+            url = new URL(uri);
         } catch (MalformedURLException ex) {
             System.err.println(ex.getMessage());
         }
@@ -129,9 +130,12 @@ public class LdapUserController extends Controller {
             
             AddUser addUser = new AddUser();
             addUser.setRequirePasswordChange(false);
-          //  addUser.setUserName(new JAXBElement<String>(new QName(""), String.class, value));
+            addUser.setUserName(new JAXBElement<String>(new QName(uri), String.class, "userName"));
+            addUser.setCredential(new JAXBElement<String>(new QName(uri), String.class, "credential"));
+            addUser.setProfileName(new JAXBElement<String>(new QName(uri), String.class, "default"));
             
-            stub.getOperations().addUser(null);
+            
+            stub.getOperations().addUser(addUser);
             
           //  System.err.println("Success " + );
             

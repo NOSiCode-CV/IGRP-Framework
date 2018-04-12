@@ -254,7 +254,11 @@ public abstract class Model { // IGRP super model
 			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
 			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
 			
+			//System.out.println("NomeField: " + obj.getName());
+			
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
+			
+			//System.out.println("NomeAnnotation: " + c_.getName());
 			
 			List<String> aux = new ArrayList<String>();
 			 for(Field m : c_.getDeclaredFields()){
@@ -268,7 +272,14 @@ public abstract class Model { // IGRP super model
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
 					
 					m.setAccessible(false);
+					
 			 }
+			 
+			/* 
+			 for(Map.Entry<String, List<String>> entry : mapFk.entrySet()) {
+				 System.out.println(entry.getKey() + " - " + Arrays.asList(entry.getValue()));
+			 }
+			*/
 			 
 			 ArrayList<Object> auxResults = new ArrayList<>();
 			 
@@ -277,22 +288,56 @@ public abstract class Model { // IGRP super model
 			 obj.setAccessible(false);
 			 
 			 try {
+				boolean error = false;
 				
-				for(int i = 0; i < mapFk.size() /* This will never happen ...*/; i++) {
-					Object obj2 = Class.forName(c_.getName()).newInstance();
-					for(Field m : obj2.getClass().getDeclaredFields()){
-						m.setAccessible(true);
-						try {
-							BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(i), mapFkDesc.get(m.getName()).get(i)));
-						}catch (IndexOutOfBoundsException | InvocationTargetException e) {
+				
+				//for(int i = 0; i < 1000 && !error /* This will never happen ...*/; i++) {
+					//System.out.println("Total de iteração " + i);
+					//Object obj2 = Class.forName(c_.getName()).newInstance();
+					
+					//System.out.println(obj2.getClass());
+					
+					int row = 0;
+					
+					//String []arr_ = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + obj.getName() + "_id");
+					
+					int MAX_ITERATION =  1;
+					
+					for(List<String> list : mapFk.values()) { 
+						if(MAX_ITERATION < list.size())
+							MAX_ITERATION = list.size(); 
+					}
+					
+					while(row < MAX_ITERATION) {
+						
+						Object obj2 = Class.forName(c_.getName()).newInstance();
+						
+						for(Field m : obj2.getClass().getDeclaredFields()){
+							
+							//System.out.println(m.getName());
+							
+							m.setAccessible(true);
+							
+								try {
+									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(row), mapFkDesc.get(m.getName()).get(row)));
+								}catch (Exception e) {
+									//e.printStackTrace();
+									m.setAccessible(false);
+									continue;
+								}
+							
+							m.setAccessible(false);
 							
 						}
-						finally {
-							m.setAccessible(false);
-						}
+						
+						auxResults.add(obj2);
+						
+						row++;
+						
 					}
-					auxResults.add(obj2);
-				}
+					
+				//}
+				
 				
 			} catch (ClassNotFoundException | InstantiationException e) {
 				e.printStackTrace();
