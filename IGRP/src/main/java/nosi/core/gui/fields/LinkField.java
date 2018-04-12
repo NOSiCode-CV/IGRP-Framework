@@ -3,6 +3,8 @@ package nosi.core.gui.fields;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import nosi.core.webapp.Core;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -45,10 +47,9 @@ public class LinkField extends AbstractField {
 		 
 		if(this.params!=null) {
 			this.params.entrySet().stream().forEach(p->{
-				link+="&amp;"+p.getKey()+"="+p.getValue();
+				link+="&"+p.getKey()+"="+p.getValue();
 			});
 		}
-		return link;
+		return link.replaceAll("&", "&amp;");
 	}
-
 }

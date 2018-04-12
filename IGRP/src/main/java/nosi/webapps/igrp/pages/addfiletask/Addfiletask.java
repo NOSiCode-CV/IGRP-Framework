@@ -11,17 +11,17 @@ import java.util.List;
 
 public class Addfiletask extends Model{		
 	
-	@SeparatorList(name = Formlist_1.class)
-	private List<Formlist_1> formlist_1 = new ArrayList<>();	
-	public void setFormlist_1(List<Formlist_1> formlist_1){
-		this.formlist_1 = formlist_1;
+	@SeparatorList(name = Formlist_documento_task.class)
+	private List<Formlist_documento_task> formlist_documento_task = new ArrayList<>();	
+	public void setFormlist_documento_task(List<Formlist_documento_task> formlist_documento_task){
+		this.formlist_documento_task = formlist_documento_task;
 	}
-	public List<Formlist_1> getFormlist_1(){
-		return this.formlist_1;
+	public List<Formlist_documento_task> getFormlist_documento_task(){
+		return this.formlist_documento_task;
 	}
 
 
-	public static class Formlist_1{
+	public static class Formlist_documento_task{
 		private Pair nome;
 		private Pair descricao;
 		private Pair obrigatoriedade;
@@ -64,8 +64,8 @@ public class Addfiletask extends Model{
 
 	}
 
-	public void loadFormlist_1(QueryHelper query) {
-		this.setFormlist_1(this.loadFormList(query,Formlist_1.class));
+	public void loadFormlist_documento_task(QueryHelper query) {
+		this.setFormlist_documento_task(this.loadFormList(query,Formlist_documento_task.class));
 	}
 
 }

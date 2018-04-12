@@ -18,13 +18,13 @@ public class AddfiletaskView extends View {
 	public Field obrigatoriedade;
 	public Field documento;
 	public Field mostrar;
-	public IGRPFormList formlist_1;
+	public IGRPFormList formlist_documento_task;
 
 	public AddfiletaskView(){
 
 		this.setPageTitle("AddFileTask");
 			
-		formlist_1 = new IGRPFormList("formlist_1","");
+		formlist_documento_task = new IGRPFormList("formlist_documento_task","");
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
@@ -43,7 +43,7 @@ public class AddfiletaskView extends View {
 		
 		mostrar = new LinkField(model,"mostrar");
 		mostrar.setLabel(gt("Mostrar"));
-		mostrar.setValue(new Config().getResolveUrl("igrp","Addfiletask","index").replaceAll("&", "&amp;"));
+		mostrar.setValue(new Config().getResolveUrl("igrp","Addfiletask","index"));
 							
 		mostrar.propertie().add("name","p_mostrar").add("type","link").add("target","_self").add("maxlength","10000").add("desc","true");
 		
@@ -54,13 +54,13 @@ public class AddfiletaskView extends View {
 	@Override
 	public void render(){
 		
-		formlist_1.addField(nome);
-		formlist_1.addField(descricao);
-		formlist_1.addField(obrigatoriedade);
-		formlist_1.addField(documento);
-		formlist_1.addField(mostrar);
+		formlist_documento_task.addField(nome);
+		formlist_documento_task.addField(descricao);
+		formlist_documento_task.addField(obrigatoriedade);
+		formlist_documento_task.addField(documento);
+		formlist_documento_task.addField(mostrar);
 
-		this.addToPage(formlist_1);
+		this.addToPage(formlist_documento_task);
 	}
 		
 	public void setModel(Addfiletask model) {
@@ -70,7 +70,7 @@ public class AddfiletaskView extends View {
 		obrigatoriedade.setValue(model);
 		documento.setValue(model);	
 
-		formlist_1.loadModel(model.getFormlist_1());
+		formlist_documento_task.loadModel(model.getFormlist_documento_task());
 		
 	}
 }
