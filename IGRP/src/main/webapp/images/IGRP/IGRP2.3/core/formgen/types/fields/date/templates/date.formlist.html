@@ -3,7 +3,7 @@
         <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
         <div class="form-group gen-date-picker-wrapper" item-name="#tag#" item-type="#type#">
           <div class="input-group" item-name="#tag#" item-type="#type#">
-              <input rel="F_#parent.tag#" type="text" data-range="#[range]#" name="{../../../fields/#tag#/@name}_fk" value="{#tag#}" class="form-control gen-date-picker" id="#parent.tag#-#tag#" #[required]# >
+              <input rel="F_#parent.tag#" type="text" data-range="#[range]#" name="{../../../fields/#tag#/@name}_fk" value="{#tag#}" class="form-control gen-date-picker" id="#parent.tag#-#tag#" #[required]# #[disabled]# #[readonly]# >
                   <xsl:call-template name="setAttributes">
                       <xsl:with-param name="field" select="#path#"/>
                   </xsl:call-template>
