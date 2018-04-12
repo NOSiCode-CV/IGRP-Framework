@@ -24,6 +24,8 @@
 		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO"/>
 		<mapping class="nosi.webapps.igrp.dao.Share"/>
     	<mapping class="nosi.webapps.igrp.dao.TaskComponent"/>
+    	<mapping class="nosi.webapps.igrp.dao.TipoDocumento"/>
+    	<mapping class="nosi.webapps.igrp.dao.TipoDocumentoEtapa"/>
 		
 		
 		<!-- OAuth -->

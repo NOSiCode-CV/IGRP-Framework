@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -250,8 +251,8 @@ public abstract class Model { // IGRP super model
 		}
 		
 		for(Field obj : fields) {
-			Map<String, List<String>> mapFk = new HashMap<String, List<String>>();
-			Map<String, List<String>> mapFkDesc = new HashMap<String, List<String>>();
+			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
 			
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 			
@@ -277,14 +278,14 @@ public abstract class Model { // IGRP super model
 			 
 			 try {
 				
-				for(int i = 0; i < 1000 /* This will never happen ...*/; i++) {
+				for(int i = 0; i < mapFk.size() /* This will never happen ...*/; i++) {
 					Object obj2 = Class.forName(c_.getName()).newInstance();
 					for(Field m : obj2.getClass().getDeclaredFields()){
 						m.setAccessible(true);
 						try {
-							m.set(obj2, new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(i), mapFkDesc.get(m.getName()).get(i)));
-						}catch (IndexOutOfBoundsException e) {
-							 throw e; // Throw it again ... and catch it later ...
+							BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(i), mapFkDesc.get(m.getName()).get(i)));
+						}catch (IndexOutOfBoundsException | InvocationTargetException e) {
+							
 						}
 						finally {
 							m.setAccessible(false);

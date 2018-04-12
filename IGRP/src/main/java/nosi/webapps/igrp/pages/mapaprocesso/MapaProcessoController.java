@@ -10,7 +10,10 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.gui.components.IGRPFormList;
 import nosi.core.gui.components.IGRPMenu;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -24,6 +27,8 @@ import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+import nosi.webapps.igrp.pages.addfiletask.Addfiletask;
 /*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller{		
@@ -54,6 +59,8 @@ public class MapaProcessoController extends Controller{
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		String withButton = Igrp.getInstance().getRequest().getParameter("withButton");
+		String processDefinition = "";
+		String taskDefinition = "";
 		FormDataService formData = null;
 		String title = "";
 		String idApp = "-1";
@@ -62,15 +69,19 @@ public class MapaProcessoController extends Controller{
 			title = process!=null?process.getName():"";
 			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 			idApp = process.getTenantId();
+//			taskDefinition = task.getTaskDefinitionKey();
+			processDefinition = process.getKey();
 		}
 		if(taskId!=null){
 			TaskService task = new TaskService().getTask(taskId);
 			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 			idApp = task.getTenantId();
+			taskDefinition = task.getTaskDefinitionKey();
+			processDefinition = task.getProcessDefinitionId();
 		}
 		if(formData != null) {
-			if(Core.isNotNull(formData.getFormKey())) {
+			if(Core.isNotNull(formData.getFormKey())) {				
 				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
 				String content = comp.removeXMLButton(resp.getContent());
@@ -80,7 +91,7 @@ public class MapaProcessoController extends Controller{
 				xml.writeAttribute("type", "");
 				xml.setElement("title", title);
 				xml.addXml(comp.generateButtonProcess(p_processId, taskId).toString());
-				xml.addXml(comp.addFormlistFile().toString());
+				xml.addXml(comp.extractXML(this.addFileSeparator(processDefinition,taskDefinition,idApp)));
 				xml.addXml(content);
 				xml.endElement();
 				return this.renderView(xml.toString());	
@@ -91,6 +102,32 @@ public class MapaProcessoController extends Controller{
 		return null;
 	}
 	
+	private String addFileSeparator(String processDefinition,String taskDefinition,String idApp) {
+		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
+				.find()
+				.andWhere("processId", "=",processDefinition)
+				.andWhere("taskId", "=",taskDefinition)
+				.andWhere("tipoDocumento.application", "=",Core.toInt(idApp))
+				.andWhere("status", "=",1)
+				.all();
+		if(tipoDocs != null){
+			for(TipoDocumentoEtapa doc:tipoDocs){
+				this.addQueryString("p_nome_fk",doc.getTipoDocumento().getNome());
+				this.addQueryString("p_nome_fk_desc",doc.getTipoDocumento().getNome());
+				this.addQueryString("p_descricao_fk",doc.getTipoDocumento().getDescricao());
+				this.addQueryString("p_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
+				this.addQueryString("p_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
+				this.addQueryString("p_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
+			}
+			return this.call("igrp", "Addfiletask", "index", this.queryString()).getContent();
+		}
+		return "";
+	}
+
+	private String getObrigatoriedade(int required) {
+		return required==1?"Sim":"Não";
+	}
+
 	public Response actionGetXsl() throws IOException{
 		String page = Core.getParam("page");
 		String app = Core.getParam("app");

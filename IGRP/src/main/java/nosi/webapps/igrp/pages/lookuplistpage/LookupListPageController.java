@@ -7,22 +7,17 @@ import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.stream.Collectors;
+import javax.persistence.Tuple;
 import com.google.gson.Gson;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.TaskComponent;
-/*----#end-code----*/
+import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
 
+import java.util.ArrayList;
+/*----#end-code----*/
 
 
 public class LookupListPageController extends Controller {		
@@ -30,19 +25,17 @@ public class LookupListPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		LookupListPage model = new LookupListPage();
-		LookupListPageView view = new LookupListPageView();
 		model.load();
-		
+		LookupListPageView view = new LookupListPageView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		Change 'null' param with your db connection name added in application builder.
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadTable_1(Core.query("SELECT 'nome_pagina' as nome_pagina,'descricao' as descricao,'id' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'nome_pagina' as nome_pagina,'descricao' as descricao,'id' as id "));
 		
-		view.env_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
 
 		ArrayList<LookupListPage.Table_1> lista1 = new ArrayList<>();
@@ -56,58 +49,132 @@ public class LookupListPageController extends Controller {
 		
 		for(Action ac : listActions){
 			LookupListPage.Table_1 table1 = new LookupListPage.Table_1();
-			table1.setP_id(""+ac.getId());
+			table1.setId(""+ac.getId());
 			table1.setNome_pagina(ac.getPage());
 			table1.setDescricao(ac.getPage_descr());
 			lista1.add(table1);
 		}
-	
-		view.p_id.setParam(true);
+		model.setTaskid(Core.getParam("p_general_id"));
+		model.setProcessid(Core.getParam("p_process_id"));
+		if(Core.isNull(model.getProcessid()) && Core.isNull(model.getTaskid())) {
+			view.form_2.setVisible(false);
+			view.formlist_1.setVisible(false);
+			view.toolsbar_1.setVisible(false);
+		}else {
+			model.loadFormlist_1(Core.query("SELECT id as checkbox, "
+					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid) " + 
+					"       THEN id " + 
+					"       ELSE 0 " + 
+					"  END as checkbox_check, 1 as obrigatorio, "
+					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND required=1 AND processid=:processid AND taskid=:taskid) " + 
+					"       THEN 1 " + 
+					"       ELSE 0 " + 
+					"  END as obrigatorio_check, "
+					+ "nome as nome,descricao as descricao_documento,tipo as tipo_documento FROM public.tbl_tipo_documento tp")
+					.where("tp.status=:status AND tp.env_fk=:env_fk")
+					.addString("processid", model.getProcessid())
+					.addString("taskid", model.getTaskid())
+					.addInt("status", 1)
+					.addInt("env_fk", Core.toInt(model.getEnv_fk()))
+					);
+		}
+		view.id.setParam(true);
 		view.env_fk.setLabel("Aplicação");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista1);
-		view.target = "_blank";
 		view.btn_pesquisar.setLink("index");
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		LookupListPage model = new LookupListPage();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 return this.forward("igrp","LookupListPage","index");
+		}
+		
+		----#gen-example */
+		/*----#start-code(gravar)----*/
+		Properties p = new Properties();
+		if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
+			Core.update("tbl_tipo_documento_etapa")
+				.addInt("status", 0)
+				.where("processid=:processid AND taskid=:taskid")
+				.addString("processid", model.getProcessid())
+				.addString("taskid", model.getTaskid())
+				.execute();
+			if(model.getFormlist_1() !=null) {
+				for(Formlist_1 td:model.getFormlist_1()) {
+					if(td.getCheckbox()!=null) {
+						System.out.println("v:"+td.getCheckbox().getKey());
+						List<Tuple> r = Core.query("SELECT id FROM tbl_tipo_documento_etapa")
+							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
+							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
+							.addString("processid", model.getProcessid())
+							.addString("taskid", model.getTaskid())
+							.getResultList();
+						if(r==null || r.isEmpty()) {
+							Core.insert("tbl_tipo_documento_etapa")
+							.addInt("status", 1)
+							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
+							.addString("processid", model.getProcessid())
+							.addString("taskid", model.getTaskid())
+							.addInt("required", Core.isNotNull(td.getObrigatorio())?Core.toInt(td.getObrigatorio().getKey()):0)
+							.execute();
+						}else {
+							Core.update("tbl_tipo_documento_etapa")
+							.addInt("status", 1)
+							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
+							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
+							.addInt("required", Core.isNotNull(td.getObrigatorio())?Core.toInt(td.getObrigatorio().getKey()):0)
+							.addString("processid", model.getProcessid())
+							.addString("taskid", model.getTaskid())
+							.execute();
+						}
+					}
+				}
+				p.put("message", "Operação efetuado com sucesso");
+				p.put("type", "success");
+				p.put("codigo","OK");
+			}else {
+				p.put("message", "Error! Dados incorretos");
+				p.put("type", "error");
+				p.put("codigo","");
+			}
+		}else {
+			p.put("message", "Por favor selecione uma aplicação");
+			p.put("type", "error");
+			p.put("codigo","");
+		}
+		/*----#end-code----*/
+		return this.renderView(new Gson().toJson(p));
+	}
+	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		LookupListPage model = new LookupListPage();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		Change 'null' param with your db connection name added in application builder.
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
 		 return this.forward("igrp","Dominio","index");
 		}
 		
 		----#gen-example */
-		
 		/*----#start-code(pesquisar)----*/
 		
 				/*----#end-code----*/
-		
-		return this.redirect("igrp","Dominio","index", this.queryString());
-		
+		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
 	
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}
