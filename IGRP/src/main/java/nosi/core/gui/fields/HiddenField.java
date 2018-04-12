@@ -1,5 +1,6 @@
 package nosi.core.gui.fields;
 
+import nosi.core.webapp.Core;
 
 /**
  * @author: Emanuel Pereira
@@ -21,4 +22,10 @@ public class HiddenField extends AbstractField {
 		this.configValue(model);
 	}
 
+	@Override
+	public Object getValue() {
+		 if(this.getValue() instanceof String && Core.isNotNull(this.getValue()))
+			 return this.getValue().toString().replaceAll("&", "&amp;");
+		 return this.getValue();
+	}
 }

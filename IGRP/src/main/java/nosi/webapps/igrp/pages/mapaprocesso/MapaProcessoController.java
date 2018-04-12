@@ -91,8 +91,8 @@ public class MapaProcessoController extends Controller{
 				xml.writeAttribute("type", "");
 				xml.setElement("title", title);
 				xml.addXml(comp.generateButtonProcess(p_processId, taskId).toString());
-				xml.addXml(comp.extractXML(this.addFileSeparator(processDefinition,taskDefinition,idApp)));
 				xml.addXml(content);
+				xml.addXml(comp.extractXML(this.addFileSeparator(processDefinition,taskDefinition,idApp)));
 				xml.endElement();
 				return this.renderView(xml.toString());	
 			}
