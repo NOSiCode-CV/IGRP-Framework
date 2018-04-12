@@ -2,8 +2,9 @@ package nosi.core.webapp;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import nosi.core.config.IHeaderConfig;
+import nosi.core.gui.components.IGRPComponent;
+import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 /**
  * @author Marcel Iekiny
@@ -51,11 +52,23 @@ public abstract class View  implements IHeaderConfig{
 	public abstract void render(); // Permite override obrigatorio nas subclasses
 	
 	protected void addToPage(Object obj){
-		this.page.addContent(obj);
+		if(obj instanceof IGRPComponent) {
+			if(((IGRPComponent) obj).isVisible())
+				this.page.addContent(obj);
+		}else if(obj instanceof IGRPToolsBar) {
+			if(((IGRPToolsBar) obj).isVisible())
+				this.page.addContent(obj);
+		}else
+			this.page.addContent(obj);
 	}
 	
 	protected Object getModel(String name){
 		return this.currentModels.get(name);
+	}	
+	
+	public void addComponent(IGRPComponent component) {
+		if(this.page!=null)
+			this.page.addContent(component);
 	}
 	
 	public View addModel(String name, Object model){

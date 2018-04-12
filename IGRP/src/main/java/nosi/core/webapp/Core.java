@@ -633,9 +633,15 @@ public final class Core {	/** Not inherit
 	public static QueryHelper insert(String connectionName,String tableName) {
 		return new QueryInsert(connectionName).insert(tableName);
 	}
-	
+	public static QueryHelper insert(String tableName) {
+		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
+	}
 	public static QueryHelper insert(String connectionName,String schemaName,String tableName) {
 		return new QueryInsert(connectionName).insert(schemaName,tableName);
+	}
+
+	public static QueryHelper update(String tableName) {
+		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
 	}
 	
 	public static QueryHelper update(String connectionName,String tableName) {
@@ -644,6 +650,10 @@ public final class Core {	/** Not inherit
 	
 	public static QueryHelper update(String connectionName,String schemaName,String tableName) {
 		return new QueryUpdate(connectionName).update(schemaName,tableName);
+	}
+
+	public static QueryHelper delete(String tableName) {
+		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
 	}
 	
 	public static QueryHelper delete(String connectionName,String tableName) {

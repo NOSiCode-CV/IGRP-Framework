@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Addfiletask</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Addfiletask</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=66</preserve_url>
+    </plsql>
+    <content>
+        <title>AddFileTask</title>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Nome</label>
+                </nome>
+                <descricao name="p_descricao" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Descrição</label>
+                </descricao>
+                <obrigatoriedade name="p_obrigatoriedade" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Obrigatoriedade</label>
+                </obrigatoriedade>
+                <documento name="p_documento" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="false" disabled="false" right="false" class="default" desc="true">
+                    <label>Documento</label>
+                </documento>
+                <mostrar name="p_mostrar" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="Addfiletask" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="10000" placeholder="" right="false" desc="true">
+                    <label>Mostrar</label>
+                </mostrar>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome name="p_nome" desc="true">Doloremque stract sit stract labore</nome>
+                        <nome_desc name="p_nome_desc">Doloremque stract sit stract labore</nome_desc>
+                        <descricao name="p_descricao" desc="true">Mollit stract doloremque stract labore</descricao>
+                        <descricao_desc name="p_descricao_desc">Mollit stract doloremque stract labore</descricao_desc>
+                        <obrigatoriedade name="p_obrigatoriedade" desc="true">Stract labore laudantium anim</obrigatoriedade>
+                        <obrigatoriedade_desc name="p_obrigatoriedade_desc">Stract labore laudantium anim</obrigatoriedade_desc>
+                        <documento name="p_documento" desc="true"/>
+                        <documento_desc name="p_documento_desc"/>
+                        <mostrar name="p_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</mostrar>
+                        <mostrar_desc name="p_mostrar_desc">Mostrar</mostrar_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">Adipiscing anim consectetur sit sed</nome>
+                        <nome_desc name="p_nome_desc">Adipiscing anim consectetur sit sed</nome_desc>
+                        <descricao name="p_descricao" desc="true">Sed officia amet voluptatem accusantium</descricao>
+                        <descricao_desc name="p_descricao_desc">Sed officia amet voluptatem accusantium</descricao_desc>
+                        <obrigatoriedade name="p_obrigatoriedade" desc="true">Accusantium laudantium lorem c</obrigatoriedade>
+                        <obrigatoriedade_desc name="p_obrigatoriedade_desc">Accusantium laudantium lorem c</obrigatoriedade_desc>
+                        <documento name="p_documento" desc="true"/>
+                        <documento_desc name="p_documento_desc"/>
+                        <mostrar name="p_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</mostrar>
+                        <mostrar_desc name="p_mostrar_desc">Mostrar</mostrar_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">Labore officia sit sit sed</nome>
+                        <nome_desc name="p_nome_desc">Labore officia sit sit sed</nome_desc>
+                        <descricao name="p_descricao" desc="true">Aliqua amet deserunt aperiam mollit</descricao>
+                        <descricao_desc name="p_descricao_desc">Aliqua amet deserunt aperiam mollit</descricao_desc>
+                        <obrigatoriedade name="p_obrigatoriedade" desc="true">Voluptatem adipiscing labore v</obrigatoriedade>
+                        <obrigatoriedade_desc name="p_obrigatoriedade_desc">Voluptatem adipiscing labore v</obrigatoriedade_desc>
+                        <documento name="p_documento" desc="true"/>
+                        <documento_desc name="p_documento_desc"/>
+                        <mostrar name="p_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</mostrar>
+                        <mostrar_desc name="p_mostrar_desc">Mostrar</mostrar_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">Magna stract elit voluptatem adipiscing</nome>
+                        <nome_desc name="p_nome_desc">Magna stract elit voluptatem adipiscing</nome_desc>
+                        <descricao name="p_descricao" desc="true">Unde perspiciatis sit deserunt magna</descricao>
+                        <descricao_desc name="p_descricao_desc">Unde perspiciatis sit deserunt magna</descricao_desc>
+                        <obrigatoriedade name="p_obrigatoriedade" desc="true">Sit ut elit iste laudantium</obrigatoriedade>
+                        <obrigatoriedade_desc name="p_obrigatoriedade_desc">Sit ut elit iste laudantium</obrigatoriedade_desc>
+                        <documento name="p_documento" desc="true"/>
+                        <documento_desc name="p_documento_desc"/>
+                        <mostrar name="p_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</mostrar>
+                        <mostrar_desc name="p_mostrar_desc">Mostrar</mostrar_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">Consectetur perspiciatis amet ut sit</nome>
+                        <nome_desc name="p_nome_desc">Consectetur perspiciatis amet ut sit</nome_desc>
+                        <descricao name="p_descricao" desc="true">Sed deserunt sit officia magna</descricao>
+                        <descricao_desc name="p_descricao_desc">Sed deserunt sit officia magna</descricao_desc>
+                        <obrigatoriedade name="p_obrigatoriedade" desc="true">Deserunt omnis totam accusanti</obrigatoriedade>
+                        <obrigatoriedade_desc name="p_obrigatoriedade_desc">Deserunt omnis totam accusanti</obrigatoriedade_desc>
+                        <documento name="p_documento" desc="true"/>
+                        <documento_desc name="p_documento_desc"/>
+                        <mostrar name="p_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</mostrar>
+                        <mostrar_desc name="p_mostrar_desc">Mostrar</mostrar_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+    </content>
+</rows>

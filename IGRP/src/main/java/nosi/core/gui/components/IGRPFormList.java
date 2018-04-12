@@ -83,10 +83,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					String val = IgrpHelper.getValue(null, field.getName());
-					if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
-						val = field.getValue().toString();
-					}
+					
 					this.xml.text("");
 					this.xml.endElement();
 					

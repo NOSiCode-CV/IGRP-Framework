@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentolist/Tbl_tipo_documentoList.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Tbl_tipo_documentoList</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>con_igrp</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Tbl_tipo_documentoList</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=65</preserve_url>
+    </plsql>
+    <content>
+        <title>Listar tbl_tipo_documento</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="new">
+                <title>New</title>
+                <app>igrp</app>
+                <page>Tbl_tipo_documentoForm</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentoform/Tbl_tipo_documentoForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" title="Listar Tipo Documento" gen-type="container" gen-group="true">
+            <fields>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
+                <codigo name="p_codigo" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Codigo</label>
+                </codigo>
+                <descricao name="p_descricao" type="text" maxlength="500" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
+                <status name="p_status" type="number" maxlength="11" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                    <label>Status</label>
+                </status>
+                <tipo name="p_tipo" type="text" maxlength="20" align="left" lookup_parser="false" iskey="false">
+                    <label>Tipo</label>
+                </tipo>
+                <env_fk name="p_env_fk" type="text" maxlength="11" align="left" lookup_parser="false" iskey="false">
+                    <label>Aplicação</label>
+                </env_fk>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo">Rem sit voluptatem perspiciatis voluptatem</codigo>
+                        <descricao name="p_descricao">Aperiam omnis elit anim accusantium</descricao>
+                        <nome name="p_nome">Omnis totam unde accusantium natus</nome>
+                        <status name="p_status">6</status>
+                        <tipo name="p_tipo">Deserunt perspiciati</tipo>
+                        <env_fk name="p_env_fk">Sit aliqua</env_fk>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo">Stract amet unde sit magna</codigo>
+                        <descricao name="p_descricao">Amet labore perspiciatis totam consectetur</descricao>
+                        <nome name="p_nome">Perspiciatis elit ut natus dolor</nome>
+                        <status name="p_status">8</status>
+                        <tipo name="p_tipo">Rem lorem deserunt a</tipo>
+                        <env_fk name="p_env_fk">Ut anim des</env_fk>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo">Mollit totam laudantium sit natus</codigo>
+                        <descricao name="p_descricao">Totam officia amet accusantium doloremque</descricao>
+                        <nome name="p_nome">Accusantium perspiciatis iste natus ipsum</nome>
+                        <status name="p_status">2</status>
+                        <tipo name="p_tipo">Accusantium dolor mo</tipo>
+                        <env_fk name="p_env_fk">Accusantium</env_fk>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo">Unde mollit aperiam iste sit</codigo>
+                        <descricao name="p_descricao">Laudantium aliqua natus accusantium natus</descricao>
+                        <nome name="p_nome">Sit elit deserunt lorem aliqua</nome>
+                        <status name="p_status">9</status>
+                        <tipo name="p_tipo">Doloremque iste aliq</tipo>
+                        <env_fk name="p_env_fk">Stract offi</env_fk>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo">Dolor elit totam consectetur sit</codigo>
+                        <descricao name="p_descricao">Stract omnis labore magna deserunt</descricao>
+                        <nome name="p_nome">Aliqua ut labore dolor sed</nome>
+                        <status name="p_status">4</status>
+                        <tipo name="p_tipo">Aliqua officia sit e</tipo>
+                        <env_fk name="p_env_fk">Totam lorem</env_fk>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="update">
+                        <title>Update</title>
+                        <app>igrp</app>
+                        <page>Tbl_tipo_documentoList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentolist/Tbl_tipo_documentoList.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="delete">
+                        <title>Delete</title>
+                        <app>igrp</app>
+                        <page>Tbl_tipo_documentoList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentolist/Tbl_tipo_documentoList.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

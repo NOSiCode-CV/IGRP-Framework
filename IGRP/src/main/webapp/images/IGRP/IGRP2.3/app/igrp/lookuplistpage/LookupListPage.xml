@@ -34,6 +34,18 @@
     </plsql>
     <content>
         <title>Lista de Pagina Para Lookup</title>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Associar Página</label>
+                    <value/>
+                </associar_pagina>
+                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Associar Documentos</label>
+                    <value/>
+                </associar_documentos>
+            </fields>
+        </tabcontent_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
@@ -60,11 +72,11 @@
                 </env_fk>
                 <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome Pagina</label>
-                    <value>Laudantium totam stract sed doloremque</value>
+                    <value>Totam rem sit elit ut</value>
                 </page>
                 <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descricao Pagina</label>
-                    <value>Consectetur totam dolor deserunt sit</value>
+                    <value>Amet mollit sit amet laudantium</value>
                 </page_descr>
             </fields>
             <tools-bar>
@@ -79,6 +91,100 @@
                 </item>
             </tools-bar>
         </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>LookupListPage</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
+            </item>
+        </toolsbar_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <checkbox name="p_checkbox" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true" desc="true">
+                    <label></label>
+                </checkbox>
+                <obrigatorio name="p_obrigatorio" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true" desc="true">
+                    <label>Obrigatório?</label>
+                </obrigatorio>
+                <tipo_documento name="p_tipo_documento" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Tipo Documento</label>
+                </tipo_documento>
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Nome</label>
+                </nome>
+                <descricao_documento name="p_descricao_documento" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Descrição</label>
+                </descricao_documento>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo_documento name="p_tipo_documento" desc="true">Ut consectetur voluptatem natu</tipo_documento>
+                        <tipo_documento_desc name="p_tipo_documento_desc">Ut consectetur voluptatem natu</tipo_documento_desc>
+                        <nome name="p_nome" desc="true">Elit magna labore totam lorem</nome>
+                        <nome_desc name="p_nome_desc">Elit magna labore totam lorem</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Aliqua sit adipiscing totam ap</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Aliqua sit adipiscing totam ap</descricao_documento_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo_documento name="p_tipo_documento" desc="true">Sit accusantium dolor anim des</tipo_documento>
+                        <tipo_documento_desc name="p_tipo_documento_desc">Sit accusantium dolor anim des</tipo_documento_desc>
+                        <nome name="p_nome" desc="true">Aliqua perspiciatis iste offic</nome>
+                        <nome_desc name="p_nome_desc">Aliqua perspiciatis iste offic</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Laudantium officia dolor volup</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Laudantium officia dolor volup</descricao_documento_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo_documento name="p_tipo_documento" desc="true">Aliqua iste aperiam totam aper</tipo_documento>
+                        <tipo_documento_desc name="p_tipo_documento_desc">Aliqua iste aperiam totam aper</tipo_documento_desc>
+                        <nome name="p_nome" desc="true">Labore dolor stract voluptatem</nome>
+                        <nome_desc name="p_nome_desc">Labore dolor stract voluptatem</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Unde sed sit accusantium amet</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Unde sed sit accusantium amet</descricao_documento_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo_documento name="p_tipo_documento" desc="true">Lorem ipsum aperiam deserunt s</tipo_documento>
+                        <tipo_documento_desc name="p_tipo_documento_desc">Lorem ipsum aperiam deserunt s</tipo_documento_desc>
+                        <nome name="p_nome" desc="true">Sit aperiam consectetur dolor</nome>
+                        <nome_desc name="p_nome_desc">Sit aperiam consectetur dolor</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Omnis magna labore adipiscing</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Omnis magna labore adipiscing</descricao_documento_desc>
+                    </row>
+                    <row>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <obrigatorio name="p_obrigatorio" check="true" desc="true">1</obrigatorio>
+                        <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
+                        <tipo_documento name="p_tipo_documento" desc="true">Ipsum aperiam dolor adipiscing</tipo_documento>
+                        <tipo_documento_desc name="p_tipo_documento_desc">Ipsum aperiam dolor adipiscing</tipo_documento_desc>
+                        <nome name="p_nome" desc="true">Magna laudantium deserunt volu</nome>
+                        <nome_desc name="p_nome_desc">Magna laudantium deserunt volu</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Natus sit adipiscing omnis str</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Natus sit adipiscing omnis str</descricao_documento_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <nome_pagina name="p_nome_pagina" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
@@ -92,32 +198,38 @@
             <table>
                 <value>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Aliqua consectetur adipiscing</nome_pagina>
-                        <descricao name="p_descricao">Voluptatem adipiscing iste lab</descricao>
+                        <nome_pagina name="p_nome_pagina">Aliqua magna omnis aliqua laud</nome_pagina>
+                        <descricao name="p_descricao">Elit dolor rem doloremque elit</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Voluptatem ut mollit sit accus</nome_pagina>
-                        <descricao name="p_descricao">Doloremque consectetur unde ap</descricao>
+                        <nome_pagina name="p_nome_pagina">Stract totam iste unde amet</nome_pagina>
+                        <descricao name="p_descricao">Mollit unde stract doloremque</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Perspiciatis officia labore do</nome_pagina>
-                        <descricao name="p_descricao">Aliqua ut lorem mollit elit</descricao>
+                        <nome_pagina name="p_nome_pagina">Doloremque ipsum dolor omnis d</nome_pagina>
+                        <descricao name="p_descricao">Lorem doloremque consectetur u</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Ut sed officia perspiciatis vo</nome_pagina>
-                        <descricao name="p_descricao">Ut totam labore unde officia</descricao>
+                        <nome_pagina name="p_nome_pagina">Officia stract laudantium magn</nome_pagina>
+                        <descricao name="p_descricao">Aperiam deserunt aperiam strac</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Doloremque deserunt accusantiu</nome_pagina>
-                        <descricao name="p_descricao">Laudantium stract totam lorem</descricao>
+                        <nome_pagina name="p_nome_pagina">Totam lorem accusantium consec</nome_pagina>
+                        <descricao name="p_descricao">Doloremque officia adipiscing</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
             </table>
         </table_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_taskId" type="hidden" maxlength="30" java-type="" tag="taskid"/>
+                <hidden name="p_processId" type="hidden" maxlength="30" java-type="" tag="processid"/>
+            </fields>
+        </form_2>
     </content>
 </rows>
