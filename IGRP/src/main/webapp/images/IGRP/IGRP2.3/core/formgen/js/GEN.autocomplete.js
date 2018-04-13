@@ -34,7 +34,7 @@ $(function(){
 					});
 					
 
-					server.hints.Core.push(methodName+'( '+paramsStr+' )');
+					server.hints.Core.push(methodName+'('+paramsStr+')');
 					
 				}
 				
@@ -50,14 +50,14 @@ $(function(){
 		
 		if( (o.genType == 'field' && o.parent && !o.parent.xml.table) || o.xml.type == 'text' ){
 			//model
-			model.push('get'+capitalizeFirstLetter(tag)+'()' );
-			model.push('set'+capitalizeFirstLetter(tag)+'( Object value )' );
+			model.push('get'+capitalizeFirstLetter(tag)+'()');
+			model.push('set'+capitalizeFirstLetter(tag)+'(Object value)');
 		}
 		
 		
 		if(o.xml.description){
-			model.push('get'+capitalizeFirstLetter(tag)+'_desc()' );
-			model.push('set'+capitalizeFirstLetter(tag)+'_desc( Object value )' );
+			model.push('get'+capitalizeFirstLetter(tag)+'_desc()');
+			model.push('set'+capitalizeFirstLetter(tag)+'_desc(Object value)');
 		}
 	
 		if(o.type == 'table'){
@@ -76,7 +76,7 @@ $(function(){
 					return rtn;
 				}();
 
-				model.push('load'+capitalizeFirstLetter(tbName)+'( Core.query( "SELECT '+sqlFields+'" ) )');
+				model.push('load'+capitalizeFirstLetter(tbName)+'(Core.query(null,"SELECT '+sqlFields+'"))');
 			
 		}
 			
@@ -89,7 +89,7 @@ $(function(){
 		
 		var view = [];
 
-		view.push(tag);
+		view.push(tag);	
 
 		return view;
 		
@@ -103,12 +103,12 @@ $(function(){
 			
 			methods.push({
 				name : 'view.'+tag,
-				method : 'setLabel( String label )'
+				method : 'setLabel(String label)'
 			});
 			
 			methods.push({
 				name : 'view.'+tag,
-				method : o.xml.options ? 'setValue(Map<?,?> value)' :'setValue( Object value )'
+				method : o.xml.options ? 'setValue(Map<?,?> value)' :'setValue(Object value)'
 			});
 			
 			if(o.xml.lookup){
@@ -118,7 +118,7 @@ $(function(){
 				});
 				methods.push({
 					name : 'view.'+tag,
-					method :'setLookup(String app,String page,String action)'
+					method :'setLookup(String app, String page, String action)'
 				});
 			}
 
@@ -126,12 +126,12 @@ $(function(){
 				
 				methods.push({
 					name : 'view.'+tag,
-					method : 'setListOptions( Map<?,?>  map)'
+					method : 'setListOptions(Map<?,?> map)'
 				});
 				
 				methods.push({
 					name : 'view.'+tag,
-					method : 'setSqlQuery(String connectionName, String tableName, String key, String value)'
+					method : 'setQuery(Core.query(String connectionName, String tableName))'
 				});
 
 			}
@@ -155,7 +155,7 @@ $(function(){
 			
 		methods.push({
 			name : 'view.'+tag,
-			method : 'setVisible( boolean isVisible )'
+			method : 'setVisible(boolean isVisible)'
 		});
 
 		
@@ -174,11 +174,11 @@ $(function(){
 		
 		var setHint = function(tag,object){
 
-			SetTagModelAutoComplete( tag, object ).forEach(function( m ){ hints.model.push(m) }) ;
+			SetTagModelAutoComplete(tag,object).forEach(function(m){ hints.model.push(m) }) ;
 			
-			SetTagViewAutoComplete( tag,object ).forEach(function( m ){ hints.view.push(m) }) ;
+			SetTagViewAutoComplete(tag,object).forEach(function(m){ hints.view.push(m) });			
 			
-			SetFieldsViewAutoComplete( tag,object ).forEach(function( m ){ 
+			SetFieldsViewAutoComplete( tag,object ).forEach(function(m){ 
 				
 				if(!hints[m.name])
 					
@@ -328,7 +328,7 @@ $(function(){
 		
 			    }else{
 			    	
-			    	var tIdx 	= lineText.indexOf(token.string),
+			    	var tIdx = lineText.indexOf(token.string),
 			    		
 			    		partStr = $.trim(lineText.substring(0,tIdx)),
 			    		
@@ -385,9 +385,9 @@ $(function(){
 
 					      	var word = options.words[i];
 
-					      	if ( token.string && word.slice(0, token.string.length) == token.string)
+					      	if (token.string && word.slice(0, token.string.length) == token.string)
 
-					      		found.push( word );
+					      		found.push(word);
 					        
 					    }
 		    			
@@ -396,19 +396,13 @@ $(function(){
 			    }
 
 			    return {
-
 			      	list : found || [],
-
 			     	from : from,
-
 			        to   : CodeMirror.Pos(cur.line, token.end)
-
 			    }
 		    	
-		    }catch(err){
-		    	
-		    	console.log(err);
-		    	
+		    }catch(err){		    	
+		    	console.log(err);		    	
 		    }
 
 		}
@@ -419,7 +413,7 @@ $(function(){
 		
 		GEN.on('ready',function(){
 			
-			$.get( GEN.UTILS.core_methods_list, SetCoreAutoComplete )
+			$.get(GEN.UTILS.core_methods_list,SetCoreAutoComplete )
 			
 		});
 		
