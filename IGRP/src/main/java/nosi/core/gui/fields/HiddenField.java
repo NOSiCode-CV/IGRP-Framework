@@ -21,11 +21,11 @@ public class HiddenField extends AbstractField {
 		this.propertie.put("maxlength", 30);
 		this.configValue(model);
 	}
-
+/*
 	@Override
 	public Object getValue() {
 		 if(this.getValue() instanceof String && Core.isNotNull(this.getValue()))
 			 return this.getValue().toString().replaceAll("&", "&amp;");
 		 return this.getValue();
-	}
+	}*/
 }
