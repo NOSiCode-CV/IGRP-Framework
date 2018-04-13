@@ -3,8 +3,6 @@ package nosi.core.gui.fields;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import nosi.core.webapp.Core;
-
 /**
  * @author: Emanuel Pereira
  * 

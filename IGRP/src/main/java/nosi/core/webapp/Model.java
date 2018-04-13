@@ -265,8 +265,8 @@ public abstract class Model { // IGRP super model
 					m.setAccessible(true);
 					aux.add(m.getName());
 					
-					String []values1 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk");
-					String []values2 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk_desc");
+					String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
+					String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
 					
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
@@ -288,7 +288,6 @@ public abstract class Model { // IGRP super model
 			 obj.setAccessible(false);
 			 
 			 try {
-				boolean error = false;
 				
 				
 				//for(int i = 0; i < 1000 && !error /* This will never happen ...*/; i++) {

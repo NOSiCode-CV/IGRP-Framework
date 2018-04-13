@@ -21,7 +21,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
  */
 public abstract class Controller{
 	protected Config config = new Config();
-	private QueryString queryString = new QueryString();
+	private QueryString<String,Object> queryString = new QueryString<>();
 	private View view;
 	
 	protected String format = Response.FORMAT_XML;
@@ -39,11 +39,11 @@ public abstract class Controller{
 		this.responseWrapper = responseWrapper;
 	}
 	
-	protected QueryString queryString() {
+	protected QueryString<String,Object> queryString() {
 		return this.queryString;
 	}
 	
-	protected QueryString addQueryString(String name,Object value) {
+	protected QueryString<String,Object> addQueryString(String name,Object value) {
 		return this.queryString().addQueryString(name, value);
 	}
 
@@ -116,14 +116,25 @@ public abstract class Controller{
 		resp.setHttpStatus(HttpStatus.STATUS_200);
 	return resp;
 	}
-	protected final Response redirect(String app, String page, String action, QueryString queryString) throws IOException{
-		qs = "";
+	protected final Response redirect(String app, String page, String action,QueryString<String,Object> queryString) throws IOException{
+		this.setQueryString(queryString);
+		return this.redirect_(Route.toUrl(app, page, action, qs));
+	}
+	
+	private void setQueryString(QueryString<String,Object> queryString2) {
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(q->{
-				qs+=("&"+q.getKey()+"="+ q.getValue());
+			this.queryString.getQueryString().entrySet().stream().forEach(q->{
+				q.getValue().stream().forEach(q1->{
+					qs += "&"+q.getKey()+"="+q1.toString();
+				});					
 			});
 		}
-		return this.redirect_(Route.toUrl(app, page, action, qs));
+	}
+
+	private void setQueryStringToAttributes(QueryString<String,Object> queryString) {
+		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
+			Core.setAttribute("customQueryString", queryString);
+		}
 	}
 	protected final Response redirect(String app, String page, String action, String qs) throws IOException{
 		return this.redirect_(Route.toUrl(app, page, action, qs));
@@ -288,28 +299,18 @@ public abstract class Controller{
 		return this.call(app, page, action, null);
 	}
 	
-	protected Response call(String app, String page, String action,QueryString queryString) {
-		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(q->{
-				Core.setAttribute(q.getKey(), q.getValue());
-			});
-		}
+	protected Response call(String app, String page, String action,QueryString<String,Object> queryString) {
+		this.setQueryStringToAttributes(queryString);
 		String auxcontrollerPath = this.config.getPackage(app,page,action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
 		Object obj = Page.loadPage(auxcontrollerPath, "action"+StringHelper.camelCaseFirst(action));
 		return (Response) obj;
-	}
+	}	
 	
-	
-	protected Response forward(String app, String page, String action, QueryString queryString) {
-		qs = "";
-		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(q->{
-				qs+=("&"+q.getKey()+"="+ q.getValue());
-			});
-		}
+	protected Response forward(String app, String page, String action, QueryString<String,Object> queryString) {
+		this.setQueryString(queryString);
 		Response resp = new Response();
 		resp.setType(3);
 		resp.setUrl(Route.toUrl(app, page, action,qs));

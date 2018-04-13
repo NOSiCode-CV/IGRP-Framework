@@ -10,10 +10,7 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import nosi.core.gui.components.IGRPFormList;
 import nosi.core.gui.components.IGRPMenu;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -28,7 +25,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-import nosi.webapps.igrp.pages.addfiletask.Addfiletask;
 /*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller{		
@@ -69,7 +65,7 @@ public class MapaProcessoController extends Controller{
 			title = process!=null?process.getName():"";
 			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 			idApp = process.getTenantId();
-//			taskDefinition = task.getTaskDefinitionKey();
+			taskDefinition = formData.getTaskId();
 			processDefinition = process.getKey();
 		}
 		if(taskId!=null){
@@ -78,7 +74,7 @@ public class MapaProcessoController extends Controller{
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 			idApp = task.getTenantId();
 			taskDefinition = task.getTaskDefinitionKey();
-			processDefinition = task.getProcessDefinitionId();
+			processDefinition = task.getProcessDefinitionKey();
 		}
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {				
@@ -105,12 +101,12 @@ public class MapaProcessoController extends Controller{
 	private String addFileSeparator(String processDefinition,String taskDefinition,String idApp) {
 		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
 				.find()
-				.andWhere("processId", "=",processDefinition)
-				.andWhere("taskId", "=",taskDefinition)
+				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
+				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
 				.andWhere("tipoDocumento.application", "=",Core.toInt(idApp))
 				.andWhere("status", "=",1)
 				.all();
-		if(tipoDocs != null){
+		if(tipoDocs != null && tipoDocs.size() > 0){
 			for(TipoDocumentoEtapa doc:tipoDocs){
 				this.addQueryString("p_nome_fk",doc.getTipoDocumento().getNome());
 				this.addQueryString("p_nome_fk_desc",doc.getTipoDocumento().getNome());
@@ -125,7 +121,7 @@ public class MapaProcessoController extends Controller{
 	}
 
 	private String getObrigatoriedade(int required) {
-		return required==1?"Sim":"Não";
+		return required==1?"Sim":"Nao";
 	}
 
 	public Response actionGetXsl() throws IOException{

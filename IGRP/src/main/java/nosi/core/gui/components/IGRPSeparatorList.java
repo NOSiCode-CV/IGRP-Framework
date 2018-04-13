@@ -38,6 +38,8 @@ import nosi.core.webapp.helpers.IgrpHelper;
 </separatorlist_1>
  */
 public class IGRPSeparatorList extends IGRPTable {
+	
+	protected static final String SPLIT_SEQUENCE = "__IGRP__";
 
 	public IGRPSeparatorList(String tag_name,String title) {
 		super(tag_name,title);
@@ -83,11 +85,11 @@ public class IGRPSeparatorList extends IGRPTable {
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 					String val = IgrpHelper.getValue(obj, field.getName());
-					if(val==null || val.equals("")){
+					if((val==null || val.equals("")) && field.getValue() != null){
 						val = field.getValue().toString();
 					}
-					String []aux = val.split("_"); // this symbol underscore ... will be the reserved char
-					this.xml.text(aux[0]);
+					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
+					this.xml.text(aux.length > 0 ? aux[0] : "");
 					this.xml.endElement();
 					String sufix = "_desc";
 					if(field instanceof CheckBoxListField || field instanceof CheckBoxField || field instanceof RadioListField || field instanceof RadioField) {
@@ -95,11 +97,11 @@ public class IGRPSeparatorList extends IGRPTable {
 					}
 					this.xml.startElement(field.getTagName() + sufix);
 					this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
-					this.xml.text(aux[1]);
+					this.xml.text(aux.length > 1 ? aux[1] : "");
 					this.xml.endElement();
 					
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + aux[0] + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + aux[1] + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + (aux.length > 0 ? aux[0] : "") + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + (aux.length > 1 ? aux[1] : "") + "\"></hidden>");
 				}
 				
 				//this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + "p_" + "separatorlist_1" + "_id"+ "\" type=\"hidden\" value=\"" + (++i)  + "\"></hidden>");
@@ -156,7 +158,7 @@ public class IGRPSeparatorList extends IGRPTable {
 		
 		@Override
 		public String toString() {
-			return this.key + "_" + this.value;
+			return this.key + SPLIT_SEQUENCE + this.value;
 		}
 	}
 }
