@@ -9,13 +9,10 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
 import java.util.List;
-import java.util.Properties;
 import javax.persistence.Tuple;
-import com.google.gson.Gson;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
-
 import java.util.ArrayList;
 /*----#end-code----*/
 
@@ -37,7 +34,6 @@ public class LookupListPageController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-
 		ArrayList<LookupListPage.Table_1> lista1 = new ArrayList<>();
 	
 		List<Action> listActions = new Action().find()
@@ -101,8 +97,8 @@ public class LookupListPageController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(gravar)----*/
-		Properties p = new Properties();
 		if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
+			this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 			Core.update("tbl_tipo_documento_etapa")
 				.addInt("status", 0)
 				.where("processid=:processid AND taskid=:taskid")
@@ -139,21 +135,15 @@ public class LookupListPageController extends Controller {
 						}
 					}
 				}
-				p.put("message", "Operação efetuado com sucesso");
-				p.put("type", "success");
-				p.put("codigo","OK");
+				Core.setMessageSuccess();
 			}else {
-				p.put("message", "Error! Dados incorretos");
-				p.put("type", "error");
-				p.put("codigo","");
+				Core.setMessageSuccess();
 			}
 		}else {
-			p.put("message", "Por favor selecione uma aplicação");
-			p.put("type", "error");
-			p.put("codigo","");
+			Core.setMessageSuccess();
 		}
 		/*----#end-code----*/
-		return this.renderView(new Gson().toJson(p));
+		return this.redirect("igrp","LookupListPage","index", this.queryString());	
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{

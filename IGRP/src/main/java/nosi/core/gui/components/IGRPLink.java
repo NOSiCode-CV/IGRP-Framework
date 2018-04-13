@@ -13,17 +13,17 @@ public class IGRPLink {
 	private String page;
 	private String action;	
 	private String link = "";
-	private QueryString queryString;
+	private QueryString<String,Object> queryString;
 	
 
 	public IGRPLink() {
-		this.queryString = new QueryString();
+		this.queryString = new QueryString<>();
 	}
 	public IGRPLink(String app,String page,String action) {
+		this();
 		this.setAction(action);
 		this.setApp(app);
 		this.setPage(page);
-		this.queryString = new QueryString();
 	}
 	public String getApp() {
 		return app;
@@ -57,8 +57,10 @@ public class IGRPLink {
 	public String getLink() {
 		 link = new Config().getResolveUrl(app, page, action);
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
-			this.queryString.getQueryString().entrySet().stream().forEach(qs->{
-				link += "&"+qs.getKey()+"="+qs.getValue();
+			this.queryString.getQueryString().entrySet().stream().forEach(q->{
+				q.getValue().stream().forEach(q1->{
+					link += "&"+q.getKey()+"="+q1.toString();
+				});					
 			});
 		}
 		return link;

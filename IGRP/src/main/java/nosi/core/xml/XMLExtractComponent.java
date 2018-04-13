@@ -223,11 +223,11 @@ public class XMLExtractComponent {
 	}
 	
 	public String addSepratorListXsl() {
-		return "<xsl:if test=\"rows/content/formlist_documento_task\">\r\n" + 
+		return " <xsl:if test=\"rows/content/formlist_documento_task\">\r\n" + 
 				"                          <div class=\"box box-table-contents gen-container-item \" gen-class=\"\" item-name=\"formlist_documento_task\">\r\n" + 
 				"                            <div class=\"box-body table-box\">\r\n" + 
 				"                              <xsl:apply-templates mode=\"form-hidden-fields\" select=\"rows/content/formlist_documento_task/fields\"/>\r\n" + 
-				"                              <table id=\"formlist_documento_task\" class=\"table table-striped gen-data-table IGRP_formlist  \" rel=\"T_formlist_documento_task\" data-control=\"data-formlist_documento_task\">\r\n" + 
+				"                              <table id=\"formlist_documento_task\" class=\"table table-striped gen-data-table IGRP_formlist noupdate \" rel=\"T_formlist_documento_task\" data-control=\"data-formlist_documento_task\">\r\n" + 
 				"                                <thead>\r\n" + 
 				"                                  <tr>\r\n" + 
 				"                                    <xsl:if test=\"rows/content/formlist_documento_task/fields/nome\">\r\n" + 
@@ -285,7 +285,7 @@ public class XMLExtractComponent {
 				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../fields/nome/label}\" class=\"text\" item-name=\"nome\">\r\n" + 
 				"                                            <input type=\"hidden\" name=\"{../../../fields/nome/@name}_fk_desc\" value=\"{nome_desc}\"/>\r\n" + 
 				"                                            <div class=\"form-group\" item-name=\"nome\" item-type=\"text\">\r\n" + 
-				"                                              <input type=\"text\" name=\"{../../../fields/nome/@name}_fk\" value=\"{nome}\" class=\"text form-control\" rel=\"F_formlist_documento_task\">\r\n" + 
+				"                                              <input type=\"text\" name=\"{../../../fields/nome/@name}_fk\" value=\"{nome}\" class=\"text form-control\" rel=\"F_formlist_documento_task\" readonly=\"readonly\">\r\n" + 
 				"                                                <xsl:call-template name=\"setAttributes\">\r\n" + 
 				"                                                  <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/nome\"/>\r\n" + 
 				"                                                </xsl:call-template>\r\n" + 
@@ -299,7 +299,7 @@ public class XMLExtractComponent {
 				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../fields/descricao/label}\" class=\"text\" item-name=\"descricao\">\r\n" + 
 				"                                            <input type=\"hidden\" name=\"{../../../fields/descricao/@name}_fk_desc\" value=\"{descricao_desc}\"/>\r\n" + 
 				"                                            <div class=\"form-group\" item-name=\"descricao\" item-type=\"text\">\r\n" + 
-				"                                              <input type=\"text\" name=\"{../../../fields/descricao/@name}_fk\" value=\"{descricao}\" class=\"text form-control\" rel=\"F_formlist_documento_task\">\r\n" + 
+				"                                              <input type=\"text\" name=\"{../../../fields/descricao/@name}_fk\" value=\"{descricao}\" class=\"text form-control\" rel=\"F_formlist_documento_task\" readonly=\"readonly\">\r\n" + 
 				"                                                <xsl:call-template name=\"setAttributes\">\r\n" + 
 				"                                                  <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/descricao\"/>\r\n" + 
 				"                                                </xsl:call-template>\r\n" + 
@@ -313,7 +313,7 @@ public class XMLExtractComponent {
 				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../fields/obrigatoriedade/label}\" class=\"text\" item-name=\"obrigatoriedade\">\r\n" + 
 				"                                            <input type=\"hidden\" name=\"{../../../fields/obrigatoriedade/@name}_fk_desc\" value=\"{obrigatoriedade_desc}\"/>\r\n" + 
 				"                                            <div class=\"form-group\" item-name=\"obrigatoriedade\" item-type=\"text\">\r\n" + 
-				"                                              <input type=\"text\" name=\"{../../../fields/obrigatoriedade/@name}_fk\" value=\"{obrigatoriedade}\" class=\"text form-control\" rel=\"F_formlist_documento_task\">\r\n" + 
+				"                                              <input type=\"text\" name=\"{../../../fields/obrigatoriedade/@name}_fk\" value=\"{obrigatoriedade}\" class=\"text form-control\" rel=\"F_formlist_documento_task\" readonly=\"readonly\">\r\n" + 
 				"                                                <xsl:call-template name=\"setAttributes\">\r\n" + 
 				"                                                  <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/obrigatoriedade\"/>\r\n" + 
 				"                                                </xsl:call-template>\r\n" + 

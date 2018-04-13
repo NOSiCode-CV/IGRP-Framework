@@ -461,5 +461,30 @@ public class TaskService extends Activit{
 	public void addFilter(String paramName, String value) {
 		this.setFilter(this.getFilter()+("&"+paramName+"="+value));
 	}
+
+	public String getProcessDefinitionKey() {
+		if(this.getProcessDefinitionUrl()!=null) {
+			RestRequest req = new RestRequest();
+			req.setBase_url("");
+			Response response = req.get(this.getProcessDefinitionUrl());
+			ProcessDefinitionService process = new ProcessDefinitionService();
+			if(response!=null){
+				String contentResp = "";
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					contentResp = FileHelper.convertToString(is);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(response.getStatus()==200){
+					process = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,ProcessDefinitionService.class);
+				}else{
+					this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				}
+			}
+			return process.getKey();
+		}
+		return "";
+	}
 	
 }
