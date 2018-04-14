@@ -10,11 +10,13 @@ public class Route {
 
 	public static String toUrl(String app, String page, String action, String qs){
 		qs += getQueryString(action);
+		if(!qs.contains("target")) {
 		String target = "";
 		if(Core.getParam("target") !=null ) {
 			target = Core.getParam("target");
-		}
+		}	
 		qs += Core.isNotNull(target)?"&target="+target:"";
+		}
 		action = resolveAction(action);
 
 		String aux = "?r=" + EncrypDecrypt.encrypt(app+ "/" +page+ "/" +action) + (qs.equals("") || qs == null ? "" : "&"+ qs);

@@ -31,9 +31,9 @@ public class GestaodeacessoController extends Controller {
 		
 		model.loadOrg_table(Core.query(null,"SELECT 'estado' as estado,'org_nome' as org_nome,'mostrar_perfis' as mostrar_perfis,'id' as id "));
 		
-		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.estado.setParam(true);
-		view.p_id.setParam(true);
+		view.id.setParam(true);
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
@@ -52,7 +52,7 @@ public class GestaodeacessoController extends Controller {
 				model.setAdicionar_organica1("igrp", "NovaOrganica", "index");
 		}
 	
-		view.p_id.setParam(true);		
+		view.id.setParam(true);		
 		view.aplicacao.setParam(true);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);
@@ -78,10 +78,6 @@ public class GestaodeacessoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
 		 return this.forward("igrp","PesquisarMenu","index");
 		}
 		
@@ -91,7 +87,7 @@ public class GestaodeacessoController extends Controller {
 		if (p_id != null) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			if (org != null)
-				return this.redirect("igrp", "NovaOrganica", "editar&target=_blank&p_id=" + p_id);
+				return this.redirect("igrp", "NovaOrganica", "editar&p_id=" + p_id);
 		}else 
 			Core.setMessageError();
 
@@ -107,10 +103,6 @@ public class GestaodeacessoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
 		 return this.forward("igrp","MenuOrganica","index");
 		}
 		
@@ -123,7 +115,7 @@ public class GestaodeacessoController extends Controller {
 			org = org.find().andWhere("application.id", "=", Integer.parseInt(p_id));
 			if (org != null)
 				return this.redirect("igrp", "MenuOrganica", "index",
-						"id=" + p_id + "&target=_blank&type=org&env_fk=" + org.getApplication().getId());
+						"id=" + p_id + "&type=org&env_fk=" + org.getApplication().getId());
 		}else Core.setMessageError();
 
 		/*----#end-code----*/
@@ -138,23 +130,12 @@ public class GestaodeacessoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
 		 return this.forward("igrp","TransacaoOrganica","index");
 		}
 		
 		----#gen-example */
 		/*----#start-code(transaction)----*/
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-      
-		if (Core.isInt(p_id)) {
-			Organization org = new Organization().findOne(Integer.parseInt(p_id));
-			if (org != null)
-				return this.redirect("igrp", "TransacaoOrganica", "index&target=_blank", "id=" + p_id + "&type=org");
-		}
-
+		
 		/*----#end-code----*/
 		return this.redirect("igrp","TransacaoOrganica","index", this.queryString());	
 	}
@@ -167,10 +148,6 @@ public class GestaodeacessoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
 		 return this.forward("igrp","PesquisarMenu","index");
 		}
 		
@@ -195,12 +172,12 @@ public class GestaodeacessoController extends Controller {
 		for (Organization org : new Organization().find()
 				.andWhere("application", "=", Integer.parseInt(model.getAplicacao())).all()) {
 			Gestaodeacesso.Org_table table = new Gestaodeacesso.Org_table();
-			table.setP_id("" + org.getId());
+			table.setId("" + org.getId());
 			table.setOrg_nome(org.getName());
 			table.setEstado(org.getStatus());
 			table.setEstado_check(1);
 			table.setMostrar_perfis("igrp", "pesquisar-perfil",
-					"index&id_app=" + org.getApplication().getId() + "&id_org=" + org.getId() + "&target=_blank");
+					"index&id_app=" + org.getApplication().getId() + "&id_org=" + org.getId());
 			table.setMostrar_perfis_desc("Mostrar Perfil");
 			data.add(table);
 		}
