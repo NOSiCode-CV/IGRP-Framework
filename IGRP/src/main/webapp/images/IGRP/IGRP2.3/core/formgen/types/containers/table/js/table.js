@@ -44,9 +44,10 @@ var GENTABLE = function(name,params){
 			{path:'/core/igrp/table/igrp.tables.css'}
 		],
 		js  :[ 
+			{path : '/core/igrp/form/igrp.forms.js',id:'Form'},
 			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/igrp.table.js'}
+			{path :'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
+			{path :'/core/igrp/table/igrp.table.js'}
 		]
 	};
 
