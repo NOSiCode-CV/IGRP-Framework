@@ -959,6 +959,14 @@ body[has-menu="true"] .content>.row:first-child{
   box-shadow:  none;
 }
 
+.box.clean.bordered {
+  border:1px solid #f3f5f7!important;
+}
+
+.box.clean.bordered .box-header{
+  border-bottom:1px solid #f3f5f7!important;
+}
+
 .box.clean .box-header{
   border-bottom: 0;
 }

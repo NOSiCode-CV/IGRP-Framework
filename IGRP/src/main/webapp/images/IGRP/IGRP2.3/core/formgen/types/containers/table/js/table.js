@@ -384,7 +384,23 @@ var GENTABLE = function(name,params){
 
 				value : {
 
-					value : params.proprieties && params.proprieties.legendColors || [],
+					value : params.proprieties && params.proprieties.legendColors || [
+                        {
+                            "color": "#dc2b4c",
+                            "text": "Cor 1",
+                            "value": "1"
+                        },
+                        {
+                            "color": "#ea9126",
+                            "text": "Cor 2",
+                            "value": "2"
+                        },
+                        {
+                            "color": "#95c11f",
+                            "text": "Cor 3",
+                            "value": "3"
+                        }
+                    ],
 
 					setter:function(){
 						

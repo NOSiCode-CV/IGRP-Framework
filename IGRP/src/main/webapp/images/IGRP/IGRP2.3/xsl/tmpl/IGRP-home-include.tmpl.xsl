@@ -623,7 +623,8 @@
         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a, 
         #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover,
         #igrp-form-gen .gen-viewers-toolbar .btn,
-        #igrp-form-gen .treeview-menu>li>a{
+        #igrp-form-gen .treeview-menu>li>a,
+        .gen-page-properties-inner ul li a{
           color:<xsl:value-of select="$mainColor"/>!important;
         }
         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after{

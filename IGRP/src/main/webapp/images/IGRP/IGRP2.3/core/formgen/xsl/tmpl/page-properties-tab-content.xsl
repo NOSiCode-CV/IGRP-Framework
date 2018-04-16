@@ -4,7 +4,7 @@
 		
 		<div class="gen-page-properties-inner">
                                     
-            <div id="gen-page-properties-type" class="gen-page-props-menus">
+            <!-- <div id="gen-page-properties-type" class="gen-page-props-menus">
 
                 <h5>Templates</h5>
 
@@ -27,19 +27,28 @@
 
                 
 
-            </div>
+            </div> -->
 
             <div id="gen-page-actions" class="gen-page-props-menus">
-                <h5></h5>
+                <h5>Page Settings</h5>
 	            <ul class="">
                     <li>
-                        <a href="#" id="download-gen-xsl">
-                            <!-- <i class="fa fa-upload"></i> -->
-                            <span>Download XSL Generator</span>
+                        <a href="#" class="gen-page-setts-ctrl">
+                            <i class="fa fa-cog"></i>
+                            <span>Settings</span>
                         </a>
-                    </li> 
+                    </li>
 	            </ul>
-
+                <h5>Domains</h5>
+	            <ul class="">
+                   
+                    <li>
+                        <a href="#" id="gen-domains">
+                            <i class="fa fa-plus"></i>
+                            <span>New Domain</span>
+                        </a>
+                    </li>
+	            </ul>
 	        </div>
 
         </div>
