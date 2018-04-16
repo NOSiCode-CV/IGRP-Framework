@@ -22,7 +22,7 @@ public class GestaodeacessoView extends View {
 	public Field estado_check;
 	public Field org_nome;
 	public Field mostrar_perfis;
-	public Field p_id;
+	public Field id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable org_table;
@@ -82,9 +82,9 @@ public class GestaodeacessoView extends View {
 							
 		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","modal").add("maxlength","30").add("desc","true");
 		
-		p_id = new HiddenField(model,"p_id");
-		p_id.setLabel(gt(""));
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id = new HiddenField(model,"id");
+		id.setLabel(gt(""));
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		
 
 
@@ -116,7 +116,7 @@ public class GestaodeacessoView extends View {
 		org_table.addField(estado_check);
 		org_table.addField(org_nome);
 		org_table.addField(mostrar_perfis);
-		org_table.addField(p_id);
+		org_table.addField(id);
 
 		org_table.addButton(btn_editar);
 		org_table.addButton(btn_menu);
@@ -132,7 +132,7 @@ public class GestaodeacessoView extends View {
 		aplicacao.setValue(model);
 		estado.setValue(model);
 		org_nome.setValue(model);
-		p_id.setValue(model);	
+		id.setValue(model);	
 
 		org_table.loadModel(model.getOrg_table());
 		

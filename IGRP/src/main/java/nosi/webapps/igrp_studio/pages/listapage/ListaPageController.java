@@ -61,9 +61,9 @@ public class ListaPageController extends Controller {
 
 		Action a = new Action();
 
-		model.setBtn_import("igrp_studio", "ImportArquivo", "index").addParam("target", "_blank");
-		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index").addParam("target", "_blank");
-		model.setLink_btn_nova_pagina("igrp", "Page", "index").addParam("target", "_blank");
+		model.setBtn_import("igrp_studio", "ImportArquivo", "index");
+		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index");
+		model.setLink_btn_nova_pagina("igrp", "Page", "index");
 
 		String app = Igrp.getInstance().getRequest().getParameter("app");
 
@@ -173,7 +173,7 @@ public class ListaPageController extends Controller {
 		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
-			return this.forward("igrp", "Page", "index&target=_blank&p_id=" + p_id_page);
+			return this.forward("igrp", "Page", "index&p_id=" + p_id_page);
 		}
 
 		/*----#end-code----*/
@@ -203,7 +203,7 @@ public class ListaPageController extends Controller {
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)){		
-			return this.forward("igrp", "Page", "visualizar&p_id=" + p_id_page+"&target=_blank");
+			return this.redirect("igrp", "Page", "visualizar&p_id=" + p_id_page);
 		}
 
 		/*----#end-code----*/

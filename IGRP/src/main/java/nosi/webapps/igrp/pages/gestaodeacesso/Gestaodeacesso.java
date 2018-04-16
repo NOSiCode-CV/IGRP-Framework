@@ -95,7 +95,7 @@ public class Gestaodeacesso extends Model{
 		private String org_nome;
 		private String mostrar_perfis;
 		private String mostrar_perfis_desc;
-		private String p_id;
+		private String id;
 		public void setEstado(int estado){
 			this.estado = estado;
 		}
@@ -129,11 +129,11 @@ public class Gestaodeacesso extends Model{
 			return this.mostrar_perfis_desc;
 		}
 
-		public void setP_id(String p_id){
-			this.p_id = p_id;
+		public void setId(String id){
+			this.id = id;
 		}
-		public String getP_id(){
-			return this.p_id;
+		public String getId(){
+			return this.id;
 		}
 
 	}
