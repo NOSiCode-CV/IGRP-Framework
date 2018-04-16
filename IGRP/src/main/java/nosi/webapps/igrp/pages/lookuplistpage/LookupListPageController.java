@@ -31,6 +31,7 @@ public class LookupListPageController extends Controller {
 		model.loadTable_1(Core.query(null,"SELECT 'nome_pagina' as nome_pagina,'descricao' as descricao,'id' as id "));
 		
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
@@ -66,7 +67,7 @@ public class LookupListPageController extends Controller {
 					"       THEN 1 " + 
 					"       ELSE 0 " + 
 					"  END as obrigatorio_check, "
-					+ "nome as nome,descricao as descricao_documento,tipo as tipo_documento FROM public.tbl_tipo_documento tp")
+					+ "nome as nome,descricao as descricao_documento FROM public.tbl_tipo_documento tp")
 					.where("tp.status=:status AND tp.env_fk=:env_fk")
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
@@ -76,6 +77,7 @@ public class LookupListPageController extends Controller {
 		}
 		view.id.setParam(true);
 		view.env_fk.setLabel("Aplicação");
+        view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "),"--- Selecionar Tipo ---");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista1);
 		view.btn_pesquisar.setLink("index");
@@ -92,7 +94,9 @@ public class LookupListPageController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","LookupListPage","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","LookupListPage","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
@@ -133,14 +137,16 @@ public class LookupListPageController extends Controller {
 							.addString("taskid", model.getTaskid())
 							.execute();
 						}
+					}else {
+						Core.setMessageError("Lista checkbox vaiza");
 					}
 				}
 				Core.setMessageSuccess();
 			}else {
-				Core.setMessageSuccess();
+				Core.setMessageError("Lista vaiza");
 			}
 		}else {
-			Core.setMessageSuccess();
+			Core.setMessageError();
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp","LookupListPage","index", this.queryString());	
@@ -154,7 +160,9 @@ public class LookupListPageController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Dominio","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */

@@ -123,7 +123,7 @@ public class LookupListPage extends Model{
 		private Pair checkbox_check;
 		private Pair obrigatorio;
 		private Pair obrigatorio_check;
-		private Pair tipo_documento;
+		private Pair tipo;
 		private Pair nome;
 		private Pair descricao_documento;
 		public void setCheckbox(Pair checkbox){
@@ -154,11 +154,11 @@ public class LookupListPage extends Model{
 			return this.obrigatorio_check;
 		}
 
-		public void setTipo_documento(Pair tipo_documento){
-			this.tipo_documento = tipo_documento;
+		public void setTipo(Pair tipo){
+			this.tipo = tipo;
 		}
-		public Pair getTipo_documento(){
-			return this.tipo_documento;
+		public Pair getTipo(){
+			return this.tipo;
 		}
 
 		public void setNome(Pair nome){

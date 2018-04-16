@@ -173,19 +173,18 @@ public class TaskService extends Activit{
 	
 	public FileRest getFile(String url){
 		RestRequest request = new RestRequest();
+		FileRest f = new FileRest();
 		request.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
-		request.setBase_url("");
 		Response response = request.get(url);	
 		if(response!=null){
 			if(response.getStatus()==200) {
-				FileRest f = new FileRest();
 				f.setContent((InputStream) response.getEntity());
 				f.setSize(response.getLength());
 				f.setContentType(response.getMediaType().toString());
 				return f;
 			}
 		}
-		return null;
+		return f;
 	}
 	
 	public boolean submitTaskFile(Part file,String taskId,String file_desc) throws IOException{

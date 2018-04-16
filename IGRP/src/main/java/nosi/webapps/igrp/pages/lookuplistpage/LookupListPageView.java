@@ -22,7 +22,7 @@ public class LookupListPageView extends View {
 	public Field checkbox_check;
 	public Field obrigatorio;
 	public Field obrigatorio_check;
-	public Field tipo_documento;
+	public Field tipo;
 	public Field nome;
 	public Field descricao_documento;
 	public Field nome_pagina;
@@ -82,9 +82,9 @@ public class LookupListPageView extends View {
 		obrigatorio_check = new CheckBoxField
 		(model,"obrigatorio_check");
 		obrigatorio_check.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
-		tipo_documento = new TextField(model,"tipo_documento");
-		tipo_documento.setLabel(gt("Tipo Documento"));
-		tipo_documento.propertie().add("name","p_tipo_documento").add("type","text").add("maxlength","30").add("required","false").add("desc","true");
+		tipo = new ListField(model,"tipo");
+		tipo.setLabel(gt("Tipo"));
+		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","").add("delimiter",";").add("desc","true");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -140,7 +140,7 @@ public class LookupListPageView extends View {
 		formlist_1.addField(checkbox_check);
 		formlist_1.addField(obrigatorio);
 		formlist_1.addField(obrigatorio_check);
-		formlist_1.addField(tipo_documento);
+		formlist_1.addField(tipo);
 		formlist_1.addField(nome);
 		formlist_1.addField(descricao_documento);
 
@@ -170,7 +170,7 @@ public class LookupListPageView extends View {
 		page_descr.setValue(model);
 		checkbox.setValue(model);
 		obrigatorio.setValue(model);
-		tipo_documento.setValue(model);
+		tipo.setValue(model);
 		nome.setValue(model);
 		descricao_documento.setValue(model);
 		nome_pagina.setValue(model);

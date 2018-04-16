@@ -32,19 +32,21 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 	private Integer id;
 	@Column(length=100,nullable=false)
 	private String processId;
+	@Column(length=4,nullable=false)
+	private String tipo;
 	@Column(length=100,nullable=false)
 	private String taskId;
 	private int status;
-	private int required;
-	
+	private int required;	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "tipo_documento_fk",foreignKey = @ForeignKey(name="TIPO_DOCUEMNTO_ETAPA_TIPO_DOCUMENTO_FK"),nullable=false)
 	private TipoDocumento tipoDocumento;
 	
 	
 	
-	public TipoDocumentoEtapa(String processId, String taskId, int status, int required, TipoDocumento tipoDocumento) {
+	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
 		super();
+		this.tipo = tipo;
 		this.processId = processId;
 		this.taskId = taskId;
 		this.status = status;
@@ -82,6 +84,14 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 	}
 	
 	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public int getRequired() {
 		return required;
 	}

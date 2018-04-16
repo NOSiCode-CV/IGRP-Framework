@@ -63,6 +63,6 @@ public class IGRPLink {
 				});					
 			});
 		}
-		return link;
+		return link.contains("&amp;")?link:link.replaceAll("&", "&amp;");
 	}
 }

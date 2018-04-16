@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -58,6 +59,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
 import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author: Emanuel Pereira
  * 13 Nov 2017
@@ -796,43 +798,32 @@ public final class Core {	/** Not inherit
 		return value;
 	}
 	
+	public static void removeAttribute(String name) {
+		Igrp.getInstance().getRequest().removeAttribute(name);
+	}
 	public static void setAttribute(String name,Object value) {
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 	
-//	public static String getAttribute(String name) {
-//		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
-//			String v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-//			Igrp.getInstance().getRequest().removeAttribute(name);
-//			return v;
-//		}
-//		return null;
-//	}	
-	
-//	public static String[] getAttributeArray(String name) {
-//		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && Igrp.getInstance().getRequest().getAttribute(name) instanceof String[]) {
-//			String [] value = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
-//			Igrp.getInstance().getRequest().removeAttribute(name);
-//			return value;
-//		}
-//		return null;
-//	}
-
-	private static String getAttribute(String name) {
-		QueryString<String,Object> qs = (QueryString<String, Object>) Igrp.getInstance().getRequest().getAttribute("customQueryString");
-		if(qs != null) {
-			return qs.getQueryString().containsKey(name)?qs.getQueryString().get(name).stream().findFirst().get().toString():"";
+	public static String getAttribute(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
+			String v = null;
+			if(Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
+				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
+			else				
+			    v = (String) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return v;
 		}
 		return null;
-	}
+	}	
 	
 	public static String[] getAttributeArray(String name) {
-		QueryString<String,Object> qs = (QueryString<String,Object>) Igrp.getInstance().getRequest().getAttribute("customQueryString");
-		if(qs != null) {
-			if(qs.getQueryString().containsKey(name)) {
-				List<Object> values = qs.getValues(name);
-				return values.toArray(new String[] {});
-			}
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[] ||Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])) {
+			Object[] valueO = (Object[]) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			String[] valueS = Arrays.copyOf(valueO, valueO.length, String[].class);
+			return valueS;
 		}
 		return null;
 	}

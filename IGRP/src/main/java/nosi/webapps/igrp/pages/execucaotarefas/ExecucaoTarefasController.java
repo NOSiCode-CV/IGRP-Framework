@@ -27,9 +27,7 @@ import nosi.webapps.igrp.dao.User;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
-import javax.servlet.http.Part;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -316,10 +314,6 @@ public class ExecucaoTarefasController extends Controller {
 		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		boolean result = false;
-		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
-		String[] p_prm_file_name_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk");
-		p_prm_file_name_fk = p_prm_file_name_fk==null?Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk_desc"):p_prm_file_name_fk;
-		String[] p_prm_file_description_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_description_fk");
 		if(Core.isNotNull(taskId)){
 			TaskServiceQuery taskS = new TaskServiceQuery();
 			taskS.addFilter("taskId", taskId);
@@ -331,7 +325,7 @@ public class ExecucaoTarefasController extends Controller {
 				});	
 				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
 				result = p.submitVariables();
-				new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+				new TaskFile().addFile(task);
 				if(result){
 					Core.setMessageSuccess();
 				}else{
@@ -342,19 +336,14 @@ public class ExecucaoTarefasController extends Controller {
 		}		
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
-	
 	public Response actionProcessTask() throws IOException, ServletException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
 		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
 		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		ResponseError result = null;
-		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
-		String[] p_prm_file_name_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk");
-		p_prm_file_name_fk = p_prm_file_name_fk==null?Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk_desc"):p_prm_file_name_fk;
-		String[] p_prm_file_description_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_description_fk");
 		if(Core.isNotNull(taskId)){
-			result = this.processTask(taskId,customForm,content,parts,p_prm_file_name_fk,p_prm_file_description_fk);
+			result = this.processTask(taskId,customForm,content);
 			if(result==null){
 				Core.setMessageSuccess();
 				return this.redirect("igrp","ExecucaoTarefas", "index");
@@ -364,7 +353,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		if(Core.isNotNull(processDefinitionId)){
-			result = this.processStartEvent(processDefinitionId,customForm,content,parts,p_prm_file_name_fk,p_prm_file_description_fk);
+			result = this.processStartEvent(processDefinitionId,customForm,content);
 			if(result==null){
 				Core.setMessageSuccess();
 			}else{
@@ -404,7 +393,7 @@ public class ExecucaoTarefasController extends Controller {
 	}
 	
 	//Executa uma tarefa
-	private ResponseError processTask(String p_prm_taskid,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
+	private ResponseError processTask(String p_prm_taskid,String customForm,String content) throws IOException, ServletException{
 		FormDataService formData = new FormDataService();
 		TaskService task = new TaskService().getTask(p_prm_taskid);
 		FormDataService properties = null;
@@ -432,14 +421,15 @@ public class ExecucaoTarefasController extends Controller {
 				task.submitVariables();
 			}
 		}
-		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+		
+		new TaskFile().addFile(task);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}
 	
 
 	//Inicia tarefa de um processo
-	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
+	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content) throws IOException, ServletException{
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
 		ProcessInstancesService pi = new ProcessInstancesService();
@@ -464,7 +454,7 @@ public class ExecucaoTarefasController extends Controller {
 			pi.setId(st.getId());
 			pi.addVariable("baseHostNameIgrp","string",this.getConfig().getHostName());
 			pi.submitVariables();
-			new TaskFile().addFile(pi, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+			new TaskFile().addFile(pi);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}
@@ -476,5 +466,6 @@ public class ExecucaoTarefasController extends Controller {
         status.put("true","Terminado");
 		return status;
 	}
+
 	/*----#END-PRESERVED-AREA----*/
 }
