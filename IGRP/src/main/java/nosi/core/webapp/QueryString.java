@@ -1,11 +1,9 @@
 package nosi.core.webapp;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Emanuel
@@ -32,6 +30,11 @@ public class QueryString<K,V> {
         target.add(value);
         return this;
     }
+    
+    public QueryString<K,V> removeQueryString(K key){
+        queryString.remove(key);
+        return this;
+    } 
 	public Map<K,List<V>> getQueryString() {
 		return queryString;
 	}

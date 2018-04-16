@@ -45,6 +45,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 	public IGRPFormList(String tag_name) {
 		this(tag_name,"");
 	}
+	/*
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
@@ -79,7 +80,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 				this.xml.endElement();
 			}
 		}else if(this.data==null){
-				this.xml.startElement("row");
+				this.xml.startElement("row"); 
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
@@ -102,7 +103,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 		}
 		
 	}
-	
+	*/
 
 	public void loadModel(List<?> modelList) {
 		this.data = modelList;

@@ -105,15 +105,18 @@ public class MapaProcessoController extends Controller{
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
 				.andWhere("tipoDocumento.application", "=",Core.toInt(idApp))
 				.andWhere("status", "=",1)
+				.andWhere("tipo", "=","IN")
 				.all();
 		if(tipoDocs != null && tipoDocs.size() > 0){
 			for(TipoDocumentoEtapa doc:tipoDocs){
-				this.addQueryString("p_nome_fk",doc.getTipoDocumento().getNome());
-				this.addQueryString("p_nome_fk_desc",doc.getTipoDocumento().getNome());
-				this.addQueryString("p_descricao_fk",doc.getTipoDocumento().getDescricao());
-				this.addQueryString("p_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
-				this.addQueryString("p_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
-				this.addQueryString("p_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
+				this.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
+				this.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
+				this.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
+				this.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
+				this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
+				this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
+				this.addQueryString("p_formlist_documento_task_mostrar_fk","");
+				this.addQueryString("p_formlist_documento_task_mostrar_fk_desc","");
 			}
 			return this.call("igrp", "Addfiletask", "index", this.queryString()).getContent();
 		}
@@ -134,7 +137,7 @@ public class MapaProcessoController extends Controller{
 			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
 			content = comp.addButtonXsl(content);
 			this.format = Response.FORMAT_XSL;			
-			return this.renderView(content.replaceAll("../../../",this.getConfig().getLinkImg()+"/"));
+			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
