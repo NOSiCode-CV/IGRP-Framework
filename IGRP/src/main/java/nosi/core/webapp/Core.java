@@ -2,6 +2,8 @@ package nosi.core.webapp;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -986,6 +988,7 @@ public final class Core {	/** Not inherit
 		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
+		file.deleteOnExit(); // Throws SecurityException if dont have permission to delete 
 		if(conn != null) {
 			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
@@ -1017,11 +1020,41 @@ public final class Core {	/** Not inherit
 				}
 			}
 		}
+		try {
+			file.delete();
+		}catch(Exception e) {e.printStackTrace();}
+		
 		return lastInsertedId;
 	}
 	
 	public static int saveFile(File file) {
 		return saveFile(file, null, null);
+	}
+	
+	public static int saveFile(byte[] content, String name, String extension, String mime_type) {
+		try {
+			if(!extension.startsWith(".")) throw new IllegalArgumentException("Extension of file is invalid.");
+			File file = File.createTempFile(name, extension);
+			FileOutputStream out = new FileOutputStream(file);
+			out.write(content);
+			out.flush();
+			out.close();
+			return saveFile(file, name, mime_type);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	public static int saveFile(byte[] content, String name, String mime_type) {
+		try {
+			String aux[] = name.trim().split("\\.");
+			String extension = aux[aux.length - 1];
+			return saveFile(content, name, "."+extension, mime_type);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 	public static CLob getFile(int fileId) {
