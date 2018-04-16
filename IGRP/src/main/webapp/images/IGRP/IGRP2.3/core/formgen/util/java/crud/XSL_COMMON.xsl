@@ -11,7 +11,7 @@
 					<xsl:choose>
 		 				<xsl:when test="@type='hidden'">
 				 			<xsl:call-template name="lowerCase">
-				 				<xsl:with-param name="text" select="@name"/>
+				 				<xsl:with-param name="text" select="@tag"/>
 				 			</xsl:call-template>
 		 				</xsl:when>
 		 				<xsl:otherwise>
@@ -47,7 +47,7 @@
 			 				<xsl:when test="@type='hidden'">
 					 			<xsl:call-template name="addTypeQuery">
 									<xsl:with-param name="type" select="@java-type"/>
-									<xsl:with-param name="name" select="@name"/>
+									<xsl:with-param name="name" select="@tag"/>
 								</xsl:call-template>
 			 				</xsl:when>
 			 				<xsl:otherwise>
@@ -73,7 +73,7 @@
 	 				<xsl:when test="@type='hidden'">
 			 			<xsl:call-template name="addTypeQuery">
 							<xsl:with-param name="type" select="@java-type"/>
-							<xsl:with-param name="name" select="@name"/>
+							<xsl:with-param name="name" select="@tag"/>
 						</xsl:call-template>
 	 				</xsl:when>
 	 				<xsl:otherwise>
@@ -229,7 +229,7 @@
 			<xsl:value-of select="$tab2"/>
  			<xsl:choose>
  				<xsl:when test="@type='hidden'">
-					<xsl:value-of select="concat('view.',@name,'.setParam(true);')"/>
+					<xsl:value-of select="concat('view.',@tag,'.setParam(true);')"/>
  				</xsl:when>
  				<xsl:otherwise>
 					<xsl:value-of select="concat('view.',local-name(),'.setParam(true);')"/>
@@ -244,7 +244,7 @@
 				<xsl:choose>
 	 				<xsl:when test="@type='hidden'">
 			 			<xsl:call-template name="lowerCase">
-			 				<xsl:with-param name="text" select="@name"/>
+			 				<xsl:with-param name="text" select="@tag"/>
 			 			</xsl:call-template>
 	 				</xsl:when>
 	 				<xsl:otherwise>
@@ -275,7 +275,7 @@
 			<xsl:value-of select="$tab2"/>
  			<xsl:choose>
  				<xsl:when test="@type='hidden'">
-					<xsl:value-of select="concat('view.',@name,'.setParam(true);')"/>
+					<xsl:value-of select="concat('view.',@tag,'.setParam(true);')"/>
  				</xsl:when>
  				<xsl:otherwise>
 					<xsl:value-of select="concat('view.',local-name(),'.setParam(true);')"/>

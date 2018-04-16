@@ -65,7 +65,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 						val = field.getValue().toString();
 					}
 					String []aux = val.split("_"); // this symbol underscore ... will be the reserved char
-					this.xml.text(aux[0]);
+					this.xml.text((aux.length>0?aux[0]:""));
 					this.xml.endElement();
 					
 					this.xml.startElement(field.getTagName() + "_desc");
@@ -73,7 +73,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 					this.xml.text(aux.length > 1?aux[1]:"");
 					this.xml.endElement();
 					
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + aux[0] + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + (aux.length>0?aux[0]:"") + "\"></hidden>");
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + (aux.length > 1?aux[1]:"") + "\"></hidden>");
 				}
 				this.xml.endElement();
@@ -83,10 +83,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					String val = IgrpHelper.getValue(null, field.getName());
-					if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
-						val = field.getValue().toString();
-					}
+					
 					this.xml.text("");
 					this.xml.endElement();
 					
@@ -103,6 +100,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 		if(!this.rows.equals("")){
 			this.xml.addXml(this.rows);
 		}
+		
 	}
 	
 

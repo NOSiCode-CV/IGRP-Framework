@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -43,15 +43,15 @@
         </sectionheader_1>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" maxlength="50">
+                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" maxlength="50">
                     <label>Importar Aplicação</label>
                     <value/>
                 </importar_aplicacao>
-                <importar_pagina name="p_importar_pagina" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" maxlength="50">
+                <importar_pagina name="p_importar_pagina" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" maxlength="50">
                     <label>Importar Página</label>
                     <value/>
                 </importar_pagina>
-                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" maxlength="50">
+                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" maxlength="50">
                     <label>Importar Jar File</label>
                     <value/>
                 </importar_jar_file>
@@ -80,7 +80,7 @@
         </sectionheader_4>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="30" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -91,7 +91,7 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>success|fa-upload</img>
                 </item>
@@ -121,7 +121,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="30" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -132,7 +132,7 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>success|fa-upload</img>
                 </item>
@@ -140,7 +140,7 @@
         </form_1>
         <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <jar_file name="p_jar_file" type="file" accept="[object Object]" targetrend="[object Object]" multiple="true" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                <jar_file name="p_jar_file" type="file" accept="" targetrend="" multiple="true" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
                     <label>Jar File</label>
                     <value/>
                 </jar_file>
@@ -151,7 +151,7 @@
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>success|fa-upload</img>
                 </item>

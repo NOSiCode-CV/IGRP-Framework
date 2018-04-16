@@ -14,7 +14,7 @@
     			<xsl:variable name="tag_name">
 					<xsl:choose>
 						<xsl:when test="@type='hidden'">
-							<xsl:value-of select="@name"/>
+							<xsl:value-of select="@tag"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="name()"/>
@@ -47,7 +47,7 @@
     			<xsl:variable name="tag_name">
 					<xsl:choose>
 						<xsl:when test="@type='hidden'">
-							<xsl:value-of select="@name"/>
+							<xsl:value-of select="@tag"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="name()"/>
@@ -203,7 +203,7 @@
  			<xsl:variable name="tag_name">
 				<xsl:choose>
 					<xsl:when test="@type='hidden'">
-						<xsl:value-of select="@name"/>
+						<xsl:value-of select="@tag"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="name()"/>
@@ -234,7 +234,7 @@
  			<xsl:variable name="tag_name">
 				<xsl:choose>
 					<xsl:when test="@type='hidden'">
-						<xsl:value-of select="@name"/>
+						<xsl:value-of select="@tag"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="name()"/>

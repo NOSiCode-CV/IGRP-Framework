@@ -211,7 +211,7 @@ public class IGRPTable extends IGRPComponent{
 					String value= IgrpHelper.getValue(l,  field.propertie().getProperty("isLookup")=="true"  ? field.getValue().toString() : field.getName().toLowerCase());
 					if(Core.isNull(value))
 						value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());
-					this.xml.setElement("param", field.getName()+"="+ value);
+					this.xml.setElement("param", field.propertie().getProperty("name")+"="+ value);
 				}
 			}
 			this.xml.endElement();			
@@ -240,7 +240,7 @@ public class IGRPTable extends IGRPComponent{
 						value = (value==null||value.equals(""))?IgrpHelper.getValue(obj, field.getValue().toString()).toString():value;
 						value = (value==null||value.equals(""))?field.getValue().toString():value;
 						if(value!=null && !value.equals(""))
-							this.xml.setElement("param", field.getName()+"="+value);
+							this.xml.setElement("param", field.propertie().getProperty("name")+"="+value);
 					}
 				}
 				this.xml.endElement();

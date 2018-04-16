@@ -17,6 +17,7 @@ public abstract class IGRPComponent {
 	protected String tag_name;
 	protected FieldProperties properties;
 	protected String connectionName;
+	private boolean isVisible = true;
 	
 	public IGRPComponent(String tag_name,String title) {
 		this.tag_name = tag_name;
@@ -39,4 +40,12 @@ public abstract class IGRPComponent {
 	public void setTitle(String title){
 		this.properties.put("title", gt(title));
 	}
+	public boolean isVisible() {
+		return isVisible;
+	}
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+	
+	
 }

@@ -24,7 +24,7 @@
 						<xsl:value-of select="$tab"/>
 						<xsl:choose>
 							<xsl:when test="@type='hidden'">
-								<xsl:value-of select="concat('public Field ',@name,';')"/>
+								<xsl:value-of select="concat('public Field ',@tag,';')"/>
 							</xsl:when>
 							<xsl:when test="@type='checkbox' or @type='radio'">
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
@@ -43,7 +43,7 @@
 						<xsl:variable name="tag_name">
 							<xsl:choose>
 								<xsl:when test="@type='hidden'">
-									<xsl:value-of select="@name"/>
+									<xsl:value-of select="@tag"/>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:value-of select="name()"/>
@@ -199,7 +199,7 @@
 							<xsl:variable name="tag_name">
 								<xsl:choose>
 									<xsl:when test="@type='hidden'">
-										<xsl:value-of select="@name"/>
+										<xsl:value-of select="@tag"/>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="name()"/>

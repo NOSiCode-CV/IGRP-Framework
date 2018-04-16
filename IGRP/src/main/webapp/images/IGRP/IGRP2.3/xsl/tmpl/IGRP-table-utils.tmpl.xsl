@@ -95,7 +95,7 @@
 
     <div class="list-group table-context-menu clearfix table-ctx-holder" use-fa="{$use-fa}" >
         <xsl:for-each select="item">
-          <li id="CTX_ID_{position()}" class="operationTable " trel="{title}">
+          <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}">
             <xsl:call-template name="table-ctx-item">
               <xsl:with-param name="use-fa" select="$use-fa"/>
               <xsl:with-param name="class" select="'list-group-item'"/>
@@ -130,7 +130,7 @@
         <xsl:variable name="rowCtxHiddenTitle">
           <xsl:call-template name="ctxHiddenTitle">
             <xsl:with-param name="vText" select="$ctxHiddenContent"/>
-            <xsl:with-param name="ctx" select="title"/>
+            <xsl:with-param name="ctx" select="@rel"/>
             <xsl:with-param name="item" select="string-length($ctxHiddenTotal)"/>
           </xsl:call-template>
         </xsl:variable>

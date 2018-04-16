@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -250,24 +251,35 @@ public abstract class Model { // IGRP super model
 		}
 		
 		for(Field obj : fields) {
-			Map<String, List<String>> mapFk = new HashMap<String, List<String>>();
-			Map<String, List<String>> mapFkDesc = new HashMap<String, List<String>>();
+			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
+			
+			//System.out.println("NomeField: " + obj.getName());
 			
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
+			
+			//System.out.println("NomeAnnotation: " + c_.getName());
 			
 			List<String> aux = new ArrayList<String>();
 			 for(Field m : c_.getDeclaredFields()){
 					m.setAccessible(true);
 					aux.add(m.getName());
 					
-					String []values1 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk");
-					String []values2 = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk_desc");
+					String []values1 = (String[]) Core.getAttributeArray("p_" + m.getName() + "_fk");
+					String []values2 = (String[]) Core.getAttributeArray("p_" + m.getName() + "_fk_desc");
 					
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
 					
 					m.setAccessible(false);
+					
 			 }
+			 
+			/* 
+			 for(Map.Entry<String, List<String>> entry : mapFk.entrySet()) {
+				 System.out.println(entry.getKey() + " - " + Arrays.asList(entry.getValue()));
+			 }
+			*/
 			 
 			 ArrayList<Object> auxResults = new ArrayList<>();
 			 
@@ -277,21 +289,54 @@ public abstract class Model { // IGRP super model
 			 
 			 try {
 				
-				for(int i = 0; i < 1000 /* This will never happen ...*/; i++) {
-					Object obj2 = Class.forName(c_.getName()).newInstance();
-					for(Field m : obj2.getClass().getDeclaredFields()){
-						m.setAccessible(true);
-						try {
-							m.set(obj2, new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(i), mapFkDesc.get(m.getName()).get(i)));
-						}catch (IndexOutOfBoundsException e) {
-							 throw e; // Throw it again ... and catch it later ...
-						}
-						finally {
-							m.setAccessible(false);
-						}
+				
+				//for(int i = 0; i < 1000 && !error /* This will never happen ...*/; i++) {
+					//System.out.println("Total de iteração " + i);
+					//Object obj2 = Class.forName(c_.getName()).newInstance();
+					
+					//System.out.println(obj2.getClass());
+					
+					int row = 0;
+					
+					//String []arr_ = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + obj.getName() + "_id");
+					
+					int MAX_ITERATION =  1;
+					
+					for(List<String> list : mapFk.values()) { 
+						if(MAX_ITERATION < list.size())
+							MAX_ITERATION = list.size(); 
 					}
-					auxResults.add(obj2);
-				}
+					
+					while(row < MAX_ITERATION) {
+						
+						Object obj2 = Class.forName(c_.getName()).newInstance();
+						
+						for(Field m : obj2.getClass().getDeclaredFields()){
+							
+							//System.out.println(m.getName());
+							
+							m.setAccessible(true);
+							
+								try {
+									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(row), mapFkDesc.get(m.getName()).get(row)));
+								}catch (Exception e) {
+									//e.printStackTrace();
+									m.setAccessible(false);
+									continue;
+								}
+							
+							m.setAccessible(false);
+							
+						}
+						
+						auxResults.add(obj2);
+						
+						row++;
+						
+					}
+					
+				//}
+				
 				
 			} catch (ClassNotFoundException | InstantiationException e) {
 				e.printStackTrace();

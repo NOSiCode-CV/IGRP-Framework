@@ -20,6 +20,7 @@
         <xsl:for-each select="#path#/table/value/row">
           <tr gen-id="drop-zone" row="{position()}">
             <input type="hidden" name="p_#tag#_id" value="{#tag#_id}" />
+            <input type="hidden" name="p_#tag#_idx" value="{position()-1}" class="formlist-row-index"/>
             <gen-template name="table-rows-hiddens"/>
             <xsl:if test="not(@nodelete) or not(@noupdate)" gen-preserve="last">
               <td class="table-btn delete" data-row="{position()}">

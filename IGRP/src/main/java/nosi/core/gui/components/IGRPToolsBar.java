@@ -20,6 +20,7 @@ public class IGRPToolsBar {
 	protected XMLWritter xml;
 	protected String type = "toolsbar";
 	protected FieldProperties properties;
+	private boolean isVisible = true;
 	
 	public IGRPToolsBar(String tag_name) {
 		this.tag_name = tag_name;
@@ -44,6 +45,14 @@ public class IGRPToolsBar {
 
 	public void setProperties(FieldProperties properties) {
 		this.properties = properties;
+	}
+
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	public String toString(){

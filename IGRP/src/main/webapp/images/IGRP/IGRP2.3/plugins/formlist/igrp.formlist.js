@@ -114,6 +114,8 @@
                 var vObjTr  = getCloneRow(TABLE);
 
                 resetFildsRow(vObjTr);
+                
+                vObjTr.find('.formlist-row-index').val( vObjTr.attr('row') )
 
                 type == 'table' ? $("tbody",TABLE).append(vObjTr) : vObjTr.insertAfter(t);
 

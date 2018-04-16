@@ -15,11 +15,9 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import org.modelmapper.ModelMapper;
-
 import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.config.Connection;
@@ -567,16 +565,33 @@ public final class Core {	/** Not inherit
 		return 0;
 	}
 
+	public static Integer toInt(String value,int defaultValue) {
+		if(Core.isInt(value))
+			return Integer.parseInt(value);
+		return defaultValue;
+	}
 	public static Long toLong(String value) {
 		if(Core.isInt(value))
 			return Long.parseLong(value);
 		return (long) 0;
+	}
+
+	public static Long toLong(String value,long defaultValue) {
+		if(Core.isInt(value))
+			return Long.parseLong(value);
+		return defaultValue;
 	}
 	
 	public static Short toShort(String value) {
 		if(Core.isInt(value))
 			return Short.parseShort(value);
 		return 0;
+	}
+	
+	public static Short toShort(String value,short defaultValue) {
+		if(Core.isInt(value))
+			return Short.parseShort(value);
+		return defaultValue;
 	}
 	/**Verifies if the String is a Double, than returns the parse of it, else returns 0
 	 *  
@@ -588,6 +603,11 @@ public final class Core {	/** Not inherit
 		if(Core.isDouble(value))
 			return Double.parseDouble(value);
 		return 0.0;
+	}
+	public static Double toDouble(String value,double defaultValue) {
+		if(Core.isDouble(value))
+			return Double.parseDouble(value);
+		return defaultValue;
 	}
 	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
 	 * {@value}
@@ -601,13 +621,25 @@ public final class Core {	/** Not inherit
 			return Float.parseFloat(value);
 		return (float) 0;
 	}
+
+	public static Float toFloat(String value,float defaultValue) {
+		if(Core.isFloat(value))
+			return Float.parseFloat(value);
+		return defaultValue;
+	}
 	
 	public static QueryHelper insert(String connectionName,String tableName) {
 		return new QueryInsert(connectionName).insert(tableName);
 	}
-	
+	public static QueryHelper insert(String tableName) {
+		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
+	}
 	public static QueryHelper insert(String connectionName,String schemaName,String tableName) {
 		return new QueryInsert(connectionName).insert(schemaName,tableName);
+	}
+
+	public static QueryHelper update(String tableName) {
+		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
 	}
 	
 	public static QueryHelper update(String connectionName,String tableName) {
@@ -616,6 +648,10 @@ public final class Core {	/** Not inherit
 	
 	public static QueryHelper update(String connectionName,String schemaName,String tableName) {
 		return new QueryUpdate(connectionName).update(schemaName,tableName);
+	}
+
+	public static QueryHelper delete(String tableName) {
+		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
 	}
 	
 	public static QueryHelper delete(String connectionName,String tableName) {
@@ -762,20 +798,39 @@ public final class Core {	/** Not inherit
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 	
-	public static String getAttribute(String name) {
-		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
-			String v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-			Igrp.getInstance().getRequest().removeAttribute(name);
-			return v;
+//	public static String getAttribute(String name) {
+//		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
+//			String v = (String) Igrp.getInstance().getRequest().getAttribute(name);
+//			Igrp.getInstance().getRequest().removeAttribute(name);
+//			return v;
+//		}
+//		return null;
+//	}	
+	
+//	public static String[] getAttributeArray(String name) {
+//		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && Igrp.getInstance().getRequest().getAttribute(name) instanceof String[]) {
+//			String [] value = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
+//			Igrp.getInstance().getRequest().removeAttribute(name);
+//			return value;
+//		}
+//		return null;
+//	}
+
+	private static String getAttribute(String name) {
+		QueryString<String,Object> qs = (QueryString<String, Object>) Igrp.getInstance().getRequest().getAttribute("customQueryString");
+		if(qs != null) {
+			return qs.getQueryString().containsKey(name)?qs.getQueryString().get(name).stream().findFirst().get().toString():"";
 		}
 		return null;
-	}	
+	}
 	
 	public static String[] getAttributeArray(String name) {
-		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && Igrp.getInstance().getRequest().getAttribute(name) instanceof String[]) {
-			String [] value = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
-			Igrp.getInstance().getRequest().removeAttribute(name);
-			return value;
+		QueryString<String,Object> qs = (QueryString<String,Object>) Igrp.getInstance().getRequest().getAttribute("customQueryString");
+		if(qs != null) {
+			if(qs.getQueryString().containsKey(name)) {
+				List<Object> values = qs.getValues(name);
+				return values.toArray(new String[] {});
+			}
 		}
 		return null;
 	}
