@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=64</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=67</preserve_url>
     </plsql>
     <content>
         <title>Registar tbl_tipo_documento</title>
@@ -54,9 +54,9 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentoform/Tbl_tipo_documentoForm.xml</preview>
             </item>
         </toolsbar_1>
-        <form_1 type="form" xml-type="form" title="Registar Tipo Documento" gen-type="container" gen-group="">
+        <form_1 type="form" xml-type="form" title="Registar Tipo de Documento" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" domain="" maxlength="11" required="true" change="false" disabled="false" right="false" java-type="int">
+                <env_fk name="p_env_fk" type="select" maxlength="11" required="true" java-type="int" multiple="false" domain="" change="false" disabled="false" right="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -80,23 +80,19 @@
                 </env_fk>
                 <codigo name="p_codigo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Codigo</label>
-                    <value>Unde sed laudantium elit totam</value>
+                    <value>Deserunt ut stract officia aliqua</value>
                 </codigo>
                 <descricao name="p_descricao" type="text" maxlength="500" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descricao</label>
-                    <value>Elit sed mollit voluptatem perspiciatis</value>
+                    <value>Accusantium iste perspiciatis deserunt labore</value>
                 </descricao>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Sit natus aperiam accusantium stract</value>
+                    <value>Consectetur sit deserunt perspiciatis ipsum</value>
                 </nome>
-                <tipo name="p_tipo" type="text" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Tipo</label>
-                    <value>Natus doloremque ips</value>
-                </tipo>
-                <status name="p_status" type="checkbox" maxlength="11" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
+                <status name="p_status" type="number" maxlength="11" required="true" java-type="int" min="" max="" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Status</label>
-                    <value>1</value>
+                    <value>2</value>
                 </status>
                 <hidden name="p_id" type="hidden" java-type="int" maxlength="30" tag="id"/>
             </fields>

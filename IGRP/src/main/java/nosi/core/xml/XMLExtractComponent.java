@@ -16,8 +16,10 @@ import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.TaskComponent;
 
 /**
@@ -223,164 +225,15 @@ public class XMLExtractComponent {
 	}
 	
 	public String addSepratorListXsl() {
-		return " <xsl:if test=\"rows/content/formlist_documento_task\">\r\n" + 
-				"                          <div class=\"box box-table-contents gen-container-item \" gen-class=\"\" item-name=\"formlist_documento_task\">\r\n" + 
-				"                            <div class=\"box-body table-box\">\r\n" + 
-				"                              <xsl:apply-templates mode=\"form-hidden-fields\" select=\"rows/content/formlist_documento_task/fields\"/>\r\n" + 
-				"                              <table id=\"formlist_documento_task\" class=\"table table-striped gen-data-table IGRP_formlist noupdate \" rel=\"T_formlist_documento_task\" data-control=\"data-formlist_documento_task\">\r\n" + 
-				"                                <thead>\r\n" + 
-				"                                  <tr>\r\n" + 
-				"                                    <xsl:if test=\"rows/content/formlist_documento_task/fields/nome\">\r\n" + 
-				"                                      <th align=\"\" class=\" gen-fields-holder\">\r\n" + 
-				"                                        <span>\r\n" + 
-				"                                          <xsl:value-of select=\"rows/content/formlist_documento_task/fields/nome/label\"/>\r\n" + 
-				"                                        </span>\r\n" + 
-				"                                      </th>\r\n" + 
-				"                                    </xsl:if>\r\n" + 
-				"                                    <xsl:if test=\"rows/content/formlist_documento_task/fields/descricao\">\r\n" + 
-				"                                      <th align=\"\" class=\" gen-fields-holder\">\r\n" + 
-				"                                        <span>\r\n" + 
-				"                                          <xsl:value-of select=\"rows/content/formlist_documento_task/fields/descricao/label\"/>\r\n" + 
-				"                                        </span>\r\n" + 
-				"                                      </th>\r\n" + 
-				"                                    </xsl:if>\r\n" + 
-				"                                    <xsl:if test=\"rows/content/formlist_documento_task/fields/obrigatoriedade\">\r\n" + 
-				"                                      <th align=\"\" class=\" gen-fields-holder\">\r\n" + 
-				"                                        <span>\r\n" + 
-				"                                          <xsl:value-of select=\"rows/content/formlist_documento_task/fields/obrigatoriedade/label\"/>\r\n" + 
-				"                                        </span>\r\n" + 
-				"                                      </th>\r\n" + 
-				"                                    </xsl:if>\r\n" + 
-				"                                    <xsl:if test=\"rows/content/formlist_documento_task/fields/documento\">\r\n" + 
-				"                                      <th align=\"\" class=\" gen-fields-holder\">\r\n" + 
-				"                                        <span>\r\n" + 
-				"                                          <xsl:value-of select=\"rows/content/formlist_documento_task/fields/documento/label\"/>\r\n" + 
-				"                                        </span>\r\n" + 
-				"                                      </th>\r\n" + 
-				"                                    </xsl:if>\r\n" + 
-				"                                    <xsl:if test=\"rows/content/formlist_documento_task/fields/mostrar\">\r\n" + 
-				"                                      <th align=\"\" class=\" gen-fields-holder\">\r\n" + 
-				"                                        <span>\r\n" + 
-				"                                          <xsl:value-of select=\"rows/content/formlist_documento_task/fields/mostrar/label\"/>\r\n" + 
-				"                                        </span>\r\n" + 
-				"                                      </th>\r\n" + 
-				"                                    </xsl:if>\r\n" + 
-				"                                    <xsl:if test=\"not(rows/content/formlist_documento_task/table/value/row[position() = 1]/@noupdate) or not(rows/content/formlist_documento_task/table/value/row[position() = 1]/@nodelete)\">\r\n" + 
-				"                                      <th class=\"table-btn add\">\r\n" + 
-				"                                        <xsl:if test=\"not(rows/content/formlist_documento_task/table/value/row[position() = 1]/@noupdate)\">\r\n" + 
-				"                                          <a class=\"formlist-row-add btn btn-primary\" rel=\"formlist_documento_task\">\r\n" + 
-				"                                            <i class=\"fa fa-plus\"/>\r\n" + 
-				"                                          </a>\r\n" + 
-				"                                        </xsl:if>\r\n" + 
-				"                                      </th>\r\n" + 
-				"                                    </xsl:if>\r\n" + 
-				"                                  </tr>\r\n" + 
-				"                                </thead>\r\n" + 
-				"                                <tbody>\r\n" + 
-				"                                  <xsl:for-each select=\"rows/content/formlist_documento_task/table/value/row\">\r\n" + 
-				"                                    <tr row=\"{position()}\">\r\n" + 
-				"                                      <input type=\"hidden\" name=\"p_formlist_documento_task_id\" value=\"{formlist_documento_task_id}\"/>\r\n" + 
-				"                                      <xsl:if test=\"nome\">\r\n" + 
-				"                                        <xsl:if test=\"not(nome/@visible)\">\r\n" + 
-				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../fields/nome/label}\" class=\"text\" item-name=\"nome\">\r\n" + 
-				"                                            <input type=\"hidden\" name=\"{../../../fields/nome/@name}_fk_desc\" value=\"{nome_desc}\"/>\r\n" + 
-				"                                            <div class=\"form-group\" item-name=\"nome\" item-type=\"text\">\r\n" + 
-				"                                              <input type=\"text\" name=\"{../../../fields/nome/@name}_fk\" value=\"{nome}\" class=\"text form-control\" rel=\"F_formlist_documento_task\" readonly=\"readonly\">\r\n" + 
-				"                                                <xsl:call-template name=\"setAttributes\">\r\n" + 
-				"                                                  <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/nome\"/>\r\n" + 
-				"                                                </xsl:call-template>\r\n" + 
-				"                                              </input>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                          </td>\r\n" + 
-				"                                        </xsl:if>\r\n" + 
-				"                                      </xsl:if>\r\n" + 
-				"                                      <xsl:if test=\"descricao\">\r\n" + 
-				"                                        <xsl:if test=\"not(descricao/@visible)\">\r\n" + 
-				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../fields/descricao/label}\" class=\"text\" item-name=\"descricao\">\r\n" + 
-				"                                            <input type=\"hidden\" name=\"{../../../fields/descricao/@name}_fk_desc\" value=\"{descricao_desc}\"/>\r\n" + 
-				"                                            <div class=\"form-group\" item-name=\"descricao\" item-type=\"text\">\r\n" + 
-				"                                              <input type=\"text\" name=\"{../../../fields/descricao/@name}_fk\" value=\"{descricao}\" class=\"text form-control\" rel=\"F_formlist_documento_task\" readonly=\"readonly\">\r\n" + 
-				"                                                <xsl:call-template name=\"setAttributes\">\r\n" + 
-				"                                                  <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/descricao\"/>\r\n" + 
-				"                                                </xsl:call-template>\r\n" + 
-				"                                              </input>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                          </td>\r\n" + 
-				"                                        </xsl:if>\r\n" + 
-				"                                      </xsl:if>\r\n" + 
-				"                                      <xsl:if test=\"obrigatoriedade\">\r\n" + 
-				"                                        <xsl:if test=\"not(obrigatoriedade/@visible)\">\r\n" + 
-				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../fields/obrigatoriedade/label}\" class=\"text\" item-name=\"obrigatoriedade\">\r\n" + 
-				"                                            <input type=\"hidden\" name=\"{../../../fields/obrigatoriedade/@name}_fk_desc\" value=\"{obrigatoriedade_desc}\"/>\r\n" + 
-				"                                            <div class=\"form-group\" item-name=\"obrigatoriedade\" item-type=\"text\">\r\n" + 
-				"                                              <input type=\"text\" name=\"{../../../fields/obrigatoriedade/@name}_fk\" value=\"{obrigatoriedade}\" class=\"text form-control\" rel=\"F_formlist_documento_task\" readonly=\"readonly\">\r\n" + 
-				"                                                <xsl:call-template name=\"setAttributes\">\r\n" + 
-				"                                                  <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/obrigatoriedade\"/>\r\n" + 
-				"                                                </xsl:call-template>\r\n" + 
-				"                                              </input>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                          </td>\r\n" + 
-				"                                        </xsl:if>\r\n" + 
-				"                                      </xsl:if>\r\n" + 
-				"                                      <xsl:if test=\"documento\">\r\n" + 
-				"                                        <xsl:if test=\"not(documento/@visible)\">\r\n" + 
-				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../../fields/documento/label}\" class=\"file\" item-name=\"documento\">\r\n" + 
-				"                                            <input type=\"hidden\" name=\"{../../../fields/documento/@name}_fk_desc\" value=\"{documento_desc}\"/>\r\n" + 
-				"                                            <div class=\"form-group\" item-name=\"documento\" item-type=\"file\">\r\n" + 
-				"                                              <div class=\"input-group\">\r\n" + 
-				"                                                <input type=\"text\" class=\"form-control form-hidden\" readonly=\"\"/>\r\n" + 
-				"                                                <span class=\"input-group-btn\">\r\n" + 
-				"                                                  <span class=\"btn btn-default file-btn-holder\">\r\n" + 
-				"                                                    <i class=\"fa fa-upload\"/>\r\n" + 
-				"                                                    <input id=\"{../../../fields/documento/@name}_fk\" name=\"{../../../fields/documento/@name}_fk\" value=\"{documento}\" class=\"transparent\" type=\"file\" accept=\"\" rel=\"F_formlist_documento_task\">\r\n" + 
-				"                                                      <xsl:call-template name=\"setAttributes\">\r\n" + 
-				"                                                        <xsl:with-param name=\"field\" select=\"rows/content/formlist_documento_task/fields/documento\"/>\r\n" + 
-				"                                                      </xsl:call-template>\r\n" + 
-				"                                                    </input>\r\n" + 
-				"                                                  </span>\r\n" + 
-				"                                                </span>\r\n" + 
-				"                                              </div>\r\n" + 
-				"                                            </div>\r\n" + 
-				"                                          </td>\r\n" + 
-				"                                        </xsl:if>\r\n" + 
-				"                                      </xsl:if>\r\n" + 
-				"                                      <xsl:if test=\"mostrar\">\r\n" + 
-				"                                        <xsl:if test=\"not(mostrar/@visible)\">\r\n" + 
-				"                                          <td align=\"\" data-row=\"{position()}\" data-title=\"{../../../fields/mostrar/label}\" class=\"link\" item-name=\"mostrar\">\r\n" + 
-				"                                            <input type=\"hidden\" name=\"{../../../fields/mostrar/@name}_fk_desc\" value=\"{mostrar_desc}\"/>\r\n" + 
-				"                                            <input type=\"hidden\" name=\"{../../../fields/mostrar/@name}_fk\" value=\"{mostrar}\" rel=\"F_formlist_documento_task\"/>\r\n" + 
-				"                                            <xsl:choose>\r\n" + 
-				"                                              <xsl:when test=\"mostrar != ''\">\r\n" + 
-				"                                                <a href=\"{mostrar}\" name=\"p_mostrar\" class=\"link  btn btn-link form-link\" target-fields=\"\" target=\"_self\">\r\n" + 
-				"                                                  <i class=\"fa fa-link\"/>\r\n" + 
-				"                                                  <span>\r\n" + 
-				"                                                    <xsl:value-of select=\"mostrar_desc\"/>\r\n" + 
-				"                                                  </span>\r\n" + 
-				"                                                </a>\r\n" + 
-				"                                              </xsl:when>\r\n" + 
-				"                                              <xsl:otherwise>\r\n" + 
-				"                                                <xsl:value-of select=\"mostrar_desc\"/>\r\n" + 
-				"                                              </xsl:otherwise>\r\n" + 
-				"                                            </xsl:choose>\r\n" + 
-				"                                          </td>\r\n" + 
-				"                                        </xsl:if>\r\n" + 
-				"                                      </xsl:if>\r\n" + 
-				"                                      <xsl:if test=\"not(@nodelete) or not(@noupdate)\">\r\n" + 
-				"                                        <td class=\"table-btn delete\" data-row=\"{position()}\">\r\n" + 
-				"                                          <xsl:if test=\"not(@nodelete)\">\r\n" + 
-				"                                            <span class=\"formlist-row-remove btn btn-danger\" rel=\"formlist_documento_task\">\r\n" + 
-				"                                              <i class=\"fa fa-times\"/>\r\n" + 
-				"                                            </span>\r\n" + 
-				"                                          </xsl:if>\r\n" + 
-				"                                        </td>\r\n" + 
-				"                                      </xsl:if>\r\n" + 
-				"                                    </tr>\r\n" + 
-				"                                  </xsl:for-each>\r\n" + 
-				"                                </tbody>\r\n" + 
-				"                              </table>\r\n" + 
-				"                            </div>\r\n" + 
-				"                          </div>\r\n" + 
-				"                        </xsl:if>";
+		String page = "Addfiletask";
+		Action ac = new Action().find().andWhere("page", "=",page).andWhere("application.dad", "=","igrp").one();
+		if(ac!=null) {
+			String path = new Config().getBaseServerPahtXsl(ac);
+			String content = FileHelper.readFile(path, page+".xsl");
+			String c = content.substring(content.indexOf("<xsl:if test=\"rows/content/formlist_documento_task\">"),content.lastIndexOf("</xsl:if>"))+"</xsl:if>";
+			return c;
+		}
+		return "";
 	}
 	
 	public String removeXMLButton(String content) {

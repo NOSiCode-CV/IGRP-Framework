@@ -39,6 +39,10 @@ public abstract class Controller{
 		this.responseWrapper = responseWrapper;
 	}
 	
+	protected void restartQueryString() {
+		queryString = new QueryString<>();
+	}
+	
 	protected QueryString<String,Object> queryString() {
 		return this.queryString;
 	}
@@ -46,7 +50,10 @@ public abstract class Controller{
 	protected QueryString<String,Object> addQueryString(String name,Object value) {
 		return this.queryString().addQueryString(name, value);
 	}
-
+	protected QueryString<String,Object> removeQueryString(String key) {
+		return this.queryString.removeQueryString(key);
+	}
+	
 	protected String[] getQueryArray(String name) {
 		return Core.getParamArray(name);
 	}
@@ -121,9 +128,10 @@ public abstract class Controller{
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
 	
-	private void setQueryString(QueryString<String,Object> queryString2) {
+	private void setQueryString(QueryString<String,Object> queryString) {
+		qs = "";
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			this.queryString.getQueryString().entrySet().stream().forEach(q->{
+			queryString.getQueryString().entrySet().stream().forEach(q->{
 				q.getValue().stream().forEach(q1->{
 					qs += "&"+q.getKey()+"="+q1.toString();
 				});					
@@ -133,7 +141,9 @@ public abstract class Controller{
 
 	private void setQueryStringToAttributes(QueryString<String,Object> queryString) {
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			Core.setAttribute("customQueryString", queryString);
+			queryString.getQueryString().entrySet().stream().forEach(qs->{
+				Core.setAttribute(qs.getKey(), qs.getValue().toArray());
+			});
 		}
 	}
 	protected final Response redirect(String app, String page, String action, String qs) throws IOException{

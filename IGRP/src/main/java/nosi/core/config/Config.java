@@ -343,7 +343,7 @@ public class Config {
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
 			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
-		if(APP_LINK_IMAGE!=null) {
+		if(APP_LINK_IMAGE!=null && page!=null) {
 			APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
 			return APP_LINK_IMAGE + "images"+ SEPARATOR_FOR_HTTP +"IGRP"+ SEPARATOR_FOR_HTTP + "IGRP" + page.getVersion() + SEPARATOR_FOR_HTTP + "app"+ SEPARATOR_FOR_HTTP +page.getApplication().getDad().toLowerCase() + SEPARATOR_FOR_HTTP + page.getPage().toLowerCase();
 		}

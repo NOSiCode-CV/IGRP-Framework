@@ -2,6 +2,8 @@ package nosi.core.webapp;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -10,11 +12,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import org.modelmapper.ModelMapper;
@@ -56,6 +63,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
 import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author: Emanuel Pereira
  * 13 Nov 2017
@@ -794,43 +802,32 @@ public final class Core {	/** Not inherit
 		return value;
 	}
 	
+	public static void removeAttribute(String name) {
+		Igrp.getInstance().getRequest().removeAttribute(name);
+	}
 	public static void setAttribute(String name,Object value) {
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 	
-//	public static String getAttribute(String name) {
-//		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
-//			String v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-//			Igrp.getInstance().getRequest().removeAttribute(name);
-//			return v;
-//		}
-//		return null;
-//	}	
-	
-//	public static String[] getAttributeArray(String name) {
-//		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && Igrp.getInstance().getRequest().getAttribute(name) instanceof String[]) {
-//			String [] value = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
-//			Igrp.getInstance().getRequest().removeAttribute(name);
-//			return value;
-//		}
-//		return null;
-//	}
-
-	private static String getAttribute(String name) {
-		QueryString<String,Object> qs = (QueryString<String, Object>) Igrp.getInstance().getRequest().getAttribute("customQueryString");
-		if(qs != null) {
-			return qs.getQueryString().containsKey(name)?qs.getQueryString().get(name).stream().findFirst().get().toString():"";
+	public static String getAttribute(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
+			String v = null;
+			if(Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
+				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
+			else				
+			    v = (String) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return v;
 		}
 		return null;
-	}
+	}	
 	
 	public static String[] getAttributeArray(String name) {
-		QueryString<String,Object> qs = (QueryString<String,Object>) Igrp.getInstance().getRequest().getAttribute("customQueryString");
-		if(qs != null) {
-			if(qs.getQueryString().containsKey(name)) {
-				List<Object> values = qs.getValues(name);
-				return values.toArray(new String[] {});
-			}
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[] ||Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])) {
+			Object[] valueO = (Object[]) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			String[] valueS = Arrays.copyOf(valueO, valueO.length, String[].class);
+			return valueS;
 		}
 		return null;
 	}
@@ -986,6 +983,7 @@ public final class Core {	/** Not inherit
 		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
+		file.deleteOnExit(); // Throws SecurityException if dont have permission to delete 
 		if(conn != null) {
 			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
@@ -1017,11 +1015,41 @@ public final class Core {	/** Not inherit
 				}
 			}
 		}
+		try {
+			file.delete();
+		}catch(Exception e) {e.printStackTrace();}
+		
 		return lastInsertedId;
 	}
 	
 	public static int saveFile(File file) {
 		return saveFile(file, null, null);
+	}
+	
+	public static int saveFile(byte[] content, String name, String extension, String mime_type) {
+		try {
+			if(!extension.startsWith(".")) throw new IllegalArgumentException("Extension of file is invalid.");
+			File file = File.createTempFile(name, extension);
+			FileOutputStream out = new FileOutputStream(file);
+			out.write(content);
+			out.flush();
+			out.close();
+			return saveFile(file, name, mime_type);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	public static int saveFile(byte[] content, String name, String mime_type) {
+		try {
+			String aux[] = name.trim().split("\\.");
+			String extension = aux[aux.length - 1];
+			return saveFile(content, name, "."+extension, mime_type);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 	public static CLob getFile(int fileId) {
@@ -1068,5 +1096,17 @@ public final class Core {	/** Not inherit
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
 		return null;
 	}
-	/** **/
+	/**
+	 * @throws ServletException 
+	 * @throws IOException  **/
+	public static List<Part> getFiles() throws IOException, ServletException {
+		Collection<Part> parts =  Igrp.getInstance().getRequest().getParts();
+		if(parts != null) {
+			return parts.stream()
+						 .filter(file->Core.isNotNull(file.getSubmittedFileName()))
+						 .filter(file->Core.isNotNull(file.getName()))
+						 .collect(Collectors.toList());
+		}
+		return null;
+	}
 }

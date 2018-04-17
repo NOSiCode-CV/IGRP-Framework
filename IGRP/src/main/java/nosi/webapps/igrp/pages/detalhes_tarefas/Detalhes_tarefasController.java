@@ -6,7 +6,12 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 import com.google.gson.Gson;
+
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -15,14 +20,13 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.Rows;
-import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
-import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 /*----#END-PRESERVED-AREA----*/
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 public class Detalhes_tarefasController extends Controller {
 
@@ -46,6 +50,7 @@ public class Detalhes_tarefasController extends Controller {
 	private String generateCustomFormTask(TaskServiceQuery task) {
 		Gson gson = new Gson();
 		HistoricTaskService history = new HistoricTaskService();
+		List<HistoricTaskService> histories = history.getHistory(task.getId());
 		history.setFilter("processFinished=true");
 		boolean processFinished = history.getHistory(task.getId()).size() > 0;
 		XMLExtractComponent comp = new XMLExtractComponent();
@@ -73,6 +78,7 @@ public class Detalhes_tarefasController extends Controller {
 				}
 			}
 		}
+		this.setLinkDocumentsTask(task, histories);
 		Response resp = this.call(app, page, "index",this.queryString());
 		String content = comp.removeXMLButton(resp.getContent());
 		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+task.getTenantId(), "utf-8");
@@ -84,60 +90,64 @@ public class Detalhes_tarefasController extends Controller {
 			xml.addXml(comp.generateButtonEditTask(task.getId()).toString());
 		}
 		IGRPSeparatorList sep = comp.addFormlistFile();
-		sep.addRowsXMl(this.generateDocumentsTask(task,history,processFinished));
 		xml.addXml(sep.toString());
 		xml.addXml(content);
+		xml.addXml(comp.extractXML(this.call("igrp", "Addfiletask", "index", this.queryString()).getContent()));
 		xml.endElement();
 		return xml.toString();	
 	}
-
-	
-	public Response actionGetFile() throws IOException {
-		String url = Igrp.getInstance().getRequest().getParameter("url");
-		String fileName = Igrp.getInstance().getRequest().getParameter("fileName");
-		FileRest content = new TaskService().getFile(url);
-		content.setFileName(fileName);
-		return this.xSend(content,fileName, content.getContentType(), true);
-	}
 	
 	
-	private String generateDocumentsTask(TaskServiceQuery task, HistoricTaskService history,boolean processFinished) {
-		XMLWritter xml = new XMLWritter();
+	private void setLinkDocumentsTask(TaskServiceQuery task, List<HistoricTaskService> history) {		
 		try {
-			history.setFilter("");
-			List<TaskVariables> variables = history.getHistory(task.getId()).get(0).getVariables(); 
-			if(variables !=null) {
-				variables.stream()
-				 		 .filter(v->v.getType().equalsIgnoreCase("binary"))
-				 		 .forEach(v->{				
-							 String[] file_desc = v.getName().split("___");
-							 xml.startElement("row");
-								 if(processFinished) {
-									 xml.writeAttribute("nodelete", "");
-									 xml.writeAttribute("noupdate", "");		
-								 }
-								 xml.setElement("prm_file_name",file_desc[0]);
-								 xml.setElement("prm_file_name_desc",file_desc[0]);
-								 xml.setElement("prm_file_description",file_desc[1]);
-								 xml.setElement("prm_file_description_desc",file_desc[1]);
-								 xml.startElement("prm_file_name_fk");
-							 		xml.writeAttribute("name", "p_prm_file_name_fk");
-							 		xml.writeAttribute("type", "link");
-							 		xml.writeAttribute("target", "_newtab");
-							 		xml.text(this.getConfig().getResolveUrl("igrp", "Detalhes_tarefas", "get-file&url="+v.getValueUrl()+"&fileName="+file_desc[2]));
-							 	xml.endElement();		 	
-			
-							 	xml.startElement("prm_file_name_fk_desc");
-							 		xml.writeAttribute("name", "p_prm_file_name_fk_desc");
-							 		xml.writeAttribute("type", "link");
-							 		xml.text(file_desc[2]);
-							 	xml.endElement();			 	
-							 xml.endElement();
-			 	 });
+			if(history!=null && !history.isEmpty()) {
+				List<TaskVariables> variables = history.get(0).getVariables(); 
+				if(variables !=null) {
+					this.removeOldQueryString();
+					List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
+							.find()
+							.andWhere("processId", "=",Core.isNotNull(task.getProcessDefinitionKey())?task.getProcessDefinitionKey():"-1")
+							.andWhere("taskId", "=",Core.isNotNull(task.getTaskDefinitionKey())?task.getTaskDefinitionKey():"-1")
+							.andWhere("tipoDocumento.application", "=",Core.toInt(task.getTenantId()))
+							.andWhere("status", "=",1)
+							.andWhere("tipo", "=","IN")
+							.all();
+					tipoDocs.stream().forEach(doc->{			 			 	
+						variables.stream()
+						 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
+						 		 .forEach(v->{
+										this.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
+										this.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
+										this.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
+										this.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
+										this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
+										this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
+										this.addQueryString("p_formlist_documento_task_documento_fk_desc", v.getName());
+										this.addQueryString("p_formlist_documento_task_documento_fk", v.getName());
+							 			this.addQueryString("formlist_documento_task_documento_fk",v.getName());
+						 			 	this.addQueryString("formlist_documento_task_documento_fk_desc",v.getName());
+										this.addQueryString("p_formlist_documento_task_mostrar_fk",new Config().getResolveUrl("igrp","Addfiletask","index").replaceAll("&", "&amp;")+"&amp;taskid="+history.get(0).getId()+"&amp;filename="+v.getName());
+										this.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
+						 		 });
+					});					
+				}
 			}
 		}catch(NullPointerException e) {}
-		return xml.toString();
 	}
-
+	
+	private void removeOldQueryString() {
+		this.removeQueryString("p_formlist_documento_task_mostrar_fk");
+		this.removeQueryString("p_formlist_documento_task_mostrar_fk_desc");
+		this.removeQueryString("p_formlist_documento_task_nome_fk");
+		this.removeQueryString("p_formlist_documento_task_nome_fk_desc");
+		this.removeQueryString("p_formlist_documento_task_descricao_fk");
+		this.removeQueryString("p_formlist_documento_task_descricao_fk_desc");
+		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk");
+		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc");
+	}
+	private String getObrigatoriedade(int required) {
+		return required==1?"Sim":"Nao";
+	}
 	/*----#END-PRESERVED-AREA----*/
+
 }

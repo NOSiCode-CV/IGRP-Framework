@@ -26,8 +26,7 @@ public class Tbl_tipo_documentoList extends Model{
 		private String descricao;
 		private String nome;
 		private int status;
-		private String tipo;
-		private String env_fk;
+		private String aplicacao;
 		public void setId(String id){
 			this.id = id;
 		}
@@ -63,18 +62,11 @@ public class Tbl_tipo_documentoList extends Model{
 			return this.status;
 		}
 
-		public void setTipo(String tipo){
-			this.tipo = tipo;
+		public void setAplicacao(String aplicacao){
+			this.aplicacao = aplicacao;
 		}
-		public String getTipo(){
-			return this.tipo;
-		}
-
-		public void setEnv_fk(String env_fk){
-			this.env_fk = env_fk;
-		}
-		public String getEnv_fk(){
-			return this.env_fk;
+		public String getAplicacao(){
+			return this.aplicacao;
 		}
 
 	}

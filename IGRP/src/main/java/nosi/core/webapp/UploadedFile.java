@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.Part;
 
@@ -42,8 +43,8 @@ public final class UploadedFile {
 		return file;
 	}
 	
-	public static UploadedFile[] getInstances() {
-		UploadedFile []files = null;
+	public static List<UploadedFile> getInstances() {
+		List<UploadedFile> files = new ArrayList<UploadedFile>();
 		try {
 			ArrayList<Part> list = new ArrayList<Part>(Igrp.getInstance().getRequest().getParts());
 			
@@ -56,11 +57,18 @@ public final class UploadedFile {
 				aux.type = obj.getContentType();
 				//aux.extension = aux.type.split("/")[1];
 				aux.size = obj.getSize();
-				files[i++] = aux;
+				aux.in = obj.getInputStream();
+				files.add(aux);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return files;
+	}
+	
+	public static List<UploadedFile> getInstances(String name) {
+		List<UploadedFile> files = getInstances();
+		files.removeIf((file) -> !file.getFileName().equalsIgnoreCase(name));
 		return files;
 	}
 	

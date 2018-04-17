@@ -31,8 +31,6 @@ public class TipoDocumento extends BaseActiveRecord<TipoDocumento> implements Se
 	private Integer id;
 	@Column(length=100,nullable=false)
 	private String nome;
-	@Column(length=20,nullable=false)
-	private String tipo;
 	private int status;
 	@Column(length=500)
 	private String descricao;
@@ -44,11 +42,10 @@ public class TipoDocumento extends BaseActiveRecord<TipoDocumento> implements Se
 	
 	
 	
-	public TipoDocumento(String nome, String tipo, int status, String descricao, String codigo,
+	public TipoDocumento(String nome, int status, String descricao, String codigo,
 			Application application) {
 		super();
 		this.nome = nome;
-		this.tipo = tipo;
 		this.status = status;
 		this.descricao = descricao;
 		this.codigo = codigo;
@@ -71,12 +68,7 @@ public class TipoDocumento extends BaseActiveRecord<TipoDocumento> implements Se
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+	
 	public int getStatus() {
 		return status;
 	}
@@ -106,7 +98,7 @@ public class TipoDocumento extends BaseActiveRecord<TipoDocumento> implements Se
 
 	@Override
 	public String toString() {
-		return "TipoDocumento [id=" + id + ", nome=" + nome + ", tipo=" + tipo + ", status=" + status + ", descricao="
+		return "TipoDocumento [id=" + id + ", nome=" + nome + ", status=" + status + ", descricao="
 				+ descricao + ", codigo=" + codigo + "]";
 	}
 }

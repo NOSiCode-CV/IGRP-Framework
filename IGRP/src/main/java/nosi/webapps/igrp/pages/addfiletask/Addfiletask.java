@@ -22,44 +22,44 @@ public class Addfiletask extends Model{
 
 
 	public static class Formlist_documento_task{
-		private Pair nome;
-		private Pair descricao;
-		private Pair obrigatoriedade;
-		private Pair documento;
-		private Pair mostrar;
-		public void setNome(Pair nome){
-			this.nome = nome;
+		private Pair formlist_documento_task_nome;
+		private Pair formlist_documento_task_descricao;
+		private Pair formlist_documento_task_obrigatoriedade;
+		private Pair formlist_documento_task_documento;
+		private Pair formlist_documento_task_mostrar;
+		public void setFormlist_documento_task_nome(Pair formlist_documento_task_nome){
+			this.formlist_documento_task_nome = formlist_documento_task_nome;
 		}
-		public Pair getNome(){
-			return this.nome;
-		}
-
-		public void setDescricao(Pair descricao){
-			this.descricao = descricao;
-		}
-		public Pair getDescricao(){
-			return this.descricao;
+		public Pair getFormlist_documento_task_nome(){
+			return this.formlist_documento_task_nome;
 		}
 
-		public void setObrigatoriedade(Pair obrigatoriedade){
-			this.obrigatoriedade = obrigatoriedade;
+		public void setFormlist_documento_task_descricao(Pair formlist_documento_task_descricao){
+			this.formlist_documento_task_descricao = formlist_documento_task_descricao;
 		}
-		public Pair getObrigatoriedade(){
-			return this.obrigatoriedade;
-		}
-
-		public void setDocumento(Pair documento){
-			this.documento = documento;
-		}
-		public Pair getDocumento(){
-			return this.documento;
+		public Pair getFormlist_documento_task_descricao(){
+			return this.formlist_documento_task_descricao;
 		}
 
-		public void setMostrar(Pair mostrar){
-			this.mostrar = mostrar;
+		public void setFormlist_documento_task_obrigatoriedade(Pair formlist_documento_task_obrigatoriedade){
+			this.formlist_documento_task_obrigatoriedade = formlist_documento_task_obrigatoriedade;
 		}
-		public Pair getMostrar(){
-			return this.mostrar;
+		public Pair getFormlist_documento_task_obrigatoriedade(){
+			return this.formlist_documento_task_obrigatoriedade;
+		}
+
+		public void setFormlist_documento_task_documento(Pair formlist_documento_task_documento){
+			this.formlist_documento_task_documento = formlist_documento_task_documento;
+		}
+		public Pair getFormlist_documento_task_documento(){
+			return this.formlist_documento_task_documento;
+		}
+
+		public void setFormlist_documento_task_mostrar(Pair formlist_documento_task_mostrar){
+			this.formlist_documento_task_mostrar = formlist_documento_task_mostrar;
+		}
+		public Pair getFormlist_documento_task_mostrar(){
+			return this.formlist_documento_task_mostrar;
 		}
 
 	}

@@ -7,9 +7,13 @@ import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.ResultSet;
+
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import javax.persistence.Tuple;
+import javax.servlet.jsp.jstl.sql.Result;
+
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
@@ -31,6 +35,7 @@ public class LookupListPageController extends Controller {
 		model.loadTable_1(Core.query(null,"SELECT 'nome_pagina' as nome_pagina,'descricao' as descricao,'id' as id "));
 		
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
@@ -66,7 +71,7 @@ public class LookupListPageController extends Controller {
 					"       THEN 1 " + 
 					"       ELSE 0 " + 
 					"  END as obrigatorio_check, "
-					+ "nome as nome,descricao as descricao_documento,tipo as tipo_documento FROM public.tbl_tipo_documento tp")
+					+ "nome as nome,descricao as descricao_documento FROM public.tbl_tipo_documento tp")
 					.where("tp.status=:status AND tp.env_fk=:env_fk")
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
@@ -76,6 +81,7 @@ public class LookupListPageController extends Controller {
 		}
 		view.id.setParam(true);
 		view.env_fk.setLabel("Aplicação");
+        view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "),"--- Selecionar Tipo ---");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista1);
 		view.btn_pesquisar.setLink("index");
@@ -92,14 +98,17 @@ public class LookupListPageController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","LookupListPage","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","LookupListPage","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
 		/*----#start-code(gravar)----*/
+		ResultSet result  = new ResultSet();
 		if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 			this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
-			Core.update("tbl_tipo_documento_etapa")
+			result = Core.update("tbl_tipo_documento_etapa")
 				.addInt("status", 0)
 				.where("processid=:processid AND taskid=:taskid")
 				.addString("processid", model.getProcessid())
@@ -108,7 +117,6 @@ public class LookupListPageController extends Controller {
 			if(model.getFormlist_1() !=null) {
 				for(Formlist_1 td:model.getFormlist_1()) {
 					if(td.getCheckbox()!=null) {
-						System.out.println("v:"+td.getCheckbox().getKey());
 						List<Tuple> r = Core.query("SELECT id FROM tbl_tipo_documento_etapa")
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
 							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
@@ -116,7 +124,7 @@ public class LookupListPageController extends Controller {
 							.addString("taskid", model.getTaskid())
 							.getResultList();
 						if(r==null || r.isEmpty()) {
-							Core.insert("tbl_tipo_documento_etapa")
+							result = Core.insert("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
 							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
 							.addString("processid", model.getProcessid())
@@ -124,7 +132,7 @@ public class LookupListPageController extends Controller {
 							.addInt("required", Core.isNotNull(td.getObrigatorio())?Core.toInt(td.getObrigatorio().getKey()):0)
 							.execute();
 						}else {
-							Core.update("tbl_tipo_documento_etapa")
+							result = Core.update("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
 							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
@@ -133,14 +141,19 @@ public class LookupListPageController extends Controller {
 							.addString("taskid", model.getTaskid())
 							.execute();
 						}
+					}else {
+						Core.setMessageError("Lista checkbox vaiza");
 					}
 				}
-				Core.setMessageSuccess();
-			}else {
-				Core.setMessageSuccess();
 			}
 		}else {
+			result.setError("Error...");
+		}
+		if(!result.hasError()) {
 			Core.setMessageSuccess();
+		}
+		else {
+			Core.setMessageError(result.getError()+":"+result.getSql());
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp","LookupListPage","index", this.queryString());	
@@ -154,7 +167,9 @@ public class LookupListPageController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Dominio","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
