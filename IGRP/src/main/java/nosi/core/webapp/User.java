@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.StringTokenizer;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +22,6 @@ public class User implements Component{
 	private Identity identity;
 	private int expire; // for authentication via cookie  
 	
-
 	//private static Map<String, HttpSession> users = Collections.synchronizedMap(new HashMap<String, HttpSession>());
 	
 	public User(){}
@@ -39,7 +37,7 @@ public class User implements Component{
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());
 			json.put(this.identity.getAuthenticationKey() + "");
-			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+			Igrp.getInstance().getRequest().getSession(true).setAttribute("_identity-igrp", json.toString());
 			this.sendCookie(Base64.getEncoder().encodeToString(json.toString().getBytes())); //  send a cookie to the end user 
 		return true;
 		}catch(Exception e) {
@@ -49,7 +47,7 @@ public class User implements Component{
 	}
 	
 	private boolean checkSessionContext(){
-		String aux = (String) Igrp.getInstance().getRequest().getSession(false).getAttribute("_identity-igrp");
+		String aux = (String) Igrp.getInstance().getRequest().getSession(true).getAttribute("_identity-igrp");
 		if(aux == null || aux.isEmpty()) return false;
 		try {
 			JSONArray json = new JSONArray(aux);
@@ -57,6 +55,9 @@ public class User implements Component{
 			String authenticationKey = json.getString(1);
 			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 			user = user.findIdentityById(identityId);
+			
+		//	System.out.println(user);
+			
 			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
 				this.identity = (Identity) user;
 			return true;
@@ -84,7 +85,7 @@ public class User implements Component{
 			user = user.findIdentityById(identityId);
 			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
 				// create the session context here
-				Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+				Igrp.getInstance().getRequest().getSession(true).setAttribute("_identity-igrp", json.toString());
 				this.identity = (Identity) user;
 			}
 		} catch (Exception e) {
@@ -106,7 +107,7 @@ public class User implements Component{
 	
 	public boolean logout(){ // Reset all login session/cookies information
 		try {
-			  HttpSession theSession = Igrp.getInstance().getRequest().getSession( false );
+			  HttpSession theSession = Igrp.getInstance().getRequest().getSession(true);
 			    // print out the session id
 			    if( theSession != null ) {
 			      synchronized( theSession ) {
@@ -130,13 +131,12 @@ public class User implements Component{
 	@Override
 	public void init(HttpServletRequest request) {
 		boolean isLoginPage = false;
-		String aux = request.getAttribute("r")!=null?request.getAttribute("r").toString():"igrp/login/login";
+		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
 		String loginUrl = "igrp/login/login";
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){
 			isLoginPage = aux.equals(loginUrl); // bug ... Perhaps 
 		}
-		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
 				Route.remember(); // remember the url that was requested by the client ... 
@@ -153,7 +153,7 @@ public class User implements Component{
 		}
 	}
 	
-	private boolean checkHttpClientRequest() {
+	/*private boolean checkHttpClientRequest() {
 		try {
 			String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-HTTPCLIENT");
 			
@@ -179,13 +179,13 @@ public class User implements Component{
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());
 			json.put(this.identity.getAuthenticationKey() + "");
-			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+			Igrp.getInstance().getRequest().getSession(true).setAttribute("_identity-igrp", json.toString());
 			
 		}catch(Exception e) {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	@Override
 	public void destroy() {
@@ -200,11 +200,6 @@ public class User implements Component{
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-	public static void main(String[] args) {
-		String result = encryptToHash("demo", "sha-256");
-		System.out.println(result);
 	}
 	
 	public synchronized static String generateAuthenticationKey() {
