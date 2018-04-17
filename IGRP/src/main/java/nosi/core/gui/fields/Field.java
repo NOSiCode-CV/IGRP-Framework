@@ -32,6 +32,7 @@ public interface Field {
 	public void setParam(boolean isParam);
 	public boolean isParam();
 	public void setQuery(QueryHelper query,String prompt);
+	public void setQuery(QueryHelper query);
 	public void setSqlQuery(String sql);
 	public void setSqlQuery(String connectionName,String sql);
 	public String getSqlQuery();
