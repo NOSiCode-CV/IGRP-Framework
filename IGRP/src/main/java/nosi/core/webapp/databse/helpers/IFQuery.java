@@ -9,8 +9,8 @@ import javax.persistence.TypedQuery;
  * 21 Dec 2017
  */
 public interface IFQuery {
-
-	public Object execute();
+	
+	public ResultSet execute();
 	public List<?> getResultList();
 	public Object getSigleResult();
 	public TypedQuery<?> getSingleResult();

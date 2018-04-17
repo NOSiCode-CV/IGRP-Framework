@@ -7,9 +7,13 @@ import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.ResultSet;
+
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import javax.persistence.Tuple;
+import javax.servlet.jsp.jstl.sql.Result;
+
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
@@ -101,9 +105,10 @@ public class LookupListPageController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(gravar)----*/
+		ResultSet result  = new ResultSet();
 		if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
 			this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
-			Core.update("tbl_tipo_documento_etapa")
+			result = Core.update("tbl_tipo_documento_etapa")
 				.addInt("status", 0)
 				.where("processid=:processid AND taskid=:taskid")
 				.addString("processid", model.getProcessid())
@@ -112,7 +117,6 @@ public class LookupListPageController extends Controller {
 			if(model.getFormlist_1() !=null) {
 				for(Formlist_1 td:model.getFormlist_1()) {
 					if(td.getCheckbox()!=null) {
-						System.out.println("v:"+td.getCheckbox().getKey());
 						List<Tuple> r = Core.query("SELECT id FROM tbl_tipo_documento_etapa")
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
 							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
@@ -120,7 +124,7 @@ public class LookupListPageController extends Controller {
 							.addString("taskid", model.getTaskid())
 							.getResultList();
 						if(r==null || r.isEmpty()) {
-							Core.insert("tbl_tipo_documento_etapa")
+							result = Core.insert("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
 							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
 							.addString("processid", model.getProcessid())
@@ -128,7 +132,7 @@ public class LookupListPageController extends Controller {
 							.addInt("required", Core.isNotNull(td.getObrigatorio())?Core.toInt(td.getObrigatorio().getKey()):0)
 							.execute();
 						}else {
-							Core.update("tbl_tipo_documento_etapa")
+							result = Core.update("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
 							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
@@ -141,12 +145,15 @@ public class LookupListPageController extends Controller {
 						Core.setMessageError("Lista checkbox vaiza");
 					}
 				}
-				Core.setMessageSuccess();
-			}else {
-				Core.setMessageError("Lista vaiza");
 			}
 		}else {
-			Core.setMessageError();
+			result.setError("Error...");
+		}
+		if(!result.hasError()) {
+			Core.setMessageSuccess();
+		}
+		else {
+			Core.setMessageError(result.getError()+":"+result.getSql());
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp","LookupListPage","index", this.queryString());	

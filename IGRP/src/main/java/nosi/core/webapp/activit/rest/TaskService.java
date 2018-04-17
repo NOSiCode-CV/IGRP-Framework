@@ -191,6 +191,14 @@ public class TaskService extends Activit{
 		try {
 			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
 			file.delete();
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println(contentResp);
 			return response.getStatus() == 201;
 		} catch (IOException e) {
 			e.printStackTrace();

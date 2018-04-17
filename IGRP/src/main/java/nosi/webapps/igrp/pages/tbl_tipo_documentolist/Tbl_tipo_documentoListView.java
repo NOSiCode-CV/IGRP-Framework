@@ -18,8 +18,7 @@ public class Tbl_tipo_documentoListView extends View {
 	public Field descricao;
 	public Field nome;
 	public Field status;
-	public Field tipo;
-	public Field env_fk;
+	public Field aplicacao;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -30,7 +29,7 @@ public class Tbl_tipo_documentoListView extends View {
 
 		this.setPageTitle("Listar tbl_tipo_documento");
 			
-		table_1 = new IGRPTable("table_1","Listar Tipo Documento");
+		table_1 = new IGRPTable("table_1","Lista de Tipo de Documento");
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
@@ -49,15 +48,11 @@ public class Tbl_tipo_documentoListView extends View {
 		
 		status = new NumberField(model,"status");
 		status.setLabel(gt("Status"));
-		status.propertie().add("name","p_status").add("type","number").add("maxlength","11").add("total_footer","false");
+		status.propertie().add("name","p_status").add("type","number").add("maxlength","11").add("min","").add("max","").add("total_footer","false");
 		
-		tipo = new TextField(model,"tipo");
-		tipo.setLabel(gt("Tipo"));
-		tipo.propertie().add("name","p_tipo").add("type","text").add("maxlength","20");
-		
-		env_fk = new TextField(model,"env_fk");
-		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","text").add("maxlength","11");
+		aplicacao = new TextField(model,"aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
+		aplicacao.propertie().add("name","p_aplicacao").add("type","text").add("maxlength","11");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -65,7 +60,7 @@ public class Tbl_tipo_documentoListView extends View {
 		btn_new = new IGRPButton("New","igrp","Tbl_tipo_documentoList","new","modal|refresh","success|fa-plus","","");
 		btn_new.propertie.add("type","specific").add("rel","new");
 
-		btn_update = new IGRPButton("Update","igrp","Tbl_tipo_documentoList","update","mpsubmit|refresh","warning|fa-pencil","","");
+		btn_update = new IGRPButton("Update","igrp","Tbl_tipo_documentoList","update","mpsubmit","warning|fa-pencil","","");
 		btn_update.propertie.add("type","specific").add("rel","update");
 
 		btn_delete = new IGRPButton("Delete","igrp","Tbl_tipo_documentoList","delete","confirm","danger|fa-trash","","");
@@ -82,8 +77,7 @@ public class Tbl_tipo_documentoListView extends View {
 		table_1.addField(descricao);
 		table_1.addField(nome);
 		table_1.addField(status);
-		table_1.addField(tipo);
-		table_1.addField(env_fk);
+		table_1.addField(aplicacao);
 
 		toolsbar_1.addButton(btn_new);
 		table_1.addButton(btn_update);
@@ -99,8 +93,7 @@ public class Tbl_tipo_documentoListView extends View {
 		descricao.setValue(model);
 		nome.setValue(model);
 		status.setValue(model);
-		tipo.setValue(model);
-		env_fk.setValue(model);	
+		aplicacao.setValue(model);	
 
 		table_1.loadModel(model.getTable_1());
 		

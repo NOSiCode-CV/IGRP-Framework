@@ -23,14 +23,15 @@ public class Tbl_tipo_documentoListController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadTable_1(Core.query(null,"SELECT 'id' as id,'codigo' as codigo,'descricao' as descricao,'nome' as nome,'status' as status,'tipo' as tipo,'env_fk' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT 'id' as id,'codigo' as codigo,'descricao' as descricao,'nome' as nome,'status' as status,'aplicacao' as aplicacao "));
 		
+		view.id.setParam(true);
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-		QueryHelper query = Core.query("SELECT d.id as id,d.codigo as codigo,d.descricao as descricao,d.nome as nome,d.status as status,d.tipo as tipo,e.name as env_fk FROM public.tbl_tipo_documento as d,public.tbl_env as e")
-								.where("d.env_fk=e.id AND e.dad=:dad").addString("dad", Core.getCurrentDad());
-		model.loadTable_1(query);		
+		QueryHelper query = Core.query("SELECT d.id as id,d.codigo as codigo,d.descricao as descricao,d.nome as nome,d.status as status,e.name as aplicacao FROM public.tbl_tipo_documento d, public.tbl_env e").where(" e.id=d.env_fk");
+		model.loadTable_1(query);
+		
 		view.id.setParam(true);
 		/*----#end-code----*/
 		view.setModel(model);
@@ -45,12 +46,14 @@ public class Tbl_tipo_documentoListController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Tbl_tipo_documentoForm","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Tbl_tipo_documentoForm","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
 		/*----#start-code(new)----*/
-		
+
 		/*----#end-code----*/
 		return this.redirect("igrp","Tbl_tipo_documentoForm","index", this.queryString());	
 	}
@@ -63,7 +66,9 @@ public class Tbl_tipo_documentoListController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Tbl_tipo_documentoList","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Tbl_tipo_documentoForm","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
@@ -83,7 +88,9 @@ public class Tbl_tipo_documentoListController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Tbl_tipo_documentoList","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Tbl_tipo_documentoList","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */

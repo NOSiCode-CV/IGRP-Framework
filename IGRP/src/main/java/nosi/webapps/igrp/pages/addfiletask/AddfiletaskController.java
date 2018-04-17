@@ -28,7 +28,7 @@ public class AddfiletaskController extends Controller {
 		if(Core.isNotNull(taskId) && Core.isNotNull(fileName)) {
 			String url = "history/historic-task-instances/"+taskId+"/variables/"+fileName+"/data";
 			FileRest content = new TaskService().getFile(url);
-			fileName = fileName.replaceAll("_____", "\\\\");
+			fileName = fileName.replaceAll("__SCAPE__", "\\\\");
 			content.setFileName(StringEscapeUtils.unescapeJava(fileName));
 			return this.xSend(content,fileName, content.getContentType(), true);
 		}
