@@ -16,6 +16,7 @@ public class BasicListener implements ServletContextListener {
 
     public void contextDestroyed(ServletContextEvent arg0)  {
     	PersistenceUtils.destroy(); 
+    	PersistenceUtils.unregisterAllDrivers();
     	System.out.println("BasicListener entrado");
     }
     

@@ -1,5 +1,9 @@
 package nosi.base.ActiveRecord;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -121,11 +125,7 @@ public class PersistenceUtils {
 			}
 			return "";
 		}
-		
-	public static void closeCurrentConnection() { // Ensure that the current Connection is closed 
-		
-	}
-		
+	
 	public synchronized static void destroy() {
 		Iterator<SessionFactory> i = PersistenceUtils.SESSION_FACTORY.values().iterator();
 		while(i.hasNext()) { 
@@ -134,5 +134,17 @@ public class PersistenceUtils {
 				sf.close();
 		} 
 		PersistenceUtils.SESSION_FACTORY.clear();
+	}
+	
+	public synchronized static void unregisterAllDrivers() {
+	   Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while(drivers.hasMoreElements()) {
+            try {
+				DriverManager.deregisterDriver(drivers.nextElement());
+			} catch (SQLException e) {
+				e.printStackTrace();
+				continue;
+			}
+        }
 	}
 }
