@@ -183,4 +183,8 @@ public abstract class AbstractField implements Field{
 	@Override
 	public void setQuery(QueryHelper query,String prompt) {
 	}
+	
+	@Override
+	public void setQuery(QueryHelper query) {
+	}
 }
