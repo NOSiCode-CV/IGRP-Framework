@@ -21,7 +21,6 @@ import java.lang.Short;
 import java.lang.annotation.Annotation;
 import java.lang.Long;
 import nosi.core.gui.components.IGRPSeparatorList;
-import nosi.core.validator.Validator;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.TaskVariables;
@@ -34,15 +33,11 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public abstract class Model { // IGRP super model
 	
-	private String scenario; // For validation fields
+	/*private String scenario; // For validation fields
 	private Map<String, ArrayList<String>> errors; // to store errors for each fields
+	*/
+	public Model(){}
 	
-	public Model(){
-		this.scenario = "default"; // Default scenario for validation
-		this.createErrorsPool();
-	}
-	
-
 	public void load(QueryHelper query) throws IllegalArgumentException, IllegalAccessException {
 		if(query != null){
 			List<Tuple> list = query.getResultList();
@@ -378,7 +373,7 @@ public abstract class Model { // IGRP super model
 			}
 		}
 	}
-	
+	/*
 	private void createErrorsPool(){
 		this.errors = new HashMap<String, ArrayList<String>>();
 		Class<? extends Model> c = this.getClass();
@@ -442,7 +437,7 @@ public abstract class Model { // IGRP super model
 	
 	public ArrayList<String> getErrors(String fieldName){
 		return this.errors != null ? this.errors.get(fieldName) : null;
-	}
+	}*/
 	
 	public Object getFieldValueAsObject(String fieldName){
 		Object obj = null;
