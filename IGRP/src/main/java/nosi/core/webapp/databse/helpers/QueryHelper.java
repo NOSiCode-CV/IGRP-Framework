@@ -302,8 +302,8 @@ public abstract class QueryHelper implements IFQuery{
 	}
 	
 	@Override
-	public Object execute() {
-		Object r = null;
+	public ResultSet execute() {
+		ResultSet r = new ResultSet();
 		if(this instanceof QueryInsert) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
 		}
@@ -314,24 +314,28 @@ public abstract class QueryHelper implements IFQuery{
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName(),this.condition);
 		}
 		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
+		
 		if(this instanceof QueryInsert) {
 			try {
 				NamedParameterStatement q = new NamedParameterStatement(conn , this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
 				this.setParameters(q);	
 				Core.log("SQL:"+q.getSql());
-				r = q.executeInsert(this.tableName);
+				r.setSql(q.getSql());
+				r.setKeyValue(q.executeInsert(this.tableName));
 			} catch (SQLException e) {
-				e.printStackTrace();
+				r.setError(e.getMessage());
+				Core.log(e.getMessage());
 			}
 		}else {
 			try {
 				NamedParameterStatement q = new NamedParameterStatement(conn, this.sql);
 				this.setParameters(q);
+				r.setSql(q.getSql());
 				Core.log("SQL:"+q.getSql());
-				int rr = q.executeUpdate();
-				r = rr > 0?rr:null;
+				r.setKeyValue( q.executeUpdate());
 			} catch (SQLException e) {
-				e.printStackTrace();
+				r.setError(e.getMessage());
+				Core.log(e.getMessage());
 			}
 		}
 		try {

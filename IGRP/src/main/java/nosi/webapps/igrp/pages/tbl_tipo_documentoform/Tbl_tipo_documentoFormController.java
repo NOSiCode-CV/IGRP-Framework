@@ -8,8 +8,8 @@ import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
-
 import nosi.webapps.igrp.dao.Application;
+
 /*----#end-code----*/
 
 
@@ -32,14 +32,13 @@ public class Tbl_tipo_documentoFormController extends Controller {
 		String isEdit = Core.getParam("isEdit");;
  			
 		if(Core.isNotNull(isEdit)) {
-		QueryHelper query = Core.query("SELECT id as id,codigo as codigo,descricao as descricao,nome as nome,status as status,tipo as tipo,env_fk as env_fk FROM public.tbl_tipo_documento")
+		QueryHelper query = Core.query("SELECT id as id,codigo as codigo,descricao as descricao,nome as nome,status as status,env_fk as env_fk FROM public.tbl_tipo_documento")
 				.where("id=:id")
 				.addInt("id",model.getId());
 		model.load(query);
 		view.btn_save.setLink("save&isEdit=true");
 		}
-		view.status.setLabel("Ativo?");
-		view.env_fk.setValue(new Application().getListApps());	
+		view.env_fk.setValue(new Application().getListApps());
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -53,7 +52,9 @@ public class Tbl_tipo_documentoFormController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Tbl_tipo_documentoList","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Tbl_tipo_documentoList","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
@@ -71,7 +72,9 @@ public class Tbl_tipo_documentoFormController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp","Tbl_tipo_documentoForm","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Tbl_tipo_documentoForm","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */
@@ -86,7 +89,6 @@ public class Tbl_tipo_documentoFormController extends Controller {
 				.addString("descricao",model.getDescricao())
 				.addString("nome",model.getNome())
 				.addInt("status",model.getStatus())
-				.addString("tipo",model.getTipo())
 				.addInt("env_fk",model.getEnv_fk())
 				.execute();
 		}else{
@@ -95,7 +97,6 @@ public class Tbl_tipo_documentoFormController extends Controller {
 				.addString("descricao",model.getDescricao())
 				.addString("nome",model.getNome())
 				.addInt("status",model.getStatus())
-				.addString("tipo",model.getTipo())
 				.addInt("env_fk",model.getEnv_fk())
 				.where("id=:id")
 				.addInt("id",model.getId())

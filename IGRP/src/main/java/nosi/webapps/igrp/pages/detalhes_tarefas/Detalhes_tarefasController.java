@@ -6,6 +6,9 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 import com.google.gson.Gson;
 
 import nosi.core.config.Config;
@@ -23,6 +26,7 @@ import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 /*----#END-PRESERVED-AREA----*/
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 public class Detalhes_tarefasController extends Controller {
 
@@ -99,17 +103,51 @@ public class Detalhes_tarefasController extends Controller {
 			if(history!=null && !history.isEmpty()) {
 				List<TaskVariables> variables = history.get(0).getVariables(); 
 				if(variables !=null) {
-					this.removeQueryString("p_formlist_documento_task_mostrar_fk");
-					this.removeQueryString("p_formlist_documento_task_mostrar_fk_desc");
-					variables.stream()
-					 		 .filter(v->v.getType().equalsIgnoreCase("binary"))
-					 		 .forEach(v->{	
-									this.addQueryString("p_formlist_documento_task_mostrar_fk",new Config().getResolveUrl("igrp","Addfiletask","index").replaceAll("&", "&amp;")+"&amp;taskid="+history.get(0).getId()+"&amp;filename="+v.getName());
-									this.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
-					 		 });					
+					this.removeOldQueryString();
+					List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
+							.find()
+							.andWhere("processId", "=",Core.isNotNull(task.getProcessDefinitionKey())?task.getProcessDefinitionKey():"-1")
+							.andWhere("taskId", "=",Core.isNotNull(task.getTaskDefinitionKey())?task.getTaskDefinitionKey():"-1")
+							.andWhere("tipoDocumento.application", "=",Core.toInt(task.getTenantId()))
+							.andWhere("status", "=",1)
+							.andWhere("tipo", "=","IN")
+							.all();
+					tipoDocs.stream().forEach(doc->{			 			 	
+						variables.stream()
+						 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
+						 		 .forEach(v->{
+										this.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
+										this.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
+										this.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
+										this.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
+										this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
+										this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
+										this.addQueryString("p_formlist_documento_task_documento_fk_desc", v.getName());
+										this.addQueryString("p_formlist_documento_task_documento_fk", v.getName());
+							 			this.addQueryString("formlist_documento_task_documento_fk",v.getName());
+						 			 	this.addQueryString("formlist_documento_task_documento_fk_desc",v.getName());
+										this.addQueryString("p_formlist_documento_task_mostrar_fk",new Config().getResolveUrl("igrp","Addfiletask","index").replaceAll("&", "&amp;")+"&amp;taskid="+history.get(0).getId()+"&amp;filename="+v.getName());
+										this.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
+						 		 });
+					});					
 				}
 			}
 		}catch(NullPointerException e) {}
 	}
+	
+	private void removeOldQueryString() {
+		this.removeQueryString("p_formlist_documento_task_mostrar_fk");
+		this.removeQueryString("p_formlist_documento_task_mostrar_fk_desc");
+		this.removeQueryString("p_formlist_documento_task_nome_fk");
+		this.removeQueryString("p_formlist_documento_task_nome_fk_desc");
+		this.removeQueryString("p_formlist_documento_task_descricao_fk");
+		this.removeQueryString("p_formlist_documento_task_descricao_fk_desc");
+		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk");
+		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc");
+	}
+	private String getObrigatoriedade(int required) {
+		return required==1?"Sim":"Nao";
+	}
 	/*----#END-PRESERVED-AREA----*/
+
 }

@@ -325,7 +325,7 @@ public class ExecucaoTarefasController extends Controller {
 				});	
 				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
 				result = p.submitVariables();
-				new TaskFile().addFile(task);
+				new TaskFile().addFile(p);
 				if(result){
 					Core.setMessageSuccess();
 				}else{
@@ -422,7 +422,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		
-		new TaskFile().addFile(task);
+		new TaskFile().addFile(p);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}

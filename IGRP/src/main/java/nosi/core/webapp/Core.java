@@ -13,11 +13,15 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import org.modelmapper.ModelMapper;
@@ -1092,5 +1096,17 @@ public final class Core {	/** Not inherit
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
 		return null;
 	}
-	/** **/
+	/**
+	 * @throws ServletException 
+	 * @throws IOException  **/
+	public static List<Part> getFiles() throws IOException, ServletException {
+		Collection<Part> parts =  Igrp.getInstance().getRequest().getParts();
+		if(parts != null) {
+			return parts.stream()
+						 .filter(file->Core.isNotNull(file.getSubmittedFileName()))
+						 .filter(file->Core.isNotNull(file.getName()))
+						 .collect(Collectors.toList());
+		}
+		return null;
+	}
 }
