@@ -134,7 +134,7 @@ public abstract class Model { // IGRP super model
 			String typeName = m.getType().getName();
 			if(m.getType().isArray()){				
 				String []aux = null;
-					aux =  (String[]) Igrp.getInstance().getRequest().getParameterValues(
+					aux =  (String[]) Core.getParamArray(
 							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 									m.getAnnotation(RParam.class).rParamName()
 									: m.getName() // default case use the name of field
@@ -174,7 +174,7 @@ public abstract class Model { // IGRP super model
 								m.getAnnotation(RParam.class).rParamName()
 							  : m.getName();
 				
-				Object o = Igrp.getInstance().getRequest().getParameter(name); // default case use the name of field 
+				Object o = Core.getParam(name); // default case use the name of field 
 				
 				String aux = "";
 				if(o != null)
@@ -293,7 +293,7 @@ public abstract class Model { // IGRP super model
 					
 					int row = 0;
 					
-					//String []arr_ = (String[]) Igrp.getInstance().getRequest().getParameterValues("p_" + obj.getName() + "_id");
+					//String []arr_ = (String[]) Core.getParamArray("p_" + obj.getName() + "_id");
 					
 					int MAX_ITERATION =  1;
 					

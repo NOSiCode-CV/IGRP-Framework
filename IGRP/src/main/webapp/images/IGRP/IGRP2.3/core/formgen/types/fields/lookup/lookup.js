@@ -33,22 +33,25 @@ var LOOKUPFIELD = function(type,params){
 					
 					var actionID = field.GET.action();
 					
-					var holder = $('<div class="box clean box-table-contents" gen-class="" item-name="lookupParams"><div class="box-body table-box"></div></div>');
+					var holder = $('<div class="box clean box-table-contents loading" item-name="lookupParams"><div class="box-body table-box"></div></div>');
 
 					var pageFields = function(){
 						var rtn = [];
 						GEN.getAllFields().forEach(function(f){
-							
+						
 							var val = f.GET.name ? f.GET.name() : 'p_'+f.GET.tag();
-							
-							if(f.formField)
+					
+							if(f.formField || f.hidden)
 								rtn.push({
 									value : val,
 									label : f.GET.tag()
 								});
 						});
+						
+						console.log(rtn);
+						
 						return rtn;
-					}();
+					}
 					
 					var setFormlist = function(){
 						
@@ -60,9 +63,9 @@ var LOOKUPFIELD = function(type,params){
 								containers.forEach(function(c){
 									if(c.fields && c.fields[0]){
 										c.fields.forEach(function(f){
-											
-											var tag   = f.properties.type == 'hidden' ? 'p_'+f.properties.tag : f.properties.tag,
-												label = f.properties.tag || f.properties.tag;
+											console.log(f);
+											var tag   = f.properties.tag,
+												label = tag;
 											
 
 											fields.push({
@@ -84,7 +87,7 @@ var LOOKUPFIELD = function(type,params){
 									target_field : {
 										type : 'select',
 										label : 'Target Field',
-										options : pageFields
+										options : pageFields()
 									},
 									value_field : {
 										type : 'select',

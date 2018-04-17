@@ -17,9 +17,7 @@ public class Tbl_tipo_documentoFormView extends View {
 	public Field codigo;
 	public Field descricao;
 	public Field nome;
-	public Field tipo;
 	public Field status;
-	public Field status_check;
 	public Field id;
 	public IGRPForm form_1;
 
@@ -30,10 +28,10 @@ public class Tbl_tipo_documentoFormView extends View {
 
 		this.setPageTitle("Registar tbl_tipo_documento");
 			
-		form_1 = new IGRPForm("form_1","Registar Tipo Documento");
+		form_1 = new IGRPForm("form_1","Registar Tipo de Documento");
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("domain","").add("maxlength","11").add("required","true").add("java-type","int");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("maxlength","11").add("required","true").add("java-type","int").add("multiple","false").add("domain","");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Codigo"));
@@ -47,13 +45,9 @@ public class Tbl_tipo_documentoFormView extends View {
 		nome.setLabel(gt("Nome"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true");
 		
-		tipo = new TextField(model,"tipo");
-		tipo.setLabel(gt("Tipo"));
-		tipo.propertie().add("name","p_tipo").add("type","text").add("maxlength","20").add("required","true");
-		
-		status = new CheckBoxField(model,"status");
+		status = new NumberField(model,"status");
 		status.setLabel(gt("Status"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","11").add("required","false").add("switch","false").add("check","true");
+		status.propertie().add("name","p_status").add("type","number").add("maxlength","11").add("required","true").add("java-type","int").add("min","").add("max","");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -78,7 +72,6 @@ public class Tbl_tipo_documentoFormView extends View {
 		form_1.addField(codigo);
 		form_1.addField(descricao);
 		form_1.addField(nome);
-		form_1.addField(tipo);
 		form_1.addField(status);
 		form_1.addField(id);
 
@@ -94,7 +87,6 @@ public class Tbl_tipo_documentoFormView extends View {
 		codigo.setValue(model);
 		descricao.setValue(model);
 		nome.setValue(model);
-		tipo.setValue(model);
 		status.setValue(model);
 		id.setValue(model);	
 

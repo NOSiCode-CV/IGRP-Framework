@@ -45,9 +45,9 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentoform/Tbl_tipo_documentoForm.xml</preview>
             </item>
         </toolsbar_1>
-        <table_1 type="table" xml-type="table" title="Listar Tipo Documento" gen-type="container" gen-group="true">
+        <table_1 type="table" xml-type="table" title="Lista de Tipo de Documento" gen-type="container" gen-group="true">
             <fields>
-                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
                 <codigo name="p_codigo" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
                     <label>Codigo</label>
                 </codigo>
@@ -57,15 +57,12 @@
                 <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </nome>
-                <status name="p_status" type="number" maxlength="11" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                <status name="p_status" type="number" maxlength="11" min="" max="" align="left" lookup_parser="false" iskey="false" total_footer="false">
                     <label>Status</label>
                 </status>
-                <tipo name="p_tipo" type="text" maxlength="20" align="left" lookup_parser="false" iskey="false">
-                    <label>Tipo</label>
-                </tipo>
-                <env_fk name="p_env_fk" type="text" maxlength="11" align="left" lookup_parser="false" iskey="false">
+                <aplicacao name="p_aplicacao" type="text" maxlength="11" align="left" lookup_parser="false" iskey="false">
                     <label>Aplicação</label>
-                </env_fk>
+                </aplicacao>
             </fields>
             <table>
                 <value>
@@ -75,12 +72,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <id name="p_id" tag="id">1</id>
-                        <codigo name="p_codigo">Rem sit voluptatem perspiciatis voluptatem</codigo>
-                        <descricao name="p_descricao">Aperiam omnis elit anim accusantium</descricao>
-                        <nome name="p_nome">Omnis totam unde accusantium natus</nome>
-                        <status name="p_status">6</status>
-                        <tipo name="p_tipo">Deserunt perspiciati</tipo>
-                        <env_fk name="p_env_fk">Sit aliqua</env_fk>
+                        <codigo name="p_codigo">Ut iste deserunt sed totam</codigo>
+                        <descricao name="p_descricao">Stract aliqua magna laudantium rem</descricao>
+                        <nome name="p_nome">Deserunt elit sit omnis ut</nome>
+                        <status name="p_status">7</status>
+                        <aplicacao name="p_aplicacao">Ipsum sit i</aplicacao>
                     </row>
                     <row>
                         <context-menu>
@@ -88,25 +84,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <id name="p_id" tag="id">1</id>
-                        <codigo name="p_codigo">Stract amet unde sit magna</codigo>
-                        <descricao name="p_descricao">Amet labore perspiciatis totam consectetur</descricao>
-                        <nome name="p_nome">Perspiciatis elit ut natus dolor</nome>
-                        <status name="p_status">8</status>
-                        <tipo name="p_tipo">Rem lorem deserunt a</tipo>
-                        <env_fk name="p_env_fk">Ut anim des</env_fk>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <id name="p_id" tag="id">1</id>
-                        <codigo name="p_codigo">Mollit totam laudantium sit natus</codigo>
-                        <descricao name="p_descricao">Totam officia amet accusantium doloremque</descricao>
-                        <nome name="p_nome">Accusantium perspiciatis iste natus ipsum</nome>
+                        <codigo name="p_codigo">Natus ipsum accusantium doloremque stract</codigo>
+                        <descricao name="p_descricao">Accusantium sit deserunt labore aperiam</descricao>
+                        <nome name="p_nome">Ipsum deserunt lorem accusantium consectetur</nome>
                         <status name="p_status">2</status>
-                        <tipo name="p_tipo">Accusantium dolor mo</tipo>
-                        <env_fk name="p_env_fk">Accusantium</env_fk>
+                        <aplicacao name="p_aplicacao">Totam ipsum</aplicacao>
                     </row>
                     <row>
                         <context-menu>
@@ -114,12 +96,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <id name="p_id" tag="id">1</id>
-                        <codigo name="p_codigo">Unde mollit aperiam iste sit</codigo>
-                        <descricao name="p_descricao">Laudantium aliqua natus accusantium natus</descricao>
-                        <nome name="p_nome">Sit elit deserunt lorem aliqua</nome>
-                        <status name="p_status">9</status>
-                        <tipo name="p_tipo">Doloremque iste aliq</tipo>
-                        <env_fk name="p_env_fk">Stract offi</env_fk>
+                        <codigo name="p_codigo">Officia sed sit amet lorem</codigo>
+                        <descricao name="p_descricao">Natus rem laudantium sit officia</descricao>
+                        <nome name="p_nome">Accusantium magna voluptatem aperiam doloremque</nome>
+                        <status name="p_status">2</status>
+                        <aplicacao name="p_aplicacao">Omnis unde</aplicacao>
                     </row>
                     <row>
                         <context-menu>
@@ -127,22 +108,33 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <id name="p_id" tag="id">1</id>
-                        <codigo name="p_codigo">Dolor elit totam consectetur sit</codigo>
-                        <descricao name="p_descricao">Stract omnis labore magna deserunt</descricao>
-                        <nome name="p_nome">Aliqua ut labore dolor sed</nome>
+                        <codigo name="p_codigo">Amet rem sed rem voluptatem</codigo>
+                        <descricao name="p_descricao">Sed sit accusantium amet ut</descricao>
+                        <nome name="p_nome">Aliqua aperiam elit lorem sit</nome>
                         <status name="p_status">4</status>
-                        <tipo name="p_tipo">Aliqua officia sit e</tipo>
-                        <env_fk name="p_env_fk">Totam lorem</env_fk>
+                        <aplicacao name="p_aplicacao">Amet dolor</aplicacao>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo">Sit labore doloremque rem dolor</codigo>
+                        <descricao name="p_descricao">Deserunt magna adipiscing accusantium officia</descricao>
+                        <nome name="p_nome">Aliqua doloremque laudantium adipiscing perspiciatis</nome>
+                        <status name="p_status">9</status>
+                        <aplicacao name="p_aplicacao">Perspiciati</aplicacao>
                     </row>
                 </value>
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="update">
                         <title>Update</title>
                         <app>igrp</app>
-                        <page>Tbl_tipo_documentoList</page>
+                        <page>Tbl_tipo_documentoForm</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentolist/Tbl_tipo_documentoList.xml?</parameter>
-                        <target>mpsubmit|refresh</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/tbl_tipo_documentoform/Tbl_tipo_documentoForm.xml?</parameter>
+                        <target>mpsubmit</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="delete">

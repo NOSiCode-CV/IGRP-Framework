@@ -13,11 +13,11 @@ import java.util.HashMap;
 public class AddfiletaskView extends View {
 	
 	
-	public Field nome;
-	public Field descricao;
-	public Field obrigatoriedade;
-	public Field documento;
-	public Field mostrar;
+	public Field formlist_documento_task_nome;
+	public Field formlist_documento_task_descricao;
+	public Field formlist_documento_task_obrigatoriedade;
+	public Field formlist_documento_task_documento;
+	public Field formlist_documento_task_mostrar;
 	public IGRPFormList formlist_documento_task;
 
 	public AddfiletaskView(){
@@ -25,27 +25,27 @@ public class AddfiletaskView extends View {
 		this.setPageTitle("AddFileTask");
 			
 		formlist_documento_task = new IGRPFormList("formlist_documento_task","");
-		nome = new TextField(model,"nome");
-		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
+		formlist_documento_task_nome = new TextField(model,"formlist_documento_task_nome");
+		formlist_documento_task_nome.setLabel(gt("Nome"));
+		formlist_documento_task_nome.propertie().add("name","p_formlist_documento_task_nome").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
 		
-		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
+		formlist_documento_task_descricao = new TextField(model,"formlist_documento_task_descricao");
+		formlist_documento_task_descricao.setLabel(gt("Descrição"));
+		formlist_documento_task_descricao.propertie().add("name","p_formlist_documento_task_descricao").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
 		
-		obrigatoriedade = new TextField(model,"obrigatoriedade");
-		obrigatoriedade.setLabel(gt("Obrigatoriedade"));
-		obrigatoriedade.propertie().add("name","p_obrigatoriedade").add("type","text").add("maxlength","30").add("required","false").add("desc","true");
+		formlist_documento_task_obrigatoriedade = new TextField(model,"formlist_documento_task_obrigatoriedade");
+		formlist_documento_task_obrigatoriedade.setLabel(gt("Obrigatoriedade"));
+		formlist_documento_task_obrigatoriedade.propertie().add("name","p_formlist_documento_task_obrigatoriedade").add("type","text").add("maxlength","30").add("required","false").add("desc","true");
 		
-		documento = new FileField(model,"documento");
-		documento.setLabel(gt("Documento"));
-		documento.propertie().add("name","p_documento").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","false").add("desc","true");
+		formlist_documento_task_documento = new FileField(model,"formlist_documento_task_documento");
+		formlist_documento_task_documento.setLabel(gt("Documento"));
+		formlist_documento_task_documento.propertie().add("name","p_formlist_documento_task_documento").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","false").add("desc","true");
 		
-		mostrar = new LinkField(model,"mostrar");
-		mostrar.setLabel(gt("Mostrar"));
-		mostrar.setValue(new Config().getResolveUrl("igrp","Addfiletask","index"));
+		formlist_documento_task_mostrar = new LinkField(model,"formlist_documento_task_mostrar");
+		formlist_documento_task_mostrar.setLabel(gt("Mostrar"));
+		formlist_documento_task_mostrar.setValue(new Config().getResolveUrl("igrp","Addfiletask","index"));
 							
-		mostrar.propertie().add("name","p_mostrar").add("type","link").add("target","_self").add("maxlength","10000").add("desc","true");
+		formlist_documento_task_mostrar.propertie().add("name","p_formlist_documento_task_mostrar").add("type","link").add("target","_self").add("maxlength","10000").add("desc","true");
 		
 
 		
@@ -54,21 +54,21 @@ public class AddfiletaskView extends View {
 	@Override
 	public void render(){
 		
-		formlist_documento_task.addField(nome);
-		formlist_documento_task.addField(descricao);
-		formlist_documento_task.addField(obrigatoriedade);
-		formlist_documento_task.addField(documento);
-		formlist_documento_task.addField(mostrar);
+		formlist_documento_task.addField(formlist_documento_task_nome);
+		formlist_documento_task.addField(formlist_documento_task_descricao);
+		formlist_documento_task.addField(formlist_documento_task_obrigatoriedade);
+		formlist_documento_task.addField(formlist_documento_task_documento);
+		formlist_documento_task.addField(formlist_documento_task_mostrar);
 
 		this.addToPage(formlist_documento_task);
 	}
 		
 	public void setModel(Addfiletask model) {
 		
-		nome.setValue(model);
-		descricao.setValue(model);
-		obrigatoriedade.setValue(model);
-		documento.setValue(model);	
+		formlist_documento_task_nome.setValue(model);
+		formlist_documento_task_descricao.setValue(model);
+		formlist_documento_task_obrigatoriedade.setValue(model);
+		formlist_documento_task_documento.setValue(model);	
 
 		formlist_documento_task.loadModel(model.getFormlist_documento_task());
 		

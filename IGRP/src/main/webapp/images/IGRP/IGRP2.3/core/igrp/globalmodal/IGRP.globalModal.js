@@ -20,7 +20,9 @@
 				*/
 				var modal  			 = $.IGRP.components.globalModal.get(),
 
-					closeOnBodyClick = o.closeOnBodyClick || false;
+					closeOnBodyClick = o.closeOnBodyClick || false,
+					
+					content  	     = typeof o.content === 'function' ? o.content() : o.content;
 
 				if(closeOnBodyClick)
 
@@ -44,10 +46,10 @@
 
 				switch(o.operation){
 					case 'appendTo':
-						o.content.appendTo( $('.modal-body',modal) )
+						content.appendTo( $('.modal-body',modal) )
 					break;
 					default:
-						$('.modal-body',modal).append(o.content);
+						$('.modal-body',modal).append(content);
 				}
 
 				if(o.buttons && o.buttons[0])
@@ -76,10 +78,15 @@
 						if(b.onClick)
 							btn.on('click',b.onClick);
 
-						$('.modal-footer',modal).append(btn);
+						$('.modal-footer',modal).append(btn).show();
 					});
+				else
+					$('.modal-footer',modal).hide();
 				
-				if(o.beforeShow) o.beforeShow();
+				
+				if(o.beforeShow)
+					
+					o.beforeShow();
 
 				$.IGRP.components.globalModal.show();
 			},

@@ -16,12 +16,8 @@ public class Tbl_tipo_documentoForm extends Model{
 	private String descricao;
 	@RParam(rParamName = "p_nome")
 	private String nome;
-	@RParam(rParamName = "p_tipo")
-	private String tipo;
 	@RParam(rParamName = "p_status")
 	private int status;
-	@RParam(rParamName = "p_status_check")
-	private int status_check;
 	@RParam(rParamName = "p_id")
 	private int id;
 	
@@ -53,24 +49,11 @@ public class Tbl_tipo_documentoForm extends Model{
 		return this.nome;
 	}
 	
-	public void setTipo(String tipo){
-		this.tipo = tipo;
-	}
-	public String getTipo(){
-		return this.tipo;
-	}
-	
 	public void setStatus(int status){
 		this.status = status;
 	}
 	public int getStatus(){
 		return this.status;
-	}
-	public void setStatus_check(int status_check){
-		this.status_check = status_check;
-	}
-	public int getStatus_check(){
-		return this.status_check;
 	}
 	
 	public void setId(int id){

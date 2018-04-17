@@ -44,9 +44,10 @@ var GENTABLE = function(name,params){
 			{path:'/core/igrp/table/igrp.tables.css'}
 		],
 		js  :[ 
+			{path : '/core/igrp/form/igrp.forms.js',id:'Form'},
 			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
-			{path:'/core/igrp/table/igrp.table.js'}
+			{path :'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
+			{path :'/core/igrp/table/igrp.table.js'}
 		]
 	};
 
@@ -384,7 +385,23 @@ var GENTABLE = function(name,params){
 
 				value : {
 
-					value : params.proprieties && params.proprieties.legendColors || [],
+					value : params.proprieties && params.proprieties.legendColors || [
+                        {
+                            "color": "#dc2b4c",
+                            "text": "Cor 1",
+                            "value": "1"
+                        },
+                        {
+                            "color": "#ea9126",
+                            "text": "Cor 2",
+                            "value": "2"
+                        },
+                        {
+                            "color": "#95c11f",
+                            "text": "Cor 3",
+                            "value": "3"
+                        }
+                    ],
 
 					setter:function(){
 						

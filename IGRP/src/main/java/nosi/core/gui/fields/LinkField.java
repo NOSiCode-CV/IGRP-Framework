@@ -48,6 +48,6 @@ public class LinkField extends AbstractField {
 				link+="&"+p.getKey()+"="+p.getValue();
 			});
 		}
-		return link.replaceAll("&", "&amp;");
+		return link.contains("&amp;")?link:link.replaceAll("&", "&amp;");
 	}
 }
