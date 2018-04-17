@@ -12,11 +12,8 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import javax.persistence.Tuple;
-import javax.servlet.jsp.jstl.sql.Result;
-
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
 import java.util.ArrayList;
 /*----#end-code----*/
 
@@ -63,11 +60,11 @@ public class LookupListPageController extends Controller {
 			view.toolsbar_1.setVisible(false);
 		}else {
 			model.loadFormlist_1(Core.query("SELECT id as checkbox, "
-					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid) " + 
+					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
 					"       THEN id " + 
 					"       ELSE 0 " + 
 					"  END as checkbox_check, 1 as obrigatorio, "
-					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND required=1 AND processid=:processid AND taskid=:taskid) " + 
+					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND required=1 AND processid=:processid AND taskid=:taskid AND status=:status) " + 
 					"       THEN 1 " + 
 					"       ELSE 0 " + 
 					"  END as obrigatorio_check, "
@@ -75,13 +72,14 @@ public class LookupListPageController extends Controller {
 					.where("tp.status=:status AND tp.env_fk=:env_fk")
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
-					.addInt("status", 1)
+					.addInt("status",1)
+					.addInt("status",1)
 					.addInt("env_fk", Core.toInt(model.getEnv_fk()))
 					);
 		}
 		view.id.setParam(true);
 		view.env_fk.setLabel("Aplicação");
-        view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "),"--- Selecionar Tipo ---");
+        view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "));
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista1);
 		view.btn_pesquisar.setLink("index");
@@ -114,35 +112,51 @@ public class LookupListPageController extends Controller {
 				.addString("processid", model.getProcessid())
 				.addString("taskid", model.getTaskid())
 				.execute();
+			
+			String[]p_formlist_1_idx = Core.getParamArray("p_formlist_1_idx");
+			String[]p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
+			String[]p_obrigatorio_fk = Core.getParamArray("p_obrigatorio_fk");
+			String[]p_tipo_fk = Core.getParamArray("p_tipo_fk");
+			
 			if(model.getFormlist_1() !=null) {
-				for(Formlist_1 td:model.getFormlist_1()) {
-					if(td.getCheckbox()!=null) {
+				for(int i=0;i<p_formlist_1_idx.length;i++) {
+					int obrigatorio = 0;
+					int id = -1;	
+					String tipo = "";
+					try {
+						obrigatorio = Core.toInt(p_obrigatorio_fk[i]);
+						id = Core.toInt(p_checkbox_fk[i]);
+						tipo = p_tipo_fk[i];
+					}catch(java.lang.IndexOutOfBoundsException e) {
+					}
+					tipo = Core.isNotNull(tipo)?tipo:"IN";
+					if(id != -1) {
 						List<Tuple> r = Core.query("SELECT id FROM tbl_tipo_documento_etapa")
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
-							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
+							.addInt("tipo_documento_fk", id)
 							.addString("processid", model.getProcessid())
 							.addString("taskid", model.getTaskid())
 							.getResultList();
 						if(r==null || r.isEmpty()) {
 							result = Core.insert("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
-							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
+							.addInt("tipo_documento_fk",id)
 							.addString("processid", model.getProcessid())
 							.addString("taskid", model.getTaskid())
-							.addInt("required", Core.isNotNull(td.getObrigatorio())?Core.toInt(td.getObrigatorio().getKey()):0)
+							.addInt("required", obrigatorio)
+							.addString("tipo", tipo)
 							.execute();
 						}else {
 							result = Core.update("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
-							.addInt("tipo_documento_fk", Core.toInt(td.getCheckbox().getKey()))
-							.addInt("required", Core.isNotNull(td.getObrigatorio())?Core.toInt(td.getObrigatorio().getKey()):0)
+							.addInt("tipo_documento_fk",id)
+							.addInt("required", obrigatorio)
 							.addString("processid", model.getProcessid())
 							.addString("taskid", model.getTaskid())
+							.addString("tipo", tipo)
 							.execute();
 						}
-					}else {
-						Core.setMessageError("Lista checkbox vaiza");
 					}
 				}
 			}
