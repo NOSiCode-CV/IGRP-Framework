@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 
@@ -241,7 +241,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 
 	public Map<Object, Object> getListApps(){
-		User user = (User) Igrp.getInstance().getUser().getIdentity();
+		User user = (User) Core.getCurrentUser();		
 		String dad = new Permission().getCurrentEnv();		
 		if("igrp".equalsIgnoreCase(dad)){
 			return IgrpHelper.toMap(this.find().andWhere("status","=",1).all(), "id", "name", gt("-- Selecionar --"));
@@ -302,7 +302,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	
 	
 	public boolean getPermissionApp(String dad) {
-		 User u = (User) Igrp.getInstance().getUser().getIdentity();
+		 User u = (User) Core.getCurrentUser();		
 		 Profile p = new Profile();
 		 p = p.findOne(p.getCriteria().where(
 				 p.getBuilder().equal(p.getRoot().get("user"), u.getId()),
@@ -313,7 +313,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 
 	public List<Profile> getMyApp() {	
-		User u = (User) Igrp.getInstance().getUser().getIdentity();
+		User u = (User) Core.getCurrentUser();		
 		List<Profile> list = new Profile().find()
 									 .andWhere("type", "=", "ENV")
 									 .andWhere("user", "=", u.getId())
@@ -339,7 +339,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		Application app = super.insert();
 		if(app!=null){
 			User user = new User();
-			user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			user = user.findOne(Core.getCurrentUser().getIdentityId());
 			Organization org = new Organization();				
 			org.setCode("Org." + app.getDad());
 			org.setName("IGRP"); //+ app.getName()

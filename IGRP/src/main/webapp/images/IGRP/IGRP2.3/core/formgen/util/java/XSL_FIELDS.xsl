@@ -21,7 +21,7 @@
             <!--<xsl:if test="not(@name=preceding::node()/@name)"> -->
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
-						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="$tab"/> 
 						<xsl:choose>
 							<xsl:when test="@type='hidden'">
 								<xsl:value-of select="concat('public Field ',@tag,';')"/>
@@ -85,7 +85,7 @@
 					 	
 							<xsl:value-of select="concat($tag_name,'.setValue(',$p_value,');')"/>
 							<xsl:value-of select="$newline"/>
-							<xsl:value-of select="$tab2"/>
+							<xsl:value-of select="$tab2"/> 
 						</xsl:if>
 						
 						<xsl:if test="@action and @app and @page and @custom_action=''">
@@ -98,8 +98,8 @@
 							</xsl:variable>
 							
 							<xsl:value-of select="concat($tag_name,'.setValue(',$linkUrl,')')"/>;
-							<xsl:value-of select="$newline"/>
-							<xsl:value-of select="$tab2"/>
+<!-- 							<xsl:value-of select="$newline"/> -->
+							<xsl:value-of select="$tab2"/> 
 						</xsl:if>
 						
 						<xsl:if test="@type='lookup'">
@@ -141,6 +141,7 @@
 							add recursive properies
 							date_1.propertie().add("name","p_date_1").add("type","date");
 						-->
+							
 						<xsl:value-of select="concat($tag_name,'.propertie()')"/>
 						<xsl:for-each select="@*">
 							<xsl:call-template name="filterComponentsAttrs"/>
@@ -162,8 +163,7 @@
 							<xsl:call-template name="typeFieldClass">
 					    		<xsl:with-param name="type" select="@type" />
 					    	</xsl:call-template>
-					    	<xsl:value-of select="$newline"/>
-							<xsl:value-of select="$tab2"/>
+				
 							<xsl:value-of select="concat('(','model',',',$double_quotes,$tag_name,'_check',$double_quotes,');')"/>
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
@@ -172,6 +172,8 @@
 								<xsl:call-template name="filterComponentsAttrs"/>
 			    			</xsl:for-each>
 							<xsl:value-of select="';'"/>
+							<xsl:value-of select="$newline"/>
+					  	    <xsl:value-of select="$tab2"/>
 					 	</xsl:if>
 					 	<xsl:value-of select="$newline"/>
 					</xsl:when>

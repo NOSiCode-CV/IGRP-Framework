@@ -9,8 +9,8 @@
      	<xsl:value-of select="$newline"/>
  		<xsl:value-of select="concat('public class ',$class_name,'View extends View {')"/> 			
 	 		<xsl:value-of select="$newline"/>
-	     	<xsl:value-of select="$tab"/>	
-	     	<xsl:value-of select="$newline"/>
+<!-- 	     	<xsl:value-of select="$tab"/>	 -->
+ 	     	<xsl:value-of select="$newline"/> 
 	     	<xsl:call-template name="declare-variables-view"/>
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="create-construct"/>
@@ -94,7 +94,18 @@
  	</xsl:template>
  	
  	
-	<!--  create construct view class -->
+	<!--  create construct view class 
+	
+		this.setPageTitle("Gestao de Acesso");
+	ex:	sectionheader_1 = new IGRPForm("sectionheader_1","");
+		form_1 = new IGRPForm("form_1","");
+		org_table = new IGRPTable("org_table","Organizações");
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel(gt(""));
+		sectionheader_1_text.setValue(gt("Gestão de Acesso"));	
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		
+	-->
 	<xsl:template name="create-construct">
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="concat('public ', $class_name,'View(){')"></xsl:value-of>	
@@ -267,9 +278,8 @@
  	</xsl:template>
 
  	  <!--
-		Declare and create instances components, for example:
-	 	public IGRPForm form_1;
-	 	public IGRPTable table_1;
+		Declare and create instances components,
+			
 	 	....
 	-->
 	<xsl:template name="gen-instance-components">
@@ -278,7 +288,7 @@
 		<xsl:param name="instance_name" /> 
 		<xsl:param name="title_" select="''" /> 
 		
-		<xsl:value-of select="$tab"/>
+ 		<xsl:value-of select="$tab"/> 
 	 	<xsl:variable name="className">
 	 		<xsl:call-template name="typeClass">
 	 			<xsl:with-param name="type">                
@@ -299,13 +309,20 @@
 	 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
 	 		</xsl:when>
 	 	</xsl:choose>
-	 	<xsl:value-of select="$newline"/>
+	 	<xsl:value-of select="$newline"/>	 
+		
 	</xsl:template>
 
-	<!-- declare variables in the class view -->
+	<!-- declare variables in the class view 
+	Ex: 
+		public Field sectionheader_1_text;
+		public Field nome;
+		public IGRPButton btn_editar;
+		public IGRPButton btn_menu;
+	-->
  	<xsl:template name="declare-variables-view">
-		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="$newline"/>
+<!-- 		<xsl:value-of select="$tab"/> -->
+	
  		<xsl:call-template name="gen-field-view">
 			<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 		</xsl:call-template>
@@ -318,12 +335,14 @@
 				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
 			</xsl:call-template>
  		</xsl:for-each>
+ 		
  		<xsl:call-template name="gen-toolsbar">
 			<xsl:with-param name="type_"><xsl:value-of select="'declare'"></xsl:value-of> </xsl:with-param>	
 		</xsl:call-template>
  		<xsl:call-template name="gen-button">
 			<xsl:with-param name="type_"><xsl:value-of select="'declare'"></xsl:value-of> </xsl:with-param>	
 		</xsl:call-template>
+		<xsl:value-of select="$newline"/>	 	
  	</xsl:template>
 
  	<!-- instances components in the class view -->
@@ -339,6 +358,7 @@
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
 				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
 			</xsl:call-template>
+			<xsl:value-of select="$newline"/>		
  		</xsl:for-each>
 
 		<xsl:call-template name="gen-field-view">
@@ -353,6 +373,7 @@
  		<xsl:call-template name="gen-button">
 			<xsl:with-param name="type_"><xsl:value-of select="'instance'"></xsl:value-of> </xsl:with-param>	
 		</xsl:call-template>
+		<xsl:value-of select="$newline"/>
 	</xsl:template>
 
 	<xsl:template name="config-chart">

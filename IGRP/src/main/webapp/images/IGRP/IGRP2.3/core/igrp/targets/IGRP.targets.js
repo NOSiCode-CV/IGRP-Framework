@@ -269,7 +269,7 @@
 				},
 
 				error:function(){
-					console.log('dsa')
+					console.log('filter error line 272 IGRP.targets.js')
 				}
 
 			});
@@ -637,13 +637,7 @@
 
 			},
 
-			modalpopup   : {
-
-				label : 'Modal Popup',
-
-				action : modal
-
-			},
+			
 
 			mpsubmit   : {
 
