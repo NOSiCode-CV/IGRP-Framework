@@ -1,6 +1,11 @@
 package nosi.webapps.igrp.pages.datasource;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
+import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class DataSource extends Model{		
 	@RParam(rParamName = "p_data_source")
@@ -9,8 +14,6 @@ public class DataSource extends Model{
 	private String tipo;
 	@RParam(rParamName = "p_nome")
 	private String nome;
-	@RParam(rParamName = "p_area")
-	private String area;
 	@RParam(rParamName = "p_processo")
 	private String processo;
 	@RParam(rParamName = "p_etapa")
@@ -24,13 +27,13 @@ public class DataSource extends Model{
 	@RParam(rParamName = "p_servico")
 	private String servico;
 	@RParam(rParamName = "p_id_pagina")
-	private String p_id_pagina;
+	private String id_pagina;
 	@RParam(rParamName = "p_id_servico")
-	private String p_id_servico;
+	private String id_servico;
 	@RParam(rParamName = "p_id")
-	private String p_id;
+	private String id;
 	@RParam(rParamName = "p_id_env")
-	private String p_id_env;
+	private String id_env;
 	
 	public void setData_source(String data_source){
 		this.data_source = data_source;
@@ -51,13 +54,6 @@ public class DataSource extends Model{
 	}
 	public String getNome(){
 		return this.nome;
-	}
-	
-	public void setArea(String area){
-		this.area = area;
-	}
-	public String getArea(){
-		return this.area;
 	}
 	
 	public void setProcesso(String processo){
@@ -102,33 +98,34 @@ public class DataSource extends Model{
 		return this.servico;
 	}
 	
-	public void setP_id_pagina(String p_id_pagina){
-		this.p_id_pagina = p_id_pagina;
+	public void setId_pagina(String id_pagina){
+		this.id_pagina = id_pagina;
 	}
-	public String getP_id_pagina(){
-		return this.p_id_pagina;
-	}
-	
-	public void setP_id_servico(String p_id_servico){
-		this.p_id_servico = p_id_servico;
-	}
-	public String getP_id_servico(){
-		return this.p_id_servico;
+	public String getId_pagina(){
+		return this.id_pagina;
 	}
 	
-	public void setP_id(String p_id){
-		this.p_id = p_id;
+	public void setId_servico(String id_servico){
+		this.id_servico = id_servico;
 	}
-	public String getP_id(){
-		return this.p_id;
+	public String getId_servico(){
+		return this.id_servico;
 	}
 	
-	public void setP_id_env(String p_id_env){
-		this.p_id_env = p_id_env;
+	public void setId(String id){
+		this.id = id;
 	}
-	public String getP_id_env(){
-		return this.p_id_env;
+	public String getId(){
+		return this.id;
 	}
+	
+	public void setId_env(String id_env){
+		this.id_env = id_env;
+	}
+	public String getId_env(){
+		return this.id_env;
+	}
+
 
 
 }

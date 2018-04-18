@@ -329,7 +329,7 @@
 		
 		var modal       = function(p){
 			
-			if (p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
 				
 				mWindow = window;
 		
@@ -344,7 +344,7 @@
 
 		var right_panel       = function(p){
 
-			if (p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
 				mWindow = window;
 			
 			p.url = setTargetParameter(p.url);

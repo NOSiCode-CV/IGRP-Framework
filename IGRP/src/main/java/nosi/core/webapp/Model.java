@@ -215,19 +215,19 @@ public abstract class Model { // IGRP super model
 				
 				switch(typeName){
 					case "int":
-							m.setInt(this, Integer.parseInt(aux));
+							m.setInt(this, Core.toInt(aux));
 						break;
 					case "float":
-							m.setFloat(this, Float.parseFloat(aux));
+							m.setFloat(this, Core.toFloat(aux));
 						break;
 					case "double":
-							m.setDouble(this, Double.parseDouble(aux));
+							m.setDouble(this,Core.toDouble(aux));
 						break;
 					case "long":
-							m.setLong(this, Long.parseLong(aux));
+							m.setLong(this, Core.toLong(aux));
 						break;
 					case "short":
-							m.setShort(this, Short.parseShort(aux));
+							m.setShort(this, Core.toShort(aux));
 						break;
 					case "java.sql.Date":
 						if(Core.isNotNull(aux) && !aux.equals("0")) {

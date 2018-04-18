@@ -6,16 +6,12 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.apache.commons.text.StringEscapeUtils;
-
 import com.google.gson.Gson;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
@@ -25,16 +21,26 @@ import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-/*----#END-PRESERVED-AREA----*/
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+/*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
 
 	public Response actionIndex() throws IOException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+		String taskId = Core.getParam("taskId");
+		String processDefinitionKey = Core.getParam("processDefinitionKey");
+		String taskDefinitionKey = Core.getParam("taskDefinitionKey");
 		TaskServiceQuery taskS = new TaskServiceQuery();
-		taskS.addFilter("taskId", taskId);
+		if(Core.isNotNull(taskId)) {
+			taskS.addFilter("taskId", taskId);
+		}
+		if(Core.isNotNull(processDefinitionKey)) {
+			taskS.addFilter("processDefinitionKey", processDefinitionKey);
+		}
+		if(Core.isNotNull(taskDefinitionKey)) {
+			taskS.addFilter("taskDefinitionKey", taskDefinitionKey);
+		}
 		taskS.addFilter("includeProcessVariables", "true");
 		String content = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
@@ -48,6 +54,7 @@ public class Detalhes_tarefasController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	private String generateCustomFormTask(TaskServiceQuery task) {
+		Core.setAttribute("report_p_prm_definitionid", task.getProcessInstanceId());
 		Gson gson = new Gson();
 		HistoricTaskService history = new HistoricTaskService();
 		List<HistoricTaskService> histories = history.getHistory(task.getId());

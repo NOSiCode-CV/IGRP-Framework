@@ -1,17 +1,20 @@
 
 package nosi.webapps.igrp.pages.datasource;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
 import nosi.core.webapp.Controller;
 import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+/*----#start-code(packages_import)----*/
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.Query;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -19,34 +22,47 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+import java.util.stream.Collectors;
+import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.TaskService;
+/*----#end-code----*/
+
 
 public class DataSourceController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/	
-		HashMap<String,String> tipo = new HashMap<>();
-		tipo.put(null, "--- Selecionar Tipo Data Source ---");
-		//tipo.put("acti", "Etapa");
-		tipo.put("Object", "Objecto");
-		tipo.put("Page", "Paginas");
-		//tipo.put("proc", "Processo");
-		tipo.put("Query", "Query");
-		//tipo.put("serv", "Serviços");
-		DataSource model = new DataSource();
-		model.setQuery("Select * FROM nome_tabela");
-		String id_env = Igrp.getInstance().getRequest().getParameter("id_env");
 		
-		if(Core.isNotNull(id_env)) {
-			String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
-			model.setP_id_env(id_env);
+		DataSource model = new DataSource();
+		model.load();
+		DataSourceView view = new DataSourceView();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		
+		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.etapa.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
+		----#gen-example */
+		/*----#start-code(index)----*/	
+	
+		view.tipo.setQuery(Core.query(null,"SELECT 'Task' as ID,'Etapa' as NAME UNION SELECT 'Object' as ID,'Objeto' as NAME UNION SELECT 'Page' as ID,'Pagina' as NAME UNION SELECT 'Query' as ID,'Query' as NAME"),"--- Selecionar Tipo Data Source ---");
+		view.processo.setVisible(false);
+		view.query.setVisible(false);
+		view.servico.setVisible(false);
+		view.etapa.setVisible(false);
+		view.pagina.setVisible(false);
+		view.objecto.setVisible(false);
+		model.setId_env(Core.isNotNull(model.getId_env())?model.getId_env():Core.getParam("id_env"));
+		if(Core.isNotNull(model.getId_env())) {
+			String id = Core.getParam("p_datasorce_app");
 			if(Core.isNotNull(id)){
 				RepSource rep = new RepSource().findOne(Integer.parseInt(id));
 				model.setNome(rep.getName());
@@ -54,26 +70,12 @@ public class DataSourceController extends Controller {
 				model.setQuery(rep.getType_name().equalsIgnoreCase("query")?rep.getType_query():"");
 				model.setTipo(rep.getType_name());
 			}
-			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-				model.load();
-			}
-			DataSourceView view = new DataSourceView(model);
-			view.processo.setVisible(false);
-			view.query.setVisible(false);
-			view.servico.setVisible(false);
-			view.area.setVisible(false);
-			view.etapa.setVisible(false);
-			view.pagina.setVisible(false);
-			view.objecto.setVisible(false);
-			
-			view.tipo.setValue(tipo);
-			
 			view.pagina.setLookup("igrp","LookupListPage","index");
 			view.pagina.addParam("p_prm_target","_blank");
 			view.pagina.addParam("p_id_pagina", "p_id");
 			view.pagina.addParam("p_pagina", "descricao");
 			view.pagina.addParam("p_aplicacao", "p_id_aplicacao");
-			view.data_source.setValue(new Config_env().getListEnv(Integer.parseInt(id_env)));
+			view.data_source.setValue(new Config_env().getListEnv(Integer.parseInt(model.getId_env())));
 			
 			//habilita botao de acordo com tipo de objeto
 			if(Core.isNotNull(model.getTipo())){
@@ -83,49 +85,78 @@ public class DataSourceController extends Controller {
 					view.pagina.setVisible(true);
 				}else if(model.getTipo().equalsIgnoreCase("query")){
 					view.query.setVisible(true);
+				}else if(model.getTipo().equalsIgnoreCase("task")){
+					view.etapa.setVisible(true);
+					view.processo.setVisible(true);
 				}
 			}
-			view.target = "_blank";
-	
 			if(Core.isNotNull(id)){
 				view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
 			}
 			view.btn_fechar.setVisible(false);
-			return this.renderView(view);
 		}
-		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+		view.processo.setValue(new ProcessDefinitionService().mapToComboBox(Core.isNotNull(model.getId_env())?new Integer(model.getId_env()):0));
+		view.nome.setVisible(true);
+		if(Core.isNotNull(model.getProcesso())) {
+			view.etapa.setValue(new TaskService().mapToComboBox(model.getProcesso()));
+		}
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/		
+		
 		DataSource model = new DataSource();
 		model.load();
-		RepSource rep = new RepSource();
-		rep.setName(model.getNome());
-		rep.setType(model.getTipo());
-		rep.setType_name(model.getTipo());
-		rep.setType_query(model.getQuery());
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(Core.isNotNull(model.getP_id_env()) && Core.isNotNull(model.getData_source())){
-			rep.setConfig_env(new Config_env().findOne(Integer.parseInt(model.getData_source())));
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","DataSource","index", this.queryString()); //if submit, loads the values
+		}
+		
+		----#gen-example */
+		/*----#start-code(gravar)----*/		
+		
+  		this.addQueryString("p_id_env",model.getId_env());
+		if(Core.isNotNull(model.getId_env())){
+			RepSource rep = new RepSource();
+			rep.setName(model.getNome());
+			rep.setType(model.getTipo());
+			rep.setType_name(model.getTipo());
+			rep.setType_query(model.getQuery());
+			if((model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query") || model.getTipo().equalsIgnoreCase("page")) && Core.isNull(model.getData_source())) {
+				Core.setMessageError("Por favor selecione uma data source");
+				return this.forward("igrp","DataSource","index", this.queryString());
+			}
+			if(Core.isNotNull(model.getData_source()))
+				rep.setConfig_env(new Config_env().findOne(Integer.parseInt(model.getData_source())));
 			if(model.getTipo().equalsIgnoreCase("object")){
 				rep.setType_query(model.getObjecto());
 			}
 			if(model.getTipo().equalsIgnoreCase("page")){				
-				rep.setType_fk(Integer.parseInt(model.getP_id_pagina()));
+				rep.setType_fk(Integer.parseInt(model.getId_pagina()));
 			}
 			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
 				if(!Query.validateQuery(rep.getConfig_env(),query)){
 					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
-					return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
+					return this.forward("igrp","DataSource","index&id_env="+model.getId_env());
 				}
 			}
-			
-			Application app = new Application().findOne(Integer.parseInt(model.getP_id_env()));
+			if(model.getTipo().equalsIgnoreCase("task")) {
+				ProcessDefinitionService p = new ProcessDefinitionService().getProcessDefinition(model.getProcesso());
+				rep.setProcessid(p.getKey());
+				rep.setTaskid(model.getEtapa());
+				rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
+				List<TaskService> task = p.getTasks(model.getProcesso()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
+				rep.setFormkey((task!=null && !task.isEmpty())?task.get(0).getFormKey():"");
+			}
+			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
 			rep.setApplication(app);
 			rep.setStatus(1);
 			rep.setApplication_source(app);
@@ -135,35 +166,33 @@ public class DataSourceController extends Controller {
 			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 			rep.setUser_created(user);
 			rep.setUser_updated(user);
-			String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
+			String id = Core.getParam("p_datasorce_app");
 			if(Core.isNotNull(id)){
 				rep.setId(Integer.parseInt(id));
 				rep = rep.update();
 			}else{
 				rep = rep.insert();
 			}
+			if(rep!=null)
+				Core.setMessageSuccess();
 		}else{
-			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Operação falhada"));
-			return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
+			Core.setMessageError();
+			return this.forward("igrp","DataSource","index", this.queryString());
 		}
-		if(rep!=null){
-			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
-		}else{
-			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));	
-			return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());			
-		}
-		return this.redirect("igrp","DataSource","index&id_env="+model.getP_id_env());
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+		return this.redirect("igrp","DataSource","index", this.queryString());	
 	}
 	
-
-	public Response actionFechar() throws IOException{
-		/*----#START-PRESERVED-AREA(FECHAR)----*/		
-		return this.redirect("igrp","DataSource","index");
-		/*----#END-PRESERVED-AREA----*/
+	public Response actionFechar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		/*----#start-code(fechar)----*/		
+		
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","datasource","index");	
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	
 	//Print data source in xml format
 	public Response actionGetDataSource() throws IOException{
@@ -192,18 +221,36 @@ public class DataSourceController extends Controller {
 				columns = rep.getColumns(rep.getConfig_env(),template_id,query);
 				return this.transformToXml(title,columns);
 			}else if(rep.getType().equalsIgnoreCase("page")){
-				Action ac = new Action();
-				ac = ac.findOne(rep.getType_fk());
-				String fileName = ac.getPage()+".xml";
-				String basePath = this.getConfig().getBaseServerPahtXsl(ac);
-				String content = FileHelper.readFile(basePath, fileName);
-				int start = content.indexOf("<content");
-				int end = content.indexOf("</rows>");
-				content = (start!=-1 && end!=-1)?content.substring(start,end):"";
-				return content;
+				Action ac = new Action().findOne(rep.getType_fk());
+				return this.getDSPageOrTask(rep.getType(),ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr());
+			}else if(rep.getType().equalsIgnoreCase("task")) {
+				return this.getDSPageOrTask(rep.getType(),rep.getApplication_source().getDad(), rep.getFormkey(), "index","Task: "+rep.getTaskid());
 			}
 		}
 		return null;
+	}
+	
+	public String getDSPageOrTask(String type,String app,String page,String action,String title) {
+		XMLExtractComponent comp = new XMLExtractComponent();
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("content");
+		xml.setElement("title", title);
+		String content = this.call(app,page,action).getContent();
+		content = comp.extractXML(content);
+		if(type.equalsIgnoreCase("task")) {
+			xml.addXml(this.getFormProcessId());
+		}
+		xml.addXml(content);
+		xml.endElement();
+		return xml.toString();
+	}
+	
+	public String getFormProcessId() {
+		IGRPForm formProcess = new IGRPForm("form_process_definition");
+		Field p_prm_definitionid = new TextField(null, "p_prm_definitionid");
+		p_prm_definitionid.setValue(Core.getParam("report_p_prm_definitionid"));
+		formProcess.addField(p_prm_definitionid);
+		return formProcess.toString();
 	}
 
 	//Transform columns to xml
@@ -228,5 +275,5 @@ public class DataSourceController extends Controller {
 		return xml.toString();
 	}
 	
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}

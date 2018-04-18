@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  *
  * @author Emanuel
@@ -19,17 +18,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="userTask")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserTask implements Serializable{
-    @XmlAttribute
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@XmlAttribute
     private String id;
     @XmlAttribute
     private String name;
-    @XmlAttribute(name="activiti:formKey")
+    @XmlAttribute(name="formKey")
     private String formKey;
     @XmlElement
     private String outgoing;
 
 
-    public String getId ()
+    public String getFormKey() {
+		return formKey;
+	}
+
+	public void setFormKey(String formKey) {
+		this.formKey = formKey;
+	}
+
+	public String getId ()
     {
         return id;
     }
