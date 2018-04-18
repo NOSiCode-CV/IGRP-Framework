@@ -720,6 +720,11 @@ public final class Core {	// Not inherit
 		return Igrp.getInstance().getRequest().getParameterMap();
 	}
 	
+	/** {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
+	 * 
+	 * @param name of the string label
+	 * @return {@code v!=null?v.toString():"";}
+	 */
 	public static String getParam(String name) {
 		Object v = Igrp.getInstance().getRequest().getParameter(name);
 		if(Core.isNull(v))
@@ -727,41 +732,66 @@ public final class Core {	// Not inherit
 		return v!=null?v.toString():"";
 	}
 
+	/**  Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
+	 */
 	public static Integer getParamInt(String name) {
 		String x = Core.getParam(name);
 		if(Core.isNull(x))
 			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toInt(x):0;
 	}
-	
+	/** Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
+	 */
 	public static Double getParamDouble(String name) {
 		String x = Core.getParam(name);
 		if(Core.isNull(x))
 			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toDouble(x):0;
 	}
-
+	/** Core.getParam first
+		 * 
+		 * @param name of the string label
+		 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
+		 */
 	public static Short getParamShort(String name) {
 		String x = Core.getParam(name);
 		if(Core.isNull(x))
 			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toShort(x):0;
 	}
-	
+	/** Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
+	 */
 	public static Float getParamFloat(String name) {
 		String x = Core.getParam(name);
 		if(Core.isNull(x))
 			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toFloat(x):0;
 	}
-	
+	/** Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
+	 */
 	public static Long getParamLong(String name) {
 		String x = Core.getParam(name);
 		if(Core.isNull(x))
 			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toLong(x):0;
 	}
-	
+	/** {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
+	 * 
+	 * @param name of the string label
+	 * @return value
+	 */
 	public static String[] getParamArray(String name) {
 		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
 		if(value == null) {
