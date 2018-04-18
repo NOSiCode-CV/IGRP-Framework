@@ -315,21 +315,27 @@ public class ProcessDefinitionService extends Activit{
 			InputStream is = (InputStream) response.getEntity();
 			try {
 				String xml = FileHelper.convertToString(is);
-				 xml = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "");
+				xml = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey", "formKey");
 				StringReader r = new StringReader(xml);
 				TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
 				if(listTasks!=null && listTasks.getProcess()!=null) {
-					for(UserTask task:listTasks.getProcess().get(0).getUserTask()) {
-						TaskService t = new TaskService();
-						t.setId(listTasks.getProcess().get(0).getId()+"_"+task.getId());
-						t.setName(task.getName());
-						list.add(t);
+					if(listTasks.getProcess().get(0)!=null && listTasks.getProcess().get(0).getUserTask()!=null) {
+						for(UserTask task:listTasks.getProcess().get(0).getUserTask()) {
+							TaskService t = new TaskService();
+							t.setId(listTasks.getProcess().get(0).getId()+"_"+task.getId());
+							t.setTaskDefinitionKey(task.getId());
+							t.setName(task.getName());
+							t.setFormKey(task.getFormKey());
+							list.add(t);
+						}
 					}
 					if(listTasks.getProcess().get(0).getSubProcess()!=null) {
 						for(UserTask task:listTasks.getProcess().get(0).getSubProcess().getUserTask()) {
 							TaskService t = new TaskService();
 							t.setId(listTasks.getProcess().get(0).getSubProcess().getId()+"_"+task.getId());
 							t.setName(task.getName());
+							t.setTaskDefinitionKey(task.getId());
+							t.setFormKey(task.getFormKey());
 							list.add(t);
 						}
 					}

@@ -5,12 +5,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
@@ -492,6 +496,16 @@ public class TaskService extends Activit{
 			return process.getKey();
 		}
 		return "";
+	}
+
+	public Map<String, String> mapToComboBox(String processo) {
+		if(Core.isNotNull(processo)) {
+			List<TaskService> list = new ProcessDefinitionService().getTasks(processo);
+			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());//Remove Duplicate
+			Map<String, String> map = listDistint.stream().collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName));
+			return map;
+		}
+		return null;
 	}
 	
 }

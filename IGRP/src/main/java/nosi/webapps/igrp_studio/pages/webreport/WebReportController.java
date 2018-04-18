@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
+import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -28,6 +29,7 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.pages.datasource.DataSourceController;
 /*----#END-PRESERVED-AREA----*/
 
 public class WebReportController extends Controller {		
@@ -37,7 +39,7 @@ public class WebReportController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		WebReport model = new WebReport();
 		WebReportView view = new WebReportView(model);
-		model.load();		
+		model.load();	
 		if(Core.isNotNull(model.getEnv_fk())){
 			RepSource ds = new RepSource();
 			int env_fk = Integer.parseInt(model.getEnv_fk());
@@ -67,8 +69,8 @@ public class WebReportController extends Controller {
 			view.gen_table.addData(data);
 		}
 		view.env_fk.setValue(new Application().getListApps());
-		view.link_add_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&id_env="+model.getEnv_fk()));
-		view.p_link_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&dad=igrp"));
+		view.link_add_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&target=_blank&id_env="+model.getEnv_fk()));
+		view.p_link_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&dad=igrp&target=_blank"));
 		view.p_edit_name_report.setValue(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -250,9 +252,26 @@ public class WebReportController extends Controller {
 				return this.getDataForQueryOrObject(rep,name_array,value_array);
 			case "page":
 				return this.getDataForPage(rep);
+			case "task":
+				return this.getDataForTask(rep);
 		}
 		return "";
 	}
+
+
+	private String getDataForTask(RepTemplateSource rep) {
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("content");
+		DataSourceController ds = new DataSourceController();
+		this.addQueryString("processDefinitionKey", rep.getRepSource().getProcessid())
+			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
+		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
+		xml.addXml(new XMLExtractComponent().extractXML(content));
+		xml.addXml(ds.getFormProcessId());
+		xml.endElement();
+		return xml.toString();
+	}
+
 
 
 	private String getDataForPage(RepTemplateSource rep) {
@@ -314,6 +333,8 @@ public class WebReportController extends Controller {
 			return this.getContentXml(rts.getRepSource().getName(),rowsXml);
 		}else if(rs.getType().equalsIgnoreCase("page")){
 			return this.getDataForPage(rts);
+		}else if(rs.getType().equalsIgnoreCase("task")){
+			return this.getDataForTask(rts);
 		}
 		return "";
 	}

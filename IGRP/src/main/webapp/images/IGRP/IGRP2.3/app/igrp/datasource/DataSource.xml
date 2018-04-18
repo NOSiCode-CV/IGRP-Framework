@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
@@ -42,21 +42,21 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>success|fa-save</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xml</preview>
             </item>
             <item type="specific" code="" rel="fechar">
                 <title>Fechar</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>_close</target>
                 <img>danger|fa-close</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+                <preview>undefined</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Data Source</label>
                     <list>
                         <option/>
@@ -78,7 +78,7 @@
                         </option>
                     </list>
                 </data_source>
-                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="">
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Tipo</label>
                     <list>
                         <option/>
@@ -103,31 +103,9 @@
                 </tipo>
                 <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Anim doloremque sit lorem laudantium</value>
+                    <value>Ipsum labore lorem aperiam ipsum</value>
                 </nome>
-                <area name="p_area" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
-                    <label>Area</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </area>
-                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
+                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Processo</label>
                     <list>
                         <option/>
@@ -149,7 +127,7 @@
                         </option>
                     </list>
                 </processo>
-                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
+                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Etapa</label>
                     <list>
                         <option/>
@@ -173,26 +151,28 @@
                 </etapa>
                 <objecto name="p_objecto" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Objecto</label>
-                    <value>Perspiciatis labore laudantium natus voluptatem</value>
+                    <value>Iste voluptatem doloremque unde iste</value>
                 </objecto>
                 <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Pagina</label>
                     <value/>
                     <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                    <lookupParams/>
                 </pagina>
                 <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Query</label>
-                    <value>Natus mollit omnis totam labore mollit iste ipsum sit elit ut mollit laudantium sit aliqua</value>
+                    <value>Consectetur iste amet ipsum consectetur rem unde aperiam ipsum omnis consectetur lorem sit labore amet</value>
                 </query>
                 <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Servico</label>
                     <value/>
                     <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                    <lookupParams/>
                 </servico>
-                <hidden name="p_id_pagina" type="hidden" maxlength="30" tag="id_pagina"/>
-                <hidden name="p_id_servico" type="hidden" maxlength="30" tag="id_servico"/>
-                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
-                <hidden name="p_id_env" type="hidden" maxlength="30" tag="id_env"/>
+                <hidden name="p_id_pagina" type="hidden" maxlength="30" java-type="" tag="id_pagina"/>
+                <hidden name="p_id_servico" type="hidden" maxlength="30" java-type="" tag="id_servico"/>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
+                <hidden name="p_id_env" type="hidden" maxlength="30" java-type="" tag="id_env"/>
             </fields>
         </form_1>
     </content>

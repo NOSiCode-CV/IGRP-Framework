@@ -41,13 +41,12 @@ public class LinkField extends AbstractField {
 	String link;
 	@Override
 	public Object getValue() {
-		 link=super.getValue().toString();
-		 
+		 link=super.getValue().toString();		 
 		if(this.params!=null) {
 			this.params.entrySet().stream().forEach(p->{
 				link+="&"+p.getKey()+"="+p.getValue();
 			});
 		}
-		return link.contains("&amp;")?link:link.replaceAll("&", "&amp;");
+		return link;
 	}
 }

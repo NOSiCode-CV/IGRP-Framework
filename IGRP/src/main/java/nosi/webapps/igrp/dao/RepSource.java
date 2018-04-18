@@ -86,9 +86,15 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	@Transient
 	private XMLWritter xmlRows = new XMLWritter();
 	@ManyToOne
-	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_REP_SOURCE_ENV_FK"),nullable=false)
+	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_REP_SOURCE_ENV_FK"),nullable=true)
 	private Config_env config_env;
-	
+	@Column(length=100)
+	private String taskid;
+	@Column(length=100)
+	private String processid;
+
+	@Column(length=100)
+	private String formkey;
 	
 	public RepSource(){}
 	
@@ -222,6 +228,38 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 		this.config_env = config_env;
 	}
 	
+	
+	
+	public String getFormkey() {
+		return formkey;
+	}
+
+
+	public void setFormkey(String formkey) {
+		this.formkey = formkey;
+	}
+
+
+	public String getTaskid() {
+		return taskid;
+	}
+
+
+	public void setTaskid(String taskid) {
+		this.taskid = taskid;
+	}
+
+
+	public String getProcessid() {
+		return processid;
+	}
+
+
+	public void setProcessid(String processid) {
+		this.processid = processid;
+	}
+
+
 	public HashMap<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
 		//lista.put(null, "--- Selecionar Aplicação ---");

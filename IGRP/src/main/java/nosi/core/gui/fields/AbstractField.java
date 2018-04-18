@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
@@ -60,9 +59,6 @@ public abstract class AbstractField implements Field{
 		return value;
 	}
 	public void setValue(Object value) {
-		if(this instanceof ListField && value instanceof String && Core.isNotNull(value)) {
-			value = value.toString().replaceAll("&amp;", "&amp;");
-		}
 		if(value instanceof Model) {
 			this.configValue(value);			
 			if(this.propertie != null && this.getValue() != null)

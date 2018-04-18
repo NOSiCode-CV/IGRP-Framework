@@ -33,7 +33,7 @@ public class XMLWritter {
 
 		private void resolvePath(String xslPath) {
 			if(xslPath!=null) {
-				xslPath = xslPath.replaceAll("&", "&amp;").replaceAll("amp;amp;", "amp;");
+				xslPath = xslPath.contains("&amp;")?xslPath:xslPath.replaceAll("&", "&amp;");
 			}
 		}
 
