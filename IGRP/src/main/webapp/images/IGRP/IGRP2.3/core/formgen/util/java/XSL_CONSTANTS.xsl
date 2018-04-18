@@ -52,55 +52,79 @@
     <xsl:variable name="simple_quotes">'</xsl:variable>
 
     <xsl:variable name="import_config">
-        <xsl:text>import nosi.core.config.Config;</xsl:text>
+    	<xsl:if test="count(//fields/*[@persist='true' or @type='link']) &gt; 0">
+        	<xsl:text>import nosi.core.config.Config;</xsl:text>
+        </xsl:if>
     </xsl:variable>
     
-    <xsl:variable name="import_HashMap">
-        <xsl:text>import java.util.HashMap;</xsl:text>
+    <xsl:variable name="import_HashMap">    
+    	<xsl:if test="count(/rows/content/*[@type='table']/fields/*[@type='color']) &gt; 0">
+        	<xsl:text>import java.util.HashMap;</xsl:text>
+        </xsl:if>
     </xsl:variable>
     
-    <xsl:variable name="import_Map">
-        <xsl:text>import java.util.Map;</xsl:text>
+    <xsl:variable name="import_Map">   
+    	<xsl:if test="count(/rows/content/*[@type='table']/fields/*[@type='color']) &gt; 0">
+        	<xsl:text>import java.util.Map;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_components">
-        <xsl:text>import nosi.core.gui.components.*;</xsl:text>
+    	<xsl:if test="count(/rows/content/*) &gt; 0">
+        	<xsl:text>import nosi.core.gui.components.*;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_fields">
-        <xsl:text>import nosi.core.gui.fields.*;</xsl:text>
-        <xsl:value-of select="$newline"/>
-        <xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
+    	<xsl:if test="count(//fields/*) &gt; 0">
+	        <xsl:text>import nosi.core.gui.fields.*;</xsl:text>
+	        <xsl:value-of select="$newline"/>
+	        <xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_view">
         <xsl:text>import nosi.core.webapp.View;</xsl:text>
     </xsl:variable>
 
-    <xsl:variable name="import_model">
-        <xsl:text>import nosi.core.webapp.Model;</xsl:text>
-          <xsl:value-of select="$newline"/>
-        <xsl:text>import java.sql.Date;</xsl:text>
+    <xsl:variable name="import_date">
+    	<xsl:if test="count(//fields/*[@java-type='java.sql.Date']) &gt; 0">
+        	<xsl:text>import java.sql.Date;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
+    <xsl:variable name="import_model">
+       	<xsl:text>import nosi.core.webapp.Model;</xsl:text>
+    </xsl:variable>
+    
     <xsl:variable name="import_array_list">
-        <xsl:text>import java.util.ArrayList;</xsl:text>
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
+        	<xsl:text>import java.util.ArrayList;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_list">
-        <xsl:text>import java.util.List;</xsl:text>
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
+        	<xsl:text>import java.util.List;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
-    <xsl:variable name="import_separator_list">
-        <xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
+    <xsl:variable name="import_separator_list">    
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist']) &gt; 0">
+        	<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
+        </xsl:if>
     </xsl:variable>
     
     <xsl:variable name="import_query_helper">
-        <xsl:text>import nosi.core.webapp.databse.helpers.QueryHelper;</xsl:text>
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
+        	<xsl:text>import nosi.core.webapp.databse.helpers.QueryHelper;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
-    <xsl:variable name="import_separator_list_annotation">
-        <xsl:text>import nosi.core.webapp.SeparatorList;</xsl:text>
+    <xsl:variable name="import_separator_list_annotation">     
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist']) &gt; 0">
+        	<xsl:text>import nosi.core.webapp.SeparatorList;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_controller">
@@ -111,8 +135,6 @@
         <xsl:text>import java.io.IOException;</xsl:text>
         <xsl:value-of select="$newline"/>
         <xsl:text>import nosi.core.webapp.Core;</xsl:text>
-        <xsl:value-of select="$newline"/>
-        <xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_response">
@@ -120,11 +142,13 @@
     </xsl:variable>
 
     <xsl:variable name="import_igrp">
-        <xsl:text>import nosi.core.webapp.Igrp;</xsl:text>
+        <xsl:text></xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_annotations">
-        <xsl:text>import nosi.core.webapp.RParam;</xsl:text>
+    	<xsl:if test="count(//fields/*) &gt; 0">
+        	<xsl:text>import nosi.core.webapp.RParam;</xsl:text>
+        </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="base_import">

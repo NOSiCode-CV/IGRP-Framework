@@ -39,8 +39,6 @@
 		 		<xsl:value-of select="$import_exception"/>
 				<xsl:value-of select="$newline"/>
 		 		<xsl:value-of select="$import_response"/>
-				<xsl:value-of select="$newline"/>
-				<xsl:value-of select="$import_query_helper"/>
      		</xsl:otherwise>
      	</xsl:choose>
      	<xsl:call-template name="start-code">
