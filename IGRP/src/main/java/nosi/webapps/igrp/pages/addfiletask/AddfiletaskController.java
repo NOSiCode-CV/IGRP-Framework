@@ -4,7 +4,6 @@ package nosi.webapps.igrp.pages.addfiletask;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;

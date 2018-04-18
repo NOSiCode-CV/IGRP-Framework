@@ -43,6 +43,12 @@ public abstract class Controller{
 		queryString = new QueryString<>();
 	}
 	
+	protected void loadQueryString() {
+		Core.getParameters().entrySet().stream().filter(p->!p.getKey().equals("r")).forEach(p->{
+			this.addQueryString(p.getKey(),p.getValue()!=null?p.getValue()[0]:"");
+		});
+	}
+	
 	protected QueryString<String,Object> queryString() {
 		return this.queryString;
 	}

@@ -1,7 +1,5 @@
 package nosi.core.webapp;
 
-import static nosi.core.i18n.Translator.gt;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,15 +19,11 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
-
 import org.modelmapper.ModelMapper;
-
 import com.google.gson.Gson;
-
 import nosi.core.config.Config;
 import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
@@ -316,7 +310,13 @@ public final class Core {	// Not inherit
 	public static Response getLinkReport(String code_report,Report rep){
 		return new Report().invokeReport(code_report, rep);
 	}
-	
+	public static Response getLinkReport(String code_report,QueryString<String, Object> qs){		
+		Report rep = new Report();
+		qs.getQueryString().entrySet().stream().forEach(q->{
+			rep.addParam(q.getKey(), q.getValue());
+		});
+		return new Report().invokeReport(code_report, rep );
+	}
 	public static GenericServiceResponse getBizTalkClient(String clientId,String transaction,String service,String args){
 		GenericService_DevProxy proxy = new GenericService_DevProxy(); 
 		GenericServiceRequest part = new GenericServiceRequest(clientId, transaction, service, args);
@@ -671,7 +671,12 @@ public final class Core {	// Not inherit
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
 	}
-
+	
+	
+	public static String gt(String value) {
+		return nosi.core.i18n.Translator.gt(value);
+	}
+	
 	public static String getXMLParams() {
 		Map<String,String[]> params = Igrp.getInstance().getRequest().getParameterMap();
 		XMLWritter xml = new XMLWritter();
@@ -710,6 +715,7 @@ public final class Core {	// Not inherit
 		String json = gson.toJson(customV);
 		return json;
 	}
+	
 	public static Map<String,String[]> getParameters() {
 		return Igrp.getInstance().getRequest().getParameterMap();
 	}

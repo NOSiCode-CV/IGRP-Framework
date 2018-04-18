@@ -62,12 +62,7 @@ public class IGRPSeparatorList extends IGRPTable {
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			
-			int i = 0;
-			
 			for(Object obj:this.data){
-				
-				
-				
 				
 				this.xml.startElement("row");
 				if(this.buttons.size() > 0){
