@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -23,9 +25,11 @@ import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
-import org.hibernate.criterion.Restrictions;
+
 import org.modelmapper.ModelMapper;
+
 import com.google.gson.Gson;
+
 import nosi.core.config.Config;
 import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
@@ -62,17 +66,14 @@ import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
-import static nosi.core.i18n.Translator.gt;
 
 /**
  * @author: Emanuel Pereira
  * 13 Nov 2017
  */
-public final class Core {	/** Not inherit 
-
-
+public final class Core {	// Not inherit 
 	
-	private Core() {} /** Not instantiate  
+	private Core() {} // Not instantiate  
 	
 	  /**
 	   * This method is used to add a message log 	 
@@ -113,14 +114,11 @@ public final class Core {	/** Not inherit
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 	}	
 
-
-
 	
-
-	
-	/**Add Message Info
+	/**
+	 * Add Message Info 
 	 * 
-	 * @param msg
+	 * @param msg custom message
 	 */
 	public static void setMessageInfo(String msg){
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg));
@@ -128,9 +126,8 @@ public final class Core {	/** Not inherit
 	}
 
 	/**Add Message Info With Link
-	 * 
-	 * @param msg
-	 * @param link
+	 * @param msg custom message
+	 * @param link set a link to show
 	 */
 	public static void setMessageInfoLink(String msg,String link){
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+link);
@@ -138,11 +135,10 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Add Message Info With Link
-	 * 
-	 * @param msg
-	 * @param app
-	 * @param page
-	 * @param action
+	 * @param msg custom message 
+	 * @param app for the created link
+	 * @param page for the created link
+	 * @param action for the created link
 	 */
 	public static void setMessageInfoLink(String msg,String app,String page,String action){
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+new Config().getResolveUrl(app, page, action));
@@ -150,8 +146,7 @@ public final class Core {	/** Not inherit
 	}
 		
 	/**Add Message Warning
-	 * 
-	 * @param msg
+	 * @param msg custom message
 	 */
 	public static void setMessageWarning(String msg){
 		nosi.core.servlet.IgrpServlet.LOGGER.warn(gt(msg));
@@ -159,8 +154,7 @@ public final class Core {	/** Not inherit
 	}	
 	
 	/**Get Config Property
-	 * 
-	 * @param name
+	 * @param name of the config property
 	 * @return
 	 */
 	public static String getConfig(String name){
@@ -168,54 +162,49 @@ public final class Core {	/** Not inherit
 		return c!=null?c.getValue():null;
 	}
 	
-	/**Get Current User
+	/**Get current user identity
 	 * 
-	 * @return
+	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();} 
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser(){
 		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
 	}
 
 	/**Find User by ID
-	 * 
 	 * @param id
-	 * @return
+	 * @return {@code new User().findOne(id)}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserById(Integer id){
 		return new nosi.webapps.igrp.dao.User().findOne(id);
 	}
 	
 	/**Find User by Username
-	 * 
 	 * @param userName
-	 * @return
+	 * @return {@code User().find().andWhere("username", "=", userName).one();}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName){
 		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", userName).one();
 	}
 	
 	/**Find User by email
-	 * 
 	 * @param email
-	 * @return
+	 * @return {@code User().find().andWhere("username", "=", email).one();}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserByEmail(String email){
 		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", email).one();
 	}
 	
 	/**Format date and return to Type String
-	 * 
 	 * @param date
 	 * @param formatIn
 	 * @param outputFormat
-	 * @return
+	 * @return {@code DateHelper.convertDate(date,formatIn,outputFormat);}
 	 */
 	public static String convertDate(String date, String formatIn, String outputFormat) {
 		return DateHelper.convertDate(date,formatIn,outputFormat);
 	}
 	
 	/**Format date and return to Type Date
-	 * 
 	 * @param data
 	 * @param inputFormat
 	 * @param outputFormat
@@ -226,7 +215,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Get Current Datetime (dd-MM-yyyy)
-	 * 
 	 * @return
 	 */
 	public static String getCurrentDate(){
@@ -234,7 +222,6 @@ public final class Core {	/** Not inherit
 	}
 
 	/**Get Current Datetime (User defined output format)
-	 * 
 	 * @param outputFormat
 	 * @return
 	 */
@@ -243,7 +230,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Get Current Datetime (dd/MM/yyyy HH:mm:ss)
-	 * 
 	 * @return
 	 */
 	public static String getCurrentDataTime() {
@@ -251,7 +237,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Get Current Application Dad on Cookie
-	 * 
 	 * @return
 	 */
 	public static String getCurrentDad(){
@@ -259,7 +244,6 @@ public final class Core {	/** Not inherit
 	}
 
 	/**Get Current Organization on Cookie
-	 * 
 	 * @return
 	 */
 	public static Integer getCurrentOrganization(){
@@ -267,7 +251,6 @@ public final class Core {	/** Not inherit
 	}
 
 	/**Get Current Profile on Cookie
-	 * 
 	 * @return
 	 */
 	public static Integer getCurrentProfile(){
@@ -275,7 +258,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Find Application By ID
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -284,7 +266,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Find Application By Dad
-	 * 
 	 * @param dad
 	 * @return
 	 */
@@ -293,7 +274,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Find Organization By ID
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -302,7 +282,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Find Organization By Code
-	 * 
 	 * @param code
 	 * @return
 	 */
@@ -311,7 +290,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Find Profile By ID
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -320,7 +298,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Find Profile By Code
-	 * 
 	 * @param code
 	 * @return
 	 */
@@ -329,7 +306,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Check permition transaction for current user
-	 * 
 	 * @param transaction
 	 * @return
 	 */
@@ -377,7 +353,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Pesquia SNIAC via Biztalk
-	 * 
 	 * @param pesquisa
 	 * @return
 	 */
@@ -385,7 +360,6 @@ public final class Core {	/** Not inherit
 		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
 	/**Pesquia SNIAC via Biztalk
-	 * 
 	 * @param num_idnt_civil_pes
 	 * @param num_registo_pes
 	 * @param nome_pes
@@ -399,7 +373,6 @@ public final class Core {	/** Not inherit
 	}	
 
 	/**Pesquia BI via Biztalk
-	 * 
 	 * @param pesquisa
 	 * @return
 	 */
@@ -407,7 +380,6 @@ public final class Core {	/** Not inherit
 		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
 	/**Pesquia BI via Biztalk
-	 * 
 	 * @param bi
 	 * @param nome
 	 * @return
@@ -417,15 +389,13 @@ public final class Core {	/** Not inherit
 	}	
 
 	/**Pesquia NIF via Biztalk
-	 * 
 	 * @param pesquisa
 	 * @return
 	 */
 	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
 		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	/**Pesquia NIF via Biztalk
-	 * 
+	/**Pesquia NIF via Biztalk 
 	 * @param numero
 	 * @param nome
 	 * @return
@@ -435,7 +405,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Pesquia Nascimento via Biztalk
-	 * 
 	 * @param pesquisa
 	 * @return
 	 */
@@ -443,7 +412,6 @@ public final class Core {	/** Not inherit
 		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
 	/**Pesquia Nascimento via Biztalk
-	 * 
 	 * @param nome
 	 * @param numero_registo
 	 * @param data_nascimento
@@ -454,7 +422,6 @@ public final class Core {	/** Not inherit
 	}	
 
 	/**Pesquia Hierarquia CAE via Biztalk
-	 * 
 	 * @param pesquisa
 	 * @return
 	 */
@@ -462,7 +429,6 @@ public final class Core {	/** Not inherit
 		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
 	/**Pesquia Hierarquia CAE via Biztalk
-	 * 
 	 * @param id
 	 * @param codigo
 	 * @param crpcae_id
@@ -474,7 +440,6 @@ public final class Core {	/** Not inherit
 	}
 	
 	/**Pesquia Geografia via Biztalk
-	 * 
 	 * @param pesquisa
 	 * @return
 	 */
@@ -502,6 +467,11 @@ public final class Core {	/** Not inherit
 		return EncrypDecrypt.decrypt(content);
 	}
 	
+	/** Checks if it's not null or ""
+	 * 
+	 * @param value
+	 * @return {@code value!=null && !value.equals("");}
+	 */
 	public static boolean isNotNull(Object value) {
 		return value!=null && !value.equals("");
 	}
@@ -562,7 +532,6 @@ public final class Core {	/** Not inherit
 		return false;
 	}
 	/**Verifies if the String is a Integer, than returns the parse of it, else returns 0
-	 *  
 	 * @param value
 	 * @return Integer.parseInt(value) or 0
 	 * 
@@ -602,7 +571,6 @@ public final class Core {	/** Not inherit
 		return defaultValue;
 	}
 	/**Verifies if the String is a Double, than returns the parse of it, else returns 0
-	 *  
 	 * @param value
 	 * @return Double.parseDouble(value) or 0
 	 * 
@@ -618,8 +586,6 @@ public final class Core {	/** Not inherit
 		return defaultValue;
 	}
 	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
-	 * {@value}
-	 * @ 
 	 * @param value
 	 * @return Float.parseFloat(value) or 0
 	 * 
@@ -698,11 +664,7 @@ public final class Core {	/** Not inherit
 	
 	public static String ToChar(String date,String formatOut) {
 		return DateHelper.convertDate(date, "yyyy-MM-dd", formatOut);
-	}
-	
-	public static class Restriction extends Restrictions{
-		
-	}
+	}	
 
 	public static void addHiddenField(String name,Object value) {
 		Field f = new HiddenField(name, value!=null?value.toString():"");
