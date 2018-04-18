@@ -235,9 +235,10 @@ public class WebReportController extends Controller {
 			for(String v:value_array)
 				params += ("&value_array="+v);
 		}
+		this.loadQueryString();
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_id="+rt.getId()+"&p_type=1"+params);
+			return this.redirect("igrp_studio", "WebReport", "preview&p_id="+rt.getId()+"&p_type=1"+params,this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
@@ -265,6 +266,7 @@ public class WebReportController extends Controller {
 		DataSourceController ds = new DataSourceController();
 		this.addQueryString("processDefinitionKey", rep.getRepSource().getProcessid())
 			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
+		this.loadQueryString();
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
 		xml.addXml(new XMLExtractComponent().extractXML(content));
 		xml.addXml(ds.getFormProcessId());

@@ -336,6 +336,7 @@ public class ExecucaoTarefasController extends Controller {
 		}		
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
+	
 	public Response actionProcessTask() throws IOException, ServletException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
 		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
@@ -346,20 +347,21 @@ public class ExecucaoTarefasController extends Controller {
 			result = this.processTask(taskId,customForm,content);
 			if(result==null){
 				Core.setMessageSuccess();
-				return this.redirect("igrp","ExecucaoTarefas", "index");
+				return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
 			}else{
 				Core.setMessageError(result.getException());
-				return this.redirect("igrp","MapaProcesso", "open-process&taskId="+taskId);
+				return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 			}
 		}
 		if(Core.isNotNull(processDefinitionId)){
 			result = this.processStartEvent(processDefinitionId,customForm,content);
 			if(result==null){
 				Core.setMessageSuccess();
+				return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
 			}else{
 				Core.setMessageError(result.getException());
+				return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
 			}
-			return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}

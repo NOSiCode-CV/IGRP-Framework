@@ -45,7 +45,7 @@ public class AddfiletaskView extends View {
 		formlist_documento_task_mostrar.setLabel(gt("Mostrar"));
 		formlist_documento_task_mostrar.setValue(new Config().getResolveUrl("igrp","Addfiletask","index"));
 							
-		formlist_documento_task_mostrar.propertie().add("name","p_formlist_documento_task_mostrar").add("type","link").add("target","_self").add("maxlength","10000").add("desc","true");
+		formlist_documento_task_mostrar.propertie().add("name","p_formlist_documento_task_mostrar").add("type","link").add("target","_newtab").add("maxlength","10000").add("desc","true");
 		
 
 		

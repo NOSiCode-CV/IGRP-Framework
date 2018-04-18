@@ -2,8 +2,8 @@ package nosi.core.webapp;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * @author: Emanuel Pereira
@@ -12,17 +12,24 @@ import java.util.Map.Entry;
 public class Report extends Controller{
 
 	private Map<String,Object> params = new HashMap<>();
+	private String qs = "";
 	
+	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep){
-		String params = "&p_code="+code_report;
+		qs+="&p_code="+code_report;
 		if(rep!=null){
-			for(Entry<String,Object> entry:rep.getParams().entrySet()){
-				if(entry.getValue()!=null && !entry.getValue().toString().equals("?"))
-					params += ("&name_array="+entry.getKey() + "&value_array="+entry.getValue());
-			}
+			rep.getParams().entrySet().stream().filter(p->!(p.getValue() instanceof List)).forEach(p->{
+				if(p.getValue()!=null && !p.getValue().toString().equals("?"))
+					qs += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
+			});
+			rep.getParams().entrySet().stream().filter(p->p.getValue() instanceof List).forEach(p->{
+				((List<Object>) p.getValue()).stream().forEach(v->{
+					qs+=("&"+p.getKey()+"="+v.toString());
+				});
+			});
 		}
 		try {
-			return this.redirect("igrp_studio", "web-report", "get-link-report"+params);
+			return this.redirect("igrp_studio", "web-report", "get-link-report"+qs);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -34,8 +41,7 @@ public class Report extends Controller{
 	}
 	
 	public Report addParam(String name,Object value){
-//		if(value!=null && !value.toString().equals(""))
-			this.params.put(name, value);
+		this.params.put(name, value);
 		return this;
 	}
 

@@ -2,9 +2,9 @@ package nosi.core.gui.components;
 
 import java.util.List;
 
-import nosi.core.gui.fields.Field;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.IgrpHelper;
+//import nosi.core.gui.fields.Field;
+//import nosi.core.webapp.Core;
+//import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira
