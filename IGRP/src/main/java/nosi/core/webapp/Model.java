@@ -1,11 +1,11 @@
 package nosi.core.webapp;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.validator.Validator;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,9 +33,9 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public abstract class Model { // IGRP super model
 	
-	/*private String scenario; // For validation fields
+	private String scenario; // For validation fields
 	private Map<String, ArrayList<String>> errors; // to store errors for each fields
-	*/
+
 	public Model(){}
 	
 	public void load(QueryHelper query) throws IllegalArgumentException, IllegalAccessException {
@@ -373,14 +373,14 @@ public abstract class Model { // IGRP super model
 			}
 		}
 	}
-	/*
-	private void createErrorsPool(){
-		this.errors = new HashMap<String, ArrayList<String>>();
-		Class<? extends Model> c = this.getClass();
-		for(Field m : c.getDeclaredFields())
-			if(m.getDeclaredAnnotations().length > 0) // For just fields that contains annotations
-				this.errors.put(m.getName(), new ArrayList<String>());
-	}
+	
+//	private void createErrorsPool(){
+//		this.errors = new HashMap<String, ArrayList<String>>();
+//		Class<? extends Model> c = this.getClass();
+//		for(Field m : c.getDeclaredFields())
+//			if(m.getDeclaredAnnotations().length > 0) // For just fields that contains annotations
+//				this.errors.put(m.getName(), new ArrayList<String>());
+//	}
 	
 	public String getScenario() {
 		return scenario;
@@ -437,7 +437,7 @@ public abstract class Model { // IGRP super model
 	
 	public ArrayList<String> getErrors(String fieldName){
 		return this.errors != null ? this.errors.get(fieldName) : null;
-	}*/
+	}
 	
 	public Object getFieldValueAsObject(String fieldName){
 		Object obj = null;
