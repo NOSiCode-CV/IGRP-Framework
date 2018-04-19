@@ -2,8 +2,11 @@ package nosi.webapps.igrp_studio.pages.env;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -12,7 +15,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
 import java.util.stream.Collectors;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+
+import org.apache.openjpa.lib.util.Files;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -86,6 +96,10 @@ public class EnvController extends Controller {
 					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					url += "/" + app.getDad().trim().toUpperCase() + "/app/webapps?r=" + app.getDad().trim().toLowerCase() + "/default-page/index" ;
 					app.setUrl(url); 
+					
+					// ... put your code here ... 
+					
+					
 				}
 			
 			app.setImg_src(model.getImg_src());
@@ -102,7 +116,12 @@ public class EnvController extends Controller {
 				new Compiler().compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
 				if(FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}		
+				}
+				
+				
+				
+				
+				
 				Core.setMessageSuccess();
 				return this.redirect("igrp_studio", "env","index");
 			}else{
@@ -114,6 +133,60 @@ public class EnvController extends Controller {
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	private void appAutoDeploy(String appDad) {
+		
+		try {
+			
+			String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP").replace("images", "IGRP-Template.war");
+			
+			File file = new File(result);
+			
+			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase())); 
+			
+			boolean b  = Files.copy(file, destinationFile);
+			
+			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());
+			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
+			
+			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
+			
+			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";
+			
+			
+			
+			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";
+			
+			String string2 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.class";
+			
+			
+			
+			JarEntry je1 = new JarEntry(aux + "DefaultPageController.java");
+			jos.putNextEntry(je1);
+			FileInputStream fis1 = new FileInputStream(string1);
+			for(int r = fis1.read(); r!=-1 ; r = fis1.read()){
+				jos.write(r);
+			}
+			fis1.close();
+			
+			JarEntry je2 = new JarEntry(aux + "DefaultPageController.class");
+			jos.putNextEntry(je2);
+			FileInputStream fis2 = new FileInputStream(string2);
+			for(int r = fis2.read(); r!=-1 ; r = fis2.read()){
+				jos.write(r);
+			}
+			fis2.close();
+			
+			
+			jos.close();
+			cos.close();
+			fos.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	private void createSvnRepo(Application app){
 		Svn  svnapi = new Svn();
