@@ -37,9 +37,8 @@ public class ChangePasswordController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/  
 		ChangePassword model = new ChangePassword();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-		}
+		
 		ChangePasswordView view = new ChangePasswordView(model);
 		view.email_1.setValue(Core.getCurrentUser().getEmail().trim());
 		return this.renderView(view);
@@ -99,11 +98,11 @@ public class ChangePasswordController extends Controller {
 	
 	private Response ldap(String currentPassword, String newPassword) throws IOException {
 	
-		User user = Core.getCurrentUser();
+		/*User user = Core.getCurrentUser();
 		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
-		}
+		}*/
 		
 		Properties settings = loadIdentityServerSettings();
 		
@@ -127,26 +126,39 @@ public class ChangePasswordController extends Controller {
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
 	        
-	        List<ClaimDTO> result = stub.getOperations().getUserClaimValues(user.getEmail(), "");
+	        flag = stub.getOperations().authenticate(user.getUser_name(), currentPassword);
+	        
+	        if(!flag) { 
+	        	Core.setMessageError(gt("Ooops! Email e senha inconsistentes."));
+	        	return flag;
+	        }
+	        
+	        flag = false;
+	        
+	        List<ClaimDTO> result = stub.getOperations().getUserClaimValues(user.getUser_name(), "");
 	        if(result != null && result.size() > 0) {
 	        	try {
 	        		UpdateCredential credential = new UpdateCredential();
-			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, user.getEmail()));
+			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, user.getUser_name()));
 			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, newPassword));
 			        credential.setOldCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "oldCredential"), String.class, currentPassword));
-			        
-			    	stub.getOperations().updateCredential(credential);
-			      
+		
+			        try {
+			        	stub.getOperations().updateCredential(credential);
+			        }catch(Exception e) {
+			        	e.printStackTrace();
+			        }
 			        int responseCode = (Integer)((javax.xml.ws.BindingProvider) stub.getOperations()).getResponseContext().get(MessageContext.HTTP_RESPONSE_CODE);
 			        if(responseCode == 202) { 
 			        	Core.setMessageSuccess(gt("Password alterado com sucesso."));
 			        	flag = true;
 			        }
 	        	}catch(Exception e) {
+	        		e.printStackTrace();
 	        		Core.setMessageError("Ocorreu um erro. " + e.getMessage());
 	        	}
 	        }else {
-	        	Core.setMessageError(gt("Ocorreu um erro. Email inválido."));
+	        	Core.setMessageError(gt("Ocorreu um erro. Utilizador inválido."));
 	        }
 		}catch(Exception e) {
 			Core.setMessageError("Ocorreu um erro. " + e.getMessage());

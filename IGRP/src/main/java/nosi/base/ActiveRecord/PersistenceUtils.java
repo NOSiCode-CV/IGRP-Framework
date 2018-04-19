@@ -45,6 +45,9 @@ public class PersistenceUtils {
         String driver = null;
         String password = null;
         String user = null;
+        
+        String hibernateDialect = null;
+        
 		  if("hibernate-igrp-core".equalsIgnoreCase(connectionName)) {
             	ConfigDBIGRP config = new ConfigDBIGRP();
     			config.load();
@@ -52,6 +55,7 @@ public class PersistenceUtils {
     			driver = getDriver(config.getType_db());
     			password = config.getPassword();
     			user = config.getUsername();
+    			hibernateDialect = getHibernateDialect(config.getType_db());
             }else{
             	Config_env config = new Config_env().find().andWhere("name", "=",connectionName).one();
             	if(config!=null) {
@@ -59,6 +63,7 @@ public class PersistenceUtils {
     				driver = getDriver(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB));
 	    			password = Core.decrypt(config.getPassword(),Config.SECRET_KEY_ENCRYPT_DB);
 	    			user = Core.decrypt(config.getUsername(),Config.SECRET_KEY_ENCRYPT_DB);
+	    			hibernateDialect = getHibernateDialect(config.getType_db());
             	}
             }
     		Configuration cfg = new Configuration();
@@ -71,7 +76,9 @@ public class PersistenceUtils {
         	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
         	cfg.getProperties().setProperty("hibernate.connection.isolation", "2");
  			//cfg.getProperties().setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
-        	//cfg.getProperties().setProperty("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQLDialect");
+        	
+        	if(!hibernateDialect.isEmpty())
+        		cfg.getProperties().setProperty("hibernate.dialect" , hibernateDialect);
         
         	//cfg.getProperties().setProperty("hibernate.c3p0.initialPoolSize","0");
         	cfg.getProperties().setProperty("hibernate.c3p0.min_size","0");
@@ -125,6 +132,20 @@ public class PersistenceUtils {
 			}
 			return "";
 		}
+		
+		   public static String getHibernateDialect(String type) {
+				switch (type.toLowerCase()) {
+					case "h2":			
+						return "org.hibernate.dialect.H2Dialect";
+					case "mysql":			
+						return "org.hibernate.dialect.MySQL5InnoDBDialect";
+					case "postgresql":			
+						return "org.hibernate.dialect.PostgreSQLDialect";
+					case "oracle":
+						return "org.hibernate.dialect.OracleDialect";
+				}
+				return "";
+				}
 	
 	public synchronized static void destroy() {
 		Iterator<SessionFactory> i = PersistenceUtils.SESSION_FACTORY.values().iterator();
