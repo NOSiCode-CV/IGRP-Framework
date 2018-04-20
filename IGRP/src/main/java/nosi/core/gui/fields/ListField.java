@@ -58,4 +58,9 @@ public class ListField extends AbstractField {
 	public void setQuery(QueryHelper query) {
 		this.setQuery(query, null);
 	}
+
+	@Override
+	public void setDefaultValue(Object defaultValue) {
+		this.propertie.put("value", defaultValue);
+	}
 }

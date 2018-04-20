@@ -183,4 +183,9 @@ public abstract class AbstractField implements Field{
 	@Override
 	public void setQuery(QueryHelper query) {
 	}
+	
+	@Override
+	public void setDefaultValue(Object defaultValue) {
+		// Not set yet 
+	}
 }

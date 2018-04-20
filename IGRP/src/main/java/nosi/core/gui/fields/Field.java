@@ -22,6 +22,7 @@ public interface Field {
 	public void setValue(float value);
 	public void setValue(double value);
 	public void setValue(Map<?,?> value);
+	public void setDefaultValue(Object defaultValue);
 	public void setLabel(String label);
 	public String getLabel();
 	public FieldProperties propertie();
