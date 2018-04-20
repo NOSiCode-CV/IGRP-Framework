@@ -1,7 +1,6 @@
 package nosi.core.webapp;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.validator.Validator;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -377,7 +376,7 @@ public abstract class Model { // IGRP super model
 //			if(m.getDeclaredAnnotations().length > 0) // For just fields that contains annotations
 //				this.errors.put(m.getName(), new ArrayList<String>());
 //	}
-	
+	/*
 	public String getScenario() {
 		return scenario;
 	}

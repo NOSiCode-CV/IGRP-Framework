@@ -254,4 +254,12 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	public String getAuthenticationKey() {
 		return this.auth_key;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass_hash=" + pass_hash + "," + valid_until + ", status=" + status + ", remarks=" + remarks
+				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
+				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
+				+ ", password_reset_token=" + password_reset_token + "]";
+	}
 }

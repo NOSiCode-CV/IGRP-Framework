@@ -48,6 +48,7 @@ public class User implements Component{
 	
 	private boolean checkSessionContext(){
 		String aux = (String) Igrp.getInstance().getRequest().getSession(true).getAttribute("_identity-igrp");
+		
 		if(aux == null || aux.isEmpty()) return false;
 		try {
 			JSONArray json = new JSONArray(aux);
@@ -55,8 +56,6 @@ public class User implements Component{
 			String authenticationKey = json.getString(1);
 			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 			user = user.findIdentityById(identityId);
-			
-		//	System.out.println(user);
 			
 			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
 				this.identity = (Identity) user;

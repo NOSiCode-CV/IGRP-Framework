@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.xml.bind.JAXB;
@@ -20,6 +21,7 @@ import javax.xml.namespace.QName;
 
 import org.wso2.carbon.um.ws.service.AddUser;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
+import org.wso2.carbon.user.mgt.common.xsd.ClaimValue;
 
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
@@ -61,8 +63,8 @@ public class LdapUserController extends Controller {
 			}else {
 				success = addThroughLdap(model);
 			}
-			
-			return this.forward("igrp","LdapUser","index");
+			if(!success)
+				return this.forward("igrp","LdapUser","index");
 			
 			/** End **/
 		}
@@ -105,52 +107,92 @@ public class LdapUserController extends Controller {
 		
 		Properties settings = (Properties) obj[0];
 		
-		
+		try {
+			String uri = settings.getProperty("RemoteUserStoreManagerService-wsdl-url");
+			URL url =  new URL(uri);
+	        WSO2UserStub.disableSSL();
+	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
+	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	        
+	        AddUser addUser = new AddUser();
+            
+           addUser.setRequirePasswordChange(false);
+           try {
+         	  String aux = "";
+         	  aux = model.getEmail_1().trim().split("@")[0];
+         	 addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, aux));
+            }catch(Exception e) {
+            	addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, model.getEmail_1().trim()));
+            }
+           addUser.setCredential(new JAXBElement<String>(new QName(uri, "credential"), String.class, "Pa$$w0rd"));
+           addUser.setProfileName(new JAXBElement<String>(new QName(uri, "profileName"), String.class, "default"));
+         
+           ClaimValue email = new ClaimValue();
+           email.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/emailaddress"));
+           
+           email.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, model.getEmail_1().trim()));
+           
+           ClaimValue cn = new ClaimValue();
+           cn.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/fullname"));
+           cn.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, model.getCommon_name().trim()));
+           
+           ClaimValue sn = new ClaimValue();
+           sn.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/lastname"));
+           sn.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, model.getSurname().trim()));
+           
+           addUser.getClaims().addAll(Arrays.asList(cn, email, sn));
+          
+          try {
+        	  stub.getOperations().addUser(addUser);
+          }catch(Exception e) {
+        	  e.printStackTrace();
+          }
+          
+           int httpStatusCode = -1;
+           httpStatusCode = stub.getHttpResponseStatusCode();
+           
+           System.out.println(httpStatusCode);
+           
+          if(httpStatusCode == 202) {
+        	  Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
+        	  flag = true;
+          }else 
+        	  Core.setMessageError();
+		}catch(Exception e) {
+			e.printStackTrace();
+			 Core.setMessageError();
+		}
 		
 		return flag;
 	}
 	
-	
-	public static void main( String[] args ){
-		String uri = "https://10.4.2.118:9443/services/RemoteUserStoreManagerService?wsdl";
-    	try {
-            boolean flag = false;
-             URL url = null;
-        try {
-            url = new URL(uri);
-        } catch (MalformedURLException ex) {
-            System.err.println(ex.getMessage());
-        }
-        
-            WSO2UserStub.disableSSL(); 
-            
-            WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-            
-            stub.applyHttpBasicAuthentication("admin@wso2.com", "cloudadmin", 2);
-            
-            AddUser addUser = new AddUser();
-            addUser.setRequirePasswordChange(false);
-            addUser.setUserName(new JAXBElement<String>(new QName(uri), String.class, "userName"));
-            addUser.setCredential(new JAXBElement<String>(new QName(uri), String.class, "credential"));
-            addUser.setProfileName(new JAXBElement<String>(new QName(uri), String.class, "default"));
-            
-            
-            stub.getOperations().addUser(addUser);
-            
-          //  System.err.println("Success " + );
-            
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-	
-	
-	
-	
 	public Response actionIndex_(@RParam(rParamName = "email") String email) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
 		LdapUser model = new LdapUser();
-
+		
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+			model.load();
+			
+			boolean success = updateNUsingIds(model, email);
+			
+			if(success) return redirect("igrp", "ldap-user", "index_&email=" + email.trim());	
+		}
+		
+		LdapUserView view = new LdapUserView(model);
+		view.btn_gravar.setLink("igrp", "ldap-user", "index_&email=" + email);
+		
+		return this.renderView(view);
+	}
+	
+	private boolean updateUsingIds() {
+		boolean flag = false;
+		
+		return flag;
+	}
+	
+	private boolean updateNUsingIds(LdapUser model, String email) {
+		boolean flag = false;
+		
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
@@ -163,69 +205,65 @@ public class LdapUserController extends Controller {
 			model.setSurname(person.getSn());
 			model.setEmail_1(person.getMail());
 			uid = person.getUid();
-		}else 
-			throw new ServerErrorHttpException(gt("Ocorreu um erro. O utilizador pode não existir."));
+		}else {
+			Core.setMessageError(gt("Ocorreu um erro. O utilizador pode não existir."));
+			return false;
+		}
 		
-		Igrp.getInstance();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			person.setCn(model.getCommon_name().trim());
-			person.setSn(model.getSurname().trim());
-			person.setMail(model.getEmail_1().trim());
-			person.setDisplayName(person.getCn() + " " + person.getSn());
-			person.setGivenName(person.getCn() + " " + person.getSn());
-			try {
-				person.setUid(model.getEmail_1().trim().split("@")[0]);
-			}catch(Exception e) {
-				person.setUid(model.getEmail_1().trim());
-			}
-			ldap.updateUser(person, uid);
-			String error = ldap.getError();
+		person.setCn(model.getCommon_name().trim());
+		person.setSn(model.getSurname().trim());
+		person.setMail(model.getEmail_1().trim());
+		person.setDisplayName(person.getCn() + " " + person.getSn());
+		person.setGivenName(person.getCn() + " " + person.getSn());
+		
+		try {
+			person.setUid(model.getEmail_1().trim().split("@")[0]);
+		}catch(Exception e) {
+			person.setUid(model.getEmail_1().trim());
+		}
+		ldap.updateUser(person, uid);
+		String error = ldap.getError();
+		if(error != null) {
+			Core.setMessageError(gt("Ocorreu um erro. LDAP error: ") + error);
+		}else {
+			String oldName = ldapinfo.getEntryDN().replaceAll(":_placeholder", uid);
+			String newName = ldapinfo.getEntryDN().replaceAll(":_placeholder", person.getUid());
+			
+			ldap.renameEntry(oldName, newName);
+			error = ldap.getError();
+			
 			if(error != null) {
-				Core.setMessageError(gt("Ocorreu um erro. LDAP error: ") + error);
-			}else {
-				String oldName = ldapinfo.getEntryDN().replaceAll(":_placeholder", uid);
-				String newName = ldapinfo.getEntryDN().replaceAll(":_placeholder", person.getUid());
-				
-				ldap.renameEntry(oldName, newName);
-				error = ldap.getError();
-				
-				if(error != null) {
-					Core.setMessageSuccess(gt("Ocorreu um erro. LDAP error: " ) + error);
-				}else{
-					User u = new User().find().andWhere("email", "=", email).one();
+				Core.setMessageSuccess(gt("Ocorreu um erro. LDAP error: " ) + error);
+			}else{
+				User u = new User().find().andWhere("email", "=", email).one();
+				if(u != null) {
+					
+					UserRole role = new UserRole().find().andWhere("role_name", "=", "IGRP_ADMIN").andWhere("user.user_name", "=", u.getUser_name()).one();
+					
+					//System.out.println(role.getId()); 
+					
+					role.delete(role.getId());
+					
+					u.setName(person.getDisplayName());
+					u.setEmail(person.getMail());
+					u.setUser_name(person.getUid());
+					u.setUpdated_at(System.currentTimeMillis());
+					u = u.update();
 					if(u != null) {
-						
-						UserRole role = new UserRole().find().andWhere("role_name", "=", "IGRP_ADMIN").andWhere("user.user_name", "=", u.getUser_name()).one();
-						
-						//System.out.println(role.getId()); 
-						
-						role.delete(role.getId());
-						
-						u.setName(person.getDisplayName());
-						u.setEmail(person.getMail());
-						u.setUser_name(person.getUid());
-						u.setUpdated_at(System.currentTimeMillis());
-						u = u.update();
-						if(u != null) {
-							role = new UserRole();
-							role.setRole_name("IGRP_ADMIN");
-							role.setUser(u);
-							role = role.insert();
-							Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
-						}else
-							Core.setMessageSuccess(gt("Ocorreu um erro. Favor contactar o administrador. "));
-					}else {
-						Core.setMessageError(gt("Utilizador inválido. "));
-					}
+						role = new UserRole();
+						role.setRole_name("IGRP_ADMIN");
+						role.setUser(u);
+						role = role.insert();
+						Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
+						flag = true;
+					}else
+						Core.setMessageSuccess(gt("Ocorreu um erro. Favor contactar o administrador. "));
+				}else {
+					Core.setMessageError(gt("Utilizador inválido. "));
 				}
 			}
-			return redirect("igrp", "ldap-user", "index_&email=" + person.getMail().trim());	
 		}
-		LdapUserView view = new LdapUserView(model);
-		view.btn_gravar.setLink("igrp", "ldap-user", "index_&email=" + email);
-		return this.renderView(view);
-		
+		return flag;
 	}
 	
 	private Properties loadIdentityServerSettings() {
