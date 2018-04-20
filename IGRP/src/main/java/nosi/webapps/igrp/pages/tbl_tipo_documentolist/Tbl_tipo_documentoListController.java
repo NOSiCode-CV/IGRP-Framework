@@ -6,6 +6,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
 
@@ -29,7 +30,7 @@ public class Tbl_tipo_documentoListController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-		QueryHelper query = Core.query("SELECT d.id as id,d.codigo as codigo,d.descricao as descricao,d.nome as nome,d.status as status,e.name as aplicacao FROM public.tbl_tipo_documento d, public.tbl_env e").where(" e.id=d.env_fk");
+		BaseQueryInterface query = Core.query("SELECT d.id as id,d.codigo as codigo,d.descricao as descricao,d.nome as nome,d.status as status,e.name as aplicacao FROM public.tbl_tipo_documento d, public.tbl_env e").where(" e.id=d.env_fk");
 		model.loadTable_1(query);
 		
 		view.id.setParam(true);

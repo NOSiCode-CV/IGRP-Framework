@@ -35,9 +35,11 @@ import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.QueryDelete;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.databse.helpers.QueryInsert;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.databse.helpers.QuerySelect;
 import nosi.core.webapp.databse.helpers.QueryUpdate;
 import nosi.core.webapp.helpers.DateHelper;
@@ -66,6 +68,7 @@ import nosi.webapps.igrp.dao.Transaction;
  * 13 Nov 2017
  */
 public final class Core {	// Not inherit 
+	public static ORDERBY ORDERBY;
 	
 	private Core() {} // Not instantiate  
 	
@@ -602,47 +605,47 @@ public final class Core {	// Not inherit
 		return defaultValue;
 	}
 	
-	public static QueryHelper insert(String connectionName,String tableName) {
+	public static BaseQueryInterface insert(String connectionName,String tableName) {
 		return new QueryInsert(connectionName).insert(tableName);
 	}
-	public static QueryHelper insert(String tableName) {
+	public static BaseQueryInterface insert(String tableName) {
 		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
 	}
-	public static QueryHelper insert(String connectionName,String schemaName,String tableName) {
+	public static BaseQueryInterface insert(String connectionName,String schemaName,String tableName) {
 		return new QueryInsert(connectionName).insert(schemaName,tableName);
 	}
 
-	public static QueryHelper update(String tableName) {
+	public static BaseQueryInterface update(String tableName) {
 		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
 	}
 	
-	public static QueryHelper update(String connectionName,String tableName) {
+	public static BaseQueryInterface update(String connectionName,String tableName) {
 		return new QueryUpdate(connectionName).update(tableName);
 	}
 	
-	public static QueryHelper update(String connectionName,String schemaName,String tableName) {
+	public static BaseQueryInterface update(String connectionName,String schemaName,String tableName) {
 		return new QueryUpdate(connectionName).update(schemaName,tableName);
 	}
 
-	public static QueryHelper delete(String tableName) {
+	public static BaseQueryInterface delete(String tableName) {
 		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
 	}
 	
-	public static QueryHelper delete(String connectionName,String tableName) {
+	public static BaseQueryInterface delete(String connectionName,String tableName) {
 		return new QueryDelete(connectionName).delete(tableName);
 	}
 	
-	public static QueryHelper delete(String connectionName,String schemaName,String tableName) {
+	public static BaseQueryInterface delete(String connectionName,String schemaName,String tableName) {
 		return new QueryDelete(connectionName).delete(schemaName,tableName);
 	}
 	
-	public static QueryHelper query(String connectionName,String sql) {
+	public static QueryInterface query(String connectionName,String sql) {
 		return new QuerySelect(connectionName).select(sql);
 	}
-	public static QueryHelper query(String connectionName,String sql,Class<?> className) {
+	public static QueryInterface query(String connectionName,String sql,Class<?> className) {
 		return new QuerySelect(connectionName).select(sql,className);
 	}
-	public static QueryHelper query(String sql) {
+	public static QueryInterface query(String sql) {
 		return new QuerySelect().select(sql);
 	}
 	

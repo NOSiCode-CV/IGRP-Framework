@@ -117,7 +117,7 @@
     
     <xsl:variable name="import_query_helper">
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
-        	<xsl:text>import nosi.core.webapp.databse.helpers.QueryHelper;</xsl:text>
+        	<xsl:text>import nosi.core.webapp.databse.helpers.BaseQueryInterface;</xsl:text>
         </xsl:if>
     </xsl:variable>
 
