@@ -7,18 +7,12 @@ package nosi.core.gui.fields;
  * Description: abstract class to configure any field
  */
 
-import java.util.List;
 import java.util.Map;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.webapp.databse.helpers.Query;
 
 public abstract class AbstractField implements Field{
 
@@ -105,7 +99,6 @@ public abstract class AbstractField implements Field{
 	}
 	public void setSqlQuery(String sql){
 		this.sql = sql;
-		this.configValueWithSql();
 	}
 
 	public void setSqlQuery(String connectionName,String sql){
@@ -130,20 +123,7 @@ public abstract class AbstractField implements Field{
 			tableName = schemaName+"."+tableName;
 		}
 		this.setSqlQuery(connectionName, tableName, key, value);
-	}
-	
-	
-	private void configValueWithSql() {
-		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			List<Column> cols = DatabaseMetadaHelper.getCollumns(this.getConnectionName(), this.getSqlQuery());
-			if(cols.size()!=2){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,"O seu SQL deve conter apenas 2 campos");
-			}else{
-				this.comboBox = Query.queryToComboBox(this.getConnectionName(), this.getSqlQuery());
-			}
-		}
-	}
-	
+	}	
 	
 	public String getSqlQuery(){
 		return this.sql;

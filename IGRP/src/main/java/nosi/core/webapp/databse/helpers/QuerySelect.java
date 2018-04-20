@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.webapps.igrp.dao.Config_env;
 
 /**
  * Emanuel
@@ -26,6 +27,13 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 
 	public QuerySelect() {
 		this(Config.getBaseConnection());
+	}	
+	
+	//Validate sql query
+	public boolean validateQuery(Config_env config,String query) {
+		this.connectionName = config.getConnectionName();
+		List<Tuple> l = this.select(query).getResultList();
+		return l!=null;
 	}
 	
 	public QueryInterface select(String collumns) {
@@ -46,71 +54,91 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 	}
 	
 	public List<Tuple> getResultList() {		
-		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Core.log("SQL Query:"+this.getSql());
-		Query query = em.createNativeQuery(this.getSql(),Tuple.class);	
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(query,col.getDefaultValue(),col);					
-			 }else {
-				 query.setParameter(col.getName(), null);
-			 }
-		}	
-		@SuppressWarnings("unchecked")
-		List<Tuple> list = query.getResultList();
-		t.commit();
-		em.close();
-		return list;
+		try {
+			Core.log("SQL Query:"+this.getSql());
+			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			EntityTransaction t =  em.getTransaction();
+			t.begin();
+			Query query = em.createNativeQuery(this.getSql(),Tuple.class);	
+			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+				 if(col.getDefaultValue()!=null) {
+					 this.setParameter(query,col.getDefaultValue(),col);					
+				 }else {
+					 query.setParameter(col.getName(), null);
+				 }
+			}	
+			@SuppressWarnings("unchecked")
+			List<Tuple> list = query.getResultList();
+			t.commit();
+			em.close();
+			return list;
+		}catch(Exception e) {
+			Core.log(e.getMessage());
+		}
+		return null;
 	}
 
 	public <T> List<T> getResultList(Class<T> entity){	
-		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		Core.log("SQL Query:"+this.getSql());
-		Query query = em.createNativeQuery(this.getSql(),entity);	
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(query,col.getDefaultValue(),col);					
-			 }else {
-				 query.setParameter(col.getName(), null);
-			 }
-		}		
-		@SuppressWarnings("unchecked")
-		List<T> list = query.getResultList();
-		em.close();
-		return list;
+		try {
+			Core.log("SQL Query:"+this.getSql());
+			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			Query query = em.createNativeQuery(this.getSql(),entity);	
+			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+				 if(col.getDefaultValue()!=null) {
+					 this.setParameter(query,col.getDefaultValue(),col);					
+				 }else {
+					 query.setParameter(col.getName(), null);
+				 }
+			}		
+			@SuppressWarnings("unchecked")
+			List<T> list = query.getResultList();
+			em.close();
+			return list;
+		}catch(Exception e) {
+			Core.log(e.getMessage());
+		}
+		return null;
 	}
 	
 	public Object getSigleResult() {
-		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		Core.log("SQL Query:"+this.getSql());
-		Query query = em.createNativeQuery(this.getSql());
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(query,col.getDefaultValue(),col);					
-			 }else {
-				 query.setParameter(col.getName(), null);
-			 }
-		}		
-		Object list = query.getSingleResult();
-		em.close();
-		return list;
+		try {
+			Core.log("SQL Query:"+this.getSql());
+			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			Query query = em.createNativeQuery(this.getSql());
+			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+				 if(col.getDefaultValue()!=null) {
+					 this.setParameter(query,col.getDefaultValue(),col);					
+				 }else {
+					 query.setParameter(col.getName(), null);
+				 }
+			}		
+			Object list = query.getSingleResult();
+			em.close();
+			return list;
+		}catch(Exception e) {
+			Core.log(e.getMessage());
+		}
+		return null;
 	}
 	
 	public TypedQuery<?> getSingleResult(){
-		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		TypedQuery<?> query = em.createQuery(this.getSql(), this.className);
-		Core.log("SQL Query:"+this.getSql());
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(query,col.getDefaultValue(),col);					
-			 }else {
-				 query.setParameter(col.getName(), null);
-			 }
-		}		
-		em.close();
-		return query;
+		try {
+			Core.log("SQL Query:"+this.getSql());
+			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			TypedQuery<?> query = em.createQuery(this.getSql(), this.className);
+			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+				 if(col.getDefaultValue()!=null) {
+					 this.setParameter(query,col.getDefaultValue(),col);					
+				 }else {
+					 query.setParameter(col.getName(), null);
+				 }
+			}		
+			em.close();
+			return query;
+		}catch(Exception e) {
+			Core.log(e.getMessage());
+		}
+		return null;
 	}
 
 	@Override
