@@ -11,7 +11,6 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.databse.helpers.Query;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -141,7 +140,7 @@ public class DataSourceController extends Controller {
 			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-				if(!Query.validateQuery(rep.getConfig_env(),query)){
+				if(!Core.validateQuery(rep.getConfig_env(),query)){
 					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
 					return this.forward("igrp","DataSource","index&id_env="+model.getId_env());
 				}

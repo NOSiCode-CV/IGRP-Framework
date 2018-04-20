@@ -59,6 +59,7 @@ import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
+import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
@@ -1109,5 +1110,9 @@ public final class Core {	// Not inherit
 						 .collect(Collectors.toList());
 		}
 		return null;
+	}
+
+	public static boolean validateQuery(Config_env config_env, String query) {		
+		return new QuerySelect().validateQuery(config_env, query);
 	}
 }
