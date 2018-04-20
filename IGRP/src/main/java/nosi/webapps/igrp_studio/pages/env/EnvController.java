@@ -118,8 +118,9 @@ public class EnvController extends Controller {
 					FileHelper.save(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}
 				
+				boolean b = appAutoDeploy(app.getDad());
 				
-				
+				System.out.println("AutoDeploy: " + b);
 				
 				
 				Core.setMessageSuccess();
@@ -134,8 +135,8 @@ public class EnvController extends Controller {
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	private void appAutoDeploy(String appDad) {
-		
+	private boolean appAutoDeploy(String appDad) {
+		boolean flag = true;
 		try {
 			
 			String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP").replace("images", "IGRP-Template.war");
@@ -146,20 +147,18 @@ public class EnvController extends Controller {
 			
 			boolean b  = Files.copy(file, destinationFile);
 			
-			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());
+			if(true) return false;
+			
+			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath(), true);
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
 			
 			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
 			
 			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";
 			
-			
-			
 			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";
 			
 			String string2 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.class";
-			
-			
 			
 			JarEntry je1 = new JarEntry(aux + "DefaultPageController.java");
 			jos.putNextEntry(je1);
@@ -184,8 +183,9 @@ public class EnvController extends Controller {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			flag = false;
 		}
-		
+		return flag;
 	}
 	
 	private void createSvnRepo(Application app){
