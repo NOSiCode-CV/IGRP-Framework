@@ -4,11 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Tuple;
-import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
-import static nosi.core.i18n.Translator.gt;
 
 /**
  * @author: Emanuel Pereira
@@ -40,7 +38,7 @@ public class ListField extends AbstractField {
 	}
 	
 	@Override
-	public void setQuery(QueryHelper query,String prompt) {
+	public void setQuery(BaseQueryInterface query,String prompt) {
 		List<Column> cols = DatabaseMetadaHelper.getCollumns(query.getConnectionName(), query.getSql());
 		Map<Object,Object> map = new LinkedHashMap<>();
 		if(prompt!=null)
@@ -55,7 +53,7 @@ public class ListField extends AbstractField {
 		this.setValue(map);
 	}
 	@Override
-	public void setQuery(QueryHelper query) {
+	public void setQuery(BaseQueryInterface query) {
 		this.setQuery(query, null);
 	}
 }

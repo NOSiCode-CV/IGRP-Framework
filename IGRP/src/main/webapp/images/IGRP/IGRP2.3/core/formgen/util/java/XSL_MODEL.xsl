@@ -162,7 +162,7 @@
 				</xsl:variable>
 				
 				<xsl:text>public void load</xsl:text>
-				<xsl:value-of select="$tclassName"/><xsl:text>(QueryHelper query) {</xsl:text>
+				<xsl:value-of select="$tclassName"/><xsl:text>(BaseQueryInterface query) {</xsl:text>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
 				<xsl:choose>

@@ -1,7 +1,7 @@
 package nosi.core.gui.fields;
 
 import java.util.Map;
-import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 
 /**
  * @author: Emanuel Pereira
@@ -31,8 +31,8 @@ public interface Field {
 	public boolean isVisible();
 	public void setParam(boolean isParam);
 	public boolean isParam();
-	public void setQuery(QueryHelper query,String prompt);
-	public void setQuery(QueryHelper query);
+	public void setQuery(BaseQueryInterface query,String prompt);
+	public void setQuery(BaseQueryInterface query);
 	public void setSqlQuery(String sql);
 	public void setSqlQuery(String connectionName,String sql);
 	public String getSqlQuery();

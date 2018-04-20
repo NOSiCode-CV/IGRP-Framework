@@ -1,9 +1,7 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
-import java.sql.Date;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
@@ -177,11 +175,11 @@ public class LookupListPage extends Model{
 
 	}
 
-	public void loadFormlist_1(QueryHelper query) {
+	public void loadFormlist_1(BaseQueryInterface query) {
 		this.setFormlist_1(this.loadFormList(query,Formlist_1.class));
 	}
 
-	public void loadTable_1(QueryHelper query) {
+	public void loadTable_1(BaseQueryInterface query) {
 		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 

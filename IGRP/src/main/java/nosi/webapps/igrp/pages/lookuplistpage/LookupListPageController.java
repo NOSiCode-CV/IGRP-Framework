@@ -4,9 +4,7 @@ package nosi.webapps.igrp.pages.lookuplistpage;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.databse.helpers.ResultSet;
 
 /*----#start-code(packages_import)----*/
@@ -74,7 +72,7 @@ public class LookupListPageController extends Controller {
 					.addString("taskid", model.getTaskid())
 					.addInt("status",1)
 					.addInt("status",1)
-					.addInt("env_fk", Core.toInt(model.getEnv_fk()))
+					.addInt("env_fk", Core.toInt(model.getEnv_fk()))					
 					);
 		}
 		view.id.setParam(true);

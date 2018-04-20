@@ -27,9 +27,9 @@ import nosi.core.webapp.helpers.DateHelper;
  * Emanuel
  * 21 Dec 2017
  */
-public abstract class QueryHelper implements IFQuery{
+public abstract class QueryHelper implements QueryInterface{
 
-	protected String sql = "";
+	private String sql = "";
 	protected String schemaName;
 	protected String tableName;
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
@@ -41,124 +41,134 @@ public abstract class QueryHelper implements IFQuery{
 		this.connectionName = Core.isNotNull(connectionName)?connectionName:Config.getBaseConnection();
 	}	
 	
-	public QueryHelper where(String condition) {
-		this.condition += condition;
+	public QueryInterface where(String condition) {
+		this.condition += " WHERE "+condition;
 		return this;
 	}
 	
-	public QueryHelper addLong(String columnName,Long value) {
+	protected QueryInterface filterWhere(String condition) {
+		this.condition += condition;//(condition.contains("WHERE")?condition:(" WHERE 1=1 "+condition));
+		return this;
+	}
+	
+	public QueryInterface where() {
+		this.condition += " WHERE 1=1 ";
+		return this;
+	}
+	
+	public QueryInterface addLong(String columnName,Long value) {
 		this.addColumn(columnName, value, Long.class);
 		return this;
 	}
 
-	public QueryHelper addDouble(String columnName,Double value) {
+	public QueryInterface addDouble(String columnName,Double value) {
 		this.addColumn(columnName, value, Double.class);
 		return this;
 	}
 
-	public QueryHelper addFloat(String columnName,Float value) {
+	public QueryInterface addFloat(String columnName,Float value) {
 		this.addColumn(columnName, value, Float.class);
 		return this;
 	}
 
-	public QueryHelper addShort(String columnName,Short value) {
+	public QueryInterface addShort(String columnName,Short value) {
 		this.addColumn(columnName, value, Short.class);
 		return this;
 	}
 
-	public QueryHelper addDate(String columnName,String value,String format) {
+	public QueryInterface addDate(String columnName,String value,String format) {
 		this.addColumn(columnName, value, java.sql.Date.class,format);
 		return this;
 	}
 	
-	public QueryHelper addDate(String columnName,String value) {
+	public QueryInterface addDate(String columnName,String value) {
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
 	
-	public QueryHelper addDate(String columnName,java.sql.Date value) {
+	public QueryInterface addDate(String columnName,java.sql.Date value) {
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
 	
-	public QueryHelper addDate(String columnName,java.sql.Date value,String format) {
+	public QueryInterface addDate(String columnName,java.sql.Date value,String format) {
 		this.addColumn(columnName, value, java.sql.Date.class,format);
 		return this;
 	}
 	
-	public QueryHelper add(Column col,Object value) {
+	public QueryInterface add(Column col,Object value) {
 		this.addColumn(col.getName(), value,col.getType());
 		return this;
 	}
 	
-	public QueryHelper addString(String columnName,String value) {
+	public QueryInterface addString(String columnName,String value) {
 		this.addColumn(columnName, value, String.class);
 		return this;
 	}
 	
-	public QueryHelper addInt(String columnName,Integer value) {
+	public QueryInterface addInt(String columnName,Integer value) {
 		this.addColumn(columnName, value, Integer.class);
 		return this;
 	}
 
-	public QueryHelper addBinaryStream(String columnName,FileInputStream value) {
+	public QueryInterface addBinaryStream(String columnName,FileInputStream value) {
 		this.addColumn(columnName, value, FileInputStream.class);
 		return this;
 	}
-	public QueryHelper addBinaryStream(String columnName,InputStream value) {
+	public QueryInterface addBinaryStream(String columnName,InputStream value) {
 		this.addColumn(columnName, value, InputStream.class);
 		return this;
 	}
 
-    public QueryHelper addObject(String columnName,Object value) {
+    public QueryInterface addObject(String columnName,Object value) {
         this.addColumn(columnName, value, Object.class);
         return this;
     }
     
-    public QueryHelper addTimestamp(String columnName,Timestamp value) {
+    public QueryInterface addTimestamp(String columnName,Timestamp value) {
         this.addColumn(columnName, value, Timestamp.class);
         return this;
     }
 
-    public QueryHelper addArray(String columnName,Array value) {
+    public QueryInterface addArray(String columnName,Array value) {
         this.addColumn(columnName, value, Array.class);
         return this;
     }
 
-    public QueryHelper addAsciiStream(String columnName,InputStream value) {
+    public QueryInterface addAsciiStream(String columnName,InputStream value) {
         this.addColumn(columnName, value, InputStream.class);
         return this;
     }
 
-    public QueryHelper addClob(String columnName,Clob value) {
+    public QueryInterface addClob(String columnName,Clob value) {
         this.addColumn(columnName, value, Clob.class);
         return this;
     } 
 
-    public QueryHelper addBlob(String columnName,Blob value) {
+    public QueryInterface addBlob(String columnName,Blob value) {
         this.addColumn(columnName, value, Blob.class);
         return this;
     } 
 
-    public QueryHelper addByte(String columnName,byte[] value) {
+    public QueryInterface addByte(String columnName,byte[] value) {
         this.addColumn(columnName, value, Byte[].class);
         return this;
     }  
     
-    public QueryHelper addByte(String columnName,byte value) {
+    public QueryInterface addByte(String columnName,byte value) {
         this.addColumn(columnName, value, Byte.class);
         return this;
     }  
     
-    public QueryHelper addBoolean(String columnName,boolean value) {
+    public QueryInterface addBoolean(String columnName,boolean value) {
         this.addColumn(columnName, value, Boolean.class);
         return this;
     }  
     
-    public QueryHelper addBigDecimal(String columnName,BigDecimal value) {
+    public QueryInterface addBigDecimal(String columnName,BigDecimal value) {
         this.addColumn(columnName, value, BigDecimal.class);
         return this;
     }
     
-    public QueryHelper addTime(String columnName,Time value) {
+    public QueryInterface addTime(String columnName,Time value) {
         this.addColumn(columnName, value, Time.class);
         return this;
     }
@@ -178,11 +188,11 @@ public abstract class QueryHelper implements IFQuery{
 	
 	
 	public String getSql() {
-		return sql;
+		return sql+condition;
 	}
 
 	public void setSql(String sql) {
-		this.sql = sql;
+		this.sql += sql;
 	}
 
 	public String getTableName() {
@@ -380,6 +390,233 @@ public abstract class QueryHelper implements IFQuery{
 	}
 	
 	public <T> List<T> getResultList(Class<T> type){
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, String[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Integer value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Float value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Double value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, String[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Integer value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Float value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Double value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orderBy(String[]... orderByNames) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface groupBy(String... groupByNames) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface between(String name, Object value1, Object value2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface notBetween(String name, Object value, Object value2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface exists(String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface innerJoin(String table1, String table2, String key1, String key2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface leftJoin(String table1, String table2, String key1, String key2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface rightJoin(String table1, String table2, String key1, String key2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface outerJoin(String table1, String table2, String key1, String key2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface selfJoin(String table1, String table2, String key1, String key2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface union() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface unionAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public QueryInterface andWhereNotNull(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhereIsNull(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhereNotNull(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhereIsNull(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Integer[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Double[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Float[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Integer[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Double[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Float[] values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, Integer value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, Double value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, Float value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface from(String tables) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QueryInterface select(String collumns) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

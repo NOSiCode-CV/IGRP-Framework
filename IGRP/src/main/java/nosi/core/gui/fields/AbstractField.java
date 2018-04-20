@@ -14,11 +14,11 @@ import nosi.core.config.Config;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.databse.helpers.Query;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 
 public abstract class AbstractField implements Field{
 
@@ -177,10 +177,10 @@ public abstract class AbstractField implements Field{
 	}
 	
 	@Override
-	public void setQuery(QueryHelper query,String prompt) {
+	public void setQuery(BaseQueryInterface query,String prompt) {
 	}
 	
 	@Override
-	public void setQuery(QueryHelper query) {
+	public void setQuery(BaseQueryInterface query) {
 	}
 }

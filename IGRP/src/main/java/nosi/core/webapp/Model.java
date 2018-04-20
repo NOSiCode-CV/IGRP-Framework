@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,17 +12,12 @@ import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
 import com.google.gson.Gson;
-import java.lang.Integer;
-import java.lang.Float;
 import java.lang.Double;
-import java.lang.Short;
-import java.lang.annotation.Annotation;
-import java.lang.Long;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.TaskVariables;
-import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 /**
@@ -32,12 +26,12 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public abstract class Model { // IGRP super model
 	
-	private String scenario; // For validation fields
-	private Map<String, ArrayList<String>> errors; // to store errors for each fields
+//	private String scenario; // For validation fields
+//	private Map<String, ArrayList<String>> errors; // to store errors for each fields
 
 	public Model(){}
 	
-	public void load(QueryHelper query) throws IllegalArgumentException, IllegalAccessException {
+	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
 		if(query != null){
 			List<Tuple> list = query.getResultList();
 			for(Tuple tuple:list) {
@@ -73,7 +67,7 @@ public abstract class Model { // IGRP super model
 		}
 	}
 	
-	public <T> List<T> loadTable(QueryHelper query, Class<T> className) {
+	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
 		if(query!=null) {
 			List<T> list = new ArrayList<>();
 			for(Tuple tuple:query.getResultList()) {
@@ -97,7 +91,7 @@ public abstract class Model { // IGRP super model
 		return null;
 	}
 	
-	public <T> List<T> loadFormList(QueryHelper query, Class<T> className) {
+	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
 		if(query!=null) {
 			List<T> list = new ArrayList<>();
 			for(Tuple tuple:query.getResultList()) {
