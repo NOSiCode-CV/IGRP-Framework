@@ -490,31 +490,31 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	@Override
-	public QueryInterface innerJoin(String table1, String table2, String key1, String key2) {
+	public QueryInterface innerJoin(String table2, String key1, String key2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public QueryInterface leftJoin(String table1, String table2, String key1, String key2) {
+	public QueryInterface leftJoin(String table2, String key1, String key2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public QueryInterface rightJoin(String table1, String table2, String key1, String key2) {
+	public QueryInterface rightJoin( String table2, String key1, String key2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public QueryInterface outerJoin(String table1, String table2, String key1, String key2) {
+	public QueryInterface outerJoin( String table2, String key1, String key2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public QueryInterface selfJoin(String table1, String table2, String key1, String key2) {
+	public QueryInterface selfJoin( String table2, String key1, String key2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
