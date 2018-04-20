@@ -52,9 +52,8 @@ public class Tbl_tipo_documentoFormController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-
 		 return this.forward("igrp","Tbl_tipo_documentoList","index", this.queryString()); //if submit, loads the values
-		}
+		
 		
 		----#gen-example */
 		/*----#start-code(list)----*/
@@ -72,9 +71,8 @@ public class Tbl_tipo_documentoFormController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-
 		 return this.forward("igrp","Tbl_tipo_documentoForm","index", this.queryString()); //if submit, loads the values
-		}
+		
 		
 		----#gen-example */
 		/*----#start-code(save)----*/
