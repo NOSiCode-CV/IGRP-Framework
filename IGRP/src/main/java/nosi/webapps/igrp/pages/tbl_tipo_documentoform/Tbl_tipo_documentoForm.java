@@ -1,11 +1,10 @@
 package nosi.webapps.igrp.pages.tbl_tipo_documentoform;
-import nosi.core.config.Config;
+
 import nosi.core.webapp.Model;
-import java.sql.Date;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
+
+
 
 public class Tbl_tipo_documentoForm extends Model{		
 	@RParam(rParamName = "p_env_fk")
@@ -18,6 +17,8 @@ public class Tbl_tipo_documentoForm extends Model{
 	private String nome;
 	@RParam(rParamName = "p_status")
 	private int status;
+	@RParam(rParamName = "p_status_check")
+	private int status_check;
 	@RParam(rParamName = "p_id")
 	private int id;
 	
@@ -54,6 +55,12 @@ public class Tbl_tipo_documentoForm extends Model{
 	}
 	public int getStatus(){
 		return this.status;
+	}
+	public void setStatus_check(int status_check){
+		this.status_check = status_check;
+	}
+	public int getStatus_check(){
+		return this.status_check;
 	}
 	
 	public void setId(int id){

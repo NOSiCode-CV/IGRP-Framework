@@ -328,10 +328,10 @@ public class EnvController extends Controller {
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			String page = "/default-page/index&title="+profile.getOrganization().getApplication().getName();
+			String page = profile.getOrganization().getApplication().getDad().toLowerCase()+"/default-page/index&title="+profile.getOrganization().getApplication().getName();
 			if(profile.getOrganization().getApplication().getAction()!=null){
 				Action ac = profile.getOrganization().getApplication().getAction();
-				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
+				page = (ac!=null && ac.getPage()!=null)? ac.getApplication().getDad().toLowerCase()+"/" + ac.getPage()+"/"+ac.getAction():page;
 			}
 			xml_menu.setElement("link", this.getLinkOpenApp() + profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
 			xml_menu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
@@ -423,7 +423,7 @@ public class EnvController extends Controller {
 				}
 				return this.redirectToUrl(aux);
 			}
-			return this.redirect(app, p[1], p[2]);
+			return this.redirect(p[0], p[1], p[2]);
 		}
 		return this.redirectError();
 	}

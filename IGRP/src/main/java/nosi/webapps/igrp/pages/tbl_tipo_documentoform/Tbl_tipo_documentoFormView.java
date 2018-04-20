@@ -4,31 +4,32 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
-import java.sql.Date;
-import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
+
+
+
+
 
 public class Tbl_tipo_documentoFormView extends View {
-	
-	
+
 	public Field env_fk;
 	public Field codigo;
 	public Field descricao;
 	public Field nome;
 	public Field status;
+	public Field status_check;
 	public Field id;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_list;
 	public IGRPButton btn_save;
+
 	public Tbl_tipo_documentoFormView(){
 
 		this.setPageTitle("Registar tbl_tipo_documento");
 			
 		form_1 = new IGRPForm("form_1","Registar Tipo de Documento");
+
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("maxlength","11").add("required","true").add("java-type","int").add("multiple","false").add("domain","");
@@ -45,9 +46,9 @@ public class Tbl_tipo_documentoFormView extends View {
 		nome.setLabel(gt("Nome"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true");
 		
-		status = new NumberField(model,"status");
+		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Status"));
-		status.propertie().add("name","p_status").add("type","number").add("maxlength","11").add("required","true").add("java-type","int").add("min","").add("max","");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","11").add("required","false").add("switch","false").add("check","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -61,6 +62,7 @@ public class Tbl_tipo_documentoFormView extends View {
 
 		btn_save = new IGRPButton("Save","igrp","Tbl_tipo_documentoForm","save","submit","primary|fa-save","","");
 		btn_save.propertie.add("type","specific").add("rel","save");
+
 		
 	}
 		

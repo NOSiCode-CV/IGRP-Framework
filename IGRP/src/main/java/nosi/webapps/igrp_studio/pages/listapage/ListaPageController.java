@@ -109,17 +109,18 @@ public class ListaPageController extends Controller {
 				.collect(Collectors.toList());
 		for (Profile p : myApp) {
 			ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
-			String page = "default-page";
+			String page = p.getOrganization().getApplication().getDad().toLowerCase()+"/default-page";
 			if (p.getOrganization().getApplication().getAction() != null) {
 				Action ac = p.getOrganization().getApplication().getAction();
 				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
+				page = ac.getApplication().getDad().toLowerCase()+"/"+page;
 			}
 			myapps.setIcon(this.getConfig().getLinkImg() + "/assets/img/iconApp/"
 					+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
 							? p.getOrganization().getApplication().getImg_src()
 							: "default.svg"));
 		 myapps.setAplicacao("igrp_studio", "env", "openApp")
-			.addParam("app",p.getOrganization().getApplication().getDad()).addParam("page","/"+ page + "/index&title=\"");
+			.addParam("app",p.getOrganization().getApplication().getDad()).addParam("page",page + "/index&title=\"");
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
 			apps.add(myapps);
 		}

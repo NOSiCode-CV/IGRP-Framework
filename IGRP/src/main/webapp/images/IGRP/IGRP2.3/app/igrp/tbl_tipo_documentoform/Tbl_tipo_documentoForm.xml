@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=67</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=64</preserve_url>
     </plsql>
     <content>
         <title>Registar tbl_tipo_documento</title>
@@ -80,19 +80,19 @@
                 </env_fk>
                 <codigo name="p_codigo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Codigo</label>
-                    <value>Deserunt ut stract officia aliqua</value>
+                    <value>Lorem deserunt dolor adipiscing natus</value>
                 </codigo>
                 <descricao name="p_descricao" type="text" maxlength="500" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descricao</label>
-                    <value>Accusantium iste perspiciatis deserunt labore</value>
+                    <value>Stract accusantium aperiam laudantium adipiscing</value>
                 </descricao>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Consectetur sit deserunt perspiciatis ipsum</value>
+                    <value>Deserunt ipsum labore perspiciatis unde</value>
                 </nome>
-                <status name="p_status" type="number" maxlength="11" required="true" java-type="int" min="" max="" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <status name="p_status" type="checkbox" maxlength="11" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
                     <label>Status</label>
-                    <value>2</value>
+                    <value>1</value>
                 </status>
                 <hidden name="p_id" type="hidden" java-type="int" maxlength="30" tag="id"/>
             </fields>
