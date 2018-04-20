@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
 import com.google.gson.Gson;
 import java.lang.Double;
-import java.lang.annotation.Annotation;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
@@ -28,8 +26,8 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public abstract class Model { // IGRP super model
 	
-	private String scenario; // For validation fields
-	private Map<String, ArrayList<String>> errors; // to store errors for each fields
+//	private String scenario; // For validation fields
+//	private Map<String, ArrayList<String>> errors; // to store errors for each fields
 
 	public Model(){}
 	
