@@ -18,6 +18,7 @@ import nosi.core.webapp.Core;
 public class QuerySelect extends QueryHelper implements QueryInterface{
 
 	private Class<?> className;
+	private String table1 = "";
 	
 	public QuerySelect(String connectionName) {
 		super(connectionName);
@@ -284,41 +285,41 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 	}
 
 	@Override
-	public QueryInterface innerJoin(String table1, String table2, String key1, String key2) {
-		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" INNER JOIN "+table1+" ON "+table1+"."+key1+" = "+table2+"."+key2+" ");
+	public QueryInterface innerJoin(String table2, String key1, String key2) {
+		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(" INNER JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
+		}
+		return this;
+	}
+	
+	@Override
+	public QueryInterface leftJoin(String table2, String key1, String key2) {
+		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(" LEFT JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
 		}
 		return this;
 	}
 
 	@Override
-	public QueryInterface leftJoin(String table1, String table2, String key1, String key2) {
-		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" LEFT JOIN "+table1+" ON "+table1+"."+key1+" = "+table2+"."+key2+" ");
+	public QueryInterface rightJoin(String table2, String key1, String key2) {
+		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(" RIGHT JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
 		}
 		return this;
 	}
 
 	@Override
-	public QueryInterface rightJoin(String table1, String table2, String key1, String key2) {
-		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" RIGHT JOIN "+table1+" ON "+table1+"."+key1+" = "+table2+"."+key2+" ");
+	public QueryInterface outerJoin(String table2, String key1, String key2) {
+		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(" FULL OUTER JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
 		}
 		return this;
 	}
 
 	@Override
-	public QueryInterface outerJoin(String table1, String table2, String key1, String key2) {
-		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" FULL OUTER JOIN "+table1+" ON "+table1+"."+key1+" = "+table2+"."+key2+" ");
-		}
-		return this;
-	}
-
-	@Override
-	public QueryInterface selfJoin(String table1, String table2, String key1, String key2) {
-		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" AND "+table1+"."+key1+" = "+table2+"."+key2+" ");
+	public QueryInterface selfJoin(String table2, String key1, String key2) {
+		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(" AND "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
 		}
 		return this;
 	}
@@ -415,16 +416,22 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 		return this;
 	}
 
+	@Override
+	public QueryInterface from(String tables) {
+		if(Core.isNotNull(tables)) {
+			this.setSql(" FROM "+tables);
+			this.table1 = tables;
+		}
+		return this;
+	}
+	
 	private void applyToInCondition(String name,String operator,Object[] values) {
 		String value = String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
 		this.filterWhere(" AND "+name+" "+operator+":"+name+" ").addString(name, value);
 	}
 
-	@Override
-	public QueryInterface from(String tables) {
-		if(Core.isNotNull(tables)) {
-			this.setSql(" FROM "+tables);
-		}
-		return this;
+	private String getAlias(String tableName) {
+		String[] split = tableName.split(" ");
+		return split[split.length-1];
 	}
 }
