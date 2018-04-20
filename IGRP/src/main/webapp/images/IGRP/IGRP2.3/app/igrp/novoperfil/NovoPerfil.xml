@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -42,34 +42,34 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
+            <item type="specific" code="" rel="gravar" custom_return="true">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>NovoPerfil</page>
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Doloremque mollit elit anim om</value>
+                    <value>Amet omnis aperiam labore aper</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Adipiscing doloremque dolor do</value>
+                    <value>Magna elit sit elit anim</value>
                 </codigo>
-                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </activo>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -91,7 +91,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int">
                     <label>Organização</label>
                     <list>
                         <option/>
@@ -113,7 +113,7 @@
                         </option>
                     </list>
                 </organica>
-                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                <perfil_pai name="p_perfil_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Perfil pai</label>
                     <list>
                         <option/>
@@ -134,7 +134,7 @@
                             <value>4</value>
                         </option>
                     </list>
-                </perfil>
+                </perfil_pai>
             </fields>
         </form_1>
     </content>

@@ -16,8 +16,8 @@ public class TransacaoOrganicaView extends View {
 	public Field transacao;
 	public Field transacao_check;
 	public Field nome;
-	public Field p_id;
-	public Field p_type;
+	public Field id;
+	public Field type;
 	public IGRPTable table_1;
 	public IGRPForm form_1;
 
@@ -42,13 +42,13 @@ public class TransacaoOrganicaView extends View {
 		nome.setLabel(gt("Nome (code)"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30");
 		
-		p_id = new HiddenField(model,"p_id");
-		p_id.setLabel(gt(""));
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id");
+		id = new HiddenField(model,"id");
+		id.setLabel(gt(""));
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id");
 		
-		p_type = new HiddenField(model,"p_type");
-		p_type.setLabel(gt(""));
-		p_type.propertie().add("name","p_type").add("type","hidden").add("maxlength","30").add("java-type","String").add("tag","type");
+		type = new HiddenField(model,"type");
+		type.setLabel(gt(""));
+		type.propertie().add("name","p_type").add("type","hidden").add("maxlength","30").add("java-type","String").add("tag","type");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -71,8 +71,8 @@ public class TransacaoOrganicaView extends View {
 		table_1.addField(nome);
 
 
-		form_1.addField(p_id);
-		form_1.addField(p_type);
+		form_1.addField(id);
+		form_1.addField(type);
 
 		toolsbar_1.addButton(btn_gravar);
 		toolsbar_3.addButton(btn_gestao_de_transacoes);
@@ -86,8 +86,8 @@ public class TransacaoOrganicaView extends View {
 		
 		transacao.setValue(model);
 		nome.setValue(model);
-		p_id.setValue(model);
-		p_type.setValue(model);	
+		id.setValue(model);
+		type.setValue(model);	
 
 		table_1.loadModel(model.getTable_1());
 		

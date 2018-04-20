@@ -253,8 +253,8 @@
 													
 						<xsl:call-template name="newlineTab2"/>		
 					
-						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>
-						
+						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
+						<xsl:call-template name="setParam"/>
 						<!-- <xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'-load')"/>
 				     		<xsl:with-param name="url" select="$url"/>
@@ -271,7 +271,7 @@
 							<xsl:call-template name="setSqlTable"/>					
 							<xsl:call-template name="setSqlChart"/>						
 							<xsl:call-template name="setSqlCombobox"/>
-							<xsl:call-template name="setParam"/>
+							
 
 							<xsl:call-template name="end-example"/>
 
@@ -317,8 +317,7 @@
 						<xsl:value-of select="$tab2"/>	
 						
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString()); //if submit, loads the values')"/>							
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>				
+							
 <!-- 						<xsl:value-of select="concat('}','')"/> -->
 
 						<xsl:call-template name="end-example"/>

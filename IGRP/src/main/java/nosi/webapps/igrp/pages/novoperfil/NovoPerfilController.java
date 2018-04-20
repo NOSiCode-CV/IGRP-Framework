@@ -1,7 +1,11 @@
 
 package nosi.webapps.igrp.pages.novoperfil;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -16,55 +20,61 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
 
-public class NovoPerfilController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+public class NovoPerfilController extends Controller {		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		NovoPerfil model = new NovoPerfil();
-
 		model.load();
-		String id_app = Igrp.getInstance().getRequest().getParameter("id_app");
-		String id_org = Igrp.getInstance().getRequest().getParameter("id_org");
-		if (id_org != null) {
-			model.setOrganica(id_org);
-		}
+		NovoPerfilView view = new NovoPerfilView();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.perfil_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
+		----#gen-example */
+		/*----#start-code(index)----*/
 
-		if (id_app != null) {
-			model.setAplicacao(id_app);
-		}
 		model.setActivo(1);
-		NovoPerfilView view = new NovoPerfilView(model);
 		view.aplicacao.setValue(new Application().getListApps());
-		/*
-		 * view.perfil.setValue((model.getAplicacao() != null && model.getOrganica() !=
-		 * null && !model.getAplicacao().equals("0") &&
-		 * !model.getOrganica().equals("0")) ? new
-		 * ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) :
-		 * null);
-		 */
-		view.organica.setValue((id_app != null && !id_app.equals("") && !model.getAplicacao().equals("0"))
-				? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao()))
+		view.organica.setValue(Core.isNotNullOrZero(model.getAplicacao())
+				? new Organization().getListOrganizations(model.getAplicacao())
 				: null);
 		// Perfil pai/Parent profile ocult (not in use)
-		view.perfil.setVisible(false);
+		view.perfil_pai.setVisible(false);
 		view.btn_gravar.setTitle("Adicionar");
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
-	}
 
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
+	}
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		NovoPerfil model = new NovoPerfil();
-		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
-			model.load();
-			ProfileType pt = new ProfileType();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(gravar)----*/
+	   		ProfileType pt = new ProfileType();    
 			pt.setCode(model.getCodigo());
 			pt.setDescr(model.getNome());
 			pt.setOrganization(new Organization().findOne(model.getOrganica()));
 			/*
-			 * if(model.getPerfil()!=0){ pt.setProfiletype(new
+			 * if(model.getPerfil_pai()!=0){ pt.setProfiletype(new
 			 * ProfileType().findOne(model.getPerfil())); }
 			 */
 			pt.setStatus(model.getActivo());
@@ -78,28 +88,26 @@ public class NovoPerfilController extends Controller {
 				group.setName(pt.getOrganization().getName() + " - " + pt.getDescr());
 				group.setType("assignment");
 				group.create(group);
-				Core.setMessageSuccess(gt("Perfil criado com sucesso"));
-//				Core.setMessageInfoLink(gt("Click aqui para atribuir menu para o perfil " + pt.getDescr()), "igrp",
-//						"MenuOrganica", "index&target=_blank&id=" + pt.getId() + "&type=perfil");
+				Core.setMessageSuccess("Perfil criado com sucesso");			
 				
-				if (insertProfile(pt) != null)
-					return this.redirect("igrp", "novo-perfil", "index");
-				else
-					Core.setMessageError();;
-				return this.redirect("igrp", "novo-perfil", "index");
+              if(insertProfile(pt) != null){             
+                this.addQueryString("p_nome","");
+                this.addQueryString("p_codigo","");                          
+                } else{
+                  Core.setMessageError();
+                }			
+				
 			} else {
 				Core.setMessageError();
-			}
-			return this.redirect("igrp", "novo-perfil", "index");
-		}
-		Core.setMessageError(gt("Invalid Request ..."));
-		return this.redirect("igrp", "novo-perfil", "index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-
+			}	
 	
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+		return this.forward("igrp", "NovoPerfil", "index",this.queryString());
+		/*----#end-code----*/
+			
+	}
+	
+	/*----#start-code(custom_actions)----*/
 	
 	private Profile insertProfile(ProfileType pt) throws IOException {
 		Profile prof = new Profile();
@@ -112,80 +120,67 @@ public class NovoPerfilController extends Controller {
 		prof = prof.insert();
 		return prof;
 	}
-	public Response actionEditar(@RParam(rParamName = "p_id") String id)
-			throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+     String idProf=Core.getParam("p_id");
 		NovoPerfil model = new NovoPerfil();
 		model.load();
-		ProfileType p = new ProfileType();
-		p = p.findOne(Integer.parseInt(id));
+      	NovoPerfilView view = new NovoPerfilView();
+		ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));
 		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
-		model.setAplicacao("" + p.getApplication().getId());
+		model.setAplicacao(p.getApplication().getId());
 		if (p.getOrganization() != null) {
-			model.setOrganica("" + p.getOrganization().getId());
+			model.setOrganica(p.getOrganization().getId());
 		}
 		model.setActivo(p.getStatus());
 		if (p.getProfiletype() != null) {
-			// model.setPerfil(p.getProfiletype().getId());
+			// model.setPerfil_pai(p.getProfiletype().getId());
 		}
-
-		NovoPerfilView view = new NovoPerfilView(model);
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");
-		view.btn_gravar.setTitle("Gravar");
-		view.btn_gravar.setLink("gravaredicao&p_id=" + id);
+		view.btn_gravar.setTitle("Gravar");      
+		view.btn_gravar.setLink("GravarEdicao&p_id="+idProf);
 		view.aplicacao.setValue(new Application().getListApps());
 		/*
 		 * view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ?
 		 * new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica())
 		 * : null);
 		 */
-		view.perfil.setVisible(false);
-		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().equals("0"))
-				? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao()))
+		view.perfil_pai.setVisible(false);
+		view.organica.setValue(Core.isNotNullOrZero(model.getAplicacao())
+				? new Organization().getListOrganizations(model.getAplicacao())
 				: null);
-
+		view.setModel(model);
 		return this.renderView(view);
 	}
 
-	public Response actionGravarEdicao(@RParam(rParamName = "p_id") String id)
-			throws IllegalArgumentException, IllegalAccessException, IOException {
-		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
+	public Response actionGravarEdicao() throws IllegalArgumentException, IllegalAccessException, IOException {
+		String idProf=Core.getParam("p_id");
+      if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
 			NovoPerfil model = new NovoPerfil();
-			ProfileType p = new ProfileType();
-			p = p.findOne(Integer.parseInt(id));
-			model.setCodigo(p.getCode());
-			model.setNome(p.getDescr());
-			model.setAplicacao("" + p.getApplication().getId());
-			if (p.getOrganization() != null) {
-				model.setOrganica("" + p.getOrganization().getId());
-			}
-			model.setActivo(p.getStatus());
-			if (p.getProfiletype() != null) {
-				// model.setPerfil(p.getProfiletype().getId());
-			}
-			model.load();
+           	model.load();
+			ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));        
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(new Organization().findOne(model.getOrganica()));
 			/*
-			 * if(model.getPerfil()!=0){ p.setProfiletype(new
+			 * if(model.getPerfil_pai()!=0){ p.setProfiletype(new
 			 * ProfileType().findOne(model.getPerfil())); }
 			 */
 			p.setStatus(model.getActivo());
 			p.setApplication(new Application().findOne(model.getAplicacao()));
 			p = p.update();
 			if (p != null) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
-						gt("Perfil atualizado com sucesso."));
+				Core.setMessageSuccess("Perfil atualizado com sucesso.");              
 			} else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Erro ao atualizar o perfil."));
-			return this.redirect("igrp", "novo-perfil", "editar", new String[] { "p_id" },
-					new String[] { p.getId() + "" });
+				Core.setMessageError("Erro ao atualizar o perfil.");
+          //this.addQueryString("p_id",id); 
+		 return this.forward("igrp", "NovoPerfil", "editar");
 		}
 
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Invalid operation ..."));
-		return this.redirect("igrp", "novo-perfil", "editar", new String[] { "p_id" }, new String[] { id + "" });
+		Core.setMessageError("Invalid operation ...");
+        return this.forward("igrp", "NovoPerfil", "editar");
+	
 	}
 
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}

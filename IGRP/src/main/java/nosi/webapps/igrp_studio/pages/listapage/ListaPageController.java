@@ -101,7 +101,7 @@ public class ListaPageController extends Controller {
 		}
 
 		List<Profile> myApp = new Application().getMyApp();
-
+		if(Core.isNotNull(myApp)){	
 		myApp = myApp.stream().filter(profile -> profile.getOrganization().getApplication().getStatus() == 1).filter(
 				profile -> !profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial"))
 				.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase()
@@ -125,7 +125,7 @@ public class ListaPageController extends Controller {
 			apps.add(myapps);
 		}
 		// model.setInfopanel_3_val(""+apps.size());
-
+		}
 		view.p_id_page.setParam(true);
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);

@@ -73,9 +73,11 @@ public class PageController extends Controller {
 		
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
-		if (Core.isInt(Core.getParam("p_id_page"))) {
+		final Integer idPage = Core.getParamInt("p_id_page");
+		if (idPage!=0) {
 			Action a = new Action();
-			a = a.findOne(Integer.parseInt(Core.getParam("p_id_page")));
+			
+			a = a.findOne(idPage);
 			if (a != null) {
 				model.setP_action_descr(a.getAction_descr());
 				model.setEnv_fk("" + a.getApplication().getId());
@@ -121,7 +123,7 @@ public class PageController extends Controller {
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
-				int idPage = Core.isInt(Core.getParam("p_id"))? Core.toInt(Core.getParam("p_id")) : 0;	
+			int idPage = Core.getParamInt("p_id");	
 			
 			Application app = new Application();
 			Action action = new Action();
@@ -137,7 +139,8 @@ public class PageController extends Controller {
 					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
 				else
 					Core.setMessageError();
-				return this.redirect("igrp", "page", "index", new String[] { "p_id_page" }, new String[] { idPage + "" });
+				this.addQueryString("p_id_page", idPage);
+				return this.redirect("igrp", "page", "index", this.queryString());
 //				_________________________________________________Edit/update page
 			} else if(checkifexists(app.findOne(Integer.parseInt(model.getEnv_fk())), model)){
 				// New page
@@ -153,8 +156,7 @@ public class PageController extends Controller {
                 action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
 						+ "/" + action.getPage() + ".xsl");
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
-							FlashMessage.WARNING_PAGE_INVALID);
+					Core.setMessageWarning(FlashMessage.WARNING_PAGE_INVALID);
 					return this.forward("igrp", "page", "index");
 				}
 				action = action.insert();
@@ -173,9 +175,11 @@ public class PageController extends Controller {
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}
 					Core.setMessageSuccess();
-					if (Core.isNotNull(model.getEnv_fk()))
-						return this.redirect("igrp", "page", "index", new String[] { "p_env_fk" },
-								new String[] { model.getEnv_fk() });
+					if (Core.isNotNull(model.getEnv_fk())) {
+						this.addQueryString( "p_env_fk", model.getEnv_fk());
+						return this.redirect("igrp", "page", "index", this.queryString());
+					}
+						
 				} else {
 					Core.setMessageError();
 					return this.forward("igrp", "page", "index");

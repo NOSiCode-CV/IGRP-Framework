@@ -4,10 +4,7 @@ package nosi.webapps.igrp.pages.novaorganica;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -23,25 +20,22 @@ import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
 
-
 public class NovaOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		NovaOrganica model = new NovaOrganica();
-		NovaOrganicaView view = new NovaOrganicaView();
 		model.load();
-		
+		NovaOrganicaView view = new NovaOrganicaView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		In a .query(null,... change 'null' to your db connection name added in application builder.
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		
-		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		view.organizacao_pai.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.organizacao_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
 
 
@@ -55,32 +49,23 @@ public class NovaOrganicaController extends Controller {
 		// organization.getListOrganizations(model.getAplicacao()) : null);
 	
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		NovaOrganica model = new NovaOrganica();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		In a .query(null,... change 'null' to your db connection name added in application builder.
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","NovaOrganica","index");
-		}
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovaOrganica","index", this.queryString()); //if submit, loads the values
+		
 		
 		----#gen-example */
-		
 		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
@@ -104,14 +89,12 @@ public class NovaOrganicaController extends Controller {
 				// "&type=org");
 			} else
 				Core.setMessageError(gt("Ocorreu um erro."));
-			return this.redirect("igrp", "nova-organica", "index");
+			return this.forward("igrp", "NovaOrganica", "index");
 		}
 		Core.setMessageError(gt("Invalid request ..."));
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","NovaOrganica","index", this.queryString());
-		
+		return this.redirect("igrp","NovaOrganica","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
@@ -146,17 +129,17 @@ public class NovaOrganicaController extends Controller {
 		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
 
 			NovaOrganica model = new NovaOrganica();
+            model.load();
 			Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));
-			model.setCodigo(organization.getCode());
-			model.setNome(organization.getName());
-			model.setAplicacao("" + organization.getApplication().getId());
+			//model.setCodigo(organization.getCode());
+			//model.setNome(organization.getName());
+			//model.setAplicacao("" + organization.getApplication().getId());
 			/*
 			 * if(organization.getOrganization()!=null){
 			 * model.setOrganica_pai(organization.getOrganization().getId()); }
 			 */
-			model.setAtivo(organization.getStatus());
-
-			model.load();
+			//model.setAtivo(organization.getStatus());
+			 
 			organization.setCode(model.getCodigo());
 			organization.setName(model.getNome());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
@@ -167,21 +150,14 @@ public class NovaOrganicaController extends Controller {
 			organization.setStatus(model.getAtivo());
 			organization = organization.update();
 			if (organization != null) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
-						gt("Orgânica actualizada com sucesso."));
+				Core.setMessageSuccess("Organização atualizada com sucesso.");
 			} else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Erro ao atualizar."));
-			return this.redirect("igrp", "nova-organica", "editar", new String[] { "p_id" },
-					new String[] { organization.getId() + "" });
+				Core.setMessageError("Erro ao atualizar.");
+			return this.forward("igrp", "NovaOrganica", "editar");
 		}
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Invalid request ..."));
-		return this.redirect("igrp", "nova-organica", "editar", new String[] { "p_id" },
-				new String[] { idOrganica + "" });
+		Core.setMessageError("Invalid request ...");
+		return this.forward("igrp", "NovaOrganica", "editar");
 	}
 
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}

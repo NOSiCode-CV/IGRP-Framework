@@ -47,7 +47,7 @@
                 <app>igrp</app>
                 <page>NovoPerfil</page>
                 <link>index</link>
-                <target>modal|refresh</target>
+                <target>right_panel|refresh</target>
                 <img>success|fa-plus-square</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
             </item>
@@ -66,7 +66,7 @@
                 <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </codigo>
-                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -75,11 +75,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Unde consectetur deserunt omni</organica>
+                        <organica name="p_organica">Mollit aperiam sit omnis natus</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Anim omnis doloremque voluptat</descricao>
-                        <codigo name="p_codigo">Stract laudantium officia aliq</codigo>
+                        <descricao name="p_descricao">Iste adipiscing perspiciatis u</descricao>
+                        <codigo name="p_codigo">Iste officia unde stract omnis</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -87,11 +87,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Labore perspiciatis deserunt c</organica>
+                        <organica name="p_organica">Iste accusantium stract omnis</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aliqua adipiscing sed officia</descricao>
-                        <codigo name="p_codigo">Officia laudantium unde natus</codigo>
+                        <descricao name="p_descricao">Elit anim totam sed voluptatem</descricao>
+                        <codigo name="p_codigo">Officia sit ipsum natus stract</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,11 +99,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Stract doloremque laudantium p</organica>
+                        <organica name="p_organica">Deserunt amet aperiam perspici</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Lorem adipiscing officia aperi</descricao>
-                        <codigo name="p_codigo">Ipsum aliqua mollit ut stract</codigo>
+                        <descricao name="p_descricao">Sit dolor accusantium omnis la</descricao>
+                        <codigo name="p_codigo">Ut laudantium sit labore dolor</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -111,11 +111,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Dolor iste lorem laudantium ap</organica>
+                        <organica name="p_organica">Doloremque magna deserunt labo</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Dolor lorem mollit deserunt el</descricao>
-                        <codigo name="p_codigo">Rem deserunt labore totam dolo</codigo>
+                        <descricao name="p_descricao">Natus amet adipiscing sed adip</descricao>
+                        <codigo name="p_codigo">Adipiscing sit rem natus aperi</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -123,22 +123,22 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Anim voluptatem doloremque ut</organica>
+                        <organica name="p_organica">Sit voluptatem adipiscing anim</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Voluptatem aliqua aliqua deser</descricao>
-                        <codigo name="p_codigo">Sit unde natus totam accusanti</codigo>
+                        <descricao name="p_descricao">Unde officia accusantium totam</descricao>
+                        <codigo name="p_codigo">Omnis sit mollit officia ipsum</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar">
+                    <item type="specific" code="" class="warning" rel="editar" custom_return="true">
                         <title>Editar</title>
                         <app>igrp</app>
-                        <page>PesquisarPerfil</page>
+                        <page>NovoPerfil</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
-                        <target>mpsubmit</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml?</parameter>
+                        <target>right_panel|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
@@ -159,12 +159,12 @@
                         <target>right_panel</target>
                         <img>info|fa-bars</img>
                     </item>
-                    <item type="specific" code="" class="black" rel="transacao">
+                    <item type="specific" code="" class="black" rel="transacao" custom_return="true">
                         <title>Transacao</title>
                         <app>igrp</app>
-                        <page>PesquisarPerfil</page>
+                        <page>TransacaoOrganica</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml?</parameter>
                         <target>right_panel</target>
                         <img>black|fa-exchange</img>
                     </item>
@@ -174,7 +174,7 @@
                         <page>NovoUtilizador</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
-                        <target>mpsubmit</target>
+                        <target>right_panel</target>
                         <img>warning|fa-send</img>
                     </item>
                 </context-menu>

@@ -66,14 +66,14 @@
                     </list>
                     <rules/>
                 </aplicacao>
-                <adicionar_organica1 name="p_adicionar_organica1" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="NovaOrganica" app="igrp" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
+                <adicionar_organica name="p_adicionar_organica" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="NovaOrganica" app="igrp" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
                     <label>Adicionar Organização</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xml</value>
-                </adicionar_organica1>
-                <gestao_de_utilizadores1 name="p_gestao_de_utilizadores1" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="PesquisarUtilizador" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-users" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
+                </adicionar_organica>
+                <gestao_de_utilizadores name="p_gestao_de_utilizadores" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="PesquisarUtilizador" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-users" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
                     <label>Gestão de utilizadores</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml</value>
-                </gestao_de_utilizadores1>
+                </gestao_de_utilizadores>
                 <gestao_de_menu name="p_gestao_de_menu" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="PesquisarMenu" app="igrp" custom_action="" action_type="false" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-bars" maxlength="30" placeholder="" right="true">
                     <label>Gestão de menu</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</value>
@@ -88,7 +88,7 @@
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="center" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </org_nome>
-                <mostrar_perfis name="p_mostrar_perfis" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="PesquisarMenu" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" custom_action="" action_type="false" desc="true">
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="PesquisarPerfil" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" custom_action="" action_type="false" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
@@ -102,8 +102,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Aperiam stract elit ipsum pers</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Officia anim dolor anim volupt</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -114,8 +114,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Sit adipiscing stract aliqua s</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Amet mollit doloremque aliqua</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -126,8 +126,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Aperiam omnis accusantium sit</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Stract ut adipiscing dolor con</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -138,8 +138,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Elit perspiciatis magna rem ip</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Elit anim consectetur stract l</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -150,20 +150,20 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Omnis adipiscing doloremque ac</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Officia ut voluptatem aperiam</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar">
+                    <item type="specific" code="" class="warning" rel="editar" custom_return="true">
                         <title>Editar</title>
                         <app>igrp</app>
                         <page>PesquisarMenu</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml?</parameter>
-                        <target>mpsubmit|refresh</target>
+                        <target>right_panel|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="info" rel="menu">
@@ -172,16 +172,16 @@
                         <page>MenuOrganica</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml?</parameter>
-                        <target>right_panel|refresh</target>
+                        <target>right_panel</target>
                         <img>info|fa-bars</img>
                     </item>
-                    <item type="specific" code="" class="black" rel="transaction">
+                    <item type="specific" code="" class="black" rel="transacti_org" custom_return="true">
                         <title>Transaction</title>
                         <app>igrp</app>
                         <page>TransacaoOrganica</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml?</parameter>
-                        <target>right_panel|refresh</target>
+                        <target>right_panel</target>
                         <img>black|fa-exchange</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">

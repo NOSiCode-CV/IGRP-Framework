@@ -1,11 +1,10 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
-import java.sql.Date;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +13,14 @@ public class Gestaodeacesso extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
-	@RParam(rParamName = "p_adicionar_organica1")
-	private String adicionar_organica1;
-	@RParam(rParamName = "p_adicionar_organica1_desc")
-	private String adicionar_organica1_desc;
-	@RParam(rParamName = "p_gestao_de_utilizadores1")
-	private String gestao_de_utilizadores1;
-	@RParam(rParamName = "p_gestao_de_utilizadores1_desc")
-	private String gestao_de_utilizadores1_desc;
+	@RParam(rParamName = "p_adicionar_organica")
+	private String adicionar_organica;
+	@RParam(rParamName = "p_adicionar_organica_desc")
+	private String adicionar_organica_desc;
+	@RParam(rParamName = "p_gestao_de_utilizadores")
+	private String gestao_de_utilizadores;
+	@RParam(rParamName = "p_gestao_de_utilizadores_desc")
+	private String gestao_de_utilizadores_desc;
 	@RParam(rParamName = "p_gestao_de_menu")
 	private String gestao_de_menu;
 	@RParam(rParamName = "p_gestao_de_menu_desc")
@@ -49,30 +48,30 @@ public class Gestaodeacesso extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setAdicionar_organica1(String app,String page,String action){
-		this.adicionar_organica1 = new Config().getResolveUrl(app, page, action);
+	public void setAdicionar_organica(String app,String page,String action){
+		this.adicionar_organica = new Config().getResolveUrl(app, page, action);
 	}
-	public String getAdicionar_organica1(){
-		return this.adicionar_organica1;
+	public String getAdicionar_organica(){
+		return this.adicionar_organica;
 	}
-	public void setAdicionar_organica1_desc(String adicionar_organica1_desc){
-		this.adicionar_organica1_desc = adicionar_organica1_desc;
+	public void setAdicionar_organica_desc(String adicionar_organica_desc){
+		this.adicionar_organica_desc = adicionar_organica_desc;
 	}
-	public String getAdicionar_organica1_desc(){
-		return this.adicionar_organica1_desc;
+	public String getAdicionar_organica_desc(){
+		return this.adicionar_organica_desc;
 	}
 	
-	public void setGestao_de_utilizadores1(String app,String page,String action){
-		this.gestao_de_utilizadores1 = new Config().getResolveUrl(app, page, action);
+	public void setGestao_de_utilizadores(String app,String page,String action){
+		this.gestao_de_utilizadores = new Config().getResolveUrl(app, page, action);
 	}
-	public String getGestao_de_utilizadores1(){
-		return this.gestao_de_utilizadores1;
+	public String getGestao_de_utilizadores(){
+		return this.gestao_de_utilizadores;
 	}
-	public void setGestao_de_utilizadores1_desc(String gestao_de_utilizadores1_desc){
-		this.gestao_de_utilizadores1_desc = gestao_de_utilizadores1_desc;
+	public void setGestao_de_utilizadores_desc(String gestao_de_utilizadores_desc){
+		this.gestao_de_utilizadores_desc = gestao_de_utilizadores_desc;
 	}
-	public String getGestao_de_utilizadores1_desc(){
-		return this.gestao_de_utilizadores1_desc;
+	public String getGestao_de_utilizadores_desc(){
+		return this.gestao_de_utilizadores_desc;
 	}
 	
 	public void setGestao_de_menu(String app,String page,String action){

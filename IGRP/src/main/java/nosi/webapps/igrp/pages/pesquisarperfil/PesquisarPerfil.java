@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class PesquisarPerfil extends Model{
 		private int estado_check;
 		private String descricao;
 		private String codigo;
-		private String p_id;
+		private String id;
 		public void setOrganica(String organica){
 			this.organica = organica;
 		}
@@ -65,12 +69,17 @@ public class PesquisarPerfil extends Model{
 			return this.codigo;
 		}
 
-		public void setP_id(String p_id){
-			this.p_id = p_id;
+		public void setId(String id){
+			this.id = id;
 		}
-		public String getP_id(){
-			return this.p_id;
+		public String getId(){
+			return this.id;
 		}
 
 	}
+
+	public void loadTable_1(QueryHelper query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
 }

@@ -56,11 +56,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Totam anim aliqua natus stract</value>
+                    <value>Lorem anim natus consectetur doloremque</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false">
                     <label>Código</label>
-                    <value>Anim laudantium officia lorem</value>
+                    <value>Amet ut ipsum rem voluptatem</value>
                 </codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo</label>

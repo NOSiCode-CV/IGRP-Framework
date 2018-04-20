@@ -1,10 +1,10 @@
 package nosi.webapps.igrp.pages.novaorganica;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
+
+
 
 public class NovaOrganica extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

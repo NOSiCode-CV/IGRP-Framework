@@ -40,19 +40,17 @@ public class TransacaoOrganicaController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-		String type = Igrp.getInstance().getRequest().getParameter("type");
-		String id = Igrp.getInstance().getRequest().getParameter("id");
+		int id=model.getId();
+        String type= model.getType();
 	
-		if(Core.isInt(id) && Core.isNotNull(type)){
-		
-			model.setP_id(Integer.parseInt(id));
-			model.setP_type(type);
+		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){		
+			
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
 			List<Transaction> transactions = null;
 			if(type.equals("org")){
 				transactions = new Organization().getOrgTransaction(new Organization().findOne(id).getApplication().getId());
 			}else if(type.equals("perfil")){
-				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+				ProfileType p = new ProfileType().findOne(id);
 				transactions = new Organization().getPerfilTransaction(p.getOrganization()!=null?p.getOrganization().getId():1);
 			}          
 			for(Transaction t:transactions){
@@ -60,12 +58,12 @@ public class TransacaoOrganicaController extends Controller {
 				table.setTransacao(t.getId());
 				table.setNome(t.getDescr()+" ("+t.getCode()+")");
 				Profile prof = new Profile();
-				prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+				prof.setOrganization(new Organization().findOne(id));
 				prof.setProfileType(new ProfileType().findOne(0));
 				prof.setUser(new User().findOne(0));
 				prof.setType_fk(t.getId());
 				if(type.equals("perfil")){
-					ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+					ProfileType p = new ProfileType().findOne(id);
 					prof.setOrganization(p.getOrganization());
 					prof.setProfileType(new ProfileType().findOne(p.getId()));
 				}
@@ -87,52 +85,69 @@ public class TransacaoOrganicaController extends Controller {
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		TransacaoOrganica model = new TransacaoOrganica();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values
+		}
+		
+		----#gen-example */
 		/*----#start-code(gravar)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		String type = Igrp.getInstance().getRequest().getParameter("type");
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
-			TransacaoOrganica model = new TransacaoOrganica();
-			model.load();
+		int id = model.getId();
+		String type = model.getType();
+		if(Core.isInt(id) && Core.isNotNull(type)){
 			Profile profD = new Profile();
 			if(type.equals("org")){
-				profD.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+				profD.setOrganization(new Organization().findOne(id));
 				profD.setType("TRANS");
 				profD.setProfileType(new ProfileType().findOne(0));
 				profD.setUser(new User().findOne(0));
 				profD.deleteAllProfile();
 			}else if(type.equals("perfil")){
-				ProfileType pt = new ProfileType().findOne(Integer.parseInt(id));
+				ProfileType pt = new ProfileType().findOne(id);
 				profD.setOrganization(pt.getOrganization());
 				profD.setType("TRANS");
 				profD.setUser(new User().findOne(0));
-				profD.setProfileType(new ProfileType().findOne(Integer.parseInt(id)));
+				profD.setProfileType(new ProfileType().findOne(id));
 				profD.deleteAllProfile();
 			}
-			String [] trans = Igrp.getInstance().getRequest().getParameterValues("p_transacao");
+			String [] trans = Core.getParamArray("p_transacao");
 			if(trans!=null  && trans.length>0){
+              Boolean sucess=true;
 				for(String x:trans){
 					Profile prof = new Profile();
 					prof.setUser(new User().findOne(0));
 					prof.setType("TRANS");
 					prof.setType_fk(Integer.parseInt(x.toString()));
 					if(type.equals("org")){
-						prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+						prof.setOrganization(new Organization().findOne(id));
 						prof.setProfileType(new ProfileType().findOne(0));
 					}else if(type.equals("perfil")){
-						ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+						ProfileType p = new ProfileType().findOne(id);
 						prof.setOrganization(p.getOrganization());
-						prof.setProfileType(new ProfileType().findOne(Integer.parseInt(id)));
+						prof.setProfileType(new ProfileType().findOne(id));
 					}
 					prof = prof.insert();
+                  if(Core.isNull(prof)){
+                    sucess=false;
+                  }
 				}
-			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
-          	return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
+              if(sucess){
+                Core.setMessageSuccess();
+              }else
+                Core.setMessageError();
+              
+			}		
+       			
 		}
-	
+	 return this.forward("igrp","TransacaoOrganica","index", this.queryString());
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","transacaoorganica","index");	
+			
 	}
 	
 	public Response actionGestao_de_transacoes() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -143,11 +158,9 @@ public class TransacaoOrganicaController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","Transaccao","index");
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","Transaccao","index", this.queryString()); //if submit, loads the values
 		}
 		
 		----#gen-example */

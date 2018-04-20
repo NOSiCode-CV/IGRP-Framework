@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.novoperfil;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+
+
+
 
 public class NovoPerfil extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -16,11 +20,11 @@ public class NovoPerfil extends Model{
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 	@RParam(rParamName = "p_organica")
-	private String organica;
-	@RParam(rParamName = "p_perfil")
-	private String perfil;
+	private int organica;
+	@RParam(rParamName = "p_perfil_pai")
+	private String perfil_pai;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -63,26 +67,27 @@ public class NovoPerfil extends Model{
 		return this.nada;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
+	public void setOrganica(int organica){
 		this.organica = organica;
 	}
-	public String getOrganica(){
+	public int getOrganica(){
 		return this.organica;
 	}
 	
-	public void setPerfil(String perfil){
-		this.perfil = perfil;
+	public void setPerfil_pai(String perfil_pai){
+		this.perfil_pai = perfil_pai;
 	}
-	public String getPerfil(){
-		return this.perfil;
+	public String getPerfil_pai(){
+		return this.perfil_pai;
 	}
+
 
 
 }

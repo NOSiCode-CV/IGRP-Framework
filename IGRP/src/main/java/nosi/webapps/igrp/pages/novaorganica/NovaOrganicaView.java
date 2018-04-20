@@ -4,14 +4,13 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;import java.sql.Date;
+
 import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
+
+
 
 public class NovaOrganicaView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field nome;
 	public Field codigo;
@@ -25,12 +24,15 @@ public class NovaOrganicaView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
+
 	public NovaOrganicaView(){
 
 		this.setPageTitle("Registar Organica");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Gestão de Orgânica - Novo"));
@@ -65,6 +67,7 @@ public class NovaOrganicaView extends View {
 
 		btn_gravar = new IGRPButton("Gravar","igrp","NovaOrganica","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+
 		
 	}
 		

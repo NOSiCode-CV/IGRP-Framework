@@ -1,6 +1,13 @@
+
 package nosi.webapps.igrp.pages.novoutilizador;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+/*----#start-code(packages_import)----*/
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
@@ -36,69 +43,103 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
 
 public class NovoUtilizadorController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
-		String p_id_prof = Igrp.getInstance().getRequest().getParameter("p_id_prof");
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		if(Core.isNotNull(p_id_prof)){
-			ProfileType prof = new ProfileType().findOne(Integer.parseInt(p_id_prof));
+		NovoUtilizadorView view = new NovoUtilizadorView();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
+		----#gen-example */
+		/*----#start-code(index)----*/
+		
+		String id_prof = Core.getParam("p_id_prof");
+		String id = Core.getParam("id");
+		if(Core.isInt(id_prof)){
+			ProfileType prof = new ProfileType().findOne(Integer.parseInt(id_prof));
 			model.setAplicacao(prof.getApplication().getId());
 			model.setOrganica(prof.getOrganization().getId());
 			model.setPerfil(prof.getId());
-		}
-		
-		NovoUtilizadorView view = new NovoUtilizadorView(model);
+		}	
+	
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 		
-		if(id!=null && !id.trim().isEmpty() && !id.equals("0")){
+		if(Core.isNotNullOrZero(id) && !id.trim().isEmpty()){
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
 			view.email.setValue(u.getEmail());
 			view.setPageTitle("Convite - atualizar");
 		}
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		Igrp.getInstance();
-		if(Igrp.getMethod().equalsIgnoreCase("post")) {
-			switch(this.getConfig().getAutenticationType()) {
-				case "ldap":
-					this.ldap();
-				break;
-				case "db":
-				default: this.db();
-		}
-	}else
-		throw new ServerErrorHttpException("Unsuported operation ...");
-	return this.redirect("igrp", "novo-utilizador", "index");
-	/*----#END-PRESERVED-AREA----*/
-	}
-	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
-	private void db() throws IllegalArgumentException, IllegalAccessException {
+		
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+
+		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
+		}
+		
+		----#gen-example */
+		/*----#start-code(gravar)----*/
+	
+		if(Igrp.getMethod().equalsIgnoreCase("post")) {
+          Boolean sucess;
+			switch(this.getConfig().getAutenticationType()) {
+				case "ldap":
+					sucess=this.ldap(model);
+				break;
+				case "db":
+				default: sucess=this.db(model);
+				}
+         	  this.addQueryString("p_aplicacao",  model.getAplicacao());
+             this.addQueryString("p_organica",  model.getOrganica());
+             this.addQueryString("p_perfil",  model.getPerfil());
+          if(!sucess){            
+             this.addQueryString("p_email",  model.getEmail());
+          }
+            
+		}else
+		throw new ServerErrorHttpException("Unsuported operation ...");
+
+	/*----#end-code----*/
+		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
+	}
+	
+	/*----#start-code(custom_actions)----*/
+	
+	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
+		
 		Profile p = new Profile();
 		p.setOrganization(new Organization().findOne(model.getOrganica()));
 		p.setProfileType(new ProfileType().findOne(model.getPerfil()));
 		p.setType("PROF");
-		User u = new User().find().andWhere("email", "=", model.getEmail()).one();
-		if(u!=null){
+		User u = new User().find().andWhere("email", "=", model.getEmail().trim()).one();
+		if(Core.isNotNull(u)){
 			p.setUser(u);
-			p.setType_fk(model.getPerfil());
+			p.setType_fk(model.getPerfil());         	
 			p = p.insert();
 			if(p!=null){
 				p = new Profile();
@@ -118,16 +159,18 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.setEmail(u.getEmail());
 					userActiviti0.create(userActiviti0);	
 					new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+					Core.setMessageSuccess();
+                   return true;
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
+					Core.setMessageError();
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
+				Core.setMessageError("Este utilizador está convidado para este perfil.");
 			}
 		}else{
-			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email inválido"));
+			Core.setMessageError("Este e-mail não está adicionado. Primeiro adicionar este utilizador.");
 		}
+      return false;
 	}
 	
 	private User invite(String email, boolean viaIds, Object ...obj) {
@@ -198,7 +241,7 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 				}
 		}else 
-			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador não existe."));
+			Core.setMessageError("Este utilizador não existe.");
 		
 		return userLdap;
 	}
@@ -209,7 +252,7 @@ public class NovoUtilizadorController extends Controller {
 		Organization orgEmail = new Organization().findOne(model.getOrganica());
 		String msg = ""
 				+ "<p><b>Aplicação:</b> "  +  orgEmail.getApplication().getName() + "</p>" + 
-				"			 <p><b>Orgânica:</b> " + orgEmail.getName() + "</p>" + 
+				"			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>" + 
 				"			 <p><b>Link Activação:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
 				"			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
 		try {
@@ -221,10 +264,8 @@ public class NovoUtilizadorController extends Controller {
 		}
 	}
 	
-	private void ldap() throws IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		NovoUtilizador model = new NovoUtilizador();
-		model.load();
+	private Boolean ldap(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {	
+		
 		Profile p = new Profile();
 		p.setOrganization(new Organization().findOne(model.getOrganica()));
 		p.setProfileType(new ProfileType().findOne(model.getPerfil()));
@@ -270,19 +311,19 @@ public class NovoUtilizadorController extends Controller {
 						userActiviti0.setEmail(u.getEmail());
 						userActiviti0.create(userActiviti0);	
 						new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+						Core.setMessageSuccess();
+                        return true;
 					}else{
-						Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
+						Core.setMessageError();
 					}
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
-				}
-				
+					Core.setMessageError();
+				}				
 			}else {
-				Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador não existe no LDAP. LDAP error !"));
+				Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
 			}
+		return false;
 		
-		/** End **/
 	}
 
 	private Properties loadIdentityServerSettings() {
@@ -318,12 +359,13 @@ public class NovoUtilizadorController extends Controller {
 				model.setAplicacao(p.getProfileType().getApplication().getId());
 				model.setOrganica(p.getOrganization().getId());
 				model.setPerfil(p.getProfileType().getId());
-				NovoUtilizadorView view = new NovoUtilizadorView(model);
+				NovoUtilizadorView view = new NovoUtilizadorView();
 				view.aplicacao.setValue(new Application().getListApps());
 				view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 				view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 				view.email.setValue(p.getUser().getEmail());
 				view.btn_gravar.setLink("editarProfile&p_id="+idProfile);
+             	view.setModel(model);
 				return this.renderView(view);
 			}
 		}
@@ -345,15 +387,15 @@ public class NovoUtilizadorController extends Controller {
 				p = p.update();
 				if(p!=null){
 					Core.setMessageSuccess();
-					return this.forward("igrp", "novo-utilizador", "editar&p_id="+id);
+					return this.forward("igrp", "NovoUtilizador", "editar&p_id="+id);
 				}else{
 					Core.setMessageError();
 				}
 			}else{
-				Core.setMessageError(gt("Email inválido"));
+				Core.setMessageError("Email inválido");
 			}
 		}
 		return this.redirectError();
 	}
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}
