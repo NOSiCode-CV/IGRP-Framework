@@ -202,13 +202,13 @@
 	     	</xsl:call-template>			
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>		
-			<xsl:value-of select="concat('Object r = Core.delete(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_html,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
+			<xsl:value-of select="concat('ResultSet r = Core.delete(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_html,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
 			<xsl:call-template name="gen-sql">
 				<xsl:with-param name="type_op" select="'delete'"/>
 			</xsl:call-template>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="'if( r!=null)'"/>
+			<xsl:value-of select="'if(!r.hasError())'"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="$tab"/>
