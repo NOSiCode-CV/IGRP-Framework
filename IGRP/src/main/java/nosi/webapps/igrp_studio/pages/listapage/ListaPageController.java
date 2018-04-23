@@ -81,12 +81,19 @@ public class ListaPageController extends Controller {
 			model.setCrud_generator("igrp_studio", "CRUDGenerator", "index").addParam("target", "_blank")
 					.addParam("p_aplicacao", model.getEnv_fk());
 		}
-
+		
 		List<Action> actions = a.find().andWhere("application", "=",
 				(model.getEnv_fk() != null && !model.getEnv_fk().equals("")) ? Integer.parseInt(model.getEnv_fk()) : -1)
 				// .andWhere("page", "like", model.getPage())
 				// .andWhere("page_descr", "like", model.getPage_descr())
 				.all();
+		
+		try {
+			System.out.println("EnvId: " + model.getEnv_fk());
+			System.out.println(actions.size());
+		}catch(Exception e) {
+			
+		}
 
 		for (Action ac : actions) {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();

@@ -6,8 +6,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.stream.Collectors;
 import java.util.zip.Adler32;
+import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
 import org.apache.openjpa.lib.util.Files;
@@ -147,12 +151,21 @@ public class EnvController extends Controller {
 			
 			boolean b  = Files.copy(file, destinationFile);
 			
-			if(true) return false;
-			
 			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath(), true);
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
+			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(fos));
 			
-			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
+			
+			FileInputStream fis = new FileInputStream(file);
+			CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
+			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+			
+			JarEntry entry = null;
+			while((entry=jis.getNextJarEntry())!=null){	
+				 jos.putNextEntry(entry);
+				 jos.closeEntry();
+				 jis.closeEntry();
+			}
 			
 			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";
 			
@@ -167,6 +180,7 @@ public class EnvController extends Controller {
 				jos.write(r);
 			}
 			fis1.close();
+			jos.closeEntry();
 			
 			JarEntry je2 = new JarEntry(aux + "DefaultPageController.class");
 			jos.putNextEntry(je2);
@@ -175,11 +189,16 @@ public class EnvController extends Controller {
 				jos.write(r);
 			}
 			fis2.close();
-			
+			jos.closeEntry();
 			
 			jos.close();
 			cos.close();
 			fos.close();
+			
+			String x = destinationFile.getAbsolutePath().replace(File.separator + "FrontIGRP", "");
+			boolean r = destinationFile.renameTo(new File(x));
+			System.out.println("X: " + x);
+			System.out.println("RenameTo: " + r);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

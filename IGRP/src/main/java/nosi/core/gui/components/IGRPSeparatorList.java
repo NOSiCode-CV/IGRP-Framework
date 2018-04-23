@@ -60,6 +60,9 @@ public class IGRPSeparatorList extends IGRPTable {
 	
 	@Override
 	protected void genRows() {
+		
+		this.data = this.modelList;
+		
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			
 			for(Object obj:this.data){
@@ -76,16 +79,17 @@ public class IGRPSeparatorList extends IGRPTable {
 					
 					this.xml.endElement();
 				}
-				for(Field field:this.fields){
-					
+				for(Field field : this.fields){
 					
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+					
 					String val = IgrpHelper.getValue(obj, field.getName());
+					
 					if((val==null || val.equals("")) && field.getValue() != null){
 						val = field.getValue().toString();
 					}
-					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
+					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char 
 					this.xml.text(aux.length > 0 ? aux[0] : "");
 					this.xml.endElement();
 					String sufix = "_desc";
@@ -122,8 +126,6 @@ public class IGRPSeparatorList extends IGRPTable {
 			this.xml.endElement();
 		this.xml.endElement();
 		this.xml.endElement();
-		
-		//System.out.println(this.xml.toString());
 		
 		return this.xml.toString();
 	}

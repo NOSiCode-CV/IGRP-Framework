@@ -286,9 +286,9 @@ public abstract class Model { // IGRP super model
 					
 					int row = 0;
 					
-					//String []arr_ = (String[]) Core.getParamArray("p_" + obj.getName() + "_id");
+					//String []arr_ = (String[]) Core.getParamArray("p_" + obj.getName() + "_id"); 
 					
-					int MAX_ITERATION =  1;
+					int MAX_ITERATION =  0;
 					
 					for(List<String> list : mapFk.values()) { 
 						if(MAX_ITERATION < list.size())
