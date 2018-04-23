@@ -142,13 +142,13 @@
 	     	</xsl:call-template>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/> 
-			<xsl:value-of select="'Object r = null;'"/>	 					
+			<xsl:value-of select="'ResultSet r = null;'"/>	 					
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
 			<xsl:call-template name="gen-crud-sql"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
-			<xsl:value-of select="concat('','if(r != null){')"/>
+			<xsl:value-of select="concat('','if(!r.hasError()){')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>		
 			<xsl:value-of select="$tab"/>
