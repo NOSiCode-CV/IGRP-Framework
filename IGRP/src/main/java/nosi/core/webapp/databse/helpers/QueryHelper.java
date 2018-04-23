@@ -323,7 +323,7 @@ public abstract class QueryHelper implements QueryInterface{
 		
 		if(this instanceof QueryInsert) {
 			try {
-				NamedParameterStatement q = new NamedParameterStatement(conn , this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
+				NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),PreparedStatement.RETURN_GENERATED_KEYS);
 				this.setParameters(q);	
 				Core.log("SQL:"+q.getSql());
 				r.setSql(q.getSql());
@@ -334,7 +334,7 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}else {
 			try {
-				NamedParameterStatement q = new NamedParameterStatement(conn, this.sql);
+				NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
 				this.setParameters(q);
 				r.setSql(q.getSql());
 				Core.log("SQL:"+q.getSql());
@@ -364,7 +364,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	private void setParameters(NamedParameterStatement q) throws SQLException {
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
 			 if(col.getDefaultValue()!=null) {
 				 this.setParameter(q,col.getDefaultValue(),col);					
 			 }else {
