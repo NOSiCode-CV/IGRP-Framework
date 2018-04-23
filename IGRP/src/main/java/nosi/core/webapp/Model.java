@@ -47,10 +47,10 @@ public abstract class Model { // IGRP super model
 	}
 	
 
-	public void loadFromTask(String taskId) {
-		Class<? extends Model> c = this.getClass();
-		for(Field field:c.getDeclaredFields()) {
-				field.setAccessible(true);
+	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
+//		Class<? extends Model> c = this.getClass();
+//		for(Field field:c.getDeclaredFields()) {
+//				field.setAccessible(true);
 				HistoricTaskService hts = Core.getTaskHistory(taskId);
 				if(hts.getVariables() !=null) {
 					List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
@@ -58,13 +58,15 @@ public abstract class Model { // IGRP super model
 					if(Core.isNotNull(json)) {
 						CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 						if(custom.getRows()!=null){
-							custom.getRows().stream().filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName())).forEach(v->{
-								this.setField(field,v.getValue()[0]);
+							custom.getRows().stream()/*.filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName()))*/.forEach(v->{
+//								this.setField(field,v.getValue()[0]);
+								Core.setAttribute(v.getName(), v.getValue());
 							});
 						}
 					}
+					this.load();
 				}
-		}
+//		}
 	}
 	
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {

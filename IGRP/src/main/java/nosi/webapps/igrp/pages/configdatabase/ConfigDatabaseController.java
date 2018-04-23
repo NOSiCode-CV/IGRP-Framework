@@ -43,6 +43,7 @@ public class ConfigDatabaseController extends Controller {
 		
 		/*----#start-code(index)----*/
 		String id_app = model.getAplicacao();
+		System.out.println("id:"+id_app);
 			java.util.List<Config_env> list_app = new Config_env().find().andWhere("application", "=", Integer.parseInt(Core.isNotNull(id_app)?id_app:"0")).all();
 			ArrayList<ConfigDatabase.Table_1> lista_tabela = new ArrayList<>();
 			for(Config_env lista : list_app) {
@@ -73,8 +74,8 @@ public class ConfigDatabaseController extends Controller {
 				break;
 			}
 			view.setModel(model);
-			view.aplicacao.setSqlQuery(
-					"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Integer.parseInt(model.getAplicacao()));
+			view.aplicacao.setQuery(
+					Core.query("SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Integer.parseInt(model.getAplicacao())));
 			view.tipo_base_dados.setValue(Config.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
 			return this.renderView(view);
