@@ -92,6 +92,9 @@ public class EnvController extends Controller {
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());	
 			app.setExternal(model.getFlg_external());
+			
+			boolean autoDeploy = false;
+			
 			if(app.getExternal() == 1) 
 				if(Core.isNotNull(model.getHost()))
 					app.setUrl(model.getHost().trim());
@@ -102,7 +105,7 @@ public class EnvController extends Controller {
 					app.setUrl(url); 
 					
 					// ... put your code here ... 
-					
+					autoDeploy = true;
 					
 				}
 			
@@ -122,13 +125,14 @@ public class EnvController extends Controller {
 					FileHelper.save(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}
 				
-				boolean b = appAutoDeploy(app.getDad());
 				
-				System.out.println("AutoDeploy: " + b);
-				
+				if(autoDeploy && !appAutoDeploy(app.getDad())) 
+					Core.setMessageWarning(gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 
 				
 				Core.setMessageSuccess();
+				
 				return this.redirect("igrp_studio", "env","index");
+				
 			}else{
 				Core.setMessageError();
 			}
@@ -196,9 +200,8 @@ public class EnvController extends Controller {
 			fos.close();
 			
 			String x = destinationFile.getAbsolutePath().replace(File.separator + "FrontIGRP", "");
-			boolean r = destinationFile.renameTo(new File(x));
-			System.out.println("X: " + x);
-			System.out.println("RenameTo: " + r);
+			
+			flag = destinationFile.renameTo(new File(x));
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -229,9 +232,9 @@ public class EnvController extends Controller {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-        System.out.println("Criar Pasta " + flag); 
+      /*  System.out.println("Criar Pasta " + flag); 
         System.out.println(svnapi.getCmd());
-        System.out.println(svnapi.getCmdResult());
+        System.out.println(svnapi.getCmdResult());*/
         
 		try {
 			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
@@ -242,10 +245,10 @@ public class EnvController extends Controller {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		} 
-		
+	/*	
       System.out.println("Checkout " + flag); 
       System.out.println(svnapi.getCmd());
-      System.out.println(svnapi.getCmdResult());
+      System.out.println(svnapi.getCmdResult());*/
         
 	}
 	

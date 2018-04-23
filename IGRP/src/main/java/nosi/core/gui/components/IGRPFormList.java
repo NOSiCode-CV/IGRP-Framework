@@ -2,6 +2,10 @@ package nosi.core.gui.components;
 
 import java.util.List;
 
+import nosi.core.gui.fields.Field;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.IgrpHelper;
+
 //import nosi.core.gui.fields.Field;
 //import nosi.core.webapp.Core;
 //import nosi.core.webapp.helpers.IgrpHelper;
@@ -45,7 +49,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 	public IGRPFormList(String tag_name) {
 		this(tag_name,"");
 	}
-	/*
+	
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
@@ -75,11 +79,11 @@ public class IGRPFormList extends IGRPSeparatorList {
 					this.xml.endElement();
 					
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + (aux.length>0?aux[0]:"") + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + (aux.length > 1?aux[1]:"") + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\"" + (aux.length > 1?aux[1]:"") + "\"></hidden>");
 				}
 				this.xml.endElement();
 			}
-		}else if(this.data==null){
+		}else if(this.data==null || this.data.size() == 0){
 				this.xml.startElement("row"); 
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
@@ -94,16 +98,16 @@ public class IGRPFormList extends IGRPSeparatorList {
 					this.xml.endElement();
 					
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\""  + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\""  + "\"></hidden>");
 				}
 				this.xml.endElement();
 		}
-		if(!this.rows.equals("")){
+		
+		if(!this.rows.equals(""))
 			this.xml.addXml(this.rows);
-		}
 		
 	}
-	*/
+	
 
 	public void loadModel(List<?> modelList) {
 		this.data = modelList;
