@@ -477,11 +477,15 @@ public final class Core {	// Not inherit
 	 * @return {@code value!=null && !value.equals("");}
 	 */
 	public static boolean isNotNull(Object value) {
-		return value!=null && !value.equals("");
+		if(value instanceof String)
+			return value!=null && !value.equals("");
+		return value!=null;
 	}
 	
 	public static boolean isNull(Object value) {
-		return value==null || value.equals("");
+		if(value instanceof String)
+			return value==null || value.equals("");
+		return value==null;
 	}	
 	
 	public static boolean isNullOrZero(Object value) {
