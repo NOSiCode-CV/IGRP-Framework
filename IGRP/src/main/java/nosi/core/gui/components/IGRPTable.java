@@ -295,12 +295,13 @@ public class IGRPTable extends IGRPComponent{
 
 	public IGRPTable addLegendColor(String label,String value) {
 		Properties p = new Properties();
-		p.put(label, value);
+		p.put(label, value); 
 		this.legend_color.add(p);
 		return this;
 	}
 
 	public void loadModel(List<?> modelList) {
 		this.modelList = modelList;
+		//this.data = modelList;
 	}
 }
