@@ -34,7 +34,6 @@ public abstract class QueryHelper implements QueryInterface{
 	protected String tableName;
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
 	protected String connectionName;
-	protected String condition = "";
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
@@ -42,17 +41,17 @@ public abstract class QueryHelper implements QueryInterface{
 	}	
 	
 	public QueryInterface where(String condition) {
-		this.condition += " WHERE "+condition;
+		this.sql += " WHERE "+condition;
 		return this;
 	}
 	
 	protected QueryInterface filterWhere(String condition) {
-		this.condition += condition;//(condition.contains("WHERE")?condition:(" WHERE 1=1 "+condition));
+		this.sql += condition;//(condition.contains("WHERE")?condition:(" WHERE 1=1 "+condition));
 		return this;
 	}
 	
 	public QueryInterface where() {
-		this.condition += " WHERE 1=1 ";
+		this.sql += " WHERE 1=1 ";
 		return this;
 	}
 	
@@ -188,7 +187,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	
 	public String getSql() {
-		return sql+condition;
+		return sql;
 	}
 
 	public void setSql(String sql) {
@@ -244,7 +243,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 
-	public String getSqlUpdate(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName,String condition) {
+	public String getSqlUpdate(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
 		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
 		String updates = "";
 		for(DatabaseMetadaHelper.Column col:colmns) {
@@ -253,14 +252,14 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}	
 		updates = updates.substring(0, updates.length()-1);
-		this.sql = "UPDATE "+tableName +" SET "+updates+" WHERE "+condition;
+		this.sql = "UPDATE "+tableName +" SET "+updates;
 		return this.sql;
 	}
 	
 
-	public String getSqlDelete(String schemaName, String tableName, String condition) {
+	public String getSqlDelete(String schemaName, String tableName) {
 		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
-		this.sql = "DELETE FROM "+tableName +" WHERE "+condition;
+		this.sql = "DELETE FROM "+tableName;
 		return this.sql;
 	}
 	
@@ -318,10 +317,10 @@ public abstract class QueryHelper implements QueryInterface{
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
 		}
 		else if(this instanceof QueryUpdate) {
-			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName(),this.condition);
+			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
 		}
 		else if(this instanceof QueryDelete) {
-			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName(),this.condition);
+			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName());
 		}
 		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
 		
