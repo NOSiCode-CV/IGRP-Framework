@@ -301,10 +301,10 @@
 	    		</xsl:when>
 	    		<xsl:otherwise>
 	    			<xsl:choose>
-			    		<xsl:when test="$type='checkbox' or $type='radio' or $type='range' or $type='number'">
+			    		<xsl:when test="$type='checkbox' or $type='radio' or $type='range' or $type='number'  or $type='radiolist'">
 			    			<xsl:value-of select="'int'" />
 			    		</xsl:when>
-			    		<xsl:when test="$type ='checkboxlist' or $type='radiolist'"><xsl:value-of select="'int[]'" /></xsl:when>
+			    		<xsl:when test="$type ='checkboxlist'"><xsl:value-of select="'int[]'" /></xsl:when>
 			    		<xsl:otherwise>
 			    			<xsl:value-of select="'String'" />
 			    		</xsl:otherwise>
