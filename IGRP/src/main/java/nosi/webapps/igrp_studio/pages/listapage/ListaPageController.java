@@ -88,13 +88,6 @@ public class ListaPageController extends Controller {
 				// .andWhere("page_descr", "like", model.getPage_descr())
 				.all();
 		
-		try {
-			System.out.println("EnvId: " + model.getEnv_fk());
-			System.out.println(actions.size());
-		}catch(Exception e) {
-			
-		}
-
 		for (Action ac : actions) {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
 			table1.setP_id_page("" + ac.getId());
