@@ -142,7 +142,7 @@ public class PageController extends Controller {
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
 //				_________________________________________________Edit/update page
-			} else if(checkifexists(app.findOne(Integer.parseInt(model.getEnv_fk())), model)){
+			} else if(checkifexists(model)){
 				// New page
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
@@ -203,11 +203,9 @@ public class PageController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 	
-	private boolean checkifexists(Application application, Page model) {
+	private boolean checkifexists(Page model) {
 		// TODO Auto-generated method stub
-		return Core.isNull(new Action().find().andWhere("package_name","=", "nosi.webapps." + application.getDad().toLowerCase() + ".pages."+model.getPage()).one());
-		 
-		
+		return Core.isNull(new Action().find().andWhere("application.id","=",model.getEnv_fk()).andWhere("page","=",nosi.core.gui.page.Page.getPageName(model.getPage())).one());		
 		 
 	}
 	
@@ -544,7 +542,7 @@ public class PageController extends Controller {
 
 	// View page with xml
 	public Response actionVisualizar() throws IOException {
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String p_id = Core.getParam("p_id");
 		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
@@ -579,11 +577,16 @@ public class PageController extends Controller {
 					if(!method.getName().contains("lambda")) {
 						Map<String, List<String>> m = new HashMap<>();
 						List<String> mm = new ArrayList<>();
-						for (Parameter param : method.getParameters()) {
-							mm.add(param.toString());
+						for (Parameter param : method.getParameters()) {		
+							int i =param.toString().lastIndexOf(".");
+							if(i!= -1)
+								mm.add(param.toString().substring(i+1));
+							else
+								mm.add(param.toString());
 						}
 						m.put(method.getName(), mm);
 						metodos.add(m);
+						
 					}
 				}
 			}
