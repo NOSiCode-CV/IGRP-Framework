@@ -2,6 +2,8 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -95,11 +97,8 @@ public class PesquisarPerfilController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(editar)----*/
-      	//String id = Core.getParam("p_id");
-		//if(id!=null && !id.equals("")){
  			return this.forward("igrp","NovoPerfil","editar", this.queryString());
-		//}
-		//return this.redirectError();
+
 		/*----#end-code----*/
 			
 	}
@@ -117,12 +116,12 @@ public class PesquisarPerfilController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(eliminar)----*/
-		String id = Core.getParam("p_id");
-        if(id!=null){
-			ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
-            if(p!=null && p.delete(Integer.parseInt(id))){
+		int id = Core.getParamInt("p_id");
+        if(id!=0){
+			ProfileType p = new ProfileType().findOne(id);
+            if(p!=null && p.delete(id)){
               Core.setMessageSuccess();
-              return this.redirect("igrp","PesquisarPerfil","index");
+              return this.forward("igrp","PesquisarPerfil","index");
             }
         }
 		//return this.redirectError();
@@ -139,17 +138,15 @@ public class PesquisarPerfilController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","PesquisarPerfil","index", this.queryString()); //if submit, loads the values
+		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
 		/*----#start-code(menu)----*/
-		String id = Core.getParam("p_id");
-		 if(id!=null){
-		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");		
-		 }
-		// return this.redirectError();		
+     //p_id is a param (iskey=true) that will be send automatically
+      this.addQueryString("p_type","perfil"); 	
+      return this.forward("igrp","MenuOrganica","index", this.queryString());
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarPerfil","index", this.queryString());	
+			
 	}
 	
 	public Response actionTransacao() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -165,10 +162,8 @@ public class PesquisarPerfilController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(transacao)----*/
-		//String id = Core.getParam("p_id");
-        this.addQueryString("p_type","perfil");
-      //don't need to add p_id because its declared view.id.setParam(true);
-        
+		//don't need to add p_id because its declared view.id.setParam(true);
+        this.addQueryString("p_type","perfil");        
 		return this.forward("igrp", "TransacaoOrganica", "index",this.queryString());		
 		/*----#end-code----*/
 			
@@ -187,13 +182,9 @@ public class PesquisarPerfilController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(convidar)----*/
-		String id = Core.getParam("p_id");
-        if(id!=null && !id.equals("")){
-          return this.redirect("igrp", "NovoUtilizador", "index&p_id_prof="+id);
-        }
-        //return this.redirectError();
+	 return this.forward("igrp","NovoUtilizador","index", this.queryString());
 		/*----#end-code----*/
-		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
+			
 	}
 	
 	/*----#start-code(custom_actions)----*/

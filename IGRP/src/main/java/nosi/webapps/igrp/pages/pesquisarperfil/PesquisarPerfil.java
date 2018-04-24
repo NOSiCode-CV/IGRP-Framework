@@ -2,7 +2,8 @@ package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
 
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class PesquisarPerfil extends Model{
 
 	}
 
-	public void loadTable_1(QueryHelper query) {
+	public void loadTable_1(BaseQueryInterface query) {
 		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 
