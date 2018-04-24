@@ -7,9 +7,7 @@ $(function(){
 		coreSet = false;
 	
 	server.hints 	  = {
-		model : [],
-		view  : [],
-		Core  : []
+		Core : []
 	};
 	
 	var SetCoreAutoComplete = function(data){
@@ -168,7 +166,13 @@ $(function(){
 
 			model : [],
 			
-			view  : []
+			view  : [
+				"setModel(model);"
+			],
+			
+			System : [
+				"out.println();",
+			]
 
 		};
 		
@@ -176,7 +180,7 @@ $(function(){
 
 			SetTagModelAutoComplete(tag,object).forEach(function(m){ hints.model.push(m) }) ;
 			
-			SetTagViewAutoComplete(tag,object).forEach(function(m){ hints.view.push(m) });			
+			SetTagViewAutoComplete(tag,object).forEach(function(m){ hints.view.push(m) });		
 			
 			SetFieldsViewAutoComplete( tag,object ).forEach(function(m){ 
 				
@@ -187,6 +191,9 @@ $(function(){
 				hints[m.name].push(m.method);
 				
 			});
+			
+			//hints.view.push('setModel(model);');
+			
 		};
 		
 		try{
@@ -284,7 +291,7 @@ $(function(){
 
 		    	isDot 	 = false;
 
-		    options.words = [];
+		    options.words = ["import","System"];
 		    
 		    try{
 		    	
@@ -413,7 +420,7 @@ $(function(){
 		
 		GEN.on('ready',function(){
 			
-			$.get(GEN.UTILS.core_methods_list,SetCoreAutoComplete )
+			$.get( GEN.UTILS.core_methods_list ,SetCoreAutoComplete )
 			
 		});
 		
