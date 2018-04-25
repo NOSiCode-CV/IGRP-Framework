@@ -4,7 +4,9 @@ import nosi.webapps.igrp.pages.home.HomeAppView;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Controller;
+
 public class DefaultPageController extends Controller {	
+	
 	public Response actionIndex() throws IOException{
 		Application app = new Application().find().andWhere("dad","=","tutorial").one();
 		if(app!=null && app.getAction()!=null) {
@@ -14,4 +16,5 @@ public class DefaultPageController extends Controller {
 		view.title = "Tutorial IGRP";
 		return this.renderView(view,true);
 	}
+	
 }
