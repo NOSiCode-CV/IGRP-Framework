@@ -84,7 +84,7 @@ public class XMLTransform {
 		
 		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "editar", "mpsubmit|refresh", "warning|fa-pencil","","",true);
 		IGRPButton btn_eliminar = new IGRPButton("Eliminar", config.getApplication().getDad().toLowerCase(), page.getPage(), "eliminar", "confirm", "danger|fa-trash","","",true);
-		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","update").add("crud_op", "edit").add("action-id", page.getId());
+		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","update").add("crud_op", "edit").add("action-id", pageForm.getId());
 		btn_eliminar.propertie.add("type","specific").add("code","eliminar").add("rel","delete").add("crud_op", "delete").add("action-id", page.getId());
 		addField(table, columns);
 		table.addButton(btn_editar);
