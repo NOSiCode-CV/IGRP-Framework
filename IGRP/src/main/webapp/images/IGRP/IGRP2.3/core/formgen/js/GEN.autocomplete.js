@@ -83,9 +83,11 @@ $(function(){
 		
 	}
 	
-	var SetTagViewAutoComplete = function(tag){
+	var SetTagViewAutoComplete = function(tag,o){
 		
-		var view = [];
+		var view = [],
+			
+			tag = o.type == 'button' ? 'btn_'+tag : tag;
 
 		view.push(tag);	
 
@@ -95,7 +97,9 @@ $(function(){
 	
 	var SetFieldsViewAutoComplete = function(tag,o){
 
-		var methods = [];
+		var methods = [],
+			
+			tag = o.type == 'button' ? 'btn_'+tag : tag;
 		
 		if(o.genType == 'field' || o.xml.type == 'text'){
 			
@@ -292,9 +296,11 @@ $(function(){
 
 		    	rtn      = null,
 
-		    	isDot 	 = false;
+		    	isDot 	 = false,
+		    	
+		    	defaults = ["import","System","Core","view","model","this"];
 
-		    options.words = ["import","System"];
+		    options.words = [];
 		    
 		    try{
 		    	

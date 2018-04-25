@@ -592,6 +592,22 @@ public class PageController extends Controller {
 			}
 		return metodos;
 	}
+	
+	public void actionNewDomain() {
+		
+		String dname = Core.getParam("domain_name");
+		//String [] dval = Core.getParamArray("domain_item_value");
+		//String []  ddesc = Core.getParamArray("p_domain_item_info");
+		
+		//System.out.println("ok");
+		//System.out.println(dval);
+		System.out.println(Core.getParameters());
+	
+		//Domain domain = new Domain(dominio,valor,description,"ATIVE",0);
+		
+		//domain.insert();
+
+	}
 
 	public Response actionListDomains() throws IOException {
 		List<String> domains = new ArrayList<>();
