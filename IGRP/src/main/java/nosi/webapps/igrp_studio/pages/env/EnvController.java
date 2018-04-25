@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -25,6 +24,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.openjpa.lib.util.Files;
 
 import com.google.gson.Gson;
@@ -147,30 +147,43 @@ public class EnvController extends Controller {
 		boolean flag = true;
 		try {
 			
-			String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP").replace("images", "IGRP-Template.war");
+			String result = this.config.getPathOfImagesFolder()/*.replace("IGRP", "FrontIGRP")*/.replace("images", "IGRP-Template.war"); 
+		     
+			File file = new File(result); 
 			
-			File file = new File(result);
-			
-			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase())); 
+			File destinationFile = new File(result.replace("IGRP-Template", appDad.toUpperCase())); 
 			
 			boolean b  = Files.copy(file, destinationFile);
 			
-			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath(), true);
+			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());
+			
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
-			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(fos));
+			
+			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
 			
 			
 			FileInputStream fis = new FileInputStream(file);
+			
 			CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
+			
 			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
 			
 			JarEntry entry = null;
-			while((entry=jis.getNextJarEntry())!=null){	
-				 jos.putNextEntry(entry);
-				 jos.closeEntry();
-				 jis.closeEntry();
+			
+			while((entry=jis.getNextJarEntry()) != null){	
+				
+				JarEntry aux = new JarEntry(entry.getName());
+				
+				jos.putNextEntry(aux); 
+				
+				jos.write(IOUtils.toByteArray(jis));
+				
+				jos.closeEntry();
+				jis.closeEntry();
 			}
 			
+			jis.close();
+			 
 			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";
 			
 			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";
@@ -184,7 +197,8 @@ public class EnvController extends Controller {
 				jos.write(r);
 			}
 			fis1.close();
-			jos.closeEntry();
+			
+			jos.closeEntry(); 
 			
 			JarEntry je2 = new JarEntry(aux + "DefaultPageController.class");
 			jos.putNextEntry(je2);
@@ -193,8 +207,9 @@ public class EnvController extends Controller {
 				jos.write(r);
 			}
 			fis2.close();
-			jos.closeEntry();
 			
+			jos.closeEntry();
+			 
 			jos.close();
 			cos.close();
 			fos.close();
