@@ -75,11 +75,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Mollit aperiam sit omnis natus</organica>
+                        <organica name="p_organica">Voluptatem aliqua lorem omnis</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Iste adipiscing perspiciatis u</descricao>
-                        <codigo name="p_codigo">Iste officia unde stract omnis</codigo>
+                        <descricao name="p_descricao">Sit magna elit iste aperiam</descricao>
+                        <codigo name="p_codigo">Magna sit laudantium officia i</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -87,11 +87,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Iste accusantium stract omnis</organica>
+                        <organica name="p_organica">Deserunt dolor ipsum magna des</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Elit anim totam sed voluptatem</descricao>
-                        <codigo name="p_codigo">Officia sit ipsum natus stract</codigo>
+                        <descricao name="p_descricao">Unde iste dolor unde rem</descricao>
+                        <codigo name="p_codigo">Dolor sed rem lorem stract</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,11 +99,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Deserunt amet aperiam perspici</organica>
+                        <organica name="p_organica">Aliqua lorem deserunt sit aper</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sit dolor accusantium omnis la</descricao>
-                        <codigo name="p_codigo">Ut laudantium sit labore dolor</codigo>
+                        <descricao name="p_descricao">Sit ut stract ut natus</descricao>
+                        <codigo name="p_codigo">Voluptatem doloremque rem dese</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -111,11 +111,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Doloremque magna deserunt labo</organica>
+                        <organica name="p_organica">Ipsum lorem doloremque sed acc</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Natus amet adipiscing sed adip</descricao>
-                        <codigo name="p_codigo">Adipiscing sit rem natus aperi</codigo>
+                        <descricao name="p_descricao">Aperiam unde sed ut totam</descricao>
+                        <codigo name="p_codigo">Ut voluptatem ipsum ut ipsum</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -123,11 +123,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sit voluptatem adipiscing anim</organica>
+                        <organica name="p_organica">Lorem unde doloremque stract m</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Unde officia accusantium totam</descricao>
-                        <codigo name="p_codigo">Omnis sit mollit officia ipsum</codigo>
+                        <descricao name="p_descricao">Laudantium omnis sit accusanti</descricao>
+                        <codigo name="p_codigo">Perspiciatis elit aliqua lauda</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -147,15 +147,15 @@
                         <page>PesquisarPerfil</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
-                        <target>confirm</target>
+                        <target>alert_submit</target>
                         <img>danger|fa-trash</img>
                     </item>
-                    <item type="specific" code="" class="info" rel="menu">
+                    <item type="specific" code="" class="info" rel="menu" custom_return="true">
                         <title>Menu</title>
                         <app>igrp</app>
-                        <page>PesquisarPerfil</page>
+                        <page>MenuOrganica</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml?</parameter>
                         <target>right_panel</target>
                         <img>info|fa-bars</img>
                     </item>
@@ -168,7 +168,7 @@
                         <target>right_panel</target>
                         <img>black|fa-exchange</img>
                     </item>
-                    <item type="specific" code="" class="warning" rel="convidar">
+                    <item type="specific" code="" class="warning" rel="convidar" custom_return="true">
                         <title>Convidar</title>
                         <app>igrp</app>
                         <page>NovoUtilizador</page>

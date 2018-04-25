@@ -38,7 +38,7 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 	
 	public QueryInterface select(String collumns) {
 		if(Core.isNotNull(collumns)) {
-			if(!collumns.toUpperCase().startsWith("SELECT"))
+			if(!collumns.toUpperCase().contains("SELECT"))
 				this.setSql("SELECT "+collumns+" ");
 			else
 				this.setSql(collumns);

@@ -88,7 +88,7 @@
     </xsl:variable>
 
     <xsl:variable name="import_date">
-    	<xsl:if test="count(//fields/*[@java-type='java.sql.Date']) &gt; 0">
+    	<xsl:if test="count(//fields/*[@java-type='Date']) &gt; 0">
         	<xsl:text>import java.sql.Date;</xsl:text>
         </xsl:if>
     </xsl:variable>

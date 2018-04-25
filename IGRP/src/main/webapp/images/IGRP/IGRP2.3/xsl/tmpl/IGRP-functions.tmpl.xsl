@@ -139,9 +139,9 @@
   <xsl:template name="setAttributes">
     <xsl:param name="field"/>
 
-    <xsl:if test="$field/@readonly='true'">
-      <xsl:attribute name="disabled">
-        <xsl:value-of select="'disabled'" />
+    <xsl:if test="$field/@readonly='true' or $field/@readonly='readonly'">
+      <xsl:attribute name="readonly">
+        <xsl:value-of select="'readonly'" />
       </xsl:attribute>
     </xsl:if>
     
@@ -160,6 +160,12 @@
     <xsl:if test="$field/@maxlength">
       <xsl:attribute name="maxlength">
         <xsl:value-of select="$field/@maxlength" />
+      </xsl:attribute>
+    </xsl:if>
+    
+    <xsl:if test="$field/@required = 'true'">
+      <xsl:attribute name="required">
+        <xsl:value-of select="$field/@required" />
       </xsl:attribute>
     </xsl:if>
     

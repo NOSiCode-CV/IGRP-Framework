@@ -39,7 +39,7 @@ public abstract class Model { // IGRP super model
 					field.setAccessible(true);
 					try {
 						if(field.getAnnotation(RParam.class)!=null)
-							this.setField(field,  tuple.get(field.getName()));
+							IgrpHelper.setField(this,field,  tuple.get(field.getName()));
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
 			}	
@@ -47,10 +47,10 @@ public abstract class Model { // IGRP super model
 	}
 	
 
-	public void loadFromTask(String taskId) {
-		Class<? extends Model> c = this.getClass();
-		for(Field field:c.getDeclaredFields()) {
-				field.setAccessible(true);
+	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
+//		Class<? extends Model> c = this.getClass();
+//		for(Field field:c.getDeclaredFields()) {
+//				field.setAccessible(true);
 				HistoricTaskService hts = Core.getTaskHistory(taskId);
 				if(hts.getVariables() !=null) {
 					List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
@@ -58,13 +58,15 @@ public abstract class Model { // IGRP super model
 					if(Core.isNotNull(json)) {
 						CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 						if(custom.getRows()!=null){
-							custom.getRows().stream().filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName())).forEach(v->{
-								this.setField(field,v.getValue()[0]);
+							custom.getRows().stream()/*.filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName()))*/.forEach(v->{
+//								this.setField(field,v.getValue()[0]);
+								Core.setAttribute(v.getName(), v.getValue());
 							});
 						}
 					}
+					this.load();
 				}
-		}
+//		}
 	}
 	
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
@@ -341,31 +343,6 @@ public abstract class Model { // IGRP super model
 	 * Load/auto-populate (end)
 	 * */
 	
-	/*
-	 * Errors/validation purpose (begin)
-	 * */
-	private void setField(Field field,Object value) {
-		if(field !=null && value!=null) {
-			try {
-				if	(field.getType().getName().equalsIgnoreCase("int") || field.getType().getName().equalsIgnoreCase("java.lang.integer"))
-						field.setInt(this,Core.toInt(value.toString()));
-				else if	(field.getType().getName().equalsIgnoreCase("long") || field.getType().getName().equalsIgnoreCase("java.lang.long"))
-					field.setLong(this,Core.toLong(value.toString()));
-				else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
-					field.setShort(this,Core.toShort(value.toString()));
-				else if( field.getType().getName().equalsIgnoreCase("float") || field.getType().getName().equalsIgnoreCase("java.lang.float"))
-					field.setFloat(this,Core.toFloat(value.toString()));
-				else if(field.getType().getName().equalsIgnoreCase("double") || field.getType().getName().equalsIgnoreCase("java.lang.double"))
-					field.setDouble(this,Core.toDouble(value.toString()));
-				else if	(field.getType().getName().equalsIgnoreCase("boolean") || field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
-					field.setBoolean(this,(boolean)value);
-				else
-					field.set(this,value);
-			}catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 //	private void createErrorsPool(){
 //		this.errors = new HashMap<String, ArrayList<String>>();

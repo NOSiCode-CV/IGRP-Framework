@@ -2,12 +2,11 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -24,54 +23,49 @@ import java.util.List;
 /*----#end-code----*/
 
 
-
 public class MenuOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		MenuOrganica model = new MenuOrganica();
-		MenuOrganicaView view = new MenuOrganicaView();
 		model.load();
-		
+		MenuOrganicaView view = new MenuOrganicaView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadTable_1( Core.query( "SELECT 'menu' as menu,'descricao' as descricao " ) );
+		model.loadTable_1(Core.query(null,"SELECT 'menu' as menu,'descricao' as descricao "));
+		
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
-      String type = Igrp.getInstance().getRequest().getParameter("type");
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-      
-		if(Core.isNotNull(id) && Core.isNotNull(type) && !id.equals("null")) {
-			model.setP_id(Integer.parseInt(id));
-			model.setP_type(type);
-		ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
+    
+			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
 			List<Menu> menus = new ArrayList<>();
-			if (type.equals("org")) {
-				String env_fk = Igrp.getInstance().getRequest().getParameter("env_fk");
-				menus = new Organization().getOrgMenu(Integer.parseInt(env_fk));
-			} else if (type.equals("perfil")) {
-				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+			if (model.getType().equals("org")) {
+				int env_fk = Core.getParamInt("env_fk");
+				menus = new Organization().getOrgMenu(env_fk);
+			} else if (model.getType().equals("perfil")) {
+				ProfileType p = new ProfileType().findOne(model.getId());
 				menus = new Organization().getPerfilMenu(p.getOrganization() != null ? p.getOrganization().getId() : 1);
+                view.btn_novo.setVisible(false);              
 			}
 			for (Menu m : menus) {
 				if (m != null) {
 					MenuOrganica.Table_1 table = new MenuOrganica.Table_1();
 					table.setMenu(m.getId());
 					Profile prof = new Profile();
-					prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+					prof.setOrganization(new Organization().findOne(model.getId()));
 					prof.setProfileType(new ProfileType().findOne(0));
 					prof.setUser(new User().findOne(0));
 					prof.setType_fk(m.getId());
-					if (type.equals("perfil")) {
-						ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+					if (model.getType().equals("perfil")) {
+						ProfileType p = new ProfileType().findOne(model.getId());
 						prof.setOrganization(p.getOrganization());
 						prof.setProfileType(new ProfileType().findOne(p.getId()));
 					}
-					if ((type.equals("org") && prof.isInsertedOrgMen())
-							|| (type.equals("perfil") && prof.isInsertedPerfMen())) {
+					if ((model.getType().equals("org") && prof.isInsertedOrgMen())
+							|| (model.getType().equals("perfil") && prof.isInsertedPerfMen())) {
 						table.setMenu_check(m.getId());
 					} else {
 						table.setMenu_check(-1);
@@ -83,52 +77,40 @@ public class MenuOrganicaController extends Controller {
 
 			view.table_1.addData(data);
 
-		}
-		view.btn_gravar.setLink("gravar&id=" + model.getP_id() + "&type=" + model.getP_type());
-		if (type.equals("org")) {
-			view.btn_novo.setLink("igrp","MenuOrganica","novo&env_fk=" + Igrp.getInstance().getRequest().getParameter("env_fk"));		
+		if (model.getType().equals("org")) {
+			view.btn_novo.setLink("igrp","MenuOrganica","novo&env_fk=" + Core.getParam("env_fk"));		
 			view.btn_novo.setVisible(true);
 		}
 		
 		
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		MenuOrganica model = new MenuOrganica();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","MenuOrganica","index");
-		}
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
-		
 		/*----#start-code(gravar)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		String type = Igrp.getInstance().getRequest().getParameter("type");
+
 		List<ProfileType> list = null;
 
 		Organization organization1 = new Organization();
 		Organization organization2 = new Organization();
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && Core.isNotNull(id) && Core.isNotNull(type)) {
+		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") ) {
 			Profile profD = new Profile();
-			if (type.equals("org")) {
-				organization1 = new Organization().findOne(Integer.parseInt(id));
-				organization2 = organization1.find().andWhere("application.id", "=", Integer.parseInt(id));
+			if (model.getType().equals("org")) {
+				organization1 = new Organization().findOne(model.getId());
+				organization2 = organization1.find().andWhere("application.id", "=", model.getId());
 				profD.setOrganization(organization1);
 				profD.setType("MEN");
 				profD.setProfileType(new ProfileType().findOne(0));
@@ -153,15 +135,15 @@ public class MenuOrganicaController extends Controller {
 					pAux2.deleteAllProfile();
 				}
 				
-			} else if (type.equals("perfil")) {
-				ProfileType pt = new ProfileType().findOne(Integer.parseInt(id));
+			} else if (model.getType().equals("perfil")) {
+				ProfileType pt = new ProfileType().findOne(model.getId());
 				profD.setOrganization(pt.getOrganization());
 				profD.setType("MEN");
 				profD.setUser(new User().findOne(0));
 				profD.setProfileType(pt);
 				profD.deleteAllProfile();
 			}
-
+//TODO: mudar para Core.getParamArray()
 			String[] mens = Igrp.getInstance().getRequest().getParameterValues("p_menu");
 			if (mens != null && mens.length > 0) {
 				for (String x : mens) {
@@ -169,8 +151,8 @@ public class MenuOrganicaController extends Controller {
 					prof.setUser(new User().findOne(0));
 					prof.setType("MEN");
 					prof.setType_fk(Integer.parseInt(x.toString()));
-					if (type.equals("org")) {
-						Organization aux = new Organization().findOne(Integer.parseInt(id));
+					if (model.getType().equals("org")) {
+						Organization aux = new Organization().findOne(model.getId());
 						prof.setOrganization(aux);
 						prof.setProfileType(new ProfileType().findOne(0));
 
@@ -195,57 +177,45 @@ public class MenuOrganicaController extends Controller {
 						}
 						/**  **/
 
-					} else if (type.equals("perfil")) {
-						ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+					} else if (model.getType().equals("perfil")) {
+						ProfileType p = new ProfileType().findOne(model.getId());
 						prof.setOrganization(p.getOrganization());
-						prof.setProfileType(new ProfileType().findOne(Integer.parseInt(id)));
+						prof.setProfileType(new ProfileType().findOne(model.getId()));
 					}
 					prof = prof.insert();
 				}
 			}
 			Core.setMessageSuccess();
 		}
-		if (type.equals("org"))
-			return this.redirect("igrp", "MenuOrganica", "index","id=" + id + "&type=" + type + "&env_fk=" + organization2.getApplication().getId());
-		else if (type.equals("perfil"))          
-			return this.redirect("igrp", "MenuOrganica", "index", "id=" + id + "&type=" + type);
+		if (model.getType().equals("org"))
+			return this.forward("igrp", "MenuOrganica", "index&env_fk=" + organization2.getApplication().getId());
+		else if (model.getType().equals("perfil"))          
+			return this.forward("igrp", "MenuOrganica", "index");
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","MenuOrganica","index");
-		
+		return this.redirect("igrp","MenuOrganica","index", this.queryString());	
 	}
+	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		MenuOrganica model = new MenuOrganica();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","NovoMenu","index");
-		}
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
-		
 		/*----#start-code(novo)----*/
-		String env_fk = Igrp.getInstance().getRequest().getParameter("env_fk");
-		if(Core.isNotNull(env_fk))
+		int env_fk = Core.getParamInt("env_fk");
+		if(env_fk!=0)
 			return this.redirect("igrp","NovoMenu","index&app="+env_fk);
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","NovoMenu","index");
-		
+		return this.redirect("igrp","NovoMenu","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
 
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}

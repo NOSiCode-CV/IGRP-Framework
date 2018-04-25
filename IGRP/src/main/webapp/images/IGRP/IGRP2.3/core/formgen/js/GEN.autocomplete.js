@@ -7,9 +7,7 @@ $(function(){
 		coreSet = false;
 	
 	server.hints 	  = {
-		model : [],
-		view  : [],
-		Core  : []
+		Core : []
 	};
 	
 	var SetCoreAutoComplete = function(data){
@@ -29,7 +27,7 @@ $(function(){
 						paramsStr+=p;
 						
 						if(i < params.length -1)
-							paramsStr+=','
+							paramsStr+=', '
 						
 					});
 					
@@ -76,7 +74,7 @@ $(function(){
 					return rtn;
 				}();
 
-				model.push('load'+capitalizeFirstLetter(tbName)+'(Core.query(null,"SELECT '+sqlFields+'"))');
+				model.push('load'+capitalizeFirstLetter(tbName)+'(Core.query(null,"SELECT '+sqlFields+'"));');
 			
 		}
 			
@@ -85,9 +83,11 @@ $(function(){
 		
 	}
 	
-	var SetTagViewAutoComplete = function(tag){
+	var SetTagViewAutoComplete = function(tag,o){
 		
-		var view = [];
+		var view = [],
+			
+			tag = o.type == 'button' ? 'btn_'+tag : tag;
 
 		view.push(tag);	
 
@@ -97,13 +97,15 @@ $(function(){
 	
 	var SetFieldsViewAutoComplete = function(tag,o){
 
-		var methods = [];
+		var methods = [],
+			
+			tag = o.type == 'button' ? 'btn_'+tag : tag;
 		
 		if(o.genType == 'field' || o.xml.type == 'text'){
 			
 			methods.push({
 				name : 'view.'+tag,
-				method : 'setLabel(String label)'
+				method : 'setLabel(String label);'
 			});
 			
 			methods.push({
@@ -118,7 +120,7 @@ $(function(){
 				});
 				methods.push({
 					name : 'view.'+tag,
-					method :'setLookup(String app, String page, String action)'
+					method :'setLookup(String app, String page, String action);'
 				});
 			}
 
@@ -131,7 +133,7 @@ $(function(){
 				
 				methods.push({
 					name : 'view.'+tag,
-					method : 'setQuery(Core.query(String connectionName, String tableName))'
+					method : 'setQuery(Core.query(String connectionName, String tableName));'
 				});
 
 			}
@@ -147,15 +149,15 @@ $(function(){
 			if(o.type == 'chart'){
 				methods.push({
 					name : 'view.'+tag,
-					method : 'setSqlQuery(null, String query)'
+					method : 'setQuery(null, String query);'
 				});
 			}
 			
 		}
-			
+		
 		methods.push({
 			name : 'view.'+tag,
-			method : 'setVisible(boolean isVisible)'
+			method : 'setVisible(boolean isVisible);'
 		});
 
 		
@@ -168,7 +170,16 @@ $(function(){
 
 			model : [],
 			
-			view  : []
+			view  : [
+				"setModel(model);"
+			],
+			
+			System : [
+				"out.println();",
+			],
+			this :[
+				"addQueryString(tag, value);","forward(app, page, action, this.queryString());","forward(app, page, action);",
+			]
 
 		};
 		
@@ -176,7 +187,7 @@ $(function(){
 
 			SetTagModelAutoComplete(tag,object).forEach(function(m){ hints.model.push(m) }) ;
 			
-			SetTagViewAutoComplete(tag,object).forEach(function(m){ hints.view.push(m) });			
+			SetTagViewAutoComplete(tag,object).forEach(function(m){ hints.view.push(m) });		
 			
 			SetFieldsViewAutoComplete( tag,object ).forEach(function(m){ 
 				
@@ -187,6 +198,9 @@ $(function(){
 				hints[m.name].push(m.method);
 				
 			});
+			
+			//hints.view.push('setModel(model);');
+			
 		};
 		
 		try{
@@ -282,7 +296,9 @@ $(function(){
 
 		    	rtn      = null,
 
-		    	isDot 	 = false;
+		    	isDot 	 = false,
+		    	
+		    	defaults = ["import","System","Core","view","model","this"];
 
 		    options.words = [];
 		    
@@ -413,7 +429,7 @@ $(function(){
 		
 		GEN.on('ready',function(){
 			
-			$.get(GEN.UTILS.core_methods_list,SetCoreAutoComplete )
+			$.get( GEN.UTILS.core_methods_list ,SetCoreAutoComplete )
 			
 		});
 		

@@ -2,6 +2,8 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -48,14 +50,12 @@ public class GestaodeacessoController extends Controller {
 				setTable(model, data);
 			} else
 				model.setAdicionar_organica("igrp", "NovaOrganica", "index");
-		}	
+		}		
 		
-		view.aplicacao.setParam(true);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);
 		view.setPageTitle("Gestão de Acesso");	
 		if(Core.isNotNull(model.getAplicacao())) {
-			// view.adicionar_organica1.setValue("webapps?r=igrp/NovaOrganica/index&id_app="+model.getAplicacao());	
 			 view.gestao_de_menu.setValue(this.getConfig().getResolveUrl("igrp","PesquisarMenu","index&id_app="+model.getAplicacao())) ;
 			 view.adicionar_organica.setValue(this.getConfig().getResolveUrl("igrp","NovaOrganica","index&id_app="+model.getAplicacao()));	
 			 view.gestao_de_utilizadores.setValue(this.getConfig().getResolveUrl("igrp","PesquisarUtilizador","index&p_aplicacao="+model.getAplicacao()));
@@ -98,15 +98,12 @@ public class GestaodeacessoController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(menu)----*/
-   
-      	String p_id = Core.getParam("p_id");
-		if (Core.isInt(p_id)) {
-			Organization org = new Organization().findOne(Integer.parseInt(p_id));
-			org = org.find().andWhere("application.id", "=", Integer.parseInt(p_id));
-			if (org != null)
-				return this.redirect("igrp", "MenuOrganica", "index","id=" + p_id + "&type=org&env_fk=" + org.getApplication().getId());
-		}else Core.setMessageError();
-
+  		Organization org = new Organization().findOne(Core.getParamInt("p_id"));	
+        this.addQueryString("p_type","org");   
+      	if (org != null){
+          	this.addQueryString("env_fk",org.getApplication().getId());  
+          	return this.forward("igrp", "MenuOrganica","index",this.queryString());
+        }
 		/*----#end-code----*/
 		return this.redirect("igrp","MenuOrganica","index", this.queryString());	
 	}
@@ -124,10 +121,10 @@ public class GestaodeacessoController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(transacti_org)----*/
-		this.addQueryString("p_type","org");     
-		//don't need to add p_id because its declared view.id.setParam(true);
+	  //don't need to add p_id because its declared view.id.setParam(true);
       
- 		return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values
+      this.addQueryString("p_type","org");    	
+      return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values
 		/*----#end-code----*/
 			
 	}
@@ -145,9 +142,9 @@ public class GestaodeacessoController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(eliminar)----*/
-		String p_id = Core.getParam("p_id");
-		if (p_id != null) {
-			Organization org = new Organization().findOne(Integer.parseInt(p_id));
+		int p_id = Core.getParamInt("p_id");
+		if (p_id != 0) {
+			Organization org = new Organization().findOne(p_id);
 			if (org != null && org.delete()) {
 				Core.setMessageSuccess();
 			}else

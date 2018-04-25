@@ -187,11 +187,20 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	
 	public String getSql() {
+		if(this instanceof QueryInsert) {
+			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
+		}
+		else if(this instanceof QueryUpdate) {
+			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
+		}
+		else if(this instanceof QueryDelete) {
+			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName()) + this.sql;
+		}
 		return sql;
 	}
 
 	public void setSql(String sql) {
-		this.sql += sql;
+		this.sql = sql;
 	}
 
 	public String getTableName() {
@@ -238,8 +247,7 @@ public abstract class QueryHelper implements QueryInterface{
 		}	
 		inserts = inserts.substring(0, inserts.length()-1);
 		values = values.substring(0, values.length()-1);
-		this.sql = "INSERT INTO "+tableName+" ("+inserts+") VALUES ("+values+")";
-		return this.sql;
+		return "INSERT INTO "+tableName+" ("+inserts+") VALUES ("+values+")";
 	}
 	
 
@@ -252,16 +260,14 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}	
 		updates = updates.substring(0, updates.length()-1);
-		this.sql = "UPDATE "+tableName +" SET "+updates;
-		return this.sql;
+		return "UPDATE "+tableName +" SET "+updates;
 	}
 	
-
 	public String getSqlDelete(String schemaName, String tableName) {
 		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
-		this.sql = "DELETE FROM "+tableName;
-		return this.sql;
+		return "DELETE FROM "+tableName;
 	}
+	
 	
 	public void setParameter(Query query, Object value, Column col) {
 		if(col.getType().equals(java.lang.Integer.class)) {
@@ -313,20 +319,11 @@ public abstract class QueryHelper implements QueryInterface{
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
-		if(this instanceof QueryInsert) {
-			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
-		}
-		else if(this instanceof QueryUpdate) {
-			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
-		}
-		else if(this instanceof QueryDelete) {
-			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName());
-		}
 		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
 		
 		if(this instanceof QueryInsert) {
 			try {
-				NamedParameterStatement q = new NamedParameterStatement(conn , this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
+				NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),PreparedStatement.RETURN_GENERATED_KEYS);
 				this.setParameters(q);	
 				Core.log("SQL:"+q.getSql());
 				r.setSql(q.getSql());
@@ -337,7 +334,7 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}else {
 			try {
-				NamedParameterStatement q = new NamedParameterStatement(conn, this.sql);
+				NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
 				this.setParameters(q);
 				r.setSql(q.getSql());
 				Core.log("SQL:"+q.getSql());
@@ -367,7 +364,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	private void setParameters(NamedParameterStatement q) throws SQLException {
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
 			 if(col.getDefaultValue()!=null) {
 				 this.setParameter(q,col.getDefaultValue(),col);					
 			 }else {
