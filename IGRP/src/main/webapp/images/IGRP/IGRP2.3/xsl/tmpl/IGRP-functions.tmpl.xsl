@@ -163,7 +163,7 @@
       </xsl:attribute>
     </xsl:if>
     
-    <xsl:if test="$field/@required">
+    <xsl:if test="$field/@required = 'true'">
       <xsl:attribute name="required">
         <xsl:value-of select="$field/@required" />
       </xsl:attribute>

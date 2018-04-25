@@ -323,7 +323,7 @@ public class ExecucaoTarefasController extends Controller {
 				Core.getParameters().entrySet().stream().forEach(param-> {
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});	
-				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+				p.addVariable(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId(),"string",content);
 				result = p.submitVariables();
 				new TaskFile().addFile(p);
 				if(result){
@@ -418,7 +418,7 @@ public class ExecucaoTarefasController extends Controller {
 					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});
-				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+				p.addVariable(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId(),"string",content);
 				p.submitVariables();
 				task.submitVariables();
 			}
@@ -448,7 +448,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
-			formData.addVariable("customVariableIGRP",content);
+			formData.addVariable(Core.isNotNull(formData.getFormKey())?formData.getFormKey():"customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
 

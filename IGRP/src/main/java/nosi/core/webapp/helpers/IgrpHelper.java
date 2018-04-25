@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.fields.Field;
+import nosi.core.webapp.Core;
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -112,6 +113,50 @@ public final class IgrpHelper {
 		return value;
 	}
 
+	/*
+	 * Errors/validation purpose (begin)
+	 * */
+	public static void setField(Object obj,java.lang.reflect.Field field,Object value) {
+		if(field !=null && value!=null) {
+			try {
+				if(field.getType().isPrimitive()) {
+					if (field.getType().getName().equalsIgnoreCase("java.lang.integer"))
+						field.setInt(obj,Core.toInt(value.toString()));
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.long"))
+						field.setLong(obj,Core.toLong(value.toString()));
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
+						field.setShort(obj,Core.toShort(value.toString()));
+					else if(field.getType().getName().equalsIgnoreCase("java.lang.float"))
+						field.setFloat(obj,Core.toFloat(value.toString()));
+					else if(field.getType().getName().equalsIgnoreCase("java.lang.double"))
+						field.setDouble(obj,Core.toDouble(value.toString()));
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
+						field.setBoolean(obj,(boolean)value);
+				}else if(field.getType().isArray()) {
+					if (field.getType().getName().equalsIgnoreCase("java.lang.integer[]"))
+						field.set(obj,(int[])value);
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.long[]"))
+						field.set(obj,(long[])value);
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.short[]"))
+						field.set(obj,(short[])value);
+					else if(field.getType().getName().equalsIgnoreCase("java.lang.float[]"))
+						field.set(obj,(float[])value);
+					else if(field.getType().getName().equalsIgnoreCase("java.lang.double[]"))
+						field.set(obj,(double[])value);
+					else if	(field.getType().getName().equalsIgnoreCase("java.lang.boolean[]"))
+						field.set(obj,(boolean[])value);
+				}else {
+					 if	(field.getType().getName().equalsIgnoreCase("java.lang.String"))
+						field.set(obj,(String)value);
+					 else if(field.getType().getName().equalsIgnoreCase("java.sql.Date"))
+						field.set(obj,Core.ToDate(value.toString(), "yyyy-MM-dd"));
+				}
+			}catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static String getLabel(Field field) {
 		String value = "";
 		

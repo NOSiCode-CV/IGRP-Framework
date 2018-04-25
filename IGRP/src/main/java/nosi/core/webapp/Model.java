@@ -39,7 +39,7 @@ public abstract class Model { // IGRP super model
 					field.setAccessible(true);
 					try {
 						if(field.getAnnotation(RParam.class)!=null)
-							this.setField(field,  tuple.get(field.getName()));
+							IgrpHelper.setField(this,field,  tuple.get(field.getName()));
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
 			}	
@@ -343,31 +343,6 @@ public abstract class Model { // IGRP super model
 	 * Load/auto-populate (end)
 	 * */
 	
-	/*
-	 * Errors/validation purpose (begin)
-	 * */
-	private void setField(Field field,Object value) {
-		if(field !=null && value!=null) {
-			try {
-				if	(field.getType().getName().equalsIgnoreCase("int") || field.getType().getName().equalsIgnoreCase("java.lang.integer"))
-						field.setInt(this,Core.toInt(value.toString()));
-				else if	(field.getType().getName().equalsIgnoreCase("long") || field.getType().getName().equalsIgnoreCase("java.lang.long"))
-					field.setLong(this,Core.toLong(value.toString()));
-				else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
-					field.setShort(this,Core.toShort(value.toString()));
-				else if( field.getType().getName().equalsIgnoreCase("float") || field.getType().getName().equalsIgnoreCase("java.lang.float"))
-					field.setFloat(this,Core.toFloat(value.toString()));
-				else if(field.getType().getName().equalsIgnoreCase("double") || field.getType().getName().equalsIgnoreCase("java.lang.double"))
-					field.setDouble(this,Core.toDouble(value.toString()));
-				else if	(field.getType().getName().equalsIgnoreCase("boolean") || field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
-					field.setBoolean(this,(boolean)value);
-				else
-					field.set(this,value);
-			}catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 //	private void createErrorsPool(){
 //		this.errors = new HashMap<String, ArrayList<String>>();
