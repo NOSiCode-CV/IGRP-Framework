@@ -77,7 +77,8 @@ public class MapaProcessoController extends Controller{
 			processDefinition = task.getProcessDefinitionKey();
 		}
 		if(formData != null) {
-			if(Core.isNotNull(formData.getFormKey())) {				
+			if(Core.isNotNull(formData.getFormKey())) {		
+				System.out.println("Page:"+formData.getFormKey());
 				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
 				String content = comp.removeXMLButton(resp.getContent());

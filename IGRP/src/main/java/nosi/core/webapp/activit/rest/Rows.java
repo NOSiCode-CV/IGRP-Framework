@@ -1,7 +1,5 @@
 package nosi.core.webapp.activit.rest;
 
-import java.util.Arrays;
-
 /**
  * Emanuel
  * 18 Jan 2018
@@ -9,7 +7,7 @@ import java.util.Arrays;
 public class Rows {
 
 	private String name;
-	private Object[] value;
+	private Object value;
 	
 	public Rows(){}
 	
@@ -19,16 +17,16 @@ public class Rows {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Object[] getValue() {
+	public Object getValue() {
 		return value;
 	}
-	public void setValue(Object[] value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 	
 	@Override
 	public String toString() {
-		return "Rows [name=" + name + ", value=" + Arrays.toString(value) + "]";
+		return "Rows [name=" + name + ", value=" + value + "]";
 	}
 	
 }

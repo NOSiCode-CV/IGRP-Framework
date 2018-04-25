@@ -66,7 +66,7 @@ public class Detalhes_tarefasController extends Controller {
 		String page = action.getPage();
 		String json = "";
 		if(task.getVariables()!=null) {
-			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
+			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId())).collect(Collectors.toList());
 			json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
 		}
 		if(Core.isNotNull(json)) {
@@ -74,13 +74,16 @@ public class Detalhes_tarefasController extends Controller {
 			if(custom!=null){
 				for(Rows rows:custom.getRows()) {
 					if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
-						page = rows.getValue()[0].toString();
+						page = rows.getValue().toString();
 					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
-						app = rows.getValue()[0].toString();
+						app = rows.getValue().toString();
 					}else {
-						for(Object obj:rows.getValue()) {
-							this.addQueryString(rows.getName(), obj.toString());
-						}
+						if(rows.getValue() instanceof String[]) {
+							for(String obj:(String[])rows.getValue()) {
+								this.addQueryString(rows.getName(), obj);
+							}
+						}else
+							this.addQueryString(rows.getName(), rows.getValue().toString());
 					}
 				}
 			}

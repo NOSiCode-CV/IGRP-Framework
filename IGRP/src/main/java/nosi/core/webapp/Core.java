@@ -44,6 +44,7 @@ import nosi.core.webapp.databse.helpers.QuerySelect;
 import nosi.core.webapp.databse.helpers.QueryUpdate;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI;
@@ -703,6 +704,7 @@ public final class Core {	// Not inherit
 		xml.endElement();
 		return xml.toString();
 	}
+
 	
 	public static String getJsonParams() {
 		Map<String,String[]> params = Igrp.getInstance().getRequest().getParameterMap();
@@ -716,7 +718,10 @@ public final class Core {	// Not inherit
 								p->{
 									Rows row = new Rows();
 									row.setName(p.getKey());
-									row.setValue(p.getValue());
+									if(p.getValue().length > 1)
+										row.setValue((String[])p.getValue());
+									else
+										row.setValue(p.getValue()[0]);
 									customV.add(row);
 								}
 						  );
@@ -1115,8 +1120,27 @@ public final class Core {	// Not inherit
 		}
 		return null;
 	}
-
+	
+	public static Part getFile(String name) throws IOException, ServletException {
+		Part part =  Igrp.getInstance().getRequest().getPart(name);
+		if(part != null) {			
+			return part;
+		}
+		return null;
+	}
+	
 	public static boolean validateQuery(Config_env config_env, String query) {		
 		return new QuerySelect().validateQuery(config_env, query);
+	}
+	
+	public static Object unnserializeFromTask(Object obj,String json) throws IllegalArgumentException, IllegalAccessException {
+		CustomVariableIGRP rows = new Gson().fromJson(json,CustomVariableIGRP.class);
+		for(java.lang.reflect.Field f:obj.getClass().getDeclaredFields()) {
+			f.setAccessible(true);
+			rows.getRows().stream().filter(r->r.getName().equalsIgnoreCase("p_"+f.getName())).forEach(r->{
+				IgrpHelper.setField(obj,f, r.getValue());
+			});
+		}
+		return (Object)obj;
 	}
 }
