@@ -1,8 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"  />
-
+  <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+  
   <xsl:template match="/">
-    
     <html>
       <head>
         <xsl:call-template name="IGRP-head"/>
@@ -12,9 +11,20 @@
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/panels/igrp.panels.css?v={$version}"/>
         
         <style>
+
+          [has-menu="false"] #igrp-contents.with-search .row-fluid .navbar{
+            top:0;
+            left:0;
+            width:100%;
+          }
+
+          [has-menu="false"]  #igrp-contents.with-search .content{
+              padding-top:35px;
+          }
           
           section.content-header.gen-container-item{
-            padding:0
+            padding:0;
+            margin-bottom:0
           }
           section.content-header h2{
             margin: 0;
