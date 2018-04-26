@@ -536,16 +536,16 @@ public class PageController extends Controller {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
 				String content = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac), ac.getPage() + ".xml");
-				String xsl_src = this.getConfig().getResolveUrl("igrp","page","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId();
-				int index1 = content.indexOf("?>");
-				int index2 = content.indexOf("<site>");
-				if(index1 > 0 && index2 > 0){
-					String c = content.substring(0,index1+"?>".length());
-					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
-					c += "<rows><link_img>"+this.getConfig().getLinkImg()+"</link_img>";
-					c += content.substring(index2);
-					return this.renderView(c);
-				}
+//				String xsl_src = this.getConfig().getResolveUrl("igrp","page","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId();
+//				int index1 = content.indexOf("?>");
+//				int index2 = content.indexOf("<site>");
+//				if(index1 > 0 && index2 > 0){
+//					String c = content.substring(0,index1+"?>".length());
+//					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
+//					c += "<rows><link_img>"+this.getConfig().getLinkImg()+"</link_img>";
+//					c += content.substring(index2);
+//					return this.renderView(c);
+//				}
 				return this.renderView(content);
 			}
 		}
