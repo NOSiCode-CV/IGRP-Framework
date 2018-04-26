@@ -26,4 +26,16 @@ public class QueryUpdate extends QueryHelper {
 		this.tableName = tableName;
 		return this;
 	}
+	
+	public QueryInterface where(String condition) {
+		this.sql += " WHERE "+condition;
+		this.isWhere = true;
+		return this;
+	}
+	
+	protected QueryInterface filterWhere(String condition) {
+		this.sql += condition;
+		this.isWhere = true;
+		return this;
+	}
 }
