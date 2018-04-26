@@ -78,7 +78,6 @@ public class MapaProcessoController extends Controller{
 		}
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {		
-				System.out.println("Page:"+formData.getFormKey());
 				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
 				String content = comp.removeXMLButton(resp.getContent());
@@ -134,7 +133,7 @@ public class MapaProcessoController extends Controller{
 		if(Core.isNotNull(page) && Core.isNotNull(app)){
 			XMLExtractComponent comp = new XMLExtractComponent();
 			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
-			String path_xsl = this.getConfig().getBaseServerPahtXsl(ac);
+			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
 			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
 			content = comp.addButtonXsl(content);
 			this.format = Response.FORMAT_XSL;			

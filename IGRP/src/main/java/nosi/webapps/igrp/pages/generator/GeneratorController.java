@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.generator;
 
-import java.io.File;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import java.util.Random;
@@ -10,6 +9,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
+import java.io.File;
 /*----#END-PRESERVED-AREA----*/
 
 public class GeneratorController extends Controller{
@@ -30,13 +30,13 @@ public class GeneratorController extends Controller{
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
-					String json = this.getConfig().getBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
+					String json = this.getConfig().getCurrentBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
 					Random r = new Random();
 					if(FileHelper.fileExists(json)){
-						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+Math.abs(r.nextInt());
+						json = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+Math.abs(r.nextInt());
 						model.setPage_form(json.replace("\\", "/"));
 					}else if(FileHelper.fileExists(json.replaceAll(".json", ".xml"))){
-						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+Math.abs(r.nextInt());
+						String xmlp = this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+Math.abs(r.nextInt());
 						model.setPage_form(xmlp.replace("\\", "/"));
 					}
 					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
