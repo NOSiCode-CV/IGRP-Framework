@@ -126,7 +126,7 @@ public class ImportAppZip extends ImportAppJar{
 	private void saveConfigFilesPlsql2_1(Action page,String content){
 		try {
 			content = this.addClassAndPackage(content,page,"xml");
-			String pathServer = this.getConfig().getBaseServerPahtXsl(page);
+			String pathServer = this.getConfig().getCurrentBaseServerPahtXsl(page);
 		
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
 			//System.out.println(content);
@@ -154,7 +154,7 @@ public class ImportAppZip extends ImportAppJar{
 		FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
 		this.saveFiles(file , app);
 		try {
-			String path = this.getConfig().getBaseServerPahtXsl(page)+File.separator+page.getPage()+".xml";
+			String path = this.getConfig().getCurrentBaseServerPahtXsl(page)+File.separator+page.getPage()+".xml";
 			//Gera codigo MVC a partir de xml, usando gerador xsl
 			String modelViewController = XMLTransform.xmlTransformWithXSL(path, this.getConfig().getLinkXSLGeneratorMCV());
 			String[] partsJavaCode = modelViewController.toString().split(" END ");

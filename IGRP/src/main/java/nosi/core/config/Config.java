@@ -218,11 +218,17 @@ public class Config {
 	}
 	
 	public String getLinkPageXsl(Action ac) {
+		if(!ac.getApplication().getDad().equalsIgnoreCase("igrp") && !ac.getApplication().getDad().equalsIgnoreCase("igrp_studio")  && !ac.getApplication().getDad().equalsIgnoreCase("tutorial"))
+			return this.getRootPaht()+"images/IGRP/IGRP"+this.getPageVersion()+"/app/"+ac.getXsl_src();
 		return this.getLinkImgBase()+"images/IGRP/IGRP"+this.getPageVersion()+"/app/"+ac.getXsl_src();
 	}
 	
 	public String getResolvePathPage(String app,String page,String version){
 		return this.getLinkImgBase()+"images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+version+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+app.toLowerCase()+SEPARATOR_FOR_HTTP+page.toLowerCase();
+	}
+
+	public String getCurrentResolvePathPage(String app,String page,String version){
+		return this.getRootPaht()+"images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+version+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+app.toLowerCase()+SEPARATOR_FOR_HTTP+page.toLowerCase();
 	}
 	
 	public String getResolvePathXsl(Action page){
@@ -331,7 +337,10 @@ public class Config {
 		return this.getBasePathServerXsl() + this.getImageAppPath(page);
 	}
 	
-
+	public String getCurrentBaseServerPahtXsl(Action page) {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/") + this.getImageAppPath(page);
+	}
+	
 	public String getImageAppPath(Application app) {
 		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP2.3"+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+app.getDad().toLowerCase();
 	}

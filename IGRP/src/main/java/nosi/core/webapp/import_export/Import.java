@@ -155,7 +155,7 @@ public class Import {
 								  .andWhere("application.dad", "=", app.getDad())
 								  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 								  .one();
-		String path = this.getConfig().getBaseServerPahtXsl(page);
+		String path = this.getConfig().getCurrentBaseServerPahtXsl(page);
 		FileHelper.createDiretory(path);
 		String content = file.getConteudo();
 		

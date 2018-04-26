@@ -4,9 +4,7 @@ package nosi.webapps.igrp_studio.pages.crudgenerator;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
 import nosi.core.gui.page.Page;
 import java.io.File;
@@ -192,8 +190,8 @@ public class CRUDGeneratorController extends Controller {
 		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList();
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
-		String pathXslForm = this.getConfig().getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
-		String pathXslList = this.getConfig().getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
+		String pathXslForm = this.getConfig().getCurrentBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
+		String pathXslList = this.getConfig().getCurrentBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
 		
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
 		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
@@ -218,7 +216,7 @@ public class CRUDGeneratorController extends Controller {
 		boolean r = false;
 		if(content!=null) {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
-			String pathXsl = this.getConfig().getBaseServerPahtXsl(page);
+			String pathXsl = this.getConfig().getCurrentBaseServerPahtXsl(page);
 			r = FileHelper.save(pathXsl, fileName, content);
 			if(FileHelper.fileExists(this.getConfig().getWorkspace())){
 				r = FileHelper.save(this.getConfig().getBasePahtXslWorkspace(page), fileName, content);
