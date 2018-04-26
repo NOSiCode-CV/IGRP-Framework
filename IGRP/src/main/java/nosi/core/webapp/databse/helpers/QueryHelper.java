@@ -29,11 +29,12 @@ import nosi.core.webapp.helpers.DateHelper;
  */
 public abstract class QueryHelper implements QueryInterface{
 
-	private String sql = "";
+	protected String sql = "";
 	protected String schemaName;
 	protected String tableName;
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
 	protected String connectionName;
+	protected boolean isWhere = false;
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
@@ -46,7 +47,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	protected QueryInterface filterWhere(String condition) {
-		this.sql += condition;//(condition.contains("WHERE")?condition:(" WHERE 1=1 "+condition));
+		this.sql += condition;
 		return this;
 	}
 	
@@ -182,6 +183,7 @@ public abstract class QueryHelper implements QueryInterface{
 		c.setDefaultValue(value);
 		c.setType(type);
 		c.setFormat(format);
+		c.setAfterWhere(isWhere);
 		this.columnsValue.add(c);
 	}
 	
@@ -255,7 +257,7 @@ public abstract class QueryHelper implements QueryInterface{
 		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
 		String updates = "";
 		for(DatabaseMetadaHelper.Column col:colmns) {
-			if(!col.isAutoIncrement()) {
+			if(!col.isAutoIncrement() && !col.isAfterWhere()) {
 				updates += col.getName().toLowerCase()+"=:"+col.getName().toLowerCase()+",";
 			}
 		}	
