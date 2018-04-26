@@ -4,9 +4,7 @@ package nosi.webapps.igrp.pages.novoutilizador;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
@@ -65,13 +63,15 @@ public class NovoUtilizadorController extends Controller {
 		----#gen-example */
 		/*----#start-code(index)----*/
 		
-		String id_prof = Core.getParam("p_id_prof");
+		Integer id_prof = Core.getParamInt("p_id");
 		String id = Core.getParam("id");
-		if(Core.isInt(id_prof)){
-			ProfileType prof = new ProfileType().findOne(Integer.parseInt(id_prof));
+		if(id_prof!=0){
+			ProfileType prof = new ProfileType().findOne(id_prof);
+			if(prof!=null) {
 			model.setAplicacao(prof.getApplication().getId());
 			model.setOrganica(prof.getOrganization().getId());
 			model.setPerfil(prof.getId());
+			}
 		}	
 	
 		view.aplicacao.setValue(new Application().getListApps());
@@ -98,9 +98,7 @@ public class NovoUtilizadorController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-
 		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
-		}
 		
 		----#gen-example */
 		/*----#start-code(gravar)----*/
@@ -114,7 +112,7 @@ public class NovoUtilizadorController extends Controller {
 				case "db":
 				default: sucess=this.db(model);
 				}
-         	  this.addQueryString("p_aplicacao",  model.getAplicacao());
+         	 this.addQueryString("p_aplicacao",  model.getAplicacao());
              this.addQueryString("p_organica",  model.getOrganica());
              this.addQueryString("p_perfil",  model.getPerfil());
           if(!sucess){            

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -45,26 +45,26 @@
             <item type="specific" code="" rel="guardar">
                 <title>Guardar</title>
                 <app>igrp</app>
-                <page>Dominio</page>
+                <page>RegistarUtilizador</page>
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Ipsum doloremque dolor accusantium sed</value>
+                    <value>Sit aliqua natus elit voluptatem</value>
                 </nome>
                 <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Consectetur magna sed unde elit</value>
+                    <value>Dolor sed sit anim consectetur</value>
                 </username>
                 <email name="p_email" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>Ipsum perspiciatis totam aliqua sit</value>
+                    <value>Elit sit elit doloremque aliqua</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>

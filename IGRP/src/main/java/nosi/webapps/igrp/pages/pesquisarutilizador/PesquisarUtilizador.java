@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,23 +83,23 @@ public class PesquisarUtilizador extends Model{
 
 
 	public static class Table_1{
-		private String nome;
 		private String nominho;
+		private String nome;
 		private String tb_email;
 		private String perfile;
-		private String p_id;
-		public void setNome(String nome){
-			this.nome = nome;
-		}
-		public String getNome(){
-			return this.nome;
-		}
-
+		private String id;
 		public void setNominho(String nominho){
 			this.nominho = nominho;
 		}
 		public String getNominho(){
 			return this.nominho;
+		}
+
+		public void setNome(String nome){
+			this.nome = nome;
+		}
+		public String getNome(){
+			return this.nome;
 		}
 
 		public void setTb_email(String tb_email){
@@ -112,12 +116,17 @@ public class PesquisarUtilizador extends Model{
 			return this.perfile;
 		}
 
-		public void setP_id(String p_id){
-			this.p_id = p_id;
+		public void setId(String id){
+			this.id = id;
 		}
-		public String getP_id(){
-			return this.p_id;
+		public String getId(){
+			return this.id;
 		}
 
 	}
+
+	public void loadTable_1(BaseQueryInterface query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
 }

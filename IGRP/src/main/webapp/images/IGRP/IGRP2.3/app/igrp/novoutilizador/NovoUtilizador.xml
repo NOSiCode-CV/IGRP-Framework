@@ -56,7 +56,7 @@
             <fields>
                 <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>E-mail</label>
-                    <value>hiab@example.com</value>
+                    <value>jinidkew@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>

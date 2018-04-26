@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.registarutilizador;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+
+
+
 
 public class RegistarUtilizador extends Model{		
 	@RParam(rParamName = "p_titulo_text")
@@ -66,6 +70,7 @@ public class RegistarUtilizador extends Model{
 	public String getConfirmar_password(){
 		return this.confirmar_password;
 	}
+
 
 
 }
