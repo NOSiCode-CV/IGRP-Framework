@@ -1,6 +1,11 @@
 
 package nosi.webapps.igrp.pages.pesquisarutilizador;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -17,26 +22,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
 
-public class PesquisarUtilizadorController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+public class PesquisarUtilizadorController extends Controller {		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		PesquisarUtilizador model = new PesquisarUtilizador();
-
-		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
-		// condiccao para pesquisar com filtros
+		model.load();
+		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
+		view.tb_email.setParam(true);
+		view.id.setParam(true);
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-			model.load();
-			String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
+		model.loadTable_1(Core.query(null,"SELECT 'nominho' as nominho,'nome' as nome,'tb_email' as tb_email,'perfile' as perfile,'id' as id "));
 		
-		if (!Core.isNotNull(ichange) && Core.getParam("id_app") != null)
-			model.setAplicacao(Core.getParam("id_app"));
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
+		----#gen-example */
+		/*----#start-code(index)----*/
+		
+   		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 
-		int idApp = (Core.isNotNull(model.getAplicacao()))? Integer.parseInt(model.getAplicacao()): 0;
-		int idOrg = (Core.isNotNull(model.getOrganica()))? Integer.parseInt(model.getOrganica()): 0;
-		int idProf = (Core.isNotNull(model.getPerfil()))? Integer.parseInt(model.getPerfil()): 0;
+      	int idApp = Core.toInt(model.getAplicacao());
+		int idOrg = Core.toInt(model.getOrganica());
+		int idProf = Core.toInt(model.getPerfil());
 
 		Profile prof = new Profile();
 		List<Profile> profiles = null;
@@ -65,15 +80,13 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setNominho(p.getUser().getName());
 			table1.setPerfile(p.getProfileType().getApplication().getName() + "/"
 					+ p.getProfileType().getOrganization().getName() + "/" + p.getProfileType().getDescr());
-			table1.setP_id("" + p.getId());
+			table1.setId("" + p.getId());
 			lista.add(table1);
-		}
-
-		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
+		}	
 
 		switch (this.getConfig().getAutenticationType()) {
 		case "ldap":
-			view.btn_adicionar_utilizador.setLink("igrp", "LdapUser", "index&target=_blank");
+			view.btn_adicionar_utilizador.setLink("igrp", "LdapUser", "index");
 			break;
 		case "db":
 		default:
@@ -85,66 +98,124 @@ public class PesquisarUtilizadorController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp, idOrg));
-
+		
 		view.nome.setLabel("Username");
-		view.nominho.setLabel("Nome");
-		// Para pegar os parametros que queremos enviar para poder editar o menu no view
-		view.p_id.setParam(true);
-		view.email.setParam(true);
+		view.nominho.setLabel("Nome");		
+		
 		view.table_1.addData(lista);
 
-		// view.username.
-
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-	public Response actionConvidar() throws IOException {
-		/*----#START-PRESERVED-AREA(CONVIDAR)----*/
-		String email = Igrp.getInstance().getRequest().getParameter("p_email");
-		if (email != null) {
-			User u = new User().find().andWhere("email", "=", email).one();
-			if (u != null) {
-				return this.redirect("igrp", "NovoUtilizador", "index&id=" + u.getId());
+	
+	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(convidar)----*/
+		
+		if (Core.isNotNull(model.getEmail())) {
+			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
+			if (Core.isNotNull(u)) {
+				return this.forward("igrp", "NovoUtilizador", "index&id=" + u.getId());
 			}
 		}
-		return this.redirect("igrp", "NovoUtilizador", "index");
-		/*----#END-PRESERVED-AREA----*/
+      	
+         return this.forward("igrp","NovoUtilizador","index");
+      
+		/*----#end-code----*/
+			
 	}
-
-	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
-		return this.redirect("igrp", "RegistarUtilizador", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
-
-	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
+	
+	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		PesquisarUtilizador model = new PesquisarUtilizador();
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-			model.load();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(adicionar_utilizador)----*/
+
+		/*----#end-code----*/
+		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
+	}
+	
+	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(pesquisar)----*/
+	
+		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
 			return this.forward("igrp", "PesquisarUtilizador", "index");
 		}
-		return this.redirect("igrp", "PesquisarUtilizador", "index");
-		/*----#END-PRESERVED-AREA----*/
+	
+		/*----#end-code----*/
+		return this.redirect("igrp","PesquisarUtilizador","index", this.queryString());	
 	}
-
-	public Response actionEditar() throws IOException {
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (id != null) {
-			Profile p = new Profile().findOne(Integer.parseInt(id));
-			if (p != null) {
-				return this.redirect("igrp", "NovoUtilizador", "editar&target=_blank&p_id=" + p.getId());
+	
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(editar)----*/
+		 
+      if (Core.isNotNull(Core.getParam("p_tb_email"))) {
+			User u = new User().find().andWhere("email", "=", Core.getParam("p_tb_email")).one();
+			if (Core.isNotNull(u)) {
+              this.addQueryString("p_id", u.getId());
+				return this.redirect("igrp", "RegistarUtilizador", "editar", this.queryString());
 			}
-		}
-		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+		}     	
+      
+		/*----#end-code----*/
+		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
 	}
-
-	public Response actionEliminar() throws IOException {
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+	
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(eliminar)----*/
+		String id = Core.getParam("p_id");
 		if (id != null) {
 			Profile p = new Profile().findOne(Integer.parseInt(id));
 			p.setType("INATIVE_" + p.getType());
@@ -154,24 +225,39 @@ public class PesquisarUtilizadorController extends Controller {
 				return this.redirect("igrp", "PesquisarUtilizador", "index");
 			}
 		}
-		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+      
+		Core.setMessageError();     
+		/*----#end-code----*/
+		return this.redirect("igrp","PesquisarUtilizador","index", this.queryString());	
 	}
-
-	public Response actionConvidar_user() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(CONVIDAR_USER)----*/
-		String email = Igrp.getInstance().getRequest().getParameter("tb_email");
-		if (email != null) {
-			User u = new User().find().andWhere("email", "=", email).one();
-			if (u != null) {
-				return this.forward("igrp", "PesquisarUtilizador", "convidar&target=_blank&p_email=" + email);
-			}
-		}
-		return this.redirect("igrp", "PesquisarUtilizador", "convidar&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
+	
+	public Response actionConvidar_user() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(convidar_user)----*/
+		Integer id = Core.getParamInt("p_id");		
+		Profile p = new Profile().findOne(id);
+	 	if(p!=null)
+	          this.addQueryString("p_id",p.getProfileType().getId());
+  		User u = new User().find().andWhere("email", "=", Core.getParam("tb_email")).one();
+			if (u != null) 
+			  this.addQueryString("id",u.getId());
+   
+		return this.forward("igrp","NovoUtilizador","index", this.queryString()); 
+		/*----#end-code----*/
+			
 	}
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#start-code(custom_actions)----*/
 	public Response actionListaGeral() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -194,15 +280,15 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setNome(p.getUser_name());
 			table1.setNominho(p.getName());
 			table1.setPerfile(p.getStatus() == 1 ? "ATIVO" : "INATIVO");
-			table1.setP_id("" + p.getId());
+			table1.setId("" + p.getId());
 			lista.add(table1);
 		}
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
+		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
 		view.aplicacao.setVisible(false);
 		view.perfil.setVisible(false);
 		view.organica.setVisible(false);
-		view.p_id.setParam(true);
+		view.id.setParam(true);
 		view.email.setParam(true);
 		view.btn_adicionar_utilizador.setVisible(false);
 		view.btn_convidar.setVisible(false);
@@ -230,6 +316,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.btn_pesquisar.setLink("listaGeral");
 		view.table_1.addData(lista);
 		view.table_1.setTitle("Lista Geral de Utilizadores");
+     view.setModel(model);
 		return this.renderView(view);
 	}
 
@@ -266,5 +353,5 @@ public class PesquisarUtilizadorController extends Controller {
 		return this.redirectError();
 
 	}
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}

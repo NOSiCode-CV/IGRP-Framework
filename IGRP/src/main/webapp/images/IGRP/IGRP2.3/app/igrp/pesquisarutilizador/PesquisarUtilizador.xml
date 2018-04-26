@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=12</preserve_url>
     </plsql>
     <content>
-        <title>Lista de Utilizador</title>
+        <title>Gestão de Utilizador</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -45,11 +45,11 @@
             <fields>
                 <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Elit mollit natus sit unde</value>
+                    <value>Totam natus mollit lorem stract</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>curas@example.com</value>
+                    <value>tebewevej@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
@@ -125,42 +125,42 @@
                 <item type="form" code="" class="primary" rel="pesquisar">
                     <title>Pesquisar</title>
                     <app>igrp</app>
-                    <page>PesquisarOrganica</page>
+                    <page>PesquisarUtilizador</page>
                     <link>index</link>
-                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml?</parameter>
                     <target>submit</target>
                     <img>primary|fa-search</img>
                 </item>
             </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="convidar">
+            <item type="specific" code="" rel="convidar" custom_return="true">
                 <title>Convidar</title>
                 <app>igrp</app>
                 <page>NovoUtilizador</page>
                 <link>index</link>
-                <target>mpsubmit</target>
+                <target>mpsubmit|refresh</target>
                 <img>warning|fa-send</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
             </item>
             <item type="specific" code="" rel="adicionar_utilizador">
                 <title>Adicionar Utilizador</title>
                 <app>igrp</app>
-                <page>NovoUtilizador</page>
+                <page>RegistarUtilizador</page>
                 <link>index</link>
-                <target>modal</target>
+                <target>mpsubmit</target>
                 <img>success|fa-plus-square</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Utilizadores Convidados" gen-type="container" gen-group="true">
             <fields>
-                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
-                    <label>Username</label>
-                </nome>
                 <nominho name="p_nominho" type="plaintext" maxlength="50" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </nominho>
+                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Username</label>
+                </nome>
                 <tb_email name="p_tb_email" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="true">
                     <label>Email</label>
                 </tb_email>
@@ -176,10 +176,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Perspiciatis totam stract aliqua unde natus omnis consectetur magna natus perspiciatis iste labore m</nome>
-                        <nominho name="p_nominho">Amet magna labore aliqua adipiscing perspiciatis o</nominho>
-                        <tb_email name="p_tb_email">Adipiscing ipsum adipiscing sed anim stract officia deserunt mollit magna stract accusantium dolorem</tb_email>
-                        <perfile name="p_perfile">Stract dolor elit amet anim mollit perspiciatis an</perfile>
+                        <nominho name="p_nominho">Sit perspiciatis anim lorem sed amet aperiam labor</nominho>
+                        <nome name="p_nome">Sit voluptatem consectetur labore aperiam sit amet perspiciatis unde natus rem laudantium sit amet u</nome>
+                        <tb_email name="p_tb_email">Accusantium deserunt laudantium lorem accusantium sit omnis deserunt stract aperiam iste elit sed el</tb_email>
+                        <perfile name="p_perfile">Dolor ut adipiscing amet mollit ipsum natus stract</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -187,10 +187,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Anim adipiscing ipsum stract doloremque ipsum sit rem dolor mollit doloremque deserunt iste officia</nome>
-                        <nominho name="p_nominho">Accusantium ut laudantium stract anim perspiciatis</nominho>
-                        <tb_email name="p_tb_email">Consectetur elit rem voluptatem amet voluptatem magna accusantium elit laudantium perspiciatis strac</tb_email>
-                        <perfile name="p_perfile">Consectetur lorem accusantium consectetur sed tota</perfile>
+                        <nominho name="p_nominho">Deserunt doloremque mollit unde stract adipiscing</nominho>
+                        <nome name="p_nome">Aliqua natus consectetur accusantium aperiam sit rem omnis sit stract ut sit accusantium lorem accus</nome>
+                        <tb_email name="p_tb_email">Unde laudantium aliqua natus dolor adipiscing rem labore officia mollit unde magna sed ipsum accusan</tb_email>
+                        <perfile name="p_perfile">Doloremque iste labore aperiam deserunt mollit adi</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -198,10 +198,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Ipsum mollit amet sit ipsum doloremque elit mollit consectetur aperiam ipsum labore omnis dolor ipsu</nome>
-                        <nominho name="p_nominho">Unde perspiciatis laudantium mollit labore magna a</nominho>
-                        <tb_email name="p_tb_email">Aperiam consectetur natus ipsum ut amet sit accusantium consectetur doloremque officia natus sit adi</tb_email>
-                        <perfile name="p_perfile">Stract aliqua anim deserunt voluptatem aperiam acc</perfile>
+                        <nominho name="p_nominho">Sed deserunt laudantium adipiscing aperiam stract</nominho>
+                        <nome name="p_nome">Unde ipsum elit dolor sed accusantium consectetur sit mollit deserunt perspiciatis magna totam omnis</nome>
+                        <tb_email name="p_tb_email">Laudantium unde totam adipiscing perspiciatis sit sit rem mollit sit mollit laudantium officia elit</tb_email>
+                        <perfile name="p_perfile">Doloremque voluptatem omnis sed ipsum elit officia</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -209,10 +209,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Magna doloremque unde lorem sed amet unde officia anim doloremque ut dolor officia consectetur unde</nome>
-                        <nominho name="p_nominho">Consectetur rem voluptatem officia laudantium omni</nominho>
-                        <tb_email name="p_tb_email">Amet rem labore natus lorem amet perspiciatis accusantium anim deserunt stract officia ipsum magna o</tb_email>
-                        <perfile name="p_perfile">Mollit lorem totam aperiam perspiciatis totam aper</perfile>
+                        <nominho name="p_nominho">Consectetur totam rem aperiam stract rem lorem und</nominho>
+                        <nome name="p_nome">Rem sit dolor deserunt labore natus rem adipiscing consectetur doloremque rem unde natus mollit adip</nome>
+                        <tb_email name="p_tb_email">Perspiciatis mollit lorem perspiciatis deserunt sit labore amet iste officia ut perspiciatis unde is</tb_email>
+                        <perfile name="p_perfile">Lorem perspiciatis doloremque unde omnis consectet</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -220,10 +220,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Sit mollit labore rem dolor omnis adipiscing sit labore perspiciatis deserunt sit deserunt lorem mol</nome>
-                        <nominho name="p_nominho">Amet voluptatem stract mollit magna voluptatem sed</nominho>
-                        <tb_email name="p_tb_email">Officia totam officia voluptatem officia anim ipsum deserunt elit iste ut adipiscing totam ut lorem</tb_email>
-                        <perfile name="p_perfile">Aliqua sit iste deserunt lorem iste mollit sit eli</perfile>
+                        <nominho name="p_nominho">Deserunt elit laudantium ut natus elit dolor aperi</nominho>
+                        <nome name="p_nome">Sit omnis sit ut sed deserunt rem magna ut mollit voluptatem labore totam voluptatem aperiam iste la</nome>
+                        <tb_email name="p_tb_email">Magna iste labore sit amet voluptatem accusantium consectetur totam natus mollit magna natus dolorem</tb_email>
+                        <perfile name="p_perfile">Lorem sit voluptatem laudantium deserunt adipiscin</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -231,10 +231,10 @@
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
                         <app>igrp</app>
-                        <page>PesquisarUtilizador</page>
+                        <page>RegistarUtilizador</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
-                        <target>mpsubmit</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
@@ -242,17 +242,17 @@
                         <app>igrp</app>
                         <page>PesquisarUtilizador</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
-                    <item type="specific" code="" class="warning" rel="convidar_user">
+                    <item type="specific" code="" class="warning" rel="convidar_user" custom_return="true">
                         <title>Convidar</title>
                         <app>igrp</app>
-                        <page>PesquisarUtilizador</page>
+                        <page>NovoUtilizador</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
-                        <target>mpsubmit</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
+                        <target>right_panel|refresh</target>
                         <img>warning|fa-send</img>
                     </item>
                 </context-menu>

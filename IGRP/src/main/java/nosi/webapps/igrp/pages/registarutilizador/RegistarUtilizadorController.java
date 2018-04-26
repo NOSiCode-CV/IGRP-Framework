@@ -1,6 +1,11 @@
 
 package nosi.webapps.igrp.pages.registarutilizador;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -17,20 +22,24 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
 
 public class RegistarUtilizadorController extends Controller {		
 
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		RegistarUtilizador model = new RegistarUtilizador();
+		model.load();
+		RegistarUtilizadorView view = new RegistarUtilizadorView();
+		/*----#start-code(index)----*/
+
 		boolean isError = false;
 
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){			
-			model.load();			
+			
 			if(!model.getPassword().equals(model.getConfirmar_password())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Password inconsistentes ... Tente de novo."));
+				Core.setMessageError("Password inconsistentes ... Tente de novo.");
 				isError = true;
 			}
 				
@@ -61,39 +70,49 @@ public class RegistarUtilizadorController extends Controller {
 					Profile p2 = new Profile(prof.getId(), "PROF", prof, user, org);
 					p2.insert();
 					Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
-					Core.setMessageInfoLink(gt("Convidar "+user.getName()),"igrp","novo-utilizador","index&target=_blank&id="+user.getId());
-					return this.redirect("igrp", "registar-utilizador", "index");
+					Core.setMessageWarning("Deve convidar agora o utilizador.");
+					return this.redirect("igrp", "RegistarUtilizador", "index");
 				}
 				else
 					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Error ao registar uilizador."));
-			}
-			
-		}
-		
-		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
-		
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
-	}
-
-
-	public Response actionGuardar() throws IOException{
-		/*----#START-PRESERVED-AREA(GUARDAR)----*/
-		return this.redirect("igrp","registarutilizador","index");
-		/*----#END-PRESERVED-AREA----*/
+			}			
+		}	
+	
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		RegistarUtilizador model = new RegistarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(guardar)----*/
+
+		/*----#end-code----*/
+		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
+	}
+	
+	/*----#start-code(custom_actions)----*/
 public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		
-		RegistarUtilizador model = new RegistarUtilizador();		
+		RegistarUtilizador model = new RegistarUtilizador();	
+        model.load();
 		User user = new User().findOne(Integer.parseInt(idUser));		
 		model.setNome(user.getName());
 		model.setUsername(user.getUser_name());
 		model.setEmail(user.getEmail());		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
-			model.load();			
+					
 			boolean isError = false;
 			if(!model.getPassword().equals(model.getConfirmar_password())){
 				Core.setMessageError(gt("Password inconsistentes ... Tente de novo."));
@@ -102,24 +121,28 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 			if(!isError){
 				user.setName(model.getNome());
 				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getPassword(), "MD5"));
-				user.setEmail(model.getEmail());
-				user.setUser_name(model.getUsername());
+				//user.setEmail(model.getEmail());
+				//user.setUser_name(model.getUsername());
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
 				if(user !=null){
 					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
-					return this.redirect("igrp", "registar-utilizador", "editar", new String[]{"p_id"}, new String[]{user.getId() + ""});
+					return this.redirect("igrp", "RegistarUtilizador", "editar", new String[]{"p_id"}, new String[]{user.getId() + ""});
 				}
 				else
 					Core.setMessageError(gt("Error ao atualizar uilizador."));
 			}			
 		}		
-		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
-
+		RegistarUtilizadorView view = new RegistarUtilizadorView();
+		view.email.propertie().setProperty("readonly", "true");	
+		view.username.propertie().setProperty("readonly", "true");	
+		view.password.propertie().setProperty("required","false");
+  		view.confirmar_password.propertie().setProperty("required","false");
 		view.titulo_text.setValue("Atualizar utilizador");
 		view.btn_guardar.setLink("editar&p_id=" + idUser);
+ 		view.setModel(model);
 		return this.renderView(view);
 	
 	}
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}
