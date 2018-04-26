@@ -9,9 +9,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 
 /*----#start-code(packages_import)----*/
-import static nosi.core.i18n.Translator.gt;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URISyntaxException;
@@ -21,9 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -32,23 +28,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-
 import nosi.core.cversion.Svn;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.xml.XMLExtractComponent;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Transaction;
 /*----#end-code----*/
 
@@ -167,7 +156,7 @@ public class PageController extends Controller {
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-					String path_xsl = this.getConfig().getBaseServerPahtXsl(action);
+					String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(action);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
 					if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
 						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
@@ -321,7 +310,7 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
-			String path_xsl = this.getConfig().getBaseServerPahtXsl(ac);
+			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
 			String path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
@@ -478,7 +467,7 @@ public class PageController extends Controller {
 				json += "\"id\":\"" + ac.getId() + "\",";
 				json += "\"description\":\"" + (ac.getPage_descr() != null ? ac.getPage_descr() : ac.getPage()) + "\",";
 				json += "\"link\":\""
-						+ this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
+						+ this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
 						+ ac.getPage() + ".xml\"";
 				json += "},";
 			}
@@ -501,7 +490,7 @@ public class PageController extends Controller {
 			json += "\"page\":\"" + ac.getPage() + "\",";
 			json += "\"id\":\"" + ac.getId() + "\",";
 			json += "\"filename\":\""
-					+ this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
+					+ this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
 					+ ac.getPage() + ".xsl\",";
 			json += "\"page_descr\":\"" + ac.getPage_descr() + "\"";
 		}
@@ -546,23 +535,36 @@ public class PageController extends Controller {
 		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				String content = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac), ac.getPage() + ".xml");
-				int index1 = content.indexOf("?>");
-				int index2 = content.indexOf("<site>");
-				if(index1 > 0 && index2 > 0){
-					String xsl_src = this.getConfig().getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".xsl";
-					String c = content.substring(0,index1+"?>".length());
-					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
-					c += "<rows><link_img>"+this.getConfig().getLinkImg()+"</link_img>";
-					c += content.substring(index2);
-					return this.renderView(c);
-				}
+				String content = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac), ac.getPage() + ".xml");
+//				String xsl_src = this.getConfig().getResolveUrl("igrp","page","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId();
+//				int index1 = content.indexOf("?>");
+//				int index2 = content.indexOf("<site>");
+//				if(index1 > 0 && index2 > 0){
+//					String c = content.substring(0,index1+"?>".length());
+//					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
+//					c += "<rows><link_img>"+this.getConfig().getLinkImg()+"</link_img>";
+//					c += content.substring(index2);
+//					return this.renderView(c);
+//				}
 				return this.renderView(content);
 			}
 		}
 		return null;
 	}
 
+	public Response actionGetXsl() throws IOException{
+		String page = Core.getParam("page");
+		String app = Core.getParam("app");
+		if(Core.isNotNull(page) && Core.isNotNull(app)){
+			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
+			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
+			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
+			this.format = Response.FORMAT_XSL;			
+			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
+		}
+		return this.redirect("igrp", "ErrorPage", "exception");
+	}
+	
 	// For Editor
 	public Response actionMetodosCore() {
 		List<Map<String, List<String>>> metodos = this.getMethod(Core.class,QueryHelper.class);
@@ -636,9 +638,6 @@ public class PageController extends Controller {
 		}
 		Gson gson = new Gson();
 		this.format = Response.FORMAT_JSON;
-		System.out.println(gson.toJson(list));
-		
-		String json = "[{\"value\": \"Y\",\"text\": \"Sim\"},{\"value\": \"N\",\"text\": \"Nao\"}]";
 		return this.renderView(gson.toJson(list));
 	}
 
@@ -648,7 +647,7 @@ public class PageController extends Controller {
 		if ( Core.isNotNull(p_id) ) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				json = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
+				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
 			}
 		}
 		this.format = Response.FORMAT_JSON;

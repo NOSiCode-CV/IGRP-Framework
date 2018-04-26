@@ -220,13 +220,12 @@
 		<xsl:text>Core.isNotNull(isEdit)</xsl:text>
 	</xsl:variable>
 	
- 	<xsl:template name="gen-crud-sql">
-		
+ 	<xsl:template name="gen-crud-sql">			
+ 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
 		 	<xsl:choose>
 		 		<xsl:when test="/rows/plsql/package_copy_html!=''">
-		 			<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
 		 			<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
 		 			<xsl:value-of select="concat('if(',$isEdit,'){')"/>
