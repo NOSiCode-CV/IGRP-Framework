@@ -51,8 +51,10 @@ public class CRUDGeneratorController extends Controller {
 		view.check_table_check.setLabel("");
 		int i=1;
 		Config_env config = new Config_env().findOne(Core.isInt(model.getData_source())?Integer.parseInt(model.getData_source()):-1);
+		
 		Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
-		if(schemasMap.size() > 0){
+		
+		if(schemasMap.size() > 1){
 			if(schemasMap.size() == 2) {
 				model.setSchema(schemasMap.keySet().toArray()[1].toString());
 			}
