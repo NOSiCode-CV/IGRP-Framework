@@ -263,13 +263,12 @@ public class WebReportController extends Controller {
 	private String getDataForTask(RepTemplateSource rep) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-		DataSourceController ds = new DataSourceController();
 		this.addQueryString("processDefinitionKey", rep.getRepSource().getProcessid())
 			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
 		this.loadQueryString();
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
 		xml.addXml(new XMLExtractComponent().extractXML(content));
-		xml.addXml(ds.getFormProcessId());
+		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
 		xml.endElement();
 		return xml.toString();
 	}
@@ -401,8 +400,11 @@ public class WebReportController extends Controller {
 		xml.startElement("content");
 			xml.setElement("title", title);
 			xml.addXml(content);
+			xml.addXml(ds.getDefaultForm(ds.getDefaultFields()));
 		xml.endElement();
 		return xml.toString();
 	}
+	
+	DataSourceController ds = new DataSourceController();
 	/*----#END-PRESERVED-AREA----*/
 }
