@@ -23,13 +23,10 @@ import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.openjpa.lib.util.Files;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.cversion.Svn;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -40,7 +37,6 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
-import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -449,7 +445,7 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
-			Application env = new Application().find().andWhere("dad", "=", app).one();
+			Application env = new Application().find().andWhere("dad", "=", p[0]).one();
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 				String aux = env.getUrl();
 				Action action = env.getAction();
