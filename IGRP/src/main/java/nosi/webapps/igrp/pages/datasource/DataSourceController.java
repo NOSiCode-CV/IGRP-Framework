@@ -19,6 +19,7 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -234,22 +235,48 @@ public class DataSourceController extends Controller {
 		xml.setElement("title", title);
 		String content = this.call(app,page,action).getContent();
 		content = comp.extractXML(content);
+		List<Field> list = this.getDefaultFields();
 		if(type.equalsIgnoreCase("task")) {
-			xml.addXml(this.getFormProcessId());
+			list = getDefaultFieldsWithProc();
 		}
+		xml.addXml(this.getDefaultForm(list));
 		xml.addXml(content);
 		xml.endElement();
 		return xml.toString();
 	}
 	
-	public String getFormProcessId() {
-		IGRPForm formProcess = new IGRPForm("form_process_definition");
+	public List<Field> getDefaultFieldsWithProc(){
+		List<Field> list = this.getDefaultFields();
 		Field p_prm_definitionid = new TextField(null, "p_prm_definitionid");
 		p_prm_definitionid.setValue(Core.getParam("report_p_prm_definitionid"));
-		formProcess.addField(p_prm_definitionid);
+		list.add(p_prm_definitionid);
+		return list;
+	}
+	
+	public List<Field> getDefaultFields(){
+		List<Field> fields = new ArrayList<>();
+		Field data_atual = new TextField(null, "p_data_atual");
+		data_atual.setValue(Core.getCurrentDate());
+		
+		Field user_atual = new TextField(null,"p_user_atual");
+		user_atual.setValue(Core.getCurrentUser().getName());
+		
+		Field email_atual = new TextField(null,"p_email_atual");
+		email_atual.setValue(Core.getCurrentUser().getEmail());
+		
+		fields.add(user_atual);
+		fields.add(data_atual);
+		fields.add(email_atual);
+		return fields;
+	}
+	
+	public String getDefaultForm(List<Field> fields) {
+		IGRPForm formProcess = new IGRPForm("default_form_report");
+		fields.stream().forEach(f->{
+			formProcess.addField(f);
+		});
 		return formProcess.toString();
 	}
-
 	//Transform columns to xml
 	private String transformToXml(String title,Set<Properties> columns) {
 		XMLWritter xml = new XMLWritter();
@@ -266,8 +293,9 @@ public class DataSourceController extends Controller {
 				form.addField(f);
 				table.addField(f);
 			}
+			xml.addXml(this.getDefaultForm(this.getDefaultFields()));
 			xml.addXml(form.toString());
-			xml.addXml(table.toString());
+			xml.addXml(table.toString());			
 		xml.endElement();
 		return xml.toString();
 	}

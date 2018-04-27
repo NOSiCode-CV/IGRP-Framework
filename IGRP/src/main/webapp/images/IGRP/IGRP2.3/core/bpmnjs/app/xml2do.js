@@ -44,13 +44,16 @@ $.fn.activiti2Io = function(params) {
           tag       = getAttrs($(this)[0].attributes);
 
       if (strChilds) {
+        var omissionField = ['activiti_G_formProperty','activiti_G_executionListener'];
+
    		  strChilds = $($.parseXML(xml2String(strChilds).replace(/:/g, '_G_')));
 
      		strChilds.find('extensionElements > *').each(function(x,l){
+
      			var tagName = $(this)[0].tagName;
 
-     			if(tagName != 'activiti_G_formProperty'){
-
+     			if($.inArray(tagName, omissionField) == -1){
+            
      				if (tagName == 'modeler_G_assignee-info-email')
      					tag +='camunda_G_candidateUsers="'+$(this).text()+'"';
 
@@ -59,10 +62,14 @@ $.fn.activiti2Io = function(params) {
 
      			}else
      				str += formField(xml2String($(this)[0]),'c');
+
      		});  
 
-   		 if (strChilds.find('extensionElements > activiti_G_formProperty')[0])
-   		 	 str = '<bpmn_G_extensionElements><camunda_G_formData>'+ str+'</camunda_G_formData></bpmn_G_extensionElements>';
+   		  if (strChilds.find('extensionElements > activiti_G_formProperty')[0])
+   		 	 str = '<camunda_G_formData>'+ str+'</camunda_G_formData>';
+        
+        if (str != '')
+          str = '<bpmn_G_extensionElements>'+ str+'</bpmn_G_extensionElements>';
       }
        //$(xml.find('process > userTask')[i]).empty();
    		return '<userTask '+tag+'>'+str+'</userTask>';
@@ -96,18 +103,28 @@ $.fn.io2Activiti = function(params){
    		var strChilds = $(this).find('extensionElements')[0],
         tag     = getAttrs($(this)[0].attributes),
         str       = '';
-
+       
    		if (strChilds) {
+        var omissionField = ['camunda_G_formData'];
 
    			strChilds = $($.parseXML(xml2String(strChilds).replace(/:/g, '_G_')));
 
-	   		strChilds.find('camunda_G_formData > *').each(function(x,l){
-	   			var tagName = $(this)[0].tagName;
+        strChilds.find('extensionElements > *').each(function(x,l){
+          var tagName = $(this)[0].tagName;
 
-	   			str += formField(xml2String($(this)[0]),'a');
-	   		});
+          if ($.inArray(tagName, omissionField) != -1) {
 
-	   		if (strChilds.find('extensionElements camunda_G_formData')[0])
+            $(this).find('> *').each(function(x,l){
+              
+              str += formField(xml2String($(this)[0]),'a');
+            
+            });
+
+          }else
+            str += formField(xml2String($(this)[0]),'a');
+        });
+
+	   		if (str != '')
 	   			str = '<extensionElements>'+ str+'</extensionElements>';
    		}
 
