@@ -45,11 +45,11 @@
             <fields>
                 <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Totam natus mollit lorem stract</value>
+                    <value>Ut accusantium laudantium ipsum stract</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>tebewevej@example.com</value>
+                    <value>pigcer@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
@@ -139,7 +139,7 @@
                 <app>igrp</app>
                 <page>NovoUtilizador</page>
                 <link>index</link>
-                <target>mpsubmit|refresh</target>
+                <target>right_panel_submit|refresh</target>
                 <img>warning|fa-send</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
             </item>
@@ -148,7 +148,7 @@
                 <app>igrp</app>
                 <page>RegistarUtilizador</page>
                 <link>index</link>
-                <target>mpsubmit</target>
+                <target>right_panel_submit</target>
                 <img>success|fa-plus-square</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xml</preview>
             </item>
@@ -158,6 +158,12 @@
                 <nominho name="p_nominho" type="plaintext" maxlength="50" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </nominho>
+                <number_1 name="p_number_1" type="number" min="2" max="6" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                    <label>Number</label>
+                </number_1>
+                <range_1 name="p_range_1" type="range" rangeMin="0" rangeMax="100" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Range</label>
+                </range_1>
                 <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Username</label>
                 </nome>
@@ -176,10 +182,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nominho name="p_nominho">Sit perspiciatis anim lorem sed amet aperiam labor</nominho>
-                        <nome name="p_nome">Sit voluptatem consectetur labore aperiam sit amet perspiciatis unde natus rem laudantium sit amet u</nome>
-                        <tb_email name="p_tb_email">Accusantium deserunt laudantium lorem accusantium sit omnis deserunt stract aperiam iste elit sed el</tb_email>
-                        <perfile name="p_perfile">Dolor ut adipiscing amet mollit ipsum natus stract</perfile>
+                        <nominho name="p_nominho">Omnis ut totam deserunt laudantium unde amet aperi</nominho>
+                        <number_1 name="p_number_1">22</number_1>
+                        <range_1 name="p_range_1"/>
+                        <nome name="p_nome">Stract mollit deserunt labore consectetur omnis doloremque labore iste sit aliqua ipsum consectetur</nome>
+                        <tb_email name="p_tb_email">Elit voluptatem anim consectetur labore omnis consectetur elit sed omnis perspiciatis anim iste offi</tb_email>
+                        <perfile name="p_perfile">Unde aliqua amet natus mollit rem elit aliqua lore</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -187,10 +195,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nominho name="p_nominho">Deserunt doloremque mollit unde stract adipiscing</nominho>
-                        <nome name="p_nome">Aliqua natus consectetur accusantium aperiam sit rem omnis sit stract ut sit accusantium lorem accus</nome>
-                        <tb_email name="p_tb_email">Unde laudantium aliqua natus dolor adipiscing rem labore officia mollit unde magna sed ipsum accusan</tb_email>
-                        <perfile name="p_perfile">Doloremque iste labore aperiam deserunt mollit adi</perfile>
+                        <nominho name="p_nominho">Aperiam adipiscing sit officia omnis accusantium r</nominho>
+                        <number_1 name="p_number_1">5</number_1>
+                        <range_1 name="p_range_1"/>
+                        <nome name="p_nome">Mollit sit labore amet consectetur accusantium sit deserunt ut aperiam consectetur natus aperiam str</nome>
+                        <tb_email name="p_tb_email">Mollit adipiscing unde natus unde accusantium omnis natus doloremque sed sit voluptatem magna dolor</tb_email>
+                        <perfile name="p_perfile">Labore rem doloremque magna labore natus ipsum sed</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -198,10 +208,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nominho name="p_nominho">Sed deserunt laudantium adipiscing aperiam stract</nominho>
-                        <nome name="p_nome">Unde ipsum elit dolor sed accusantium consectetur sit mollit deserunt perspiciatis magna totam omnis</nome>
-                        <tb_email name="p_tb_email">Laudantium unde totam adipiscing perspiciatis sit sit rem mollit sit mollit laudantium officia elit</tb_email>
-                        <perfile name="p_perfile">Doloremque voluptatem omnis sed ipsum elit officia</perfile>
+                        <nominho name="p_nominho">Unde sed ut sed ipsum omnis deserunt voluptatem se</nominho>
+                        <number_1 name="p_number_1">28</number_1>
+                        <range_1 name="p_range_1"/>
+                        <nome name="p_nome">Totam rem lorem dolor natus doloremque aperiam totam ut rem laudantium omnis dolor unde lorem sit al</nome>
+                        <tb_email name="p_tb_email">Dolor aperiam rem lorem rem sed ipsum sed ipsum perspiciatis doloremque consectetur amet omnis dolor</tb_email>
+                        <perfile name="p_perfile">Elit iste doloremque ipsum iste natus doloremque l</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -209,10 +221,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nominho name="p_nominho">Consectetur totam rem aperiam stract rem lorem und</nominho>
-                        <nome name="p_nome">Rem sit dolor deserunt labore natus rem adipiscing consectetur doloremque rem unde natus mollit adip</nome>
-                        <tb_email name="p_tb_email">Perspiciatis mollit lorem perspiciatis deserunt sit labore amet iste officia ut perspiciatis unde is</tb_email>
-                        <perfile name="p_perfile">Lorem perspiciatis doloremque unde omnis consectet</perfile>
+                        <nominho name="p_nominho">Rem stract anim perspiciatis aliqua officia perspi</nominho>
+                        <number_1 name="p_number_1">14</number_1>
+                        <range_1 name="p_range_1"/>
+                        <nome name="p_nome">Adipiscing iste elit adipiscing ut magna amet aliqua aperiam stract aliqua perspiciatis deserunt sit</nome>
+                        <tb_email name="p_tb_email">Laudantium iste perspiciatis rem sed totam sit adipiscing aperiam sit natus deserunt aperiam ipsum s</tb_email>
+                        <perfile name="p_perfile">Perspiciatis iste aperiam magna anim amet perspici</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -220,10 +234,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nominho name="p_nominho">Deserunt elit laudantium ut natus elit dolor aperi</nominho>
-                        <nome name="p_nome">Sit omnis sit ut sed deserunt rem magna ut mollit voluptatem labore totam voluptatem aperiam iste la</nome>
-                        <tb_email name="p_tb_email">Magna iste labore sit amet voluptatem accusantium consectetur totam natus mollit magna natus dolorem</tb_email>
-                        <perfile name="p_perfile">Lorem sit voluptatem laudantium deserunt adipiscin</perfile>
+                        <nominho name="p_nominho">Sit amet laudantium deserunt labore consectetur do</nominho>
+                        <number_1 name="p_number_1">3</number_1>
+                        <range_1 name="p_range_1"/>
+                        <nome name="p_nome">Anim adipiscing iste unde lorem elit totam sit labore deserunt sit doloremque sit magna sed natus ut</nome>
+                        <tb_email name="p_tb_email">Magna rem magna perspiciatis dolor elit sed perspiciatis unde sit sed elit mollit totam elit omnis r</tb_email>
+                        <perfile name="p_perfile">Magna labore sit lorem iste magna elit mollit sit</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

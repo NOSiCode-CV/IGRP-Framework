@@ -56,17 +56,17 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Stract sed deserunt sit unde</value>
+                    <value>Natus aperiam lorem omnis totam</value>
                 </page_descr>
-                <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Unde sit sed amet sit</value>
+                    <value>Magna elit accusantium aliqua adipiscing</value>
                 </page>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
-                <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
                     <label>Gen Auto Code</label>
                     <value>1</value>
                 </gen_auto_code>
@@ -117,7 +117,11 @@
                         </option>
                     </list>
                 </version>
-                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                <novo_menu name="p_novo_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                    <label>Novo menu?</label>
+                    <value>1</value>
+                </novo_menu>
+                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Componente?</label>
                     <value>1</value>
                 </componente>

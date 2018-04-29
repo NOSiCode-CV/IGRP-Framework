@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.page;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
+
+
+
 
 public class Page extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -27,40 +28,44 @@ public class Page extends Model{
 	private String env_fk;
 	@RParam(rParamName = "p_version")
 	private String version;
+	@RParam(rParamName = "p_novo_menu")
+	private int novo_menu;
+	@RParam(rParamName = "p_novo_menu_check")
+	private int novo_menu_check;
 	@RParam(rParamName = "p_componente")
 	private int componente;
 	@RParam(rParamName = "p_componente_check")
 	private int componente_check;
 	@RParam(rParamName = "p_id")
-	private String p_id;
+	private String id;
 	@RParam(rParamName = "p_table_name")
-	private String p_table_name;
+	private String table_name;
 	@RParam(rParamName = "p_xsl_src")
-	private String p_xsl_src;
+	private String xsl_src;
 	@RParam(rParamName = "p_img_src")
-	private String p_img_src;
+	private String img_src;
 	@RParam(rParamName = "p_action")
-	private String p_action;
+	private String action;
 	@RParam(rParamName = "p_page_type")
-	private String p_page_type;
+	private String page_type;
 	@RParam(rParamName = "p_flg_menu")
-	private String p_flg_menu;
+	private String flg_menu;
 	@RParam(rParamName = "p_flg_transaction")
-	private String p_flg_transaction;
+	private String flg_transaction;
 	@RParam(rParamName = "p_self_id")
-	private String p_self_id;
+	private String self_id;
 	@RParam(rParamName = "p_self_fw_id")
-	private String p_self_fw_id;
+	private String self_fw_id;
 	@RParam(rParamName = "p_db_connection")
-	private String p_db_connection;
+	private String db_connection;
 	@RParam(rParamName = "p_flg_offline")
-	private String p_flg_offline;
+	private String flg_offline;
 	@RParam(rParamName = "p_flg_internet")
-	private String p_flg_internet;
+	private String flg_internet;
 	@RParam(rParamName = "p_proc_name")
-	private String p_proc_name;
+	private String proc_name;
 	@RParam(rParamName = "p_action_descr")
-	private String p_action_descr;
+	private String action_descr;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -130,6 +135,19 @@ public class Page extends Model{
 		return this.version;
 	}
 	
+	public void setNovo_menu(int novo_menu){
+		this.novo_menu = novo_menu;
+	}
+	public int getNovo_menu(){
+		return this.novo_menu;
+	}
+	public void setNovo_menu_check(int novo_menu_check){
+		this.novo_menu_check = novo_menu_check;
+	}
+	public int getNovo_menu_check(){
+		return this.novo_menu_check;
+	}
+	
 	public void setComponente(int componente){
 		this.componente = componente;
 	}
@@ -143,109 +161,109 @@ public class Page extends Model{
 		return this.componente_check;
 	}
 	
-	public void setP_id(String p_id){
-		this.p_id = p_id;
+	public void setId(String id){
+		this.id = id;
 	}
-	public String getP_id(){
-		return this.p_id;
-	}
-	
-	public void setP_table_name(String p_table_name){
-		this.p_table_name = p_table_name;
-	}
-	public String getP_table_name(){
-		return this.p_table_name;
+	public String getId(){
+		return this.id;
 	}
 	
-	public void setP_xsl_src(String p_xsl_src){
-		this.p_xsl_src = p_xsl_src;
+	public void setTable_name(String table_name){
+		this.table_name = table_name;
 	}
-	public String getP_xsl_src(){
-		return this.p_xsl_src;
-	}
-	
-	public void setP_img_src(String p_img_src){
-		this.p_img_src = p_img_src;
-	}
-	public String getP_img_src(){
-		return this.p_img_src;
+	public String getTable_name(){
+		return this.table_name;
 	}
 	
-	public void setP_action(String p_action){
-		this.p_action = p_action;
+	public void setXsl_src(String xsl_src){
+		this.xsl_src = xsl_src;
 	}
-	public String getP_action(){
-		return this.p_action;
-	}
-	
-	public void setP_page_type(String p_page_type){
-		this.p_page_type = p_page_type;
-	}
-	public String getP_page_type(){
-		return this.p_page_type;
+	public String getXsl_src(){
+		return this.xsl_src;
 	}
 	
-	public void setP_flg_menu(String p_flg_menu){
-		this.p_flg_menu = p_flg_menu;
+	public void setImg_src(String img_src){
+		this.img_src = img_src;
 	}
-	public String getP_flg_menu(){
-		return this.p_flg_menu;
-	}
-	
-	public void setP_flg_transaction(String p_flg_transaction){
-		this.p_flg_transaction = p_flg_transaction;
-	}
-	public String getP_flg_transaction(){
-		return this.p_flg_transaction;
+	public String getImg_src(){
+		return this.img_src;
 	}
 	
-	public void setP_self_id(String p_self_id){
-		this.p_self_id = p_self_id;
+	public void setAction(String action){
+		this.action = action;
 	}
-	public String getP_self_id(){
-		return this.p_self_id;
-	}
-	
-	public void setP_self_fw_id(String p_self_fw_id){
-		this.p_self_fw_id = p_self_fw_id;
-	}
-	public String getP_self_fw_id(){
-		return this.p_self_fw_id;
+	public String getAction(){
+		return this.action;
 	}
 	
-	public void setP_db_connection(String p_db_connection){
-		this.p_db_connection = p_db_connection;
+	public void setPage_type(String page_type){
+		this.page_type = page_type;
 	}
-	public String getP_db_connection(){
-		return this.p_db_connection;
-	}
-	
-	public void setP_flg_offline(String p_flg_offline){
-		this.p_flg_offline = p_flg_offline;
-	}
-	public String getP_flg_offline(){
-		return this.p_flg_offline;
+	public String getPage_type(){
+		return this.page_type;
 	}
 	
-	public void setP_flg_internet(String p_flg_internet){
-		this.p_flg_internet = p_flg_internet;
+	public void setFlg_menu(String flg_menu){
+		this.flg_menu = flg_menu;
 	}
-	public String getP_flg_internet(){
-		return this.p_flg_internet;
-	}
-	
-	public void setP_proc_name(String p_proc_name){
-		this.p_proc_name = p_proc_name;
-	}
-	public String getP_proc_name(){
-		return this.p_proc_name;
+	public String getFlg_menu(){
+		return this.flg_menu;
 	}
 	
-	public void setP_action_descr(String p_action_descr){
-		this.p_action_descr = p_action_descr;
+	public void setFlg_transaction(String flg_transaction){
+		this.flg_transaction = flg_transaction;
 	}
-	public String getP_action_descr(){
-		return this.p_action_descr;
+	public String getFlg_transaction(){
+		return this.flg_transaction;
+	}
+	
+	public void setSelf_id(String self_id){
+		this.self_id = self_id;
+	}
+	public String getSelf_id(){
+		return this.self_id;
+	}
+	
+	public void setSelf_fw_id(String self_fw_id){
+		this.self_fw_id = self_fw_id;
+	}
+	public String getSelf_fw_id(){
+		return this.self_fw_id;
+	}
+	
+	public void setDb_connection(String db_connection){
+		this.db_connection = db_connection;
+	}
+	public String getDb_connection(){
+		return this.db_connection;
+	}
+	
+	public void setFlg_offline(String flg_offline){
+		this.flg_offline = flg_offline;
+	}
+	public String getFlg_offline(){
+		return this.flg_offline;
+	}
+	
+	public void setFlg_internet(String flg_internet){
+		this.flg_internet = flg_internet;
+	}
+	public String getFlg_internet(){
+		return this.flg_internet;
+	}
+	
+	public void setProc_name(String proc_name){
+		this.proc_name = proc_name;
+	}
+	public String getProc_name(){
+		return this.proc_name;
+	}
+	
+	public void setAction_descr(String action_descr){
+		this.action_descr = action_descr;
+	}
+	public String getAction_descr(){
+		return this.action_descr;
 	}
 
 

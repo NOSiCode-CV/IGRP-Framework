@@ -2,6 +2,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -38,7 +40,7 @@ public class PesquisarUtilizadorController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadTable_1(Core.query(null,"SELECT 'nominho' as nominho,'nome' as nome,'tb_email' as tb_email,'perfile' as perfile,'id' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'nominho' as nominho,'number_1' as number_1,'range_1' as range_1,'nome' as nome,'tb_email' as tb_email,'perfile' as perfile,'id' as id "));
 		
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));

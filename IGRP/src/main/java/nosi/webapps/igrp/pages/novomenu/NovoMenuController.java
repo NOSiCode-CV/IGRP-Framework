@@ -43,9 +43,8 @@ public class NovoMenuController extends Controller {
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
-		
-		
-		if (id != 0) {
+			
+		if (Core.isNotNullOrZero(id)) {
           // If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
 			if (null != menu.getMenu())
@@ -67,12 +66,13 @@ public class NovoMenuController extends Controller {
              
 			}
 		} else {
-		
-			model.setEnv_fk(Core.getParamInt("app"));
+			int app = Core.getParamInt("app");
+			if(app != 0)
+				model.setEnv_fk(app);
 			// New menu by default opens in the same window
 			model.setTarget("_self");
 			model.setStatus(1);
-          if (Core.isNotNull(Core.getParam("ichange")) && Core.isNotNull(model.getAction_fk())) {	
+          if (Core.isNotNull(Core.getParam("ichange")) && Core.isNotNullOrZero(model.getAction_fk())) {	
                  model.setTitulo(getPageTituleByID(model));
 			} 
 		}
@@ -93,7 +93,7 @@ public class NovoMenuController extends Controller {
 		view.target.setValue(targets); // prompt
 		view.link.setVisible(false);
 
-		if (id != 0) {
+		if (Core.isNotNullOrZero(id)) {
 			//view.btn_gravar.setLink("gravar&p_id=" + id);
 			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
 		} else
@@ -117,12 +117,11 @@ public class NovoMenuController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(gravar)----*/
-		
-		Menu menu;
 		int id = model.getId();
+		Menu menu;		
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
-			if (id != 0) {
+			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = new Menu().findOne(id);
 				if (menu.getMenu() != null) {
@@ -143,7 +142,7 @@ public class NovoMenuController extends Controller {
 				menu = new Menu();
 			}
 
-			model.load();
+			
 
 			if (model.getAction_fk() != 0) {
 				menu.setAction(new Action().findOne(model.getAction_fk()));
@@ -160,7 +159,7 @@ public class NovoMenuController extends Controller {
 				// has a page/action
 			} else if (model.getAction_fk() != 0)
 				menu.setMenu(menu);
-			if (id != 0) {
+			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
 				if (menu != null)
@@ -179,9 +178,9 @@ public class NovoMenuController extends Controller {
 			}
 
 		}
-		if (id != 0) {			
+		if (Core.isNotNullOrZero(id)) {			
 			return this.forward("igrp", "NovoMenu", "index");
-		}else if(Core.isNotNull(model.getEnv_fk())) {
+		}else if(Core.isNotNullOrZero(model.getEnv_fk())) {
 			this.addQueryString("app", model.getEnv_fk());
 			return this.redirect("igrp","NovoMenu","index", this.queryString());
 		}

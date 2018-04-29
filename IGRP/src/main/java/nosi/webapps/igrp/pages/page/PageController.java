@@ -2,12 +2,11 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
@@ -17,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 import java.util.Map;
+import nosi.webapps.igrp.dao.Menu;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
@@ -42,71 +43,67 @@ import nosi.webapps.igrp.dao.Transaction;
 /*----#end-code----*/
 
 
-
 public class PageController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Page model = new Page();
-		PageView view = new PageView();
 		model.load();
-		
+		PageView view = new PageView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		
-		view.env_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		view.version.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
 		final Integer idPage = Core.getParamInt("p_id_page");
 		if (idPage!=0) {
-			Action a = new Action();
-			
+          //EDIT/UPDATE PAGE
+			Action a = new Action();			
 			a = a.findOne(idPage);
 			if (a != null) {
-				model.setP_action_descr(a.getAction_descr());
+				model.setAction_descr(a.getAction_descr());
 				model.setEnv_fk("" + a.getApplication().getId());
-				model.setP_action(a.getAction());
+				model.setAction(a.getAction());
 				model.setPage_descr(a.getPage_descr());
 				model.setPage(a.getPage());
-				model.setP_id("" + a.getId());
+				model.setId("" + a.getId());
 				model.setVersion(a.getVersion());
-				model.setP_xsl_src(a.getXsl_src());
+				model.setXsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
 				model.setComponente(a.getIsComponent());
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
+         	view.novo_menu.setVisible(false);
 		}else {
+          //NEW page
 			model.setStatus(1);
+            model.setNovo_menu(1);
 			model.setGen_auto_code(1);
 		}
 			
 		view.env_fk.setValue(new Application().getListApps());	
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
-		view.p_id.setParam(true);
+		view.id.setParam(true);
   
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
-			view.page.propertie().setProperty("readonly", "true");	
+			view.page.propertie().setProperty("disabled", "true");	
 		}
 			
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		
 		/*----#start-code(gravar)----*/
 		Page model = new Page();
@@ -117,22 +114,22 @@ public class PageController extends Controller {
 			Application app = new Application();
 			Action action = new Action();
 			if (idPage != 0) {
-				action = action.findOne(idPage);
-				// Edit/update page
+            	  // Edit/update page _______
+				action = action.findOne(idPage);				
 				action.setPage_descr(model.getPage_descr());
                 action.setAction_descr(model.getPage_descr());
                 action.setStatus(model.getStatus());
                 action.setIsComponent((short) model.getComponente());
 				action = action.update();
 				if (action != null)
-					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
+					Core.setMessageSuccess("Página atualizada com sucesso.");
 				else
 					Core.setMessageError();
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
-//				_________________________________________________Edit/update page
+//				______________________________________# END # Edit/update page
 			} else if(checkifexists(model)){
-				// New page
+				// New page ________
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
 				action.setPage_descr(model.getPage_descr());
@@ -149,10 +146,8 @@ public class PageController extends Controller {
 					return this.forward("igrp", "page", "index");
 				}
 				action = action.insert();
-				if (action != null) {
-					
-					createSvnRepo(action);
-					
+				if (action != null) {					
+					createSvnRepo(action);					
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
@@ -162,18 +157,28 @@ public class PageController extends Controller {
 						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
 								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
-					}
-					Core.setMessageSuccess();
-					if (Core.isNotNull(model.getEnv_fk())) {
-						this.addQueryString( "p_env_fk", model.getEnv_fk());
-						return this.redirect("igrp", "page", "index", this.queryString());
-					}
+					}                  	              
+                 if(model.getNovo_menu()!=0 && model.getComponente()==0){
+                	Menu pageMenu = new Menu(action.getPage_descr(), 0, 1, 0, "_self", action,action.getApplication(), null);
+					pageMenu.setMenu(pageMenu); 
+             		pageMenu.insert();
+                  
+                	if(pageMenu!= null){
+                  		Core.setMessageInfo("Página adicionada ao gestor de menu.");	            
+                	}
+                  
+                } 
+				Core.setMessageSuccess();	                
+              
+				this.addQueryString( "p_env_fk", model.getEnv_fk());
+				return this.redirect("igrp", "page", "index", this.queryString());
+					
 						
 				} else {
 					Core.setMessageError();
 					return this.forward("igrp", "page", "index");
 				}
-//				_________________________________________________New page
+//				_________________________________________# END # New page
 			}else {
 				Core.setMessageWarning("Este code já existe. Por favor editar.");
 				return this.forward("igrp", "page", "index");
@@ -183,13 +188,9 @@ public class PageController extends Controller {
 
 		/*----#end-code----*/
 		
-		
-		return this.redirect("igrp","page","index");
-		
+		return this.redirect("igrp","page","index");	
 	}
 	
-
-
 	/*----#start-code(custom_actions)----*/
 	
 	private boolean checkifexists(Page model) {
@@ -562,11 +563,7 @@ public class PageController extends Controller {
 	}
 	
 	// For Editor
-	public Response actionMetodosCore() {
-		List<Map<String, List<String>>> metodos = this.getMethod(Core.class,QueryHelper.class);
-		this.format = Response.FORMAT_JSON;
-		return this.renderView(new Gson().toJson(metodos));
-	}
+	
 	
 	private List<Map<String, List<String>>> getMethod(Class<?> ...params){
 		List<Map<String, List<String>>> metodos = new ArrayList<>();
@@ -590,7 +587,11 @@ public class PageController extends Controller {
 			}
 		return metodos;
 	}
-	
+	public Response actionMetodosCore() {
+		List<Map<String, List<String>>> metodos = getMethod(Core.class,QueryHelper.class);
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(new Gson().toJson(metodos));
+	}
 	public void actionNewDomain() {
 		
 		String dname = Core.getParam("domain_name");
@@ -650,8 +651,4 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}

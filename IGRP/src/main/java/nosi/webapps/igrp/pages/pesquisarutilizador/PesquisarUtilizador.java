@@ -5,6 +5,7 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +85,8 @@ public class PesquisarUtilizador extends Model{
 
 	public static class Table_1{
 		private String nominho;
+		private int number_1;
+		private int range_1;
 		private String nome;
 		private String tb_email;
 		private String perfile;
@@ -93,6 +96,20 @@ public class PesquisarUtilizador extends Model{
 		}
 		public String getNominho(){
 			return this.nominho;
+		}
+
+		public void setNumber_1(int number_1){
+			this.number_1 = number_1;
+		}
+		public int getNumber_1(){
+			return this.number_1;
+		}
+
+		public void setRange_1(int range_1){
+			this.range_1 = range_1;
+		}
+		public int getRange_1(){
+			return this.range_1;
 		}
 
 		public void setNome(String nome){

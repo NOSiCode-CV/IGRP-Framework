@@ -19,6 +19,8 @@ public class PesquisarUtilizadorView extends View {
 	public Field organica;
 	public Field perfil;
 	public Field nominho;
+	public Field number_1;
+	public Field range_1;
 	public Field nome;
 	public Field tb_email;
 	public Field perfile;
@@ -78,6 +80,14 @@ public class PesquisarUtilizadorView extends View {
 		nominho.setLabel(gt("Nome"));
 		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50");
 		
+		number_1 = new NumberField(model,"number_1");
+		number_1.setLabel(gt("Number"));
+		number_1.propertie().add("name","p_number_1").add("type","number").add("min","2").add("max","6").add("maxlength","30").add("total_footer","false");
+		
+		range_1 = new TextField(model,"range_1");
+		range_1.setLabel(gt("Range"));
+		range_1.propertie().add("name","p_range_1").add("type","range").add("rangeMin","0").add("rangeMax","100").add("maxlength","30");
+		
 		nome = new PlainTextField(model,"nome");
 		nome.setLabel(gt("Username"));
 		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100");
@@ -97,10 +107,10 @@ public class PesquisarUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","mpsubmit|refresh","warning|fa-send","","");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel_submit|refresh","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
 
-		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","mpsubmit","success|fa-plus-square","","");
+		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","right_panel_submit","success|fa-plus-square","","");
 		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador");
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
@@ -132,6 +142,8 @@ public class PesquisarUtilizadorView extends View {
 
 
 		table_1.addField(nominho);
+		table_1.addField(number_1);
+		table_1.addField(range_1);
 		table_1.addField(nome);
 		table_1.addField(tb_email);
 		table_1.addField(perfile);
@@ -158,6 +170,8 @@ public class PesquisarUtilizadorView extends View {
 		organica.setValue(model);
 		perfil.setValue(model);
 		nominho.setValue(model);
+		number_1.setValue(model);
+		range_1.setValue(model);
 		nome.setValue(model);
 		tb_email.setValue(model);
 		perfile.setValue(model);
