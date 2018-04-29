@@ -44,12 +44,12 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp</app>
+                <page>PesquisarMenu</page>
+                <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>undefined</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -103,8 +103,15 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Iste laudantium sit elit aperiam</value>
+                    <value>Aliqua dolor amet officia aperiam</value>
                 </titulo>
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                    <label>Ativo?</label>
+                    <value>1</value>
+                </status>
+                <extra name="p_extra" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Extra</label>
+                </extra>
                 <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Menu pai</label>
                     <list>
@@ -127,16 +134,9 @@
                         </option>
                     </list>
                 </self_id>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
-                    <label>Ativo?</label>
-                    <value>1</value>
-                </status>
-                <extra name="p_extra" type="separator" maxlength="30" placeholder="" right="false">
-                    <label>Extra</label>
-                </extra>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Posição</label>
-                    <value>18</value>
+                    <value>10</value>
                 </orderby>
                 <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Target</label>
@@ -162,7 +162,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Aperiam adipiscing consectetur</value>
+                    <value>Magna stract mollit amet dolor</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Público?</label>

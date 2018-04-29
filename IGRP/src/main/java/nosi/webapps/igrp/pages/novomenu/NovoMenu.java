@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.novomenu;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
+
+
+
 
 public class NovoMenu extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -17,14 +18,14 @@ public class NovoMenu extends Model{
 	private String detalhes;
 	@RParam(rParamName = "p_titulo")
 	private String titulo;
-	@RParam(rParamName = "p_self_id")
-	private int self_id;
 	@RParam(rParamName = "p_status")
 	private int status;
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
 	@RParam(rParamName = "p_extra")
 	private String extra;
+	@RParam(rParamName = "p_self_id")
+	private int self_id;
 	@RParam(rParamName = "p_orderby")
 	private int orderby;
 	@RParam(rParamName = "p_target")
@@ -36,11 +37,11 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_flg_base_check")
 	private int flg_base_check;
 	@RParam(rParamName = "p_area")
-	private String p_area;
+	private String area;
 	@RParam(rParamName = "p_img_src")
-	private String p_img_src;
+	private String img_src;
 	@RParam(rParamName = "p_id")
-	private int p_id;
+	private int id;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -77,13 +78,6 @@ public class NovoMenu extends Model{
 		return this.titulo;
 	}
 	
-	public void setSelf_id(int self_id){
-		this.self_id = self_id;
-	}
-	public int getSelf_id(){
-		return this.self_id;
-	}
-	
 	public void setStatus(int status){
 		this.status = status;
 	}
@@ -102,6 +96,13 @@ public class NovoMenu extends Model{
 	}
 	public String getExtra(){
 		return this.extra;
+	}
+	
+	public void setSelf_id(int self_id){
+		this.self_id = self_id;
+	}
+	public int getSelf_id(){
+		return this.self_id;
 	}
 	
 	public void setOrderby(int orderby){
@@ -138,25 +139,25 @@ public class NovoMenu extends Model{
 		return this.flg_base_check;
 	}
 	
-	public void setP_area(String p_area){
-		this.p_area = p_area;
+	public void setArea(String area){
+		this.area = area;
 	}
-	public String getP_area(){
-		return this.p_area;
-	}
-	
-	public void setP_img_src(String p_img_src){
-		this.p_img_src = p_img_src;
-	}
-	public String getP_img_src(){
-		return this.p_img_src;
+	public String getArea(){
+		return this.area;
 	}
 	
-	public void setP_id(int p_id){
-		this.p_id = p_id;
+	public void setImg_src(String img_src){
+		this.img_src = img_src;
 	}
-	public int getP_id(){
-		return this.p_id;
+	public String getImg_src(){
+		return this.img_src;
+	}
+	
+	public void setId(int id){
+		this.id = id;
+	}
+	public int getId(){
+		return this.id;
 	}
 
 

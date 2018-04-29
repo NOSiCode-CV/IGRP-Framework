@@ -4,14 +4,13 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;import java.sql.Date;
+
 import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
+
+
 
 public class PesquisarMenuView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field t1_menu_principal;
@@ -21,7 +20,7 @@ public class PesquisarMenuView extends View {
 	public Field pagina;
 	public Field checkbox;
 	public Field checkbox_check;
-	public Field p_id;
+	public Field id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -30,13 +29,17 @@ public class PesquisarMenuView extends View {
 	public IGRPButton btn_btn_novo;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
+
 	public PesquisarMenuView(){
 
 		this.setPageTitle("Gestão de Menu");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		table_1 = new IGRPTable("table_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Gestão Menu"));
@@ -54,9 +57,9 @@ public class PesquisarMenuView extends View {
 		ativo.setLabel(gt("Ativo"));
 		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
 		
-		ativo_check = new CheckBoxField
-		(model,"ativo_check");
+		ativo_check = new CheckBoxField(model,"ativo_check");
 		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		
 		table_titulo = new PlainTextField(model,"table_titulo");
 		table_titulo.setLabel(gt("Título"));
 		table_titulo.propertie().add("name","p_table_titulo").add("type","plaintext").add("maxlength","100");
@@ -69,24 +72,25 @@ public class PesquisarMenuView extends View {
 		checkbox.setLabel(gt("Público"));
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		
-		checkbox_check = new CheckBoxField
-		(model,"checkbox_check");
+		checkbox_check = new CheckBoxField(model,"checkbox_check");
 		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
-		p_id = new HiddenField(model,"p_id");
-		p_id.setLabel(gt(""));
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		
+		id = new HiddenField(model,"id");
+		id.setLabel(gt(""));
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","mpsubmit|refresh","success|fa-plus-square","","");
+		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","right_panel_submit|refresh","success|fa-plus-square","","");
 		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo");
 
-		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","mpsubmit|refresh","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","right_panel_submit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarMenu","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
+
 		
 	}
 		
@@ -97,6 +101,7 @@ public class PesquisarMenuView extends View {
 
 		form_1.addField(aplicacao);
 
+
 		table_1.addField(t1_menu_principal);
 		table_1.addField(ativo);
 		table_1.addField(ativo_check);
@@ -104,8 +109,7 @@ public class PesquisarMenuView extends View {
 		table_1.addField(pagina);
 		table_1.addField(checkbox);
 		table_1.addField(checkbox_check);
-		table_1.addField(p_id);
-
+		table_1.addField(id);
 
 		toolsbar_1.addButton(btn_btn_novo);
 		table_1.addButton(btn_editar);
@@ -124,7 +128,7 @@ public class PesquisarMenuView extends View {
 		table_titulo.setValue(model);
 		pagina.setValue(model);
 		checkbox.setValue(model);
-		p_id.setValue(model);	
+		id.setValue(model);	
 
 		table_1.loadModel(model.getTable_1());
 		
