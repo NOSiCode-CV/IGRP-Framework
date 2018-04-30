@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.rmi.RemoteException;
@@ -629,6 +630,12 @@ public final class Core {	// Not inherit
 		if(Core.isFloat(value))
 			return Float.parseFloat(value);
 		return defaultValue;
+	}
+	
+	public static BigDecimal toBigDecimal(String value) {
+		if(Core.isNotNull(value))
+			return new BigDecimal (value.toString());
+		return null;
 	}
 	
 	public static BaseQueryInterface insert(String connectionName,String tableName) {
