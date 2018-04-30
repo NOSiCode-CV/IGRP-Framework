@@ -27,6 +27,8 @@ import nosi.webapps.igrp.dao.Profile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.json.JSONException;
@@ -55,8 +57,7 @@ public class ListaPageController extends Controller {
 
 		/*----#start-code(index)----*/
 
-		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
-
+		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();		
 		ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
 
 		Action a = new Action();
@@ -82,11 +83,12 @@ public class ListaPageController extends Controller {
 					.addParam("p_aplicacao", model.getEnv_fk());
 		}
 		
-		List<Action> actions = a.find().andWhere("application", "=",
-				(model.getEnv_fk() != null && !model.getEnv_fk().equals("")) ? Integer.parseInt(model.getEnv_fk()) : -1)
+		List<Action> actions = a.find().andWhere("application", "=",Core.toInt(model.getEnv_fk()))				
 				// .andWhere("page", "like", model.getPage())
 				// .andWhere("page_descr", "like", model.getPage_descr())
 				.all();
+		
+		Collections.sort(actions,new SortbyStatus());
 		
 		for (Action ac : actions) {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
@@ -96,7 +98,7 @@ public class ListaPageController extends Controller {
 			int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
 			table1.setStatus_page(ac.getStatus());
 			table1.setStatus_page_check(check);
-
+	
 			lista.add(table1);
 		}
 
@@ -352,6 +354,16 @@ public class ListaPageController extends Controller {
 		res.toJson(json);
 
 		return this.renderView(json.toString());
+	}
+	
+	class SortbyStatus implements Comparator<Action>
+	{
+	    // Used for sorting in ascending order of
+	    // roll number
+	    public int compare(Action a, Action b)
+	    {
+	        return b.getStatus() - a.getStatus();
+	    }
 	}
 	/*----#end-code----*/
 

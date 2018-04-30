@@ -4,15 +4,13 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
-import java.sql.Date;
+
 import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
+
+
 
 public class ImportArquivoView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field importar_aplicacao;
 	public Field importar_pagina;
@@ -36,18 +34,27 @@ public class ImportArquivoView extends View {
 	public IGRPButton btn_btm_import_aplicacao;
 	public IGRPButton btn_btm_importar_page;
 	public IGRPButton btn_importar_jar_file;
+
 	public ImportArquivoView(){
 
 		this.setPageTitle("Import Arquivo");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		tabcontent_1 = new IGRPForm("tabcontent_1","");
+
 		sectionheader_2 = new IGRPForm("sectionheader_2","");
+
 		sectionheader_3 = new IGRPForm("sectionheader_3","");
+
 		sectionheader_4 = new IGRPForm("sectionheader_4","");
+
 		form_2 = new IGRPForm("form_2","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		form_3 = new IGRPForm("form_3","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Importar Arquivos"));
@@ -67,22 +74,22 @@ public class ImportArquivoView extends View {
 		
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel(gt(""));
-		sectionheader_2_text.setValue(gt("Imporar Aplicação (.app.jar/.zip)"));
+		sectionheader_2_text.setValue(gt("Importar aplicação (.app.jar/.zip)"));
 		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("maxlength","4000");
 		
 		sectionheader_3_text = new TextField(model,"sectionheader_3_text");
 		sectionheader_3_text.setLabel(gt(""));
-		sectionheader_3_text.setValue(gt("Importar Página (.page.jar/.zip)"));
+		sectionheader_3_text.setValue(gt("Importar página (.page.jar/.zip)"));
 		sectionheader_3_text.propertie().add("type","text").add("name","p_sectionheader_3_text").add("maxlength","4000");
 		
 		sectionheader_4_text = new TextField(model,"sectionheader_4_text");
 		sectionheader_4_text.setLabel(gt(""));
-		sectionheader_4_text.setValue(gt("Importar Jar File (.jar)"));
+		sectionheader_4_text.setValue(gt("Importar jar File (.jar)"));
 		sectionheader_4_text.propertie().add("type","text").add("name","p_sectionheader_4_text").add("maxlength","4000");
 		
 		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
 		arquivo_aplicacao.setLabel(gt("Aplicação"));
-		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true");
+		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true").add("accept",".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 		list_aplicacao = new ListField(model,"list_aplicacao");
 		list_aplicacao.setLabel(gt("Aplicação"));
@@ -90,11 +97,11 @@ public class ImportArquivoView extends View {
 		
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
 		arquivo_pagina.setLabel(gt("Página"));
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","1000").add("required","true");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","1000").add("required","true").add("accept",".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 		jar_file = new FileField(model,"jar_file");
-		jar_file.setLabel(gt("Jar File"));
-		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept","").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","10000").add("required","true");
+		jar_file.setLabel(gt("Jar file"));
+		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept",".jar").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","10000").add("required","true");
 		
 
 
@@ -106,6 +113,7 @@ public class ImportArquivoView extends View {
 
 		btn_importar_jar_file = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_jar_file","submit_form","success|fa-upload","","");
 		btn_importar_jar_file.propertie.add("type","form").add("rel","importar_jar_file");
+
 		
 	}
 		
