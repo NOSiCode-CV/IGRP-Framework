@@ -301,7 +301,7 @@ public class DatabaseMetadaHelper {
 		private String columnMap;
 		private String connectionName;
 		private String format ="yyyy-mm-dd";
-		
+		private boolean afterWhere = false;
 		
 		public String getSchemaName() {
 			return schemaName;
@@ -391,6 +391,12 @@ public class DatabaseMetadaHelper {
 			this.format = format;
 		}
 		
+		public boolean isAfterWhere() {
+			return afterWhere;
+		}
+		public void setAfterWhere(boolean afterWhere) {
+			this.afterWhere = afterWhere;
+		}
 		@Override
 		public String toString() {
 			return "Column [schemaName=" + schemaName + ", name=" + name + ", type=" + type + ", typeSql=" + typeSql

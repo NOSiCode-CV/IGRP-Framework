@@ -2,16 +2,13 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
-import static nosi.core.i18n.Translator.gt;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URISyntaxException;
@@ -19,11 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 import java.util.Map;
+import nosi.webapps.igrp.dao.Menu;
 import java.util.Properties;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -32,26 +29,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-
 import nosi.core.cversion.Svn;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.xml.XMLExtractComponent;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Transaction;
 /*----#end-code----*/
-
 
 
 public class PageController extends Controller {		
@@ -59,65 +48,62 @@ public class PageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Page model = new Page();
-		PageView view = new PageView();
 		model.load();
-		
+		PageView view = new PageView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		
-		view.env_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		view.version.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
 		final Integer idPage = Core.getParamInt("p_id_page");
 		if (idPage!=0) {
-			Action a = new Action();
-			
+          //EDIT/UPDATE PAGE
+			Action a = new Action();			
 			a = a.findOne(idPage);
 			if (a != null) {
-				model.setP_action_descr(a.getAction_descr());
+				model.setAction_descr(a.getAction_descr());
 				model.setEnv_fk("" + a.getApplication().getId());
-				model.setP_action(a.getAction());
+				model.setAction(a.getAction());
 				model.setPage_descr(a.getPage_descr());
 				model.setPage(a.getPage());
-				model.setP_id("" + a.getId());
+				model.setId("" + a.getId());
 				model.setVersion(a.getVersion());
-				model.setP_xsl_src(a.getXsl_src());
+				model.setXsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
 				model.setComponente(a.getIsComponent());
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
+         	view.novo_menu.setVisible(false);
 		}else {
+          //NEW page
 			model.setStatus(1);
+            model.setNovo_menu(1);
 			model.setGen_auto_code(1);
 		}
 			
 		view.env_fk.setValue(new Application().getListApps());	
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
-		view.p_id.setParam(true);
+		view.id.setParam(true);
   
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
-			view.page.propertie().setProperty("readonly", "true");	
+			view.page.propertie().setProperty("disabled", "true");	
 		}
 			
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		
 		/*----#start-code(gravar)----*/
 		Page model = new Page();
@@ -128,22 +114,22 @@ public class PageController extends Controller {
 			Application app = new Application();
 			Action action = new Action();
 			if (idPage != 0) {
-				action = action.findOne(idPage);
-				// Edit/update page
+            	  // Edit/update page _______
+				action = action.findOne(idPage);				
 				action.setPage_descr(model.getPage_descr());
                 action.setAction_descr(model.getPage_descr());
                 action.setStatus(model.getStatus());
                 action.setIsComponent((short) model.getComponente());
 				action = action.update();
 				if (action != null)
-					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
+					Core.setMessageSuccess("Página atualizada com sucesso.");
 				else
 					Core.setMessageError();
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
-//				_________________________________________________Edit/update page
+//				______________________________________# END # Edit/update page
 			} else if(checkifexists(model)){
-				// New page
+				// New page ________
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
 				action.setPage_descr(model.getPage_descr());
@@ -160,31 +146,39 @@ public class PageController extends Controller {
 					return this.forward("igrp", "page", "index");
 				}
 				action = action.insert();
-				if (action != null) {
-					
-					createSvnRepo(action);
-					
+				if (action != null) {					
+					createSvnRepo(action);					
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-					String path_xsl = this.getConfig().getBaseServerPahtXsl(action);
+					String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(action);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
 					if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
 						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
 								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
-					}
-					Core.setMessageSuccess();
-					if (Core.isNotNull(model.getEnv_fk())) {
-						this.addQueryString( "p_env_fk", model.getEnv_fk());
-						return this.redirect("igrp", "page", "index", this.queryString());
-					}
+					}                  	              
+                 if(model.getNovo_menu()!=0 && model.getComponente()==0){
+                	Menu pageMenu = new Menu(action.getPage_descr(), 0, 1, 0, "_self", action,action.getApplication(), null);
+					pageMenu.setMenu(pageMenu); 
+             		pageMenu.insert();
+                  
+                	if(pageMenu!= null){
+                  		Core.setMessageInfo("Página adicionada ao gestor de menu.");	            
+                	}
+                  
+                } 
+				Core.setMessageSuccess();	                
+              
+				this.addQueryString( "p_env_fk", model.getEnv_fk());
+				return this.redirect("igrp", "page", "index", this.queryString());
+					
 						
 				} else {
 					Core.setMessageError();
 					return this.forward("igrp", "page", "index");
 				}
-//				_________________________________________________New page
+//				_________________________________________# END # New page
 			}else {
 				Core.setMessageWarning("Este code já existe. Por favor editar.");
 				return this.forward("igrp", "page", "index");
@@ -194,13 +188,9 @@ public class PageController extends Controller {
 
 		/*----#end-code----*/
 		
-		
-		return this.redirect("igrp","page","index");
-		
+		return this.redirect("igrp","page","index");	
 	}
 	
-
-
 	/*----#start-code(custom_actions)----*/
 	
 	private boolean checkifexists(Page model) {
@@ -321,7 +311,7 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
-			String path_xsl = this.getConfig().getBaseServerPahtXsl(ac);
+			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
 			String path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
@@ -467,8 +457,7 @@ public class PageController extends Controller {
 		String p_dad = Igrp.getInstance().getRequest().getParameter("p_dad");
 		String json = "[";
 		Action a = new Action();
-		List<Action> actions = a.findAll(
-				a.getCriteria().where(a.getBuilder().equal(a.getRoot().join("application").get("dad"), p_dad)));
+		List<Action> actions = a.find().andWhere("application.dad", "=",p_dad).andWhere("status","=",1).all();
 		if (actions != null) {
 			for (Action ac : actions) {
 				json += "{";
@@ -491,8 +480,8 @@ public class PageController extends Controller {
 
 	// get detail page
 	public Response actionDetailPage() throws IOException {
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		Action ac = new Action().findOne(Integer.parseInt(p_id));
+		int p_id = Core.getParamInt("p_id");
+		Action ac = new Action().findOne(p_id);
 		String json = "{";
 		if (ac != null) {
 			json += "\"action\":\"" + ac.getAction() + "\",";
@@ -501,7 +490,7 @@ public class PageController extends Controller {
 			json += "\"page\":\"" + ac.getPage() + "\",";
 			json += "\"id\":\"" + ac.getId() + "\",";
 			json += "\"filename\":\""
-					+ this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
+					+ this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
 					+ ac.getPage() + ".xsl\",";
 			json += "\"page_descr\":\"" + ac.getPage_descr() + "\"";
 		}
@@ -511,7 +500,7 @@ public class PageController extends Controller {
 	}
 
 	public Response actionImageList() throws IOException {
-		String param = Igrp.getInstance().getRequest().getParameter("name");
+		String param = Core.getParam("name");
 		String menu = "";
 		if (param == "menu") {
 			menu = "[\"themes/default/img/icon/menu/CVM_agente.png\",\"themes/default/img/icon/menu/CVM_cell.png\",\"themes/default/img/icon/menu/CVM_data.png\",\"themes/default/img/icon/menu/CVM_gestor_agente.png\",\"themes/default/img/icon/menu/CVM_pontos_venda.png\",\"themes/default/img/icon/menu/CVM_spots.png\",\"themes/default/img/icon/menu/CVM_torre.png\",\"themes/default/img/icon/menu/Minhas_tarefas.png\",\"themes/default/img/icon/menu/Registo_distribuicao.png\",\"themes/default/img/icon/menu/Registo_extracao.png\",\"themes/default/img/icon/menu/Tarefas_concluidas.png\",\"themes/default/img/icon/menu/abono.png\",\"themes/default/img/icon/menu/accao_topologia.png\",\"themes/default/img/icon/menu/alerta.png\",\"themes/default/img/icon/menu/alteracao_PIN.png\",\"themes/default/img/icon/menu/autotanque.png\",\"themes/default/img/icon/menu/bancos.png\",\"themes/default/img/icon/menu/basemaps.png\",\"themes/default/img/icon/menu/bloco_notas_privado.png\",\"themes/default/img/icon/menu/bonificados.png\",\"themes/default/img/icon/menu/cabimento.png\",\"themes/default/img/icon/menu/clientes.png\",\"themes/default/img/icon/menu/colocacoes.png\",\"themes/default/img/icon/menu/componentes.png\",\"themes/default/img/icon/menu/condecoracao.png\",\"themes/default/img/icon/menu/confirmacao_PIN.png\",\"themes/default/img/icon/menu/consultas.png\",\"themes/default/img/icon/menu/conta-corrente.png\",\"themes/default/img/icon/menu/conteudos.png\",\"themes/default/img/icon/menu/context_menu.png\",\"themes/default/img/icon/menu/contrato.png\",\"themes/default/img/icon/menu/contribuicoes.png\",\"themes/default/img/icon/menu/descendentes.png\",\"themes/default/img/icon/menu/desenpenho.png\",\"themes/default/img/icon/menu/dessalinizadora.png\",\"themes/default/img/icon/menu/dique_1.png\",\"themes/default/img/icon/menu/disponibilidade.png\",\"themes/default/img/icon/menu/dividas.png\",\"themes/default/img/icon/menu/documentos.png\",\"themes/default/img/icon/menu/duplicar.png\",\"themes/default/img/icon/menu/enquadramento.png\",\"themes/default/img/icon/menu/espelhos.png\",\"themes/default/img/icon/menu/est.especies.png\",\"themes/default/img/icon/menu/est.fiscalizacao.png\",\"themes/default/img/icon/menu/estabelecimento.png\",\"themes/default/img/icon/menu/estast.performance-global.png\",\"themes/default/img/icon/menu/estatistica-bonificados.png\",\"themes/default/img/icon/menu/estatistica-financeira.png\",\"themes/default/img/icon/menu/estatistica.png\",\"themes/default/img/icon/menu/estatistica_contratos.png\",\"themes/default/img/icon/menu/etapas.png\",\"themes/default/img/icon/menu/exames.png\",\"themes/default/img/icon/menu/fim.png\",\"themes/default/img/icon/menu/flag_eng.png\",\"themes/default/img/icon/menu/flag_france.png\",\"themes/default/img/icon/menu/flg_port.png\",\"themes/default/img/icon/menu/fotografias.png\",\"themes/default/img/icon/menu/historico.png\",\"themes/default/img/icon/menu/historico_clinico.png\",\"themes/default/img/icon/menu/identificacao-.png\",\"themes/default/img/icon/menu/identificacao.png\",\"themes/default/img/icon/menu/idioma.png\",\"themes/default/img/icon/menu/info-menu-.png\",\"themes/default/img/icon/menu/info-menu.png\",\"themes/default/img/icon/menu/iniciar.png\",\"themes/default/img/icon/menu/internamento.png\",\"themes/default/img/icon/menu/investidores.png\",\"themes/default/img/icon/menu/layers.png\",\"themes/default/img/icon/menu/legenda.png\",\"themes/default/img/icon/menu/m_BAU.png\",\"themes/default/img/icon/menu/m_alerta_caducidade.png\",\"themes/default/img/icon/menu/m_alerta_prazos_.png\",\"themes/default/img/icon/menu/m_caixas.png\",\"themes/default/img/icon/menu/m_calendario.png\",\"themes/default/img/icon/menu/m_categoria.png\",\"themes/default/img/icon/menu/m_classificacao.png\",\"themes/default/img/icon/menu/m_empresa.png\",\"themes/default/img/icon/menu/m_empresa_.png\",\"themes/default/img/icon/menu/m_error.png\",\"themes/default/img/icon/menu/m_especies.png\",\"themes/default/img/icon/menu/m_est.licenca.png\",\"themes/default/img/icon/menu/m_est.trofeus.png\",\"themes/default/img/icon/menu/m_fiscalizacao.png\",\"themes/default/img/icon/menu/m_fontenario.png\",\"themes/default/img/icon/menu/m_frequencia_estimativa.png\",\"themes/default/img/icon/menu/m_furos.png\",\"themes/default/img/icon/menu/m_gerencia.png\",\"themes/default/img/icon/menu/m_guia.png\",\"themes/default/img/icon/menu/m_integracao.png\",\"themes/default/img/icon/menu/m_licenca.png\",\"themes/default/img/icon/menu/m_licenca_ambiental.png\",\"themes/default/img/icon/menu/m_lista.png\",\"themes/default/img/icon/menu/m_mapa.png\",\"themes/default/img/icon/menu/m_material.png\",\"themes/default/img/icon/menu/m_movimentos.png\",\"themes/default/img/icon/menu/m_outras-licencas.png\",\"themes/default/img/icon/menu/m_pesquisa_licenca_.png\",\"themes/default/img/icon/menu/m_pesquisa_mapa.png\",\"themes/default/img/icon/menu/m_pesquisa_projecto.png\",\"themes/default/img/icon/menu/m_ponto.fscalizacao.png\",\"themes/default/img/icon/menu/m_proj_investimento.png\",\"themes/default/img/icon/menu/m_reservatorio.png\",\"themes/default/img/icon/menu/m_taxas.png\",\"themes/default/img/icon/menu/m_transportes.png\",\"themes/default/img/icon/menu/m_trofeus.png\",\"themes/default/img/icon/menu/mapa_menu.png\",\"themes/default/img/icon/menu/marcacoes.png\",\"themes/default/img/icon/menu/menu_lista.png\",\"themes/default/img/icon/menu/meta-type.png\",\"themes/default/img/icon/menu/morada.png\",\"themes/default/img/icon/menu/movimentos.png\",\"themes/default/img/icon/menu/nascente.png\",\"themes/default/img/icon/menu/nivel_habilitacao.png\",\"themes/default/img/icon/menu/notas.png\",\"themes/default/img/icon/menu/notificacoes-.png\",\"themes/default/img/icon/menu/notificacoes.png\",\"themes/default/img/icon/menu/obitos.png\",\"themes/default/img/icon/menu/observacoes.png\",\"themes/default/img/icon/menu/origem.png\",\"themes/default/img/icon/menu/outdoor-menu.png\",\"themes/default/img/icon/menu/partilhados.png\",\"themes/default/img/icon/menu/partilhar.png\",\"themes/default/img/icon/menu/penas.png\",\"themes/default/img/icon/menu/perda_bonificacao.png\",\"themes/default/img/icon/menu/perda_bonificacao_2.png\",\"themes/default/img/icon/menu/permissao.png\",\"themes/default/img/icon/menu/pino_amarelo-(digital).png\",\"themes/default/img/icon/menu/pino_amarelo.png\",\"themes/default/img/icon/menu/pino_preto-(digital).png\",\"themes/default/img/icon/menu/pino_preto.png\",\"themes/default/img/icon/menu/pino_verde-(digital).png\",\"themes/default/img/icon/menu/pino_verde.png\",\"themes/default/img/icon/menu/pino_vermelho-(digital).png\",\"themes/default/img/icon/menu/pino_vermelho.png\",\"themes/default/img/icon/menu/pino_vermelho_ponto-preto-(digital).png\",\"themes/default/img/icon/menu/pino_vermelho_ponto-preto.png\",\"themes/default/img/icon/menu/poco_1.png\",\"themes/default/img/icon/menu/poco_2.png\",\"themes/default/img/icon/menu/poco_3.png\",\"themes/default/img/icon/menu/prestacoes.png\",\"themes/default/img/icon/menu/processos.png\",\"themes/default/img/icon/menu/qualidade_agua2.png\",\"themes/default/img/icon/menu/qualidade_agua4.png\",\"themes/default/img/icon/menu/regime_trab.png\",\"themes/default/img/icon/menu/registos_ligacao.png\",\"themes/default/img/icon/menu/registos_tratamento.png\",\"themes/default/img/icon/menu/regras_topologia.png\",\"themes/default/img/icon/menu/reinicializacao_PIN.png\",\"themes/default/img/icon/menu/renovacoes.png\",\"themes/default/img/icon/menu/retiradas.png\",\"themes/default/img/icon/menu/saneamento_ETAR_.png\",\"themes/default/img/icon/menu/saneamento_UDR.png\",\"themes/default/img/icon/menu/saneamento_reg_equip_recolha.png\",\"themes/default/img/icon/menu/saneamento_reg_recolha.png\",\"themes/default/img/icon/menu/saneamento_tratamento_residuos.png\",\"themes/default/img/icon/menu/seg_social.png\",\"themes/default/img/icon/menu/seguros.png\",\"themes/default/img/icon/menu/sis_abastecimento.png\",\"themes/default/img/icon/menu/sis_abastecimento2.png\",\"themes/default/img/icon/menu/sis_abastecimento3.png\",\"themes/default/img/icon/menu/sis_abastecimento4.png\",\"themes/default/img/icon/menu/tarefas.png\",\"themes/default/img/icon/menu/tarefas_pendentes.png\",\"themes/default/img/icon/menu/taxas.png\",\"themes/default/img/icon/menu/tema.png\",\"themes/default/img/icon/menu/tipo_cor.png\",\"themes/default/img/icon/menu/tipo_energia.png\",\"themes/default/img/icon/menu/tipo_equipamento.png\",\"themes/default/img/icon/menu/tipo_identificacao.png\",\"themes/default/img/icon/menu/tipo_tratamento.png\",\"themes/default/img/icon/menu/tipos.png\",\"themes/default/img/icon/menu/tratamento.png\",\"themes/default/img/icon/menu/tratamento_residuos.png\",\"themes/default/img/icon/menu/tratamento_residuos2.png\",\"themes/default/img/icon/menu/ultimas_consultas.png\",\"themes/default/img/icon/menu/ultimos_exames.png\",\"themes/default/img/icon/menu/ultimos_internamentos.png\"]";
@@ -525,8 +514,8 @@ public class PageController extends Controller {
 	// Extracting reserve code inserted by programmer
 	public Response actionPreserveUrl() throws IOException {
 		//String type = Igrp.getInstance().getRequest().getParameter("type");
-		String page = Igrp.getInstance().getRequest().getParameter("page");
-		String app = Igrp.getInstance().getRequest().getParameter("app");
+		String page = Core.getParam("page");
+		String app = Core.getParam("app");
 		
 		String json = ExtractReserveCode.extract(app, page);
 		
@@ -546,15 +535,12 @@ public class PageController extends Controller {
 		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				String content = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac), ac.getPage() + ".xml");
-				int index1 = content.indexOf("?>");
-				int index2 = content.indexOf("<site>");
-				if(index1 > 0 && index2 > 0){
-					String xsl_src = this.getConfig().getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".xsl";
-					String c = content.substring(0,index1+"?>".length());
-					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
-					c += "<rows><link_img>"+this.getConfig().getLinkImg()+"</link_img>";
-					c += content.substring(index2);
+				String content = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac), ac.getPage() + ".xml");
+				int index1 = content.indexOf("<rows>");
+				if(index1 > 0){
+					String c = content.substring(0,index1+"<rows>".length());
+					c += "<link_img>"+this.getConfig().getLinkImg()+"</link_img>";
+					c += content.substring(content.indexOf("</link_img>")+"</link_img>".length());
 					return this.renderView(c);
 				}
 				return this.renderView(content);
@@ -563,12 +549,21 @@ public class PageController extends Controller {
 		return null;
 	}
 
-	// For Editor
-	public Response actionMetodosCore() {
-		List<Map<String, List<String>>> metodos = this.getMethod(Core.class,QueryHelper.class);
-		this.format = Response.FORMAT_JSON;
-		return this.renderView(new Gson().toJson(metodos));
+	public Response actionGetXsl() throws IOException{
+		String page = Core.getParam("page");
+		String app = Core.getParam("app");
+		if(Core.isNotNull(page) && Core.isNotNull(app)){
+			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
+			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
+			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
+			this.format = Response.FORMAT_XSL;			
+			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
+		}
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
+	
+	// For Editor
+	
 	
 	private List<Map<String, List<String>>> getMethod(Class<?> ...params){
 		List<Map<String, List<String>>> metodos = new ArrayList<>();
@@ -592,7 +587,11 @@ public class PageController extends Controller {
 			}
 		return metodos;
 	}
-	
+	public Response actionMetodosCore() {
+		List<Map<String, List<String>>> metodos = getMethod(Core.class,QueryHelper.class);
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(new Gson().toJson(metodos));
+	}
 	public void actionNewDomain() {
 		
 		String dname = Core.getParam("domain_name");
@@ -624,7 +623,7 @@ public class PageController extends Controller {
 	}
 
 	public Response actionDomainsValues() throws IOException {
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
 		for(Tuple t:Core.query("SELECT DISTINCT valor,description FROM tbl_domain").where("dominio=:dominio").addString("dominio",p_id).getResultList()) {
 			try {
@@ -636,27 +635,20 @@ public class PageController extends Controller {
 		}
 		Gson gson = new Gson();
 		this.format = Response.FORMAT_JSON;
-		System.out.println(gson.toJson(list));
-		
-		String json = "[{\"value\": \"Y\",\"text\": \"Sim\"},{\"value\": \"N\",\"text\": \"Nao\"}]";
 		return this.renderView(gson.toJson(list));
 	}
 
 	public Response actionGetPageJson() throws IOException {
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		int p_id = Core.getParamInt("p_id");
 		String json = "";
-		if ( Core.isNotNull(p_id) ) {
-			Action ac = new Action().findOne(Integer.parseInt(p_id));
+		if (p_id!=0) {
+			Action ac = new Action().findOne(p_id);
 			if (ac != null) {
-				json = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
+				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
 			}
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}

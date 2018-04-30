@@ -60,27 +60,27 @@
         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
-                    <value>Imporar Aplicação (.app.jar/.zip)</value>
+                    <value>Importar aplicação (.app.jar/.zip)</value>
                 </sectionheader_2_text>
             </fields>
         </sectionheader_2>
         <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
-                    <value>Importar Página (.page.jar/.zip)</value>
+                    <value>Importar página (.page.jar/.zip)</value>
                 </sectionheader_3_text>
             </fields>
         </sectionheader_3>
         <sectionheader_4 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_4_text type="text" name="p_sectionheader_4_text" persist="true" maxlength="4000">
-                    <value>Importar Jar File (.jar)</value>
+                    <value>Importar jar File (.jar)</value>
                 </sectionheader_4_text>
             </fields>
         </sectionheader_4>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept=".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed" targetrend="" multiple="false" rendvalue="false">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -121,7 +121,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept=".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed" targetrend="" multiple="false" rendvalue="false">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -140,8 +140,8 @@
         </form_1>
         <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <jar_file name="p_jar_file" type="file" accept="" targetrend="" multiple="true" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
-                    <label>Jar File</label>
+                <jar_file name="p_jar_file" type="file" accept=".jar" targetrend="" multiple="true" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
+                    <label>Jar file</label>
                     <value/>
                 </jar_file>
             </fields>

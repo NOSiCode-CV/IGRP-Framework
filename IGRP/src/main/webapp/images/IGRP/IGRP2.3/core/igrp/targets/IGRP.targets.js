@@ -353,10 +353,25 @@
 			
 			return false;
 		};
+		
+		var right_panel_submit       = function(p){
+
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+				mWindow = window;
+			
+			p.url = setTargetParameter($.IGRP.utils.getUrl(p.url)+form.serialize());
+
+			$.IGRP.components.rightPanel.set(p);
+			
+			return false;
+		};
 
 		var mpsubmit  = function(p){
 			
 			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize();
+			
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')				
+				mWindow = window;
 			
 			$.IGRP.components.iframeNav.set({
 				url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
@@ -500,31 +515,7 @@
 				action : confirm 
 
 			},
-
-			_close       : {
-
-				label  : 'Close',
-
-				action : close
-
-			},
-
-			closerefresh : {
-
-				label  : 'Close and Refresh Parent',
-
-				action : closerefresh
-
-			},
-
-			_back        : {
-
-				label  : 'Back',
-
-				action : back
-
-			},
-
+			
 			submit       : {
 
 				label : 'Submit',
@@ -532,7 +523,51 @@
 				action : submit
 
 			},
+			modal 	     : {
 
+				label : 'Modal',
+
+				action : modal
+
+			},
+			
+			mpsubmit   : {
+
+				label : 'Submit Modal',
+
+				action : mpsubmit
+
+			},
+			right_panel 	     : {
+
+				label : 'Right Panel',
+
+				action : right_panel
+
+			},
+			right_panel_submit   : {
+
+				label : 'Submit Right Panel',
+
+				action : right_panel_submit
+
+			},
+			_blank       : {
+
+				label : 'Popup',
+
+				action : _blank
+
+			},
+
+			
+			submit_popup : {
+
+				label : 'Submit Popup',
+
+				action : submit_popup
+
+			},
 			submit_form  : {
 
 				label : 'Submit Form',
@@ -555,24 +590,16 @@
 
 				action : alert_submit
 
-			},
+			},	
+			_link       : {
 
-			submit_popup : {
+				label : 'Link',
 
-				label : 'Submit Popup',
+				action : _link
 
-				action : submit_popup
+			},		
 
-			},
-
-			_blank       : {
-
-				label : 'Popup',
-
-				action : _blank
-
-			},
-
+			
 			filter       : {
 
 				label : 'Filter',
@@ -605,29 +632,7 @@
 
 			},
 
-			_link       : {
-
-				label : 'Link',
-
-				action : _link
-
-			},
-
-			modal 	     : {
-
-				label : 'Modal',
-
-				action : modal
-
-			},
-
-			right_panel 	     : {
-
-				label : 'Right Panel',
-
-				action : right_panel
-
-			},
+			
 
 			exportall    : {
 
@@ -639,13 +644,31 @@
 
 			
 
-			mpsubmit   : {
+			
+			_close       : {
 
-				label : 'Submit Modal',
+				label  : 'Close',
 
-				action : mpsubmit
+				action : close
 
 			},
+
+			closerefresh : {
+
+				label  : 'Close and Refresh Parent',
+
+				action : closerefresh
+
+			},
+
+			_back        : {
+
+				label  : 'Back',
+
+				action : back
+
+			},
+
 
 			changesrc    : {
 

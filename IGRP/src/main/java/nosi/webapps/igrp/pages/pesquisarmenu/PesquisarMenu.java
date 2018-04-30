@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class PesquisarMenu extends Model{
 		private String pagina;
 		private int checkbox;
 		private int checkbox_check;
-		private String p_id;
+		private String id;
 		public void setT1_menu_principal(String t1_menu_principal){
 			this.t1_menu_principal = t1_menu_principal;
 		}
@@ -93,16 +94,16 @@ public class PesquisarMenu extends Model{
 			return this.checkbox_check;
 		}
 
-		public void setP_id(String p_id){
-			this.p_id = p_id;
+		public void setId(String id){
+			this.id = id;
 		}
-		public String getP_id(){
-			return this.p_id;
+		public String getId(){
+			return this.id;
 		}
 
 	}
 
-	public void loadTable_1(QueryHelper query) {
+	public void loadTable_1(BaseQueryInterface query) {
 		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 

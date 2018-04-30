@@ -18,6 +18,8 @@ var FILEFIELD = function(type,params){
 					{ value:'application/vnd.ms-powerpoint', label: 'Power Point' },
 					{ value:'text/plain', label: 'Text' },
 					{ value:'application/pdf', label: 'PDF' },
+					{ value:'.jar', label: 'JAR' },
+					{ value:'application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed', label: 'ZIP' },
 					{ value:'image/*', label: 'Images' },
 					{ value:'video/*', label: 'Videos' },
 					{ value:'audio/*', label: 'Audios' },

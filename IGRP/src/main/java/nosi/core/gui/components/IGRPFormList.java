@@ -41,6 +41,8 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public class IGRPFormList extends IGRPSeparatorList {
 
+	private boolean startRow = true;
+	
 	public IGRPFormList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "formlist");
@@ -83,7 +85,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 				}
 				this.xml.endElement();
 			}
-		}else if(this.data==null || this.data.size() == 0){
+		}else if(this.data==null || this.data.size() == 0 && this.startRow){
 				this.xml.startElement("row"); 
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
@@ -108,7 +110,10 @@ public class IGRPFormList extends IGRPSeparatorList {
 		
 	}
 	
-
+	public void setStartRow(boolean isStartRow) {
+		this.startRow = isStartRow;
+	}
+	
 	public void loadModel(List<?> modelList) {
 		this.data = modelList;
 	}

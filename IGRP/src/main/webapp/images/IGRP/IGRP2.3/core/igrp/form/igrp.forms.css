@@ -246,6 +246,10 @@ margin-left: 30px;
    transition: .4s;
 }
 
+.checkbox-switch input:checked + .slider {
+    background-color: #2196F3;
+}
+
 .checkbox-switch .slider:before {
    position: absolute;
    content: "";

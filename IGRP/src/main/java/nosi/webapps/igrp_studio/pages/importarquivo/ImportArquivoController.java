@@ -2,11 +2,11 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 /*----#start-code(packages_import)----*/
 import java.util.Collection;
 import javax.servlet.ServletException;
@@ -55,8 +55,8 @@ public class ImportArquivoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp_studio","ImportArquivo","index");
-		}
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
 		/*----#start-code(btm_import_aplicacao)----*/
@@ -104,8 +104,8 @@ public class ImportArquivoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp_studio","ImportArquivo","index");
-		}
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
 		/*----#start-code(btm_importar_page)----*/
@@ -165,8 +165,8 @@ public class ImportArquivoController extends Controller {
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		 return this.forward("igrp_studio","ImportArquivo","index");
-		}
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
 		/*----#start-code(importar_jar_file)----*/

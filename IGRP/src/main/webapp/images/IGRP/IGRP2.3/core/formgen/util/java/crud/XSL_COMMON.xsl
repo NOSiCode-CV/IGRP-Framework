@@ -23,11 +23,18 @@
 				</xsl:variable>
 				
 				<xsl:variable name="name_">
-					<xsl:call-template name="replace-all">
-				        <xsl:with-param name="text" select="$name"/>
-				        <xsl:with-param name="replace" select="'p_'"/>
-				        <xsl:with-param name="by" select="''"/>
-				     </xsl:call-template>
+			     	<xsl:choose> 			
+			 			<xsl:when test="starts-with($name, 'p_')">
+							<xsl:call-template name="replace-all">
+						        <xsl:with-param name="text" select="$name"/>
+						        <xsl:with-param name="replace" select="'p_'"/>
+						        <xsl:with-param name="by" select="''"/>
+						     </xsl:call-template>
+					     </xsl:when>
+					     <xsl:otherwise>
+					     	<xsl:value-of select="$name"/>
+					     </xsl:otherwise>
+		 			</xsl:choose> 	
 				</xsl:variable>
 				 			
 		 		<xsl:value-of select="concat($name_,'=:',$name_)"/>
@@ -142,12 +149,19 @@
  		<xsl:param name="type"/>
  		<xsl:param name="name"/>
  		
- 		<xsl:variable name="name_">
-			<xsl:call-template name="replace-all">
-		        <xsl:with-param name="text" select="$name"/>
-		        <xsl:with-param name="replace" select="'p_'"/>
-		        <xsl:with-param name="by" select="''"/>
-		     </xsl:call-template>
+ 		<xsl:variable name="name_"> 
+	 		<xsl:choose>	 			
+				<xsl:when test="starts-with($name, 'p_')">
+					<xsl:call-template name="replace-all">
+				        <xsl:with-param name="text" select="$name"/>
+				        <xsl:with-param name="replace" select="'p_'"/>
+				        <xsl:with-param name="by" select="''"/>
+				     </xsl:call-template>
+			     </xsl:when>
+			     <xsl:otherwise>
+			     	<xsl:value-of select="$name"/>
+			     </xsl:otherwise>
+	 		</xsl:choose>
 		</xsl:variable>
  		
 		<xsl:value-of select="$newline"/>
@@ -182,11 +196,18 @@
  		<xsl:param name="format" select="''"/>
  		
  		<xsl:variable name="name__">
-			<xsl:call-template name="replace-all">
-		        <xsl:with-param name="text" select="$name"/>
-		        <xsl:with-param name="replace" select="'p_'"/>
-		        <xsl:with-param name="by" select="''"/>
-		     </xsl:call-template>
+ 			<xsl:choose> 			
+	 			<xsl:when test="starts-with($name, 'p_')">
+					<xsl:call-template name="replace-all">
+				        <xsl:with-param name="text" select="$name"/>
+				        <xsl:with-param name="replace" select="'p_'"/>
+				        <xsl:with-param name="by" select="''"/>
+				     </xsl:call-template>
+			     </xsl:when>
+			     <xsl:otherwise>
+			     	<xsl:value-of select="$name"/>
+			     </xsl:otherwise>
+ 			</xsl:choose>
 		</xsl:variable>
 					
  		<xsl:variable name="name_">
@@ -255,11 +276,18 @@
 	 			</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="name_">
-				<xsl:call-template name="replace-all">
-			        <xsl:with-param name="text" select="$name"/>
-			        <xsl:with-param name="replace" select="'p_'"/>
-			        <xsl:with-param name="by" select="''"/>
-			     </xsl:call-template>
+			     <xsl:choose> 			
+		 			<xsl:when test="starts-with($name, 'p_')">
+					<xsl:call-template name="replace-all">
+				        <xsl:with-param name="text" select="$name"/>
+				        <xsl:with-param name="replace" select="'p_'"/>
+				        <xsl:with-param name="by" select="''"/>
+				     </xsl:call-template>
+				     </xsl:when>
+				     <xsl:otherwise>
+				     	<xsl:value-of select="$name"/>
+				     </xsl:otherwise>
+	 			</xsl:choose> 			
 			</xsl:variable>
 			<xsl:value-of select="concat($name_,' as ',$name)"/>
  			<xsl:if test="position() != last()">

@@ -52,7 +52,7 @@ public class GestaodeacessoView extends View {
 		adicionar_organica = new LinkField(model,"adicionar_organica");
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
-		adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","modal").add("maxlength","30");
+		adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));

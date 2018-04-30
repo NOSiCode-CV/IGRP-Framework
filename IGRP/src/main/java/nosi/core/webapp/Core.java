@@ -482,19 +482,32 @@ public final class Core {	// Not inherit
 			return value!=null && !value.equals("");
 		return value!=null;
 	}
-	
+	/** Checks if it's null or ""
+	 * 
+	 * @param value
+	 * @return {@code value==null || value.equals("");}
+	 */
 	public static boolean isNull(Object value) {
 		if(value instanceof String)
 			return value==null || value.equals("");
 		return value==null;
 	}	
-	
+	/** Checks if it's null or 0
+	 * 
+	 * @param value
+	 * @return {@code if(value instanceof Number) return value ==null || new Integer(value.toString()) ==0;}
+	 */
 	public static boolean isNullOrZero(Object value) {
 		if(value instanceof Number)
 			return value ==null || new Integer(value.toString()) ==0;
 		return value==null || value.equals("");
 	}	
-	
+	/** Checks if it's not null or not 0
+	 * First {@code Core.isNotNull(value)}
+	 * 
+	 * @param value
+	 * @return {@code new Integer(value.toString())!=0;}
+	 */
 	public static boolean isNotNullOrZero(Object value) {
 		if(!(value instanceof Number)) {
 			return Core.isNotNull(value);
@@ -504,7 +517,14 @@ public final class Core {	// Not inherit
 		}
 		return false;
 	}	
-	
+	/** Checks if it's a int
+	 * First {@code isNotNull(value)}
+	 * 	than a try catch numberFormatException
+	 * 
+	 * @param value
+	 * @return {@code double v = Integer.parseInt(value.toString());
+				return ((v == Math.floor(v)) && !Double.isInfinite(v));}
+	 */
 	public static boolean isInt(Object value) {
 		if(isNotNull(value)) {
 			try {
