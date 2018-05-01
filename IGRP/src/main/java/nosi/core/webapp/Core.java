@@ -223,35 +223,35 @@ public final class Core {	// Not inherit
 
 	/**Get Current Datetime (User defined output format)
 	 * @param outputFormat
-	 * @return
+	 * @return  {@code DateHelper.getCurrentDate(outputFormat);}
 	 */
 	public static String getCurrentDate(String outputFormat){
 		return DateHelper.getCurrentDate(outputFormat);
 	}
 	
 	/**Get Current Datetime (dd/MM/yyyy HH:mm:ss)
-	 * @return
+	 * @return  {@code DateHelper.getCurrentDataTime();}
 	 */
 	public static String getCurrentDataTime() {
 		return DateHelper.getCurrentDataTime();
 	}
 	
 	/**Get Current Application Dad on Cookie
-	 * @return
+	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDad(){
 		return new Permission().getCurrentEnv();
 	}
 
 	/**Get Current Organization on Cookie
-	 * @return
+	 * @return {@code new Permission().getCurrentOrganization();}
 	 */
 	public static Integer getCurrentOrganization(){
 		return new Permission().getCurrentOrganization();
 	}
 
 	/**Get Current Profile on Cookie
-	 * @return
+	 * @return  {@code new Permission().getCurrentPerfilId();}
 	 */
 	public static Integer getCurrentProfile(){
 		return new Permission().getCurrentPerfilId();
@@ -259,7 +259,7 @@ public final class Core {	// Not inherit
 	
 	/**Find Application By ID
 	 * @param id
-	 * @return
+	 * @return  {@code new Application().findOne(id);}
 	 */
 	public static Application findApplicationById(Integer id){
 		return new Application().findOne(id);
@@ -267,7 +267,7 @@ public final class Core {	// Not inherit
 	
 	/**Find Application By Dad
 	 * @param dad
-	 * @return
+	 * @return  {@code new Application().find().andWhere("dad", "=", dad).one();}
 	 */
 	public static Application findApplicationByDad(String dad){
 		return new Application().find().andWhere("dad", "=", dad).one();
@@ -275,7 +275,7 @@ public final class Core {	// Not inherit
 	
 	/**Find Organization By ID
 	 * @param id
-	 * @return
+	 * @return {@code new Organization().findOne(id);}
 	 */
 	public static Organization findOrganizationById(Integer id){
 		return new Organization().findOne(id);

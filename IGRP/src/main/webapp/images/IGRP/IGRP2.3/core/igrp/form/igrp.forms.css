@@ -212,68 +212,63 @@ form [item-type="plaintext"]{
 
 /*checkbox switch*/
 .form-group .checkbox-switch.switch {
-   position: relative;
-   display: inline-block;
-   width: 40px;
-   height: 24px;
-   margin-bottom: 0;
-   position: absolute;
-   top: 34px;
-   left: 0
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height: 24px;
+    margin-bottom: 0;
+    position: absolute;
+    top: 34px;
+    left: 0
 }
 
 .form-group .checkbox-switch.switch>input{
-visibility: hidden
+               visibility: hidden
 }
+
 
 .form-group .checkbox-switch.switch>span.checkbox-label{
-/*display: none;*/
-margin-left: 30px;
+               /*display: none;*/
+               margin-left: 30px;
 }
-.checkbox-switch .slider.round {
-   border-radius: 24px;
-}
-
-.checkbox-switch .slider {
-   position: absolute;
-   cursor: pointer;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   background-color: #ccc;
-   -webkit-transition: .4s;
-   transition: .4s;
+.form-group .checkbox-switch .slider.round {
+    border-radius: 24px;
+    width: 40px;
 }
 
+.form-group .checkbox-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
 .checkbox-switch input:checked + .slider {
     background-color: #2196F3;
 }
-
-.checkbox-switch .slider:before {
-   position: absolute;
-   content: "";
-   height: 16px;
-   width: 16px;
-   left: 4px;
-   bottom: 4px;
-   background-color: white;
-   -webkit-transition: .4s;
-   transition: .4s;
+.form-group .checkbox-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
-.checkbox-switch .slider.round:before {
-   border-radius: 50%;
-}
-
-.checkbox-switch input:checked + .slider:before {
-   -webkit-transform: translateX(16px);
-   -ms-transform: translateX(16px);
-   transform: translateX(16px);
+.form-group .checkbox-switch .slider.round:before {
+    border-radius: 50%;
 }
 
-.form-group .checkbox-switch.switch>span.checkbox-label{
-	/*display: none;*/
-	margin-left: 30px;
+.form-group .checkbox-switch input:checked + .slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
 }
 
 

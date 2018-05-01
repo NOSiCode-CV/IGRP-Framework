@@ -21,8 +21,8 @@ public class PageView extends View {
 	public Field nada;
 	public Field env_fk;
 	public Field version;
-	public Field novo_menu;
-	public Field novo_menu_check;
+	public Field criar_menu;
+	public Field criar_menu_check;
 	public Field componente;
 	public Field componente_check;
 	public Field id;
@@ -87,9 +87,9 @@ public class PageView extends View {
 		version.setLabel(gt("Versão de Página"));
 		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
 		
-		novo_menu = new CheckBoxField(model,"novo_menu");
-		novo_menu.setLabel(gt("Novo menu?"));
-		novo_menu.propertie().add("name","p_novo_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
+		criar_menu = new CheckBoxField(model,"criar_menu");
+		criar_menu.setLabel(gt("Criar menu?"));
+		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		componente = new CheckBoxField(model,"componente");
 		componente.setLabel(gt("Componente?"));
@@ -177,7 +177,7 @@ public class PageView extends View {
 		form_1.addField(nada);
 		form_1.addField(env_fk);
 		form_1.addField(version);
-		form_1.addField(novo_menu);
+		form_1.addField(criar_menu);
 		form_1.addField(componente);
 		form_1.addField(id);
 		form_1.addField(table_name);
@@ -210,7 +210,7 @@ public class PageView extends View {
 		nada.setValue(model);
 		env_fk.setValue(model);
 		version.setValue(model);
-		novo_menu.setValue(model);
+		criar_menu.setValue(model);
 		componente.setValue(model);
 		id.setValue(model);
 		table_name.setValue(model);

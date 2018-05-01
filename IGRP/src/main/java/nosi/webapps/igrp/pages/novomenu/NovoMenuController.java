@@ -123,26 +123,11 @@ public class NovoMenuController extends Controller {
 			
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
-				menu = new Menu().findOne(id);
-				if (menu.getMenu() != null) {
-					model.setSelf_id(menu.getMenu().getId());
-				}
-				model.setStatus(menu.getStatus());
-				model.setFlg_base(menu.getFlg_base());
-				model.setEnv_fk(menu.getApplication().getId());
-				model.setTarget(menu.getTarget());
-				if (menu.getAction() != null) {
-					model.setAction_fk(menu.getAction().getId());
-				}
-				model.setOrderby(menu.getOrderby());
-				model.setTitulo(menu.getDescr());
-
+				menu = new Menu().findOne(id);			
 			} else {
 				// NEW menu will enter here
 				menu = new Menu();
-			}
-
-			
+			}			
 
 			if (model.getAction_fk() != 0) {
 				menu.setAction(new Action().findOne(model.getAction_fk()));
@@ -178,8 +163,9 @@ public class NovoMenuController extends Controller {
 			}
 
 		}
-		if (Core.isNotNullOrZero(id)) {			
-			return this.forward("igrp", "NovoMenu", "index");
+		if (Core.isNotNullOrZero(id)) {		
+			
+			return this.forward("igrp", "NovoMenu", "index"); //redirect para não trans
 		}else if(Core.isNotNullOrZero(model.getEnv_fk())) {
 			this.addQueryString("app", model.getEnv_fk());
 			return this.redirect("igrp","NovoMenu","index", this.queryString());

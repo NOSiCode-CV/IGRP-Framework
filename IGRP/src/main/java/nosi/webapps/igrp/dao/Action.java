@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.StringHelper;
 import static nosi.core.i18n.Translator.gt;
 
@@ -235,18 +236,26 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		
 		HashMap<Integer,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).all();
+		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", "1").andWhere("isComponent", "=", "0").all();
 		
 		if(actions == null)
 			actions = new ArrayList<Action>();
 		
-		actions.addAll(aux);
+		
 		for(Action ac : actions){
-			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
+			if(Core.isNotNull(ac.getPage_descr()))
 				lista.put(ac.getId(), ac.getPage_descr());
 			else
 				lista.put(ac.getId(), ac.getPage());
 		}
+//		For shared pages, it will add the (dad)
+		for(Action ac : aux){
+			if(Core.isNotNull(ac.getPage_descr()))
+				lista.put(ac.getId(), ac.getPage_descr()+" ("+ac.getApplication().getDad()+")");
+			else
+				lista.put(ac.getId(), ac.getPage()+" ("+ac.getApplication().getDad()+")");
+		}
+		
 		return lista;
 	}
 }

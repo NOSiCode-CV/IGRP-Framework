@@ -56,11 +56,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Natus aperiam lorem omnis totam</value>
+                    <value>Adipiscing officia aliqua stract omnis</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Magna elit accusantium aliqua adipiscing</value>
+                    <value>Deserunt doloremque voluptatem sed stract</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo?</label>
@@ -117,10 +117,11 @@
                         </option>
                     </list>
                 </version>
-                <novo_menu name="p_novo_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
-                    <label>Novo menu?</label>
+                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                    <label>Criar menu?</label>
                     <value>1</value>
-                </novo_menu>
+                    <rules/>
+                </criar_menu>
                 <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Componente?</label>
                     <value>1</value>

@@ -80,11 +80,11 @@ public class PageController extends Controller {
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
-         	view.novo_menu.setVisible(false);
+         	view.criar_menu.setVisible(false);
 		}else {
           //NEW page
 			model.setStatus(1);
-            model.setNovo_menu(1);
+            model.setCriar_menu(1);
 			model.setGen_auto_code(1);
 		}
 			
@@ -158,7 +158,7 @@ public class PageController extends Controller {
 								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}                  	              
-                 if(model.getNovo_menu()!=0 && model.getComponente()==0){
+                 if(model.getCriar_menu()!=0 && model.getComponente()==0){
                 	Menu pageMenu = new Menu(action.getPage_descr(), 0, 1, 0, "_self", action,action.getApplication(), null);
 					pageMenu.setMenu(pageMenu); 
              		pageMenu.insert();

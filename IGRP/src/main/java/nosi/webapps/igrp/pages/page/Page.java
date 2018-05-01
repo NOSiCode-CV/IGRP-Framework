@@ -28,10 +28,10 @@ public class Page extends Model{
 	private String env_fk;
 	@RParam(rParamName = "p_version")
 	private String version;
-	@RParam(rParamName = "p_novo_menu")
-	private int novo_menu;
-	@RParam(rParamName = "p_novo_menu_check")
-	private int novo_menu_check;
+	@RParam(rParamName = "p_criar_menu")
+	private int criar_menu;
+	@RParam(rParamName = "p_criar_menu_check")
+	private int criar_menu_check;
 	@RParam(rParamName = "p_componente")
 	private int componente;
 	@RParam(rParamName = "p_componente_check")
@@ -135,17 +135,17 @@ public class Page extends Model{
 		return this.version;
 	}
 	
-	public void setNovo_menu(int novo_menu){
-		this.novo_menu = novo_menu;
+	public void setCriar_menu(int criar_menu){
+		this.criar_menu = criar_menu;
 	}
-	public int getNovo_menu(){
-		return this.novo_menu;
+	public int getCriar_menu(){
+		return this.criar_menu;
 	}
-	public void setNovo_menu_check(int novo_menu_check){
-		this.novo_menu_check = novo_menu_check;
+	public void setCriar_menu_check(int criar_menu_check){
+		this.criar_menu_check = criar_menu_check;
 	}
-	public int getNovo_menu_check(){
-		return this.novo_menu_check;
+	public int getCriar_menu_check(){
+		return this.criar_menu_check;
 	}
 	
 	public void setComponente(int componente){

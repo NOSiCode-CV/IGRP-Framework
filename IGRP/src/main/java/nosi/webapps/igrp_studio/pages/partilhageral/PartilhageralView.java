@@ -4,15 +4,13 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
-import java.sql.Date;
+
 import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
+
+
 
 public class PartilhageralView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field aplicacao_origem;
 	public Field elemento;
@@ -27,14 +25,19 @@ public class PartilhageralView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_partilhar;
+
 	public PartilhageralView(){
 
 		this.setPageTitle("Partilha geral");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		table_1 = new IGRPTable("table_1","");
+
 		form_2 = new IGRPForm("form_2","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Partilha geral entre aplicações"));
@@ -52,9 +55,9 @@ public class PartilhageralView extends View {
 		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
 		
-		estado_check = new CheckBoxField
-		(model,"estado_check");
+		estado_check = new CheckBoxField(model,"estado_check");
 		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		
 		nome = new PlainTextField(model,"nome");
 		nome.setLabel(gt("Nome (code)"));
 		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100");
@@ -68,6 +71,7 @@ public class PartilhageralView extends View {
 
 		btn_partilhar = new IGRPButton("Partilhar","igrp_studio","Partilhageral","partilhar","submit","success|fa-share-alt","","");
 		btn_partilhar.propertie.add("type","specific").add("rel","partilhar");
+
 		
 	}
 		

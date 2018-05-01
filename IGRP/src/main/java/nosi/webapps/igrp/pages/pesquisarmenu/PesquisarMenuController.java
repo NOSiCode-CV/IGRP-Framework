@@ -10,6 +10,8 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -50,17 +52,16 @@ public class PesquisarMenuController extends Controller {
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
-		int idApp = 0;
+		int idApp = Core.getParamInt("id_app");
 		int idOrg = 0;
 		// int idMen = 0;
 
-		if (Core.isInt(Core.getParam("id_app"))) {
-			idApp = Core.getParamInt("id_app");
+		if (idApp != 0 && Core.isNull(Core.getParam("ichange"))) {			
 			model.setAplicacao("" + idApp);
 		}		
 
 		// If in a app, choose automatically the app in the combobox
-		String dad = new Permission().getCurrentEnv();
+		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();
 			model.setAplicacao("" + idApp);
@@ -68,7 +69,7 @@ public class PesquisarMenuController extends Controller {
 
 		// When onChange, it's always a post
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			idApp = Core.isInt(model.getAplicacao()) ? Integer.parseInt(model.getAplicacao()) : 0;
+			idApp = Core.toInt(model.getAplicacao());
 		}
 		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 		List<Menu> menus = null;
@@ -84,15 +85,18 @@ public class PesquisarMenuController extends Controller {
 						.all();
 			}	
 			
+			Collections.sort(menus,new SortbyStatus());
+			
 			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 			// Preenchendo a tabela
 			for (Menu menu_db1 : menus) {
 				PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
-				if (menu_db1.getMenu() != null) {
-					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
-				} else {
+				if (Core.isNull(menu_db1.getMenu())) {
 					table1.setT1_menu_principal(menu_db1.getDescr());
-				}
+				} 
+//				else {
+//					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
+//				}
 				if (menu_db1.getAction() != null) {
 					table1.setPagina(menu_db1.getAction().getPage_descr());
 					table1.setTable_titulo(menu_db1.getDescr());
@@ -154,7 +158,7 @@ public class PesquisarMenuController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(editar)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
 			return this.forward("igrp", "NovoMenu", "index&p_id=" + id);
 		}
@@ -176,7 +180,7 @@ public class PesquisarMenuController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(eliminar)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String id = Core.getParam("p_id");
 		Menu menu_db = new Menu();
 		if (menu_db.delete(Integer.parseInt(id)))
 			Core.setMessageSuccess();
@@ -251,8 +255,8 @@ public class PesquisarMenuController extends Controller {
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		String status = Igrp.getInstance().getRequest().getParameter("p_status");
+		String id = Core.getParam("p_id");
+		String status = Core.getParam("p_status");
 		boolean response = false;
 		if (Core.isNotNull(id)) {
 			Menu menu = new Menu().findOne(Integer.parseInt(id));
@@ -264,10 +268,16 @@ public class PesquisarMenuController extends Controller {
 		}
 		JSONObject json = new JSONObject();
 		json.put("status", response);
-		Gson res = new Gson();
-		res.toJson(json);
-
 		return this.renderView(json.toString());
+	}
+	class SortbyStatus implements Comparator<Menu>
+	{
+	    // Used for sorting in ascending order of
+	    // roll number
+	    public int compare(Menu a, Menu b)
+	    {
+	        return b.getStatus() - a.getStatus();
+	    }
 	}
 	/*----#end-code----*/
 	}

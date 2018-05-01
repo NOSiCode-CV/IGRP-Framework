@@ -1,6 +1,13 @@
+
 package nosi.webapps.igrp_studio.pages.env;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,7 +31,7 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.openjpa.lib.util.Files;
+//import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.cversion.Svn;
@@ -44,21 +51,30 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
 
 public class EnvController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		
 		Env model = new Env();
+		model.load();
+		EnvView view = new EnvView();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		
+		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
+		----#gen-example */
+		/*----#start-code(index)----*/
+		
 		model.setStatus(1);
-      	model.setGen_auto_code(1);
-      
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-		}
-		EnvView view = new EnvView(model);
+      	model.setGen_auto_code(1); 
+		
+	
 	
 		view.img_src.setValue("default.svg");
 		view.host.setVisible(true);
@@ -70,19 +86,31 @@ public class EnvController extends Controller {
 		view.flg_external.setValue(0);
 	
 
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+	
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, URISyntaxException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		Env model = new Env();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(gravar)----*/
+		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();
+		
 			Application app = new Application();		
 			Action ac = new Action();
-			if(Core.isNotNull(model.getAction_fk())){
+			if(Core.isInt(model.getAction_fk())){
 				ac.setId(Integer.getInteger(model.getAction_fk()));
 			}
 			app.setDad(model.getDad());
@@ -98,13 +126,10 @@ public class EnvController extends Controller {
 					String uri = Igrp.getInstance().getRequest().getRequestURI();
 					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					url += "/" + app.getDad().trim().toUpperCase() + "/app/webapps?r=" + app.getDad().trim().toLowerCase() + "/default-page/index" ;
-					app.setUrl(url); 
-					
+					app.setUrl(url); 					
 					// ... put your code here ... 
-					autoDeploy = true;
-					
-				}
-			
+					autoDeploy = true;					
+				}			
 			app.setImg_src(model.getImg_src());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
@@ -112,88 +137,73 @@ public class EnvController extends Controller {
 			app = app.insert();
 			if(app!=null){
 				
-				createSvnRepo(app);
+				//createSvnRepo(app);
 				
 				FileHelper.createDiretory(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				new Compiler().compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
+					try {
+					new Compiler().compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if(FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}
 				
 				
 				if(autoDeploy && !appAutoDeploy(app.getDad())) 
-					Core.setMessageWarning(gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 
-				
-				Core.setMessageSuccess();
-				
-				return this.redirect("igrp_studio", "env","index");
-				
+					Core.setMessageWarning(gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 				
+				Core.setMessageSuccess();				
+				return this.redirect("igrp_studio", "env","index");				
 			}else{
 				Core.setMessageError();
 			}
 		}
 		return this.forward("igrp_studio", "env", "index");
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+			
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	
 	private boolean appAutoDeploy(String appDad) {
 		boolean flag = true;
 		try {
 			
-			String result = this.config.getPathOfImagesFolder()/*.replace("IGRP", "FrontIGRP")*/.replace("images", "IGRP-Template.war"); 
-		     
-			File file = new File(result); 
+			String result = this.config.getPathOfImagesFolder()/*.replace("IGRP", "FrontIGRP")*/.replace("images", "IGRP-Template.war"); 		     
+			File file = new File(result); 			
+			File destinationFile = new File(result.replace("IGRP-Template", appDad.toUpperCase())); 			
+			//boolean b  = Files.copy(file, destinationFile);
 			
-			File destinationFile = new File(result.replace("IGRP-Template", appDad.toUpperCase())); 
-			
-			boolean b  = Files.copy(file, destinationFile);
-			
-			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());
-			
-			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
-			
-			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
-			
-			
-			FileInputStream fis = new FileInputStream(file);
-			
-			CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
-			
-			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
-			
+			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());			
+			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());			
+			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));				
+			FileInputStream fis = new FileInputStream(file);			
+			CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());			
+			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));			
 			JarEntry entry = null;
 			
-			while((entry=jis.getNextJarEntry()) != null){	
-				
-				JarEntry aux = new JarEntry(entry.getName());
-				
-				jos.putNextEntry(aux); 
-				
-				jos.write(IOUtils.toByteArray(jis));
-				
+			while((entry=jis.getNextJarEntry()) != null){					
+				JarEntry aux = new JarEntry(entry.getName());				
+				jos.putNextEntry(aux); 				
+				jos.write(IOUtils.toByteArray(jis));				
 				jos.closeEntry();
 				jis.closeEntry();
 			}
 			
 			jis.close();
 			 
-			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";
-			
-			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";
-			
-			String string2 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.class";
-			
+			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";			
+			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";			
+			String string2 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.class";			
 			JarEntry je1 = new JarEntry(aux + "DefaultPageController.java");
 			jos.putNextEntry(je1);
 			FileInputStream fis1 = new FileInputStream(string1);
 			for(int r = fis1.read(); r!=-1 ; r = fis1.read()){
 				jos.write(r);
 			}
-			fis1.close();
-			
+			fis1.close();			
 			jos.closeEntry(); 
 			
 			JarEntry je2 = new JarEntry(aux + "DefaultPageController.class");
@@ -300,7 +310,7 @@ public class EnvController extends Controller {
 				}			
 			
 			aplica_db.setDescription(model.getDescription());
-			if(Core.isNotNull(model.getAction_fk())){
+			if(Core.isInt(model.getAction_fk())){
 				Action ac = new Action().findOne(Integer.parseInt(model.getAction_fk()));
 				aplica_db.setAction(ac);
 			}
@@ -314,21 +324,23 @@ public class EnvController extends Controller {
 				return this.forward("igrp_studio", "env","editar&id=" + idAplicacao);
 			}
 		}	
-		EnvView view = new EnvView(model);
+		EnvView view = new EnvView();
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
 		view.btn_gravar.setLink("igrp_studio", "env", "editar&id=" + idAplicacao);
-		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "-- Selecionar --"));
+		view.action_fk.setValue(new Action().getListActions(Integer.parseInt(idAplicacao)));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
+      
+		view.setModel(model);
 		return this.renderView(view);
 	
 	}
 
 	// App list I have access to 
 	public Response actionMyApps() throws IOException{
-		String type = Igrp.getInstance().getRequest().getParameter("type");
+		String type = Core.getParam("type");
 		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
@@ -565,5 +577,5 @@ public class EnvController extends Controller {
 		}
 	}
 
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}

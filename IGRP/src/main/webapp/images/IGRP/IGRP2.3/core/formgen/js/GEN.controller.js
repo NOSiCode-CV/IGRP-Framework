@@ -4378,7 +4378,7 @@ if(input) {
 		field.setPropriety({
 			name:'class',
 			value:{
-				value :_default ? _default : 'default',
+				value :_default ? _default : 'primary',
 				size  : '12',
 				list  : {
 					items:[
