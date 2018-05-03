@@ -19,8 +19,10 @@ public class PageView extends View {
 	public Field gen_auto_code;
 	public Field gen_auto_code_check;
 	public Field nada;
+	public Field modulo;
 	public Field env_fk;
 	public Field version;
+	public Field nada2;
 	public Field criar_menu;
 	public Field criar_menu_check;
 	public Field componente;
@@ -79,6 +81,10 @@ public class PageView extends View {
 		nada.setLabel(gt("  "));
 		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
 		
+		modulo = new ListField(model,"modulo");
+		modulo.setLabel(gt("Módulo"));
+		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("java-type","");
+		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","");
@@ -86,6 +92,10 @@ public class PageView extends View {
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
 		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
+		
+		nada2 = new SeparatorField(model,"nada2");
+		nada2.setLabel(gt(" "));
+		nada2.propertie().add("name","p_nada2").add("type","separator").add("maxlength","30");
 		
 		criar_menu = new CheckBoxField(model,"criar_menu");
 		criar_menu.setLabel(gt("Criar menu?"));
@@ -175,8 +185,10 @@ public class PageView extends View {
 		form_1.addField(status);
 		form_1.addField(gen_auto_code);
 		form_1.addField(nada);
+		form_1.addField(modulo);
 		form_1.addField(env_fk);
 		form_1.addField(version);
+		form_1.addField(nada2);
 		form_1.addField(criar_menu);
 		form_1.addField(componente);
 		form_1.addField(id);
@@ -208,8 +220,10 @@ public class PageView extends View {
 		status.setValue(model);
 		gen_auto_code.setValue(model);
 		nada.setValue(model);
+		modulo.setValue(model);
 		env_fk.setValue(model);
 		version.setValue(model);
+		nada2.setValue(model);
 		criar_menu.setValue(model);
 		componente.setValue(model);
 		id.setValue(model);

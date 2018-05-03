@@ -55,6 +55,7 @@ public class PageController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		
+		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		

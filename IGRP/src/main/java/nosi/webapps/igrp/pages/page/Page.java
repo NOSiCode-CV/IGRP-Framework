@@ -24,10 +24,14 @@ public class Page extends Model{
 	private int gen_auto_code_check;
 	@RParam(rParamName = "p_nada")
 	private String nada;
+	@RParam(rParamName = "p_modulo")
+	private String modulo;
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
 	@RParam(rParamName = "p_version")
 	private String version;
+	@RParam(rParamName = "p_nada2")
+	private String nada2;
 	@RParam(rParamName = "p_criar_menu")
 	private int criar_menu;
 	@RParam(rParamName = "p_criar_menu_check")
@@ -121,6 +125,13 @@ public class Page extends Model{
 		return this.nada;
 	}
 	
+	public void setModulo(String modulo){
+		this.modulo = modulo;
+	}
+	public String getModulo(){
+		return this.modulo;
+	}
+	
 	public void setEnv_fk(String env_fk){
 		this.env_fk = env_fk;
 	}
@@ -133,6 +144,13 @@ public class Page extends Model{
 	}
 	public String getVersion(){
 		return this.version;
+	}
+	
+	public void setNada2(String nada2){
+		this.nada2 = nada2;
+	}
+	public String getNada2(){
+		return this.nada2;
 	}
 	
 	public void setCriar_menu(int criar_menu){
