@@ -126,8 +126,8 @@ public class EnvController extends Controller {
 					String uri = Igrp.getInstance().getRequest().getRequestURI();
 					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					url += "/" + app.getDad().trim().toUpperCase() + "/app/webapps?r=" + app.getDad().trim().toLowerCase() + "/default-page/index" ;
-					app.setUrl(url); 					
-					// ... put your code here ... 
+					app.setUrl(url); 				
+					
 					autoDeploy = true;					
 				}			
 			app.setImg_src(model.getImg_src());
@@ -171,7 +171,7 @@ public class EnvController extends Controller {
 		boolean flag = true;
 		try {
 			
-			String result = this.config.getPathOfImagesFolder()/*.replace("IGRP", "FrontIGRP")*/.replace("images", "IGRP-Template.war"); 		     
+			String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP").replace("images", "IGRP-Template.war"); 		     
 			File file = new File(result); 			
 			File destinationFile = new File(result.replace("IGRP-Template", appDad.toUpperCase())); 			
 			//boolean b  = Files.copy(file, destinationFile);
@@ -191,7 +191,6 @@ public class EnvController extends Controller {
 				jos.closeEntry();
 				jis.closeEntry();
 			}
-			
 			jis.close();
 			 
 			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";			
@@ -220,9 +219,8 @@ public class EnvController extends Controller {
 			cos.close();
 			fos.close();
 			
-			String x = destinationFile.getAbsolutePath().replace(File.separator + "FrontIGRP", "");
-			
-			flag = destinationFile.renameTo(new File(x));
+			File newWarFile =  new File(destinationFile.getAbsolutePath().replace(File.separator + "FrontIGRP", ""));
+			flag = destinationFile.renameTo(newWarFile) && newWarFile.exists();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
