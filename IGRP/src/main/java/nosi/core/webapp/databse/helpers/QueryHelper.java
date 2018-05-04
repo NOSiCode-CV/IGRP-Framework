@@ -202,7 +202,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public void setSql(String sql) {
-		this.sql = sql;
+		this.sql += sql;
 	}
 
 	public String getTableName() {
