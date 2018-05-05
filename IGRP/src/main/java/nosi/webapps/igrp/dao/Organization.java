@@ -171,22 +171,6 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	public List<Menu> getOrgMenu(int env_fk) {
 		
 		Menu m = new Menu();
-//		String dad = Permission.getCurrentEnv();
-//		Menu m1 = new Menu();
-//		if ("igrp".equalsIgnoreCase(dad)) {
-////			First shows all the apps than all the public apps in the menu
-//			List<Menu> list = m1.find().andWhere("action", "notnull")
-//					.andWhere("status", "=", 1).andWhere("application", "=", env_fk).all();
-//			List<Menu> publico = m.find().andWhere("action", "notnull").andWhere("flg_base", "=", 1)
-//					.andWhere("status", "=", 1).andWhere("application", "<>", env_fk).all();
-//			
-//			if (list != null) {
-//				list.addAll(publico);
-//				return list;
-//			}			
-//
-//			return publico;
-//		} else {
 			List<Menu> myMenu = new ArrayList<>();
 			List<Menu> menu = m.getMyMen_de_env(env_fk);
 			if (menu != null) {
@@ -199,8 +183,8 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 				}
 			}
 			return myMenu;
-		}
-//	}
+	}
+
 
 	public List<Menu> getPerfilMenu(Integer org) {
 		Profile pr = new Profile();

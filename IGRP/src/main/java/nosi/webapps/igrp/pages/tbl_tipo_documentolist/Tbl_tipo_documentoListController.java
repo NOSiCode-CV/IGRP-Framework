@@ -1,6 +1,7 @@
 
 package nosi.webapps.igrp.pages.tbl_tipo_documentolist;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -30,7 +31,7 @@ public class Tbl_tipo_documentoListController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-		BaseQueryInterface query = Core.query("SELECT d.id as id,d.codigo as codigo,d.descricao as descricao,d.nome as nome,d.status as status,e.name as aplicacao FROM public.tbl_tipo_documento d, public.tbl_env e").where(" e.id=d.env_fk");
+		BaseQueryInterface query = Core.query(Config.getBaseConnection(),"SELECT d.id as id,d.codigo as codigo,d.descricao as descricao,d.nome as nome,d.status as status,e.name as aplicacao FROM public.tbl_tipo_documento d, public.tbl_env e").where(" e.id=d.env_fk");
 		model.loadTable_1(query);
 		
 		view.id.setParam(true);

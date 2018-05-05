@@ -1,6 +1,7 @@
 
 package nosi.webapps.igrp.pages.lookuplistpage;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -57,7 +58,7 @@ public class LookupListPageController extends Controller {
 			view.formlist_1.setVisible(false);
 			view.toolsbar_1.setVisible(false);
 		}else {
-			model.loadFormlist_1(Core.query("SELECT id as checkbox, "
+			model.loadFormlist_1(Core.query(Config.getBaseConnection(),"SELECT id as checkbox, "
 					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
 					"       THEN id " + 
 					"       ELSE 0 " + 
@@ -129,7 +130,7 @@ public class LookupListPageController extends Controller {
 					}
 					tipo = Core.isNotNull(tipo)?tipo:"IN";
 					if(id != -1) {
-						List<Tuple> r = Core.query("SELECT id FROM tbl_tipo_documento_etapa")
+						List<Tuple> r = Core.query(Config.getBaseConnection(),"SELECT id FROM tbl_tipo_documento_etapa")
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
 							.addInt("tipo_documento_fk", id)
 							.addString("processid", model.getProcessid())

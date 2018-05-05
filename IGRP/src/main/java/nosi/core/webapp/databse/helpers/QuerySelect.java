@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -25,10 +26,17 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 		super(connectionName);
 	}
 
-	public QuerySelect() {
-		this(Config.getBaseConnection());
-	}	
+	public QuerySelect() {				
+		this(getMyConnectionName());
+			
+	}		
 	
+	private static String getMyConnectionName() {		
+		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application", "=", Core.getCurrentApp().getId()).one();
+		if(firstConnectionNameOfTheApp!=null)
+			return firstConnectionNameOfTheApp.getName();
+		else return Config.getBaseConnection();
+	}
 	//Validate sql query
 	public boolean validateQuery(Config_env config,String query) {
 		this.connectionName = config.getConnectionName();

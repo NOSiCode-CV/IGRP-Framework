@@ -1,6 +1,7 @@
 
 package nosi.webapps.igrp.pages.tbl_tipo_documentoform;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -31,7 +32,7 @@ public class Tbl_tipo_documentoFormController extends Controller {
 		String isEdit = Core.getParam("isEdit");;
  			
 		if(Core.isNotNull(isEdit)) {
-			BaseQueryInterface query = Core.query("SELECT id as id,codigo as codigo,descricao as descricao,nome as nome,status as status,env_fk as env_fk FROM public.tbl_tipo_documento")
+			BaseQueryInterface query = Core.query(Config.getBaseConnection(),"SELECT id as id,codigo as codigo,descricao as descricao,nome as nome,status as status,env_fk as env_fk FROM public.tbl_tipo_documento")
 				.where("id=:id")
 				.addInt("id",model.getId());
 		model.load(query);

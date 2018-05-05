@@ -236,6 +236,14 @@ public final class Core {	// Not inherit
 		return DateHelper.getCurrentDataTime();
 	}
 	
+	/**Get Current Application
+	 * @return {@code Core.findApplicationByDad(Core.getCurrentDad())}
+	 */
+	public static Application getCurrentApp(){
+		return Core.findApplicationByDad(Core.getCurrentDad());
+	}
+	
+	
 	/**Get Current Application Dad on Cookie
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
@@ -243,15 +251,15 @@ public final class Core {	// Not inherit
 		return new Permission().getCurrentEnv();
 	}
 
-	/**Get Current Organization on Cookie
-	 * @return {@code new Permission().getCurrentOrganization();}
+	/**Get Current Organization ID
+	 * @return {@code Organization integer ID}
 	 */
 	public static Integer getCurrentOrganization(){
 		return new Permission().getCurrentOrganization();
 	}
 
-	/**Get Current Profile on Cookie
-	 * @return  {@code new Permission().getCurrentPerfilId();}
+	/**Get Current Profile ID
+	 * @return Profile integer ID
 	 */
 	public static Integer getCurrentProfile(){
 		return new Permission().getCurrentPerfilId();
@@ -267,10 +275,10 @@ public final class Core {	// Not inherit
 	
 	/**Find Application By Dad
 	 * @param dad
-	 * @return  {@code new Application().find().andWhere("dad", "=", dad).one();}
+	 * @return  {@code new Application().findByDad(dad);}
 	 */
 	public static Application findApplicationByDad(String dad){
-		return new Application().find().andWhere("dad", "=", dad).one();
+		return new Application().findByDad(dad);
 	}
 	
 	/**Find Organization By ID
