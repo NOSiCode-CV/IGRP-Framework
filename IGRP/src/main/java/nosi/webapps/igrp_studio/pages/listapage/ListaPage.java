@@ -1,9 +1,13 @@
 package nosi.webapps.igrp_studio.pages.listapage;
-import nosi.core.gui.components.IGRPLink;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.gui.components.IGRPLink;
 
 public class ListaPage extends Model{		
 	@RParam(rParamName = "p_infopanel_1_title")
@@ -39,13 +43,21 @@ public class ListaPage extends Model{
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
 	@RParam(rParamName = "p_link_btn_nova_pagina")
-	private IGRPLink link_btn_nova_pagina;
+	private String link_btn_nova_pagina;
+	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
+	private String link_btn_nova_pagina_desc;
 	@RParam(rParamName = "p_crud_generator")
-	private IGRPLink crud_generator;
+	private String crud_generator;
+	@RParam(rParamName = "p_crud_generator_desc")
+	private String crud_generator_desc;
 	@RParam(rParamName = "p_btn_import")
-	private IGRPLink btn_import;	
-	private List<Table_1> table_1 = new ArrayList<>();	
+	private String btn_import;
+	@RParam(rParamName = "p_btn_import_desc")
+	private String btn_import_desc;
+	@RParam(rParamName = "p_modulo")
+	private String[] modulo;
 	
+	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
@@ -173,49 +185,58 @@ public class ListaPage extends Model{
 		return this.env_fk;
 	}
 	
-	public IGRPLink setLink_btn_nova_pagina(String app,String page,String action){
-		this.link_btn_nova_pagina = new IGRPLink();
-		this.link_btn_nova_pagina.setAction(action);
-		this.link_btn_nova_pagina.setApp(app);
-		this.link_btn_nova_pagina.setPage(page);
+	public void setLink_btn_nova_pagina(String app,String page,String action){
+		this.link_btn_nova_pagina = new Config().getResolveUrl(app, page, action);
+	}
+	public String getLink_btn_nova_pagina(){
 		return this.link_btn_nova_pagina;
 	}
-	public IGRPLink getLink_btn_nova_pagina(){
-		return this.link_btn_nova_pagina;
+	public void setLink_btn_nova_pagina_desc(String link_btn_nova_pagina_desc){
+		this.link_btn_nova_pagina_desc = link_btn_nova_pagina_desc;
+	}
+	public String getLink_btn_nova_pagina_desc(){
+		return this.link_btn_nova_pagina_desc;
 	}
 	
-	
-	public IGRPLink setCrud_generator(String app,String page,String action){
-		this.crud_generator = new IGRPLink();
-		this.crud_generator.setAction(action);
-		this.crud_generator.setApp(app);
-		this.crud_generator.setPage(page);
+	public void setCrud_generator(String app,String page,String action){
+		this.crud_generator = new Config().getResolveUrl(app, page, action);
+	}
+	public String getCrud_generator(){
 		return this.crud_generator;
 	}
-	public IGRPLink getCrud_generator(){
-		return this.crud_generator;
+	public void setCrud_generator_desc(String crud_generator_desc){
+		this.crud_generator_desc = crud_generator_desc;
+	}
+	public String getCrud_generator_desc(){
+		return this.crud_generator_desc;
 	}
 	
-	public IGRPLink setBtn_import(String app,String page,String action){
-		this.btn_import = new IGRPLink();
-		this.btn_import.setAction(action);
-		this.btn_import.setApp(app);
-		this.btn_import.setPage(page);
+	public void setBtn_import(String app,String page,String action){
+		this.btn_import = new Config().getResolveUrl(app, page, action);
+	}
+	public String getBtn_import(){
 		return this.btn_import;
 	}
-	
-	public IGRPLink getBtn_import(){
-		return this.btn_import;
+	public void setBtn_import_desc(String btn_import_desc){
+		this.btn_import_desc = btn_import_desc;
+	}
+	public String getBtn_import_desc(){
+		return this.btn_import_desc;
 	}
 	
-
+	public void setModulo(String[] modulo){
+		this.modulo = modulo;
+	}
+	public String[] getModulo(){
+		return this.modulo;
+	}
 
 	public static class Table_1{
 		private int status_page;
 		private int status_page_check;
 		private String descricao_page;
+		private String id_page;
 		private String nome_page;
-		private String p_id_page;
 		public void setStatus_page(int status_page){
 			this.status_page = status_page;
 		}
@@ -236,6 +257,13 @@ public class ListaPage extends Model{
 			return this.descricao_page;
 		}
 
+		public void setId_page(String id_page){
+			this.id_page = id_page;
+		}
+		public String getId_page(){
+			return this.id_page;
+		}
+
 		public void setNome_page(String nome_page){
 			this.nome_page = nome_page;
 		}
@@ -243,14 +271,8 @@ public class ListaPage extends Model{
 			return this.nome_page;
 		}
 
-		public void setP_id_page(String p_id_page){
-			this.p_id_page = p_id_page;
-		}
-		public String getP_id_page(){
-			return this.p_id_page;
-		}
-
 	}
+	
 	public static class Myapps_list{
 		private String icon;
 		private IGRPLink aplicacao;
@@ -277,4 +299,13 @@ public class ListaPage extends Model{
 		}
 
 	}
+
+	public void loadTable_1(BaseQueryInterface query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
+	public void loadMyapps_list(BaseQueryInterface query) {
+		this.setMyapps_list(this.loadTable(query,Myapps_list.class));
+	}
+
 }

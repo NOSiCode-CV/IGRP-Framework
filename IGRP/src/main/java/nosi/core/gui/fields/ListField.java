@@ -7,6 +7,7 @@ import javax.persistence.Tuple;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -35,6 +36,15 @@ public class ListField extends AbstractField {
 		this.configValue(model);
 		this.propertie.put("value", this.getValue());
 		this.value = null;
+	}
+	
+	@Override
+	protected void configValue(Object model){
+		if(!this.propertie.get("multiple").equals("true")) {
+			this.setValue("" + IgrpHelper.getValue(model, this.getName()));
+		}
+		else
+			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
 	}
 	
 	@Override

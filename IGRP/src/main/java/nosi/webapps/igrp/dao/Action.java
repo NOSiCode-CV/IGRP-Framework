@@ -60,6 +60,10 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	private String xmlContent;
 	private String xslContent;
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "module_fk",foreignKey = @ForeignKey(name="module_fk"))
+	private Modulo modulo;
+	
 	public Action(){		
 	}
 	
@@ -258,4 +262,13 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		
 		return lista;
 	}
+
+	public Modulo getModulo() {
+		return modulo;
+	}
+
+	public void setModulo(Modulo modulo) {
+		this.modulo = modulo;
+	}
+	
 }
