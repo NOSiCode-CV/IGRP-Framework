@@ -23,6 +23,7 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 
@@ -136,7 +137,7 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	public List<Profile> getMyPerfile() {
 		List<Profile> list = this.findAll(this.getCriteria().where(
 					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
-					this.getBuilder().equal(this.getRoot().get("user"),Igrp.getInstance().getUser().getIdentity().getIdentityId()),
+					this.getBuilder().equal(this.getRoot().get("user"), Core.getCurrentUser().getIdentityId()),
 					this.getBuilder().equal(this.getRoot().join("profileType").join("application").get("dad"),new Permission().getCurrentEnv())
 				));
 		return list;

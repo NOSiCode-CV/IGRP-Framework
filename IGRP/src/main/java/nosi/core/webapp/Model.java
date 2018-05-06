@@ -34,6 +34,7 @@ public abstract class Model { // IGRP super model
 	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
 		if(query != null){
 			List<Tuple> list = query.getResultList();
+			if(Core.isNotNull(list))
 			for(Tuple tuple:list) {
 				for(Field field:this.getClass().getDeclaredFields()) {
 					field.setAccessible(true);
@@ -43,6 +44,8 @@ public abstract class Model { // IGRP super model
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
 			}	
+			else
+				Core.setMessageError("QUERY result list null error. Please check connection");
 		}
 	}
 	

@@ -1,6 +1,7 @@
 
 package nosi.webapps.igrp.pages.dominio;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -21,7 +22,7 @@ public class DominioController extends Controller {
 		model.load();
 
 		/*----#start-code(index)----*/
-		model.loadTable_1(Core.query( "SELECT dominio,description,valor,status as estado,ordem,id as p_id FROM tbl_domain"));
+		model.loadTable_1(Core.query(Config.getBaseConnection(),"SELECT dominio,description,valor,status as estado,ordem,id as p_id FROM tbl_domain"));
       	view.p_id.setParam(true);
 		/*----#end-code----*/
 		

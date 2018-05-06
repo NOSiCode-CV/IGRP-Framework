@@ -47,7 +47,9 @@ public class MenuOrganicaController extends Controller {
 				menus = new Organization().getOrgMenu(env_fk);
 			} else if (model.getType().equals("perfil")) {
 				ProfileType p = new ProfileType().findOne(model.getId());
-				menus = new Organization().getPerfilMenu(p.getOrganization() != null ? p.getOrganization().getId() : 1);
+						// ALL PROFILE org has org_fk = null so the org is 1
+				menus = new Organization().getPerfilMenu(p.getOrganization() != null ? p.getOrganization().getId() : 1); 
+						//new menu button invisible
                 view.btn_novo.setVisible(false);              
 			}
 			for (Menu m : menus) {

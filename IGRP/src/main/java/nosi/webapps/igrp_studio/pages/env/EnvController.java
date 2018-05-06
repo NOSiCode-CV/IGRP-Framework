@@ -73,10 +73,9 @@ public class EnvController extends Controller {
 		
 		model.setStatus(1);
       	model.setGen_auto_code(1); 
+      	model.setImg_src("default.svg");	
+	
 		
-	
-	
-		view.img_src.setValue("default.svg");
 		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);

@@ -6,17 +6,23 @@ var minify = function(str){
     return str.replace(/^\s+|\r\n|\n|\r|(>)\s+(<)|\s+$/gm, '$1$2');
 };
 
-var formField = function(str,t){
+var formField = function(p){
 	var v = '';
+  
+	if (p.t == 'c'){
+      v = p.o.replace(/activiti_G_formProperty/g, 'camunda_G_formField').
+      replace(/expression=/g, 'defaultValue=');
 
-	if (t == 'c') 
-		v = str.replace(/activiti_G_formProperty/g, 'camunda_G_formField').
-			replace(/name=/g, 'label=').replace(/expression=/g, 'defaultValue=');
+      if (!/executionListener/i.test(p.n))
+        v = v.replace(/name=/g, 'label=');
+    }
+    else if (p.t == 'a'){
+		  v = p.o.replace(/camunda_G_formField/g, 'activiti_G_formProperty').
+            replace(/defaultValue=/g, 'expression=');
 
-	else if (t == 'a')
-		v = str.replace(/camunda_G_formField/g, 'activiti_G_formProperty').replace(/label=/g, 'name=').
-            replace(/defaultValue=/g, 'expression=')
-
+      if (!/executionListener/i.test(p.n))
+        v = v.replace(/label=/g, 'name=');
+    }
 	return v;
 }
 
@@ -51,7 +57,7 @@ $.fn.activiti2Io = function(params) {
      		strChilds.find('extensionElements > *').each(function(x,l){
 
      			var tagName = $(this)[0].tagName;
-
+          
      			if($.inArray(tagName, omissionField) == -1){
             
      				if (tagName == 'modeler_G_assignee-info-email')
@@ -60,9 +66,13 @@ $.fn.activiti2Io = function(params) {
      				else if (tagName == 'modeler_G_assignee-info-firstname') 
      					tag += ' camunda_G_candidateGroups="'+$(this).text()+'"';
 
-     			}else
-     				str += formField(xml2String($(this)[0]),'c');
-
+     			}else{
+            str += formField({
+              o  : xml2String($(this)[0]),
+              t  : 'c',
+              n  : tagName
+            });
+          }
      		});  
 
    		  if (strChilds.find('extensionElements > activiti_G_formProperty')[0])
@@ -71,6 +81,8 @@ $.fn.activiti2Io = function(params) {
         if (str != '')
           str = '<bpmn_G_extensionElements>'+ str+'</bpmn_G_extensionElements>';
       }
+
+      
        //$(xml.find('process > userTask')[i]).empty();
    		return '<userTask '+tag+'>'+str+'</userTask>';
 	});
@@ -120,8 +132,13 @@ $.fn.io2Activiti = function(params){
             
             });
 
-          }else
-            str += formField(xml2String($(this)[0]),'a');
+          }else{
+            str += formField({
+              o  : xml2String($(this)[0]),
+              t  : 'a',
+              n  : tagName
+            });
+          }
         });
 
 	   		if (str != '')

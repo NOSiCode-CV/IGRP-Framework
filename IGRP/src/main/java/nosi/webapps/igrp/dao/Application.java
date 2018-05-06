@@ -371,7 +371,13 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 				if(proty2!=null){					
 					Profile p2 = new Profile(proty2.getId(), "PROF", proty2, user, org);
 					p2.insert();					
-				}			
+				}
+				
+					//Organization - Access Management (Gestão de acesso) is ID 10,
+				new Profile(10, "MEN", new ProfileType().findOne(0), new User().findOne(0), org).insert();
+					//Profile/Perfil - Access Management (Gestão de acesso) is ID 10, ignores USER by using 0 to facilitates delete
+				new Profile(10, "MEN", proty, new User().findOne(0), org).insert();
+				
 //				
 			}
 		}
@@ -381,4 +387,10 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	public Application insertOnly() {
 		return super.insert();
 	}
+	
+	
+	public Application findByDad(String dad){
+		return new Application().find().andWhere("dad","=",dad).one();
+	}
+	
 }

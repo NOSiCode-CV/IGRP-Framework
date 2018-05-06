@@ -171,7 +171,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		
 	}
 	public List<Menu> getMyMen_de_env(int env_fk) {
-//		First shows all the apps than all the public apps in the menu
+//		First shows all the app pages than all the public pages in the menu
 		List<Menu> list = new Menu().find().andWhere("action", "notnull")
 				.andWhere("status", "=", 1).andWhere("application", "=", env_fk).all();
 		List<Menu> menus_App = new Menu().find().andWhere("action", "notnull").andWhere("flg_base", "=", 1)

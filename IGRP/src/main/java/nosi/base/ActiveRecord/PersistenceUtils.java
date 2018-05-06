@@ -7,6 +7,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.apache.activemq.network.CompositeDemandForwardingBridge;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -48,7 +50,7 @@ public class PersistenceUtils {
         
         String hibernateDialect = null;
         
-		  if("hibernate-igrp-core".equalsIgnoreCase(connectionName)) {
+		  if(Config.getBaseConnection().equalsIgnoreCase(connectionName)) {
             	ConfigDBIGRP config = new ConfigDBIGRP();
     			config.load();
     			url = getUrl(config.getType_db(),config.getHost(),""+config.getPort(), config.getName_db());
@@ -57,7 +59,7 @@ public class PersistenceUtils {
     			user = config.getUsername();
     			hibernateDialect = getHibernateDialect(config.getType_db());
             }else{
-            	Config_env config = new Config_env().find().andWhere("name", "=",connectionName).one();
+            	Config_env config = new Config_env().find().andWhere("name", "=",connectionName).andWhere("application","=", Core.getCurrentApp().getId()).one();
             	if(config!=null) {
             		url = getUrl(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getHost(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getPort(),Config.SECRET_KEY_ENCRYPT_DB), Core.decrypt(config.getName_db(),Config.SECRET_KEY_ENCRYPT_DB));
     				driver = getDriver(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB));
@@ -66,7 +68,9 @@ public class PersistenceUtils {
 	    			hibernateDialect = getHibernateDialect(config.getType_db());
             	}
             }
-    		Configuration cfg = new Configuration();
+		  
+		  Configuration cfg = new Configuration();
+			if(url!=null) {    		
         	cfg.configure("/"+connectionName+".cfg.xml");	        
         	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
         	cfg.getProperties().setProperty("hibernate.connection.password",password);
@@ -101,8 +105,9 @@ public class PersistenceUtils {
         	cfg.getProperties().setProperty("hibernate.c3p0.debugUnreturnedConnectionStackTraces","true"); 
         	cfg.getProperties().setProperty("hibernate.c3p0.contextClassLoaderSource","library"); 
         	cfg.getProperties().setProperty("hibernate.c3p0.privilegeSpawnedThreads","true"); 
-        	
-        return cfg;
+        	   return cfg;
+			}
+        return null;
 		}
 		
 	   public static String getDriver(String type) {
