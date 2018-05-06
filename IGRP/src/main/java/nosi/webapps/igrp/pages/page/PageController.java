@@ -1,12 +1,5 @@
-
 package nosi.webapps.igrp.pages.page;
 
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
@@ -19,6 +12,8 @@ import java.util.List;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import java.util.Map;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.Modulo;
+
 import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
@@ -39,9 +34,15 @@ import nosi.core.webapp.compiler.helpers.ErrorCompile;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 /*----#end-code----*/
 
 
@@ -80,6 +81,7 @@ public class PageController extends Controller {
 				model.setXsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
 				model.setComponente(a.getIsComponent());
+				if(a.getModulo() != null) model.setModulo(a.getModulo().getId() + "");
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
@@ -95,11 +97,19 @@ public class PageController extends Controller {
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.id.setParam(true);
-  
+		
+		try {
+			view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Integer.parseInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
+		}catch(Exception e) {
+			//e.printStackTrace();
+		}
+		
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 			view.page.propertie().setProperty("disabled", "true");	
 		}
+		
+		view.btn_novomodulo.setLink("igrp_studio", "modulo", "index&p_aplicacao=" + model.getEnv_fk());
 			
 		/*----#end-code----*/
 		view.setModel(model);
@@ -123,6 +133,15 @@ public class PageController extends Controller {
                 action.setAction_descr(model.getPage_descr());
                 action.setStatus(model.getStatus());
                 action.setIsComponent((short) model.getComponente());
+                if(model.getModulo() != null && !model.getModulo().isEmpty()) {
+					try {
+						Modulo m = new Modulo();
+						m.setId(Integer.parseInt(model.getModulo()));
+						action.setModulo(m);
+					}catch(Exception e) {
+						
+					}
+				}
 				action = action.update();
 				if (action != null)
 					Core.setMessageSuccess("Página atualizada com sucesso.");
@@ -148,9 +167,23 @@ public class PageController extends Controller {
 					Core.setMessageWarning(FlashMessage.WARNING_PAGE_INVALID);
 					return this.forward("igrp", "page", "index");
 				}
+				
+				if(model.getModulo() != null && !model.getModulo().isEmpty()) {
+					try {
+						Modulo m = new Modulo();
+						m.setId(Integer.parseInt(model.getModulo()));
+						action.setModulo(m);
+					}catch(Exception e) {
+						
+					}
+				}
+				
 				action = action.insert();
-				if (action != null) {					
-					createSvnRepo(action);					
+				
+				if (action != null) {
+					
+					createSvnRepo(action);	
+					
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";

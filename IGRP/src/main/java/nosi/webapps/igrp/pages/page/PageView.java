@@ -47,6 +47,7 @@ public class PageView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_novomodulo;
 
 	public PageView(){
 
@@ -171,6 +172,9 @@ public class PageView extends View {
 		btn_gravar = new IGRPButton("Gravar","igrp","Page","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
+		btn_novomodulo = new IGRPButton("NovoModulo","igrp_studio","modulo","index","right_panel","success|fa-angle-right","","");
+		btn_novomodulo.propertie.add("type","specific").add("rel","novomodulo");
+
 		
 	}
 		
@@ -208,6 +212,7 @@ public class PageView extends View {
 		form_1.addField(action_descr);
 
 		toolsbar_1.addButton(btn_gravar);
+		toolsbar_1.addButton(btn_novomodulo);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

@@ -112,6 +112,32 @@ public final class IgrpHelper {
 		}
 		return value;
 	}
+	
+	public static Object getValueArray(Object model,String name){
+		Object value = null;
+		if(model!=null && name!=null && !name.equals("")){	
+		    for (Method m : model.getClass().getDeclaredMethods()) {
+		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
+			    	try {
+			    		
+			    		Object aux = m.invoke(model);
+			    		
+			    		if(aux != null) {
+			    			
+			    			value = aux;
+			    			
+			    			break;
+			    		}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}                                                                     
+		    	}
+		    }
+		}
+		return value;
+	}
+
 
 	/*
 	 * Errors/validation purpose (begin)

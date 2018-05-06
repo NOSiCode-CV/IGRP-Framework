@@ -144,8 +144,30 @@
                 </crud_generator>
                 <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
                     <label>Importar</label>
-                    <value>http://dogiro.co.uk/coes</value>
+                    <value>http://hares.edu/rah</value>
                 </btn_import>
+                <modulo name="p_modulo" type="select" multiple="true" domain="" maxlength="50" required="false" change="true" disabled="false" right="false" java-type="">
+                    <label>Módulo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </modulo>
             </fields>
         </form_1>
         <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
@@ -159,7 +181,7 @@
                 <descricao_page name="p_descricao_page" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Título (código)</label>
                 </descricao_page>
-                <id_page name="p_id_page" type="hidden" maxlength="30" iskey="false" tag="id_page"/>
+                <id_page name="p_id_page" type="hidden" maxlength="30" iskey="true" tag="id_page"/>
                 <nome_page name="p_nome_page" type="hidden" maxlength="30" iskey="false" tag="nome_page"/>
             </fields>
             <table>
@@ -171,7 +193,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Consectetur natus labore strac</descricao_page>
+                        <descricao_page name="p_descricao_page">Consectetur rem elit adipiscin</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -182,7 +204,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Aperiam voluptatem aperiam und</descricao_page>
+                        <descricao_page name="p_descricao_page">Adipiscing stract doloremque e</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -193,7 +215,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Lorem perspiciatis amet iste n</descricao_page>
+                        <descricao_page name="p_descricao_page">Dolor laudantium omnis laudant</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -204,7 +226,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Iste anim accusantium labore a</descricao_page>
+                        <descricao_page name="p_descricao_page">Unde laudantium adipiscing lor</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -215,7 +237,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Dolor anim doloremque accusant</descricao_page>
+                        <descricao_page name="p_descricao_page">Ipsum magna sit doloremque ut</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -223,11 +245,11 @@
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
-                        <app/>
-                        <page/>
-                        <link/>
-                        <parameter>undefined?</parameter>
-                        <target>modal|refresh</target>
+                        <app>igrp_studio</app>
+                        <page>ListaPage</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="primary" rel="visualizar">
