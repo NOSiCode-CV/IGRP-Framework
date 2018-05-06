@@ -51,16 +51,25 @@
                 <img>primary|fa-save</img>
                 <preview>undefined</preview>
             </item>
+            <item type="specific" code="" rel="novomodulo">
+                <title>NovoModulo</title>
+                <app>igrp</app>
+                <page>Page</page>
+                <link>index</link>
+                <target>right_panel</target>
+                <img>success|fa-angle-right</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
+            </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Adipiscing omnis ipsum unde perspiciatis</value>
+                    <value>Amet adipiscing voluptatem unde doloremque</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Lorem officia dolor ipsum aperiam</value>
+                    <value>Deserunt unde voluptatem omnis mollit</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo?</label>
