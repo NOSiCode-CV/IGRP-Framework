@@ -108,6 +108,8 @@ public class PageController extends Controller {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 			view.page.propertie().setProperty("disabled", "true");	
 		}
+		
+		view.btn_novomodulo.setLink("igrp_studio", "modulo", "index&p_aplicacao=" + model.getEnv_fk());
 			
 		/*----#end-code----*/
 		view.setModel(model);

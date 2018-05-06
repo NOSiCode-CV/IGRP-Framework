@@ -69,7 +69,7 @@ public class ModuloController extends Controller {
 		}
 		
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Modulo","index", this.queryString());	
+		return this.redirect("igrp_studio","Modulo","index&p_aplicacao="+model.getAplicacao(), this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
