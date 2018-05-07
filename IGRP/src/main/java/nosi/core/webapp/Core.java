@@ -153,48 +153,207 @@ public final class Core {	// Not inherit
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));		
 	}	
 	
-	/**Get Config Property
-	 * @param name of the config property
-	 * @return
-	 */
-	public static String getConfig(String name){
-		nosi.webapps.igrp.dao.Config c = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", name).one();
-		return c!=null?c.getValue():null;
-	}
-	
-	/**Get current user identity
+	/** Checks if it's not null or ""
 	 * 
-	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();} 
+	 * @param value
+	 * @return {@code value!=null && !value.equals("");}
 	 */
-	public static nosi.webapps.igrp.dao.User getCurrentUser(){
-		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
+	public static boolean isNotNull(Object value) {
+		if(value instanceof String)
+			return value!=null && !value.equals("");
+		return value!=null;
 	}
 
-	/**Find User by ID
-	 * @param id
-	 * @return {@code new User().findOne(id)}
+	/** Checks if it's null or ""
+	 * 
+	 * @param value
+	 * @return {@code value==null || value.equals("");}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserById(Integer id){
-		return new nosi.webapps.igrp.dao.User().findOne(id);
+	public static boolean isNull(Object value) {
+		if(value instanceof String)
+			return value==null || value.equals("");
+		return value==null;
 	}
-	
-	/**Find User by Username
-	 * @param userName
-	 * @return {@code User().find().andWhere("username", "=", userName).one();}
+
+	/** Checks if it's null or 0
+	 * 
+	 * @param value
+	 * @return {@code if(value instanceof Number) return value ==null || new Integer(value.toString()) ==0;}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName){
-		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", userName).one();
+	public static boolean isNullOrZero(Object value) {
+		if(value instanceof Number)
+			return value ==null || new Integer(value.toString()) ==0;
+		return value==null || value.equals("");
 	}
-	
-	/**Find User by email
-	 * @param email
-	 * @return {@code User().find().andWhere("username", "=", email).one();}
+
+	/** Checks if it's not null or not 0
+	 * First {@code Core.isNotNull(value)}
+	 * 
+	 * @param value
+	 * @return {@code new Integer(value.toString())!=0;}
 	 */
-	public static nosi.webapps.igrp.dao.User findUserByEmail(String email){
-		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", email).one();
+	public static boolean isNotNullOrZero(Object value) {
+		if(!(value instanceof Number)) {
+			return Core.isNotNull(value);
+		}
+		if(Core.isNotNull(value)) {
+			return new Integer(value.toString())!=0;
+		}
+		return false;
 	}
-	
+
+	/** Checks if it's a int
+	 * First {@code isNotNull(value)}
+	 * 	than a try catch numberFormatException
+	 * 
+	 * @param value
+	 * @return {@code double v = Integer.parseInt(value.toString());
+				return ((v == Math.floor(v)) && !Double.isInfinite(v));}
+	 */
+	public static boolean isInt(Object value) {
+		if(isNotNull(value)) {
+			try {
+				double v = Integer.parseInt(value.toString());
+				return ((v == Math.floor(v)) && !Double.isInfinite(v));
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isDouble(Object value) {
+		if(isNotNull(value)) {
+			try {
+				double v = Double.parseDouble(value.toString());
+				return !((v == Math.floor(v)) && !Double.isInfinite(v));
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isFloat(Object value) {
+		if(isNotNull(value)) {
+			try {
+				float v = Float.parseFloat(value.toString());
+				return !((v == Math.floor(v)) && !Float.isInfinite(v));
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	/**Verifies if Core.isInt and if true, than returns integer parse of it, else returns 0
+	 * @param value
+	 * @return Integer.parseInt(value) or 0
+	 * 
+	 */
+	public static Integer toInt(String value) {
+		if(Core.isInt(value))
+			return Integer.parseInt(value);
+		return 0;
+	}
+	/**Verifies if Core.isInt and if true, than returns integer parse of it else returns defaultValue
+	 * @param value
+	 * @param defaultValue
+	 * @return Integer.parseInt(value) or defaultValue
+	 * 
+	 */
+	public static Integer toInt(String value,int defaultValue) {
+		if(Core.isInt(value))
+			return Integer.parseInt(value);
+		return defaultValue;
+	}
+
+	public static Long toLong(String value) {
+		if(Core.isInt(value))
+			return Long.parseLong(value);
+		return (long) 0;
+	}
+
+	public static Long toLong(String value,long defaultValue) {
+		if(Core.isInt(value))
+			return Long.parseLong(value);
+		return defaultValue;
+	}
+
+	public static Short toShort(String value) {
+		if(Core.isInt(value))
+			return Short.parseShort(value);
+		return 0;
+	}
+
+	public static Short toShort(String value,short defaultValue) {
+		if(Core.isInt(value))
+			return Short.parseShort(value);
+		return defaultValue;
+	}
+
+	/**Verifies if the Core.isDouble and if true, than returns double parse of it, else returns 0
+	 * @param value
+	 * @return Double.parseDouble(value) or 0
+	 * 
+	 */
+	public static Double toDouble(String value) {
+		if(Core.isDouble(value))
+			return Double.parseDouble(value);
+		return 0.0;
+	}
+
+	public static Double toDouble(String value,double defaultValue) {
+		if(Core.isDouble(value))
+			return Double.parseDouble(value);
+		return defaultValue;
+	}
+
+	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
+	 * @param value
+	 * @return Float.parseFloat(value) or 0
+	 * 
+	 */
+	public static Float toFloat(String value) {
+		if(Core.isFloat(value))
+			return Float.parseFloat(value);
+		return (float) 0;
+	}
+
+	public static Float toFloat(String value,float defaultValue) {
+		if(Core.isFloat(value))
+			return Float.parseFloat(value);
+		return defaultValue;
+	}
+
+	public static BigDecimal toBigDecimal(String value) {
+		if(Core.isNotNull(value))
+			return new BigDecimal (value.toString());
+		return null;
+	}
+
+	public static String ToChar(java.sql.Date date,String formatIn) {
+		return DateHelper.convertDateToString(date, formatIn);
+	}
+
+	public static String ToChar(String date, String formatIn, String formatOut) {
+		return DateHelper.convertDate(date, formatIn, formatOut);
+	}
+
+	public static String ToChar(String date,String formatOut) {
+		return DateHelper.convertDate(date, "yyyy-MM-dd", formatOut);
+	}
+
+	public static java.sql.Date ToDate(String date,String formatIn){
+		return DateHelper.convertStringToDate(date, formatIn);
+	}
+
+	public static java.sql.Date ToDate(String date,String formatIn,String formatOut){
+		return DateHelper.formatDate(date, formatIn,formatOut);
+	}
+
 	/**Format date and return to Type String
+	 * Example use {@code Core.convertDate("11-10-2017", "dd-MM-yyyy", "dd-MM-yyyy h:mm")}
 	 * @param date
 	 * @param formatIn
 	 * @param outputFormat
@@ -208,14 +367,14 @@ public final class Core {	// Not inherit
 	 * @param data
 	 * @param inputFormat
 	 * @param outputFormat
-	 * @return
+	 * @return {@code DateHelper.formatDate(data,inputFormat,outputFormat);}
 	 */
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){
 		return DateHelper.formatDate(data,inputFormat,outputFormat);
 	}
 	
 	/**Get Current Datetime (dd-MM-yyyy)
-	 * @return
+	 * @return {@code DateHelper.getCurrentDate("dd-MM-yyyy");}
 	 */
 	public static String getCurrentDate(){
 		return DateHelper.getCurrentDate("dd-MM-yyyy");
@@ -236,6 +395,145 @@ public final class Core {	// Not inherit
 		return DateHelper.getCurrentDataTime();
 	}
 	
+	public static Map<String,String[]> getParameters() {
+		return Igrp.getInstance().getRequest().getParameterMap();
+	}
+
+	/** {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
+	 * 
+	 * @param name of the string label
+	 * @return {@code v!=null?v.toString():"";}
+	 */
+	public static String getParam(String name) {
+		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		if(Core.isNull(v))
+			v = Core.getAttribute(name);
+		return v!=null?v.toString():"";
+	}
+
+	/**  Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
+	 */
+	public static Integer getParamInt(String name) {
+		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
+		return Core.isNotNull(x)?Core.toInt(x):0;
+	}
+
+	/** Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
+	 */
+	public static Double getParamDouble(String name) {
+		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
+		return Core.isNotNull(x)?Core.toDouble(x):0;
+	}
+
+	/** Core.getParam first
+		 * 
+		 * @param name of the string label
+		 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
+		 */
+	public static Short getParamShort(String name) {
+		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
+		return Core.isNotNull(x)?Core.toShort(x):0;
+	}
+
+	/** Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
+	 */
+	public static Float getParamFloat(String name) {
+		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
+		return Core.isNotNull(x)?Core.toFloat(x):0;
+	}
+
+	/** Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
+	 */
+	public static Long getParamLong(String name) {
+		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
+		return Core.isNotNull(x)?Core.toLong(x):0;
+	}
+
+	/** {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
+	 * 
+	 * @param name of the string label
+	 * @return value
+	 */
+	public static String[] getParamArray(String name) {
+		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
+		if(value == null) {
+			value = Core.getAttributeArray(name);
+		}
+		return value;
+	}
+
+	public static void removeAttribute(String name) {
+		Igrp.getInstance().getRequest().removeAttribute(name);
+	}
+
+	public static void setAttribute(String name,Object value) {
+		Igrp.getInstance().getRequest().setAttribute(name, value);
+	}
+
+	public static String getAttribute(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
+			String v = null;
+			if(Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
+				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
+			else				
+			    v = (String) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return v;
+		}
+		return null;
+	}
+
+	public static String[] getAttributeArray(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[] ||Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])) {
+			Object[] valueO = (Object[]) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			String[] valueS = Arrays.copyOf(valueO, valueO.length, String[].class);
+			return valueS;
+		}
+		return null;
+	}
+
+	/**Receive multiple params and get one of these params that's not null 
+	 * 
+	 * @param strings
+	 * @return
+	 */
+	public static String getSwitchNotNullValue(String ...strings) {
+		if(strings.length > 1) {
+			if(Core.isNotNull(strings[0]))
+				return strings[0];
+			String[] newStrings = new String[strings.length-1];
+			System.arraycopy(strings, 1, newStrings,0, newStrings.length);
+			return getSwitchNotNullValue(newStrings);
+		}else if(strings.length==1) {
+			if(Core.isNotNull(strings[0]))
+				return strings[0];
+		}
+		return "";
+	}
+
 	/**Get Current Application
 	 * @return {@code Core.findApplicationByDad(Core.getCurrentDad())}
 	 */
@@ -251,20 +549,119 @@ public final class Core {	// Not inherit
 		return new Permission().getCurrentEnv();
 	}
 
-	/**Get Current Organization ID
+	/**Get current Organization ID
 	 * @return {@code Organization integer ID}
 	 */
 	public static Integer getCurrentOrganization(){
 		return new Permission().getCurrentOrganization();
 	}
 
-	/**Get Current Profile ID
+	/**Get current Profile ID
 	 * @return Profile integer ID
 	 */
 	public static Integer getCurrentProfile(){
 		return new Permission().getCurrentPerfilId();
 	}
 	
+	/**Get Config Property
+	 * @param name of the config property
+	 * @return
+	 */
+	public static String getConfig(String name){
+		nosi.webapps.igrp.dao.Config c = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", name).one();
+		return c!=null?c.getValue():null;
+	}
+
+	/**Get current user identity
+	 * 
+	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();} 
+	 */
+	public static nosi.webapps.igrp.dao.User getCurrentUser(){
+		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
+	}
+
+	/**Queey insert
+	 * 
+	 * @param connectionName
+	 * @param tableName
+	 * @return {@code new QueryInsert(connectionName).insert(tableName);}
+	 */
+	public static BaseQueryInterface insert(String connectionName,String tableName) {
+		return new QueryInsert(connectionName).insert(tableName);
+	}
+
+	public static BaseQueryInterface insert(String tableName) {
+		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
+	}
+
+	public static BaseQueryInterface insert(String connectionName,String schemaName,String tableName) {
+		return new QueryInsert(connectionName).insert(schemaName,tableName);
+	}
+
+	public static BaseQueryInterface update(String tableName) {
+		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
+	}
+
+	public static BaseQueryInterface update(String connectionName,String tableName) {
+		return new QueryUpdate(connectionName).update(tableName);
+	}
+
+	public static BaseQueryInterface update(String connectionName,String schemaName,String tableName) {
+		return new QueryUpdate(connectionName).update(schemaName,tableName);
+	}
+
+	public static BaseQueryInterface delete(String tableName) {
+		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
+	}
+
+	public static BaseQueryInterface delete(String connectionName,String tableName) {
+		return new QueryDelete(connectionName).delete(tableName);
+	}
+
+	public static BaseQueryInterface delete(String connectionName,String schemaName,String tableName) {
+		return new QueryDelete(connectionName).delete(schemaName,tableName);
+	}
+
+	public static QueryInterface query(String connectionName,String sql) {
+		return new QuerySelect(connectionName).select(sql);
+	}
+
+	public static QueryInterface query(String connectionName,String sql,Class<?> className) {
+		return new QuerySelect(connectionName).select(sql,className);
+	}
+
+	public static QueryInterface query(String sql) {
+		return new QuerySelect().select(sql);
+	}
+
+	public static boolean validateQuery(Config_env config_env, String query) {		
+		return new QuerySelect().validateQuery(config_env, query);
+	}
+
+	/**Find User by email
+	 * @param email
+	 * @return {@code User().find().andWhere("username", "=", email).one();}
+	 */
+	public static nosi.webapps.igrp.dao.User findUserByEmail(String email){
+		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", email).one();
+	}
+
+	/**Find User by ID
+	 * @param id
+	 * @return {@code new User().findOne(id)}
+	 */
+	public static nosi.webapps.igrp.dao.User findUserById(Integer id){
+		return new nosi.webapps.igrp.dao.User().findOne(id);
+	}
+
+	/**Find User by Username
+	 * @param userName
+	 * @return {@code User().find().andWhere("username", "=", userName).one();}
+	 */
+	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName){
+		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", userName).one();
+	}
+
 	/**Find Application By ID
 	 * @param id
 	 * @return  {@code new Application().findOne(id);}
@@ -313,159 +710,6 @@ public final class Core {	// Not inherit
 		return new ProfileType().find().andWhere("code", "=", code).one();
 	}
 	
-	/**Check permition transaction for current user
-	 * @param transaction
-	 * @return
-	 */
-	public static boolean checkUserTransaction(String transaction){
-		return new Transaction().getPermission(transaction);
-	}
-	
-	public static Response getLinkReport(String code_report,Report rep){
-		return new Report().invokeReport(code_report, rep);
-	}
-	public static Response getLinkReport(String code_report,QueryString<String, Object> qs){		
-		Report rep = new Report();
-		qs.getQueryString().entrySet().stream().forEach(q->{
-			rep.addParam(q.getKey(), q.getValue());
-		});
-		return new Report().invokeReport(code_report, rep );
-	}
-	public static GenericServiceResponse getBizTalkClient(String clientId,String transaction,String service,String args){
-		GenericService_DevProxy proxy = new GenericService_DevProxy(); 
-		GenericServiceRequest part = new GenericServiceRequest(clientId, transaction, service, args);
-		try {
-			return proxy.getGenericService_Dev().genericRequest(part);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public static GenericServiceResponse getBizTalkClientService(ServiceSerach service){
-		String args = new Request().prepare(service,"xml");
-		System.out.println("args: "+args);
-		return getBizTalkClient(service.getClientID(), service.getTransactionID(), service.getServiceID(), args);			
-	}
-	
-	private static ServiceSerach processRequestBiztalkClientService(GenericServiceResponse response,ServiceSerach service){
-		if(response.getStatus().equals("true")){
-			String xml = response.getResult();
-			StringReader input = new StringReader(xml);
-			nosi.core.webapp.webservices.biztalk.dao.Response r = JAXB.unmarshal(input,nosi.core.webapp.webservices.biztalk.dao.Response.class);
-			if(r.getRow()!=null){
-				if(r.getRow().isStatus()){
-					xml = xml.replaceAll("lista_nifs", "lista");
-					xml = xml.substring(xml.indexOf("<lista>"), xml.indexOf("</lista>")+"</lista>".length());
-					input = new StringReader(xml);
-					service = JAXB.unmarshal(input, service.getClass());
-					return service;
-				}
-			}
-		}
-		return null;
-	}
-	
-	/**Pesquia SNIAC via Biztalk
-	 * @param pesquisa
-	 * @return
-	 */
-	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(PesquisaSNIAC pesquisa){
-		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
-	}
-	/**Pesquia SNIAC via Biztalk
-	 * @param num_idnt_civil_pes
-	 * @param num_registo_pes
-	 * @param nome_pes
-	 * @param data_nasc_pes
-	 * @param id_tp_doc_pes
-	 * @return
-	 */
-	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(Integer num_idnt_civil_pes, String num_registo_pes, String nome_pes, String data_nasc_pes,
-			Integer id_tp_doc_pes){
-		return getBizTalkPesquisaSNIAC(new PesquisaSNIAC(num_idnt_civil_pes, num_registo_pes, nome_pes, data_nasc_pes, id_tp_doc_pes));
-	}	
-
-	/**Pesquia BI via Biztalk
-	 * @param pesquisa
-	 * @return
-	 */
-	public static PesquisaBI getBizTalkPesquisaBI(PesquisaBI pesquisa){
-		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
-	}
-	/**Pesquia BI via Biztalk
-	 * @param bi
-	 * @param nome
-	 * @return
-	 */
-	public static PesquisaBI getBizTalkPesquisaBI(Integer bi, String nome){
-		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
-	}	
-
-	/**Pesquia NIF via Biztalk
-	 * @param pesquisa
-	 * @return
-	 */
-	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
-		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
-	}
-	/**Pesquia NIF via Biztalk 
-	 * @param numero
-	 * @param nome
-	 * @return
-	 */
-	public static PesquisaNIF getBizTalkPesquisaNIF(Integer numero, String nome){
-		return getBizTalkPesquisaNIF(new PesquisaNIF(numero, nome));
-	}
-	
-	/**Pesquia Nascimento via Biztalk
-	 * @param pesquisa
-	 * @return
-	 */
-	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa){
-		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
-	}
-	/**Pesquia Nascimento via Biztalk
-	 * @param nome
-	 * @param numero_registo
-	 * @param data_nascimento
-	 * @return
-	 */
-	public static PesquisaNascimento getBizTalkPesquisaNascimento(String nome, Integer numero_registo, String data_nascimento){
-		return getBizTalkPesquisaNascimento(new PesquisaNascimento(nome, numero_registo, data_nascimento));
-	}	
-
-	/**Pesquia Hierarquia CAE via Biztalk
-	 * @param pesquisa
-	 * @return
-	 */
-	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
-		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
-	}
-	/**Pesquia Hierarquia CAE via Biztalk
-	 * @param id
-	 * @param codigo
-	 * @param crpcae_id
-	 * @param self_id
-	 * @return
-	 */
-	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(String id, String codigo, String crpcae_id, String self_id){
-		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
-	}
-	
-	/**Pesquia Geografia via Biztalk
-	 * @param pesquisa
-	 * @return
-	 */
-	public static PesquisaGeografia getBizTalkPesquisaGeografia(PesquisaGeografia pesquisa){
-		return (PesquisaGeografia) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
-	}
-	
-	public static PesquisaGeografia getBizTalkPesquisaGeografia(String id, String zona, String freguesia, String concelho, String ilha, String pais,
-			String nivel_detalhe, String tp_geog_cd, String codigo_ine, String codigo, String self_id){
-		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
-	}
-	
 	public static String encrypt(String content,String secretKey){
 		return EncrypDecrypt.encrypt(content,secretKey);
 	}
@@ -481,235 +725,6 @@ public final class Core {	// Not inherit
 		return EncrypDecrypt.decrypt(content);
 	}
 	
-	/** Checks if it's not null or ""
-	 * 
-	 * @param value
-	 * @return {@code value!=null && !value.equals("");}
-	 */
-	public static boolean isNotNull(Object value) {
-		if(value instanceof String)
-			return value!=null && !value.equals("");
-		return value!=null;
-	}
-	/** Checks if it's null or ""
-	 * 
-	 * @param value
-	 * @return {@code value==null || value.equals("");}
-	 */
-	public static boolean isNull(Object value) {
-		if(value instanceof String)
-			return value==null || value.equals("");
-		return value==null;
-	}	
-	/** Checks if it's null or 0
-	 * 
-	 * @param value
-	 * @return {@code if(value instanceof Number) return value ==null || new Integer(value.toString()) ==0;}
-	 */
-	public static boolean isNullOrZero(Object value) {
-		if(value instanceof Number)
-			return value ==null || new Integer(value.toString()) ==0;
-		return value==null || value.equals("");
-	}	
-	/** Checks if it's not null or not 0
-	 * First {@code Core.isNotNull(value)}
-	 * 
-	 * @param value
-	 * @return {@code new Integer(value.toString())!=0;}
-	 */
-	public static boolean isNotNullOrZero(Object value) {
-		if(!(value instanceof Number)) {
-			return Core.isNotNull(value);
-		}
-		if(Core.isNotNull(value)) {
-			return new Integer(value.toString())!=0;
-		}
-		return false;
-	}	
-	/** Checks if it's a int
-	 * First {@code isNotNull(value)}
-	 * 	than a try catch numberFormatException
-	 * 
-	 * @param value
-	 * @return {@code double v = Integer.parseInt(value.toString());
-				return ((v == Math.floor(v)) && !Double.isInfinite(v));}
-	 */
-	public static boolean isInt(Object value) {
-		if(isNotNull(value)) {
-			try {
-				double v = Integer.parseInt(value.toString());
-				return ((v == Math.floor(v)) && !Double.isInfinite(v));
-			}catch(NumberFormatException e) {
-				return false;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean isDouble(Object value) {
-		if(isNotNull(value)) {
-			try {
-				double v = Double.parseDouble(value.toString());
-				return !((v == Math.floor(v)) && !Double.isInfinite(v));
-			}catch(NumberFormatException e) {
-				return false;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean isFloat(Object value) {
-		if(isNotNull(value)) {
-			try {
-				float v = Float.parseFloat(value.toString());
-				return !((v == Math.floor(v)) && !Float.isInfinite(v));
-			}catch(NumberFormatException e) {
-				return false;
-			}
-		}
-		return false;
-	}
-	/**Verifies if the String is a Integer, than returns the parse of it, else returns 0
-	 * @param value
-	 * @return Integer.parseInt(value) or 0
-	 * 
-	 */
-	public static Integer toInt(String value) {
-		if(Core.isInt(value))
-			return Integer.parseInt(value);
-		return 0;
-	}
-
-	public static Integer toInt(String value,int defaultValue) {
-		if(Core.isInt(value))
-			return Integer.parseInt(value);
-		return defaultValue;
-	}
-	public static Long toLong(String value) {
-		if(Core.isInt(value))
-			return Long.parseLong(value);
-		return (long) 0;
-	}
-
-	public static Long toLong(String value,long defaultValue) {
-		if(Core.isInt(value))
-			return Long.parseLong(value);
-		return defaultValue;
-	}
-	
-	public static Short toShort(String value) {
-		if(Core.isInt(value))
-			return Short.parseShort(value);
-		return 0;
-	}
-	
-	public static Short toShort(String value,short defaultValue) {
-		if(Core.isInt(value))
-			return Short.parseShort(value);
-		return defaultValue;
-	}
-	/**Verifies if the String is a Double, than returns the parse of it, else returns 0
-	 * @param value
-	 * @return Double.parseDouble(value) or 0
-	 * 
-	 */
-	public static Double toDouble(String value) {
-		if(Core.isDouble(value))
-			return Double.parseDouble(value);
-		return 0.0;
-	}
-	public static Double toDouble(String value,double defaultValue) {
-		if(Core.isDouble(value))
-			return Double.parseDouble(value);
-		return defaultValue;
-	}
-	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
-	 * @param value
-	 * @return Float.parseFloat(value) or 0
-	 * 
-	 */
-	public static Float toFloat(String value) {
-		if(Core.isFloat(value))
-			return Float.parseFloat(value);
-		return (float) 0;
-	}
-
-	public static Float toFloat(String value,float defaultValue) {
-		if(Core.isFloat(value))
-			return Float.parseFloat(value);
-		return defaultValue;
-	}
-	
-	public static BigDecimal toBigDecimal(String value) {
-		if(Core.isNotNull(value))
-			return new BigDecimal (value.toString());
-		return null;
-	}
-	
-	public static BaseQueryInterface insert(String connectionName,String tableName) {
-		return new QueryInsert(connectionName).insert(tableName);
-	}
-	public static BaseQueryInterface insert(String tableName) {
-		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
-	}
-	public static BaseQueryInterface insert(String connectionName,String schemaName,String tableName) {
-		return new QueryInsert(connectionName).insert(schemaName,tableName);
-	}
-
-	public static BaseQueryInterface update(String tableName) {
-		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
-	}
-	
-	public static BaseQueryInterface update(String connectionName,String tableName) {
-		return new QueryUpdate(connectionName).update(tableName);
-	}
-	
-	public static BaseQueryInterface update(String connectionName,String schemaName,String tableName) {
-		return new QueryUpdate(connectionName).update(schemaName,tableName);
-	}
-
-	public static BaseQueryInterface delete(String tableName) {
-		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
-	}
-	
-	public static BaseQueryInterface delete(String connectionName,String tableName) {
-		return new QueryDelete(connectionName).delete(tableName);
-	}
-	
-	public static BaseQueryInterface delete(String connectionName,String schemaName,String tableName) {
-		return new QueryDelete(connectionName).delete(schemaName,tableName);
-	}
-	
-	public static QueryInterface query(String connectionName,String sql) {
-		return new QuerySelect(connectionName).select(sql);
-	}
-	public static QueryInterface query(String connectionName,String sql,Class<?> className) {
-		return new QuerySelect(connectionName).select(sql,className);
-	}
-	public static QueryInterface query(String sql) {
-		return new QuerySelect().select(sql);
-	}
-	
-	public static java.sql.Date ToDate(String date,String formatIn){
-		return DateHelper.convertStringToDate(date, formatIn);
-	}
-	
-	public static java.sql.Date ToDate(String date,String formatIn,String formatOut){
-		return DateHelper.formatDate(date, formatIn,formatOut);
-	}
-	
-	public static String ToChar(java.sql.Date date,String formatIn) {
-		return DateHelper.convertDateToString(date, formatIn);
-	}
-
-	public static String ToChar(String date, String formatIn, String formatOut) {
-		return DateHelper.convertDate(date, formatIn, formatOut);
-	}
-	
-	public static String ToChar(String date,String formatOut) {
-		return DateHelper.convertDate(date, "yyyy-MM-dd", formatOut);
-	}	
-
 	public static void addHiddenField(String name,Object value) {
 		Field f = new HiddenField(name, value!=null?value.toString():"");
 		f.setValue(value);
@@ -762,120 +777,6 @@ public final class Core {	// Not inherit
 						  );
 		String json = gson.toJson(customV);
 		return json;
-	}
-	
-	public static Map<String,String[]> getParameters() {
-		return Igrp.getInstance().getRequest().getParameterMap();
-	}
-	
-	/** {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
-	 * 
-	 * @param name of the string label
-	 * @return {@code v!=null?v.toString():"";}
-	 */
-	public static String getParam(String name) {
-		Object v = Igrp.getInstance().getRequest().getParameter(name);
-		if(Core.isNull(v))
-			v = Core.getAttribute(name);
-		return v!=null?v.toString():"";
-	}
-
-	/**  Core.getParam first
-	 * 
-	 * @param name of the string label
-	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
-	 */
-	public static Integer getParamInt(String name) {
-		String x = Core.getParam(name);
-		if(Core.isNull(x))
-			x = Core.getAttribute(name);
-		return Core.isNotNull(x)?Core.toInt(x):0;
-	}
-	/** Core.getParam first
-	 * 
-	 * @param name of the string label
-	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
-	 */
-	public static Double getParamDouble(String name) {
-		String x = Core.getParam(name);
-		if(Core.isNull(x))
-			x = Core.getAttribute(name);
-		return Core.isNotNull(x)?Core.toDouble(x):0;
-	}
-	/** Core.getParam first
-		 * 
-		 * @param name of the string label
-		 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
-		 */
-	public static Short getParamShort(String name) {
-		String x = Core.getParam(name);
-		if(Core.isNull(x))
-			x = Core.getAttribute(name);
-		return Core.isNotNull(x)?Core.toShort(x):0;
-	}
-	/** Core.getParam first
-	 * 
-	 * @param name of the string label
-	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
-	 */
-	public static Float getParamFloat(String name) {
-		String x = Core.getParam(name);
-		if(Core.isNull(x))
-			x = Core.getAttribute(name);
-		return Core.isNotNull(x)?Core.toFloat(x):0;
-	}
-	/** Core.getParam first
-	 * 
-	 * @param name of the string label
-	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
-	 */
-	public static Long getParamLong(String name) {
-		String x = Core.getParam(name);
-		if(Core.isNull(x))
-			x = Core.getAttribute(name);
-		return Core.isNotNull(x)?Core.toLong(x):0;
-	}
-	/** {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
-	 * 
-	 * @param name of the string label
-	 * @return value
-	 */
-	public static String[] getParamArray(String name) {
-		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
-		if(value == null) {
-			value = Core.getAttributeArray(name);
-		}
-		return value;
-	}
-	
-	public static void removeAttribute(String name) {
-		Igrp.getInstance().getRequest().removeAttribute(name);
-	}
-	public static void setAttribute(String name,Object value) {
-		Igrp.getInstance().getRequest().setAttribute(name, value);
-	}
-	
-	public static String getAttribute(String name) {
-		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
-			String v = null;
-			if(Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
-				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
-			else				
-			    v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-			Igrp.getInstance().getRequest().removeAttribute(name);
-			return v;
-		}
-		return null;
-	}	
-	
-	public static String[] getAttributeArray(String name) {
-		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[] ||Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])) {
-			Object[] valueO = (Object[]) Igrp.getInstance().getRequest().getAttribute(name);
-			Igrp.getInstance().getRequest().removeAttribute(name);
-			String[] valueS = Arrays.copyOf(valueO, valueO.length, String[].class);
-			return valueS;
-		}
-		return null;
 	}
 	
 	public static String getTaskVariable(String taskDefinitionKey,String variableName) { 
@@ -1004,25 +905,166 @@ public final class Core {	// Not inherit
 		return "9";
 	}
 
-	/**Receive multiple params and get one of these params that's not null 
-	 * 
-	 * @param strings
+	/**Check permition transaction for current user
+	 * @param transaction
 	 * @return
 	 */
-	public static String getSwitchNotNullValue(String ...strings) {
-		if(strings.length > 1) {
-			if(Core.isNotNull(strings[0]))
-				return strings[0];
-			String[] newStrings = new String[strings.length-1];
-			System.arraycopy(strings, 1, newStrings,0, newStrings.length);
-			return getSwitchNotNullValue(newStrings);
-		}else if(strings.length==1) {
-			if(Core.isNotNull(strings[0]))
-				return strings[0];
-		}
-		return "";
+	public static boolean checkUserTransaction(String transaction){
+		return new Transaction().getPermission(transaction);
 	}
-	
+
+	public static Response getLinkReport(String code_report,Report rep){
+		return new Report().invokeReport(code_report, rep);
+	}
+
+	public static Response getLinkReport(String code_report,QueryString<String, Object> qs){		
+		Report rep = new Report();
+		qs.getQueryString().entrySet().stream().forEach(q->{
+			rep.addParam(q.getKey(), q.getValue());
+		});
+		return new Report().invokeReport(code_report, rep );
+	}
+
+	public static GenericServiceResponse getBizTalkClient(String clientId,String transaction,String service,String args){
+		GenericService_DevProxy proxy = new GenericService_DevProxy(); 
+		GenericServiceRequest part = new GenericServiceRequest(clientId, transaction, service, args);
+		try {
+			return proxy.getGenericService_Dev().genericRequest(part);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static GenericServiceResponse getBizTalkClientService(ServiceSerach service){
+		String args = new Request().prepare(service,"xml");
+		System.out.println("args: "+args);
+		return getBizTalkClient(service.getClientID(), service.getTransactionID(), service.getServiceID(), args);			
+	}
+
+	private static ServiceSerach processRequestBiztalkClientService(GenericServiceResponse response,ServiceSerach service){
+		if(response.getStatus().equals("true")){
+			String xml = response.getResult();
+			StringReader input = new StringReader(xml);
+			nosi.core.webapp.webservices.biztalk.dao.Response r = JAXB.unmarshal(input,nosi.core.webapp.webservices.biztalk.dao.Response.class);
+			if(r.getRow()!=null){
+				if(r.getRow().isStatus()){
+					xml = xml.replaceAll("lista_nifs", "lista");
+					xml = xml.substring(xml.indexOf("<lista>"), xml.indexOf("</lista>")+"</lista>".length());
+					input = new StringReader(xml);
+					service = JAXB.unmarshal(input, service.getClass());
+					return service;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**Pesquia SNIAC via Biztalk
+	 * @param pesquisa
+	 * @return
+	 */
+	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(PesquisaSNIAC pesquisa){
+		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+
+	/**Pesquia SNIAC via Biztalk
+	 * @param num_idnt_civil_pes
+	 * @param num_registo_pes
+	 * @param nome_pes
+	 * @param data_nasc_pes
+	 * @param id_tp_doc_pes
+	 * @return
+	 */
+	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(Integer num_idnt_civil_pes, String num_registo_pes, String nome_pes, String data_nasc_pes,
+			Integer id_tp_doc_pes){
+		return getBizTalkPesquisaSNIAC(new PesquisaSNIAC(num_idnt_civil_pes, num_registo_pes, nome_pes, data_nasc_pes, id_tp_doc_pes));
+	}
+
+	/**Pesquia BI via Biztalk
+	 * @param pesquisa
+	 * @return
+	 */
+	public static PesquisaBI getBizTalkPesquisaBI(PesquisaBI pesquisa){
+		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+
+	/**Pesquia BI via Biztalk
+	 * @param bi
+	 * @param nome
+	 * @return
+	 */
+	public static PesquisaBI getBizTalkPesquisaBI(Integer bi, String nome){
+		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
+	}
+
+	/**Pesquia NIF via Biztalk
+	 * @param pesquisa
+	 * @return
+	 */
+	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
+		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+
+	/**Pesquia NIF via Biztalk 
+	 * @param numero
+	 * @param nome
+	 * @return
+	 */
+	public static PesquisaNIF getBizTalkPesquisaNIF(Integer numero, String nome){
+		return getBizTalkPesquisaNIF(new PesquisaNIF(numero, nome));
+	}
+
+	/**Pesquia Nascimento via Biztalk
+	 * @param pesquisa
+	 * @return
+	 */
+	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa){
+		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+
+	/**Pesquia Nascimento via Biztalk
+	 * @param nome
+	 * @param numero_registo
+	 * @param data_nascimento
+	 * @return
+	 */
+	public static PesquisaNascimento getBizTalkPesquisaNascimento(String nome, Integer numero_registo, String data_nascimento){
+		return getBizTalkPesquisaNascimento(new PesquisaNascimento(nome, numero_registo, data_nascimento));
+	}
+
+	/**Pesquia Hierarquia CAE via Biztalk
+	 * @param pesquisa
+	 * @return
+	 */
+	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
+		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+
+	/**Pesquia Hierarquia CAE via Biztalk
+	 * @param id
+	 * @param codigo
+	 * @param crpcae_id
+	 * @param self_id
+	 * @return
+	 */
+	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(String id, String codigo, String crpcae_id, String self_id){
+		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
+	}
+
+	/**Pesquia Geografia via Biztalk
+	 * @param pesquisa
+	 * @return
+	 */
+	public static PesquisaGeografia getBizTalkPesquisaGeografia(PesquisaGeografia pesquisa){
+		return (PesquisaGeografia) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+
+	public static PesquisaGeografia getBizTalkPesquisaGeografia(String id, String zona, String freguesia, String concelho, String ilha, String pais,
+			String nivel_detalhe, String tp_geog_cd, String codigo_ine, String codigo, String self_id){
+		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
+	}
+
 	/** Insert a file to the Igrp core DataBase and return an Id ... **/
 	
 	public static int saveFile(File file, String name, String mime_type) {
@@ -1162,10 +1204,6 @@ public final class Core {	// Not inherit
 			return part;
 		}
 		return null;
-	}
-	
-	public static boolean validateQuery(Config_env config_env, String query) {		
-		return new QuerySelect().validateQuery(config_env, query);
 	}
 	
 	public static Object unnserializeFromTask(Object obj,String json) throws IllegalArgumentException, IllegalAccessException {
