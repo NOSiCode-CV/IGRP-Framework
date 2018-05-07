@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -463,7 +462,7 @@ public class QuerySelect extends QueryHelper implements QueryInterface{
 	
 	private void applyToInCondition(String name,String operator,Object[] values) {
 		String value = String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
-		this.filterWhere(" AND "+name+" "+operator+":"+name+" ").addString(name, value);
+		this.filterWhere(" AND "+name+" "+operator+" "+value+" ");
 	}
 
 	private String getAlias(String tableName) {
