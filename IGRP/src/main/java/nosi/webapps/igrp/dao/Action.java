@@ -56,7 +56,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
 	private Application application;
-	private short isComponent = 0;
+	private short isComponent = 0; //0 = Page; 1 = Component; 2 = Page Task
 	private String xmlContent;
 	private String xslContent;
 	
