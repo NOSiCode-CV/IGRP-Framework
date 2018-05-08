@@ -259,26 +259,22 @@ public class Config {
 				  + "}";
 	}
 	
-	public String getDefaultTaskController(String app,String processId,String taskId,String codigo){
-		return "package nosi.webapps."+app.toLowerCase()+".process;\n"
+	
+	public String getGenTaskController(String app,String taskId){
+		return "package nosi.webapps."+app.toLowerCase()+".process."+taskId.toLowerCase()+";\n"
 				 + "import java.io.IOException;\n"
 				 + "import nosi.core.webapp.Response;\n"
-				 + "import nosi.core.webapp.Controller;\n" 
-				 + "import nosi.core.xml.XMLExtractComponent;\n"
-				 + "import java.util.List;\n" 
-				 + "import nosi.webapps.igrp.dao.TaskComponent;\n\n"
-				 + "public class "+processId+"_"+taskId+"Controller extends Controller {	\n"
-						+ "\t public Response actionIndex() throws IOException{\n"
-						+ "\t String content = \"\";\n"
-						+ "\t XMLExtractComponent comp = new XMLExtractComponent();\n"
-						+ "\t List<TaskComponent> components = new TaskComponent().find().andWhere(\"codigo\", \"=\",\""+codigo+"\").all();\n"
-								+ "\t if(components !=null && components.size() > 0) {\n" + 
-								"			for(TaskComponent c:components){\n" + 
-								"				content = comp.joinComponent(c.getAction().getXmlContent());\n" + 
-								"			}\n" + 
-								"		}\n"
-							+ "\t return this.renderView(content);\n"
-						+ "\t }\n"
+				 + "import nosi.core.webapp.bpmn.BPMNTaskController;\n\n" 
+				 + "public class "+taskId+"Controller extends BPMNTaskController {	\n\n"
+						+ "\t public Response actionIndex() throws IOException, ServletException{\n"
+						+ "\t\t return super.index();\n"
+						+ "\t }\n\n"
+						+ "\t public Response actionSave() throws IOException, ServletException{\n"
+						+ "\t\t return super.save();\n"
+						+ "\t }\n\n"+ 
+						"\t public Response actionLoad() throws IOException, ServletException{\n"
+						+ "\t\t return super.load();\n"
+						+ "\t }\n\n"
 				  + "}";
 	}
 	
@@ -374,10 +370,20 @@ public class Config {
 	public String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
-		if( Core.isNotNull(app)  && Core.isNotNull(page) && Core.isNotNull(action)){
-			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("action", "=", action).andWhere("page", "=", Page.resolvePageName(page)).one();
-			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase()+ "."+ac.getPage().toLowerCase() +"." + ac.getPage() + "Controller":basePackage;		
+		if( Core.isNotNull(app)  && Core.isNotNull(page)){
+			Action ac = new Action().find().andWhere("application.dad", "=", app.toLowerCase()).andWhere("page", "=", Page.resolvePageName(page)).one();
+			if(ac!=null && ac.getPackage_name()!=null) {
+				String p = ac.getPackage_name().toLowerCase();
+				if(p.endsWith("pages") || p.endsWith("process"))
+					return ac.getPackage_name().toLowerCase()+"."+ac.getPage().toLowerCase()+ "." + ac.getPage() + "Controller";
+				return ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller";
+			}	
 		}
+		return basePackage;
+	}
+	
+	public String getPackageProcess(String app, String processId,String taskName) {
+		String basePackage = "nosi.webapps." + app.toLowerCase() + ".process." + processId.toLowerCase() + "." + taskName + "Controller";
 		return basePackage;
 	}
 	

@@ -85,6 +85,8 @@
     <script src="{$path}/core/igrp/IGRP.defaults.js?v={$version}"></script>
     <!-- IGRP core functions -->
     <script src="{$path}/core/igrp/IGRP.core.js?v={$version}"></script>
+    <!-- IGRP Form
+    <script src="{$path}/core/igrp/form/igrp.forms.js"></script> -->
     <!-- IGRP globalModal -->
     <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"></script>
     <!-- IGRP iframeNavigation -->

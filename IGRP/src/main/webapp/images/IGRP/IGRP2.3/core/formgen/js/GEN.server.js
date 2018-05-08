@@ -110,8 +110,9 @@ $(function(){
 						if(o.callback)
 
 							o.callback(ncontent);
-
-						$('#gen-page-setts-ctrl').show();
+						
+						$('.gen-viewers-toolbar .gen-page-setts-ctrl').show();
+						//$('#gen-page-setts-ctrl').show();
 
 						setTimeout(function(){
 

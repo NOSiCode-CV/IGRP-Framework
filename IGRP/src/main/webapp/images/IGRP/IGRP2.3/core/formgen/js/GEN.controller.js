@@ -2318,7 +2318,9 @@ if(input) {
 				editorName = rel.substring(4),
 				editor     = GEN[editorName+'Editor'];
 
-			$('#gen-page-setts-ctrl').hide();
+			$('.gen-viewers-toolbar .gen-page-setts-ctrl').hide();
+			
+			$('.gen-viewers-toolbar .gen-toolbar-items').hide();
 
 			var callback = function(){
 
@@ -2341,6 +2343,16 @@ if(input) {
 				}
 
 				$('body').attr('view',rel);
+				
+				try{
+					
+					$('.gen-viewers-toolbar .gen-toolbar-items[rel*="'+rel.split('gen-')[1]+'"]').show();
+					
+				}catch(_err){
+					
+				}
+				
+				
 
 				executeEvents(viewChangeEvents,{
 					id   : rel,
@@ -2734,7 +2746,7 @@ if(input) {
 		
 		});
 
-		$('#gen-page-setts-ctrl').on('click',function(){
+		$('.gen-page-setts-ctrl').on('click',function(){
 			
 			openPLSQLSettings();
 
@@ -3804,7 +3816,7 @@ if(input) {
 
 					editor.refresh();
 
-					$('#gen-page-setts-ctrl').show();
+					$('.gen-viewers-toolbar .gen-page-setts-ctrl').show();
 				}
 
 				/* GOOGLE CHROME XSLT document() function hack */
