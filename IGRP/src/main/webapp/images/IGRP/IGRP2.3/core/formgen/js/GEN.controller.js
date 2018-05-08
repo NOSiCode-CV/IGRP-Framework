@@ -2319,6 +2319,8 @@ if(input) {
 				editor     = GEN[editorName+'Editor'];
 
 			$('#gen-page-setts-ctrl').hide();
+			
+			$('.gen-viewers-toolbar .gen-toolbar-items').hide();
 
 			var callback = function(){
 
@@ -2341,6 +2343,16 @@ if(input) {
 				}
 
 				$('body').attr('view',rel);
+				
+				try{
+					
+					$('.gen-viewers-toolbar .gen-toolbar-items[rel*="'+rel.split('gen-')[1]+'"]').show();
+					
+				}catch(_err){
+					
+				}
+				
+				
 
 				executeEvents(viewChangeEvents,{
 					id   : rel,

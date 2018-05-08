@@ -87,12 +87,12 @@
                       <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
                           
                           <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" >
-                              <!-- <li class="col-xs-4">
+                              <!--<li class="col-xs-4">
                                   <a class="txt-ellipsis" href="#gen-page-properties" role="tab" data-toggle="tab">
                                       <i class="fa fa-cog"></i>
                                       <span class="">Settings</span>
                                   </a>
-                              </li> -->
+                              </li>-->
                               <li class="active col-xs-6">
                                   <a class="txt-ellipsis" href="#gen-list-components" role="tab" data-toggle="tab">
                                       <i class="fa fa-cube"></i>
@@ -265,6 +265,11 @@
                                       <span class="f-count"></span> <span class="f-type"></span> included
                                   </a>
                               </div>
+                              
+                              <div class="pull-left gen-toolbar-items" rel="java">
+                                  <a href="#" class="btn btn-link" target="_newtab">Java Doc</a>
+                                  <a href="#" class="btn btn-link" target="_newtab">FAQ</a>
+                              </div>
 
 
                               <div class="btn btn-link pull-right gen-copy-to-clipboard" >
@@ -273,7 +278,7 @@
                               <!-- <a class="btn btn-link pull-right gen-download-content" href="#">
                                  <i class="fa fa-upload"></i><span>Download</span>
                               </a> -->
-                              <a class="btn btn-link pull-right" id="gen-page-setts-ctrl" rel="plsql">
+                              <a class="btn btn-link pull-right gen-page-setts-ctrl"  rel="plsql">
                                   <i class="fa fa-gears"></i>
                                   <span>Settings</span>
                               </a>
@@ -532,7 +537,7 @@
           <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"></script>
           <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"></script>
           <!-- end:SEPARATORLIST -->
-
+			
           <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"></script>
          
           <script src="{$path}/core/bootstrap/plugins/treeview/js/bootstrap-treeview.js"></script>
@@ -644,6 +649,8 @@
           <script src="{$path}/core/formgen/js/GEN.importTemplates.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.includeFiles.js"></script>
+          
+          <script src="{$path}/core/formgen/js/GEN.domains.controller.js"></script>
 
           <xsl:for-each select="$gen/containers/item">
               <xsl:if test="not(@js) or @js!='false'">
