@@ -267,8 +267,14 @@
                               </div>
                               
                               <div class="pull-left gen-toolbar-items" rel="java">
-                                  <a href="#" class="btn btn-link" target="_newtab">Java Doc</a>
-                                  <a href="#" class="btn btn-link" target="_newtab">FAQ</a>
+                                  <a href="/IGRP/images/javadoc/index.html" class="btn btn-link" target="_newtab">                                  
+                                   <i class="fa fa-file-text"></i>
+                                  <span>Javadoc</span>                                  
+                                  </a>
+                                  <a href="https://nosicode.gitbook.io/faq/" class="btn btn-link" target="_newtab">                                 
+                                    <i class=" fa fa-question-circle"></i>
+                                    <span>FAQ</span>
+                                  </a>
                               </div>
 
 
