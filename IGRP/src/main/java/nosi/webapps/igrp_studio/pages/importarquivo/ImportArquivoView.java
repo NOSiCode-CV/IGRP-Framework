@@ -97,7 +97,7 @@ public class ImportArquivoView extends View {
 		
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
 		arquivo_pagina.setLabel(gt("Página"));
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","1000").add("required","true").add("accept",".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed").add("targetrend","").add("multiple","false").add("rendvalue","false");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("accept",".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","true");
 		
 		jar_file = new FileField(model,"jar_file");
 		jar_file.setLabel(gt("Jar file"));
@@ -105,13 +105,13 @@ public class ImportArquivoView extends View {
 		
 
 
-		btn_btm_import_aplicacao = new IGRPButton("Import","igrp_studio","ImportArquivo","btm_import_aplicacao","submit_form","success|fa-upload","","");
+		btn_btm_import_aplicacao = new IGRPButton("Import","igrp_studio","ImportArquivo","btm_import_aplicacao","submit_form","primary|fa-upload","","");
 		btn_btm_import_aplicacao.propertie.add("type","form").add("rel","btm_import_aplicacao");
 
-		btn_btm_importar_page = new IGRPButton("Import","igrp_studio","ImportArquivo","btm_importar_page","submit_form","success|fa-upload","","");
+		btn_btm_importar_page = new IGRPButton("Import","igrp_studio","ImportArquivo","btm_importar_page","submit_form","primary|fa-upload","","");
 		btn_btm_importar_page.propertie.add("type","form").add("rel","btm_importar_page");
 
-		btn_importar_jar_file = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_jar_file","submit_form","success|fa-upload","","");
+		btn_importar_jar_file = new IGRPButton("Importar","igrp_studio","ImportArquivo","importar_jar_file","submit_form","primary|fa-upload","","");
 		btn_importar_jar_file.propertie.add("type","form").add("rel","importar_jar_file");
 
 		

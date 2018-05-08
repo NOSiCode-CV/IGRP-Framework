@@ -2,15 +2,15 @@
 package nosi.webapps.igrp_studio.pages.modulo;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.webapps.igrp.dao.Application;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import java.util.List;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-
+import nosi.webapps.igrp.dao.Application;
+import nosi.core.webapp.helpers.IgrpHelper;
+import java.util.List;
 /*----#end-code----*/
 
 
@@ -37,7 +37,7 @@ public class ModuloController extends Controller {
 		return this.renderView(view);	
 	}
 	
-	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Modulo model = new Modulo();
 		model.load();
@@ -49,7 +49,7 @@ public class ModuloController extends Controller {
 		 return this.forward("igrp_studio","Modulo","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
-		/*----#start-code(guardar)----*/
+		/*----#start-code(gravar)----*/
 		try {
 			nosi.webapps.igrp.dao.Modulo m = new nosi.webapps.igrp.dao.Modulo();
 			Application application = new Application();
@@ -57,6 +57,7 @@ public class ModuloController extends Controller {
 			m.setApplication(application);
 			m.setName(model.getModulo());
 			m = m.insert();
+         	this.addQueryString("p_aplicacao", model.getAplicacao());
 			if(m == null) {
 				Core.setMessageError();
 				return forward("igrp_studio","Modulo","index", this.queryString());
@@ -67,9 +68,8 @@ public class ModuloController extends Controller {
 			Core.setMessageError();
 			return forward("igrp_studio","Modulo","index", this.queryString());
 		}
-		
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Modulo","index&p_aplicacao="+model.getAplicacao(), this.queryString());	
+		return this.redirect("igrp_studio","Modulo","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/

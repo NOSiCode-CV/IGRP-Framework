@@ -1,5 +1,12 @@
+
 package nosi.webapps.igrp.pages.page;
 
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
@@ -58,8 +65,8 @@ public class PageController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		
-		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
@@ -109,7 +116,7 @@ public class PageController extends Controller {
 			view.page.propertie().setProperty("disabled", "true");	
 		}
 		
-		view.btn_novomodulo.setLink("igrp_studio", "modulo", "index&p_aplicacao=" + model.getEnv_fk());
+		view.novo_modulo.setValue(new Config().getResolveUrl("igrp_studio","modulo","index&p_aplicacao=" + model.getEnv_fk()));
 			
 		/*----#end-code----*/
 		view.setModel(model);

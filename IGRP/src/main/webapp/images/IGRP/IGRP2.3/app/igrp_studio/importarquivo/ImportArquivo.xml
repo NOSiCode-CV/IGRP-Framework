@@ -86,14 +86,14 @@
                 </arquivo_aplicacao>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="success" rel="btm_import_aplicacao">
+                <item type="form" code="" class="primary" rel="btm_import_aplicacao">
                     <title>Import</title>
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
-                    <img>success|fa-upload</img>
+                    <img>primary|fa-upload</img>
                 </item>
             </tools-bar>
         </form_2>
@@ -121,20 +121,20 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept=".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" accept=".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="true" disabled="false" right="false" class="primary">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="success" rel="btm_importar_page">
+                <item type="form" code="" class="primary" rel="btm_importar_page">
                     <title>Import</title>
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
-                    <img>success|fa-upload</img>
+                    <img>primary|fa-upload</img>
                 </item>
             </tools-bar>
         </form_1>
@@ -146,14 +146,14 @@
                 </jar_file>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="success" rel="importar_jar_file">
+                <item type="form" code="" class="primary" rel="importar_jar_file">
                     <title>Importar</title>
                     <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
-                    <img>success|fa-upload</img>
+                    <img>primary|fa-upload</img>
                 </item>
             </tools-bar>
         </form_3>

@@ -17,12 +17,11 @@ public class ModuloView extends View {
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_guardar;
+	public IGRPButton btn_gravar;
 
 	public ModuloView(){
 
-		this.setPageTitle("Módulo");
+		this.setPageTitle("Modulo");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
@@ -42,10 +41,9 @@ public class ModuloView extends View {
 		modulo.propertie().add("name","p_modulo").add("type","text").add("maxlength","50").add("required","true");
 		
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_guardar = new IGRPButton("Guardar","igrp_studio","Modulo","guardar","submit_form","success|fa-save","","");
-		btn_guardar.propertie.add("type","specific").add("rel","guardar");
+		btn_gravar = new IGRPButton("Adicionar","igrp_studio","Modulo","gravar","submit_form","success|fa-plus","","");
+		btn_gravar.propertie.add("type","form").add("rel","gravar");
 
 		
 	}
@@ -55,14 +53,12 @@ public class ModuloView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
-
 		form_1.addField(aplicacao);
 		form_1.addField(modulo);
 
-		toolsbar_1.addButton(btn_guardar);
+		form_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
-		this.addToPage(toolsbar_1);
 	}
 		
 	public void setModel(Modulo model) {

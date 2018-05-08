@@ -24,22 +24,26 @@ public class Page extends Model{
 	private int gen_auto_code_check;
 	@RParam(rParamName = "p_nada")
 	private String nada;
-	@RParam(rParamName = "p_modulo")
-	private String modulo;
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
-	@RParam(rParamName = "p_version")
-	private String version;
-	@RParam(rParamName = "p_nada2")
-	private String nada2;
-	@RParam(rParamName = "p_criar_menu")
-	private int criar_menu;
-	@RParam(rParamName = "p_criar_menu_check")
-	private int criar_menu_check;
 	@RParam(rParamName = "p_componente")
 	private int componente;
 	@RParam(rParamName = "p_componente_check")
 	private int componente_check;
+	@RParam(rParamName = "p_extras")
+	private String extras;
+	@RParam(rParamName = "p_modulo")
+	private String modulo;
+	@RParam(rParamName = "p_novo_modulo")
+	private String novo_modulo;
+	@RParam(rParamName = "p_novo_modulo_desc")
+	private String novo_modulo_desc;
+	@RParam(rParamName = "p_version")
+	private String version;
+	@RParam(rParamName = "p_criar_menu")
+	private int criar_menu;
+	@RParam(rParamName = "p_criar_menu_check")
+	private int criar_menu_check;
 	@RParam(rParamName = "p_id")
 	private String id;
 	@RParam(rParamName = "p_table_name")
@@ -125,45 +129,11 @@ public class Page extends Model{
 		return this.nada;
 	}
 	
-	public void setModulo(String modulo){
-		this.modulo = modulo;
-	}
-	public String getModulo(){
-		return this.modulo;
-	}
-	
 	public void setEnv_fk(String env_fk){
 		this.env_fk = env_fk;
 	}
 	public String getEnv_fk(){
 		return this.env_fk;
-	}
-	
-	public void setVersion(String version){
-		this.version = version;
-	}
-	public String getVersion(){
-		return this.version;
-	}
-	
-	public void setNada2(String nada2){
-		this.nada2 = nada2;
-	}
-	public String getNada2(){
-		return this.nada2;
-	}
-	
-	public void setCriar_menu(int criar_menu){
-		this.criar_menu = criar_menu;
-	}
-	public int getCriar_menu(){
-		return this.criar_menu;
-	}
-	public void setCriar_menu_check(int criar_menu_check){
-		this.criar_menu_check = criar_menu_check;
-	}
-	public int getCriar_menu_check(){
-		return this.criar_menu_check;
 	}
 	
 	public void setComponente(int componente){
@@ -177,6 +147,53 @@ public class Page extends Model{
 	}
 	public int getComponente_check(){
 		return this.componente_check;
+	}
+	
+	public void setExtras(String extras){
+		this.extras = extras;
+	}
+	public String getExtras(){
+		return this.extras;
+	}
+	
+	public void setModulo(String modulo){
+		this.modulo = modulo;
+	}
+	public String getModulo(){
+		return this.modulo;
+	}
+	
+	public void setNovo_modulo(String app,String page,String action){
+		this.novo_modulo = new Config().getResolveUrl(app, page, action);
+	}
+	public String getNovo_modulo(){
+		return this.novo_modulo;
+	}
+	public void setNovo_modulo_desc(String novo_modulo_desc){
+		this.novo_modulo_desc = novo_modulo_desc;
+	}
+	public String getNovo_modulo_desc(){
+		return this.novo_modulo_desc;
+	}
+	
+	public void setVersion(String version){
+		this.version = version;
+	}
+	public String getVersion(){
+		return this.version;
+	}
+	
+	public void setCriar_menu(int criar_menu){
+		this.criar_menu = criar_menu;
+	}
+	public int getCriar_menu(){
+		return this.criar_menu;
+	}
+	public void setCriar_menu_check(int criar_menu_check){
+		this.criar_menu_check = criar_menu_check;
+	}
+	public int getCriar_menu_check(){
+		return this.criar_menu_check;
 	}
 	
 	public void setId(String id){

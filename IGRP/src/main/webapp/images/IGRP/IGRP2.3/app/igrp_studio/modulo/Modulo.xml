@@ -30,10 +30,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=52</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=257</preserve_url>
     </plsql>
     <content>
-        <title>Módulo</title>
+        <title>Modulo</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -41,17 +41,6 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="guardar">
-                <title>Guardar</title>
-                <app>igrp_studio</app>
-                <page>Modulo</page>
-                <link>index</link>
-                <target>submit_form</target>
-                <img>success|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/modulo/Modulo.xml</preview>
-            </item>
-        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="50" required="true" change="false" disabled="false" right="false" java-type="">
@@ -78,9 +67,20 @@
                 </aplicacao>
                 <modulo name="p_modulo" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Módulo</label>
-                    <value>Aperiam adipiscing dolor laudantium sit</value>
+                    <value>Deserunt adipiscing omnis natus ut</value>
                 </modulo>
             </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="gravar">
+                    <title>Adicionar</title>
+                    <app>igrp_studio</app>
+                    <page>Modulo</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/modulo/Modulo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>success|fa-plus</img>
+                </item>
+            </tools-bar>
         </form_1>
     </content>
 </rows>
