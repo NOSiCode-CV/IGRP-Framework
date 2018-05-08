@@ -99,7 +99,9 @@ public abstract class Model { // IGRP super model
 	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
 		if(query!=null) {
 			List<T> list = new ArrayList<>();
-			for(Tuple tuple:query.getResultList()) {
+			List<Tuple> queryResult = query.getResultList();
+			if(queryResult != null) {
+				for(Tuple tuple:queryResult) {
 				T t;
 				try {
 					t = className.newInstance();
@@ -115,6 +117,8 @@ public abstract class Model { // IGRP super model
 					e1.printStackTrace();
 				}
 			}
+			}
+			
 			return list;
 		}
 		return null;
