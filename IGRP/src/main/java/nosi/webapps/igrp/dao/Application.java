@@ -71,6 +71,9 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<RepInstance> repinstances;
 	
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="application")
+	private List<Modulo> modulo;
+	
 	public Application(){
 		
 	}
@@ -231,9 +234,15 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	public void setRepinstances(List<RepInstance> repinstances) {
 		this.repinstances = repinstances;
 	}
+	
+	public List<Modulo> getModulo() {
+		return modulo;
+	}
 
-	
-	
+	public void setModulo(List<Modulo> modulo) {
+		this.modulo = modulo;
+	}
+
 	@Override
 	public String toString() {
 		return "Application [dad=" + dad + ", name=" + name + ", description=" + description + ", status=" + status

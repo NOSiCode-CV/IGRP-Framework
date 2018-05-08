@@ -1178,4 +1178,18 @@ public final class Core {	// Not inherit
 		}
 		return (Object)obj;
 	}
+	
+	public static void addToSession(String key, String value) {
+		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
+	}
+	
+	public static Object getFromSession(String key) {
+		return getFromSession(key, false);
+	}
+	
+	public static Object getFromSession(String key, boolean flag) {
+		Object result =  Igrp.getInstance().getRequest().getSession().getAttribute(key);
+		if(flag) Igrp.getInstance().getRequest().getSession().removeAttribute(key);
+		return result;
+	}
 }

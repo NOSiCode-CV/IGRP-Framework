@@ -15,6 +15,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
@@ -254,6 +255,11 @@ public class ImportAppJava {
 			action = new Action();
 			Core.mapper(page, action);
 			action.setApplication(this.app);
+			
+			Modulo modulo = new Modulo();
+			modulo.setId(page.getModule_fk());
+			action.setModulo(modulo);
+			
 			action = action.insert();
 		}
 	}
@@ -263,8 +269,25 @@ public class ImportAppJava {
 		if(app == null) {
 			this.app = new Application();
 			Core.mapper(sapp, this.app);
-			this.app = this.app.insert();
+			this.app = this.app.insert();	
+			if(this.app != null && sapp.getModulos() != null) {
+				saveModulo(sapp.getModulos());
+			}
 		}
+	}
+	
+	private void saveModulo(List<StoredModulo> sM) {
+		try {
+			for(StoredModulo obj : sM) {
+				Modulo modulo = new Modulo();
+				modulo.setName(obj.getName());
+				modulo.setApplication(this.app);
+				modulo.insert();
+			}
+		}catch(Exception e) {
+			 this.errors.add("Ocorreu um erro ao tentar gravar modulos.");
+		}
+		
 	}
 
 	public boolean hasError() {

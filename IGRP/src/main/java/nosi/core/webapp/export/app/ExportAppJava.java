@@ -15,6 +15,7 @@ import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.RepTemplate;
 
 /**
@@ -35,9 +36,28 @@ public class ExportAppJava {
 		if(this.app!=null) {
 			StoredApplication stapp = new StoredApplication();
 			Core.mapper(this.app, stapp);
+			
+			List<StoredModulo> sm = getStoredModulos();
+			if(sm != null && sm.size() > 0)
+				stapp.setModulos(sm);
+			
 			return new Gson().toJson(stapp);
 		}
 		return null;
+	}
+	
+	private List<StoredModulo> getStoredModulos() {
+		List<StoredModulo> sm = null;
+		List<Modulo> modulos = new Modulo().getModuloByApp(this.app.getId());
+		if(modulos != null && modulos.size() > 0) {
+			sm = new ArrayList<StoredModulo>();
+			for(Modulo obj : modulos) {
+				StoredModulo aux = new StoredModulo();
+				Core.mapper(obj, aux);
+				sm.add(aux);
+			}
+		}
+		return sm;
 	}
 	
 	private String getStoredPages() {
@@ -47,6 +67,8 @@ public class ExportAppJava {
 			actions.stream().forEach(a->{
 				StoredPages stp = new StoredPages();				
 				Core.mapper(a, stp);
+				if(a.getModulo() != null)
+					stp.setModule_fk(a.getModulo().getId());
 				stpages.add(stp);
 			});			
 			return new Gson().toJson(stpages);

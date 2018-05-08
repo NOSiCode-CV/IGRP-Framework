@@ -65,13 +65,13 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Amet adipiscing voluptatem unde doloremque</value>
+                    <value>Totam sit anim sit magna</value>
                 </page_descr>
-                <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Deserunt unde voluptatem omnis mollit</value>
+                    <value>Adipiscing rem doloremque ut iste</value>
                 </page>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
@@ -82,7 +82,7 @@
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <modulo name="p_modulo" type="select" multiple="false" domain="" maxlength="50" required="false" change="false" disabled="false" right="false" java-type="">
+                <modulo name="p_modulo" type="select" multiple="false" domain="" maxlength="50" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Módulo</label>
                     <list>
                         <option/>
@@ -104,7 +104,7 @@
                         </option>
                     </list>
                 </modulo>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -148,15 +148,7 @@
                         </option>
                     </list>
                 </version>
-                <nada2 name="p_nada2" type="separator" maxlength="30" placeholder="" right="false">
-                    <label></label>
-                </nada2>
-                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
-                    <label>Criar menu?</label>
-                    <value>1</value>
-                    <rules/>
-                </criar_menu>
-                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
                     <label>Componente?</label>
                     <value>1</value>
                 </componente>
