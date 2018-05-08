@@ -22,7 +22,7 @@ public class TaskController extends Controller {
 		if(Core.isNotNull(model.getProcesso())) {
 			new ProcessDefinitionService().getTasks(model.getProcesso()).stream().forEach(t->{
 				Task.Table_1 t1 = new Task.Table_1();
-				t1.setSelecionar(t.getId());
+				t1.setSelecionar(t.getProcessDefinitionId()+"_"+t.getId());
 				t1.setDescricao(t.getName());
 				data.add(t1);
 			});
