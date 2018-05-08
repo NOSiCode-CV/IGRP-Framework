@@ -16,9 +16,8 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
-import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.webapps.igrp.dao.Application;
@@ -225,10 +224,19 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionExecutar_button_minha_tarefas() throws IOException{
 		/*----#START-PRESERVED-AREA(EXECUTAR_BUTTON_MINHA_TAREFAS)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if(id!=null && !id.equals(""))
-			return this.redirect("igrp","MapaProcesso","open-process&taskId="+id );
-		else
+		String id = Core.getParam("p_id");
+		if(Core.isNotNull(id)) {
+			TaskService task = new TaskService().getTask(id);
+			Application app = new Application().findOne(Core.toInt(task.getTenantId()));
+			this.addQueryString("taskId",id)
+				.addQueryString("appId", task.getTenantId())
+				.addQueryString("appDad", app.getDad())
+				.addQueryString("formKey", task.getFormKey())
+				.addQueryString("processDefinition", task.getProcessDefinitionKey())
+				.addQueryString("taskDefinition", task.getTaskDefinitionKey())
+				.addQueryString("taskName", task.getName());
+			return this.call(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "index",this.queryString());
+		}else
 			return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -308,35 +316,6 @@ public class ExecucaoTarefasController extends Controller {
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
 
-	
-	public Response actionProcessEditTask() throws IOException, ServletException{
-		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
-		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
-		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
-		boolean result = false;
-		if(Core.isNotNull(taskId)){
-			TaskServiceQuery taskS = new TaskServiceQuery();
-			taskS.addFilter("taskId", taskId);
-			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
-				ProcessInstancesService p = new ProcessInstancesService();
-				p.setId(task.getProcessInstanceId());
-				Core.getParameters().entrySet().stream().forEach(param-> {
-					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				});	
-				p.addVariable(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId(),"string",content);
-				result = p.submitVariables();
-				new TaskFile().addFile(p);
-				if(result){
-					Core.setMessageSuccess();
-				}else{
-					Core.setMessageError();
-				}
-				return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
-			}
-		}		
-		return this.redirect("igrp", "ErrorPage", "exception");
-	}
-	
 	public Response actionProcessTask() throws IOException, ServletException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
 		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
@@ -344,14 +323,7 @@ public class ExecucaoTarefasController extends Controller {
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		ResponseError result = null;
 		if(Core.isNotNull(taskId)){
-			result = this.processTask(taskId,customForm,content);
-			if(result==null){
-				Core.setMessageSuccess();
-				return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
-			}else{
-				Core.setMessageError(result.getException());
-				return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
-			}
+			return this.processTask(taskId,customForm,content);
 		}
 		if(Core.isNotNull(processDefinitionId)){
 			result = this.processStartEvent(processDefinitionId,customForm,content);
@@ -366,69 +338,12 @@ public class ExecucaoTarefasController extends Controller {
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
-	private Object getValue(String type,String name){
-		Object value = Igrp.getInstance().getRequest().getParameter("p_"+name.toLowerCase());
-		try {
-			switch (type.toLowerCase()) {
-				case "date":
-					return DateHelper.convertDate(value.toString(), "dd-MM-yyyy", "dd-MM-yyyy h:mm");
-				case "long":
-					if(Core.isNotNull(value))
-						return Long.parseLong(value.toString());
-					return 0;
-				case "double":
-					if(Core.isNotNull(value))
-						return Double.parseDouble(value.toString());
-					return 0;
-				case "float":
-					if(Core.isNotNull(value))
-						return Float.parseFloat(value.toString());
-					return 0;
-				case "boolean":
-					return value.toString().equals("1");
-				case "enum":
-				case "string":
-					return value.toString();
-			}
-		}catch(NullPointerException e) {}
-		return "";
+	private Response processTask(String taskId, String customForm, String content) {
+		TaskService task = new TaskService().getTask(taskId);
+		this.addQueryString("taskId",taskId);
+		Application app = new Application().findOne(Core.toInt(task.getTenantId()));
+		return this.call(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "save",this.queryString());
 	}
-	
-	//Executa uma tarefa
-	private ResponseError processTask(String p_prm_taskid,String customForm,String content) throws IOException, ServletException{
-		FormDataService formData = new FormDataService();
-		TaskService task = new TaskService().getTask(p_prm_taskid);
-		FormDataService properties = null;
-		ProcessInstancesService p = new ProcessInstancesService();
-		p.setId(task.getProcessInstanceId());		
-		
-		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
-			formData.setTaskId(p_prm_taskid);
-			properties = new FormDataService().getFormDataByTaskId(p_prm_taskid);
-			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
-				for(FormProperties prop:properties.getFormProperties()){
-					Object value =this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
-						formData.addVariable(prop.getId(),value);
-					}
-				}
-			}
-			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {				
-				Core.getParameters().entrySet().stream().forEach(param-> {
-					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				});
-				p.addVariable(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId(),"string",content);
-				p.submitVariables();
-				task.submitVariables();
-			}
-		}
-		
-		new TaskFile().addFile(p);
-		StartProcess st = formData.submitFormByTask();
-		return (st!=null && st.getError()!=null)?st.getError():null;
-	}
-	
 
 	//Inicia tarefa de um processo
 	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content) throws IOException, ServletException{
@@ -440,7 +355,7 @@ public class ExecucaoTarefasController extends Controller {
 			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value =this.getValue(prop.getType(), prop.getId());
+					Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
 					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
 						formData.addVariable(prop.getId(),value);
 					}

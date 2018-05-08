@@ -67,11 +67,12 @@ public class IGRPFormList extends IGRPSeparatorList {
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+					this.xml.writeAttribute("desc","true");
 					String val = IgrpHelper.getValue(obj, field.getName());
 					if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
 						val = field.getValue().toString();
 					}
-					String []aux = val.split("_"); // this symbol underscore ... will be the reserved char
+					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
 					this.xml.text((aux.length>0?aux[0]:""));
 					this.xml.endElement();
 					

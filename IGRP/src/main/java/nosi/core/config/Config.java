@@ -240,12 +240,12 @@ public class Config {
 	}
 	
 	public String getDefaultPageController(String app,String title){
-		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n"
+		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n\n"
 				 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
-				 + "import nosi.webapps.igrp.dao.Application;"
+				 + "import nosi.webapps.igrp.dao.Application;\n"
 				 + "import java.io.IOException;\n"
 				 + "import nosi.core.webapp.Response;\n"
-				 + "import nosi.core.webapp.Controller;\n"
+				 + "import nosi.core.webapp.Controller;\n\n"
 				 + "public class DefaultPageController extends Controller {	\n"
 						+ "\tpublic Response actionIndex() throws IOException{\n"
 							+ "\tApplication app = new Application().find().andWhere(\"dad\",\"=\",\""+app+"\").one();\n" 
@@ -261,9 +261,10 @@ public class Config {
 	
 	
 	public String getGenTaskController(String app,String taskId){
-		return "package nosi.webapps."+app.toLowerCase()+".process."+taskId.toLowerCase()+";\n"
+		return "package nosi.webapps."+app.toLowerCase()+".process."+taskId.toLowerCase()+";\n\n"
 				 + "import java.io.IOException;\n"
 				 + "import nosi.core.webapp.Response;\n"
+				 + "import javax.servlet.ServletException;\n"
 				 + "import nosi.core.webapp.bpmn.BPMNTaskController;\n\n" 
 				 + "public class "+taskId+"Controller extends BPMNTaskController {	\n\n"
 						+ "\t public Response actionIndex() throws IOException, ServletException{\n"
@@ -272,8 +273,8 @@ public class Config {
 						+ "\t public Response actionSave() throws IOException, ServletException{\n"
 						+ "\t\t return super.save();\n"
 						+ "\t }\n\n"+ 
-						"\t public Response actionLoad() throws IOException, ServletException{\n"
-						+ "\t\t return super.load();\n"
+						"\t public Response actionUpdate() throws IOException, ServletException{\n"
+						+ "\t\t return super.update();\n"
 						+ "\t }\n\n"
 				  + "}";
 	}

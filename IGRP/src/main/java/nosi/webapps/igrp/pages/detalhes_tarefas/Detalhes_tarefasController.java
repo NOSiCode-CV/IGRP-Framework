@@ -6,9 +6,7 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -18,10 +16,11 @@ import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
@@ -54,6 +53,8 @@ public class Detalhes_tarefasController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	private String generateCustomFormTask(TaskServiceQuery task) {
+		Application app = new Application().findOne(task.getTenantId());
+		
 		Core.setAttribute("report_p_prm_definitionid", task.getProcessInstanceId());
 		Gson gson = new Gson();
 		HistoricTaskService history = new HistoricTaskService();
@@ -62,7 +63,7 @@ public class Detalhes_tarefasController extends Controller {
 		boolean processFinished = history.getHistory(task.getId()).size() > 0;
 		XMLExtractComponent comp = new XMLExtractComponent();
 		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application", "=",Core.toInt(task.getTenantId())).one();
-		String app = action.getApplication().getDad();
+		String dad = action.getApplication().getDad();
 		String page = action.getPage();
 		String json = "";
 		if(task.getVariables()!=null) {
@@ -76,7 +77,7 @@ public class Detalhes_tarefasController extends Controller {
 					if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
 						page = rows.getValue().toString();
 					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
-						app = rows.getValue().toString();
+						dad = rows.getValue().toString();
 					}else {
 						if(rows.getValue() instanceof String[]) {
 							for(String obj:(String[])rows.getValue()) {
@@ -88,8 +89,8 @@ public class Detalhes_tarefasController extends Controller {
 				}
 			}
 		}
-		this.setLinkDocumentsTask(task, histories);
-		Response resp = this.call(app, page, "index",this.queryString());
+		
+		Response resp = this.call(dad, page, "index",this.queryString());
 		String content = comp.removeXMLButton(resp.getContent());
 		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+task.getTenantId(), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
@@ -97,53 +98,19 @@ public class Detalhes_tarefasController extends Controller {
 		xml.writeAttribute("type", "");
 		xml.setElement("title", gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()));
 		if(!processFinished) {
-			xml.addXml(comp.generateButtonEditTask(task.getId()).toString());
+			xml.addXml(comp.generateButtonEditTask(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "update",task.getId()).toString());
 		}
 		IGRPSeparatorList sep = comp.addFormlistFile();
 		xml.addXml(sep.toString());
 		xml.addXml(content);
-		xml.addXml(comp.extractXML(this.call("igrp", "Addfiletask", "index", this.queryString()).getContent()));
+		this.removeOldQueryString();
+		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,task.getProcessDefinitionKey(),task.getTaskDefinitionKey(),task.getTenantId(),histories)));
 		xml.endElement();
 		return xml.toString();	
 	}
 	
 	
-	private void setLinkDocumentsTask(TaskServiceQuery task, List<HistoricTaskService> history) {		
-		try {
-			if(history!=null && !history.isEmpty()) {
-				List<TaskVariables> variables = history.get(0).getVariables(); 
-				if(variables !=null) {
-					this.removeOldQueryString();
-					List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
-							.find()
-							.andWhere("processId", "=",Core.isNotNull(task.getProcessDefinitionKey())?task.getProcessDefinitionKey():"-1")
-							.andWhere("taskId", "=",Core.isNotNull(task.getTaskDefinitionKey())?task.getTaskDefinitionKey():"-1")
-							.andWhere("tipoDocumento.application", "=",Core.toInt(task.getTenantId()))
-							.andWhere("status", "=",1)
-							.andWhere("tipo", "=","IN")
-							.all();
-					tipoDocs.stream().forEach(doc->{			 			 	
-						variables.stream()
-						 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
-						 		 .forEach(v->{
-										this.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
-										this.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
-										this.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
-										this.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
-										this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
-										this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
-										this.addQueryString("p_formlist_documento_task_documento_fk_desc", v.getName());
-										this.addQueryString("p_formlist_documento_task_documento_fk", v.getName());
-							 			this.addQueryString("formlist_documento_task_documento_fk",v.getName());
-						 			 	this.addQueryString("formlist_documento_task_documento_fk_desc",v.getName());
-										this.addQueryString("p_formlist_documento_task_mostrar_fk",new Config().getResolveUrl("igrp","Addfiletask","index").replaceAll("&", "&amp;")+"&amp;taskid="+history.get(0).getId()+"&amp;filename="+v.getName());
-										this.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
-						 		 });
-					});					
-				}
-			}
-		}catch(NullPointerException e) {}
-	}
+	
 	
 	private void removeOldQueryString() {
 		this.removeQueryString("p_formlist_documento_task_mostrar_fk");
@@ -154,9 +121,6 @@ public class Detalhes_tarefasController extends Controller {
 		this.removeQueryString("p_formlist_documento_task_descricao_fk_desc");
 		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk");
 		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc");
-	}
-	private String getObrigatoriedade(int required) {
-		return required==1?"Sim":"Nao";
 	}
 	/*----#END-PRESERVED-AREA----*/
 

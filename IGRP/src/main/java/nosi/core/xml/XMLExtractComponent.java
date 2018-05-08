@@ -56,6 +56,7 @@ public class XMLExtractComponent {
 		}
 		return "";
 	}
+	
 	public IGRPToolsBar generateButtonProcess(String p_processId,String taskId) {
 		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
 		String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
@@ -72,22 +73,32 @@ public class XMLExtractComponent {
 		toolsbar1.addButton(button);
 		return toolsbar1;
 	}
+	
 
-	public Object generateButtonEditTask(String taskId) {
+	public IGRPToolsBar generateButtonTask(String app, String page,String action, String taskId) {
+		return this.generateButtonTask(app, page, action, "primary|fa-save", taskId);
+	}
+
+	public IGRPToolsBar generateButtonEditTask(String app,String page,String action,String taskId) {
+		return this.generateButtonTask(app, page, action, "success|fa-save", taskId);
+	}
+	
+	public IGRPToolsBar generateButtonTask(String app, String page,String action,String icon, String taskId) {
 		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
 		button.getProperties().add("type", "specific");
 		button.setTitle(gt("Gravar"));
-		button.setApp("igrp");
-		button.setPage("ExecucaoTarefas");
-		button.setLink("process-edit-task&"+("p_prm_taskid="+taskId)+"&customForm=true");
+		button.setApp(app);
+		button.setPage(page);
+		button.setLink(action+"&taskId="+taskId+"&customForm=true");
 		button.setTarget("submit");
-		button.setImg("primary|fa-save");
+		button.setImg(icon);
 		toolsbar1.addButton(button);
 		return toolsbar1;
 	}
+	
 	public String joinComponentXML(String codigo) {
 		List<TaskComponent> components = new TaskComponent().find().andWhere("codigo", "=",codigo).all();
 		components.stream().forEach(c->{

@@ -9,6 +9,8 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +21,10 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
+import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Permission;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
@@ -65,6 +69,10 @@ public class BPMNDesignerController extends Controller {
 		if(Core.isNotNull(model.getEnv_fk())) {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
 			String content = FileHelper.convertToString(data);
+			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content);
+			for(TaskService task:tasks) {
+				this.saveTaskController(task,app);
+			}
 			int index = content.indexOf("<process id=\"");
 			String fileName = data.getName();
 			if(index != -1) {
@@ -81,7 +89,6 @@ public class BPMNDesignerController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-
 	public Response actionPublicar() throws IOException{
 		/*----#START-PRESERVED-AREA(PUBLICAR)----*/
 		return this.redirect("igrp_studio","BPMNDesigner","index");
@@ -106,5 +113,41 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView(resource);
 	}
 	
+	private void saveTaskController(TaskService task,Application app) {
+		String content = this.getConfig().getGenTaskController(app.getDad(), task.getId());
+		String classPathServer = this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getId().toLowerCase();
+		String classPathWorkspace = this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getId().toLowerCase();
+		if(!FileHelper.fileExists(classPathServer+File.separator+task.getId()+"Controller.java")) {
+			try {
+				FileHelper.save(classPathServer, task.getId()+"Controller.java", content);
+			} catch (IOException e) {
+				
+			}
+		}
+		if(!FileHelper.fileExists(classPathWorkspace+File.separator+task.getId()+"Controller.java")) {
+			try {
+				FileHelper.save(classPathWorkspace, task.getId()+"Controller.java", content);
+			} catch (IOException e) {
+				
+			}
+		}
+		Action ac = new Action().find()
+								.andWhere("application", "=",app.getId())
+								.andWhere("page", "=",task.getId())
+								.one();
+		if(ac==null) {
+		 	ac = new Action();
+		 	ac.setApplication(app);
+			ac.setAction_descr("");
+			ac.setPage_descr("Task Page "+task.getId());
+			ac.setStatus(1);
+			ac.setPage(task.getId());
+			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process");
+			ac.setVersion("2.3");
+			ac.setAction("index");
+     		ac.setIsComponent((short) 2);
+     		ac.insert();
+		}
+	}
 	/*----#END-PRESERVED-AREA----*/
 }

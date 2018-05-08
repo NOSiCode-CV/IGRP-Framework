@@ -18,13 +18,13 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 /*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller{		
@@ -88,7 +88,7 @@ public class MapaProcessoController extends Controller{
 				xml.setElement("title", title);
 				xml.addXml(comp.generateButtonProcess(p_processId, taskId).toString());
 				xml.addXml(content);
-				xml.addXml(comp.extractXML(this.addFileSeparator(processDefinition,taskDefinition,idApp)));
+				xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,idApp,null)));
 				xml.endElement();
 				return this.renderView(xml.toString());	
 			}
@@ -96,35 +96,6 @@ public class MapaProcessoController extends Controller{
 			return this.renderView(content);
 		}
 		return null;
-	}
-	
-	private String addFileSeparator(String processDefinition,String taskDefinition,String idApp) {
-		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
-				.find()
-				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
-				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
-				.andWhere("tipoDocumento.application", "=",Core.toInt(idApp))
-				.andWhere("status", "=",1)
-				.andWhere("tipo", "=","IN")
-				.all();
-		if(tipoDocs != null && tipoDocs.size() > 0){
-			for(TipoDocumentoEtapa doc:tipoDocs){
-				this.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
-				this.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
-				this.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
-				this.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
-				this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",this.getObrigatoriedade(doc.getRequired()));
-				this.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",this.getObrigatoriedade(doc.getRequired()));
-				this.addQueryString("p_formlist_documento_task_mostrar_fk","");
-				this.addQueryString("p_formlist_documento_task_mostrar_fk_desc","");
-			}
-			return this.call("igrp", "Addfiletask", "index", this.queryString()).getContent();
-		}
-		return "";
-	}
-
-	private String getObrigatoriedade(int required) {
-		return required==1?"Sim":"Nao";
 	}
 
 	public Response actionGetXsl() throws IOException{

@@ -43,20 +43,21 @@ public abstract class Controller{
 		queryString = new QueryString<>();
 	}
 	
-	protected void loadQueryString() {
+	protected QueryString<String,Object> loadQueryString() {
 		Core.getParameters().entrySet().stream().filter(p->!p.getKey().equals("r")).forEach(p->{
 			this.addQueryString(p.getKey(),p.getValue()!=null?p.getValue()[0]:"");
 		});
-	}
-	
-	protected QueryString<String,Object> queryString() {
 		return this.queryString;
 	}
 	
-	protected QueryString<String,Object> addQueryString(String name,Object value) {
+	public QueryString<String,Object> queryString() {
+		return this.queryString;
+	}
+	
+	public QueryString<String,Object> addQueryString(String name,Object value) {
 		return this.queryString().addQueryString(name, value);
 	}
-	protected QueryString<String,Object> removeQueryString(String key) {
+	public QueryString<String,Object> removeQueryString(String key) {
 		return this.queryString.removeQueryString(key);
 	}
 	
@@ -315,7 +316,7 @@ public abstract class Controller{
 		return this.call(app, page, action, null);
 	}
 	
-	protected Response call(String app, String page, String action,QueryString<String,Object> queryString) {
+	public Response call(String app, String page, String action,QueryString<String,Object> queryString) {
 		this.setQueryStringToAttributes(queryString);
 		String auxcontrollerPath = this.config.getPackage(app,page,action);
 		Igrp.getInstance().setCurrentAppName(app);
