@@ -555,6 +555,11 @@
           <script src="{$path}/core/codemirror/js/mode/sql/sql.js"></script>
           <script src="{$path}/core/codemirror/js/addon/hint/show-hint.js"></script>
           <script src="{$path}/core/codemirror/js/clike.js"></script>
+          
+          <script src="{$path}/core/codemirror/js/addon/search/search.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/search/searchcursor.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/search/dialog.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/search/jump-to-line.js"></script>
 
           <!--gen-->
           <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>
@@ -1119,6 +1124,8 @@
         <link href="{$path}/core/codemirror/css/codemirror.css" rel="stylesheet"/>
         <!--code mirror sql-->
         <link rel="stylesheet" href="{$path}/core/codemirror/css/show-hint.css" />
+        <link rel="stylesheet" href="{$path}/core/codemirror/js/addon/search/dialog.css" />
+        <link rel="stylesheet" href="{$path}/core/codemirror/js/addon/search/matchesonscrollbar.css" />
         <!--GEN-->
         
         <!-- start:SEPARATORLIST CSS INCLUDES -->
