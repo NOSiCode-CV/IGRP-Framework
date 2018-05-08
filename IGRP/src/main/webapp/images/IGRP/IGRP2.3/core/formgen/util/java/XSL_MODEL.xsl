@@ -109,6 +109,38 @@
 	    	</xsl:call-template>
 			<xsl:value-of select="$newline"/>	
 			
+			 
+			<xsl:value-of select="$tab"/> 
+			<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes, 'p_',name(),'_id',$double_quotes,')')"/>			
+			<xsl:value-of select="$newline"/>			
+			<xsl:value-of select="$tab"/> 
+			<xsl:value-of select="concat('private ','String[]',' ', 'p_',name(),'_id',';')"/>				
+			<xsl:value-of select="$newline"/>
+			
+			<xsl:value-of select="$tab"/>
+			<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes, 'p_',name(),'_del',$double_quotes,')')"/>			
+			<xsl:value-of select="$newline"/>			
+			<xsl:value-of select="$tab"/>
+			<xsl:value-of select="concat('private ','String[]',' ', 'p_',name(),'_del',';')"/>				
+			<xsl:value-of select="$newline"/>
+			 
+			<xsl:value-of select="$tab"/>
+			<xsl:call-template name="gen-method-set-get">
+	    		<xsl:with-param name="type" select="'String[]'" />
+	    		<xsl:with-param name="name" select="concat('p_',name(),'_id')" />
+	    		<xsl:with-param name="javaType" select="'String[]'"/>
+	    	</xsl:call-template>
+			<xsl:value-of select="$newline"/>
+			
+			<xsl:value-of select="$tab"/> 
+			<xsl:call-template name="gen-method-set-get">
+	    		<xsl:with-param name="type" select="'String[]'" />
+	    		<xsl:with-param name="name" select="concat('p_',name(),'_del')" />
+	    		<xsl:with-param name="javaType" select="'String[]'"/>
+	    	</xsl:call-template>
+			<xsl:value-of select="$newline"/>
+			
+			
     	</xsl:for-each>  
     	
     	

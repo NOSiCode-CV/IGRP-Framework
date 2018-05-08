@@ -1,5 +1,6 @@
 package nosi.core.webapp.export.app;
 
+import java.util.List;
 
 /**
  * Emanuel
@@ -14,6 +15,9 @@ public class StoredApplication {
 	private String template;
 	private int external;
 	private String url;
+	
+	private List<StoredModulo> modulos;
+	
 	public String getDad() {
 		return dad;
 	}
@@ -61,6 +65,13 @@ public class StoredApplication {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public List<StoredModulo> getModulos() {
+		return modulos;
+	}
+	public void setModulos(List<StoredModulo> modulos) {
+		this.modulos = modulos;
 	}
 	@Override
 	public String toString() {

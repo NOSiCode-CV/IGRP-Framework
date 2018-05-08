@@ -16,6 +16,8 @@ public class StoredPages {
 	private String img_src;
 	private int status;
 	
+	private int module_fk;
+	
 	public String getPage() {
 		return page;
 	}
@@ -69,5 +71,11 @@ public class StoredPages {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getModule_fk() {
+		return module_fk;
+	}
+	public void setModule_fk(int module_fk) {
+		this.module_fk = module_fk;
 	}
 }

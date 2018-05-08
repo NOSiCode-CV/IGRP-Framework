@@ -1,5 +1,7 @@
 package nosi.core.gui.components;
 
+import java.util.List;
+
 import org.apache.commons.text.StringEscapeUtils;
 
 import nosi.core.gui.fields.CheckBoxField;
@@ -8,6 +10,9 @@ import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
@@ -52,6 +57,16 @@ public class IGRPSeparatorList extends IGRPTable {
 		this(tag_name,"");
 	}
 	
+	protected String[] rowId;
+	
+	public void loadModel(List<?> modelList, String[] rowId) {
+		this.loadModel(modelList);
+		this.rowId = rowId;
+	}
+	
+	public void setRowsId(String []args) {
+		this.rowId = args;
+	}
 	
 	public IGRPSeparatorList(String tag_name, Object model, String name) {
 		this(tag_name,"");
@@ -61,6 +76,8 @@ public class IGRPSeparatorList extends IGRPTable {
 	@Override
 	protected void genRows() {
 		
+		int rowIndex = 0; 
+		
 		this.data = this.modelList;
 		
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
@@ -68,6 +85,17 @@ public class IGRPSeparatorList extends IGRPTable {
 			for(Object obj:this.data){
 				
 				this.xml.startElement("row");
+				
+				if(rowId != null && rowIndex < rowId.length) {
+					this.xml.startElement(this.tag_name + "_id");
+					this.xml.text(rowId[rowIndex++] + "");
+					this.xml.endElement();
+				}else {
+					this.xml.startElement(this.tag_name + "_id");
+					this.xml.text((rowIndex++) + "");
+					this.xml.endElement();
+				}
+				
 				if(this.buttons.size() > 0){
 					this.xml.startElement("context-menu");
 					
@@ -79,6 +107,7 @@ public class IGRPSeparatorList extends IGRPTable {
 					
 					this.xml.endElement();
 				}
+				
 				for(Field field : this.fields){
 					
 					this.xml.startElement(field.getTagName());
@@ -103,9 +132,11 @@ public class IGRPSeparatorList extends IGRPTable {
 					
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 0 ? aux[0] : "") + "\"></hidden>");
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 1 ? aux[1] : "") + "\"></hidden>");
+					
+					//this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + "p_" + this.tag_name + "_id"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 0 ? aux[0] : (rowId++) + "")  + "\"></hidden>");
+					
 				}
 				
-				//this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + "p_" + "separatorlist_1" + "_id"+ "\" type=\"hidden\" value=\"" + (++i)  + "\"></hidden>");
 				
 				this.xml.endElement();
 			}
