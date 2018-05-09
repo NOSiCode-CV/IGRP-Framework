@@ -28,7 +28,7 @@
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
-                        <img src="{$path}/themes/default/img/studio.logo.svg"/>
+                        <img src="{$path}/themes/default/img/logo.png"/>
                         <span class=""><b>IGRP</b> <small></small></span>
                     </a>
                     <div id="side-bar-ctrl">
@@ -103,7 +103,7 @@
                                 <div class="row hidden">
                                   <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
                                 </div>
-                                <div  class="col-md-9">
+                                <div id="jsleftpanel" class="col-md-9">
                                     <div class="content js-panel" id="js-drop-zone">
                                         <div id="js-canvas"></div>
                                     </div>
@@ -160,7 +160,7 @@
                                         </div>
                                     </div>-->
 
-                                    <div class="io-editing-tools active" jswidget="editing-tools">
+                                    <div class="io-editing-tools active jscAttr" jswidget="editing-tools">
                                         <ul class="io-control-list io-horizontal">
                                           <li class="io-control">
                                             <button title="Toggle keyboard shortcuts overlay"
@@ -174,10 +174,15 @@
                                               <span class="fa fa-expand"> </span>
                                             </button>
                                           </li>
+                                          <!--<li class="io-control">
+                                            <button title="Panel de Atributos" class="panelAttr jscAttr">
+                                              <span class="fa fa-gear"></span>
+                                            </button>
+                                          </li>-->
                                         </ul>
                                     </div>
 
-                                    <div class="io-zoom-controls">
+                                    <div class="io-zoom-controls jscAttr">
 
                                         <ul class="io-zoom-reset io-control io-control-list">
                                           <li>
@@ -297,20 +302,11 @@
 
                                     <div class="clear"></div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="js-panel" id="js-properties-panel">
+                                <div id="jsrightpanel" class="col-md-3">
+                                    <div class="js-panel jscAttr" id="js-properties-panel">
                                       
                                     <xsl:if test="rows/content/form_1/fields/formkey">
                                       <div class="bpm-lookup">
-                                        <!--<div class="bpp-properties-entry bpp-textfield" data-entry="id">
-                                          <label for="bpm-lookup">Form Key</label>
-                                          <div class="bpp-field-wrapper">
-                                            <input id="bpm-lookup" type="text" name="formKeyText"/>
-                                              <button class="lookup" data-action="lookup" data-show="canLookup">
-                                                <span><i class="fa fa-search"></i></span>
-                                              </button>
-                                            </div>
-                                          </div>-->
 
                                         <div class="form-group col-sm-12  gen-fields-holder" item-name="formkey" item-type="lookup">
                                           <div class="input-group">
@@ -330,9 +326,22 @@
                                             </xsl:call-template>
                                           </div>
                                         </div>
+
+                                        <xsl:if test="rows/content/form_1/fields/linkfile and rows/content/form_1/fields/linkfile/value != ''">
+                                          <div class="form-group col-sm-12  gen-fields-holder" item-name="linkfile" item-type="link">
+                                            <div class="row">
+                                              <a href="{rows/content/form_1/fields/linkfile/value}" class="bpmn-controller link btn btn-link form-link" target="modal" request-fields="">
+                                                <i class="fa fa-edit"/>
+                                                <span>
+                                                  <xsl:value-of select="rows/content/form_1/fields/linkfile/label"/>
+                                                </span>
+                                              </a>
+                                            </div>
+                                          </div>
+                                        </xsl:if>
                                       </div>
                                     </xsl:if>
-                                  </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

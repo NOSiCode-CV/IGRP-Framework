@@ -207,3 +207,13 @@ ul .tree-menu-options .btn{
 div[data-entry="form-fields"]{
   margin-top: 20px;
 }
+
+.bpmn-controller{
+  z-index: 1;
+  margin: 0 3px !important;
+}
+
+.bpp-properties-group[data-group="forms"] 
+.bpp-properties-entry[data-entry="form-fields"]{
+  margin-top: 70px;
+}

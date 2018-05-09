@@ -1,4 +1,4 @@
-package nosi.webapps.igrp.pages.pesquisarperfil;
+package nosi.webapps.igrp.pages.etapaaccess;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -8,7 +8,7 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PesquisarPerfil extends Model{		
+public class Etapaaccess extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	
@@ -47,30 +47,21 @@ public class PesquisarPerfil extends Model{
 
 
 	public static class Table_1{
-		private String organica;
-		private int estado;
-		private int estado_check;
-		private String descricao;
-		private String codigo;
 		private String id;
-		public void setOrganica(String organica){
-			this.organica = organica;
+		private String id_check;
+		private String descricao;
+		private String processid;
+		public void setId(String id){
+			this.id = id;
 		}
-		public String getOrganica(){
-			return this.organica;
+		public String getId(){
+			return this.id;
 		}
-
-		public void setEstado(int estado){
-			this.estado = estado;
+		public void setId_check(String id_check){
+			this.id_check = id_check;
 		}
-		public int getEstado(){
-			return this.estado;
-		}
-		public void setEstado_check(int estado_check){
-			this.estado_check = estado_check;
-		}
-		public int getEstado_check(){
-			return this.estado_check;
+		public String getId_check(){
+			return this.id_check;
 		}
 
 		public void setDescricao(String descricao){
@@ -80,18 +71,11 @@ public class PesquisarPerfil extends Model{
 			return this.descricao;
 		}
 
-		public void setCodigo(String codigo){
-			this.codigo = codigo;
+		public void setProcessid(String processid){
+			this.processid = processid;
 		}
-		public String getCodigo(){
-			return this.codigo;
-		}
-
-		public void setId(String id){
-			this.id = id;
-		}
-		public String getId(){
-			return this.id;
+		public String getProcessid(){
+			return this.processid;
 		}
 
 	}

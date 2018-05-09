@@ -75,11 +75,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Voluptatem aliqua lorem omnis</organica>
+                        <organica name="p_organica">Natus ipsum iste magna elit</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sit magna elit iste aperiam</descricao>
-                        <codigo name="p_codigo">Magna sit laudantium officia i</codigo>
+                        <descricao name="p_descricao">Doloremque iste voluptatem ape</descricao>
+                        <codigo name="p_codigo">Officia doloremque mollit aper</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -87,11 +87,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Deserunt dolor ipsum magna des</organica>
+                        <organica name="p_organica">Amet rem totam ipsum aliqua</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Unde iste dolor unde rem</descricao>
-                        <codigo name="p_codigo">Dolor sed rem lorem stract</codigo>
+                        <descricao name="p_descricao">Accusantium mollit officia vol</descricao>
+                        <codigo name="p_codigo">Rem sed magna elit consectetur</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,11 +99,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Aliqua lorem deserunt sit aper</organica>
+                        <organica name="p_organica">Sit iste doloremque consectetu</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sit ut stract ut natus</descricao>
-                        <codigo name="p_codigo">Voluptatem doloremque rem dese</codigo>
+                        <descricao name="p_descricao">Sed deserunt unde dolor totam</descricao>
+                        <codigo name="p_codigo">Ipsum adipiscing amet doloremq</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -111,11 +111,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Ipsum lorem doloremque sed acc</organica>
+                        <organica name="p_organica">Dolor unde magna rem omnis</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aperiam unde sed ut totam</descricao>
-                        <codigo name="p_codigo">Ut voluptatem ipsum ut ipsum</codigo>
+                        <descricao name="p_descricao">Aliqua amet ut stract omnis</descricao>
+                        <codigo name="p_codigo">Aperiam officia sit aliqua sed</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -123,11 +123,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Lorem unde doloremque stract m</organica>
+                        <organica name="p_organica">Laudantium sed iste dolor rem</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Laudantium omnis sit accusanti</descricao>
-                        <codigo name="p_codigo">Perspiciatis elit aliqua lauda</codigo>
+                        <descricao name="p_descricao">Labore ipsum iste natus offici</descricao>
+                        <codigo name="p_codigo">Aliqua omnis adipiscing stract</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -176,6 +176,15 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
                         <target>right_panel</target>
                         <img>warning|fa-send</img>
+                    </item>
+                    <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true">
+                        <title>Associar Etapa</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>primary|fa-address-card</img>
                     </item>
                 </context-menu>
             </table>
