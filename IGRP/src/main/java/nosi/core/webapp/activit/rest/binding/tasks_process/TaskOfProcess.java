@@ -20,7 +20,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="definitions")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TaskOfProcess implements Serializable{
-    @XmlElement(name="process")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@XmlElement(name="process")
     private List<ProcessType> process;
     @XmlAttribute
     private String targetNamespace;

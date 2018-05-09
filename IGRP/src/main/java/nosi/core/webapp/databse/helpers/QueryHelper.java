@@ -376,85 +376,74 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public List<Tuple> getResultList() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	public Object getSigleResult() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	public TypedQuery<?> getSingleResult(){
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	public <T> List<T> getResultList(Class<T> type){
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, String value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, String[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Integer value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Float value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Double value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, String value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, String[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Integer value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Float value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Double value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface having(String name, String operator, String value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -465,14 +454,12 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface groupBy(String... groupByNames) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface between(String name, Object value1, Object value2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -483,138 +470,115 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface exists(String value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface innerJoin(String table2, String key1, String key2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface leftJoin(String table2, String key1, String key2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface rightJoin( String table2, String key1, String key2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface outerJoin( String table2, String key1, String key2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface selfJoin( String table2, String key1, String key2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface union() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface unionAll() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	@Override
 	public QueryInterface andWhereNotNull(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhereIsNull(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhereNotNull(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhereIsNull(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Integer[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Double[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Float[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Integer[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Double[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Float[] values) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface having(String name, String operator, Integer value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface having(String name, String operator, Double value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface having(String name, String operator, Float value) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface from(String tables) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface select(String collumns) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

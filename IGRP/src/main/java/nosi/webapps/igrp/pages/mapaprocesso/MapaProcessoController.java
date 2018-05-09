@@ -13,11 +13,9 @@ import java.util.List;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Permission;
@@ -52,9 +50,8 @@ public class MapaProcessoController extends Controller{
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	public Response actionOpenProcess() throws IOException{
 		XMLExtractComponent comp = new XMLExtractComponent();
-		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-		String withButton = Igrp.getInstance().getRequest().getParameter("withButton");
+		String p_processId = Core.getParam("p_processId");
+		String withButton = Core.getParam("withButton");
 		String processDefinition = "";
 		String taskDefinition = "";
 		FormDataService formData = null;
@@ -68,14 +65,6 @@ public class MapaProcessoController extends Controller{
 			taskDefinition = formData.getTaskId();
 			processDefinition = process.getKey();
 		}
-		if(taskId!=null){
-			TaskService task = new TaskService().getTask(taskId);
-			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
-			formData = new FormDataService().getFormDataByTaskId(taskId);
-			idApp = task.getTenantId();
-			taskDefinition = task.getTaskDefinitionKey();
-			processDefinition = task.getProcessDefinitionKey();
-		}
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {		
 				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
@@ -86,7 +75,7 @@ public class MapaProcessoController extends Controller{
 				xml.startElement("content");
 				xml.writeAttribute("type", "");
 				xml.setElement("title", title);
-				xml.addXml(comp.generateButtonProcess(p_processId, taskId).toString());
+				xml.addXml(comp.generateButtonProcess(p_processId).toString());
 				xml.addXml(content);
 				xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,idApp,null)));
 				xml.endElement();

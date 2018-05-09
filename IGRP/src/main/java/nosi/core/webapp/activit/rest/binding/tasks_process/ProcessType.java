@@ -6,8 +6,6 @@
 package nosi.core.webapp.activit.rest.binding.tasks_process;
 import java.io.Serializable;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,12 +16,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="process")
 public class ProcessType implements Serializable{
-    private String id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;
     private String isExecutable;
     private String name;
     private SubProcess subProcess;
     private List<UserTask> userTask;
-
+    private List<StartEvent> startEventObject;
 
     @XmlAttribute	
     public String getId ()
@@ -71,7 +73,16 @@ public class ProcessType implements Serializable{
         this.userTask = userTask;
     }
 
-    @XmlAttribute	
+    @XmlElement(name="startEvent")    
+    public List<StartEvent> getStartEventObject() {
+		return startEventObject;
+	}
+
+	public void setStartEventObject(List<StartEvent> startEventObject) {
+		this.startEventObject = startEventObject;
+	}
+
+	@XmlAttribute	
     public String getIsExecutable ()
     {
         return isExecutable;
