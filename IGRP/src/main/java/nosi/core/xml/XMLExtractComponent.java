@@ -57,17 +57,16 @@ public class XMLExtractComponent {
 		return "";
 	}
 	
-	public IGRPToolsBar generateButtonProcess(String p_processId,String taskId) {
+	public IGRPToolsBar generateButtonProcess(String p_processId) {
 		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
-		String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
 		button.getProperties().add("type", "specific");
-		button.setTitle(gt(Core.isNotNull(p_processId)?"Iniciar Processo":"Gravar"));
+		button.setTitle(gt("Iniciar Processo"));
 		button.setApp("igrp");
 		button.setPage("ExecucaoTarefas");
-		button.setLink("process-task&"+id+"&customForm=true");
+		button.setLink("process-task&"+"p_prm_definitionid="+p_processId+"&customForm=true");
 		button.setTarget("submit");
 		button.setImg("primary|fa-save");
 		toolsbar1.addButton(button);

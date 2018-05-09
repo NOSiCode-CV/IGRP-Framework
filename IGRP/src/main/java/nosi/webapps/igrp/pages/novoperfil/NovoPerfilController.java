@@ -6,20 +6,12 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.GroupService;
-import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
-
-import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
 
@@ -87,10 +79,10 @@ public class NovoPerfilController extends Controller {
 				group.setId(pt.getOrganization().getCode() + "." + pt.getCode());
 				group.setName(pt.getOrganization().getName() + " - " + pt.getDescr());
 				group.setType("assignment");
-				group.create(group);
-				Core.setMessageSuccess("Perfil criado com sucesso");			
+				group.create(group);		
 				
-              if(insertProfile(pt) != null){             
+              if(insertProfile(pt) != null){    
+  				Core.setMessageSuccess("Perfil criado com sucesso");	         
                 this.addQueryString("p_nome","");
                 this.addQueryString("p_codigo","");                          
                 } else{
@@ -120,6 +112,7 @@ public class NovoPerfilController extends Controller {
 		prof = prof.insert();
 		return prof;
 	}
+	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
      String idProf=Core.getParam("p_id");
 		NovoPerfil model = new NovoPerfil();
@@ -158,7 +151,9 @@ public class NovoPerfilController extends Controller {
       if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
 			NovoPerfil model = new NovoPerfil();
            	model.load();
-			ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));        
+			ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));  
+			GroupService group = new GroupService();  
+			group.delete(p.getOrganization().getCode() + "." + p.getCode());
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(new Organization().findOne(model.getOrganica()));
@@ -170,6 +165,10 @@ public class NovoPerfilController extends Controller {
 			p.setApplication(new Application().findOne(model.getAplicacao()));
 			p = p.update();
 			if (p != null) {
+				group.setId(p.getOrganization().getCode() + "." + p.getCode());
+				group.setName(p.getOrganization().getName() + " - " + p.getDescr());
+				group.setType("assignment");
+				group.create(group);		
 				Core.setMessageSuccess("Perfil atualizado com sucesso.");              
 			} else
 				Core.setMessageError("Erro ao atualizar o perfil.");

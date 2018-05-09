@@ -352,6 +352,17 @@ public class ProcessDefinitionService extends Activit{
 					list.add(t);
 				}
 			}
+			/*if(listTasks.getProcess().get(0).getStartEventObject()!=null) {
+				for(StartEvent task:listTasks.getProcess().get(0).getStartEventObject()) {
+					TaskService t = new TaskService();
+					t.setId(task.getId());
+					t.setName(task.getName());
+					t.setTaskDefinitionKey(task.getId());
+					t.setFormKey(task.getFormKey());
+					t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+					list.add(t);
+				}
+			}*/
 		}
 		return list;
 	}

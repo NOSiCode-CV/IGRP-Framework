@@ -7,6 +7,8 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
@@ -17,15 +19,118 @@ import nosi.core.webapp.webservices.helpers.RestRequest;
  * @author: Emanuel Pereira
  * 27 Sep 2017
  */
-public class GroupService extends Activit{
+public class GroupService{
 
 	/**
 	 * 
 	 */
+
+	private String id;
+	private String category;
+	private String name;
 	private String type;
+
+	@Expose(serialize=false,deserialize=false)
+	private ResponseError error;
+	@Expose(serialize=false)
+	private Integer total;
+	@Expose(serialize=false)
+	private Integer start;
+	@Expose(serialize=false)
+	private String sort;
+	@Expose(serialize=false)
+	private String order;
+	@Expose(serialize=false)
+	private Integer size;
+	
 	public GroupService() {
 	}
 	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ResponseError getError() {
+		return error;
+	}
+
+
+	public void setError(ResponseError error) {
+		this.error = error;
+	}
+
+
+	public Integer getTotal() {
+		return total;
+	}
+
+
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
+
+
+	public Integer getStart() {
+		return start;
+	}
+
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+
+
+	public String getSort() {
+		return sort;
+	}
+
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+
+	public String getOrder() {
+		return order;
+	}
+
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+
+	public Integer getSize() {
+		return size;
+	}
+
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+
 	public GroupService getGroup(String id){
 		GroupService g = new GroupService();
 		Response response = new RestRequest().get("identity/groups",id);
@@ -149,9 +254,12 @@ public class GroupService extends Activit{
 		this.type = type;
 	}
 
+
 	@Override
 	public String toString() {
-		return "GroupService [type=" + type + ", getId()=" + getId() + ", getCategory()=" + getCategory()
-				+ ", getName()=" + getName() + ", getUrl()=" + getUrl() + "]";
+		return "GroupService [id=" + id + ", category=" + category + ", name=" + name + ", type=" + type + ", error="
+				+ error + ", total=" + total + ", start=" + start + ", sort=" + sort + ", order=" + order + ", size="
+				+ size + "]";
 	}
+	
 }

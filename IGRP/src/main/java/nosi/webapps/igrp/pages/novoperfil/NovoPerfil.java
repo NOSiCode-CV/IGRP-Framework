@@ -1,5 +1,5 @@
 package nosi.webapps.igrp.pages.novoperfil;
-import nosi.core.config.Config;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
