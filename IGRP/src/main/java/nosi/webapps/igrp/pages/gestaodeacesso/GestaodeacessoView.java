@@ -29,6 +29,7 @@ public class GestaodeacessoView extends View {
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacti_org;
 	public IGRPButton btn_eliminar;
+	public IGRPButton btn_associar_etapa;
 
 	public GestaodeacessoView(){
 
@@ -52,17 +53,20 @@ public class GestaodeacessoView extends View {
 		adicionar_organica = new LinkField(model,"adicionar_organica");
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
-		adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30");
+
+									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));
 		gestao_de_utilizadores.setValue(new Config().getResolveUrl("igrp","PesquisarUtilizador","index"));
-		gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30");
+
+									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30");
 		
 		gestao_de_menu = new LinkField(model,"gestao_de_menu");
 		gestao_de_menu.setLabel(gt("Gestão de menu"));
 		gestao_de_menu.setValue(new Config().getResolveUrl("igrp","PesquisarMenu","index"));
-		gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30");
+
+									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -78,7 +82,8 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		mostrar_perfis.setValue(new Config().getResolveUrl("igrp","PesquisarPerfil","index"));
-		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("desc","true");
+
+									mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -97,6 +102,9 @@ public class GestaodeacessoView extends View {
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
+
+		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","Gestaodeacesso","associar_etapa","right_panel","primary|fa-address-card-o","","");
+		btn_associar_etapa.propertie.add("type","specific").add("rel","associar_etapa");
 
 		
 	}
@@ -121,6 +129,7 @@ public class GestaodeacessoView extends View {
 		org_table.addButton(btn_menu);
 		org_table.addButton(btn_transacti_org);
 		org_table.addButton(btn_eliminar);
+		org_table.addButton(btn_associar_etapa);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(org_table);

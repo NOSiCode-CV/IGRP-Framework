@@ -313,7 +313,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 
 	@Override
 	public T andWhere(String columnName, String operator) {
-		if((operator.toString().equalsIgnoreCase("notnull") || operator.toString().equalsIgnoreCase("notnull"))&& this.entityManagerFactory!=null){
+		if((operator.toString().equalsIgnoreCase("isnull") || operator.toString().equalsIgnoreCase("notnull"))&& this.entityManagerFactory!=null){
 			if(this.entityManagerFactory.isOpen()){
 				Predicate e = null;
 				switch (operator.toLowerCase()) {

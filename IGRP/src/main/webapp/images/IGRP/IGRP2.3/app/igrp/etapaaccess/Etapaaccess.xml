@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/etapaaccess/Etapaaccess.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Etapaaccess</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Etapaaccess</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=96</preserve_url>
+    </plsql>
+    <content>
+        <title>EtapaAccess</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Associar Etapa a Organica/Perfil</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" custom_return="true">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>Etapaaccess</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/etapaaccess/Etapaaccess.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <id name="p_id" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
+                    <label/>
+                </id>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao>
+                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" tag="processid"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Laudantium anim accusantium is</descricao>
+                        <processid name="p_processId" tag="processid">1</processid>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Sed aliqua rem anim mollit</descricao>
+                        <processid name="p_processId" tag="processid">1</processid>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Perspiciatis labore totam stra</descricao>
+                        <processid name="p_processId" tag="processid">1</processid>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Amet sed rem dolor sed</descricao>
+                        <processid name="p_processId" tag="processid">1</processid>
+                    </row>
+                    <row>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                        <descricao name="p_descricao">Lorem dolor stract aliqua ipsu</descricao>
+                        <processid name="p_processId" tag="processid">1</processid>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

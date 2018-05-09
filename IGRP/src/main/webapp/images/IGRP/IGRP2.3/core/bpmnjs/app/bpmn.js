@@ -181,7 +181,7 @@
 
             if (gid){
                href  += 'p_general_id='+gid;
-               
+
                if (pdid)
                   href += '&p_process_id='+pdid;
 
@@ -194,6 +194,30 @@
                return false;
             }
          });
+
+         $.IGRP.targets['modal'].action = function(p){
+            var url = $.IGRP.utils.getUrl(p.url)+'p_task_id='+$('#camunda-id').val()+'&p_env_fk='+bpmn.app;
+            $.IGRP.components.iframeNav.set({
+               url     : url,
+               clicked : p.clicked
+            });
+            return false;
+         };
+      },
+      panelAttr : function(){
+         $('.panelAttr').on('click',function(e){
+            e.preventDefault();
+            if ($(this).hasClass('jsc')) {
+               $('.jscAttr').removeClass('jsc');
+               $('#jsleftpanel').alterClass('col-md-9','col-md-12');
+               $('#jsrightpanel').removeClass('col-md-3');
+            }else{
+               $('.jscAttr').addClass('jsc');
+               $('#jsleftpanel').alterClass('col-md-12','col-md-9');
+               $('#jsrightpanel').addClass('col-md-3');               
+            }
+            return false;
+         });
       },
       init:function(){
          com = this;
@@ -202,6 +226,7 @@
          com.btnAddEditClick();
          com.utils();
          com.saveDiagram();
+         //com.panelAttr();
       }
    },true);
 })();

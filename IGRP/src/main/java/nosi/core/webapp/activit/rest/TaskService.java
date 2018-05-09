@@ -96,7 +96,11 @@ public class TaskService extends Activit{
 	
 	public List<TaskService> getMyTasks(String user){
 		this.addFilter("assignee",user);
-		return this.getTasks();
+		List<TaskService> tasks =  this.getTasks();
+		this.setFilter("");
+		this.addFilter("candidateUsers",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		tasks.addAll(this.getTasks());
+		return tasks;
 	}
 	
 
@@ -195,14 +199,6 @@ public class TaskService extends Activit{
 		try {
 			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
 			file.delete();
-			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
-			try {
-				contentResp = FileHelper.convertToString(is);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.out.println(contentResp);
 			return response.getStatus() == 201;
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -13,14 +13,14 @@ var formField = function(p){
       v = p.o.replace(/activiti_G_formProperty/g, 'camunda_G_formField').
       replace(/expression=/g, 'defaultValue=');
 
-      if (!/executionListener/i.test(p.n))
+      if (!/executionListener|taskListener/i.test(p.n))
         v = v.replace(/name=/g, 'label=');
     }
     else if (p.t == 'a'){
 		  v = p.o.replace(/camunda_G_formField/g, 'activiti_G_formProperty').
             replace(/defaultValue=/g, 'expression=');
 
-      if (!/executionListener/i.test(p.n))
+      if (!/executionListener|taskListener/i.test(p.n))
         v = v.replace(/label=/g, 'name=');
     }
 	return v;
@@ -50,7 +50,7 @@ $.fn.activiti2Io = function(params) {
           tag       = getAttrs($(this)[0].attributes);
 
       if (strChilds) {
-        var omissionField = ['activiti_G_formProperty','activiti_G_executionListener'];
+        var omissionField = ['activiti_G_formProperty','activiti_G_executionListener','activiti_G_taskListener'];
 
    		  strChilds = $($.parseXML(xml2String(strChilds).replace(/:/g, '_G_')));
 

@@ -102,7 +102,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Deserunt deserunt consectetur</org_nome>
+                        <org_nome name="p_org_nome">Amet elit lorem anim omnis</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -114,7 +114,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Magna ipsum officia natus lore</org_nome>
+                        <org_nome name="p_org_nome">Officia sit sit lorem accusant</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -126,7 +126,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Omnis unde labore aperiam sit</org_nome>
+                        <org_nome name="p_org_nome">Ut laudantium ut labore iste</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -138,7 +138,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Amet sit sit officia elit</org_nome>
+                        <org_nome name="p_org_nome">Unde omnis lorem totam deserun</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -150,7 +150,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Stract consectetur sed natus a</org_nome>
+                        <org_nome name="p_org_nome">Deserunt aperiam labore sit ac</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -192,6 +192,15 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
+                    </item>
+                    <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true">
+                        <title>Associar Etapa</title>
+                        <app>igrp</app>
+                        <page>Gestaodeacesso</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/gestaodeacesso/Gestaodeacesso.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>primary|fa-address-card-o</img>
                     </item>
                 </context-menu>
             </table>

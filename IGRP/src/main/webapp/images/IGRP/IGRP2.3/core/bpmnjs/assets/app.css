@@ -732,10 +732,11 @@ textarea.error-log:hover {
     content: '\e86d'}
 
 #js-properties-panel{
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 55px;
   bottom: 0;
   right: 0;
+  transition: right .35s;
   width: 320px;
   z-index: 10;
   border-left: 1px solid #ccc;
@@ -743,8 +744,17 @@ textarea.error-log:hover {
   background: #f8f8f8;
 }
 
+#js-properties-panel.jsc{
+    right: -330px;
+}
+
+#igrp-contents .io-editing-tools.jsc,
+#igrp-contents .io-zoom-controls.jsc{
+    right: 30px;
+}
+
 #igrp-contents #js-properties-panel{
-    height:100vh !important;
+    height:calc(100vh - 55px)!important;
 }
 
 #js-properties-panel:empty {
@@ -757,7 +767,7 @@ textarea.error-log:hover {
 
 #igrp-contents #js-drop-zone{
     width: 100%;
-    position: absolute;
-    height: 100vh !important;
+    position: relative;
+    height: calc(100vh -55px) !important;
     display: table;
 }

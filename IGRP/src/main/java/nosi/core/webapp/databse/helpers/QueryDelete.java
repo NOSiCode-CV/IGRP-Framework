@@ -6,7 +6,7 @@ import nosi.core.config.Config;
  * Emanuel
  * 21 Dec 2017
  */
-public class QueryDelete extends QueryHelper {
+public class QueryDelete extends CommonFIlter{
 
 	public QueryDelete(String connectionName) {
 		super(connectionName);

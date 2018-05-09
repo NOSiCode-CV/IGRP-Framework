@@ -153,6 +153,25 @@ public class GestaodeacessoController extends Controller {
 		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
 	
+	public Response actionAssociar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		Gestaodeacesso model = new Gestaodeacesso();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Gestaodeacesso","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(associar_etapa)----*/
+		this.loadQueryString().addQueryString("type", "org");
+      	return this.redirect("igrp","Etapaaccess","index", this.queryString());
+		/*----#end-code----*/
+			
+	}
+	
 	/*----#start-code(custom_actions)----*/
 	private void setTable(Gestaodeacesso model, List<Gestaodeacesso.Org_table> data) {			
 		for (Organization org : new Organization().find()

@@ -27,7 +27,7 @@
     	<mapping class="nosi.webapps.igrp.dao.TipoDocumento"/>
     	<mapping class="nosi.webapps.igrp.dao.TipoDocumentoEtapa"/>
     	<mapping class="nosi.webapps.igrp.dao.Modulo"/>
-		
+		<mapping class="nosi.webapps.igrp.dao.TaskAccess"/>
 		<!-- OAuth -->
 		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken"/>
 		<mapping class="nosi.webapps.igrp.dao.OAuthClient"/>

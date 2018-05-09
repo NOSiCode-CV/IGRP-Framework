@@ -9,6 +9,8 @@ import nosi.core.gui.fields.*;
 
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class BPMNDesignerView extends View {
 	
 	
@@ -32,6 +34,7 @@ public class BPMNDesignerView extends View {
 	public Field processos;
 	public Field bpmn;
 	public Field formkey;
+	public Field linkfile;
 	public IGRPSectionHeader page_title;
 	public IGRPForm form_1;
 	public IGRPTable context_menu;
@@ -139,6 +142,10 @@ public class BPMNDesignerView extends View {
 		formkey = new LookupField(model,"formkey");
 		formkey.setLabel(gt("Pagina"));		
 		formkey.propertie().add("name","p_formkey").add("type","lookup").add("action","index").add("page","BPMNDesigner").add("app","igrp_studio").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
+		linkfile = new LinkField(model,"linkfile");
+		linkfile.setLabel(gt("Linkfile"));
+		linkfile.setValue(new Config().getResolveUrl("igrp_studio","BPMNDesigner","index"));
+		linkfile.propertie().add("name","p_linkfile").add("type","link").add("target","_self").add("maxlength","30");
 		
 	}
 		
@@ -153,6 +160,7 @@ public class BPMNDesignerView extends View {
 		form_1.addField(area_name);
 		form_1.addField(env_fk);
 		form_1.addField(p_link_add_area);
+		form_1.addField(linkfile);
 
 		context_menu.addField(ctx_nome);
 		context_menu.addField(ctx_link);

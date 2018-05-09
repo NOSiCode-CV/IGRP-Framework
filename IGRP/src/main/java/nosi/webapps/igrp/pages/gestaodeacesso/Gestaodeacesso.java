@@ -34,6 +34,24 @@ public class Gestaodeacesso extends Model{
 	public List<Org_table> getOrg_table(){
 		return this.org_table;
 	}
+	@RParam(rParamName = "p_org_table_id")
+	private String[] p_org_table_id;
+	@RParam(rParamName = "p_org_table_del")
+	private String[] p_org_table_del;
+	
+	public void setP_org_table_id(String[] p_org_table_id){
+		this.p_org_table_id = p_org_table_id;
+	}
+	public String[] getP_org_table_id(){
+		return this.p_org_table_id;
+	}
+	
+	public void setP_org_table_del(String[] p_org_table_del){
+		this.p_org_table_del = p_org_table_del;
+	}
+	public String[] getP_org_table_del(){
+		return this.p_org_table_del;
+	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
