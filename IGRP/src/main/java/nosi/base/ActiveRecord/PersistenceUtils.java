@@ -29,7 +29,8 @@ public class PersistenceUtils {
       if (!SESSION_FACTORY.containsKey(connectionName)) {
          try {
     		Configuration configuration = getConfiguration(connectionName);
-    		if(configuration!=null) {
+    		
+    		if(configuration != null) {
     			SessionFactory sf = configuration.buildSessionFactory();		
     			SESSION_FACTORY.put(connectionName, sf);	  
     		}else {
@@ -41,8 +42,30 @@ public class PersistenceUtils {
       }
       return SESSION_FACTORY.get(connectionName);
 	 }
+	
+	public static SessionFactory getSessionFactory(Config_env config_env) {
+	      if (!SESSION_FACTORY.containsKey(config_env.getConnectionName())) {
+	         try {
+	    		Configuration configuration = getConfiguration(config_env.getConnectionName(), config_env.getApplication().getId());
+	    		
+	    		if(configuration != null) {
+	    			SessionFactory sf = configuration.buildSessionFactory();		
+	    			SESSION_FACTORY.put(config_env.getConnectionName(), sf);	  
+	    		}else {
+	    			return null;
+	    		}
+	         } catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      return SESSION_FACTORY.get(config_env.getConnectionName());
+		 }
 
 	public static Configuration getConfiguration(String connectionName) {
+		return getConfiguration(connectionName, -1);
+	}
+	
+	public static Configuration getConfiguration(String connectionName, int appId) {
 		String url = null;
         String driver = null;
         String password = null;
@@ -59,7 +82,17 @@ public class PersistenceUtils {
     			user = config.getUsername();
     			hibernateDialect = getHibernateDialect(config.getType_db());
             }else{
-            	Config_env config = new Config_env().find().andWhere("name", "=",connectionName).andWhere("application","=", Core.getCurrentApp().getId()).one();
+            	Config_env config = new Config_env();
+            	config.find().andWhere("name", "=",connectionName);
+            	if(appId > 0)
+            		config.andWhere("application","=", appId);
+            	else
+            		config.andWhere("application","=", Core.getCurrentApp().getId());
+            	
+            	config = config.one();
+            	
+            	System.out.println("Application: " + Core.getCurrentApp());
+            	
             	if(config!=null) {
             		url = getUrl(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getHost(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getPort(),Config.SECRET_KEY_ENCRYPT_DB), Core.decrypt(config.getName_db(),Config.SECRET_KEY_ENCRYPT_DB));
     				driver = getDriver(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB));
@@ -69,8 +102,10 @@ public class PersistenceUtils {
             	}
             }
 		  
-		  Configuration cfg = new Configuration();
-			if(url!=null) {    		
+		Configuration cfg = new Configuration();
+		  
+		if(url!=null) {
+			
         	cfg.configure("/"+connectionName+".cfg.xml");	        
         	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
         	cfg.getProperties().setProperty("hibernate.connection.password",password);
@@ -108,7 +143,7 @@ public class PersistenceUtils {
         	   return cfg;
 			}
         return null;
-		}
+	}
 		
 	   public static String getDriver(String type) {
 		switch (type.toLowerCase()) {

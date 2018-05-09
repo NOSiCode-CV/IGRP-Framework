@@ -50,8 +50,10 @@ public class DatabaseMetadaHelper {
 	public static List<String> getTables(Config_env config,String schema) {
 		List<String> list = new ArrayList<>();
 		if(config!=null ) {
-			java.sql.Connection con = Connection.getConnection(config.getName());
+			java.sql.Connection con = Connection.getConnection(config);
+			
 			ResultSet tables = null;
+			
 			try {
 				DatabaseMetaData metaData = con.getMetaData();
 				tables = metaData.getTables(null, schema, null, new String[]{"TABLE"});//Get All Tables on the schema database
@@ -197,7 +199,7 @@ public class DatabaseMetadaHelper {
 	public static List<Column> getCollumns(Config_env config,String schema,String tableName) {
 		List<Column> list = new ArrayList<>();
 		if(config!=null) {
-			java.sql.Connection con = Connection.getConnection(config.getName());
+			java.sql.Connection con = Connection.getConnection(config);
 			PreparedStatement st = null;
 			ResultSet rs = null;
 			try {
