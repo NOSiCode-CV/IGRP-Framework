@@ -267,7 +267,7 @@
                               </div>
                               
                               <div class="pull-left gen-toolbar-items" rel="java">
-                                  <a href="/IGRP/images/javadoc/index.html" class="btn btn-link" target="_newtab">                                  
+                                  <a href="{$path}/../../javadoc/index.html" class="btn btn-link" target="_newtab">                                  
                                    <i class="fa fa-file-text"></i>
                                   <span>Javadoc</span>                                  
                                   </a>

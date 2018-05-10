@@ -80,7 +80,7 @@
         </sectionheader_4>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept=".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept=".jar,.zip" targetrend="" multiple="false" rendvalue="false">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -121,7 +121,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" accept=".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="true" disabled="false" right="false" class="primary">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" accept=".jar,.zip" targetrend="" multiple="false" rendvalue="false" maxlength="100" required="true" disabled="false" right="false" class="primary">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>

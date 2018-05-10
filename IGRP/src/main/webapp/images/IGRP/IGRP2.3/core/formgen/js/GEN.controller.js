@@ -4438,7 +4438,7 @@ if(input) {
 
 		field.setPropriety({
 			name:'maxlength',
-			propriety:30,
+			propriety:250,
 			onChange:function(value){
 				field.holder.find('[maxlength]').attr('maxlength',value);
 			}

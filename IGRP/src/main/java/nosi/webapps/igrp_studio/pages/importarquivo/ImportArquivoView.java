@@ -89,7 +89,7 @@ public class ImportArquivoView extends View {
 		
 		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
 		arquivo_aplicacao.setLabel(gt("Aplicação"));
-		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true").add("accept",".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed").add("targetrend","").add("multiple","false").add("rendvalue","false");
+		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true").add("accept",".jar,.zip").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 		list_aplicacao = new ListField(model,"list_aplicacao");
 		list_aplicacao.setLabel(gt("Aplicação"));
@@ -97,7 +97,7 @@ public class ImportArquivoView extends View {
 		
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
 		arquivo_pagina.setLabel(gt("Página"));
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("accept",".jar,application/zip,application/x-zip-compressed, multipart/x-zip, application/x-compressed").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","true");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("accept",".jar,.zip").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","100").add("required","true");
 		
 		jar_file = new FileField(model,"jar_file");
 		jar_file.setLabel(gt("Jar file"));
