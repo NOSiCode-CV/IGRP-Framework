@@ -21,6 +21,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
+import nosi.webapps.igrp.dao.TaskAccess;
 import nosi.webapps.igrp.dao.User;
 
 /**
@@ -95,14 +96,25 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(String user){
-		this.addFilter("assignee",user);
+		//this.addFilter("assignee",user);
 		List<TaskService> tasks =  this.getTasks();
-		this.setFilter("");
-		this.addFilter("candidateUsers",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
-		tasks.addAll(this.getTasks());
+		tasks = tasks.stream().filter(t->this.filterAccess(t)).collect(Collectors.toList());
+		//this.setFilter("");
+		//this.addFilter("candidateUsers",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		//tasks.addAll(this.getTasks());
 		return tasks;
 	}
 	
+
+	private boolean filterAccess(TaskService t) {	
+		boolean x = new TaskAccess().getCurrentTaskAccess()
+				.stream()
+				.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
+				.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
+				.collect(Collectors.toList())
+				.size() > 0;
+		return x;
+	}
 
 	public List<TaskService> getUnassigedTasks(){
 		this.addFilter("unassigned","true");

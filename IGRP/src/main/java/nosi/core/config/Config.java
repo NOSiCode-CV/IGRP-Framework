@@ -204,7 +204,7 @@ public class Config {
 	
 	public String getHostName() {		
 		HttpServletRequest req = Igrp.getInstance().getRequest();		
-		return req.getScheme()+"://"+req.getServerName();
+		return req.getRequestURL().toString();
 	}
 	
 	public String getRootPaht(){
