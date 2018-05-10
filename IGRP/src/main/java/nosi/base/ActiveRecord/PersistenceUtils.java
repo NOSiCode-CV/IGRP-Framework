@@ -44,13 +44,13 @@ public class PersistenceUtils {
 	 }
 	
 	public static SessionFactory getSessionFactory(Config_env config_env) {
-	      if (!SESSION_FACTORY.containsKey(config_env.getConnectionName())) {
+	      if (!SESSION_FACTORY.containsKey(config_env.getName())) {
 	         try {
-	    		Configuration configuration = getConfiguration(config_env.getConnectionName(), config_env.getApplication().getId());
+	    		Configuration configuration = getConfiguration(config_env.getName(), config_env.getApplication().getId());
 	    		
 	    		if(configuration != null) {
 	    			SessionFactory sf = configuration.buildSessionFactory();		
-	    			SESSION_FACTORY.put(config_env.getConnectionName(), sf);	  
+	    			SESSION_FACTORY.put(config_env.getName(), sf);	  
 	    		}else {
 	    			return null;
 	    		}
@@ -58,8 +58,8 @@ public class PersistenceUtils {
 	            e.printStackTrace();
 	         }
 	      }
-	      return SESSION_FACTORY.get(config_env.getConnectionName());
-		 }
+	      return SESSION_FACTORY.get(config_env.getName());
+	}
 
 	public static Configuration getConfiguration(String connectionName) {
 		return getConfiguration(connectionName, -1);
@@ -84,15 +84,14 @@ public class PersistenceUtils {
             }else{
             	Config_env config = new Config_env();
             	config.find().andWhere("name", "=",connectionName);
+            	
             	if(appId > 0)
             		config.andWhere("application","=", appId);
             	else
             		config.andWhere("application","=", Core.getCurrentApp().getId());
             	
             	config = config.one();
-            	
-            	System.out.println("Application: " + Core.getCurrentApp());
-            	
+          
             	if(config!=null) {
             		url = getUrl(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getHost(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getPort(),Config.SECRET_KEY_ENCRYPT_DB), Core.decrypt(config.getName_db(),Config.SECRET_KEY_ENCRYPT_DB));
     				driver = getDriver(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB));

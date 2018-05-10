@@ -255,7 +255,7 @@ public class DatabaseMetadaHelper {
 		Map<String,String> schemasMap = new HashMap<>();
 		schemasMap.put(null, "-- Escolha o Schema --");
 		if(config!=null) {
-			java.sql.Connection con = Connection.getConnection(config.getName());
+			java.sql.Connection con = Connection.getConnection(config);
 			ResultSet schemas = null;
 			try {
 				if(con==null) {
