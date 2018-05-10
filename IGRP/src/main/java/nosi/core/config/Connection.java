@@ -5,7 +5,6 @@ import javax.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 import nosi.base.ActiveRecord.PersistenceUtils;
-import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**

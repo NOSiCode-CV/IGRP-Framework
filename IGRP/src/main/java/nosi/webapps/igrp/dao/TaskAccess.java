@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 
 /**
  * Emanuel
@@ -85,6 +87,13 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 		this.processName = processName;
 	}
 
+	public List<TaskAccess> getCurrentTaskAccess(){
+		return this.find()
+				   .andWhere("organization", "=",Core.getCurrentOrganization())
+				   .andWhere("profileType", "=",Core.getCurrentProfile())
+				   .all();		
+	}
+	
 	@Override
 	public String toString() {
 		return "TaskAccess [id=" + id + ", organization=" + organization + ", profileType=" + profileType
