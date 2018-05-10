@@ -5,6 +5,7 @@ package nosi.webapps.igrp.dao;
  */
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -48,7 +49,7 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	private String charset;
 	@Column(nullable=false,unique=true)
 	private String name;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CONFIG_ENV_FK"),nullable=false)
 	private Application application;
 	

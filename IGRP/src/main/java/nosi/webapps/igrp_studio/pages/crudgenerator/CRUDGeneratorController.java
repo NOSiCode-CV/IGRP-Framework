@@ -111,7 +111,8 @@ public class CRUDGeneratorController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 	
 			if( model.getData_source()!=null && model.getAplicacao()!=null) {
-				Integer id = Integer.parseInt( model.getData_source());
+				Integer id = 0;
+				try{id = Integer.parseInt( model.getData_source());}catch(Exception e) {} 
 				Config_env config = new Config_env().findOne(id);
 				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 				String[] tables = Igrp.getInstance().getRequest().getParameterValues("p_check_table");
