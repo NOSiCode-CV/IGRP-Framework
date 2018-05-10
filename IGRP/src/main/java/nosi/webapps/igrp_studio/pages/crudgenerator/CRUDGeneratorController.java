@@ -46,11 +46,11 @@ public class CRUDGeneratorController extends Controller {
 		List<CRUDGenerator.Table_1> data = new ArrayList<>();    	 
 		view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.data_source.setValue(new Config_env().getListEnv(Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):-1));			
+		view.data_source.setValue(new Config_env().getListEnv(Core.toInt(model.getAplicacao(),-1)));			
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
 		int i=1;
-		Config_env config = new Config_env().findOne(Core.isInt(model.getData_source())?Integer.parseInt(model.getData_source()):-1);
+		Config_env config = new Config_env().findOne(Core.toInt(model.getData_source(),-1));
 		
 		Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
 		
@@ -110,12 +110,11 @@ public class CRUDGeneratorController extends Controller {
 
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 	
-			if( model.getData_source()!=null && model.getAplicacao()!=null) {
-				Integer id = 0;
-				try{id = Integer.parseInt( model.getData_source());}catch(Exception e) {} 
-				Config_env config = new Config_env().findOne(id);
+			if(Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())) {
+		
+				Config_env config = new Config_env().findOne(Core.toInt(model.getData_source()));
 				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
-				String[] tables = Igrp.getInstance().getRequest().getParameterValues("p_check_table");
+				String[] tables = Core.getParamArray("p_check_table");
 				boolean r = false;
 				if(tables!=null) {
 					for(String table:tables) {
