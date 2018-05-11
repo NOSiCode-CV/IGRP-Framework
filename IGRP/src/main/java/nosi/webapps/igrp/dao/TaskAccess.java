@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,7 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "prof_fk",foreignKey = @ForeignKey(name="TASK_ACCESS_PROFILE_TYPE_FK"))
 	private ProfileType profileType;
+	private Integer user_fk;
 	@Column(length=100)
 	private String taskName;
 	@Column(length=150)
@@ -87,11 +89,30 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 		this.processName = processName;
 	}
 
+	public Integer getUser_fk() {
+		return user_fk;
+	}
+
+	public void setUser_fk(Integer user_fk) {
+		this.user_fk = user_fk;
+	}
+
 	public List<TaskAccess> getCurrentTaskAccess(){
-		return this.find()
-				   .andWhere("organization", "=",Core.getCurrentOrganization())
-				   .andWhere("profileType", "=",Core.getCurrentProfile())
-				   .all();		
+		List<TaskAccess> list = new ArrayList<>();
+		list.addAll(
+					new TaskAccess().find()
+					   	.andWhere("organization", "=",Core.getCurrentOrganization())
+					   	.andWhere("profileType", "=",Core.getCurrentProfile())
+				   		.andWhere("user_fk", "isnull")
+					   	.all()
+					);
+		list.addAll(
+					new TaskAccess().find()
+				   		.andWhere("profileType", "notnull")
+				   		.andWhere("user_fk", "=",Core.getCurrentUser().getId())
+				   		.all()
+					);
+		return list;		
 	}
 	
 	@Override

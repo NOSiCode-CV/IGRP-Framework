@@ -2,6 +2,8 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -51,7 +53,7 @@ public class GestaodeacessoController extends Controller {
 		
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);
-		view.setPageTitle("Gestão de Acesso");	
+		view.setPageTitle("GestÃ£o de Acesso");	
 		if(Core.isNotNull(model.getAplicacao())) {
 			 view.gestao_de_menu.setValue(this.getConfig().getResolveUrl("igrp","PesquisarMenu","index&id_app="+model.getAplicacao())) ;
 			 view.adicionar_organica.setValue(this.getConfig().getResolveUrl("igrp","NovaOrganica","index&id_app="+model.getAplicacao()));	

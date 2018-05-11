@@ -2,17 +2,11 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -20,7 +14,6 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +88,7 @@ public class PesquisarUtilizadorController extends Controller {
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 
-		view.setPageTitle(gt("Gestão de Utilizador"));
+		view.setPageTitle(gt("GestÃ£o de Utilizador"));
 
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
@@ -255,6 +248,28 @@ public class PesquisarUtilizadorController extends Controller {
 			  this.addQueryString("id",u.getId());
    
 		return this.forward("igrp","NovoUtilizador","index", this.queryString()); 
+		/*----#end-code----*/
+			
+	}
+	
+	public Response actionAssiocar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(assiocar_etapa)----*/
+		Profile p = new Profile().findOne(Core.getParamInt("p_id"));
+      	if(p!=null)
+	          this.addQueryString("p_id",p.getProfileType().getId());
+		this.addQueryString("type", "user").addQueryString("userEmail",Core.getParam("p_tb_email"));
+      	return this.redirect("igrp","Etapaaccess","index", this.queryString());
 		/*----#end-code----*/
 			
 	}
