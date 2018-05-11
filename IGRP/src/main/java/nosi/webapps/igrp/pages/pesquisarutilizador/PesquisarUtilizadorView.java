@@ -5,8 +5,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
-import nosi.core.config.Config;
-
 
 
 public class PesquisarUtilizadorView extends View {
@@ -36,6 +34,7 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_convidar_user;
+	public IGRPButton btn_assiocar_etapa;
 
 	public PesquisarUtilizadorView(){
 
@@ -125,6 +124,9 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
 		btn_convidar_user.propertie.add("type","specific").add("rel","convidar_user");
 
+		btn_assiocar_etapa = new IGRPButton("Assiocar Etapa","igrp","PesquisarUtilizador","assiocar_etapa","right_panel","primary|fa-sitemap","","");
+		btn_assiocar_etapa.propertie.add("type","specific").add("rel","assiocar_etapa");
+
 		
 	}
 		
@@ -155,6 +157,7 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_convidar_user);
+		table_1.addButton(btn_assiocar_etapa);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);

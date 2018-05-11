@@ -94,7 +94,7 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = new ArrayList<>();
-		for(TaskService task:objTask.getMyTasks(this.getUser().getUser_name())){
+		for(TaskService task:objTask.getMyTasks()){
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
 			t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());

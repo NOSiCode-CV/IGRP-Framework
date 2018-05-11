@@ -103,7 +103,7 @@ public class GestaodeacessoView extends View {
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
 
-		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","Gestaodeacesso","associar_etapa","right_panel","primary|fa-address-card-o","","");
+		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","Gestaodeacesso","associar_etapa","right_panel","primary|fa-sitemap","","");
 		btn_associar_etapa.propertie.add("type","specific").add("rel","associar_etapa");
 
 		

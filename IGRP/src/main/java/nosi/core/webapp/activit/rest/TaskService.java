@@ -95,13 +95,9 @@ public class TaskService extends Activit{
 		return t;
 	}
 	
-	public List<TaskService> getMyTasks(String user){
-		//this.addFilter("assignee",user);
+	public List<TaskService> getMyTasks(){
 		List<TaskService> tasks =  this.getTasks();
 		tasks = tasks.stream().filter(t->this.filterAccess(t)).collect(Collectors.toList());
-		//this.setFilter("");
-		//this.addFilter("candidateUsers",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
-		//tasks.addAll(this.getTasks());
 		return tasks;
 	}
 	
