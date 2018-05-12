@@ -52,8 +52,7 @@ public class GestaodeacessoController extends Controller {
 		}		
 		
 		view.aplicacao.setValue(new Application().getListApps());
-		view.org_table.addData(data);
-		view.setPageTitle("GestÃ£o de Acesso");	
+		view.org_table.addData(data);	
 		if(Core.isNotNull(model.getAplicacao())) {
 			 view.gestao_de_menu.setValue(this.getConfig().getResolveUrl("igrp","PesquisarMenu","index&id_app="+model.getAplicacao())) ;
 			 view.adicionar_organica.setValue(this.getConfig().getResolveUrl("igrp","NovaOrganica","index&id_app="+model.getAplicacao()));	

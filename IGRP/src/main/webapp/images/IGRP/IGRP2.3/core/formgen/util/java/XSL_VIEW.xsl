@@ -43,19 +43,16 @@
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$newline"/>			
 		<xsl:value-of select="$tab2"/>	
-		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist']">
-			
+		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist']">			
 			<xsl:variable name="upperTag">
 				<xsl:call-template name="gen-className">
 						<xsl:with-param name="className" select="name()"/>
 					</xsl:call-template>
-			</xsl:variable>
-		
+			</xsl:variable>	
 					
 			<xsl:value-of select="concat(name(),'.loadModel(model.get',$upperTag,'());')"/>			
 			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>	
-			
+			<xsl:value-of select="$tab2"/>				
 		</xsl:for-each>
 		
 		<xsl:value-of select="$newline"/>			

@@ -6,6 +6,7 @@ import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 
 
 
@@ -23,11 +24,11 @@ public class PageView extends View {
 	public Field componente;
 	public Field componente_check;
 	public Field extras;
+	public Field criar_menu;
+	public Field criar_menu_check;
 	public Field modulo;
 	public Field novo_modulo;
 	public Field version;
-	public Field criar_menu;
-	public Field criar_menu_check;
 	public Field id;
 	public Field table_name;
 	public Field xsl_src;
@@ -94,6 +95,10 @@ public class PageView extends View {
 		extras.setLabel(gt("Extras"));
 		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30");
 		
+		criar_menu = new CheckBoxField(model,"criar_menu");
+		criar_menu.setLabel(gt("Criar menu?"));
+		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
+		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
 		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("java-type","");
@@ -106,10 +111,6 @@ public class PageView extends View {
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
 		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
-		
-		criar_menu = new CheckBoxField(model,"criar_menu");
-		criar_menu.setLabel(gt("Criar menu?"));
-		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -194,10 +195,10 @@ public class PageView extends View {
 		form_1.addField(env_fk);
 		form_1.addField(componente);
 		form_1.addField(extras);
+		form_1.addField(criar_menu);
 		form_1.addField(modulo);
 		form_1.addField(novo_modulo);
 		form_1.addField(version);
-		form_1.addField(criar_menu);
 		form_1.addField(id);
 		form_1.addField(table_name);
 		form_1.addField(xsl_src);
@@ -230,9 +231,10 @@ public class PageView extends View {
 		env_fk.setValue(model);
 		componente.setValue(model);
 		extras.setValue(model);
-		modulo.setValue(model);
-		version.setValue(model);
 		criar_menu.setValue(model);
+		modulo.setValue(model);
+		novo_modulo.setValue(model);
+		version.setValue(model);
 		id.setValue(model);
 		table_name.setValue(model);
 		xsl_src.setValue(model);

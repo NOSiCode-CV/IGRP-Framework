@@ -59,7 +59,7 @@
 					label   : 'Value',
 					value   : ""+Math.floor((Math.random() * 100) + 1),
 					isField : true,
-					//valuePersist : true
+					valuePersist : true
 				});
 				
 
@@ -75,7 +75,8 @@
 						var page   = v.params.page,
 							app    = v.params.app,
 							action = v.params.action,
-							url    = 'webapps?r='+app+'/'+page+'/'+action;
+							url    = 'new Config().getResolveUrl('+app+','+page+','+action+')';
+						
 
 						setTimeout(function(){
 

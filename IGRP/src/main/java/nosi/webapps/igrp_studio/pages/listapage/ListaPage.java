@@ -1,13 +1,14 @@
 package nosi.webapps.igrp_studio.pages.listapage;
-
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
-
-import nosi.core.gui.components.IGRPLink;
 
 public class ListaPage extends Model{		
 	@RParam(rParamName = "p_infopanel_1_title")
@@ -42,20 +43,20 @@ public class ListaPage extends Model{
 	private String infopanel_3_icn;
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
+	@RParam(rParamName = "p_modulo")
+	private String[] modulo;
 	@RParam(rParamName = "p_link_btn_nova_pagina")
-	private String link_btn_nova_pagina;
+	private IGRPLink link_btn_nova_pagina;
 	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
 	private String link_btn_nova_pagina_desc;
 	@RParam(rParamName = "p_crud_generator")
-	private String crud_generator;
+	private IGRPLink crud_generator;
 	@RParam(rParamName = "p_crud_generator_desc")
 	private String crud_generator_desc;
 	@RParam(rParamName = "p_btn_import")
-	private String btn_import;
+	private IGRPLink btn_import;
 	@RParam(rParamName = "p_btn_import_desc")
 	private String btn_import_desc;
-	@RParam(rParamName = "p_modulo")
-	private String[] modulo;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -64,6 +65,24 @@ public class ListaPage extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
+	@RParam(rParamName = "p_table_1_id")
+	private String[] p_table_1_id;
+	@RParam(rParamName = "p_table_1_del")
+	private String[] p_table_1_del;
+	
+	public void setP_table_1_id(String[] p_table_1_id){
+		this.p_table_1_id = p_table_1_id;
+	}
+	public String[] getP_table_1_id(){
+		return this.p_table_1_id;
+	}
+	
+	public void setP_table_1_del(String[] p_table_1_del){
+		this.p_table_1_del = p_table_1_del;
+	}
+	public String[] getP_table_1_del(){
+		return this.p_table_1_del;
+	}
 	
 	private List<Myapps_list> myapps_list = new ArrayList<>();	
 	public void setMyapps_list(List<Myapps_list> myapps_list){
@@ -71,6 +90,24 @@ public class ListaPage extends Model{
 	}
 	public List<Myapps_list> getMyapps_list(){
 		return this.myapps_list;
+	}
+	@RParam(rParamName = "p_myapps_list_id")
+	private String[] p_myapps_list_id;
+	@RParam(rParamName = "p_myapps_list_del")
+	private String[] p_myapps_list_del;
+	
+	public void setP_myapps_list_id(String[] p_myapps_list_id){
+		this.p_myapps_list_id = p_myapps_list_id;
+	}
+	public String[] getP_myapps_list_id(){
+		return this.p_myapps_list_id;
+	}
+	
+	public void setP_myapps_list_del(String[] p_myapps_list_del){
+		this.p_myapps_list_del = p_myapps_list_del;
+	}
+	public String[] getP_myapps_list_del(){
+		return this.p_myapps_list_del;
 	}
 	
 	public void setInfopanel_1_title(String infopanel_1_title){
@@ -185,10 +222,18 @@ public class ListaPage extends Model{
 		return this.env_fk;
 	}
 	
-	public void setLink_btn_nova_pagina(String app,String page,String action){
-		this.link_btn_nova_pagina = new Config().getResolveUrl(app, page, action);
+	public void setModulo(String[] modulo){
+		this.modulo = modulo;
 	}
-	public String getLink_btn_nova_pagina(){
+	public String[] getModulo(){
+		return this.modulo;
+	}
+	
+	public IGRPLink setLink_btn_nova_pagina(String app,String page,String action){
+		this.link_btn_nova_pagina = new IGRPLink(app,page,action);
+		return this.link_btn_nova_pagina;
+	}
+	public IGRPLink getLink_btn_nova_pagina(){
 		return this.link_btn_nova_pagina;
 	}
 	public void setLink_btn_nova_pagina_desc(String link_btn_nova_pagina_desc){
@@ -198,10 +243,11 @@ public class ListaPage extends Model{
 		return this.link_btn_nova_pagina_desc;
 	}
 	
-	public void setCrud_generator(String app,String page,String action){
-		this.crud_generator = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setCrud_generator(String app,String page,String action){
+		this.crud_generator = new IGRPLink(app,page,action);
+		return this.crud_generator;
 	}
-	public String getCrud_generator(){
+	public IGRPLink getCrud_generator(){
 		return this.crud_generator;
 	}
 	public void setCrud_generator_desc(String crud_generator_desc){
@@ -211,10 +257,11 @@ public class ListaPage extends Model{
 		return this.crud_generator_desc;
 	}
 	
-	public void setBtn_import(String app,String page,String action){
-		this.btn_import = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setBtn_import(String app,String page,String action){
+		this.btn_import = new IGRPLink(app,page,action);
+		return this.btn_import;
 	}
-	public String getBtn_import(){
+	public IGRPLink getBtn_import(){
 		return this.btn_import;
 	}
 	public void setBtn_import_desc(String btn_import_desc){
@@ -223,13 +270,7 @@ public class ListaPage extends Model{
 	public String getBtn_import_desc(){
 		return this.btn_import_desc;
 	}
-	
-	public void setModulo(String[] modulo){
-		this.modulo = modulo;
-	}
-	public String[] getModulo(){
-		return this.modulo;
-	}
+
 
 	public static class Table_1{
 		private int status_page;
@@ -272,7 +313,6 @@ public class ListaPage extends Model{
 		}
 
 	}
-	
 	public static class Myapps_list{
 		private String icon;
 		private IGRPLink aplicacao;
@@ -285,7 +325,7 @@ public class ListaPage extends Model{
 		}
 
 		public IGRPLink setAplicacao(String app,String page,String action){
-			this.aplicacao = new IGRPLink(app,page,action);	
+			this.aplicacao = new IGRPLink(app,page,action);
 			return this.aplicacao;
 		}
 		public IGRPLink getAplicacao(){

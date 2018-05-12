@@ -1,4 +1,5 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;

@@ -1,9 +1,10 @@
+
 package nosi.webapps.igrp_studio.pages.listapage;
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -45,6 +46,7 @@ public class ListaPageController extends Controller {
 		ListaPage model = new ListaPage();
 		model.load();
 		ListaPageView view = new ListaPageView();
+		view.id_page.setParam(true);
 		/*----#gen-example
 		  This is an example of how you can implement your code:
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
@@ -62,10 +64,9 @@ public class ListaPageController extends Controller {
 
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();		
 		ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
+	
 
-		Action a = new Action();
-
-		String app = Igrp.getInstance().getRequest().getParameter("app");
+		String app = Core.getParam("app");
 
 		if (Core.isNotNull(app)) {
 			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
@@ -74,11 +75,15 @@ public class ListaPageController extends Controller {
 		}
 
 		if (Core.isNotNull(model.getEnv_fk())) {
-			view.btn_import.setValue(new Config().getResolveUrl("igrp_studio","ImportArquivo", "index&p_list_aplicacao="+model.getEnv_fk() + "&target=_blank&tab-tabcontent_1-importar_pagina=1"));
-			view.link_btn_nova_pagina.setValue(new Config().getResolveUrl("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk()));
-			view.crud_generator.setValue(new Config().getResolveUrl("igrp_studio","CRUDGenerator",  "index&target=_blank&p_aplicacao="+ model.getEnv_fk()));
+			model.setBtn_import("igrp_studio", "ImportArquivo", "index")
+			.addParam("p_list_aplicacao", model.getEnv_fk())
+			.addParam("tab-tabcontent_1-importar_pagina", "1");
+			model.setLink_btn_nova_pagina("igrp", "Page", "index")
+			.addParam("p_env_fk",model.getEnv_fk());
+			model.setCrud_generator("igrp_studio", "CRUDGenerator", "index")
+			.addParam("p_aplicacao", model.getEnv_fk());
 		}
-		
+
 		List<Action> actions = new ArrayList<Action>();
 		
 		if(Core.getParamArray("p_modulo") != null) {
@@ -107,8 +112,7 @@ public class ListaPageController extends Controller {
 		if(Core.isNotNull(myApp)){	
 		myApp = myApp.stream().filter(profile -> profile.getOrganization().getApplication().getStatus() == 1).filter(
 				profile -> !profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial"))
-				.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase()
-						.equals("igrp_studio"))
+				.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio"))
 				.collect(Collectors.toList());
 		for (Profile p : myApp) {
 			ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
@@ -123,35 +127,25 @@ public class ListaPageController extends Controller {
 							? p.getOrganization().getApplication().getImg_src()
 							: "default.svg"));
 		 myapps.setAplicacao("igrp_studio", "env", "openApp")
-			.addParam("app",p.getOrganization().getApplication().getDad()).addParam("page",page + "/index&title=\"");
+			.addParam("app",p.getOrganization().getApplication().getDad())
+			.addParam("page",page + "/index&title=\"");
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
 			apps.add(myapps);
 		}
 		// model.setInfopanel_3_val(""+apps.size());
 		}
 	
-		view.env_fk.setValue(new Application().getListApps());
+		view.env_fk.setValue(new Application().getListApps());							
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
 		
-		if(model.getEnv_fk() != null && !model.getEnv_fk().isEmpty()) {
-			try{
-				
-				view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Integer.parseInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
 		
 		
 		view.table_1.addData(lista);
 		view.myapps_list.addData(apps);
 		view.btn_eliminar.setVisible(false);
-		view.infopanel_1_url.setValue(this.getConfig().getResolveUrl("igrp_studio", "WebReport", "index"));
-		view.infopanel_2_url.setValue(this.getConfig().getResolveUrl("igrp_studio", "BPMNDesigner", "index"));
-		view.infopanel_3_url.setValue(this.getConfig().getResolveUrl("igrp_studio", "ListaEnv", "index"));
 
 		/*----#end-code----*/
 		view.setModel(model);
-		
 		return this.renderView(view);	
 	}
 	
@@ -175,6 +169,16 @@ public class ListaPageController extends Controller {
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		ListaPage model = new ListaPage();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -182,8 +186,7 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp_studio","listaPage","index");	
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
 	
 	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{

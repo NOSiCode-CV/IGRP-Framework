@@ -40,13 +40,13 @@
                     <label>Title</label>
                     <value>Report designer</value>
                 </infopanel_1_title>
-                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000">
+                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
-                    <value></value>
+                    <value/>
                 </infopanel_1_val>
                 <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
                     <label>URL</label>
-                    <value>webapps?r=igrp_studio/WebReport/index</value>
+                    <value>new Config().getResolveUrl(igrp_studio,WebReport,index)</value>
                 </infopanel_1_url>
                 <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -64,13 +64,13 @@
                     <label>Title</label>
                     <value>BPMN designer</value>
                 </infopanel_2_title>
-                <infopanel_2_val name="p_infopanel_2_val" type="text" maxlength="4000">
+                <infopanel_2_val name="p_infopanel_2_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value></value>
                 </infopanel_2_val>
                 <infopanel_2_url name="p_infopanel_2_url" type="text" maxlength="4000" persist="true">
                     <label>URL</label>
-                    <value>webapps?r=igrp_studio/BPMNDesigner/index</value>
+                    <value>new Config().getResolveUrl(igrp_studio,BPMNDesigner,index)</value>
                 </infopanel_2_url>
                 <infopanel_2_bg name="p_infopanel_2_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -88,13 +88,13 @@
                     <label>Title</label>
                     <value>Application builder</value>
                 </infopanel_3_title>
-                <infopanel_3_val name="p_infopanel_3_val" type="text" maxlength="4000">
+                <infopanel_3_val name="p_infopanel_3_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value></value>
                 </infopanel_3_val>
                 <infopanel_3_url name="p_infopanel_3_url" type="text" maxlength="4000" persist="true">
                     <label>URL</label>
-                    <value>webapps?r=igrp_studio/ListaEnv/index</value>
+                    <value>new Config().getResolveUrl(igrp_studio,ListaEnv,index)</value>
                 </infopanel_3_url>
                 <infopanel_3_bg name="p_infopanel_3_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -134,18 +134,6 @@
                     </list>
                     <rules/>
                 </env_fk>
-                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ListaEnv" app="igrp_studio" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
-                    <label>Nova página</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
-                </link_btn_nova_pagina>
-                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
-                    <label>CRUD generator</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
-                </crud_generator>
-                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
-                    <label>Importar</label>
-                    <value>http://hares.edu/rah</value>
-                </btn_import>
                 <modulo name="p_modulo" type="select" multiple="true" domain="" maxlength="50" required="false" change="true" disabled="false" right="false" java-type="">
                     <label>Módulo</label>
                     <list>
@@ -168,6 +156,18 @@
                         </option>
                     </list>
                 </modulo>
+                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ListaEnv" app="igrp_studio" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
+                    <label>Nova página</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
+                </link_btn_nova_pagina>
+                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
+                    <label>CRUD generator</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
+                </crud_generator>
+                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Env" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true" custom_action="" action_type="false">
+                    <label>Importar</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</value>
+                </btn_import>
             </fields>
         </form_1>
         <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
@@ -193,7 +193,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Consectetur rem elit adipiscin</descricao_page>
+                        <descricao_page name="p_descricao_page">Voluptatem amet sed iste labor</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -204,7 +204,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Adipiscing stract doloremque e</descricao_page>
+                        <descricao_page name="p_descricao_page">Stract labore amet laudantium</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -215,7 +215,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Dolor laudantium omnis laudant</descricao_page>
+                        <descricao_page name="p_descricao_page">Unde amet perspiciatis laudant</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -226,7 +226,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Unde laudantium adipiscing lor</descricao_page>
+                        <descricao_page name="p_descricao_page">Magna anim doloremque rem dese</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -237,7 +237,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ipsum magna sit doloremque ut</descricao_page>
+                        <descricao_page name="p_descricao_page">Labore omnis magna voluptatem</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -291,6 +291,17 @@
                 </context-menu>
             </table>
         </table_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="nova_aplicacao">
+                <title>Nova Aplicação</title>
+                <app>igrp_studio</app>
+                <page>Env</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>primary|fa-plus</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
+            </item>
+        </toolsbar_2>
         <myapps_list type="table" xml-type="table" title="Minhas Aplicações" gen-type="container" gen-group="true">
             <fields>
                 <icon name="p_icon" type="img" persist="true" img="images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -330,16 +341,5 @@
                 </value>
             </table>
         </myapps_list>
-        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="nova_aplicacao">
-                <title>Nova Aplicação</title>
-                <app>igrp_studio</app>
-                <page>Env</page>
-                <link>index</link>
-                <target>modal|refresh</target>
-                <img>primary|fa-plus</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
-            </item>
-        </toolsbar_2>
     </content>
 </rows>

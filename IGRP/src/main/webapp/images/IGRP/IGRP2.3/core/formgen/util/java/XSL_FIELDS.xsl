@@ -195,7 +195,7 @@
 							</xsl:if>
 						</xsl:variable>
 						
-						<xsl:if test="$isPersist = 'false' and @type != 'link'">
+						<xsl:if test="$isPersist = 'false' ">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 							<xsl:variable name="tag_name">
@@ -408,7 +408,8 @@
 		    				<xsl:with-param name="tab2_" select="$tab2_"/>
 		    				<xsl:with-param name="java_type_return" select="'String'"/>
 		    				<xsl:with-param name="parameter" select="'String app,String page,String action'"/>
-		    				<xsl:with-param name="parameter_set" select="'new Config().getResolveUrl(app, page, action)'"/>
+		    				<xsl:with-param name="parameter_set" select="'new IGRPLink(app,page,action)'"/>
+		    				
 		    			</xsl:call-template>		
 		    		</xsl:when>
 		    		<xsl:otherwise>
@@ -451,7 +452,14 @@
    			<xsl:value-of select="$tab_"/>   			
    			<xsl:choose>
    				<xsl:when test="$parameter!=''">
-   					<xsl:value-of select="concat('public void set',$name_,'(',$parameter,'){')" />
+   					<xsl:choose>
+							<xsl:when test="$type ='link'">
+		   					<xsl:value-of select="concat('public IGRPLink set',$name_,'(',$parameter,'){')" />
+							</xsl:when>
+						<xsl:otherwise>
+		   					<xsl:value-of select="concat('public void set',$name_,'(',$parameter,'){')" />
+						</xsl:otherwise>
+					</xsl:choose>   					
    				</xsl:when>
    				<xsl:otherwise>
    					<xsl:value-of select="concat('public void set',$name_,'(',$java_type_return,' ',$name,'){')" />
@@ -470,13 +478,27 @@
    			</xsl:choose>
    			<xsl:value-of select="$newline"/>
    			<xsl:value-of select="$tab_"/>
+   			<xsl:if test="$type='link'">
+   				 <xsl:value-of select="$tab"/>
+		  		 <xsl:value-of select="concat('return this.',$name,';')"/>
+		  		 <xsl:value-of select="$newline"/>
+   				 <xsl:value-of select="$tab_"/>
+				</xsl:if>
    			<xsl:value-of select="'}'"/>
     		<!-- En gen Method Set -->
     		
     		<!-- Gen Method Get -->
    			<xsl:value-of select="$newline"/>
-   			<xsl:value-of select="$tab_"/>					
-   			<xsl:value-of select="concat('public ',$java_type_return,' get',$name_,'(){')" />
+   			<xsl:value-of select="$tab_"/>
+   			<xsl:choose>
+				<xsl:when test="$type = 'link' and $parameter !=''">
+					<xsl:value-of select="concat('public ','IGRPLink',' get',$name_,'(){')" />		   				
+				</xsl:when>				
+				<xsl:otherwise>
+		   			<xsl:value-of select="concat('public ',$java_type_return,' get',$name_,'(){')" />
+				</xsl:otherwise>
+			</xsl:choose>					
+   		
    			<xsl:value-of select="$newline"/>
    			<xsl:value-of select="$tab2_"/>
 			<xsl:choose>
@@ -489,6 +511,7 @@
 			</xsl:choose>
    			<xsl:value-of select="$newline"/>
    			<xsl:value-of select="$tab_"/>
+   			
    			<xsl:value-of select="'}'"/>
    			
    			<!-- End Method Get -->

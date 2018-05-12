@@ -53,20 +53,17 @@ public class GestaodeacessoView extends View {
 		adicionar_organica = new LinkField(model,"adicionar_organica");
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
-
-									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30");
+		adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));
 		gestao_de_utilizadores.setValue(new Config().getResolveUrl("igrp","PesquisarUtilizador","index"));
-
-									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30");
+		gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30");
 		
 		gestao_de_menu = new LinkField(model,"gestao_de_menu");
 		gestao_de_menu.setLabel(gt("Gestão de menu"));
 		gestao_de_menu.setValue(new Config().getResolveUrl("igrp","PesquisarMenu","index"));
-
-									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30");
+		gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -82,8 +79,7 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		mostrar_perfis.setValue(new Config().getResolveUrl("igrp","PesquisarPerfil","index"));
-
-									mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("desc","true");
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));

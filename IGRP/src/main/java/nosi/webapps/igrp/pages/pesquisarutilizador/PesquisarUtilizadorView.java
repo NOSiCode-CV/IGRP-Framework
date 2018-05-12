@@ -5,6 +5,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 
 
 public class PesquisarUtilizadorView extends View {

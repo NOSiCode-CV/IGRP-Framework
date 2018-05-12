@@ -2,6 +2,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -88,8 +90,7 @@ public class PesquisarUtilizadorController extends Controller {
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 
-		view.setPageTitle(gt("GestÃ£o de Utilizador"));
-
+	
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp, idOrg));

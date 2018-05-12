@@ -54,6 +54,8 @@
     <xsl:variable name="import_config">
     	<xsl:if test="count(//fields/*[@persist='true' or @type='link']) &gt; 0">
         	<xsl:text>import nosi.core.config.Config;</xsl:text>
+        	 <xsl:value-of select="$newline"/>
+        	<xsl:text>import nosi.core.gui.components.IGRPLink;</xsl:text>
         </xsl:if>
     </xsl:variable>
     
@@ -133,6 +135,8 @@
         <xsl:text>import nosi.core.webapp.databse.helpers.ResultSet;</xsl:text>
         <xsl:value-of select="$newline"/>
         <xsl:text>import nosi.core.webapp.databse.helpers.QueryInterface;</xsl:text>
+         <xsl:value-of select="$newline"/>
+           <xsl:text>import nosi.core.config.Config;</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_exception">

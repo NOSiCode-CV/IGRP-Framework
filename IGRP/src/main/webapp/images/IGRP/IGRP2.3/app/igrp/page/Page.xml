@@ -56,11 +56,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Aperiam mollit perspiciatis sit iste</value>
+                    <value>Officia voluptatem sed ipsum accusantium</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Accusantium dolor mollit ut officia</value>
+                    <value>Voluptatem laudantium totam deserunt perspiciatis</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label>Ativo?</label>
@@ -102,6 +102,11 @@
                 <extras name="p_extras" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Extras</label>
                 </extras>
+                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                    <label>Criar menu?</label>
+                    <value>1</value>
+                    <rules/>
+                </criar_menu>
                 <modulo name="p_modulo" type="select" multiple="false" domain="" maxlength="50" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Módulo</label>
                     <list>
@@ -150,11 +155,6 @@
                         </option>
                     </list>
                 </version>
-                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
-                    <label>Criar menu?</label>
-                    <value>1</value>
-                    <rules/>
-                </criar_menu>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
                 <hidden name="p_table_name" type="hidden" maxlength="80" java-type="" tag="table_name"/>
                 <hidden name="p_xsl_src" type="hidden" maxlength="2000" java-type="" tag="xsl_src"/>

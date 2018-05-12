@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -32,18 +33,18 @@ public class Page extends Model{
 	private int componente_check;
 	@RParam(rParamName = "p_extras")
 	private String extras;
-	@RParam(rParamName = "p_modulo")
-	private String modulo;
-	@RParam(rParamName = "p_novo_modulo")
-	private String novo_modulo;
-	@RParam(rParamName = "p_novo_modulo_desc")
-	private String novo_modulo_desc;
-	@RParam(rParamName = "p_version")
-	private String version;
 	@RParam(rParamName = "p_criar_menu")
 	private int criar_menu;
 	@RParam(rParamName = "p_criar_menu_check")
 	private int criar_menu_check;
+	@RParam(rParamName = "p_modulo")
+	private String modulo;
+	@RParam(rParamName = "p_novo_modulo")
+	private IGRPLink novo_modulo;
+	@RParam(rParamName = "p_novo_modulo_desc")
+	private String novo_modulo_desc;
+	@RParam(rParamName = "p_version")
+	private String version;
 	@RParam(rParamName = "p_id")
 	private String id;
 	@RParam(rParamName = "p_table_name")
@@ -156,6 +157,19 @@ public class Page extends Model{
 		return this.extras;
 	}
 	
+	public void setCriar_menu(int criar_menu){
+		this.criar_menu = criar_menu;
+	}
+	public int getCriar_menu(){
+		return this.criar_menu;
+	}
+	public void setCriar_menu_check(int criar_menu_check){
+		this.criar_menu_check = criar_menu_check;
+	}
+	public int getCriar_menu_check(){
+		return this.criar_menu_check;
+	}
+	
 	public void setModulo(String modulo){
 		this.modulo = modulo;
 	}
@@ -163,10 +177,11 @@ public class Page extends Model{
 		return this.modulo;
 	}
 	
-	public void setNovo_modulo(String app,String page,String action){
-		this.novo_modulo = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setNovo_modulo(String app,String page,String action){
+		this.novo_modulo = new IGRPLink(app,page,action);
+		return this.novo_modulo;
 	}
-	public String getNovo_modulo(){
+	public IGRPLink getNovo_modulo(){
 		return this.novo_modulo;
 	}
 	public void setNovo_modulo_desc(String novo_modulo_desc){
@@ -181,19 +196,6 @@ public class Page extends Model{
 	}
 	public String getVersion(){
 		return this.version;
-	}
-	
-	public void setCriar_menu(int criar_menu){
-		this.criar_menu = criar_menu;
-	}
-	public int getCriar_menu(){
-		return this.criar_menu;
-	}
-	public void setCriar_menu_check(int criar_menu_check){
-		this.criar_menu_check = criar_menu_check;
-	}
-	public int getCriar_menu_check(){
-		return this.criar_menu_check;
 	}
 	
 	public void setId(String id){
