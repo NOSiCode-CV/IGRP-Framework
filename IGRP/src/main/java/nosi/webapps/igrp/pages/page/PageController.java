@@ -100,24 +100,20 @@ public class PageController extends Controller {
             model.setCriar_menu(1);
 			model.setGen_auto_code(1);
 		}
-			
+		model.setNovo_modulo("igrp_studio","modulo","index").addParam("p_aplicacao",model.getEnv_fk());
 		view.env_fk.setValue(new Application().getListApps());	
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
-		view.id.setParam(true);
-		
-		try {
-			view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Integer.parseInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
-		}catch(Exception e) {
-			//e.printStackTrace();
-		}
+		view.id.setParam(true);	
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
+	
 		
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 			view.page.propertie().setProperty("disabled", "true");	
 		}
 		
-		view.novo_modulo.setValue(new Config().getResolveUrl("igrp_studio","modulo","index&p_aplicacao=" + model.getEnv_fk()));
+
 			
 		/*----#end-code----*/
 		view.setModel(model);

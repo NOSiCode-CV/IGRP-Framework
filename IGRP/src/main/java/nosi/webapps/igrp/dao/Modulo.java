@@ -25,11 +25,16 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 @Table(name="tbl_modulo")
 public class Modulo extends BaseActiveRecord<Modulo> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1035836747402191072L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(nullable=false)
+	@Column(nullable=false,unique=true)
 	private String name;
 	
 	@ManyToOne(fetch=FetchType.EAGER)

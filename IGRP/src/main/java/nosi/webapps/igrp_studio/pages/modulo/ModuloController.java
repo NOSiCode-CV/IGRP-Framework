@@ -4,11 +4,17 @@ package nosi.webapps.igrp_studio.pages.modulo;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
 import nosi.core.webapp.helpers.IgrpHelper;
 import java.util.List;
 /*----#end-code----*/
@@ -53,17 +59,24 @@ public class ModuloController extends Controller {
 		try {
 			nosi.webapps.igrp.dao.Modulo m = new nosi.webapps.igrp.dao.Modulo();
 			Application application = new Application();
-			application.setId(Integer.parseInt(model.getAplicacao()));
+			application.setId(Core.toInt(model.getAplicacao()));
 			m.setApplication(application);
 			m.setName(model.getModulo());
-			m = m.insert();
-         	this.addQueryString("p_aplicacao", model.getAplicacao());
-			if(m == null) {
-				Core.setMessageError();
-				return forward("igrp_studio","Modulo","index", this.queryString());
+			this.addQueryString("p_aplicacao", model.getAplicacao());
+			if (new nosi.webapps.igrp.dao.Modulo().find().andWhere("name", "=", model.getModulo()).andWhere("application", "=", Core.toInt(model.getAplicacao())).one() == null) {
+				m = m.insert();
+				if(m == null) {
+					Core.setMessageError();
+					return forward("igrp_studio","Modulo","index", this.queryString());
+				}
+				else
+					Core.setMessageSuccess();
+			} else {
+				Core.setMessageWarning("Nome da conexão já existe");
+				return this.forward("igrp_studio","Modulo","index", this.queryString());
 			}
-			else
-				Core.setMessageSuccess();
+         
+			
 		}catch(Exception e) {
 			Core.setMessageError();
 			return forward("igrp_studio","Modulo","index", this.queryString());

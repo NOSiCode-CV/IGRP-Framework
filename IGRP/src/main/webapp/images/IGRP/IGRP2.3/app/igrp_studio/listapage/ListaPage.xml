@@ -46,7 +46,7 @@
                 </infopanel_1_val>
                 <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
                     <label>URL</label>
-                    <value>new Config().getResolveUrl(igrp_studio,WebReport,index)</value>
+                    <value>webapps?r=igrp_studio/WebReport/index</value>
                 </infopanel_1_url>
                 <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -70,7 +70,7 @@
                 </infopanel_2_val>
                 <infopanel_2_url name="p_infopanel_2_url" type="text" maxlength="4000" persist="true">
                     <label>URL</label>
-                    <value>new Config().getResolveUrl(igrp_studio,BPMNDesigner,index)</value>
+                    <value>webapps?r=igrp_studio/BPMNDesigner/index</value>
                 </infopanel_2_url>
                 <infopanel_2_bg name="p_infopanel_2_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -94,7 +94,7 @@
                 </infopanel_3_val>
                 <infopanel_3_url name="p_infopanel_3_url" type="text" maxlength="4000" persist="true">
                     <label>URL</label>
-                    <value>new Config().getResolveUrl(igrp_studio,ListaEnv,index)</value>
+                    <value>webapps?r=igrp_studio/ListaEnv/index</value>
                 </infopanel_3_url>
                 <infopanel_3_bg name="p_infopanel_3_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -193,7 +193,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Doloremque iste sed natus lore</descricao_page>
+                        <descricao_page name="p_descricao_page">Aperiam natus accusantium cons</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -204,7 +204,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ipsum totam accusantium unde p</descricao_page>
+                        <descricao_page name="p_descricao_page">Unde officia sit iste mollit</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -215,7 +215,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Consectetur perspiciatis unde</descricao_page>
+                        <descricao_page name="p_descricao_page">Adipiscing mollit elit lorem e</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -226,7 +226,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Accusantium ipsum iste totam s</descricao_page>
+                        <descricao_page name="p_descricao_page">Ipsum consectetur unde deserun</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -237,7 +237,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Perspiciatis iste aperiam adip</descricao_page>
+                        <descricao_page name="p_descricao_page">Magna deserunt ut sit omnis</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>

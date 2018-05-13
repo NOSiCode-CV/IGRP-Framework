@@ -56,11 +56,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Officia voluptatem sed ipsum accusantium</value>
+                    <value>Accusantium totam anim accusantium stract</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Voluptatem laudantium totam deserunt perspiciatis</value>
+                    <value>Accusantium dolor rem dolor lorem</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label>Ativo?</label>

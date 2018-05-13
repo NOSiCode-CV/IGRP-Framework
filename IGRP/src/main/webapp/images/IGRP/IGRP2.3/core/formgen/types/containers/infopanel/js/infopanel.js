@@ -75,8 +75,7 @@
 						var page   = v.params.page,
 							app    = v.params.app,
 							action = v.params.action,
-							url    = 'new Config().getResolveUrl('+app+','+page+','+action+')';
-						
+							url    = 'webapps?r='+app+'/'+page+'/'+action;
 
 						setTimeout(function(){
 

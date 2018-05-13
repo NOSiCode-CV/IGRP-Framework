@@ -136,9 +136,7 @@ public class ListaPageController extends Controller {
 		}
 	
 		view.env_fk.setValue(new Application().getListApps());							
-		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
-		
-		
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));		
 		
 		view.table_1.addData(lista);
 		view.myapps_list.addData(apps);
