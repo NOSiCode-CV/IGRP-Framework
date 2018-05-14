@@ -12,16 +12,26 @@ import nosi.core.webapp.Igrp;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
+
+import com.google.gson.Gson;
+
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.compiler.helpers.ErrorCompile;
+import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Action;
@@ -62,6 +72,7 @@ public class BPMNDesignerController extends Controller {
 
 	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		String erros = "";
 		BPMNDesigner model = new BPMNDesigner();
 		model.load();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
@@ -71,7 +82,7 @@ public class BPMNDesignerController extends Controller {
 			String content = FileHelper.convertToString(data);
 			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content);
 			for(TaskService task:tasks) {
-				this.saveTaskController(task,app);
+				erros = this.saveTaskController(task,app);
 			}
 			int index = content.indexOf("<process id=\"");
 			String fileName = data.getName();
@@ -79,13 +90,13 @@ public class BPMNDesignerController extends Controller {
 			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
 			}
 			deploy = deploy.create(data.getInputStream(),app.getId(), fileName,data.getContentType());
-			if(deploy!=null && Core.isNotNull(deploy.getId())){
+			if(deploy!=null && Core.isNotNull(deploy.getId()) && Core.isNull(erros)){
 				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 			}
 		}else {
 			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo") + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo "+erros) + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -113,15 +124,22 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView(resource);
 	}
 	
-	private void saveTaskController(TaskService task,Application app) {
-		String content = this.getConfig().getGenTaskController(app.getDad(), task.getId());
-		String classPathServer = this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getId().toLowerCase();
-		String classPathWorkspace = this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getId().toLowerCase();
+	private String saveTaskController(TaskService task,Application app) {
+		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(), task.getId());
+		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
+		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		if(!FileHelper.fileExists(classPathServer+File.separator+task.getId()+"Controller.java")) {
 			try {
 				FileHelper.save(classPathServer, task.getId()+"Controller.java", content);
-			} catch (IOException e) {
-				
+				File[] files = new File[] { new File(classPathServer+File.separator +task.getId()+"Controller.java")};
+				Compiler compiler = new Compiler();
+				if (!compiler.compile(files)) {
+					Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
+							.collect(Collectors.groupingBy(ErrorCompile::getFileName));
+					 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+				}
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
 			}
 		}
 		if(!FileHelper.fileExists(classPathWorkspace+File.separator+task.getId()+"Controller.java")) {
@@ -142,12 +160,17 @@ public class BPMNDesignerController extends Controller {
 			ac.setPage_descr("Task Page "+task.getId());
 			ac.setStatus(1);
 			ac.setPage(task.getId());
-			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process");
+			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.setVersion("2.3");
 			ac.setAction("index");
      		ac.setIsComponent((short) 2);
      		ac.insert();
+		}else {
+			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
+			ac.update();
 		}
+		return "";
 	}
+	
 	/*----#END-PRESERVED-AREA----*/
 }
