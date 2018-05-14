@@ -155,7 +155,7 @@ public class NamedParameterStatement {
 	public int executeUpdate() throws SQLException {
 		return statement.executeUpdate();
 	}
-
+	
 	public String executeInsert(String tableName) throws SQLException {
 		String lastInsertedId = "0";
 		if(statement.executeUpdate() > 0) {				

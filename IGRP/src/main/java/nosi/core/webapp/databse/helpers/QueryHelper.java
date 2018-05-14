@@ -333,6 +333,7 @@ public abstract class QueryHelper implements QueryInterface{
 			} catch (SQLException e) {
 				r.setError(e.getMessage());
 				Core.log(e.getMessage());
+				e.printStackTrace();
 			}
 		}else {
 			try {
