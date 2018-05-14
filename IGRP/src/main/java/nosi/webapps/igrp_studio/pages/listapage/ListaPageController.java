@@ -88,12 +88,19 @@ public class ListaPageController extends Controller {
 		
 		if(Core.getParamArray("p_modulo") != null) {
 			 for(String m : Core.getParamArray("p_modulo")) {
-				 List<Action> actions_ = new Action().find().andWhere("modulo.id", "=", m).andWhere("application", "=", Core.toInt(model.getEnv_fk())).all();
+				 List<Action> actions_ = new Action().find()
+						 .andWhere("modulo.id", "=", m)
+						 .andWhere("application", "=", Core.toInt(model.getEnv_fk()))
+						 .andWhere("isComponent", "<>",2)
+						 .all();
 				 if(actions_ != null) actions.addAll(actions_);
 			 }
-		}else
-			actions =  new Action().find().andWhere("application", "=", Core.toInt(model.getEnv_fk())).all();
-		
+		}else {
+			actions =  new Action().find()
+						.andWhere("application", "=", Core.toInt(model.getEnv_fk()))
+						.andWhere("isComponent", "<>",2)
+						.all();
+		}
 		Collections.sort(actions,new SortbyStatus());
 		
 		for (Action ac : actions) {
