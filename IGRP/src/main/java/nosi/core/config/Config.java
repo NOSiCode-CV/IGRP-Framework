@@ -260,8 +260,8 @@ public class Config {
 	}
 	
 	
-	public String getGenTaskController(String app,String taskId){
-		return "package nosi.webapps."+app.toLowerCase()+".process."+taskId.toLowerCase()+";\n\n"
+	public String getGenTaskController(String app,String processId,String taskId){
+		return "package nosi.webapps."+app.toLowerCase()+".process."+processId.toLowerCase()+";\n\n"
 				 + "import java.io.IOException;\n"
 				 + "import nosi.core.webapp.Response;\n"
 				 + "import javax.servlet.ServletException;\n"
@@ -375,7 +375,7 @@ public class Config {
 			Action ac = new Action().find().andWhere("application.dad", "=", app.toLowerCase()).andWhere("page", "=", Page.resolvePageName(page)).one();
 			if(ac!=null && ac.getPackage_name()!=null) {
 				String p = ac.getPackage_name().toLowerCase();
-				if(p.endsWith("pages") || p.endsWith("process"))
+				if(p.endsWith("pages"))
 					return ac.getPackage_name().toLowerCase()+"."+ac.getPage().toLowerCase()+ "." + ac.getPage() + "Controller";
 				return ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller";
 			}	
