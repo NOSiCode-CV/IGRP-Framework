@@ -467,19 +467,12 @@
 	 	</xsl:for-each>
  	</xsl:template>
  	
- 	<!-- view.chart_1.setSqlQuery("select 'Eixo Y' EixoY, 'Eixo X' EixoX, 100 Valor FROM dual"); -->
+ 	<!-- view.chart_1.loadQuery(Core.query(null,"SELECT 2010 Ano,265 X1, 658 X2, 498 X3,698 X4").union().select("SELECT 2009 Ano,784 X1, 258 X2, 594 X3, 498 X4").union().select("SELECT 2015 Ano,1010 X1, 698 X2, 366 X3, 498 X4")); -->
  	<xsl:template name="setSqlChart">
  		<xsl:for-each select="//content/*[@type='chart']">
 	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="generateCommentConnectionName"/>
-	 		<xsl:choose>
-	 			<xsl:when test="./chart_type='pie'">
-	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,$sql_chart2d,$double_quotes,');')"/>
-	 			</xsl:when>
-	 			<xsl:otherwise>
-	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,$sql_chart3d,$double_quotes,');')"/>
-	 			</xsl:otherwise>
-	 		</xsl:choose>
+	 		<xsl:value-of select="concat('view.',$instance_name,'.loadQuery(Core.query(null,',$double_quotes,$sql_chart,$double_quotes,'));')"/>
 	 	</xsl:for-each>
  	</xsl:template>
  	
