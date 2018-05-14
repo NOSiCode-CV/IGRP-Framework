@@ -161,7 +161,7 @@ public class ListaPageView extends View {
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
-		link_btn_nova_pagina.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
+		link_btn_nova_pagina.setValue(new Config().getResolveUrl("igrp","Page","index"));
 		link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30");
 		
 		crud_generator = new LinkField(model,"crud_generator");

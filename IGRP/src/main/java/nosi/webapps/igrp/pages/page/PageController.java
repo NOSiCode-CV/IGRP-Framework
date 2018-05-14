@@ -8,6 +8,9 @@ import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+
+import static nosi.core.i18n.Translator.gt;
+
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
@@ -21,6 +24,7 @@ import nosi.core.webapp.databse.helpers.QueryHelper;
 import java.util.Map;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Modulo;
+import nosi.webapps.igrp.dao.Share;
 
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -53,11 +57,10 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#end-code----*/
 
+public class PageController extends Controller {
 
-public class PageController extends Controller {		
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		Page model = new Page();
 		model.load();
 		PageView view = new PageView();
@@ -74,9 +77,9 @@ public class PageController extends Controller {
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
 		final Integer idPage = Core.getParamInt("p_id_page");
-		if (idPage!=0) {
-          //EDIT/UPDATE PAGE
-			Action a = new Action();			
+		if (idPage != 0) {
+			// EDIT/UPDATE PAGE
+			Action a = new Action();
 			a = a.findOne(idPage);
 			if (a != null) {
 				model.setAction_descr(a.getAction_descr());
@@ -89,61 +92,60 @@ public class PageController extends Controller {
 				model.setXsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
 				model.setComponente(a.getIsComponent());
-				if(a.getModulo() != null) model.setModulo(a.getModulo().getId() + "");
+				if (a.getModulo() != null)
+					model.setModulo(a.getModulo().getId() + "");
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
-         	view.criar_menu.setVisible(false);
-		}else {
-          //NEW page
+			view.criar_menu.setVisible(false);
+		} else {
+			// NEW page
 			model.setStatus(1);
-            model.setCriar_menu(1);
+			model.setCriar_menu(1);
 			model.setGen_auto_code(1);
 		}
-		model.setNovo_modulo("igrp_studio","modulo","index").addParam("p_aplicacao",model.getEnv_fk());
-		view.env_fk.setValue(new Application().getListApps());	
+		model.setNovo_modulo("igrp_studio", "modulo", "index").addParam("p_aplicacao", model.getEnv_fk());
+		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
-		view.id.setParam(true);	
-		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));
-	
-		
+		view.id.setParam(true);
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name",
+				"-- Selecionar --"));
+
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
-			view.page.propertie().setProperty("disabled", "true");	
+			view.page.propertie().setProperty("disabled", "true");
 		}
-		
 
-			
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		/*----#start-code(gravar)----*/
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
-			int idPage = Core.getParamInt("p_id");	
-			
+			int idPage = Core.getParamInt("p_id");
+
 			Application app = new Application();
 			Action action = new Action();
 			if (idPage != 0) {
-            	  // Edit/update page _______
-				action = action.findOne(idPage);				
+				// Edit/update page _______
+				action = action.findOne(idPage);
 				action.setPage_descr(model.getPage_descr());
-                action.setAction_descr(model.getPage_descr());
-                action.setStatus(model.getStatus());
-                action.setIsComponent((short) model.getComponente());
-                if(model.getModulo() != null && !model.getModulo().isEmpty()) {
+				action.setAction_descr(model.getPage_descr());
+				action.setStatus(model.getStatus());
+				action.setIsComponent((short) model.getComponente());
+				if (model.getModulo() != null && !model.getModulo().isEmpty()) {
 					try {
 						Modulo m = new Modulo();
 						m.setId(Integer.parseInt(model.getModulo()));
 						action.setModulo(m);
-					}catch(Exception e) {
-						
+					} catch (Exception e) {
+
 					}
 				}
 				action = action.update();
@@ -153,8 +155,8 @@ public class PageController extends Controller {
 					Core.setMessageError();
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
-//				______________________________________# END # Edit/update page
-			} else if(checkifexists(model)){
+				// ______________________________________# END # Edit/update page
+			} else if (checkifexists(model)) {
 				// New page ________
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
@@ -164,178 +166,184 @@ public class PageController extends Controller {
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
 				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
 				action.setAction("index");
-                action.setIsComponent((short) model.getComponente());
-                action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
+				action.setIsComponent((short) model.getComponente());
+				action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
 						+ "/" + action.getPage() + ".xsl");
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
 					Core.setMessageWarning(FlashMessage.WARNING_PAGE_INVALID);
 					return this.forward("igrp", "page", "index");
 				}
-				
-				if(model.getModulo() != null && !model.getModulo().isEmpty()) {
+
+				if (model.getModulo() != null && !model.getModulo().isEmpty()) {
 					try {
 						Modulo m = new Modulo();
 						m.setId(Integer.parseInt(model.getModulo()));
 						action.setModulo(m);
-					}catch(Exception e) {
-						
+					} catch (Exception e) {
+
 					}
 				}
-				
+
 				action = action.insert();
-				
+
 				if (action != null) {
-					
-					createSvnRepo(action);	
-					
+
+					createSvnRepo(action);
+
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
 					String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(action);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
 					if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
-						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
-								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
+						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp()
+								+ File.separator + "images" + File.separator + "IGRP/IGRP" + action.getVersion()
+								+ "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
-					}                  	              
-                 if(model.getCriar_menu()!=0 && model.getComponente()==0){
-                	Menu pageMenu = new Menu(action.getPage_descr(), 0, 1, 0, "_self", action,action.getApplication(), null);
-					pageMenu.setMenu(pageMenu); 
-             		pageMenu.insert();
-                  
-                	if(pageMenu!= null){
-                  		Core.setMessageInfo("Página adicionada ao gestor de menu.");	            
-                	}
-                  
-                } 
-				Core.setMessageSuccess();	                
-              
-				this.addQueryString( "p_env_fk", model.getEnv_fk());
-				return this.redirect("igrp", "page", "index", this.queryString());
-					
-						
+					}
+					if (model.getCriar_menu() != 0 && model.getComponente() == 0) {
+						Menu pageMenu = new Menu(action.getPage_descr(), 0, 1, 0, "_self", action,
+								action.getApplication(), null);
+						pageMenu.setMenu(pageMenu);
+						pageMenu.insert();
+
+						if (pageMenu != null) {
+							Core.setMessageInfo("Página adicionada ao gestor de menu.");
+						}
+
+					}
+					Core.setMessageSuccess();
+
+					this.addQueryString("p_env_fk", model.getEnv_fk());
+					return this.redirect("igrp", "page", "index", this.queryString());
+
 				} else {
 					Core.setMessageError();
 					return this.forward("igrp", "page", "index");
 				}
-//				_________________________________________# END # New page
-			}else {
+				// _________________________________________# END # New page
+			} else {
 				Core.setMessageWarning("Este code já existe. Por favor editar.");
 				return this.forward("igrp", "page", "index");
 			}
-				
+
 		}
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","page","index");	
+
+		return this.redirect("igrp", "page", "index");
 	}
-	
+
 	/*----#start-code(custom_actions)----*/
-	
+
 	private boolean checkifexists(Page model) {
 		// TODO Auto-generated method stub
-		return Core.isNull(new Action().find().andWhere("application.id","=",model.getEnv_fk()).andWhere("page","=",nosi.core.gui.page.Page.getPageName(model.getPage())).one());		
-		 
+		return Core.isNull(new Action().find().andWhere("application.id", "=", model.getEnv_fk())
+				.andWhere("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).one());
+
 	}
-	
-	private void createSvnRepo(Action page){
-		Svn  svnapi = new Svn();
+
+	private void createSvnRepo(Action page) {
+		Svn svnapi = new Svn();
 		String env = "";
 		env = Igrp.getInstance().getServlet().getInitParameter("env");
-		switch(env) {
-			case "dev": 
-				svnapi.setWorkFolder("dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+		switch (env) {
+		case "dev":
+			svnapi.setWorkFolder(
+					"dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
 			break;
-			case "prod": 
-				svnapi.setWorkFolder("prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+		case "prod":
+			svnapi.setWorkFolder(
+					"prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
 			break;
-			case "sta": 
-				svnapi.setWorkFolder("sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+		case "sta":
+			svnapi.setWorkFolder(
+					"sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
 			break;
 		}
-        svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/pages/" + page.getPage().toLowerCase());
-        boolean flag = false;
+		svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/pages/"
+				+ page.getPage().toLowerCase());
+		boolean flag = false;
 		try {
 			flag = svnapi.mkdir();
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-//        System.out.println("Criar Pasta " + flag); 
-//        System.out.println(svnapi.getCmd());
-//        System.out.println(svnapi.getCmdResult());
+		// System.out.println("Criar Pasta " + flag);
+		// System.out.println(svnapi.getCmd());
+		// System.out.println(svnapi.getCmdResult());
 	}
-	
+
 	private void addFilesToSvnRepo(String pathClass, Action page) {
-		Svn  svnapi = new Svn();
-		
+		Svn svnapi = new Svn();
+
 		final String env = Igrp.getInstance().getServlet().getInitParameter("env");
-	/*	
-		try {
-			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+page.getApplication().getDad().toLowerCase()+"/"+"pages");
-			svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/"); 
-			svnapi.setSvnUrl(svnapi.getSvnUrl()  + env + "/" + page.getApplication().getDad().toLowerCase() + "/pages");
-			svnapi.setWorkFolder(""); 
-			svnapi.co();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		} 
-		
-      System.out.println(svnapi.getCmd());
-      System.out.println(svnapi.getCmdResult());
-		
-		*/
-		
-		
-		switch(env) {
-			case "dev": 
-				svnapi.setWorkFolder("dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+		/*
+		 * try { svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+
+		 * "webapps"+"/"+page.getApplication().getDad().toLowerCase()+"/"+"pages");
+		 * svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/");
+		 * svnapi.setSvnUrl(svnapi.getSvnUrl() + env + "/" +
+		 * page.getApplication().getDad().toLowerCase() + "/pages");
+		 * svnapi.setWorkFolder(""); svnapi.co(); } catch (IOException |
+		 * InterruptedException e) { e.printStackTrace(); }
+		 * 
+		 * System.out.println(svnapi.getCmd());
+		 * System.out.println(svnapi.getCmdResult());
+		 * 
+		 */
+
+		switch (env) {
+		case "dev":
+			svnapi.setWorkFolder(
+					"dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
 			break;
-			case "prod": 
-				svnapi.setWorkFolder("prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+		case "prod":
+			svnapi.setWorkFolder(
+					"prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
 			break;
-			case "sta": 
-				svnapi.setWorkFolder("sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+		case "sta":
+			svnapi.setWorkFolder(
+					"sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
 			break;
 		}
-      //  svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/" + page.getPage());
-		
-        
+		// svnapi.setMessage("Create Repo. for Application/Page - " +
+		// page.getApplication().getDad() + "/" + page.getPage());
+
 		List<File> files = Arrays.asList(new File(pathClass).listFiles());
-		
+
 		files = files.stream().filter(f -> f.getName().contains(".java")).collect(Collectors.toList());
-		
+
 		files.forEach(f -> {
 			svnapi.setLocalUriPath(pathClass);
 			svnapi.setWorkFolder(File.separator + f.getName());
-			
-	         boolean flag = svnapi.add();
-	          System.out.println("Adicionar Pasta " + flag);
-	          System.out.println(svnapi.getCmd());
-	          System.out.println(svnapi.getCmdResult());
 
-	          Core.setMessageInfo("Adicionar Pasta " + flag);
-	          Core.setMessageInfo(svnapi.getCmd());
-	          Core.setMessageInfo(svnapi.getCmdResult());
-	          
-	          svnapi.setMessage("Testing send files ...");
-	          
-	          flag = svnapi.commit();
-	          System.out.println("Commit " + flag);
-	          System.out.println(svnapi.getCmd());
-	          System.out.println(svnapi.getCmdResult());
-	          
-	          Core.setMessageInfo("Adicionar Pasta " + flag);
-	          Core.setMessageInfo(svnapi.getCmd());
-	          Core.setMessageInfo(svnapi.getCmdResult());
+			boolean flag = svnapi.add();
+			System.out.println("Adicionar Pasta " + flag);
+			System.out.println(svnapi.getCmd());
+			System.out.println(svnapi.getCmdResult());
+
+			Core.setMessageInfo("Adicionar Pasta " + flag);
+			Core.setMessageInfo(svnapi.getCmd());
+			Core.setMessageInfo(svnapi.getCmdResult());
+
+			svnapi.setMessage("Testing send files ...");
+
+			flag = svnapi.commit();
+			System.out.println("Commit " + flag);
+			System.out.println(svnapi.getCmd());
+			System.out.println(svnapi.getCmdResult());
+
+			Core.setMessageInfo("Adicionar Pasta " + flag);
+			Core.setMessageInfo(svnapi.getCmd());
+			Core.setMessageInfo(svnapi.getCmdResult());
 		});
-		
-      //  System.out.println("Criar Pasta " + flag); 
-       // System.out.println(svnapi.getCmd()); 
-       // System.out.println(svnapi.getCmdResult()); 
+
+		// System.out.println("Criar Pasta " + flag);
+		// System.out.println(svnapi.getCmd());
+		// System.out.println(svnapi.getCmdResult());
 	}
 
-	// Save page generated 
+	// Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
@@ -352,44 +360,52 @@ public class PageController extends Controller {
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
 			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-			String path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator
-					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
-					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
+			String path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp()
+					+ File.separator + "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion()
+					+ File.separator + "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
-			
-			String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
+
+			String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),
+					ac.getPage());
 			path_class = this.getConfig().getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
-				boolean r = FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson })
-						 && FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
-				
-				if(ac.getIsComponent()==0) {
-					r = FileHelper.saveFilesJava(path_class, ac.getPage(), new Part[] { fileModel, fileView, fileController });
-						error += this.processCompile(path_class, ac.getPage());						
-						if (r && (error.equals("") || error == null)) {// Check if not error on the compilation class
-							if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
-								if (!FileHelper.fileExists(path_class_work_space)) {// check directory
-									FileHelper.createDiretory(path_class_work_space);// create directory if not exist
-								}
-								FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
-										new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
-										FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
+				boolean r = FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),
+						new Part[] { fileXml, fileXsl, fileJson })
+						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
+								new Part[] { fileXml, fileXsl, fileJson });
+
+				if (ac.getIsComponent() == 0) {
+					r = FileHelper.saveFilesJava(path_class, ac.getPage(),
+							new Part[] { fileModel, fileView, fileController });
+					error += this.processCompile(path_class, ac.getPage());
+					if (r && (error.equals("") || error == null)) {// Check if not error on the compilation class
+						if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
+							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
+								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
+									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
+									FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 						}
+					}
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
-					error = new Gson().toJson(new MapErrorCompile(ac.getIsComponent()==0?"Compilação efetuada com sucesso":"Componente registado com sucesso", null));
-							
+					error = new Gson()
+							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? "Compilação efetuada com sucesso"
+									: "Componente registado com sucesso", null));
+
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-					return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
+					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(error)
+							+ "</message></messages>");
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(error) + "</message></messages>");
+		return this.renderView(
+				"<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {
@@ -494,10 +510,29 @@ public class PageController extends Controller {
 
 	// list all page of an application
 	public Response actionListPage() throws IOException {
-		String p_dad = Igrp.getInstance().getRequest().getParameter("p_dad");
+		int app = Core.findApplicationByDad(Core.getParam("p_dad")).getId();
 		String json = "[";
-		Action a = new Action();
-		List<Action> actions = a.find().andWhere("application.dad", "=",p_dad).andWhere("status","=",1).all();
+
+		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
+				.andWhere("status", "=", "1").all();
+
+		List<Action> aux = new ArrayList<Action>();
+
+		if (shares == null)
+			shares = new ArrayList<Share>();
+		else
+			for (Share share : shares) {
+				Action action = new Action().findOne(share.getType_fk());
+				if (action != null)
+					aux.add(action);
+			}
+
+		List<Action> actions = new Action().find().andWhere("application.id", "=", app).andWhere("status", "=", "1")
+				.andWhere("isComponent", "=", "0").all();
+
+		if (aux != null)
+			actions.addAll(aux);
+
 		if (actions != null) {
 			for (Action ac : actions) {
 				json += "{";
@@ -506,9 +541,8 @@ public class PageController extends Controller {
 				json += "\"page\":\"" + ac.getPage() + "\",";
 				json += "\"id\":\"" + ac.getId() + "\",";
 				json += "\"description\":\"" + (ac.getPage_descr() != null ? ac.getPage_descr() : ac.getPage()) + "\",";
-				json += "\"link\":\""
-						+ this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
-						+ ac.getPage() + ".xml\"";
+				json += "\"link\":\"" + this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(),
+						ac.getVersion()) + "/" + ac.getPage() + ".xml\"";
 				json += "},";
 			}
 		}
@@ -529,9 +563,8 @@ public class PageController extends Controller {
 			json += "\"app\":\"" + ac.getApplication().getDad() + "\",";
 			json += "\"page\":\"" + ac.getPage() + "\",";
 			json += "\"id\":\"" + ac.getId() + "\",";
-			json += "\"filename\":\""
-					+ this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
-					+ ac.getPage() + ".xsl\",";
+			json += "\"filename\":\"" + this.getConfig().getCurrentResolvePathPage(ac.getApplication().getDad(),
+					ac.getPage(), ac.getVersion()) + "/" + ac.getPage() + ".xsl\",";
 			json += "\"page_descr\":\"" + ac.getPage_descr() + "\"";
 		}
 		json += "}";
@@ -553,18 +586,18 @@ public class PageController extends Controller {
 
 	// Extracting reserve code inserted by programmer
 	public Response actionPreserveUrl() throws IOException {
-		//String type = Igrp.getInstance().getRequest().getParameter("type");
+		// String type = Igrp.getInstance().getRequest().getParameter("type");
 		String page = Core.getParam("page");
 		String app = Core.getParam("app");
-		
+
 		String json = ExtractReserveCode.extract(app, page);
-		
+
 		this.format = Response.FORMAT_JSON;
-		
+
 		return this.renderView(json);
-		
+
 	}
-	
+
 	public void actionListService() {
 
 	}
@@ -575,12 +608,13 @@ public class PageController extends Controller {
 		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				String content = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac), ac.getPage() + ".xml");
+				String content = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac),
+						ac.getPage() + ".xml");
 				int index1 = content.indexOf("<rows>");
-				if(index1 > 0){
-					String c = content.substring(0,index1+"<rows>".length());
-					c += "<link_img>"+this.getConfig().getLinkImg()+"</link_img>";
-					c += content.substring(content.indexOf("</link_img>")+"</link_img>".length());
+				if (index1 > 0) {
+					String c = content.substring(0, index1 + "<rows>".length());
+					c += "<link_img>" + this.getConfig().getLinkImg() + "</link_img>";
+					c += content.substring(content.indexOf("</link_img>") + "</link_img>".length());
 					return this.renderView(c);
 				}
 				return this.renderView(content);
@@ -589,71 +623,76 @@ public class PageController extends Controller {
 		return null;
 	}
 
-	public Response actionGetXsl() throws IOException{
+	public Response actionGetXsl() throws IOException {
 		String page = Core.getParam("page");
 		String app = Core.getParam("app");
-		if(Core.isNotNull(page) && Core.isNotNull(app)){
-			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
+		if (Core.isNotNull(page) && Core.isNotNull(app)) {
+			Action ac = new Action().find().andWhere("page", "=", page).andWhere("application", "=", Core.toInt(app))
+					.one();
 			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
-			this.format = Response.FORMAT_XSL;			
-			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
+			String content = FileHelper.readFile(path_xsl, ac.getPage() + ".xsl");
+			this.format = Response.FORMAT_XSL;
+			return this.renderView(content.replaceAll("<xsl:include href=\"../../../",
+					"<xsl:include href=\"" + this.getConfig().getLinkImg() + "/"));
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
-	
+
 	// For Editor
-	
-	
-	private List<Map<String, List<String>>> getMethod(Class<?> ...params){
+
+	private List<Map<String, List<String>>> getMethod(Class<?>... params) {
 		List<Map<String, List<String>>> metodos = new ArrayList<>();
-			for(Class<?> c:params) {
-				for (Method method : c.getDeclaredMethods()) {
-					if(!method.getName().contains("lambda")) {
-						Map<String, List<String>> m = new HashMap<>();
-						List<String> mm = new ArrayList<>();
-						for (Parameter param : method.getParameters()) {		
-							int i =param.toString().lastIndexOf(".");
-							if(i!= -1)
-								mm.add(param.toString().substring(i+1));
-							else
-								mm.add(param.toString());
-						}
-						m.put(method.getName(), mm);
-						metodos.add(m);
-						
+		for (Class<?> c : params) {
+			for (Method method : c.getDeclaredMethods()) {
+				if (!method.getName().contains("lambda")) {
+					Map<String, List<String>> m = new HashMap<>();
+					List<String> mm = new ArrayList<>();
+					for (Parameter param : method.getParameters()) {
+						int i = param.toString().lastIndexOf(".");
+						if (i != -1)
+							mm.add(param.toString().substring(i + 1));
+						else
+							mm.add(param.toString());
 					}
+					m.put(method.getName(), mm);
+					metodos.add(m);
+
 				}
 			}
+		}
 		return metodos;
 	}
+
 	public Response actionMetodosCore() {
-		List<Map<String, List<String>>> metodos = getMethod(Core.class,QueryHelper.class);
+		List<Map<String, List<String>>> metodos = getMethod(Core.class, QueryHelper.class);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(new Gson().toJson(metodos));
 	}
+
 	public void actionNewDomain() {
-		
+
 		String dname = Core.getParam("domain_name");
-		//String [] dval = Core.getParamArray("domain_item_value");
-		//String []  ddesc = Core.getParamArray("p_domain_item_info");
-		
-		//System.out.println("ok");
-		//System.out.println(dval);
+		// String [] dval = Core.getParamArray("domain_item_value");
+		// String [] ddesc = Core.getParamArray("p_domain_item_info");
+
+		// System.out.println("ok");
+		// System.out.println(dval);
 		System.out.println(Core.getParameters());
-	
-		//Domain domain = new Domain(dominio,valor,description,"ATIVE",0);
-		
-		//domain.insert();
+
+		// Domain domain = new Domain(dominio,valor,description,"ATIVE",0);
+
+		// domain.insert();
 
 	}
 
 	public Response actionListDomains() throws IOException {
 		List<String> domains = new ArrayList<>();
-		for(Tuple t:Core.query(Config.getBaseConnection(),"SELECT DISTINCT dominio FROM tbl_domain").getResultList()) {
+		for (Tuple t : Core.query(Config.getBaseConnection(), "SELECT DISTINCT dominio FROM tbl_domain")
+				.getResultList()) {
 			try {
 				domains.add(t.get("dominio").toString());
-			}catch(IllegalArgumentException e) {}
+			} catch (IllegalArgumentException e) {
+			}
 		}
 		Properties p = new Properties();
 		p.put("list", domains);
@@ -665,13 +704,15 @@ public class PageController extends Controller {
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
-		for(Tuple t:Core.query(Config.getBaseConnection(),"SELECT DISTINCT valor,description FROM tbl_domain").where("dominio=:dominio").addString("dominio",p_id).getResultList()) {
+		for (Tuple t : Core.query(Config.getBaseConnection(), "SELECT DISTINCT valor,description FROM tbl_domain")
+				.where("dominio=:dominio").addString("dominio", p_id).getResultList()) {
 			try {
 				Properties domains = new Properties();
-				domains.put("value",t.get("valor").toString());
-				domains.put("text",t.get("description").toString());
+				domains.put("value", t.get("valor").toString());
+				domains.put("text", t.get("description").toString());
 				list.add(domains);
-			}catch(IllegalArgumentException e) {}
+			} catch (IllegalArgumentException e) {
+			}
 		}
 		Gson gson = new Gson();
 		this.format = Response.FORMAT_JSON;
@@ -681,14 +722,15 @@ public class PageController extends Controller {
 	public Response actionGetPageJson() throws IOException {
 		int p_id = Core.getParamInt("p_id");
 		String json = "";
-		if (p_id!=0) {
+		if (p_id != 0) {
 			Action ac = new Action().findOne(p_id);
 			if (ac != null) {
-				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
+				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/",
+						ac.getPage() + ".json");
 			}
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}
 	/*----#end-code----*/
-	}
+}

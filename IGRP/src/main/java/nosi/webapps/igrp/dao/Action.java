@@ -25,19 +25,19 @@ import nosi.core.webapp.helpers.StringHelper;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
-@Table(name="tbl_action")
-public class Action extends BaseActiveRecord<Action> implements Serializable{
-	
+@Table(name = "tbl_action")
+public class Action extends BaseActiveRecord<Action> implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1366720109128763696L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String page;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String action;
 	private String package_name;
 	private String xsl_src;
@@ -48,31 +48,31 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	private String version_src;
 	@Transient
 	private String img_src;
-	@Transient //Para armazenar id de pagina quando importar de plsql
+	@Transient // Para armazenar id de pagina quando importar de plsql
 	private Integer id_plsql;
-	@Transient //Para armazenar src_xsl de pagina quando importar de plsql
+	@Transient // Para armazenar src_xsl de pagina quando importar de plsql
 	private String src_xsl_plsql;
 	private int status;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "env_fk", foreignKey = @ForeignKey(name = "ACTION_ENV_FK"), nullable = false)
 	private Application application;
-	private short isComponent = 0; //0 = Page; 1 = Component; 2 = Page Task
+	private short isComponent = 0; // 0 = Page; 1 = Component; 2 = Page Task
 	private String xmlContent;
 	private String xslContent;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "module_fk",foreignKey = @ForeignKey(name="module_fk"))
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "module_fk", foreignKey = @ForeignKey(name = "module_fk"))
 	private Modulo modulo;
-	
-	public Action(){		
+
+	public Action() {
 	}
-	
+
 	public Action(String page, String action, String package_name, String xsl_src, String page_descr,
 			String action_descr, String version, int status, Application application) {
 		super();
 		this.page = StringHelper.removeSpecialCharaterAndSpace(page);
 		this.action = action;
-		this.package_name = (package_name!=null)?package_name.toLowerCase():package_name;
+		this.package_name = (package_name != null) ? package_name.toLowerCase() : package_name;
 		this.xsl_src = xsl_src;
 		this.page_descr = page_descr;
 		this.action_descr = action_descr;
@@ -84,48 +84,63 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getPage() {
 		return page;
 	}
+
 	public void setPage(String page) {
 		this.page = StringHelper.removeSpecialCharaterAndSpace(page);
 	}
+
 	public String getAction() {
 		return action;
 	}
+
 	public void setAction(String action) {
 		this.action = action;
-	}	
+	}
+
 	public String getPackage_name() {
 		return package_name;
 	}
+
 	public void setPackage_name(String package_name) {
 		this.package_name = package_name.toLowerCase();
 	}
+
 	public String getXsl_src() {
 		return xsl_src;
 	}
+
 	public void setXsl_src(String xsl_src) {
 		this.xsl_src = xsl_src;
 	}
+
 	public String getPage_descr() {
 		return page_descr;
 	}
+
 	public void setPage_descr(String page_descr) {
 		this.page_descr = page_descr;
 	}
+
 	public String getAction_descr() {
 		return action_descr;
 	}
+
 	public void setAction_descr(String action_descr) {
 		this.action_descr = action_descr;
 	}
+
 	public String getVersion() {
 		return "2.3";
 	}
+
 	public void setVersion(String version) {
 		this.version = "2.3";
 	}
@@ -169,10 +184,11 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public int getStatus() {
 		return status;
 	}
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 	public Application getApplication() {
 		return application;
 	}
@@ -188,7 +204,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public void setIsComponent(short isComponent) {
 		this.isComponent = isComponent;
 	}
-	
+
 	public String getXmlContent() {
 		return xmlContent;
 	}
@@ -196,7 +212,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public void setXmlContent(String xmlContent) {
 		this.xmlContent = xmlContent;
 	}
-	
+
 	public String getXslContent() {
 		return xslContent;
 	}
@@ -209,57 +225,58 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public String toString() {
 		return "Action [page=" + page + ", action=" + action + ", package_name=" + package_name + ", xsl_src=" + xsl_src
 				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", version=" + version + ", status="
-				+ status +"]";
+				+ status + "]";
 	}
 
-	public HashMap<Integer,String> getListActions(){
-		HashMap<Integer,String> lista = new HashMap<>();
+	public HashMap<Integer, String> getListActions() {
+		HashMap<Integer, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(Action ac:this.findAll()){
-			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
+		for (Action ac : this.findAll()) {
+			if (ac.getPage_descr() != null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());
 			else
 				lista.put(ac.getId(), ac.getPage());
 		}
 		return lista;
 	}
-	
-	public HashMap<Integer,String> getListActions(int app){
+
+	public HashMap<Integer, String> getListActions(int app) {
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
 				.andWhere("status", "=", "1").all();
 		List<Action> aux = new ArrayList<Action>();
-		
-		if(shares == null)
+
+		if (shares == null)
 			shares = new ArrayList<Share>();
-		
-		for(Share share : shares) {
-			Action action = new Action().findOne(share.getType_fk());
-			if(action != null)
-				aux.add(action);
-		} 
-		
-		HashMap<Integer,String> lista = new HashMap<>();
+		else
+			for (Share share : shares) {
+				Action action = new Action().findOne(share.getType_fk());
+				if (action != null)
+					aux.add(action);
+			}
+
+		HashMap<Integer, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", "1").andWhere("isComponent", "=", "0").all();
-		
-		if(actions == null)
+		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", "1")
+				.andWhere("isComponent", "=", "0").all();
+
+		if (actions == null)
 			actions = new ArrayList<Action>();
-		
-		
-		for(Action ac : actions){
-			if(Core.isNotNull(ac.getPage_descr()))
-				lista.put(ac.getId(), ac.getPage_descr());
+		else
+			for (Action ac : actions) {
+				if (Core.isNotNull(ac.getPage_descr()))
+					lista.put(ac.getId(), ac.getPage_descr());
+				else
+					lista.put(ac.getId(), ac.getPage());
+
+			}
+		// For shared pages, it will add the (dad)
+		for (Action ac : aux) {
+			if (Core.isNotNull(ac.getPage_descr()))
+				lista.put(ac.getId(), ac.getPage_descr() + " (" + ac.getApplication().getDad() + ")");
 			else
-				lista.put(ac.getId(), ac.getPage());
+				lista.put(ac.getId(), ac.getPage() + " (" + ac.getApplication().getDad() + ")");
 		}
-//		For shared pages, it will add the (dad)
-		for(Action ac : aux){
-			if(Core.isNotNull(ac.getPage_descr()))
-				lista.put(ac.getId(), ac.getPage_descr()+" ("+ac.getApplication().getDad()+")");
-			else
-				lista.put(ac.getId(), ac.getPage()+" ("+ac.getApplication().getDad()+")");
-		}
-		
+
 		return lista;
 	}
 
@@ -270,5 +287,5 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public void setModulo(Modulo modulo) {
 		this.modulo = modulo;
 	}
-	
+
 }
