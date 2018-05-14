@@ -65,14 +65,14 @@
 
 				GEN.setBtnActionAttr(container,{
 					value 		   : params.proprieties && params.proprieties.action ? params.proprieties.action : '',					
-					//isField 	   : true,
-					//valuePersist   : true,
+					isField 	   : true,
+					valuePersist   : true,
+					tag : 'url',
+					type : 'action',
 					//canAddOptions  : false,
-					onOptionAdd    : function(o){
-						console.log(o)
-					},
 					onChange:function(v){
-						var page   = v.params.page,
+						console.log(v);
+						/*var page   = v.params.page,
 							app    = v.params.app,
 							action = v.params.action,
 							url    = 'webapps?r='+app+'/'+page+'/'+action;
@@ -81,19 +81,19 @@
 
 							container.SET.url(url);
 
-						},200);
+						},200);*/
 						
 					}
 				});
 
-				container.setPropriety({
+				/*container.setPropriety({
 					name    : 'url',
 					label   : 'URL',
 					value   : "",
 					isField : true,
 					valuePersist : true,
 					editable : false
-				});
+				});*/
 
 				GEN.setTargetAttr(container,{
 					value:'modal'

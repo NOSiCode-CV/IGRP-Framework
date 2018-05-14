@@ -267,15 +267,24 @@ var GENSTRUCTURES = function(GEN){
 			if(pr.isField){
 				var tag  = containerTag+'_'+pr.name;
 				var persist = pr.valuePersist ? 'persist="true"' : '';
-				var value = container.GET[pr.name]();
+				var valueObj = pr.value;
+				var isAction = typeof valueObj == 'object' && valueObj.type == 'action' ? true : false;
+				var value = isAction ? valueObj :  container.GET[pr.name]();
+				//var value = container.GET[pr.name]();
 				var valueAttr = '';
 				var label = pr.label || '';
 				
-				if(typeof value == 'object' && value.type=='action'){
+				if(isAction){
+					
+					var actionParams = {
+						app : value.app || container.action.app,
+						page : value.page || container.action.page,
+						action : value.action || container.action.action
+					};
 					
 					valueAttr = ' type="action"';
 					
-					value = '<app>'+value.app+'</app><page>'+value.page+'</page><action>'+value.action+'</action>'
+					value = '<app>'+actionParams.app+'</app><page>'+actionParams.page+'</page><action>'+actionParams.action+'</action>'
 					
 				}
 				

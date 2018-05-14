@@ -4064,6 +4064,7 @@ if(input) {
 		var options = [];
 		var value   = p.value;
 		var tagName = p.tag || 'action';
+		var type    = p.type || 'text';
 
 		if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
 			
@@ -4114,14 +4115,15 @@ if(input) {
 				}
 			}
 		}
-		console.log(p)
 		
 		var params = {
 			name: tagName,
 			value:{
 				value   : value ? value : GEN.DETAILS.id,
-				options : options
+				options : options,
+				type : type
 			},
+			
 			isField : p.isField || false,
 			valuePersist : p.valuePersist || false,
 			onChange:function(val){
@@ -4133,7 +4135,7 @@ if(input) {
 			params.order = p.order;
 		
 		if(p.xmlAttr)
-			params.xmlAttr = p.xmlAttr
+			params.xmlAttr = p.xmlAttr;
 
 		field.setPropriety(params);
 		
@@ -4193,7 +4195,7 @@ if(input) {
 
 		}
 
-		setBTNAction(field.GET.action());
+		setBTNAction(field.GET[tagName]());
 	}
 
 
