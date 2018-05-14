@@ -87,8 +87,8 @@ public class ListaPageView extends View {
 		infopanel_1_val.propertie().add("name","p_infopanel_1_val").add("type","text").add("maxlength","4000");
 		
 		infopanel_1_url = new TextField(model,"infopanel_1_url");
-		infopanel_1_url.setLabel(gt("URL"));
-		infopanel_1_url.setValue(gt("webapps?r=igrp_studio/WebReport/index"));
+		infopanel_1_url.setLabel(gt(""));
+		infopanel_1_url.setValue(new Config().getResolveUrl("igrp_studio","WebReport","index"));
 		infopanel_1_url.propertie().add("name","p_infopanel_1_url").add("type","text").add("maxlength","4000");
 		
 		infopanel_1_bg = new TextField(model,"infopanel_1_bg");
@@ -112,8 +112,8 @@ public class ListaPageView extends View {
 		infopanel_2_val.propertie().add("name","p_infopanel_2_val").add("type","text").add("maxlength","4000");
 		
 		infopanel_2_url = new TextField(model,"infopanel_2_url");
-		infopanel_2_url.setLabel(gt("URL"));
-		infopanel_2_url.setValue(gt("webapps?r=igrp_studio/BPMNDesigner/index"));
+		infopanel_2_url.setLabel(gt(""));
+		infopanel_2_url.setValue(new Config().getResolveUrl("igrp_studio","BPMNDesigner","index"));
 		infopanel_2_url.propertie().add("name","p_infopanel_2_url").add("type","text").add("maxlength","4000");
 		
 		infopanel_2_bg = new TextField(model,"infopanel_2_bg");
@@ -137,8 +137,8 @@ public class ListaPageView extends View {
 		infopanel_3_val.propertie().add("name","p_infopanel_3_val").add("type","text").add("maxlength","4000");
 		
 		infopanel_3_url = new TextField(model,"infopanel_3_url");
-		infopanel_3_url.setLabel(gt("URL"));
-		infopanel_3_url.setValue(gt("webapps?r=igrp_studio/ListaEnv/index"));
+		infopanel_3_url.setLabel(gt(""));
+		infopanel_3_url.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
 		infopanel_3_url.propertie().add("name","p_infopanel_3_url").add("type","text").add("maxlength","4000");
 		
 		infopanel_3_bg = new TextField(model,"infopanel_3_bg");
