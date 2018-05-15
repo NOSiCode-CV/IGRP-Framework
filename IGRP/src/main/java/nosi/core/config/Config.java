@@ -95,7 +95,8 @@ public class Config {
 	}
 	
 	public String getBasePathConfig(){
-		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
+		return File.separator+"config";
+//		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
 	}
 	
 	public String getPathLib(){
@@ -365,7 +366,15 @@ public class Config {
 	}
 	
 	public String getWebapp() {
-		return "src/main/webapp"; 
+		return "src"+File.separator+"main"+File.separator+"webapp"; 
+	}
+	
+	/** getResourcesConfigDB
+	 * 
+	 * @return {@code "src"+File.separator+"main"+File.separator+"resources"+File.separator+"config"+File.separator+"db"+File.separator; }
+	 */
+	public String getResourcesConfigDB() {
+		return "src"+File.separator+"main"+File.separator+"resources"+File.separator+"config"+File.separator+"db"+File.separator; 
 	}
 
 	public String getPackage(String app, String page,String action) {
