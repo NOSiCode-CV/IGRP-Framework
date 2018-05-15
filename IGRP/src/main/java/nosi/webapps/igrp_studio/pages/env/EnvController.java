@@ -140,16 +140,12 @@ public class EnvController extends Controller {
 				
 				FileHelper.createDiretory(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-					try {
-					new Compiler().compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Compiler compiler = new Compiler();
+				compiler.compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
+				
 				if(FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}
-				
+				}		
 				
 				if(autoDeploy && !appAutoDeploy(app.getDad())) 
 					Core.setMessageWarning(gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 				

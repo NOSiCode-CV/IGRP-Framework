@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXB;
@@ -64,12 +63,9 @@ public class Import {
 				i++;
 			}
 		}
-		try {
-			return new Compiler().compile(files);
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-		}
-		return false;
+		Compiler compiler = new Compiler();
+		compiler.compile(files);
+		return compiler.hasError();
 	}
 
 

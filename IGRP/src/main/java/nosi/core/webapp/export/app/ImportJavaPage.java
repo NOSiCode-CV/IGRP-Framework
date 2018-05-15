@@ -2,15 +2,11 @@ package nosi.core.webapp.export.app;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.servlet.http.Part;
-
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -145,12 +141,9 @@ public class ImportJavaPage {
 		for(FileImportAppOrPage file:this.pagesToCompile){
 			String path = config.getPathServerClass(this.page.getApplication().getDad())+"pages"+File.separator+file.getFolder().toLowerCase();
 			Compiler compiler = new Compiler();
-			try {
-				if (!compiler.compile(new File[] { new File(path + File.separator+file.getNome()) })) {
-					this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
-				}
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
+			compiler.compile(new File[] { new File(path + File.separator+file.getNome()) });
+			if (compiler.hasError()) {
+				this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
 			}
 		}
 	}
