@@ -47,6 +47,7 @@ public class Compiler {
 				+" -d "+this.config.getBasePathClass()
 				+" -1.7"
 				+" -Xemacs";
+		
 		 Thread t = new Thread(new Runnable(){
 				@Override
 				public void run() {
@@ -92,47 +93,7 @@ public class Compiler {
 			}
 		}
 		
-	}
-	 /*
-	 //Compile java files
-	 public boolean compile(File[] files) throws IOException, URISyntaxException {
-		 if(files.length >0 ){
-			 listFilesDirectory(this.config.getPathLib());
-	  		 this.compilerWithJavac(files);
-		 }
-         return errors.isEmpty();
-	 }
-	 
-
-	private void compilerWithJavac(File[] files) {
-		for(File file:files){
-			this.compilerWithJavac(file);
-		}
-	}
-	
-	public  void compilerWithJavac(File file){
-//			className = pathDestination+"/"+className;
-		listFilesDirectory(this.config.getPathLib());
-		StringWriter sw = new StringWriter();
-	    PrintWriter out = new PrintWriter(sw);
-		Main.compile(new String[]{
-				"-classpath",this.config.getBasePathClass(),
-				"-cp","."+System.getProperty("path.separator")+jars+this.config.getBasePathClass()+System.getProperty("path.separator"),
-				"-d",this.config.getBasePathClass(),
-				file.getAbsolutePath()},out );
-		out.flush();
-		out.close();
-		if(sw.toString()!=null && !sw.toString().equals("")){
-			this.processErrorWithJavac(sw.toString(),file.getName(),file);
-		}
-		try {
-			sw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	*/
+	}	 
 	
 	/*
 	 * Extract the error occurred
