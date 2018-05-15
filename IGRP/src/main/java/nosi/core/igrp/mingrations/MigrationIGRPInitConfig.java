@@ -188,6 +188,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("DetalhesProcesso", "index", "nosi.webapps.igrp.pages.detalhesprocesso", "igrp/detalhesprocesso/DetalhesProcesso.xsl", "Detalhes Processo", "Detalhes Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Geral", "Partilha Geral - Inter Aplicações (Páginas)", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Modulo", "index", "nosi.webapps.igrp_studio.pages.modulo", "igrp_studio/modulo/Modulo.xsl", "Módulo", "Módulo", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
 			
 			for(Action ac:actions){
 				ac.insert();
