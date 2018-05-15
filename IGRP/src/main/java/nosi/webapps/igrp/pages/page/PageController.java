@@ -2,20 +2,15 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 
-import static nosi.core.i18n.Translator.gt;
-
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +20,6 @@ import java.util.Map;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Share;
-
 import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
@@ -36,8 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-
-import nosi.core.config.Config;
 import nosi.core.cversion.Svn;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -50,11 +42,6 @@ import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
-
-import nosi.core.webapp.Controller;
-import java.io.IOException;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Response;
 /*----#end-code----*/
 
 public class PageController extends Controller {
@@ -420,14 +407,11 @@ public class PageController extends Controller {
 		File[] files = new File[] { new File(path_class + page + ".java"), new File(path_class + page + "View.java"),
 				new File(path_class + page + "Controller.java") };
 		Compiler compiler = new Compiler();
-		try {
-			if (!compiler.compile(files)) {
-				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
-						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
-			}
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
+		compiler.compile(files);
+		if (compiler.hasError()) {
+			Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
+					.collect(Collectors.groupingBy(ErrorCompile::getFileName));
+			errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 		}
 		return errors;
 	}

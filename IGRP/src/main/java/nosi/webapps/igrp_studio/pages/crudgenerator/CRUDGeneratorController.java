@@ -248,7 +248,9 @@ public class CRUDGeneratorController extends Controller {
 					FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
 				}
 				String fileJava = path_class + File.separator + page.getPage();
-				return new Compiler().compile(new File[] {new File(fileJava+".java"),new File(fileJava+"View.java"),new File(fileJava+"Controller.java")});
+				Compiler compiler = new Compiler();
+				compiler.compile(new File[] {new File(fileJava+".java"),new File(fileJava+"View.java"),new File(fileJava+"Controller.java")});
+				return compiler.hasError();
 			}
 		}
 		return false;

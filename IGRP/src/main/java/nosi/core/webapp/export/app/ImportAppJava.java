@@ -24,7 +24,6 @@ import nosi.webapps.igrp.dao.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -136,12 +135,10 @@ public class ImportAppJava {
 		for(FileImportAppOrPage file:this.pagesToCompile){
 			String path = config.getPathServerClass(this.app.getDad())+"pages"+File.separator+file.getFolder().toLowerCase();
 			Compiler compiler = new Compiler();
-			try {
-				if (!compiler.compile(new File[] { new File(path + File.separator+file.getNome()) })) {
-					this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
-				}
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
+			compiler.compile(new File[] { new File(path + File.separator+file.getNome()) });
+			compiler.hasError();
+			if (compiler.hasError()) {
+				this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
 			}
 		}
 	}

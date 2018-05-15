@@ -9,21 +9,16 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
-
 import com.google.gson.Gson;
-
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -125,20 +120,16 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private String saveTaskController(TaskService task,Application app) {
+		Compiler compiler = new Compiler();
 		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(), task.getId());
 		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		if(!FileHelper.fileExists(classPathServer+File.separator+task.getId()+"Controller.java")) {
 			try {
 				FileHelper.save(classPathServer, task.getId()+"Controller.java", content);
-				File[] files = new File[] { new File(classPathServer+File.separator +task.getId()+"Controller.java")};
-				Compiler compiler = new Compiler();
-				if (!compiler.compile(files)) {
-					Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
-							.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-					 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
-				}
-			} catch (IOException | URISyntaxException e) {
+				File[] files = new File[] { new File(classPathServer+File.separator +task.getId()+"Controller.java")};				
+				compiler.compile(files);
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -146,7 +137,7 @@ public class BPMNDesignerController extends Controller {
 			try {
 				FileHelper.save(classPathWorkspace, task.getId()+"Controller.java", content);
 			} catch (IOException e) {
-				
+				e.printStackTrace();
 			}
 		}
 		Action ac = new Action().find()
@@ -168,6 +159,11 @@ public class BPMNDesignerController extends Controller {
 		}else {
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.update();
+		}
+		if (compiler.hasError()) {
+			Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
+					.collect(Collectors.groupingBy(ErrorCompile::getFileName));
+			 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 		}
 		return "";
 	}
