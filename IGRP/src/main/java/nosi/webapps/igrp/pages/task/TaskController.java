@@ -29,7 +29,10 @@ public class TaskController extends Controller {
 		}
 		TaskView view = new TaskView(model);
 		view.table_1.addData(data);
-		view.processo.setValue(new ProcessDefinitionService().mapToComboBox(Core.isNotNull(model.getAplicacao())?new Integer(model.getAplicacao()):0));
+		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
+		if(app!=null) {
+			view.processo.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
+		}
 		view.aplicacao.setValue(new Application().getListApps());
 		
 		return this.renderView(view);

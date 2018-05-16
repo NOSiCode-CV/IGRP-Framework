@@ -45,7 +45,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 			xml.setElement("title", taskName+" - Nº "+taskId);
 			xml.addXml(comp.generateButtonTask(appDad,taskDefinition,"save", taskId).toString());
 			xml.addXml(content);
-			xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,appId,null)));
+			xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,action.getApplication().getId(),null)));
 			xml.endElement();
 			return this.renderView(xml.toString());	
 		}

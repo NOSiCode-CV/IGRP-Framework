@@ -216,7 +216,7 @@ public class ImportAppJava {
 					file = FileHelper.convertStringToInputStream(content);
 					DeploymentService deploy = new DeploymentService().getDeploymentByName(fileName);
 					if(Core.isNull(deploy.getName()))
-						deploy.create(file, this.app.getId(), fileName, MediaType.APPLICATION_OCTET_STREAM);
+						deploy.create(file, this.app.getDad(), fileName, MediaType.APPLICATION_OCTET_STREAM);
 				} catch (Exception e) {
 					this.errors.add(e.getMessage());
 				} 

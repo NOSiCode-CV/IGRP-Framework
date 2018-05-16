@@ -53,7 +53,7 @@ public class Detalhes_tarefasController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	private String generateCustomFormTask(TaskServiceQuery task) {
-		Application app = new Application().findOne(task.getTenantId());
+		Application app = new Application().findByDad(task.getTenantId());
 		
 		Core.setAttribute("report_p_prm_definitionid", task.getProcessInstanceId());
 		Gson gson = new Gson();
@@ -62,7 +62,7 @@ public class Detalhes_tarefasController extends Controller {
 		history.setFilter("processFinished=true");
 		boolean processFinished = history.getHistory(task.getId()).size() > 0;
 		XMLExtractComponent comp = new XMLExtractComponent();
-		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application", "=",Core.toInt(task.getTenantId())).one();
+		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
 		String dad = action.getApplication().getDad();
 		String page = action.getPage();
 		String json = "";
@@ -92,7 +92,7 @@ public class Detalhes_tarefasController extends Controller {
 		
 		Response resp = this.call(dad, page, "index",this.queryString());
 		String content = comp.removeXMLButton(resp.getContent());
-		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+task.getTenantId(), "utf-8");
+		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+action.getApplication().getId(), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
@@ -104,7 +104,7 @@ public class Detalhes_tarefasController extends Controller {
 		xml.addXml(sep.toString());
 		xml.addXml(content);
 		this.removeOldQueryString();
-		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,task.getProcessDefinitionKey(),task.getTaskDefinitionKey(),task.getTenantId(),histories)));
+		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,task.getProcessDefinitionKey(),task.getTaskDefinitionKey(),action.getApplication().getId(),histories)));
 		xml.endElement();
 		return xml.toString();	
 	}

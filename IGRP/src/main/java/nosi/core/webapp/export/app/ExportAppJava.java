@@ -132,7 +132,7 @@ public class ExportAppJava {
 	private String getStoredBpmns() {
 		if(this.app!=null) {
 			List<String> bpmns = new ArrayList<>();
-			List<ProcessDefinitionService> list = new ProcessDefinitionService().getProcessDefinitionsAtivos(this.app.getId());
+			List<ProcessDefinitionService> list = new ProcessDefinitionService().getProcessDefinitionsAtivos(this.app.getDad());
 			list.stream().forEach(d->{
 				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(d.getId());
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
