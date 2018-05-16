@@ -7,11 +7,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.activemq.network.CompositeDemandForwardingBridge;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
@@ -75,7 +72,12 @@ public class PersistenceUtils {
         
 		  if(Config.getBaseConnection().equalsIgnoreCase(connectionName)) {
             	ConfigDBIGRP config = new ConfigDBIGRP();
-    			config.load();
+    			try {
+					config.load();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     			url = getUrl(config.getType_db(),config.getHost(),""+config.getPort(), config.getName_db());
     			driver = getDriver(config.getType_db());
     			password = config.getPassword();
