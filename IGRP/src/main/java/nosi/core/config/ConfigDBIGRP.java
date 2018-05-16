@@ -37,8 +37,7 @@ public class ConfigDBIGRP {
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
-		this.path = new Config().getBasePathConfig()+File.separator+"db"+File.separator;
-
+		this.path = new Config().getBasePathConfig()+"/"+"db"+"/";
 	}
 	
 	public void save(){
@@ -63,7 +62,8 @@ public class ConfigDBIGRP {
 				this.path +=File.separator+ new Config().getResourcesConfigDB();
 //				FileHelper.createDiretory(this.path);
 //				File file = new File(this.path+File.separator+this.fileName);
-				File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
+				File file = new File(getClass().getClassLoader().getResource(path+fileName).getPath());
+
 				FileOutputStream out = new FileOutputStream(file);
 				this.generateConfig().storeToXML(out, "store config igrp database");
 				out.close();			
@@ -77,7 +77,8 @@ public class ConfigDBIGRP {
 		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
 //		File file = new File(this.path+File.separator+this.fileName);
 		FileInputStream fis = null;
-		Properties props = new Properties();
+				Properties props = new Properties();
+		System.out.println("Passou new properties");
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
