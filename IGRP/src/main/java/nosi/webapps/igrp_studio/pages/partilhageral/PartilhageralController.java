@@ -4,6 +4,7 @@ package nosi.webapps.igrp_studio.pages.partilhageral;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -14,16 +15,18 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 import nosi.core.webapp.Igrp;
-
+import static nosi.core.i18n.Translator.gt;
+import java.util.HashMap;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Share;
 /*----#end-code----*/
 
-public class PartilhageralController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+public class PartilhageralController extends Controller {		
 
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		Partilhageral model = new Partilhageral();
 		model.load();
 		PartilhageralView view = new PartilhageralView();
@@ -41,7 +44,10 @@ public class PartilhageralController extends Controller {
 		/*----#start-code(index)----*/
 
 		view.aplicacao_origem.setValue(new Application().getAllApps());
-		view.elemento.setQuery(Core.query(null, "SELECT 'PAGE' as ID,'Page' as NAME "));
+     		 //Hardcoded select element page for now
+      	HashMap<String, String> targets = new HashMap<>(); 
+		targets.put("PAGE", "Page");	      
+		view.elemento.setValue(targets);
 
 		// + "(((SELECT '' as ID,'-- Elemento --' as NAME) union all +"
 
@@ -52,48 +58,31 @@ public class PartilhageralController extends Controller {
 		// view.aplicacao_destino.setQuery(Core.query(null,"SELECT '' as ID,'--
 		// Selecionar --' as NAME "));
 
-		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {
-			try {
-				view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Integer.parseInt((v))));
-			} catch (Exception e) {
-			}
+		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {		
+		view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Core.toInt(v)));		
 		});
 
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")) {
-			List<Partilhageral.Table_1> t = new ArrayList<Partilhageral.Table_1>();
+		List<Partilhageral.Table_1> t = new ArrayList<Partilhageral.Table_1>();
 
 			Optional.of(model.getElemento()).ifPresent(e -> {
 				switch (e) {
 
 				case "PAGE":
 
-					List<Action> pages = new ArrayList<Action>();
-					try {
-						pages = new Action().find()
-								.andWhere("application.id", "=", Integer.parseInt(model.getAplicacao_origem())).andWhere("status", "=",1).andWhere("isComponent", "=", "0").all();
-					} catch (Exception exception) {
-						exception.printStackTrace();
-					}
+					List<Action> pages = new ArrayList<Action>();			
+					pages = new Action().find()
+								.andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("status", "=",1).andWhere("isComponent", "=", "0").all();				
 
-					List<Share> shares = new ArrayList<Share>();
-					try {
-						shares = new Share().getAllSharedResources(Integer.parseInt(model.getAplicacao_origem()),
-								Integer.parseInt(model.getAplicacao_destino()), e);
-					} catch (Exception exception) {
-					}
-
+					List<Share> shares = new ArrayList<Share>();				
+					shares = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
+								Core.toInt(model.getAplicacao_destino()), e);					
 					for (Action page : pages) {
-
 						Partilhageral.Table_1 row = new Partilhageral.Table_1();
-
 						row.setEstado(page.getId());
 						row.setEstado_check(-1);
 
-						for (Share share : shares) {
-							// System.out.println((share.getType_fk() == page.getId() && share.getStatus()
-							// == 1));
-							if (share.getType_fk() == page.getId() && share.getStatus() == 1) {
-								// System.out.println(share);
+						for (Share share : shares) {							
+							if (share.getType_fk() == page.getId() && share.getStatus() == 1) {							
 								row.setEstado(page.getId());
 								row.setEstado_check(page.getId());
 							}
@@ -102,7 +91,6 @@ public class PartilhageralController extends Controller {
 						t.add(row);
 					}
 					break;
-
 				case "SERVICE":
 					break;
 				case "REPORT":
@@ -112,17 +100,13 @@ public class PartilhageralController extends Controller {
 
 			Collections.sort(t, new SortbyStatus());
 			view.table_1.addData(t);
-
-			// return forward("igrp_studio", "Partilha_geral", "index");
-		}
-
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		Partilhageral model = new Partilhageral();
 		model.load();
 		/*----#gen-example
@@ -135,34 +119,31 @@ public class PartilhageralController extends Controller {
 		----#gen-example */
 		/*----#start-code(partilhar)----*/
 
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
-			// System.out.println("Entrado ... ");
-			sharePage(model);
-			return this.forward("igrp_studio", "Partilhageral", "index");
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {			
+			sharePage(model); 
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "Partilhageral", "index", this.queryString());
+		return this.redirect("igrp_studio","Partilhageral","index", this.queryString());	
 	}
-
+	
 	/*----#start-code(custom_actions)----*/
 
 	private void sharePage(Partilhageral model) {
 		List<Share> shares = new ArrayList<Share>();
 		if (Core.isInt(model.getAplicacao_origem()) && Core.isInt(model.getAplicacao_destino())) {
 
-			shares = new Share().find().andWhere("env.id", "=", Integer.parseInt(model.getAplicacao_destino()))
-					.andWhere("owner.id", "=", Integer.parseInt(model.getAplicacao_origem()))
+			shares = new Share().find().andWhere("env.id", "=", Core.toInt(model.getAplicacao_destino()))
+					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem()))
 					.andWhere("type", "=", "PAGE").all();
 
 			List<Share> sharesRemoved = new ArrayList<Share>();
-			try {
-				sharesRemoved = new Share().find()
-						.andWhere("env.id", "=", Integer.parseInt(model.getAplicacao_destino()))
-						.andWhere("owner.id", "=", Integer.parseInt(model.getAplicacao_origem()))
-						.andWhere("type", "=", "PAGE").all();
-			} catch (Exception e) {
-			}
+			
+			sharesRemoved = new Share().find()
+					.andWhere("env.id", "=", Core.toInt(model.getAplicacao_destino()))
+					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem()))
+					.andWhere("type", "=", "PAGE").all();
+		
 
 			for (Share s : sharesRemoved) { // remove all
 				s.setStatus(0);
@@ -172,7 +153,6 @@ public class PartilhageralController extends Controller {
 			if (Core.isNotNull(estados) && estados.length > 0) {
 				boolean flag = false;
 				for (String obj : estados) {
-
 					for (Share s : shares) {
 						if (new String(s.getType_fk() + "").equals(obj)) {
 							s.setStatus(1);
@@ -188,14 +168,14 @@ public class PartilhageralController extends Controller {
 
 					Share share = new Share();
 					Application app1 = new Application();
-					app1.setId(Integer.parseInt(model.getAplicacao_origem()));
+					app1.setId(Core.toInt(model.getAplicacao_origem()));
 					Application app2 = new Application();
-					app2.setId(Integer.parseInt(model.getAplicacao_destino()));
+					app2.setId(Core.toInt(model.getAplicacao_destino()));
 					share.setOwner(app1);
 					share.setEnv(app2);
 					share.setStatus(1);
 					share.setType("PAGE");
-					share.setType_fk(Integer.parseInt(obj));
+					share.setType_fk(Core.toInt(obj));
 					share = share.insert();
 					if (share != null) {
 						Core.setMessageSuccess();
@@ -215,4 +195,4 @@ public class PartilhageralController extends Controller {
 		}
 	}
 	/*----#end-code----*/
-}
+	}
