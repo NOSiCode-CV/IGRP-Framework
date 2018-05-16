@@ -72,7 +72,7 @@ public class ConfigDBIGRP {
 			}
 		}
 	}
-	
+  
 	public void load() throws Exception{
 		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 //		File file = new File(this.path+File.separator+this.fileName);
