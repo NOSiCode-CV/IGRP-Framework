@@ -73,7 +73,8 @@ public class ConfigDBIGRP {
 		}
 	}
 	
-	public void load(){
+
+	public void load() throws Exception{
 		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 //		File file = new File(this.path+File.separator+this.fileName);
 		FileInputStream fis = null;
@@ -82,9 +83,7 @@ public class ConfigDBIGRP {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			fis = null;	
-			this.save();
-			this.load();
-			return;
+			throw new Exception("Databse failed");
 		}
 		try {
 			props.loadFromXML(fis);
