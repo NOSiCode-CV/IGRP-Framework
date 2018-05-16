@@ -42,7 +42,6 @@ package nosi.core.gui.components;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Tuple;
@@ -133,24 +132,49 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	private void genChartWithQuery() {
-		List<Column> columns = DatabaseMetadaHelper.getCollumns(query.getConnectionName(), query.getSql());
-		this.xml.startElement("label");
-		columns.stream().forEach(c->{
-			this.xml.setElement("col", c.getName());
-		});
-		this.xml.endElement();
-		this.xml.startElement("value");
-		for(Tuple t:query.getResultList()) {
-			this.xml.startElement("row");
-			columns.stream().forEach(c->{
-					try {
-						this.xml.setElement("col",t.get(c.getName()));
-					}catch(IllegalArgumentException e) {
-						this.xml.setElement("col","");
-					}
-			});	
-			this.xml.endElement();
+		int columnSize = DatabaseMetadaHelper.getCollumns(this.query.getConnectionName(), this.query.getSql()).size();
+		if(columnSize >= 2 && columnSize<=3) {
+			List<Tuple> list = this.query.getResultList();	
+			this.generateLabels(list,columnSize);
+			if(columnSize==2)
+				this.generateRowsValue2D(list);
+			else if(columnSize==3)
+				this.generateRowsValue3D(list);
+		}else {
+			
 		}
+	}
+	
+	private void generateRowsValue3D(List<Tuple> list) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void generateRowsValue2D(List<Tuple> list) {
+		this.xml.startElement("value");
+		this.xml.startElement("row");
+		this.xml.setElement("col"," ");
+		list.stream().forEach(t->{
+			try {
+				this.xml.setElement("col",t.get(1));
+			}catch(IllegalArgumentException e) {
+				this.xml.setElement("col","");
+			}
+		});	
+		this.xml.endElement();
+	}
+	
+	private void generateLabels(List<Tuple> list,int columnSize) {
+		this.xml.startElement("label");	
+		if(columnSize==2)
+			this.xml.setElement("col"," ");
+		list.stream().forEach(t->{
+			try {
+				this.xml.setElement("col",t.get(0));
+			}catch(IllegalArgumentException e) {
+				this.xml.setElement("col","");
+			}
+		});
 		this.xml.endElement();
 	}
 	
