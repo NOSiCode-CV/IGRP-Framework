@@ -95,7 +95,7 @@ public class Config {
 	}
 	
 	public String getBasePathConfig(){
-		return File.separator+"config";
+		return "config";
 //		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
 	}
 	
