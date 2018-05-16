@@ -254,19 +254,37 @@ public abstract class Model { // IGRP super model
 			//System.out.println("NomeField: " + obj.getName());
 			
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
-			
-			//System.out.println("NomeAnnotation: " + c_.getName());
-			
+				
 			List<String> aux = new ArrayList<String>();
-			 for(Field m : c_.getDeclaredFields()){
+			
+			for(Field m : c_.getDeclaredFields()){
+				 
 					m.setAccessible(true);
 					aux.add(m.getName());
 					
-					String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
-					String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
+					String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
 					
-					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
-					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+					if(m.getName().contains(s)) {
+						
+						String []values1 = (String[]) Core.getParamArray("p_" + m.getName());
+						if(values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
+							String aux_[] = new String[values1.length - 1];
+							System.arraycopy(values1, 1, aux_, 0, aux_.length);
+							values1 = aux_;
+						}
+						String []values2 = values1;
+						
+						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
+						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+						
+					}else {
+						
+						String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
+						String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
+						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
+						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+						
+					}
 					
 					m.setAccessible(false);
 					
@@ -299,7 +317,7 @@ public abstract class Model { // IGRP super model
 					
 					int MAX_ITERATION =  0;
 					
-					for(List<String> list : mapFk.values()) { 
+					for(List<String> list : mapFk.values()) {
 						if(MAX_ITERATION < list.size())
 							MAX_ITERATION = list.size(); 
 					}
@@ -317,7 +335,6 @@ public abstract class Model { // IGRP super model
 								try {
 									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(row), mapFkDesc.get(m.getName()).get(row)));
 								}catch (Exception e) {
-									//e.printStackTrace();
 									m.setAccessible(false);
 									continue;
 								}

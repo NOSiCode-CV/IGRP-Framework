@@ -53,13 +53,18 @@ public class ListField extends AbstractField {
 		Map<Object,Object> map = new LinkedHashMap<>();
 		if(prompt!=null)
 			map.put(null, prompt);
-		for(Tuple t:query.getResultList()){
-			try {
-				map.put(t.get(cols.get(0).getName()), t.get(cols.get(1).getName()));
-			}catch(IllegalArgumentException e) {
-				
+		try {
+			for(Tuple t : query.getResultList()){
+				try {
+					map.put(t.get(cols.get(0).getName()), t.get(cols.get(1).getName()));
+				}catch(IllegalArgumentException e) {
+					
+				}
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
+		
 		this.setValue(map);
 	}
 	@Override
