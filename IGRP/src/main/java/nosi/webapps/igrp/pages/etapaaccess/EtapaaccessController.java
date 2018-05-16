@@ -171,7 +171,7 @@ public class EtapaaccessController extends Controller {
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
 			List<TaskAccess> listExist = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(org.getApplication().getId())){
+			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
 				String resource = new ResourceService().getResourceData(link);
 				list.addAll(process.extractTasks(resource));
@@ -202,7 +202,7 @@ public class EtapaaccessController extends Controller {
 		List<Table_1> table = new ArrayList<>();
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(org.getApplication().getId())){
+			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
 				String resource = new ResourceService().getResourceData(link);
 				list.addAll(process.extractTasks(resource));

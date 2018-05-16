@@ -18,11 +18,9 @@ import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller{		
@@ -35,8 +33,7 @@ public class MapaProcessoController extends Controller{
 		List<IGRPMenu> listMenus = new ArrayList<>();
 		IGRPMenu menus = new IGRPMenu(gt("Lista de Processos"),"webapps?r=");
 		IGRPMenu.Menu menu = new IGRPMenu.Menu(gt("Processos Ativos"));
-		Application app = new Application().find().andWhere("dad", "=",new Permission().getCurrentEnv()).one();
-		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(app.getId())){
+		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.getCurrentApp().getDad())){
 			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), this.getConfig().getResolveUrl("igrp","MapaProcesso","openProcess")+"&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
 		}
@@ -56,7 +53,7 @@ public class MapaProcessoController extends Controller{
 		String taskDefinition = "";
 		FormDataService formData = null;
 		String title = "";
-		String idApp = "-1";
+		String idApp = "";
 		if(p_processId!=null){
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
 			title = process!=null?process.getName():"";
@@ -67,17 +64,17 @@ public class MapaProcessoController extends Controller{
 		}
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {		
-				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
+				Action action = new Action().find().andWhere("application.dad", "=",idApp).andWhere("page", "=",formData.getFormKey()).one();
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
 				String content = comp.removeXMLButton(resp.getContent());
-				XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formData.getFormKey()+"&amp;app="+idApp, "utf-8");
+				XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formData.getFormKey()+"&amp;app="+action.getApplication().getId(), "utf-8");
 				xml.addXml(this.getConfig().getHeader(null));
 				xml.startElement("content");
 				xml.writeAttribute("type", "");
 				xml.setElement("title", title);
 				xml.addXml(comp.generateButtonProcess(p_processId).toString());
 				xml.addXml(content);
-				xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,idApp,null)));
+				xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,action.getApplication().getId(),null)));
 				xml.endElement();
 				return this.renderView(xml.toString());	
 			}

@@ -69,7 +69,7 @@ public class DeploymentService extends Activit{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<DeploymentService> getDeployments(Integer idApp){
+	public List<DeploymentService> getDeployments(String idApp){
 		List<DeploymentService> d = new ArrayList<>();
 		Response response = new RestRequest().get("repository/deployments?&size=100000000&tenantId="+idApp);
 		if(response!=null){
@@ -95,7 +95,7 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 
-	public DeploymentService create(Part file,Integer idApp) throws IOException {
+	public DeploymentService create(Part file,String idApp) throws IOException {
 	   DeploymentService d = this;
        Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn20.xml");
 		if(response!=null){
@@ -116,7 +116,7 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 	
-	public DeploymentService create(InputStream file,Integer idApp,String fileName,String contentType) throws IOException {
+	public DeploymentService create(InputStream file,String idApp,String fileName,String contentType) throws IOException {
 		   DeploymentService d = this;
 	       Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,fileName,contentType);
 			if(response!=null){
@@ -136,7 +136,7 @@ public class DeploymentService extends Activit{
 			return d;
 	}
 	
-	public DeploymentService update(Part file,Integer idApp) throws IOException{
+	public DeploymentService update(Part file,String idApp) throws IOException{
 		DeploymentService d = this;
 		Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn20.xml");
 		if(response!=null){

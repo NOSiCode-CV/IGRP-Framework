@@ -111,7 +111,7 @@ public class ProcessDefinitionService extends Activit{
 		return d;
 	}
 	
-	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(Integer idApp){
+	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
 		return this.getProcessDefinitions();
 	}
@@ -298,7 +298,7 @@ public class ProcessDefinitionService extends Activit{
 				+ startFormDefined + "]";
 	}
 
-	public Map<String,String> mapToComboBox(Integer idApp) {
+	public Map<String,String> mapToComboBox(String idApp) {
 		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivos(idApp);
 		Map<String,String> map = new HashMap<>();
 		map.put(null, "--- Selecionar Processo ----");
