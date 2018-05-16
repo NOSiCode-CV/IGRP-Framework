@@ -9,21 +9,16 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
-
 import com.google.gson.Gson;
-
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -33,7 +28,6 @@ import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
@@ -47,17 +41,19 @@ public class BPMNDesignerController extends Controller {
 		model.load();
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		view.env_fk.setValue(new Application().getListApps());
-		Application app = new Application().find().andWhere("dad", "=", new Permission().getCurrentEnv()).one();		
-		List<BPMNDesigner.Gen_table> data = new ArrayList<>();
-		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):app.getId())){
-			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
-			processo.setId(process.getId());
-			processo.setTitle(process.getName());
-			processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
-			processo.setId(process.getId());
-			data.add(processo);
+		Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));		
+		if(app!=null) {
+			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
+			for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos(app.getDad())){
+				BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
+				processo.setId(process.getId());
+				processo.setTitle(process.getName());
+				processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
+				processo.setId(process.getId());
+				data.add(processo);
+			}
+			view.gen_table.addData(data);
 		}
-		view.gen_table.addData(data);
 		view.formkey.setLookup("igrp","LookupListPage","index");
 		view.formkey.addParam("p_prm_target","_blank");
 		view.formkey.addParam("target","_blank");
@@ -89,7 +85,7 @@ public class BPMNDesignerController extends Controller {
 			if(index != -1) {
 			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
 			}
-			deploy = deploy.create(data.getInputStream(),app.getId(), fileName,data.getContentType());
+			deploy = deploy.create(data.getInputStream(),app.getDad(), fileName,data.getContentType());
 			if(deploy!=null && Core.isNotNull(deploy.getId()) && Core.isNull(erros)){
 				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 			}
@@ -125,20 +121,16 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private String saveTaskController(TaskService task,Application app) {
+		Compiler compiler = new Compiler();
 		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(), task.getId());
 		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		if(!FileHelper.fileExists(classPathServer+File.separator+task.getId()+"Controller.java")) {
 			try {
 				FileHelper.save(classPathServer, task.getId()+"Controller.java", content);
-				File[] files = new File[] { new File(classPathServer+File.separator +task.getId()+"Controller.java")};
-				Compiler compiler = new Compiler();
-				if (!compiler.compile(files)) {
-					Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
-							.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-					 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
-				}
-			} catch (IOException | URISyntaxException e) {
+				File[] files = new File[] { new File(classPathServer+File.separator +task.getId()+"Controller.java")};				
+				compiler.compile(files);
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -146,7 +138,7 @@ public class BPMNDesignerController extends Controller {
 			try {
 				FileHelper.save(classPathWorkspace, task.getId()+"Controller.java", content);
 			} catch (IOException e) {
-				
+				e.printStackTrace();
 			}
 		}
 		Action ac = new Action().find()
@@ -168,6 +160,11 @@ public class BPMNDesignerController extends Controller {
 		}else {
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.update();
+		}
+		if (compiler.hasError()) {
+			Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
+					.collect(Collectors.groupingBy(ErrorCompile::getFileName));
+			 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 		}
 		return "";
 	}

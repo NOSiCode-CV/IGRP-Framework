@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-	<comment>Igrp OAuth2 sso</comment>
-	<entry key="oauth2.client_id">iekinymarcel</entry>
-	<entry key="oauth2.client_secret">marceliekiny</entry>
-	<entry key="oauth2.endpoint">http://localhost:8080/igrp-rest/rs/oauth2/token</entry>
-</properties>

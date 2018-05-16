@@ -37,13 +37,15 @@ public class ConfigDBIGRP {
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
-		this.path = new Config().getBasePathConfig()+"/db";
+		this.path = new Config().getBasePathConfig()+File.separator+"db"+File.separator;
+
 	}
 	
 	public void save(){
 		try {
-			FileHelper.createDiretory(this.path);
-			File file = new File(this.path+File.separator+this.fileName);
+//			FileHelper.createDiretory(this.path);
+//			File file = new File(this.path+File.separator+this.fileName);	
+			File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
 			FileOutputStream out = new FileOutputStream(file);
 			this.generateConfig().storeToXML(out, "store config igrp database");
 			out.close();	
@@ -57,10 +59,11 @@ public class ConfigDBIGRP {
 	public void saveIntoWorkSpace(){
 		this.path = new Config().getWorkspace();
 		if(FileHelper.fileExists(this.path)){
-			try {
-				this.path +=File.separator+ new Config().getWebapp() +File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
-				FileHelper.createDiretory(this.path);
-				File file = new File(this.path+File.separator+this.fileName);
+			try {				
+				this.path +=File.separator+ new Config().getResourcesConfigDB();
+//				FileHelper.createDiretory(this.path);
+//				File file = new File(this.path+File.separator+this.fileName);
+				File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
 				FileOutputStream out = new FileOutputStream(file);
 				this.generateConfig().storeToXML(out, "store config igrp database");
 				out.close();			
@@ -71,7 +74,8 @@ public class ConfigDBIGRP {
 	}
 	
 	public void load(){
-		File file = new File(this.path+File.separator+this.fileName);
+		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
+//		File file = new File(this.path+File.separator+this.fileName);
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {

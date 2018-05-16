@@ -18,7 +18,6 @@ import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.bpmn.BPMNHelper;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -36,7 +35,6 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/		
-		Application app = new Application().find().andWhere("dad", "=",new Permission().getCurrentEnv()).one();
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");
@@ -44,7 +42,7 @@ public class ExecucaoTarefasController extends Controller {
 		listPrioridade.put("0", "Normal");
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();
-		Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(app.getId());
+		Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
 		TaskService objTask = new TaskService();
 
 		model.load();
@@ -227,17 +225,19 @@ public class ExecucaoTarefasController extends Controller {
 		String id = Core.getParam("p_id");
 		if(Core.isNotNull(id)) {
 			TaskService task = new TaskService().getTask(id);
-			Application app = new Application().findOne(Core.toInt(task.getTenantId()));
-			this.addQueryString("taskId",id)
-				.addQueryString("appId", task.getTenantId())
-				.addQueryString("appDad", app.getDad())
-				.addQueryString("formKey", task.getFormKey())
-				.addQueryString("processDefinition", task.getProcessDefinitionKey())
-				.addQueryString("taskDefinition", task.getTaskDefinitionKey())
-				.addQueryString("taskName", task.getName());
-			return this.call(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "index",this.queryString());
-		}else
-			return this.redirect("igrp", "ErrorPage", "exception");
+			Application app = new Application().findByDad(task.getTenantId());
+			if(app!=null) {
+				this.addQueryString("taskId",id)
+					.addQueryString("appId", app.getId())
+					.addQueryString("appDad", app.getDad())
+					.addQueryString("formKey", task.getFormKey())
+					.addQueryString("processDefinition", task.getProcessDefinitionKey())
+					.addQueryString("taskDefinition", task.getTaskDefinitionKey())
+					.addQueryString("taskName", task.getName());
+				return this.call(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "index",this.queryString());
+			}
+		}
+		return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -341,7 +341,7 @@ public class ExecucaoTarefasController extends Controller {
 	private Response processTask(String taskId, String customForm, String content) {
 		TaskService task = new TaskService().getTask(taskId);
 		this.addQueryString("taskId",taskId);
-		Application app = new Application().findOne(Core.toInt(task.getTenantId()));
+		Application app = new Application().findByDad(task.getTenantId());
 		return this.call(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "save",this.queryString());
 	}
 

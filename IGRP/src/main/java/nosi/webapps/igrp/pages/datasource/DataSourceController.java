@@ -93,7 +93,10 @@ public class DataSourceController extends Controller {
 			}
 			view.btn_fechar.setVisible(false);
 		}
-		view.processo.setValue(new ProcessDefinitionService().mapToComboBox(Core.isNotNull(model.getId_env())?new Integer(model.getId_env()):0));
+		Application app = new Application().findOne(Core.toInt(model.getId_env()));
+		if(app!=null) {
+			view.processo.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
+		}
 		view.nome.setVisible(true);
 		if(Core.isNotNull(model.getProcesso())) {
 			view.etapa.setValue(new TaskService().mapToComboBox(model.getProcesso()));

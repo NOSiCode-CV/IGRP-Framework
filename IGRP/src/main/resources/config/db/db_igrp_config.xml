@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<comment>store config igrp database</comment>
+	<entry key="hostname">localhost</entry>
+	<entry key="type_db">postgresql</entry>
+	<entry key="port">5432</entry>
+	<entry key="password">postgres</entry>
+	<entry key="connectionName">hibernate-igrp-core</entry>
+	<entry key="dbname">db_igrp</entry>
+	<entry key="username">postgres</entry>
+</properties>
+ <!-- 
+<properties>
+	<comment>store config igrp database</comment>
+	<entry key="hostname">~</entry>
+	<entry key="type_db">h2</entry>
+	<entry key="port">0</entry>
+	<entry key="password">root</entry>
+	<entry key="connectionName">hibernate-igrp-core</entry>
+	<entry key="dbname">db_igrp_core;AUTO_SERVER=TRUE</entry>
+	<entry key="username">root</entry>
+</properties>
+-->
+

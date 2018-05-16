@@ -45,12 +45,12 @@ public class BPMNHelper {
 	}
 	
 	//Add file separator, allow to upload your file
-	public static String addFileSeparator(Controller controller,String processDefinition,String taskDefinition,String idApp,List<HistoricTaskService> history) {
+	public static String addFileSeparator(Controller controller,String processDefinition,String taskDefinition,Integer idApp,List<HistoricTaskService> history) {
 		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
-				.andWhere("tipoDocumento.application", "=",Core.toInt(idApp))
+				.andWhere("tipoDocumento.application", "=",idApp)
 				.andWhere("status", "=",1)
 				.andWhere("tipo", "=","IN")
 				.all();

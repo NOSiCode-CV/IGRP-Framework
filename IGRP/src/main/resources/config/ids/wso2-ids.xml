@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>Settings for wso2 Identity Service Server</comment>
+	<entry key="enabled">false</entry> 
+	<entry key="RemoteUserStoreManagerService-wsdl-url">https://10.4.2.118:9443/services/RemoteUserStoreManagerService?wsdl</entry>
+	<entry key="admin-usn">admin@wso2.com</entry>
+	<entry key="admin-pwd">cloudadmin</entry>
+</properties>
+
