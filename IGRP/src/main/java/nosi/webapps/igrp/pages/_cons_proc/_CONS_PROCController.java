@@ -24,6 +24,7 @@ public class _CONS_PROCController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		_CONS_PROC model = new _CONS_PROC();
 		model.load();
+		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
 		if(Core.isNotNull(model.getAplicacao())){
 			TaskServiceQuery taskS = new TaskServiceQuery();
@@ -39,7 +40,7 @@ public class _CONS_PROCController extends Controller {
 				taskS.addFilter("finished", model.getStatus());
 			}
 			if(Core.isNotNull(model.getAplicacao())) {
-				taskS.addFilter("tenantId", model.getAplicacao());
+				taskS.addFilter("tenantId", app.getDad());
 			}
 			if(Core.isNotNull(model.getDt_ini())) {
 				taskS.addFilter("taskCompletedAfter",Core.ToChar(Core.ToChar(model.getDt_ini(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
@@ -69,7 +70,6 @@ public class _CONS_PROCController extends Controller {
 		view.organica.setValue(new ProfileType().getListProfiles(Core.toInt(model.getAplicacao())));
 		view.area_fk.setVisible(false);
 		view.organica.setVisible(false);
-		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 		if(app!=null) {
 			view.proc_tp_fk.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
 		}

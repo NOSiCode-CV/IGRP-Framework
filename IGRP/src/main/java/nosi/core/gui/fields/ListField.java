@@ -1,12 +1,9 @@
 package nosi.core.gui.fields;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import javax.persistence.Tuple;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
@@ -49,22 +46,16 @@ public class ListField extends AbstractField {
 	
 	@Override
 	public void setQuery(BaseQueryInterface query,String prompt) {
-		List<Column> cols = DatabaseMetadaHelper.getCollumns(query.getConnectionName(), query.getSql());
 		Map<Object,Object> map = new LinkedHashMap<>();
 		if(prompt!=null)
 			map.put(null, prompt);
-		try {
-			for(Tuple t : query.getResultList()){
-				try {
-					map.put(t.get(cols.get(0).getName()), t.get(cols.get(1).getName()));
-				}catch(IllegalArgumentException e) {
-					
-				}
+		for(Tuple t:query.getResultList()){
+			try {
+				map.put(t.get(0), t.get(1));
+			}catch(IllegalArgumentException e) {
+				
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
 		}
-		
 		this.setValue(map);
 	}
 	@Override
