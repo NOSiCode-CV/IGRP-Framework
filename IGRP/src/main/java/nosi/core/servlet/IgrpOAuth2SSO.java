@@ -40,6 +40,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.User;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.RestRequest;
@@ -67,7 +69,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private static final String igrpPath = "/app/webapps?r=igrp/home/index";
+	private static final String igrpPath = "app/webapps?r=igrp/home/index";
    
 	public IgrpOAuth2SSO() {
         super();
@@ -101,14 +103,11 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					response.sendError(500, "Bad configuration ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 				}else {
 					// First check if the session exits 
-					String sessionValue = (String) request.getSession(true).getAttribute("_identity-igrp");
+					String sessionValue = (String) request.getSession().getAttribute("_identity-igrp");
 					if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
-						response.sendRedirect(_url);
+						response.sendRedirect(_url); 
 						return;
 					}
-					
-					// make the oauth2 request grant_type=password 
-					//String postData = "{\"grant_type\":\"password\",\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"client_id\":\"" + client_id + "\",\"client_secret\":\"" + client_secret + "\"}";
 					
 					disableSSL();
 					
@@ -134,18 +133,17 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					
 					int code = curl.getResponseCode();
 					
-					System.out.println("ResponseStatusCode: " + code);
+					if(code != 200) {
+						response.sendError(500, "An error has occured while trying connect to ids !");
+						return;
+					}
 					
 					BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
-					
 					
 					String result = "";
 					String token = "";
 				
 					result = br.lines().collect(Collectors.joining());
-					
-					
-					System.out.println("Success " + result);
 					
 					try {
 						JSONObject jToken = new JSONObject(result);
@@ -164,12 +162,10 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					
 					code = curl.getResponseCode();
 					
-					System.out.println(code); 
 					if(code != 200) {
-						// error 
+						response.sendError(500, "An error has occured while trying connect to ids !");
+						return;
 					}
-					
-					System.out.println(result);
 					
 					String uid = "";
 					
@@ -179,8 +175,6 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					} catch (JSONException e2) {
 						e2.printStackTrace();
 					}
-					
-					System.out.println(uid);
 					
 					// if success create the cookie information 
 					int userId = -1;
@@ -215,11 +209,101 @@ public class IgrpOAuth2SSO extends HttpServlet {
 							return;
 						}
 					}
-					
-					
 				
+					Connection conn = null;
 					
-					
+					try {
+						Class.forName(driverName);
+						conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
+						conn.setAutoCommit(false);
+						PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
+						ps.setString(1, username);
+						ResultSet rs = ps.executeQuery();
+						
+						if(!rs.next()) { // insert the user to the current igrp database 
+							PreparedStatement ps2 = conn.prepareStatement(
+									"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name) "
+									+ "values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+							authenticationKey = User.generateAuthenticationKey();
+							
+							try {
+								System.out.println(result);
+								JSONObject jsonUser = new JSONObject(result);
+								ps2.setString(8, jsonUser.getJSONObject("data").getString("name")); // name  
+								ps2.setString(4, jsonUser.getJSONObject("data").getString("email")); // email 
+							} catch (JSONException e2) {
+								e2.printStackTrace();
+								ps2.setString(4, ""); // email 
+								ps2.setString(8, ""); // name  
+							}
+							
+							ps2.setString(1, User.generateActivationKey());
+							ps2.setString(2, authenticationKey);
+							ps2.setLong(3, System.currentTimeMillis());
+							//ps2.setString(5, password); // password 
+							ps2.setInt(5, 1);
+							ps2.setLong(6, System.currentTimeMillis());
+							ps2.setString(7, username); // user_name 
+							
+							int affectedRows = ps2.executeUpdate();
+							
+							if(affectedRows > 0) {
+								int lastInsertedId = -1;			
+								try (ResultSet rs2 = ps2.getGeneratedKeys()) {
+							        if (rs.next()) {
+							        	lastInsertedId = rs2.getInt(1);
+							        }
+							        userId = lastInsertedId;
+								}
+								
+								PreparedStatement ps3 = conn.prepareStatement("insert into tbl_profile(type, type_fk, org_fk, prof_type_fk, user_fk) values(?, ?, ?, ?, ?)");
+								
+								ps3.setString(1, "PROF");
+								ps3.setInt(2, 4);
+								ps3.setInt(3, 3);
+								ps3.setInt(4, 4); // For Igrp studio 
+								ps3.setInt(5, lastInsertedId);
+								
+								ps3.addBatch();
+								
+								ps3.setString(1, "ENV");
+								ps3.setInt(2, 3);
+								ps3.setInt(3, 3);
+								ps3.setInt(4, 4); // For Igrp studio 
+								ps3.setInt(5, lastInsertedId);
+								
+								ps3.addBatch();
+								
+								int result1[] = ps3.executeBatch();
+								
+								if(result1.length == 2)
+									conn.commit();
+								
+							}else {
+								response.sendError(500, "An internal server error has occurred !");
+								return;
+							}
+						}else {
+							userId = rs.getInt("id");
+							authenticationKey = rs.getString("auth_key");
+						}
+						rs.close();
+						ps.close();
+						conn.close();
+					} catch (SQLException e) {
+						try {
+							conn.rollback();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+						e.printStackTrace();
+						response.sendError(500, "A SQLException occurred ... so we block the request !");
+						return;
+					}catch(ClassNotFoundException e) {
+						e.printStackTrace();
+						response.sendError(500, "Database driver not found ... so we block the request !");
+						return;
+					}
 					
 					try {
 						boolean generateNewCookie = false;
@@ -233,7 +317,9 @@ public class IgrpOAuth2SSO extends HttpServlet {
 							JSONArray json = new JSONArray(value);
 							int oldUserId = json.getInt(0);
 							String oldAuthenticationKey = json.getString(1);
+							
 							generateNewCookie = (oldUserId != userId || !authenticationKey.equals(oldAuthenticationKey));
+							
 						}catch(Exception e) {
 							generateNewCookie = true;
 						}
@@ -245,9 +331,11 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						cookie.setMaxAge(60*60); // 1h
 						cookie.setHttpOnly(true);
 						response.addCookie(cookie);
-						response.sendRedirect(_url); 
-						return;
 					}
+					
+					response.sendRedirect(_url); 
+					return;
+					
 					}catch(Exception e) {
 						e.printStackTrace();
 						response.sendError(500, "An INTERNAL_SERVER_ERROR occur ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
@@ -258,7 +346,6 @@ public class IgrpOAuth2SSO extends HttpServlet {
 		}else
 			response.sendError(400, "Bad request ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 	}
-	
 	
 	 public static void disableSSL() {
         try {
@@ -302,12 +389,12 @@ public class IgrpOAuth2SSO extends HttpServlet {
 		}
 	        
 	    }
-	
-	
-	
+	 
 	private Properties load(String filePath, String fileName) {
-		String path = this.getServletContext().getRealPath("/WEB-INF/config/") + filePath;
-		File file = new File(path + File.separator + fileName);
+		
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {

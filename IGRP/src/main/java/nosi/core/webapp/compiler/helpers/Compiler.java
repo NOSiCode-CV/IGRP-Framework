@@ -62,11 +62,11 @@ public class Compiler {
 	
 	public void compile(File file) {
 		final String buildArgs = 
-				 " -encoding UTF-8 "+file.getAbsolutePath()+"[Cp1252]"
+				 " -encoding UTF-8 "+file.getAbsolutePath()+"[UTF-8]"
 				+" -cp ."+System.getProperty("path.separator")+jars+this.config.getBasePathClass()+System.getProperty("path.separator")
 				+" -classpath "+this.config.getBasePathClass()
 				+" -d "+this.config.getBasePathClass()
-				+" -1.7"
+				+" -1.8"
 				+" -Xemacs";
 		
 		 Thread t = new Thread(new Runnable(){
@@ -91,7 +91,9 @@ public class Compiler {
 			Thread.sleep(TIME_SLEEP);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+			System.out.println("Thread.sleep(TIME_SLEEP);! compiler");
+			Core.log("Thread.sleep(TIME_SLEEP);! compiler");
 		}
 	}
 	
