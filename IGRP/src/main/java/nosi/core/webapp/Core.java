@@ -1230,4 +1230,29 @@ public final class Core {	// Not inherit
 		if(flag) Igrp.getInstance().getRequest().getSession().removeAttribute(key);
 		return result;
 	}
+	
+	public static void curl(String url, String httpMethod) {
+		
+	}
+	
+	public static <T> T httpGet(String url, String queryString, T result) {
+		
+		return result;
+	}
+	
+	public static <T> T httpPost( String url, Object content, T result) {
+		
+		return result;
+	}
+	
+	public static <T> T httpPut(String url, Object content, T result) {
+		
+		return result;
+	}
+	
+	public static <T> T httpDelete(String url, Object content, T result) {
+		
+		return result;
+	}
+	
 }

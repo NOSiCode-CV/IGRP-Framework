@@ -5,6 +5,7 @@ import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.config.Config;
 /*----#start-code(packages_import)----*/
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
@@ -204,7 +205,7 @@ public class NovoUtilizadorController extends Controller {
 				e.printStackTrace();
 			}
 		}else {
-			File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+			File file = new File(getClass().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
 			LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 			NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 			
@@ -325,9 +326,9 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private Properties loadIdentityServerSettings() {
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "ids";
+		String path = new Config().getBasePathConfig() + File.separator + "ids";
 		String fileName = "wso2-ids.xml";
-		File file = new File(path + File.separator + fileName);
+		File file = new File(getClass().getResource(path + File.separator + fileName).getPath());
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {

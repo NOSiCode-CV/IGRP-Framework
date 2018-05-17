@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp.pages.changepassword;
+import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
@@ -171,7 +172,9 @@ public class ChangePasswordController extends Controller {
 	private boolean dontUseIds(String currentPassword, String newPassword) {
 		boolean flag = true;
 		User user = Core.getCurrentUser();
-		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		
+		File file = new File(getClass().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
+		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		
@@ -200,9 +203,10 @@ public class ChangePasswordController extends Controller {
 	}
 	
 	private Properties loadIdentityServerSettings() {
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "ids";
+		String path = new Config().getBasePathConfig() + File.separator  + "ids";
 		String fileName = "wso2-ids.xml";
-		File file = new File(path + File.separator + fileName);
+		File file = new File(getClass().getResource(path + File.separator + fileName).getPath());
+		
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {

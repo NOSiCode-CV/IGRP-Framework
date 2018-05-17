@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+
+import nosi.core.config.Config;
 /**
  * Marcel Iekiny
  * Nov 02, 2017
@@ -159,9 +161,11 @@ public class IgrpSSO extends HttpServlet {
 	}
 	
 	private Properties load() {
-		String path = this.getServletContext().getRealPath("/WEB-INF/config/") + "db";
+		
+		String path = new Config().getBasePathConfig() + File.separator + "db";
 		String fileName = "db_igrp_config.xml";
-		File file = new File(path + File.separator + fileName);
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {
