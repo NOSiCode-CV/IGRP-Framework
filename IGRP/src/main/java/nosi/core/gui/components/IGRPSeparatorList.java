@@ -1,5 +1,7 @@
 package nosi.core.gui.components;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.util.List;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -8,6 +10,7 @@ import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.webapp.Core;
@@ -51,10 +54,18 @@ public class IGRPSeparatorList extends IGRPTable {
 	public IGRPSeparatorList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "separatorlist");
+		addRowIdAsHidden();
 	}
 	
 	public IGRPSeparatorList(String tag_name) {
 		this(tag_name,"");
+	}
+	
+	private void addRowIdAsHidden() {
+		Field p_separatorlist_1_id = new HiddenField(this.tag_name + "_id");
+		p_separatorlist_1_id.setLabel(gt(""));
+		p_separatorlist_1_id.propertie().add("name","p_" + this.tag_name + "_id").add("type","hidden").add("maxlength","50").add("java-type","").add("tag","hidden_1").add("desc","true");
+		this.addField(p_separatorlist_1_id);
 	}
 	
 	protected String[] rowId;
@@ -76,7 +87,7 @@ public class IGRPSeparatorList extends IGRPTable {
 	@Override
 	protected void genRows() {
 		
-		int rowIndex = 0; 
+		int rowIndex = 1; 
 		
 		this.data = this.modelList;
 		
@@ -85,17 +96,7 @@ public class IGRPSeparatorList extends IGRPTable {
 			for(Object obj:this.data){
 				
 				this.xml.startElement("row");
-				
-				if(rowId != null && rowIndex < rowId.length) {
-					this.xml.startElement(this.tag_name + "_id");
-					this.xml.text(rowId[rowIndex++] + "");
-					this.xml.endElement();
-				}else {
-					this.xml.startElement(this.tag_name + "_id");
-					this.xml.text((rowIndex++) + "");
-					this.xml.endElement();
-				}
-				
+			
 				if(this.buttons.size() > 0){
 					this.xml.startElement("context-menu");
 					
@@ -110,14 +111,32 @@ public class IGRPSeparatorList extends IGRPTable {
 				
 				for(Field field : this.fields){
 					
-					this.xml.startElement(field.getTagName());
-					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					
 					String val = IgrpHelper.getValue(obj, field.getName());
+					
+					if(field.getName().contains(this.tag_name)) {
+						
+						if(val != null && !val.isEmpty()) {
+							this.xml.startElement(this.tag_name + "_id");
+							String []aux = val.split(SPLIT_SEQUENCE);
+							this.xml.text(aux[0]);
+							this.xml.endElement();
+						}else {
+							this.xml.startElement(this.tag_name + "_id");
+							this.xml.text((rowIndex++) + "");
+							this.xml.endElement();
+						}
+						
+						continue;
+					}
 					
 					if((val==null || val.equals("")) && field.getValue() != null){
 						val = field.getValue().toString();
 					}
+					
+					this.xml.startElement(field.getTagName());
+					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+			
+					
 					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char 
 					this.xml.text(aux.length > 0 ? aux[0] : "");
 					this.xml.endElement();
@@ -134,7 +153,7 @@ public class IGRPSeparatorList extends IGRPTable {
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 1 ? aux[1] : "") + "\"></hidden>");
 					
 					//this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + "p_" + this.tag_name + "_id"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 0 ? aux[0] : (rowId++) + "")  + "\"></hidden>");
-					
+					 
 				}
 				
 				

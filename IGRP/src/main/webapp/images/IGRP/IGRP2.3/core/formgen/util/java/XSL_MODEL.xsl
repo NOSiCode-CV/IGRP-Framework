@@ -365,6 +365,12 @@
     			</xsl:call-template> 
     		</xsl:variable>  
  		<xsl:value-of select="concat('public static class ',$tableName,'{')"/>
+ 		
+ 		<xsl:value-of select="$newline"/>
+ 			<xsl:value-of select="$tab2"/>
+		<xsl:value-of select="concat('private Pair ',name(), '_id',';')"/>
+ 		
+ 		
  		<xsl:for-each select="fields/*">
  			<xsl:variable name="tag_name">
 				<xsl:value-of select="name()"/>
@@ -377,7 +383,16 @@
 	 			<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat('private Pair ',$tag_name,'_check;')"/>
 			</xsl:if>
- 		</xsl:for-each> 		
+ 		</xsl:for-each> 
+ 		
+ 		<xsl:call-template name="gen-method-set-get">
+	   		<xsl:with-param name="type_content" select="'Pair'" />
+	   		<xsl:with-param name="type" select="'Pair'" />
+	   		<xsl:with-param name="name" select="concat(name(), '_p')" />
+	   		<xsl:with-param name="tab_" select="$tab2" />
+	   		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
+	    </xsl:call-template>
+ 				
  		<xsl:for-each select="fields/*">
  			<xsl:variable name="tag_name">
 				<xsl:value-of select="name()"/>
@@ -402,6 +417,8 @@
 			</xsl:if>
 			<xsl:value-of select="$newline"/>
 		</xsl:for-each>
+		
+		
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="'}'"/> 	

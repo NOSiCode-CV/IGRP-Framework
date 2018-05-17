@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.pages.login;
 
 
+import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
@@ -264,7 +265,6 @@ public class LoginController extends Controller {
 	            		case "http://wso2.org/claims/lastname": ldapPerson.setLastName(obj.getValue().getValue()); break;
 	            		
 	            	}
-	               // System.out.println(obj.getClaimUri().getValue() + " = " + obj.getValue().getValue());
 	            });
 	            personArray.add(ldapPerson);
 	            
@@ -284,7 +284,13 @@ public class LoginController extends Controller {
 		
 		Properties settings = loadIdentityServerSettings();
 		
-		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		//String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
+		String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
+		
+		File file = new File(getClass().getClassLoader().getResource(x).getPath());
+		
+		boolean b = file.exists();
+		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
@@ -409,9 +415,9 @@ public class LoginController extends Controller {
 	}
 	
 	private Properties loadIdentityServerSettings() {
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "ids";
+		String path = new Config().getBasePathConfig() + File.separator + "ids";
 		String fileName = "wso2-ids.xml";
-		File file = new File(path + File.separator + fileName);
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {

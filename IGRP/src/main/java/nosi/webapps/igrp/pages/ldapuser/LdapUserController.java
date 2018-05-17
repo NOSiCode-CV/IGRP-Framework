@@ -2,6 +2,7 @@
 package nosi.webapps.igrp.pages.ldapuser;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
@@ -76,7 +77,9 @@ public class LdapUserController extends Controller {
 	
 	private boolean addThroughLdap(LdapUser model) {
 		boolean flag = false;
-		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		
+		File file = new File(getClass().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
+		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		LdapPerson person = new LdapPerson(); 
@@ -193,7 +196,8 @@ public class LdapUserController extends Controller {
 	private boolean updateNUsingIds(LdapUser model, String email) {
 		boolean flag = false;
 		
-		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		File file = new File(getClass().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
+		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		
@@ -267,9 +271,10 @@ public class LdapUserController extends Controller {
 	}
 	
 	private Properties loadIdentityServerSettings() {
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "ids";
+		String path = new Config().getBasePathConfig() + File.separator + "ids";
 		String fileName = "wso2-ids.xml";
 		File file = new File(path + File.separator + fileName);
+		
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {
