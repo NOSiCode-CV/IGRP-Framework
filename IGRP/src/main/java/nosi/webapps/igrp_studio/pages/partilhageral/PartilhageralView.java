@@ -6,6 +6,7 @@ import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 
 
 

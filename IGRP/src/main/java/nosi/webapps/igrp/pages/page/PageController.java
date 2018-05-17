@@ -402,18 +402,10 @@ public class PageController extends Controller {
 	}
 
 	private String processCompile(String path_class, String page) {
-		String errors = "";
 		path_class = path_class + File.separator;
 		File[] files = new File[] { new File(path_class + page + ".java"), new File(path_class + page + "View.java"),
 				new File(path_class + page + "Controller.java") };
-		Compiler compiler = new Compiler();
-		compiler.compile(files);
-		if (compiler.hasError()) {
-			Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
-					.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-			errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
-		}
-		return errors;
+		return new Compiler().compile(files);
 	}
 
 	// Read json and extract transactions

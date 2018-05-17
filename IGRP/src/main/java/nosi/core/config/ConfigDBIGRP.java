@@ -44,7 +44,7 @@ public class ConfigDBIGRP {
 		try {
 //			FileHelper.createDiretory(this.path);
 //			File file = new File(this.path+File.separator+this.fileName);	
-			File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
+			File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 			FileOutputStream out = new FileOutputStream(file);
 			this.generateConfig().storeToXML(out, "store config igrp database");
 			out.close();	
@@ -72,20 +72,17 @@ public class ConfigDBIGRP {
 			}
 		}
 	}
-	
-	public void load(){
-		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile());
+  
+	public void load() throws Exception{
+		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 //		File file = new File(this.path+File.separator+this.fileName);
 		FileInputStream fis = null;
 				Properties props = new Properties();
-		System.out.println("Passou new properties");
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
-			fis = null;	
-			this.save();
-			this.load();
-			return;
+			fis = null;
+			throw new Exception("Databse failed");
 		}
 		try {
 			props.loadFromXML(fis);

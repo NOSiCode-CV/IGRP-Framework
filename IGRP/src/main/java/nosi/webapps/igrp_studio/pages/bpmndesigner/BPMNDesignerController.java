@@ -13,20 +13,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
-import com.google.gson.Gson;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.compiler.helpers.Compiler;
-import nosi.core.webapp.compiler.helpers.ErrorCompile;
-import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -77,9 +72,13 @@ public class BPMNDesignerController extends Controller {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
 			String content = FileHelper.convertToString(data);
 			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content);
+			this.files = new File[tasks.size()];
+			int i = 0;
 			for(TaskService task:tasks) {
-				erros = this.saveTaskController(task,app);
-			}
+				this.saveTaskController(task,app,i);
+				++i;
+			}			
+			erros = new Compiler().compile(this.files);
 			int index = content.indexOf("<process id=\"");
 			String fileName = data.getName();
 			if(index != -1) {
@@ -95,7 +94,7 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo "+erros) + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 	public Response actionPublicar() throws IOException{
 		/*----#START-PRESERVED-AREA(PUBLICAR)----*/
 		return this.redirect("igrp_studio","BPMNDesigner","index");
@@ -120,27 +119,12 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView(resource);
 	}
 	
-	private String saveTaskController(TaskService task,Application app) {
-		Compiler compiler = new Compiler();
+	private void saveTaskController(TaskService task,Application app,int index) {
 		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(), task.getId());
 		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
-		if(!FileHelper.fileExists(classPathServer+File.separator+task.getId()+"Controller.java")) {
-			try {
-				FileHelper.save(classPathServer, task.getId()+"Controller.java", content);
-				File[] files = new File[] { new File(classPathServer+File.separator +task.getId()+"Controller.java")};				
-				compiler.compile(files);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(!FileHelper.fileExists(classPathWorkspace+File.separator+task.getId()+"Controller.java")) {
-			try {
-				FileHelper.save(classPathWorkspace, task.getId()+"Controller.java", content);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		files[index] = FileHelper.saveFilesJava(classPathServer, task.getId(), content);
+		FileHelper.saveFilesJava(classPathWorkspace, task.getId(), content);
 		Action ac = new Action().find()
 								.andWhere("application", "=",app.getId())
 								.andWhere("page", "=",task.getId())
@@ -161,13 +145,7 @@ public class BPMNDesignerController extends Controller {
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
-		if (compiler.hasError()) {
-			Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
-					.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-			 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
-		}
-		return "";
 	}
-	
+	private File[] files;
 	/*----#END-PRESERVED-AREA----*/
 }

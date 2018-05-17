@@ -7,8 +7,13 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
+
+import com.google.gson.Gson;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
@@ -30,22 +35,38 @@ public class Compiler {
 		  this.config = new Config();
 	}
 	  
-	public void compile(File[] files) {
+//	public void compile(File[] files) {
+//		if(files!=null) {	
+//			listFilesDirectory(this.config.getPathLib());
+//			for(File file:files) {	
+//				this.compile(file);
+//			}
+//		}
+//	}
+	
+	public String compile(File[] files) {
 		if(files!=null) {	
 			listFilesDirectory(this.config.getPathLib());
 			for(File file:files) {	
-				this.compile(file);
+				if(file!=null)
+					this.compile(file);
+			}
+			if (this.hasError()) {
+				Map<String, List<ErrorCompile>> er = this.getErrors().stream()
+						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
+				 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 			}
 		}
+		return "";
 	}
 	
 	public void compile(File file) {
 		final String buildArgs = 
-				 " -encoding UTF-8 "+file.getAbsolutePath()+"[Cp1252]"
+				 " -encoding UTF-8 "+file.getAbsolutePath()+"[UTF-8]"
 				+" -cp ."+System.getProperty("path.separator")+jars+this.config.getBasePathClass()+System.getProperty("path.separator")
 				+" -classpath "+this.config.getBasePathClass()
 				+" -d "+this.config.getBasePathClass()
-				+" -1.7"
+				+" -1.8"
 				+" -Xemacs";
 		
 		 Thread t = new Thread(new Runnable(){
@@ -70,7 +91,9 @@ public class Compiler {
 			Thread.sleep(TIME_SLEEP);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+			System.out.println("Thread.sleep(TIME_SLEEP);! compiler");
+			Core.log("Thread.sleep(TIME_SLEEP);! compiler");
 		}
 	}
 	

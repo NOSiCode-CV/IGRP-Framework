@@ -131,9 +131,8 @@ public class FileHelper {
 		            code.append(line);
 		            code.append(ls);
 		        }
-		        file.close();
-		        in.close();
-		        d.close();
+		    }catch(Exception e) {
+		    	e.printStackTrace();
 		    } finally {
 		    	file.close();
 		        in.close();
@@ -249,21 +248,30 @@ public class FileHelper {
 		StringBuilder  code = new StringBuilder();
 		fileName = basePath+File.separator+fileName;
 		if(fileExists(fileName)){
+			InputStream is = null;
+			DataInputStream in = null;
+			BufferedReader d = null;
 			try {
-				InputStream is = new FileInputStream(new File(fileName));				
+				is = new FileInputStream(new File(fileName));				
 			    String         ls = System.getProperty("line.separator");
 			    String         line = null;
-			    DataInputStream in = new DataInputStream(is);   
-			    BufferedReader d = new BufferedReader(new InputStreamReader(in));
+			    in = new DataInputStream(is);   
+			    d = new BufferedReader(new InputStreamReader(in));
 			    while((line=d.readLine())!=null){
 			    	code.append(line);
 			    	code.append(ls);
 			    }
-			    is.close();
-			    in.close();
-			    d.close();
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
+			}finally {
+			    try {
+					is.close();
+				    in.close();
+				    d.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return code.toString();
@@ -292,6 +300,19 @@ public class FileHelper {
 			}
 		}
 		return code.toString();
+	}
+	
+	
+	public static File saveFilesJava(String classPath,String fileName,String content) {
+		if(!FileHelper.fileExists(classPath+File.separator+fileName+"Controller.java")) {
+			try {
+				FileHelper.save(classPath, fileName+"Controller.java", content);
+				return new File(classPath+File.separator +fileName+"Controller.java");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 	
 	//Save MVC code java
