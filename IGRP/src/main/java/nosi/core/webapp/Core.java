@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.xml.bind.JAXB;
 import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
@@ -1235,24 +1239,42 @@ public final class Core {	// Not inherit
 		
 	}
 	
-	public static <T> T httpGet(String url, String queryString, T result) {
-		
-		return result;
+	public static <T> T httpGet(String url, String []mediaType, Class<T> result) {
+		return httpGet(url, mediaType, null, result);
 	}
 	
-	public static <T> T httpPost( String url, Object content, T result) {
-		
-		return result;
+	public static <T> T httpGet(String url, String []mediaType, Map<String, Object> httpHeaders, Class<T> result) {
+		Client curl = ClientBuilder.newClient();
+		Invocation.Builder ib = curl.target(url).request(mediaType);
+		if(httpHeaders != null && !httpHeaders.isEmpty()) {
+			for(Map.Entry<String, Object> obj : httpHeaders.entrySet()) {
+				ib.header(obj.getKey(), obj.getValue());
+			}
+		}
+		T r =  ib.get(result);
+		curl.close();
+		return r;
 	}
 	
-	public static <T> T httpPut(String url, Object content, T result) {
-		
-		return result;
+	public static <T> T httpPost( String url, Object content, String []mediaType, String entityMediaType, Class<T> result) {
+		return httpPost(url, content, mediaType, null, entityMediaType, result);
 	}
 	
-	public static <T> T httpDelete(String url, Object content, T result) {
-		
-		return result;
+	public static <T> T  httpPost( String url, Object content, String []mediaType, Map<String, Object> httpHeaders, String entityMediaType, Class<T> result) {
+		Client curl = ClientBuilder.newClient();
+		Invocation.Builder ib = curl.target(url).request(mediaType);
+		if(httpHeaders != null && !httpHeaders.isEmpty()) {
+			for(Map.Entry<String, Object> obj : httpHeaders.entrySet()) {
+				ib.header(obj.getKey(), obj.getValue());
+			}
+		}
+		T r = ib.post(Entity.entity(content, entityMediaType), result);
+		return r;
+	}
+	
+	public static void main(String[] args) {
+		String result = httpPost("https://jsonplaceholder.typicode.com/posts", "{\"title\":\"foo\", \"body\":\"bar\", \"userId\":1}", new String[] {"application/json; charset=UTF-8"}, "application/josn", String.class);
+		System.out.println(result);
 	}
 	
 }
