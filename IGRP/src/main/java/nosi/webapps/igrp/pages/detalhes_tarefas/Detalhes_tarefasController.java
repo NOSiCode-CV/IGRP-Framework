@@ -67,7 +67,7 @@ public class Detalhes_tarefasController extends Controller {
 		String page = action.getPage();
 		String json = "";
 		if(task.getVariables()!=null) {
-			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId())).collect(Collectors.toList());
+			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
 			json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
 		}
 		if(Core.isNotNull(json)) {

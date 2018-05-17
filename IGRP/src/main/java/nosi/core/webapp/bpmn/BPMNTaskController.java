@@ -80,7 +80,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});
-				p.addVariable(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId(),"string",content);
+				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
 				p.submitVariables();
 				task.submitVariables();
 			}
@@ -112,7 +112,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 				Core.getParameters().entrySet().stream().forEach(param-> {
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});	
-				p.addVariable(Core.isNotNull(task.getFormKey())?task.getFormKey():"customVariableIGRP_"+task.getId(),"string",content);
+				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
 				result = p.submitVariables();
 				new TaskFile().addFile(p);
 				if(result){

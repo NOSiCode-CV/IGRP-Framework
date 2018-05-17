@@ -364,7 +364,7 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
 			formData.addVariable("baseHostNameIgrp",this.getConfig().getHostName());
-			formData.addVariable(Core.isNotNull(formData.getFormKey())?formData.getFormKey():"customVariableIGRP",content);
+			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
 
