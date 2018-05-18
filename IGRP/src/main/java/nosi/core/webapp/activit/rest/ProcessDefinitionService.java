@@ -22,6 +22,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
+import nosi.webapps.igrp.dao.TaskAccess;
 
 
 /**
@@ -113,9 +114,26 @@ public class ProcessDefinitionService extends Activit{
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
+		List<ProcessDefinitionService> list = this.getProcessDefinitions();
+		list = list.stream().filter(p->filterAccess(p)).collect(Collectors.toList());
+		return list;
+	}
+	
+	public List<ProcessDefinitionService> getProcessDefinitionsAllAtivos(String idApp){
+		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
 		return this.getProcessDefinitions();
 	}
 	
+	public boolean filterAccess(ProcessDefinitionService p) {
+		boolean x = new TaskAccess().getCurrentTaskAccess()
+				.stream()
+				.filter(a->a.getProcessName().compareTo(p.getKey())==0)
+				.filter(a->a.getTaskName().compareTo("Start")==0)
+				.collect(Collectors.toList())
+				.size() > 0;
+		return x;
+	}
+
 	public boolean activateProcessDefinition(String id){
 		return this.statusProcessDefinition(id,  "activate");
 	}
@@ -315,7 +333,7 @@ public class ProcessDefinitionService extends Activit{
 			InputStream is = (InputStream) response.getEntity();
 			try {
 				String xml = FileHelper.convertToString(is);
-				list = this.extractTasks(xml);
+				list = this.extractTasks(xml,false);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -324,12 +342,20 @@ public class ProcessDefinitionService extends Activit{
 		return list;
 	}
 
-	public List<TaskService> extractTasks(String xml) {
+	public List<TaskService> extractTasks(String xml,boolean includeStartProcess) {
 		List<TaskService> list = new ArrayList<>();
 		xml = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey", "formKey");
 		StringReader r = new StringReader(xml);
 		TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
 		if(listTasks!=null && listTasks.getProcess()!=null) {
+			if(includeStartProcess && listTasks.getProcess().get(0)!=null) {
+				TaskService t = new TaskService();
+				t.setId("Start");
+				t.setTaskDefinitionKey("Start");
+				t.setName("Start");
+				t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+				list.add(t);
+			}
 			if(listTasks.getProcess().get(0)!=null && listTasks.getProcess().get(0).getUserTask()!=null) {
 				for(UserTask task:listTasks.getProcess().get(0).getUserTask()) {
 					TaskService t = new TaskService();
@@ -338,7 +364,7 @@ public class ProcessDefinitionService extends Activit{
 					t.setName(task.getName());
 					t.setFormKey(task.getFormKey());
 					t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
-					list .add(t);
+					list.add(t);
 				}
 			}
 			if(listTasks.getProcess().get(0).getSubProcess()!=null) {

@@ -15,6 +15,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -26,6 +28,8 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.TaskAccess;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
@@ -243,11 +247,16 @@ public class PesquisarMenuController extends Controller {
 
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
+		List<TaskAccess> listTask = new TaskAccess().getCurrentTaskAccess();
+		boolean isStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start")).collect(Collectors.toList()).size() > 0;
+		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start")).collect(Collectors.toList()).size() > 0;
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
 		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "_self", "settings.png", "webapps?r=");
-		topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png", "webapps?r=");
-		topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
+		if(isStartProc)
+			topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png", "webapps?r=");
+		if(isTask)
+			topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
 		return this.renderView(topMenu.toString());
 	}
 

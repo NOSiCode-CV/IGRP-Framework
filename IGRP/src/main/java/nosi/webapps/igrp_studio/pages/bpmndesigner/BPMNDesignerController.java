@@ -72,7 +72,7 @@ public class BPMNDesignerController extends Controller {
 		if(Core.isNotNull(model.getEnv_fk())) {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
 			String content = FileHelper.convertToString(data);
-			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content);
+			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content,true);
 			this.files = new File[tasks.size()];
 			int i = 0;
 			for(TaskService task:tasks) {
