@@ -225,6 +225,10 @@ public class ExecucaoTarefasController extends Controller {
 		String id = Core.getParam("p_id");
 		if(Core.isNotNull(id)) {
 			TaskService task = new TaskService().getTask(id);
+			if(task==null) {
+				Core.setAttribute("javax.servlet.error.message", "Sem permissão");
+				return this.redirect("igrp", "ErrorPage", "exception");
+			}
 			Application app = new Application().findByDad(task.getTenantId());
 			if(app!=null) {
 				this.addQueryString("taskId",id)
@@ -329,7 +333,14 @@ public class ExecucaoTarefasController extends Controller {
 			result = this.processStartEvent(processDefinitionId,customForm,content);
 			if(result==null){
 				Core.setMessageSuccess();
-				return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
+				TaskService task = new TaskService();
+				task.addFilter("processDefinitionId",processDefinitionId);
+				List<TaskService> tasks = task.getMyTasks();
+				if(tasks!=null && !tasks.isEmpty()) {
+					return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+				}else {
+					return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
+				}
 			}else{
 				Core.setMessageError(result.getException());
 				return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
