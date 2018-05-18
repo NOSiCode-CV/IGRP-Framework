@@ -112,51 +112,34 @@ public class LookupListPageController extends Controller {
 				.addString("taskid", model.getTaskid())
 				.execute();
 			
-			String[]p_formlist_1_idx = Core.getParamArray("p_formlist_1_idx");
-			String[]p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
-			String[]p_obrigatorio_fk = Core.getParamArray("p_obrigatorio_fk");
-			String[]p_tipo_fk = Core.getParamArray("p_tipo_fk");
-			
 			if(model.getFormlist_1() !=null) {
-				for(int i=0;i<p_formlist_1_idx.length;i++) {
-					int obrigatorio = 0;
-					int id = -1;	
-					String tipo = "";
-					try {
-						obrigatorio = Core.toInt(p_obrigatorio_fk[i]);
-						id = Core.toInt(p_checkbox_fk[i]);
-						tipo = p_tipo_fk[i];
-					}catch(java.lang.IndexOutOfBoundsException e) {
-					}
-					tipo = Core.isNotNull(tipo)?tipo:"IN";
-					if(id != -1) {
+				for(LookupListPage.Formlist_1 fm:model.getFormlist_1()) {
 						List<Tuple> r = Core.query(Config.getBaseConnection(),"SELECT id FROM tbl_tipo_documento_etapa")
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
-							.addInt("tipo_documento_fk", id)
+							.addInt("tipo_documento_fk", Core.toInt(fm.getCheckbox().getKey(),-1))
 							.addString("processid", model.getProcessid())
 							.addString("taskid", model.getTaskid())
 							.getResultList();
 						if(r==null || r.isEmpty()) {
 							result = Core.insert("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
-							.addInt("tipo_documento_fk",id)
+							.addInt("tipo_documento_fk",Core.toInt(fm.getCheckbox().getKey(),-1))
 							.addString("processid", model.getProcessid())
 							.addString("taskid", model.getTaskid())
-							.addInt("required", obrigatorio)
-							.addString("tipo", tipo)
+							.addInt("required", fm.getObrigatorio()!=null?Core.toInt(fm.getObrigatorio().getKey()):0)
+							.addString("tipo", fm.getTipo().getValue())
 							.execute();
 						}else {
 							result = Core.update("tbl_tipo_documento_etapa")
 							.addInt("status", 1)
+							.addInt("required", fm.getObrigatorio()!=null?Core.toInt(fm.getObrigatorio().getKey()):0)
+							.addString("tipo", fm.getTipo().getValue())
 							.where("tipo_documento_fk=:tipo_documento_fk AND processid=:processid AND taskid=:taskid")
-							.addInt("tipo_documento_fk",id)
-							.addInt("required", obrigatorio)
+							.addInt("tipo_documento_fk",Core.toInt(fm.getCheckbox().getKey(),-1))
 							.addString("processid", model.getProcessid())
 							.addString("taskid", model.getTaskid())
-							.addString("tipo", tipo)
 							.execute();
 						}
-					}
 				}
 			}
 		}else {
