@@ -388,7 +388,7 @@
  		<xsl:call-template name="gen-method-set-get">
 	   		<xsl:with-param name="type_content" select="'Pair'" />
 	   		<xsl:with-param name="type" select="'Pair'" />
-	   		<xsl:with-param name="name" select="concat(name(), '_p')" />
+	   		<xsl:with-param name="name" select="concat(name(), '_id')" />
 	   		<xsl:with-param name="tab_" select="$tab2" />
 	   		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
 	    </xsl:call-template>
