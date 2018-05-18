@@ -783,6 +783,38 @@ public final class Core {	// Not inherit
 		return json;
 	}
 	
+	public static void setTaskVariable(String variableName,Object value) {
+		String taskId = Core.getParam("taskId");
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			task.deleteVariable(variableName);
+			task.addVariable(variableName, "global", "string",value.toString());
+			task.submitVariables();
+		}
+	}
+	
+	public static void setTaskVariable(String variableName,String scope,Object value) {
+		String taskId = Core.getParam("taskId");
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			if(scope.equalsIgnoreCase("global"))
+				task.deleteVariable(variableName);
+			task.addVariable(variableName,scope, "string",value.toString());
+			task.submitVariables();
+		}
+	}
+	
+	public static void setTaskVariable(String variableName,String scope,String type,Object value) {
+		String taskId = Core.getParam("taskId");
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			if(scope.equalsIgnoreCase("global"))
+				task.deleteVariable(variableName);
+			task.addVariable(variableName,scope, type,value.toString());
+			task.submitVariables();
+		}
+	}
+	
 	public static String getTaskVariable(String taskDefinitionKey,String variableName) { 
         List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
         if(vars!=null) {

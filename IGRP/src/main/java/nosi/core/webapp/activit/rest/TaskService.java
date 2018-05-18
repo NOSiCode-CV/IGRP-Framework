@@ -92,7 +92,7 @@ public class TaskService extends Activit{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return t;
+		return this.filterAccess(t)? t:null;
 	}
 	
 	public List<TaskService> getMyTasks(){
@@ -280,10 +280,17 @@ public class TaskService extends Activit{
 		this.variables.add(new TaskVariables(name, "local", type, value, ""));
 	}
 	
+	public boolean deleteVariable(String variableName) {
+		Response response = new RestRequest().delete("runtime/process-instances/"+this.getProcessInstanceId()+"/variables", variableName);
+		return response.getStatus() == 201;
+	}
+	
+	
 	public boolean submitVariables() {
 		Response response = new RestRequest().post("runtime/tasks/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
 		return response.getStatus() == 201;
 	}
+	
 	private boolean taskAction(String id,String action,String assignee){
 		JSONObject jobj = new JSONObject();
 		try {

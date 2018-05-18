@@ -23,6 +23,7 @@ import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
@@ -120,31 +121,32 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private void saveTaskController(TaskService task,Application app,int index) {
-		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(), task.getId());
-		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
-		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
-		files[index] = FileHelper.saveFilesJava(classPathServer, task.getId(), content);
-		FileHelper.saveFilesJava(classPathWorkspace, task.getId(), content);
 		Action ac = new Action().find()
-								.andWhere("application", "=",app.getId())
-								.andWhere("page", "=",task.getId())
-								.one();
+				.andWhere("application", "=",app.getId())
+				.andWhere("page", "=",task.getId())
+				.one();
 		if(ac==null) {
-		 	ac = new Action();
-		 	ac.setApplication(app);
+			ac = new Action();
+			ac.setApplication(app);
 			ac.setAction_descr("");
 			ac.setPage_descr("Task Page "+task.getId());
 			ac.setStatus(1);
-			ac.setPage(task.getId());
+			ac.setPage(StringHelper.camelCaseFirst(task.getId()));
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.setVersion("2.3");
 			ac.setAction("index");
-     		ac.setIsComponent((short) 2);
-     		ac.insert();
+			ac.setIsComponent((short) 2);
+			ac.insert();
 		}else {
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
+		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(),ac.getPage());
+		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
+		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
+		files[index] = FileHelper.saveFilesJava(classPathServer, ac.getPage(), content);
+		FileHelper.saveFilesJava(classPathWorkspace, ac.getPage(), content);
+		
 	}
 	private File[] files;
 	/*----#END-PRESERVED-AREA----*/

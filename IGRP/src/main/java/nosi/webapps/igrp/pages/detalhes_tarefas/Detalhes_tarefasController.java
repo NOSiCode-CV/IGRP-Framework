@@ -20,7 +20,6 @@ import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
@@ -52,15 +51,12 @@ public class Detalhes_tarefasController extends Controller {
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
-	private String generateCustomFormTask(TaskServiceQuery task) {
-		Application app = new Application().findByDad(task.getTenantId());
-		
+	private String generateCustomFormTask(TaskServiceQuery task) {		
 		Core.setAttribute("report_p_prm_definitionid", task.getProcessInstanceId());
 		Gson gson = new Gson();
 		HistoricTaskService history = new HistoricTaskService();
 		List<HistoricTaskService> histories = history.getHistory(task.getId());
 		history.setFilter("processFinished=true");
-		boolean processFinished = history.getHistory(task.getId()).size() > 0;
 		XMLExtractComponent comp = new XMLExtractComponent();
 		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
 		String dad = action.getApplication().getDad();
@@ -97,9 +93,6 @@ public class Detalhes_tarefasController extends Controller {
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()));
-		if(!processFinished) {
-			xml.addXml(comp.generateButtonEditTask(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "update",task.getId()).toString());
-		}
 		IGRPSeparatorList sep = comp.addFormlistFile();
 		xml.addXml(sep.toString());
 		xml.addXml(content);
