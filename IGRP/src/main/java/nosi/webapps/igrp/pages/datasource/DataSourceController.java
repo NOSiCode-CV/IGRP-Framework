@@ -151,11 +151,15 @@ public class DataSourceController extends Controller {
 			}
 			if(model.getTipo().equalsIgnoreCase("task")) {
 				ProcessDefinitionService p = new ProcessDefinitionService().getProcessDefinition(model.getProcesso());
-				rep.setProcessid(p.getKey());
-				rep.setTaskid(model.getEtapa());
-				rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
-				List<TaskService> task = p.getTasks(model.getProcesso()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
-				rep.setFormkey((task!=null && !task.isEmpty())?task.get(0).getFormKey():"");
+				if(p.filterAccess(p)) {
+					rep.setProcessid(p.getKey());
+					rep.setTaskid(model.getEtapa());
+					rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
+					List<TaskService> task = p.getTasks(model.getProcesso()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
+					rep.setFormkey((task!=null && !task.isEmpty())?task.get(0).getFormKey():"");
+				}else {
+					throw new IOException(Core.NO_PERMITION_MSG);
+				}
 			}
 			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
 			rep.setApplication(app);

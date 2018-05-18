@@ -226,8 +226,7 @@ public class ExecucaoTarefasController extends Controller {
 		if(Core.isNotNull(id)) {
 			TaskService task = new TaskService().getTask(id);
 			if(task==null) {
-				Core.setAttribute("javax.servlet.error.message", "Sem permissão");
-				return this.redirect("igrp", "ErrorPage", "exception");
+				throw new IOException(Core.NO_PERMITION_MSG);
 			}
 			Application app = new Application().findByDad(task.getTenantId());
 			if(app!=null) {

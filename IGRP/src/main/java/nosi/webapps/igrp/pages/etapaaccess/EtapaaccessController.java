@@ -34,7 +34,6 @@ public class EtapaaccessController extends Controller {
 			model.setTable_1(this.getOrganizationTasks(orgProfId));
 		}
 		if(type.compareTo("user")==0) {
-			System.out.println("Prof:"+orgProfId);
 			ProfileType prof = new ProfileType().findOne(Core.toInt(orgProfId));
 			model.setTable_1(this.getUserTasks(prof.getOrganization().getId().toString(),orgProfId,new User().find().andWhere("email", "=",userEmail).one()));
 		}
@@ -171,10 +170,10 @@ public class EtapaaccessController extends Controller {
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
 			List<TaskAccess> listExist = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(org.getApplication().getDad())){
+			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAllAtivos(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
 				String resource = new ResourceService().getResourceData(link);
-				list.addAll(process.extractTasks(resource));
+				list.addAll(process.extractTasks(resource,true));
 				listExist.addAll(this.getTaskOrgExists(org.getId(), process.getKey()));
 			}
 			 
@@ -194,6 +193,7 @@ public class EtapaaccessController extends Controller {
 		return table;
 	}
 	
+	
 	/*
 	 * List all task associate to application with references to user
 	 */
@@ -202,10 +202,10 @@ public class EtapaaccessController extends Controller {
 		List<Table_1> table = new ArrayList<>();
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(org.getApplication().getDad())){
+			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAllAtivos(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
 				String resource = new ResourceService().getResourceData(link);
-				list.addAll(process.extractTasks(resource));
+				list.addAll(process.extractTasks(resource,true));
 			}			 
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();

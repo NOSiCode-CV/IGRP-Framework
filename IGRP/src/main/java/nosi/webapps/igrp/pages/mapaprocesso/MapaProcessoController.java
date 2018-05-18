@@ -56,11 +56,15 @@ public class MapaProcessoController extends Controller{
 		String idApp = "";
 		if(p_processId!=null){
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
-			title = process!=null?process.getName():"";
-			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
-			idApp = process.getTenantId();
-			taskDefinition = formData.getTaskId();
-			processDefinition = process.getKey();
+			if(process.filterAccess(process)) {
+				title = process!=null?process.getName():"";
+				formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
+				idApp = process.getTenantId();
+				taskDefinition = formData.getTaskId();
+				processDefinition = process.getKey();
+			}else {
+				throw new IOException(Core.NO_PERMITION_MSG);
+			}
 		}
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {		

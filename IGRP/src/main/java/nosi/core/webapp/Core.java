@@ -75,6 +75,8 @@ import nosi.webapps.igrp.dao.Transaction;
  * 13 Nov 2017
  */
 public final class Core {	// Not inherit 
+	
+	public static final String NO_PERMITION_MSG = "No permision";
 	public static ORDERBY ORDERBY;
 	
 	private Core() {} // Not instantiate  
