@@ -1148,6 +1148,46 @@ public final class Core {	// Not inherit
 		return lastInsertedId;
 	}
 	
+	public static int saveFile(Part file, String name) {
+		String igrpCoreConnection = Config.getBaseConnection();
+		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
+		int lastInsertedId = 0;
+		if(conn != null) {
+			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
+			String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
+			try {
+				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql, java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setBinaryStream(1,file.getInputStream());
+				ps.setString(2, sysdate);
+				ps.setString(3, file.getContentType());
+				ps.setString(4, name);
+				if(ps.executeUpdate() > 0) {			
+					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+				        if (rs.next()) {
+				        	lastInsertedId = rs.getInt(1);
+				        }
+					}
+					ps.close();
+				}
+				conn.commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		try {
+			file.delete();
+		}catch(Exception e) {e.printStackTrace();}
+		
+		return lastInsertedId;
+	}
+	
 	public static int saveFile(File file) {
 		return saveFile(file, null, null);
 	}
