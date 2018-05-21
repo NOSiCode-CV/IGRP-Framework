@@ -95,6 +95,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 			}else {
 				Core.setMessageSuccess();
 				task.addFilter("processDefinitionId",task.getProcessDefinitionId());
+				task.addFilter("processInstanceId", task.getProcessInstanceId());
 				List<TaskService> tasks = task.getMyTasks();
 				if(tasks!=null && !tasks.isEmpty()) {
 					return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
