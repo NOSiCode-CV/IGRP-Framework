@@ -181,7 +181,7 @@ public class EtapaaccessController extends Controller {
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
 				if(listExist!=null) {
-					if(!listExist.stream().filter(c->c.getTaskName().compareTo(task.getTaskDefinitionKey())==0).collect(Collectors.toList()).isEmpty()) {
+					if(!listExist.stream().filter(c->c.getProcessName().compareTo(task.getProcessDefinitionId())==0).filter(c->c.getTaskName().compareTo(task.getTaskDefinitionKey())==0).collect(Collectors.toList()).isEmpty()) {
 						t.setId_check(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
 					}
 				}
