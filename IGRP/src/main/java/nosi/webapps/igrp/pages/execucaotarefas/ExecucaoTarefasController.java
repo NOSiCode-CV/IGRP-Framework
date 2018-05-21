@@ -18,7 +18,6 @@ import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.bpmn.BPMNHelper;
-import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
@@ -225,6 +224,9 @@ public class ExecucaoTarefasController extends Controller {
 		String id = Core.getParam("p_id");
 		if(Core.isNotNull(id)) {
 			TaskService task = new TaskService().getTask(id);
+			if(task==null) {
+				throw new IOException(Core.NO_PERMITION_MSG);
+			}
 			Application app = new Application().findByDad(task.getTenantId());
 			if(app!=null) {
 				this.addQueryString("taskId",id)
@@ -321,18 +323,24 @@ public class ExecucaoTarefasController extends Controller {
 		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
 		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
-		ResponseError result = null;
 		if(Core.isNotNull(taskId)){
 			return this.processTask(taskId,customForm,content);
 		}
 		if(Core.isNotNull(processDefinitionId)){
-			result = this.processStartEvent(processDefinitionId,customForm,content);
-			if(result==null){
-				Core.setMessageSuccess();
-				return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
-			}else{
-				Core.setMessageError(result.getException());
+			ProcessInstancesService pi = this.processStartEvent(processDefinitionId,customForm,content);
+			if(Core.isNotNull(pi.getError())){
+				Core.setMessageError(pi.getError().getException());
 				return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
+			}
+			Core.setMessageSuccess();
+			TaskService task = new TaskService();
+			task.addFilter("processDefinitionId",processDefinitionId);
+			task.addFilter("processInstanceId", pi.getId());
+			List<TaskService> tasks = task.getMyTasks();
+			if(tasks!=null && !tasks.isEmpty()) {
+				return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+			}else {
+				return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
 			}
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
@@ -346,7 +354,7 @@ public class ExecucaoTarefasController extends Controller {
 	}
 
 	//Inicia tarefa de um processo
-	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content) throws IOException, ServletException{
+	private ProcessInstancesService processStartEvent(String processDefinitionId,String customForm,String content) throws IOException, ServletException{
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
 		ProcessInstancesService pi = new ProcessInstancesService();
@@ -370,9 +378,10 @@ public class ExecucaoTarefasController extends Controller {
 
 		if(st!=null){
 			pi.setId(st.getId());
+			pi.setError(st.getError());
 			new TaskFile().addFile(pi);
 		}
-		return (st!=null && st.getError()!=null)?st.getError():null;
+		return pi;
 	}
 	
 	private Map<String,String> getStatus() {

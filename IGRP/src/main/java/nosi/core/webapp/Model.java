@@ -51,75 +51,72 @@ public abstract class Model { // IGRP super model
 	
 
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
-//		Class<? extends Model> c = this.getClass();
-//		for(Field field:c.getDeclaredFields()) {
-//				field.setAccessible(true);
-				HistoricTaskService hts = Core.getTaskHistory(taskId);
-				if(hts.getVariables() !=null) {
-					List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
-					String json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
-					if(Core.isNotNull(json)) {
-						CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
-						if(custom.getRows()!=null){
-							custom.getRows().stream()/*.filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName()))*/.forEach(v->{
-//								this.setField(field,v.getValue()[0]);
-								Core.setAttribute(v.getName(), v.getValue());
-							});
-						}
-					}
-					this.load();
+		HistoricTaskService hts = Core.getTaskHistory(taskId);
+		if(hts.getVariables() !=null) {
+			List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
+			String json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
+			if(Core.isNotNull(json)) {
+				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
+				if(custom.getRows()!=null){
+					custom.getRows().stream().forEach(v->{
+						Core.setAttribute(v.getName(), v.getValue());
+					});
 				}
-//		}
+			}
+			this.load();
+		}
 	}
 	
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
 		if(query!=null) {
-			List<T> list = new ArrayList<>();
-			for(Tuple tuple:query.getResultList()) {
-				T t;
-				try {
-					t = className.newInstance();
-					for(Field field:className.getDeclaredFields()) {
-						try {
-							BeanUtils.setProperty(t, field.getName(),tuple.get(field.getName()).toString());
-						}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-							
+			List<Tuple> tuples = query.getResultList();
+			if(tuples!=null && !tuples.isEmpty()) {
+				List<T> list = new ArrayList<>();
+				for(Tuple tuple:tuples) {
+					T t;
+					try {
+						t = className.newInstance();
+						for(Field field:className.getDeclaredFields()) {
+							try {
+								BeanUtils.setProperty(t, field.getName(),tuple.get(field.getName()).toString());
+							}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+								
+							}
 						}
+						list.add(t);
+					} catch (InstantiationException | IllegalAccessException e1) {
+						e1.printStackTrace();
 					}
-					list.add(t);
-				} catch (InstantiationException | IllegalAccessException e1) {
-					e1.printStackTrace();
 				}
+				return list;
 			}
-			return list;
 		}
 		return null;
 	}
 	
 	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
 		if(query!=null) {
-			List<T> list = new ArrayList<>();
 			List<Tuple> queryResult = query.getResultList();
 			if(queryResult != null) {
+				List<T> list = new ArrayList<>();
 				for(Tuple tuple:queryResult) {
-				T t;
-				try {
-					t = className.newInstance();
-					for(Field field:className.getDeclaredFields()) {
-						try {
-							BeanUtils.setProperty(t, field.getName(),new Pair(tuple.get(field.getName()).toString(),tuple.get(field.getName()).toString()));
-						}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-							
+					T t;
+					try {
+						t = className.newInstance();
+						for(Field field:className.getDeclaredFields()) {
+							try {
+								BeanUtils.setProperty(t, field.getName(),new Pair(tuple.get(field.getName()).toString(),tuple.get(field.getName()).toString()));
+							}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+								
+							}
 						}
+						list.add(t);
+					} catch (InstantiationException | IllegalAccessException e1) {
+						e1.printStackTrace();
 					}
-					list.add(t);
-				} catch (InstantiationException | IllegalAccessException e1) {
-					e1.printStackTrace();
 				}
-			}
-			}
-			
-			return list;
+				return list;
+			}			
 		}
 		return null;
 	}

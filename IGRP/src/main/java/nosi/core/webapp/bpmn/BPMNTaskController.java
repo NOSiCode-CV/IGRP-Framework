@@ -1,6 +1,8 @@
 package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -59,12 +61,12 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 		String customForm = Core.getParam("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		FormDataService formData = new FormDataService();
-		TaskService task = new TaskService().getTask(taskId);
-		FormDataService properties = null;
-		ProcessInstancesService p = new ProcessInstancesService();
-		p.setId(task.getProcessInstanceId());		
+		TaskService task = new TaskService().getTask(taskId);	
 		
-		if(Core.isNotNull(taskId)){
+		if(task!=null){
+			FormDataService properties = null;
+			ProcessInstancesService p = new ProcessInstancesService();
+			p.setId(task.getProcessInstanceId());	
 			formData.setTaskId(taskId);
 			properties = new FormDataService().getFormDataByTaskId(taskId);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
@@ -84,17 +86,25 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 				p.submitVariables();
 				task.submitVariables();
 			}
-		}
 		
-		new TaskFile().addFile(p);
-		StartProcess st = formData.submitFormByTask();
-		if((st!=null && st.getError()!=null)) {
-			Core.setMessageError(st.getError().getException());
-			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
-		}else {
-			Core.setMessageSuccess();
-			return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
+			new TaskFile().addFile(p);
+			StartProcess st = formData.submitFormByTask();
+			if((st!=null && st.getError()!=null)) {
+				Core.setMessageError(st.getError().getException());
+				return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
+			}else {
+				Core.setMessageSuccess();
+				task.addFilter("processDefinitionId",task.getProcessDefinitionId());
+				task.addFilter("processInstanceId", task.getProcessInstanceId());
+				List<TaskService> tasks = task.getMyTasks();
+				if(tasks!=null && !tasks.isEmpty()) {
+					return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+				}else {
+					return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
+				}
+			}
 		}
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 
 	@Override

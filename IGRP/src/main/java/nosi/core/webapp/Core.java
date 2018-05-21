@@ -76,6 +76,8 @@ import nosi.webapps.igrp.dao.Transaction;
  * 13 Nov 2017
  */
 public final class Core {	// Not inherit 
+	
+	public static final String NO_PERMITION_MSG = "No permision";
 	public static ORDERBY ORDERBY;
 	
 	private Core() {} // Not instantiate  
@@ -784,6 +786,38 @@ public final class Core {	// Not inherit
 		return json;
 	}
 	
+	public static void setTaskVariable(String variableName,Object value) {
+		String taskId = Core.getParam("taskId");
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			task.deleteVariable(variableName);
+			task.addVariable(variableName, "global", "string",value.toString());
+			task.submitVariables();
+		}
+	}
+	
+	public static void setTaskVariable(String variableName,String scope,Object value) {
+		String taskId = Core.getParam("taskId");
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			if(scope.equalsIgnoreCase("global"))
+				task.deleteVariable(variableName);
+			task.addVariable(variableName,scope, "string",value.toString());
+			task.submitVariables();
+		}
+	}
+	
+	public static void setTaskVariable(String variableName,String scope,String type,Object value) {
+		String taskId = Core.getParam("taskId");
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			if(scope.equalsIgnoreCase("global"))
+				task.deleteVariable(variableName);
+			task.addVariable(variableName,scope, type,value.toString());
+			task.submitVariables();
+		}
+	}
+	
 	public static String getTaskVariable(String taskDefinitionKey,String variableName) { 
         List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
         if(vars!=null) {
@@ -1088,6 +1122,46 @@ public final class Core {	// Not inherit
 				ps.setBinaryStream(1, new FileInputStream(file));
 				ps.setString(2, sysdate);
 				ps.setString(3, mime_type);
+				ps.setString(4, name);
+				if(ps.executeUpdate() > 0) {			
+					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+				        if (rs.next()) {
+				        	lastInsertedId = rs.getInt(1);
+				        }
+					}
+					ps.close();
+				}
+				conn.commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		try {
+			file.delete();
+		}catch(Exception e) {e.printStackTrace();}
+		
+		return lastInsertedId;
+	}
+	
+	public static int saveFile(Part file, String name) {
+		String igrpCoreConnection = Config.getBaseConnection();
+		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
+		int lastInsertedId = 0;
+		if(conn != null) {
+			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
+			String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
+			try {
+				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql, java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setBinaryStream(1,file.getInputStream());
+				ps.setString(2, sysdate);
+				ps.setString(3, file.getContentType());
 				ps.setString(4, name);
 				if(ps.executeUpdate() > 0) {			
 					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
