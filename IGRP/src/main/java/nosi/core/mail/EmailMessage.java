@@ -18,6 +18,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 
 /**
@@ -132,9 +133,11 @@ public final class EmailMessage { // Not inherit
 	
 	private boolean load() {
 		boolean flag = false;
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "mail";
+		
 		String fileName = "mail.xml";
-		File file = new File(path + File.separator + fileName);
+		String path = new Config().getBasePathConfig() + File.separator + "mail";
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
@@ -165,11 +168,10 @@ public final class EmailMessage { // Not inherit
 					return new PasswordAuthentication(auth_username, auth_password);
 				}
 		});
-		// Set response content type
+		// Set response content type 
 		try{
-			// Create a default MimeMessage object.
+			// Create a default MimeMessage object. 
 			MimeMessage message = new MimeMessage(session); 
-			
 			
 			if(!validateEmail(this.from)) {
 				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");

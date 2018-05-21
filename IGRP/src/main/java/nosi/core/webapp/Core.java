@@ -34,6 +34,7 @@ import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
@@ -1235,10 +1236,6 @@ public final class Core {	// Not inherit
 		return result;
 	}
 	
-	public static void curl(String url, String httpMethod) {
-		
-	}
-	
 	public static <T> T httpGet(String url, String []mediaType, Class<T> result) {
 		return httpGet(url, mediaType, null, result);
 	}
@@ -1272,9 +1269,20 @@ public final class Core {	// Not inherit
 		return r;
 	}
 	
-	public static void main(String[] args) {
-		String result = httpPost("https://jsonplaceholder.typicode.com/posts", "{\"title\":\"foo\", \"body\":\"bar\", \"userId\":1}", new String[] {"application/json; charset=UTF-8"}, "application/josn", String.class);
-		System.out.println(result);
+	// send a simple email ... 
+	public static boolean mail(String from, String to, String subject, String msg, String charset, String type, File []attachs, String replyTo) {
+		EmailMessage sender = EmailMessage.newInstance();
+		boolean result = false;
+		try {
+			sender.setFrom(from).setTo(to).setSubject(subject).setMsg(msg, charset, type).replyTo(replyTo);
+			if(attachs != null)
+				for(File f : attachs)
+					sender.attach(f);
+			result = sender.send();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }
