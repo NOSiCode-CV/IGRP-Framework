@@ -645,6 +645,12 @@ public final class Core {	// Not inherit
 		return new QuerySelect().validateQuery(config_env, query);
 	}
 
+	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(Config_env env,String sql) {
+		QuerySelect q = new QuerySelect();
+		q.setSql(sql);
+		return q.executeQuery(env) ;
+	}
+	
 	/**Find User by email
 	 * @param email
 	 * @return {@code User().find().andWhere("username", "=", email).one();}

@@ -1,5 +1,5 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
-import nosi.core.config.Config;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -16,12 +16,16 @@ public class ImportArquivo extends Model{
 	private String importar_pagina;
 	@RParam(rParamName = "p_importar_jar_file")
 	private String importar_jar_file;
+	@RParam(rParamName = "p_importar_sql_script")
+	private String importar_sql_script;
 	@RParam(rParamName = "p_sectionheader_2_text")
 	private String sectionheader_2_text;
 	@RParam(rParamName = "p_sectionheader_3_text")
 	private String sectionheader_3_text;
 	@RParam(rParamName = "p_sectionheader_4_text")
 	private String sectionheader_4_text;
+	@RParam(rParamName = "p_sectionheader_5_text")
+	private String sectionheader_5_text;
 	@RParam(rParamName = "p_arquivo_aplicacao")
 	private String arquivo_aplicacao;
 	@RParam(rParamName = "p_list_aplicacao")
@@ -30,6 +34,12 @@ public class ImportArquivo extends Model{
 	private String arquivo_pagina;
 	@RParam(rParamName = "p_jar_file")
 	private String jar_file;
+	@RParam(rParamName = "p_aplicacao_script")
+	private String aplicacao_script;
+	@RParam(rParamName = "p_data_source")
+	private String data_source;
+	@RParam(rParamName = "p_sql_script")
+	private String sql_script;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -59,6 +69,13 @@ public class ImportArquivo extends Model{
 		return this.importar_jar_file;
 	}
 	
+	public void setImportar_sql_script(String importar_sql_script){
+		this.importar_sql_script = importar_sql_script;
+	}
+	public String getImportar_sql_script(){
+		return this.importar_sql_script;
+	}
+	
 	public void setSectionheader_2_text(String sectionheader_2_text){
 		this.sectionheader_2_text = sectionheader_2_text;
 	}
@@ -78,6 +95,13 @@ public class ImportArquivo extends Model{
 	}
 	public String getSectionheader_4_text(){
 		return this.sectionheader_4_text;
+	}
+	
+	public void setSectionheader_5_text(String sectionheader_5_text){
+		this.sectionheader_5_text = sectionheader_5_text;
+	}
+	public String getSectionheader_5_text(){
+		return this.sectionheader_5_text;
 	}
 	
 	public void setArquivo_aplicacao(String arquivo_aplicacao){
@@ -106,6 +130,27 @@ public class ImportArquivo extends Model{
 	}
 	public String getJar_file(){
 		return this.jar_file;
+	}
+	
+	public void setAplicacao_script(String aplicacao_script){
+		this.aplicacao_script = aplicacao_script;
+	}
+	public String getAplicacao_script(){
+		return this.aplicacao_script;
+	}
+	
+	public void setData_source(String data_source){
+		this.data_source = data_source;
+	}
+	public String getData_source(){
+		return this.data_source;
+	}
+	
+	public void setSql_script(String sql_script){
+		this.sql_script = sql_script;
+	}
+	public String getSql_script(){
+		return this.sql_script;
 	}
 
 
