@@ -43,8 +43,14 @@ import nosi.core.gui.fields.GenXMLField;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.persistence.Tuple;
+
 
 public class IGRPChart extends IGRPComponent{
 	private List<?> data;
@@ -113,12 +119,17 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.setElement("xaxys", this.getXaxys());
 		this.xml.setElement("yaxys", this.getYaxys());
 		this.xml.setElement("url", this.getUrl());
-		this.genChart();
+		try {
+			this.genChart();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.xml.endElement();
 		return this.xml.toString();
 	}
 	
-	private void genChart() {
+	private void genChart() throws Exception {
 		if(query!=null) {
 			this.genChartWithQuery();
 		}
@@ -131,32 +142,74 @@ public class IGRPChart extends IGRPComponent{
 		
 	}
 	
-	private void genChartWithQuery() {
+	private void genChartWithQuery() throws Exception {
 		int columnSize = DatabaseMetadaHelper.getCollumns(this.query.getConnectionName(), this.query.getSql()).size();
 		if(columnSize >= 2 && columnSize<=3) {
 			List<Tuple> list = this.query.getResultList();	
-			this.generateLabels(list,columnSize);
+			Set<String> labels = new HashSet<>();
+			Map<String,Double> valuesXY = new HashMap<>();
+			list.stream().forEach(t->{
+				try {
+					labels.add(t.get(0).toString());
+					String key = t.get(0).toString();
+					double v = Double.parseDouble(t.get(1).toString());
+					if(valuesXY.containsKey(key)) {
+						v+=valuesXY.get(key);
+					}
+					valuesXY.put(key, v);
+				}catch(IllegalArgumentException e) {
+				}
+			});	
+			this.generateLabels(labels);
 			if(columnSize==2)
-				this.generateRowsValue2D(list);
+				this.generateRowsValueXY(valuesXY);
 			else if(columnSize==3)
-				this.generateRowsValue3D(list);
+				this.generateRowsValueXYZ(list);
 		}else {
-			
+			throw new Exception("Invalid Query");
 		}
 	}
 	
-	private void generateRowsValue3D(List<Tuple> list) {
-		// TODO Auto-generated method stub
-		
+	private void generateRowsValueXYZ(List<Tuple> list) {
+		Map<Map<String,String>,Double> result = new LinkedHashMap<>();
+		Set<String> values1 = new HashSet<>(),values2 = new HashSet<>();
+		list.stream().forEach(t->{
+			values1.add(t.get(0).toString());
+			values2.add(t.get(1).toString());
+			Map<String, String> key = new LinkedHashMap<>();
+			key.put(t.get(0).toString(),t.get(1).toString());
+			double v = Double.parseDouble(t.get(2).toString());
+			if(result.containsKey(key)) {
+				v+=result.get(key);
+				result.remove(key);
+			}
+			result.put(key ,v);
+		});
+		this.xml.startElement("value");
+		values2.stream().forEach(v2->{
+			this.xml.startElement("row");
+			this.xml.setElement("col", v2);
+			values1.stream().forEach(v1->{
+				Map<String,String> key = new HashMap<>();
+				key.put(v1, v2);
+				if(result.containsKey(key)) {
+					this.xml.setElement("col", result.get(key));
+				}else {
+					this.xml.setElement("col", "0");
+				}
+			});
+			this.xml.endElement();
+		});
+		this.xml.endElement();
 	}
 	
-	private void generateRowsValue2D(List<Tuple> list) {
+	private void generateRowsValueXY(Map<String,Double> valuesXY) {
 		this.xml.startElement("value");
 		this.xml.startElement("row");
 		this.xml.setElement("col"," ");
-		list.stream().forEach(t->{
+		valuesXY.entrySet().stream().forEach(t->{
 			try {
-				this.xml.setElement("col",t.get(1));
+				this.xml.setElement("col",t.getValue());
 			}catch(IllegalArgumentException e) {
 				this.xml.setElement("col","");
 			}
@@ -164,22 +217,18 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.endElement();
 	}
 	
-	private void generateLabels(List<Tuple> list,int columnSize) {
+	private void generateLabels(Set<String> labels) {
 		this.xml.startElement("label");	
-		if(columnSize==2)
-			this.xml.setElement("col"," ");
-		list.stream().forEach(t->{
-			try {
-				this.xml.setElement("col",t.get(0));
-			}catch(IllegalArgumentException e) {
-				this.xml.setElement("col","");
-			}
-		});
+		this.xml.setElement("col"," ");
+		labels.stream().forEach(l->{
+			this.xml.setElement("col",l);
+		});	
 		this.xml.endElement();
 	}
 	
 	public void loadQuery(BaseQueryInterface query) {
 		this.query = query;
 	}
+	
 }
 

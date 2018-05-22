@@ -1,7 +1,6 @@
 package nosi.core.igrp.mingrations;
 
 import java.util.List;
-import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
