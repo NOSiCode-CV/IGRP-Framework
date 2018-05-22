@@ -285,7 +285,6 @@ public class QuerySelect extends CommonFIlter{
 		Connection conn =nosi.core.config.Connection.getConnection(env);	
 		if(conn!=null) {
 			PreparedStatement ps = null;
-			System.out.println(this.getSql());
 			try {
 				ps = conn.prepareStatement(this.getSql());
 				ps.execute();
