@@ -286,9 +286,7 @@ public class LoginController extends Controller {
 		
 		//String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
 		String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
-		
-		File file = new File(getClass().getClassLoader().getResource(x).getPath());
-		
+		File file = new File(getClass().getClassLoader().getResource(x).getPath().replaceAll("%20", " "));
 		boolean b = file.exists();
 		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
@@ -416,8 +414,9 @@ public class LoginController extends Controller {
 	
 	private Properties loadIdentityServerSettings() {
 		String path = new Config().getBasePathConfig() + File.separator + "ids";
+		
 		String fileName = "wso2-ids.xml";
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {
