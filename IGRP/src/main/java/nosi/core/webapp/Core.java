@@ -1285,6 +1285,21 @@ public final class Core {	// Not inherit
 		return null;
 	}
 	
+	public static UploadedFile upload(String fileName) {
+		UploadedFile uF = UploadedFile.getInstance(fileName);
+		return uF;
+	}
+	
+	public static List<UploadedFile> uploadX(String fileName) {
+		List<UploadedFile> uF = UploadedFile.getInstances(fileName);
+		return uF;
+	}
+	
+	public static List<UploadedFile> uploadX() { 
+		List<UploadedFile> uF = UploadedFile.getInstances();
+		return uF;
+	}
+	
 	public static Object unnserializeFromTask(Object obj,String json) throws IllegalArgumentException, IllegalAccessException {
 		CustomVariableIGRP rows = new Gson().fromJson(json,CustomVariableIGRP.class);
 		for(java.lang.reflect.Field f:obj.getClass().getDeclaredFields()) {
