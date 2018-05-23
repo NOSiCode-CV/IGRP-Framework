@@ -354,6 +354,7 @@ public class ProcessDefinitionService extends Activit{
 				t.setTaskDefinitionKey("Start");
 				t.setName("Start");
 				t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+				t.setFormKey(listTasks.getProcess().get(0).getStartEventObject().get(0).getFormKey());
 				list.add(t);
 			}
 			if(listTasks.getProcess().get(0)!=null && listTasks.getProcess().get(0).getUserTask()!=null) {

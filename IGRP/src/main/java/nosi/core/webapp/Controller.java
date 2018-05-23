@@ -16,6 +16,7 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
+import nosi.webapps.igrp.dao.Action;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -110,6 +111,16 @@ public abstract class Controller{
 	return resp;
 	}
 	
+	public Response renderView(String app, String page, View view) throws IOException {
+		Action ac = new Action().find()
+								.andWhere("application.dad", "=",app)
+								.andWhere("page", "=",Page.resolvePageName(page))
+								.one();
+		this.view = view;
+		this.view.getPage().setLinkXsl(new Config().getLinkPageXsl(ac));
+		return this.renderView(view, false);
+	}
+
 	protected final Response renderView(View view) throws IOException{ // Overload ...
 		return this.renderView(view, false);
 	}
