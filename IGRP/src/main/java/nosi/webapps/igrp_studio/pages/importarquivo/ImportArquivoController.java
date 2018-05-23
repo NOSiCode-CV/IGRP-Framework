@@ -18,7 +18,6 @@ import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppZip;
 import nosi.core.webapp.import_export.ImportPluginIGRP;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.core.webapp.Igrp;
 /*----#end-code----*/
@@ -36,17 +35,14 @@ public class ImportArquivoController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		
-		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
 		view.list_aplicacao.setValue(new Application().getListApps());	
-		view.aplicacao_script.setValue(new Application().getListApps());
-		if(Core.isNotNull(model.getAplicacao_script())) {
-			view.data_source.setValue(new Config_env().getListEnv(Core.toInt(model.getAplicacao_script())));
-		}
+
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -96,6 +92,38 @@ public class ImportArquivoController extends Controller {
 				ie_dao = ie_dao.insert();
 				Core.setMessageSuccess();
 			}
+		}
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
+	}
+	
+	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ImportArquivo model = new ImportArquivo();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(importar_script)----*/
+		try {
+			this.loadQueryString();
+			Part file = Core.getFile("p_sql_script");
+			if(file!=null && Core.isNotNull(model.getImportar_sql_script())) {
+				ResultSet r = Core.query(model.getImportar_sql_script(), FileHelper.convertToString(file)).execute();
+				if(r.hasError()) {
+					Core.setMessageError(r.getError());
+				}else {
+					Core.setMessageSuccess();
+				}
+			}
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
@@ -195,41 +223,6 @@ public class ImportArquivoController extends Controller {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		/*----#end-code----*/
-		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
-	}
-	
-	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
-		ImportArquivo model = new ImportArquivo();
-		model.load();
-		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
-		/*----#start-code(importar_script)----*/
-		try {
-			this.loadQueryString();
-			Part file = Core.getFile("p_sql_script");
-			if(file!=null && Core.isNotNull(model.getData_source())) {
-				ResultSet r = Core.executeQuery(new Config_env().find().andWhere("application", "=",Core.toInt(model.getAplicacao_script())).andWhere("id", "=",Core.toInt(model.getData_source())).one(), FileHelper.convertToString(file));
-				if(r.hasError()) {
-					Core.setMessageError(r.getError());
-				}else {
-					Core.setMessageSuccess();
-				}
-				file.delete();
-			}else {
-				Core.setMessageError();
-			}
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	

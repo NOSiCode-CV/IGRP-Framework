@@ -112,15 +112,7 @@ public class Config {
 	}
 	
 	public String getPathOfImagesFolder() {
-		String APP_LINK_IMAGE = null;
-		try {
-			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
-		}catch(Exception e) {
-		}
-	    if(APP_LINK_IMAGE == null || APP_LINK_IMAGE.trim().isEmpty()) {
-	    	//Core.setMessageInfo("APP_LINK_IMAGE is null: " + APP_LINK_IMAGE);
-	    	return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images");
-	    }
+		String APP_LINK_IMAGE = this.getLinkImgBase();
 	    
 	    String deployWarName = "";
 	    try {
@@ -157,14 +149,7 @@ public class Config {
 	}
 
 	public String getLinkImgBase() {
-		String APP_LINK_IMAGE = null;
-		if(Config.isInstall())
-			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
-		APP_LINK_IMAGE = APP_LINK_IMAGE!=null ? 
-				((SEPARATOR_FOR_FILESYS  + APP_LINK_IMAGE + SEPARATOR_FOR_FILESYS))
-				.replaceAll("\\\\", SEPARATOR_FOR_HTTP)
-				:getRootPaht();
-		return APP_LINK_IMAGE; 
+		return Igrp.getInstance().getServlet().getServletContext().getInitParameter("images");
 	}
 	
 	public String getLinkImg(){
@@ -311,7 +296,7 @@ public class Config {
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
-			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
+			APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null) {
 			APP_LINK_IMAGE = APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
 			String root = "";
@@ -349,7 +334,7 @@ public class Config {
 	public String getBaseHttpServerPahtXsl(Action page){
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
-			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
+			APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null && page!=null) {
 			APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
 			return APP_LINK_IMAGE + "images"+ SEPARATOR_FOR_HTTP +"IGRP"+ SEPARATOR_FOR_HTTP + "IGRP" + page.getVersion() + SEPARATOR_FOR_HTTP + "app"+ SEPARATOR_FOR_HTTP +page.getApplication().getDad().toLowerCase() + SEPARATOR_FOR_HTTP + page.getPage().toLowerCase();

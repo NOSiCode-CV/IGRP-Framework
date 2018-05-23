@@ -1,5 +1,4 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -28,18 +27,18 @@ public class ImportArquivo extends Model{
 	private String sectionheader_5_text;
 	@RParam(rParamName = "p_arquivo_aplicacao")
 	private String arquivo_aplicacao;
-	@RParam(rParamName = "p_list_aplicacao")
-	private String list_aplicacao;
-	@RParam(rParamName = "p_arquivo_pagina")
-	private String arquivo_pagina;
-	@RParam(rParamName = "p_jar_file")
-	private String jar_file;
 	@RParam(rParamName = "p_aplicacao_script")
 	private String aplicacao_script;
 	@RParam(rParamName = "p_data_source")
 	private String data_source;
 	@RParam(rParamName = "p_sql_script")
 	private String sql_script;
+	@RParam(rParamName = "p_list_aplicacao")
+	private String list_aplicacao;
+	@RParam(rParamName = "p_arquivo_pagina")
+	private String arquivo_pagina;
+	@RParam(rParamName = "p_jar_file")
+	private String jar_file;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -111,27 +110,6 @@ public class ImportArquivo extends Model{
 		return this.arquivo_aplicacao;
 	}
 	
-	public void setList_aplicacao(String list_aplicacao){
-		this.list_aplicacao = list_aplicacao;
-	}
-	public String getList_aplicacao(){
-		return this.list_aplicacao;
-	}
-	
-	public void setArquivo_pagina(String arquivo_pagina){
-		this.arquivo_pagina = arquivo_pagina;
-	}
-	public String getArquivo_pagina(){
-		return this.arquivo_pagina;
-	}
-	
-	public void setJar_file(String jar_file){
-		this.jar_file = jar_file;
-	}
-	public String getJar_file(){
-		return this.jar_file;
-	}
-	
 	public void setAplicacao_script(String aplicacao_script){
 		this.aplicacao_script = aplicacao_script;
 	}
@@ -151,6 +129,27 @@ public class ImportArquivo extends Model{
 	}
 	public String getSql_script(){
 		return this.sql_script;
+	}
+	
+	public void setList_aplicacao(String list_aplicacao){
+		this.list_aplicacao = list_aplicacao;
+	}
+	public String getList_aplicacao(){
+		return this.list_aplicacao;
+	}
+	
+	public void setArquivo_pagina(String arquivo_pagina){
+		this.arquivo_pagina = arquivo_pagina;
+	}
+	public String getArquivo_pagina(){
+		return this.arquivo_pagina;
+	}
+	
+	public void setJar_file(String jar_file){
+		this.jar_file = jar_file;
+	}
+	public String getJar_file(){
+		return this.jar_file;
 	}
 
 
