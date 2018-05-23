@@ -75,12 +75,9 @@ public class Detalhes_tarefasController extends Controller {
 					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
 						dad = rows.getValue().toString();
 					}else {
-						if(rows.getValue() instanceof String[]) {
-							for(String obj:(String[])rows.getValue()) {
-								this.addQueryString(rows.getName(), obj);
-							}
-						}else
-							this.addQueryString(rows.getName(), rows.getValue().toString());
+						for(Object obj:(Object[])rows.getValue()) {
+							this.addQueryString(rows.getName(), obj.toString());
+						}
 					}
 				}
 			}
