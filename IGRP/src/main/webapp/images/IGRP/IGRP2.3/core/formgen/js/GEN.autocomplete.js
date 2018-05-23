@@ -133,7 +133,7 @@ $(function(){
 				
 				methods.push({
 					name : 'view.'+tag,
-					method : 'setQuery(Core.query(String connectionName, String tableName));'
+					method : 'setQuery(Core.query(String connectionName, String query));'
 				});
 
 			}
@@ -149,7 +149,7 @@ $(function(){
 			if(o.type == 'chart'){
 				methods.push({
 					name : 'view.'+tag,
-					method : 'setQuery(null, String query);'
+					method : 'loadQuery(Core.query(String_connectionName, String_query));'
 				});
 			}
 			

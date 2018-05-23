@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONArray;
+
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.pages.login.LoginController;
@@ -132,13 +134,16 @@ public class User implements Component{
 		boolean isLoginPage = false;
 		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
 		String loginUrl = "igrp/login/login";
+		//if(!aux.equals("igrp/login/login") && !aux.equals("igrp/ErrorPage/exception") && !aux.startsWith("igrp/page")) {
+			aux=EncrypDecrypt.decrypt(aux);
+//		}
 		/* test the login page (TOO_MANY_REQUEST purpose) */
-		if(aux != null){
+		if(aux != null){			
 			isLoginPage = aux.equals(loginUrl); // bug ... Perhaps 
 		}
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
-				Route.remember(); // remember the url that was requested by the client ... 
+				//Route.remember(); // remember the url that was requested by the client ... 
 				this.checkCookieContext();
 				// Anyway, go to login page 
 				LoginController controller = new LoginController();
@@ -201,6 +206,7 @@ public class User implements Component{
 		return result;
 	}
 	
+	@Deprecated
 	public synchronized static String generateAuthenticationKey() {
 		return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
 	}

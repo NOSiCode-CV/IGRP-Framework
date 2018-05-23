@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Column;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import static nosi.core.i18n.Translator.gt;
 
@@ -199,9 +201,9 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		q.setParameter(1,new Permission().getCurrentOrganization());
 		q.setParameter(2,new Permission().getCurrentPerfilId());		
 		Application a = new Application();
-		a = a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),new Permission().getCurrentEnv() )));
+		a = a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),Core.getCurrentDad())));
 		q.setParameter(3, a.getId());
-		q.setParameter(4,new Permission().getCurrentOrganization());	
+		q.setParameter(4,Core.getCurrentOrganization());	
 //		q.setParameter(5,"MEN");	
 //		q.setParameter(6,new Permission().getCurrentPerfilId());	
 //		q.setParameter(7,new Permission().getCurrentOrganization());	
@@ -244,9 +246,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public String getLink() {
 		if(this.getAction()!=null){
 			String dad = this.getAction().getApplication().getDad().toLowerCase();
-			return dad+"/"+
-				   this.getAction().getPage()+"/"+
-				   this.getAction().getAction()+"&dad="+dad;
+			return EncrypDecrypt.encrypt(dad+"/"+this.getAction().getPage()+"/"+this.getAction().getAction())+"&dad="+dad;
 		}
 		return null;
 	}

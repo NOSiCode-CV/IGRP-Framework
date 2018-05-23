@@ -153,7 +153,8 @@ public class PesquisarMenuController extends Controller {
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
-			return this.forward("igrp", "NovoMenu", "index&p_id=" + id);
+			this.addQueryString("p_id", id);
+			return this.forward("igrp", "NovoMenu", "index", this.queryString());
 		}
  	
 		/*----#end-code----*/
@@ -204,7 +205,7 @@ public class PesquisarMenuController extends Controller {
 
 						if (link1Menu.getId() == link1Menu.getMenu().getId()) {
 							xml_menu.setElement("link",
-									"webapps?r=" + EncrypDecrypt.encrypt(link1Menu.getMenu().getLink()));
+									"webapps?r=" + link1Menu.getMenu().getLink());
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 						} else
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
@@ -217,7 +218,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.startElement("submenu");
 							xml_menu.writeAttribute("title", gt(main.getMenu().getDescr()));
 							xml_menu.writeAttribute("id", "" + main.getMenu().getId());
-							xml_menu.setElement("link", "webapps?r=" + EncrypDecrypt.encrypt(main.getMenu().getLink()));
+							xml_menu.setElement("link", "webapps?r=" + main.getMenu().getLink());
 							xml_menu.setElement("title", gt(main.getMenu().getDescr()));
 							xml_menu.setElement("target", main.getMenu().getTarget());
 							xml_menu.setElement("id", "" + main.getMenu().getId());

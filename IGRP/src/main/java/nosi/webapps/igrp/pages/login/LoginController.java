@@ -1,59 +1,42 @@
 package nosi.webapps.igrp.pages.login;
 
 
+import static nosi.core.i18n.Translator.gt;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Properties;
+
+import javax.xml.bind.JAXB;
+
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
+import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
-import nosi.webapps.igrp.dao.User;
-import nosi.webapps.igrp.dao.UserRole;
 import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.xml.bind.JAXB;
-
-import static nosi.core.i18n.Translator.gt;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
-import java.util.Properties;
-import java.util.jar.JarEntry;
-import java.util.jar.JarOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedOutputStream;
-
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.WebServiceException;
-
-import org.apache.openjpa.lib.util.Files;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServicePortType;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServiceUserStoreException_Exception;
-import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.UserRole;
 import service.client.WSO2UserStub;
 /**
  * Marcel Iekiny
@@ -109,7 +92,7 @@ public class LoginController extends Controller {
 				new Permission().changeOrgAndProfile(param[0]);
 				return this.redirectToUrl(destination);
 			}
-			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
+			return this.redirect("igrp", "home", "index"); // go to home (Bug here)
 		}
 		
 		Login model = new Login();
@@ -127,7 +110,7 @@ public class LoginController extends Controller {
 				model.load();
 				
 				if(model.getPassword() ==  null || model.getPassword().isEmpty()) {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
+					Core.setMessageError("A sua conta ou palavra-passe está incorreta.");
 					return this.renderView(view,true);
 				}
 				
@@ -140,9 +123,9 @@ public class LoginController extends Controller {
 								if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
 									return this.redirectToUrl(oauth2ServerUrl.toString());
 								}
-								else
-									;// Go to error page 
+								else ;// Go to error page 
 							}else {
+								//Not in use in User.java because it saves
 								String destination = Route.previous();
 								if(destination != null) {
 									String qs = URI.create(destination).getQuery();
@@ -168,6 +151,7 @@ public class LoginController extends Controller {
 								else 
 									;// Go to error page 
 							}else {
+								//TODO by Marcos: must decrypt de URL when you do Route.remenber() 
 								String destination = Route.previous();
 								if(destination != null) {
 									String qs = URI.create(destination).getQuery();

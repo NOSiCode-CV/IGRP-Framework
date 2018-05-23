@@ -457,7 +457,7 @@ public class EnvController extends Controller {
 			
 				if(action != null) {
 					aux = aux.replace(URI.create(aux).getQuery(), "");
-					aux += "r=" + env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+					aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 				}
 				return this.redirectToUrl(aux);
 			}

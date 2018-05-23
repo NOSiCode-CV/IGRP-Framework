@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.page.Page;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
@@ -259,8 +260,12 @@ public abstract class Controller{
 	
 	private static void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
-		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";
+		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";		
+		
+		r=EncrypDecrypt.decrypt(r);
+	
 		if(r!=null){
+			
 			synchronized (Config.PATTERN_CONTROLLER_NAME) {
 				String auxPattern = Config.PATTERN_CONTROLLER_NAME;
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){

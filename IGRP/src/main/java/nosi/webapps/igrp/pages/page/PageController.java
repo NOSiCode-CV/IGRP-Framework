@@ -95,8 +95,7 @@ public class PageController extends Controller {
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.id.setParam(true);
-		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name",
-				"-- Selecionar --"));
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name","-- Selecionar --"));
 
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
