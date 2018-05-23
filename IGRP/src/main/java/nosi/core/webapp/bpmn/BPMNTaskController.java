@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.ServletException;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.View;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
@@ -25,6 +27,12 @@ import nosi.webapps.igrp.dao.Action;
 
 public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 
+	@Override
+	public Response index(String app,Model model,View view) throws IOException {
+		view.setModel(model);
+		return this.renderView(app,model.getClass().getSimpleName(),view);
+	}
+	
 	@Override
 	public Response index() throws IOException, ServletException {
 		String appId = Core.getParam("appId");

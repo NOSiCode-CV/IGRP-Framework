@@ -265,6 +265,30 @@ public class Config {
 				  + "}";
 	}
 	
+	public String getGenTaskController(String app,String processId,String taskId,String formKey){
+		if(Core.isNull(formKey))
+			return this.getGenTaskController(app, processId, taskId);
+		return "package nosi.webapps."+app.toLowerCase()+".process."+processId.toLowerCase()+";\n\n"
+				 + "import java.io.IOException;\n"
+				 + "import nosi.core.webapp.Response;\n"
+				 + "import javax.servlet.ServletException;\n"
+				 + "import nosi.core.webapp.bpmn.BPMNTaskController;\n"
+				 + "import nosi.webapps."+app.toLowerCase()+".pages."+formKey.toLowerCase()+"."+formKey+";\n"
+				 + "import nosi.webapps."+app.toLowerCase()+".pages."+formKey.toLowerCase()+"."+formKey+"View;\n\n" 
+				 + "public class "+taskId+"Controller extends BPMNTaskController {	\n\n"
+						+ "\t public Response actionIndex() throws IOException, ServletException{\n"
+						+ "\t\t "+formKey+"View view = new "+formKey+"View();\n"
+						+ "\t\t "+formKey+" model = new "+formKey+"();\n"
+						+ "\t\t return super.index(\""+app+"\", model , view);\n"
+						+ "\t }\n\n"
+						+ "\t public Response actionSave() throws IOException, ServletException{\n"
+						+ "\t\t return super.save();\n"
+						+ "\t }\n\n"+ 
+						"\t public Response actionUpdate() throws IOException, ServletException{\n"
+						+ "\t\t return super.update();\n"
+						+ "\t }\n\n"
+				  + "}";
+	}
 	public String getBasePackage(String app) {
 		if(app!=null && !app.equals(""))
 			return "nosi.webapps." + app.toLowerCase();

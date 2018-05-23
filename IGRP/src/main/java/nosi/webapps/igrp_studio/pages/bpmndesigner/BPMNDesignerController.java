@@ -141,7 +141,7 @@ public class BPMNDesignerController extends Controller {
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
-		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(),ac.getPage());
+		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(),ac.getPage(),task.getFormKey());
 		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
 		files[index] = FileHelper.saveFilesJava(classPathServer, ac.getPage(), content);

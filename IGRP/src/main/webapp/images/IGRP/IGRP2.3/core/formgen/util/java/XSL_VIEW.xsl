@@ -34,7 +34,10 @@
  		<xsl:text>@Override</xsl:text>-->
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="concat('public void setModel(',$class_name,' model) {')"/>
+ 		<xsl:text>@Override</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+		<xsl:value-of select="'public void setModel(Model model) {'"/>
  		
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$tab2"/>
@@ -50,7 +53,7 @@
 					</xsl:call-template>
 			</xsl:variable>	
 					
-			<xsl:value-of select="concat(name(),'.loadModel(model.get',$upperTag,'());')"/>			
+			<xsl:value-of select="concat(name(),'.loadModel(((',$class_name,') model).get',$upperTag,'());')"/>			
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>				
 		</xsl:for-each>
@@ -72,6 +75,8 @@
     <!-- import all class to using in view -->
  	<xsl:template name="import-packages-view">
  		<xsl:value-of select="concat('package ',$package_name)"/>
+		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_model"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_view"/>
 		<xsl:value-of select="$newline"/>
