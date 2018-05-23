@@ -348,7 +348,7 @@ public class ProcessDefinitionService extends Activit{
 		StringReader r = new StringReader(xml);
 		TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
 		if(listTasks!=null && listTasks.getProcess()!=null) {
-			if(includeStartProcess && listTasks.getProcess().get(0)!=null) {
+			if(includeStartProcess && listTasks.getProcess().get(0)!=null && listTasks.getProcess().get(0).getStartEventObject()!=null && listTasks.getProcess().get(0).getStartEventObject().get(0)!=null) {
 				TaskService t = new TaskService();
 				t.setId("Start");
 				t.setTaskDefinitionKey("Start");
@@ -379,17 +379,6 @@ public class ProcessDefinitionService extends Activit{
 					list.add(t);
 				}
 			}
-			/*if(listTasks.getProcess().get(0).getStartEventObject()!=null) {
-				for(StartEvent task:listTasks.getProcess().get(0).getStartEventObject()) {
-					TaskService t = new TaskService();
-					t.setId(task.getId());
-					t.setName(task.getName());
-					t.setTaskDefinitionKey(task.getId());
-					t.setFormKey(task.getFormKey());
-					t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
-					list.add(t);
-				}
-			}*/
 		}
 		return list;
 	}
