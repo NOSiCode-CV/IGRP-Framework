@@ -781,10 +781,7 @@ public final class Core {	// Not inherit
 								p->{
 									Rows row = new Rows();
 									row.setName(p.getKey());
-									if(p.getValue().length > 1)
-										row.setValue((String[])p.getValue());
-									else
-										row.setValue(p.getValue()[0]);
+									row.setValue((Object[])p.getValue());
 									customV.add(row);
 								}
 						  );
