@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
@@ -49,8 +50,12 @@ public class ExportJavaPage {
 	private String getConfigurationPages() {
 		if(this.page != null) {
 			Config config = new Config();
+			
 			//Get xml, json and xsl
-			String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
+			
+			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
+			String xslXMLJsonPath =  warName + File.separator + config.getImageAppPath(this.page.getApplication()) + File.separator;
 			
 			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");
 			

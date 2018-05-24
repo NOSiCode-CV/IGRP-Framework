@@ -254,12 +254,12 @@ public final class EmailMessage { // Not inherit
 		return false;
 	}
 	
-	public synchronized static boolean validateEmail(String email) {
+	public static boolean validateEmail(String email) {
 		String pattern = "[a-zA-Z0-9!#$%&\\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
 		return email != null && !email.isEmpty() && email.matches(pattern);
 	}
 	
-	public synchronized static boolean validateEmails(String emails) {
+	public static boolean validateEmails(String emails) {
 		String aux[] = emails.split(",");
 		for(String email : aux)
 			if(!validateEmail(email))
