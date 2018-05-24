@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/sql_tools/Sql_tools.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Sql_tools</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>Sql_tools</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=127</preserve_url>
+    </plsql>
+    <content>
+        <title>Sql Tools</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="run">
+                <title>Run</title>
+                <app>igrp_studio</app>
+                <page>Sql_tools</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-play</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/sql_tools/Sql_tools.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_source>
+                <separator_1 name="p_separator_1" type="separator" maxlength="250" placeholder="" right="false">
+                    <label></label>
+                </separator_1>
+                <sql name="p_sql" type="textarea" maxlength="1000000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Sql</label>
+                    <value>Accusantium stract accusantium iste unde lorem dolor labore magna accusantium ipsum sed iste officia accusantium</value>
+                </sql>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields/>
+            <table>
+                <value/>
+            </table>
+        </table_1>
+    </content>
+</rows>
