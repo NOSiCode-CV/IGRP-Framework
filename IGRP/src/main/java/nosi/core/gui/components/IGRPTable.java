@@ -243,6 +243,13 @@ public class IGRPTable extends IGRPComponent{
 							this.xml.setElement("param", field.propertie().getProperty("name")+"="+value);
 					}
 				}
+				if(obj instanceof IGRPTable.Table && ((IGRPTable.Table)obj).getHiddenButtons()!=null) {
+					this.xml.startElement("ctx-hidden");
+					for(IGRPButton button:((IGRPTable.Table)obj).getHiddenButtons()) {
+						this.xml.text(button.getProperties().getProperty("rel")+",");
+					}			
+					this.xml.endElement();		
+				}
 				this.xml.endElement();
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
@@ -303,5 +310,18 @@ public class IGRPTable extends IGRPComponent{
 	public void loadModel(List<?> modelList) {
 		this.modelList = modelList;
 		//this.data = modelList;
+	}
+	
+	
+	public static class Table{
+		private IGRPButton[] buttons;
+		
+		public void hiddenButton(IGRPButton...buttons) {
+			this.buttons = buttons;
+		}
+		
+		public IGRPButton[] getHiddenButtons() {
+			return this.buttons;
+		}
 	}
 }

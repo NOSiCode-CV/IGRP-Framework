@@ -1,4 +1,5 @@
 package nosi.webapps.igrp.pages._cons_proc;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class _CONS_PROC extends Model{
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private String num_processo;
 		private String processo;
 		private String eatapa;

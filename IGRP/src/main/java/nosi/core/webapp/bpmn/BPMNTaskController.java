@@ -2,7 +2,6 @@ package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;

@@ -26,6 +26,7 @@ public class _CONS_PROCController extends Controller {
 		model.load();
 		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
+		_CONS_PROCView view = new _CONS_PROCView(model);
 		if(Core.isNotNull(model.getAplicacao())){
 			TaskServiceQuery taskS = new TaskServiceQuery();
 			if(Core.isNotNull(model.getProc_tp_fk())){
@@ -61,10 +62,12 @@ public class _CONS_PROCController extends Controller {
 				t.setUtilizador(task.getAssignee());
 				t.setEstado(this.getStatusTask(task));
 				t.setP_id_task(task.getId());
+				if(!t.getEstado().equalsIgnoreCase("terminado")) {
+					t.hiddenButton(view.btn_ver_etapa);
+				}
 				data.add(t);
 			}
 		}
-		_CONS_PROCView view = new _CONS_PROCView(model);
 		
 		view.aplicacao.setValue(new Application().getListApps());	
 		view.organica.setValue(new ProfileType().getListProfiles(Core.toInt(model.getAplicacao())));
@@ -80,7 +83,6 @@ public class _CONS_PROCController extends Controller {
 		view.btn_pesquisar.setLink("index");
 		view.table_1.addData(data);
 		view.p_id_task.setParam(true);
-		
 		view.table_1.addLegendColor("Não Iniciado", Core.getYellowColor());
 		view.table_1.addLegendColor("Não Atribuido", Core.getBlueColor());
 		view.table_1.addLegendColor("Terminado", Core.getPinkColor());

@@ -3,6 +3,8 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
