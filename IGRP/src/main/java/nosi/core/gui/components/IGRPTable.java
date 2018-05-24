@@ -244,9 +244,9 @@ public class IGRPTable extends IGRPComponent{
 					}
 				}
 				if(obj instanceof IGRPTable.Table && ((IGRPTable.Table)obj).getHiddenButtons()!=null) {
-					this.xml.startElement("ctx-hidden");
+					this.xml.startElement("param");
 					for(IGRPButton button:((IGRPTable.Table)obj).getHiddenButtons()) {
-						this.xml.text(button.getProperties().getProperty("rel")+",");
+						this.xml.text("ctx_hidden="+button.getProperties().getProperty("rel")+",");
 					}			
 					this.xml.endElement();		
 				}

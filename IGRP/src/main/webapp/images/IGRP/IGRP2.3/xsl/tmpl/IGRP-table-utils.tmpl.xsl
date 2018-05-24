@@ -135,9 +135,9 @@
           </xsl:call-template>
         </xsl:variable>
 
-        <li id="CTX_ID_{position()}" class="operationTable " trel="{title}" title="{title}">
+        <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}" title="{title}">
           <xsl:choose>
-            <xsl:when test="$rowCtxHiddenTitle != title">
+            <xsl:when test="$rowCtxHiddenTitle != @rel">
                 <xsl:call-template name="table-ctx-item">
                   <xsl:with-param name="use-fa" select="$use-fa"/>
                   <xsl:with-param name="size" select="'xs'"/>
