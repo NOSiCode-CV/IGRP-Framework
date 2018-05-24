@@ -23,6 +23,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public class Config {
 
+	
 	private final String LINK_XSL_GENERATOR = "images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
 	private final String LINK_XSL_HOME_STUDIO = "images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
 	private final String LINK_XSL_HOME_APP = "images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
