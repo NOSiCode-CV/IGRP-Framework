@@ -9,6 +9,7 @@ import javax.servlet.http.Part;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.JarUnJarFile;
@@ -101,8 +102,17 @@ public class ImportJavaPage {
 		String classJavaPath = config.getPathServerClass(this.page.getApplication().getDad());
 		pathWorkSpace = this.config.getBasePahtClassWorkspace(this.page.getApplication().getDad())+File.separator+folderPage.toLowerCase();
 		if(c.getType().equalsIgnoreCase("xsl-xml-json")) {
-			path = this.config.getBaseServerPahtXsl(this.page.getApplication())+File.separator+folderPage.toLowerCase();
+			
+		//	path = this.config.getBaseServerPahtXsl(this.page.getApplication())+File.separator+folderPage.toLowerCase();
+			
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
+			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
+			 path =  warName + File.separator + config.getImageAppPath(this.page.getApplication()) + File.separator+folderPage.toLowerCase();
+			 
+			 System.out.println("Import: " + path);
+			  
 			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.page.getApplication())+File.separator+folderPage.toLowerCase();
+			
 		}else if(c.getType().equalsIgnoreCase("pages")) {
 			path = classJavaPath+"pages"+File.separator+c.getFolder().toLowerCase();
 			pathWorkSpace = this.config.getBasePahtClassWorkspace(this.page.getApplication().getDad())+File.separator+"pages"+File.separator+c.getFolder().toLowerCase();

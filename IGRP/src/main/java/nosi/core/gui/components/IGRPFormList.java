@@ -2,6 +2,7 @@ package nosi.core.gui.components;
 
 import java.util.List;
 
+import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -89,19 +90,30 @@ public class IGRPFormList extends IGRPSeparatorList {
 		}else if(this.data==null || this.data.size() == 0 && this.startRow){
 				this.xml.startElement("row"); 
 				for(Field field:this.fields){
+					
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 					
-					this.xml.text("");
+					if(field instanceof CheckBoxField) {
+						this.xml.text("1");
+					}else {
+						this.xml.text("");
+					}
+					
 					this.xml.endElement();
 					
 					this.xml.startElement(field.getTagName() + "_desc");
 					this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
 					this.xml.text("");
-					this.xml.endElement();
+					this.xml.endElement(); 
 					
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\""  + "\"></hidden>");
+				/*	if(field instanceof CheckBoxField) {
+						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + "1" + "\"></hidden>");
+						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\""  + "1" + "\"></hidden>");
+					}else {*/
+						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + "\"></hidden>");
+						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\""  + "\"></hidden>");
+					//}
 				}
 				this.xml.endElement();
 		}

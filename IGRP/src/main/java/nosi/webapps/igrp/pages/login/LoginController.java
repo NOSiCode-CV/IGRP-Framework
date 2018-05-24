@@ -6,6 +6,7 @@ import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -62,7 +63,7 @@ import service.client.WSO2UserStub;
 public class LoginController extends Controller {	
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
-	
+		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
 		String client_id = Igrp.getInstance().getRequest().getParameter("client_id"); 

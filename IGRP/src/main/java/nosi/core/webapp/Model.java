@@ -168,7 +168,6 @@ public abstract class Model { // IGRP super model
 					m.set(this, aux);
 				}
 			}else{
-				// Awesome again !!! We need make casts for all primitive type ... pff 
 				String name =   m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 								m.getAnnotation(RParam.class).rParamName()
 							  : m.getName();
@@ -248,8 +247,6 @@ public abstract class Model { // IGRP super model
 			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
 			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
 			
-			//System.out.println("NomeField: " + obj.getName());
-			
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 				
 			List<String> aux = new ArrayList<String>();
@@ -278,20 +275,14 @@ public abstract class Model { // IGRP super model
 						
 						String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
 						String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
+						
 						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
 						
 					}
 					
-					m.setAccessible(false);
-					
+					m.setAccessible(false); 
 			 }
-			 
-			/* 
-			 for(Map.Entry<String, List<String>> entry : mapFk.entrySet()) {
-				 System.out.println(entry.getKey() + " - " + Arrays.asList(entry.getValue()));
-			 }
-			*/
 			 
 			 ArrayList<Object> auxResults = new ArrayList<>();
 			 
@@ -300,17 +291,7 @@ public abstract class Model { // IGRP super model
 			 obj.setAccessible(false);
 			 
 			 try {
-				
-				
-				//for(int i = 0; i < 1000 && !error /* This will never happen ...*/; i++) {
-					//System.out.println("Total de iteração " + i);
-					//Object obj2 = Class.forName(c_.getName()).newInstance();
-					
-					//System.out.println(obj2.getClass());
-					
 					int row = 0;
-					
-					//String []arr_ = (String[]) Core.getParamArray("p_" + obj.getName() + "_id"); 
 					
 					int MAX_ITERATION =  0;
 					
@@ -324,8 +305,6 @@ public abstract class Model { // IGRP super model
 						Object obj2 = Class.forName(c_.getName()).newInstance();
 						
 						for(Field m : obj2.getClass().getDeclaredFields()){
-							
-							//System.out.println(m.getName());
 							
 							m.setAccessible(true);
 							
@@ -345,15 +324,12 @@ public abstract class Model { // IGRP super model
 						row++;
 						
 					}
-					
-				//}
-				
 				
 			} catch (ClassNotFoundException | InstantiationException e) {
 				e.printStackTrace();
 			}
 			 catch (IndexOutOfBoundsException e) {
-				 continue; // go to next Separator list
+				 continue; // go to next -- Separator list
 			}
 		}
 		

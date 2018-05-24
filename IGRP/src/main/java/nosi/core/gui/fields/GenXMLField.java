@@ -203,6 +203,8 @@ public class GenXMLField {
 		}else if(field instanceof HiddenField){
 			xml.text((String)field.getValue());
 		}else{
+			/*if(field instanceof CheckBoxField)
+				System.out.println(field.getValue());*/
 			xml.setElement("value",field.getValue()!=null?field.getValue().toString():"");
 		}
 	}

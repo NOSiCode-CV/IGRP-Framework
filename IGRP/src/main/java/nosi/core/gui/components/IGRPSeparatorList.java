@@ -118,7 +118,7 @@ public class IGRPSeparatorList extends IGRPTable {
 						if(val != null && !val.isEmpty()) {
 							this.xml.startElement(this.tag_name + "_id");
 							String []aux = val.split(SPLIT_SEQUENCE);
-							this.xml.text(aux[0]);
+							this.xml.text(aux != null && aux.length > 0 ? aux[0] : "");
 							this.xml.endElement();
 						}else {
 							this.xml.startElement(this.tag_name + "_id");

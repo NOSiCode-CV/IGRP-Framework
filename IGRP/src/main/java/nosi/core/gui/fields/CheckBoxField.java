@@ -1,4 +1,9 @@
 package nosi.core.gui.fields;
+
+import java.util.Map;
+
+import nosi.core.webapp.Model;
+
 /**
  * @author: Emanuel Pereira
  * 

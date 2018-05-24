@@ -311,7 +311,10 @@ public class Config {
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
+			
 			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
+		
+		
 		if(APP_LINK_IMAGE!=null) {
 			APP_LINK_IMAGE = APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
 			String root = "";
