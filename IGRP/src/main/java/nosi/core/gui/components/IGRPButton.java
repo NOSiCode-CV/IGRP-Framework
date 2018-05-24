@@ -165,7 +165,12 @@ public class IGRPButton {
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
 	}
-
+	
+	public IGRPButton addParameter(String parameter,Object value) {
+		this.parameter += "&"+parameter+"="+value.toString();
+		return this;
+	}
+	
 	public FieldProperties getProperties() {
 		return this.propertie;
 	}
@@ -193,7 +198,7 @@ public class IGRPButton {
 		xml.setElement("title",this.getTitle());
 		xml.setElement("app",this.getApp());
 		xml.setElement("page",this.getPage());
-		xml.setElement("link",this.getPrefix()+this.getLink());
+		xml.setElement("link",this.getPrefix()+this.getLink()+this.getParameter());
 		xml.setElement("target",this.getTarget());
 		xml.setElement("img", this.getImg());
 		if(Core.isNotNull(this.getParams())){

@@ -1,14 +1,12 @@
 package nosi.core.webapp.import_export;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import javax.servlet.http.Part;
 import nosi.core.config.Config;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.JarUnJarFile;
-import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 
 /**
  * @author: Emanuel Pereira
@@ -21,51 +19,22 @@ public class ImportPluginIGRP {
 		this.config = new Config();
 	}
 	
-	public boolean importPlugin(Part file){
-		Map<String,String> files = JarUnJarFile.readJarFile(file);
+	public boolean importPlugin(Part part){
 		boolean result = false;
-		for(Entry<String, String> entry:files.entrySet()){
-			if(entry.getKey().contains("images/IGRP/") && (entry.getKey().endsWith(".xsl") || entry.getKey().endsWith(".xml") || entry.getKey().endsWith(".json"))){
-				try {
-					String [] path = entry.getKey().split("/");
-					String fileName = path[path.length-1];
-					String subPath = entry.getKey().substring(0,entry.getKey().indexOf("/"+fileName));
-					if(entry.getKey().endsWith(".xml")){
-						//Saving page if not exists
-						result = this.savePage(fileName.replace(".xml", ""),entry.getValue());
-					}
-					result = FileHelper.save(this.config.getLinkImgBase()+subPath.substring(subPath.indexOf(this.config.getWebapp()+"/")+ (this.config.getWebapp() +"/").length()), fileName, entry.getValue());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 		try {
-			result = FileHelper.saveFile(this.config.getPathLib(), file.getSubmittedFileName(), file);
-			FileHelper.deletePartFile(file);
+			System.out.println("Import jar...");
+			File uploads = new File(this.config.getPathLib());
+			File file = File.createTempFile(part.getSubmittedFileName().replaceAll(".jar", ""), ".jar", uploads);
+
+			try (InputStream input = part.getInputStream()) {
+				System.out.println("Copying..."+file.toPath());
+			    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}
+			part.delete();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
-	}
-
-	private boolean savePage(String pageName, String content) {
-		Action page = new Action();
-		if(new Action().find().andWhere("page", "=", pageName).one()==null){
-			//Get Title Page
-			String title = content.substring(
-					content.indexOf("<title>",content.indexOf("<content>"))+"<title>".length(), 
-					content.indexOf("</title>",content.indexOf("<title>",content.indexOf("<content>"))+"<title>".length()));
-			page.setAction("index");
-			page.setAction_descr(title);
-			page.setApplication(new Application().findOne(1));
-			page.setPage(pageName);
-			page.setPage_descr(title);
-			page.setXsl_src("igrp/"+pageName.toLowerCase()+"/"+pageName+".xsl");
-			page.setVersion("2.3");
-			page.setStatus(1);
-			return page.insert()!=null;
-		}
-		return true;
 	}
 }

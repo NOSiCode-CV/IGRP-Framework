@@ -1,11 +1,8 @@
 package nosi.core.gui.components;
 
 import static nosi.core.i18n.Translator.gt;
-
 import java.util.List;
-
 import org.apache.commons.text.StringEscapeUtils;
-
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
@@ -13,9 +10,6 @@ import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Model;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**

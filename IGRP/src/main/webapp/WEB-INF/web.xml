@@ -11,6 +11,11 @@
 		<param-value></param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>images</param-name>
+		<param-value>/IGRP/</param-value>
+	</context-param>
+	
 	<servlet>
 		<servlet-name>IGRP</servlet-name>
 		<servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>

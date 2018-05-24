@@ -190,6 +190,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_config"/>
 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_table"/>
+		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_model"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_annotations"/>
@@ -289,7 +291,7 @@
     				<xsl:with-param name="className"><xsl:value-of select="name()"/> </xsl:with-param> 
     			</xsl:call-template> 
     		</xsl:variable>  
- 		<xsl:value-of select="concat('public static class ',$tableName,'{')"/>
+ 		<xsl:value-of select="concat('public static class ',$tableName,' extends IGRPTable.Table{')"/>
  		<xsl:for-each select="fields/*">
  			<xsl:variable name="tag_name">
 				<xsl:choose>

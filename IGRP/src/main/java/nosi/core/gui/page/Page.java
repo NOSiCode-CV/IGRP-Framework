@@ -14,6 +14,7 @@ import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -32,7 +33,7 @@ public class Page{
 	private String template;
 	private View view;
 	List<Object> gui;
-	
+	private String linkXsl=null;
 	
 	public View getView() {
 		return view;
@@ -62,6 +63,14 @@ public class Page{
 	 return xml;
 	}
 	
+	public String getLinkXsl() {
+		return linkXsl;
+	}
+
+	public void setLinkXsl(String linkXsl) {
+		this.linkXsl = linkXsl;
+	}
+
 	public void addContent(Object c){
 		this.gui.add(c);
 	}
@@ -76,16 +85,21 @@ public class Page{
 		String app = Igrp.getInstance().getCurrentAppName();
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
-		if(!app.equals("") && !page.equals("") && !action.equals("")){
-			Application appl = new Application();
-			appl = appl.findOne(appl.getCriteria().where(
-					appl.getBuilder().equal(appl.getRoot().get("dad"), app)));
-			Action ac = new Action();
-			ac = ac.findOne(ac.getCriteria().where(
-					ac.getBuilder().equal(ac.getRoot().get("application"), appl),
-//					ac.getBuilder().equal(ac.getRoot().get("action"), action),
-					ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
-			path_xsl = new Config().getLinkPageXsl(ac);
+		if(Core.isNotNull(this.getLinkXsl())) {
+			path_xsl = this.getLinkXsl();
+		}else {
+			if(!app.equals("") && !page.equals("") && !action.equals("")){
+			
+				Application appl = new Application();
+				appl = appl.findOne(appl.getCriteria().where(
+						appl.getBuilder().equal(appl.getRoot().get("dad"), app)));
+				Action ac = new Action();
+				ac = ac.findOne(ac.getCriteria().where(
+						ac.getBuilder().equal(ac.getRoot().get("application"), appl),
+	//					ac.getBuilder().equal(ac.getRoot().get("action"), action),
+						ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
+				path_xsl = new Config().getLinkPageXsl(ac);
+			}
 		}
     
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
