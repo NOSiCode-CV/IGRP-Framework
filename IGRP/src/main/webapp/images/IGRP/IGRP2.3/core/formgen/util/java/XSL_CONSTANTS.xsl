@@ -95,6 +95,12 @@
        	<xsl:text>import nosi.core.webapp.Model;</xsl:text>
     </xsl:variable>
     
+    <xsl:variable name="import_table">
+    	<xsl:if test="count(/rows/content/*[@type='table']) &gt; 0">
+        	<xsl:text>import nosi.core.gui.components.IGRPTable;</xsl:text>
+        </xsl:if>
+    </xsl:variable>
+    
     <xsl:variable name="import_array_list">
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
         	<xsl:text>import java.util.ArrayList;</xsl:text>

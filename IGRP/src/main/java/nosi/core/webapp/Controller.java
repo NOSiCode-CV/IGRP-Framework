@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.page.Page;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
+import nosi.core.xml.XMLExtractComponent;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 /**
  * @author Marcel Iekiny
@@ -111,14 +114,43 @@ public abstract class Controller{
 	return resp;
 	}
 	
-	public Response renderView(String app, String page, View view) throws IOException {
+	public Response renderView(String app, String page, View v) throws IOException {
+		this.view = v;
 		Action ac = new Action().find()
-								.andWhere("application.dad", "=",app)
-								.andWhere("page", "=",Page.resolvePageName(page))
-								.one();
-		this.view = view;
+				.andWhere("application.dad", "=",app)
+				.andWhere("page", "=",Page.resolvePageName(page))
+				.one();
 		this.view.getPage().setLinkXsl(new Config().getLinkPageXsl(ac));
-		return this.renderView(view, false);
+		Response resp = new Response();
+		this.view.setContext(this); // associa controller ao view
+		this.view.render();
+		resp.setType(1);
+		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
+		resp.setContentType(Response.FORMAT_XML);
+		resp.setHttpStatus(HttpStatus.STATUS_200);
+		if(this.isNoCached){
+			resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+			resp.setDateHeader("Expires", 0); // Proxies.
+		}		
+		String content = this.view.getPage().renderContent(false);
+		String taskId = Core.getParam("taskId");
+		String taskName = Core.getParam("taskName");
+		String taskDefinition = Core.getParam("taskDefinition");
+		String processDefinition = Core.getParam("processDefinition");		
+		XMLExtractComponent comp = new XMLExtractComponent();
+		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId(), "utf-8");
+		xml.addXml(this.getConfig().getHeader(null));
+		xml.startElement("content");
+		xml.writeAttribute("type", "");
+		xml.setElement("title", taskName+" - Nº "+taskId);
+		xml.addXml(comp.generateButtonTask(app,taskDefinition,"save", taskId).toString());
+		xml.addXml(content);
+		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,ac.getApplication().getId(),null)));
+		xml.endElement();
+		
+		resp.setContent(xml.toString());
+		return resp;
 	}
 
 	protected final Response renderView(View view) throws IOException{ // Overload ...
