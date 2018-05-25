@@ -159,7 +159,7 @@ public class IGRPButton {
 	}
 
 	public String getParameter() {
-		return parameter;
+		return Core.isNotNull(this.parameter)?parameter:"";
 	}
 
 	public void setParameter(String parameter) {
