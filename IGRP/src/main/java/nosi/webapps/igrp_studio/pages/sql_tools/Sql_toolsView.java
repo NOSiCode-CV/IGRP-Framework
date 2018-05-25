@@ -23,7 +23,7 @@ public class Sql_toolsView extends View {
 
 	public Sql_toolsView(){
 
-		this.setPageTitle("Sql tools");
+		this.setPageTitle("Sql Tools");
 			
 		form_1 = new IGRPForm("form_1","");
 
