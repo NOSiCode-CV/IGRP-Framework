@@ -2,6 +2,9 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -162,24 +165,6 @@ public class PesquisarPerfilController extends Controller {
 			
 	}
 	
-	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
-		PesquisarPerfil model = new PesquisarPerfil();
-		model.load();
-		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
-		/*----#start-code(convidar)----*/
-	 return this.forward("igrp","NovoUtilizador","index", this.queryString());
-		/*----#end-code----*/
-			
-	}
-	
 	public Response actionAssociar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		PesquisarPerfil model = new PesquisarPerfil();
@@ -196,6 +181,24 @@ public class PesquisarPerfilController extends Controller {
 		
 		this.loadQueryString().addQueryString("type", "prof");
       	return this.redirect("igrp","Etapaaccess","index", this.queryString());
+		/*----#end-code----*/
+			
+	}
+	
+	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarPerfil model = new PesquisarPerfil();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
+		
+		----#gen-example */
+		/*----#start-code(convidar)----*/
+	 return this.forward("igrp","NovoUtilizador","index", this.queryString());
 		/*----#end-code----*/
 			
 	}

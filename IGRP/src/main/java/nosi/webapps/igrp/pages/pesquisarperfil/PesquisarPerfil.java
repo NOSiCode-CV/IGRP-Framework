@@ -1,4 +1,7 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -46,7 +49,7 @@ public class PesquisarPerfil extends Model{
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private String organica;
 		private int estado;
 		private int estado_check;

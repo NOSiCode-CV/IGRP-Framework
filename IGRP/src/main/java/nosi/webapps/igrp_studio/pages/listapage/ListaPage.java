@@ -1,6 +1,7 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -41,8 +42,8 @@ public class ListaPage extends Model{
 	private String infopanel_3_bg;
 	@RParam(rParamName = "p_infopanel_3_icn")
 	private String infopanel_3_icn;
-	@RParam(rParamName = "p_env_fk")
-	private String env_fk;
+	@RParam(rParamName = "p_application")
+	private String application;
 	@RParam(rParamName = "p_modulo")
 	private String[] modulo;
 	@RParam(rParamName = "p_link_btn_nova_pagina")
@@ -215,11 +216,11 @@ public class ListaPage extends Model{
 		return this.infopanel_3_icn;
 	}
 	
-	public void setEnv_fk(String env_fk){
-		this.env_fk = env_fk;
+	public void setApplication(String application){
+		this.application = application;
 	}
-	public String getEnv_fk(){
-		return this.env_fk;
+	public String getApplication(){
+		return this.application;
 	}
 	
 	public void setModulo(String[] modulo){
@@ -272,7 +273,7 @@ public class ListaPage extends Model{
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private int status_page;
 		private int status_page_check;
 		private String descricao_page;
@@ -313,7 +314,7 @@ public class ListaPage extends Model{
 		}
 
 	}
-	public static class Myapps_list{
+	public static class Myapps_list extends IGRPTable.Table{
 		private String icon;
 		private IGRPLink aplicacao;
 		private String aplicacao_desc;

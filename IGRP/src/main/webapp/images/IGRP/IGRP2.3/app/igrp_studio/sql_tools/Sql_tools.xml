@@ -30,25 +30,14 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=127</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=271</preserve_url>
     </plsql>
     <content>
-        <title>Sql Tools</title>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="run">
-                <title>Run</title>
-                <app>igrp_studio</app>
-                <page>Sql_tools</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>success|fa-play</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/sql_tools/Sql_tools.xml</preview>
-            </item>
-        </toolsbar_1>
+        <title>Sql tools</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
-                    <label>Aplicacao</label>
+                <application name="p_application" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
                     <list>
                         <option/>
                         <option>
@@ -68,7 +57,7 @@
                             <value>4</value>
                         </option>
                     </list>
-                </aplicacao>
+                </application>
                 <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Data Source</label>
                     <list>
@@ -95,10 +84,21 @@
                     <label></label>
                 </separator_1>
                 <sql name="p_sql" type="textarea" maxlength="1000000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Sql</label>
-                    <value>Accusantium stract accusantium iste unde lorem dolor labore magna accusantium ipsum sed iste officia accusantium</value>
+                    <label>SQL</label>
+                    <value>Aperiam unde anim sit totam voluptatem lorem voluptatem perspiciatis omnis natus consectetur officia lorem consectetur</value>
                 </sql>
             </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="run">
+                    <title>Run</title>
+                    <app>igrp_studio</app>
+                    <page>Sql_tools</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/sql_tools/Sql_tools.xml?</parameter>
+                    <target>submit</target>
+                    <img>success|fa-play-circle</img>
+                </item>
+            </tools-bar>
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields/>

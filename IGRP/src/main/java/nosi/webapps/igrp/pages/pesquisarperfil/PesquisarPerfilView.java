@@ -1,9 +1,14 @@
 
 package nosi.webapps.igrp.pages.pesquisarperfil;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+
 
 
 public class PesquisarPerfilView extends View {
@@ -24,8 +29,8 @@ public class PesquisarPerfilView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacao;
-	public IGRPButton btn_convidar;
 	public IGRPButton btn_associar_etapa;
+	public IGRPButton btn_convidar;
 
 	public PesquisarPerfilView(){
 
@@ -81,11 +86,11 @@ public class PesquisarPerfilView extends View {
 		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","right_panel","black|fa-exchange","","");
 		btn_transacao.propertie.add("type","specific").add("rel","transacao");
 
+		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","PesquisarPerfil","associar_etapa","right_panel","primary|fa-sitemap","","");
+		btn_associar_etapa.propertie.add("type","specific").add("rel","associar_etapa");
+
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarPerfil","convidar","right_panel","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
-
-		btn_associar_etapa = new IGRPButton("Associar Etapa","igrp","PesquisarPerfil","associar_etapa","right_panel","primary|fa-address-card","","");
-		btn_associar_etapa.propertie.add("type","specific").add("rel","associar_etapa");
 
 		
 	}
@@ -108,14 +113,15 @@ public class PesquisarPerfilView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
-		table_1.addButton(btn_convidar);
 		table_1.addButton(btn_associar_etapa);
+		table_1.addButton(btn_convidar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(PesquisarPerfil model) {
+	@Override
+	public void setModel(Model model) {
 		
 		organica.setValue(model);
 		estado.setValue(model);
@@ -123,7 +129,7 @@ public class PesquisarPerfilView extends View {
 		codigo.setValue(model);
 		id.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
+		table_1.loadModel(((PesquisarPerfil) model).getTable_1());
 		
 	}
 }

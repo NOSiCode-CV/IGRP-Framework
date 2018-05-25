@@ -54,7 +54,7 @@ public class ListaPageController extends Controller {
 		model.loadTable_1(Core.query(null,"SELECT 'status_page' as status_page,'descricao_page' as descricao_page,'id_page' as id_page,'nome_page' as nome_page "));
 		model.loadMyapps_list(Core.query(null,"SELECT 'icon' as icon,'aplicacao' as aplicacao "));
 		
-		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		
 		----#gen-example */
@@ -70,18 +70,18 @@ public class ListaPageController extends Controller {
 
 		if (Core.isNotNull(app)) {
 			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
-				model.setEnv_fk(app);
+				model.setApplication(app);
 			}
 		}
 
-		if (Core.isNotNull(model.getEnv_fk())) {
+		if (Core.isNotNull(model.getApplication())) {
 			model.setBtn_import("igrp_studio", "ImportArquivo", "index")
-			.addParam("p_list_aplicacao", model.getEnv_fk())
+			.addParam("p_list_aplicacao", model.getApplication())
 			.addParam("tab-tabcontent_1-importar_pagina", "1");
 			model.setLink_btn_nova_pagina("igrp", "Page", "index")
-			.addParam("p_env_fk",model.getEnv_fk());
+			.addParam("p_env_fk",model.getApplication());
 			model.setCrud_generator("igrp_studio", "CRUDGenerator", "index")
-			.addParam("p_aplicacao", model.getEnv_fk());
+			.addParam("p_aplicacao", model.getApplication());
 		}
 
 		List<Action> actions = new ArrayList<Action>();
@@ -90,14 +90,14 @@ public class ListaPageController extends Controller {
 			 for(String m : Core.getParamArray("p_modulo")) {
 				 List<Action> actions_ = new Action().find()
 						 .andWhere("modulo.id", "=", m)
-						 .andWhere("application", "=", Core.toInt(model.getEnv_fk()))
+						 .andWhere("application", "=", Core.toInt(model.getApplication()))
 						 .andWhere("isComponent", "<>",2)
 						 .all();
 				 if(actions_ != null) actions.addAll(actions_);
 			 }
 		}else {
 			actions =  new Action().find()
-						.andWhere("application", "=", Core.toInt(model.getEnv_fk()))
+						.andWhere("application", "=", Core.toInt(model.getApplication()))
 						.andWhere("isComponent", "<>",2)
 						.all();
 		}
@@ -142,8 +142,8 @@ public class ListaPageController extends Controller {
 		// model.setInfopanel_3_val(""+apps.size());
 		}
 	
-		view.env_fk.setValue(new Application().getListApps());							
-		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name", "-- Selecionar --"));		
+		view.application.setValue(new Application().getListApps());							
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "id", "name", "-- Selecionar --"));		
 		
 		view.table_1.addData(lista);
 		view.myapps_list.addData(apps);
@@ -300,36 +300,23 @@ public class ListaPageController extends Controller {
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
-
-		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
-
-		String status = Igrp.getInstance().getRequest().getParameter("p_status_page");
-
+		Core.log("pelo menos chama");
+		String id = Core.getParam("p_id_page");
+		String status = Core.getParam("p_status_page");
 		boolean response = false;
-
-		if (id != null && !id.equals("")) {
-
+		if (Core.isNotNull(id)) {
 			Action page = new Action().findOne(Integer.parseInt(id));
-
 			if (page != null) {
-
 				page.setStatus(Integer.parseInt(status));
-
 				if (page.update() != null)
-
 					response = true;
 			}
-
 		}
 
 		JSONObject json = new JSONObject();
-
 		json.put("status", response);
-
 		Gson res = new Gson();
-
 		res.toJson(json);
-
 		return this.renderView(json.toString());
 	}
 	

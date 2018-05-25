@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sql_tools extends Model{		
-	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	@RParam(rParamName = "p_application")
+	private String application;
 	@RParam(rParamName = "p_data_source")
 	private String data_source;
 	@RParam(rParamName = "p_separator_1")
@@ -46,11 +46,11 @@ public class Sql_tools extends Model{
 		return this.p_table_1_del;
 	}
 	
-	public void setAplicacao(String aplicacao){
-		this.aplicacao = aplicacao;
+	public void setApplication(String application){
+		this.application = application;
 	}
-	public String getAplicacao(){
-		return this.aplicacao;
+	public String getApplication(){
+		return this.application;
 	}
 	
 	public void setData_source(String data_source){

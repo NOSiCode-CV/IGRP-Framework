@@ -446,6 +446,7 @@ public class Config {
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");
 		tipos.put("oracle", "Oracle");
+		tipos.put("mssql", "MS SQL Server");
 		return tipos;
 	}
 	
