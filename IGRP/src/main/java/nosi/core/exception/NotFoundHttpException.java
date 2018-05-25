@@ -11,11 +11,11 @@ public class NotFoundHttpException extends HttpException{
 	private static final long serialVersionUID = -9019701727400672895L;
 
 	public NotFoundHttpException(){
-		super(404, "Not Found Http Exception");
+		super(HttpException.STATUS_NOT_FOUND, "Not Found Http Exception");
 	}
 	
 	public NotFoundHttpException(String msg){
-		super(404, msg);
+		super(HttpException.STATUS_NOT_FOUND, msg);
 	}
 	
 }
