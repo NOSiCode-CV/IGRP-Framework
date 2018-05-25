@@ -11,11 +11,11 @@ public class ServerErrorHttpException extends HttpException{
 	private static final long serialVersionUID = 8819720701219942201L;
 
 	public ServerErrorHttpException(){
-		super(500, "Server Error Http Exception.");
+		super(HttpException.STATUS_SERVER_ERROR, "Server Error Http Exception.");
 	}
 	
 	public ServerErrorHttpException(String msg){
-		super(500, msg);
+		super(HttpException.STATUS_SERVER_ERROR, msg);
 	}
 	
 }
