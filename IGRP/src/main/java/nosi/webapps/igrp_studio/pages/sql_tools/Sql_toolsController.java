@@ -4,7 +4,6 @@ package nosi.webapps.igrp_studio.pages.sql_tools;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -85,7 +84,7 @@ public class Sql_toolsController extends Controller {
 		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Sql_tools","index", this.queryString()); //if submit, loads the values
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
 		
 		----#gen-example */
 		/*----#start-code(run)----*/
@@ -93,7 +92,7 @@ public class Sql_toolsController extends Controller {
 			return this.forward("igrp_studio", "Sql_tools", "index", this.queryString());
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Sql_tools","index", this.queryString());	
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/

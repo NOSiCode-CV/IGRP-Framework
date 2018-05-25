@@ -30,10 +30,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=271</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=127</preserve_url>
     </plsql>
     <content>
-        <title>Sql tools</title>
+        <title>Sql Tools</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <application name="p_application" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
@@ -85,16 +85,16 @@
                 </separator_1>
                 <sql name="p_sql" type="textarea" maxlength="1000000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>SQL</label>
-                    <value>Aperiam unde anim sit totam voluptatem lorem voluptatem perspiciatis omnis natus consectetur officia lorem consectetur</value>
+                    <value>Adipiscing stract accusantium natus lorem totam elit totam accusantium aliqua magna ut consectetur rem iste</value>
                 </sql>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="success" rel="run">
                     <title>Run</title>
                     <app>igrp_studio</app>
-                    <page>Sql_tools</page>
+                    <page>ListaPage</page>
                     <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/sql_tools/Sql_tools.xml?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
                     <target>submit</target>
                     <img>success|fa-play-circle</img>
                 </item>
