@@ -905,7 +905,11 @@ public final class Core {	// Not inherit
 			p.submitVariables();
 		}
 	}
-	
+	/** Maps source to destination - {@link http://modelmapper.org/getting-started/}
+	 * Example here -> {@link http://modelmapper.org/examples/flattening/}
+	 * @param source
+	 * @param destination
+	 */
 	public static void mapper(Object source,Object destination) {
 		ModelMapper mapper = new ModelMapper();
 		mapper.map(source, destination);
