@@ -622,7 +622,9 @@
 					case 'FUNNEL':
 					case 'PIE':
 					case 'PYRAMID':
-
+					case 'SEMIPIE':
+					case 'HEATMAP':
+					case 'TREEMAP':
 						colors = com.colors.get(categories.length);
 
 					break;
