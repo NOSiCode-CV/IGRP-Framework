@@ -59,7 +59,14 @@ public class ExportJavaPage {
 			
 			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");
 			
+			//String classJavaPath = config.getPathServerClass(this.page.getApplication().getDad());
 			String classJavaPath = config.getPathServerClass(this.page.getApplication().getDad());
+			
+			Core.setMessageInfo("xslXMLJsonPath: " + xslXMLJsonPath);
+			
+			Core.setMessageInfo("classJavaPath: " + classJavaPath);
+			
+			Core.setMessageInfo("warName: " + warName);
 			
 			if(Core.isNotNull(config.getWorkspace()) && FileHelper.dirExists(config.getWorkspace())) {
 				classJavaPath = config.getBasePahtClassWorkspace(this.page.getApplication().getDad()) + File.separator; 			

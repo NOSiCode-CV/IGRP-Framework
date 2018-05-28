@@ -45,11 +45,6 @@ public class SoapClient {
 		    SOAPConnection connection = sfc.createConnection();
 		    URL url = new URL(this.wsdl);
 		    
-		    if(this.headers != null)
-		    	this.headers.forEach((k,v)->{
-		    		request.getMimeHeaders().addHeader(k, v);
-		    	});
-		    
 		    this.response = connection.call(this.request, url);
 		    
 		    response.writeTo(System.out);
@@ -88,14 +83,27 @@ public class SoapClient {
 			SOAPPart soapPart = request.getSOAPPart();
 	   	    SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
 	   	    soapEnvelope.addNamespaceDeclaration(nsName, nsValue);
+	   	    soapEnvelope.addNamespaceDeclaration("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
 			SOAPBody soapBody = soapEnvelope.getBody();
 			SOAPElement soapElement = soapBody.addChildElement(operationName, nsName);
+			
 			if(paramNames != null)
 				for(int i = 0; i < paramNames.length; i++) {
 					soapElement.addChildElement(paramNames[i], nsName).addTextNode(paramValues[i]);
 				}
-			request.saveChanges();
+			
+			 if(this.headers != null)
+			    	this.headers.forEach((k,v)->{
+			    		request.getMimeHeaders().addHeader(k, v);
+			    	});
+			
+			this.request.getMimeHeaders().addHeader("soapAction", "http://ws.cdyne.com/ResolveIP");
+			
+			 request.saveChanges();
+			
+			
 			this.request.writeTo(System.out);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -126,7 +134,7 @@ public class SoapClient {
 	public static void main(String[] args) {
 		SoapClient sc = new SoapClient("http://ws.cdyne.com/ip2geo/ip2geo.asmx?wsdl");
 		
-		sc.doRequest("ws", "http://ws.cdyne.com/", "ResolveIP", new String[] {"ipAddress", "licenseKey"}, new String[] {"10.4.5.23", "fg32"});
+		sc.doRequest("ws", "http://ws.cdyne.com/", "ResolveIP", new String[] {"ipAddress", "licenseKey"}, new String[] {"10.73.96.174", "fg32"});
 		sc.call();
 	}
 	
