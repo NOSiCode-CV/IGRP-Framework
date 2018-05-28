@@ -67,6 +67,10 @@ public class DataSourceController extends Controller {
 				model.setObjecto(rep.getType_name().equalsIgnoreCase("object")?rep.getType_query():"");
 				model.setQuery(rep.getType_name().equalsIgnoreCase("query")?rep.getType_query():"");
 				model.setTipo(rep.getType_name());
+				model.setData_source(""+rep.getConfig_env().getId());
+				model.setEtapa(rep.getTaskid());
+				model.setProcesso(rep.getProcessid());
+				model.setPagina(rep.getType_name().equalsIgnoreCase("page")?""+rep.getType_fk():"");
 			}
 			view.pagina.setLookup("igrp","LookupListPage","index");
 			view.pagina.addParam("p_prm_target","_blank");

@@ -280,7 +280,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 */
 	public Set<Properties> getColumns(Config_env config,int template_id,String query) {
 		Set<Properties> columns = new LinkedHashSet<>();
-		Connection con = nosi.core.config.Connection.getConnection(config.getName());
+		Connection con = nosi.core.config.Connection.getConnection(config);
 		try {
 			Statement s = con.createStatement();
 			Set<String> keys = getParamsQuery(config,template_id,query);
@@ -314,7 +314,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 */
 	public Set<String> getParamsQuery(Config_env config,int template_id,String query){
 		Set<String> params = new HashSet<String>();
-		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
+		EntityManager em = PersistenceUtils.getSessionFactory(config).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
@@ -379,7 +379,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			}
 		}
 		String xml = null;
-		EntityManager em = PersistenceUtils.getSessionFactory(rs.getConfig_env().getName()).createEntityManager();
+		EntityManager em = PersistenceUtils.getSessionFactory(rs.getConfig_env()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
