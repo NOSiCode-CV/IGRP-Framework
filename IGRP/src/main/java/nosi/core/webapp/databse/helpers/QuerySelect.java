@@ -39,11 +39,24 @@ public class QuerySelect extends CommonFIlter{
 			return firstConnectionNameOfTheApp.getName();
 		else return Config.getBaseConnection();
 	}
+	
 	//Validate sql query
-	public boolean validateQuery(Config_env config,String query) {
-		this.connectionName = config.getConnectionName();
-		List<Tuple> l = this.select(query).getResultList();
-		return l!=null;
+	public boolean validateQuery(Config_env config,String sql) {
+		try {
+			sql = sql.replaceAll(":\\w+", "null");
+			Core.log("SQL Query:"+sql);
+			EntityManager em = PersistenceUtils.getSessionFactory(config).createEntityManager();
+			EntityTransaction t =  em.getTransaction();
+			t.begin();
+			Query query = em.createNativeQuery(sql,Tuple.class);
+			query.getResultList();
+			t.commit();
+			em.close();
+			return true;
+		}catch(Exception e) {
+			Core.log(e.getMessage());
+		}
+		return false;
 	}
 	
 	public QueryInterface select(String collumns) {
