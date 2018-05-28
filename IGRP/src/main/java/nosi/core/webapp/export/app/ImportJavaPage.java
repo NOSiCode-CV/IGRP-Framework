@@ -44,6 +44,7 @@ public class ImportJavaPage {
 	
 	public void importApp() {
 		JarUnJarFile.readJarFile(this.file).entrySet().stream().forEach(j->{
+			
 			 if(j.getKey().equalsIgnoreCase("StoredPage")){
 				StoredPages pagina = (StoredPages) ResponseConverter.convertJsonToDao(j.getValue(), StoredPages.class);
 				if(env != null) {
@@ -59,6 +60,7 @@ public class ImportJavaPage {
 					this.errors.add("Ocorreu um erro ! Aplicação destino inválido.");
 				
 			}else if(j.getKey().equalsIgnoreCase("ConfigurationPages")){
+				System.out.println(j.getValue());
 				List<JavaClasse> configPages = (List<JavaClasse>) ResponseConverter.convertJsonToListDao(j.getValue(), new TypeToken<List<JavaClasse>>(){}.getType());
 				this.saveConfigPages(configPages);
 			}
@@ -108,8 +110,6 @@ public class ImportJavaPage {
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
 			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
 			 path =  warName + File.separator + config.getImageAppPath(this.page.getApplication()) + File.separator+folderPage.toLowerCase();
-			 
-			 System.out.println("Import: " + path);
 			  
 			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.page.getApplication())+File.separator+folderPage.toLowerCase();
 			
@@ -119,7 +119,7 @@ public class ImportJavaPage {
 		}
 		
 		if(Core.isNotNull(this.config.getWorkspace()) && FileHelper.dirExists(this.config.getWorkspace())) {
-			
+			 
 			if(c.getType().equalsIgnoreCase("pages")) {
 				String pack = c.getContent().trim();
 				String content = pack.substring(pack.indexOf(";",pack.indexOf("package")));
@@ -129,7 +129,8 @@ public class ImportJavaPage {
 				c.setContent(content);
 			}
 			
-			FileHelper.save(pathWorkSpace, c.getName(), c.getContent());
+			if(!c.getName().contains(".class"))
+				FileHelper.save(pathWorkSpace, c.getName(), c.getContent());
 		}
 		
 		FileHelper.save(path, c.getName(), c.getContent());
