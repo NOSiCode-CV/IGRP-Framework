@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.helpers.FileHelper;
@@ -150,7 +151,12 @@ public class ExportAppJava {
 			Config config = new Config();
 			
 			//Get xml, json and xsl
-			String xslXMLJsonPath = config.getBaseServerPahtXsl(this.app)+File.separator;			
+			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.app)+File.separator;
+			
+			//Get xml, json and xsl
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
+			String xslXMLJsonPath =  warName + File.separator + config.getImageAppPath(this.app) + File.separator;
+				
 			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");			
 			
 			if(Core.isNotNull(config.getWorkspace()) && FileHelper.dirExists(config.getWorkspace())) {

@@ -5,6 +5,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
@@ -101,8 +102,13 @@ public class ImportAppJava {
 			path = this.config.getBasePathClass();
 			pathWorkSpace = this.config.getRawBasePathResourcesWorkspace();
 		}else if(c.getType().equalsIgnoreCase("xsl-xml-json")) {
-			path = this.config.getBaseServerPahtXsl(this.app)+File.separator+folderPage.toLowerCase();
+			
+			//Get xml, json and xsl
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
+			path =  warName + File.separator + config.getImageAppPath(this.app) + File.separator + folderPage.toLowerCase();
+			//path = this.config.getBaseServerPahtXsl(this.app) + File.separator + folderPage.toLowerCase();
 			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.app)+File.separator+folderPage.toLowerCase();
+			
 		}else if(c.getType().equalsIgnoreCase("pages")) {
 			path = classJavaPath+"pages"+File.separator+c.getFolder().toLowerCase();
 			pathWorkSpace = this.config.getBasePahtClassWorkspace(this.app.getDad())+File.separator+"pages"+File.separator+c.getFolder().toLowerCase();
