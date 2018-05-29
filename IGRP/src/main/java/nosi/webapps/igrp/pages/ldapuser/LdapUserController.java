@@ -120,13 +120,10 @@ public class LdapUserController extends Controller {
 	        AddUser addUser = new AddUser();
             
            addUser.setRequirePasswordChange(false);
-           try {
-         	  String aux = "";
-         	  aux = model.getEmail_1().trim().split("@")[0];
-         	 addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, aux));
-            }catch(Exception e) {
-            	addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, model.getEmail_1().trim()));
-            }
+           
+           // aux = model.getEmail_1().trim().split("@")[0];
+           addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, model.getEmail_1().trim()));
+           
            addUser.setCredential(new JAXBElement<String>(new QName(uri, "credential"), String.class, "Pa$$w0rd"));
            addUser.setProfileName(new JAXBElement<String>(new QName(uri, "profileName"), String.class, "default"));
          
@@ -153,8 +150,6 @@ public class LdapUserController extends Controller {
           
            int httpStatusCode = -1;
            httpStatusCode = stub.getHttpResponseStatusCode();
-           
-           System.out.println(httpStatusCode);
            
           if(httpStatusCode == 202) {
         	  Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
@@ -271,9 +266,10 @@ public class LdapUserController extends Controller {
 	}
 	
 	private Properties loadIdentityServerSettings() {
+		
 		String path = new Config().getBasePathConfig() + File.separator + "ids";
 		String fileName = "wso2-ids.xml";
-		File file = new File(path + File.separator + fileName);
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 		
 		FileInputStream fis = null;
 		Properties props = new Properties();
