@@ -96,8 +96,8 @@ public class TipoDocumento extends BaseActiveRecord<TipoDocumento> implements Se
 		this.application = application;
 	}
 
-	 public TipoDocumento getTipoDcumento(String codigo) {
-		 return this.find().andWhere("codigo", "=",codigo).one();
+	 public TipoDocumento getTipoDcumento(String codigo,String dad) {
+		 return this.find().andWhere("codigo", "=",codigo).andWhere("application.dad", "=",dad).one();
 	 }
 	 
 	@Override
