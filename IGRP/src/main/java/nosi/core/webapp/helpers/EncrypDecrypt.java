@@ -26,7 +26,7 @@ public class EncrypDecrypt {
 	}
 
 	private static boolean getWakandaList(String content) {
-		return !content.equals("igrp/login/login") && !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception")
+		return !content.equals("igrp/login/login") && !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception") && !content.equals("igrp/login/logout") 
 				&& !content.contains("igrp/page") && !content.contains("changeStatus");
 	}
 

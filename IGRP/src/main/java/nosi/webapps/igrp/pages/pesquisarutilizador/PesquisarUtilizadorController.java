@@ -4,6 +4,7 @@ package nosi.webapps.igrp.pages.pesquisarutilizador;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -118,18 +119,21 @@ public class PesquisarUtilizadorController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(convidar)----*/
-		
+   
+      // this.addQueryString("p_aplicacao",  model.getAplicacao());
+        // this.addQueryString("p_organica",  model.getOrganica());
+         //this.addQueryString("p_perfil",  model.getPerfil());
 		if (Core.isNotNull(model.getEmail())) {
 			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
 			if (Core.isNotNull(u)) {
-				return this.forward("igrp", "NovoUtilizador", "index&id=" + u.getId());
+               	this.addQueryString("id", u.getId());
+				return this.redirect("igrp", "NovoUtilizador", "index", this.queryString());
 			}
-		}
-      	
-         return this.forward("igrp","NovoUtilizador","index");
+		}     	
+    
       
 		/*----#end-code----*/
-			
+		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
 	}
 	
 	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{

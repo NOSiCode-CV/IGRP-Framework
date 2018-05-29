@@ -99,15 +99,35 @@ public class TransacaoOrganicaController extends Controller {
 		----#gen-example */
 		/*----#start-code(gravar)----*/
 		int id = model.getId();
+		List<ProfileType> list = null;
+		Organization organization1 = new Organization();
 		String type = model.getType();
 		if(Core.isInt(id) && Core.isNotNull(type)){
 			Profile profD = new Profile();
 			if(type.equals("org")){
-				profD.setOrganization(new Organization().findOne(id));
+				organization1 = new Organization().findOne(id);
+				profD.setOrganization(organization1);
 				profD.setType("TRANS");
 				profD.setProfileType(new ProfileType().findOne(0));
 				profD.setUser(new User().findOne(0));
 				profD.deleteAllProfile();
+				list = new ProfileType().find().andWhere("organization.id", "=", organization1.getId()).all();
+				if (list != null && list.size() > 0) {
+					list.sort((o1, o2) -> {
+						if (o1.getId() > o2.getId())
+							return 1;
+						else if (o1.getId() < o2.getId())
+							return -1;
+						return 0;
+					});
+					ProfileType pAux = list.get(0);
+					Profile pAux2 = new Profile();
+					pAux2.setOrganization(organization1);
+					pAux2.setType("TRANS");
+					pAux2.setUser(new User().findOne(0));
+					pAux2.setProfileType(pAux);
+					pAux2.deleteAllProfile();
+				}
 			}else if(type.equals("perfil")){
 				ProfileType pt = new ProfileType().findOne(id);
 				profD.setOrganization(pt.getOrganization());
@@ -125,8 +145,27 @@ public class TransacaoOrganicaController extends Controller {
 					prof.setType("TRANS");
 					prof.setType_fk(Integer.parseInt(x.toString()));
 					if(type.equals("org")){
-						prof.setOrganization(new Organization().findOne(id));
+						Organization auxOrg = new Organization().findOne(id);
+						prof.setOrganization(auxOrg);
 						prof.setProfileType(new ProfileType().findOne(0));
+						list = new ProfileType().find().andWhere("organization.id", "=", auxOrg.getId()).all();
+						if (list != null && list.size() > 0) {
+							list.sort((o1, o2) -> {
+								if (o1.getId() > o2.getId())
+									return 1;
+								else if (o1.getId() < o2.getId())
+									return -1;
+								return 0;
+							});
+							ProfileType pAux = list.get(0);
+							Profile pAux2 = new Profile();
+							pAux2.setUser(new User().findOne(0));
+							pAux2.setType("TRANS");		
+							pAux2.setType_fk(Integer.parseInt(x.toString()));
+							pAux2.setOrganization(auxOrg);
+							pAux2.setProfileType(pAux);
+							pAux2.insert();
+						}
 					}else if(type.equals("perfil")){
 						ProfileType p = new ProfileType().findOne(id);
 						prof.setOrganization(p.getOrganization());

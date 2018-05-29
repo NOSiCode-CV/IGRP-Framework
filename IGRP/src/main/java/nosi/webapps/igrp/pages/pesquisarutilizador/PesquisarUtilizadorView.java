@@ -1,11 +1,13 @@
 
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 
 
 
@@ -108,11 +110,11 @@ public class PesquisarUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel_submit|refresh","warning|fa-send","","");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel|refresh","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
 
 		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","right_panel_submit","success|fa-plus-square","","");
-		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador");
+		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador").add("flg_transaction","true");
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
@@ -166,7 +168,8 @@ public class PesquisarUtilizadorView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(PesquisarUtilizador model) {
+	@Override
+	public void setModel(Model model) {
 		
 		username.setValue(model);
 		email.setValue(model);
@@ -182,7 +185,7 @@ public class PesquisarUtilizadorView extends View {
 		perfile.setValue(model);
 		id.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
+		table_1.loadModel(((PesquisarUtilizador) model).getTable_1());
 		
 	}
 }
