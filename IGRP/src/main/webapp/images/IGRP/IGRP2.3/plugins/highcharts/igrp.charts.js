@@ -622,7 +622,7 @@
 					case 'FUNNEL':
 					case 'PIE':
 					case 'PYRAMID':
-
+					case 'SEMIPIE':			
 						colors = com.colors.get(categories.length);
 
 					break;

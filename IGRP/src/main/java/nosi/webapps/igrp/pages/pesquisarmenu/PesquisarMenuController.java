@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.Cookie;
+
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -242,7 +245,25 @@ public class PesquisarMenuController extends Controller {
 		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start")).collect(Collectors.toList()).size() > 0;
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
 		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
-		topMenu.addItem("Settings", "igrp", "Settings", "index", "_self", "settings.png", "webapps?r=");
+		String flag="english_flag.png";
+		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
+			if (cookie.getName().equals("igrp_lang")) {
+				switch (cookie.getValue()){
+				case "pt_PT":
+					flag="portuguese_flag.png";
+					break;
+				case "es_ES":
+					flag="spanish_flag.png";
+					break;
+				case "fr_FR":
+					flag="french_flag.png";
+					break;				
+				}
+			}
+		}
+		
+		
+		topMenu.addItem("Settings", "igrp", "Settings", "index", "_self", flag, "webapps?r=");
 		if(isStartProc)
 			topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png", "webapps?r=");
 		if(isTask)

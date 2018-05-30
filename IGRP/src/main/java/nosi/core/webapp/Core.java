@@ -829,7 +829,18 @@ public final class Core {	// Not inherit
         }
 	    return "";
 	  }
-	  
+	
+	public static String getTaskVariable(String variableName) { 
+		String id = getExecutionId();
+		TaskService task = new TaskService().getTask(id);
+        List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
+        if(vars!=null) {
+	        List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(task.getTaskDefinitionKey()+"_"+variableName)).collect(Collectors.toList());
+	        return (var!=null && var.size() > 0)?(String) var.get(var.size()-1).getValue():"";
+        }
+	    return "";
+	  }
+	
 	  public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {    
 	    String id = Core.getExecutionId();
 	    if(Core.isNotNull(id)) {
@@ -851,6 +862,7 @@ public final class Core {	// Not inherit
 	    }
 	    return null;
 	  }
+	  
 	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v)?Core.toInt(v):0;
@@ -882,6 +894,37 @@ public final class Core {	// Not inherit
 		return Core.isNotNull(v)?true:false;
 	}
 	
+	  
+	public static Integer getTaskVariableInt(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toInt(v):0;
+	}
+	
+	public static Short getTaskVariableShort(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toShort(v):0;
+	}
+
+	public static Long getTaskVariableLong(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toLong(v):0;
+	}
+	public static Double getTaskVariableDouble(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toDouble(v):0;
+	}
+
+	
+	public static Float getTaskVariableFloat(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toFloat(v):0;
+	}
+
+	
+	public static Boolean getTaskVariableBoolean(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?true:false;
+	}
 	private static String getExecutionId() {
 	    String taskId = Core.getParam("taskId");
 	    String taskExecutionId = Core.getParam("taskExecutionId");
@@ -905,7 +948,11 @@ public final class Core {	// Not inherit
 			p.submitVariables();
 		}
 	}
-	
+	/** Maps source to destination - {@link http://modelmapper.org/getting-started/}
+	 * Example here -> {@link http://modelmapper.org/examples/flattening/}
+	 * @param source
+	 * @param destination
+	 */
 	public static void mapper(Object source,Object destination) {
 		ModelMapper mapper = new ModelMapper();
 		mapper.map(source, destination);
@@ -1107,8 +1154,13 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
 	}
 
-	/** Insert a file to the Igrp core DataBase and return an Id ... **/
-	
+	/** Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @return int ID
+	 */	
 	public static int saveFile(File file, String name, String mime_type) {
 		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
@@ -1151,7 +1203,12 @@ public final class Core {	// Not inherit
 		
 		return lastInsertedId;
 	}
-	
+	/** Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @return in ID
+	 */
 	public static int saveFile(Part file, String name) {
 		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
@@ -1191,11 +1248,22 @@ public final class Core {	// Not inherit
 		
 		return lastInsertedId;
 	}
-	
+	/** Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param file 
+	 * @return in ID
+	 */
 	public static int saveFile(File file) {
 		return saveFile(file, null, null);
 	}
-	
+	/** Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param content byte[]
+	 * @param name
+	 * @param extension - must have dot ".txt"
+	 * @param mime_type
+	 * @return in ID
+	 */	
 	public static int saveFile(byte[] content, String name, String extension, String mime_type) {
 		try {
 			if(!extension.startsWith(".")) throw new IllegalArgumentException("Extension of file is invalid.");
@@ -1210,7 +1278,14 @@ public final class Core {	// Not inherit
 		}
 		return -1;
 	}
-	
+	/** Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param content byte[]
+	 * @param name
+	 * @param extension
+	 * @param mime_type
+	 * @return in ID
+	 */
 	public static int saveFile(byte[] content, String name, String mime_type) {
 		try {
 			String aux[] = name.trim().split("\\.");
@@ -1288,17 +1363,32 @@ public final class Core {	// Not inherit
 		return null;
 	}
 	
-	public static UploadedFile upload(String fileName) {
-		UploadedFile uF = UploadedFile.getInstance(fileName);
+	/** Upload a file from a upload field with the tag given
+	 * 
+	 * @param tag p_file
+	 * @return class UploadedFile
+	 */
+	public static UploadedFile upload(String tag) {
+		UploadedFile uF = UploadedFile.getInstance(tag);
 		return uF;
 	}
 	
-	public static List<UploadedFile> uploadX(String fileName) {
-		List<UploadedFile> uF = UploadedFile.getInstances(fileName);
+	/** Upload multiple files from a multiple upload field with the tag given
+	 * 
+	 * @param tag p_file
+	 * @return {@code List<UploadedFile>}
+	 */
+	public static List<UploadedFile> uploadMultiple(String tag) {
+		List<UploadedFile> uF = UploadedFile.getInstances(tag);
 		return uF;
 	}
 	
-	public static List<UploadedFile> uploadX() { 
+	/** Upload all files from a all the upload field
+	 * 
+	 * 
+	 * @return {@code List<UploadedFile>}
+	 */
+	public static List<UploadedFile> uploadMultiple() { 
 		List<UploadedFile> uF = UploadedFile.getInstances();
 		return uF;
 	}
@@ -1313,7 +1403,11 @@ public final class Core {	// Not inherit
 		}
 		return (Object)obj;
 	}
-	
+	/** set attibute in session
+	 * {@code Igrp.getInstance().getRequest().getSession().setAttribute(key, value);}
+	 * @param key
+	 * @param value
+	 */
 	public static void addToSession(String key, String value) {
 		Igrp.getInstance().getRequest().getSession().setAttribute(key, value);
 	}
@@ -1327,11 +1421,24 @@ public final class Core {	// Not inherit
 		if(flag) Igrp.getInstance().getRequest().getSession().removeAttribute(key);
 		return result;
 	}
-	
+	/** Consume a REST API using get
+	 * 
+	 * @param url
+	 * @param mediaType
+	 * @param result
+	 * @return
+	 */
 	public static <T> T httpGet(String url, String []mediaType, Class<T> result) {
 		return httpGet(url, mediaType, null, result);
 	}
-	
+	/** Consume a REST API using Get
+	 * 
+	 * @param url
+	 * @param mediaType
+	 * @param httpHeaders
+	 * @param result
+	 * @return
+	 */
 	public static <T> T httpGet(String url, String []mediaType, Map<String, Object> httpHeaders, Class<T> result) {
 		Client curl = ClientBuilder.newClient();
 		Invocation.Builder ib = curl.target(url).request(mediaType);
@@ -1344,11 +1451,29 @@ public final class Core {	// Not inherit
 		curl.close();
 		return r;
 	}
-	
+	/** Consume a REST API using post
+	 * 
+	 * @param url
+	 * @param content
+	 * @param mediaType
+	 * @param entityMediaType
+	 * @param result
+	 * @return
+	 */
 	public static <T> T httpPost( String url, Object content, String []mediaType, String entityMediaType, Class<T> result) {
 		return httpPost(url, content, mediaType, null, entityMediaType, result);
 	}
 	
+	/** Consume a REST API using post
+	 * 
+	 * @param url 
+	 * @param content
+	 * @param mediaType
+	 * @param httpHeaders
+	 * @param entityMediaType
+	 * @param result
+	 * @return 
+	 */
 	public static <T> T  httpPost( String url, Object content, String []mediaType, Map<String, Object> httpHeaders, String entityMediaType, Class<T> result) {
 		Client curl = ClientBuilder.newClient();
 		Invocation.Builder ib = curl.target(url).request(mediaType);
@@ -1361,12 +1486,23 @@ public final class Core {	// Not inherit
 		return r;
 	}
 	
-	// send a simple email ... 
-	public static boolean mail(String from, String to, String subject, String msg, String charset, String type, File []attachs, String replyTo) {
+	/** send a simple email ... 
+	 * 
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg 
+	 * @param charset UTF-8,
+	 * @param mimetype text/html, plaintext
+	 * @param attachs
+	 * @param replyTo
+	 * @return true or false
+	 */
+	public static boolean mail(String from, String to, String subject, String msg, String charset, String mimetype, File []attachs, String replyTo) {
 		EmailMessage sender = EmailMessage.newInstance();
 		boolean result = false;
 		try {
-			sender.setFrom(from).setTo(to).setSubject(subject).setMsg(msg, charset, type).replyTo(replyTo);
+			sender.setFrom(from).setTo(to).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
 			if(attachs != null)
 				for(File f : attachs)
 					sender.attach(f);

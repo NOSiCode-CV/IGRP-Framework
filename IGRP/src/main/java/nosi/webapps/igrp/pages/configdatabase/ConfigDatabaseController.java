@@ -69,6 +69,9 @@ public class ConfigDatabaseController extends Controller {
 			case "oracle":
 				model.setPort(1521);
 				break;
+			case "mssql":
+				model.setPort(1433);
+				break;
 			default:
 				model.setPort(0);
 				break;

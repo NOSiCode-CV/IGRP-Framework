@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp_studio.pages.listapage;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
@@ -27,7 +28,7 @@ public class ListaPageView extends View {
 	public Field infopanel_3_url;
 	public Field infopanel_3_bg;
 	public Field infopanel_3_icn;
-	public Field env_fk;
+	public Field application;
 	public Field modulo;
 	public Field link_btn_nova_pagina;
 	public Field crud_generator;
@@ -151,9 +152,9 @@ public class ListaPageView extends View {
 		infopanel_3_icn.setValue(gt("fa-folder-open"));
 		infopanel_3_icn.propertie().add("name","p_infopanel_3_icn").add("type","text").add("maxlength","4000");
 		
-		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		application = new ListField(model,"application");
+		application.setLabel(gt("Aplicação"));
+		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
@@ -249,7 +250,7 @@ public class ListaPageView extends View {
 		infopanel_3.addField(infopanel_3_icn);
 
 
-		form_1.addField(env_fk);
+		form_1.addField(application);
 		form_1.addField(modulo);
 		form_1.addField(link_btn_nova_pagina);
 		form_1.addField(crud_generator);
@@ -288,9 +289,10 @@ public class ListaPageView extends View {
 		this.addToPage(toolsbar_2);
 	}
 		
-	public void setModel(ListaPage model) {
+	@Override
+	public void setModel(Model model) {
 		
-		env_fk.setValue(model);
+		application.setValue(model);
 		modulo.setValue(model);
 		link_btn_nova_pagina.setValue(model);
 		crud_generator.setValue(model);
@@ -301,8 +303,8 @@ public class ListaPageView extends View {
 		nome_page.setValue(model);
 		aplicacao.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
-		myapps_list.loadModel(model.getMyapps_list());
+		table_1.loadModel(((ListaPage) model).getTable_1());
+		myapps_list.loadModel(((ListaPage) model).getMyapps_list());
 		
 	}
 }

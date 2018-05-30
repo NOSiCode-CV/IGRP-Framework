@@ -178,10 +178,12 @@
 
           </xsl:for-each>
          
-          <li alt="{$settingsURL/title}" title="{$settingsURL/title}">
-            <a href="{$settingsURL/link}"><xsl:value-of select="rows/site/user_name"/></a>
+         <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
+            <a href="{$settingsURL/link}">
+              <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;padding-bottom: 3px;"></img>
+               <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
+            </a>
           </li>
-
           <li alt="{rows/site/button/title}" title="{rows/site/button/title}">
             <a href="{rows/site/button/link}" target="{rows/site/button/target}">
               <i class="fa fa-sign-out"></i>

@@ -189,7 +189,9 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Geral", "Partilha Geral - Inter Aplicações (Páginas)", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Modulo", "index", "nosi.webapps.igrp_studio.pages.modulo", "igrp_studio/modulo/Modulo.xsl", "Módulo", "Módulo", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
-			
+			actions.add(new Action("Sql_tools", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/sql_tools/Sql_tools.xsl", "SQL Tool", "SQL Tool", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("File", "index", "nosi.webapps.igrp.pages", "igrp/file/File.xsl", "File", "File", "2.3", 1, app_igrp));
+						
 			for(Action ac:actions){
 				ac.insert();
 			}
@@ -260,6 +262,10 @@ public class MigrationIGRPInitConfig {
 			Menu partilha = new Menu("Partilha Inter-Aplicação", 0, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
 			partilha.setMenu(partilha);
 			menus.add(partilha);
+			
+			Menu sql = new Menu("SQL Tool", 0, 1, 0, "submit", actions.get(51), app_igrp_studio, null);
+			sql.setMenu(sql);
+			menus.add(sql);
 			
 			for(Menu m:menus){
 				m.insert();

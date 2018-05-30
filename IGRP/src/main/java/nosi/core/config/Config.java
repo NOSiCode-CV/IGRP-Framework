@@ -164,7 +164,7 @@ public class Config {
 	}
 
 	public String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2017 - Copyright NOSI";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSI";
 	}
 	public String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";
@@ -446,6 +446,7 @@ public class Config {
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");
 		tipos.put("oracle", "Oracle");
+		tipos.put("mssql", "MS SQL Server");
 		return tipos;
 	}
 	

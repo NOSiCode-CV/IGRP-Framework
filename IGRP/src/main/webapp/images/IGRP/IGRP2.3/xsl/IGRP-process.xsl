@@ -166,41 +166,7 @@
 				 		<xsl:variable name="action" select="action"/>
 				 		<xsl:variable name="target" select="target"/>
 
-					 		$.IGRP.rules.set({
-					 			"<xsl:value-of select="$field"/>" : [
-					 				{ 
-
-					 					"conditions" : {
-
-					 						"actions" : [
-					 							{
-					 								"action" 				: "<xsl:value-of select="$action"/>",
-					 								"targets" 		  : "<xsl:value-of select="$target"/>",
-                        	"msg"					  : "",
-                        	"msg_type"	    : "",
-                        	"procedure"		  : "",
-                        	"request_fields": "<xsl:value-of select="$field"/>"
-					 							}
-					 						],
-
-					 						"rules": [
-		                    {
-	                        "condition": "<xsl:value-of select="$operation"/>",
-	                        "opposite": "",
-	                        "patern": "",
-	                        "patern_custom": "",
-	                        "value": "<xsl:value-of select="$value"/>",
-	                        "value2": ""
-		                    }
-			                ]
-					 					
-					 					},
-
-					 					"events" : "<xsl:value-of select="$event"/>"
-
-					 				}
-					 			]
-					 		},'actionsList');				 		
+					 			 		
 				 	</xsl:for-each>
 
 				 	<xsl:for-each select="rows/content/js_validation/row[ field = '' ]">

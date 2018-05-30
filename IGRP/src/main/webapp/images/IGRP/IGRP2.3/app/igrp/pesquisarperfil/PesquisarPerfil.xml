@@ -75,11 +75,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Natus ipsum iste magna elit</organica>
+                        <organica name="p_organica">Aperiam consectetur totam dolo</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Doloremque iste voluptatem ape</descricao>
-                        <codigo name="p_codigo">Officia doloremque mollit aper</codigo>
+                        <descricao name="p_descricao">Amet voluptatem consectetur ip</descricao>
+                        <codigo name="p_codigo">Anim perspiciatis doloremque i</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -87,11 +87,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Amet rem totam ipsum aliqua</organica>
+                        <organica name="p_organica">Amet aliqua totam anim rem</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Accusantium mollit officia vol</descricao>
-                        <codigo name="p_codigo">Rem sed magna elit consectetur</codigo>
+                        <descricao name="p_descricao">Laudantium elit ut amet perspi</descricao>
+                        <codigo name="p_codigo">Laudantium omnis deserunt ut a</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,11 +99,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sit iste doloremque consectetu</organica>
+                        <organica name="p_organica">Consectetur perspiciatis offic</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sed deserunt unde dolor totam</descricao>
-                        <codigo name="p_codigo">Ipsum adipiscing amet doloremq</codigo>
+                        <descricao name="p_descricao">Magna labore deserunt lorem am</descricao>
+                        <codigo name="p_codigo">Accusantium mollit amet magna</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -111,11 +111,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Dolor unde magna rem omnis</organica>
+                        <organica name="p_organica">Laudantium doloremque mollit l</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aliqua amet ut stract omnis</descricao>
-                        <codigo name="p_codigo">Aperiam officia sit aliqua sed</codigo>
+                        <descricao name="p_descricao">Aliqua accusantium mollit iste</descricao>
+                        <codigo name="p_codigo">Deserunt voluptatem consectetu</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -123,11 +123,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Laudantium sed iste dolor rem</organica>
+                        <organica name="p_organica">Iste deserunt laudantium sit l</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Labore ipsum iste natus offici</descricao>
-                        <codigo name="p_codigo">Aliqua omnis adipiscing stract</codigo>
+                        <descricao name="p_descricao">Dolor amet dolor unde dolor</descricao>
+                        <codigo name="p_codigo">Natus ut perspiciatis omnis is</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -168,6 +168,15 @@
                         <target>right_panel</target>
                         <img>black|fa-exchange</img>
                     </item>
+                    <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true">
+                        <title>Associar Etapa</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
+                        <target>right_panel</target>
+                        <img>primary|fa-sitemap</img>
+                    </item>
                     <item type="specific" code="" class="warning" rel="convidar" custom_return="true">
                         <title>Convidar</title>
                         <app>igrp</app>
@@ -176,15 +185,6 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
                         <target>right_panel</target>
                         <img>warning|fa-send</img>
-                    </item>
-                    <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true">
-                        <title>Associar Etapa</title>
-                        <app>igrp</app>
-                        <page>PesquisarPerfil</page>
-                        <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
-                        <target>right_panel</target>
-                        <img>primary|fa-address-card</img>
                     </item>
                 </context-menu>
             </table>

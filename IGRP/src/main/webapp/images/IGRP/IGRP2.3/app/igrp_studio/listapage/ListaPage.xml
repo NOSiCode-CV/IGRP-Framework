@@ -123,7 +123,7 @@
         </box_2>
         <form_1 type="form" xml-type="form" title="Page builder" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
+                <application name="p_application" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -145,7 +145,7 @@
                         </option>
                     </list>
                     <rules/>
-                </env_fk>
+                </application>
                 <modulo name="p_modulo" type="select" multiple="true" domain="" maxlength="50" required="false" change="true" disabled="false" right="false" java-type="">
                     <label>Módulo</label>
                     <list>
@@ -205,7 +205,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sit lorem anim unde ut</descricao_page>
+                        <descricao_page name="p_descricao_page">Aliqua accusantium rem sit ut</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -216,7 +216,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ut adipiscing accusantium sed</descricao_page>
+                        <descricao_page name="p_descricao_page">Accusantium magna sed adipisci</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -227,7 +227,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Labore unde adipiscing stract</descricao_page>
+                        <descricao_page name="p_descricao_page">Accusantium perspiciatis omnis</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -238,7 +238,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Unde officia dolor magna labor</descricao_page>
+                        <descricao_page name="p_descricao_page">Anim ipsum sed totam stract</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -249,7 +249,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sit aliqua adipiscing mollit u</descricao_page>
+                        <descricao_page name="p_descricao_page">Anim adipiscing officia aperia</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>

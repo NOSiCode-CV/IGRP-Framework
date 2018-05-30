@@ -19,16 +19,19 @@ public class EncrypDecrypt {
 	public static String SECRET_KEY = "igrp.encrypt";
 
 	public static String encrypt(String content) {
-		if (!content.equals("igrp/login/login") && !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception")
-				&& !content.contains("igrp/page"))
+		if (getWakandaList(content))
 			return encrypt(content, getSecretKey()).replace(" ", "+");
 		else
 			return content;
 	}
 
+	private static boolean getWakandaList(String content) {
+		return !content.equals("igrp/login/login") && !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception") && !content.equals("igrp/login/logout") 
+				&& !content.contains("igrp/page") && !content.contains("changeStatus");
+	}
+
 	public static String decrypt(String content) {
-		if (!content.equals("igrp/login/login") && !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception")
-				&& !content.contains("igrp/page"))
+		if (getWakandaList(content) )
 			return decrypt(content.replace(" ", "+"), getSecretKey());
 		else
 			return content;

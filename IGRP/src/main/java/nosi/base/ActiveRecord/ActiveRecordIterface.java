@@ -10,7 +10,6 @@ public interface ActiveRecordIterface<T> {
 
 	public T insert();
 	public T update();
-	public boolean delete();
 	public boolean delete(Object id);
 	public T findOne(Object value);
 	public T findOne(CriteriaQuery<T> criteria);
