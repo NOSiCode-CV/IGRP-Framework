@@ -829,7 +829,18 @@ public final class Core {	// Not inherit
         }
 	    return "";
 	  }
-	  
+	
+	public static String getTaskVariable(String variableName) { 
+		String id = getExecutionId();
+		TaskService task = new TaskService().getTask(id);
+        List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
+        if(vars!=null) {
+	        List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(task.getTaskDefinitionKey()+"_"+variableName)).collect(Collectors.toList());
+	        return (var!=null && var.size() > 0)?(String) var.get(var.size()-1).getValue():"";
+        }
+	    return "";
+	  }
+	
 	  public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {    
 	    String id = Core.getExecutionId();
 	    if(Core.isNotNull(id)) {
@@ -851,6 +862,7 @@ public final class Core {	// Not inherit
 	    }
 	    return null;
 	  }
+	  
 	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v)?Core.toInt(v):0;
@@ -882,6 +894,37 @@ public final class Core {	// Not inherit
 		return Core.isNotNull(v)?true:false;
 	}
 	
+	  
+	public static Integer getTaskVariableInt(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toInt(v):0;
+	}
+	
+	public static Short getTaskVariableShort(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toShort(v):0;
+	}
+
+	public static Long getTaskVariableLong(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toLong(v):0;
+	}
+	public static Double getTaskVariableDouble(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toDouble(v):0;
+	}
+
+	
+	public static Float getTaskVariableFloat(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?Core.toFloat(v):0;
+	}
+
+	
+	public static Boolean getTaskVariableBoolean(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v)?true:false;
+	}
 	private static String getExecutionId() {
 	    String taskId = Core.getParam("taskId");
 	    String taskExecutionId = Core.getParam("taskExecutionId");

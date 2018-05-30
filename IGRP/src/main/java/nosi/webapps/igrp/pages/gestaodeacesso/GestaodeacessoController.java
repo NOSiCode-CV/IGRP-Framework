@@ -142,8 +142,7 @@ public class GestaodeacessoController extends Controller {
 		/*----#start-code(eliminar)----*/
 		int p_id = Core.getParamInt("p_id");
 		if (p_id != 0) {
-			Organization org = new Organization().findOne(p_id);
-			if (org != null && org.delete()) {
+			if (new Organization().delete(p_id)) {
 				Core.setMessageSuccess();
 			}else
 				Core.setMessageError();

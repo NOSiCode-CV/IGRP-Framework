@@ -322,47 +322,47 @@ public abstract class QueryHelper implements QueryInterface{
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
 		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
-		
-		if(this instanceof QueryInsert) {
-			try {
-				NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),PreparedStatement.RETURN_GENERATED_KEYS);
-				this.setParameters(q);	
-				Core.log("SQL:"+q.getSql());
-				r.setSql(q.getSql());
-				r.setKeyValue(q.executeInsert(this.tableName));
-			} catch (SQLException e) {
-				r.setError(e.getMessage());
-				Core.log(e.getMessage());
-				e.printStackTrace();
-			}
-		}else {
-			try {
-				NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
-				this.setParameters(q);
-				r.setSql(q.getSql());
-				Core.log("SQL:"+q.getSql());
-				r.setKeyValue( q.executeUpdate());
-			} catch (SQLException e) {
-				r.setError(e.getMessage());
-				Core.log(e.getMessage());
-			}
-		}
-		try {
-			conn.commit();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			if(conn!=null) {
+		if(conn!=null) {
+			if(this instanceof QueryInsert) {
 				try {
-					conn.close();
+					NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),PreparedStatement.RETURN_GENERATED_KEYS);
+					this.setParameters(q);	
+					Core.log("SQL:"+q.getSql());
+					r.setSql(q.getSql());
+					r.setKeyValue(q.executeInsert(this.tableName));
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+					r.setError(e.getMessage());
+					Core.log(e.getMessage());
 					e.printStackTrace();
+				}
+			}else {
+				try {
+					NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
+					this.setParameters(q);
+					r.setSql(q.getSql());
+					Core.log("SQL:"+q.getSql());
+					r.setKeyValue( q.executeUpdate());
+				} catch (SQLException e) {
+					r.setError(e.getMessage());
+					Core.log(e.getMessage());
+				}
+			}
+			try {
+				conn.commit();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				if(conn!=null) {
+					try {
+						conn.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-		
 		return r;
 	}
 	

@@ -3,8 +3,7 @@ package nosi.core.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-
-import nosi.base.ActiveRecord.PersistenceUtils;
+import nosi.base.ActiveRecord.HibernateUtils;
 /**
  * Marcel Iekiny
  * Nov 23, 2017
@@ -15,9 +14,8 @@ public class BasicListener implements ServletContextListener {
     public BasicListener() {} 
 
     public void contextDestroyed(ServletContextEvent arg0)  {
-    	PersistenceUtils.destroy(); 
-    	PersistenceUtils.unregisterAllDrivers();
-    	System.out.println("BasicListener entrado");
+    	HibernateUtils.destroy(); 
+    	HibernateUtils.unregisterAllDrivers();
     }
     
 	public void contextInitialized(ServletContextEvent arg0)  {}

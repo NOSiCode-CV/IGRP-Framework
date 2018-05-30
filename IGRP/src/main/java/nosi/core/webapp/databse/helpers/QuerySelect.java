@@ -6,11 +6,10 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-import nosi.base.ActiveRecord.PersistenceUtils;
+import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
@@ -42,21 +41,23 @@ public class QuerySelect extends CommonFIlter{
 	
 	//Validate sql query
 	public boolean validateQuery(Config_env config,String sql) {
+		boolean isValid = false;
+		EntityManager em = null;
 		try {
 			sql = sql.replaceAll(":\\w+", "null");
 			Core.log("SQL Query:"+sql);
-			EntityManager em = PersistenceUtils.getSessionFactory(config).createEntityManager();
-			EntityTransaction t =  em.getTransaction();
-			t.begin();
+			em = HibernateUtils.getSessionFactory(config).createEntityManager();
 			Query query = em.createNativeQuery(sql,Tuple.class);
 			query.getResultList();
-			t.commit();
-			em.close();
-			return true;
+			isValid = true;
 		}catch(Exception e) {
+			isValid = false;
 			Core.log(e.getMessage());
+		}finally {
+			if(em!=null)
+				em.close();
 		}
-		return false;
+		return isValid;
 	}
 	
 	public QueryInterface select(String collumns) {
@@ -76,12 +77,13 @@ public class QuerySelect extends CommonFIlter{
 		return this;
 	}
 	
-	public List<Tuple> getResultList() {		
+	@SuppressWarnings("unchecked")
+	public List<Tuple> getResultList() {
+		EntityManager em = null;
+		List<Tuple> list = null;
 		try {
 			Core.log("SQL Query:"+this.getSql());
-			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-			EntityTransaction t =  em.getTransaction();
-			t.begin();
+			em = HibernateUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 			Query query = em.createNativeQuery(this.getSql(),Tuple.class);	
 			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 				 if(col.getDefaultValue()!=null) {
@@ -90,21 +92,24 @@ public class QuerySelect extends CommonFIlter{
 					 query.setParameter(col.getName(), null);
 				 }
 			}	
-			@SuppressWarnings("unchecked")
-			List<Tuple> list = query.getResultList();
-			t.commit();
-			em.close();
-			return list;
+			list = query.getResultList();
 		}catch(Exception e) {
 			Core.log(e.getMessage());
+		}finally {
+			if(em!=null) {
+				em.close();
+			}
 		}
-		return null;
+		return list;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> List<T> getResultList(Class<T> entity){	
+		EntityManager em = null;
+		List<T> list = null;
 		try {
 			Core.log("SQL Query:"+this.getSql());
-			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			em = HibernateUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 			Query query = em.createNativeQuery(this.getSql(),entity);	
 			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 				 if(col.getDefaultValue()!=null) {
@@ -113,20 +118,22 @@ public class QuerySelect extends CommonFIlter{
 					 query.setParameter(col.getName(), null);
 				 }
 			}		
-			@SuppressWarnings("unchecked")
-			List<T> list = query.getResultList();
-			em.close();
-			return list;
+			list = query.getResultList();
 		}catch(Exception e) {
 			Core.log(e.getMessage());
+		}finally {
+			if(em!=null)
+				em.close();
 		}
-		return null;
+		return list;
 	}
 	
 	public Object getSigleResult() {
+		EntityManager em = null;
+		Object list = null;
 		try {
 			Core.log("SQL Query:"+this.getSql());
-			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			em = HibernateUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 			Query query = em.createNativeQuery(this.getSql());
 			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 				 if(col.getDefaultValue()!=null) {
@@ -135,33 +142,37 @@ public class QuerySelect extends CommonFIlter{
 					 query.setParameter(col.getName(), null);
 				 }
 			}		
-			Object list = query.getSingleResult();
-			em.close();
-			return list;
+			list = query.getSingleResult();
 		}catch(Exception e) {
 			Core.log(e.getMessage());
+		}finally {
+			if(em!=null)
+				em.close();
 		}
-		return null;
+		return list;
 	}
 	
 	public TypedQuery<?> getSingleResult(){
+		EntityManager em = null;
+		TypedQuery<?> query = null;
 		try {
 			Core.log("SQL Query:"+this.getSql());
-			EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-			TypedQuery<?> query = em.createQuery(this.getSql(), this.className);
+			em = HibernateUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+			query = em.createQuery(this.getSql(), this.className);
 			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 				 if(col.getDefaultValue()!=null) {
 					 this.setParameter(query,col.getDefaultValue(),col);					
 				 }else {
 					 query.setParameter(col.getName(), null);
 				 }
-			}		
-			em.close();
-			return query;
+			}				
 		}catch(Exception e) {
 			Core.log(e.getMessage());
+		}finally {
+			if(em!=null)
+				em.close();
 		}
-		return null;
+		return query;
 	}
 
 	

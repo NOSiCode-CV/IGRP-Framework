@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
-import nosi.base.ActiveRecord.PersistenceUtils;
+import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -14,7 +14,7 @@ import nosi.webapps.igrp.dao.Config_env;
 public class Connection {
 
 	public static java.sql.Connection getConnection(String connectionName){
-		EntityManagerFactory entityManagerFactory = PersistenceUtils.getSessionFactory(connectionName);
+		EntityManagerFactory entityManagerFactory = HibernateUtils.getSessionFactory(connectionName);
 		if(entityManagerFactory != null){
 			EntityManager em = entityManagerFactory.createEntityManager();
 			em.getTransaction().begin();
@@ -26,7 +26,7 @@ public class Connection {
 	}
 	
 	public static java.sql.Connection getConnection(Config_env config_env){
-		EntityManagerFactory entityManagerFactory = PersistenceUtils.getSessionFactory(config_env);
+		EntityManagerFactory entityManagerFactory = HibernateUtils.getSessionFactory(config_env);
 		if(entityManagerFactory != null){
 			EntityManager em = entityManagerFactory.createEntityManager();
 			em.getTransaction().begin();

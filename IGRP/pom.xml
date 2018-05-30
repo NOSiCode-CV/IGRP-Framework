@@ -183,39 +183,29 @@
 		</dependency>
 
 
-		<!-- <dependency> <groupId>org.eclipse.jetty.orbit</groupId> <artifactId>javax.servlet</artifactId> 
-			<version>3.0.0.v201112011016</version> <classifier>sources</classifier> </dependency> -->
-
-		<!-- Hibernate & c3p0 libraries -->
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>5.2.12.Final</version>
+	      <groupId>org.hibernate</groupId>
+	      <artifactId>hibernate-core</artifactId>
+	      <version>5.3.1.Final</version>
+	    </dependency>
+	    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-hikaricp</artifactId>
+		    <version>5.3.1.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
+	
+	    <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
 		<dependency>
-			<groupId>org.hibernate.common</groupId>
-			<artifactId>hibernate-commons-annotations</artifactId>
-			<version>5.0.1.Final</version>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>3.1.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
-			<version>5.2.12.Final</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
-		<dependency>
-			<groupId>com.mchange</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.5.2</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
 		<dependency>

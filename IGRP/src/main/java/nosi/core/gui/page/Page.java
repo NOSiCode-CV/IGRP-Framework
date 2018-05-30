@@ -22,7 +22,6 @@ import nosi.core.webapp.View;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 
 /**
  * @author Marcel Iekiny
@@ -89,15 +88,8 @@ public class Page{
 			path_xsl = this.getLinkXsl();
 		}else {
 			if(!app.equals("") && !page.equals("") && !action.equals("")){
-			
-				Application appl = new Application();
-				appl = appl.findOne(appl.getCriteria().where(
-						appl.getBuilder().equal(appl.getRoot().get("dad"), app)));
 				Action ac = new Action();
-				ac = ac.findOne(ac.getCriteria().where(
-						ac.getBuilder().equal(ac.getRoot().get("application"), appl),
-	//					ac.getBuilder().equal(ac.getRoot().get("action"), action),
-						ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
+				ac = ac.find().andWhere("application.dad", "=",app).andWhere("page", "=",Page.resolvePageName(page)).one();
 				path_xsl = new Config().getLinkPageXsl(ac);
 			}
 		}
