@@ -38,7 +38,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.base.ActiveRecord.PersistenceUtils;
+import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
@@ -314,7 +314,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 */
 	public Set<String> getParamsQuery(Config_env config,int template_id,String query){
 		Set<String> params = new HashSet<String>();
-		EntityManager em = PersistenceUtils.getSessionFactory(config).createEntityManager();
+		EntityManager em = HibernateUtils.getSessionFactory(config).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
@@ -379,7 +379,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			}
 		}
 		String xml = null;
-		EntityManager em = PersistenceUtils.getSessionFactory(rs.getConfig_env()).createEntityManager();
+		EntityManager em = HibernateUtils.getSessionFactory(rs.getConfig_env()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
