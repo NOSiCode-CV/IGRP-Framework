@@ -191,7 +191,8 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
 			actions.add(new Action("Sql_tools", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/sql_tools/Sql_tools.xsl", "SQL Tool", "SQL Tool", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("File", "index", "nosi.webapps.igrp.pages", "igrp/file/File.xsl", "File", "File", "2.3", 1, app_igrp));
-						
+			actions.add(new Action("EtapaAccess", "index", "nosi.webapps.igrp.pages", "igrp/etapaaccess/Etapaaccess.xsl", "EtapaAccess", "EtapaAccess", "2.3", 1, app_igrp));
+
 			for(Action ac:actions){
 				ac.insert();
 			}
