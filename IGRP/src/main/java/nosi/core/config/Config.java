@@ -280,7 +280,7 @@ public class Config {
 						+ "\t public Response actionIndex() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException{\n"
 						+ "\t\t "+formKey+"View view = new "+formKey+"View();\n"
 						+ "\t\t "+formKey+" model = new "+formKey+"();\n"
-						+ "\t\t model.load();"
+						+ "\t\t model.load();\n"
 						+ "\t\t return super.index(\""+app+"\", model , view);\n"
 						+ "\t }\n\n"
 						+ "\t public Response actionSave() throws IOException, ServletException{\n"

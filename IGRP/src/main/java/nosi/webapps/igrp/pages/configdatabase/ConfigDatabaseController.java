@@ -6,7 +6,6 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.FlashMessage;
@@ -43,7 +42,6 @@ public class ConfigDatabaseController extends Controller {
 		
 		/*----#start-code(index)----*/
 		String id_app = model.getAplicacao();
-		System.out.println("id:"+id_app);
 			java.util.List<Config_env> list_app = new Config_env().find().andWhere("application", "=",Core.toInt(id_app)).all();
 			ArrayList<ConfigDatabase.Table_1> lista_tabela = new ArrayList<>();
 			for(Config_env lista : list_app) {

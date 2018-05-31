@@ -16,11 +16,10 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLExtractComponent;
-import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller{		
@@ -50,7 +49,6 @@ public class MapaProcessoController extends Controller{
 		String p_processId = Core.getParam("p_processId");
 		String withButton = Core.getParam("withButton");
 		String processDefinition = "";
-		String taskDefinition = "";
 		FormDataService formData = null;
 		String title = "";
 		String idApp = "";
@@ -60,7 +58,6 @@ public class MapaProcessoController extends Controller{
 				title = process!=null?process.getName():"";
 				formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 				idApp = process.getTenantId();
-				taskDefinition = formData.getTaskId();
 				processDefinition = process.getKey();
 			}else {
 				throw new IOException(Core.NO_PERMITION_MSG);
@@ -68,19 +65,17 @@ public class MapaProcessoController extends Controller{
 		}
 		if(formData != null) {
 			if(Core.isNotNull(formData.getFormKey())) {		
-				Action action = new Action().find().andWhere("application.dad", "=",idApp).andWhere("page", "=",formData.getFormKey()).one();
-				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
-				String content = comp.removeXMLButton(resp.getContent());
-				XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formData.getFormKey()+"&amp;app="+action.getApplication().getId(), "utf-8");
-				xml.addXml(this.getConfig().getHeader(null));
-				xml.startElement("content");
-				xml.writeAttribute("type", "");
-				xml.setElement("title", title);
-				xml.addXml(comp.generateButtonProcess(p_processId).toString());
-				xml.addXml(content);
-				xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,action.getApplication().getId(),null)));
-				xml.endElement();
-				return this.renderView(xml.toString());	
+				Application app = new Application().findByDad(idApp);
+				if(app!=null) {
+					this.addQueryString("p_processId",p_processId)
+						.addQueryString("appId", app.getId())
+						.addQueryString("appDad", app.getDad())
+						.addQueryString("formKey", formData.getFormKey())
+						.addQueryString("processDefinition", processDefinition)
+						.addQueryString("taskDefinition", "TaskStart")
+						.addQueryString("taskName","Start Process");
+					return this.call(app.getDad().toLowerCase(),"TaskStart", "index",this.queryString());
+				}
 			}
 			String content = comp.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
 			return this.renderView(content);

@@ -394,7 +394,6 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 	
 	public Application insertOnly() {
-		System.out.println("Insert APP");
 		return super.insert();
 	}
 	

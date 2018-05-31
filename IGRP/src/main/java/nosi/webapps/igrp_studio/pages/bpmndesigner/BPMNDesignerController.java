@@ -121,9 +121,10 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private void saveTaskController(TaskService task,Application app,int index) {
+		String taskName = "Task"+StringHelper.camelCaseFirst(task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
-				.andWhere("page", "=",task.getId())
+				.andWhere("page", "=",taskName)
 				.one();
 		if(ac==null) {
 			ac = new Action();
@@ -131,7 +132,7 @@ public class BPMNDesignerController extends Controller {
 			ac.setAction_descr("");
 			ac.setPage_descr("Task Page "+task.getId());
 			ac.setStatus(1);
-			ac.setPage(StringHelper.camelCaseFirst(task.getId()));
+			ac.setPage(taskName);
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.setVersion("2.3");
 			ac.setAction("index");
