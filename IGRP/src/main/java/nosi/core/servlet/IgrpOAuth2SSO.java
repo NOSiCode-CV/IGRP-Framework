@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 		    <servlet-name>igrpsso</servlet-name>
 		    <servlet-class>nosi.core.servlet.IgrpOAuth2SSO</servlet-class>
 	  </servlet>
-	  	
+	  
  	For more information go to: <www.nosicode.cv>	
  **/
 @WebServlet(name = "igrpoauth2sso", urlPatterns = "/igrpoauth2sso") 
@@ -96,7 +96,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						return;
 					}
 					
-					disableSSL();
+					//disableSSL();
 					
 					String postData = "grant_type=password"
 							+ "&username=" + username
@@ -211,17 +211,18 @@ public class IgrpOAuth2SSO extends HttpServlet {
 							PreparedStatement ps2 = conn.prepareStatement(
 									"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name) "
 									+ "values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+							
 							authenticationKey = User.generateAuthenticationKey();
 							
+							JSONObject jsonUser = new JSONObject(result);
+							
 							try {
-								System.out.println(result);
-								JSONObject jsonUser = new JSONObject(result);
 								ps2.setString(8, jsonUser.getJSONObject("data").getString("name")); // name  
 								ps2.setString(4, jsonUser.getJSONObject("data").getString("email")); // email 
 							} catch (JSONException e2) {
 								e2.printStackTrace();
-								ps2.setString(4, ""); // email 
-								ps2.setString(8, ""); // name  
+								ps2.setString(4, jsonUser.getString("sub")); // email
+								ps2.setString(8, jsonUser.getString("sub")); // name  
 							}
 							
 							ps2.setString(1, User.generateActivationKey());
@@ -234,14 +235,31 @@ public class IgrpOAuth2SSO extends HttpServlet {
 							
 							int affectedRows = ps2.executeUpdate();
 							
+							conn.commit();
+							
 							if(affectedRows > 0) {
-								int lastInsertedId = -1;			
-								try (ResultSet rs2 = ps2.getGeneratedKeys()) {
-							        if (rs.next()) {
-							        	lastInsertedId = rs2.getInt(1);
-							        }
-							        userId = lastInsertedId;
+								
+								int lastInsertedId = -1;	
+								
+								PreparedStatement psUser = conn.prepareStatement("select id from tbl_user where email = ? or user_name = ?"); 
+								psUser.setString(1, username);
+								psUser.setString(2, username);
+								
+								ResultSet rsUser = psUser.executeQuery();
+								
+								if(rsUser.next()) {
+									lastInsertedId = rsUser.getInt("id");
 								}
+								
+								/*try (ResultSet rs2 = ps2.getGeneratedKeys()) {
+								    if (rs.next()) {
+								        	lastInsertedId = rs2.getInt(1);
+								        }
+								}*/
+								
+								userId = lastInsertedId;
+								
+								ps2.close();
 								
 								PreparedStatement ps3 = conn.prepareStatement("insert into tbl_profile(type, type_fk, org_fk, prof_type_fk, user_fk) values(?, ?, ?, ?, ?)");
 								

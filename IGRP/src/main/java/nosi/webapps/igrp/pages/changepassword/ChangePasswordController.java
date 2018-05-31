@@ -81,11 +81,11 @@ public class ChangePasswordController extends Controller {
 	private Response db(String currentPassword, String newPassword) throws IOException {
 
 		User user = Core.getCurrentUser();
-		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
+		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "SHA-256"))) {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
 		} 
-		user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "MD5"));
+		user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "SHA-256"));
 		user.setUpdated_at(System.currentTimeMillis());
 		user = user.update();
 		if(user !=null)
@@ -173,7 +173,7 @@ public class ChangePasswordController extends Controller {
 		boolean flag = true;
 		User user = Core.getCurrentUser();
 		
-		File file = new File(getClass().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
+		File file = new File(getClass().getClassLoader().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
 		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
@@ -190,7 +190,7 @@ public class ChangePasswordController extends Controller {
 				Core.setMessageError("Ocorreu um erro. LDAP error: " + error);
 				flag = false;
 			}else { 
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "MD5"));
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "SHA-256"));
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
 				Core.setMessageSuccess(gt("Password alterado com sucesso."));
@@ -205,7 +205,7 @@ public class ChangePasswordController extends Controller {
 	private Properties loadIdentityServerSettings() {
 		String path = new Config().getBasePathConfig() + File.separator  + "ids";
 		String fileName = "wso2-ids.xml";
-		File file = new File(getClass().getResource(path + File.separator + fileName).getPath());
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
 		
 		FileInputStream fis = null;
 		Properties props = new Properties();
