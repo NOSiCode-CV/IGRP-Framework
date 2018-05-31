@@ -3,10 +3,8 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +22,11 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 @Table(name="glb_t_acl")
 public class Share extends BaseActiveRecord<Share> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

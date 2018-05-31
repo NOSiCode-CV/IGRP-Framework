@@ -263,6 +263,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public HashMap<Integer, String> getListPrincipalMenus(int app) {
 		HashMap<Integer,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
+		@SuppressWarnings("unchecked")
 		List<Menu> aux = this.getEntityManagerFactory().createEntityManager().createQuery("select t from Menu t where t.application.id = :_a and t.menu is null ")
 				.setParameter("_a", app)
 				.getResultList();
