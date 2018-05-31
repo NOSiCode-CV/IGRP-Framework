@@ -114,7 +114,7 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
 
 		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","right_panel_submit","success|fa-plus-square","","");
-		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador").add("flg_transaction","true");
+		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador");
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
