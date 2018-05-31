@@ -74,12 +74,6 @@ public class HibernateUtils {
 		} else {
 			Config_env config = new Config_env();
 			config.find().andWhere("name", "=", connectionName);
-			/*
-			if (appId > 0)
-				config.andWhere("application", "=", appId);
-			else
-				config.andWhere("application", "=", Core.getCurrentApp().getId());
-			*/
 			config = config.one();
 
 			if (config != null) {
@@ -95,14 +89,14 @@ public class HibernateUtils {
 				hibernateDialect = getHibernateDialect(config.getType_db());
 			}
 		}
-		Map<String, Object> settings = new HashMap<>();
-		settings.put(Environment.DRIVER, driver);
-		settings.put(Environment.URL, url);
-		settings.put(Environment.USER, user);
-		settings.put(Environment.PASS, password);
+		return getSettings(driver, url, user, password, hibernateDialect);
+	}
+
+	public static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect) {
+		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);
+	
 		settings.put(Environment.HBM2DDL_AUTO, "update");
 		//settings.put(Environment.SHOW_SQL, true);
-		settings.put("hibernate.dialect", hibernateDialect);
 		
 		// HikariCP settings		
 		// Maximum waiting time for a connection from the pool
@@ -112,11 +106,20 @@ public class HibernateUtils {
 		// Maximum number of actual connection in the pool
 		settings.put("hibernate.hikari.maximumPoolSize", "20");
 		// Maximum time that a connection is allowed to sit ideal in the pool
-		settings.put("hibernate.hikari.idleTimeout", "25");
+		settings.put("hibernate.hikari.idleTimeout", "600000");
         settings.put("hibernate.current_session_context_class","thread");
-        settings.put("hibernate.hbm2ddl.auto","update");
         settings.put("hibernate.connection.isolation", "2");
-        settings.put("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
+        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
+		return settings;
+	}
+
+	public static Map<String, Object> getBaseSettings(String driver,String url,String user,String password,String hibernateDialect) {
+		Map<String, Object> settings = new HashMap<>();
+		settings.put(Environment.DRIVER, driver);
+		settings.put(Environment.URL, url);
+		settings.put(Environment.USER, user);
+		settings.put(Environment.PASS, password);
+		settings.put("hibernate.dialect", hibernateDialect);
 		return settings;
 	}
 
@@ -137,8 +140,7 @@ public class HibernateUtils {
 	public static String getUrl(String type, String host, String port, String db_name) {
 		switch (type) {
 		case "h2":
-			return host.equalsIgnoreCase("mem") ? ("jdbc:h2:" + host + ":" + db_name)
-					: ("jdbc:h2:" + host + "/" + db_name);
+			return host.equalsIgnoreCase("mem") ? ("jdbc:h2:" + host + ":" + db_name): ("jdbc:h2:" + host + "/" + db_name);
 		case "mysql":
 			return "jdbc:mysql://" + host + ":" + port + "/" + db_name;
 		case "postgresql":
