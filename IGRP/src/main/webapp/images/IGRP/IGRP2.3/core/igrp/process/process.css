@@ -212,6 +212,25 @@
     margin-left: -62px;
 }*/
 
+#start-content{
+	box-shadow: 0 0px 6px rgba(0,0,0,0.1);
+	background: #fff;
+	margin-bottom: 30px;
+	padding: 15px 0 10px 0;
+}
+
+.tab-process:after{
+	display: block;
+	content: '';
+	clear: both;
+}
+
+.separator{
+	display: block;
+	clear: both;
+	width: 100%;
+}
+
 @media (max-width: 415px) {
 	
 	.f1 { padding-bottom: 20px; }

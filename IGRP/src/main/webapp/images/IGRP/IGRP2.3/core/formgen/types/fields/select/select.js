@@ -38,6 +38,13 @@ var SELECTFIELD = function(type,params){
 			}
 		});
 
+		field.setPropriety({
+			label:'Dynamic option',
+			name:'tags',
+			propriety:false,
+			xslValue : 'tags="true"'
+		});
+
 		GEN.setDomainAttr(field,{
 			value: proprieties && proprieties.domain ? proprieties.domain : ''
 		});

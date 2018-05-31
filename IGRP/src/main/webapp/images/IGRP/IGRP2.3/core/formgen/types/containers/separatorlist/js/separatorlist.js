@@ -25,7 +25,13 @@ var GENSEPARATORLIST = function(name,params){
 			{ path   : '/plugins/separatorlist/igrp.separatorlist.js' },
 			{ path   : '/core/igrp/form/igrp.forms.js' }, 
 		]
-	}
+	};
+
+	var tableOrderIncludes = [
+		{path : '/core/igrp/table/igrp.table.js'},
+		{path : '/core/formgen/js/jquery-ui.min.js'}
+	],
+	tableOrderInc  = false;
 
 	container.onLinkFieldSet = function(field){
 		field.setPropriety({
@@ -63,6 +69,38 @@ var GENSEPARATORLIST = function(name,params){
 		container.setPropriety({
 			name:'dialog',
 			value:false
+		});
+
+		container.setPropriety({
+			name:'ordertable',
+			label : 'Order Table',
+			value:false,
+			xslValue:'ordertable',
+			onChange:function(v){
+				if(v){
+
+					if(!tableOrderInc){
+						tableOrderIncludes.forEach(function(e){
+							container.includes.js.unshift(e);
+						});
+						tableOrderInc = true;
+					}					
+				}else{
+					tableOrderIncludes.forEach(function(e){
+						for( var i = 0; i < container.includes.js.length; i++){
+							var inc = container.includes.js[i];
+							if(inc.path == e.path){
+								var index = container.includes.js.indexOf(inc);
+								if (index > -1) 
+								    container.includes.js.splice(index, 1);
+								break;
+							}
+						}
+					});
+
+					tableOrderInc = false;
+				}
+			}
 		});
 	}
 

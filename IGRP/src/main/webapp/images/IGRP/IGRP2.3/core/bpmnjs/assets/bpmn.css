@@ -1,3 +1,10 @@
+#igrp-top-nav{
+  padding-left: 25%
+}
+#side-bar-ctrl{
+  left: 25%
+}
+
 /* for BPMN.html */
 #igrp-contents.main{
     padding: 0;

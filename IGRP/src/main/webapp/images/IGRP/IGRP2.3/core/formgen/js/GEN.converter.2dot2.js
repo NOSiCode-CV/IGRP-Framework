@@ -632,8 +632,6 @@ $.fn.to2DOT2 = function(params) {
 	var TransformIcon = function(i){
 		
 		var icon = 'fa-caret-right';
-		
-		console.log(i)
 
 		switch(i){
 			case 'add.png':

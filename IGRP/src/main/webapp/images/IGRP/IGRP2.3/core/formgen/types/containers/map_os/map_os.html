@@ -1,8 +1,11 @@
-<div class="box igrp-gis-map" >
-	
+<div class="igrp-map-os-wrapper" style="min-height: #[heigth]#px">
+
 	<xsl:call-template name="gis-map-view">
-		<xsl:with-param name="id" select="'#tag#'"/>
-		<xsl:with-param name="type" select="'#[map_type]#'"/>
-	</xsl:call-template>
+
+    	<xsl:with-param name="type" select="'#[map_type]#'"/>
+
+    	<xsl:with-param name="id" select="'#tag#'"/>
+
+    </xsl:call-template>
 
 </div>

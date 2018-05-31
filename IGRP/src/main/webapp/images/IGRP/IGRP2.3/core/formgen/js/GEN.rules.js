@@ -69,8 +69,6 @@
             }
           }
 
-         // console.log(robj);
-
           rtn[ctrl].push(robj);
 
         });
@@ -164,7 +162,7 @@
         if(object.rules[0] && !object.rules[0].actions)
           GENRULES.translateRules(object);
 
-        //console.log( object.rules )
+       
         separatorlist.setRows( GENRULES.setPrefix(object.rules,'gen_rule_') );
 
       },350)
@@ -485,7 +483,7 @@
               "opposite": ""
             },
 
-            {
+            /*{
               "event": "change",
               "condition": "equal",
               "value": "remote",
@@ -493,7 +491,7 @@
               "targets": "gen_rule_targets",
               "name": "Action Rule 6.1",
               "opposite": "1"
-            },
+            },*/
 
             {
               "event": "load",
@@ -596,7 +594,7 @@
             $('#igrp-global-modal').removeAttr('tabindex');
 
           if(actionsStr){
-             
+
             var actions = JSON.parse(actionsStr);
 
             sepActions.resetAll();
@@ -612,9 +610,10 @@
         //close dialog
         sepConditions.events.on('before-dialog-hide',function(o){
          
-          $(sepActions).prependTo( $('[item-name="actions_list"]') )
-
+          $(sepActions).prependTo( $('[item-name="actions_list"]') );
+          $('#actions_list tbody',sepActions).html('');
         });
+
       };
 
       if(_slist.events)
@@ -622,9 +621,6 @@
       else
         setTimeout(function(){
           configSep();
-        },350)
-      
-      
-
+        },350);
     }
   }

@@ -280,6 +280,10 @@ var GENERATOR = function(genparams){
 			rtn+='<app>'+app+'</app>';
 			//plsql
 			rtn+=VARS.xml.plsql();
+			//slide menu
+			rtn+='<slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />';
+			//top menu
+			rtn+='<top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />';
 			//content
 			rtn+='<content>';
 				rtn+='<title>'+actionD+'</title>';
@@ -477,7 +481,16 @@ var GENERATOR = function(genparams){
 					
 				}else{
 
-					contents.prepend($(rowMsg))
+					if(isFirstFluid){
+
+						$(rowMsg).insertAfter(firstRow)
+
+					}else{
+
+						contents.prepend($(rowMsg));
+
+					}
+					
 
 				}
 
@@ -536,25 +549,18 @@ var GENERATOR = function(genparams){
 	GEN.removeContainer = function(id){
 		
 		for(var x = 0; x < CONTAINERS.length; x++){
-			
 			var container = CONTAINERS[x];
 			
 			if(container.id == id){
-
 				var idx = CONTAINERS.indexOf(container);
-
 				var column = $(container.holder.parents('.gen-column')[0]);
-
 				if(idx > -1){
 
 					if(container.contents){
-
 						var contentsContainers = container.holder.find('.gen-container-holder');
 	
 						$.each(contentsContainers,function(i,c){
-					   		
 					   		var cId   = $(c).attr('id');
-
 					   		var cType = $(c).attr('type');
 
 					   		if(cId) GEN.removeContainer(cId);
@@ -569,9 +575,7 @@ var GENERATOR = function(genparams){
 					});
 
 					container.onRemove();
-
-					CONTAINERS.splice(idx,1);
-
+					CONTAINERS.splice(idx,1);					
 					container.holder.parent().remove();
 
 					GEN.checkColumnComponents(column);
@@ -590,10 +594,11 @@ var GENERATOR = function(genparams){
 	}
 
 	var removeAllContainers = function(){
-		for(var x = CONTAINERS.length-1 ; x >= 0 ; x-- ){
+		for(var x = CONTAINERS.length-1 ; x >= 0 ; x-- )			
 			GEN.removeContainer(CONTAINERS[x].id);
-		}
-		$(VARS.html.view+'>#gen-design>.row').remove();
+		CONTAINERS = [];
+		$(VARS.html.view+'>#gen-design>.gen-rows-holder .row').remove();
+
 	}
 
 	var setUndeclared = function(c){
@@ -617,7 +622,6 @@ var GENERATOR = function(genparams){
 		if(indx < containers.length){
 			
 			var dropped    = containers[indx];
-		
 
 			var objectType = dropped.params.genType ? dropped.params.genType : 'container'; 
 
@@ -632,8 +636,6 @@ var GENERATOR = function(genparams){
 					var _dcb = function(found){
 				
 						var object = new declared[objectType](dropped.name,dropped.params);
-
-						
 
 						var objectParams = {
 							genType    : objectType,
@@ -769,10 +771,17 @@ var GENERATOR = function(genparams){
 		}
 	}
 	
-	GEN.declareContainer = function(d){
+	GEN.declareContainer = function(d){		
 		if(!GEN.getDeclaredContainers(d.name)){
+			var menuItem = $(VARS.html.containers+'[name="'+d.name+'"]');
+			d.accept = menuItem.attr('accept') ? menuItem.attr('accept').split(',') :  [];
+			d.reject = menuItem.attr('reject') ? menuItem.attr('reject').split(',') :  [];
+			d.hasField = menuItem.attr('hasfield') != 'false';
+
 			declaredContainers.push(d);
-			$(VARS.html.containers+'[name="'+d.name+'"]').addClass('active');//set container html visible
+
+			menuItem.addClass('active');//set container html visible
+
 		}else{
 			console.log('container exists!')
 		}
@@ -870,7 +879,7 @@ var GENERATOR = function(genparams){
 	}
 
 	GEN.getPageJSON = function(id,callback){
-		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';
+		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';		
 		if(id){
 			
 			$.getJSON(link+id,function(data){
@@ -878,13 +887,13 @@ var GENERATOR = function(genparams){
 					
 					var containers = GEN.layout.getAllContainers(data.rows);
 					
-					if(callback) 
+								console.log()
+					
+		if(callback) 
 						
 						callback(containers,data);
 					
 				}else{
-					
-					console.log()
 					
 					if(callback) 
 						
@@ -964,13 +973,18 @@ var GENERATOR = function(genparams){
 		var attrsObj = object.propertiesOptions && object.propertiesOptions[propriety] && object.propertiesOptions[propriety].attrs ? object.propertiesOptions[propriety].attrs : {};
 		var attrsStr = "";
 
+		var setOnConfirm = objectProperties && objectProperties.setOnConfirm == false ? false : true;
+		var setterClass  = setOnConfirm ? VARS.edition.class.propSetter : '';
+
+
 		for(var a in attrsObj){
 			attrsStr+=' '+a+'="'+attrsObj[a]+'" '
 		}
-		
 
 		if(type == 'checkbox')
 			size = '3';
+
+
 
 		var _class    = object.proprieties[p.propriety].class ? object.proprieties[p.propriety].class : '';
 
@@ -981,9 +995,11 @@ var GENERATOR = function(genparams){
 		switch(type){
 			//OPTIONS / comboboxx
 			case 'select':
+				var canAdd   = objectProperties.canAdd ? ' can-add="true"' : '';
+				var addCb    = objectProperties.onOptionAdd ? objectProperties.onOptionAdd : function(){};
 				var multiple = objectProperties && objectProperties.value && objectProperties.value.multiple ? 'multiple="true"' : '';
-				var select = $('<select name="edit-'+propriety+'" '+multiple+' rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'"/>');
-				var options = typeof object.proprieties[propriety].options === 'function' ? object.proprieties[propriety].options() : object.proprieties[propriety].options;
+				var select   = $('<select'+canAdd+' name="edit-'+propriety+'" '+multiple+' rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'"/>');
+				var options  = typeof object.proprieties[propriety].options === 'function' ? object.proprieties[propriety].options() : object.proprieties[propriety].options;
 
 				options.forEach(function(o){
 					var opt   = $('<option value="'+o.value+'">'+o.label+'</option>'), 
@@ -1000,9 +1016,11 @@ var GENERATOR = function(genparams){
 					
 					
 					select.append(opt)
+
 				});
 				
 				holder.append(label);
+
 				holder.append(select);
 
 			break;
@@ -1075,12 +1093,29 @@ var GENERATOR = function(genparams){
 					holder.append('<input type="hidden" value="'+activeValue+'" class="'+VARS.edition.class.propSetter+'" rel="'+propriety+'"/>')
 				}
 			break;
+			//separatorlist
+			case 'separatorlist':
+				
+				if(GEN.attributes && GEN.attributes.get)
+					
+					var html = GEN.attributes.get({
+						type 	: type,
+						options : objectProperties,
+						target 	: object
+					});
+
+				holder.append(html);
+				/*console.log('fasdjlfasd')
+				*/
+
+			break;
 			// CUSTOM SETTER / returns the setter $('<div/>')
 			case 'custom':
 				holder.append(label);
 
 				try{
-					var setter            = object.proprieties[propriety].setter().addClass('propriety-setter').attr('rel',p.propriety);
+					//console.log(object)
+					var setter            = object.proprieties[propriety].setter().addClass(setterClass).attr('rel',p.propriety);
 					
 					if(objectProperties.type)
 					
@@ -1107,6 +1142,10 @@ var GENERATOR = function(genparams){
 			break;
 		}
 
+		if(objectProperties && objectProperties.help){
+			console.log(holder);
+		}
+
 		/*if(propriety == 'tag'){
 			$('.propriety-setter',holder).attr('maxlength',8);
 		}*/
@@ -1119,13 +1158,17 @@ var GENERATOR = function(genparams){
 		var formHolder = $(VARS.edition.modal).find('.modal-body [rel="properties"]');
 	
 		$(VARS.edition.modal).find('.modal-body [rel="properties"]').html('');
-		
-		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
-			var objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
 
+		for(var p in object.proprieties){ // ciclo nas proprieades do elemento
+			
+			var objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
+		
+			//if( object.isEditable(p) && p != 'type' && p != 'name'){
+			
 			if( object.isEditable(p) && p != 'type' && p != 'name'){
 				
 				var input     = false;
+
 				var inputType = null;
 
 				switch(typeof object.proprieties[p]){
@@ -1148,6 +1191,8 @@ var GENERATOR = function(genparams){
 							inputType = 'custom';
 						else if(object.proprieties[p].changeEvent)
 							inputType = 'event';
+						else if(objectProperties && objectProperties.type && objectProperties.type == 'separatorlist')
+							inputType = objectProperties.type;
 						else 
 							inputType = 'text';
 					break;
@@ -1159,7 +1204,7 @@ var GENERATOR = function(genparams){
 					object    : object
 				});
 
-if(input) {
+				if(input) {
 					
 					if(p == 'tag') {
 						
@@ -1343,18 +1388,64 @@ if(input) {
 			$(modal.find('.modal-header > ul > li[rel="'+options.tab+'"]')[0]).click()
 		else
 			$(modal.find('.modal-header > ul > li')[0]).click();
-		
+
 		$('select',modal).select2();
+		
+		/*$('select',modal).each(function(i,s){
+			
+			var o   = {},
+
+				rel = $(s).attr('rel');
+
+			if($(s).attr('can-add') == 'true')
+
+				o.tags = true;
+
+			$(s).select2(o).on("select2:select", function (e) {
+
+				if(rel && GEN.edit.object.propertiesOptions[rel]){
+
+					var options = GEN.edit.object.propertiesOptions[rel].value ? GEN.edit.object.propertiesOptions[rel].value.options : GEN.edit.object.propertiesOptions[rel].propriety.options,
+
+						found   = false;
+
+					for(var i = 0; i < options.length; i++) {
+					    if (options[i].value == e.params.data.id) {
+					        found = true;
+					        break;
+					    }
+					}
+
+					if(!found)
+						options.push({
+							value : e.params.data.id,
+							label : e.params.data.id,
+							attributes : [
+								{ name : 'action', value :false },
+								{ name : 'app', value :false },
+								{ name : 'page', value :false },
+								{ name : 'link', value :e.params.data.id },
+
+							],
+							custom : true
+						});
+
+				}
+
+			});
+
+		})*/
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
 		if(object.formField || object.type == 'hidden')
+
 			GENRULES.setTargets(object,GEN);
+
 		else
+
 			$('.modal-header ul li[rel="rules"]',modal).hide();
 
 		GEN.edit.show();
-		
-		return false;
 	}
 
 	GEN.edit.XSLEditor = null;
@@ -1389,21 +1480,16 @@ if(input) {
 	});
 
 	GEN.edit.checkXSLChanges = function(){
-		
 		var object    = GEN.edit.object;
+		var template  = object.template ? object.template : object.templates;
+		var isChecked = $('#use-default-xsl').is(':checked');
 
-		if(object){
-			var template  = object.template ? object.template : object.templates;
-			var isChecked = $('#use-default-xsl').is(':checked');
+		object.xslOptions.useDefault = isChecked;
 
-			object.xslOptions.useDefault = isChecked;
-
-			if(!isChecked)
-				object.xslOptions.template = GEN.edit.XSLEditor.getValue();
-			else
-				object.xslOptions.template = false;
-		}
-		
+		if(!isChecked)
+			object.xslOptions.template = GEN.edit.XSLEditor.getValue();
+		else
+			object.xslOptions.template = false;
 
 
 	};
@@ -1444,7 +1530,7 @@ if(input) {
 		//var template = GEN.edit.object.template ? GEN.edit.object.XSLToString() : GEN.edit.object.templates[Object.keys(GEN.edit.object.templates)[0]];
 		
 		$('.object-xsl-templates',modal).hide().html('');
-		
+
 		GEN.edit.setXSLValue(template);
 
 		$('#gen-edit-xsl').attr('use-default', GEN.edit.object.xslOptions.useDefault )
@@ -1488,7 +1574,7 @@ if(input) {
 
 		codeEditorView(false);
 
-	    setTimeout(function() {
+	  setTimeout(function() {
 		   GEN.edit.XSLEditor.refresh();  
 		},400);
 
@@ -1511,6 +1597,7 @@ if(input) {
 		$('.modal-footer .info.type',modal).text('');
 
 		$('.modal-header ul li[rel="rules"]',modal).hide();
+		
 		rseparatorlist.resetAll();
 
 		/* style*/
@@ -1527,7 +1614,6 @@ if(input) {
 		GEN.edit.copyData = null;
 
 		xslEditing = false;
-		
 		if(GEN.edit.object){
 
 			if(GEN.edit.object.proprieties && GEN.edit.object.proprieties.type_changer)
@@ -1535,12 +1621,11 @@ if(input) {
 				delete GEN.edit.object.proprieties.type_changer;
 
 		}
-
 		setTimeout(function(){
-			
 			GEN.edit.object = null;
-			
 		},150);
+		
+		
 
 	}
 
@@ -1592,10 +1677,9 @@ if(input) {
 		var rtn = [];
 		CONTAINERS.forEach(function(c){
 			rtn = rtn.concat(c.GET.fields())
-
 		});
 		return rtn;
-	};
+	}
 
 	GEN.getAllFieldsAndMenus = function(){
 		
@@ -1645,7 +1729,6 @@ if(input) {
 		}
 		return rtn;
 	}
-
 	GEN.getFieldsPreservedCodes = function(mode,part){
 
 		var rtn = [];
@@ -1663,7 +1746,6 @@ if(input) {
 		return rtn;
 
 	}
-
 	GEN.getFieldsIncludes = function(){
 		var rtn = {};
 		var idx  = 0;
@@ -1828,6 +1910,7 @@ if(input) {
 	}
 	
 	GEN.import = function(data,_p){
+		
 		var arr = [];
 
 		var json = typeof data == 'string' ? strToJson(data) : data;
@@ -1888,7 +1971,6 @@ if(input) {
 					
 				}
 
-
 				//js value
 				//set here
 				//console.log(json.rows);
@@ -1898,7 +1980,7 @@ if(input) {
 				GEN.dropContainers_ROW(arr,{
 					
 					callback:function(){
-						
+
 						if(_p && _p.callback) _p.callback();
 						
 						$(window).resize();
@@ -1956,6 +2038,11 @@ if(input) {
 
 			if(json.plsql)
 				for(var p in json.plsql){
+
+					if(p == 'gentype' && !json.plsql[p] )
+						
+						json.plsql[p] = GEN.SETTINGS.gentype;
+
 					GEN.SETTINGS.SET(p,json.plsql[p]);
 				}
 
@@ -2022,7 +2109,6 @@ if(input) {
 			files   : GEN.files,
 			service : GEN.proprieties.service
 		}
-
 		//console.log(page);		
 		//console.log(JSON.stringify(page));
 		return JSON.stringify(page);
@@ -2126,8 +2212,14 @@ if(input) {
 
 			else
 				$('html head').append(viewInclude);
-
-		}
+				/*var script  = document.createElement('script'),
+					head    = document.getElementsByTagName('head')[0];
+				script.type = 'text/javascript';
+				script.src  = viewLink;
+				head.appendChild(script);*/
+			}
+		
+		//$('html head').append(viewInclude);
 	};
 
 	GEN.includeToHead = function(p){
@@ -2297,7 +2389,6 @@ if(input) {
 			}catch(error){
 				console.log(error);
 			}
-			
 			return false;
 		});
 		//subversionpathERSION APPLET CONTROLLER
@@ -2359,7 +2450,7 @@ if(input) {
 					view : rel.split('gen-').join('')	
 				});
 
-			}
+			};
 
 			//XSL VIEW
 			switch(rel){
@@ -2385,7 +2476,9 @@ if(input) {
 					if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
 						setPLSQLValue({
 							callback:callback
-						});						
+						});
+						//console.log($('#gen-page-setts-ctrl'))
+						
 					}
 						
 					else{
@@ -2396,8 +2489,7 @@ if(input) {
 				case 'gen-java':
 					
 					if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-						//callback();
-
+						
 						genUICode({
 							mode    : 'java',
 							callback:callback
@@ -2407,8 +2499,6 @@ if(input) {
 							rel:'gen-java',
 							callback:callback
 						});*/
-						//console.log($('#gen-page-setts-ctrl'))
-						
 					}
 						
 					else{
@@ -2669,7 +2759,7 @@ if(input) {
 		});
 
 		$(VARS.edition.modal).on("hidden.bs.modal hidden",function(){
-			GEN.edit.hide()
+			GEN.edit.hide();
 		});
 
 		//apply edition
@@ -2745,11 +2835,13 @@ if(input) {
 			$('.gen-btn-service',this).remove();
 		
 		});
-
+		
 		$('.gen-page-setts-ctrl').on('click',function(){
 			
-			openPLSQLSettings();
+			//var editorName = getActiveEditorName() || 'plsql';
 
+			//GEN.SETTINGS.gentype = editorName;			
+			openPLSQLSettings();
 		});
 
 		$('.gen-page-setter').on('keyup change',function(){
@@ -2762,6 +2854,7 @@ if(input) {
 		$(VARS.html.view).on('click','.bClick',function(){
 			return false;
 		});
+
 		/*SAVE PAGE*/
 		$('.form-gen-save').on('click',function(e){
 			
@@ -2777,71 +2870,65 @@ if(input) {
 					removeGenAttrs:true
 				}));
 
-				console.log( GEN.export() )
+				var vItemId = getPageId();
+
+				var exportJSON = GEN.export();
 
 				var vParam  =  [
-					{ name:'p_data'    , value: GEN.export() },//json
+					{ name:'p_data'    , value: exportJSON },//json
 					{ name:'p_page_xml', value: pageXML },//xml
 					{ name:'p_page_xsl', value: pageXSL },//xsl
 					//{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
+
+				console.log(exportJSON);
+
+				var notifyOptions = {
+					delay: 12000,
+					placement: {
+						from: "top",
+						align: "right"
+					},
+					offset:{
+						y : 60
+					}
+				};
+
+				var saveArrItems = [
+					{name:'p_id_objeto', value:vItemId},
+	           		{name:'p_table_name', value:GEN.SETTINGS.table},
+	           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+				];
 				
-				GEN.server.compile({
+				var __genType = GEN.SETTINGS.gentype;	
 
-					mode : 'java',
+				$('body').attr('has-message','false');
 
-					then : function(results){
+				$('#gen-noif-holder').html('');
 
-						results.forEach(function(r){
-							
-							var name = r.name.toLowerCase();
+				var compileCallback = function(){
+					
+					try{
 
-							vParam.push({
-								name : 'p_'+name,
-								value : r.code
-							});
-						
-						});
+						if(__genType == 'java') 
 
-						var vItemId = getPageId();
-						
-						$('body').attr('has-message','false');
+							saveArrItems.push( { name:'p_package', value: GEN.SETTINGS.package } );
 
-						$('#gen-noif-holder').html('');
-						
-						try{
-							
-							var notifyOptions = {
-								delay: 12000,
-								placement: {
-									from: "top",
-									align: "right"
-								},
-								offset:{
-									y : 60
-								}
-							};
-							
-							$.IGRP.utils.submitStringAsFile({
-								//pUrl        : 'test.save.xml',
-								pUrl        : vUrl,
-								pNotify     : false,
-								pLoading    : true,
-					         	pParam      : {
-					          		pArrayFiles : vParam,
-						           	pArrayItem  : [
-						           		{name:'p_id_objeto', value:vItemId},
-						           		{name:'p_table_name', value:GEN.SETTINGS.table},
-						           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-						           		{name:'p_package', value: GEN.SETTINGS.package}
-						           	]
-						        },
-								pComplete   :function(req,text,status){
-									
+						$.IGRP.utils.submitStringAsFile({
+							pUrl        : vUrl,
+							pNotify     : false,
+							pLoading    : true,
+				         	pParam      : {
+				          		pArrayFiles : vParam,
+					           	pArrayItem  : saveArrItems
+					        },
+							pComplete   :function(req,text,status){
+
+								if(__genType == 'java'){
+
 									GEN.removeEditorsErrors(true);
-									
-									//:not(')
+								
 									var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
 									
 									$.each(msgs,function(i,msg){
@@ -2860,70 +2947,137 @@ if(input) {
 											
 										},notifyOptions);
 										
-										
-										if(jsonRes.errors){
-											
-											for(var file in jsonRes.errors){
-												
-												var partErrors = jsonRes.errors[file],
-												
-													part 	   = file.split('.java').join(''),
-													
-													menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
-													
-													menuType   = menu.attr('part'),
-													
-													editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
-													
-													errorsW    = $('<div class="gen-editor-errors col-sm-10"><table><tbody/></table></div>');
-												
-												editor.addClass('has-error');
-												
-												menu.addClass('has-error');
-												
-												partErrors.forEach(function(err){
+										GEN.showEditorsErrors(jsonRes);
+									});
 
-														
-													GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
-													//editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
-													
-													errorsW.find('tbody').append(
-															
-														'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
-													)
-														
+									GEN.resizeCodeMirrorArea();
 
-													
-												});
-												
-												editor.append(errorsW);
-												
-												GEN.server.activeMenu.editor.refresh();
-											}
-										}
-										
-										GEN.resizeCodeMirrorArea();
+								}
+
+								if(__genType == 'plsql'){
+
+									var msgs = $(req.response).find("message[type!='confirm'][type!='debug']");
+
+									$.each(msgs,function(i,msg){
+										var type = $(msg).attr('type');
+										var text = $(msg).text();
+
+										$.notify({
+											message: text,
+
+										},{
+											type:'success',
+											delay: 8000,
+										});
 
 									});
-								},
-								pError:function(request){
-									
-									notifyOptions.type = 'danger';
-									
-									$.notify({
-										message: request.statusText,
-									},notifyOptions);
-									
+
 								}
-					        });
-						}catch(err){
-							console.log(err);
+
+							},
+							pError:function(request){
+								
+								notifyOptions.type = 'danger';
+								
+								$.notify({
+
+									message: request.statusText
+
+								},notifyOptions);
+								
+							}
+				        });
+
+				    }catch(errr){
+				    	
+				    	console.log(err);
+
+				    }
+
+				};
+				
+				try{
+
+					if(__genType == 'java')
+
+						GEN.server.compile({
+
+							mode : 'java',
+
+							then : function(results){
+
+								results.forEach(function(r){
+									
+									var name = r.name.toLowerCase();
+
+									vParam.push({
+										name : 'p_'+name,
+										value : r.code
+									});
+								
+								});
+
+								compileCallback();
+
+							}
+
+						});	
+
+					if(__genType == 'plsql')
+
+						compileCallback();
+
+
+					//compileCallback();
+					
+					/*$.IGRP.utils.submitStringAsFile({
+						//pUrl        : 'test.save.xml',
+						pUrl        : vUrl,
+						pMessage    : false,
+						pLoading    : true,
+			         	pParam      : {
+			          		pArrayFiles : vParam,
+				           	pArrayItem  : [
+				           		{name:'p_id_objeto', value:vItemId},
+				           		{name:'p_table_name', value:GEN.SETTINGS.table},
+				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+				           	]
+				        },
+						pComplete   :function(xml,text,status){
+							//:not(')
+							var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
+
+							$.each(msgs,function(i,msg){
+								var type = $(msg).attr('type');
+								var text = $(msg).text();
+
+								$.notify({
+									icon: 'fa fa-times',
+									message: text,
+
+								},{
+									type:'success',
+									delay: 8000,
+								});
+
+							});
+						},
+						pError:function(request){
+							
+							$.notify({
+								icon: 'fa fa-times',
+								message: request.statusText,
+
+							},{
+								type:'warning',
+								delay: 8000,
+							});
 						}
+			        });*/
 
-					}
-
-				});
-
+				}catch(err){
+					console.log(err);
+				}
 
 				/*GEN.getJava(function(javaStr){
 
@@ -3134,13 +3288,60 @@ if(input) {
       	});
 
       	$(window).resize(function(){
-      		GEN.resizeCodeMirrorArea();
+      		resizeCodeMirrorArea();
+      	});
+
+      	$('body').on('click','.container-contents a[target],.container-contents button[target]',function(e){
+      		e.preventDefault();
+      		e.stopPropagation();
+      		return false;
       	});
 
 		/*sort containers*/
 		//GEN.configSortable($(VARS.html.containersPlaceHolder));
 	}
-	
+
+	GEN.showEditorsErrors = function(jsonRes){
+
+		if(jsonRes.errors){
+											
+			for(var file in jsonRes.errors){
+				
+				var partErrors = jsonRes.errors[file],
+				
+					part 	   = file.split('.java').join(''),
+					
+					menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
+					
+					menuType   = menu.attr('part'),
+					
+					editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
+					
+					errorsW    = $('<div class="gen-editor-errors col-sm-10"><table><tbody/></table></div>');
+				
+				editor.addClass('has-error');
+				
+				menu.addClass('has-error');
+				
+				partErrors.forEach(function(err){
+						
+					GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
+					
+					errorsW.find('tbody').append(
+							
+						'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
+					);				
+					
+				});
+				
+				editor.append(errorsW);
+				
+				GEN.server.activeMenu.editor.refresh();
+			}
+		}
+										
+	}
+
 	GEN.removeEditorsErrors = function(resize){
 		
 		$('.gen-editor-errors').remove();
@@ -3152,6 +3353,7 @@ if(input) {
 		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
 		
 		if(resize)
+			
 			GEN.resizeCodeMirrorArea();
 	}
 
@@ -3173,40 +3375,38 @@ if(input) {
 	}			
 
 	var getConfigData = function(){
-
 		if(genparams.configURL){
-			
 			$.ajax({
-
 				url:genparams.configURL,
-
 				success:function(configData){
-
 					configDataSet = true;
 					
 					GEN.UTILS = typeof configData == 'string' ? $.parseJSON(configData) : configData;
 
-					loadPageContents({ source: genparams.dataSrc });
-					
-				}
-			});
+					//loadDomains();
 
+					loadPageContents({ source: genparams.dataSrc });
+				}
+			})
 		}
 
 	}
 
 	var getBaseXSL = function(){//GET PAGE BASE XSL 
+  		
   		$.ajax({
-  			url:GEN.path+'/util/base.xsl',
-  			success:function(base,e,d){
-  				//var xmlString = (new XMLSerializer()).serializeToString(base);
-  				var xmlString = d.responseText;
-  				
-  				var parts = xmlString.split('<!--SPLIT-->');
 
-			    //GEN.XSL = $(base);
-  				
-  				GEN.XSL = $(xmlString);
+  			url : GEN.path+'/util/base.xsl',
+
+  			success:function(base,e,d){
+
+  				//var xmlString = (new XMLSerializer()).serializeToString(base);
+
+  				var xmlString = d.responseText;
+			    
+			    var parts = xmlString.split('<!--SPLIT-->');
+
+			    GEN.XSL = $(xmlString);
 			
 			    GEN.baseXSL = {
 			    	top    : parts[0],
@@ -3224,7 +3424,7 @@ if(input) {
 
 				baseXslSet = true;
 
-				loadPageContents({ source:	 genparams.dataSrc });
+				loadPageContents({ source: genparams.dataSrc });
 
 			    //if(json && json[0]) GEN.import();
   			}
@@ -3233,8 +3433,9 @@ if(input) {
 
 	var transformXMLtoJson = function(data,callback){
 		//console.log(data);
-		if(data && callback)
+		if(data && callback){
 			callback($(data).to2DOT2());
+		}
 	}
 
 	var setNewGenPage = function(p){
@@ -3246,30 +3447,54 @@ if(input) {
 
 
 	var loadDomains = function(cback){
+		
+		var jsonFound = false;
+
+		var setDomains = function(d){
+
+			GEN.DETAILS.domains = [{
+				value:'',
+				label:''
+			}];
+
+			d.list.forEach(function(i){
+				
+				GEN.DETAILS.domains.push({
+					value : i,
+					label : i
+				});
+
+			});
+		}
 
 		$.ajax({
 			url:GEN.UTILS.link_domains,
 			success:function(d){ 
 				
-				GEN.DETAILS.domains = [{
-					value:'',
-					label:''
-				}];
+				setDomains(d);
 
-				d.list.forEach(function(i){
-					
-					GEN.DETAILS.domains.push({
-						value : i,
-						label : i
-					});
-
-				});
+				jsonFound = d;
 
 				
 			},
-			complete:function(){
-				if(cback)
+			complete:function(d){
+				
+				if(!jsonFound){
+
+					var txt = d.responseText;
+					txt = txt.replaceAll('\t"','"');
+					txt = txt.replaceAll('\t\t"','"');
+					txt = txt.replaceAll('  "','"');
+					txt = txt.replaceAll(' "','"');
+
+					setDomains( JSON.parse(txt) );
+
+				}
+
+				if( cback )
+
 					cback();
+
 			}
 		})
 	};
@@ -3306,6 +3531,7 @@ if(input) {
 								},
 								complete:function(){
 									//LOAD PAGE CONTENT
+
 									if(p.source){
 										loadData(p.source,function(){
 
@@ -3337,29 +3563,40 @@ if(input) {
 
 	var initBlank = function(){
 		GEN.layout.addRow({index:0});
-		GEN.done();
+		done();
 	}
 
 	var loadData = function(url,callback){
+		
 		_import(true);
 		
 		$.ajax({	
+
 			url:url,
 			//cache:false,
 			success:function(d,s,r){
+
 				var contentType = r.getResponseHeader('content-type') || 'json';
+
 				var type = contentType.split(';')[0];
 
 				if(type.indexOf('xml') != -1)
+
 					transformXMLtoJson(d, function(str){	
+						
 						GEN.import(str,{callback:callback})
+
 					});
+
 				else
 					GEN.import(d,{callback:callback});
 			},
 			error:function(){
+
 				console.log('error loading data!');
+
 				_import(false);
+				
 			},
 			complete:function(r){
 				/*var contentType = r.getResponseHeader('Content-Type');
@@ -3392,7 +3629,7 @@ if(input) {
 					GEN.removeContainer(id);
 				});
 			}
-			console.log(CONTAINERS)
+			//console.log(CONTAINERS)
 		}
 
 		GEN.imagesURL  = genparams && genparams.imagesURL ? genparams.imagesURL : '';
@@ -3431,19 +3668,15 @@ if(input) {
 			GET     : function(attr){
 				return GEN.SETTINGS.hasOwnProperty(attr) ? GEN.SETTINGS[attr] : '';
 			},
-
 			SET     : function(attr,val){
-			
+
 				if(GEN.SETTINGS.hasOwnProperty(attr))
 
-					GEN.SETTINGS[attr] = val;
+					GEN.SETTINGS[attr] = val || GEN.SETTINGS[attr];
 
 				if(typeof val == 'boolean')
-
 					$('.gen-page-setter[rel="'+attr+'"]').prop('checked', val)
-
 				else
-
 					$('.gen-page-setter[rel="'+attr+'"]').val(val);
 
 				GEN.SETTINGS.checkBtn();
@@ -3516,8 +3749,8 @@ if(input) {
 
 	}
 
-	GEN.resizeCodeMirrorArea = function(){
-		
+	var resizeCodeMirrorArea = function(){
+
 		var h = $(window).height()-86;
 		
 		$('.gen-viewers .cm-s-default').each(function(i,cm){
@@ -3534,9 +3767,11 @@ if(input) {
 			
 		})
 		
-		//$('.gen-viewers .cm-s-default').height( h );
 		$('.gen-editor-toolsbar').height( h );
+
 	}
+
+	GEN.resizeCodeMirrorArea  = resizeCodeMirrorArea;
 
 	var codeEditorView = function(o){
 		var operation = o ? 'addClass' : 'removeClass';
@@ -3669,8 +3904,9 @@ if(input) {
 
 			service  = GEN.proprieties.service ? GEN.proprieties.service : {};
 
-		GEN.service.set(GEN);
+		
 
+		GEN.service.set(GEN);
 		objServ.append(GEN.proprieties.service.setter()[0]);
 		
 		if(service.code){
@@ -3695,16 +3931,12 @@ if(input) {
 		$.each($('.gen-page-setter'),function(i,s){
 			
 			var setter = $(s),
-
 				rel    = setter.attr('rel');
 
 			if(setter.attr('type') == 'checkbox')
-
 				setter.prop('checked',GEN.SETTINGS[rel]);
-
 			else
-
-				setter.val(GEN.SETTINGS[rel]);		
+				setter.val(GEN.SETTINGS[rel]);
 		
 		});
 
@@ -3716,6 +3948,7 @@ if(input) {
 
 		return false;
 	}	
+
 
 	var genUICode = function(params){	
 
@@ -3738,7 +3971,6 @@ if(input) {
 
 
 	var setPLSQLValue = function(params){
-
 		var p             = params ? params : {};  
 		var rel           = p.rel ? p.rel : 'gen-plsql';
 		var btnController = p.controller ? p.controller : $(VARS.html.viewsController+'[rel="'+rel+'"]');
@@ -3823,8 +4055,6 @@ if(input) {
 				//if(isIE){
 					//cback(content);
 				//}else{
-				
-
 
 				var begin = getIndicesOf(beginExp, content);
 
@@ -3843,7 +4073,16 @@ if(input) {
 						callback:function(obj){
 							
 							obj.forEach(function(o){
-								content = content.replaceAll(o.expression,'\n\n'+$.trim(o.text));
+
+								var oldText = o.oldText ? $.trim(o.oldText) : '';
+
+								var currentText = o.text ? $.trim(o.text) : '';
+
+								var _cnt = currentText || oldText;
+
+								_cnt = $.trim(_cnt) == o.expression ? '' : _cnt;
+
+								content = content.replaceAll(o.expression,'\n\n'+_cnt);
 							});
 
 							var eBegin = getIndicesOf(beginExp, content),
@@ -3866,6 +4105,9 @@ if(input) {
 									callback:function(obj){
 										
 										obj.forEach(function(o){
+
+											console.log( $.trim(o.text) == o.expression );
+
 											content = content.replaceAll(o.expression,'\n\n'+$.trim(o.text));
 										});
 
@@ -3876,6 +4118,7 @@ if(input) {
 								});
 
 							}else{
+
 								cback(content);
 							}
 
@@ -4069,7 +4312,6 @@ if(input) {
 		if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
 			
 			GEN.DETAILS.linkPageList.forEach(function(page){
-				
 				options.push({
 					value      : page.id.toString(),
 					label      : page.description,
@@ -4080,7 +4322,6 @@ if(input) {
 						{ name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
 					]
 				});
-				
 			});
 
 		var setBTNAction = function(id,object){
@@ -4090,18 +4331,20 @@ if(input) {
 					field.action = {};
 
 					if(o.value && (id == o.value) ){
-						o.attributes.forEach(function(att){
-							field.action[att.name] = att.value
-						});
-
-						if(p.onChange)
-							p.onChange({
-								value : id,
-								params : field.action
+							o.attributes.forEach(function(att){
+								field.action[att.name] = att.value
 							});
 
-						break;
-					}
+							if(p.onChange)
+								p.onChange({
+									value : id,
+									params : field.action
+								});
+
+							break;
+						}
+							
+
 
 				}
 		}
@@ -4115,7 +4358,7 @@ if(input) {
 				}
 			}
 		}
-		
+
 		var params = {
 			name: tagName,
 			value:{
@@ -4135,12 +4378,12 @@ if(input) {
 			params.order = p.order;
 		
 		if(p.xmlAttr)
-			params.xmlAttr = p.xmlAttr;
+			params.xmlAttr = p.xmlAttr
 
 		field.setPropriety(params);
-		
+
 		if(p.customAction){
-			
+
 			field.setPropriety({
 				name : 'custom_action',
 				label:'Custom Action',
@@ -4329,6 +4572,48 @@ if(input) {
 			value:{
 				value:p.value ? p.value : '_blank',
 				options: $.IGRP.defaults.buttons.targets
+			},
+			//help : GEN.Helpers.attr.target
+		});
+
+		field.setPropriety({
+			label 	 : 'Request Fields',
+			name     : 'request_fields',
+			order	 : 5,			
+			value    : {
+				value : '',
+				options : function(){
+					var options = [];
+					GEN.getAllFields().forEach(function(f){
+						options.push({
+							label : f.GET.label ? f.GET.label() : f.GET.tag(),
+							value : f.GET.name()
+						});
+					});
+					return options;
+				},
+				multiple : true
+			},
+			onEditionStart : function(o){
+				
+				var checkTarget = function(v){
+					var val = v ? v : field.GET.target ? field.GET.target() : null;
+
+					var target = val || null;
+
+					if( target == 'remote_call')
+						o.input.show();
+					else
+						o.input.hide();
+				}
+
+				$('select[name="edit-target"]').on('change',function(){
+					var target = $(this).val();
+					checkTarget(target);
+				});
+
+				checkTarget();
+
 			}
 		});
 
@@ -4370,6 +4655,7 @@ if(input) {
 					o.input.hide();
 
 			}
+
 		});
 
 		if(!targetRulesSet){
@@ -4622,12 +4908,12 @@ if(input) {
 					setTimeout(function(){
 						
 						try{
-							
 							$('.tab-content').animate({
 						        scrollTop: activeItem.position().top
 						    }, 400);
 							
 						}catch(err){
+							console.log(err)
 							return;
 						}
 						
@@ -4655,7 +4941,6 @@ if(input) {
 			if(p.callback) p.callback(GEN.images[p.id]);
 			//element = GEN.images[p.paramName];
 		}else{
-
 			var link = p.paramName ? p.dir+p.paramName : p.dir;
 			$.ajax({
 				url:link,
@@ -4785,17 +5070,15 @@ if(input) {
 
 		fields.forEach(function(f){
 
-
-
 			var fname = f.GET.name();
-			if(f.formField && f.rules[0])
+			if(f.rules &&  f.rules[0])
 				rules[fname] = f.rules;
 		
 		});
 
 		return GENRULES.add(rules);
 	}
-	
+
 	GEN.escapeXSLChars = function(str){
 
 		str = str.replaceAll('<','&lt;');
@@ -4919,7 +5202,6 @@ if(input) {
 
 		includes+=getObjectCssFiles(GEN.getFieldsIncludes(),'field');
 
-
 		if(GEN.files.css[0]){
 			
 			GEN.files.css.forEach(function(css){
@@ -4935,9 +5217,11 @@ if(input) {
 		includes+='<style>'+GEN.cssEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</style>'
 
 		var idx = content.indexOf('</head>');
+
 		content = content.insert(idx,includes);
 
 		return content;
+
 	}
 
 	var getXSLBottom = function(){
@@ -5026,18 +5310,18 @@ if(input) {
 
 		return rtn;
 	}
-	
+
 	var isTypeChangeble = function(type){
 
 		var rtn = true;
 
-		if(type == 'button')
+		if(type == 'button' || type =='hidden')
 			rtn = false;
 
 		return rtn;
 
 	}
-	
+
 	var containersNameMask = function(name){
 		var rName = name;
 		
@@ -5065,6 +5349,8 @@ if(input) {
 
 
 	$(window).load(function(){
+		//console.log('init');
 		GEN.init();
+
 	});
 }

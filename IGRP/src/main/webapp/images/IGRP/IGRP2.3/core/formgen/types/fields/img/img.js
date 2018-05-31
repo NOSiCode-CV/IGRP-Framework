@@ -25,11 +25,11 @@ var IMGFIELD = function(type,params){
 		};
 
 	field.ready = function(){
-		
+
 		field.setPropriety({
 			name:'img',
 			label:'Image',
-			value:'',
+			value:path+'/assets/img/jon_doe.jpg',
 			size:'12',
 			valuePersist : true,
 			onChange:function(v){
@@ -112,7 +112,7 @@ var IMGFIELD = function(type,params){
 			value:false,
 			xslValue:'img-rounded'
 		});
-		
+
 	}
 
 
@@ -121,4 +121,4 @@ var IMGFIELD = function(type,params){
 VARS.getGen().declareField({
 	type:'img',
 	field:IMGFIELD
-});
+});	

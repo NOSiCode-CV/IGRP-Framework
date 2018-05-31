@@ -26,18 +26,19 @@
 			},
 
 			set:function(o){
-				if( Storage )
+				if( localStorage )
 					localStorage.setItem(o.name, o.value);
 			},
 
 			unset:function(name){
-				localStorage.removeItem(name);
+				if( localStorage )
+					localStorage.removeItem(name);
 			},
 
 			get:function(name){
 				var rtn = null;
 				
-				if( Storage )
+				if( localStorage )
 					rtn = localStorage.getItem(name);
 
 				return rtn;
@@ -72,6 +73,25 @@
 
 				return to;
 
+			}
+
+		},
+
+		screen : {
+
+			check : function(){
+				
+				var ww = $(window).width();
+
+				$('body').removeAttr('screen-size');
+
+				if( ResponsiveBootstrapToolkit.is('sm') )
+					$('body').attr('screen-size', 'sm')
+
+				if( ResponsiveBootstrapToolkit.is('xs') )
+					$('body').attr('screen-size', 'xs')
+				
+				
 			}
 
 		},
@@ -125,8 +145,8 @@
 				return com;
 			}
 			else{
-				return $.IGRP.components[name];
 				console.log('component already set');
+				return $.IGRP.components[name];
 			}
 		},
 
@@ -230,6 +250,7 @@
 			
 		},
 
+
 		getPageInfo : function(){
 
 			return $.IGRP.info.page+'.'+$.IGRP.info.app;
@@ -255,12 +276,16 @@
 			$.IGRP.info.params = $.IGRP.utils.url.getParams();
 
 			$(window).resize(function(){
-				
+
 				$.IGRP.events.execute('windowResize');
+
+				$.IGRP.screen.check();
 
 			});
 
 			$.IGRP.checkBrowser();
+
+			$.IGRP.screen.check();
 			
 		},
 		
@@ -272,9 +297,15 @@
 			
 			$.IGRP.events.execute('init', $.IGRP);
 
-			$('html').addClass('ready');
+			setTimeout(function(){
 
-			$('body').removeClass('loading');
+				$('html').addClass('ready');
+
+				$('body').removeClass('loading');
+
+			},250)
+
+			
 
 		}
 

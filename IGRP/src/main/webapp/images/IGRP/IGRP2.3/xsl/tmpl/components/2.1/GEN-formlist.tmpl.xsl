@@ -11,16 +11,19 @@
 				<xsl:with-param name="title" select="."/>
 				<xsl:with-param name="collapsible" select="'true'"/>
 			</xsl:call-template>
+			<xsl:variable name="auxclass">
+                <xsl:if test="@style = 'ordertable'">ordertable</xsl:if>
+            </xsl:variable>
 			<div class="box-body table-box">
-				<table id="{$tag}" class="table table-striped gen-data-table IGRP_formlist " rel="T_{$tag}" data-control="data-{$tag}">
+				<table id="{$tag}" class="table table-striped gen-data-table IGRP_formlist {$auxclass}" rel="T_{$tag}" data-control="data-{$tag}">
 					<thead>
 						<tr>
 							<xsl:for-each select="$table-th-fields">
                 <xsl:call-template name="GEN-table-field-head"/>
 	            </xsl:for-each>
-							<xsl:if test="not($table/value/row[@nodelete]) or not($table/value/row[@noupdate])">
+							<xsl:if test="not($table/value/row[position() = 1]/@nodelete) or not($table/value/row[position() = 1]/@noupdate)">
 								<th class="table-btn add">
-									<xsl:if test="not($table/value/row[@noupdate])">
+									<xsl:if test="not($table/value/row[position() = 1]/@noupdate)">
 										<a class="formlist-row-add btn btn-primary" rel="{$tag}">
 											<i class="fa fa-plus"/>
 										</a>
@@ -59,10 +62,11 @@
 												<td>
 													<xsl:call-template name="td-wrapper"/>
 													<xsl:call-template name="GEN-formfield">
-                          	<xsl:with-param name="setLabel" select="false()"/>
-                          	<xsl:with-param name="sizeClass" select="''"/>
-                          	<xsl:with-param name="fieldNameSuffix" select="'_fk'"/>
-                          </xsl:call-template>
+						                          		<xsl:with-param name="setLabel" select="false()"/>
+						                          		<xsl:with-param name="isFormlist" select="true()"/>
+						                          		<xsl:with-param name="sizeClass" select="''"/>
+						                          		<xsl:with-param name="fieldNameSuffix" select="'_fk'"/>
+						                          	</xsl:call-template>
 												</td>
 											</xsl:otherwise>
 										</xsl:choose>

@@ -9,12 +9,27 @@ var GENMAPCHART = function(name,tparams){
 
 	container.includes = {
 		css:[
+
 			{path: '/plugins/highcharts/highmaps/highmap.css'}
+
 		],
 		js:[
+
+			{ path: '/plugins/canvg.js/rgbcolor.js' },
+			{ path: '/plugins/canvg.js/StackBlur.js' },
+			{ path: '/plugins/canvg.js/canvg.js' },
+			{ path: '/plugins/canvas2blob/canvas-to-blob.min.js' },
+
+			{ path: '/plugins/html2canvas/html2canvas.min.js' },
+			
+			{ path: '/plugins/html2canvas/html2canvas.svg.js' },
+			
+			{ path: '/plugins/filesaver/FileSaver.min.js' },
+
 			{ path: '/plugins/highcharts/highcharts.js' },
+			
 			{ path: '/plugins/highcharts/highcharts-more.js' },
-	
+		
 			{ path: '/plugins/highcharts/highmaps/map.js' },
 			{ path: '/plugins/highcharts/highmaps/data.js' },
 			{ path: '/plugins/highcharts/highmaps/drilldown.js' },
@@ -124,6 +139,13 @@ var GENMAPCHART = function(name,tparams){
 				if(!v)
 					container.SET.tooltipFormat('{point.name}: {point.value}');
 			}
+		});
+
+		container.setProperty({
+			label : 'Export',
+			name  : 'export',
+			value :  true,
+			//xslValue : ' export="true"'
 		});
 
 	};

@@ -1,8 +1,17 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:variable name="sourcePath" select="concat($path,'/core/formgen/util/gen.source.xml')"/>
-    
+	  <xsl:variable name="sourcePath" select="concat($path,'/core/formgen/util/gen.source.xml')"/>
     <xsl:variable name="gen" select="document($sourcePath)/gen"/>
+    <xsl:variable name="logo">
+      <xsl:choose>
+        <xsl:when test="$themeConfigData/logo">
+          <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
   	<xsl:template name="formgen-html">
   		
@@ -20,7 +29,7 @@
             
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
               <a class="navbar-brand col-sm-3 col-md-2" href="#" >
-                  <img src="{$themePath}/{$themeConfigData/logo}"/>
+                  <img src="{$logo}"/>
                   <span><b>IGRP</b></span>
               </a>
               <div id="side-bar-ctrl" bg-hover-color="template">
@@ -29,19 +38,19 @@
               <!-- <div id="igrp-app-title" class="">Studio</div> -->
               <div id="gen-views-ctrl">
                   <ul>
-                      <li rel="gen-design" class="active" text-color="1">
+                      <li rel="gen-design" class="active" active-text-color="primary">
                           <span>DESIGN</span>
                       </li>
-                      <li rel="gen-css" text-color="1">
+                      <li rel="gen-css" active-text-color="primary">
                           <span>CSS</span>
                       </li>
-                      <li rel="gen-js" text-color="1">
+                      <li rel="gen-js" active-text-color="primary">
                           <span>JS</span>
                       </li>
-                      <li rel="gen-xml" text-color="1">
+                      <li rel="gen-xml" active-text-color="primary">
                           <span>XML</span>
                       </li>
-                      <li rel="gen-xsl" text-color="1">
+                      <li rel="gen-xsl" active-text-color="primary">
                           <span>XSL</span>
                       </li>
                       <!-- <li rel="gen-plsql" xslt-path="{$path}/core/formgen/util/plsql" xslt-file="XSL-plsql.xsl" text-color="1">
@@ -84,10 +93,10 @@
           <form class="IGRP-form" name="formular_default" novalidate="">
               <div class="container-fluid">
                   <div class="row">
-                      <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
+                      <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar" bg-color="primary">
                           
-                          <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" >
-                              <!--<li class="col-xs-4">
+                          <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" bg-color="primary">
+                             <!--<li class="col-xs-4">
                                   <a class="txt-ellipsis" href="#gen-page-properties" role="tab" data-toggle="tab">
                                       <i class="fa fa-cog"></i>
                                       <span class="">Settings</span>
@@ -110,13 +119,13 @@
 
                           <div class="form-group gen-searcher-wrapper col-md-2 col-sm-3 col-xs-12" h-calc="-55">
                            
-                            <input type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
+                            <input bg-color="primary" type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
                             
                             <span class="gen-type-search-clear">
                               <i class="fa fa-times"></i>
                             </span>
 
-                            <div class="gen-searcher-contents">
+                            <div class="gen-searcher-contents" bg-color="primary">
                               
                             </div>
 
@@ -543,7 +552,11 @@
           <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"></script>
           <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"></script>
           <!-- end:SEPARATORLIST -->
-			
+
+          <!-- FORMLIST JS INCLUDES -->
+          <script type="text/javascript" src="{$path}/plugins/formlist/igrp.formlist.js?v={$version}"/>
+
+
           <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"></script>
          
           <script src="{$path}/core/bootstrap/plugins/treeview/js/bootstrap-treeview.js"></script>
@@ -560,19 +573,21 @@
           <script src="{$path}/core/codemirror/js/addon/hint/xml-hint.js"></script>
           <script src="{$path}/core/codemirror/js/mode/sql/sql.js"></script>
           <script src="{$path}/core/codemirror/js/addon/hint/show-hint.js"></script>
-          <script src="{$path}/core/codemirror/js/clike.js"></script>
-          
+          <script src="{$path}/core/codemirror/js/addon/hint/sql-hint.js"></script>
+
           <script src="{$path}/core/codemirror/js/addon/search/search.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/searchcursor.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/dialog.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/jump-to-line.js"></script>
 
+
+          <script src="{$path}/core/codemirror/js/clike.js"></script>
           <!--gen-->
           <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>
           <script src="{$path}/core/formgen/js/chance.js"></script>
           <script src="{$path}/core/formgen/js/jquery-ui.min.js"></script>
           <script src="{$path}/core/formgen/js/string.js" charset="utf-8"></script>
-         
+          <!-- <script src="{$path}/core/formgen/js/xml.xsl.transform.js"></script> -->
           <script src="{$path}/core/formgen/js/GEN.converter.2dot2.js"></script>
           <script src="{$path}/core/formgen/js/GEN.vars.js"></script>
           <script src="{$path}/core/formgen/js/GEN.getdata.js"></script>
@@ -661,7 +676,7 @@
 
           <script src="{$path}/core/formgen/js/GEN.includeFiles.js"></script>
           
-          <script src="{$path}/core/formgen/js/GEN.domains.controller.js"></script>
+
 
           <xsl:for-each select="$gen/containers/item">
               <xsl:if test="not(@js) or @js!='false'">
@@ -840,7 +855,9 @@
 
                     <select class="form-control rule-setter select2 " id="actions_list_gen_rule_action" name="p_gen_rule_action" required="required">
                       <option value="show" >Show</option>
+                      <option value="showicon" >Show Icon (date lookup)</option>
                       <option value="hide">Hide</option>
+                      <option value="hideicon">Hide Icon (date lookup)</option>
                       <option value="disabled">Disable</option>
                       <option value="enabled">Enable</option>
                       <option value="required">Required</option>
@@ -1028,7 +1045,9 @@
                             <label>Action</label>
                             <select required="required" name="p_gen_rule_action" class="select2 form-control rule-setter" rel="gen_rule_action">
                                 <option value="show">Show</option>
+                                <option value="showicon">Show Icon (date/lookup)</option>
                                 <option value="hide">Hide</option>
+                                <option value="hideicon">Hide Icon (date/lookup)</option>
                                 <option value="disabled">Disable</option>
                                 <option value="enabled">Enable</option>
                                 <option value="required">Required</option>

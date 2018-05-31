@@ -1,0 +1,34 @@
+{
+    "dir": [
+        {
+            "name": "Dir 2",
+            "childs": [
+
+                {
+                    "name": "File1.java",
+                    "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
+                },
+                {
+                    "name": "File2.java",
+                    "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+                }
+
+            ]
+        },
+        {
+            "name": "File3.java",
+            "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+        }
+    ],
+
+    "default_file": [
+        {
+            "name": "File3.java",
+            "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+        },
+        {
+            "name": "File1.java",
+            "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+        }
+    ]
+}

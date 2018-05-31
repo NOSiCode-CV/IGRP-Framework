@@ -2,7 +2,7 @@
   <div class="box-body table-box">
     <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
     #[filterTemplate]#
-    <table id="#tag#" class="table table-striped gen-data-table IGRP_formlist #[noupdate]# #[nodelete]#" rel="T_#tag#" data-control="data-#tag#">
+    <table id="#tag#" class="table table-striped gen-data-table #[ordertable]# IGRP_formlist #[noupdate]# #[nodelete]#" rel="T_#tag#" data-control="data-#tag#">
       <thead>
         <tr gen-id="drop-zone" gen-field-template="table.th">
           <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate) or not(#path#/table/value/row[position() = 1]/@nodelete)" gen-preserve="last">
@@ -20,7 +20,6 @@
         <xsl:for-each select="#path#/table/value/row">
           <tr gen-id="drop-zone" row="{position()}">
             <input type="hidden" name="p_#tag#_id" value="{#tag#_id}" />
-            <input type="hidden" name="p_#tag#_idx" value="{position()-1}" class="formlist-row-index"/>
             <gen-template name="table-rows-hiddens"/>
             <xsl:if test="not(@nodelete) or not(@noupdate)" gen-preserve="last">
               <td class="table-btn delete" data-row="{position()}">

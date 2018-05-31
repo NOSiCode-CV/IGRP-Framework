@@ -17,15 +17,72 @@
 			return  Colors[ keys[colorsIdx] ].color;
 
 		}else{
+
 			return ('#'+'0123456789abcdef'.split('').map(function(v,i,a){
+
 			  		return i>5 ? null : a[Math.floor(Math.random()*16)] 
-			  	}).join('') 
+
+			  	}).join('')
+
 			);
 
 		}	
 
-	}
+	};
 
+	function _export(chart,type){
+
+    	var name  = $(chart.container).parents('.gen-container-item').attr('item-name')+'.'+$.IGRP.getPageInfo(),
+
+    		title = $(chart.container).parents('.gen-container-item').find('>.box-header>.box-title').text(),
+
+    		opts  = $.extend(true,{},chart.options);
+
+    	var data = {	
+		    options: JSON.stringify(opts),
+		    filename: title || name,
+		    type: type,
+		    async: true
+		};
+
+		var exportUrl = '//export.highcharts.com/';
+
+		$.post(exportUrl, data, function(d) {
+		    
+		    var url = exportUrl + d,
+
+		    	moz = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+		 
+			if( $('html').hasClass('ie') || moz )
+				
+				window.open(url,'_blank');
+
+			else{
+
+				var file_path = url,
+
+					a 		  = document.createElement('A'),
+
+					extension = type ? type.split('/')[1] : null;
+
+				extension = extension || 'pdf';
+
+				a.href = file_path;
+					
+				a.download = (title || name)+'.'+extension ;
+
+				a.target = '_newtab';
+				
+				document.body.appendChild(a);
+				
+				a.click();
+				
+
+			}
+
+		});
+
+    };
 
 	$.IGRP.component('charts',{
 
@@ -111,7 +168,7 @@
 			            marginTop: 25
 			        },
 			        title: {
-			            text: null
+			            text:p.title
 			        },
 			        tooltip: {
 			            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -122,9 +179,7 @@
 			                cursor: 'pointer',
 			                dataLabels: {
 			                	enabled: true,
-			                	formatter: function(){
-			                		return this.percentage.toFixed(1)+' % ('+this.y+')';
-			                	}
+			                	format : '{point.percentage:.1f} % ({point.y})'
 			                },
 			                showInLegend: true
 			            }
@@ -211,7 +266,7 @@
 				        marginTop: 50
 				    },
 				    title: {
-				        text: null
+				        text: p.title
 				    },
 				    tooltip: {
 			            formatter: function(){
@@ -277,7 +332,7 @@
 				        plotBorderWidth: 1
 				    },
 				    title: {
-				        text: null
+				        text: p.title
 				    },
 
 				    xAxis: {
@@ -379,7 +434,7 @@
 				        data: data
 				    }],
 				    title: {
-				        text: null
+				        text: p.title
 				    }
 				};
 
@@ -404,7 +459,7 @@
 						marginTop: 50
 					},
 				    title: {
-				    	text: null
+				    	text: p.title
 				    },
 				    subtitle: {
 				        text: null
@@ -423,7 +478,7 @@
 			        plotOptions : {
 			        },
 				    legend: {
-			            reversed: true
+			            //reversed: true
 			        },
 				    series: data
 				};
@@ -599,15 +654,17 @@
 		},
 
 		renderCharts : function(p){
-
 			var o 	 		= $(p.chart),
+				wrapper     = o.parents('.gen-container-item'),
+				title 		= $('>.box-header>.box-title',wrapper).text() || null,
 				type 		= o.attr('chart-type') ? o.attr('chart-type').toUpperCase() : 'LINE',
 				data 		= o.attr('chart-data') ? o.attr('chart-data').split('|') : [],
 				id 	 		= o.attr('chart-id') ? o.attr('chart-id') : '',
 				url  		= o.attr('chart-url') ? o.attr('chart-url') : '',
 				labels 		= o.attr('chart-labels') ? o.attr('chart-labels').split('|') : [],
 				categories  = o.attr('chart-categories') ? o.attr('chart-categories').split('|') : [],
-				filterType  = o.attr('filter-type') ? o.attr('filter-type').split(',') : [];
+				filterType  = o.attr('filter-type') ? o.attr('filter-type').split(',') : [],
+				colors  	= o.attr('chart-colors') ? o.attr('chart-colors').split('|') : [];
 	
 			if (data[0]) {
 
@@ -616,25 +673,27 @@
 					o.attr('chart-type',p.type);
 				}
 
-				var colors = [];
 				
-				switch(type){
-					case 'FUNNEL':
-					case 'PIE':
-					case 'PYRAMID':
-					case 'SEMIPIE':			
-						colors = com.colors.get(categories.length);
+				if (!colors[0]) {
+					switch(type){
+						case 'FUNNEL':
+						case 'PIE':
+						case 'PYRAMID':
+						case 'SEMIPIE':
 
-					break;
+							colors = com.colors.get(categories.length);
 
-					default:
-						colors = com.colors.get(com.getChartData(data).length);
+						break;
 
+						default:
+							colors = com.colors.get(com.getChartData(data).length);
+
+					};
 				}
-
 
 				$('#'+id).removeClass('table_graph');
 
+				//console.log(com.getStructure(type))
 				var chart = com.charts[com.getStructure(type)]({
 					data 		: com.getChartData(data),
 					categories  : categories ,
@@ -643,7 +702,8 @@
 					url 		: url,
 					desclabel 	: o.attr('chart-desc-label') ? o.attr('chart-desc-label') : '',
 					labels 		: labels,
-					type 		: type
+					type 		: type,
+					title  		: title
 				});
 
 				if (type != 'TABLECHARTS') {
@@ -714,7 +774,7 @@
 				                        y: -5
 				                    },
 				                    title: {
-				                        text: null
+				                        text: title
 				                    }
 				                },
 				                subtitle: {
@@ -727,9 +787,50 @@
 				        }]
 				    };
 
+				    chart.structure.exporting = {
+				    	buttons:{
+				    		contextButton:{
+				    			menuItems:[
+				    				{
+				    					textKey:"downloadPNG",
+				    					onclick : function(e){
+				    				
+				    						_export(this,'image/png')
+				    					}
+				    				},
+				    				{
+				    					textKey:"downloadJPEG",
+				    					onclick : function(e){
+				    				
+				    						_export(this,'image/jpeg')
+				    					}
+				    				},
+				    				{
+				    					textKey:"downloadPDF",
+				    					onclick : function(e){
+				    				
+				    						_export(this,'application/pdf')
+				    					}
+				    				},
+				    				/*{
+				    					textKey:"downloadSVG",
+				    					onclick : function(e){
+				    				
+				    						_export(this,'image/svg')
+				    					}
+				    				}*/
+				    			]
+				    		}
+				    	}				    	
+				    };
+				 	
+
 				 	var renderChart = Highcharts.chart(id,chart.structure);
+
+				 	
 				}
 				if ($('.toggleChart',o)[0])
+
 					com.setFilter(o,type,filterType);
 
 				return renderChart;
@@ -771,20 +872,75 @@
 			});
 
 			$('body').on('click','.toggleChart .dropdown-item',function(){
-				var type 		= $(this).attr('chart-type') || 'LINE',
-					holder 		= $(this).parents('.IGRP-highcharts'),
-					filterType 	= $(this).attr('filter-type') || '';
+				var type 		 = $(this).attr('chart-type') || 'LINE',
+					holder 		 = $(this).parents('.IGRP-highcharts'),
+					filterType 	 = holder.attr('filter-type') || '',
+					contentChart = holder.parents('.col.graph:first'),
+					itemName 	 = holder.attr('item-name'),
+					remote       = holder.attr('remote-filter') ? holder.attr('remote-filter') : '';
+
+				remote = remote == 'true' ? true : false;
 
 				$('.active-chart img',holder).attr(
 					'src',
 					path+'/plugins/highcharts/img/'+com.getTypeChart(type)+'.svg'
 				);
 
-				com.renderCharts({
-					chart 		: holder,
-					type  		: type,
-					filter_type : filterType
-				});
+				if (remote) {
+
+					$.IGRP.utils.createHidden({
+						name:'p_fwl_charttype',
+						value:type
+					});
+
+					$.ajax({
+
+						url:$.IGRP.utils.getFormUrl($.IGRP.utils.getPageUrl()),
+
+						success : function(data){
+							var cheight 	= contentChart.height();
+
+							contentChart.XMLTransform({
+								xsl 			: path+'/xsl/tmpl/IGRP-charts.tmpl.xsl',
+								xml 			: $(data).find('rows content '+itemName).getXMLDocument(),
+								loading      	: true,
+								xslParams 		: {
+									pheight 		: cheight,
+									filter  		: true,
+									filter_type 	: filterType,
+									remote_filter 	: remote
+								},
+								complete		: function(c){
+
+									var obj    = $('.IGRP-highcharts',c),
+										colors = $(data).find('rows content hidden[name="p_fwl_'+itemName+'_color"]').text();
+									
+									if (colors)
+										obj.attr('chart-colors',colors);
+
+									com.renderCharts({
+										chart 		: obj,
+										type  		: type,
+										filter_type : filterType
+									});
+								},
+								error		 	: function(c){
+									console.log(c);
+								}
+							});
+						},
+						error : function(c){
+							console.log(c);
+						}
+					});
+				}else{
+
+					com.renderCharts({
+						chart 		: holder,
+						type  		: type,
+						filter_type : filterType
+					});
+				}
 			});
 
 			$.IGRP.on('sideBarToggle, windowResize',function(){

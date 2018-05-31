@@ -56,7 +56,7 @@
 		};
 
 		var setUpValidationMessages = function(){
-
+			
 			jQuery.extend(jQuery.validator.messages, {
 			    required: "Campo obrigat&oacute;rio.",
 			    remote: "Corrija este campo.",

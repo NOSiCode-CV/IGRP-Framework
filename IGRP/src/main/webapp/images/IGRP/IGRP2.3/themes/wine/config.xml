@@ -1,14 +1,12 @@
 <style>
 
 	<nav>
-		<background>#920000</background>
+		<!-- <background>#920000</background> -->
 	</nav>
 
-	<colors>
-		<color name="primary" bg-hover="#660000" border-color="transparent" link="true">#920000</color>
+	<sidebar>
+		<background>#920000</background>
+	</sidebar>
 
-	</colors>
-
-	<logo>img/logo.png</logo>
 
 </style>

@@ -146,6 +146,14 @@
     background: transparent;
 }
 
+.igrp-gen-workflow li.active [active-bg-color="1"]{
+  background-color : #4496C1!important;
+}
+
+.igrp-gen-workflow li.active [active-text-color="1"]{
+  color: #4496C1!important;
+}
+
 @media (max-width: 767px) {
 
   .igrp-gen-workflow .board ul:before{

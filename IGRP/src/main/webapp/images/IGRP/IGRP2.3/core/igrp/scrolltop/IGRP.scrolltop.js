@@ -1,11 +1,25 @@
 (function(){
 
 	var scrollFunction = function(){
+		
+		try{
 
-		if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) 
-	        $('#igrp-go-up').show();
-	    else 
-	    	$('#igrp-go-up').hide(); 
+			var _scrollTop = document.body &&  document.body.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop || 0;
+
+			if (_scrollTop > 300) 
+
+		        $('#igrp-go-up').show();
+
+		    else 
+
+		    	$('#igrp-go-up').hide(); 
+
+		}catch(err){
+
+			return;
+
+		}	
+			
 
 	};
 

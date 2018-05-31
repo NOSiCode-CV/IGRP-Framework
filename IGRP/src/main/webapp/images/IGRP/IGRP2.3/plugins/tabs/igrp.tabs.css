@@ -128,7 +128,7 @@
 
 /* CLEAN */
 .gen-tab-holder[tab-template="clean"]>ul.nav-tabs{
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border: 0;
 } 
 
@@ -137,7 +137,7 @@
     margin-right: 0;
     padding: 10px 30px 10px 0;
     border:0;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 18px;
     font-size: 16px;
     border-bottom: 2px solid transparent;
@@ -310,4 +310,25 @@
 
 body[has-menu="false"] .row-fluid>.gen-column>.gen-inner>.gen-tab-holder[tab-template="navbar"]{
     margin-top: -15px;
+}
+
+.tab-content .tab-pane {
+    display: none;
+}
+
+.tab-content .tab-pane.active {
+    display: block!important;
+}
+
+.tab-content .tab-pane:not(.active) {
+    display: none!important;
+}
+
+.tab-content.nav-tab-content{
+    margin-bottom: 30px;
+}
+
+ul.nav.tab-nav.nav-tabs{
+    border-bottom:1px solid #F2F2F2;
+    top: 0;
 }

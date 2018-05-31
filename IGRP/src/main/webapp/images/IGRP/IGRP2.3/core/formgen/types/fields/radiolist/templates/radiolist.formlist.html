@@ -2,7 +2,7 @@
   <td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
       <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
 
-      <select name="{../../fields/#tag#/@name}_fk}" chosen="select" id="{../../fields/#tag#/@name}_fk" data-placeholder="{//#list.path#/option[position() = 1]/text}" class="select" rel="F_#parent.tag#"> 
+      <select name="{../../fields/#tag#/@name}_fk}" chosen="select" id="{../../fields/#tag#/@name}_fk" data-placeholder="{//#list.path#/option[position() = 1]/text}" class="select" rel="F_#parent.tag#" #[disabled]# #[readonly]# #[required]#> 
         <xsl:call-template name="setAttributes">
           <xsl:with-param name="field" select="#path#"/>
         </xsl:call-template>

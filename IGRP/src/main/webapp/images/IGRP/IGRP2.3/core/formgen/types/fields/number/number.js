@@ -6,6 +6,7 @@ var NUMBERFIELD = function(type,params){
 		proprieties = params.properties;
 
 	field.ready = function(){
+
 		field.setPropriety({
 			name :'min',
 			label:'Min value',
@@ -17,6 +18,7 @@ var NUMBERFIELD = function(type,params){
 			label:'Max value',
 			value:''
 		});
+
 	}
 }
 

@@ -438,6 +438,7 @@ $.extend($.validator, {
 
 		focusInvalid: function() {
 			if( this.settings.focusInvalid ) {
+
 				try {
 					$(this.findLastActive() || this.errorList.length && this.errorList[0].element || [])
 					.filter(":visible")
@@ -606,6 +607,7 @@ $.extend($.validator, {
 		},
 
 		addWrapper: function(toToggle) {
+			
 			if ( this.settings.wrapper )
 				toToggle = toToggle.add( toToggle.parent( this.settings.wrapper ) );
 			return toToggle;
@@ -656,6 +658,7 @@ $.extend($.validator, {
 			} else {
 				// create label
 				var isFile = $(element).attr('type') == 'file' ? true : false;
+
 				label = $("<" + this.settings.errorElement + "/>")
 					.attr({"for":  this.idOrName(element), generated: true})
 					.addClass(this.settings.errorClass+' form-validator-label')
@@ -666,6 +669,7 @@ $.extend($.validator, {
 					// actually showing the wrapped element is handled elsewhere
 					label = label.hide().show().wrap("<" + this.settings.wrapper + "/>").parent();
 				}
+
 				if ( !this.labelContainer.append(label).length )
 					this.settings.errorPlacement
 						? this.settings.errorPlacement(label, $(element) )
@@ -1105,7 +1109,33 @@ $.extend($.validator, {
 
 		// http://docs.jquery.com/Plugins/Validation/Methods/accept
 		accept: function(value, element, param) {
-			param = typeof param == "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
+			var accept = {
+				'application/msword' 	   		: 'word|doc|docx',
+				'application/vnd.ms-excel' 		: 'excel',
+				'application/vnd.ms-powerpoint' : 'ppt',
+				'text/plain' 					: 'text|bpmn|xml|xsl|json|js|php',
+				'application/pdf'				: 'pdf',
+				'image/*'						: 'jpg|png|jpe?g|svg|gif|tif?f|raw|webp|ani|bmp|cal|fax|img|mac|pbm|pcd|pcx|pct|pgm|ppm|psd|ras|tga|wmf',
+				'video/*'						: '3g2|3gp|aaf|asf|avchd|avi|drc|flv|m2v|m4p|m4v|mkv|mng|mov|mp2|mp4|mpe|mpeg|mpg|mpv|mxf|nsv|ogg|ogv|qt|rm|rmvb|roq|svi|vob|webm|wmv|yuv',
+				'audio/*'						: 'pm3|m4a|aac|oga|mpa',
+				'text/html'						: 'html|htm'
+			};
+
+			if (typeof param == "string") {
+				var xparam = param.split(','),
+					lg 	   = xparam.length;
+
+				param = '';
+				xparam.forEach(function(e,i){
+					param += accept[e];
+
+					if (lg < i)
+						param += '|';
+				});
+			}
+
+			param = typeof param == "string" ? param.replace(/,/g, '|') : "pdf|png|jpe?g|gif|svg";
+			
 			return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i"));
 		},
 

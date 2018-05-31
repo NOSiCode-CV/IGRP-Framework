@@ -127,7 +127,7 @@
 			
 		}
 
-	}
+	};
 
 	GEN.attributes = {
 

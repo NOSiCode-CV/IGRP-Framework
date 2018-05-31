@@ -10,7 +10,7 @@
     </xsl:variable>
     <xsl:attribute name="collapsed"><xsl:value-of select="$collapsed"/></xsl:attribute>
     <div class="box-header {$collapsibleClass}">
-      <h3 class="box-title" text-color="primary"><xsl:value-of select="$title"/></h3>
+      <h3 class="box-title"><xsl:value-of select="$title"/></h3>
       <xsl:if test="$collapsible = 'true'">
         <div class="box-tools pull-right">
         <a class="btn-box-tool"><i class="fa fa-chevron-up"></i></a>
@@ -338,7 +338,7 @@
         <div class="board">
           <div class="board-inner">
             <ul class="nav nav-tabs nav-justified" role="tablist" show-tooltip="false">
-              <xsl:for-each select="rows/content/form/label/*[@type='separator']">
+              <xsl:for-each select="rows/content/form/label/*[@type='separator' or @type = 'tab']">
                 <xsl:variable name="aClss">
                   <xsl:if test="position() = 1">active</xsl:if>
                 </xsl:variable>
@@ -358,6 +358,50 @@
         </div>
       </div>
     </div>
+
+  </xsl:template>
+
+  <xsl:template name="list-tab">
+    <xsl:variable name="pos" select="position()"/>
+      <xsl:variable name="vName" select="name()"/>
+      <li item-name="gen-tab-{$vName}" class="gen-fields-holder" rel="gen-tab-{$vName}">
+        <xsl:if test="$pos = 1">
+          <xsl:attribute name="class">gen-fields-holder active</xsl:attribute>
+        </xsl:if>
+        <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#gen-tab-{$vName}">
+          <i class="fa fa-angle-right"/>
+          <span>
+            <xsl:choose>
+              <xsl:when test="../../value/*[name() = $vName] != ''">
+                <xsl:value-of select="../../value/*[name() = $vName]"/>
+              </xsl:when>
+              
+              <xsl:otherwise>
+                  <xsl:value-of select="."/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </span>
+        </a>
+      </li>
+  </xsl:template>
+
+  <xsl:template name="form-tab">
+    <xsl:param name="condition"/>
+
+    <ul class="nav tab-nav nav-tabs">
+      <xsl:choose>
+        <xsl:when test="$condition = 1">
+          <xsl:for-each select="rows/content/form/label/*[@type='tab']">
+            <xsl:call-template name="list-tab"/>
+          </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:for-each select="rows/content/form/label/*[@type='separator' or @type='tab']">
+            <xsl:call-template name="list-tab"/>
+          </xsl:for-each>
+        </xsl:otherwise>
+      </xsl:choose>
+    </ul>
 
   </xsl:template>
 

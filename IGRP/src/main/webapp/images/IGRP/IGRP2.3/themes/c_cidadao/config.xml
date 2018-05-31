@@ -4,6 +4,10 @@
 		<buttonsHover>#4cae4c</buttonsHover>
 	</nav>
 
+	<colors>
+		<color name="secondary">#368e36</color>
+	</colors>
+
 	<sidebar>
 		<background>#4cae4c</background>
 	</sidebar>

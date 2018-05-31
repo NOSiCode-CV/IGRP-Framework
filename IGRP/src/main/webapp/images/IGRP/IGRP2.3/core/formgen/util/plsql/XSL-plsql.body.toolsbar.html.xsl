@@ -5,11 +5,12 @@
     <xsl:template name="genBodyToolsbar">
         <xsl:param name="title" />        
         <xsl:param name="page" />
-        <xsl:param name="action" /> 
+        <xsl:param name="action" />
+        <xsl:param name="tag" select="@rel"/>
        
         <xsl:variable name="code_action">
             <xsl:call-template name="sanitizeToolbar">
-                <xsl:with-param name="title" select="@rel"/>
+                <xsl:with-param name="title" select="$tag"/>
                 <xsl:with-param name="selfaction" select="$selfaction"/>
                 <xsl:with-param name="page" select="$page"/>
                 <xsl:with-param name="action" select="$action"/>
@@ -231,9 +232,7 @@
         <xsl:text>p_app=>L_APP</xsl:text>
         <xsl:text>)</xsl:text>
         <xsl:value-of select="$endline"/>
-               
-        
-                
+                               
         <xsl:call-template name="genProcedureEndCab">
             <xsl:with-param name="procedureName" select="$procName"/>
         </xsl:call-template>

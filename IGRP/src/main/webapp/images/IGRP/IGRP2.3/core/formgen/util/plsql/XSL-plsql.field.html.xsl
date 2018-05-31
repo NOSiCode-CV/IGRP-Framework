@@ -216,6 +216,7 @@
         <xsl:variable name="ttype">
             <xsl:choose>
                 <xsl:when test="@lookup_parser='true'">js_passa_valor</xsl:when>
+                <xsl:when test="$what_type='lookup'"><xsl:value-of select="@lookup_type"/></xsl:when>
                 <xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
             </xsl:choose>
 

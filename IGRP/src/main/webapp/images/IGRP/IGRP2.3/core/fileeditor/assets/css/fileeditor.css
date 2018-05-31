@@ -1,0 +1,136 @@
+/* RESET PADDING */
+form .container-fluid,
+#igrp-contents>.content>.row{
+	padding: 0!important;
+	margin:0!important;
+}
+/* FILE EDITOR */
+.igrp-fileeditor{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height:100%;
+	z-index: 2000;
+}
+
+/*buttons*/
+.igrp-fileeditor-save{
+	position: absolute!important;
+	right: 4.5px;
+	top: 4.5px;
+	z-index: 10;
+}
+
+/*left panel*/
+.igrp-fileeditor .igrp-fileeditor-left-panel{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background: #607D8B;
+	color: white;
+	padding: 15px;
+	font-size: 14px;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul{
+	padding: 0
+}
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li>ul{
+	padding-left: 15px;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li>span{
+	display: block;
+	padding:5px;
+	cursor: pointer;
+	position: relative;
+}
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.folder>span:before,
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.file>span:before{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	content:"\f114";
+	margin-right: 4px;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.loading span:after{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    content:"\f110";
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right:0;
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.file>span:before{
+	content :"\f0f6";
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul li.folder>span[aria-expanded="true"]:before{
+	content: "\f115"
+}
+
+/*main panel*/
+.igrp-fileeditor .igrp-fileeditor-main-panel {
+	position: absolute;
+	left: 16.66666667%;
+	height: 100%;
+	padding:0;
+}
+
+.igrp-fileeditor-tab{
+	background: white;
+	padding: 0 25px;
+}
+
+.igrp-fileeditor .tab-content{
+	padding: 0;
+	border:0;
+	position: absolute;
+	top: 40px;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 40px)
+}
+.igrp-fileeditor .nav-tabs>li>a{
+	border-width:0 0 1px 0!important;
+	margin: 0;
+	font-weight: 400;
+	padding: 10px!important
+}
+.igrp-fileeditor .nav-tabs>li.active>a:after{
+	content:"";
+	width: 100%;
+	height: 2px;
+	position: relative;
+	z-index: 15;
+	background: red
+}
+
+/*code mirror*/
+.igrp-fileeditor-coder .CodeMirror{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.CodeMirror-gutters{
+	background: white;
+	border:0;
+}
+
+    

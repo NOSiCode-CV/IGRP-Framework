@@ -26,13 +26,13 @@ var Field = function(type,params){
 		css : [],
 		xsl:[]
 	};
-	
+
 	field.server = {
 
-			preserved : { }
+		preserved : { }
 
-		};
-	
+	};
+
 	field.genType = 'field';
 
 	field.autoTag = params.options && params.options.hasOwnProperty('autoTag') ? params.options.autoTag : true;
@@ -44,6 +44,7 @@ var Field = function(type,params){
 
 	//console.log(params.properties)
 	field.customStyle = {
+		id :params && params.style && params.style.id  ? params.style.id : '',
 		class :params && params.style && params.style.class  ? params.style.class : '',
 		inline:params && params.style && params.style.inline ? params.style.inline : ''
 	}; 
@@ -58,6 +59,7 @@ var Field = function(type,params){
 		var prop = {
 			properties:{},
 			style:{
+				id :field.customStyle.id,
 				class :field.customStyle.class,
 				inline:field.customStyle.inline
 			},
@@ -157,6 +159,19 @@ var Field = function(type,params){
 				var tagSetter = holderHasTag ? field.holder : $('[tag]',field.holder);
 				if(tagSetter[0]) tagSetter.attr('tag',field.GET.tag());
 			}
+
+			if(field.propertiesOptions.tag) {
+
+				if( field.propertiesOptions.tag.onChange ){
+
+					field.propertiesOptions.tag.onChange(tag);
+
+				}
+
+			}		
+
+				
+
 			
 			field.SET.name('p_'+tag);
 		},
@@ -269,7 +284,7 @@ var Field = function(type,params){
 	}
 
 	var setPropertyOptions = function(p){
-	
+
 		field.propertiesOptions[p.name] = {};
 		for(var k in p){
 			field.propertiesOptions[p.name][k] = p[k];
@@ -365,6 +380,7 @@ var Field = function(type,params){
 		if(properties){
 			for(var p in properties){
 
+				//console.log(p+' = '+ field.proprieties[p] )
 				if(field.SET[p])
 					field.SET[p](properties[p],{transform:false});
 			}

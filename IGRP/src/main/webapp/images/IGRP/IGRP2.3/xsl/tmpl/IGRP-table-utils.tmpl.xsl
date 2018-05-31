@@ -11,19 +11,15 @@
   </xsl:template>
   <!-- TD COLOR -->
   <xsl:template name="tdcolor">
-    <xsl:param name="color" select="."/>
-    <xsl:attribute name="class">
-       <xsl:text>tdcolor</xsl:text>
-     </xsl:attribute>
-    <span class="color tdcolor-item" value="{$color}"></span>
-    <!-- <xsl:for-each select="$color">
+    <xsl:param name="color" select="''"/>
+    <xsl:for-each select="$color">
       <xsl:if test="(. != 0 or . != '') and . &lt; 10">
         <xsl:attribute name="class">
           <xsl:text>tdcolor</xsl:text>
         </xsl:attribute>
-        <span class="color tdcolor-item" value="{.}"></span>
+        <span class="color{.} tdcolor-item"></span>
       </xsl:if>
-    </xsl:for-each> -->
+    </xsl:for-each>
   </xsl:template>
   <!--TEMPLATE FOR TABLE EXPORT OPTIONS-->
   <xsl:template name="table-export-options" >
@@ -63,7 +59,7 @@
   <xsl:template mode="table-legend" name="table-legend" match="legend_color">
     <div class="box-table-legend">
       <xsl:for-each select="item">
-        <div class="legend-holder" legend-color="{color}" value="{value}">
+        <div class="legend-holder">
           <p class="legend-lbl">
             <xsl:if test="string-length(label) &gt; 17">
               <xsl:attribute name="title">
@@ -75,15 +71,7 @@
             </xsl:if>
             <xsl:value-of select="label"/>
           </p>
-          <xsl:choose>
-          	<xsl:when test="color">
-          		<div class="legend-item color" style="background:{color}" ></div>
-          	</xsl:when>
-          	<xsl:otherwise>
-          		<div class="legend-item color{value}"></div>
-          	</xsl:otherwise>
-          </xsl:choose>
-          
+          <div class="legend-item color{value}"></div>
         </div>
       </xsl:for-each>
     </div>
@@ -95,7 +83,7 @@
 
     <div class="list-group table-context-menu clearfix table-ctx-holder" use-fa="{$use-fa}" >
         <xsl:for-each select="item">
-          <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}">
+          <li id="CTX_ID_{position()}" class="operationTable " trel="{title}">
             <xsl:call-template name="table-ctx-item">
               <xsl:with-param name="use-fa" select="$use-fa"/>
               <xsl:with-param name="class" select="'list-group-item'"/>
@@ -130,14 +118,14 @@
         <xsl:variable name="rowCtxHiddenTitle">
           <xsl:call-template name="ctxHiddenTitle">
             <xsl:with-param name="vText" select="$ctxHiddenContent"/>
-            <xsl:with-param name="ctx" select="@rel"/>
+            <xsl:with-param name="ctx" select="title"/>
             <xsl:with-param name="item" select="string-length($ctxHiddenTotal)"/>
           </xsl:call-template>
         </xsl:variable>
 
-        <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}" title="{title}">
+        <li id="CTX_ID_{position()}" class="operationTable " trel="{title}" title="{title}">
           <xsl:choose>
-            <xsl:when test="$rowCtxHiddenTitle != @rel">
+            <xsl:when test="$rowCtxHiddenTitle != title">
                 <xsl:call-template name="table-ctx-item">
                   <xsl:with-param name="use-fa" select="$use-fa"/>
                   <xsl:with-param name="size" select="'xs'"/>
@@ -328,6 +316,9 @@
     </xsl:variable>
 
     <li filter-item="{$filter-item}" style-listener="true">
+      <xsl:if test="$filter-item = $value">
+        <xsl:attribute name="class">active</xsl:attribute>
+      </xsl:if>
       <a href="{$name}={$filter-item}" class="IGRP_filter" target="filter" active-bg-color="primary">
         <xsl:value-of select="$filter-item"/>
       </a>
@@ -358,10 +349,10 @@
       <xsl:variable name="filter-item" select="substring($filter-items,$i,1)" />
 
       <li>
+        <xsl:if test="$filter-item = $value">
+          <xsl:attribute name="class">active</xsl:attribute>
+        </xsl:if>
         <a href="{$name}={$filter-item}" class="IGRP_filter" target="filter">
-          <!-- <xsl:if test="$filter-item=$value">
-            <xsl:attribute name="class">active</xsl:attribute>
-          </xsl:if> -->
           <xsl:value-of select="$filter-item"/>
         </a>
       </li>

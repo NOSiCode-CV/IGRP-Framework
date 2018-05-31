@@ -60,7 +60,7 @@
 
 			},options);
 
-			$('#'+IGRP.components.sideBar.options.controllerId).on('click',IGRP.components.sideBar.toggle);
+			$('#'+IGRP.components.sideBar.options.controllerId+', .side-bar-ctrl').on('click',IGRP.components.sideBar.toggle);
 
 		}
 

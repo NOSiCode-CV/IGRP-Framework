@@ -7,7 +7,7 @@
                 <span class="input-group-btn">
                     <span class="btn btn-#[class]# file-btn-holder">
                         <i class="fa fa-upload"></i>
-                        <input id="{../../../fields/#tag#/@name}_fk" name="{../../../fields/#tag#/@name}_fk" #[required]# #[disabled]# #[readonly]# value="{#tag#}" class="transparent" type="file" #[multiple]# accept="#[accept]#" rel="F_#parent.tag#">
+                        <input id="{../../../fields/#tag#/@name}_fk" name="{../../../fields/#tag#/@name}_fk" #[required]# value="{#tag#}" class="transparent" type="file" #[multiple]# #[disabled]# #[readonly]# accept="#[accept]#" rel="F_#parent.tag#">
                             <xsl:call-template name="setAttributes">
                                 <xsl:with-param name="field" select="#path#"/>
                             </xsl:call-template>

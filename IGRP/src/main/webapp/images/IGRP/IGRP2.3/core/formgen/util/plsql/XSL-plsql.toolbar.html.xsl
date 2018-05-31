@@ -35,18 +35,24 @@
         </xsl:if>
         <xsl:choose>
             
-            <xsl:when test="$with_menucopy='true' and $type_pkg='html' and $type='menu'">
+            <xsl:when test="@copy='true' and $type_pkg='html' and ($type='menu' or @gen-type='menu')">
                 
                 <xsl:value-of select="$enter"/>
                 <xsl:value-of select="$enter2tab"/>
-                <xsl:value-of select="$packageCopyDBName"/>
+                <xsl:value-of select="$selfapp"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="@copy-package-db"/>
                 <xsl:text>.</xsl:text><xsl:value-of select="'DML_MENU'"/>
                 <xsl:value-of select="$endline"/>
                 
                 <xsl:value-of select="$enter"/>
                 <xsl:value-of select="$enter2tab"/>
-                <xsl:value-of select="$packageCopyHtmlName"/>
-                <xsl:text>.</xsl:text><xsl:value-of select="$procName"/>
+                <xsl:value-of select="$selfapp"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="@copy-package-html"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="'TOOLBAR_'"/>
+                <xsl:value-of select="@copy-tag"/>
                 <xsl:value-of select="concat('(p','=>','t)')"/>
                 <xsl:value-of select="$endline"/>
                 
@@ -239,7 +245,7 @@
             <xsl:with-param name="name" select="'p_img'"/>
             <xsl:with-param name="value" select="img"/>
             <xsl:with-param name="with_comma" select="'false'"/>
-        </xsl:call-template> 
+        </xsl:call-template>
         
         <xsl:value-of select="$enter2tab"/><xsl:value-of select="$tab"/><xsl:value-of select="$tab"
         /><xsl:value-of select="$tab"/><xsl:value-of select="$tab"/><xsl:value-of select="$tab"

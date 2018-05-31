@@ -38,7 +38,12 @@
 				path:'/core/igrp/form/igrp.forms.js'
 			} 
 		]
-	}
+	};
+
+	var tableOrderIncludes = [
+		{path : '/core/formgen/js/jquery-ui.min.js'}
+	],
+	tableOrderInc  = false;
 
 	container.sortableOptions.onOver = function(){
 		$('tbody',container.holder).hide();
@@ -127,6 +132,38 @@
 		label:'No Delete',
 		xslValue:'nodelete',
 		value:false
+	});
+
+	container.setPropriety({
+		name:'ordertable',
+		label : 'Order Table',
+		value:false,
+		xslValue:'ordertable',
+		onChange:function(v){
+			if(v){
+
+				if(!tableOrderInc){
+					tableOrderIncludes.forEach(function(e){
+						container.includes.js.unshift(e);
+					});
+					tableOrderInc = true;
+				}					
+			}else{
+				tableOrderIncludes.forEach(function(e){
+					for( var i = 0; i < container.includes.js.length; i++){
+						var inc = container.includes.js[i];
+						if(inc.path == e.path){
+							var index = container.includes.js.indexOf(inc);
+							if (index > -1) 
+							    container.includes.js.splice(index, 1);
+							break;
+						}
+					}
+				});
+
+				tableOrderInc = false;
+			}
+		}
 	});
 }
 

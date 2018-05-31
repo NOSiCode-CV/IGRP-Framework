@@ -5,6 +5,8 @@
 	$.IGRP.component('rightPanel',{
 
 		set : function(p){
+			
+			//var modal 	 = $('#igrp-right-panel'),
 
 			var iframe   = $('iframe',modal),
 
@@ -65,6 +67,11 @@
 		}
 
 	},true);
+  /*$.IGRP.on('init',function(){
 
+    
+
+
+  })*/
 
 })();

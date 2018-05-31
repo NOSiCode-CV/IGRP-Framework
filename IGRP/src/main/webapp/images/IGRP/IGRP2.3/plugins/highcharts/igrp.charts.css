@@ -102,3 +102,7 @@
 .toggleChart .dropdown-menu .dropdown-item:hover {
     font-weight: 700;
 }
+.highcharts-title,
+.highcharts-axis-title{
+    display: none!important;
+}

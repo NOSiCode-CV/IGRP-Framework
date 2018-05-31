@@ -68,7 +68,11 @@
         <xsl:param name="page"/>
         <xsl:param name="action"/>
 
-        <xsl:variable name="v">
+        <xsl:call-template name="LowerCase">
+            <xsl:with-param name="text" select="@proc_name" />
+        </xsl:call-template>
+
+        <!-- <xsl:variable name="v">
             <xsl:choose>
                 <xsl:when test="string-length($selfaction) &lt;= 6">
                     <xsl:call-template name="sanitizeTag">
@@ -81,7 +85,7 @@
                             <xsl:with-param name="tag" select="$selfaction" />
                         </xsl:call-template>
                     </xsl:variable>
-                    <xsl:value-of select="concat( substring(translate($v1,'_',''),1,3),  substring(translate($v1,'_',''),-3) )"/>                                
+					<xsl:value-of select="concat(substring(translate($v1,'_',''),1,3),substring(translate($v1,'_',''),string-length(translate($v1,'_',''))-3+1))"/>					
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable> 
@@ -101,7 +105,9 @@
                 <xsl:with-param name="tag" select="$v_action_1" />
             </xsl:call-template>
         </xsl:variable>
+
         <xsl:variable name="v_action1" select="substring($v_action,1,9)" />
+
         <xsl:variable name="v_action2">
             <xsl:variable name="v_action2_1">
                 <xsl:call-template name="sanitizeTag">
@@ -110,9 +116,67 @@
             </xsl:variable>
             <xsl:value-of select="translate(concat(substring(translate($action,'_',''),1,4),'_',substring($v_action2_1,1,20)),'_','')" />
         </xsl:variable>
+
         <xsl:call-template name="LowerCase">
             <xsl:with-param name="text" select="translate(concat($v_action1,'_',$v,$v_action2),'.','')" />
-        </xsl:call-template>
+        </xsl:call-template>  -->
+
+    </xsl:template>
+    <xsl:template name="sanitizeToolbar-v1">
+        <xsl:param name="title"/>
+        <xsl:param name="selfaction"/>
+        <xsl:param name="page"/>
+        <xsl:param name="action"/>
+
+        <xsl:variable name="v">
+            <xsl:choose>
+                <xsl:when test="string-length($selfaction) &lt;= 6">
+                    <xsl:call-template name="sanitizeTag">
+                        <xsl:with-param name="tag" select="$selfaction" />
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:variable name="v1">
+                        <xsl:call-template name="sanitizeTag">
+                            <xsl:with-param name="tag" select="$selfaction" />
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <xsl:value-of select="concat(substring(translate($v1,'_',''),1,3),substring(translate($v1,'_',''),string-length(translate($v1,'_',''))-3+1))"/>                 
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable> 
+        
+        <xsl:variable name="v_action">
+            <xsl:variable name="v_action_1">
+                <xsl:choose>
+                    <xsl:when test="substring-before($title, ' ')!=''">
+                        <xsl:value-of select="substring-before($title, ' ')" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$title" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:call-template name="sanitizeTag">
+                <xsl:with-param name="tag" select="$v_action_1" />
+            </xsl:call-template>
+        </xsl:variable>
+
+        <xsl:variable name="v_action1" select="substring($v_action,1,9)" />
+
+        <xsl:variable name="v_action2">
+            <xsl:variable name="v_action2_1">
+                <xsl:call-template name="sanitizeTag">
+                    <xsl:with-param name="tag" select="substring(translate($page,'_T_',''),1,6)" />
+                </xsl:call-template>
+            </xsl:variable>
+            <xsl:value-of select="translate(concat(substring(translate($action,'_',''),1,4),'_',substring($v_action2_1,1,20)),'_','')" />
+        </xsl:variable>
+        
+        <xsl:call-template name="LowerCase">
+            <xsl:with-param name="text" select="translate(concat($v_action1,'_',$v,$v_action2),'.','')" />
+        </xsl:call-template> 
+
     </xsl:template>
     <!--Generate FIELD Attribute-->
     <xsl:template name="genFieldAttribute">

@@ -110,6 +110,7 @@ var GEN_LAYOUT = function(viewer){
 				p.parent.insertAt(row,idx);
 
 			}else{
+				
 				view.insertAt(row,p.index);
 			}
 
@@ -120,8 +121,6 @@ var GEN_LAYOUT = function(viewer){
 			GEN.resizeView();
 
 			setZindex();
-			
-//			console.log('dsadsa')
 
 			row.addClass('gen-row');
 			
@@ -272,7 +271,7 @@ var GEN_LAYOUT = function(viewer){
 	}
 
 	layout.setViewSortable = function(_view){
-		//console.log(_view[0])
+		
 		if(_view[0]){
 			_view.sortable({
 				//containment : "parent",

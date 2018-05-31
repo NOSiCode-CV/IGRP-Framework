@@ -6,13 +6,45 @@ var GENVERTICALMENU = function(name,params){
 	
 	container.xml.genType = 'menu';
 	
-	container.unsetProprieties(['collapsible']);
+	container.includes = {
+		css :[
+			{ path : '/core/igrp/toolsbar/toolsbar.css' }
+		]
+	}
 
-	container.setPropriety({
-		name:'dynamic',
-		label:'Dynamic Menu',
-		value:false
-	});
+	
+
+	container.ready = function(){
+
+		container.unsetProprieties(['collapsible']);
+
+		container.setPropriety({
+			name:'dynamic',
+			label:'Dynamic Menu',
+			value:false
+		});
+
+		container.setPropriety({
+			name:'template',
+			value:{
+				value : 'default',
+				options : [
+					{
+						label : 'Default',
+						value : 'default'
+					},
+					{
+						label : 'Clean',
+						value : 'clean'
+					}
+				]
+			}
+		});
+
+	}
+
+	
+
 
 	container.onFieldSet = function(field){
 		

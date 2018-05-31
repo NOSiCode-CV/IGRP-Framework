@@ -107,7 +107,9 @@
 			com.dataTable();
 			
 			com.setEvents();
-			
+
+			com.ordertable();
+
 			com.setTableStyle();
 			
 		}
@@ -130,3 +132,6 @@
 	    return "en_US";
 	}
 })();
+
+
+

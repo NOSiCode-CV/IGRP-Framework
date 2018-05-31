@@ -280,3 +280,10 @@ div[data-notify="container"].alert{
 	color: #337ab7;
 	font-weight: 500;
 }
+
+#igrp-top-nav{
+    padding-left: 25%;
+}
+#side-bar-ctrl{
+    left: 25%;
+}

@@ -2,7 +2,6 @@
 	padding: 10px 0 0 0;
 }
 
-
 .IGRP-separatorlist > .box-table-contents{
 	padding-top: 0
 }
@@ -39,7 +38,7 @@
 }
 
 .IGRP-separatorlist .table-row-add{
-	margin: 10px auto;
+	margin: 10px auto!important;
 	width: 30px;
 }
 
@@ -92,4 +91,11 @@
 	top:-990%;
 	left: -990%;
 	overflow: hidden;
+}
+
+.IGRP-separatorlist[noedt="true"] .table-btn .table-row-edit,
+.IGRP-separatorlist[nodel="true"] .table-btn .table-row-remove,
+.IGRP-separatorlist[noadd="true"] .table-btn .table-row-add,
+.IGRP-separatorlist[noadd="true"][nodel="true"][noedt="true"] .table-btn{
+	display: none;
 }

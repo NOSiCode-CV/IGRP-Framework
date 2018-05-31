@@ -45,6 +45,12 @@
 					
 					var file =G.getIncludeURL(f.file);
 
+					G.includeToHead({
+						type : type,
+						path : file
+					});
+					/*var file =G.getIncludeURL(f.file);
+
 					if(file.indexOf('{$path}') >= 0)
 						file = file.replace('{$path}', path);
 
@@ -52,7 +58,7 @@
 								  				  '<script class="gen-inc'+type+'" type="text/javascript" src="'+file+'"></script>';
 				
 					if(!G.viewFileIncluded(file,type)) 
-						$(include).insertBefore( $('style#custom-css') );
+						$(include).insertBefore( $('style#custom-css') );*/
 
 
 				});

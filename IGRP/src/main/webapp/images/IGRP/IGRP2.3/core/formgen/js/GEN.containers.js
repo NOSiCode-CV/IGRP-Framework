@@ -151,11 +151,11 @@ var CONTAINER = function(name,params){
 		}
 	};
 
-	container.removeField = function(id,_alert){
-		
+	container.removeField = function(id,_alert,_transform,callback){
 			var isCtxMenu = container.contextMenu && container.contextMenu.getField(id) ? true : false;
 			var field     = isCtxMenu ? container.contextMenu.getField(id) : container.GET.field(id);
 			var alert     = _alert == false ? false : true;
+			var transform = _transform == false ? false : true;
 			
 			container.beforeFieldRemove(id);
 
@@ -193,8 +193,19 @@ var CONTAINER = function(name,params){
 						}catch(err){
 							console.log(err);
 						}
+
+						if(transform){
+
+							
+							container.Transform({
+								callback:function(){
+									if(callback)
+										callback();
+								}
+							});
+						}
 						
-						container.Transform();
+							
 					}
 				}
 
@@ -210,6 +221,10 @@ var CONTAINER = function(name,params){
 			
 			if(GEN.edit.object && field && field.id == GEN.edit.object.id)
 				GEN.edit.hide();
+
+	}
+
+	container.replaceField = function(){
 
 	}
 
@@ -264,7 +279,7 @@ var CONTAINER = function(name,params){
 
 				}else if(file.import){
 					for(var c in file.import){
-
+						console.log(c)
 						if(file.import[c] == 'import.all'){
 							console.log('import all')
 						}else{
@@ -378,7 +393,7 @@ var CONTAINER = function(name,params){
 		});
 
 		//ctxMenu Includes
-		if(container.contextMenu){
+		if(container.contextMenu && container.contextMenu.items && container.contextMenu.items[0]){
 			container.contextMenu.items.forEach(function(ctx){
 				if(ctx.includes){
 					var ctxXSLInc = ctx.includes.xsl ? ctx.includes.xsl : ctx.includes;
@@ -512,12 +527,14 @@ var CONTAINER = function(name,params){
 			if(container.contextMenu) setUpContextMenuFields();
 			//form hidden config elements
 			
+			configHiddenFields();
+
 			if(container.fields){
 				setDropable();
 				configSortable();
 			} 
 
-			configHiddenFields();
+			
 
 			if(contents.find('.gen-rows-holder')){
 				__GEN.layout.setViewSortable(contents.find('.gen-rows-holder'));
@@ -821,6 +838,11 @@ var CONTAINER = function(name,params){
 				//HAS DROP ZONE
 				var dropZone = $(container.holder.find('[gen-id="drop-zone"]')[container.dropZone.fieldsHolderIndex]);
 				var items    = container.fieldsSelector[0].selector;
+				var hiddensHolder = container.holder.find('.gen-hidden-holder');
+
+				if(hiddensHolder[0])
+					dropZone = dropZone.add(hiddensHolder[0]);
+				
 				
 				setSortable(dropZone,items);
 
@@ -903,14 +925,16 @@ var CONTAINER = function(name,params){
 					//return $('<div style="visibility:hidden!important;max-height:25px!important;max-width:20%" class="container-setted"/>')
 				},*/
 				over:function(e,ui){
-					
+					//console.log(ui)
 					var name     	  = ui.item.attr('name') ? ui.item.attr('name') : ui.item.attr('gen-field-type'),
 						isValid       = container.validField(name),
 						isHidden      = name == 'hidden',
 						_isContextMenu = isContextMenu(name);//container.contextMenu ? name == container.contextMenu.type : false;
 
-					if(name && (!isValid || isHidden || _isContextMenu))
+					if(name && (!isValid || isHidden || _isContextMenu)){
+					
 						ui.placeholder.hide();
+					}
 					else
 						container.holder.addClass('sorting');
 
@@ -1153,6 +1177,9 @@ var CONTAINER = function(name,params){
 				var transformer = hasTransformer ? container.holder.find('[gen-transformer="true"]') : container.holder.find('.container-contents');
 				var contentSelector = hasTransformer ? '[gen-transformer="true"]':false;
 */				
+
+				
+
 				container.holder.find('.container-contents').XMLTransform({
 					xml     	 : tXML,
 					xsl     	 : tXSL,
@@ -1305,6 +1332,7 @@ var CONTAINER = function(name,params){
 			}
 			else{
 				element.setAttribute('class',tclass+' gen-table-field-holder');
+				console.log('is table')
 			}
 			
 		}
@@ -1776,11 +1804,11 @@ var CONTAINER = function(name,params){
 				container.receiving = true; 
 
 				field.parent = container;
-				
-				field.order  = field.order>=0 ? field.order: FIELDS.length;
+
+				field.order  = field.order>=0 ? field.order : FIELDS.length;
 
 				if(container.groups) 
-					
+
 					container.groups.setFieldGroup(field);
 				
 				field.init();
@@ -1789,6 +1817,7 @@ var CONTAINER = function(name,params){
 					
 					setContextMenuField(field,{
 						callback:callback
+
 					});
 
 				}else{
@@ -1798,6 +1827,7 @@ var CONTAINER = function(name,params){
 						container.onFieldSet(field);
 
 						if(container['on'+capitalizeFirstLetter(field.GET.type())+'FieldSet'])
+							
 							container['on'+capitalizeFirstLetter(field.GET.type())+'FieldSet'](field);
 
 						FIELDS.push(field);
@@ -1811,9 +1841,7 @@ var CONTAINER = function(name,params){
 					}else{
 
 						getDropZonesFieldsTemplate({
-							
 							field:field,
-							
 							callback:function(){
 								
 								container.onFieldSet(field);
@@ -2306,6 +2334,7 @@ var CONTAINER = function(name,params){
 	}
 
 	container.validField = function(name){
+		
 		var valid = true;
 
 		if(container.reject[0]){
@@ -2316,14 +2345,10 @@ var CONTAINER = function(name,params){
 				}
 			}
 		}
-		if(container.accept[0]){
-			for(var x = 0; x < container.accept.length; x++){
-				if(container.accept[x] != name){
-					valid = false;
-					break;
-				}
-			}
-		}
+		if(container.accept[0])
+
+			valid = $.inArray(name,container.accept) >= 0;
+
 		return valid;
 	}
 
@@ -2720,7 +2745,15 @@ var CONTAINER = function(name,params){
 		var holder = $(VARS.getContainerSettsHtml(container));
 		//edit click
 		holder.find('.container-edit').on('click',function(e){
+			
+			e.preventDefault();
+
 			GEN.edit(container,e);
+
+			console.log('edit')
+			
+			e.stopPropagation();
+
 			return false;
 		});	
 
@@ -2802,9 +2835,10 @@ var CONTAINER = function(name,params){
 		var holder = $(VARS.getFieldsSettsHtml(field));
 		
 		holder.find('.field-edit').on('click',function(e){
-			
+			//console.log(e);
 			e.preventDefault();
 			__params.onEdit(e);
+			e.stopPropagation();
 			return false;
 		});
 
@@ -2821,7 +2855,9 @@ var CONTAINER = function(name,params){
 		
 		var index = idx ? idx : 1;
 
-		var objects = type == 'container' ? GEN.getContainers() : container.contextMenu ? FIELDS.concat(container.contextMenu.getFields()) : FIELDS;
+		var objects = type == 'container'   ? GEN.getContainers() : 
+					  type == 'contents'    ? container.contents  :
+					  container.contextMenu ? FIELDS.concat(container.contextMenu.getFields()) : FIELDS;
 		
 		var rtn = name+'_'+index;;
 
@@ -2834,6 +2870,7 @@ var CONTAINER = function(name,params){
 				rtn = container.incrementTag(type,name,_i);
 			}
 		}
+		
 		return rtn;
 	}
 
@@ -2898,14 +2935,15 @@ var CONTAINER = function(name,params){
 	
 
 	var setEvents = function(){
+
+		$(document).on('click','.gen-activate-fields-tab',function(){
+			$('#igrp-sidebar .nav-tabs li a[href="#gen-list-fields"]').click();
+		});
 		
 		$(window).resize(function(){
 			container.onWindowResize();
 		});
 		
-		$(document).on('click','.gen-activate-fields-tab',function(){
-			$('#igrp-sidebar .nav-tabs li a[href="#gen-list-fields"]').click();
-			});
 		container.holder.on('click','>.container-contents .gen-copy-from',function(e){
 			e.preventDefault();
 			GEN.edit(container,{
@@ -2916,16 +2954,21 @@ var CONTAINER = function(name,params){
 		});
 
 		container.holder.on('dblclick','.gen-fields-holder',function(e){
+			e.preventDefault();
 			var id     = $(this).attr('gen-field-id');
 			var field  = id ? container.GET.field(id) : false;
 			
 			if(field)
 				GEN.edit(field,e);
 			
+			e.stopPropagation();
+
 			return false;
 		});
 
 	}
+
+	
 
 	//_EVENTS LISTNERS
 	/*functions to subscribe*/

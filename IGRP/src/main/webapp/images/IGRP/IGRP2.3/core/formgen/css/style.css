@@ -68,9 +68,10 @@ body.no-drop{
 }
 
 #igrp-sidebar.sidebar{
-	margin-top: 128px;
+	padding-top: 89px;
+	padding-bottom: 29px;
 	top: 0;
-	background: #fdfdfd!important;
+	/*background: #fdfdfd!important;*/
 }
 
 .gen-viewers-toolbar{
@@ -384,7 +385,9 @@ a, button {
 	z-index: 100;
 	left: 0;
 	padding: 0;
-	margin: 0
+	margin: 0;
+	/*border-bottom:1px solid rgba(0,0,0,.15);
+	border-right: 1px solid whitesmoke;*/
 	/*height: calc( 100% - 55px );*/
 }
 
@@ -393,12 +396,12 @@ max-height: 34px;
 }
 
 .gen-types-search{
-	border-left: 0;
-	border-right: 0;
-	border-top: 0;
 	padding-right: 20px;
 	z-index: 10;
-	box-shadow: none!important
+	box-shadow: none!important;
+	border:0;
+	color: white;
+	
 }
 
 .gen-type-search-clear{
@@ -421,12 +424,12 @@ max-height: 34px;
 .gen-searcher-wrapper .gen-searcher-contents{
 	opacity: 0;
 	/*transition: opacity .4s;*/
-	background: #fdfdfd;
 	padding: 0;
 	position: relative;
 	top: -30px;
 	z-index: -1;
-	overflow: auto
+	overflow: auto;
+	border-top: 1px solid #0000001f;
 }
 
 .gen-searcher-contents.active{
@@ -452,10 +455,10 @@ max-height: 34px;
 	float: left
 }
 
-.gen-types-tab .treeview-menu,
+/*.gen-types-tab .treeview-menu,
 .treeview-menu{
 	background: #fdfdfd;
-}
+}*/
 
 #igrp-sidebar{
 	margin-top: 0px;
@@ -491,14 +494,14 @@ max-height: 34px;
 }
 
 #igrp-sidebar .nav-tabs { 
-	border-bottom: 1px solid #f0f0f0; 
+	border-bottom: 1px solid rgba(0,0,0,.15);
 	position: fixed;
-	z-index: 100;
-    top: 89px;
-    left: 1px;
+	z-index: 101;
+    top: 0;
+    left: 0;
     padding: 0;
     background: white;
-    box-shadow: 0px 3px 5px -2px #fafafa
+    /*box-shadow: 0px 3px 5px -2px #fafafa*/
 }
 
 #igrp-sidebar .nav-tabs li{
@@ -507,8 +510,8 @@ max-height: 34px;
 
 }
 
-#igrp-sidebar .nav-tabs li:last-child{
-	border-right: 1px solid #f0f0f0;
+#igrp-sidebar .nav-tabs li:not(:last-child){
+	border-right: 1px solid rgba(0,0,0,.15);
 }
 
 #igrp-sidebar .nav-tabs li a i{
@@ -523,17 +526,19 @@ max-height: 34px;
 }
 #igrp-sidebar .nav-tabs > li > a { 
 	border: none;  
-	color: #e8e8e8;
+	color: #ffffff63;
 	font-weight: 400;
 	font-size: 11px;
 	text-transform: uppercase;
 	margin:0;
-	padding: 5px;
+	padding: 15px 5px 5px 5px;
+	height: 56px;
+
 }
 #igrp-sidebar .nav-tabs > li.active > a, 
 #igrp-sidebar .nav-tabs > li > a:hover { 
 	border: none; 
-	color: #4496C1 ; 
+	color: #fff ; 
 	background: transparent; 
 }
 /*#igrp-sidebar .nav-tabs > li > a::after { 
@@ -558,8 +563,7 @@ max-height: 34px;
 }
 
 #igrp-sidebar .tab-content{
-	padding:5px
-	margin-top:38px;
+	background: transparent;
 }
 
 
@@ -591,7 +595,7 @@ max-height: 34px;
 
 .treeview-menu>li>a {
     cursor: move;
-    color: #337ab7
+    /*color: #337ab7*/
 }
 
 /*FIELDS SETTS*/
@@ -1116,7 +1120,7 @@ textarea.form-control.propriety-setter{
 }
 
 #gen-edition-modal .gen-fa-setter ul li.dropdown.tabdrop{
-	top: 4px;
+	top: 1px;
 	
 }
 
@@ -1360,7 +1364,20 @@ new rows / columns style
 }
 #igrp-sidebar::-webkit-scrollbar-thumb,
 .gen-searcher-wrapper .gen-searcher-contents::-webkit-scrollbar-thumb{
-	background: #ddd
+	background: rgba(0,0,0,.15)
+}
+
+.gen-types-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #ffffff63;
+    opacity: 1; /* Firefox */
+}
+
+.gen-types-search:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #ffffff63;
+}
+
+.gen-types-search::-ms-input-placeholder { /* Microsoft Edge */
+    color: #ffffff63;
 }
 
 .no-scroll{
@@ -1369,7 +1386,7 @@ new rows / columns style
 
 @media (min-width: 768px) {
   #igrp-sidebar {
-    height: calc(100% - 130px);
+    height: calc(100% - 90px);
   }
 }
 
@@ -1378,9 +1395,10 @@ new rows / columns style
 	30.01.2018
 	william.lima
 */
-#igrp-sidebar .nav-tabs li{
-	border-right: 0;
-}
+/*#igrp-sidebar .nav-tabs li:not(:last-child){
+	border-right: 1px solid #f0f0f0
+}*/
+
 #igrp-sidebar .nav-tabs > li.active > a:after {
     content: "";
     position: absolute;
@@ -1388,7 +1406,17 @@ new rows / columns style
     left: 0;
     height: 1px;
     background: #78b3d2;
-    display: block;
+    display: none;
+    width: 100%;
+}
+#igrp-sidebar .nav-tabs > li > a:after {
+	content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    height: 1px;
+    background: #ebebeb;
+    display: none;
     width: 100%;
 }
 
@@ -1445,11 +1473,7 @@ new rows / columns style
 }*/
 
 /* table legend colors */
+
 .IGRP-gen-table-colors{
 	border:1px solid #EAEAEA!important;
 }
-
-.gen-properties-setts-holder .IGRP_formlist{
-	border:1px solid #EAEAEA!important;
-}
-

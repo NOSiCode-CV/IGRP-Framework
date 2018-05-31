@@ -106,6 +106,15 @@
                         </xsl:call-template>
                     </xsl:if>
 
+                    <xsl:if test="$procName = 'dml_select' or $procName = 'dml_select_all'">
+                        <xsl:for-each select="rows">
+                            <xsl:call-template name="genDmlService" />
+                        </xsl:for-each>
+                        <xsl:call-template name="genPreserveYourCode">
+                            <xsl:with-param name="procName" select="concat('RESP',$procName)" />
+                        </xsl:call-template>
+                    </xsl:if>
+
                     <xsl:value-of select="concat($enter,$entertab,'END',$space,$procName,$endline,$enter)"/>                   
                 </xsl:template>
                 <!--Comentario PLSQL-->
@@ -116,6 +125,7 @@
                 
                 <xsl:template name="genPreserveYourCode">
                     <xsl:param name="procName" />
+                    <xsl:param name="oldProcName" />
                     <xsl:variable name="tag">
                         <xsl:call-template name="UpperCase">
                             <xsl:with-param name="text" select="$procName"/>
@@ -123,15 +133,7 @@
                     </xsl:variable>
                     <xsl:value-of select="$enter"/>
                     <xsl:value-of select="$enter2tab"/>
-                    <xsl:text>---#START-</xsl:text>
-                    <xsl:value-of select="$tag"/>
-                    <xsl:text>#</xsl:text>
-                    <xsl:variable name="url" select="concat($preserve_url,'?','p_owner=',$owner,'&amp;p_pkg_name=',$packageDBName,'&amp;p_instance=',$packageInstance,'&amp;p_tag=',$tag)" />
-                    #gen(preserve_code,<xsl:value-of select="$url"/>)/#
-                    <xsl:value-of select="$enter2tab"/>
-                    <xsl:text>---#END-</xsl:text>
-                    <xsl:value-of select="$tag"/>
-                    <xsl:text>#</xsl:text>
-                    <xsl:value-of select="$enter"/>
+                    <xsl:text>---#START-</xsl:text><xsl:value-of select="$tag"/><xsl:text>#</xsl:text>
+                    <xsl:variable name="url" select="concat($preserve_url,'?','p_owner=',$owner,'&amp;p_pkg_name=',$packageDBName,'&amp;p_instance=',$packageInstance,'&amp;p_tag=',$tag)" />#gen(preserve_code,<xsl:value-of select="$url"/>,<xsl:value-of select="$oldProcName"/>)/#<xsl:value-of select="$enter2tab"/><xsl:text>---#END-</xsl:text><xsl:value-of select="$tag"/><xsl:text>#</xsl:text><xsl:value-of select="$enter"/>
                 </xsl:template>
             </xsl:stylesheet>

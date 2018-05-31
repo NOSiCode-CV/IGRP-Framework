@@ -118,7 +118,8 @@ var GENTABCONTENT = function(name,tparams){
 			container.contents.forEach(function(content,cidx){
 				var titleXSL     = container.GET.path()+'/fields/'+content.GET.tag();
 				var contentRows  = GEN.designRows(content.rows);
-				var activeClass  = cidx == 0 ? 'active' : '';
+				//var activeClass  = cidx == 0 ? 'active' : '';
+				var activeClass  = cidx == 0 ? '' : '';
 				var rel          = container.GET.tag()+'-'+content.GET.tag();//(new Date()).getTime();
 				var contentTitle = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getMenuItem('<xsl:value-of select="'+titleXSL+'/label"/>',rel,activeClass,content,true)+'</xsl:if>'));
 				var contentXML   = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getContentItem(rel,activeClass,contentRows,content,true)+'</xsl:if>'));
@@ -255,6 +256,18 @@ var GENTABCONTENT = function(name,tparams){
 
 			btn.onEditionConfirm = setBtnIcon;
 
+			btn.setEventListner('tagChange',function(v){
+
+				var rel     = btn.holder.attr('rel'),
+
+					content = container.holder.find('>.container-contents>.gen-tab-holder>.tab-content>.tab-pane[rel="'+rel+'"]');
+
+				content.attr('item-name',btn.GET.tag());
+
+				//console.log(content);
+
+			})
+
 		}
 
 		return btn;
@@ -269,7 +282,9 @@ var GENTABCONTENT = function(name,tparams){
 		if(btn){
 			var idx = _params && _params.properties && _params.properties.rel ? _params.proprieties.rel.split('-')[1] : contentsIdx;
 
-			var activeClass = idx == 1 ? 'active' : '';
+			//var activeClass = idx == 1 ? 'active' : '';
+
+			var activeClass = idx == 1 ? '' : '';
 
 			var rel = (new Date()).getTime();
 
@@ -476,7 +491,7 @@ var GENTABCONTENT = function(name,tparams){
 				                    '<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+content.GET.tag()+'/value"/>'+
 				                  	'<xsl:with-param name="class" select="\'tab-pane\'"/>'+
 				                  '</xsl:call-template>' : '';
-		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" id="tab-'+idx+'" rel="tab-'+idx+'">'+activetabTmpl;
+		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" id="tab-'+idx+'" rel="tab-'+idx+'" item-name="'+content.GET.tag()+'">'+activetabTmpl;
 					if(contents) rtn+=contents;
 			rtn+='</div>';
 

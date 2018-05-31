@@ -185,7 +185,8 @@ var GENSERVICE = function(GEN){
 								fieldsRes 		: [],
 								package  		: ''	
 							});
-						}
+						};
+
 						service.checkService(field);
 					});
 
@@ -261,7 +262,8 @@ var GENSERVICE = function(GEN){
 					
 					return holder;
 				}
-			}
+			},
+			setOnConfirm : false
 		});	
 	}
 
@@ -313,10 +315,10 @@ var GENSERVICE = function(GEN){
 						ulChild  = $('<ul class="row child"/>'),
 						fCount   = 0; 
 
-					if (type == 'table' || type == 'separatorlist')
+					if (type == 'table' || type == 'separatorlist' || type == 'formlist')
 						ulChild.attr('parent',tag);
 
-					if (type == 'separatorlist') {
+					if (type == 'separatorlist' || type == 'formlist') {
 						ulChild.append('<li type="hidden" name="'+tag+'_id" gen-id="'+genId+'"><span class="row-symbol"/><span class="row-name">'+tag+'_id</span></li>');
 						ulChild.append('<li type="hidden" name="'+tag+'_del" gen-id="'+genId+'"><span class="row-symbol"/><span class="row-name">'+tag+'_del</span></li>');
 					}
@@ -330,7 +332,7 @@ var GENSERVICE = function(GEN){
 							
 							ulChild.append(liF);
 
-							if (type == 'separatorlist') {
+							if (type == 'separatorlist' || type == 'formlist') {
 								ulChild.append('<li type="hidden" name="'+tagF+'_fk_desc" gen-id="'+fGenId+'"><span class="row-symbol"/><span class="row-name">'+tagF+'_fk_desc</span></li>');
 							}
 

@@ -58,6 +58,8 @@
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
 
     <script src="{$path}/core/promise/promise.min.js"></script>
+
+    <script src="{$path}/core/moment/moment.min.js"></script>
     
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
 
@@ -65,10 +67,12 @@
 
     <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
 
+    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
+
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js"></script>
     
     <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
-    
+
     <!-- THEME JS -->
     <xsl:for-each select="$themeConfigData/js/file">
       <script src="{$themePath}/{.}"></script>
@@ -85,8 +89,6 @@
     <script src="{$path}/core/igrp/IGRP.defaults.js?v={$version}"></script>
     <!-- IGRP core functions -->
     <script src="{$path}/core/igrp/IGRP.core.js?v={$version}"></script>
-    <!-- IGRP Form
-    <script src="{$path}/core/igrp/form/igrp.forms.js"></script> -->
     <!-- IGRP globalModal -->
     <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"></script>
     <!-- IGRP iframeNavigation -->
@@ -97,8 +99,12 @@
     <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
     <!-- IGRP sidebar controller -->
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
+    <!-- IGRP searchlist controller -->
+    <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js" charset="UTF-8"></script>
     <!-- IGRP rightpanel controller -->
     <script src="{$path}/core/igrp/rightpanel/rightpanel.js"></script>
+    <!-- IGRP themes controller -->
+    <script src="{$path}/core/igrp/themes/IGRP.themes.js?v={$version}"></script>
     <!-- IGRP scroll to top controller -->
     <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}"></script>
     <!-- IGRP XML XSL Transform -->
@@ -177,13 +183,13 @@
             </xsl:choose>
 
           </xsl:for-each>
-         
-         <li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
+			<li alt="{$settingsURL/title}" title="{$settingsURL/title}">       
             <a href="{$settingsURL/link}">
               <img src="{$path}/assets/img/{$settingsURL/img}" style="width: 26px;padding-bottom: 3px;"></img>
                <span class=""><b><xsl:value-of select="rows/site/user_name"/></b></span>         
             </a>
           </li>
+
           <li alt="{rows/site/button/title}" title="{rows/site/button/title}">
             <a href="{rows/site/button/link}" target="{rows/site/button/target}">
               <i class="fa fa-sign-out"></i>
@@ -201,7 +207,22 @@
       <xsl:variable name="APP" select="rows/app" />
       <xsl:variable name="menus" select="document(rows/slide-menu/@file)/menus" />
       <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
-        <!-- <h4><xsl:value-of select="$menus/title"/></h4> -->
+        
+        <div class="side-bar-ctrl visible-xs clearfix" >
+          <i class="fa fa-navicon pull-right"></i>
+        </div>
+
+        <div class="igrp-sidebar-menu-search-wrapper">
+          <input 
+            type="text" 
+            class="form-control igrp-search-list" 
+            placeholder="Pesquisar Menu..." 
+            search-list="#igrp-sidebar ul.treeview-menu li a"
+            search-attr="text"
+            search-item-parent=".treeview"
+            search-item-wrapper=".treeview-menu" />
+        </div>
+
         <ul class="nav nav-sidebar">
           <xsl:for-each select="$menus/menu">
            <xsl:sort select="order"/>
@@ -209,23 +230,13 @@
             <li parent-id="{$parentId}">
               <xsl:choose>
                 <xsl:when test="link">
-
-                  <!-- <a href="{submenu/link}"> -->
-                  <!-- <xsl:value-of select="submenu/title"/> -->
-                  <!-- <i class="fa fa-angle-right pull-right"></i> -->
-                  <!-- <span class="nav-bar-active" bg-color="2"/> -->
-                  <!-- </a> -->
-
                   <xsl:attribute name="class">treeview</xsl:attribute>
-                    <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}">
-                      
-                      <span>
-                        <xsl:value-of select="title" />
-                      </span>
-<!--                      <i class="fa fa-user pull-right"></i> -->
-                      <span class="nav-bar-active" bg-color="2" />
-                    </a>                
-
+                  <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}">
+                    <span>
+                      <xsl:value-of select="title" />
+                    </span>
+                    <span class="nav-bar-active" bg-color="2" />
+                  </a>                
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:if test="submenu">
@@ -241,8 +252,7 @@
                       <xsl:for-each select="submenu">
                        <xsl:sort select="order"/>
                         <li>                          
-                          <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}">
-<!--                          <i class="fa fa-circle"></i> -->
+                          <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}" text="{title}">
                             <span>
                               <xsl:value-of select="title" />
                             </span>
@@ -253,10 +263,10 @@
                   </xsl:if>
                 </xsl:otherwise>
               </xsl:choose>
-
             </li>
           </xsl:for-each>
         </ul>
+
       </div>
     </xsl:if>
   </xsl:template>
@@ -302,11 +312,11 @@
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
     </igrp-variables>
 
-    <!-- local theme color setup 
-    <xsl:call-template name="local-theme-setup"/>-->
+    <!-- local theme color setup -->
+    <!-- <xsl:call-template name="local-theme-setup"/> -->
 
     <button class="btn btn-default" id="igrp-go-up" target="scroll_to_top" bg-color="primary">
-      <i class="fa fa-chevron-up"></i>
+      <i class="fa fa-arrow-up"></i>
     </button>
 
     <!-- IFRAME NAVIGATION MODAL -->
@@ -508,6 +518,10 @@
               background-color : <xsl:value-of select="."/>!important;
             }
 
+            [border-color="<xsl:value-of select="@name"/>"]{
+              border-color:<xsl:value-of select="."/>!important;
+            }
+
             <xsl:if test="@bg-hover">
               [bg-hover="<xsl:value-of select="@name"/>"]:hover{
                 background-color:<xsl:value-of select="@bg-hover"/>;
@@ -619,19 +633,52 @@
           [active-text-color="primary"].active,
           .active [active-text-color="primary"]{
             color:<xsl:value-of select="$mainColor"/>!important;
-          }                       
+          }    
+          [border-color="primary"]{
+            border-color:<xsl:value-of select="$mainColor"/>!important;
+          }
+
+        </xsl:if>
+
+        <xsl:if test="not(colors/color[@name='secondary']) or colors/color[@name='secondary'] =''">
+          <xsl:variable name="secondaryColor" select="'#5b5b5b'"/>
+
+          [bg-color="secondary"]{
+            background-color:<xsl:value-of select="$secondaryColor"/>!important;
+          }
+
+          [active-bg-color="secondary"].active{
+            background-color:<xsl:value-of select="$secondaryColor"/>!important;
+          }
+
+          [style-listener="true"].active [active-bg-color="secondary"]{
+            background-color : <xsl:value-of select="$secondaryColor"/>!important;
+          }
+         
+          [text-color="secondary"]{
+            color:<xsl:value-of select="$secondaryColor"/>;
+          }
+
+          [active-text-color="secondary"].active,
+          .active [active-text-color="secondary"]{
+            color:<xsl:value-of select="$secondaryColor"/>!important;
+          }    
+          [border-color="secondary"]{
+            border-color:<xsl:value-of select="$secondaryColor"/>!important;
+          }
+
         </xsl:if>
 
         /*formgen*/
-        #igrp-form-gen #gen-views-ctrl ul li.active,
-        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a, 
-        #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover,
-        #igrp-form-gen .gen-viewers-toolbar .btn,
-        #igrp-form-gen .treeview-menu>li>a,
-        .gen-page-properties-inner ul li a{
-          color:<xsl:value-of select="$mainColor"/>!important;
-        }
-        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after{
+<!--         /*, -->
+<!--         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a,  -->
+<!--         #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover, -->
+        #igrp-form-gen #gen-views-ctrl ul li.active, #igrp-form-gen .gen-viewers-toolbar .btn{
+<!--         #igrp-form-gen .treeview-menu>li>a{ -->
+          color:<xsl:value-of select="$mainColor"/>!important; 
+         } 
+<!--         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after -->
+		.list-group-item.active{
           background:<xsl:value-of select="$mainColor"/>!important;
         }
 
@@ -641,8 +688,37 @@
   <xsl:template name="local-theme-setup" >
     
     <div id="igrp-local-theme">
+
+      <div class="dropdown">
+
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          <span><i class="fa fa-gears"></i></span>
+          <span class="caret"></span>
+        </button>
+
+        <div class="dropdown-menu">
+          <div class="igrp-theme-part">
+            <h5>Sidebar</h5>
+            <ul class="clearfix">
+              <xsl:for-each select="$palettesXML">
+              	<li>
+	                <a href="#"> <span class="igrp-theme-color" color="{.}" text-color="{@bg-text-color}" style="background:{.}"></span> </a>
+	              </li>
+              </xsl:for-each>
+              <!-- <li>
+                <a href="#"> <span class="igrp-theme-color white"></span> </a>
+              </li>
+              <li>
+                <a href="#"> <span class="igrp-theme-color dark"></span> </a>
+              </li> -->
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
       
-      <a class="igrp-local-theme-button">
+      <!-- <a class="igrp-local-theme-button">
 
         <i class="fa fa-gears"></i>
 
@@ -654,9 +730,10 @@
 
         <li>Orange</li>
 
-      </ul>
+      </ul> -->
 
     </div>
+
   </xsl:template>
   <!--TEMPLATE FOR  NAVIGATION-->
   <xsl:include href="IGRP-navigation.tmpl.xsl?v=1"/>

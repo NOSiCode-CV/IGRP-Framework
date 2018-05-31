@@ -34,33 +34,36 @@
 			
 			$.ajax({
 				url : $.IGRP.utils.getUrl(url)+params,
-				dataType:'xml'
-			}).error(function(e,status,ex){
-				p.error();
-				$.IGRP.notify({
-					message : ex,
-					type	: 'danger'
-				});
-			}).success(function(data){
-				var xmlData = package ? $.parseXML(data) : data,
-				 	xmlPath = package ? 'table' : 'rows content '+name;
+				dataType:'xml',
+				error : function(e,status,ex){
+					p.error();
+					$.IGRP.notify({
+						message : ex,
+						type	: 'danger'
+					});
+				},
+				success: function(data){
+					var xmlData = package ? $.parseXML(data) : data,
+					 	xmlPath = package ? 'table' : 'rows content '+name;
 
-				data = xmlData ? xmlData : data;
+					data = xmlData ? xmlData : data;
 
-				data = $(data).find(xmlPath).getXMLDocument();
-				if (p.id == '')
-					xslParams.id = $(data).find('table value row '+name+'_parent').eq(0).text();
-				
-				p.transform.XMLTransform({
-			    	xml 	  : data,
-			    	xsl 	  : path+'/xsl/tmpl/IGRP-treemenu.tmpl.xsl',
-			    	xslParams : xslParams,
-			    	complete  : p.complete,
-			    	error     : p.error
-			    });
+					data = $(data).find(xmlPath).getXMLDocument();
+					
+					if (p.id == '')
+						xslParams.id = $(data).find('table value row '+name+'_parent').eq(0).text();
+					
+					p.transform.XMLTransform({
+				    	xml 	  : data,
+				    	xsl 	  : path+'/xsl/tmpl/IGRP-treemenu.tmpl.xsl',
+				    	xslParams : xslParams,
+				    	complete  : p.complete,
+				    	error     : p.error
+				    });
+				}
 			}).always(function(e){
 				p.error();
-			});
+			})
 		},
 		onLoad : function(){
 			$('.box-tm[data-toggle="remote"][onload="true"]').each(function(){

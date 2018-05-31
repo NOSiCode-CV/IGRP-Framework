@@ -8,11 +8,13 @@ var GENMAPOS = function(name,params){
 
 	container.includes = {
 
+		css : [
+			{ path : '/plugins/gis/styles/igrp.gis.css' }
+		],
+
 		js :  [
 
-			{ path:'/plugins/gis/classes/gis.controller.js' },
-
-			{ path:'/plugins/gis/classes/gis.map.js' }
+			{ path : "/plugins/gis/app/app.js" }
 
 		],
 
@@ -20,25 +22,10 @@ var GENMAPOS = function(name,params){
 
 	};
 
-	var jsIncludes =  {
-
-		leaflet :  {
-
-		},
-
-		openlayers : {
-
-		}
-
-	}
 
 	container.onDrawEnd = function(){
-		
-		GIS.create({
 
-			mapID : container.GET.tag()
-
-		});
+		GIS.init();
 
 	}
 
@@ -48,27 +35,39 @@ var GENMAPOS = function(name,params){
 
 			name: 'map_type',
 
+			label : 'Map Type',
+
 			value : {
 
-				value : 'openlayers',
+				value : 'leaflet',
 
 				options : [
+
 					{
 						value : 'openlayers',
+
 						label : 'Open Layers'
 					},
+
 					{
 						value : 'leaflet',
+
 						label : 'Leaflet'
-					},
-					{
-						value : 'esri',
-						label : 'Esri'
 					}
+
 				]
+
 			}
+
 		});
 
+		container.setProperty({
+			
+			name : 'heigth',
+
+			value : 450
+		
+		});
 
 	}
 

@@ -148,6 +148,16 @@
                 <xsl:with-param name="action" select="link" />
             </xsl:call-template>
         </xsl:for-each>
+        <!-- GEN FORM LINK SUBMIT PROC -->
+        <xsl:for-each select="$all_form_submit_links">
+            <xsl:call-template name="genBodyToolsbar">
+                <xsl:with-param name="title" select="label"/>
+                <xsl:with-param name="page" select="@page" />
+                <xsl:with-param name="action" select="@action" />
+                <xsl:with-param name="tag" select="name()" />
+            </xsl:call-template>
+        </xsl:for-each>
+
     </xsl:template>
     
     <xsl:include href="XSL-plsql.field.html.xsl"/>

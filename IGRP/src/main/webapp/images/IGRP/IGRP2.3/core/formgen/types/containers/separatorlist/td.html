@@ -1,5 +1,5 @@
 <xsl:choose>
-	<xsl:when test="not(#tag#/@visible)">
+	<xsl:when test="not(//#path#/@visible)">
 		<td field="#[tag]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
 			<span class="separator-list-td-val">
 				<xsl:value-of select="#tag#_desc"/>

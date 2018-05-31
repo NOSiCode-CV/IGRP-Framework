@@ -96,6 +96,25 @@
 		});
 	};
 
+	var configTab = function(){
+		
+		$('li[tab-process]').each(function(i,e){
+			var rel 	= $(e).attr('rel'),
+				panel 	= $('div.tab-process:eq('+i+')');
+
+			panel.attr('id',rel).attr('rel',rel);
+
+			if (i == 0)
+				panel.addClass('active');  
+		});
+
+		if ($('#start-content')[0]) {
+			var start = $('#start-content').clone(true);
+			$('#start-content').remove();
+			$('#IGRP-process-contents').prepend(start);
+		}
+	};
+
 	var setEvents = function(){
 
 		$.IGRP.on('windowResize',function(){
@@ -107,6 +126,11 @@
 		},250)
 
 	}();
+
+	$.IGRP.on('init',function(){
+		configTab();
+		//configUnboxeds();
+	});
 
 
 })();

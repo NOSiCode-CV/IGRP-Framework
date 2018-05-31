@@ -93,6 +93,8 @@ var GENCALENDAR = function(name,params){
 		]
 	}
 
+
+
 	container.setPropriety({
 		name:'header',
 		label:'Header Views',

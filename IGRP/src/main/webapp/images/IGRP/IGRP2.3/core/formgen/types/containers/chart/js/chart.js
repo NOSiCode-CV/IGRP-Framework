@@ -58,6 +58,7 @@ var GENCHART = function(name,params){
 			}
 		});
 
+
 		container.setPropriety({
 			name 	 :'filter',
 			label 	 : 'Filter',
@@ -66,15 +67,31 @@ var GENCHART = function(name,params){
 				var rtn = '<xsl:with-param name="filter" select="\'true\'"/>';
 
 				if(container.GET.filter_type && container.GET.filter_type())
-					rtn += '<xsl:with-param name="filter_type" select="\''+container.GET.filter_type()+'\'"/>'
+					rtn += '<xsl:with-param name="filter_type" select="\''+container.GET.filter_type()+'\'"/>';
 				
+				if(container.GET.remote_filter && container.GET.remote_filter())
+					rtn += '<xsl:with-param name="remote_filter" select="\''+container.GET.remote_filter()+'\'"/>';
+
 				return rtn;
 			}, //XSL VALUE WHEN PROPRIETY IS TRUE
 			onEditionStart:function(v){
 				$('input',v.input).on('change',function(){
 					var action  = $(this).val() ? 'show' : 'hide'; 
 					$('.gen-properties-setts-holder div[rel="filter_type"]')[action]();
+					$('.gen-properties-setts-holder div[rel="remote_filter"]')[action]();
 				});
+			}
+		});
+
+		container.setPropriety({
+			name 	 :'remote_filter',
+			label 	 : 'Remote Filter ',
+			value 	 : false,
+			onEditionStart:function(o){
+				if(container.GET.filter && container.GET.filter())
+					o.input.show();
+				else
+					o.input.hide();
 			}
 		});
 	}

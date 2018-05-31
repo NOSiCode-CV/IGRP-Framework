@@ -171,12 +171,8 @@ table .lookup-parser:hover {
     text-decoration: underline;
 }
 
-table tbody tr{
-	transition:background-color .4s
-}
-
 table tbody tr:hover{
-  background-color: rgba(216, 255, 0, 0.17)!important;	
+  background-color: rgba(49, 176, 213, 0.05)!important
 }
 
 table tbody tr.ctx-open{
@@ -328,7 +324,7 @@ table.align .igrp-table-ctx-td>ul>.operationTable{
   margin-bottom:0;
 }
 .checkbox-switch.switch input {
-	display:none;
+  display:none;
 }
 .checkbox-switch .slider {
   position: absolute;
@@ -343,7 +339,7 @@ table.align .igrp-table-ctx-td>ul>.operationTable{
 }
 
 .checkbox-switch .slider>span{
-	visibility:hidden;
+  visibility:hidden;
 }
 
 .checkbox-switch .slider:before {
@@ -381,6 +377,20 @@ table.align .igrp-table-ctx-td>ul>.operationTable{
   border-radius: 50%;
 }
 
-/*color*/
+.ordertable tbody tr>td:first-of-type{
+  position: relative;
+  padding-left: 20px;
+}
 
+.ordertable tbody tr> td:first-of-type:after{
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  content: "\f0dc";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  margin-top: -6.5px;
+  cursor: move;
+}
 

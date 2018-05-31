@@ -35,19 +35,27 @@ $.fn.separatorList = function(o){
 
 				//rowEdit.params.row = p.row;
 
-				localStorage.setItem(p.name, JSON.stringify(slEstorage));
+				$.IGRP.utils.createHidden({
+					name:'p_fwl_'+p.name+'trc',
+					value:JSON.stringify(slEstorage).replace(/"/g, "'"),
+					class:'submittable'
+				});
+
+				//localStorage.setItem(p.name, JSON.stringify(slEstorage));
 			},
 			reset : function(sl){
 				$(sl).removeAttr('row-action');
 				$(sl).removeAttr('row-index');
 				$(sl).removeAttr('row-id');
 
-				localStorage.removeItem(sl.name);
+				$('input[name="p_fwl_'+sl.name+'trc"]').remove();
+				//localStorage.removeItem(sl.name);
 			},
 			get : function(sl){
-				var sle = localStorage.getItem(sl.name);
+				//var sle = localStorage.getItem(sl.name);
 
-				sle      = sle ? JSON.parse(sle) : {};
+				var sle  = $('input[name="p_fwl_'+sl.name+'trc"]').val();
+				sle      = sle ? JSON.parse(sle.replace(/'/g, '"')) : {};
 
 				return {
 					rowIndex : sle.indexRow ? sle.indexRow*1 : $(sl).attr('row-index') ? $(sl).attr('row-index')*1 : '',
@@ -78,7 +86,7 @@ $.fn.separatorList = function(o){
 		var appendToTable = function(values,sl){
 			
 			var	sle 	   = rowEdit.get(sl),
-				rowIndex   = sle.rowIndex,
+				rowIndex   = sle.rowIndex ? sle.rowIndex : null,
 				rowId 	   = sle.rowId,
 				isDialog   = sl.isDialog ? true : false,
 				fieldsH    = isDialog ? $('.splist-form-holder',sl)[0] : sl,
@@ -104,9 +112,9 @@ $.fn.separatorList = function(o){
 
 					var object    = values[name];
 					
-					var value     = arrayValuesToString(object.value,',');
+					var value     = $.IGRP.utils.arrayValuesToString(object.value,',');
 
-					var text      = arrayValuesToString(object.text,'; ');
+					var text      = $.IGRP.utils.arrayValuesToString(object.text,'; ');
 
 					var tdHiddensStr = '<input type="hidden" name="'+name+'_fk_desc" value="'+text+'"/>';
 					
@@ -125,8 +133,10 @@ $.fn.separatorList = function(o){
 					}
 
 
+
+
 					if(object.table){
-						//console.log(name)
+						
 						var customfieldtmpl = getFieldTemplate(sl,object.type);
 						var tdcontent = '<span class="separator-list-td-val">'+text+'</span>';
 
@@ -164,12 +174,11 @@ $.fn.separatorList = function(o){
 				$('td:first',row).append(inputRowId);
 				
 				row.append(getRowOptions());
-
+				
 				if(edition)
 					$('tbody tr',table).eq(rowIndex).replaceWith(row);
 				else
 					$('tbody',table).append(row);
-				
 
 				resetForm(formFields,sl);
 
@@ -187,6 +196,7 @@ $.fn.separatorList = function(o){
 		};
 
 		var setFormFieldValue = function(f,val){
+
 			if(f){
 				var ftag    = $(f).prop('tagName').toLowerCase();
 				var ftype   = ftag == 'select' || ftag == 'textarea' ? ftag : $(f).attr('type');
@@ -199,6 +209,7 @@ $.fn.separatorList = function(o){
 					if(ftype == 'select'){
 						$(f).val(rowVal.split(','));
 						$(f).trigger('change.select2');
+
 					}
 					
 					else
@@ -216,7 +227,8 @@ $.fn.separatorList = function(o){
 					//if(ftype == 'select' || ftype == 'checkbox' || ftype == 'radio')
 						//$(f).trigger("change");
 				}
-				$(f).trigger("change");
+
+				//$(f).trigger('change');
 			}
 		};
 
@@ -224,10 +236,10 @@ $.fn.separatorList = function(o){
 			var isDialog   = sl.isDialog ? true : false,
 				fieldsH    = isDialog ? $('.dummy-form-slist .splist-form-holder')[0] : sl,
 				formFields = getFormFields(fieldsH),
-				rtn  	   = false;
+				rtn  	   = false,
+				valid 	   = formFields.filter(':not(.no-required-validation)').valid();
 
-
-			if( !formFields[0] || formFields.valid()){
+			if( !formFields[0] || valid){
 				var values  = getFormFieldsValue(formFields,sl);
 
 				try{
@@ -252,7 +264,8 @@ $.fn.separatorList = function(o){
 			var tds      = $('td:not(.table-btn)',row);
 			var values   = {},
 				isChange = false,
-				fChange  = null;  
+				fChange  = null,
+				arrField = [];  
 
 			resetForm(fields,sl);
 			
@@ -268,7 +281,7 @@ $.fn.separatorList = function(o){
 
 				var fname  = $(f).attr('name');
 
-				var rowFk  =  $('[name="'+fname+'_fk"]',row);
+				var rowFk    =  $('[name="'+fname+'_fk"]',row);
 	
 				if(rowFk[0]){
 
@@ -281,7 +294,8 @@ $.fn.separatorList = function(o){
 					if($(f).hasClass('IGRP_change')){
 						isChange = true;
 						fChange  = $(f);
-					}
+					}else
+						arrField.push($(f));
 
 					sl.events.execute(genType+'-field-edit',{
 						field:$(f),
@@ -291,6 +305,12 @@ $.fn.separatorList = function(o){
 
 				}
 			});
+
+			if (arrField[0]) {
+				$.each(arrField,function(i,f){
+					$(f).trigger('change');
+				});
+			}
 
 			setFormBtnIcon(sl,{
 				icon :'fa-check',
@@ -314,7 +334,7 @@ $.fn.separatorList = function(o){
 				var rowId = $('.sl-row-id',row).val();
 				
 				if(rowId)
-					$("form").append('<input type="hidden" name="p_'+sltag+'_del" value="'+rowId+'"/>');
+					$("form").prepend('<input type="hidden" name="p_'+sltag+'_del" value="'+rowId+'"/>');
 					//$.IGRP.utils.createHidden({ name:"p_"+sltag+"_del",value:rowId });
 				
 				$(row).remove();
@@ -405,7 +425,6 @@ $.fn.separatorList = function(o){
 					frel   = field.parents('[item-name]').attr('item-name'),
 					gentype= field.parents('[item-type]').attr('item-type'),
 					val    = null;
-
 			
 				if(fname){
 					
@@ -478,22 +497,13 @@ $.fn.separatorList = function(o){
 			return values;
 		};
 
-		var arrayValuesToString = function(arr,spliter){
-			var str = "";
-			arr.forEach(function(a,i){
-				str+=a;
-				if(i != arr.length-1)
-					str+=spliter;
-			});
-			//console.log(str);
-			return str;
-		};
-
 		var getFieldTemplate = function(sl,type){
 			return sl.events.getList()[type+'-field-add'] ? sl.events.getList()[type+'-field-add'][ sl.events.getList()[type+'-field-add'].length-1 ] : false;
 		};
 
 		var setFormBtnIcon = function(sl,p){
+
+			//var defaultsClass = 'table-row-add btn-xs link btn form-link',
 			var defaultsClass = 'table-row-add btn-xs link btn form-link',
 				setclss       = p.class || 'btn-primary';
 
@@ -501,7 +511,9 @@ $.fn.separatorList = function(o){
 			$('.'+options.addBtn+' i',sl).replaceWith('<i class="fa '+p.icon+'"></i>');
 			
 			if(p.class)
-				$('.'+options.addBtn,sl).removeAttr('class').addClass(defaultsClass+' '+setclss)
+				$('.'+options.addBtn,sl).removeAttr('class').addClass(defaultsClass+' '+setclss);
+
+
 		};	
 
 		var getRowOptions = function(){
@@ -514,11 +526,13 @@ $.fn.separatorList = function(o){
 			var isEdition  = $(sl).attr('row-action') == 'edit' ? true : false;
 			var firstInput = form.find(':first-child input[type="text"],:first-child input[type="number"],:first-child textarea');
 
+
 			$.each(fields,function(i,f){
 				var genType  = $(f).parents('[item-type]').attr('item-type');
 				var fTag     = $(f).prop('tagName').toLowerCase();
 				var fType    = fTag == 'select' || fTag == 'textarea' ? fTag : $(f).attr('type');
-				
+
+
 				if(fType == 'checkbox' || fType == 'radio'){
 					$(f).prop('checked',false);
 					//$(f).trigger('change');
@@ -590,7 +604,35 @@ $.fn.separatorList = function(o){
 
 			}
 
-		}
+		};
+
+		var eventsFieldsEdit = function(sl){
+			
+			sl.events.declare(["select-field-edit"]);
+
+	        sl.events.on('select-field-edit',function(o){
+	        	var field = $(o.field);
+            	if (field.is('[tags]')){
+            		var arr   = o.value.split(','),
+            		options   = [];
+
+            		arr.forEach(function(op){
+            			if (op) {
+            				options.push({
+	            				text 	 : op,
+	            				value 	 :op,
+	            				selected : true
+	            			});
+            			}
+            		});
+
+            		$.IGRP.components.select2.setOptions({
+            			select  : field,
+            			options : options
+            		});
+            	}
+          	},true);
+		};
 
 		var setEvents = function(sl){
 
@@ -598,6 +640,8 @@ $.fn.separatorList = function(o){
 				getFormFields().addClass('no-validation');
 
 			customFieldsConfig(sl);
+
+			eventsFieldsEdit(sl);
 			
 			$(sl).on('click','.'+options.addBtn,function(e){
 				//console.log(e);
@@ -621,6 +665,8 @@ $.fn.separatorList = function(o){
 				removeRow(sl,row);
 				return false;
 			});
+
+			
 
 			sl.toJSON = function(p){
 				var options = $.extend({},p);
@@ -674,10 +720,12 @@ $.fn.separatorList = function(o){
 
 						for(var o in r){
 							var name   = 'p_'+o;
-							var value = r[o];
+							var value  = r[o];
 							var f      = $('.splist-form [name="'+name+'"]',sl)[0];
 
-							setFormFieldValue(f,value);		
+							setFormFieldValue(f,value);
+								
+							$(f).trigger('change');	
 						}
 
 						var values  = getFormFieldsValue(getFormFields(sl),sl);

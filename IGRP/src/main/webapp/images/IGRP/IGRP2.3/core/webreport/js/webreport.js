@@ -983,6 +983,7 @@ $(function ($) {
 			},
 			type : {
 				table	: function(p){
+					console.log(p);
 					$.WR.element.modal(p);
 					return null;
 				},

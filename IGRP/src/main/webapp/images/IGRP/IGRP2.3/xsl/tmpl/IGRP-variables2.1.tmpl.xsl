@@ -1,5 +1,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
- 
+  
+  <xsl:variable name="fixed_v" select="'2.3'"/>
   <!-- Bootstrap Version -->
   <xsl:variable name="bs-v" select="'3.3.7'"/>
   
@@ -37,10 +38,12 @@
   </xsl:variable>
   <!--/igrp link_img -->
 
+  
+
   <!-- igrp path -->
   <xsl:variable name="path">
     <xsl:choose>
-      <xsl:when test="/rows/head_version = 'IGRP2.3'">
+       <xsl:when test="/rows/head_version = 'IGRP2.3' or $fixed_v = '2.3'">
         <xsl:value-of select="concat($link_img,'/IGRP2.3')"/>
       </xsl:when>
       <xsl:otherwise>

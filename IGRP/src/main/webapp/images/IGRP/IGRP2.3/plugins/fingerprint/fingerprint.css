@@ -67,6 +67,10 @@
     left: 50%;
     margin-left: -10px;
 }
+.fp-box.error img{
+	display: none;
+}
+
 .form-control.error{
 	border-color: #e71616;
 }
