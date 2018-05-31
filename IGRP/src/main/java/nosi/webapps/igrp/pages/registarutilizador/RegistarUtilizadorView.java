@@ -64,7 +64,7 @@ public class RegistarUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_guardar = new IGRPButton("Guardar","igrp","RegistarUtilizador","guardar","submit","primary|fa-save","","");
+		btn_guardar = new IGRPButton("Guardar","igrp","RegistarUtilizador","index","submit","primary|fa-save","","");
 		btn_guardar.propertie.add("type","specific").add("rel","guardar");
 
 		

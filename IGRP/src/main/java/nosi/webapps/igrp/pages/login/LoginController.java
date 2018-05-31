@@ -100,9 +100,7 @@ public class LoginController extends Controller {
 		
 		if(oauth2 != null && oauth2.equalsIgnoreCase("1") && !validateOAuth2Parameters(response_type, client_id, redirect_uri, scope)) {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro ... Autenticação OAuth2 falhada !"));
-			/*return redirect("igrp", "login", "login", 
-					new String[] {"oauth", "response_type", "client_id", "redirect_uri", "scope"}, 
-					new String[] {"1",response_type, client_id, redirect_uri, scope}); */
+			
 		}
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -190,7 +188,7 @@ public class LoginController extends Controller {
 	}
 	
 	/*
-	 * The following methods are all encapsulate (private) ... Those methods encapsulate the specific IGRP login and
+	 * The following methods are all encapsulate (private) ... Those methods encapsulate the specific IGRP login and 
 	 * authentication business logic ...
 	 * Your never call those methods out of this class ... Those methods are not a action of IGRP Controller !
 	 * */

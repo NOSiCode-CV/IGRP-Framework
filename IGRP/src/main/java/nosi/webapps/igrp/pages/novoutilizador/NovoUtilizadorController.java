@@ -149,7 +149,7 @@ public class NovoUtilizadorController extends Controller {
 				p.setType_fk(model.getAplicacao());
 				p = p.insert();
 				if(p!=null){
-					//Associa utilizador a grupo no Activiti
+					//Associa utilizador a grupo no Activiti 
 					UserService userActiviti0 = new UserService();
 					userActiviti0.setId(u.getUser_name());
 					userActiviti0.setPassword("password.igrp");
@@ -205,7 +205,7 @@ public class NovoUtilizadorController extends Controller {
 				e.printStackTrace();
 			}
 		}else {
-			File file = new File(getClass().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
+			File file = new File(getClass().getClassLoader().getResource(new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml").getPath());
 			LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 			NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 			
@@ -225,7 +225,8 @@ public class NovoUtilizadorController extends Controller {
 						else
 							userLdap.setName(person.getFullName());
 					try {
-						String aux = person.getMail().toLowerCase().split("@")[0];
+						//String aux = person.getMail().toLowerCase().split("@")[0];
+						String aux = person.getMail().toLowerCase().trim();
 						userLdap.setUser_name(aux);
 					}catch(Exception e) {
 						e.printStackTrace();
@@ -326,9 +327,12 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private Properties loadIdentityServerSettings() {
+		
 		String path = new Config().getBasePathConfig() + File.separator + "ids";
 		String fileName = "wso2-ids.xml";
-		File file = new File(getClass().getResource(path + File.separator + fileName).getPath());
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		
+		
 		FileInputStream fis = null;
 		Properties props = new Properties();
 		try {
