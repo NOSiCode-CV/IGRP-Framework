@@ -38,11 +38,10 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 /*----#end-code----*/
 
+public class ListaPageController extends Controller {
 
-public class ListaPageController extends Controller {		
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaPage model = new ListaPage();
 		model.load();
 		ListaPageView view = new ListaPageView();
@@ -59,12 +58,11 @@ public class ListaPageController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-		
+
 		view.id_page.setParam(true);
 
-		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();		
+		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
-	
 
 		String app = Core.getParam("app");
 
@@ -76,86 +74,91 @@ public class ListaPageController extends Controller {
 
 		if (Core.isNotNull(model.getApplication())) {
 			model.setBtn_import("igrp_studio", "ImportArquivo", "index")
-			.addParam("p_list_aplicacao", model.getApplication())
-			.addParam("tab-tabcontent_1-importar_pagina", "1");
-			model.setLink_btn_nova_pagina("igrp", "Page", "index")
-			.addParam("p_env_fk",model.getApplication());
-			model.setCrud_generator("igrp_studio", "CRUDGenerator", "index")
-			.addParam("p_aplicacao", model.getApplication());
+					.addParam("p_list_aplicacao", model.getApplication())
+					.addParam("tab-tabcontent_1-importar_pagina", "1");
+			model.setLink_btn_nova_pagina("igrp", "Page", "index").addParam("p_env_fk", model.getApplication());
+			model.setCrud_generator("igrp_studio", "CRUDGenerator", "index").addParam("p_aplicacao",
+					model.getApplication());
+		} else {
+			model.setBtn_import("igrp_studio", "ImportArquivo", "index").addParam("tab-tabcontent_1-importar_pagina",
+					"1");
+			model.setLink_btn_nova_pagina("igrp", "Page", "index");
+			model.setCrud_generator("igrp_studio", "CRUDGenerator", "index");
+
 		}
 
 		List<Action> actions = new ArrayList<Action>();
-		
-		if(Core.getParamArray("p_modulo") != null) {
-			 for(String m : Core.getParamArray("p_modulo")) {
-				 List<Action> actions_ = new Action().find()
-						 .andWhere("modulo.id", "=", m)
-						 .andWhere("application", "=", Core.toInt(model.getApplication()))
-						 .andWhere("isComponent", "<>",2)
-						 .all();
-				 if(actions_ != null) actions.addAll(actions_);
-			 }
-		}else {
-			actions =  new Action().find()
+
+		if (Core.getParamArray("p_modulo") != null) {
+			for (String m : Core.getParamArray("p_modulo")) {
+				List<Action> actions_ = new Action().find().andWhere("modulo.id", "=", m)
 						.andWhere("application", "=", Core.toInt(model.getApplication()))
-						.andWhere("isComponent", "<>",2)
-						.all();
+						.andWhere("isComponent", "<>", 2).all();
+				if (actions_ != null)
+					actions.addAll(actions_);
+			}
+		} else {
+			actions = new Action().find().andWhere("application", "=", Core.toInt(model.getApplication()))
+					.andWhere("isComponent", "<>", 2).all();
 		}
-		Collections.sort(actions,new SortbyStatus());
-		
+		Collections.sort(actions, new SortbyStatus());
+
 		for (Action ac : actions) {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
 			table1.setId_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
-			table1.setDescricao_page(ac.getPage_descr()+" ("+ac.getPage()+")");
+			table1.setDescricao_page(ac.getPage_descr() + " (" + ac.getPage() + ")");
 			int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
 			table1.setStatus_page(ac.getStatus());
 			table1.setStatus_page_check(check);
-	
+
 			lista.add(table1);
 		}
 
 		List<Profile> myApp = new Application().getMyApp();
-		if(Core.isNotNull(myApp)){	
-		myApp = myApp.stream().filter(profile -> profile.getOrganization().getApplication().getStatus() == 1).filter(
-				profile -> !profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial"))
-				.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio"))
-				.collect(Collectors.toList());
-		for (Profile p : myApp) {
-			ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
-			String page = p.getOrganization().getApplication().getDad().toLowerCase()+"/default-page";
-			if (p.getOrganization().getApplication().getAction() != null) {
-				Action ac = p.getOrganization().getApplication().getAction();
-				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
-				page = ac.getApplication().getDad().toLowerCase()+"/"+page;
+		if (Core.isNotNull(myApp)) {
+			myApp = myApp.stream().filter(profile -> profile.getOrganization().getApplication().getStatus() == 1)
+					.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase()
+							.equals("tutorial"))
+					.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase()
+							.equals("igrp_studio"))
+					.collect(Collectors.toList());
+			for (Profile p : myApp) {
+				ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
+				String page = p.getOrganization().getApplication().getDad().toLowerCase() + "/default-page";
+				if (p.getOrganization().getApplication().getAction() != null) {
+					Action ac = p.getOrganization().getApplication().getAction();
+					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
+					page = ac.getApplication().getDad().toLowerCase() + "/" + page;
+				}
+				myapps.setIcon(this.getConfig().getLinkImg() + "/assets/img/iconApp/"
+						+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
+								? p.getOrganization().getApplication().getImg_src()
+								: "default.svg"));
+				myapps.setAplicacao("igrp_studio", "env", "openApp")
+						.addParam("app", p.getOrganization().getApplication().getDad())
+						.addParam("page", page + "/index&title=\"");
+				myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
+				apps.add(myapps);
 			}
-			myapps.setIcon(this.getConfig().getLinkImg() + "/assets/img/iconApp/"
-					+ (Core.isNotNull(p.getOrganization().getApplication().getImg_src())
-							? p.getOrganization().getApplication().getImg_src()
-							: "default.svg"));
-		 myapps.setAplicacao("igrp_studio", "env", "openApp")
-			.addParam("app",p.getOrganization().getApplication().getDad())
-			.addParam("page",page + "/index&title=\"");
-			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
-			apps.add(myapps);
+			// model.setInfopanel_3_val(""+apps.size());
 		}
-		// model.setInfopanel_3_val(""+apps.size());
-		}
-	
-		view.application.setValue(new Application().getListApps());							
-		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "id", "name", "-- Selecionar --"));		
-		
+
+		view.application.setValue(new Application().getListApps());
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "id",
+				"name", "-- Selecionar --"));
+
 		view.table_1.addData(lista);
 		view.myapps_list.addData(apps);
 		view.btn_eliminar.setVisible(false);
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
@@ -169,11 +172,11 @@ public class ListaPageController extends Controller {
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		return this.redirect("igrp_studio", "Env", "index", this.queryString());
 	}
-	
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
@@ -191,11 +194,11 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
 	}
-	
-	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
@@ -208,16 +211,16 @@ public class ListaPageController extends Controller {
 		----#gen-example */
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
-		if (Core.isNotNull(p_id_page)){		
+		if (Core.isNotNull(p_id_page)) {
 			return this.redirect("igrp", "Page", "visualizar&p_id=" + p_id_page);
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
 	}
-	
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
@@ -235,11 +238,11 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
 	}
-	
-	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
@@ -257,11 +260,11 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		return this.redirect("igrp_studio", "Env", "index", this.queryString());
 	}
-	
-	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
@@ -292,9 +295,9 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
 	}
-	
+
 	/*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus()
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
@@ -319,15 +322,13 @@ public class ListaPageController extends Controller {
 		res.toJson(json);
 		return this.renderView(json.toString());
 	}
-	
-	class SortbyStatus implements Comparator<Action>
-	{
-	    // Used for sorting in ascending order of
-	    // roll number
-	    public int compare(Action a, Action b)
-	    {
-	        return b.getStatus() - a.getStatus();
-	    }
+
+	class SortbyStatus implements Comparator<Action> {
+		// Used for sorting in ascending order of
+		// roll number
+		public int compare(Action a, Action b) {
+			return b.getStatus() - a.getStatus();
+		}
 	}
 	/*----#end-code----*/
-	}
+}

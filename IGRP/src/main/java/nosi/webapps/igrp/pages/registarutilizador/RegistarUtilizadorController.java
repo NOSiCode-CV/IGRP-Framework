@@ -60,21 +60,28 @@ public class RegistarUtilizadorController extends Controller {
 				role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
 				role.setUser(user);
 				role = role.insert();
-				if(user!=null){
+				if(user.getId()!=null){
 					Application app = new Application().find().andWhere("dad", "=", "tutorial").one();
 					ProfileType prof = new ProfileType().find().andWhere("code","=","perfil.tutorial").andWhere("application", "=",app.getId()).one();
 					Organization org = new Organization().find().andWhere("code","=","org.tutorial").andWhere("application", "=",app.getId()).one();
 					//Atribui acesso a aplicação IGRP Tutorial
 					Profile p1 = new Profile(app.getId(), "ENV",prof, user,org);
-					p1.insert();
-					Profile p2 = new Profile(prof.getId(), "PROF", prof, user, org);
-					p2.insert();
-					Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
-					Core.setMessageWarning("Deve convidar agora o utilizador.");
+					p1=p1.insert();
+					if(p1.getId()!=null) {
+						Profile p2 = new Profile(prof.getId(), "PROF", prof, user, org);
+						p2=p2.insert();
+						if(p2.getId()!=null) {
+								Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
+								Core.setMessageWarning("Deve convidar agora o utilizador.");
+						}else {
+							Core.setMessageError("Error ao registar uilizador.");
+							Core.setMessageInfo("Perfil");
+						}					
+					}					
 					return this.redirect("igrp", "RegistarUtilizador", "index");
 				}
 				else
-					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Error ao registar uilizador."));
+					Core.setMessageError("Error ao registar uilizador.");
 			}			
 		}	
 	
