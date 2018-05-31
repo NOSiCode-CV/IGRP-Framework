@@ -305,48 +305,17 @@ public class QuerySelect extends CommonFIlter{
 	}
 	
 	public ResultSet executeQuery(Config_env env) {
-		ResultSet r = new ResultSet();
-		Connection conn =nosi.core.config.Connection.getConnection(env);	
-		if(conn!=null) {
-			PreparedStatement ps = null;
-			try {
-				ps = conn.prepareStatement(this.getSql());
-				ps.execute();
-				r.setSql(this.getSql());
-				Core.log("SQL:"+this.getSql());
-			} catch (SQLException e) {
-				r.setError(e.getMessage());
-				Core.log(e.getMessage());
-			}
-			try {
-				conn.commit();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally {
-				try {
-					if(ps!=null)
-						ps.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if(conn!=null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}		
-		}
-		return r;
+		Connection conn =nosi.core.config.Connection.getConnection(env);
+		return executeQuery(conn);
 	}
 	
 	public ResultSet executeQuery(String connectionName) {
-		ResultSet r = new ResultSet();
 		Connection conn =nosi.core.config.Connection.getConnection(connectionName);	
+		return executeQuery(conn);
+	}
+	
+	public ResultSet executeQuery(Connection conn) {
+		ResultSet r = new ResultSet();
 		if(conn!=null) {
 			PreparedStatement ps = null;
 			try {
