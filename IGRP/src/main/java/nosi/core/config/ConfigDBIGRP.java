@@ -5,9 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.webapp.helpers.FileHelper;
 
@@ -42,8 +46,6 @@ public class ConfigDBIGRP {
 	
 	public void save(){
 		try {
-//			FileHelper.createDiretory(this.path);
-//			File file = new File(this.path+File.separator+this.fileName);	
 			File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 			FileOutputStream out = new FileOutputStream(file);
 			this.generateConfig().storeToXML(out, "store config igrp database");
@@ -60,10 +62,7 @@ public class ConfigDBIGRP {
 		if(FileHelper.fileExists(this.path)){
 			try {				
 				this.path +=File.separator+ new Config().getResourcesConfigDB();
-//				FileHelper.createDiretory(this.path);
-//				File file = new File(this.path+File.separator+this.fileName);
 				File file = new File(getClass().getClassLoader().getResource(path+fileName).getPath());
-
 				FileOutputStream out = new FileOutputStream(file);
 				this.generateConfig().storeToXML(out, "store config igrp database");
 				out.close();			
@@ -75,7 +74,6 @@ public class ConfigDBIGRP {
   
 	public void load() throws Exception{
 		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
-//		File file = new File(this.path+File.separator+this.fileName);
 		FileInputStream fis = null;
 				Properties props = new Properties();
 		try {
@@ -178,20 +176,23 @@ public class ConfigDBIGRP {
 
 	public boolean validate() {
 		String url = HibernateUtils.getUrl(this.getType_db(),this.getHost(),""+this.getPort(), this.getName_db());
-		Configuration cfg = new Configuration();
-    	cfg.configure("/"+this.getName()+".cfg.xml");
+		String hibernateDialect = HibernateUtils.getHibernateDialect(this.getType_db());
     	String driver = HibernateUtils.getDriver(this.getType_db());
-    	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
-    	cfg.getProperties().setProperty("hibernate.connection.password",this.getPassword());
-    	cfg.getProperties().setProperty("hibernate.connection.username",this.getUsername());
-    	cfg.getProperties().setProperty("hibernate.connection.url",url);
-    	cfg.getProperties().setProperty("current_session_context_class","thread");
+    	Map<String, Object> settings = HibernateUtils.getBaseSettings(driver, url, this.getUsername(), this.getPassword(), hibernateDialect);        
+    	StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+		registryBuilder.configure("/" + this.getName() + ".cfg.xml");
+		registryBuilder.applySettings(settings);
+		StandardServiceRegistry registry = registryBuilder.build();
+		MetadataSources sources = new MetadataSources(registry);
+		Metadata metadata = sources.getMetadataBuilder().build();		
     	boolean isConnected = false;
     	try{
-			SessionFactory sf = cfg.buildSessionFactory();	
-			sf.close();
+    		SessionFactory sf = metadata.getSessionFactoryBuilder().build();
+    		sf.close();
+    		StandardServiceRegistryBuilder.destroy(registry);
 			isConnected = true;
     	}catch(Exception e){
+    		e.printStackTrace();
     		isConnected = false;
     	}
     	return isConnected;
