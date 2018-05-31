@@ -6,7 +6,6 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 
 
@@ -52,7 +50,7 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	@JoinColumn(name="prof_type_fk",foreignKey=@ForeignKey(name="PROFILE_PROF_TYPE_FK"),nullable=false)
 	private ProfileType profileType;
 	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
-	@JoinColumn(name="user_fk",foreignKey=@ForeignKey(name="PROFILE_USER_FK"),nullable=false)
+	@JoinColumn(name="user_fk",foreignKey=@ForeignKey(name="PROFILE_USER_FK"),nullable=true)
 	private User user;
 	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
 	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="PROFILE_ORGANIZATION_FK"),nullable=false)

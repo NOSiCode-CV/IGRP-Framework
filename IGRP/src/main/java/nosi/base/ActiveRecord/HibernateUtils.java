@@ -101,7 +101,7 @@ public class HibernateUtils {
 		settings.put(Environment.USER, user);
 		settings.put(Environment.PASS, password);
 		settings.put(Environment.HBM2DDL_AUTO, "update");
-		//settings.put(Environment.SHOW_SQL, true);
+		settings.put(Environment.SHOW_SQL, true);
 		settings.put("hibernate.dialect", hibernateDialect);
 		
 		// HikariCP settings		

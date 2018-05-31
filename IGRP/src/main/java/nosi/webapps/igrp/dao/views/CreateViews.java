@@ -2,10 +2,9 @@ package nosi.webapps.igrp.dao.views;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.config.Config;
+import nosi.core.webapp.databse.helpers.QuerySelect;
 
 public class CreateViews extends BaseActiveRecord<CreateViews>{
 
@@ -191,14 +190,12 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 	}
 	
 	private void createView(){
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
+		QuerySelect q = new QuerySelect();
+		String sqlViews = "";
 		for(String sql:VIEWS){
-			Query q = em.createNativeQuery(sql);
-			q.executeUpdate();
+			sqlViews+=sql+"; ";
 		}
-		t.commit();		
-		em.close();
+		q.setSql(sqlViews);
+		q.executeQuery(Config.getBaseConnection()) ;
 	}
 }

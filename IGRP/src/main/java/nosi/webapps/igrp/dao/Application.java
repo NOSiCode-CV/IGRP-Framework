@@ -75,7 +75,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	private List<Modulo> modulo;
 	
 	public Application(){
-		
+		super();
 	}
 	
 	public Application(String dad, String name, String img_src, String description, int status,
@@ -394,6 +394,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 	
 	public Application insertOnly() {
+		System.out.println("Insert APP");
 		return super.insert();
 	}
 	
