@@ -53,7 +53,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
 			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
-			session.save(this.className);
+			session.persist(this.className);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -76,7 +76,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
 			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
-			session.update(this.className);
+			session.merge(this.className);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -135,7 +135,11 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			this.startCriteria();
 			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
-			this.className = session.createQuery(criteria).setMaxResults(1).getSingleResult();
+			List<T> t = session.createQuery(criteria).setMaxResults(1).getResultList();
+			if(t!=null && t.size() > 0)
+				this.className = t.get(0);
+			else
+				this.className = null;
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -170,7 +174,11 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 					this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
 					this.predicates = null;
 				}
-				this.className = session.createQuery(this.criteria).setMaxResults(1).getSingleResult();
+				List<T> t = session.createQuery(this.criteria).setMaxResults(1).getResultList();
+				if(t!=null && t.size() > 0)
+					this.className = t.get(0);
+				else
+					this.className = null;
 			}catch (javax.persistence.NoResultException e) {
 				
 			}
