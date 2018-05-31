@@ -108,7 +108,7 @@
 			
 			com.setEvents();
 
-			com.ordertable();
+		//	com.ordertable();
 
 			com.setTableStyle();
 			

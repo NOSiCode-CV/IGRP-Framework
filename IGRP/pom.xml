@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>0.9.2 28-05-18</version>
+	<version>0.9.3 31-05-18</version>
 	<packaging>war</packaging>
 
 	<properties>

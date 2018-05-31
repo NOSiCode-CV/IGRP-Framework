@@ -186,7 +186,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));			
 			actions.add(new Action("_CONS_PROC", "index", "nosi.webapps.igrp.pages._cons_proc", "igrp/_cons_proc/_CONS_PROC.xsl", "Consulta Processo", "Consulta Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("DetalhesProcesso", "index", "nosi.webapps.igrp.pages.detalhesprocesso", "igrp/detalhesprocesso/DetalhesProcesso.xsl", "Detalhes Processo", "Detalhes Processo", "2.3", 1, app_igrp));
-			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Geral", "Partilha Geral - Inter Aplicações (Páginas)", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Página", "Partilha Página", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Modulo", "index", "nosi.webapps.igrp_studio.pages.modulo", "igrp_studio/modulo/Modulo.xsl", "Módulo", "Módulo", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
 			actions.add(new Action("Sql_tools", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/sql_tools/Sql_tools.xsl", "SQL Tool", "SQL Tool", "2.3", 1, app_igrp_studio));
@@ -248,26 +248,20 @@ public class MigrationIGRPInitConfig {
 				//Profile() the type_fk is 16
 			Menu tempMenuOA = new Menu("OAuth Client Id", 1, 0, 0, "_self", actions.get(26), app_igrp, null);
 			tempMenuOA.setMenu(tempMenuOA);
-			menus.add(tempMenuOA);
+			menus.add(tempMenuOA);		
 			
-			//menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), igrp, menus.get(2)));
-			//menus.add(new Menu("Gestão de Orgânica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
-			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
-			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
-			//menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
-			//menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));	
-			//menus.add(new Menu("Pesquisar BI", 1, 1, 0, "_self", actions.get(37), app, menus.get(5)));
-			//menus.add(new Menu("Pesquisar NIF", 1, 1, 0, "_self", actions.get(38), app, menus.get(5)));
-			//menus.add(new Menu("Pesquisar Nascimento", 1, 1, 0, "_self", actions.get(39), app, menus.get(5)));
-			
-			Menu partilha = new Menu("Partilha Inter-Aplicação", 0, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
+			//Profile() the type_fk is 17
+			Menu partilha = new Menu("Partilha Página", 0, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
 			partilha.setMenu(partilha);
 			menus.add(partilha);
-			
+			//Profile() the type_fk is 18
 			Menu sql = new Menu("SQL Tool", 0, 1, 0, "submit", actions.get(51), app_igrp_studio, null);
 			sql.setMenu(sql);
 			menus.add(sql);
-			
+			//Profile() the type_fk is 19
+			Menu migrate = new Menu("Migrate IGRP", 0, 1, 0, "_self", actions.get(26), app_igrp, null);
+			migrate.setMenu(migrate);
+			menus.add(migrate);
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -324,12 +318,15 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(10, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(13, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(14, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
-			profiles.add(new Profile(15, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(15, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));			
 			
-			//profiles.add(new Profile(partilha.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
-			profiles.add(new Profile(partilha.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
-			//profiles.add(new Profile(partilha.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
 			profiles.add(new Profile(partilha.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(partilha.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(partilha.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(sql.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(sql.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(migrate.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(migrate.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
 
 			
 			for(Profile p:profiles){

@@ -9,21 +9,21 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="Layer_1"
    data-name="Layer 1"
-   viewBox="0 0 94.429996 127.20999"
+   viewBox="0 0 302.85505 228.47093"
    version="1.1"
-   sodipodi:docname="studioLogoBlank.svg"
-   width="94.43"
-   height="127.21"
-   inkscape:version="0.92.1 r15371">
+   sodipodi:docname="logoIGRPWEB so logo verde_v4.0.svg"
+   inkscape:version="0.92.1 r15371"
+   width="8.0130396cm"
+   height="6.04496cm">
   <metadata
-     id="metadata41">
+     id="metadata33">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>IGRP_Logo</dc:title>
+        <dc:title>logoIGRPWEB_v4.0</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -36,15 +36,14 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
-     inkscape:window-height="1361"
-     id="namedview39"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     id="namedview31"
      showgrid="false"
-     inkscape:pagecheckerboard="true"
-     inkscape:zoom="4.9489051"
-     inkscape:cx="101.24882"
-     inkscape:cy="94.834775"
-     inkscape:window-x="1911"
+     inkscape:zoom="1.0395266"
+     inkscape:cx="95.886107"
+     inkscape:cy="43.721058"
+     inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="Layer_1"
@@ -52,37 +51,36 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     units="px"
-     height="127.21in" />
+     units="cm" />
   <defs
      id="defs4">
     <style
-       id="style2">.cls-1{fill:#c4ccd4;}.cls-1,.cls-2{opacity:0.8;}.cls-2{fill:#c7da3b;}.cls-3{fill:#6d6e71;}</style>
+       id="style2">.cls-1{fill:#c4ccd4;}.cls-1,.cls-2{opacity:0.8;}.cls-2{fill:#3aa0d9;}.cls-3{fill:#231f20;}</style>
   </defs>
   <title
-     id="title6">IGRP_Logo</title>
-  <polygon
+     id="title6">logoIGRPWEB_v4.0</title>
+  <path
      class="cls-1"
-     points="54.98,55.71 54.98,5.16 5,47.49 5,100.98 "
-     id="polygon8"
-     style="opacity:0.8;fill:#c4ccd4"
-     transform="matrix(0.9145813,0,0,0.88940474,-4.1687767,-1.8813743)" />
-  <polygon
+     d="m 17.461437,78.880618 h 65.91 a 6.82,6.82 0 0 1 5.509997,2.81 L 142.88144,156.17061 H 60.171437 l -48.22,-66.499992 a 6.8,6.8 0 0 1 5.51,-10.79 z"
+     id="path8"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#c4ccd4" />
+  <path
      class="cls-2"
-     points="5,100.98 5,47.49 54.98,77.3 54.98,129.04 "
-     id="polygon10"
-     style="opacity:0.8;fill:#c7da3b"
-     transform="matrix(0.9145813,0,0,0.88940474,-4.1687767,-1.8813743)" />
-  <polygon
-     class="cls-2"
-     points="58.49,68.53 58.49,15.04 106.72,47.49 106.72,97.47 "
-     id="polygon12"
-     style="opacity:0.8;fill:#c7da3b"
-     transform="matrix(0.9145813,0,0,0.88940474,-4.1687767,-1.8813743)" />
-  <polygon
+     d="m 185.59144,78.880618 h -65.9 a 6.82,6.82 0 0 0 -5.51,2.81 L 60.181437,156.17061 h 82.710003 l 48.22,-66.499992 a 6.8,6.8 0 0 0 -5.52,-10.79 z"
+     id="path10"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#008900;fill-opacity:1" />
+  <path
      class="cls-1"
-     points="58.49,88.26 58.49,142.19 106.72,97.47 106.72,47.49 "
-     id="polygon14"
-     style="opacity:0.8;fill:#c4ccd4"
-     transform="matrix(0.9145813,0,0,0.88940474,-4.1687767,-1.8813743)" />
+     d="m 119.69144,78.880618 h 65.9 a 6.82,6.82 0 0 1 5.51,2.81 l 54,74.479992 h -82.71 l -48.22,-66.499992 a 6.8,6.8 0 0 1 5.52,-10.79 z"
+     id="path12"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#c4ccd4" />
+  <path
+     class="cls-2"
+     d="m 287.81144,78.880618 h -65.91 a 6.82,6.82 0 0 0 -5.51,2.81 l -54,74.479992 h 82.71 l 48.22,-66.499992 a 6.8,6.8 0 0 0 -5.51,-10.79 z"
+     id="path14"
+     inkscape:connector-curvature="0"
+     style="opacity:0.8;fill:#008900;fill-opacity:1" />
 </svg>
