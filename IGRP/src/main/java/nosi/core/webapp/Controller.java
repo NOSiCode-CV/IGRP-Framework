@@ -135,6 +135,7 @@ public abstract class Controller{
 		}		
 		String content = this.view.getPage().renderContent(false);
 		String taskId = Core.getParam("taskId");
+		String p_processId = Core.getParam("p_processId");
 		String taskName = Core.getParam("taskName");
 		String taskDefinition = Core.getParam("taskDefinition");
 		String processDefinition = Core.getParam("processDefinition");		
@@ -144,7 +145,12 @@ public abstract class Controller{
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", taskName+" - Nº "+taskId);
-		xml.addXml(comp.generateButtonTask(app,taskDefinition,"save", taskId).toString());
+		if(Core.isNotNull(p_processId)) {
+			xml.addXml(comp.generateButtonProcess(p_processId).toString());
+		}
+		if(Core.isNotNull(taskId)) {
+			xml.addXml(comp.generateButtonTask(app,taskDefinition,"save", taskId).toString());
+		}
 		xml.addXml(content);
 		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,ac.getApplication().getId(),null)));
 		xml.endElement();
