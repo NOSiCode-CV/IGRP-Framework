@@ -206,9 +206,9 @@ public class User implements Component{
 		return result;
 	}
 	
-	@Deprecated
 	public synchronized static String generateAuthenticationKey() {
-		return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
+		//return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
+		return java.util.UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
 	public synchronized static String generateActivationKey() {
