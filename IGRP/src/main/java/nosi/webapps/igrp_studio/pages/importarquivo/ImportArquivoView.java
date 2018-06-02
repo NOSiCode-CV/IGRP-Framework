@@ -76,19 +76,19 @@ public class ImportArquivoView extends View {
 		
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
 		importar_aplicacao.setLabel(gt("Importar Aplicação"));
-		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("maxlength","50");
+		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_pagina = new TextField(model,"importar_pagina");
 		importar_pagina.setLabel(gt("Importar Página"));
-		importar_pagina.propertie().add("name","p_importar_pagina").add("type","button").add("maxlength","50");
+		importar_pagina.propertie().add("name","p_importar_pagina").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_jar_file = new TextField(model,"importar_jar_file");
 		importar_jar_file.setLabel(gt("Importar Jar File"));
-		importar_jar_file.propertie().add("name","p_importar_jar_file").add("type","button").add("maxlength","50");
+		importar_jar_file.propertie().add("name","p_importar_jar_file").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_sql_script = new TextField(model,"importar_sql_script");
 		importar_sql_script.setLabel(gt("Importar Sql Script"));
-		importar_sql_script.propertie().add("name","p_importar_sql_script").add("type","button").add("maxlength","50");
+		importar_sql_script.propertie().add("name","p_importar_sql_script").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel(gt(""));
@@ -112,15 +112,15 @@ public class ImportArquivoView extends View {
 		
 		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
 		arquivo_aplicacao.setLabel(gt("Aplicação"));
-		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true");
+		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 		list_aplicacao = new ListField(model,"list_aplicacao");
 		list_aplicacao.setLabel(gt("Aplicação"));
-		list_aplicacao.propertie().add("name","p_list_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("java-type","");
+		list_aplicacao.propertie().add("name","p_list_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("java-type","").add("tags","false");
 		
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
 		arquivo_pagina.setLabel(gt("Página"));
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","100").add("required","true");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","100").add("required","true").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 		jar_file = new FileField(model,"jar_file");
 		jar_file.setLabel(gt("Jar file"));
@@ -128,15 +128,15 @@ public class ImportArquivoView extends View {
 		
 		aplicacao_script = new ListField(model,"aplicacao_script");
 		aplicacao_script.setLabel(gt("Aplicação"));
-		aplicacao_script.propertie().add("name","p_aplicacao_script").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","");
+		aplicacao_script.propertie().add("name","p_aplicacao_script").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","").add("tags","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","");
+		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","").add("tags","false");
 		
 		sql_script = new FileField(model,"sql_script");
 		sql_script.setLabel(gt("Sql Script"));
-		sql_script.propertie().add("name","p_sql_script").add("type","file").add("maxlength","250").add("required","true").add("accept","[object Object]").add("targetrend","[object Object]").add("multiple","false").add("rendvalue","false");
+		sql_script.propertie().add("name","p_sql_script").add("type","file").add("maxlength","250").add("required","true").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 
 

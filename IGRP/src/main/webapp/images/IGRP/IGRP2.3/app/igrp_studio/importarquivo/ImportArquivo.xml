@@ -19,7 +19,7 @@
     <app>igrp_studio</app>
     <plsql>
         <action>index</action>
-        <package_instance>null</package_instance>
+        <package_instance></package_instance>
         <package_db>nosi.webapps.igrp_studio.pages</package_db>
         <package_html>ImportArquivo</package_html>
         <table_name></table_name>
@@ -32,6 +32,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=36</preserve_url>
     </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Import Arquivo</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -43,19 +45,19 @@
         </sectionheader_1>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" maxlength="50">
+                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" maxlength="50">
                     <label>Importar Aplicação</label>
                     <value/>
                 </importar_aplicacao>
-                <importar_pagina name="p_importar_pagina" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" maxlength="50">
+                <importar_pagina name="p_importar_pagina" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" maxlength="50">
                     <label>Importar Página</label>
                     <value/>
                 </importar_pagina>
-                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" maxlength="50">
+                <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" maxlength="50">
                     <label>Importar Jar File</label>
                     <value/>
                 </importar_jar_file>
-                <importar_sql_script name="p_importar_sql_script" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-cloud-upload" maxlength="50">
+                <importar_sql_script name="p_importar_sql_script" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-cloud-upload" request_fields="" maxlength="50">
                     <label>Importar Sql Script</label>
                     <value/>
                 </importar_sql_script>
@@ -91,7 +93,7 @@
         </sectionheader_5>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -110,7 +112,7 @@
         </form_2>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <list_aplicacao name="p_list_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
+                <list_aplicacao name="p_list_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -132,7 +134,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="100" required="true" disabled="false" right="false" class="primary">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="100" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -170,7 +172,7 @@
         </form_3>
         <form_4 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao_script name="p_aplicacao_script" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
+                <aplicacao_script name="p_aplicacao_script" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -192,7 +194,7 @@
                         </option>
                     </list>
                 </aplicacao_script>
-                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Data Source</label>
                     <list>
                         <option/>
@@ -214,7 +216,7 @@
                         </option>
                     </list>
                 </data_source>
-                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary" accept="[object Object]" targetrend="[object Object]" multiple="false" rendvalue="false">
+                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Sql Script</label>
                     <value/>
                 </sql_script>
