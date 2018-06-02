@@ -73,14 +73,14 @@ public class NovoPerfilController extends Controller {
 			pt.setApplication(new Application().findOne(model.getAplicacao()));
 			pt = pt.insert();
 			if (pt != null) {
-
+				/*
 				// Cria grupo e utilizadores no Activiti
 				GroupService group = new GroupService();
 				group.setId(pt.getOrganization().getCode() + "." + pt.getCode());
 				group.setName(pt.getOrganization().getName() + " - " + pt.getDescr());
 				group.setType("assignment");
 				group.create(group);		
-				
+				*/
               if(insertProfile(pt) != null){    
   				Core.setMessageSuccess("Perfil criado com sucesso");	         
                 this.addQueryString("p_nome","");

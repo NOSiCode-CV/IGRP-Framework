@@ -149,6 +149,7 @@ public class NovoUtilizadorController extends Controller {
 				p.setType_fk(model.getAplicacao());
 				p = p.insert();
 				if(p!=null){
+					/*
 					//Associa utilizador a grupo no Activiti 
 					UserService userActiviti0 = new UserService();
 					userActiviti0.setId(u.getUser_name());
@@ -158,6 +159,7 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.setEmail(u.getEmail());
 					userActiviti0.create(userActiviti0);	
 					new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
+					*/
 					Core.setMessageSuccess();
                    return true;
 				}else{
@@ -166,9 +168,13 @@ public class NovoUtilizadorController extends Controller {
 			}else{
 				Core.setMessageError("Este utilizador está convidado para este perfil.");
 			}
-		}else{
+			
+		}
+		
+		else{
 			Core.setMessageError("Este e-mail não está adicionado. Primeiro adicionar este utilizador.");
 		}
+	  
       return false;
 	}
 	
