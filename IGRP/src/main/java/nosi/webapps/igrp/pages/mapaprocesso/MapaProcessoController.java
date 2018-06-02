@@ -74,7 +74,7 @@ public class MapaProcessoController extends Controller{
 						.addQueryString("processDefinition", processDefinition)
 						.addQueryString("taskDefinition", "TaskStart")
 						.addQueryString("taskName","Start Process");
-					return this.call(app.getDad().toLowerCase(),"TaskStart", "index",this.queryString());
+					return this.call(app.getDad().toLowerCase(),this.config.prefix_task_name+"Start", "index",this.queryString());
 				}
 			}
 			String content = comp.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);

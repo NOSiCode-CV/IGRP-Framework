@@ -149,7 +149,7 @@ public abstract class Controller{
 			xml.addXml(comp.generateButtonProcess(p_processId).toString());
 		}
 		if(Core.isNotNull(taskId)) {
-			xml.addXml(comp.generateButtonTask(app,taskDefinition,"save", taskId).toString());
+			xml.addXml(comp.generateButtonTask(app,this.config.prefix_task_name+taskDefinition,"save", taskId).toString());
 		}
 		xml.addXml(content);
 		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,ac.getApplication().getId(),null)));

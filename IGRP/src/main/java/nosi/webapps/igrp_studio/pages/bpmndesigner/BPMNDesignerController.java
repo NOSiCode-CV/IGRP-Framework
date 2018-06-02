@@ -121,7 +121,7 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private void saveTaskController(TaskService task,Application app,int index) {
-		String taskName = "Task"+StringHelper.camelCaseFirst(task.getId());
+		String taskName = StringHelper.camelCaseFirst(this.config.prefix_task_name+task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
 				.andWhere("page", "=",taskName)
