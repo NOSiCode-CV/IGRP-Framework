@@ -405,6 +405,14 @@ public class WebReportController extends Controller {
 		return xml.toString();
 	}
 	
+	public Response actionGetReport() throws IOException {
+		String code = Core.getParam("code");
+		if(Core.isNotNull(code)) {
+			this.loadQueryString();
+			return Core.getLinkReport(code,this.queryString());
+		}
+		return this.redirectError();
+	}
 	DataSourceController ds = new DataSourceController();
 	/*----#END-PRESERVED-AREA----*/
 }

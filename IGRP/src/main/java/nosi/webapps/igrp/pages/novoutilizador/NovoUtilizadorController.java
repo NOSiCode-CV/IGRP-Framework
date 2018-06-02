@@ -181,11 +181,11 @@ public class NovoUtilizadorController extends Controller {
 	private User invite(String email, boolean viaIds, Object ...obj) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null;
+		
+		Properties settings = (Properties) obj[0];
 	
 		if(viaIds) {
 			try {
-				Properties settings = (Properties) obj[0];
-				
 				URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
 		        WSO2UserStub.disableSSL();
 		        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
@@ -231,9 +231,17 @@ public class NovoUtilizadorController extends Controller {
 						else
 							userLdap.setName(person.getFullName());
 					try {
-						//String aux = person.getMail().toLowerCase().split("@")[0];
-						String aux = person.getMail().toLowerCase().trim();
-						userLdap.setUser_name(aux);
+						
+						if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
+							//String aux = person.getMail().toLowerCase().split("@")[0];
+							String aux = person.getMail().toLowerCase().trim();
+							userLdap.setUser_name(aux);
+						}else {
+							String aux = person.getMail().toLowerCase().split("@")[0];
+							//String aux = person.getMail().toLowerCase().trim();
+							userLdap.setUser_name(aux);
+						}
+						
 					}catch(Exception e) {
 						e.printStackTrace();
 						userLdap.setUser_name(person.getMail().trim().toLowerCase());

@@ -190,10 +190,10 @@ body[screen-size="xs"] #igrp-top-nav{
 }
 .navbar-brand>img{
   float: none;
-  width: 26px;
+  width: 60px;
   display: inline;
   vertical-align: top;
-  margin-top: 11px
+  margin-top: 4px
 }
 
 .navbar-brand>span{

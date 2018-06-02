@@ -88,9 +88,46 @@ public class BPMNHelper {
 				});			
 			}
 		}
+		tipoDocs = addOutPut(controller);
 		return tipoDocs != null && !tipoDocs.isEmpty()?controller.call("igrp", "Addfiletask", "index", controller.queryString()).getContent():"";
 	}
 	
+	
+	private static List<TipoDocumentoEtapa> addOutPut(Controller controller) {
+		String taskAnt = Core.getParam("taskAnt");
+		String procAnt = Core.getParam("procAnt");
+		String idAppAnt = Core.getParam("idAppAnt");
+		List<TipoDocumentoEtapa> tipoDocs = null;
+		if(Core.isNotNull(taskAnt) && Core.isNotNull(procAnt) && Core.isNotNull(idAppAnt)) {
+			procAnt = procAnt.substring(0, procAnt.indexOf(":"));
+			tipoDocs = new TipoDocumentoEtapa()
+					.find()
+					.andWhere("processId", "=",procAnt)
+					.andWhere("taskId", "=",taskAnt)
+					.andWhere("status", "=",1)
+					.andWhere("tipo", "=","OUT")
+					.andWhere("repTemplate", "notnull")
+					.all();
+			if(tipoDocs!=null) {
+				tipoDocs.stream().forEach(doc->{
+					 controller.addQueryString("p_formlist_documento_task_nome_fk",doc.getRepTemplate().getCode());
+		 			 controller.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getRepTemplate().getCode());
+		 			 controller.addQueryString("p_formlist_documento_task_descricao_fk",doc.getRepTemplate().getName());
+		 			 controller.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getRepTemplate().getName());
+		 			 controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",getObrigatoriedade(doc.getRequired()));
+		 			 controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",getObrigatoriedade(doc.getRequired()));
+		 			 controller.addQueryString("p_formlist_documento_task_documento_fk_desc",doc.getRepTemplate().getName());
+		 			 controller.addQueryString("p_formlist_documento_task_documento_fk",doc.getRepTemplate().getName());
+		 			 controller.addQueryString("formlist_documento_task_documento_fk",doc.getRepTemplate().getName());
+		 			 controller.addQueryString("formlist_documento_task_documento_fk_desc",doc.getRepTemplate().getName());
+		 			 controller.addQueryString("p_formlist_documento_task_mostrar_fk",controller.getConfig().getResolveUrl("igrp_studio","web-report","get-report&code="+doc.getRepTemplate().getCode()));
+		 			 controller.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
+				});
+			}
+		}
+		return tipoDocs;
+		
+	}
 	private static String getObrigatoriedade(int required) {
 		return required==1?"Sim":"Nao";
 	}

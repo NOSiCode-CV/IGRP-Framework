@@ -24,7 +24,7 @@
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
-                        <img src="{$path}/themes/default/img/studio.logo.svg"/>
+                        <img src="{$path}/themes/igrp_studio/img/studioLogoBlank.svg"/>
                         <span class=""><b>IGRP</b></span>
                     </a>
                     <div id="side-bar-ctrl">

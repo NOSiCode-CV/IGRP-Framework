@@ -40,6 +40,35 @@ public class HistoricTaskService extends Activit{
     private String tenantId;
     
     @SuppressWarnings("unchecked")
+   	public List<HistoricTaskService> getHistoryOfProccessInstanceId(String processInstanceId){
+   		List<HistoricTaskService> d = new ArrayList<>();
+   		RestRequest request = new RestRequest();
+   		Response response = request.get("history/historic-task-instances?processInstanceId="+processInstanceId);
+   		if(response!=null){
+   			String contentResp = "";
+   			InputStream is = (InputStream) response.getEntity();
+   			try {
+   				contentResp = FileHelper.convertToString(is);
+   			} catch (IOException e) {
+   				e.printStackTrace();
+   			}
+   			if(Response.Status.OK.getStatusCode() == response.getStatus()){		
+   				HistoricTaskService dep = (HistoricTaskService) ResponseConverter.convertJsonToDao(contentResp,HistoricTaskService.class);
+   				this.setTotal(dep.getTotal());
+   				this.setSize(dep.getSize());
+   				this.setSort(dep.getSort());
+   				this.setOrder(dep.getOrder());
+   				this.setStart(dep.getStart());
+   				d = (List<HistoricTaskService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<HistoricTaskService>>(){}.getType());
+   			}else{
+   				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+   			}
+   		}
+   		return d;
+   	}
+       
+    
+    @SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory(String taskId){
 		List<HistoricTaskService> d = new ArrayList<>();
 		RestRequest request = new RestRequest();
