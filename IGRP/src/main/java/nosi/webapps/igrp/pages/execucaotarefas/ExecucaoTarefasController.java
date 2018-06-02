@@ -17,12 +17,15 @@ import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
+import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -224,20 +227,28 @@ public class ExecucaoTarefasController extends Controller {
 		String id = Core.getParam("p_id");
 		if(Core.isNotNull(id)) {
 			TaskService task = new TaskService().getTask(id);
-			if(task==null) {
-				throw new IOException(Core.NO_PERMITION_MSG);
+			if(task!=null) {
+				List<HistoricTaskService> hts = new HistoricTaskService().getHistoryOfProccessInstanceId(task.getProcessInstanceId());
+				hts = hts.stream().filter(h->!h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey())).collect(Collectors.toList());
+				String taskAnt = hts!=null?hts.get(hts.size()-1).getTaskDefinitionKey():"";
+				String procAnt = hts!=null?hts.get(hts.size()-1).getProcessDefinitionId():"";
+				String idAppAnt = hts!=null?hts.get(hts.size()-1).getTenantId():"";
+				Application app = new Application().findByDad(task.getTenantId());
+				if(app!=null) {
+					this.addQueryString("taskId",id)
+						.addQueryString("appId", app.getId())
+						.addQueryString("appDad", app.getDad())
+						.addQueryString("formKey", task.getFormKey())
+						.addQueryString("processDefinition", task.getProcessDefinitionKey())
+						.addQueryString("taskDefinition", task.getTaskDefinitionKey())
+						.addQueryString("taskName", task.getName())
+						.addQueryString("idAppAnt", idAppAnt)
+						.addQueryString("taskAnt", taskAnt)
+						.addQueryString("procAnt", procAnt);
+					return this.call(app.getDad().toLowerCase(),this.config.prefix_task_name+task.getTaskDefinitionKey(), "index",this.queryString());
+				}
 			}
-			Application app = new Application().findByDad(task.getTenantId());
-			if(app!=null) {
-				this.addQueryString("taskId",id)
-					.addQueryString("appId", app.getId())
-					.addQueryString("appDad", app.getDad())
-					.addQueryString("formKey", task.getFormKey())
-					.addQueryString("processDefinition", task.getProcessDefinitionKey())
-					.addQueryString("taskDefinition", task.getTaskDefinitionKey())
-					.addQueryString("taskName", task.getName());
-				return this.call(app.getDad().toLowerCase(),task.getTaskDefinitionKey(), "index",this.queryString());
-			}
+			throw new IOException(Core.NO_PERMITION_MSG);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#END-PRESERVED-AREA----*/
