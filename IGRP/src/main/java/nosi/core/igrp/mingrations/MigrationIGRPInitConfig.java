@@ -6,10 +6,7 @@ package nosi.core.igrp.mingrations;
  */
 import java.util.ArrayList;
 import java.util.List;
-
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.activit.rest.GroupService;
-import nosi.core.webapp.activit.rest.UserService;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
  
@@ -110,32 +107,7 @@ public class MigrationIGRPInitConfig {
 			//Perfil da aplicacao IGRP Studio
 			ProfileType prof_dev_igrp_studio = new ProfileType("Developer", "perfil.developer", 1, org_igrp_studio, app_igrp_studio, null);
 			prof_dev_igrp_studio = prof_dev_igrp_studio.insert();
-			
-			//Cria grupo e utilizadores no Activiti
-			GroupService group = new GroupService();
-			group.setId(org_IGRP.getCode()+"."+prof1_ADMIN.getCode());
-			group.setName(org_IGRP.getName()+" - "+prof1_ADMIN.getDescr());
-			group.setType("assignment");
-			group.create(group);
-			
-			UserService user_Activiti0 = new UserService();
-			user_Activiti0.setId(user0_IGRP.getUser_name());
-			user_Activiti0.setPassword("password.igrp");
-			user_Activiti0.setFirstName(user0_IGRP.getName());
-			user_Activiti0.setLastName("");
-			user_Activiti0.setEmail(user0_IGRP.getEmail());
-			user_Activiti0.create(user_Activiti0);	
-			
-			UserService userActiviti1 = new UserService();
-			userActiviti1.setId(user1demo.getUser_name());
-			userActiviti1.setPassword("password.igrp");
-			userActiviti1.setFirstName(user1demo.getName());
-			userActiviti1.setLastName("");
-			userActiviti1.setEmail(user1demo.getEmail());
-			userActiviti1.create(userActiviti1);	
-			
-			group.addUser(user_Activiti0.getId());
-			group.addUser(userActiviti1.getId());
+		
 			
 			List<Action> actions = new ArrayList<>();
 			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Page builder", "Page builder", "2.3", 1, app_igrp_studio));

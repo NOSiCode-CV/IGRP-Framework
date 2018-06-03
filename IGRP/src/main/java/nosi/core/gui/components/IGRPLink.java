@@ -14,7 +14,6 @@ public class IGRPLink {
 	private String action;	
 	private String link = "";
 	private QueryString<String,Object> queryString;
-	
 
 	public IGRPLink() {
 		this.queryString = new QueryString<>();
@@ -24,6 +23,11 @@ public class IGRPLink {
 		this.setAction(action);
 		this.setApp(app);
 		this.setPage(page);
+		this.link = new Config().getResolveUrl(this.getApp(), this.getPage(), this.getAction());
+	}
+	public IGRPLink(String link) {
+		this();
+		this.link = link;
 	}
 	public String getApp() {
 		return app;
@@ -55,14 +59,13 @@ public class IGRPLink {
 	}
 	
 	public String getLink() {
-		 link = new Config().getResolveUrl(app, page, action);
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
 			this.queryString.getQueryString().entrySet().stream().forEach(q->{
 				q.getValue().stream().forEach(q1->{
-					link += "&"+q.getKey()+"="+q1.toString();
+					this.link += "&"+q.getKey()+"="+q1.toString();
 				});					
 			});
 		}
-		return link.replace("&&", "&");
+		return this.link.replace("&&", "&");
 	}
 }
