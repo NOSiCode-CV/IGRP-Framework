@@ -1005,7 +1005,11 @@ public final class Core {	// Not inherit
 	public static Response getLinkReport(String code_report,Report rep){
 		return new Report().invokeReport(code_report, rep);
 	}
-
+	
+	public static String getLinkReport(String code_report){
+		return new Report().getLinkReport(code_report);
+	}
+		
 	public static Response getLinkReport(String code_report,QueryString<String, Object> qs){		
 		Report rep = new Report();
 		qs.getQueryString().entrySet().stream().forEach(q->{
