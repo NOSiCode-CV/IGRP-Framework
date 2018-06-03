@@ -3563,7 +3563,7 @@ var GENERATOR = function(genparams){
 
 	var initBlank = function(){
 		GEN.layout.addRow({index:0});
-		done();
+		GEN.done();
 	}
 
 	var loadData = function(url,callback){
