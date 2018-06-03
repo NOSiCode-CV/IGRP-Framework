@@ -39,9 +39,11 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 	private int status;
 	private int required;	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "tipo_documento_fk",foreignKey = @ForeignKey(name="TIPO_DOCUEMNTO_ETAPA_TIPO_DOCUMENTO_FK"),nullable=false)
+	@JoinColumn(name = "tipo_documento_fk",foreignKey = @ForeignKey(name="TIPO_DOCUEMNTO_ETAPA_TIPO_DOCUMENTO_FK"),nullable=true)
 	private TipoDocumento tipoDocumento;
-	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "report_fk",foreignKey = @ForeignKey(name="TIPO_DOCUEMNTO_ETAPA_REPORT_FK"),nullable=true)
+	private RepTemplate repTemplate;
 	
 	
 	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
@@ -106,6 +108,15 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 	public void setTipoDocumento(TipoDocumento tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
+	
+	public RepTemplate getRepTemplate() {
+		return repTemplate;
+	}
+
+	public void setRepTemplate(RepTemplate repTemplate) {
+		this.repTemplate = repTemplate;
+	}
+
 	@Override
 	public String toString() {
 		return "TipoDocumentoEtapa [id=" + id + ", processId=" + processId + ", taskId=" + taskId + ", status=" + status
