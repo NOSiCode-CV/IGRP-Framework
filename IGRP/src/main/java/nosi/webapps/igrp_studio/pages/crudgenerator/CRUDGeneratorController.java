@@ -207,10 +207,19 @@ public class CRUDGeneratorController extends Controller {
 			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
 			&& this.saveFiles(pageList, pageList.getPage()+".xsl",xslList) 
 			&& this.generateClassMVC(pageForm, formMVC)
-			&& this.generateClassMVC(pageList, listMVC);
+			&& this.generateClassMVC(pageList, listMVC)
+			&& this.processCompiler();
 		return r;
 	}
 
+
+	private boolean processCompiler() {
+		Compiler compiler = new Compiler();		
+		File[] fs = new File[6];
+		this.files.toArray(fs);
+		compiler.compile(fs);
+		return !compiler.hasError();
+	}
 
 	private boolean saveFiles(Action page,String fileName,String content) throws IOException {
 		boolean r = false;
@@ -239,22 +248,23 @@ public class CRUDGeneratorController extends Controller {
 				path_class = this.getConfig().getBasePathClass()+ path_class;	
 			
 				
-				FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
+				boolean r = FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
 				
 				if(FileHelper.fileExists(this.getConfig().getWorkspace())){
 					if(!FileHelper.fileExists(path_class_work_space)){//check directory
 						FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 					}
-					FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
+					r = FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
 				}
 				String fileJava = path_class + File.separator + page.getPage();
-				Compiler compiler = new Compiler();
-				compiler.compile(new File[] {new File(fileJava+".java"),new File(fileJava+"View.java"),new File(fileJava+"Controller.java")});
-				return compiler.hasError();
+				files.add(new File(fileJava+".java"));
+				files.add(new File(fileJava+"View.java"));
+				files.add(new File(fileJava+"Controller.java"));
+				return r;
 			}
 		}
 		return false;
 	}
-
+	private ArrayList<File> files = new ArrayList<>();
 	/*----#end-code----*/
 	}

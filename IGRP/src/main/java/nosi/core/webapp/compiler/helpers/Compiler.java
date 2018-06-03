@@ -34,15 +34,6 @@ public class Compiler {
 		  this.errors = new ArrayList<>();
 		  this.config = new Config();
 	}
-	  
-//	public void compile(File[] files) {
-//		if(files!=null) {	
-//			listFilesDirectory(this.config.getPathLib());
-//			for(File file:files) {	
-//				this.compile(file);
-//			}
-//		}
-//	}
 	
 	public String compile(File[] files) {
 		if(files!=null) {	
