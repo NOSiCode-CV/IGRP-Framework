@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  */
 /** 
  	This API is the one of a way that allow you to guarantee the SSO (Single Sign On) from others Web Applications to IGRP. 
- 	Endpoint: ../igrpsso?_u=XYX..XYZ where _u = base64 of "username:password" 
+ 	Endpoint: ../igrpsso?_u=XYX..XYZ where _t = base64 of "token" 
  	Set the following configuration to web.xml and enjoy it ! 
  	 
 	 <servlet>

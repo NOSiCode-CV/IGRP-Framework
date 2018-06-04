@@ -10,6 +10,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,8 +22,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
@@ -34,6 +37,8 @@ import org.apache.commons.io.IOUtils;
 //import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.config.Config;
 import nosi.core.cversion.Svn;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -450,17 +455,29 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
+			
 			Application env = new Application().find().andWhere("dad", "=", p[0]).one();
+			
+			Properties properties = this.load("sso", "oauth2.xml");
+			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
+			String devUrl = properties.getProperty("igrp.env.dev.url"); 
+			
+			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
+				String qs = "?_t=" + Base64.getEncoder().encodeToString((Core.getCurrentUser().getUser_name() + ":" + Core.getCurrentUser().getValid_until()).getBytes());
+				devUrl += qs;
+			return redirectToUrl(devUrl);
+			}
+			
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 				String aux = env.getUrl();
 				Action action = env.getAction();
-			
 				if(action != null) {
 					aux = aux.replace(URI.create(aux).getQuery(), "");
 					aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 				}
 				return this.redirectToUrl(aux);
 			}
+			
 			return this.redirect(p[0], p[1], p[2]);
 		}
 		return this.redirectError();
@@ -568,6 +585,32 @@ public class EnvController extends Controller {
 			return "IgrpPLSQLApp [id=" + id + ", name=" + name + ", dad=" + dad + ", description=" + description
 					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
 		}
+	}
+	
+	private Properties load(String filePath, String fileName) {
+		
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+		
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return props;
 	}
 
 	/*----#end-code----*/
