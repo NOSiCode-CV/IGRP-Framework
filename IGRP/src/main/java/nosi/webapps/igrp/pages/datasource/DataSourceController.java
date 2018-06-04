@@ -67,16 +67,22 @@ public class DataSourceController extends Controller {
 				model.setObjecto(rep.getType_name().equalsIgnoreCase("object")?rep.getType_query():"");
 				model.setQuery(rep.getType_name().equalsIgnoreCase("query")?rep.getType_query():"");
 				model.setTipo(rep.getType_name());
-				model.setData_source(""+rep.getConfig_env().getId());
+				if(rep.getConfig_env()!=null) {
+					model.setData_source(""+rep.getConfig_env().getId());
+				}
 				model.setEtapa(rep.getTaskid());
 				model.setProcesso(rep.getProcessid());
-				model.setPagina(rep.getType_name().equalsIgnoreCase("page")?""+rep.getType_fk():"");
+				if(rep.getType_name().equalsIgnoreCase("page")) {
+					Action ac = new Action().findOne(rep.getType_fk());
+					model.setPagina(ac.getPage_descr());
+					model.setId_pagina(""+ac.getId());
+				}
 			}
 			view.pagina.setLookup("igrp","LookupListPage","index");
 			view.pagina.addParam("p_prm_target","_blank");
-			view.pagina.addParam("p_id_pagina", "p_id");
+			view.pagina.addParam("p_id_pagina", "id");
 			view.pagina.addParam("p_pagina", "descricao");
-			view.pagina.addParam("p_aplicacao", "p_id_aplicacao");
+			view.pagina.addParam("p_env_fk", model.getId_env());
 			view.data_source.setValue(new Config_env().getListEnv(Integer.parseInt(model.getId_env())));
 			
 			//habilita botao de acordo com tipo de objeto
@@ -133,7 +139,7 @@ public class DataSourceController extends Controller {
 			rep.setType(model.getTipo());
 			rep.setType_name(model.getTipo());
 			rep.setType_query(model.getQuery());
-			if((model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query") || model.getTipo().equalsIgnoreCase("page")) && Core.isNull(model.getData_source())) {
+			if((model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")) && Core.isNull(model.getData_source())) {
 				Core.setMessageError("Por favor selecione uma data source");
 				return this.forward("igrp","DataSource","index", this.queryString());
 			}
@@ -156,7 +162,7 @@ public class DataSourceController extends Controller {
 			if(model.getTipo().equalsIgnoreCase("task")) {
 				ProcessDefinitionService p = new ProcessDefinitionService().getProcessDefinition(model.getProcesso());
 				if(p.filterAccess(p)) {
-					rep.setProcessid(p.getKey());
+					rep.setProcessid(p.getId());
 					rep.setTaskid(model.getEtapa());
 					rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
 					List<TaskService> task = p.getTasks(model.getProcesso()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());

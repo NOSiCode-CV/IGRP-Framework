@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.binding.tasks_process.TaskOfProcess;
 import nosi.core.webapp.activit.rest.binding.tasks_process.UserTask;
 import nosi.core.webapp.helpers.FileHelper;
@@ -125,6 +127,8 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public boolean filterAccess(ProcessDefinitionService p) {
+		if(Core.getCurrentApp().getDad().equalsIgnoreCase("igrp_studio"))
+			return true;
 		boolean x = new TaskAccess().getCurrentTaskAccess()
 				.stream()
 				.filter(a->a.getProcessName().compareTo(p.getKey())==0)
