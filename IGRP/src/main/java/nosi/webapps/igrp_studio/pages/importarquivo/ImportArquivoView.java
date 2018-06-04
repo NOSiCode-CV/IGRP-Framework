@@ -120,11 +120,11 @@ public class ImportArquivoView extends View {
 		
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
 		arquivo_pagina.setLabel(gt("Página"));
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","100").add("required","true").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","100").add("required","true");
 		
 		jar_file = new FileField(model,"jar_file");
 		jar_file.setLabel(gt("Jar file"));
-		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept",".jar").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","10000").add("required","true");
+		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept","").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","10000").add("required","true");
 		
 		aplicacao_script = new ListField(model,"aplicacao_script");
 		aplicacao_script.setLabel(gt("Aplicação"));

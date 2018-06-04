@@ -22,15 +22,13 @@ public class ImportPluginIGRP {
 	public boolean importPlugin(Part part){
 		boolean result = false;
 		try {
-			System.out.println("Import jar...");
 			File uploads = new File(this.config.getPathLib());
 			File file = File.createTempFile(part.getSubmittedFileName().replaceAll(".jar", ""), ".jar", uploads);
-
 			try (InputStream input = part.getInputStream()) {
-				System.out.println("Copying..."+file.toPath());
 			    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			}
 			part.delete();
+			result = true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

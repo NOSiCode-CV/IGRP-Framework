@@ -192,7 +192,6 @@ public class ImportArquivoController extends Controller {
 				}else{
 					Core.setMessageError(FlashMessage.ERROR_IMPORT);
 				}
-				FileHelper.deletePartFile(parts,p->p.getSubmittedFileName()!=null && p.getSubmittedFileName().endsWith(".jar"));
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
