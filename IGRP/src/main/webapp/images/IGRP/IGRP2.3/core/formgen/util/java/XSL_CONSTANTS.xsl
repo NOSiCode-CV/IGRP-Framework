@@ -40,7 +40,7 @@
     <xsl:key name="unique_instance" match="//content/*" use="local-name()"/>
    
     <xsl:variable name="sql_chart">
-        <xsl:text>SELECT 'Eixo X' as EixoX,10 as Valor</xsl:text>
+        <xsl:text>SELECT 'X1' as EixoX, 15 as valor UNION SELECT 'X2' as EixoX,10 as valor UNION SELECT 'X2' as EixoX,23 as valor UNION SELECT 'X3' as EixoX,40 as valor</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="double_quotes">"</xsl:variable>
