@@ -58,7 +58,6 @@ public class LoginController extends Controller {
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri"); 
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
-		
 		// Activation key 
 		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
 		if(activation_key != null && !activation_key.trim().isEmpty()) {

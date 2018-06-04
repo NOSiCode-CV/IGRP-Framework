@@ -2,7 +2,11 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>Igrp OAuth2 sso</comment>
-	<entry key="oauth2.client_id">iekinymarcel</entry>
-	<entry key="oauth2.client_secret">marceliekiny</entry>
-	<entry key="oauth2.endpoint">http://localhost:8080/igrp-rest/rs/oauth2/token</entry>
-</properties>
+	<entry key="oauth2.client_id">MsIV2Fx4F9ni08idmnOnL7HLhmca</entry>
+	<entry key="oauth2.client_secret">P6TfM2XKDD87Z5XEQQ035Un0SxQa</entry>
+	<entry key="oauth2.endpoint.token">https://nhais1.gov.cv:9443/oauth2/token</entry>
+	<entry key="oauth2.endpoint.user">https://nhais1.gov.cv:9443/oauth2/userinfo?schema=openid</entry>
+	<entry key="igrp.env.dev.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
+	<entry key="igrp.env.prod.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
+	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
+</properties> 
