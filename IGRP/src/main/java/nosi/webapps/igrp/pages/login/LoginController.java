@@ -3,19 +3,25 @@ package nosi.webapps.igrp.pages.login;
 
 import static nosi.core.i18n.Translator.gt;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 
@@ -293,11 +299,14 @@ public class LoginController extends Controller {
 				}*/
 				/** Begin create user session **/
 				success = createSessionLdapAuthentication(user);
+				
+				sso(username, password, user);
+				
 				/** End create user session **/ 
 				
 			}else {
 				
-				if(this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio 
+				if(this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio  
 					
 					User newUser = new User();
 					newUser.setUser_name(username);
@@ -323,9 +332,12 @@ public class LoginController extends Controller {
 					newUser.setUpdated_at(System.currentTimeMillis());
 					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 					newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+					
 					newUser = newUser.insert();
 					
 					if(newUser != null) {
+						
+						sso(username, password, newUser);
 						
 						Profile p1 = new Profile();
 						p1.setUser(newUser);
@@ -394,6 +406,63 @@ public class LoginController extends Controller {
 		return result;
 	}
 	
+	private boolean sso(String username, String password, User dao) {
+		boolean flag = true;
+		
+		Properties properties = loadOAuth2("sso", "oauth2.xml");
+		
+		String client_id = properties.getProperty("oauth2.client_id");
+		String client_secret = properties.getProperty("oauth2.client_secret");
+		String endpoint = properties.getProperty("oauth2.endpoint.token");
+		
+		String postData = "grant_type=password"
+				+ "&username=" + username
+				+ "&password=" + password
+				+ "&client_id=" + client_id
+				+ "&client_secret=" + client_secret
+				+ "&scope=openid";
+		
+		try {
+			
+			HttpURLConnection curl = (HttpURLConnection) URI.create(endpoint).toURL().openConnection();
+			curl.setDoOutput(true);
+			curl.setDoInput(true);
+			curl.setInstanceFollowRedirects(false);
+			curl.setRequestMethod("POST");
+			curl.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+			curl.setRequestProperty("charset", "utf-8");
+			curl.setRequestProperty( "Content-Length", (postData.length()) + "");
+			curl.setUseCaches(false);
+			curl.getOutputStream().write(postData.getBytes());
+			
+			curl.connect();
+			
+			int code = curl.getResponseCode();
+			
+			if(code != 200) {
+				return false;
+			}
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
+			
+			String result = "";
+			String token = "";
+		
+			result = br.lines().collect(Collectors.joining());
+			
+			JSONObject jToken = new JSONObject(result);
+			token = (String) jToken.get("access_token");
+			
+			dao.setValid_until(token);
+			dao = dao.update();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	private Properties loadIdentityServerSettings() {
 		String path = new Config().getBasePathConfig() + File.separator + "ids";
 		
@@ -419,6 +488,32 @@ public class LoginController extends Controller {
 		}
 		return props;
 	}
+	
+	private Properties loadOAuth2(String filePath, String fileName) {
+			
+			String path = new Config().getBasePathConfig() + File.separator + filePath;
+			File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+			
+			FileInputStream fis = null;
+			Properties props = new Properties();
+			try {
+				fis = new FileInputStream(file);
+			} catch (FileNotFoundException e) {
+				fis = null;	
+			}
+			try {
+				props.loadFromXML(fis);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return props;
+		}
 	
 	
 	/** **/
