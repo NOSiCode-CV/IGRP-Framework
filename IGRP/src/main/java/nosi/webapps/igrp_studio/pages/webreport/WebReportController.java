@@ -263,7 +263,7 @@ public class WebReportController extends Controller {
 	private String getDataForTask(RepTemplateSource rep) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-		this.addQueryString("processDefinitionKey", rep.getRepSource().getProcessid())
+		this.addQueryString("processDefinitionKey", rep.getRepSource().getProcessid().substring(0, rep.getRepSource().getProcessid().indexOf(":")))
 			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
 		this.loadQueryString();
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();

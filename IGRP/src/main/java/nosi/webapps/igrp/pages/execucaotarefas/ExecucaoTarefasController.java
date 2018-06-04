@@ -230,9 +230,9 @@ public class ExecucaoTarefasController extends Controller {
 			if(task!=null) {
 				List<HistoricTaskService> hts = new HistoricTaskService().getHistoryOfProccessInstanceId(task.getProcessInstanceId());
 				hts = hts.stream().filter(h->!h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey())).collect(Collectors.toList());
-				String taskAnt = hts!=null?hts.get(hts.size()-1).getTaskDefinitionKey():"";
-				String procAnt = hts!=null?hts.get(hts.size()-1).getProcessDefinitionId():"";
-				String idAppAnt = hts!=null?hts.get(hts.size()-1).getTenantId():"";
+				String taskAnt = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTaskDefinitionKey():"";
+				String procAnt = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getProcessDefinitionId():"";
+				String idAppAnt = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTenantId():"";
 				Application app = new Application().findByDad(task.getTenantId());
 				if(app!=null) {
 					this.addQueryString("taskId",id)

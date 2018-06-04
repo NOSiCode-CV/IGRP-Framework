@@ -48,7 +48,7 @@ public class DetalhesProcessoController extends Controller {
 		}else {
 			//Get Diagram on historic
 			p = p.getProcessDefinition(processDefinition);
-			if(Core.isNotNull(p.getDiagramResource()) && p.filterAccess(p)) {
+			if(Core.isNotNull(p.getDiagramResource())) {
 				ResourcesService r = new ResourcesService().getResource(p.getDiagramResource());
 				if(Core.isNotNull(r.getContentUrl())) {
 					content = r.getResourceContent(r.getContentUrl());
