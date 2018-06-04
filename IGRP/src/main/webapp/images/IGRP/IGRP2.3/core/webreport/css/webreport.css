@@ -47,12 +47,19 @@
 #igrp-sidebar #list-reports.nav-sidebar{
 	margin-right: -15px;
 	margin-left: -15px;
+	position: relative;
+    height: auto; 
+    width: auto;
+    top:0px;
 }
 
 
 #igrp-sidebar #wr-list-datasource .nav-sidebar{
 	margin-right:0px;
 	margin-left:0px;
+	position: relative;
+    height: auto; 
+    top:0px;
 }
 
 
@@ -260,6 +267,7 @@ div[data-notify="container"].alert{
     width: 12px;
     height: 12px;
 }
+
 
 #igrp-sidebar #wr-list-datasource 
 .nav-sidebar li .drag i{
