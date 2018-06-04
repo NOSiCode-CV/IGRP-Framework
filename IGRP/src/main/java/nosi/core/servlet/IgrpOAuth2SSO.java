@@ -63,7 +63,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String _u = request.getParameter("_u");
+		String _u = request.getParameter("_t"); // _t = Token 
 		
 		String _url = "";
 		String param = request.getParameter("_url");
@@ -79,7 +79,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 				response.sendError(400, "Bad request ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 			}else {
 				String username = aux[0];
-				String password = aux[1];
+				String token = aux[1];
 				
 				Properties properties = this.load("sso", "oauth2.xml");
 				String client_id = properties.getProperty("oauth2.client_id");
@@ -96,58 +96,18 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						return;
 					}
 					
-					//disableSSL();
-					
-					String postData = "grant_type=password"
-							+ "&username=" + username
-							+ "&password=" + password
-							+ "&client_id=" + client_id
-							+ "&client_secret=" + client_secret
-							+ "&scope=openid";
-					
-					HttpURLConnection curl = (HttpURLConnection) URI.create(endpoint).toURL().openConnection();
-					curl.setDoOutput(true);
-					curl.setDoInput(true);
-					curl.setInstanceFollowRedirects(false);
-					curl.setRequestMethod("POST");
-					curl.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
-					curl.setRequestProperty("charset", "utf-8");
-					curl.setRequestProperty( "Content-Length", (postData.length()) + "");
-					curl.setUseCaches(false);
-					curl.getOutputStream().write(postData.getBytes());
-					
-					curl.connect();
-					
-					int code = curl.getResponseCode();
-					
-					if(code != 200) {
-						response.sendError(500, "An error has occured while trying connect to ids !");
-						return;
-					}
-					
-					BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
-					
-					String result = "";
-					String token = "";
-				
-					result = br.lines().collect(Collectors.joining());
-					
-					try {
-						JSONObject jToken = new JSONObject(result);
-						token = (String) jToken.get("access_token");
-					} catch (JSONException e2) {
-						e2.printStackTrace();
-					}
+					// disableSSL(); 
 					
 					String userEndpoint = properties.getProperty("oauth2.endpoint.user");
-					curl = (HttpURLConnection) URI.create(userEndpoint).toURL().openConnection();
+					HttpURLConnection curl = (HttpURLConnection) URI.create(userEndpoint).toURL().openConnection();
 					curl.setDoInput(true);
 					curl.setRequestProperty("Authorization", "Bearer " + token);
 					curl.connect();
-					br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
-					result = br.lines().collect(Collectors.joining());
+					BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
 					
-					code = curl.getResponseCode();
+					String result = br.lines().collect(Collectors.joining());
+					
+					int code = curl.getResponseCode();
 					
 					if(code != 200) {
 						response.sendError(500, "An error has occured while trying connect to ids !");
