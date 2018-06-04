@@ -31,8 +31,11 @@
 }
 
 #igrp-sidebar #tabprocessos .nav-sidebar{
-  margin-right: 0;
-  margin-left: 0;
+  	margin-right:0px;
+	margin-left:0px;
+	position: relative;
+    height: auto; 
+    top:0px;
 }
 
 #description {
