@@ -36,7 +36,7 @@ public class Report extends Controller{
 		return null;
 	}
 	public String getLinkReport(String code_report){
-		return this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&code="+code_report;
+		return this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_code="+code_report;
 	}
 	
 	public static Response getLinkReport(String code_report,Report rep){
