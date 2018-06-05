@@ -263,7 +263,12 @@ public class WebReportController extends Controller {
 	private String getDataForTask(RepTemplateSource rep) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-		this.addQueryString("processDefinitionKey", rep.getRepSource().getProcessid().substring(0, rep.getRepSource().getProcessid().indexOf(":")))
+		String processDefinitionKey = rep.getRepSource().getProcessid();
+		if(processDefinitionKey!=null) {
+			//Process_Test:01_01 => Process_Test
+			processDefinitionKey = processDefinitionKey.contains(":")?processDefinitionKey.substring(0,processDefinitionKey.indexOf(":")):processDefinitionKey;
+		}
+		this.addQueryString("processDefinitionKey", processDefinitionKey)
 			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
 		this.loadQueryString();
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
