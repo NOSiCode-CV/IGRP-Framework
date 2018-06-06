@@ -6,6 +6,8 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,11 +41,11 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 	private byte[] c_lob_content;
 	
 	@Column(nullable=false)
-	private String dt_created;
+	private Date dt_created;
 	
 	public CLob(){}
 	
-	public CLob(String name, String mime_type, byte[] c_lob_content, String dt_created) {
+	public CLob(String name, String mime_type, byte[] c_lob_content, Date dt_created) {
 		super();
 		this.name = name;
 		this.mime_type = mime_type;
@@ -83,11 +85,11 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 		this.c_lob_content = c_lob_content;
 	}
 	
-	public String getDt_created() {
+	public Date getDt_created() {
 		return dt_created;
 	}
 	
-	public void setDt_created(String dt_created) {
+	public void setDt_created(Date dt_created) {
 		this.dt_created = dt_created;
 	}
 	

@@ -1315,7 +1315,7 @@ public final class Core {	// Not inherit
 			if(rs.next()) {
 				cLob = new CLob();
 				cLob.setC_lob_content(rs.getBytes("c_lob_content"));
-				cLob.setDt_created(rs.getString("dt_created"));
+				cLob.setDt_created(rs.getDate("dt_created"));
 				cLob.setName(rs.getString("name"));
 				cLob.setMime_type(rs.getString("mime_type"));
 				cLob.setId(rs.getInt("id"));
