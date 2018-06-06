@@ -132,7 +132,7 @@ public class ProcessDefinitionService extends Activit{
 		boolean x = new TaskAccess().getCurrentTaskAccess()
 				.stream()
 				.filter(a->a.getProcessName().compareTo(p.getKey())==0)
-				.filter(a->a.getTaskName().compareTo("Start")==0)
+				.filter(a->a.getTaskName().compareTo("Start"+p.getKey())==0)
 				.collect(Collectors.toList())
 				.size() > 0;
 		return x;
@@ -354,10 +354,10 @@ public class ProcessDefinitionService extends Activit{
 		if(listTasks!=null && listTasks.getProcess()!=null) {
 			if(includeStartProcess && listTasks.getProcess().get(0)!=null && listTasks.getProcess().get(0).getStartEventObject()!=null && listTasks.getProcess().get(0).getStartEventObject().get(0)!=null) {
 				TaskService t = new TaskService();
-				t.setId("Start");
-				t.setTaskDefinitionKey("Start");
-				t.setName("Start");
 				t.setProcessDefinitionId(listTasks.getProcess().get(0).getId());
+				t.setId("Start"+t.getProcessDefinitionId());
+				t.setTaskDefinitionKey("Start"+t.getProcessDefinitionId());
+				t.setName("Start");
 				t.setFormKey(listTasks.getProcess().get(0).getStartEventObject().get(0).getFormKey());
 				list.add(t);
 			}
