@@ -96,10 +96,10 @@ public class WebReportController extends Controller {
 				//Save report if not exist
 				if(title!=null && code!=null && (id==null || id.equals(""))){
 					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
-					clob_xsl.setDt_created(new Date(System.currentTimeMillis()).toString());
+					clob_xsl.setDt_created(new Date(System.currentTimeMillis()));
 					clob_xsl = clob_xsl.insert();
 					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt).getBytes());
-					clob_html.setDt_created(new Date(System.currentTimeMillis()).toString());
+					clob_html.setDt_created(new Date(System.currentTimeMillis()));
 					clob_html = clob_html.insert();
 					rt.setCode(code);
 					rt.setName(title);
@@ -363,12 +363,12 @@ public class WebReportController extends Controller {
 			ri.setReference(contra_prova);
 			ri.setTemplate(rt);
 			ri.setUser(user);
-			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created().toString());
+			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created());
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
 				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
-				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created().toString());
+				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created());
 				xml = xml.insert();
 				ri.setXml_content(xml);
 				ri.setXsl_content(xsl);
