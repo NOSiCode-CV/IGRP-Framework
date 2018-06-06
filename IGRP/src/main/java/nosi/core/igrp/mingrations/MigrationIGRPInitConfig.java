@@ -232,7 +232,7 @@ public class MigrationIGRPInitConfig {
 			sql.setMenu(sql);
 			menus.add(sql);
 			//Profile() the type_fk is 19
-			Menu migrate = new Menu("Migrate IGRP", 0, 1, 0, "_self", actions.get(26), app_igrp, null);
+			Menu migrate = new Menu("Migrate IGRP", 0, 1, 0, "_self", actions.get(25), app_igrp, null);
 			migrate.setMenu(migrate);
 			menus.add(migrate);
 			for(Menu m:menus){
