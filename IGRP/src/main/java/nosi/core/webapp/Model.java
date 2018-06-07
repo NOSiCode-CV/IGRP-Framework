@@ -52,7 +52,7 @@ public abstract class Model { // IGRP super model
 
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
 		HistoricTaskService hts = Core.getTaskHistory(taskId);
-		if(hts.getVariables() !=null) {
+		if(hts!=null && hts.getVariables() !=null) {
 			List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
 			String json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
 			if(Core.isNotNull(json)) {
@@ -78,7 +78,10 @@ public abstract class Model { // IGRP super model
 						t = className.newInstance();
 						for(Field field:className.getDeclaredFields()) {
 							try {
-								BeanUtils.setProperty(t, field.getName(),tuple.get(field.getName()).toString());
+								Object value = tuple.get(field.getName());
+								if(value!=null) {
+									BeanUtils.setProperty(t, field.getName(),value.toString());
+								}
 							}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 								
 							}
@@ -105,7 +108,9 @@ public abstract class Model { // IGRP super model
 						t = className.newInstance();
 						for(Field field:className.getDeclaredFields()) {
 							try {
-								BeanUtils.setProperty(t, field.getName(),new Pair(tuple.get(field.getName()).toString(),tuple.get(field.getName()).toString()));
+								Object value = tuple.get(field.getName());
+								if(value!= null)
+									BeanUtils.setProperty(t, field.getName(),new Pair(value.toString(),value.toString()));
 							}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 								
 							}
