@@ -41,6 +41,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 		String taskName = Core.getParam("taskName");
 		String taskId = Core.getParam("taskId");
 		String appDad = Core.getParam("appDad");
+		String p_processId = Core.getParam("p_processId");		
 		
 		if(Core.isNotNull(appId) && Core.isNotNull(formKey)) {
 			XMLExtractComponent comp = new XMLExtractComponent();
@@ -52,7 +53,13 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
 			xml.setElement("title", taskName+" - Nº "+taskId);
-			xml.addXml(comp.generateButtonTask(appDad,taskDefinition,"save", taskId).toString());
+			if(Core.isNotNull(p_processId)) {
+				xml.addXml(comp.generateButtonProcess(p_processId).toString());
+			}
+			if(Core.isNotNull(taskId)) {
+				xml.addXml(comp.generateButtonTask(appDad,this.config.prefix_task_name+taskDefinition,"save", taskId).toString());
+			}
+			
 			xml.addXml(content);
 			xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,action.getApplication().getId(),null)));
 			xml.endElement();

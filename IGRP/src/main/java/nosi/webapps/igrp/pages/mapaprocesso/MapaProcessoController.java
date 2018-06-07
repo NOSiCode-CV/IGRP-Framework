@@ -67,14 +67,16 @@ public class MapaProcessoController extends Controller{
 			if(Core.isNotNull(formData.getFormKey())) {		
 				Application app = new Application().findByDad(idApp);
 				if(app!=null) {
+					String taskDefinition = "Start"+processDefinition;
 					this.addQueryString("p_processId",p_processId)
 						.addQueryString("appId", app.getId())
 						.addQueryString("appDad", app.getDad())
 						.addQueryString("formKey", formData.getFormKey())
 						.addQueryString("processDefinition", processDefinition)
-						.addQueryString("taskDefinition", "TaskStart")
+						.addQueryString("taskDefinition", taskDefinition)
 						.addQueryString("taskName","Start Process");
-					return this.call(app.getDad().toLowerCase(),this.config.prefix_task_name+"Start", "index",this.queryString());
+					
+					return this.call(app.getDad().toLowerCase(),this.config.prefix_task_name+taskDefinition, "index",this.queryString());
 				}
 			}
 			String content = comp.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);

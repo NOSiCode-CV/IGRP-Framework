@@ -241,8 +241,8 @@ public class PesquisarMenuController extends Controller {
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
 		List<TaskAccess> listTask = new TaskAccess().getCurrentTaskAccess();
-		boolean isStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start")).collect(Collectors.toList()).size() > 0;
-		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start")).collect(Collectors.toList()).size() > 0;
+		boolean isStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
+		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
 		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
 		String flag="english_flag.png";
