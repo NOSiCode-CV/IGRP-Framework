@@ -165,7 +165,11 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("File", "index", "nosi.webapps.igrp.pages", "igrp/file/File.xsl", "File", "File", "2.3", 1, app_igrp));
 			actions.add(new Action("Etapaaccess", "index", "nosi.webapps.igrp.pages", "igrp/etapaaccess/Etapaaccess.xsl", "EtapaAccess", "EtapaAccess", "2.3", 1, app_igrp));
 			actions.add(new Action("Addfiletask", "index", "nosi.webapps.igrp.pages", "igrp/addfiletask/Addfiletask.xsl", "AddFileTask", "AddFileTask", "2.3", 1, app_igrp));
-
+			
+			actions.add(new Action("Video_gestao_de_aplicacao", "index", "nosi.webapps.tutorial.pages.video_gestao_de_aplicacao", "tutorial/video_gestao_de_aplicacao/Video_gestao_de_aplicacao.xsl", "video gestão de aplicação", "video gestão de aplicação", "2.3", 1, app_tutorial));
+			actions.add(new Action("Video_instalar_igrp_web", "index", "nosi.webapps.tutorial.pages.video_instalar_igrp_web", "tutorial/video_instalar_igrp_web/Video_instalar_igrp_web.xsl", "video instalar igrp web", "video instalar igrp web", "2.3", 1, app_tutorial));
+			actions.add(new Action("Video_my_first_app", "index", "nosi.webapps.tutorial.pages.video_my_first_app", "tutorial/video_my_first_app/Video_my_first_app.xsl", "video my first app", "video my first app", "2.3", 1, app_tutorial));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
