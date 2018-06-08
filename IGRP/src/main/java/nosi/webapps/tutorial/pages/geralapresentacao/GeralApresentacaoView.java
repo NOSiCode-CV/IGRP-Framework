@@ -1,172 +1,237 @@
 
 package nosi.webapps.tutorial.pages.geralapresentacao;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+
+
+
 public class GeralApresentacaoView extends View {
-	
-	
+
 	public Field sectionheader_2_text;
 	public Field welcome;
-	public Field gestao;
-	public Field desenvolvimento;
-	public Field contribuicao;
+	public Field videos_tutoriais;
 	public Field documentos_gerais;
 	public Field sectionheader_1_text;
-	public Field paragraph_3_text;
-	public Field como_instalar_igrp_java_framework;
-	public Field my_first_app;
-	public Field paragraph_7_text;
+	public Field quickbuttonbox_gestao_tit;
+	public Field quickbuttonbox_gestao_val;
+	public Field quickbuttonbox_gestao_url;
+	public Field quickbuttonbox_gestao_bg;
+	public Field quickbuttonbox_gestao_icn;
 	public Field paragraph_6_text;
 	public Field paragraph_1_text;
-	public Field video_3_text;
-	public Field paragraph_8_text;
-	public Field paragraph_5_text;
-	public Field video_7_text;
+	public Field quickbuttonbox_instalar_tit;
+	public Field quickbuttonbox_instalar_val;
+	public Field quickbuttonbox_instalar_url;
+	public Field quickbuttonbox_instalar_bg;
+	public Field quickbuttonbox_instalar_icn;
 	public Field documento;
 	public Field ver;
 	public Field video_2_text;
-	public Field video_6_text;
-	public Field video_1_text;
+	public Field quickbuttonbox__tit;
+	public Field quickbuttonbox__val;
+	public Field quickbuttonbox__url;
+	public Field quickbuttonbox__bg;
+	public Field quickbuttonbox__icn;
+	public Field statbox_1_tit;
+	public Field statbox_1_val;
+	public Field statbox_1_txt;
+	public Field statbox_1_url;
+	public Field statbox_1_bg;
+	public Field statbox_1_icn;
 	public IGRPForm sectionheader_2;
 	public IGRPForm tabcontent_1;
 	public IGRPForm sectionheader_1;
-	public IGRPForm paragraph_3;
-	public IGRPForm tabcontent_3;
-	public IGRPForm paragraph_7;
+	public IGRPForm quickbuttonbox_gestao;
 	public IGRPForm paragraph_6;
 	public IGRPForm paragraph_1;
-	public IGRPVideo video_3;
-	public IGRPForm paragraph_8;
-	public IGRPForm paragraph_5;
-	public IGRPVideo video_7;
+	public IGRPForm quickbuttonbox_instalar;
 	public IGRPTable table_1;
 	public IGRPVideo video_2;
-	public IGRPVideo video_6;
-	public IGRPVideo video_1;
+	public IGRPForm quickbuttonbox_;
+	public IGRPForm statbox_1;
+
 
 	public GeralApresentacaoView(){
+
 		this.setPageTitle("O que fazer dentro do IGRP JAVA...");
 			
 		sectionheader_2 = new IGRPForm("sectionheader_2","");
+
 		tabcontent_1 = new IGRPForm("tabcontent_1","");
+
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
-		paragraph_3 = new IGRPForm("paragraph_3","Exemplo de como gerir uma aplicação");
-		tabcontent_3 = new IGRPForm("tabcontent_3","");
-		paragraph_7 = new IGRPForm("paragraph_7","Como Contribuir no IGRP JAVA");
-		paragraph_6 = new IGRPForm("paragraph_6","Documentos IGRP JAVA Framework");
-		paragraph_1 = new IGRPForm("paragraph_1","Tutorial IGRP JAVA Framework");
-		video_3 = new IGRPVideo("video_3","Criação e Gestão de uma Aplicação");
-		paragraph_8 = new IGRPForm("paragraph_8","Baixar e instalar IGRP JAVA Framework");
-		paragraph_5 = new IGRPForm("paragraph_5","Minha Primeira Aplicação");
-		video_7 = new IGRPVideo("video_7","Contribuindo no IGRP JAVA Framework");
+
+		quickbuttonbox_gestao = new IGRPForm("quickbuttonbox_gestao","");
+
+		paragraph_6 = new IGRPForm("paragraph_6","Documentos IGRP WEB");
+
+		paragraph_1 = new IGRPForm("paragraph_1","Tutorial IGRP WEB");
+
+		quickbuttonbox_instalar = new IGRPForm("quickbuttonbox_instalar","");
+
 		table_1 = new IGRPTable("table_1","");
-		video_2 = new IGRPVideo("video_2","Video de Welcome IGRP JAVA Framework");
-		video_6 = new IGRPVideo("video_6","Como importar o IGRP JAVA (NosiCode e GitHub)");
-		video_1 = new IGRPVideo("video_1","My First App");
+
+		video_2 = new IGRPVideo("video_2","Welcome IGRP WEB Framework");
+
+		quickbuttonbox_ = new IGRPForm("quickbuttonbox_","");
+
+		statbox_1 = new IGRPForm("statbox_1","");
+
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel(gt(""));
-		sectionheader_2_text.setValue(gt("Tutorial Framework IGRP JAVA"));
+		sectionheader_2_text.setValue(gt("Tutorial IGRP WEB"));
+		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("maxlength","4000");
 		
-		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("persist","true").add("maxlength","4000");
 		welcome = new TextField(model,"welcome");
 		welcome.setLabel(gt("Welcome"));
+		welcome.propertie().add("name","p_welcome").add("type","button").add("request_fields","").add("maxlength","50");
 		
-		welcome.propertie().add("name","p_welcome").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-child").add("maxlength","50");
-		gestao = new TextField(model,"gestao");
-		gestao.setLabel(gt("Gestão"));
+		videos_tutoriais = new TextField(model,"videos_tutoriais");
+		videos_tutoriais.setLabel(gt("Videos Tutoriais"));
+		videos_tutoriais.propertie().add("name","p_videos_tutoriais").add("type","button").add("request_fields","").add("maxlength","50");
 		
-		gestao.propertie().add("name","p_gestao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-video-camera").add("maxlength","50");
-		desenvolvimento = new TextField(model,"desenvolvimento");
-		desenvolvimento.setLabel(gt("Desenvolvimento"));
-		
-		desenvolvimento.propertie().add("name","p_desenvolvimento").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-video-camera").add("maxlength","50");
-		contribuicao = new TextField(model,"contribuicao");
-		contribuicao.setLabel(gt("Contribuição"));
-		
-		contribuicao.propertie().add("name","p_contribuicao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-video-camera").add("maxlength","50");
 		documentos_gerais = new TextField(model,"documentos_gerais");
 		documentos_gerais.setLabel(gt("Documentos Gerais"));
+		documentos_gerais.propertie().add("name","p_documentos_gerais").add("type","button").add("request_fields","").add("maxlength","50");
 		
-		documentos_gerais.propertie().add("name","p_documentos_gerais").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-file-text").add("maxlength","50");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("Bem-vindo ao seu IGRP Java"));
+		sectionheader_1_text.setValue(gt("Bem-vindo ao seu IGRP WEB"));
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
-		paragraph_3_text = new TextField(model,"paragraph_3_text");
-		paragraph_3_text.setLabel(gt(""));
-		paragraph_3_text.setValue(gt("Um pequeno Demo de como criar uma aplicação, gerar páginas e atribuir permissões de acesso a determinados utilizadores."));
+		quickbuttonbox_gestao_tit = new TextField(model,"quickbuttonbox_gestao_tit");
+		quickbuttonbox_gestao_tit.setLabel(gt("Title"));
+		quickbuttonbox_gestao_tit.setValue(gt("Criação e Gestão de uma Aplicação"));
+		quickbuttonbox_gestao_tit.propertie().add("name","p_quickbuttonbox_gestao_tit").add("type","text").add("maxlength","4000");
 		
-		paragraph_3_text.propertie().add("type","text").add("name","p_paragraph_3_text").add("persist","true").add("maxlength","4000");
-		como_instalar_igrp_java_framework = new TextField(model,"como_instalar_igrp_java_framework");
-		como_instalar_igrp_java_framework.setLabel(gt("Como instalar IGRP JAVA Framework"));
+		quickbuttonbox_gestao_val = new TextField(model,"quickbuttonbox_gestao_val");
+		quickbuttonbox_gestao_val.setLabel(gt("Value"));
+		quickbuttonbox_gestao_val.propertie().add("name","p_quickbuttonbox_gestao_val").add("type","text").add("maxlength","4000");
 		
-		como_instalar_igrp_java_framework.propertie().add("name","p_como_instalar_igrp_java_framework").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
-		my_first_app = new TextField(model,"my_first_app");
-		my_first_app.setLabel(gt("My first App"));
+		quickbuttonbox_gestao_url = new TextField(model,"quickbuttonbox_gestao_url");
+		quickbuttonbox_gestao_url.setLabel(gt(""));
+		quickbuttonbox_gestao_url.setValue(gt("[object Object]"));
+		quickbuttonbox_gestao_url.propertie().add("name","p_quickbuttonbox_gestao_url").add("type","text").add("maxlength","4000");
 		
-		my_first_app.propertie().add("name","p_my_first_app").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
-		paragraph_7_text = new TextField(model,"paragraph_7_text");
-		paragraph_7_text.setLabel(gt(""));
-		paragraph_7_text.setValue(gt("Nesse vídeo vamos aprender como fazer uma contribuição nesse framework, desde do import do projecto no repositório GitHub até como gerar as nossas páginas e actualizar o nosso repositório local."));
+		quickbuttonbox_gestao_bg = new TextField(model,"quickbuttonbox_gestao_bg");
+		quickbuttonbox_gestao_bg.setLabel(gt("Background"));
+		quickbuttonbox_gestao_bg.setValue(gt("cp-starrynight"));
+		quickbuttonbox_gestao_bg.propertie().add("name","p_quickbuttonbox_gestao_bg").add("type","text").add("maxlength","4000");
 		
-		paragraph_7_text.propertie().add("type","text").add("name","p_paragraph_7_text").add("persist","true").add("maxlength","4000");
+		quickbuttonbox_gestao_icn = new TextField(model,"quickbuttonbox_gestao_icn");
+		quickbuttonbox_gestao_icn.setLabel(gt("Icon"));
+		quickbuttonbox_gestao_icn.setValue(gt("fa-video-camera"));
+		quickbuttonbox_gestao_icn.propertie().add("name","p_quickbuttonbox_gestao_icn").add("type","text").add("maxlength","4000");
+		
 		paragraph_6_text = new TextField(model,"paragraph_6_text");
 		paragraph_6_text.setLabel(gt(""));
-		paragraph_6_text.setValue(gt("Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP JAVA Framework."));
+		paragraph_6_text.setValue(gt("Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!"));
+		paragraph_6_text.propertie().add("type","text").add("name","p_paragraph_6_text").add("maxlength","4000");
 		
-		paragraph_6_text.propertie().add("type","text").add("name","p_paragraph_6_text").add("persist","true").add("maxlength","4000");
 		paragraph_1_text = new TextField(model,"paragraph_1_text");
 		paragraph_1_text.setLabel(gt(""));
-		paragraph_1_text.setValue(gt("Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP JAVA Framework através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, geração das páginas e dos CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito..."));
+		paragraph_1_text.setValue(gt("Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito..."));
+		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
 		
-		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("persist","true").add("maxlength","4000");
-		video_3_text = new TextField(model,"video_3_text");
-		video_3_text.setLabel(gt(""));
-		video_3_text.setValue(gt("https://www.youtube.com/embed/v5zFGYK3zV8"));
+		quickbuttonbox_instalar_tit = new TextField(model,"quickbuttonbox_instalar_tit");
+		quickbuttonbox_instalar_tit.setLabel(gt("Title"));
+		quickbuttonbox_instalar_tit.setValue(gt("Como importar o IGRP WEB"));
+		quickbuttonbox_instalar_tit.propertie().add("name","p_quickbuttonbox_instalar_tit").add("type","text").add("maxlength","4000");
 		
-		video_3_text.propertie().add("type","text").add("name","p_video_3_text").add("persist","true").add("maxlength","4000");
-		paragraph_8_text = new TextField(model,"paragraph_8_text");
-		paragraph_8_text.setLabel(gt(""));
-		paragraph_8_text.setValue(gt("Nessa sessão mostra como baixar e instalar o IGRP, para tal temos 2 vídeos. Primeiro mostra como como importar o IGRP JAVA do repositório GitHub directamente do Eclipse IDE e o segundo mostra como baixar o IGRP JAVA do site NosiCode e depois importar no Eclipse IDE"));
+		quickbuttonbox_instalar_val = new TextField(model,"quickbuttonbox_instalar_val");
+		quickbuttonbox_instalar_val.setLabel(gt("Value"));
+		quickbuttonbox_instalar_val.propertie().add("name","p_quickbuttonbox_instalar_val").add("type","text").add("maxlength","4000");
 		
-		paragraph_8_text.propertie().add("type","text").add("name","p_paragraph_8_text").add("persist","true").add("maxlength","4000");
-		paragraph_5_text = new TextField(model,"paragraph_5_text");
-		paragraph_5_text.setLabel(gt(""));
-		paragraph_5_text.setValue(gt("Aqui vamos desenvolver uma pequena aplicação com duas páginas com intuito de inserir e ler dados os dados de base de dados (PostgreSql). Ao longo do vídeo também mostra como baixar e instalar o PostGreSql e configurar a conexão da aplicação com o mesmo."));
+		quickbuttonbox_instalar_url = new TextField(model,"quickbuttonbox_instalar_url");
+		quickbuttonbox_instalar_url.setLabel(gt(""));
+		quickbuttonbox_instalar_url.setValue(gt("[object Object]"));
+		quickbuttonbox_instalar_url.propertie().add("name","p_quickbuttonbox_instalar_url").add("type","text").add("maxlength","4000");
 		
-		paragraph_5_text.propertie().add("type","text").add("name","p_paragraph_5_text").add("persist","true").add("maxlength","4000");
-		video_7_text = new TextField(model,"video_7_text");
-		video_7_text.setLabel(gt(""));
-		video_7_text.setValue(gt("https://www.youtube.com/embed/cJTJuEtTRbc"));
+		quickbuttonbox_instalar_bg = new TextField(model,"quickbuttonbox_instalar_bg");
+		quickbuttonbox_instalar_bg.setLabel(gt("Background"));
+		quickbuttonbox_instalar_bg.setValue(gt("cp-starrynight"));
+		quickbuttonbox_instalar_bg.propertie().add("name","p_quickbuttonbox_instalar_bg").add("type","text").add("maxlength","4000");
 		
-		video_7_text.propertie().add("type","text").add("name","p_video_7_text").add("persist","true").add("maxlength","4000");
+		quickbuttonbox_instalar_icn = new TextField(model,"quickbuttonbox_instalar_icn");
+		quickbuttonbox_instalar_icn.setLabel(gt("Icon"));
+		quickbuttonbox_instalar_icn.setValue(gt("fa-video-camera"));
+		quickbuttonbox_instalar_icn.propertie().add("name","p_quickbuttonbox_instalar_icn").add("type","text").add("maxlength","4000");
+		
 		documento = new TextField(model,"documento");
 		documento.setLabel(gt("Documento"));
+		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30");
 		
-		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		ver = new LinkField(model,"ver");
 		ver.setLabel(gt("Ver"));
+		ver.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
+		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("maxlength","30").add("request_fields","").add("desc","true");
 		
-		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("target_fields","").add("closerefresh","false").add("action","undefined").add("page","undefined").add("app","undefined").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		video_2_text = new TextField(model,"video_2_text");
 		video_2_text.setLabel(gt(""));
-		video_2_text.setValue(gt("https://www.youtube.com/embed/nbcj8C_FQEw"));
+		video_2_text.setValue(gt("https://www.youtube.com/embed/Xc38EPBydco"));
+		video_2_text.propertie().add("type","text").add("name","p_video_2_text").add("maxlength","4000");
 		
-		video_2_text.propertie().add("type","text").add("name","p_video_2_text").add("persist","true").add("maxlength","4000");
-		video_6_text = new TextField(model,"video_6_text");
-		video_6_text.setLabel(gt(""));
-		video_6_text.setValue(gt("https://www.youtube.com/embed/ABd-IR3_wsQ?rel=0"));
+		quickbuttonbox__tit = new TextField(model,"quickbuttonbox__tit");
+		quickbuttonbox__tit.setLabel(gt("Title"));
+		quickbuttonbox__tit.setValue(gt("My First App"));
+		quickbuttonbox__tit.propertie().add("name","p_quickbuttonbox__tit").add("type","text").add("maxlength","4000");
 		
-		video_6_text.propertie().add("type","text").add("name","p_video_6_text").add("persist","true").add("maxlength","4000");
-		video_1_text = new TextField(model,"video_1_text");
-		video_1_text.setLabel(gt(""));
-		video_1_text.setValue(gt("https://www.youtube.com/embed/BEjnNo_old8"));
+		quickbuttonbox__val = new TextField(model,"quickbuttonbox__val");
+		quickbuttonbox__val.setLabel(gt("Value"));
+		quickbuttonbox__val.propertie().add("name","p_quickbuttonbox__val").add("type","text").add("maxlength","4000");
 		
-		video_1_text.propertie().add("type","text").add("name","p_video_1_text").add("persist","true").add("maxlength","4000");
+		quickbuttonbox__url = new TextField(model,"quickbuttonbox__url");
+		quickbuttonbox__url.setLabel(gt(""));
+		quickbuttonbox__url.setValue(gt("[object Object]"));
+		quickbuttonbox__url.propertie().add("name","p_quickbuttonbox__url").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox__bg = new TextField(model,"quickbuttonbox__bg");
+		quickbuttonbox__bg.setLabel(gt("Background"));
+		quickbuttonbox__bg.setValue(gt("cp-starrynight"));
+		quickbuttonbox__bg.propertie().add("name","p_quickbuttonbox__bg").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox__icn = new TextField(model,"quickbuttonbox__icn");
+		quickbuttonbox__icn.setLabel(gt("Icon"));
+		quickbuttonbox__icn.setValue(gt("fa-video-camera"));
+		quickbuttonbox__icn.propertie().add("name","p_quickbuttonbox__icn").add("type","text").add("maxlength","4000");
+		
+		statbox_1_tit = new TextField(model,"statbox_1_tit");
+		statbox_1_tit.setLabel(gt("Box Title"));
+		statbox_1_tit.setValue(gt("FAQ"));
+		statbox_1_tit.propertie().add("name","p_statbox_1_tit").add("type","text").add("maxlength","4000");
+		
+		statbox_1_val = new TextField(model,"statbox_1_val");
+		statbox_1_val.setLabel(gt("Value"));
+		statbox_1_val.setValue(gt(""));
+		statbox_1_val.propertie().add("name","p_statbox_1_val").add("type","text").add("maxlength","4000");
+		
+		statbox_1_txt = new TextField(model,"statbox_1_txt");
+		statbox_1_txt.setLabel(gt("Url Text"));
+		statbox_1_txt.setValue(gt("Read More..."));
+		statbox_1_txt.propertie().add("name","p_statbox_1_txt").add("type","text").add("maxlength","4000");
+		
+		statbox_1_url = new TextField(model,"statbox_1_url");
+		statbox_1_url.setLabel(gt("Url"));
+		statbox_1_url.setValue(gt("https://nosicode.gitbook.io/faq/"));
+		statbox_1_url.propertie().add("name","p_statbox_1_url").add("type","text").add("maxlength","4000");
+		
+		statbox_1_bg = new TextField(model,"statbox_1_bg");
+		statbox_1_bg.setLabel(gt("Background"));
+		statbox_1_bg.setValue(gt("cp-cyan"));
+		statbox_1_bg.propertie().add("name","p_statbox_1_bg").add("type","text").add("maxlength","4000");
+		
+		statbox_1_icn = new TextField(model,"statbox_1_icn");
+		statbox_1_icn.setLabel(gt("Icon"));
+		statbox_1_icn.setValue(gt("fa-external-link"));
+		statbox_1_icn.propertie().add("name","p_statbox_1_icn").add("type","text").add("maxlength","4000");
+		
+
 
 		
 	}
@@ -177,68 +242,71 @@ public class GeralApresentacaoView extends View {
 		sectionheader_2.addField(sectionheader_2_text);
 
 		tabcontent_1.addField(welcome);
-		tabcontent_1.addField(gestao);
-		tabcontent_1.addField(desenvolvimento);
-		tabcontent_1.addField(contribuicao);
+		tabcontent_1.addField(videos_tutoriais);
 		tabcontent_1.addField(documentos_gerais);
 
 		sectionheader_1.addField(sectionheader_1_text);
 
-		paragraph_3.addField(paragraph_3_text);
-
-		tabcontent_3.addField(como_instalar_igrp_java_framework);
-		tabcontent_3.addField(my_first_app);
-
-		paragraph_7.addField(paragraph_7_text);
+		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_tit);
+		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_val);
+		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_url);
+		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_bg);
+		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_icn);
 
 		paragraph_6.addField(paragraph_6_text);
 
 		paragraph_1.addField(paragraph_1_text);
 
-		video_3.addField(video_3_text);
-
-		paragraph_8.addField(paragraph_8_text);
-
-		paragraph_5.addField(paragraph_5_text);
-
-		video_7.addField(video_7_text);
+		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_tit);
+		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_val);
+		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_url);
+		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_bg);
+		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_icn);
 
 		table_1.addField(documento);
 		table_1.addField(ver);
 
 		video_2.addField(video_2_text);
 
-		video_6.addField(video_6_text);
+		quickbuttonbox_.addField(quickbuttonbox__tit);
+		quickbuttonbox_.addField(quickbuttonbox__val);
+		quickbuttonbox_.addField(quickbuttonbox__url);
+		quickbuttonbox_.addField(quickbuttonbox__bg);
+		quickbuttonbox_.addField(quickbuttonbox__icn);
 
-		video_1.addField(video_1_text);
+		statbox_1.addField(statbox_1_tit);
+		statbox_1.addField(statbox_1_val);
+		statbox_1.addField(statbox_1_txt);
+		statbox_1.addField(statbox_1_url);
+		statbox_1.addField(statbox_1_bg);
+		statbox_1.addField(statbox_1_icn);
 
 		this.addToPage(sectionheader_2);
 		this.addToPage(tabcontent_1);
 		this.addToPage(sectionheader_1);
-		this.addToPage(paragraph_3);
-		this.addToPage(tabcontent_3);
-		this.addToPage(paragraph_7);
+		this.addToPage(quickbuttonbox_gestao);
 		this.addToPage(paragraph_6);
 		this.addToPage(paragraph_1);
-		this.addToPage(video_3);
-		this.addToPage(paragraph_8);
-		this.addToPage(paragraph_5);
-		this.addToPage(video_7);
+		this.addToPage(quickbuttonbox_instalar);
 		this.addToPage(table_1);
 		this.addToPage(video_2);
-		this.addToPage(video_6);
-		this.addToPage(video_1);
+		this.addToPage(quickbuttonbox_);
+		this.addToPage(statbox_1);
 	}
-	
-	public void setModel(GeralApresentacao model) {
-		this.table_1.loadModel(model.getTable_1());
-		this.como_instalar_igrp_java_framework.setValue(model);
-		this.contribuicao.setValue(model);
-		this.desenvolvimento.setValue(model);
-		this.documento.setValue(model);
-		this.ver.setValue(model);
-		this.documentos_gerais.setValue(model);
-		this.gestao.setValue(model);
-		this.my_first_app.setValue(model);		
+		
+	@Override
+	public void setModel(Model model) {
+		
+		welcome.setValue(model);
+		videos_tutoriais.setValue(model);
+		documentos_gerais.setValue(model);
+		quickbuttonbox_gestao_val.setValue(model);
+		quickbuttonbox_instalar_val.setValue(model);
+		documento.setValue(model);
+		ver.setValue(model);
+		quickbuttonbox__val.setValue(model);	
+
+		table_1.loadModel(((GeralApresentacao) model).getTable_1());
+		
 	}
 }

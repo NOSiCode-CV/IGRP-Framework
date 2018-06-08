@@ -1,34 +1,48 @@
 
 package nosi.webapps.tutorial.pages.geralapresentacao;
-import nosi.core.config.Config;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+/*----#start-code(packages_import)----*/
 
-/*----#END-PRESERVED-AREA----*/
+
+/*----#end-code----*/
+
 
 public class GeralApresentacaoController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		
 		GeralApresentacao model = new GeralApresentacao();
 		model.load();
 		GeralApresentacaoView view = new GeralApresentacaoView();
-		BaseQueryInterface query = Core.query(Config.getBaseConnection(),"SELECT 'Import IGRP IGRP JAVA Framework' documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/8-import-igrp-java' ver, 'Ir para o Link' as ver_desc "
-				+ "UNION SELECT 'Minha Primeira Aplicação IGRP JAVA Framework' documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/9-minha-primeira-aplicacao' ver, 'Ir para o Link' as ver_desc");
-		model.loadTable1(query);
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		model.loadTable_1(Core.query(null,"SELECT 'documento' as documento,'ver' as ver "));
+		
+		
+		----#gen-example */
+		/*----#start-code(index)----*/
+		QueryInterface query = Core.query("hibernate-igrp-core","SELECT 'Import IGRP IGRP JAVA Framework' as documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/8-import-igrp-java' as ver, 'Ir para o Link' as ver_desc "
+				+ "UNION SELECT 'Minha Primeira Aplicação IGRP JAVA Framework' as documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/9-minha-primeira-aplicacao' as ver, 'Ir para o Link' as ver_desc");
+		model.load(query);
+		view.quickbuttonbox_gestao_url.setValue(new Config().getResolveUrl("tutorial","Video_gestao_de_aplicacao","index"));
+		view.quickbuttonbox_instalar_url.setValue(new Config().getResolveUrl("tutorial","Video_instalar_igrp_web","index"));
+		view.quickbuttonbox__url.setValue(new Config().getResolveUrl("tutorial","Video_my_first_app","index")); 
 		/*Specify your connection name in first parameter*/
+		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		return this.renderView(view);	
 	}
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#start-code(custom_actions)----*/
+	
+	/*----#end-code----*/
+	}

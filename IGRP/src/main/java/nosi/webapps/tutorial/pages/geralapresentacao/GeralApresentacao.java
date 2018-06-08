@@ -1,8 +1,13 @@
 package nosi.webapps.tutorial.pages.geralapresentacao;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,42 +16,60 @@ public class GeralApresentacao extends Model{
 	private String sectionheader_2_text;
 	@RParam(rParamName = "p_welcome")
 	private String welcome;
-	@RParam(rParamName = "p_gestao")
-	private String gestao;
-	@RParam(rParamName = "p_desenvolvimento")
-	private String desenvolvimento;
-	@RParam(rParamName = "p_contribuicao")
-	private String contribuicao;
+	@RParam(rParamName = "p_videos_tutoriais")
+	private String videos_tutoriais;
 	@RParam(rParamName = "p_documentos_gerais")
 	private String documentos_gerais;
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_paragraph_3_text")
-	private String paragraph_3_text;
-	@RParam(rParamName = "p_como_instalar_igrp_java_framework")
-	private String como_instalar_igrp_java_framework;
-	@RParam(rParamName = "p_my_first_app")
-	private String my_first_app;
-	@RParam(rParamName = "p_paragraph_7_text")
-	private String paragraph_7_text;
+	@RParam(rParamName = "p_quickbuttonbox_gestao_tit")
+	private String quickbuttonbox_gestao_tit;
+	@RParam(rParamName = "p_quickbuttonbox_gestao_val")
+	private String quickbuttonbox_gestao_val;
+	@RParam(rParamName = "p_quickbuttonbox_gestao_url")
+	private String quickbuttonbox_gestao_url;
+	@RParam(rParamName = "p_quickbuttonbox_gestao_bg")
+	private String quickbuttonbox_gestao_bg;
+	@RParam(rParamName = "p_quickbuttonbox_gestao_icn")
+	private String quickbuttonbox_gestao_icn;
 	@RParam(rParamName = "p_paragraph_6_text")
 	private String paragraph_6_text;
 	@RParam(rParamName = "p_paragraph_1_text")
 	private String paragraph_1_text;
-	@RParam(rParamName = "p_video_3_text")
-	private String video_3_text;
-	@RParam(rParamName = "p_paragraph_8_text")
-	private String paragraph_8_text;
-	@RParam(rParamName = "p_paragraph_5_text")
-	private String paragraph_5_text;
-	@RParam(rParamName = "p_video_7_text")
-	private String video_7_text;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_tit")
+	private String quickbuttonbox_instalar_tit;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_val")
+	private String quickbuttonbox_instalar_val;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_url")
+	private String quickbuttonbox_instalar_url;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_bg")
+	private String quickbuttonbox_instalar_bg;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_icn")
+	private String quickbuttonbox_instalar_icn;
 	@RParam(rParamName = "p_video_2_text")
 	private String video_2_text;
-	@RParam(rParamName = "p_video_6_text")
-	private String video_6_text;
-	@RParam(rParamName = "p_video_1_text")
-	private String video_1_text;
+	@RParam(rParamName = "p_quickbuttonbox__tit")
+	private String quickbuttonbox__tit;
+	@RParam(rParamName = "p_quickbuttonbox__val")
+	private String quickbuttonbox__val;
+	@RParam(rParamName = "p_quickbuttonbox__url")
+	private String quickbuttonbox__url;
+	@RParam(rParamName = "p_quickbuttonbox__bg")
+	private String quickbuttonbox__bg;
+	@RParam(rParamName = "p_quickbuttonbox__icn")
+	private String quickbuttonbox__icn;
+	@RParam(rParamName = "p_statbox_1_tit")
+	private String statbox_1_tit;
+	@RParam(rParamName = "p_statbox_1_val")
+	private String statbox_1_val;
+	@RParam(rParamName = "p_statbox_1_txt")
+	private String statbox_1_txt;
+	@RParam(rParamName = "p_statbox_1_url")
+	private String statbox_1_url;
+	@RParam(rParamName = "p_statbox_1_bg")
+	private String statbox_1_bg;
+	@RParam(rParamName = "p_statbox_1_icn")
+	private String statbox_1_icn;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -54,6 +77,24 @@ public class GeralApresentacao extends Model{
 	}
 	public List<Table_1> getTable_1(){
 		return this.table_1;
+	}
+	@RParam(rParamName = "p_table_1_id")
+	private String[] p_table_1_id;
+	@RParam(rParamName = "p_table_1_del")
+	private String[] p_table_1_del;
+	
+	public void setP_table_1_id(String[] p_table_1_id){
+		this.p_table_1_id = p_table_1_id;
+	}
+	public String[] getP_table_1_id(){
+		return this.p_table_1_id;
+	}
+	
+	public void setP_table_1_del(String[] p_table_1_del){
+		this.p_table_1_del = p_table_1_del;
+	}
+	public String[] getP_table_1_del(){
+		return this.p_table_1_del;
 	}
 	
 	public void setSectionheader_2_text(String sectionheader_2_text){
@@ -70,25 +111,11 @@ public class GeralApresentacao extends Model{
 		return this.welcome;
 	}
 	
-	public void setGestao(String gestao){
-		this.gestao = gestao;
+	public void setVideos_tutoriais(String videos_tutoriais){
+		this.videos_tutoriais = videos_tutoriais;
 	}
-	public String getGestao(){
-		return this.gestao;
-	}
-	
-	public void setDesenvolvimento(String desenvolvimento){
-		this.desenvolvimento = desenvolvimento;
-	}
-	public String getDesenvolvimento(){
-		return this.desenvolvimento;
-	}
-	
-	public void setContribuicao(String contribuicao){
-		this.contribuicao = contribuicao;
-	}
-	public String getContribuicao(){
-		return this.contribuicao;
+	public String getVideos_tutoriais(){
+		return this.videos_tutoriais;
 	}
 	
 	public void setDocumentos_gerais(String documentos_gerais){
@@ -105,32 +132,39 @@ public class GeralApresentacao extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setParagraph_3_text(String paragraph_3_text){
-		this.paragraph_3_text = paragraph_3_text;
+	public void setQuickbuttonbox_gestao_tit(String quickbuttonbox_gestao_tit){
+		this.quickbuttonbox_gestao_tit = quickbuttonbox_gestao_tit;
 	}
-	public String getParagraph_3_text(){
-		return this.paragraph_3_text;
-	}
-	
-	public void setComo_instalar_igrp_java_framework(String como_instalar_igrp_java_framework){
-		this.como_instalar_igrp_java_framework = como_instalar_igrp_java_framework;
-	}
-	public String getComo_instalar_igrp_java_framework(){
-		return this.como_instalar_igrp_java_framework;
+	public String getQuickbuttonbox_gestao_tit(){
+		return this.quickbuttonbox_gestao_tit;
 	}
 	
-	public void setMy_first_app(String my_first_app){
-		this.my_first_app = my_first_app;
+	public void setQuickbuttonbox_gestao_val(String quickbuttonbox_gestao_val){
+		this.quickbuttonbox_gestao_val = quickbuttonbox_gestao_val;
 	}
-	public String getMy_first_app(){
-		return this.my_first_app;
+	public String getQuickbuttonbox_gestao_val(){
+		return this.quickbuttonbox_gestao_val;
 	}
 	
-	public void setParagraph_7_text(String paragraph_7_text){
-		this.paragraph_7_text = paragraph_7_text;
+	public void setQuickbuttonbox_gestao_url(String quickbuttonbox_gestao_url){
+		this.quickbuttonbox_gestao_url = quickbuttonbox_gestao_url;
 	}
-	public String getParagraph_7_text(){
-		return this.paragraph_7_text;
+	public String getQuickbuttonbox_gestao_url(){
+		return this.quickbuttonbox_gestao_url;
+	}
+	
+	public void setQuickbuttonbox_gestao_bg(String quickbuttonbox_gestao_bg){
+		this.quickbuttonbox_gestao_bg = quickbuttonbox_gestao_bg;
+	}
+	public String getQuickbuttonbox_gestao_bg(){
+		return this.quickbuttonbox_gestao_bg;
+	}
+	
+	public void setQuickbuttonbox_gestao_icn(String quickbuttonbox_gestao_icn){
+		this.quickbuttonbox_gestao_icn = quickbuttonbox_gestao_icn;
+	}
+	public String getQuickbuttonbox_gestao_icn(){
+		return this.quickbuttonbox_gestao_icn;
 	}
 	
 	public void setParagraph_6_text(String paragraph_6_text){
@@ -147,32 +181,39 @@ public class GeralApresentacao extends Model{
 		return this.paragraph_1_text;
 	}
 	
-	public void setVideo_3_text(String video_3_text){
-		this.video_3_text = video_3_text;
+	public void setQuickbuttonbox_instalar_tit(String quickbuttonbox_instalar_tit){
+		this.quickbuttonbox_instalar_tit = quickbuttonbox_instalar_tit;
 	}
-	public String getVideo_3_text(){
-		return this.video_3_text;
-	}
-	
-	public void setParagraph_8_text(String paragraph_8_text){
-		this.paragraph_8_text = paragraph_8_text;
-	}
-	public String getParagraph_8_text(){
-		return this.paragraph_8_text;
+	public String getQuickbuttonbox_instalar_tit(){
+		return this.quickbuttonbox_instalar_tit;
 	}
 	
-	public void setParagraph_5_text(String paragraph_5_text){
-		this.paragraph_5_text = paragraph_5_text;
+	public void setQuickbuttonbox_instalar_val(String quickbuttonbox_instalar_val){
+		this.quickbuttonbox_instalar_val = quickbuttonbox_instalar_val;
 	}
-	public String getParagraph_5_text(){
-		return this.paragraph_5_text;
+	public String getQuickbuttonbox_instalar_val(){
+		return this.quickbuttonbox_instalar_val;
 	}
 	
-	public void setVideo_7_text(String video_7_text){
-		this.video_7_text = video_7_text;
+	public void setQuickbuttonbox_instalar_url(String quickbuttonbox_instalar_url){
+		this.quickbuttonbox_instalar_url = quickbuttonbox_instalar_url;
 	}
-	public String getVideo_7_text(){
-		return this.video_7_text;
+	public String getQuickbuttonbox_instalar_url(){
+		return this.quickbuttonbox_instalar_url;
+	}
+	
+	public void setQuickbuttonbox_instalar_bg(String quickbuttonbox_instalar_bg){
+		this.quickbuttonbox_instalar_bg = quickbuttonbox_instalar_bg;
+	}
+	public String getQuickbuttonbox_instalar_bg(){
+		return this.quickbuttonbox_instalar_bg;
+	}
+	
+	public void setQuickbuttonbox_instalar_icn(String quickbuttonbox_instalar_icn){
+		this.quickbuttonbox_instalar_icn = quickbuttonbox_instalar_icn;
+	}
+	public String getQuickbuttonbox_instalar_icn(){
+		return this.quickbuttonbox_instalar_icn;
 	}
 	
 	public void setVideo_2_text(String video_2_text){
@@ -182,24 +223,87 @@ public class GeralApresentacao extends Model{
 		return this.video_2_text;
 	}
 	
-	public void setVideo_6_text(String video_6_text){
-		this.video_6_text = video_6_text;
+	public void setQuickbuttonbox__tit(String quickbuttonbox__tit){
+		this.quickbuttonbox__tit = quickbuttonbox__tit;
 	}
-	public String getVideo_6_text(){
-		return this.video_6_text;
+	public String getQuickbuttonbox__tit(){
+		return this.quickbuttonbox__tit;
 	}
 	
-	public void setVideo_1_text(String video_1_text){
-		this.video_1_text = video_1_text;
+	public void setQuickbuttonbox__val(String quickbuttonbox__val){
+		this.quickbuttonbox__val = quickbuttonbox__val;
 	}
-	public String getVideo_1_text(){
-		return this.video_1_text;
+	public String getQuickbuttonbox__val(){
+		return this.quickbuttonbox__val;
+	}
+	
+	public void setQuickbuttonbox__url(String quickbuttonbox__url){
+		this.quickbuttonbox__url = quickbuttonbox__url;
+	}
+	public String getQuickbuttonbox__url(){
+		return this.quickbuttonbox__url;
+	}
+	
+	public void setQuickbuttonbox__bg(String quickbuttonbox__bg){
+		this.quickbuttonbox__bg = quickbuttonbox__bg;
+	}
+	public String getQuickbuttonbox__bg(){
+		return this.quickbuttonbox__bg;
+	}
+	
+	public void setQuickbuttonbox__icn(String quickbuttonbox__icn){
+		this.quickbuttonbox__icn = quickbuttonbox__icn;
+	}
+	public String getQuickbuttonbox__icn(){
+		return this.quickbuttonbox__icn;
+	}
+	
+	public void setStatbox_1_tit(String statbox_1_tit){
+		this.statbox_1_tit = statbox_1_tit;
+	}
+	public String getStatbox_1_tit(){
+		return this.statbox_1_tit;
+	}
+	
+	public void setStatbox_1_val(String statbox_1_val){
+		this.statbox_1_val = statbox_1_val;
+	}
+	public String getStatbox_1_val(){
+		return this.statbox_1_val;
+	}
+	
+	public void setStatbox_1_txt(String statbox_1_txt){
+		this.statbox_1_txt = statbox_1_txt;
+	}
+	public String getStatbox_1_txt(){
+		return this.statbox_1_txt;
+	}
+	
+	public void setStatbox_1_url(String statbox_1_url){
+		this.statbox_1_url = statbox_1_url;
+	}
+	public String getStatbox_1_url(){
+		return this.statbox_1_url;
+	}
+	
+	public void setStatbox_1_bg(String statbox_1_bg){
+		this.statbox_1_bg = statbox_1_bg;
+	}
+	public String getStatbox_1_bg(){
+		return this.statbox_1_bg;
+	}
+	
+	public void setStatbox_1_icn(String statbox_1_icn){
+		this.statbox_1_icn = statbox_1_icn;
+	}
+	public String getStatbox_1_icn(){
+		return this.statbox_1_icn;
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private String documento;
-		private String ver;
+		private IGRPLink ver;
 		private String ver_desc;
 		public void setDocumento(String documento){
 			this.documento = documento;
@@ -208,10 +312,11 @@ public class GeralApresentacao extends Model{
 			return this.documento;
 		}
 
-		public void setVer(String app,String page,String action){
-			this.ver = new Config().getResolveUrl(app, page, action);
+		public IGRPLink setVer(String app,String page,String action){
+			this.ver = new IGRPLink(app,page,action);
+			return this.ver;
 		}
-		public String getVer(){
+		public IGRPLink getVer(){
 			return this.ver;
 		}
 		public void setVer_desc(String ver_desc){
@@ -220,10 +325,15 @@ public class GeralApresentacao extends Model{
 		public String getVer_desc(){
 			return this.ver_desc;
 		}
+	public IGRPLink setVer(String link){
+		this.ver = new IGRPLink(link);
+		return this.ver;
+	}
 
 	}
-	
-	public void loadTable1(BaseQueryInterface query) {		
+
+	public void loadTable_1(BaseQueryInterface query) {
 		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
+
 }
