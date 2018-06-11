@@ -17,7 +17,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, String value) {
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" AND "+name+" "+operator+":"+name+" ").addString(name, value);
+			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addString(name, value);
 		}
 		return this;
 	}

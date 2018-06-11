@@ -57,12 +57,13 @@ public class DateHelper {
 		return null;
 	}
 	
-	public static String getCurrentDate(){
-		return new java.sql.Date(System.currentTimeMillis()).toString();
+	public static java.sql.Date getCurrentDate(){
+		return new java.sql.Date(System.currentTimeMillis());
 	}
+
 	
 	public static String getCurrentDate(String outputFormat){
-		return convertDate(getCurrentDate(), "yyyy-MM-dd", outputFormat);
+		return convertDate(getCurrentDate().toString(), "yyyy-MM-dd", outputFormat);
 	}
 	public static String getCurrentDataTime() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 

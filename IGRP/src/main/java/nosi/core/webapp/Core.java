@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -387,6 +388,10 @@ public final class Core {	// Not inherit
 		return DateHelper.getCurrentDate("dd-MM-yyyy");
 	}
 
+	public static Date getCurrentDate1(){
+		return DateHelper.getCurrentDate();
+	}
+	
 	/**Get Current Datetime (User defined output format)
 	 * @param outputFormat
 	 * @return  {@code DateHelper.getCurrentDate(outputFormat);}
