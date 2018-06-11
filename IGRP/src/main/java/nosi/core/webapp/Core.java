@@ -790,7 +790,7 @@ public final class Core {	// Not inherit
 	}
 	
 	public static void setTaskVariable(String variableName,Object value) {
-		String taskId = Core.getParam("taskId");
+		String taskId = Core.getParamTaskId();
 		TaskService task = new TaskService().getTask(taskId);
 		if(task!=null) {
 			task.deleteVariable(variableName);
@@ -800,7 +800,7 @@ public final class Core {	// Not inherit
 	}
 	
 	public static void setTaskVariable(String variableName,String scope,Object value) {
-		String taskId = Core.getParam("taskId");
+		String taskId = Core.getParamTaskId();
 		TaskService task = new TaskService().getTask(taskId);
 		if(task!=null) {
 			if(scope.equalsIgnoreCase("global"))
@@ -811,7 +811,7 @@ public final class Core {	// Not inherit
 	}
 	
 	public static void setTaskVariable(String variableName,String scope,String type,Object value) {
-		String taskId = Core.getParam("taskId");
+		String taskId = Core.getParamTaskId();
 		TaskService task = new TaskService().getTask(taskId);
 		if(task!=null) {
 			if(scope.equalsIgnoreCase("global"))
@@ -831,6 +831,8 @@ public final class Core {	// Not inherit
 	  }
 	
 	public static String getTaskVariable(String variableName) { 
+		if(Core.isNull(variableName))
+			return "";
 		String id = getExecutionId();
 		TaskService task = new TaskService().getTask(id);
         List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
@@ -925,15 +927,22 @@ public final class Core {	// Not inherit
 		String v = Core.getTaskVariable(variableName);
 		return Core.isNotNull(v)?true:false;
 	}
-	private static String getExecutionId() {
-	    String taskId = Core.getParam("taskId");
+	public static String getExecutionId() {
+	    String taskId = Core.getParamTaskId();
 	    String taskExecutionId = Core.getParam("taskExecutionId");
-	    if(Core.isNotNull(taskExecutionId)) {
-	      return taskExecutionId;
-	    }
-	    List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
-	    return (task!=null && task.size() > 0)?task.get(task.size()-1).getExecutionId():null;
+	    if(Core.isNull(taskExecutionId)) {
+	    	 List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+	    	 taskExecutionId =  (task!=null && task.size() > 0)?task.get(task.size()-1).getExecutionId():taskExecutionId;
+	    } 
+	    Core.setAttribute("taskExecutionId", taskExecutionId);
+	    return taskExecutionId;
   	}
+	
+	public static String getParamTaskId() {
+		String taskId = Core.getParam("taskId");
+		Core.setAttribute("taskId", taskId);
+		return taskId;
+	}
 	
 	public static void addTaskVariableLong(String taskDefinitionKey,String variableName,Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
