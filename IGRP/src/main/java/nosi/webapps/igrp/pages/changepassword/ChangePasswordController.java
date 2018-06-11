@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.xml.bind.JAXB;
@@ -149,7 +151,18 @@ public class ChangePasswordController extends Controller {
 			        }catch(Exception e) {
 			        	e.printStackTrace();
 			        }
-			        int responseCode = (Integer)((javax.xml.ws.BindingProvider) stub.getOperations()).getResponseContext().get(MessageContext.HTTP_RESPONSE_CODE);
+			        javax.xml.ws.BindingProvider bp =  (javax.xml.ws.BindingProvider)stub.getOperations();
+			        System.out.println(bp);
+			        Map<String, Object> m = bp.getResponseContext();
+			        System.out.println("Map: " + m.size());
+			        
+			        m.forEach((k,v)->{
+			        	System.out.println(k + " - " + v);
+			        });
+			        
+			        m.get(MessageContext.HTTP_RESPONSE_CODE);
+			        
+			        int responseCode = (Integer)m.get(MessageContext.HTTP_RESPONSE_CODE);
 			        if(responseCode == 202) { 
 			        	Core.setMessageSuccess(gt("Password alterado com sucesso."));
 			        	flag = true;

@@ -64,6 +64,7 @@ import nosi.core.webapp.webservices.biztalk.dao.Request;
 import nosi.core.webapp.webservices.biztalk.dao.ServiceSerach;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
+import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
@@ -1533,6 +1534,21 @@ public final class Core {	// Not inherit
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * @param wsdlUrl The webservice description language url 
+	 * @param namespaces A Map of all required namespaces 
+	 * @param headers A Map of soap request headers 
+	 * @param bodyContent A Map of request content that will be converted to xml 
+	 * @return SoapClient object 
+	 */
+	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers, Map<String, Object> bodyContent) {
+		SoapClient sc = new SoapClient(wsdlUrl);
+		sc.setHeaders(headers);
+		sc.doRequest(namespaces, bodyContent);
+		sc.call();
+		return sc;
 	}
 	
 }

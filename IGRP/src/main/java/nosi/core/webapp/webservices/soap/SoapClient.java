@@ -1,8 +1,11 @@
 package nosi.core.webapp.webservices.soap;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.soap.MessageFactory;
@@ -11,11 +14,14 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+
+import cjm.component.cb.map.ToMap;
+import cjm.component.cb.xml.ToXML;
+
 /**
  * Iekiny Marcel
  * May 22, 2018
@@ -28,14 +34,19 @@ public class SoapClient {
 	
 	private SOAPMessage response;
 	
-	public SoapClient() {}
+	private List<String> errors;
+	
+	public SoapClient() {
+		errors = new ArrayList<String>();
+	}
 	
 	public SoapClient(String wsdl) {
+		this();
 		this.wsdl = wsdl;
 	}
 	
 	public SoapClient(String wsdl, Map<String, String> headers) {
-		this.wsdl = wsdl;
+		this(wsdl);
 		this.headers = headers;
 	}
 	
@@ -44,26 +55,68 @@ public class SoapClient {
 			SOAPConnectionFactory sfc = SOAPConnectionFactory.newInstance();
 		    SOAPConnection connection = sfc.createConnection();
 		    URL url = new URL(this.wsdl);
-		    
+		    this.request.writeTo(System.out);
 		    this.response = connection.call(this.request, url);
-		    
-		    response.writeTo(System.out);
-		    
 		}catch(Exception e) {
+			errors.add(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public Map<String, Object> getResponseBody() {
+		Map<String, Object> result = null;
+		try {
+			ToMap toMap = new ToMap();
+			String xml = "";
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			response.writeTo(out);
+			xml = new String(out.toByteArray());
+			result = toMap.convertToMap(xml); 
+			
+			if(result != null && !result.isEmpty()) 
+				result = (Map<String, Object>) result.get("soap:Envelope");
+				if(result != null && !result.isEmpty()) 
+					result = (Map<String, Object>) result.get("soap:Body");
+				
+		}catch(Exception e) {
+			errors.add(e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public Map<String, Object> getResponseHeader() {
+		Map<String, Object> result = null;
+		try {
+			ToMap toMap = new ToMap();
+			String xml = "";
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			response.writeTo(out);
+			xml = new String(out.toByteArray());
+			result = toMap.convertToMap(xml); 
+			
+			if(result != null && !result.isEmpty()) 
+				result = (Map<String, Object>) result.get("soap:Envelope");
+				if(result != null && !result.isEmpty()) 
+					result = (Map<String, Object>) result.get("soap:Header");
+				
+		}catch(Exception e) {
+			errors.add(e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public void doRequest(String xmlContent) {
 		ByteArrayInputStream is = new ByteArrayInputStream(xmlContent.getBytes());
 		try {
-			
-			this.request = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage(new MimeHeaders(), is);
-			
-			
-			
-			this.request.writeTo(System.out);
-			
+			MimeHeaders h = new MimeHeaders();
+			 if(this.headers != null) {
+			    	this.headers.forEach((k,v)->{
+			    		h.addHeader(k, v);
+			    	});
+			 }
+			this.request = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage(h, is);	
 		} catch (IOException | SOAPException e) {
 			e.printStackTrace();
 		}finally {
@@ -74,45 +127,53 @@ public class SoapClient {
 			}
 		}
 	}
-	
-	// message.getMimeHeaders().addHeader("header name", "header value"); 
-	public void doRequest(String nsName, String nsValue, String operationName, String []paramNames, String []paramValues) {
+
+	public void doRequest(Map<String, String> namespaces, Map<String, Object> bodyContent) {
 		try {
 			MessageFactory messageFactory = MessageFactory.newInstance();
 			request = messageFactory.createMessage();
 			SOAPPart soapPart = request.getSOAPPart();
 	   	    SOAPEnvelope soapEnvelope = soapPart.getEnvelope();
-	   	    soapEnvelope.addNamespaceDeclaration(nsName, nsValue);
-	   	    soapEnvelope.addNamespaceDeclaration("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
+	   	    
+	   	    if(namespaces != null)
+	   	    	namespaces.forEach((k, v)->{
+	   	    		try {
+						soapEnvelope.addNamespaceDeclaration(k, v);
+					} catch (SOAPException e) {
+						e.printStackTrace();
+					}
+	   	    	});
+	   	  
+	   	 if(this.headers != null)
+		    	this.headers.forEach((k,v)->{
+		    		request.getMimeHeaders().addHeader(k, v);
+		    	});
+	   	    
 			SOAPBody soapBody = soapEnvelope.getBody();
-			SOAPElement soapElement = soapBody.addChildElement(operationName, nsName);
 			
-			if(paramNames != null)
-				for(int i = 0; i < paramNames.length; i++) {
-					soapElement.addChildElement(paramNames[i], nsName).addTextNode(paramValues[i]);
-				}
-			
-			 if(this.headers != null)
-			    	this.headers.forEach((k,v)->{
-			    		request.getMimeHeaders().addHeader(k, v);
-			    	});
-			
-			this.request.getMimeHeaders().addHeader("soapAction", "http://ws.cdyne.com/ResolveIP");
-			
-			 request.saveChanges();
+			ToXML toXml = new ToXML();
+			String rawXml = String.valueOf(toXml.convertToXML(bodyContent, true));
 			
 			
-			this.request.writeTo(System.out);
+			soapBody.addTextNode(":_r");
+			
+			request.saveChanges();
+			 
+			 ByteArrayOutputStream out = new ByteArrayOutputStream();
+			request.writeTo(out);
+			String xml = new String(out.toByteArray());
+			xml = xml.replace(":_r", rawXml);
+			
+			this.doRequest(xml);
 			
 		}catch(Exception e) {
+			errors.add(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	
 	public SOAPMessage getResponse() {
-		SOAPMessage message = null;
-		
-		return null;
+		return response;
 	}
 
 	public String getWsdl() {
@@ -131,11 +192,11 @@ public class SoapClient {
 		this.headers = headers;
 	}
 	
-	public static void main(String[] args) {
-		SoapClient sc = new SoapClient("http://ws.cdyne.com/ip2geo/ip2geo.asmx?wsdl");
-		
-		sc.doRequest("ws", "http://ws.cdyne.com/", "ResolveIP", new String[] {"ipAddress", "licenseKey"}, new String[] {"10.73.96.174", "fg32"});
-		sc.call();
+	public List<String> getErrors(){
+		return errors;
 	}
 	
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
 }
