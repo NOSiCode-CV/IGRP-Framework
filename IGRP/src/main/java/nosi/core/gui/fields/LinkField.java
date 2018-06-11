@@ -38,7 +38,9 @@ public class LinkField extends AbstractField {
 	public Map<String,Object> getParams(){
 		return this.params;
 	}
+	
 	String link;
+	
 	@Override
 	public Object getValue() {
 		 link=super.getValue().toString();		 
