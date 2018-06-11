@@ -91,7 +91,7 @@ public class XMLExtractComponent {
 		button.setTitle(gt("Gravar"));
 		button.setApp(app);
 		button.setPage(page);
-		button.setLink(action+"&taskId="+taskId+"&customForm=true");
+		button.setLink(action+"&"+"taskId="+taskId+"&customForm=true");
 		button.setTarget("submit");
 		button.setImg(icon);
 		toolsbar1.addButton(button);

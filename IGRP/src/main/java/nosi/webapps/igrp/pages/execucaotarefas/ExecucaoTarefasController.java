@@ -4,6 +4,7 @@
 
 package nosi.webapps.igrp.pages.execucaotarefas;
 
+import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -245,7 +246,7 @@ public class ExecucaoTarefasController extends Controller {
 						.addQueryString("idAppAnt", idAppAnt)
 						.addQueryString("taskAnt", taskAnt)
 						.addQueryString("procAnt", procAnt);
-					return this.call(app.getDad().toLowerCase(),this.config.prefix_task_name+task.getTaskDefinitionKey(), "index",this.queryString());
+					return this.call(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
 				}
 			}
 			throw new IOException(Core.NO_PERMITION_MSG);

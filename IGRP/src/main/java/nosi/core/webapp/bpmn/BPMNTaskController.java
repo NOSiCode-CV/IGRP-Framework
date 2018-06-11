@@ -3,6 +3,8 @@ package nosi.core.webapp.bpmn;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
@@ -39,7 +41,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 		String processDefinition = Core.getParam("processDefinition");
 		String taskDefinition = Core.getParam("taskDefinition");
 		String taskName = Core.getParam("taskName");
-		String taskId = Core.getParam("taskId");
+		String taskId = Core.getParamTaskId();
 		String appDad = Core.getParam("appDad");
 		String p_processId = Core.getParam("p_processId");		
 		
@@ -57,7 +59,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 				xml.addXml(comp.generateButtonProcess(p_processId).toString());
 			}
 			if(Core.isNotNull(taskId)) {
-				xml.addXml(comp.generateButtonTask(appDad,this.config.prefix_task_name+taskDefinition,"save", taskId).toString());
+				xml.addXml(comp.generateButtonTask(appDad,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			
 			xml.addXml(content);
@@ -71,12 +73,11 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 	//Save the task
 	@Override
 	public Response save() throws IOException, ServletException {
-		String taskId = Core.getParam("taskId");
+		String taskId = Core.getParamTaskId();
 		String customForm = Core.getParam("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		FormDataService formData = new FormDataService();
 		TaskService task = new TaskService().getTask(taskId);	
-		
 		if(task!=null){
 			FormDataService properties = null;
 			ProcessInstancesService p = new ProcessInstancesService();
@@ -123,7 +124,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 
 	@Override
 	public Response update() throws IOException, ServletException{
-		String taskId = Core.getParam("taskId");
+		String taskId = Core.getParamTaskId();
 		String customForm = Core.getParam("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		boolean result = false;

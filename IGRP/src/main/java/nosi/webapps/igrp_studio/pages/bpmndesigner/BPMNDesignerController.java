@@ -4,6 +4,7 @@
 
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
 
+import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -121,7 +122,7 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private void saveTaskController(TaskService task,Application app,int index) {
-		String taskName = StringHelper.camelCaseFirst(this.config.prefix_task_name+task.getId());
+		String taskName = StringHelper.camelCaseFirst(Config.PREFIX_TASK_NAME+task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
 				.andWhere("page", "=",taskName)

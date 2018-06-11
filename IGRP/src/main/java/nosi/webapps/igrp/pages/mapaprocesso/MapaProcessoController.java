@@ -10,6 +10,8 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -76,7 +78,7 @@ public class MapaProcessoController extends Controller{
 						.addQueryString("taskDefinition", taskDefinition)
 						.addQueryString("taskName","Start Process");
 					
-					return this.call(app.getDad().toLowerCase(),this.config.prefix_task_name+taskDefinition, "index",this.queryString());
+					return this.call(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+taskDefinition, "index",this.queryString());
 				}
 			}
 			String content = comp.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
