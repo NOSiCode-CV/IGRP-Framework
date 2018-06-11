@@ -1018,7 +1018,11 @@ public final class Core {	// Not inherit
 	public static String getLinkReport(String code_report){
 		return new Report().getLinkReport(code_report);
 	}
-		
+	
+	public static String getLinkFile(String p_id){
+		return new Config().getResolveUrl("igrp", "File", "get-file&p_id="+p_id);
+	}
+	
 	public static Response getLinkReport(String code_report,QueryString<String, Object> qs){		
 		Report rep = new Report();
 		qs.getQueryString().entrySet().stream().forEach(q->{
