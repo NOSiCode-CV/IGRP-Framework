@@ -382,16 +382,15 @@ public class ExecucaoTarefasController extends Controller {
 				}
 			}
 		}
-		//if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
 		formData.addVariable("baseHostNameIgrp",this.getConfig().getHostName());
-		formData.addVariable("customVariableIGRP",content);			
-		//}
+		if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
+			formData.addVariable("customVariableIGRP",content);			
+		}
 		StartProcess st = formData.submitFormByProcessDenifition();
-
 		if(st!=null){
 			pi.setId(st.getId());
 			pi.setError(st.getError());
-			pi.addVariable("p_process_id", "global", "String", pi.getId());
+			pi.addVariable("p_process_id", "local", "string", pi.getId());
 			pi.submitVariables();
 			new TaskFile().addFile(pi);
 		}

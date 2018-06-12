@@ -97,6 +97,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});
+				task.addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
 				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
 				p.submitVariables();
 				task.submitVariables();
