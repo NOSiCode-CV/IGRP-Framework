@@ -34,7 +34,7 @@ public class Video_instalar_igrp_webView extends View {
 		
 		video_1_text = new TextField(model,"video_1_text");
 		video_1_text.setLabel(gt(""));
-		video_1_text.setValue(gt("https://www.youtube.com/embed/ABd-IR3_wsQ?rel=0"));
+		video_1_text.setValue(gt("https://www.youtube.com/embed/_17K4AoM4c4"));
 		video_1_text.propertie().add("type","text").add("name","p_video_1_text").add("maxlength","4000");
 		
 
