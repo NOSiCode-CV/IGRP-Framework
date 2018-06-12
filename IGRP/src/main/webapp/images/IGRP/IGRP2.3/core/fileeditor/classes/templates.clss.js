@@ -14,14 +14,16 @@
 
 				id 	   	   = 'folder'+'_' +unique,
 
+				fileId 	   = i.id ? ' file-id='+i.id : '',
+
 				childs 	   = i.childs ? templates.tree(i.childs, id, 'collapse'): '',
 
-				filePath   = i.path ? 'file-path="'+i.path+'"' : '',
+				filePath   = i.path ? ' file-path="'+i.path+'"' : '',
 
-				toggleAttr = i.childs ? 'data-toggle="collapse" data-target="#'+id+'"' : '',
+				toggleAttr = i.childs ? ' data-toggle="collapse" data-target="#'+id+'"' : '',
 
 				item   = 
-				'<li id="'+unique+'" class="'+clss+'" '+filePath+' name="'+i.name+'">'+
+				'<li id="'+unique+'" '+fileId+' class="'+clss+'" '+filePath+' name="'+i.name+'">'+
 					'<span class="txt-ellipsis" '+toggleAttr+'>'+i.name+'</span>'+
 					childs+
 				'</li>';

@@ -92,7 +92,7 @@ public class WebReportView extends View {
 		title_report = new TextField(model,"title_report");
 		title_report.setLabel("Title Report");
 		title_report.setValue("Laudantium amet totam doloremq");
-		title_report.propertie().add("name","p_title_report").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		title_report.propertie().add("name","p_title").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		p_link_source = new HiddenField(model,"p_link_source");
 		p_link_source.setLabel("");
 		p_link_source.setValue("");
