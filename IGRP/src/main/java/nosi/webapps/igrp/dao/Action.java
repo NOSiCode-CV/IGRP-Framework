@@ -59,7 +59,8 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	private short isComponent = 0; // 0 = Page; 1 = Component; 2 = Page Task
 	private String xmlContent;
 	private String xslContent;
-
+	private String processKey;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "module_fk", foreignKey = @ForeignKey(name = "module_fk"))
 	private Modulo modulo;
@@ -219,6 +220,16 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 
 	public void setXslContent(String xslContent) {
 		this.xslContent = xslContent;
+	}
+
+	
+	
+	public String getProcessKey() {
+		return processKey;
+	}
+
+	public void setProcessKey(String processKey) {
+		this.processKey = processKey;
 	}
 
 	@Override

@@ -144,8 +144,8 @@ public class BPMNDesignerView extends View {
 		formkey.propertie().add("name","p_formkey").add("type","lookup").add("action","index").add("page","BPMNDesigner").add("app","igrp_studio").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		linkfile = new LinkField(model,"linkfile");
 		linkfile.setLabel(gt("Linkfile"));
-		linkfile.setValue(new Config().getResolveUrl("igrp_studio","BPMNDesigner","index"));
-		linkfile.propertie().add("name","p_linkfile").add("type","link").add("target","_self").add("maxlength","30");
+		linkfile.setValue(new Config().getResolveUrl("igrp_studio","File_editor","index"));
+		linkfile.propertie().add("name","p_linkfile").add("type","link").add("target","modal").add("maxlength","30");
 		
 	}
 		

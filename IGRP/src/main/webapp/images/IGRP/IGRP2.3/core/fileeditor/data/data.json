@@ -6,10 +6,12 @@
 
                 {
                     "name": "File1.java",
+                    "id"  : 1,
                     "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
                 },
                 {
                     "name": "File2.java",
+                    "id"  : 2,
                     "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
                 }
 
@@ -17,6 +19,7 @@
         },
         {
             "name": "File3.java",
+            "id"  : 3,
             "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
         }
     ],
@@ -24,10 +27,7 @@
     "default_file": [
         {
             "name": "File3.java",
-            "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
-        },
-        {
-            "name": "File1.java",
+            "id"  : 3,
             "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
         }
     ]

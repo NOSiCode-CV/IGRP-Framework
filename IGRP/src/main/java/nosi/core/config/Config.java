@@ -223,9 +223,6 @@ public class Config {
 		return getResolvePathPage(page.getApplication().getDad(),page.getPage(),page.getVersion());
 	}
 	
-	public String getResolvePathClass(String app,String page,String version){
-		return getResolvePathPage(app, page, version);
-	}
 	
 	public String getDefaultPageController(String app,String title){
 		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n\n"
