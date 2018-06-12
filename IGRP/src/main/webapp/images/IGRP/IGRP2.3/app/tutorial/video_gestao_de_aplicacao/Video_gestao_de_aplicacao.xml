@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=153</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=56</preserve_url>
     </plsql>
     <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
@@ -46,7 +46,7 @@
         <video_1 type="video" xml-type="video" title="Criação e Gestão de uma Aplicação" gen-type="container" gen-group="">
             <fields>
                 <video_1_text type="text" name="p_video_1_text" persist="true" maxlength="4000">
-                    <value>https://www.youtube.com/embed/v5zFGYK3zV8</value>
+                    <value>https://www.youtube.com/embed/jd2ZeM43Lts</value>
                 </video_1_text>
             </fields>
         </video_1>

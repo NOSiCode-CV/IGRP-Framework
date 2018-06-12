@@ -90,13 +90,34 @@
                 </quickbuttonbox_gestao_icn>
             </fields>
         </quickbuttonbox_gestao>
-        <paragraph_6 type="paragraph" xml-type="form" title="Documentos IGRP WEB" gen-type="container" gen-group="">
+        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <paragraph_6_text type="text" name="p_paragraph_6_text" persist="true" maxlength="4000">
-                    <value>Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!</value>
-                </paragraph_6_text>
+                <statbox_1_tit name="p_statbox_1_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>FAQ</value>
+                </statbox_1_tit>
+                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value/>
+                </statbox_1_val>
+                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_1_txt>
+                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>https://nosicode.gitbook.io/faq/</value>
+                </statbox_1_url>
+                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </statbox_1_bg>
+                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-external-link</value>
+                </statbox_1_icn>
             </fields>
-        </paragraph_6>
+        </statbox_1>
         <paragraph_1 type="paragraph" xml-type="form" title="Tutorial IGRP WEB" gen-type="container" gen-group="">
             <fields>
                 <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
@@ -128,45 +149,13 @@
                 </quickbuttonbox_instalar_icn>
             </fields>
         </quickbuttonbox_instalar>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+        <paragraph_6 type="paragraph" xml-type="form" title="Documentos IGRP WEB" gen-type="container" gen-group="">
             <fields>
-                <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Documento</label>
-                </documento>
-                <ver name="p_ver" type="link" target="_newtab" target_fields="" closerefresh="false" action="undefined" page="undefined" app="undefined" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" request_fields="" custom_action="" action_type="false" desc="true">
-                    <label>Ver</label>
-                </ver>
+                <paragraph_6_text type="text" name="p_paragraph_6_text" persist="true" maxlength="4000">
+                    <value>Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!</value>
+                </paragraph_6_text>
             </fields>
-            <table>
-                <value>
-                    <row>
-                        <documento name="p_documento">Officia voluptatem deserunt om</documento>
-                        <ver name="p_ver" desc="true">http://ga.edu/poibuzo</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <documento name="p_documento">Lorem deserunt totam natus lor</documento>
-                        <ver name="p_ver" desc="true">http://cotmi.io/ez</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <documento name="p_documento">Aperiam magna stract officia l</documento>
-                        <ver name="p_ver" desc="true">http://eno.net/wetuvuz</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <documento name="p_documento">Aliqua accusantium mollit natu</documento>
-                        <ver name="p_ver" desc="true">http://kukeih.org/pavuwpis</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <documento name="p_documento">Dolor totam aliqua natus dolor</documento>
-                        <ver name="p_ver" desc="true">http://wef.co.uk/lamosube</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                </value>
-            </table>
-        </table_1>
+        </paragraph_6>
         <video_2 type="video" xml-type="video" title="Welcome IGRP WEB Framework" gen-type="container" gen-group="">
             <fields>
                 <video_2_text type="text" name="p_video_2_text" persist="true" maxlength="4000">
@@ -178,7 +167,7 @@
             <fields>
                 <quickbuttonbox__tit name="p_quickbuttonbox__tit" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>My First App</value>
+                    <value>My First App, config DB, Crud</value>
                 </quickbuttonbox__tit>
                 <quickbuttonbox__val name="p_quickbuttonbox__val" type="text" maxlength="4000">
                     <label>Value</label>
@@ -198,33 +187,44 @@
                 </quickbuttonbox__icn>
             </fields>
         </quickbuttonbox_>
-        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <statbox_1_tit name="p_statbox_1_tit" type="text" maxlength="4000" persist="true">
-                    <label>Box Title</label>
-                    <value>FAQ</value>
-                </statbox_1_tit>
-                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
-                    <label>Value</label>
-                    <value/>
-                </statbox_1_val>
-                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
-                    <label>Url Text</label>
-                    <value>Read More...</value>
-                </statbox_1_txt>
-                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
-                    <label>Url</label>
-                    <value>https://nosicode.gitbook.io/faq/</value>
-                </statbox_1_url>
-                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
-                    <label>Background</label>
-                    <value>cp-cyan</value>
-                </statbox_1_bg>
-                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
-                    <label>Icon</label>
-                    <value>fa-external-link</value>
-                </statbox_1_icn>
+                <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Documento</label>
+                </documento>
+                <ver name="p_ver" type="link" target="_newtab" target_fields="" closerefresh="false" action="undefined" page="undefined" app="undefined" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" request_fields="" custom_action="" action_type="false" desc="true">
+                    <label>Ver</label>
+                </ver>
             </fields>
-        </statbox_1>
+            <table>
+                <value>
+                    <row>
+                        <documento name="p_documento">Anim ipsum stract ipsum magna</documento>
+                        <ver name="p_ver" desc="true">http://ta.com/dac</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Ut sit omnis accusantium natus</documento>
+                        <ver name="p_ver" desc="true">http://ji.edu/le</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Aperiam voluptatem iste accusa</documento>
+                        <ver name="p_ver" desc="true">http://lois.org/acgi</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Dolor anim omnis totam adipisc</documento>
+                        <ver name="p_ver" desc="true">http://vummetaj.com/pagu</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Adipiscing labore stract unde</documento>
+                        <ver name="p_ver" desc="true">http://lolit.com/ika</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
     </content>
 </rows>

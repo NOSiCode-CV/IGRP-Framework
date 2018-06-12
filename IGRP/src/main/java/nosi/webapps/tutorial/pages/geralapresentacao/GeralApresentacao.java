@@ -32,32 +32,6 @@ public class GeralApresentacao extends Model{
 	private String quickbuttonbox_gestao_bg;
 	@RParam(rParamName = "p_quickbuttonbox_gestao_icn")
 	private String quickbuttonbox_gestao_icn;
-	@RParam(rParamName = "p_paragraph_6_text")
-	private String paragraph_6_text;
-	@RParam(rParamName = "p_paragraph_1_text")
-	private String paragraph_1_text;
-	@RParam(rParamName = "p_quickbuttonbox_instalar_tit")
-	private String quickbuttonbox_instalar_tit;
-	@RParam(rParamName = "p_quickbuttonbox_instalar_val")
-	private String quickbuttonbox_instalar_val;
-	@RParam(rParamName = "p_quickbuttonbox_instalar_url")
-	private String quickbuttonbox_instalar_url;
-	@RParam(rParamName = "p_quickbuttonbox_instalar_bg")
-	private String quickbuttonbox_instalar_bg;
-	@RParam(rParamName = "p_quickbuttonbox_instalar_icn")
-	private String quickbuttonbox_instalar_icn;
-	@RParam(rParamName = "p_video_2_text")
-	private String video_2_text;
-	@RParam(rParamName = "p_quickbuttonbox__tit")
-	private String quickbuttonbox__tit;
-	@RParam(rParamName = "p_quickbuttonbox__val")
-	private String quickbuttonbox__val;
-	@RParam(rParamName = "p_quickbuttonbox__url")
-	private String quickbuttonbox__url;
-	@RParam(rParamName = "p_quickbuttonbox__bg")
-	private String quickbuttonbox__bg;
-	@RParam(rParamName = "p_quickbuttonbox__icn")
-	private String quickbuttonbox__icn;
 	@RParam(rParamName = "p_statbox_1_tit")
 	private String statbox_1_tit;
 	@RParam(rParamName = "p_statbox_1_val")
@@ -70,6 +44,32 @@ public class GeralApresentacao extends Model{
 	private String statbox_1_bg;
 	@RParam(rParamName = "p_statbox_1_icn")
 	private String statbox_1_icn;
+	@RParam(rParamName = "p_paragraph_1_text")
+	private String paragraph_1_text;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_tit")
+	private String quickbuttonbox_instalar_tit;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_val")
+	private String quickbuttonbox_instalar_val;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_url")
+	private String quickbuttonbox_instalar_url;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_bg")
+	private String quickbuttonbox_instalar_bg;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_icn")
+	private String quickbuttonbox_instalar_icn;
+	@RParam(rParamName = "p_paragraph_6_text")
+	private String paragraph_6_text;
+	@RParam(rParamName = "p_video_2_text")
+	private String video_2_text;
+	@RParam(rParamName = "p_quickbuttonbox__tit")
+	private String quickbuttonbox__tit;
+	@RParam(rParamName = "p_quickbuttonbox__val")
+	private String quickbuttonbox__val;
+	@RParam(rParamName = "p_quickbuttonbox__url")
+	private String quickbuttonbox__url;
+	@RParam(rParamName = "p_quickbuttonbox__bg")
+	private String quickbuttonbox__bg;
+	@RParam(rParamName = "p_quickbuttonbox__icn")
+	private String quickbuttonbox__icn;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -167,11 +167,46 @@ public class GeralApresentacao extends Model{
 		return this.quickbuttonbox_gestao_icn;
 	}
 	
-	public void setParagraph_6_text(String paragraph_6_text){
-		this.paragraph_6_text = paragraph_6_text;
+	public void setStatbox_1_tit(String statbox_1_tit){
+		this.statbox_1_tit = statbox_1_tit;
 	}
-	public String getParagraph_6_text(){
-		return this.paragraph_6_text;
+	public String getStatbox_1_tit(){
+		return this.statbox_1_tit;
+	}
+	
+	public void setStatbox_1_val(String statbox_1_val){
+		this.statbox_1_val = statbox_1_val;
+	}
+	public String getStatbox_1_val(){
+		return this.statbox_1_val;
+	}
+	
+	public void setStatbox_1_txt(String statbox_1_txt){
+		this.statbox_1_txt = statbox_1_txt;
+	}
+	public String getStatbox_1_txt(){
+		return this.statbox_1_txt;
+	}
+	
+	public void setStatbox_1_url(String statbox_1_url){
+		this.statbox_1_url = statbox_1_url;
+	}
+	public String getStatbox_1_url(){
+		return this.statbox_1_url;
+	}
+	
+	public void setStatbox_1_bg(String statbox_1_bg){
+		this.statbox_1_bg = statbox_1_bg;
+	}
+	public String getStatbox_1_bg(){
+		return this.statbox_1_bg;
+	}
+	
+	public void setStatbox_1_icn(String statbox_1_icn){
+		this.statbox_1_icn = statbox_1_icn;
+	}
+	public String getStatbox_1_icn(){
+		return this.statbox_1_icn;
 	}
 	
 	public void setParagraph_1_text(String paragraph_1_text){
@@ -216,6 +251,13 @@ public class GeralApresentacao extends Model{
 		return this.quickbuttonbox_instalar_icn;
 	}
 	
+	public void setParagraph_6_text(String paragraph_6_text){
+		this.paragraph_6_text = paragraph_6_text;
+	}
+	public String getParagraph_6_text(){
+		return this.paragraph_6_text;
+	}
+	
 	public void setVideo_2_text(String video_2_text){
 		this.video_2_text = video_2_text;
 	}
@@ -256,48 +298,6 @@ public class GeralApresentacao extends Model{
 	}
 	public String getQuickbuttonbox__icn(){
 		return this.quickbuttonbox__icn;
-	}
-	
-	public void setStatbox_1_tit(String statbox_1_tit){
-		this.statbox_1_tit = statbox_1_tit;
-	}
-	public String getStatbox_1_tit(){
-		return this.statbox_1_tit;
-	}
-	
-	public void setStatbox_1_val(String statbox_1_val){
-		this.statbox_1_val = statbox_1_val;
-	}
-	public String getStatbox_1_val(){
-		return this.statbox_1_val;
-	}
-	
-	public void setStatbox_1_txt(String statbox_1_txt){
-		this.statbox_1_txt = statbox_1_txt;
-	}
-	public String getStatbox_1_txt(){
-		return this.statbox_1_txt;
-	}
-	
-	public void setStatbox_1_url(String statbox_1_url){
-		this.statbox_1_url = statbox_1_url;
-	}
-	public String getStatbox_1_url(){
-		return this.statbox_1_url;
-	}
-	
-	public void setStatbox_1_bg(String statbox_1_bg){
-		this.statbox_1_bg = statbox_1_bg;
-	}
-	public String getStatbox_1_bg(){
-		return this.statbox_1_bg;
-	}
-	
-	public void setStatbox_1_icn(String statbox_1_icn){
-		this.statbox_1_icn = statbox_1_icn;
-	}
-	public String getStatbox_1_icn(){
-		return this.statbox_1_icn;
 	}
 
 

@@ -34,7 +34,7 @@ public class Video_gestao_de_aplicacaoView extends View {
 		
 		video_1_text = new TextField(model,"video_1_text");
 		video_1_text.setLabel(gt(""));
-		video_1_text.setValue(gt("https://www.youtube.com/embed/v5zFGYK3zV8"));
+		video_1_text.setValue(gt("https://www.youtube.com/embed/jd2ZeM43Lts"));
 		video_1_text.propertie().add("type","text").add("name","p_video_1_text").add("maxlength","4000");
 		
 

@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=154</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=57</preserve_url>
     </plsql>
     <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
@@ -46,7 +46,7 @@
         <video_1 type="video" xml-type="video" title="Como importar o IGRP WEB (GitHub)" gen-type="container" gen-group="">
             <fields>
                 <video_1_text type="text" name="p_video_1_text" persist="true" maxlength="4000">
-                    <value>https://www.youtube.com/embed/ABd-IR3_wsQ?rel=0</value>
+                    <value>https://www.youtube.com/embed/_17K4AoM4c4</value>
                 </video_1_text>
             </fields>
         </video_1>
