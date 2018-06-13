@@ -100,7 +100,7 @@ public class HistoricTaskService extends Activit{
     @SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory(String taskDefinitionKey,String executionId){
 		List<HistoricTaskService> d = new ArrayList<>();
-		Response response = new RestRequest().get("history/historic-task-instances?taskDefinitionKey="+taskDefinitionKey+"&executionId="+executionId+"&includeTaskLocalVariables=true&includeProcessVariables=true");
+		Response response = new RestRequest().get("history/historic-task-instances?taskDefinitionKey="+taskDefinitionKey+"&executionId="+executionId+"&includeTaskLocalVariables=true&includeProcessVariables=true&finished=true");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();

@@ -9,10 +9,14 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.QueryString;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.Response;
@@ -147,7 +151,12 @@ public class WebReportController extends Controller {
 						rts.insert();
 					}
 				}	
-				return this.renderView(FlashMessage.MSG_SUCCESS);
+				XMLWritter xml = new XMLWritter();
+				xml.startElement("rows");
+				xml.addXml(FlashMessage.MSG_SUCCESS);
+				xml.setElement("report_id", rt.getId());
+				xml.endElement();
+				return this.renderView(xml.toString());
 			}
 		}	
 		return this.renderView(FlashMessage.MSG_ERROR);
@@ -157,7 +166,7 @@ public class WebReportController extends Controller {
 	//Faz previsualizacao de report sem usar contra senha
 	public Response actionPreview() throws IOException{
 		/*----#START-PRESERVED-AREA(PREVIEW)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String id = Igrp.getInstance().getRequest().getParameter("p_rep_id");
 		String type = Igrp.getInstance().getRequest().getParameter("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
 		String xml = "";
 		if(Core.isNotNull(id)){
@@ -225,7 +234,7 @@ public class WebReportController extends Controller {
 	
 	//Faz previsualizacao de report usando a contra senha
 	public Response actionGetLinkReport() throws IOException{
-		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
+		String p_code = Igrp.getInstance().getRequest().getParameter("p_rep_code");
 		String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
 		String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 		String params = "";
@@ -235,10 +244,18 @@ public class WebReportController extends Controller {
 			for(String v:value_array)
 				params += ("&value_array="+v);
 		}
-		this.loadQueryString();
+		QueryString<String, Object> extraParams = this.loadQueryString();
+		for(String p:extraParams.getQueryString().keySet()) {
+			if(!p.equalsIgnoreCase("p_rep_code") && !p.equalsIgnoreCase("name_array") && !p.equalsIgnoreCase("value_array") && !p.equalsIgnoreCase("dad"))
+				params += ("&name_array="+p);
+		}
+		for(Entry<String, List<Object>> p:extraParams.getQueryString().entrySet()) {
+			if(!p.getKey().equalsIgnoreCase("p_rep_code") && !p.getKey().equalsIgnoreCase("name_array") && !p.getKey().equalsIgnoreCase("value_array")&& !p.getKey().equalsIgnoreCase("dad"))
+				params += ("&value_array="+p.getValue().get(0));
+		}
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
 		if(rt!=null)
-			return this.redirect("igrp_studio", "WebReport", "preview&p_id="+rt.getId()+"&p_type=1"+params,this.queryString());
+			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params,this.queryString());
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	

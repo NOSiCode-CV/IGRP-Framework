@@ -56,6 +56,7 @@ public class BPMNDesignerController extends Controller {
 		view.formkey.addParam("target","_blank");
 		view.formkey.addParam("formKey", "nome_pagina");
 		view.formkey.addParam("p_formkey", "nome_pagina");
+		view.linkfile.setLabel("Open File");
 		view.id.setParam(true);
 		return this.renderView(view);
 		
