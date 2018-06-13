@@ -19,14 +19,141 @@
 
 		fileEditor.viewr   	 = $('.igrp-fileeditor-tab',dom);
 
+
+		/*function removeEditorsErrors(resize){
+		
+			$('.igrp-fileeditor-coder').remove();
+			
+			$('.server-editor').removeClass('has-error');
+			
+			$('.server-transform').removeClass('has-error');
+			
+			$('.CodeMirror-gutter-wrapper').removeClass('has-error');
+			
+			if(resize)
+				
+				GEN.resizeCodeMirrorArea();
+		}
+
+		function resizeCodeMirrorArea(){
+
+			var h = $(window).height()-86;
+			
+			$('.gen-viewers .cm-s-default').each(function(i,cm){
+				
+				if( $(cm).parent().hasClass('has-error') ){
+						
+					$(cm).height(h-160);
+					
+				}else{
+					
+					$(cm).height(h);
+					
+				}
+				
+			})
+			
+			$('.gen-editor-toolsbar').height( h );
+
+		}
+
+		function showEditorsErrors(jsonRes){
+
+			if(jsonRes.errors){
+												
+				for(var file in jsonRes.errors){
+					
+					var partErrors = jsonRes.errors[file],
+					
+						part 	   = file.split('.java').join(''),
+						
+						menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
+						
+						menuType   = menu.attr('part'),
+						
+						editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
+						
+						errorsW    = $('<div class="gen-editor-errors col-sm-10"><table><tbody/></table></div>');
+					
+					editor.addClass('has-error');
+					
+					menu.addClass('has-error');
+					
+					partErrors.forEach(function(err){
+							
+						GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
+						
+						errorsW.find('tbody').append(
+								
+							'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
+						);				
+						
+					});
+					
+					editor.append(errorsW);
+					
+					GEN.server.activeMenu.editor.refresh();
+				}
+			}
+											
+		}*/
+
 		function Save(){
 
-			var active = GetActiveTab();
+			var active 	= GetActiveTab(),
 
-			var cm = active.pane.find('.CodeMirror')[0].CodeMirror;
+				cm  	= active.pane.find('.CodeMirror')[0].CodeMirror;
+
+			try{
+
+				$.IGRP.utils.submitStringAsFile({
+					pUrl        : $(this).attr('href'),
+					pNotify     : false,
+					pLoading    : true,
+		         	pParam      : {
+		          		pArrayFiles : [{name : 'p_package', value : cm.getValue()}],
+			           	pArrayItem  : [{name : 'p_package_id', value : $(active.li).attr('item-id')}]
+			        },
+					pComplete   :function(req,text,status){
+						var type 	= 'danger',
+							message = req.statusText;
+
+						//removeEditorsErrors(true);
+
+						if (req.status == 200) {
+							type = 'success';
+
+							var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
+							
+							$.each(msgs,function(i,msg){
+										
+								var mtype  	 = $(msg).attr('type'),
+									jsonRes  = JSON.parse($(msg).text());
+									
+								message = jsonRes.msg;
+								type    = mtype == 'error' ? 'danger' : mtype;
+								
+								//showEditorsErrors(jsonRes);
+							});	
+
+							//resizeCodeMirrorArea();	
+						}
+
+						$.IGRP.notify({
+
+							message : $.IGRP.utils.htmlDecode(message),
+
+							type	: type
+
+						});
+					}
+				});
+
+			}catch(e){
+				console.log(e);
+			}
 
 			return false;
-
 		};
 
 		function GetActiveTab(){
@@ -40,6 +167,8 @@
 			$('li.file',fileEditor.menu).on('click',function(){
 
 				var li 		= this,
+
+					fileId  = $(li).attr('file-id'),
 
 					tabID   = 'file-'+$(li).attr('id'),
 
@@ -57,13 +186,15 @@
 
 						fileEditor.viewr.Tab('add-item',{
 
-							id    : tabID,
+							id      : tabID,
 
-							title : name,
+							title   : name,
+
+							ident   : fileId,
 
 							content : GetCodeEditor( { id : tabID, content : d } ),
 
-							active : true
+							active  : true
 
 						});
 
@@ -136,6 +267,7 @@
 			CodeMirror(editr[0], {
 		    	lineNumbers: true,
 		   		matchBrackets: true,
+		   		autofocus:true,
 		   		autoCloseBrackets: true,
 		   		mode: "text/x-java",
 		   		extraKeys: {

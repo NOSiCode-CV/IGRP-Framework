@@ -23,38 +23,38 @@ public class GeralApresentacaoView extends View {
 	public Field quickbuttonbox_gestao_url;
 	public Field quickbuttonbox_gestao_bg;
 	public Field quickbuttonbox_gestao_icn;
-	public Field paragraph_6_text;
-	public Field paragraph_1_text;
-	public Field quickbuttonbox_instalar_tit;
-	public Field quickbuttonbox_instalar_val;
-	public Field quickbuttonbox_instalar_url;
-	public Field quickbuttonbox_instalar_bg;
-	public Field quickbuttonbox_instalar_icn;
-	public Field documento;
-	public Field ver;
-	public Field video_2_text;
-	public Field quickbuttonbox__tit;
-	public Field quickbuttonbox__val;
-	public Field quickbuttonbox__url;
-	public Field quickbuttonbox__bg;
-	public Field quickbuttonbox__icn;
 	public Field statbox_1_tit;
 	public Field statbox_1_val;
 	public Field statbox_1_txt;
 	public Field statbox_1_url;
 	public Field statbox_1_bg;
 	public Field statbox_1_icn;
+	public Field paragraph_1_text;
+	public Field quickbuttonbox_instalar_tit;
+	public Field quickbuttonbox_instalar_val;
+	public Field quickbuttonbox_instalar_url;
+	public Field quickbuttonbox_instalar_bg;
+	public Field quickbuttonbox_instalar_icn;
+	public Field paragraph_6_text;
+	public Field video_2_text;
+	public Field quickbuttonbox__tit;
+	public Field quickbuttonbox__val;
+	public Field quickbuttonbox__url;
+	public Field quickbuttonbox__bg;
+	public Field quickbuttonbox__icn;
+	public Field documento;
+	public Field ver;
 	public IGRPForm sectionheader_2;
 	public IGRPForm tabcontent_1;
 	public IGRPForm sectionheader_1;
 	public IGRPForm quickbuttonbox_gestao;
-	public IGRPForm paragraph_6;
+	public IGRPForm statbox_1;
 	public IGRPForm paragraph_1;
 	public IGRPForm quickbuttonbox_instalar;
-	public IGRPTable table_1;
+	public IGRPForm paragraph_6;
 	public IGRPVideo video_2;
 	public IGRPForm quickbuttonbox_;
-	public IGRPForm statbox_1;
+	public IGRPTable table_1;
 
 
 	public GeralApresentacaoView(){
@@ -69,19 +69,19 @@ public class GeralApresentacaoView extends View {
 
 		quickbuttonbox_gestao = new IGRPForm("quickbuttonbox_gestao","");
 
-		paragraph_6 = new IGRPForm("paragraph_6","Documentos IGRP WEB");
+		statbox_1 = new IGRPForm("statbox_1","");
 
 		paragraph_1 = new IGRPForm("paragraph_1","Tutorial IGRP WEB");
 
 		quickbuttonbox_instalar = new IGRPForm("quickbuttonbox_instalar","");
 
-		table_1 = new IGRPTable("table_1","");
+		paragraph_6 = new IGRPForm("paragraph_6","Documentos IGRP WEB");
 
 		video_2 = new IGRPVideo("video_2","Welcome IGRP WEB Framework");
 
 		quickbuttonbox_ = new IGRPForm("quickbuttonbox_","");
 
-		statbox_1 = new IGRPForm("statbox_1","");
+		table_1 = new IGRPTable("table_1","");
 
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel(gt(""));
@@ -129,78 +129,6 @@ public class GeralApresentacaoView extends View {
 		quickbuttonbox_gestao_icn.setValue(gt("fa-video-camera"));
 		quickbuttonbox_gestao_icn.propertie().add("name","p_quickbuttonbox_gestao_icn").add("type","text").add("maxlength","4000");
 		
-		paragraph_6_text = new TextField(model,"paragraph_6_text");
-		paragraph_6_text.setLabel(gt(""));
-		paragraph_6_text.setValue(gt("Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!"));
-		paragraph_6_text.propertie().add("type","text").add("name","p_paragraph_6_text").add("maxlength","4000");
-		
-		paragraph_1_text = new TextField(model,"paragraph_1_text");
-		paragraph_1_text.setLabel(gt(""));
-		paragraph_1_text.setValue(gt("Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito..."));
-		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
-		
-		quickbuttonbox_instalar_tit = new TextField(model,"quickbuttonbox_instalar_tit");
-		quickbuttonbox_instalar_tit.setLabel(gt("Title"));
-		quickbuttonbox_instalar_tit.setValue(gt("Como importar o IGRP WEB"));
-		quickbuttonbox_instalar_tit.propertie().add("name","p_quickbuttonbox_instalar_tit").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox_instalar_val = new TextField(model,"quickbuttonbox_instalar_val");
-		quickbuttonbox_instalar_val.setLabel(gt("Value"));
-		quickbuttonbox_instalar_val.propertie().add("name","p_quickbuttonbox_instalar_val").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox_instalar_url = new TextField(model,"quickbuttonbox_instalar_url");
-		quickbuttonbox_instalar_url.setLabel(gt(""));
-		quickbuttonbox_instalar_url.setValue(gt("[object Object]"));
-		quickbuttonbox_instalar_url.propertie().add("name","p_quickbuttonbox_instalar_url").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox_instalar_bg = new TextField(model,"quickbuttonbox_instalar_bg");
-		quickbuttonbox_instalar_bg.setLabel(gt("Background"));
-		quickbuttonbox_instalar_bg.setValue(gt("cp-starrynight"));
-		quickbuttonbox_instalar_bg.propertie().add("name","p_quickbuttonbox_instalar_bg").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox_instalar_icn = new TextField(model,"quickbuttonbox_instalar_icn");
-		quickbuttonbox_instalar_icn.setLabel(gt("Icon"));
-		quickbuttonbox_instalar_icn.setValue(gt("fa-video-camera"));
-		quickbuttonbox_instalar_icn.propertie().add("name","p_quickbuttonbox_instalar_icn").add("type","text").add("maxlength","4000");
-		
-		documento = new TextField(model,"documento");
-		documento.setLabel(gt("Documento"));
-		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30");
-		
-		ver = new LinkField(model,"ver");
-		ver.setLabel(gt("Ver"));
-		ver.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
-		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("maxlength","30").add("request_fields","").add("desc","true");
-		
-		video_2_text = new TextField(model,"video_2_text");
-		video_2_text.setLabel(gt(""));
-		video_2_text.setValue(gt("https://www.youtube.com/embed/Xc38EPBydco"));
-		video_2_text.propertie().add("type","text").add("name","p_video_2_text").add("maxlength","4000");
-		
-		quickbuttonbox__tit = new TextField(model,"quickbuttonbox__tit");
-		quickbuttonbox__tit.setLabel(gt("Title"));
-		quickbuttonbox__tit.setValue(gt("My First App"));
-		quickbuttonbox__tit.propertie().add("name","p_quickbuttonbox__tit").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox__val = new TextField(model,"quickbuttonbox__val");
-		quickbuttonbox__val.setLabel(gt("Value"));
-		quickbuttonbox__val.propertie().add("name","p_quickbuttonbox__val").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox__url = new TextField(model,"quickbuttonbox__url");
-		quickbuttonbox__url.setLabel(gt(""));
-		quickbuttonbox__url.setValue(gt("[object Object]"));
-		quickbuttonbox__url.propertie().add("name","p_quickbuttonbox__url").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox__bg = new TextField(model,"quickbuttonbox__bg");
-		quickbuttonbox__bg.setLabel(gt("Background"));
-		quickbuttonbox__bg.setValue(gt("cp-starrynight"));
-		quickbuttonbox__bg.propertie().add("name","p_quickbuttonbox__bg").add("type","text").add("maxlength","4000");
-		
-		quickbuttonbox__icn = new TextField(model,"quickbuttonbox__icn");
-		quickbuttonbox__icn.setLabel(gt("Icon"));
-		quickbuttonbox__icn.setValue(gt("fa-video-camera"));
-		quickbuttonbox__icn.propertie().add("name","p_quickbuttonbox__icn").add("type","text").add("maxlength","4000");
-		
 		statbox_1_tit = new TextField(model,"statbox_1_tit");
 		statbox_1_tit.setLabel(gt("Box Title"));
 		statbox_1_tit.setValue(gt("FAQ"));
@@ -231,6 +159,78 @@ public class GeralApresentacaoView extends View {
 		statbox_1_icn.setValue(gt("fa-external-link"));
 		statbox_1_icn.propertie().add("name","p_statbox_1_icn").add("type","text").add("maxlength","4000");
 		
+		paragraph_1_text = new TextField(model,"paragraph_1_text");
+		paragraph_1_text.setLabel(gt(""));
+		paragraph_1_text.setValue(gt("Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito..."));
+		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
+		
+		quickbuttonbox_instalar_tit = new TextField(model,"quickbuttonbox_instalar_tit");
+		quickbuttonbox_instalar_tit.setLabel(gt("Title"));
+		quickbuttonbox_instalar_tit.setValue(gt("Como importar o IGRP WEB"));
+		quickbuttonbox_instalar_tit.propertie().add("name","p_quickbuttonbox_instalar_tit").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox_instalar_val = new TextField(model,"quickbuttonbox_instalar_val");
+		quickbuttonbox_instalar_val.setLabel(gt("Value"));
+		quickbuttonbox_instalar_val.propertie().add("name","p_quickbuttonbox_instalar_val").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox_instalar_url = new TextField(model,"quickbuttonbox_instalar_url");
+		quickbuttonbox_instalar_url.setLabel(gt(""));
+		quickbuttonbox_instalar_url.setValue(gt("[object Object]"));
+		quickbuttonbox_instalar_url.propertie().add("name","p_quickbuttonbox_instalar_url").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox_instalar_bg = new TextField(model,"quickbuttonbox_instalar_bg");
+		quickbuttonbox_instalar_bg.setLabel(gt("Background"));
+		quickbuttonbox_instalar_bg.setValue(gt("cp-starrynight"));
+		quickbuttonbox_instalar_bg.propertie().add("name","p_quickbuttonbox_instalar_bg").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox_instalar_icn = new TextField(model,"quickbuttonbox_instalar_icn");
+		quickbuttonbox_instalar_icn.setLabel(gt("Icon"));
+		quickbuttonbox_instalar_icn.setValue(gt("fa-video-camera"));
+		quickbuttonbox_instalar_icn.propertie().add("name","p_quickbuttonbox_instalar_icn").add("type","text").add("maxlength","4000");
+		
+		paragraph_6_text = new TextField(model,"paragraph_6_text");
+		paragraph_6_text.setLabel(gt(""));
+		paragraph_6_text.setValue(gt("Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!"));
+		paragraph_6_text.propertie().add("type","text").add("name","p_paragraph_6_text").add("maxlength","4000");
+		
+		video_2_text = new TextField(model,"video_2_text");
+		video_2_text.setLabel(gt(""));
+		video_2_text.setValue(gt("https://www.youtube.com/embed/Xc38EPBydco"));
+		video_2_text.propertie().add("type","text").add("name","p_video_2_text").add("maxlength","4000");
+		
+		quickbuttonbox__tit = new TextField(model,"quickbuttonbox__tit");
+		quickbuttonbox__tit.setLabel(gt("Title"));
+		quickbuttonbox__tit.setValue(gt("My First App, config DB, Crud"));
+		quickbuttonbox__tit.propertie().add("name","p_quickbuttonbox__tit").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox__val = new TextField(model,"quickbuttonbox__val");
+		quickbuttonbox__val.setLabel(gt("Value"));
+		quickbuttonbox__val.propertie().add("name","p_quickbuttonbox__val").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox__url = new TextField(model,"quickbuttonbox__url");
+		quickbuttonbox__url.setLabel(gt(""));
+		quickbuttonbox__url.setValue(gt("[object Object]"));
+		quickbuttonbox__url.propertie().add("name","p_quickbuttonbox__url").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox__bg = new TextField(model,"quickbuttonbox__bg");
+		quickbuttonbox__bg.setLabel(gt("Background"));
+		quickbuttonbox__bg.setValue(gt("cp-starrynight"));
+		quickbuttonbox__bg.propertie().add("name","p_quickbuttonbox__bg").add("type","text").add("maxlength","4000");
+		
+		quickbuttonbox__icn = new TextField(model,"quickbuttonbox__icn");
+		quickbuttonbox__icn.setLabel(gt("Icon"));
+		quickbuttonbox__icn.setValue(gt("fa-video-camera"));
+		quickbuttonbox__icn.propertie().add("name","p_quickbuttonbox__icn").add("type","text").add("maxlength","4000");
+		
+		documento = new TextField(model,"documento");
+		documento.setLabel(gt("Documento"));
+		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30");
+		
+		ver = new LinkField(model,"ver");
+		ver.setLabel(gt("Ver"));
+		ver.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
+		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("maxlength","30").add("request_fields","").add("desc","true");
+		
 
 
 		
@@ -253,7 +253,12 @@ public class GeralApresentacaoView extends View {
 		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_bg);
 		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_icn);
 
-		paragraph_6.addField(paragraph_6_text);
+		statbox_1.addField(statbox_1_tit);
+		statbox_1.addField(statbox_1_val);
+		statbox_1.addField(statbox_1_txt);
+		statbox_1.addField(statbox_1_url);
+		statbox_1.addField(statbox_1_bg);
+		statbox_1.addField(statbox_1_icn);
 
 		paragraph_1.addField(paragraph_1_text);
 
@@ -263,8 +268,7 @@ public class GeralApresentacaoView extends View {
 		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_bg);
 		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_icn);
 
-		table_1.addField(documento);
-		table_1.addField(ver);
+		paragraph_6.addField(paragraph_6_text);
 
 		video_2.addField(video_2_text);
 
@@ -274,24 +278,20 @@ public class GeralApresentacaoView extends View {
 		quickbuttonbox_.addField(quickbuttonbox__bg);
 		quickbuttonbox_.addField(quickbuttonbox__icn);
 
-		statbox_1.addField(statbox_1_tit);
-		statbox_1.addField(statbox_1_val);
-		statbox_1.addField(statbox_1_txt);
-		statbox_1.addField(statbox_1_url);
-		statbox_1.addField(statbox_1_bg);
-		statbox_1.addField(statbox_1_icn);
+		table_1.addField(documento);
+		table_1.addField(ver);
 
 		this.addToPage(sectionheader_2);
 		this.addToPage(tabcontent_1);
 		this.addToPage(sectionheader_1);
 		this.addToPage(quickbuttonbox_gestao);
-		this.addToPage(paragraph_6);
+		this.addToPage(statbox_1);
 		this.addToPage(paragraph_1);
 		this.addToPage(quickbuttonbox_instalar);
-		this.addToPage(table_1);
+		this.addToPage(paragraph_6);
 		this.addToPage(video_2);
 		this.addToPage(quickbuttonbox_);
-		this.addToPage(statbox_1);
+		this.addToPage(table_1);
 	}
 		
 	@Override
@@ -302,9 +302,9 @@ public class GeralApresentacaoView extends View {
 		documentos_gerais.setValue(model);
 		quickbuttonbox_gestao_val.setValue(model);
 		quickbuttonbox_instalar_val.setValue(model);
+		quickbuttonbox__val.setValue(model);
 		documento.setValue(model);
-		ver.setValue(model);
-		quickbuttonbox__val.setValue(model);	
+		ver.setValue(model);	
 
 		table_1.loadModel(((GeralApresentacao) model).getTable_1());
 		

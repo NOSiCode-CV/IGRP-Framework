@@ -53,9 +53,11 @@
 
 							nm = o.name  ? ' item-name="'+o.name+'"' : '',
 
+							nd = o.ident ? ' item-id="'+o.ident+'"' : '',
+
 							ct = o.content ? typeof o.content == 'function' ? o.content() : o.content : '';
 
-							li = $('<li '+nm+'><a data-toggle="tab" href="#'+id+'">'+tt+'</a></li>'),
+							li = $('<li '+nm+' '+nd+'><a data-toggle="tab" href="#'+id+'">'+tt+'</a></li>'),
 
 							bd = $('<div id="'+id+'" class="tab-pane"></div>');
 
