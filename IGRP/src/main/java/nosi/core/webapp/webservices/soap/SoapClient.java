@@ -63,7 +63,7 @@ public class SoapClient {
 		}
 	}
 	
-	public Map<String, Object> getResponseBody() {
+	public Map<String, Object> getResponseBody(String nsName) {
 		Map<String, Object> result = null;
 		try {
 			ToMap toMap = new ToMap();
@@ -74,9 +74,9 @@ public class SoapClient {
 			result = toMap.convertToMap(xml); 
 			
 			if(result != null && !result.isEmpty()) 
-				result = (Map<String, Object>) result.get("soap:Envelope");
+				result = (Map<String, Object>) result.get(nsName + ":Envelope");
 				if(result != null && !result.isEmpty()) 
-					result = (Map<String, Object>) result.get("soap:Body");
+					result = (Map<String, Object>) result.get(nsName + ":Body");
 				
 		}catch(Exception e) {
 			errors.add(e.getMessage());
@@ -85,7 +85,7 @@ public class SoapClient {
 		return result;
 	}
 	
-	public Map<String, Object> getResponseHeader() {
+	public Map<String, Object> getResponseHeader(String nsName) {
 		Map<String, Object> result = null;
 		try {
 			ToMap toMap = new ToMap();
@@ -96,9 +96,9 @@ public class SoapClient {
 			result = toMap.convertToMap(xml); 
 			
 			if(result != null && !result.isEmpty()) 
-				result = (Map<String, Object>) result.get("soap:Envelope");
+				result = (Map<String, Object>) result.get(nsName + ":Envelope");
 				if(result != null && !result.isEmpty()) 
-					result = (Map<String, Object>) result.get("soap:Header");
+					result = (Map<String, Object>) result.get(nsName + ":Header");
 				
 		}catch(Exception e) {
 			errors.add(e.getMessage());
@@ -143,11 +143,6 @@ public class SoapClient {
 						e.printStackTrace();
 					}
 	   	    	});
-	   	  
-	   	 if(this.headers != null)
-		    	this.headers.forEach((k,v)->{
-		    		request.getMimeHeaders().addHeader(k, v);
-		    	});
 	   	    
 			SOAPBody soapBody = soapEnvelope.getBody();
 			
