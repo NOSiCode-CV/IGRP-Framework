@@ -16,7 +16,7 @@ public class Report extends Controller{
 	
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep){
-		qs+="&p_code="+code_report;
+		qs+="&p_rep_code="+code_report;
 		if(rep!=null){
 			rep.getParams().entrySet().stream().filter(p->!(p.getValue() instanceof List)).forEach(p->{
 				if(p.getValue()!=null && !p.getValue().toString().equals("?"))
@@ -36,7 +36,7 @@ public class Report extends Controller{
 		return null;
 	}
 	public String getLinkReport(String code_report){
-		return this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_code="+code_report;
+		return this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report;
 	}
 	
 	public static Response getLinkReport(String code_report,Report rep){

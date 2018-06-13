@@ -229,6 +229,8 @@ $(function ($) {
 										complete : function(c){
 											$(loading,tab).remove();
 											$.WR.document.info.show();
+											if ($.WR.id)
+												$('#list-reports #'+$.WR.id+' .linkReports').click();
 										},
 										error 	 : function(c){
 											$(loading,tab).remove();
@@ -396,7 +398,7 @@ $(function ($) {
 
 	    					try {
 						      var successful = document.execCommand('copy');
-						      var msg = successful ? 'Copiado!' : 'Não Copiado!';
+						      var msg = successful ? 'Copiado!' : 'NГЈo Copiado!';
 						      $('i',$(this)).attr('data-original-title', msg).tooltip('show');
 
 						    } catch (err) {
@@ -572,7 +574,7 @@ $(function ($) {
 
 			      				$('#igrp-app-title').html($.WR.title);
 			      				$.WR.objApp.change();
-			      				//$.WR.id =  get id in c
+			      				$.WR.id	= $($.parseXML(rq.response)).find('report_id').text();
 			      			}
 
 			      			/*if($.WR.isPreview){
@@ -651,10 +653,10 @@ $(function ($) {
 				        	});
 				        } else {
 				        	if ($.WR.title && $.WR.title != undefined) {
-				        		saveDoc.fields.push({name:'p_title',value:$.WR.title});
+				        		saveDoc.fields.push({name : wr_nameInputTitle, value : $.WR.title});
 
 				        		if($.WR.code && $.WR.code != undefined)
-				        			saveDoc.fields.push({name:'p_code',value:$.WR.code});
+				        			saveDoc.fields.push({name : wr_nameInputCode, value : $.WR.code});
 
 				        		$.WR.document.save({
 				        			url 	: p.url,
@@ -686,7 +688,7 @@ $(function ($) {
 				$.IGRP.targets['alert_submit'].action = function(p){
 					if ($.WR.id && $.WR.id != '') {
 						$.WR.keys = [];
-						var url 	= $.IGRP.utils.getUrl(p.url)+'p_id='+$.WR.id,
+						var url 	= $.IGRP.utils.getUrl(p.url)+'p_rep_id='+$.WR.id,
 							content = '<div class="row reporttitle">';
 
 						$('#datasorce .btn input:checked').each(function(ikey,ekey){// get key
@@ -764,7 +766,7 @@ $(function ($) {
 						//$('a[target="submit"]').click();
 
 						$.IGRP.notify({
-							message : 'Documento não foi gravado!!',
+							message : 'Documento nГЈo foi gravado!!',
 							type	: 'info'
 						});
 					}
