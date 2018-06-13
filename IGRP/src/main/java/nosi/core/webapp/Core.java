@@ -1771,5 +1771,19 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
-
+	
+	/**
+	 * @param wsdlUrl The webservice description language url 
+	 * @param headers A Map of soap request headers 
+	 * @param bodyContent String of raw request envelope 
+	 * @return SoapClient object 
+	 */
+	public static SoapClient soapClient(String wsdlUrl, Map<String, String> headers, String rawEnvelope) {
+		SoapClient sc = new SoapClient(wsdlUrl);
+		sc.setHeaders(headers);
+		sc.doRequest(rawEnvelope);
+		sc.call();
+		return sc;
+	}
+	
 }
