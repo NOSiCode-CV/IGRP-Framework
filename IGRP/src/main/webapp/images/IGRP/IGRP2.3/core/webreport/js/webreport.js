@@ -398,7 +398,7 @@ $(function ($) {
 
 	    					try {
 						      var successful = document.execCommand('copy');
-						      var msg = successful ? 'Copiado!' : 'NГЈo Copiado!';
+						      var msg = successful ? 'Copiado!' : 'Não Copiado!';
 						      $('i',$(this)).attr('data-original-title', msg).tooltip('show');
 
 						    } catch (err) {
@@ -766,7 +766,7 @@ $(function ($) {
 						//$('a[target="submit"]').click();
 
 						$.IGRP.notify({
-							message : 'Documento nГЈo foi gravado!!',
+							message : 'Documento não foi gravado!!',
 							type	: 'info'
 						});
 					}
