@@ -165,7 +165,7 @@ public class Config {
 	}
 
 	public String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v.180604";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v.180614";
 	}
 	public String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";
