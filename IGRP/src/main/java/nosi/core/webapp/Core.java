@@ -1162,7 +1162,7 @@ public final class Core { // Not inherit
 	public static Report getLinkReport(String code_report) {
 		return new Report().getLinkReport(code_report);
 	}
-
+	
 	public static String getLinkFile(String p_id) {
 		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}

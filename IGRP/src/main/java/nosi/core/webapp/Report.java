@@ -61,6 +61,17 @@ public class Report extends Controller{
 	public void setLink(String link) {
 		this.link = link;
 	}
+
+	public Report getLinkReport(String code_report, QueryString<String, Object> queryString) {
+		Report rep = new Report();
+		rep.setLink(this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
+		if(queryString!=null) {
+			queryString.getQueryString().entrySet().stream().forEach(q->{
+				rep.addParam(q.getKey(), q.getValue().get(0));
+			});
+		}
+		return rep;
+	}
 	
 	
 }
