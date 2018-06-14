@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -15,15 +17,15 @@ public class Gestaodeacesso extends Model{
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 	@RParam(rParamName = "p_adicionar_organica")
-	private String adicionar_organica;
+	private IGRPLink adicionar_organica;
 	@RParam(rParamName = "p_adicionar_organica_desc")
 	private String adicionar_organica_desc;
 	@RParam(rParamName = "p_gestao_de_utilizadores")
-	private String gestao_de_utilizadores;
+	private IGRPLink gestao_de_utilizadores;
 	@RParam(rParamName = "p_gestao_de_utilizadores_desc")
 	private String gestao_de_utilizadores_desc;
 	@RParam(rParamName = "p_gestao_de_menu")
-	private String gestao_de_menu;
+	private IGRPLink gestao_de_menu;
 	@RParam(rParamName = "p_gestao_de_menu_desc")
 	private String gestao_de_menu_desc;
 	
@@ -67,10 +69,11 @@ public class Gestaodeacesso extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setAdicionar_organica(String app,String page,String action){
-		this.adicionar_organica = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setAdicionar_organica(String app,String page,String action){
+		this.adicionar_organica = new IGRPLink(app,page,action);
+		return this.adicionar_organica;
 	}
-	public String getAdicionar_organica(){
+	public IGRPLink getAdicionar_organica(){
 		return this.adicionar_organica;
 	}
 	public void setAdicionar_organica_desc(String adicionar_organica_desc){
@@ -79,11 +82,16 @@ public class Gestaodeacesso extends Model{
 	public String getAdicionar_organica_desc(){
 		return this.adicionar_organica_desc;
 	}
-	
-	public void setGestao_de_utilizadores(String app,String page,String action){
-		this.gestao_de_utilizadores = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setAdicionar_organica(String link){
+		this.adicionar_organica = new IGRPLink(link);
+		return this.adicionar_organica;
 	}
-	public String getGestao_de_utilizadores(){
+	
+	public IGRPLink setGestao_de_utilizadores(String app,String page,String action){
+		this.gestao_de_utilizadores = new IGRPLink(app,page,action);
+		return this.gestao_de_utilizadores;
+	}
+	public IGRPLink getGestao_de_utilizadores(){
 		return this.gestao_de_utilizadores;
 	}
 	public void setGestao_de_utilizadores_desc(String gestao_de_utilizadores_desc){
@@ -92,11 +100,16 @@ public class Gestaodeacesso extends Model{
 	public String getGestao_de_utilizadores_desc(){
 		return this.gestao_de_utilizadores_desc;
 	}
-	
-	public void setGestao_de_menu(String app,String page,String action){
-		this.gestao_de_menu = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setGestao_de_utilizadores(String link){
+		this.gestao_de_utilizadores = new IGRPLink(link);
+		return this.gestao_de_utilizadores;
 	}
-	public String getGestao_de_menu(){
+	
+	public IGRPLink setGestao_de_menu(String app,String page,String action){
+		this.gestao_de_menu = new IGRPLink(app,page,action);
+		return this.gestao_de_menu;
+	}
+	public IGRPLink getGestao_de_menu(){
 		return this.gestao_de_menu;
 	}
 	public void setGestao_de_menu_desc(String gestao_de_menu_desc){
@@ -105,13 +118,17 @@ public class Gestaodeacesso extends Model{
 	public String getGestao_de_menu_desc(){
 		return this.gestao_de_menu_desc;
 	}
+	public IGRPLink setGestao_de_menu(String link){
+		this.gestao_de_menu = new IGRPLink(link);
+		return this.gestao_de_menu;
+	}
 
 
-	public static class Org_table{
+	public static class Org_table extends IGRPTable.Table{
 		private int estado;
 		private int estado_check;
 		private String org_nome;
-		private String mostrar_perfis;
+		private IGRPLink mostrar_perfis;
 		private String mostrar_perfis_desc;
 		private String id;
 		public void setEstado(int estado){
@@ -134,10 +151,11 @@ public class Gestaodeacesso extends Model{
 			return this.org_nome;
 		}
 
-		public void setMostrar_perfis(String app,String page,String action){
-			this.mostrar_perfis = new Config().getResolveUrl(app, page, action);
+		public IGRPLink setMostrar_perfis(String app,String page,String action){
+			this.mostrar_perfis = new IGRPLink(app,page,action);
+			return this.mostrar_perfis;
 		}
-		public String getMostrar_perfis(){
+		public IGRPLink getMostrar_perfis(){
 			return this.mostrar_perfis;
 		}
 		public void setMostrar_perfis_desc(String mostrar_perfis_desc){
@@ -146,6 +164,10 @@ public class Gestaodeacesso extends Model{
 		public String getMostrar_perfis_desc(){
 			return this.mostrar_perfis_desc;
 		}
+	public IGRPLink setMostrar_perfis(String link){
+		this.mostrar_perfis = new IGRPLink(link);
+		return this.mostrar_perfis;
+	}
 
 		public void setId(String id){
 			this.id = id;
