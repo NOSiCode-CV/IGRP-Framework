@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorlist/COLABORADORList.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>COLABORADORList</page>
+    <app>human_resources</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>nosi.webapps.human_resources.pages</package_db>
+        <package_html>COLABORADORList</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=75</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Listar Colaborador</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="new">
+                <title>New</title>
+                <app>human_resources</app>
+                <page>COLABORADORForm</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorform/COLABORADORForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" title="Listar COLABORADOR" gen-type="container" gen-group="true">
+            <fields>
+                <id name="p_id" type="number" maxlength="39" iskey="true" align="left" lookup_parser="false" total_footer="false" min="" max="">
+                    <label>Id</label>
+                </id>
+                <codigo name="p_codigo" type="text" maxlength="20" align="left" lookup_parser="false" iskey="false">
+                    <label>Codigo</label>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
+                <dt_nasc name="p_dt_nasc" type="date" range="false" maxlength="7" align="left" lookup_parser="false" iskey="false">
+                    <label>Data Nascimento</label>
+                </dt_nasc>
+                <dt_ini_act name="p_dt_ini_act" type="date" range="false" maxlength="7" align="left" lookup_parser="false" iskey="false">
+                    <label>Data Inicio Empresa</label>
+                </dt_ini_act>
+                <id_depart name="p_id_depart" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Departamento</label>
+                </id_depart>
+                <id_equipe name="p_id_equipe" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Equipe</label>
+                </id_equipe>
+                <id_atrib name="p_id_atrib" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Atribuicao</label>
+                </id_atrib>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">36</id>
+                        <codigo name="p_codigo">Sed sit sed omnis do</codigo>
+                        <nome name="p_nome">Aliqua officia consectetur anim totam</nome>
+                        <dt_nasc name="p_dt_nasc"/>
+                        <dt_ini_act name="p_dt_ini_act"/>
+                        <id_depart name="p_id_depart">Amet omnis elit unde rem</id_depart>
+                        <id_equipe name="p_id_equipe">Ut voluptatem consectetur officia deserunt</id_equipe>
+                        <id_atrib name="p_id_atrib">Lorem totam dolor iste totam</id_atrib>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">26</id>
+                        <codigo name="p_codigo">Perspiciatis totam l</codigo>
+                        <nome name="p_nome">Elit amet magna sit aliqua</nome>
+                        <dt_nasc name="p_dt_nasc"/>
+                        <dt_ini_act name="p_dt_ini_act"/>
+                        <id_depart name="p_id_depart">Ut rem voluptatem anim ut</id_depart>
+                        <id_equipe name="p_id_equipe">Adipiscing unde consectetur perspiciatis stract</id_equipe>
+                        <id_atrib name="p_id_atrib">Sit lorem sed sit stract</id_atrib>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">3</id>
+                        <codigo name="p_codigo">Unde voluptatem aliq</codigo>
+                        <nome name="p_nome">Perspiciatis totam deserunt sit doloremque</nome>
+                        <dt_nasc name="p_dt_nasc"/>
+                        <dt_ini_act name="p_dt_ini_act"/>
+                        <id_depart name="p_id_depart">Magna rem stract mollit doloremque</id_depart>
+                        <id_equipe name="p_id_equipe">Deserunt sed unde sed perspiciatis</id_equipe>
+                        <id_atrib name="p_id_atrib">Laudantium lorem ut sed anim</id_atrib>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">8</id>
+                        <codigo name="p_codigo">Lorem sed adipiscing</codigo>
+                        <nome name="p_nome">Magna laudantium rem sit adipiscing</nome>
+                        <dt_nasc name="p_dt_nasc"/>
+                        <dt_ini_act name="p_dt_ini_act"/>
+                        <id_depart name="p_id_depart">Aliqua totam aperiam elit ipsum</id_depart>
+                        <id_equipe name="p_id_equipe">Deserunt aliqua unde iste doloremque</id_equipe>
+                        <id_atrib name="p_id_atrib">Labore amet sit officia dolor</id_atrib>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">20</id>
+                        <codigo name="p_codigo">Consectetur officia</codigo>
+                        <nome name="p_nome">Ut deserunt lorem sed officia</nome>
+                        <dt_nasc name="p_dt_nasc"/>
+                        <dt_ini_act name="p_dt_ini_act"/>
+                        <id_depart name="p_id_depart">Amet ut unde totam amet</id_depart>
+                        <id_equipe name="p_id_equipe">Amet mollit natus adipiscing laudantium</id_equipe>
+                        <id_atrib name="p_id_atrib">Sit totam dolor aperiam sit</id_atrib>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="update">
+                        <title>Update</title>
+                        <app>human_resources</app>
+                        <page>COLABORADORForm</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorform/COLABORADORForm.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="delete">
+                        <title>Delete</title>
+                        <app>human_resources</app>
+                        <page>COLABORADORList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorlist/COLABORADORList.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

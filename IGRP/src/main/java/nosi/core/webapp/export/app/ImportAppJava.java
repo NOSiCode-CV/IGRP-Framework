@@ -260,8 +260,12 @@ public class ImportAppJava {
 			action.setApplication(this.app);
 			
 			Modulo modulo = new Modulo();
-			modulo.setId(page.getModule_fk());
-			action.setModulo(modulo);
+			if(page.getModule_fk() != 0) {
+				modulo.setId(page.getModule_fk());
+				action.setModulo(modulo);
+			}else {
+				action.setModulo(null);
+			}
 			
 			action = action.insert();
 		}
