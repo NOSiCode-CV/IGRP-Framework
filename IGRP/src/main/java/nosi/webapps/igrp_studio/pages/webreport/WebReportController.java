@@ -9,14 +9,10 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.QueryString;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.Response;
@@ -244,15 +240,9 @@ public class WebReportController extends Controller {
 			for(String v:value_array)
 				params += ("&value_array="+v);
 		}
-		QueryString<String, Object> extraParams = this.loadQueryString();
-		for(String p:extraParams.getQueryString().keySet()) {
-			if(!p.equalsIgnoreCase("p_rep_code") && !p.equalsIgnoreCase("name_array") && !p.equalsIgnoreCase("value_array") && !p.equalsIgnoreCase("dad"))
-				params += ("&name_array="+p);
-		}
-		for(Entry<String, List<Object>> p:extraParams.getQueryString().entrySet()) {
-			if(!p.getKey().equalsIgnoreCase("p_rep_code") && !p.getKey().equalsIgnoreCase("name_array") && !p.getKey().equalsIgnoreCase("value_array")&& !p.getKey().equalsIgnoreCase("dad"))
-				params += ("&value_array="+p.getValue().get(0));
-		}
+		this.loadQueryString();
+		this.removeQueryString("name_array");
+		this.removeQueryString("value_array");
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
 		if(rt!=null)
 			return this.redirect("igrp_studio", "WebReport", "preview&p_rep_id="+rt.getId()+"&p_type=1"+params,this.queryString());

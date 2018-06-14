@@ -52,6 +52,8 @@
         	<xsl:text>import nosi.core.config.Config;</xsl:text>
         	 <xsl:value-of select="$newline"/>
         	<xsl:text>import nosi.core.gui.components.IGRPLink;</xsl:text>
+        	 <xsl:value-of select="$newline"/>
+        	<xsl:text>import nosi.core.webapp.Report;</xsl:text>
         </xsl:if>
     </xsl:variable>
     

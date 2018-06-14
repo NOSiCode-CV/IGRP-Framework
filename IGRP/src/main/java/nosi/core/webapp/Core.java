@@ -1159,7 +1159,7 @@ public final class Core { // Not inherit
 		return new Report().invokeReport(code_report, rep);
 	}
 
-	public static String getLinkReport(String code_report) {
+	public static Report getLinkReport(String code_report) {
 		return new Report().getLinkReport(code_report);
 	}
 

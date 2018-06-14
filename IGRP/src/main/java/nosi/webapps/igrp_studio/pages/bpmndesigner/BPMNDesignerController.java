@@ -138,6 +138,7 @@ public class BPMNDesignerController extends Controller {
 			ac.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".process."+task.getProcessDefinitionId().toLowerCase());
 			ac.setVersion("2.3");
 			ac.setAction("index");
+			ac.setProcessKey(task.getProcessDefinitionId().toLowerCase());
 			ac.setIsComponent((short) 2);
 			ac.insert();
 		}else {

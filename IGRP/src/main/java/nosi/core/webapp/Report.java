@@ -13,6 +13,7 @@ public class Report extends Controller{
 
 	private Map<String,Object> params = new HashMap<>();
 	private String qs = "";
+	private String link;
 	
 	@SuppressWarnings("unchecked")
 	public Response invokeReport(String code_report,Report rep){
@@ -35,8 +36,11 @@ public class Report extends Controller{
 		}
 		return null;
 	}
-	public String getLinkReport(String code_report){
-		return this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report;
+	
+	public Report getLinkReport(String code_report){
+		Report rep = new Report();
+		rep.setLink(this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
+		return rep;
 	}
 	
 	public static Response getLinkReport(String code_report,Report rep){
@@ -51,4 +55,12 @@ public class Report extends Controller{
 	public Map<String, Object> getParams() {
 		return params;
 	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	
+	
 }

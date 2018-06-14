@@ -4,8 +4,10 @@ package nosi.core.gui.components;
  * 28 Mar 2018
  */
 
+
 import nosi.core.config.Config;
 import nosi.core.webapp.QueryString;
+import nosi.core.webapp.Report;
 
 public class IGRPLink {
 
@@ -13,6 +15,8 @@ public class IGRPLink {
 	private String page;
 	private String action;	
 	private String link = "";
+	private Report report;
+	
 	private QueryString<String,Object> queryString;
 
 	public IGRPLink() {
@@ -28,6 +32,10 @@ public class IGRPLink {
 	public IGRPLink(String link) {
 		this();
 		this.link = link;
+	}
+	public IGRPLink(Report report) {
+		this();
+		this.report = report;
 	}
 	public String getApp() {
 		return app;
@@ -59,6 +67,13 @@ public class IGRPLink {
 	}
 	
 	public String getLink() {
+		if(this.report!=null) {
+			this.link = this.report.getLink();
+			this.report.getParams().entrySet().stream().forEach(p->{
+				link += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
+			});
+			return link;
+		}
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
 			this.queryString.getQueryString().entrySet().stream().forEach(q->{
 				q.getValue().stream().forEach(q1->{

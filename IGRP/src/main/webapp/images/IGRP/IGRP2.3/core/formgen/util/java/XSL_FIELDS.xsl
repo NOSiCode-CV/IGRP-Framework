@@ -422,6 +422,18 @@
 							<xsl:value-of select="$newline"/>
 					  	    <xsl:value-of select="$tab"/>
 		    			<xsl:value-of select="'}'" />	
+						<xsl:value-of select="$newline"/>
+				  	    <xsl:value-of select="$tab"/>
+		    			<xsl:value-of select="concat('public IGRPLink set',$name_,'(Report link){')" />
+							<xsl:value-of select="$newline"/>
+					  	    <xsl:value-of select="$tab2"/>
+		    				<xsl:value-of select="concat('this.',$name,' = new IGRPLink(link);')" />
+							<xsl:value-of select="$newline"/>
+					  	    <xsl:value-of select="$tab2"/>
+					  	    <xsl:value-of select="concat('return this.',$name,';')"/>
+							<xsl:value-of select="$newline"/>
+					  	    <xsl:value-of select="$tab"/>
+		    			<xsl:value-of select="'}'" />	
 		    		</xsl:when>
 		    		<xsl:otherwise>
 		    			<xsl:call-template name="genMethod-Get-Set">
