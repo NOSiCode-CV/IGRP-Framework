@@ -16,6 +16,8 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
 import java.sql.Date;
@@ -281,9 +283,21 @@ public class DataSourceController extends Controller {
 		Field email_atual = new TextField(null,"p_email_atual");
 		email_atual.setValue(Core.getCurrentUser().getEmail());
 		
+		Field application = new TextField(null,"p_application");
+		application.setValue(Core.getCurrentApp().getName());
+
+		Field organization = new TextField(null,"p_organization");
+		organization.setValue(new Organization().findOne(Core.getCurrentOrganization()).getName());
+
+		Field profile = new TextField(null,"p_profile");
+		profile.setValue(new ProfileType().findOne(Core.getCurrentProfile()).getDescr());
+		
 		fields.add(user_atual);
 		fields.add(data_atual);
 		fields.add(email_atual);
+		fields.add(organization);
+		fields.add(profile);
+		fields.add(application);
 		return fields;
 	}
 	

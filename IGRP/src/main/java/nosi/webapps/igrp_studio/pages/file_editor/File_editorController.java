@@ -30,6 +30,7 @@ public class File_editorController extends Controller {
 		/*----#start-code(index)----*/
 		model.setJson_data("igrp_studio", "File_editor", "get-json").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
 		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file");
+		view.save_url.setLabel("Save");
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
