@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorlist/INDICADORList.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>INDICADORList</page>
+    <app>human_resources</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>nosi.webapps.human_resources.pages</package_db>
+        <package_html>INDICADORList</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=73</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Listar Indicador</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="new">
+                <title>New</title>
+                <app>human_resources</app>
+                <page>INDICADORForm</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorform/INDICADORForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" title="Listar INDICADOR" gen-type="container" gen-group="true">
+            <fields>
+                <id_tp_indicador name="p_id_tp_indicador" type="text" maxlength="60" align="left" lookup_parser="false" iskey="false">
+                    <label>Tipo Indicador</label>
+                </id_tp_indicador>
+                <id_atrib name="p_id_atrib" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Atribuicao</label>
+                </id_atrib>
+                <codigo name="p_codigo" type="text" maxlength="20" align="left" lookup_parser="false" iskey="false">
+                    <label>Codigo</label>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
+                <descricao name="p_descricao" type="text" maxlength="300" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao>
+                <id_area name="p_id_area" type="text" maxlength="50" align="left" lookup_parser="false" iskey="false">
+                    <label>Area</label>
+                </id_area>
+                <id name="p_id" type="hidden" maxlength="39" iskey="true" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id_tp_indicador name="p_id_tp_indicador">Sit perspiciatis totam voluptatem magna</id_tp_indicador>
+                        <id_atrib name="p_id_atrib">Voluptatem laudantium omnis totam aliqua</id_atrib>
+                        <codigo name="p_codigo">Rem aliqua accusanti</codigo>
+                        <nome name="p_nome">Sit laudantium iste perspiciatis accusantium</nome>
+                        <descricao name="p_descricao">Laudantium sed aliqua sit elit</descricao>
+                        <id_area name="p_id_area">Rem laudantium officia anim aperiam</id_area>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id_tp_indicador name="p_id_tp_indicador">Ut adipiscing consectetur totam labore</id_tp_indicador>
+                        <id_atrib name="p_id_atrib">Ut labore aperiam iste totam</id_atrib>
+                        <codigo name="p_codigo">Voluptatem rem accus</codigo>
+                        <nome name="p_nome">Elit labore elit ut deserunt</nome>
+                        <descricao name="p_descricao">Totam officia totam deserunt voluptatem</descricao>
+                        <id_area name="p_id_area">Voluptatem natus voluptatem iste ipsum</id_area>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id_tp_indicador name="p_id_tp_indicador">Sit anim ipsum unde sit</id_tp_indicador>
+                        <id_atrib name="p_id_atrib">Perspiciatis adipiscing amet magna sit</id_atrib>
+                        <codigo name="p_codigo">Omnis natus aliqua a</codigo>
+                        <nome name="p_nome">Officia omnis mollit sit rem</nome>
+                        <descricao name="p_descricao">Doloremque ipsum officia ipsum sit</descricao>
+                        <id_area name="p_id_area">Perspiciatis magna adipiscing laudantium dolor</id_area>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id_tp_indicador name="p_id_tp_indicador">Officia mollit elit voluptatem omnis</id_tp_indicador>
+                        <id_atrib name="p_id_atrib">Totam aliqua ipsum dolor omnis</id_atrib>
+                        <codigo name="p_codigo">Rem perspiciatis sed</codigo>
+                        <nome name="p_nome">Consectetur sit consectetur lorem totam</nome>
+                        <descricao name="p_descricao">Sed perspiciatis ut perspiciatis lorem</descricao>
+                        <id_area name="p_id_area">Officia labore omnis aliqua sit</id_area>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id_tp_indicador name="p_id_tp_indicador">Aliqua omnis totam magna adipiscing</id_tp_indicador>
+                        <id_atrib name="p_id_atrib">Laudantium magna accusantium anim ut</id_atrib>
+                        <codigo name="p_codigo">Ipsum magna elit dol</codigo>
+                        <nome name="p_nome">Iste aliqua ipsum dolor aliqua</nome>
+                        <descricao name="p_descricao">Omnis dolor natus sit unde</descricao>
+                        <id_area name="p_id_area">Adipiscing mollit consectetur rem natus</id_area>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="update">
+                        <title>Update</title>
+                        <app>human_resources</app>
+                        <page>INDICADORForm</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorform/INDICADORForm.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="delete">
+                        <title>Delete</title>
+                        <app>human_resources</app>
+                        <page>INDICADORList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorlist/INDICADORList.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

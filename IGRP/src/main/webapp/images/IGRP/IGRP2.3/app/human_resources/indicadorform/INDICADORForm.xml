@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorform/INDICADORForm.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>INDICADORForm</page>
+    <app>human_resources</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>nosi.webapps.human_resources.pages</package_db>
+        <package_html>INDICADORForm</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=72</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Registar Indicador</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="list">
+                <title>List</title>
+                <app>human_resources</app>
+                <page>INDICADORList</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-list</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorlist/INDICADORList.xml</preview>
+            </item>
+            <item type="specific" code="" rel="save">
+                <title>Save</title>
+                <app>human_resources</app>
+                <page>INDICADORForm</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/indicadorform/INDICADORForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" title="Registar INDICADOR" gen-type="container" gen-group="">
+            <fields>
+                <id name="p_id" type="number" maxlength="39" required="true" java-type="String" min="" max="" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Id</label>
+                    <value>30</value>
+                </id>
+                <id_tp_indicador name="p_id_tp_indicador" type="select" maxlength="50" java-type="String" multiple="false" tags="false" domain="" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo Indicador</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_tp_indicador>
+                <id_atrib name="p_id_atrib" type="select" maxlength="50" java-type="String" multiple="false" tags="false" domain="" required="false" change="false" disabled="false" right="false">
+                    <label>Atribuicao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_atrib>
+                <codigo name="p_codigo" type="text" maxlength="20" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Labore iste aperiam</value>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Elit aperiam voluptatem sit ut</value>
+                </nome>
+                <descricao name="p_descricao" type="text" maxlength="300" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descricao</label>
+                    <value>Natus elit ut iste voluptatem</value>
+                </descricao>
+                <id_area name="p_id_area" type="select" maxlength="39" java-type="String" multiple="false" tags="false" domain="" required="false" change="false" disabled="false" right="false">
+                    <label>Area</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_area>
+            </fields>
+        </form_1>
+    </content>
+</rows>

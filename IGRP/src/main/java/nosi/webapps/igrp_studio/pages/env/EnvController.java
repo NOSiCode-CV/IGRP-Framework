@@ -290,6 +290,7 @@ public class EnvController extends Controller {
 		model.setStatus(aplica_db.getStatus());
 		model.setTemplates(aplica_db.getTemplate());
 		
+		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			
 			aplica_db.setDad(model.getDad());
@@ -361,7 +362,7 @@ public class EnvController extends Controller {
 		/** Begin **/
 		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
 		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-	//	getAllApps(allowApps,denyApps);
+		//getAllApps(allowApps,denyApps);
 		/** End **/
 
 		boolean displaySubtitle = false;
@@ -488,7 +489,13 @@ public class EnvController extends Controller {
 	// Begin
 	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
 		try {
-			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
+			
+			Properties properties = this.load("sso", "oauth2.xml");
+			String baseUrl = properties.getProperty("igrp.plsql.url");
+			if(baseUrl == null || baseUrl.isEmpty())
+				throw new Exception("Invalid url ...");
+			
+			String endpoint = baseUrl + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
 			
 			try {
 				String sessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
@@ -523,7 +530,7 @@ public class EnvController extends Controller {
 				else
 					denyApps.add(obj);
 		}catch(Exception e) {
-			// do nothing yet 
+			e.printStackTrace();
 		}
 	}
 	

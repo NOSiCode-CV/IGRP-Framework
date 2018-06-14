@@ -202,7 +202,7 @@ public final class Svn {
           System.out.println(svnapi.getCmdResult());
           
           svnapi.setMessage("pasta de teste");
-          // faz o commit
+          // faz o commit 
           flag = svnapi.commit();
           System.out.println("Commit " + flag);
           System.out.println(svnapi.getCmd());

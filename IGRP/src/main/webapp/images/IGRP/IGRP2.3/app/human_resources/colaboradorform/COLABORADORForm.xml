@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorform/COLABORADORForm.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>COLABORADORForm</page>
+    <app>human_resources</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>nosi.webapps.human_resources.pages</package_db>
+        <package_html>COLABORADORForm</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=74</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Registar Colaborador</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="list">
+                <title>List</title>
+                <app>human_resources</app>
+                <page>COLABORADORList</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-list</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorlist/COLABORADORList.xml</preview>
+            </item>
+            <item type="specific" code="" rel="save">
+                <title>Save</title>
+                <app>human_resources</app>
+                <page>COLABORADORForm</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/colaboradorform/COLABORADORForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" title="Registar COLABORADOR" gen-type="container" gen-group="">
+            <fields>
+                <id name="p_id" type="number" maxlength="39" required="true" java-type="String" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="">
+                    <label>Id</label>
+                    <value>7</value>
+                </id>
+                <codigo name="p_codigo" type="text" maxlength="20" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Deserunt elit anim u</value>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Accusantium aperiam laudantium amet rem</value>
+                </nome>
+                <dt_nasc name="p_dt_nasc" type="date" range="false" maxlength="7" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data Nascimento</label>
+                    <value/>
+                </dt_nasc>
+                <dt_ini_act name="p_dt_ini_act" type="date" range="false" maxlength="7" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data Incio Empresa</label>
+                    <value/>
+                </dt_ini_act>
+                <id_depart name="p_id_depart" type="select" maxlength="39" java-type="String" multiple="false" tags="false" domain="" required="false" change="false" disabled="false" right="false">
+                    <label>Departamento</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_depart>
+                <id_equipe name="p_id_equipe" type="select" maxlength="39" java-type="String" multiple="false" tags="false" domain="" required="false" change="false" disabled="false" right="false">
+                    <label>Equipe</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_equipe>
+                <id_atrib name="p_id_atrib" type="select" maxlength="39" java-type="String" multiple="false" tags="false" domain="" required="false" change="false" disabled="false" right="false">
+                    <label>Atribuicao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_atrib>
+            </fields>
+        </form_1>
+    </content>
+</rows>

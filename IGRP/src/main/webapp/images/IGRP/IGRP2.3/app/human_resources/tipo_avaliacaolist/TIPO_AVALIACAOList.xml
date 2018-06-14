@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/human_resources/tipo_avaliacaolist/TIPO_AVALIACAOList.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>TIPO_AVALIACAOList</page>
+    <app>human_resources</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>nosi.webapps.human_resources.pages</package_db>
+        <package_html>TIPO_AVALIACAOList</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=65</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Listar TIPO_AVALIACAO</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="new">
+                <title>New</title>
+                <app>human_resources</app>
+                <page>TIPO_AVALIACAOForm</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/human_resources/tipo_avaliacaoform/TIPO_AVALIACAOForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" title="Listar TIPO_AVALIACAO" gen-type="container" gen-group="true">
+            <fields>
+                <id name="p_id" type="number" maxlength="39" iskey="true" min="" max="" align="left" lookup_parser="false" total_footer="false">
+                    <label>Id</label>
+                </id>
+                <codigo name="p_codigo" type="text" maxlength="20" align="left" lookup_parser="false" iskey="false">
+                    <label>Codigo</label>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">20</id>
+                        <codigo name="p_codigo">Aliqua amet ut sit m</codigo>
+                        <nome name="p_nome">Stract elit dolor accusantium voluptatem</nome>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">31</id>
+                        <codigo name="p_codigo">Rem ipsum laudantium</codigo>
+                        <nome name="p_nome">Adipiscing mollit sit natus dolor</nome>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">36</id>
+                        <codigo name="p_codigo">Aliqua stract omnis</codigo>
+                        <nome name="p_nome">Stract aliqua laudantium voluptatem sit</nome>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">1</id>
+                        <codigo name="p_codigo">Laudantium officia t</codigo>
+                        <nome name="p_nome">Perspiciatis natus ipsum anim sed</nome>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <id name="p_id">13</id>
+                        <codigo name="p_codigo">Dolor doloremque nat</codigo>
+                        <nome name="p_nome">Labore voluptatem elit stract ut</nome>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="update">
+                        <title>Update</title>
+                        <app>human_resources</app>
+                        <page>TIPO_AVALIACAOForm</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/human_resources/tipo_avaliacaoform/TIPO_AVALIACAOForm.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="delete">
+                        <title>Delete</title>
+                        <app>human_resources</app>
+                        <page>TIPO_AVALIACAOList</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/human_resources/tipo_avaliacaolist/TIPO_AVALIACAOList.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>
