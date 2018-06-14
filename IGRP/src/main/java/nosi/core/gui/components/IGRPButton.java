@@ -3,6 +3,7 @@ package nosi.core.gui.components;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
@@ -25,8 +26,9 @@ public class IGRPButton {
 	private String prefix = "";
 	private boolean visible = true;
 	private boolean genReverse = false;
+	private Report report;
 	public FieldProperties propertie;
-
+	
 	public IGRPButton(String title, String app, String page, String link, String target, String img, String parameter,
 			String params) {
 		this.propertie = new FieldProperties();
@@ -107,6 +109,14 @@ public class IGRPButton {
 	}
 	
 	public String getLink() {	
+		if(this.report!=null) {
+			link = this.report.getLink();
+			this.report.getParams().entrySet().stream().forEach(p->{
+				link += ("&name_array="+p.getKey() + "&value_array="+p.getValue());
+			});
+			link = link.replaceAll("webapps\\?r=", "");
+			return link;
+		}
 		String target_ = "";
 		if (Igrp.getInstance().getRequest().getParameter("target") != null) {
 			target_ += "&target=" + Igrp.getInstance().getRequest().getParameter("target");
@@ -128,6 +138,10 @@ public class IGRPButton {
 		this.link = link;
 	}
 
+	public void setLink(Report report) {
+		this.report = report;
+	}
+	
 	public void setLink(String app, String page, String action) {
 		this.setApp(app);
 		this.setPage(page);
