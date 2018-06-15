@@ -47,7 +47,7 @@ public class Sql_toolsController extends Controller {
 		}
 		view.table_1.setVisible(false);
 		if (Core.isNotNull(model.getApplication()) && Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getSql())) {
-			String sql = model.getSql().toLowerCase().trim();
+			String sql = this.getRemoveSpaceSql(model.getSql());
 			Config_env config_env = new Config_env().find()
 					.andWhere("application", "=", Core.toInt(model.getApplication()))
 					.andWhere("id", "=", Core.toInt(model.getData_source())).one();
@@ -121,8 +121,15 @@ public class Sql_toolsController extends Controller {
 	}
 
 	private boolean startWithSelect(String sql) {	
-		sql = sql.replaceAll("(\r\n|\n|\t)", " ");
-		return sql.startsWith("select");
+		return sql.toLowerCase().startsWith("select");
+	}
+	
+	private String getRemoveSpaceSql(String sql) {
+		if(Core.isNotNull(sql)) {
+			sql = sql.replaceAll("(\r\n|\n|\t)", " ");
+			return sql.trim();
+		}
+		return "";
 	}
 	/*----#end-code----*/
 	}

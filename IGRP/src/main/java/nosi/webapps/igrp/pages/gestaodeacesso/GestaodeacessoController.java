@@ -50,15 +50,18 @@ public class GestaodeacessoController extends Controller {
 				setTable(model, data);
 			} else
 				model.setAdicionar_organica("igrp", "NovaOrganica", "index");
-		}		
-		
+		}	
+		model.setGestao_de_menu("igrp","PesquisarMenu","index");
+		model.setAdicionar_organica("igrp","NovaOrganica","index");
+		model.setGestao_de_utilizadores("igrp","PesquisarUtilizador","index");
+		if(Core.isNotNull(model.getAplicacao())) {
+			 model.getGestao_de_menu().addParam("id_app",model.getAplicacao());
+			 model.getAdicionar_organica().addParam("id_app",model.getAplicacao());
+			 model.getGestao_de_utilizadores().addParam("p_aplicacao",model.getAplicacao());
+		}
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);	
-		if(Core.isNotNull(model.getAplicacao())) {
-			 view.gestao_de_menu.setValue(this.getConfig().getResolveUrl("igrp","PesquisarMenu","index&id_app="+model.getAplicacao())) ;
-			 view.adicionar_organica.setValue(this.getConfig().getResolveUrl("igrp","NovaOrganica","index&id_app="+model.getAplicacao()));	
-			 view.gestao_de_utilizadores.setValue(this.getConfig().getResolveUrl("igrp","PesquisarUtilizador","index&p_aplicacao="+model.getAplicacao()));
-		}
+		
 		
 		view.btn_eliminar.setVisible(false);
 		/*----#end-code----*/
