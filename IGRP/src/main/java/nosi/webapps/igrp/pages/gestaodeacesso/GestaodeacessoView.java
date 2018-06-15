@@ -1,11 +1,13 @@
 
 package nosi.webapps.igrp.pages.gestaodeacesso;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 
 
 
@@ -48,22 +50,22 @@ public class GestaodeacessoView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","").add("tags","false");
 		
 		adicionar_organica = new LinkField(model,"adicionar_organica");
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
-		adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30");
+		adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));
 		gestao_de_utilizadores.setValue(new Config().getResolveUrl("igrp","PesquisarUtilizador","index"));
-		gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30");
+		gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
 		
 		gestao_de_menu = new LinkField(model,"gestao_de_menu");
 		gestao_de_menu.setLabel(gt("Gestão de menu"));
 		gestao_de_menu.setValue(new Config().getResolveUrl("igrp","PesquisarMenu","index"));
-		gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30");
+		gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -79,7 +81,7 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		mostrar_perfis.setValue(new Config().getResolveUrl("igrp","PesquisarPerfil","index"));
-		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("desc","true");
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -90,7 +92,7 @@ public class GestaodeacessoView extends View {
 		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
-		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","right_panel","info|fa-bars","","");
+		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","right_panel|refresh","info|fa-bars","","");
 		btn_menu.propertie.add("type","specific").add("rel","menu");
 
 		btn_transacti_org = new IGRPButton("Transaction","igrp","Gestaodeacesso","transacti_org","right_panel","black|fa-exchange","","");
@@ -131,14 +133,19 @@ public class GestaodeacessoView extends View {
 		this.addToPage(org_table);
 	}
 		
-	public void setModel(Gestaodeacesso model) {
+	@Override
+	public void setModel(Model model) {
 		
 		aplicacao.setValue(model);
+		adicionar_organica.setValue(model);
+		gestao_de_utilizadores.setValue(model);
+		gestao_de_menu.setValue(model);
 		estado.setValue(model);
 		org_nome.setValue(model);
+		mostrar_perfis.setValue(model);
 		id.setValue(model);	
 
-		org_table.loadModel(model.getOrg_table());
+		org_table.loadModel(((Gestaodeacesso) model).getOrg_table());
 		
 	}
 }
