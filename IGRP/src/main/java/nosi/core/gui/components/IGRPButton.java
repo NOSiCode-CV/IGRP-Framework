@@ -206,6 +206,10 @@ public class IGRPButton {
 	private String genItem() {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement(this.getTag());
+		if(this.report!=null) {
+			this.propertie.remove("type");
+			this.propertie.put("type", "report");
+		}
 		for(Entry<Object, Object> prop : this.getProperties().entrySet()) {
 			xml.writeAttribute(prop.getKey().toString(), prop.getValue().toString());
 		}
