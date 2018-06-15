@@ -83,7 +83,7 @@
 
     <div class="list-group table-context-menu clearfix table-ctx-holder" use-fa="{$use-fa}" >
         <xsl:for-each select="item">
-          <li id="CTX_ID_{position()}" class="operationTable " trel="{title}">
+          <li id="CTX_ID_{position()}" class="operationTable " ctx-type="{@type}" trel="{title}">
             <xsl:call-template name="table-ctx-item">
               <xsl:with-param name="use-fa" select="$use-fa"/>
               <xsl:with-param name="class" select="'list-group-item'"/>
@@ -105,6 +105,13 @@
       </xsl:for-each>     
     </xsl:variable>
 
+    <xsl:variable name="ctx_param_report">
+      <xsl:for-each select="$row-params/param[not(contains(., 'ctx_hidden'))]">
+        <xsl:text>&amp;name_array=</xsl:text><xsl:value-of select="substring-before(.,'=')"/>
+        <xsl:text>&amp;value_array=</xsl:text><xsl:value-of select="substring-after(.,'=')"/>
+      </xsl:for-each>     
+    </xsl:variable>
+
     <xsl:variable name="ctxHiddenContent" select="substring-after($ctx_hidden,'=')"/>
 
     <xsl:variable name="ctxHiddenTotal">
@@ -123,13 +130,24 @@
           </xsl:call-template>
         </xsl:variable>
 
+        <xsl:variable name="ctx_holder">
+          <xsl:choose>
+            <xsl:when test="@type = 'report'">
+              <xsl:value-of select="$ctx_param_report"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$ctx_param"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+
         <li id="CTX_ID_{position()}" class="operationTable " trel="{title}" title="{title}">
           <xsl:choose>
             <xsl:when test="$rowCtxHiddenTitle != title">
                 <xsl:call-template name="table-ctx-item">
                   <xsl:with-param name="use-fa" select="$use-fa"/>
                   <xsl:with-param name="size" select="'xs'"/>
-                  <xsl:with-param name="ctx-params" select="$ctx_param"/>
+                  <xsl:with-param name="ctx-params" select="$ctx_holder"/>
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>

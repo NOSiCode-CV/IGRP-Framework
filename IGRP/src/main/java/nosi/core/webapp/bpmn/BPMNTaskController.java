@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
@@ -61,9 +62,13 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 			if(Core.isNotNull(taskId)) {
 				xml.addXml(comp.generateButtonTask(appDad,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
-			
 			xml.addXml(content);
 			xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,action.getApplication().getId(),null)));
+			IGRPMessage msg = new IGRPMessage();
+			String m = msg.toString();
+			if(m!=null){
+				xml.addXml(m);
+			}
 			xml.endElement();
 			return this.renderView(xml.toString());	
 		}
