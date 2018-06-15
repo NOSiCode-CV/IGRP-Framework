@@ -71,9 +71,9 @@
 			        ",status,resizable,left=" + left + ",top=" + top +
 			        ",screenX=" + left + ",screenY=" + top;
 
-			  	window.open(p.url, p.win, windowFeatures);
+			  	var myWindow =  window.open(p.url, p.win, windowFeatures);
 
-				return false;
+				return myWindow;
 			},
 			openChartURL : function(pObj){
 				if (pObj.pUrl != null && pObj.pUrl != '') {
@@ -87,6 +87,7 @@
 						win    :"IGRP_win"+(new Date()).getTime()
 					});
 
+					return false;
 				}
 			},
 			getForm:function(){
@@ -94,7 +95,7 @@
 			},
 			getFieldsValidate:function(f){
 				var form = f && f[0] ? f : $.IGRP.utils.getForm();
-				var fields = $('input,select,textarea',form).not('.no-validation, .no-required-validation, .not-form').not('.IGRP_checkall');
+				var fields = $(':input',form).not('.no-validation, .no-required-validation, .not-form, .IGRP_checkall');
 				
 				return fields;
 			},
@@ -106,7 +107,7 @@
 				return $("input[name='p_env_frm_url']").val() || window.location.href;
 			},
 			getFormUrl:function(url){
-				var param = $.IGRP.utils.getForm().not(".notForm").serialize();
+				var param = $.IGRP.utils.getForm().find('*').not(".notForm, #p_env_frm_url").serialize();
 				return $.IGRP.utils.getUrl(url)+param;
 			},
 			getParam:function(pLink, pName){
@@ -120,8 +121,57 @@
 				}
 				return null;
 			},
+			resetFields  : function(o){
+				$(":input",o).each(function(i,e){
+                    var parents = $(e).parents('.form-group')
+                    	type 	= parents.attr('item-type');
+                    switch(type){
+                        case'radio':
+                        case 'checkbox':
+
+                            $(e).removeAttr("checked").prop("checked",false);
+
+                        break;
+
+                        case 'select' :
+
+                        	$(e).find("option").removeAttr("selected");
+                        	$('.select2-container',parents).remove();
+                        	$(e).select2();
+
+                        break;
+
+                        case 'textarea' :
+
+                        	$(e).text('');
+
+                        break;
+
+                        default:
+
+                            $(e).val('');
+                            $(e).text('').attr('value','');
+                    }
+                });
+
+                return o;
+			},
 			setFieldValue:function(tag,value){
-			
+
+				var lookup = null,
+					label  = null;
+
+				if (typeof $(tag) === 'object'){
+
+					lookup  = $(tag).attr('lookup') ? $(tag).attr('lookup') : null;
+
+					label   = $(tag).attr('label') ? $(tag).attr('label') : null;
+
+					value   = $(tag).text();
+
+					tag 	= tag.tagName.toLowerCase();
+				}
+
 				var formElement = $('[name="p_'+tag+'"]'),
 
 					parent  	= $(formElement.parents('[item-name]')[0]);
@@ -129,6 +179,9 @@
 				if( parent[0] ){
 
 					var type = parent.attr('item-type');
+
+					if (label)
+						$('label',parent).html(label);
 					
 					switch(type){
 
@@ -170,9 +223,10 @@
 						break;
 
 						default:
+							if (lookup)
+								$('.IGRP_lookupPopup',parent).attr('href',lookup);
 
 							formElement.val(value);
-
 					}
 
 					formElement.trigger('change');
@@ -204,15 +258,15 @@
 					{
 						var vP1 = vP[i].split("=");
 
-						if(vP1[0].toLowerCase()!="p_env_frm_url"){
-							if(!vForm.find("input[name='"+vP1[0]+"']")[0])
+						if(vP1[0].toLowerCase()!= "p_env_frm_url"){
+							if(!$("input[name='"+vP1[0]+"']",vForm)[0]){
 								$.IGRP.utils.createHidden({
 									name:vP1[0],
 									value:vP1[1],
-									class:'submittable'
+									class:'submittable igrpurlparam'
 								});
+							}
 						}
-
 					}
 				}
 				else
@@ -260,6 +314,11 @@
 			isNotNaN : function(v){
 				return isNaN(v)? 0:v*1;
 			},
+			arrRemoveItem : function(arr,v){
+                return $.grep(arr, function(val) {
+				  return val != v;
+				});
+			},
 			file2base64 : function(p){
 				$.IGRP.utils.loading.show(p.target);
 				var fileB64 = new FileReader();
@@ -304,6 +363,15 @@
 
 				})
 			},
+			arrayValuesToString : function(arr,spliter){
+				var str = "";
+				arr.forEach(function(a,i){
+					str+=a;
+					if(i != arr.length-1)
+						str+=spliter;
+				});
+				return str;
+			},
 			message : {
 				getIcon : {
 					'danger' : 'exclamation-circle',
@@ -345,6 +413,7 @@
 				}
 			},
 			string:{
+				
 				getIndices : function(searchStr, str, caseSensitive) {
 				    var startIndex = 0, searchStrLen = searchStr.length;
 				    var index, indices = [];
@@ -422,7 +491,6 @@
 			}
 			return vFormData;
 		};
-
 		/*Submit String as File*/
 		$.IGRP.utils.submitStringAsFile = function(p){
 			/*
@@ -444,7 +512,7 @@
 				response    = null,
 				message 	= '';
 
-			form.attr('accept-charset','UTF-8');
+			form.attr('accept-charset','ISO-8859-1');
 			
 
 			//console.log(document.charset);
@@ -452,13 +520,13 @@
 		    vRequest.open("POST",p.pUrl,true);
 		    vRequest.timeout = 600000; // time in milliseconds
 
-		    vRequest.setRequestHeader('Encoding','UTF-8');
-			vRequest.setRequestHeader('Charset','UTF-8');
+		    vRequest.setRequestHeader('Encoding','ISO-8859-1');
+			vRequest.setRequestHeader('Charset','ISO-8859-1');
 			//vRequest.setRequestHeader("Content-Type", "multipart/form-data;charset=ISO-8859-1");
 			vRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 			if(vRequest.overrideMimeType)
-		    	vRequest.overrideMimeType('text/xml; charset=UTF-8');
+		    	vRequest.overrideMimeType('text/xml; charset=ISO-8859-1');
 
 		    vRequest.ontimeout = function (e) {
 				$.IGRP.utils.loading.hide();
@@ -480,6 +548,7 @@
 		    		$.IGRP.utils.loading.hide();
 		    		
 		    		if (showNotify){
+		    			
 		    			if(vRequest.status == 200){
 			    			try{
 			    				response 	= $($.parseXML(vRequest.response)).find('messages message');
@@ -497,19 +566,24 @@
 		    			message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText; 
 
 		    			$.IGRP.notify({
+
 							message : $.IGRP.utils.htmlDecode(message),
+
 							type	: typeNotify
+
 						});
 					}
 
 		    		if(p.pComplete) 
+
 			    		p.pComplete(vRequest);
+
 		    	}
+
 		    };
 
 		    vRequest.send(vData);
 		};
-
 		$.IGRP.utils.submitPage2File = {
 			getFiles : function(){
 				var array = [];
@@ -568,7 +642,7 @@
 				var obj  = [],
 					xml  = p.serialize.find('*').not(p.notSerialize).serializeArray();
 
-				xml = '<?xml version="1.0" encoding="UTF-8"?><content>'+
+				xml = '<?xml version="1.0" encoding="ISO-8859-1"?><content>'+
 					$.IGRP.utils.submitPage2File.json2xml(xml)+'</content>';
 
 				obj.push({name:p.fileName,value:xml});
@@ -622,7 +696,6 @@
 				});
 			}
 		};
-
 		$.IGRP.utils.xsl = {
 
 			getStyleSheet : function(nodes,includes){
@@ -688,7 +761,7 @@
 		    if(xstr){
 		    	var beginExp = '<?xml-stylesheet href="';
 
-				var endExp   = '" type="text/xml"?>';
+				var endExp   = '" type="text/xsl"?>';
 				
 				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
 
@@ -745,7 +818,9 @@
 								options.nodes.forEach(function(n){
 
 									var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
+
 										test : 'rows/content/'+n
+
 									})[0];
 									
 									var xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement,includesArr);
@@ -760,7 +835,13 @@
 										method 	     : 'replace',
 										complete     : function(e,c){
 											if(params.success)
-												params.success();
+												params.success({
+
+													itemName : n,
+
+													itemHTML : $('.gen-container-item[item-name="'+n+'"]')
+
+												});
 										},
 										error: function(e){
 											$.IGRP.notify({
