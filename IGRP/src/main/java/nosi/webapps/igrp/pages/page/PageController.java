@@ -41,6 +41,7 @@ import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
+import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
 public class PageController extends Controller {
@@ -379,8 +380,8 @@ public class PageController extends Controller {
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson()
-							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? "Compilação efetuada com sucesso"
-									: "Componente registado com sucesso", null));
+							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("Compilação efetuada com sucesso")
+									: gt("Componente registado com sucesso"), null));
 
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(error)

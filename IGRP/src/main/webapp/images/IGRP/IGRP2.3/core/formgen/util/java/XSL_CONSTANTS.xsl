@@ -443,7 +443,7 @@
         </xsl:if>
         
         <xsl:value-of select="$text"/>
-        
+          <xsl:call-template name="newlineTab2"/>
 
 		<xsl:if test="$end = true()">
 	        <xsl:call-template name="end-code">
@@ -466,7 +466,7 @@
     </xsl:template>
 
     <xsl:template name="end-code">
-        <xsl:param name="type"/>
+        <xsl:param name="type"/>      
         <xsl:text>/*----#end-code----*/</xsl:text>
     </xsl:template>
 
@@ -475,16 +475,14 @@
         <xsl:call-template name="newlineTab2"/>
         <xsl:text>/*----#gen-example</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>  This is an example of how you can implement your code:</xsl:text>
+        <xsl:text>  Query examples COPY/PASTE:</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>  In a .query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
+        <xsl:text>  Info!: Core.query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
         <xsl:call-template name="newlineTab2"/>
     </xsl:template>
 
-    <xsl:template name="end-example">
-        <xsl:call-template name="newlineTab2"/>
-        <xsl:call-template name="newlineTab2"/>
-        <xsl:text>----#gen-example */</xsl:text>
+    <xsl:template name="end-example">     
+        <xsl:text>  ----#gen-example */</xsl:text>
 
     </xsl:template>
 
@@ -505,15 +503,7 @@
         
     </xsl:template>
     
-    <!-- Your connection name -->
-    <xsl:template name="generateCommentConnectionName">
-    	<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<!-- <xsl:text>/*Specify your connection name in first parameter*/</xsl:text> -->
-    	<!-- <xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/> -->
-    </xsl:template>
-    
+  
     <xsl:template name="filterComponentsAttrs">
     	<xsl:if test=" 
     		name() != 'persist' and 
