@@ -68,7 +68,7 @@ public class XMLExtractComponent {
 		button.setPage("ExecucaoTarefas");
 		button.setLink("process-task&"+"p_prm_definitionid="+p_processId+"&customForm=true");
 		button.setTarget("submit");
-		button.setImg("primary|fa-save");
+		button.setImg("primary|fa-play");
 		toolsbar1.addButton(button);
 		return toolsbar1;
 	}

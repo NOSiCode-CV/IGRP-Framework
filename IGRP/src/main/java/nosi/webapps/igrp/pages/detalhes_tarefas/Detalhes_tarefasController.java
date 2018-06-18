@@ -93,25 +93,12 @@ public class Detalhes_tarefasController extends Controller {
 		IGRPSeparatorList sep = comp.addFormlistFile();
 		xml.addXml(sep.toString());
 		xml.addXml(content);
-		this.removeOldQueryString();
-		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,task.getProcessDefinitionKey(),task.getTaskDefinitionKey(),action.getApplication().getId(),histories)));
+		xml.addXml(BPMNHelper.addFileSeparator(task.getProcessDefinitionKey(),task.getTaskDefinitionKey(),action.getApplication().getId(),histories));
 		xml.endElement();
 		return xml.toString();	
 	}
 	
 	
-	
-	
-	private void removeOldQueryString() {
-		this.removeQueryString("p_formlist_documento_task_mostrar_fk");
-		this.removeQueryString("p_formlist_documento_task_mostrar_fk_desc");
-		this.removeQueryString("p_formlist_documento_task_nome_fk");
-		this.removeQueryString("p_formlist_documento_task_nome_fk_desc");
-		this.removeQueryString("p_formlist_documento_task_descricao_fk");
-		this.removeQueryString("p_formlist_documento_task_descricao_fk_desc");
-		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk");
-		this.removeQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc");
-	}
 	/*----#END-PRESERVED-AREA----*/
 
 }

@@ -242,7 +242,6 @@ public class ExecucaoTarefasController extends Controller {
 						.addQueryString("formKey", task.getFormKey())
 						.addQueryString("processDefinition", task.getProcessDefinitionKey())
 						.addQueryString("taskDefinition", task.getTaskDefinitionKey())
-						.addQueryString("taskName", task.getName())
 						.addQueryString("idAppAnt", idAppAnt)
 						.addQueryString("taskAnt", taskAnt)
 						.addQueryString("procAnt", procAnt);
