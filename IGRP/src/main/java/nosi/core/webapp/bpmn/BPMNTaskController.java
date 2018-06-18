@@ -41,7 +41,6 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 		String formKey = Core.getParam("formKey");
 		String processDefinition = Core.getParam("processDefinition");
 		String taskDefinition = Core.getParam("taskDefinition");
-		String taskName = Core.getParam("taskName");
 		String taskId = Core.getParamTaskId();
 		String appDad = Core.getParam("appDad");
 		String p_processId = Core.getParam("p_processId");		
@@ -55,7 +54,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 			xml.addXml(this.getConfig().getHeader(null));
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
-			xml.setElement("title", taskName+" - Nº "+taskId);
+			//xml.setElement("title", taskName+" - Nº "+taskId);
 			if(Core.isNotNull(p_processId)) {
 				xml.addXml(comp.generateButtonProcess(p_processId).toString());
 			}
@@ -63,7 +62,7 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 				xml.addXml(comp.generateButtonTask(appDad,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			xml.addXml(content);
-			xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,action.getApplication().getId(),null)));
+			xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null));
 			IGRPMessage msg = new IGRPMessage();
 			String m = msg.toString();
 			if(m!=null){
