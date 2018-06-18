@@ -100,6 +100,7 @@ public class IGRPTable extends IGRPComponent{
 						f.setValue(name);
 						f.setParam(true);
 						f.propertie().add("isLookup", "true");
+						f.setVisible(false);
 						this.fields.add(f);
 						
 					}
@@ -216,13 +217,15 @@ public class IGRPTable extends IGRPComponent{
 			}
 			this.xml.endElement();			
 			for(Field field:this.fields){
-				String value= IgrpHelper.getValue(l, field.getName().toLowerCase());
-				if(Core.isNull(value))
-					value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());	
-				this.xml.startElement(field.getTagName().replace("p_", ""));
-				this.xml.writeAttribute("name", field.getName().startsWith("p_")?field.getName():"p_"+field.getName());
-				this.xml.text(value);
-				this.xml.endElement();
+				if(field.isVisible()) {
+					String value= IgrpHelper.getValue(l, field.getName().toLowerCase());
+					if(Core.isNull(value))
+						value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());	
+					this.xml.startElement(field.getTagName().replace("p_", ""));
+					this.xml.writeAttribute("name", field.getName().startsWith("p_")?field.getName():"p_"+field.getName());
+					this.xml.text(value);
+					this.xml.endElement();
+				}
 			}
 			this.xml.endElement();
 		}
@@ -252,26 +255,28 @@ public class IGRPTable extends IGRPComponent{
 				}
 				this.xml.endElement();
 				for(Field field:this.fields){
-					this.xml.startElement(field.getTagName());
-					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					String val = IgrpHelper.getValue(obj, field.getName());
-					if(val==null || val.equals("")){
-						val = field.getValue()!=null?field.getValue().toString():"";
+					if(field.isVisible()) {
+						this.xml.startElement(field.getTagName());
+						this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+						String val = IgrpHelper.getValue(obj, field.getName());
+						if(val==null || val.equals("")){
+							val = field.getValue()!=null?field.getValue().toString():"";
+						}
+						this.xml.text(val);
+						this.xml.endElement();
+						String sufix = "_desc";
+						if(field instanceof CheckBoxField || field instanceof CheckBoxListField){
+							sufix = "_check";
+						}
+						this.xml.startElement(field.getTagName()+sufix);
+						this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
+						String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
+						if(val1==null || val1.equals("")){						
+							val1 = field.getValue() != null ? field.getValue().toString() : "";						
+						}
+						this.xml.text(val1);
+						this.xml.endElement();
 					}
-					this.xml.text(val);
-					this.xml.endElement();
-					String sufix = "_desc";
-					if(field instanceof CheckBoxField || field instanceof CheckBoxListField){
-						sufix = "_check";
-					}
-					this.xml.startElement(field.getTagName()+sufix);
-					this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
-					String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
-					if(val1==null || val1.equals("")){						
-						val1 = field.getValue() != null ? field.getValue().toString() : "";						
-					}
-					this.xml.text(val1);
-					this.xml.endElement();
 				}
 				this.xml.endElement();
 			}
