@@ -1,13 +1,17 @@
 
 package nosi.webapps.igrp.pages.datasource;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+
+
+
+
 public class DataSourceView extends View {
-	
-	
+
 	public Field data_source;
 	public Field tipo;
 	public Field nome;
@@ -26,18 +30,20 @@ public class DataSourceView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_fechar;
+
 	public DataSourceView(){
 
 		this.setPageTitle("Registar Data Source");
 			
 		form_1 = new IGRPForm("form_1","");
+
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","");
+		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","").add("tags","false");
 		
 		tipo = new ListField(model,"tipo");
 		tipo.setLabel(gt("Tipo"));
-		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","");
+		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","").add("tags","false");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -45,11 +51,11 @@ public class DataSourceView extends View {
 		
 		processo = new ListField(model,"processo");
 		processo.setLabel(gt("Processo"));
-		processo.propertie().add("name","p_processo").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","");
+		processo.propertie().add("name","p_processo").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","").add("tags","false");
 		
 		etapa = new ListField(model,"etapa");
 		etapa.setLabel(gt("Etapa"));
-		etapa.propertie().add("name","p_etapa").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","");
+		etapa.propertie().add("name","p_etapa").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","").add("tags","false");
 		
 		objecto = new TextField(model,"objecto");
 		objecto.setLabel(gt("Objecto"));
@@ -73,7 +79,7 @@ public class DataSourceView extends View {
 		
 		id_pagina = new HiddenField(model,"id_pagina");
 		id_pagina.setLabel(gt(""));
-		id_pagina.propertie().add("name","p_id_pagina").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id_pagina");
+		id_pagina.propertie().add("name","p_id_pagina").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id_pagina");
 		
 		id_servico = new HiddenField(model,"id_servico");
 		id_servico.setLabel(gt(""));
@@ -90,11 +96,12 @@ public class DataSourceView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","success|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		btn_fechar = new IGRPButton("Fechar","igrp","DataSource","fechar","_close","danger|fa-close","","");
 		btn_fechar.propertie.add("type","specific").add("rel","fechar");
+
 		
 	}
 		
@@ -122,7 +129,8 @@ public class DataSourceView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(DataSource model) {
+	@Override
+	public void setModel(Model model) {
 		
 		data_source.setValue(model);
 		tipo.setValue(model);

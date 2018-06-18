@@ -1,6 +1,12 @@
 package nosi.webapps.igrp.pages.datasource;
+
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+
+
+
+
 
 public class DataSource extends Model{		
 	@RParam(rParamName = "p_data_source")
@@ -22,7 +28,7 @@ public class DataSource extends Model{
 	@RParam(rParamName = "p_servico")
 	private String servico;
 	@RParam(rParamName = "p_id_pagina")
-	private String id_pagina;
+	private int id_pagina;
 	@RParam(rParamName = "p_id_servico")
 	private String id_servico;
 	@RParam(rParamName = "p_id")
@@ -93,10 +99,10 @@ public class DataSource extends Model{
 		return this.servico;
 	}
 	
-	public void setId_pagina(String id_pagina){
+	public void setId_pagina(int id_pagina){
 		this.id_pagina = id_pagina;
 	}
-	public String getId_pagina(){
+	public int getId_pagina(){
 		return this.id_pagina;
 	}
 	
