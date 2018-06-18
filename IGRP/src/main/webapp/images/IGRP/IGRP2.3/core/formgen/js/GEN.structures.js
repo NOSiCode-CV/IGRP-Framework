@@ -789,10 +789,13 @@ var GENSTRUCTURES = function(GEN){
 									if(requestFields){
 										var farr = requestFields.split(',');
 
+//										farr.forEach(function(f,i){
+//											r+='p_'+f+' VARCHAR2 DEFAULT NULL';
+//											if(i < farr.length-1)
+//												r+=',';
+//										});
 										farr.forEach(function(f,i){
-											r+='p_'+f+' VARCHAR2 DEFAULT NULL';
-											if(i < farr.length-1)
-												r+=',';
+											r+='<item>p_'+f+'</item>';
 										});
 
 									}
