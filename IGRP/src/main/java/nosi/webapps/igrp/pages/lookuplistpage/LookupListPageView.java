@@ -1,18 +1,17 @@
 
 package nosi.webapps.igrp.pages.lookuplistpage;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
-import java.sql.Date;
-import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
+
+
+
+
 
 public class LookupListPageView extends View {
-	
-	
+
 	public Field associar_pagina;
 	public Field associar_documentos;
 	public Field env_fk;
@@ -25,6 +24,7 @@ public class LookupListPageView extends View {
 	public Field tipo;
 	public Field nome;
 	public Field descricao_documento;
+	public Field type_doc;
 	public Field nome_pagina;
 	public Field descricao;
 	public Field id;
@@ -39,26 +39,32 @@ public class LookupListPageView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_pesquisar;
+
 	public LookupListPageView(){
 
 		this.setPageTitle("Lista de Pagina Para Lookup");
 			
 		tabcontent_1 = new IGRPForm("tabcontent_1","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		formlist_1 = new IGRPFormList("formlist_1","");
+
 		table_1 = new IGRPTable("table_1","");
+
 		form_2 = new IGRPForm("form_2","");
+
 		associar_pagina = new TextField(model,"associar_pagina");
 		associar_pagina.setLabel(gt("Associar Página"));
-		associar_pagina.propertie().add("name","p_associar_pagina").add("type","button").add("maxlength","50");
+		associar_pagina.propertie().add("name","p_associar_pagina").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		associar_documentos = new TextField(model,"associar_documentos");
 		associar_documentos.setLabel(gt("Associar Documentos"));
-		associar_documentos.propertie().add("name","p_associar_documentos").add("type","button").add("maxlength","50");
+		associar_documentos.propertie().add("name","p_associar_documentos").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicacao"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","").add("tags","false");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Nome Pagina"));
@@ -72,19 +78,19 @@ public class LookupListPageView extends View {
 		checkbox.setLabel(gt(" "));
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
 		
-		checkbox_check = new CheckBoxField
-		(model,"checkbox_check");
+		checkbox_check = new CheckBoxField(model,"checkbox_check");
 		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
+		
 		obrigatorio = new CheckBoxField(model,"obrigatorio");
 		obrigatorio.setLabel(gt("Obrigatório?"));
 		obrigatorio.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
 		
-		obrigatorio_check = new CheckBoxField
-		(model,"obrigatorio_check");
+		obrigatorio_check = new CheckBoxField(model,"obrigatorio_check");
 		obrigatorio_check.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
+		
 		tipo = new ListField(model,"tipo");
 		tipo.setLabel(gt("Tipo"));
-		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","").add("delimiter",";").add("desc","true");
+		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","").add("delimiter",";").add("tags","false").add("desc","true");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -93,6 +99,10 @@ public class LookupListPageView extends View {
 		descricao_documento = new TextField(model,"descricao_documento");
 		descricao_documento.setLabel(gt("Descrição"));
 		descricao_documento.propertie().add("name","p_descricao_documento").add("type","text").add("maxlength","30").add("required","false").add("desc","true");
+		
+		type_doc = new HiddenField(model,"type_doc");
+		type_doc.setLabel(gt(""));
+		type_doc.propertie().add("name","p_type_doc").add("type","hidden").add("maxlength","250").add("java-type","String").add("tag","type_doc").add("desc","true");
 		
 		nome_pagina = new TextField(model,"nome_pagina");
 		nome_pagina.setLabel(gt("Nome Pagina"));
@@ -122,6 +132,7 @@ public class LookupListPageView extends View {
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","LookupListPage","pesquisar","submit","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
+
 		
 	}
 		
@@ -143,6 +154,7 @@ public class LookupListPageView extends View {
 		formlist_1.addField(tipo);
 		formlist_1.addField(nome);
 		formlist_1.addField(descricao_documento);
+		formlist_1.addField(type_doc);
 
 		table_1.addField(nome_pagina);
 		table_1.addField(descricao);
@@ -161,7 +173,8 @@ public class LookupListPageView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(LookupListPage model) {
+	@Override
+	public void setModel(Model model) {
 		
 		associar_pagina.setValue(model);
 		associar_documentos.setValue(model);
@@ -173,14 +186,15 @@ public class LookupListPageView extends View {
 		tipo.setValue(model);
 		nome.setValue(model);
 		descricao_documento.setValue(model);
+		type_doc.setValue(model);
 		nome_pagina.setValue(model);
 		descricao.setValue(model);
 		id.setValue(model);
 		taskid.setValue(model);
 		processid.setValue(model);	
 
-		formlist_1.loadModel(model.getFormlist_1());
-		table_1.loadModel(model.getTable_1());
+		formlist_1.loadModel(((LookupListPage) model).getFormlist_1());
+		table_1.loadModel(((LookupListPage) model).getTable_1());
 		
 	}
 }
