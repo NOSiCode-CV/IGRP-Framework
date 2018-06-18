@@ -93,7 +93,7 @@
                 package = GEN.SETTINGS.package,
                 proc    = a.procedure;
 
-            a.procedure = app+'.'+package+'.'+proc;
+            a.procedure = GEN.SETTINGS.gentype == 'java' ? 'webapps?r='+GEN.DETAILS.app+'/'+GEN.DETAILS.page+'/'+proc : app+'.'+package+'.'+proc;
 
           }
 
