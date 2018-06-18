@@ -1,9 +1,12 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
+
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,24 @@ public class LookupListPage extends Model{
 	public List<Formlist_1> getFormlist_1(){
 		return this.formlist_1;
 	}
+	@RParam(rParamName = "p_formlist_1_id")
+	private String[] p_formlist_1_id;
+	@RParam(rParamName = "p_formlist_1_del")
+	private String[] p_formlist_1_del;
+	
+	public void setP_formlist_1_id(String[] p_formlist_1_id){
+		this.p_formlist_1_id = p_formlist_1_id;
+	}
+	public String[] getP_formlist_1_id(){
+		return this.p_formlist_1_id;
+	}
+	
+	public void setP_formlist_1_del(String[] p_formlist_1_del){
+		this.p_formlist_1_del = p_formlist_1_del;
+	}
+	public String[] getP_formlist_1_del(){
+		return this.p_formlist_1_del;
+	}
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -38,6 +59,24 @@ public class LookupListPage extends Model{
 	}
 	public List<Table_1> getTable_1(){
 		return this.table_1;
+	}
+	@RParam(rParamName = "p_table_1_id")
+	private String[] p_table_1_id;
+	@RParam(rParamName = "p_table_1_del")
+	private String[] p_table_1_del;
+	
+	public void setP_table_1_id(String[] p_table_1_id){
+		this.p_table_1_id = p_table_1_id;
+	}
+	public String[] getP_table_1_id(){
+		return this.p_table_1_id;
+	}
+	
+	public void setP_table_1_del(String[] p_table_1_del){
+		this.p_table_1_del = p_table_1_del;
+	}
+	public String[] getP_table_1_del(){
+		return this.p_table_1_del;
 	}
 	
 	public void setAssociar_pagina(String associar_pagina){
@@ -90,7 +129,7 @@ public class LookupListPage extends Model{
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private String nome_pagina;
 		private String descricao;
 		private String id;
@@ -117,6 +156,7 @@ public class LookupListPage extends Model{
 
 	}
 	public static class Formlist_1{
+		private Pair formlist_1_id;
 		private Pair checkbox;
 		private Pair checkbox_check;
 		private Pair obrigatorio;
@@ -124,6 +164,13 @@ public class LookupListPage extends Model{
 		private Pair tipo;
 		private Pair nome;
 		private Pair descricao_documento;
+		private Pair type_doc;
+		public void setFormlist_1_id(Pair formlist_1_id){
+			this.formlist_1_id = formlist_1_id;
+		}
+		public Pair getFormlist_1_id(){
+			return this.formlist_1_id;
+		}
 		public void setCheckbox(Pair checkbox){
 			this.checkbox = checkbox;
 		}
@@ -171,6 +218,13 @@ public class LookupListPage extends Model{
 		}
 		public Pair getDescricao_documento(){
 			return this.descricao_documento;
+		}
+
+		public void setType_doc(Pair type_doc){
+			this.type_doc = type_doc;
+		}
+		public Pair getType_doc(){
+			return this.type_doc;
 		}
 
 	}

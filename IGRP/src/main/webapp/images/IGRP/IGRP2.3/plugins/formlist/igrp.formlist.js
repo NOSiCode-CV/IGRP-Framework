@@ -42,28 +42,9 @@
             }
             
             function resetFildsRow(vObjTr){
-                $("*",vObjTr).each(function(idx,element){
-                    
-                    if($(element).attr('type')){
-                        var type = $(element).attr('type');
-                        switch(type){
-                            case'radio':
-                            case 'checkbox':
-                                $(element).removeAttr("checked").prop("checked",false);
-                            break;
-                            default:
-                                $(element).val('');
-                                $(element).attr('value','');
-                        }
-                    }
-                    if($(element).prop('tagName').toLowerCase() == 'textarea')
-                        $(element).text('');
+                var row = $.IGRP.utils.resetFields(vObjTr);
 
-                    if(($(element).prop('tagName')).toLowerCase() == "select")
-                        $(element).find("option").removeAttr("selected");
-                });
-
-                TABLE[0].events.execute('row-reset',vObjTr);
+                TABLE[0].events.execute('row-reset',row);
             }
 
             function hideShowItem(){
@@ -114,8 +95,6 @@
                 var vObjTr  = getCloneRow(TABLE);
 
                 resetFildsRow(vObjTr);
-                
-                vObjTr.find('.formlist-row-index').val( vObjTr.attr('row') )
 
                 type == 'table' ? $("tbody",TABLE).append(vObjTr) : vObjTr.insertAfter(t);
 
@@ -160,6 +139,23 @@
                 vRel  = TABLE.attr('rel');
                 var element = type == 'table' ? "tr:first" : '.fl-box';
                 onDelete($(this).parents(element));
+            });
+
+            this.on('change',':input[type="checkbox"]',function(e){
+                var o   = $(e.target),
+                    rel = o.attr('check-rel'),
+                    obj = $('div[item-name="'+rel+'"]',o.parents('tr:first')),
+                    inp = $('input[type="hidden"].'+rel,obj);
+
+                if(o.is(':checked')){
+                    if (inp[0])
+                        inp.remove();
+                }
+                else{
+                    if (!inp[0]){
+                        obj.append('<input type="hidden" class="'+rel+'" name="p_'+rel+'_fk"/>');
+                    }
+                }
             });
 
 
@@ -260,7 +256,6 @@
                             $(settings.btnObjDelete,e).hide();
                         }
                     }
-
                     
                 };
 
