@@ -1,7 +1,7 @@
 package nosi.core.gui.components;
 
 import java.util.List;
-
+import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Core;
@@ -82,8 +82,8 @@ public class IGRPFormList extends IGRPSeparatorList {
 					this.xml.text(aux.length > 1?aux[1]:"");
 					this.xml.endElement();
 					
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + (aux.length>0?aux[0]:"") + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\"" + (aux.length > 1?aux[1]:"") + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length>0?aux[0]:"") + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 1?aux[1]:"") + "\"></hidden>");
 				}
 				this.xml.endElement();
 			}

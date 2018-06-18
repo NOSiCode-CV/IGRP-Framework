@@ -247,36 +247,38 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>						
-						<xsl:call-template name="newlineTab2"/>
-						
-						<xsl:value-of select="'model.load();'"/>
-													
-						<xsl:call-template name="newlineTab2"/>		
-					
+						<xsl:call-template name="newlineTab2"/>						
+						<xsl:value-of select="'model.load();'"/>													
+						<xsl:call-template name="newlineTab2"/>	
+						<xsl:for-each select="//rows/content/*[@type!='table']/fields/*">  
+							<xsl:if test="@action and @app and @page and @custom_action=''"> 
+								<xsl:variable name="name_">
+				    			<xsl:call-template name="CamelCaseWord">
+							        <xsl:with-param name="text">
+							        	<xsl:value-of select="name()"/>
+							        </xsl:with-param>
+						        </xsl:call-template>
+				    			</xsl:variable> 
+				    			
+								<xsl:variable name="_app" select="concat($double_quotes,@app,$double_quotes)"/>
+						 		<xsl:variable name="_page" select="concat($double_quotes,@page,$double_quotes)"/>
+						 		<xsl:variable name="_action" select="concat($double_quotes,@action,$double_quotes)"/>					
+								<xsl:value-of select="concat('model.set',$name_,'(',$_app,',',$_page,',',$_action,');')"/>						
+								<xsl:call-template name="newlineTab2"/>		
+								
+							</xsl:if>	
+						</xsl:for-each> 	
+							
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
-						<!-- <xsl:call-template name="start-code">
-				     		<xsl:with-param name="type" select="concat($action,'-load')"/>
-				     		<xsl:with-param name="url" select="$url"/>
-				     	</xsl:call-template> -->
-
-						<!-- <xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/> -->
-						
-						<!--  <xsl:call-template name="gen-lookups"/> -->
 						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select']">
-							
-							<xsl:call-template name="start-example"/>
-				    		<xsl:call-template name="newlineTab2"/>					    		
+							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
 							<xsl:call-template name="setSqlChart"/>						
-							<xsl:call-template name="setSqlCombobox"/>
-							
-
+							<xsl:call-template name="setSqlCombobox"/>	
 							<xsl:call-template name="end-example"/>
-
-						</xsl:if>
-						
+						</xsl:if>						
 
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
@@ -285,32 +287,22 @@
 							
 				     	<xsl:value-of select="'view.setModel(model);'"/>
 				     	<xsl:call-template name="newlineTab2"/>
-
-						<xsl:value-of select="'return this.renderView(view);'"/>
-					
+				     	
+						<xsl:value-of select="'return this.renderView(view);'"/>					
 					</xsl:when>
+					
 					<xsl:when test="$type_render_='redirect'">
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
-					    <xsl:call-template name="newlineTab2"/>			
-						<xsl:value-of select="'model.load();'"/>
-
-						<xsl:call-template name="start-example"/>
 						
+						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
+					    <xsl:call-template name="newlineTab2"/>		
+					    	
+						<xsl:value-of select="'model.load();'"/>
+						<xsl:call-template name="start-example"/>						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
-<!-- 						<xsl:value-of select="concat('','if(model.save(model)){')"/> -->
-<!-- 						<xsl:call-template name="newlineTab2"/>	 -->
-<!-- 						<xsl:value-of select="$tab"/> -->
-<!-- 						<xsl:value-of select="concat('','Core.setMessageSuccess();')"/> -->
-<!-- 						<xsl:value-of select="$newline"/> -->
-<!-- 						<xsl:value-of select="$tab2"/> -->
-<!-- 						<xsl:value-of select="' }else{'"/>						 -->
-<!-- 						<xsl:call-template name="newlineTab2"/>		 -->
-<!-- 						<xsl:value-of select="$tab"/>						 -->
-<!-- 						<xsl:value-of select="concat('','Core.setMessageError();')"/> -->
-<!-- 						<xsl:call-template name="newlineTab2"/>	 -->
+
 						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 			
 						<xsl:value-of select="$newline"/>
@@ -470,9 +462,9 @@
  	<!-- view.chart_1.loadQuery(Core.query(null,"SELECT 2010 Ano,265 X1, 658 X2, 498 X3,698 X4").union().select("SELECT 2009 Ano,784 X1, 258 X2, 594 X3, 498 X4").union().select("SELECT 2015 Ano,1010 X1, 698 X2, 366 X3, 498 X4")); -->
  	<xsl:template name="setSqlChart">
  		<xsl:for-each select="//content/*[@type='chart']">
-	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
- 			<xsl:call-template name="generateCommentConnectionName"/>
+	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable> 		
 	 		<xsl:value-of select="concat('view.',$instance_name,'.loadQuery(Core.query(null,',$double_quotes,$sql_chart,$double_quotes,'));')"/>
+	 		<xsl:call-template name="newlineTab2"/>		
 	 	</xsl:for-each>
  	</xsl:template>
  	
@@ -517,8 +509,7 @@
  	<xsl:template name="setSqlCombobox">
  		<xsl:for-each select="//content/*">
 	 		<xsl:for-each select="fields/*[@type='select']">
-		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
-	 			<xsl:call-template name="generateCommentConnectionName"/>
+		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 			
 		 		<xsl:choose>
 		 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">
 		 					<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(',$double_quotes,@conn,$double_quotes,',',$double_quotes,@schemaName,$double_quotes,',',$double_quotes,@tableName,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,'));')"/>
@@ -526,7 +517,8 @@
 		 			<xsl:otherwise>
 		 				<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,'));')"/>
 		 			</xsl:otherwise>
-		 		</xsl:choose>		 		
+		 		</xsl:choose>	
+		 		<xsl:call-template name="newlineTab2"/>			 		
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>

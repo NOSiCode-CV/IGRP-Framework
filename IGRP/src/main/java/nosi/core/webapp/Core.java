@@ -28,8 +28,10 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.xml.bind.JAXB;
+import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
+import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.Config;
 import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
@@ -1109,6 +1111,10 @@ public final class Core { // Not inherit
 		mapper.map(source, destination);
 	}
 
+	public static SessionFactory getSessionFactory(String connectionName) {
+		return HibernateUtils.getSessionFactory(connectionName);
+	}
+	
 	public static String getPinkColor() {
 		return "1";
 	}
@@ -1189,7 +1195,6 @@ public final class Core { // Not inherit
 
 	public static GenericServiceResponse getBizTalkClientService(ServiceSerach service) {
 		String args = new Request().prepare(service, "xml");
-		System.out.println("args: " + args);
 		return getBizTalkClient(service.getClientID(), service.getTransactionID(), service.getServiceID(), args);
 	}
 

@@ -1,8 +1,8 @@
 package nosi.core.webapp.bpmn;
 
 import java.util.List;
-import org.apache.commons.text.StringEscapeUtils;
-import nosi.core.webapp.Controller;
+import org.apache.commons.lang.StringEscapeUtils;
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
@@ -45,8 +45,10 @@ public class BPMNHelper {
 	}
 	
 	//Add file separator, allow to upload your file
-	public static String addFileSeparator(Controller controller,String processDefinition,String taskDefinition,Integer idApp,List<HistoricTaskService> history) {
-		List<TipoDocumentoEtapa> tipoDocs = new TipoDocumentoEtapa()
+	public static String addFileSeparator(String processDefinition,String taskDefinition,Integer idApp,List<HistoricTaskService> history) {
+
+		DisplayDocmentType display = new DisplayDocmentType();
+		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
@@ -54,81 +56,53 @@ public class BPMNHelper {
 				.andWhere("status", "=",1)
 				.andWhere("tipo", "=","IN")
 				.all();
-		if(tipoDocs != null && tipoDocs.size() > 0 && Core.isNull(history)){
-			for(TipoDocumentoEtapa doc:tipoDocs){
-				controller.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
-				controller.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
-				controller.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
-				controller.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
-				controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",getObrigatoriedade(doc.getRequired()));
-				controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",getObrigatoriedade(doc.getRequired()));
-				controller.addQueryString("p_formlist_documento_task_mostrar_fk","");
-				controller.addQueryString("p_formlist_documento_task_mostrar_fk_desc","");
-			}			
-		}else if(tipoDocs != null && !tipoDocs.isEmpty() && history!=null && !history.isEmpty()) {
+		if(tipoDocsIN != null && !tipoDocsIN.isEmpty() && history!=null && !history.isEmpty()) {
 			List<TaskVariables> variables = history.get(0).getVariables(); 
 			if(variables !=null) {
-				tipoDocs.stream().forEach(doc->{			 			 	
+				tipoDocsIN.stream().forEach(doc->{			 			 	
 					variables.stream()
 					 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
-					 		 .forEach(v->{
-					 			 controller.addQueryString("p_formlist_documento_task_nome_fk",doc.getTipoDocumento().getNome());
-					 			 controller.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getTipoDocumento().getNome());
-					 			 controller.addQueryString("p_formlist_documento_task_descricao_fk",doc.getTipoDocumento().getDescricao());
-					 			 controller.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getTipoDocumento().getDescricao());
-					 			 controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",getObrigatoriedade(doc.getRequired()));
-					 			 controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",getObrigatoriedade(doc.getRequired()));
-					 			 controller.addQueryString("p_formlist_documento_task_documento_fk_desc", v.getName());
-					 			 controller.addQueryString("p_formlist_documento_task_documento_fk", v.getName());
-					 			 controller.addQueryString("formlist_documento_task_documento_fk",v.getName());
-					 			 controller.addQueryString("formlist_documento_task_documento_fk_desc",v.getName());
-					 			 controller.addQueryString("p_formlist_documento_task_mostrar_fk",controller.getConfig().getResolveUrl("igrp","Addfiletask","index").replaceAll("&", "&amp;")+"&amp;taskid="+history.get(0).getId()+"&amp;filename="+v.getName());
-					 			 controller.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
+					 		 .forEach(v->{					 			 
+					 			 doc.setLink(new Config().getResolveUrl("igrp","Addfiletask","index")+"&taskid="+history.get(0).getId()+"&filename="+v.getName());
+					 			 doc.setLink_desc("Mostrar");
 					 		 });
 				});			
 			}
+			display.setListTipoDocs(tipoDocsIN);
+			display.addListTipoDocs(getTipoDocOutput(taskDefinition, history.get(0).getProcessDefinitionId()));
+		}else {
+			display.setListTipoDocs(tipoDocsIN);
+			display.addListTipoDocs(getTipoDocOutput());
 		}
-		tipoDocs = addOutPut(controller);
-		return tipoDocs != null && !tipoDocs.isEmpty()?controller.call("igrp", "Addfiletask", "index", controller.queryString()).getContent():"";
+		return display.display();
 	}
 	
 	
-	private static List<TipoDocumentoEtapa> addOutPut(Controller controller) {
+	private static List<TipoDocumentoEtapa> getTipoDocOutput() {
 		String taskAnt = Core.getParam("taskAnt");
 		String procAnt = Core.getParam("procAnt");
 		String idAppAnt = Core.getParam("idAppAnt");
-		List<TipoDocumentoEtapa> tipoDocs = null;
 		if(Core.isNotNull(taskAnt) && Core.isNotNull(procAnt) && Core.isNotNull(idAppAnt)) {
-			procAnt = procAnt.substring(0, procAnt.indexOf(":"));
-			tipoDocs = new TipoDocumentoEtapa()
-					.find()
-					.andWhere("processId", "=",procAnt)
-					.andWhere("taskId", "=",taskAnt)
-					.andWhere("status", "=",1)
-					.andWhere("tipo", "=","OUT")
-					.andWhere("repTemplate", "notnull")
-					.all();
-			if(tipoDocs!=null) {
-				tipoDocs.stream().forEach(doc->{
-					 controller.addQueryString("p_formlist_documento_task_nome_fk",doc.getRepTemplate().getCode());
-		 			 controller.addQueryString("p_formlist_documento_task_nome_fk_desc",doc.getRepTemplate().getCode());
-		 			 controller.addQueryString("p_formlist_documento_task_descricao_fk",doc.getRepTemplate().getName());
-		 			 controller.addQueryString("p_formlist_documento_task_descricao_fk_desc",doc.getRepTemplate().getName());
-		 			 controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk",getObrigatoriedade(doc.getRequired()));
-		 			 controller.addQueryString("p_formlist_documento_task_obrigatoriedade_fk_desc",getObrigatoriedade(doc.getRequired()));
-		 			 controller.addQueryString("p_formlist_documento_task_documento_fk_desc",doc.getRepTemplate().getName());
-		 			 controller.addQueryString("p_formlist_documento_task_documento_fk",doc.getRepTemplate().getName());
-		 			 controller.addQueryString("formlist_documento_task_documento_fk",doc.getRepTemplate().getName());
-		 			 controller.addQueryString("formlist_documento_task_documento_fk_desc",doc.getRepTemplate().getName());
-		 			 controller.addQueryString("p_formlist_documento_task_mostrar_fk",controller.getConfig().getResolveUrl("igrp_studio","web-report","get-report&code="+doc.getRepTemplate().getCode()));
-		 			 controller.addQueryString("p_formlist_documento_task_mostrar_fk_desc","Mostrar");
-				});
-			}
+			return getTipoDocOutput(taskAnt,procAnt);
 		}
-		return tipoDocs;
-		
+		return null;
 	}
-	private static String getObrigatoriedade(int required) {
-		return required==1?"Sim":"Nao";
+
+	private static List<TipoDocumentoEtapa> getTipoDocOutput(String task, String proc) {
+		List<TipoDocumentoEtapa> tipoDocs = null;
+		proc = proc.substring(0, proc.indexOf(":"));
+		tipoDocs = new TipoDocumentoEtapa()
+				.find()
+				.andWhere("processId", "=",proc)
+				.andWhere("taskId", "=",task)
+				.andWhere("status", "=",1)
+				.andWhere("tipo", "=","OUT")
+				.andWhere("repTemplate", "notnull")
+				.all();
+		tipoDocs.stream().forEach(t->{
+			t.setLink(new Config().getResolveUrl("igrp_studio","web-report","get-report&code="+t.getRepTemplate().getCode()));
+			t.setLink_desc("Mostrar");
+		});
+		return tipoDocs;
 	}
 }

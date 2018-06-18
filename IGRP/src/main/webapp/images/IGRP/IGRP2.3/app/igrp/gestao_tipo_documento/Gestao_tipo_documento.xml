@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Gestao_tipo_documento</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Gestao_tipo_documento</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=60</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Gestao Tipo Documento</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <codigo name="p_codigo" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Elit ipsum totam rem dolor</value>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Anim officia natus aperiam mollit</value>
+                </nome>
+                <descricao name="p_descricao" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descrição</label>
+                    <value>Natus sed totam labore amet</value>
+                </descricao>
+                <ativo name="p_ativo" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
+                    <label>Ativo?</label>
+                    <value>1</value>
+                </ativo>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <t_aplicacao name="p_t_aplicacao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Aplicação</label>
+                </t_aplicacao>
+                <t_codigo name="p_t_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Codigo</label>
+                </t_codigo>
+                <t_nome name="p_t_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </t_nome>
+                <t_descricao name="p_t_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descrição</label>
+                </t_descricao>
+                <t_estado name="p_t_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </t_estado>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <t_aplicacao name="p_t_aplicacao">Dolor labore stract sit dolor</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Magna officia mollit deserunt</t_codigo>
+                        <t_nome name="p_t_nome">Voluptatem stract mollit sed u</t_nome>
+                        <t_descricao name="p_t_descricao">Labore elit anim iste sit</t_descricao>
+                        <t_estado name="p_t_estado">Amet unde deserunt voluptatem</t_estado>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <t_aplicacao name="p_t_aplicacao">Omnis elit amet laudantium ame</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Accusantium adipiscing anim se</t_codigo>
+                        <t_nome name="p_t_nome">Sit lorem mollit adipiscing la</t_nome>
+                        <t_descricao name="p_t_descricao">Dolor sed aliqua sit ut</t_descricao>
+                        <t_estado name="p_t_estado">Omnis lorem magna laudantium o</t_estado>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <t_aplicacao name="p_t_aplicacao">Accusantium ut anim lorem tota</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Stract sed accusantium labore</t_codigo>
+                        <t_nome name="p_t_nome">Officia labore doloremque aliq</t_nome>
+                        <t_descricao name="p_t_descricao">Natus sit officia consectetur</t_descricao>
+                        <t_estado name="p_t_estado">Aperiam iste sit unde sit</t_estado>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <t_aplicacao name="p_t_aplicacao">Natus consectetur totam amet s</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Lorem laudantium officia accus</t_codigo>
+                        <t_nome name="p_t_nome">Omnis iste totam elit unde</t_nome>
+                        <t_descricao name="p_t_descricao">Consectetur ipsum perspiciatis</t_descricao>
+                        <t_estado name="p_t_estado">Sit voluptatem laudantium sed</t_estado>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <t_aplicacao name="p_t_aplicacao">Laudantium amet dolor consecte</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Stract sit sit rem dolor</t_codigo>
+                        <t_nome name="p_t_nome">Sed sit rem ut voluptatem</t_nome>
+                        <t_descricao name="p_t_descricao">Stract deserunt consectetur ut</t_descricao>
+                        <t_estado name="p_t_estado">Aliqua rem omnis ipsum perspic</t_estado>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>Gestao_tipo_documento</page>
+                <link>index</link>
+                <target>submit_form</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml</preview>
+            </item>
+        </toolsbar_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Gestão Tipo de Documento</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+    </content>
+</rows>

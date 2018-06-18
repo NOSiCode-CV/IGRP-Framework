@@ -20,8 +20,8 @@ public class AddfiletaskController extends Controller {
 		model.load();
 		AddfiletaskView view = new AddfiletaskView();
 		/*----#start-code(index)----*/
-		String taskId = Core.getParam("amp;taskid");
-		String fileName = Core.getParam("amp;filename");
+		String taskId = Core.getParam("taskid");
+		String fileName = Core.getParam("filename");
 		if(Core.isNotNull(taskId) && Core.isNotNull(fileName)) {
 			String url = "history/historic-task-instances/"+taskId+"/variables/"+fileName+"/data";
 			FileRest content = new TaskService().getFile(url);

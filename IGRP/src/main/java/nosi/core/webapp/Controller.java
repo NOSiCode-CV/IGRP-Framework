@@ -10,6 +10,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -133,10 +134,11 @@ public abstract class Controller{
 			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}		
+		
 		String content = this.view.getPage().renderContent(false);
 		String taskId = Core.getParam("taskId");
 		String p_processId = Core.getParam("p_processId");
-		String taskName = Core.getParam("taskName");
+		//String taskName = Core.getParam("taskName");
 		String taskDefinition = Core.getParam("taskDefinition");
 		String processDefinition = Core.getParam("processDefinition");		
 		XMLExtractComponent comp = new XMLExtractComponent();
@@ -144,7 +146,7 @@ public abstract class Controller{
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
-		xml.setElement("title", taskName+" - Nº "+taskId);
+		//xml.setElement("title", taskName+" - Nº "+taskId);
 		if(Core.isNotNull(p_processId)) {
 			xml.addXml(comp.generateButtonProcess(p_processId).toString());
 		}
@@ -152,9 +154,13 @@ public abstract class Controller{
 			xml.addXml(comp.generateButtonTask(app,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		xml.addXml(content);
-		xml.addXml(comp.extractXML(BPMNHelper.addFileSeparator(this,processDefinition,taskDefinition,ac.getApplication().getId(),null)));
+		xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,ac.getApplication().getId(),null));
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
+		if(m!=null){
+			xml.addXml(m);
+		}
 		xml.endElement();
-		
 		resp.setContent(xml.toString());
 		return resp;
 	}

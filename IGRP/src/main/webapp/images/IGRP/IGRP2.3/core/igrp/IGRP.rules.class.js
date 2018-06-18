@@ -233,9 +233,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 			
 			names.forEach(function(n){
 				res['p_'+n] = $('[name="p_'+n+'"]').val();
-			});
-		}
 
+				if (typeof res['p_'+n] === 'object') 
+					res['p_'+n] = $.IGRP.utils.arrayValuesToString(res['p_'+n],';');
+				
+			});	
+		}
+		
 		return res;
 	};
 
@@ -375,8 +379,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 						fieldName = xpr.slice(xi.length, xpr.indexOf(xe) ),
 
 						field 	  = fieldName == 'this' ? $(r.field) : $('[name="'+fieldName+'"]');
-						
-						console.log(field);
 
 					replaceObj[xpr] = {
 
@@ -482,8 +484,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-
-					$('[required]',t).removeClass('no-required-validation');
+					var c = $(t).attr('item-type') ? 'no-validation' : 'no-required-validation';
+					$(':input[required]',t).removeClass(c);
 
 				});
 
@@ -498,9 +500,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-					//console.log(t);
-					//console.log($('[required]',t));
-					$('[required]',t).addClass('no-required-validation');
+					var c = $(t).attr('item-type') ? 'no-validation' : 'no-required-validation';
+					$(':input[required]',t).addClass(c);
 
 				});
 
@@ -511,6 +512,30 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 			},
 			opposite:'show'
+		},
+		showicon:{
+			do:function(p){
+				$.each(p.targetFields,function(i,t){
+					$('.input-group',t).removeClass('d-block');
+					$('.input-group-btn',t).removeClass('hidden');
+					$('.datepicker-clear',t).removeClass('hidden');
+				});
+
+				p.targetFields.trigger('igrp.rules.showicon');
+			},
+			opposite:'hideicon'
+		},
+		hideicon:{
+			do:function(p){
+				$.each(p.targetFields,function(i,t){
+					$('.input-group',t).addClass('d-block');
+					$('.input-group-btn',t).addClass('hidden');
+					$('.datepicker-clear',t).addClass('hidden');
+				});
+
+				p.targetFields.trigger('igrp.rules.hideicon');
+			},
+			opposite:'showicon'
 		},
 		disabled:{
 			do:function(p){
@@ -622,16 +647,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 					method 	: 'POST',
 					success : function(data){
 
-						var contents = $(data).find('>*');
+						var contents = $(data).find('>*'),
+							arrField = [];
 
 						$.each($(contents),function(i,item){
-							
-							var tag 	    = item.tagName.toLowerCase(),
 
-								val         = $(item).text();
-
-							$.IGRP.utils.setFieldValue( tag , val );
-
+							var o = $.IGRP.utils.setFieldValue(item);
 						});
 					}
 				});

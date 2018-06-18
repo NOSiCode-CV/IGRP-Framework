@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 
 /**
@@ -44,7 +45,10 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "report_fk",foreignKey = @ForeignKey(name="TIPO_DOCUEMNTO_ETAPA_REPORT_FK"),nullable=true)
 	private RepTemplate repTemplate;
-	
+	@Transient
+	private String link="#";
+	@Transient
+	private String link_desc="";
 	
 	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
 		super();
@@ -115,6 +119,25 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 
 	public void setRepTemplate(RepTemplate repTemplate) {
 		this.repTemplate = repTemplate;
+	}
+
+
+	@Transient
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	@Transient
+	public String getLink_desc() {
+		return link_desc;
+	}
+
+	public void setLink_desc(String link_desc) {
+		this.link_desc = link_desc;
 	}
 
 	@Override
