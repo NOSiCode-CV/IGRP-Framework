@@ -58,8 +58,10 @@ public class PartilhageralController extends Controller {
 		// view.aplicacao_destino.setQuery(Core.query(null,"SELECT '' as ID,'--
 		// Selecionar --' as NAME "));
 
-		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {		
-		view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Core.toInt(v)));		
+		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {	
+			
+		view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Core.toInt(v)));	
+		
 		});
 
 		List<Partilhageral.Table_1> t = new ArrayList<Partilhageral.Table_1>();
