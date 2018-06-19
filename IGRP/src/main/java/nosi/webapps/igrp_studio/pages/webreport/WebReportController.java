@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
