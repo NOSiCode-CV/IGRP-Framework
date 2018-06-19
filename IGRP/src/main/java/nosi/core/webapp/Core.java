@@ -16,11 +16,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
@@ -1790,5 +1793,46 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
+	
+	/**
+	 * @param query Usually the result of Core.query(null,"(SELECT 'id' as ID,'name' as NAME) ") 
+	 * @param prompt The comboBox prompt 
+	 * @return A xml result 
+	 */
+	public static String remoteComboBoxXml(BaseQueryInterface query, String []selected, String prompt) {
+		Map<Object,Object> map = new LinkedHashMap<>();
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+		xml += "<list>";
+		if(prompt!=null) {
+			xml += "<option><text>" + prompt + "</text><value></value></option>";
+		}
+		List<Tuple> list=query.getResultList();
+		if(list!=null && !list.isEmpty()) {
+			for(Tuple t:list){
+				try {
+					map.put(t.get(0), t.get(1));
+				}catch(IllegalArgumentException e) {
+					
+				}
+			}
+		}
+		for(Object k : map.keySet()) {
+			Object v = map.get(k);
+			xml += "<option ";
+				
+			if(selected != null )
+				for(String obj : selected) {
+					if(obj.equals(k)) {
+						xml += " selected=\"selected\" ";
+						break;
+					}
+				}
+			xml += ">";
+			xml +=  "<text>" + v + "</text><value>" + k + "</value></option>";
+		}
+		xml += "</list>";
+		return xml;
+	}
+	
 	
 }
