@@ -57,7 +57,7 @@
 
 							ct = o.content ? typeof o.content == 'function' ? o.content() : o.content : '';
 
-							li = $('<li '+nm+' '+nd+'><a data-toggle="tab" href="#'+id+'">'+tt+'</a></li>'),
+							li = $('<li '+nm+' '+nd+'><a data-toggle="tab" href="#'+id+'" data-toggle="tooltip" data-placement="bottom" title="'+tt+'">'+tt+'</a></li>'),
 
 							bd = $('<div id="'+id+'" class="tab-pane"></div>');
 
@@ -72,7 +72,7 @@
 						ul.append(li);
 
 						contents.append(bd);
-
+						
 						if(o.active || $('li',ul).length == 1)
 
 							actions.activate(id);
@@ -253,8 +253,8 @@
 		},
 
 		hasFieldsError : function(){
-			if($('.submittable.error')[0]){
-				var tab = $('.submittable.error:first').parents('.tab-pane');
+			if($(':input[required="required"].error')[0]){
+				var tab = $(':input[required="required"].error:first').parents('.tab-pane');
 				if(tab[0])
 					$('li[rel="'+tab.attr('id')+'"] a').click();
 			}

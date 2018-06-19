@@ -1,7 +1,6 @@
 package nosi.webapps.igrp_studio.pages.file_editor;
 
 import java.util.List;
-import nosi.webapps.igrp_studio.pages.file_editor.FileEditor.ChildFileEditor;
 
 /**
  * Emanuel
@@ -10,7 +9,7 @@ import nosi.webapps.igrp_studio.pages.file_editor.FileEditor.ChildFileEditor;
 public class DirFileEditor {
 
 	private List<FileEditor> dir;	
-	private List<ChildFileEditor> default_file;
+	private FileEditor.DefualtFile[] default_file;
 	
 	public DirFileEditor() {
 		
@@ -24,11 +23,11 @@ public class DirFileEditor {
 		this.dir = dir;
 	}
 
-	public List<ChildFileEditor> getDefault_file() {
+	public FileEditor.DefualtFile[] getDefault_file() {
 		return default_file;
 	}
 
-	public void setDefault_file(List<ChildFileEditor> default_file) {
+	public void setDefault_file(FileEditor.DefualtFile[] default_file) {
 		this.default_file = default_file;
 	}
 	

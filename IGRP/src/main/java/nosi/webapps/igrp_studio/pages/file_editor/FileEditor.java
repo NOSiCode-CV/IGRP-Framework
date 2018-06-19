@@ -31,7 +31,19 @@ public class FileEditor {
 		this.childs = childs;
 	}
 
+	public static class DefualtFile{
+		private Integer[] id;
 
+		public Integer[] getId() {
+			return id;
+		}
+
+		public void setId(Integer[] id) {
+			this.id = id;
+		}	
+		
+	}
+	
 	public static class ChildFileEditor{
 		private String name;
 		private Integer id;
@@ -55,7 +67,5 @@ public class FileEditor {
 		public void setPath(String path) {
 			this.path = path;
 		}
-		
-		
 	}
 }

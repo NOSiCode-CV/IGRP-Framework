@@ -2940,10 +2940,9 @@ var GENERATOR = function(genparams){
 											text     = jsonRes.msg;
 
 										notifyOptions.type = vtype;
-
 										$.notify({		
 											
-											message: text,
+											message:$('<div />').html(text).text() ,
 											
 										},notifyOptions);
 										

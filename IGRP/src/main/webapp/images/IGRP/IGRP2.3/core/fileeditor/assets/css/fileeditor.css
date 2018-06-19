@@ -134,4 +134,16 @@ form .container-fluid,
 	border:0;
 }
 
+div[item-name="igrp-fileeditor"] ul.nav li {
+	max-width: 150px;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li a{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+
     
