@@ -95,7 +95,7 @@
 			},
 			getFieldsValidate:function(f){
 				var form = f && f[0] ? f : $.IGRP.utils.getForm();
-				var fields = $(':input',form).not('.no-validation, .no-required-validation, .not-form, .IGRP_checkall');
+				var fields = $('input,select,textarea',form).not('.no-validation, .no-required-validation, .not-form').not('.IGRP_checkall');
 				
 				return fields;
 			},
@@ -512,7 +512,7 @@
 				response    = null,
 				message 	= '';
 
-			form.attr('accept-charset','ISO-8859-1');
+			form.attr('accept-charset','UTF-8');
 			
 
 			//console.log(document.charset);
@@ -520,13 +520,13 @@
 		    vRequest.open("POST",p.pUrl,true);
 		    vRequest.timeout = 600000; // time in milliseconds
 
-		    vRequest.setRequestHeader('Encoding','ISO-8859-1');
-			vRequest.setRequestHeader('Charset','ISO-8859-1');
+		    vRequest.setRequestHeader('Encoding','UTF-8');
+			vRequest.setRequestHeader('Charset','UTF-8');
 			//vRequest.setRequestHeader("Content-Type", "multipart/form-data;charset=ISO-8859-1");
 			vRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 			if(vRequest.overrideMimeType)
-		    	vRequest.overrideMimeType('text/xml; charset=ISO-8859-1');
+		    	vRequest.overrideMimeType('text/xml; charset=UTF-8');
 
 		    vRequest.ontimeout = function (e) {
 				$.IGRP.utils.loading.hide();
@@ -548,7 +548,6 @@
 		    		$.IGRP.utils.loading.hide();
 		    		
 		    		if (showNotify){
-		    			
 		    			if(vRequest.status == 200){
 			    			try{
 			    				response 	= $($.parseXML(vRequest.response)).find('messages message');
@@ -566,20 +565,14 @@
 		    			message = message && message != undefined ? message : 'Request info: Status '+vRequest.status+' '+vRequest.statusText; 
 
 		    			$.IGRP.notify({
-
 							message : $.IGRP.utils.htmlDecode(message),
-
 							type	: typeNotify
-
 						});
 					}
 
 		    		if(p.pComplete) 
-
 			    		p.pComplete(vRequest);
-
 		    	}
-
 		    };
 
 		    vRequest.send(vData);
@@ -642,7 +635,7 @@
 				var obj  = [],
 					xml  = p.serialize.find('*').not(p.notSerialize).serializeArray();
 
-				xml = '<?xml version="1.0" encoding="ISO-8859-1"?><content>'+
+				xml = '<?xml version="1.0" encoding="UTF-8"?><content>'+
 					$.IGRP.utils.submitPage2File.json2xml(xml)+'</content>';
 
 				obj.push({name:p.fileName,value:xml});
@@ -818,9 +811,7 @@
 								options.nodes.forEach(function(n){
 
 									var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
-
 										test : 'rows/content/'+n
-
 									})[0];
 									
 									var xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement,includesArr);
@@ -836,11 +827,8 @@
 										complete     : function(e,c){
 											if(params.success)
 												params.success({
-
 													itemName : n,
-
 													itemHTML : $('.gen-container-item[item-name="'+n+'"]')
-
 												});
 										},
 										error: function(e){

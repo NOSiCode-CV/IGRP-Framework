@@ -89,10 +89,10 @@ public class BPMNDesignerController extends Controller {
 			}
 			deploy = deploy.create(data.getInputStream(),app.getDad(), fileName,data.getContentType());
 			if(deploy!=null && Core.isNotNull(deploy.getId()) && Core.isNull(erros)){
-				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(StringEscapeUtils.escapeHtml4(FlashMessage.MESSAGE_SUCCESS)) + "</message></messages>");
+				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 			}
 		}else {
-			return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeHtml4("Selecione a aplicação")+"</message></messages>");
+			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
 		}
 		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo "+erros) + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
