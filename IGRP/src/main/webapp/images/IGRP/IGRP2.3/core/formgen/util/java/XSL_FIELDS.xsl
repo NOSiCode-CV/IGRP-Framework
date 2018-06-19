@@ -87,7 +87,7 @@
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/> 
 						</xsl:if>
-						
+						 
 						<xsl:if test="@action and @app and @page and @custom_action=''">
 							<xsl:variable name="_app" select="concat($double_quotes,@app,$double_quotes)"/>
 					 		<xsl:variable name="_page" select="concat($double_quotes,@page,$double_quotes)"/>
@@ -98,7 +98,7 @@
 							</xsl:variable>
 							
 							<xsl:value-of select="concat($tag_name,'.setValue(',$linkUrl,')')"/>;
-<!-- 							<xsl:value-of select="$newline"/> -->
+
 							<xsl:value-of select="$tab2"/> 
 						</xsl:if>
 						

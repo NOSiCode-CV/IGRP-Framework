@@ -2,6 +2,9 @@
 package nosi.webapps.igrp.pages.datasource;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -41,16 +44,13 @@ public class DataSourceController extends Controller {
 		model.load();
 		DataSourceView view = new DataSourceView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.etapa.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/	
 	
 		view.tipo.setQuery(Core.query(null,"SELECT 'Task' as ID,'Etapa' as NAME UNION SELECT 'Object' as ID,'Objeto' as NAME UNION SELECT 'Page' as ID,'Pagina' as NAME UNION SELECT 'Query' as ID,'Query' as NAME"),"--- Selecionar Tipo Data Source ---");
@@ -77,7 +77,7 @@ public class DataSourceController extends Controller {
 				if(rep.getType_name().equalsIgnoreCase("page")) {
 					Action ac = new Action().findOne(rep.getType_fk());
 					model.setPagina(ac.getPage_descr());
-					model.setId_pagina(""+ac.getId());
+					model.setId_pagina(ac.getId());
 				}
 			}
 			view.pagina.setLookup("igrp","LookupListPage","index");
@@ -123,15 +123,11 @@ public class DataSourceController extends Controller {
 		DataSource model = new DataSource();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-
 		 return this.forward("igrp","DataSource","index", this.queryString()); //if submit, loads the values
-		}
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/		
 		
   		this.addQueryString("p_id_env",model.getId_env());
@@ -151,7 +147,7 @@ public class DataSourceController extends Controller {
 				rep.setType_query(model.getObjecto());
 			}
 			if(model.getTipo().equalsIgnoreCase("page")){				
-				rep.setType_fk(Integer.parseInt(model.getId_pagina()));
+				rep.setType_fk(model.getId_pagina());
 			}
 			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
 				String query = rep.getType_query();

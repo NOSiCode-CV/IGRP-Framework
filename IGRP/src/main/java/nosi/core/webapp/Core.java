@@ -1796,6 +1796,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 * @param query Usually the result of Core.query(null,"(SELECT 'id' as ID,'name' as NAME) ") 
+	 * @param selected A list selected values 
 	 * @param prompt The comboBox prompt 
 	 * @return A xml result 
 	 */
@@ -1833,6 +1834,5 @@ public final class Core { // Not inherit
 		xml += "</list>";
 		return xml;
 	}
-	
 	
 }

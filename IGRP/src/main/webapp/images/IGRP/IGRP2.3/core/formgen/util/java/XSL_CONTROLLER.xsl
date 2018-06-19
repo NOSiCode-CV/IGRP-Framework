@@ -300,17 +300,14 @@
 					    	
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="start-example"/>						
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>	
-
 						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
-			
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
 						
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString()); //if submit, loads the values')"/>							
-							
-<!-- 						<xsl:value-of select="concat('}','')"/> -->
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						
 
 						<xsl:call-template name="end-example"/>
 			

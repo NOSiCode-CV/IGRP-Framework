@@ -475,9 +475,9 @@
         <xsl:call-template name="newlineTab2"/>
         <xsl:text>/*----#gen-example</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>  Query examples COPY/PASTE:</xsl:text>
+        <xsl:text>  EXAMPLES COPY/PASTE:</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>  Info!: Core.query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
+        <xsl:text>  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
         <xsl:call-template name="newlineTab2"/>
     </xsl:template>
 

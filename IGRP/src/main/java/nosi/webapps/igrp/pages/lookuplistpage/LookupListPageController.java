@@ -156,17 +156,18 @@ public class LookupListPageController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(Formlist_1 fm,LookupListPage model,String relation_type_id) {
-		if(fm.getCheckbox()==null)
-			return new ResultSet();
-
-		return  Core.insert("tbl_tipo_documento_etapa")
+		if(fm.getCheckbox()!=null && Core.toInt(fm.getCheckbox().getKey(),-1)!=-1) {
+			return  Core.insert("tbl_tipo_documento_etapa")
 					.addInt("status", 1)
-					.addInt(relation_type_id,Core.toInt(fm.getCheckbox().getKey(),-1))
+					.addInt(relation_type_id,Core.toInt(fm.getCheckbox().getKey()))
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
 					.addInt("required", fm.getObrigatorio()!=null?Core.toInt(fm.getObrigatorio().getKey()):0)
 					.addString("tipo", fm.getTipo().getKey())
 					.execute();
+		}
+		return new ResultSet();
+		
 	}
 	/*----#end-code----*/
 	}

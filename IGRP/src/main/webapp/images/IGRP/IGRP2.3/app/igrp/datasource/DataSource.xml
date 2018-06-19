@@ -32,6 +32,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=24</preserve_url>
     </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Data Source</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
@@ -41,7 +43,7 @@
                 <page>DataSource</page>
                 <link>index</link>
                 <target>submit</target>
-                <img>success|fa-save</img>
+                <img>primary|fa-save</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xml</preview>
             </item>
             <item type="specific" code="" rel="fechar">
@@ -56,7 +58,7 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Data Source</label>
                     <list>
                         <option/>
@@ -78,7 +80,7 @@
                         </option>
                     </list>
                 </data_source>
-                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Tipo</label>
                     <list>
                         <option/>
@@ -103,9 +105,9 @@
                 </tipo>
                 <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Ipsum labore lorem aperiam ipsum</value>
+                    <value>Laudantium adipiscing sit aliqua iste</value>
                 </nome>
-                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="">
+                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Processo</label>
                     <list>
                         <option/>
@@ -127,7 +129,7 @@
                         </option>
                     </list>
                 </processo>
-                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Etapa</label>
                     <list>
                         <option/>
@@ -151,9 +153,9 @@
                 </etapa>
                 <objecto name="p_objecto" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Objecto</label>
-                    <value>Iste voluptatem doloremque unde iste</value>
+                    <value>Rem stract magna adipiscing consectetur</value>
                 </objecto>
-                <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="primary" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Pagina</label>
                     <value/>
                     <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
@@ -161,7 +163,7 @@
                 </pagina>
                 <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Query</label>
-                    <value>Consectetur iste amet ipsum consectetur rem unde aperiam ipsum omnis consectetur lorem sit labore amet</value>
+                    <value>Officia lorem officia ut anim consectetur dolor rem sit consectetur elit iste unde deserunt anim</value>
                 </query>
                 <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Servico</label>
@@ -169,7 +171,7 @@
                     <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
                     <lookupParams/>
                 </servico>
-                <hidden name="p_id_pagina" type="hidden" maxlength="30" java-type="" tag="id_pagina"/>
+                <hidden name="p_id_pagina" type="hidden" maxlength="30" java-type="int" tag="id_pagina"/>
                 <hidden name="p_id_servico" type="hidden" maxlength="30" java-type="" tag="id_servico"/>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
                 <hidden name="p_id_env" type="hidden" maxlength="30" java-type="" tag="id_env"/>
