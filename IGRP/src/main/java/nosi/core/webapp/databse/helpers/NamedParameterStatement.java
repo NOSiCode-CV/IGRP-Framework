@@ -17,22 +17,22 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class NamedParameterStatement {
+	
 	private final PreparedStatement statement;
 
 	private Map<String, int[]> indexMap;
-	private Connection conn;
+	
 	public NamedParameterStatement(Connection connection, String query) throws SQLException {
-		this.conn = connection;
 		statement = connection.prepareStatement(parse(query));
 	}
 
 	public NamedParameterStatement(Connection connection, String query,int generatedkeys) throws SQLException {
-		this.conn = connection;
 		statement = connection.prepareStatement(parse(query), generatedkeys);
 	}
 
@@ -156,16 +156,20 @@ public class NamedParameterStatement {
 		return statement.executeUpdate();
 	}
 	
-	public String executeInsert(String tableName) throws SQLException {
-		String lastInsertedId = "0";
+	public Map<String,Object> executeInsert(String tableName) throws SQLException {
+		Map<String,Object> lastInsertedId = new LinkedHashMap<>();
 		if(statement.executeUpdate() > 0) {				
 			try (java.sql.ResultSet rs = statement.getGeneratedKeys()) {
-				List<String> primaryKeys = DatabaseMetadaHelper.getPrimaryKeys(this.conn, null, tableName);
-				if(!primaryKeys.isEmpty()) {
 			        if (rs.next()) {
-			        	lastInsertedId = rs.getString(primaryKeys.get(0).toString());
+			        	for(int i=1;i<=rs.getMetaData().getColumnCount();i++){
+		        			String key = rs.getMetaData().getColumnName(i);
+			        		try {
+								lastInsertedId.put(key,rs.getString(key));
+							} catch (SQLException e) {
+								lastInsertedId.put(key,"");
+							}
+			        	}
 			        }
-				}
 			}
 			statement.close();
 		}
@@ -446,4 +450,5 @@ public class NamedParameterStatement {
 	public void setCursorName(String name) throws SQLException {
 		statement.setCursorName(name);
 	}
+	
 }

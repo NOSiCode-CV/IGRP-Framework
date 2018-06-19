@@ -8,8 +8,8 @@ import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -289,6 +289,8 @@ public abstract class QueryHelper implements QueryInterface{
 				query.setParameter(col.getName(),Core.ToDate(value.toString(), col.getFormat()));
 			else
 				query.setParameter(col.getName(),value);
+		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
+			query.setParameter(col.getName(),value.toString());
 		}else {
 			query.setParameter(col.getName(),value);
 		}
@@ -318,6 +320,55 @@ public abstract class QueryHelper implements QueryInterface{
 		}
 	}
 	
+//	@Override
+//	public ResultSet execute() {
+//		ResultSet r = new ResultSet();
+//		String sql = this.getSql();
+//		if(this.getConnectionName()!=null) {
+//			EntityManagerFactory entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
+//			EntityManager em = entityManagerFactory.createEntityManager();			
+//			if(this instanceof QueryInsert) {				
+//				if(retuerningKeys!=null) {
+//					sql += " returning "+ String.join(",",(String[])retuerningKeys.toArray());	
+//				}else {
+//					sql += " returning *";
+//				}
+//				Query q = em.createNativeQuery(sql,Tuple.class);
+//				try {
+//					this.setParameters(q);
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//				r.setTuple((Tuple) q.getSingleResult());
+//			}			
+//			else{
+//				Query q = em.createNativeQuery(sql);
+//				try {
+//					this.setParameters(q);
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//				em.getTransaction().begin();
+//				q.executeUpdate();
+//				em.getTransaction().commit();
+//			}
+//			em.close();
+//		}
+//		return r;
+//	}
+	
+	
+	//
+//	private void setParameters(Query q) throws SQLException {
+//		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
+//			 if(col.getDefaultValue()!=null) {
+//				 this.setParameter(q,col.getDefaultValue(),col);					
+//			 }else {
+//				 q.setParameter(col.getName(), null);
+//			 }
+//		}
+//	}
+	
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
@@ -325,7 +376,7 @@ public abstract class QueryHelper implements QueryInterface{
 		if(conn!=null) {
 			if(this instanceof QueryInsert) {
 				try {
-					NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),PreparedStatement.RETURN_GENERATED_KEYS);
+					NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					this.setParameters(q);	
 					Core.log("SQL:"+q.getSql());
 					r.setSql(q.getSql());
@@ -375,6 +426,8 @@ public abstract class QueryHelper implements QueryInterface{
 			 }
 		}
 	}
+
+
 
 	public List<Tuple> getResultList() {
 		throw new UnsupportedOperationException();
@@ -580,6 +633,37 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface select(String collumns) {
+		throw new UnsupportedOperationException();
+	}
+
+//	@Override
+//	public QueryInterface returning(String... retuerningKeys) {
+//		this.retuerningKeys = Arrays.asList(retuerningKeys);
+//		return this;
+//	}
+
+	@Override
+	public QueryInterface innerJoin(String table1, String table2, String key1, String key2) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface leftJoin(String table1, String table2, String key1, String key2) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface rightJoin(String table1, String table2, String key1, String key2) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface outerJoin(String table1, String table2, String key1, String key2) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface selfJoin(String table1, String table2, String key1, String key2) {
 		throw new UnsupportedOperationException();
 	}
 }

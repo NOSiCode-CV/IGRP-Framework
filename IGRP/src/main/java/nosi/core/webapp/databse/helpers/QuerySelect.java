@@ -21,7 +21,6 @@ import nosi.webapps.igrp.dao.Config_env;
 public class QuerySelect extends CommonFIlter{
 
 	private Class<?> className;
-	private String table1 = "";
 	
 	public QuerySelect(String connectionName) {
 		super(connectionName);
@@ -240,7 +239,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface innerJoin(String table2, String key1, String key2) {
 		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" INNER JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
+			this.filterWhere(" INNER JOIN "+table2+" ON "+key1+" = "+key2+" ");
 		}
 		return this;
 	}
@@ -248,7 +247,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface leftJoin(String table2, String key1, String key2) {
 		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" LEFT JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
+			this.filterWhere(" LEFT JOIN "+table2+" ON "+key1+" = "+key2+" ");
 		}
 		return this;
 	}
@@ -256,7 +255,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface rightJoin(String table2, String key1, String key2) {
 		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" RIGHT JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
+			this.filterWhere(" RIGHT JOIN "+table2+" ON "+key1+" = "+key2+" ");
 		}
 		return this;
 	}
@@ -264,7 +263,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface outerJoin(String table2, String key1, String key2) {
 		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" FULL OUTER JOIN "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
+			this.filterWhere(" FULL OUTER JOIN "+table2+" ON "+key1+" = "+key2+" ");
 		}
 		return this;
 	}
@@ -272,11 +271,51 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface selfJoin(String table2, String key1, String key2) {
 		if(Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
-			this.filterWhere(" AND "+table2+" ON "+this.getAlias(this.table1)+"."+key1+" = "+this.getAlias(table2)+"."+key2+" ");
+			this.filterWhere(" AND "+table2+" ON "+key1+" = "+key2+" ");
 		}
 		return this;
 	}
 
+	@Override
+	public QueryInterface innerJoin(String table1, String table2, String key1, String key2) {
+		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(table1+" INNER JOIN "+table2+" ON "+key1+" = "+key2+" ");
+		}
+		return this;
+	}
+
+	@Override
+	public QueryInterface leftJoin(String table1, String table2, String key1, String key2) {
+		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(table1+" LEFT JOIN "+table2+" ON "+key1+" = "+key2+" ");
+		}
+		return this;
+	}
+
+	@Override
+	public QueryInterface rightJoin(String table1, String table2, String key1, String key2) {
+		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(table1+" RIGHT JOIN "+table2+" ON "+key1+" = "+key2+" ");
+		}
+		return this;
+	}
+
+	@Override
+	public QueryInterface outerJoin(String table1, String table2, String key1, String key2) {
+		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(table1+" FULL OUTER JOIN "+table2+" ON "+key1+" = "+key2+" ");
+		}
+		return this;
+	}
+
+	@Override
+	public QueryInterface selfJoin(String table1, String table2, String key1, String key2) {
+		if(Core.isNotNull(table1) && Core.isNotNull(table2) && Core.isNotNull(key1) && Core.isNotNull(key2)) {
+			this.filterWhere(table1+" AND "+table2+" ON "+key1+" = "+key2+" ");
+		}
+		return this;
+	}
+	
 	@Override
 	public QueryInterface union() {
 		this.filterWhere(" UNION ");
@@ -294,16 +333,10 @@ public class QuerySelect extends CommonFIlter{
 	public QueryInterface from(String tables) {
 		if(Core.isNotNull(tables)) {
 			this.setSql(" FROM "+tables);
-			this.table1 = tables;
 		}
 		return this;
 	}
-		
-	private String getAlias(String tableName) {
-		String[] split = tableName.split(" ");
-		return split[split.length-1];
-	}
-	
+
 	public ResultSet executeQuery(Config_env env) {
 		Connection conn =nosi.core.config.Connection.getConnection(env);
 		return executeQuery(conn);

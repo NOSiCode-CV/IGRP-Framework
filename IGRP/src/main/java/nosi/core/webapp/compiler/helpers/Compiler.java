@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 
@@ -45,7 +46,7 @@ public class Compiler {
 			if (this.hasError()) {
 				Map<String, List<ErrorCompile>> er = this.getErrors().stream()
 						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+				 return new Gson().toJson(new MapErrorCompile(StringEscapeUtils.escapeHtml4("Falha na compilação"), er));
 			}
 		}
 		return "";

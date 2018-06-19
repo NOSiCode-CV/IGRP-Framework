@@ -193,11 +193,11 @@
 					</xsl:if>
 				</xsl:for-each>
            </xsl:for-each>
-           <xsl:for-each select="/rows/content/*[@type = 'table']"><!-- add button on table --> 
+           <xsl:for-each select="/rows/content/*[@type = 'table']/*"><!-- add button on table --> 
 			 	<xsl:variable name="form_">
-			 		<xsl:value-of select="local-name()"/>
+			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
-           		<xsl:for-each select="//context-menu/item">         		
+           		<xsl:for-each select="context-menu/item">         		
 					 	<xsl:variable name="button_name">
 							<xsl:value-of select="'btn_'"/>
 							<xsl:value-of select="@rel"/>
