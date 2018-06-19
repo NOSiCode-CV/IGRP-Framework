@@ -2,6 +2,9 @@ package nosi.core.webapp;
 
 import java.util.Map;
 import java.util.Optional;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,8 +30,8 @@ public class FlashMessage implements Serializable{
 	public static final String ERROR = "error";
 	public static final String WARNING = "warning";
 	public static final String INFO = "info";
-	public static final String MSG_ERROR = "<messages><message type=\"error\">Operação falhada!</message></messages>";
-	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operação efetuada com sucesso!</message></messages>";
+	public static final String MSG_ERROR = "<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(StringEscapeUtils.escapeHtml4("Operação falhada!"))+"</message></messages>";
+	public static final String MSG_SUCCESS = "<messages><message type=\"success\">"+StringEscapeUtils.escapeXml10(StringEscapeUtils.escapeHtml4("Operação efetuada com sucesso!"))+"</message></messages>";
     public static final String WARNING_EXPORT_APP = "Esta aplicação não possui conteúdo suficiente para ser exportado";
     
 	public static final String MESSAGE_SUCCESS = "Operação efetuada com sucesso!";

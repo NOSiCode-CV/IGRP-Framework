@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
+import org.apache.commons.text.StringEscapeUtils;
+
 import com.google.gson.Gson;
 import java.io.File;
 import nosi.core.config.Config;
@@ -93,13 +96,13 @@ public class File_editorController extends Controller {
 			FileHelper.saveFilesJavaControllerAndReplace(pathW, ac.getPage(), content);
 			String erros = new Compiler().compile(files);		
 			if(Core.isNotNull(erros)) {
-				return this.renderView("<messages><message type=\"error\">Ocorreu um erro ao tentar salvar o processo "+erros+ "</message></messages>");
+				return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(erros)+"</message></messages>");
 			}
 		} catch (IOException | ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		return this.renderView("<messages><message type=\"success\"> Operação efetuada com sucesso</message></messages>");
+		return this.renderView("<messages><message type=\"success\">{\"msg\":\""+StringEscapeUtils.escapeXml10(StringEscapeUtils.escapeHtml4("Compilação efetuada com sucesso"))+"\"}</message></messages>");
 		
 	}
 	

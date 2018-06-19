@@ -1790,5 +1790,4 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
-	
 }
