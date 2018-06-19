@@ -73,13 +73,12 @@ public class File_editorController extends Controller {
 		return childs;
 	}
 
-	private List<ChildFileEditor> getDefualtFiles(Action ac) {
-		List<FileEditor.ChildFileEditor> default_file = new ArrayList<>();
-		FileEditor.ChildFileEditor defualt = new FileEditor.ChildFileEditor();
-		defualt.setId(ac.getId());
-		defualt.setName(ac.getPage()+".java");
-		default_file.add(defualt);
-		return default_file;
+	private FileEditor.DefualtFile[] getDefualtFiles(Action ac) {
+		FileEditor.DefualtFile[] defualt = new FileEditor.DefualtFile[1];
+		defualt[0] = new FileEditor.DefualtFile();
+		Integer[] ids = new Integer[]{ac.getId()};
+		defualt[0].setId(ids);
+		return defualt;
 	}
 
 	public Response actionSaveAndCompileFile() {

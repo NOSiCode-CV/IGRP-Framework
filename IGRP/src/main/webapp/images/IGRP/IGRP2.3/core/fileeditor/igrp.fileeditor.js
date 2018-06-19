@@ -32,7 +32,7 @@
 			
 			if(resize)
 				
-				GEN.resizeCodeMirrorArea();
+				resizeCodeMirrorArea();
 		}
 
 		function resizeCodeMirrorArea(){
@@ -102,7 +102,7 @@
 
 			var active 	= GetActiveTab(),
 
-				cm  	= active.pane.find('.CodeMirror')[0].CodeMirror;
+				editor  = active.pane.find('.CodeMirror')[0].CodeMirror;
 
 			try{
 
@@ -111,7 +111,7 @@
 					pNotify     : false,
 					pLoading    : true,
 		         	pParam      : {
-		          		pArrayFiles : [{name : 'p_package', value : cm.getValue()}],
+		          		pArrayFiles : [{name : 'p_package', value : editor.getValue()}],
 			           	pArrayItem  : [{name : 'p_package_id', value : $(active.li).attr('item-id')}]
 			        },
 					pComplete   :function(req,text,status){
@@ -133,7 +133,7 @@
 								message = jsonRes.msg;
 								type    = mtype == 'error' ? 'danger' : mtype;
 								
-								//showEditorsErrors(jsonRes);
+								//showEditorsErrors(jsonRes,editor);
 							});	
 
 							//resizeCodeMirrorArea();	
@@ -238,8 +238,17 @@
 
 						d.default_file.forEach(function(f){
 
-							$('.file[file-path="'+f.path+'"]').click();
-						
+							var file   = $('.file[file-id="'+f.id+'"]'),
+								parent = file.parents('li.folder');
+
+							if(file[0]){
+
+								file.click();
+
+								if (parent[0])
+
+									$('span[data-toggle]',parent).click();
+							}						
 						});
 
 					}
