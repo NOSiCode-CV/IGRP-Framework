@@ -1,5 +1,6 @@
 package nosi.core.webapp.databse.helpers;
 
+import java.util.Map;
 import nosi.core.webapp.Core;
 
 /**
@@ -10,7 +11,7 @@ public class ResultSet {
 
 	private String sql;
 	private String error;
-	private Object keyValue;
+	private Object keyValue;	
 	
 	public String getSql() {
 		return sql;
@@ -24,9 +25,15 @@ public class ResultSet {
 	public void setError(String error) {
 		this.error = error;
 	}
+	
+	@SuppressWarnings("unchecked")
 	public Object getKeyValue() {
+		if(keyValue instanceof Map) {
+			return ((Map<String, Object>) keyValue).values().stream().findFirst().get();
+		}
 		return keyValue;
 	}
+	
 	public void setKeyValue(Object keyValue) {
 		this.keyValue = keyValue;
 	}
@@ -34,4 +41,42 @@ public class ResultSet {
 		return Core.isNotNull(this.getError());
 	}	
 	
+	
+	public Integer getInt(String name) {
+		Object obj = this.getObject(name);
+		return obj!=null?Core.toInt(obj.toString()): -1;
+	}
+
+	public String getString(String name) {
+		Object obj = this.getObject(name);
+		return obj!=null?obj.toString(): "";
+	}
+
+	public Long getLong(String name) {
+		Object obj = this.getObject(name);
+		return obj!=null?Core.toLong(obj.toString()): -1;
+	}
+
+	public Short getShort(String name) {
+		Object obj = this.getObject(name);
+		return obj!=null?Core.toShort(obj.toString()): -1;
+	}
+	
+	public Double getDouble(String name) {
+		Object obj = this.getObject(name);
+		return obj!=null?Core.toDouble(obj.toString()): -1;
+	}
+
+	public Float getFloat(String name) {
+		Object obj = this.getObject(name);
+		return obj!=null?Core.toFloat(obj.toString()): -1;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Object getObject(String name) {
+		if(keyValue instanceof Map) {
+			return ((Map<String, Object>) keyValue).get(name);
+		}
+		return "";
+	}
 }

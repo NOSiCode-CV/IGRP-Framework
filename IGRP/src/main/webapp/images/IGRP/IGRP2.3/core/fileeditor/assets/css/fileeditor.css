@@ -145,5 +145,37 @@ div[item-name="igrp-fileeditor"] ul.nav li a{
     display: block;
 }
 
+.gen-editor-errors{
+	position:fixed;
+	bottom:0;
+	height:160px;
+	background:white;
+	z-index:10;
+	padding:10px 30px;
+	overflow:auto;
+}
+.gen-editor-errors table{
+	width:100%;
+}
 
-    
+.gen-editor-errors table tr{
+	cursor:pointer;
+}
+
+.gen-editor-errors table td{
+	padding:5px;
+}
+
+.gen-editor-errors table td.gen-editor-err-line{
+	width:30px;
+	color:#fa0000;
+}
+
+.gen-editor-errors table tbody tr:hover{
+	background-color:none!important;
+}
+
+.CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
+	background:#fa0000;
+	color:white;
+}   

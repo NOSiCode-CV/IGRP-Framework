@@ -20,13 +20,13 @@
 		fileEditor.viewr   	 = $('.igrp-fileeditor-tab',dom);
 
 
-		/*function removeEditorsErrors(resize){
+		function removeEditorsErrors(resize){
 		
-			$('.igrp-fileeditor-coder').remove();
+			/*$('.igrp-fileeditor-coder').remove();
 			
 			$('.server-editor').removeClass('has-error');
 			
-			$('.server-transform').removeClass('has-error');
+			$('.server-transform').removeClass('has-error');*/
 			
 			$('.CodeMirror-gutter-wrapper').removeClass('has-error');
 			
@@ -39,9 +39,9 @@
 
 			var h = $(window).height()-86;
 			
-			$('.gen-viewers .cm-s-default').each(function(i,cm){
+			$('.cm-s-default').each(function(i,cm){
 				
-				if( $(cm).parent().hasClass('has-error') ){
+				if( $(cm).hasClass('has-error') ){
 						
 					$(cm).height(h-160);
 					
@@ -51,13 +51,11 @@
 					
 				}
 				
-			})
-			
-			$('.gen-editor-toolsbar').height( h );
+			});
 
 		}
 
-		function showEditorsErrors(jsonRes){
+		function showEditorsErrors(jsonRes,editor){
 
 			if(jsonRes.errors){
 												
@@ -67,21 +65,22 @@
 					
 						part 	   = file.split('.java').join(''),
 						
-						menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
+						/*menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
 						
 						menuType   = menu.attr('part'),
 						
-						editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
-						
-						errorsW    = $('<div class="gen-editor-errors col-sm-10"><table><tbody/></table></div>');
+						editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),*/
+
+						errorsW    = $('<div class="gen-editor-errors col-sm-12"><table><tbody/></table></div>');
+					
 					
 					editor.addClass('has-error');
 					
-					menu.addClass('has-error');
+					//menu.addClass('has-error');
 					
 					partErrors.forEach(function(err){
 							
-						GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
+						editor[0].CodeMirror.addLineClass( (err.line*1)-1 ,'gutter','has-error');
 						
 						errorsW.find('tbody').append(
 								
@@ -92,17 +91,17 @@
 					
 					editor.append(errorsW);
 					
-					GEN.server.activeMenu.editor.refresh();
+					editor[0].CodeMirror.refresh();
 				}
 			}
 											
-		}*/
+		}
 
 		function Save(){
 
 			var active 	= GetActiveTab(),
 
-				editor  = active.pane.find('.CodeMirror')[0].CodeMirror;
+				editor  = GetEditor(active);
 
 			try{
 
@@ -111,14 +110,14 @@
 					pNotify     : false,
 					pLoading    : true,
 		         	pParam      : {
-		          		pArrayFiles : [{name : 'p_package', value : editor.getValue()}],
+		          		pArrayFiles : [{name : 'p_package', value : editor[0].CodeMirror.getValue()}],
 			           	pArrayItem  : [{name : 'p_package_id', value : $(active.li).attr('item-id')}]
 			        },
 					pComplete   :function(req,text,status){
 						var type 	= 'danger',
 							message = req.statusText;
 
-						//removeEditorsErrors(true);
+						removeEditorsErrors(true);
 
 						if (req.status == 200) {
 							type = 'success';
@@ -132,11 +131,13 @@
 									
 								message = jsonRes.msg;
 								type    = mtype == 'error' ? 'danger' : mtype;
+
+								console.log(jsonRes);
 								
-								//showEditorsErrors(jsonRes,editor);
+								showEditorsErrors(jsonRes,editor);
 							});	
 
-							//resizeCodeMirrorArea();	
+							resizeCodeMirrorArea();	
 						}
 
 						$.IGRP.notify({
@@ -161,6 +162,10 @@
 			return fileEditor.viewr.Tab('get-active');
 
 		};
+
+		function GetEditor(active){
+			return active.pane.find('.CodeMirror');
+		}
 
 		function Events(){
 
@@ -269,7 +274,7 @@
 
 	function GetCodeEditor(o){
 
-		var editr = $('<div class="igrp-fileeditor-coder" id="coder-'+o.id+'"></div>');
+		var editr = $('<div class="igrp-fileeditor-coder clearfix" id="coder-'+o.id+'"></div>');
 
 		setTimeout(function(){
 

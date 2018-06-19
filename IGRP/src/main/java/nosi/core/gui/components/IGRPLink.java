@@ -77,7 +77,7 @@ public class IGRPLink {
 		if(this.queryString.getQueryString()!=null && !this.queryString.getQueryString().isEmpty()) {
 			this.queryString.getQueryString().entrySet().stream().forEach(q->{
 				q.getValue().stream().forEach(q1->{
-					this.link += "&"+q.getKey()+"="+q1.toString();
+					this.link += "&"+q.getKey()+"="+(q1!=null?q1.toString():"");
 				});					
 			});
 		}
