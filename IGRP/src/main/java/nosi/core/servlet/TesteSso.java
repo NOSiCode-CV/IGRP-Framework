@@ -45,8 +45,8 @@ import java.util.stream.Collectors;
  	Set the following configuration to web.xml and enjoy it ! 
  	 
 	 <servlet>
-		    <servlet-name>igrpsso</servlet-name>
-		    <servlet-class>nosi.core.servlet.IgrpOAuth2SSO</servlet-class>
+		    <servlet-name>testesso</servlet-name>
+		    <servlet-class>nosi.core.servlet.TesteSso</servlet-class>
 	  </servlet>
 	  
  	For more information go to: <www.nosicode.cv>	
@@ -134,8 +134,8 @@ public class TesteSso extends HttpServlet {
 						
 						if(!rs.next()) { // insert the user to the current igrp database 
 							PreparedStatement ps2 = conn.prepareStatement(
-									"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name) "
-									+ "values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+									"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name, pass_hash) "
+									+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 							
 							authenticationKey = User.generateAuthenticationKey();
 							
@@ -145,7 +145,7 @@ public class TesteSso extends HttpServlet {
 							ps2.setString(1, User.generateActivationKey());
 							ps2.setString(2, authenticationKey);
 							ps2.setLong(3, System.currentTimeMillis());
-							//ps2.setString(5, password); // password 
+							ps2.setString(9, nosi.core.webapp.User.encryptToHash(token, "SHA-256")); // password 
 							ps2.setInt(5, 1);
 							ps2.setLong(6, System.currentTimeMillis());
 							ps2.setString(7, username); // user_name 
