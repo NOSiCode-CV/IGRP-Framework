@@ -56,7 +56,7 @@ public class BPMNHelper {
 				.andWhere("status", "=",1)
 				.andWhere("tipo", "=","IN")
 				.all();
-		if(tipoDocsIN != null && !tipoDocsIN.isEmpty() && history!=null && !history.isEmpty()) {
+		if(history!=null && !history.isEmpty()) {
 			List<TaskVariables> variables = history.get(0).getVariables(); 
 			if(variables !=null) {
 				tipoDocsIN.stream().forEach(doc->{			 			 	

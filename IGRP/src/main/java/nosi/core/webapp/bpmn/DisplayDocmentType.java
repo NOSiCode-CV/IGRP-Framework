@@ -34,9 +34,9 @@ public class DisplayDocmentType {
 	}
 	
 	public void addListTipoDocs(List<TipoDocumentoEtapa> listTipoDocs) {
-		if(listTipoDocs!=null && listTipoDocs!=null)
+		if(this.listTipoDocs!=null && listTipoDocs!=null)
 			this.listTipoDocs.addAll(listTipoDocs);
-		else
+		if(this.listTipoDocs==null && listTipoDocs!=null)
 			this.listTipoDocs = listTipoDocs;
 	}
 	
