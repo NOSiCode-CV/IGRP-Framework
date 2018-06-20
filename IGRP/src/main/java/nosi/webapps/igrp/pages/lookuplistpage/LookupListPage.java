@@ -226,7 +226,15 @@ public class LookupListPage extends Model{
 		public Pair getType_doc(){
 			return this.type_doc;
 		}
+		@Override
+		public String toString() {
+			return "Formlist_1 [formlist_1_id=" + formlist_1_id + ", checkbox=" + checkbox + ", checkbox_check="
+					+ checkbox_check + ", obrigatorio=" + obrigatorio + ", obrigatorio_check=" + obrigatorio_check
+					+ ", tipo=" + tipo + ", nome=" + nome + ", descricao_documento=" + descricao_documento
+					+ ", type_doc=" + type_doc + "]";
+		}
 
+		
 	}
 
 	public void loadFormlist_1(BaseQueryInterface query) {

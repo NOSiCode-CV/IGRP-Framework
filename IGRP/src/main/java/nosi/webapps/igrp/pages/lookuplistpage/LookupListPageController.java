@@ -9,10 +9,11 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.List;
+import java.util.stream.Collectors;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
 import java.util.ArrayList;
+import java.util.Arrays;
 /*----#end-code----*/
 
 
@@ -116,14 +117,32 @@ public class LookupListPageController extends Controller {
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
 					.execute();
-				for(LookupListPage.Formlist_1 fm:model.getFormlist_1()) {
-					if(fm.getType_doc().getKey().equalsIgnoreCase("tp")) {
-						result = this.saveOrUpdate(fm,model,"tipo_documento_fk");
-					}else {
-						result = this.saveOrUpdate(fm,model,"report_fk");
-					}
-					
-				}
+				 String[] p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
+				 if(p_checkbox_fk!=null) {
+					 List<String> listCheckBox = Arrays.asList(p_checkbox_fk);
+					 listCheckBox = listCheckBox.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
+					 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk"));
+					 listTypeDoc = listTypeDoc.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
+					 List<String> listObrigatorio = Arrays.asList(Core.getParamArray("p_obrigatorio_fk"));
+					 listObrigatorio = listObrigatorio.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
+					 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk"));
+					 listTipo = listTipo.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
+					 for(int i=0;i<listCheckBox.size();i++) {
+							if(listTypeDoc.get(i)!=null) {
+								int required = 0;
+								try {
+									required = Core.toInt(listObrigatorio.get(i));
+								}catch(IndexOutOfBoundsException e) {
+									required = 0;
+								}
+								if(listTypeDoc.get(i).equalsIgnoreCase("tp")) {
+									result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"tipo_documento_fk");
+								}else {
+									result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"report_fk");
+								}
+							}
+					 }
+				 }
 			}
 		}else {
 			result.setError("Error...");
@@ -155,15 +174,15 @@ public class LookupListPageController extends Controller {
 	}
 	
 	/*----#start-code(custom_actions)----*/
-	private ResultSet saveOrUpdate(Formlist_1 fm,LookupListPage model,String relation_type_id) {
-		if(fm.getCheckbox()!=null && Core.toInt(fm.getCheckbox().getKey(),-1)!=-1) {
+	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
+		if(p_checkbox_fk!=null && Core.toInt(p_checkbox_fk,-1)!=-1) {
 			return  Core.insert("tbl_tipo_documento_etapa")
 					.addInt("status", 1)
-					.addInt(relation_type_id,Core.toInt(fm.getCheckbox().getKey()))
+					.addInt(relation_type_id,Core.toInt(p_checkbox_fk))
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
-					.addInt("required", fm.getObrigatorio()!=null?Core.toInt(fm.getObrigatorio().getKey()):0)
-					.addString("tipo", fm.getTipo().getKey())
+					.addInt("required", p_obrigatorio_fk)
+					.addString("tipo", p_tipo_fk)
 					.execute();
 		}
 		return new ResultSet();
