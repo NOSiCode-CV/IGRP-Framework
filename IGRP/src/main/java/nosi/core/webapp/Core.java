@@ -1370,14 +1370,14 @@ public final class Core { // Not inherit
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
 			mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath())
 					: mime_type);
-			String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-					.toString();
+			//String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
 			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 			try {
 				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
 						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
 				ps.setBinaryStream(1, new FileInputStream(file));
-				ps.setString(2, sysdate);
+				//ps.setString(2, sysdate);
+				ps.setDate(2, new Date(System.currentTimeMillis()));
 				ps.setString(3, mime_type);
 				ps.setString(4, name);
 				if (ps.executeUpdate() > 0) {
@@ -1421,14 +1421,14 @@ public final class Core { // Not inherit
 		int lastInsertedId = 0;
 		if (conn != null) {
 			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
-			String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-					.toString();
+			//String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
 			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 			try {
 				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
 						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
 				ps.setBinaryStream(1, file.getInputStream());
-				ps.setString(2, sysdate);
+				//ps.setString(2, sysdate);
+				ps.setDate(2, new Date(System.currentTimeMillis()));
 				ps.setString(3, file.getContentType());
 				ps.setString(4, name);
 				if (ps.executeUpdate() > 0) {

@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -40,6 +42,7 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] c_lob_content;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	private Date dt_created;
 	
