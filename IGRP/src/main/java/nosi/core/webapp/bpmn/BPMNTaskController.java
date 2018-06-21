@@ -259,6 +259,7 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 		xml.addXml(sep.toString());
 		xml.addXml(content);
 		DisplayDocmentType display = new DisplayDocmentType();
+		display.setShowInputFile(false);
 		display.setListDocmentType(this.getInputDocumentType());
 		display.addListDocumentType(this.getOutputDocumentType());
 		xml.addXml(display.display());

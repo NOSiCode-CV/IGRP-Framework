@@ -69,20 +69,22 @@ public class BPMNHelper {
 		
 	public static List<TipoDocumentoEtapa> getInputDocumentTypeHistory(String processDefinition, String taskDefinition,List<HistoricTaskService> history,Integer idApp) {
 		List<TipoDocumentoEtapa> tipoDocsIN = getInputDocumentType(processDefinition, taskDefinition,idApp);
-		List<TaskVariables> variables = history.get(0).getVariables(); 
-		if(variables !=null) {
-			tipoDocsIN.stream().forEach(doc->{			 			 	
-				variables.stream()
-				 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
-				 		 .forEach(v->{					 			 
-				 			 IGRPLink link = new IGRPLink();
-				 			 link.setLink(new Config().getResolveUrl("igrp","Addfiletask","index"));
-				 			 link.addParam("taskid",history.get(0).getId());
-				 			 link.addParam("filename",v.getName());
-				 			 link.setLink_desc("Mostrar");
-							 doc.setLink(link);
-				 		 });
-			});			
+		if(history!=null && history.size() > 0) {
+			List<TaskVariables> variables = history.get(0).getVariables(); 
+			if(variables !=null) {
+				tipoDocsIN.stream().forEach(doc->{			 			 	
+					variables.stream()
+					 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
+					 		 .forEach(v->{					 			 
+					 			 IGRPLink link = new IGRPLink();
+					 			 link.setLink(new Config().getResolveUrl("igrp","Addfiletask","index"));
+					 			 link.addParam("taskid",history.get(0).getId());
+					 			 link.addParam("filename",v.getName());
+					 			 link.setLink_desc("Mostrar");
+								 doc.setLink(link);
+					 		 });
+				});			
+			}
 		}
 		return tipoDocsIN;
 	}
