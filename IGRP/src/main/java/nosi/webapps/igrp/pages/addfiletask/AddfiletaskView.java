@@ -4,11 +4,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
-import java.sql.Date;
 import nosi.core.config.Config;
-import java.util.Map;
-import java.util.HashMap;
 
 public class AddfiletaskView extends View {
 	

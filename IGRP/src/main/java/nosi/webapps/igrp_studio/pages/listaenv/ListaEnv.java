@@ -1,5 +1,4 @@
 package nosi.webapps.igrp_studio.pages.listaenv;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;

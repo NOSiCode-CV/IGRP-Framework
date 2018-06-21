@@ -6,11 +6,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-
-
-
 public class Video_gestao_de_aplicacaoView extends View {
 
 	public Field paragraph_1_text;

@@ -1,6 +1,4 @@
 package nosi.webapps.tutorial.pages.video_instalar_igrp_web;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
 
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;

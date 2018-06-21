@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
