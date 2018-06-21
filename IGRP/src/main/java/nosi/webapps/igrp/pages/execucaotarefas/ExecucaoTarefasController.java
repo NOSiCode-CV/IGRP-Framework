@@ -231,9 +231,9 @@ public class ExecucaoTarefasController extends Controller {
 			if(task!=null) {
 				List<HistoricTaskService> hts = new HistoricTaskService().getHistoryOfProccessInstanceId(task.getProcessInstanceId());
 				hts = hts.stream().filter(h->!h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey())).collect(Collectors.toList());
-				String taskAnt = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTaskDefinitionKey():"";
-				String procAnt = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getProcessDefinitionId():"";
-				String idAppAnt = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTenantId():"";
+				String previewTask = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTaskDefinitionKey():"";
+				String preiviewProcessDefinition = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getProcessDefinitionId():"";
+				String preiviewApp = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTenantId():"";
 				Application app = new Application().findByDad(task.getTenantId());
 				if(app!=null) {
 					this.addQueryString("taskId",id)
@@ -242,9 +242,9 @@ public class ExecucaoTarefasController extends Controller {
 						.addQueryString("formKey", task.getFormKey())
 						.addQueryString("processDefinition", task.getProcessDefinitionKey())
 						.addQueryString("taskDefinition", task.getTaskDefinitionKey())
-						.addQueryString("idAppAnt", idAppAnt)
-						.addQueryString("taskAnt", taskAnt)
-						.addQueryString("procAnt", procAnt);
+						.addQueryString("previewTask", previewTask)
+						.addQueryString("preiviewApp", preiviewApp)
+						.addQueryString("preiviewProcessDefinition", preiviewProcessDefinition);
 					return this.redirect(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
 				}
 			}

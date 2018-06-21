@@ -16,6 +16,7 @@ public class IGRPLink {
 	private String action;	
 	private String link = "";
 	private Report report;
+	private String link_desc;
 	
 	private QueryString<String,Object> queryString;
 
@@ -61,9 +62,25 @@ public class IGRPLink {
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		return "IGRPLink [app=" + app + ", page=" + page + ", action=" + action + ", queryString=" + queryString + "]";
+	
+	public Report getReport() {
+		return report;
+	}
+	
+	public void setReport(Report report) {
+		this.report = report;
+	}
+	
+	public String getLink_desc() {
+		return link_desc;
+	}
+	
+	public void setLink_desc(String link_desc) {
+		this.link_desc = link_desc;
+	}
+	
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 	public String getLink() {
@@ -83,4 +100,12 @@ public class IGRPLink {
 		}
 		return this.link.replace("&&", "&");
 	}
+	
+
+	@Override
+	public String toString() {
+		return "IGRPLink [app=" + app + ", page=" + page + ", action=" + action + ", queryString=" + queryString + "]";
+	}
+	
+	
 }

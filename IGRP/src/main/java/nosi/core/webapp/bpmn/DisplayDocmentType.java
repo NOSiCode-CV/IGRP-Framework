@@ -19,7 +19,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 public class DisplayDocmentType {
 
-	private List<TipoDocumentoEtapa> listTipoDocs;
+	private List<TipoDocumentoEtapa> listDocmentType;
 	
 	public String display() {
 		IGRPFormList formlist_documento_task = new IGRPFormList("formlist_documento_task");
@@ -29,21 +29,25 @@ public class DisplayDocmentType {
 		return formlist_documento_task.toString();
 	}
 
-	public void setListTipoDocs(List<TipoDocumentoEtapa> listTipoDocs) {
-		this.listTipoDocs = listTipoDocs;
+	public List<TipoDocumentoEtapa> getListDocmentType() {
+		return listDocmentType;
 	}
-	
-	public void addListTipoDocs(List<TipoDocumentoEtapa> listTipoDocs) {
-		if(this.listTipoDocs!=null && listTipoDocs!=null)
-			this.listTipoDocs.addAll(listTipoDocs);
-		if(this.listTipoDocs==null && listTipoDocs!=null)
-			this.listTipoDocs = listTipoDocs;
+
+	public void setListDocmentType(List<TipoDocumentoEtapa> listDocmentType) {
+		this.listDocmentType = listDocmentType;
+	}
+
+	public void addListDocumentType(List<TipoDocumentoEtapa> listTipoDocs) {
+		if(this.listDocmentType!=null && listTipoDocs!=null)
+			this.listDocmentType.addAll(listTipoDocs);
+		if(this.listDocmentType==null && listTipoDocs!=null)
+			this.listDocmentType = listTipoDocs;
 	}
 	
 	private List<Formlist_documento_task> getData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
-		if(this.listTipoDocs!=null) {
-			this.listTipoDocs.stream().forEach(td->{
+		if(this.listDocmentType!=null) {
+			this.listDocmentType.stream().forEach(td->{
 				Formlist_documento_task ft = new Formlist_documento_task();
 				String descricao="",nome = "";
 				if(td.getTipoDocumento()!=null) {
@@ -55,7 +59,7 @@ public class DisplayDocmentType {
 				}
 				ft.setFormlist_documento_task_descricao(new Pair(descricao,descricao));
 				ft.setFormlist_documento_task_documento(new Pair(td.getTipo(),td.getTipo()));
-				ft.setFormlist_documento_task_mostrar(new Pair(td.getLink(),td.getLink_desc()));
+				ft.setFormlist_documento_task_mostrar(new Pair(td.getLink().getLink(),td.getLink().getLink_desc()));
 				ft.setFormlist_documento_task_nome(new Pair(nome,nome));
 				String r = this.getObrigatoriedade(td.getRequired());
 				ft.setFormlist_documento_task_obrigatoriedade(new Pair(r,r));

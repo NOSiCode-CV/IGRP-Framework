@@ -2,29 +2,20 @@
 package nosi.webapps.igrp.pages.detalhes_tarefas;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-import com.google.gson.Gson;
-import nosi.core.gui.components.IGRPSeparatorList;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.HistoricTaskService;
-import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
-import nosi.core.webapp.activit.rest.TaskVariables;
-import nosi.core.webapp.bpmn.BPMNHelper;
-import nosi.core.xml.XMLExtractComponent;
-import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, InstantiationException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String taskId = Core.getParam("taskId");
 		String processDefinitionKey = Core.getParam("processDefinitionKey");
@@ -51,51 +42,19 @@ public class Detalhes_tarefasController extends Controller {
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
-	private String generateCustomFormTask(TaskServiceQuery task) {		
-		Core.setAttribute("report_p_prm_definitionid", task.getProcessInstanceId());
-		Gson gson = new Gson();
-		HistoricTaskService history = new HistoricTaskService();
-		List<HistoricTaskService> histories = history.getHistory(task.getId());
-		history.setFilter("processFinished=true");
-		XMLExtractComponent comp = new XMLExtractComponent();
+	private String generateCustomFormTask(TaskServiceQuery task) throws InstantiationException {	
+		String content = "";
 		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
-		String dad = action.getApplication().getDad();
-		String page = action.getPage();
-		String json = "";
-		if(task.getVariables()!=null) {
-			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
-			json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
+		try {
+			String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
+			Class<?> c = Class.forName(packageName+"."+Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey()+"Controller");
+			Method method = c.getMethod("details",TaskServiceQuery.class);
+			content = (String) method.invoke(c.newInstance(), task);
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if(Core.isNotNull(json)) {
-			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);
-			if(custom!=null){
-				for(Rows rows:custom.getRows()) {
-					if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
-						page = rows.getValue().toString();
-					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
-						dad = rows.getValue().toString();
-					}else {
-						for(Object obj:(Object[])rows.getValue()) {
-							this.addQueryString(rows.getName(), obj.toString());
-						}
-					}
-				}
-			}
-		}
-		
-		Response resp = this.call(dad, page, "index",this.queryString());
-		String content = comp.removeXMLButton(resp.getContent());
-		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+action.getApplication().getId(), "utf-8");
-		xml.addXml(this.getConfig().getHeader(null));
-		xml.startElement("content");
-		xml.writeAttribute("type", "");
-		xml.setElement("title", gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()));
-		IGRPSeparatorList sep = comp.addFormlistFile();
-		xml.addXml(sep.toString());
-		xml.addXml(content);
-		xml.addXml(BPMNHelper.addFileSeparator(task.getProcessDefinitionKey(),task.getTaskDefinitionKey(),action.getApplication().getId(),histories));
-		xml.endElement();
-		return xml.toString();	
+		return content;
 	}
 	
 	

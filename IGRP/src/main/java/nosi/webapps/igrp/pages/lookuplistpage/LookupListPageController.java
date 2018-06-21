@@ -9,7 +9,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.List;
-import java.util.stream.Collectors;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import java.util.ArrayList;
@@ -120,15 +119,11 @@ public class LookupListPageController extends Controller {
 				 String[] p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
 				 if(p_checkbox_fk!=null) {
 					 List<String> listCheckBox = Arrays.asList(p_checkbox_fk);
-					 listCheckBox = listCheckBox.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
 					 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk"));
-					 listTypeDoc = listTypeDoc.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
 					 List<String> listObrigatorio = Arrays.asList(Core.getParamArray("p_obrigatorio_fk"));
-					 listObrigatorio = listObrigatorio.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
 					 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk"));
-					 listTipo = listTipo.stream().filter(l->Core.isNotNull(l)).collect(Collectors.toList());
 					 for(int i=0;i<listCheckBox.size();i++) {
-							if(listTypeDoc.get(i)!=null) {
+							if(Core.isNotNull(listCheckBox.get(i)) && Core.isNotNull(listTypeDoc.get(i))) {
 								int required = 0;
 								try {
 									required = Core.toInt(listObrigatorio.get(i));

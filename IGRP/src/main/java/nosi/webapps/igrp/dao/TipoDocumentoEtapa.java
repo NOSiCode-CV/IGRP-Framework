@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.gui.components.IGRPLink;
 
 /**
  * Emanuel
@@ -46,9 +47,7 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 	@JoinColumn(name = "report_fk",foreignKey = @ForeignKey(name="TIPO_DOCUEMNTO_ETAPA_REPORT_FK"),nullable=true)
 	private RepTemplate repTemplate;
 	@Transient
-	private String link="#";
-	@Transient
-	private String link_desc="";
+	private IGRPLink link;
 	
 	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
 		super();
@@ -123,21 +122,12 @@ public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> imp
 
 
 	@Transient
-	public String getLink() {
+	public IGRPLink getLink() {
 		return link;
 	}
 
-	public void setLink(String link) {
+	public void setLink(IGRPLink link) {
 		this.link = link;
-	}
-
-	@Transient
-	public String getLink_desc() {
-		return link_desc;
-	}
-
-	public void setLink_desc(String link_desc) {
-		this.link_desc = link_desc;
 	}
 
 	@Override
