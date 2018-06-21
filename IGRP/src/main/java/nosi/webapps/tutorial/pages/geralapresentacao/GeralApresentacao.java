@@ -1,5 +1,7 @@
 package nosi.webapps.tutorial.pages.geralapresentacao;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -325,6 +327,10 @@ public class GeralApresentacao extends Model{
 			return this.ver_desc;
 		}
 	public IGRPLink setVer(String link){
+		this.ver = new IGRPLink(link);
+		return this.ver;
+	}
+	public IGRPLink setVer(Report link){
 		this.ver = new IGRPLink(link);
 		return this.ver;
 	}

@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=42</preserve_url>
     </plsql>
-    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>O que fazer dentro do IGRP JAVA...</title>
         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -98,7 +99,7 @@
                 </statbox_1_tit>
                 <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
-                    <value/>
+                    <value>Gitbook</value>
                 </statbox_1_val>
                 <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
                     <label>Url Text</label>
@@ -199,28 +200,28 @@
             <table>
                 <value>
                     <row>
-                        <documento name="p_documento">Anim ipsum stract ipsum magna</documento>
-                        <ver name="p_ver" desc="true">http://ta.com/dac</ver>
+                        <documento name="p_documento">Rem iste ipsum aliqua stract</documento>
+                        <ver name="p_ver" desc="true">http://di.com/ro</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Ut sit omnis accusantium natus</documento>
-                        <ver name="p_ver" desc="true">http://ji.edu/le</ver>
+                        <documento name="p_documento">Mollit aliqua perspiciatis con</documento>
+                        <ver name="p_ver" desc="true">http://lu.edu/po</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Aperiam voluptatem iste accusa</documento>
-                        <ver name="p_ver" desc="true">http://lois.org/acgi</ver>
+                        <documento name="p_documento">Elit sit laudantium aliqua adi</documento>
+                        <ver name="p_ver" desc="true">http://iltag.net/lasi</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Dolor anim omnis totam adipisc</documento>
-                        <ver name="p_ver" desc="true">http://vummetaj.com/pagu</ver>
+                        <documento name="p_documento">Rem ut perspiciatis sed omnis</documento>
+                        <ver name="p_ver" desc="true">http://uho.co.uk/ma</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Adipiscing labore stract unde</documento>
-                        <ver name="p_ver" desc="true">http://lolit.com/ika</ver>
+                        <documento name="p_documento">Laudantium adipiscing anim ist</documento>
+                        <ver name="p_ver" desc="true">http://wal.net/juh</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                 </value>
