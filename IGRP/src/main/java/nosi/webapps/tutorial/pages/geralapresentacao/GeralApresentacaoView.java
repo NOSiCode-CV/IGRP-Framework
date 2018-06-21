@@ -7,6 +7,10 @@ import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+
+
 
 public class GeralApresentacaoView extends View {
 
@@ -133,7 +137,7 @@ public class GeralApresentacaoView extends View {
 		
 		statbox_1_val = new TextField(model,"statbox_1_val");
 		statbox_1_val.setLabel(gt("Value"));
-		statbox_1_val.setValue(gt(""));
+		statbox_1_val.setValue(gt("Gitbook"));
 		statbox_1_val.propertie().add("name","p_statbox_1_val").add("type","text").add("maxlength","4000");
 		
 		statbox_1_txt = new TextField(model,"statbox_1_txt");
@@ -226,7 +230,8 @@ public class GeralApresentacaoView extends View {
 		ver = new LinkField(model,"ver");
 		ver.setLabel(gt("Ver"));
 		ver.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
-		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("maxlength","30").add("request_fields","").add("desc","true");
+
+									ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("maxlength","30").add("request_fields","").add("desc","true");
 		
 
 
