@@ -1,21 +1,22 @@
 package nosi.webapps.igrp.pages._cons_proc;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class _CONS_PROC extends Model{		
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
-	@RParam(rParamName = "p_organica")
-	private String organica;
-	@RParam(rParamName = "p_area_fk")
-	private String area_fk;
-	@RParam(rParamName = "p_proc_tp_fk")
-	private String proc_tp_fk;
-	@RParam(rParamName = "p_user_fk")
-	private String user_fk;
+	@RParam(rParamName = "p_tipo_processo")
+	private String tipo_processo;
+	@RParam(rParamName = "p_cbx_utilizador")
+	private String cbx_utilizador;
 	@RParam(rParamName = "p_status")
 	private String status;
 	@RParam(rParamName = "p_referencia_pedido")
@@ -38,6 +39,24 @@ public class _CONS_PROC extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
+	@RParam(rParamName = "p_table_1_id")
+	private String[] p_table_1_id;
+	@RParam(rParamName = "p_table_1_del")
+	private String[] p_table_1_del;
+	
+	public void setP_table_1_id(String[] p_table_1_id){
+		this.p_table_1_id = p_table_1_id;
+	}
+	public String[] getP_table_1_id(){
+		return this.p_table_1_id;
+	}
+	
+	public void setP_table_1_del(String[] p_table_1_del){
+		this.p_table_1_del = p_table_1_del;
+	}
+	public String[] getP_table_1_del(){
+		return this.p_table_1_del;
+	}
 	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
@@ -46,32 +65,18 @@ public class _CONS_PROC extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
-		this.organica = organica;
+	public void setTipo_processo(String tipo_processo){
+		this.tipo_processo = tipo_processo;
 	}
-	public String getOrganica(){
-		return this.organica;
-	}
-	
-	public void setArea_fk(String area_fk){
-		this.area_fk = area_fk;
-	}
-	public String getArea_fk(){
-		return this.area_fk;
+	public String getTipo_processo(){
+		return this.tipo_processo;
 	}
 	
-	public void setProc_tp_fk(String proc_tp_fk){
-		this.proc_tp_fk = proc_tp_fk;
+	public void setCbx_utilizador(String cbx_utilizador){
+		this.cbx_utilizador = cbx_utilizador;
 	}
-	public String getProc_tp_fk(){
-		return this.proc_tp_fk;
-	}
-	
-	public void setUser_fk(String user_fk){
-		this.user_fk = user_fk;
-	}
-	public String getUser_fk(){
-		return this.user_fk;
+	public String getCbx_utilizador(){
+		return this.cbx_utilizador;
 	}
 	
 	public void setStatus(String status){
@@ -132,7 +137,7 @@ public class _CONS_PROC extends Model{
 		private String dt_fim_etapa;
 		private String utilizador;
 		private String estado;
-		private String p_id_task;
+		private String id_task;
 		public void setNum_processo(String num_processo){
 			this.num_processo = num_processo;
 		}
@@ -182,12 +187,17 @@ public class _CONS_PROC extends Model{
 			return this.estado;
 		}
 
-		public void setP_id_task(String p_id_task){
-			this.p_id_task = p_id_task;
+		public void setId_task(String id_task){
+			this.id_task = id_task;
 		}
-		public String getP_id_task(){
-			return this.p_id_task;
+		public String getId_task(){
+			return this.id_task;
 		}
 
 	}
+
+	public void loadTable_1(BaseQueryInterface query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
 }

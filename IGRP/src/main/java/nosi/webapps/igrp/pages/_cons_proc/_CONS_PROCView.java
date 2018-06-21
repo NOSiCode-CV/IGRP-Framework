@@ -1,18 +1,20 @@
 
 package nosi.webapps.igrp.pages._cons_proc;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+
+import java.util.Map;
+import java.util.HashMap;
+
 public class _CONS_PROCView extends View {
-	
-	
+
 	public Field aplicacao;
-	public Field organica;
-	public Field area_fk;
-	public Field proc_tp_fk;
-	public Field user_fk;
+	public Field tipo_processo;
+	public Field cbx_utilizador;
 	public Field status;
 	public Field referencia_pedido;
 	public Field requerente;
@@ -27,42 +29,37 @@ public class _CONS_PROCView extends View {
 	public Field dt_fim_etapa;
 	public Field utilizador;
 	public Field estado;
-	public Field p_id_task;
+	public Field id_task;
 	public IGRPForm form;
 	public IGRPTable table_1;
 
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_ver_etapa;
 	public IGRPButton btn_ver_processo;
-	public _CONS_PROCView(_CONS_PROC model){
+
+	public _CONS_PROCView(){
 
 		this.setPageTitle("Consulta Processo");
 			
 		form = new IGRPForm("form","");
+
 		table_1 = new IGRPTable("table_1","");
+
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("java-type","");
 		
-		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","");
+		tipo_processo = new ListField(model,"tipo_processo");
+		tipo_processo.setLabel(gt("Tipo Processo"));
+		tipo_processo.propertie().add("name","p_tipo_processo").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("java-type","");
 		
-		area_fk = new ListField(model,"area_fk");
-		area_fk.setLabel(gt("Area"));
-		area_fk.propertie().add("name","p_area_fk").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","");
-		
-		proc_tp_fk = new ListField(model,"proc_tp_fk");
-		proc_tp_fk.setLabel(gt("Tipo Processo"));
-		proc_tp_fk.propertie().add("name","p_proc_tp_fk").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","");
-		
-		user_fk = new ListField(model,"user_fk");
-		user_fk.setLabel(gt("Utilizador"));
-		user_fk.propertie().add("name","p_user_fk").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","");
+		cbx_utilizador = new ListField(model,"cbx_utilizador");
+		cbx_utilizador.setLabel(gt("Utilizador"));
+		cbx_utilizador.propertie().add("name","p_cbx_utilizador").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("java-type","");
 		
 		status = new ListField(model,"status");
 		status.setLabel(gt("Estado"));
-		status.propertie().add("name","p_status").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","");
+		status.propertie().add("name","p_status").add("type","select").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("java-type","").add("tags","false");
 		
 		referencia_pedido = new SeparatorField(model,"referencia_pedido");
 		referencia_pedido.setLabel(gt("Referencia Pedido"));
@@ -116,9 +113,9 @@ public class _CONS_PROCView extends View {
 		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","color").add("maxlength","30");
 		
-		p_id_task = new HiddenField(model,"p_id_task");
-		p_id_task.setLabel(gt(""));
-		p_id_task.propertie().add("name","p_id_task").add("type","hidden").add("maxlength","100").add("tag","id_task");
+		id_task = new HiddenField(model,"id_task");
+		id_task.setLabel(gt(""));
+		id_task.propertie().add("name","p_id_task").add("type","hidden").add("maxlength","100").add("tag","id_task");
 		
 
 
@@ -130,6 +127,7 @@ public class _CONS_PROCView extends View {
 
 		btn_ver_processo = new IGRPButton("Ver Processo","igrp","_CONS_PROC","ver_processo","mpsubmit","primary|fa-sitemap","","");
 		btn_ver_processo.propertie.add("type","specific").add("rel","ver_processo");
+
 		
 	}
 		
@@ -137,10 +135,8 @@ public class _CONS_PROCView extends View {
 	public void render(){
 		
 		form.addField(aplicacao);
-		form.addField(organica);
-		form.addField(area_fk);
-		form.addField(proc_tp_fk);
-		form.addField(user_fk);
+		form.addField(tipo_processo);
+		form.addField(cbx_utilizador);
 		form.addField(status);
 		form.addField(referencia_pedido);
 		form.addField(requerente);
@@ -156,12 +152,50 @@ public class _CONS_PROCView extends View {
 		table_1.addField(dt_fim_etapa);
 		table_1.addField(utilizador);
 		table_1.addField(estado);
-		table_1.addField(p_id_task);
-
+		table_1.addField(id_task);
+		/* start table_1 legend colors*/
+		Map<Object, Map<String, String>> table_1_colors= new HashMap<>();
+		Map<String, String> color_1 = new HashMap<>();
+		color_1.put("#dc2b4c","Terminado");
+		table_1_colors.put("1",color_1);
+		Map<String, String> color_2 = new HashMap<>();
+		color_2.put("#262eea","Não Atribuido");
+		table_1_colors.put("2",color_2);
+		Map<String, String> color_3 = new HashMap<>();
+		color_3.put("#95c11f","Não Executado");
+		table_1_colors.put("3",color_3);
+		this.table_1.setLegendColors(table_1_colors);
+		/* end table_1 legend colors*/
 		form.addButton(btn_pesquisar);
 		table_1.addButton(btn_ver_etapa);
 		table_1.addButton(btn_ver_processo);
 		this.addToPage(form);
 		this.addToPage(table_1);
+	}
+		
+	@Override
+	public void setModel(Model model) {
+		
+		aplicacao.setValue(model);
+		tipo_processo.setValue(model);
+		cbx_utilizador.setValue(model);
+		status.setValue(model);
+		referencia_pedido.setValue(model);
+		requerente.setValue(model);
+		num.setValue(model);
+		intervalo_entrada.setValue(model);
+		dt_ini.setValue(model);
+		dt_fim.setValue(model);
+		num_processo.setValue(model);
+		processo.setValue(model);
+		eatapa.setValue(model);
+		dt_inicio_etapa.setValue(model);
+		dt_fim_etapa.setValue(model);
+		utilizador.setValue(model);
+		estado.setValue(model);
+		id_task.setValue(model);	
+
+		table_1.loadModel(((_CONS_PROC) model).getTable_1());
+		
 	}
 }

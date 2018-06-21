@@ -121,6 +121,13 @@ public class ProcessDefinitionService extends Activit{
 		return list;
 	}
 	
+	public List<ProcessDefinitionService> getProcessDefinitionsAtivosToCombox(String idApp){
+		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
+		List<ProcessDefinitionService> list = this.getProcessDefinitions();
+		list = list.stream().collect(Collectors.toList());
+		return list;
+	}
+	
 	public List<ProcessDefinitionService> getProcessDefinitionsAllAtivos(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
 		return this.getProcessDefinitions();
@@ -321,7 +328,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 
 	public Map<String,String> mapToComboBox(String idApp) {
-		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivos(idApp);
+		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivosToCombox(idApp);
 		Map<String,String> map = new HashMap<>();
 		map.put(null, "--- Selecionar Processo ----");
 		map.putAll(list.stream().collect(Collectors.toMap(ProcessDefinitionService::getId, ProcessDefinitionService::getName)));
