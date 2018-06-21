@@ -1,20 +1,22 @@
 
 package nosi.webapps.igrp_studio.pages.listaenv;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class ListaEnvView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field status;
 	public Field status_check;
 	public Field name;
 	public Field dad;
 	public Field t_page_builder;
-	public Field p_id;
+	public Field id;
 	public IGRPForm sectionheader_1;
 	public IGRPTable table_1;
 
@@ -25,12 +27,15 @@ public class ListaEnvView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_configurar_base_dados;
 	public IGRPButton btn_exportar;
-	public ListaEnvView(ListaEnv model){
+
+	public ListaEnvView(){
 
 		this.setPageTitle("Application builder");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		table_1 = new IGRPTable("table_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("App builder"));
@@ -40,9 +45,9 @@ public class ListaEnvView extends View {
 		status.setLabel(gt("Ativo?"));
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
 		
-		status_check = new CheckBoxField
-		(model,"status_check");
+		status_check = new CheckBoxField(model,"status_check");
 		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		
 		name = new TextField(model,"name");
 		name.setLabel(gt("Nome"));
 		name.propertie().add("name","p_name").add("type","text").add("maxlength","30");
@@ -53,11 +58,13 @@ public class ListaEnvView extends View {
 		
 		t_page_builder = new LinkField(model,"t_page_builder");
 		t_page_builder.setLabel(gt("Page builder"));
-		t_page_builder.propertie().add("name","p_t_page_builder").add("type","link").add("target","_self").add("maxlength","30").add("desc","true");
+		t_page_builder.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
+
+									t_page_builder.propertie().add("name","p_t_page_builder").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("desc","true");
 		
-		p_id = new HiddenField(model,"p_id");
-		p_id.setLabel(gt(""));
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id = new HiddenField(model,"id");
+		id.setLabel(gt(""));
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -79,6 +86,7 @@ public class ListaEnvView extends View {
 
 		btn_exportar = new IGRPButton("Export","igrp_studio","ListaEnv","exportar","confirm","default|fa-download","","");
 		btn_exportar.propertie.add("type","specific").add("rel","exportar");
+
 		
 	}
 		
@@ -93,7 +101,7 @@ public class ListaEnvView extends View {
 		table_1.addField(name);
 		table_1.addField(dad);
 		table_1.addField(t_page_builder);
-		table_1.addField(p_id);
+		table_1.addField(id);
 
 		toolsbar_1.addButton(btn_importar);
 		toolsbar_1.addButton(btn_novo);
@@ -104,5 +112,18 @@ public class ListaEnvView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
+	}
+		
+	@Override
+	public void setModel(Model model) {
+		
+		status.setValue(model);
+		name.setValue(model);
+		dad.setValue(model);
+		t_page_builder.setValue(model);
+		id.setValue(model);	
+
+		table_1.loadModel(((ListaEnv) model).getTable_1());
+		
 	}
 }

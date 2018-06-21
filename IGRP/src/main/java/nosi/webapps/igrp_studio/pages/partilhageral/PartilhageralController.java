@@ -2,9 +2,6 @@
 package nosi.webapps.igrp_studio.pages.partilhageral;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -15,7 +12,6 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 import nosi.core.webapp.Igrp;
-import static nosi.core.i18n.Translator.gt;
 import java.util.HashMap;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;

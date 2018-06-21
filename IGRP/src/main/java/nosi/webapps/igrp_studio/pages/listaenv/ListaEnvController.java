@@ -1,38 +1,41 @@
 
 package nosi.webapps.igrp_studio.pages.listaenv;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import java.io.File;
+import nosi.core.webapp.Controller;
 import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.Core;
-import java.util.Map;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.export.app.ExportAppJava;
 import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.ImportExportApp;
-import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.core.webapp.helpers.Permission;
-import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
 
-public class ListaEnvController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+public class ListaEnvController extends Controller {		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaEnv model = new ListaEnv();
+		model.load();
+		ListaEnvView view = new ListaEnvView();
+		view.id.setParam(true);
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		model.loadTable_1(Core.query(null,"SELECT 'status' as status,'name' as name,'dad' as dad,'t_page_builder' as t_page_builder,'id' as id "));
+		  ----#gen-example */
+		/*----#start-code(index)----*/
+
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
 		Application app = new Application();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -62,70 +65,127 @@ public class ListaEnvController extends Controller {
 					table.setStatus_check(a.getStatus());
 				} else
 					table.setStatus_check(-1);
-				table.setP_id("" + a.getId());
+				table.setId("" + a.getId());
 				table.setT_page_builder("igrp_studio", "ListaPage", "index&app=" + a.getId());
 				table.setT_page_builder_desc("Page builder");
 				lista.add(table);
 			}
 		}
-		model.setTable_1(lista);
-
-		ListaEnvView view = new ListaEnvView(model);
-		view.table_1.addData(model.getTable_1());
-		view.p_id.setParam(true);
+		view.table_1.addData(lista);		
 		view.btn_eliminar.setVisible(false);
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+	
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
-		return this.redirect("igrp_studio", "ImportArquivo", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
+	
+	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ListaEnv model = new ListaEnv();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(importar)----*/
+		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
-
-	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(NOVO)----*/
-		return this.redirect("igrp_studio", "Env", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
+	
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ListaEnv model = new ListaEnv();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(novo)----*/
+		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
-
-	public Response actionEditar() throws IOException {
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (p_id != null && !p_id.equals("")) {
+	
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ListaEnv model = new ListaEnv();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(editar)----*/
+		String p_id = Core.getParam("p_id");
+		if (Core.isNotNull(p_id)) {
 			return this.forward("igrp_studio", "Env", "editar&target=_blank&id=" + p_id);
 		}
-		return this.redirect("igrp_studio", "lista-env", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
 
-	public Response actionEliminar() throws IOException {
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ListaEnv","index", this.queryString());	
+	}
+	
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ListaEnv model = new ListaEnv();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(eliminar)----*/
+		String id = Core.getParam("p_id");
 		Application app = new Application();
 		if (app.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
+			Core.setMessageSuccess();
 		else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
-		return this.redirect("igrp_studio", "lista-env", "index");
-		/*----#END-PRESERVED-AREA----*/
+			Core.setMessageError();
+		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ListaEnv","index", this.queryString());	
 	}
-
-	public Response actionConfigurar_base_dados() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(CONFIGURAR_BASE_DADOS)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (id != null) {
+	
+	public Response actionConfigurar_base_dados() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ListaEnv model = new ListaEnv();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(configurar_base_dados)----*/
+		String id = Core.getParam("p_id");
+		if (Core.isNotNull(id)) {
 			return this.redirect("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao=" + id);
 		}
 		return this.forward("igrp_studio", "ListaEnv", "index");
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+			
 	}
-
-	public Response actionExportar() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(EXPORTAR)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (id != null && !id.equals("")) {
+	
+	public Response actionExportar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ListaEnv model = new ListaEnv();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(exportar)----*/
+		String id = Core.getParam("p_id");
+		if (Core.isNotNull(id)) {
 			Application app = new Application().findOne(id);
 			if (app != null) {
 				// Insert data on Export/Import
@@ -134,14 +194,15 @@ public class ListaEnvController extends Controller {
 				ie_dao = ie_dao.insert();
 				return this.exportApp(app);
 			} else {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.ERROR);
+				Core.setMessageError();
 			}
 		}
-		return this.redirect("igrp_studio", "ListaEnv", "index");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ListaEnv","index", this.queryString());	
 	}
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#start-code(custom_actions)----*/
 	private Response exportApp(Application app) {
 //		
 //		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
@@ -197,8 +258,8 @@ public class ListaEnvController extends Controller {
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
-		String idAplicacao = Igrp.getInstance().getRequest().getParameter("p_id");
-		String status = Igrp.getInstance().getRequest().getParameter("p_status");
+		String idAplicacao = Core.getParam("p_id");
+		String status = Core.getParam("p_status");
 		boolean response = false;
 
 		if (Core.isNotNull(idAplicacao)) {
@@ -216,5 +277,5 @@ public class ListaEnvController extends Controller {
 		res.toJson(json);
 		return this.renderView(json.toString());
 	}
-	/*----#END-PRESERVED-AREA----*/
-}
+	/*----#end-code----*/
+	}

@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.ldapuser;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.config.Config;
-import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
@@ -11,7 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Properties;

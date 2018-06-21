@@ -2,22 +2,16 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/

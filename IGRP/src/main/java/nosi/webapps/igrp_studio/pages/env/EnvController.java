@@ -2,8 +2,6 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -12,14 +10,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -40,14 +36,10 @@ import com.google.gson.reflect.TypeToken;
 
 import nosi.core.config.Config;
 import nosi.core.cversion.Svn;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;

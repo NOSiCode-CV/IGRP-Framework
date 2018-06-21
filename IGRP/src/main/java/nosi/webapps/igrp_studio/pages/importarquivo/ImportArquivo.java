@@ -1,7 +1,4 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 

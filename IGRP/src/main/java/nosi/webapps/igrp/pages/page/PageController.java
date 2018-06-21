@@ -380,7 +380,7 @@ public class PageController extends Controller {
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson()
-							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt(StringEscapeUtils.escapeHtml4("Compilação efetuada com sucesso"))
+							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("Compilação efetuada com sucesso")
 									: gt("Componente registado com sucesso"), null));
 
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
