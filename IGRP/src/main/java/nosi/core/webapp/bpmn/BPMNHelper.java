@@ -3,6 +3,7 @@ package nosi.core.webapp.bpmn;
 import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
@@ -46,62 +47,85 @@ public class BPMNHelper {
 	
 	//Add file separator, allow to upload your file
 	public static String addFileSeparator(String processDefinition,String taskDefinition,Integer idApp,List<HistoricTaskService> history) {
-
 		DisplayDocmentType display = new DisplayDocmentType();
-		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
-				.find()
-				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
-				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
-				.andWhere("tipoDocumento.application", "=",idApp)
-				.andWhere("status", "=",1)
-				.andWhere("tipo", "=","IN")
-				.all();
-		if(history!=null && !history.isEmpty()) {
-			List<TaskVariables> variables = history.get(0).getVariables(); 
-			if(variables !=null) {
-				tipoDocsIN.stream().forEach(doc->{			 			 	
-					variables.stream()
-					 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
-					 		 .forEach(v->{					 			 
-					 			 doc.setLink(new Config().getResolveUrl("igrp","Addfiletask","index")+"&taskid="+history.get(0).getId()+"&filename="+v.getName());
-					 			 doc.setLink_desc("Mostrar");
-					 		 });
-				});			
-			}
-			display.setListTipoDocs(tipoDocsIN);
-			display.addListTipoDocs(getTipoDocOutput(taskDefinition, history.get(0).getProcessDefinitionId()));
-		}else {
-			display.setListTipoDocs(tipoDocsIN);
-			display.addListTipoDocs(getTipoDocOutput());
-		}
+		List<TipoDocumentoEtapa> listInOutDoc = getInputOutputDocumentType(processDefinition, taskDefinition, idApp, history);
+		display.setListDocmentType(listInOutDoc);
 		return display.display();
 	}
 	
 	
-	private static List<TipoDocumentoEtapa> getTipoDocOutput() {
-		String taskAnt = Core.getParam("taskAnt");
-		String procAnt = Core.getParam("procAnt");
-		String idAppAnt = Core.getParam("idAppAnt");
-		if(Core.isNotNull(taskAnt) && Core.isNotNull(procAnt) && Core.isNotNull(idAppAnt)) {
-			return getTipoDocOutput(taskAnt,procAnt);
+	public static List<TipoDocumentoEtapa> getInputOutputDocumentType(String processDefinition,String taskDefinition,Integer idApp,List<HistoricTaskService> history) {
+		DisplayDocmentType display = new DisplayDocmentType();
+		if(history!=null && !history.isEmpty()) {
+			
+			display.setListDocmentType(getInputDocumentTypeHistory(processDefinition,taskDefinition,history,idApp));
+			display.addListDocumentType(getOutputDocumentType(history.get(0).getProcessDefinitionId(),taskDefinition,idApp));
+		}else {
+			display.setListDocmentType(getInputDocumentType(processDefinition, taskDefinition,idApp));
+			display.addListDocumentType(getOutputDocumentType(processDefinition,idApp));
+		}
+		return display.getListDocmentType();
+	}
+		
+	public static List<TipoDocumentoEtapa> getInputDocumentTypeHistory(String processDefinition, String taskDefinition,List<HistoricTaskService> history,Integer idApp) {
+		List<TipoDocumentoEtapa> tipoDocsIN = getInputDocumentType(processDefinition, taskDefinition,idApp);
+		List<TaskVariables> variables = history.get(0).getVariables(); 
+		if(variables !=null) {
+			tipoDocsIN.stream().forEach(doc->{			 			 	
+				variables.stream()
+				 		 .filter(v->v.getType().equalsIgnoreCase("binary") && v.getName().startsWith(StringEscapeUtils.escapeJava(doc.getTipoDocumento().getNome()).replaceAll("\\\\", "__SCAPE__")))
+				 		 .forEach(v->{					 			 
+				 			 IGRPLink link = new IGRPLink();
+				 			 link.setLink(new Config().getResolveUrl("igrp","Addfiletask","index"));
+				 			 link.addParam("taskid",history.get(0).getId());
+				 			 link.addParam("filename",v.getName());
+				 			 link.setLink_desc("Mostrar");
+							 doc.setLink(link);
+				 		 });
+			});			
+		}
+		return tipoDocsIN;
+	}
+	
+
+	public static List<TipoDocumentoEtapa> getInputDocumentType(String processDefinition,String taskDefinition,Integer idApp){
+		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
+				.find()
+				.andWhere("processId", "=",processDefinition)
+				.andWhere("taskId", "=",taskDefinition)
+				.andWhere("status", "=",1)
+				.andWhere("tipo", "=","IN")
+				.andWhere("tipoDocumento.application", "=",idApp)
+				.all();
+		return tipoDocsIN;
+	}
+	
+	public static List<TipoDocumentoEtapa> getOutputDocumentType(String processDefinition,Integer idApp) {
+		String previewTask = Core.getParam("previewTask");
+		if(Core.isNotNull(previewTask)) {
+			return getOutputDocumentType(processDefinition,previewTask,idApp);
 		}
 		return null;
 	}
 
-	private static List<TipoDocumentoEtapa> getTipoDocOutput(String task, String proc) {
+	public static List<TipoDocumentoEtapa> getOutputDocumentType(String processDefinition,String taskDefinition,Integer idApp) {
+		if(processDefinition.contains(":")) {
+			processDefinition = processDefinition.substring(0,processDefinition.indexOf(":"));
+		}
 		List<TipoDocumentoEtapa> tipoDocs = null;
-		proc = proc.substring(0, proc.indexOf(":"));
 		tipoDocs = new TipoDocumentoEtapa()
 				.find()
-				.andWhere("processId", "=",proc)
-				.andWhere("taskId", "=",task)
+				.andWhere("processId", "=",processDefinition)
+				.andWhere("taskId", "=",taskDefinition)
 				.andWhere("status", "=",1)
 				.andWhere("tipo", "=","OUT")
 				.andWhere("repTemplate", "notnull")
+				.andWhere("repTemplate.application", "=",idApp)
 				.all();
 		tipoDocs.stream().forEach(t->{
-			t.setLink(new Config().getResolveUrl("igrp_studio","web-report","get-report&code="+t.getRepTemplate().getCode()));
-			t.setLink_desc("Mostrar");
+			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()));
+ 			 link.setLink_desc("Mostrar");
+			 t.setLink(link);
 		});
 		return tipoDocs;
 	}

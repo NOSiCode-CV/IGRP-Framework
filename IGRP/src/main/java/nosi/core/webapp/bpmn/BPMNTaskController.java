@@ -2,37 +2,62 @@ package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
-
+import com.google.gson.Gson;
+import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMessage;
+import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.View;
+import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
+import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskFile;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
+import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 /**
  * Emanuel
  * 7 May 2018
  */
 
-public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
+public abstract class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 
+	private String app;
+	private String page;
+	private Action action;
+	private String taskDefinition;
+	private String processDefinition;
+	private List<HistoricTaskService> taskHistories;
+	
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
 		view.setModel(model);
+		this.app = app;
+		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
 		return this.renderView(app,model.getClass().getSimpleName(),view);
+	}
+
+	@Override
+	public Response index(String app,Model model,View view,IntefaceBPMNTask bpmnTask) throws IOException {
+		view.setModel(model);
+		this.app = app;
+		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
+		return this.renderView(app,model.getClass().getSimpleName(),view,bpmnTask);
 	}
 	
 	@Override
@@ -154,5 +179,90 @@ public class BPMNTaskController extends Controller implements IntefaceBPMNTask{
 			}
 		}		
 		return this.redirect("igrp", "ErrorPage", "exception");
+	}
+
+	@Override
+	public List<TipoDocumentoEtapa> getOutputDocumentType() {
+		if(this.processDefinition!=null && this.taskDefinition!=null && this.taskHistories!=null) {
+			return BPMNHelper.getOutputDocumentType(this.processDefinition, this.taskDefinition,this.getAction().getApplication().getId());
+		}
+		String taskDefinition = Core.getParam("previewTask");
+		String processDefinition = Core.getParam("preiviewProcessDefinition");	
+		String preiviewApp = Core.getParam("preiviewApp");	
+		this.page = Config.PREFIX_TASK_NAME+taskDefinition;
+		this.app = preiviewApp;
+		return BPMNHelper.getOutputDocumentType(processDefinition,taskDefinition,this.getAction().getApplication().getId());
+	}
+
+	@Override
+	public List<TipoDocumentoEtapa> getInputDocumentType() {
+		if(this.processDefinition!=null && this.taskDefinition!=null && this.taskHistories!=null) {
+			return BPMNHelper.getInputDocumentTypeHistory(this.processDefinition, this.taskDefinition,this.taskHistories, this.getAction().getApplication().getId());
+		}
+		String taskDefinition = Core.getParam("taskDefinition");
+		String processDefinition = Core.getParam("processDefinition");	
+		return BPMNHelper.getInputDocumentType(processDefinition, taskDefinition, this.getAction().getApplication().getId());
+	}
+
+	
+	private Action getAction() {
+		if(this.action!=null)
+			return this.action;
+		return new Action().find().andWhere("page", "=",this.page).andWhere("application.dad", "=",this.app).one();
+	}
+
+	@Override
+	public String details(TaskServiceQuery task) throws IOException, ServletException {
+		this.app = task.getTenantId();
+		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
+		HistoricTaskService history = new HistoricTaskService();
+		history.setFilter("processFinished=true");
+		this.taskHistories = history.getHistory(task.getId());
+		this.taskDefinition = task.getTaskDefinitionKey();
+		this.processDefinition = task.getProcessDefinitionKey();
+		
+		Gson gson = new Gson();
+		
+		XMLExtractComponent comp = new XMLExtractComponent();
+		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
+		String dad = action.getApplication().getDad();
+		String page = action.getPage();
+		String json = "";
+		if(task.getVariables()!=null) {
+			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
+			json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
+		}
+		if(Core.isNotNull(json)) {
+			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);
+			if(custom!=null){
+				for(Rows rows:custom.getRows()) {
+					if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
+						page = rows.getValue().toString();
+					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
+						dad = rows.getValue().toString();
+					}else {
+						for(Object obj:(Object[])rows.getValue()) {
+							this.addQueryString(rows.getName(), obj.toString());
+						}
+					}
+				}
+			}
+		}
+		Response resp = this.call(dad, page, "index",this.queryString());
+		String content = comp.removeXMLButton(resp.getContent());
+		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+action.getApplication().getId(), "utf-8");
+		xml.addXml(this.getConfig().getHeader(null));
+		xml.startElement("content");
+		xml.writeAttribute("type", "");
+		xml.setElement("title", gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()));
+		IGRPSeparatorList sep = comp.addFormlistFile();
+		xml.addXml(sep.toString());
+		xml.addXml(content);
+		DisplayDocmentType display = new DisplayDocmentType();
+		display.setListDocmentType(this.getInputDocumentType());
+		display.addListDocumentType(this.getOutputDocumentType());
+		xml.addXml(display.display());
+		xml.endElement();
+		return xml.toString();	
 	}
 }

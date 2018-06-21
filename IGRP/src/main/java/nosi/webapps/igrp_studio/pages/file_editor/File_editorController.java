@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
 import org.apache.commons.text.StringEscapeUtils;
-
 import com.google.gson.Gson;
 import java.io.File;
 import nosi.core.config.Config;
@@ -53,6 +51,9 @@ public class File_editorController extends Controller {
 	}
 	
 	private List<FileEditor> getDirFiles(Action ac) {
+		if(ac==null) {
+			return null;
+		}
 		List<FileEditor> dir = new ArrayList<>();
 		FileEditor dirFiles = new FileEditor();
 		dirFiles.setName(ac.getProcessKey().toUpperCase());		
@@ -77,6 +78,8 @@ public class File_editorController extends Controller {
 	}
 
 	private FileEditor.DefualtFile[] getDefualtFiles(Action ac) {
+		if(ac==null)
+			return null;
 		FileEditor.DefualtFile[] defualt = new FileEditor.DefualtFile[1];
 		defualt[0] = new FileEditor.DefualtFile();
 		Integer[] ids = new Integer[]{ac.getId()};

@@ -4,7 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +17,8 @@ import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.bpmn.BPMNHelper;
+import nosi.core.webapp.bpmn.DisplayDocmentType;
+import nosi.core.webapp.bpmn.IntefaceBPMNTask;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
@@ -21,6 +27,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -116,6 +123,10 @@ public abstract class Controller{
 	}
 	
 	public Response renderView(String app, String page, View v) throws IOException {
+		return this.renderView(app, page, v,null);
+	}
+	
+	public Response renderView(String app, String page, View v,IntefaceBPMNTask bpmn) throws IOException {
 		this.view = v;
 		Action ac = new Action().find()
 				.andWhere("application.dad", "=",app)
@@ -154,7 +165,7 @@ public abstract class Controller{
 			xml.addXml(comp.generateButtonTask(app,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		xml.addXml(content);
-		xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,ac.getApplication().getId(),null));
+		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac));
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		if(m!=null){
@@ -163,6 +174,29 @@ public abstract class Controller{
 		xml.endElement();
 		resp.setContent(xml.toString());
 		return resp;
+	}
+
+	private String getDocument(IntefaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {
+		if(bpmn==null)
+			return BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null);
+		
+		DisplayDocmentType display = new DisplayDocmentType();
+		display.setListDocmentType(bpmn.getInputDocumentType());
+		String previewTask = Core.getParam("previewTask");
+		if(Core.isNotNull(previewTask)) {
+			try {
+				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();
+				Class<?> c = Class.forName(packageName+"."+Config.PREFIX_TASK_NAME+previewTask+"Controller");
+				Method method = c.getMethod("getOutputDocumentType");
+				@SuppressWarnings("unchecked")
+				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
+				display.addListDocumentType(listDocOutput);
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return display.display();
 	}
 
 	protected final Response renderView(View view) throws IOException{ // Overload ...
