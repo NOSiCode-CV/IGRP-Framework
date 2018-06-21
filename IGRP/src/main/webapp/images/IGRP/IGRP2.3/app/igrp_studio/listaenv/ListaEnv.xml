@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -19,7 +20,7 @@
     <app>igrp_studio</app>
     <plsql>
         <action>index</action>
-        <package_instance>null</package_instance>
+        <package_instance></package_instance>
         <package_db>nosi.webapps.igrp_studio.pages</package_db>
         <package_html>ListaEnv</package_html>
         <table_name></table_name>
@@ -32,6 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=3</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Application builder</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -45,11 +48,11 @@
             <item type="specific" code="" rel="importar">
                 <title>Importar</title>
                 <app>igrp_studio</app>
-                <page>ListaEnv</page>
+                <page>ImportArquivo</page>
                 <link>index</link>
                 <target>modal|refresh</target>
                 <img>default|fa-upload</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
             </item>
             <item type="specific" code="" rel="novo">
                 <title>Nova aplicação</title>
@@ -72,10 +75,10 @@
                 <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </dad>
-                <t_page_builder name="p_t_page_builder" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-file-code-o" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" desc="true">
+                <t_page_builder name="p_t_page_builder" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-file-code-o" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" desc="true">
                     <label>Page builder</label>
                 </t_page_builder>
-                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -86,8 +89,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Omnis unde sit dolor sed</name>
-                        <dad name="p_dad">Laudantium mollit accusantium</dad>
+                        <name name="p_name">Lorem ipsum ut dolor natus</name>
+                        <dad name="p_dad">Aperiam totam ut natus omnis</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -99,8 +102,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Aperiam adipiscing unde ipsum</name>
-                        <dad name="p_dad">Totam omnis doloremque natus r</dad>
+                        <name name="p_name">Unde anim stract aperiam ipsum</name>
+                        <dad name="p_dad">Totam lorem adipiscing ut natu</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -112,8 +115,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Dolor adipiscing voluptatem an</name>
-                        <dad name="p_dad">Totam unde deserunt anim aliqu</dad>
+                        <name name="p_name">Ut anim doloremque sed rem</name>
+                        <dad name="p_dad">Consectetur doloremque consect</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -125,8 +128,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Totam dolor doloremque omnis a</name>
-                        <dad name="p_dad">Totam anim adipiscing aperiam</dad>
+                        <name name="p_name">Mollit aperiam doloremque tota</name>
+                        <dad name="p_dad">Labore magna perspiciatis laud</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -138,8 +141,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Aperiam rem doloremque elit se</name>
-                        <dad name="p_dad">Aliqua perspiciatis lorem aper</dad>
+                        <name name="p_name">Natus unde sed omnis consectet</name>
+                        <dad name="p_dad">Laudantium deserunt officia si</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -149,9 +152,9 @@
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
                         <app>igrp_studio</app>
-                        <page>ListaPage</page>
+                        <page>ListaEnv</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
@@ -164,7 +167,7 @@
                         <target>confirm</target>
                         <img>danger|fa-trash-o</img>
                     </item>
-                    <item type="specific" code="" class="grey" rel="configurar_base_dados">
+                    <item type="specific" code="" class="grey" rel="configurar_base_dados" custom_return="true">
                         <title>Configurar Base Dados</title>
                         <app>igrp_studio</app>
                         <page>ListaEnv</page>

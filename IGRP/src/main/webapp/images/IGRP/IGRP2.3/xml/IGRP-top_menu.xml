@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <top_menu>
-  <button>
-    <link>../app/REDGLOBAL/xml/REDGLOBAL_APLIC_INFO_3_dash.xml</link>
-    <img>settings.png</img>
-    <title>Settings</title>
-  </button>
-  <button>
-    <link>http://#</link>
-    <img>notifications.png</img>
-    <title>Notificações</title>
-  </button>
-  <button>
-    <link>../app/REDGLOBAL/xml/REDGLOBAL_PROCESSOS_PROC_TAREFAS_dash.xml</link>
-    <img>info_user.png</img>
-    <title>Informacao Utilizador</title>
-  </button>
-  <button>
-    <link>http://igrpresp.teste.gov.cv/</link>
-    <img>exit.png</img>
-    <title>Sair</title>
-  </button>
+	<button>
+		<title>Home</title>
+		<app>igrp</app>
+		<page>DefaultPage</page>
+		<link></link>
+		<target>_self</target>
+		<img>home.png</img>
+	</button>
+	<button>
+		<title>Settings</title>
+		<app>igrp</app>
+		<page>Settings</page>
+		<link>/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xml</link>
+		<target>modal</target>
+		<img>portuguese_flag.png</img>
+	</button>
+	
 </top_menu>

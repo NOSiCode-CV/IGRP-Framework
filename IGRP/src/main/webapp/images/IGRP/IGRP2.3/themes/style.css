@@ -63,8 +63,8 @@ a>i.fa+*{
 }
 
 img{
-	  width: 100%;
-  max-width: 100%;
+
+ max-width: 100%;
 }
 
 b{
@@ -1446,6 +1446,7 @@ ul.nav-tabs{
     position: absolute;
     left: 15px;
     height: 50px;
+    width: 50px;
     top: 50%;
     max-width: 50px;
     margin-top: -25px;
@@ -1498,6 +1499,7 @@ tbody#igrp-apps-1 .app-img {
     position: relative;
     left: auto;
     height: 50px;
+    width: 50px;
     top: auto;
     max-width: none;
     margin-top: auto;

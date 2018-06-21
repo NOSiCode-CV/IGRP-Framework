@@ -149,10 +149,10 @@ var VARS = {
 			    	'</'+VARS.tags.plsql+'>';
 		},
 
-		site:'<link_img>'+path+'</link_img>'+
+		site:'<link_img>'+path+'</link_img><title>Dummie XML prototype</title>'+
 				'<site>'+
 		        '<welcome_note>Oba</welcome_note>'+
-		        '<footer_note>2017 - Copyright NOSI</footer_note>'+
+		        '<footer_note>2018 - Copyright NOSI v.180620</footer_note>'+
 		        '<user_name>Hexagon</user_name>'+
 		        '<button type="specific">'+
 		            '<title>Sair</title>'+
