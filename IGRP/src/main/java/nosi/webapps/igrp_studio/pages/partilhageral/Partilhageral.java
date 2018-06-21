@@ -1,6 +1,4 @@
 package nosi.webapps.igrp_studio.pages.partilhageral;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;

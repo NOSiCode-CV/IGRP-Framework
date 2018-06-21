@@ -6,10 +6,6 @@ import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-
-
-
 public class PageView extends View {
 
 	public Field sectionheader_1_text;

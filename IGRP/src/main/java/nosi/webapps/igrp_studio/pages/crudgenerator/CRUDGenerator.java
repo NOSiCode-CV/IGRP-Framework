@@ -1,11 +1,8 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
-import java.sql.Date;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 

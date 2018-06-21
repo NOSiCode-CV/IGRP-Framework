@@ -2,19 +2,12 @@
 package nosi.webapps.igrp_studio.pages.modulo;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-
-import static nosi.core.i18n.Translator.gt;
 
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Config_env;
 import nosi.core.webapp.helpers.IgrpHelper;
 import java.util.List;
 /*----#end-code----*/

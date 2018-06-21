@@ -1,5 +1,4 @@
 package nosi.webapps.igrp.pages.novoutilizador;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 

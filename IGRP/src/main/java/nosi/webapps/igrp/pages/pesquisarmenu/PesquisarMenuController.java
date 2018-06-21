@@ -18,7 +18,6 @@ import javax.servlet.http.Cookie;
 
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
