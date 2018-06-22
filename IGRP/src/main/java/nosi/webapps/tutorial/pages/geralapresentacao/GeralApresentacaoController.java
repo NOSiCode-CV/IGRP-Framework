@@ -27,8 +27,9 @@ public class GeralApresentacaoController extends Controller {
 		model.loadTable_1(Core.query(null,"SELECT 'documento' as documento,'ver' as ver "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		QueryInterface query = Core.query("hibernate-igrp-core","SELECT 'Import IGRP IGRP JAVA Framework' as documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/8-import-igrp-java' as ver, 'Ir para o Link' as ver_desc "
-				+ "UNION SELECT 'Minha Primeira AplicaÃ§Ã£o IGRP JAVA Framework' as documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/9-minha-primeira-aplicacao' as ver, 'Ir para o Link' as ver_desc");
+		QueryInterface query = Core.query("SELECT 'Import IGRP IGRP JAVA Framework' as documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/8-import-igrp-java' as ver "
+				+ " UNION SELECT 'Minha Primeira Aplicação IGRP JAVA Framework' as documento, "
+				+ " 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/9-minha-primeira-aplicacao' as ver ");
 		model.load(query);
 		view.quickbuttonbox_gestao_url.setValue(new Config().getResolveUrl("tutorial","Video_gestao_de_aplicacao","index"));
 		view.quickbuttonbox_instalar_url.setValue(new Config().getResolveUrl("tutorial","Video_instalar_igrp_web","index"));

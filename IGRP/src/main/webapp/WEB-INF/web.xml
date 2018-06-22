@@ -70,7 +70,10 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>/images/*</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+	   <servlet-name>testesso</servlet-name>
+	   <servlet-class>nosi.core.servlet.TesteSso</servlet-class>
+	</servlet>
 	<welcome-file-list>
 		<!-- <welcome-file>app/webapps?r=igrp/login/login</welcome-file> -->
 		<welcome-file>index.jsp</welcome-file>
