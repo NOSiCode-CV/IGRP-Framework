@@ -1,6 +1,9 @@
 package nosi.core.webapp.databse.helpers;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import javax.persistence.Tuple;
 import nosi.core.webapp.Core;
 
 /**
@@ -11,7 +14,7 @@ public class ResultSet {
 
 	private String sql;
 	private String error;
-	private Object keyValue;	
+	private Object keyValue;
 	
 	public String getSql() {
 		return sql;
@@ -79,4 +82,59 @@ public class ResultSet {
 		}
 		return "";
 	}
+	
+	
+	public static class Record{
+
+		public Tuple Row;	
+		public List<Record> RowList;
+		
+		public Object getObject(String name) {
+			if(this.Row!=null) {
+				try {
+					return this.Row.get(name);
+				}catch(IllegalArgumentException e) {
+					return null;
+				}
+			}
+			return null;
+		}
+		
+		public String getString(String name) {
+			Object v = this.getObject(name);
+			return v!=null?v.toString():null;
+		}
+		
+		public Integer getInt(String name) {
+			Object v = this.getObject(name);
+			return v!=null? Core.toInt(v.toString()):null;
+		}
+		
+		public Float getFloat(String name) {
+			Object v = this.getObject(name);
+			return v!=null? Core.toFloat(v.toString()):null;
+		}
+		
+		public Double getDouble(String name) {
+			Object v = this.getObject(name);
+			return v!=null? Core.toDouble(v.toString()):null;
+		}
+		
+		public Short getShort(String name) {
+			Object v = this.getObject(name);
+			return v!=null? Core.toShort(v.toString()):null;
+		}
+		
+		public Long getLong(String name) {
+			Object v = this.getObject(name);
+			return v!=null? Core.toLong(v.toString()):null;
+		}	
+
+		public BigDecimal getBigDecimal(String name) {
+			Object v = this.getObject(name);
+			return v!=null? Core.toBigDecimal(v.toString()):null;
+		}
+
+	}
+
 }

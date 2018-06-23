@@ -20,6 +20,7 @@ import javax.persistence.TypedQuery;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.helpers.DateHelper;
 
 
@@ -433,7 +434,7 @@ public abstract class QueryHelper implements QueryInterface{
 		throw new UnsupportedOperationException();
 	}
 	
-	public Object getSigleResult() {
+	public Tuple getSigleResult() {
 		throw new UnsupportedOperationException();
 	}
 	
@@ -636,12 +637,6 @@ public abstract class QueryHelper implements QueryInterface{
 		throw new UnsupportedOperationException();
 	}
 
-//	@Override
-//	public QueryInterface returning(String... retuerningKeys) {
-//		this.retuerningKeys = Arrays.asList(retuerningKeys);
-//		return this;
-//	}
-
 	@Override
 	public QueryInterface innerJoin(String table1, String table2, String key1, String key2) {
 		throw new UnsupportedOperationException();
@@ -664,6 +659,16 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface selfJoin(String table1, String table2, String key1, String key2) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Record getRecordList() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Record getSigleRescord() {
 		throw new UnsupportedOperationException();
 	}
 }
