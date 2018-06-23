@@ -3,6 +3,7 @@ package nosi.core.webapp.databse.helpers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -127,28 +129,33 @@ public class QuerySelect extends CommonFIlter{
 		return list;
 	}
 	
-	public Object getSigleResult() {
-		EntityManager em = null;
-		Object list = null;
-		try {
-			Core.log("SQL Query:"+this.getSql());
-			em = HibernateUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-			Query query = em.createNativeQuery(this.getSql());
-			for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-				 if(col.getDefaultValue()!=null) {
-					 this.setParameter(query,col.getDefaultValue(),col);					
-				 }else {
-					 query.setParameter(col.getName(), null);
-				 }
-			}		
-			list = query.getSingleResult();
-		}catch(Exception e) {
-			Core.log(e.getMessage());
-		}finally {
-			if(em!=null)
-				em.close();
+	public Tuple getSigleResult() {
+		List<Tuple> list = this.getResultList();		
+		if(list!=null && list.size()> 0)
+			return list.get(0);
+		return null;
+	}
+	
+	@Override
+	public Record getRecordList() {
+		Record r = new Record();
+		List<Tuple> list = this.getResultList();
+		if(list!=null) { 
+			r.RowList = new ArrayList<>();
+			list.stream().forEach(l->{
+				Record rec = new Record();
+				rec.Row = l;
+				r.RowList.add(rec);
+			});
 		}
-		return list;
+		return r;
+	}
+
+	@Override
+	public Record getSigleRescord() {
+		Record r = new Record();
+		r.Row = this.getSigleResult();
+		return r;
 	}
 	
 	public TypedQuery<?> getSingleResult(){

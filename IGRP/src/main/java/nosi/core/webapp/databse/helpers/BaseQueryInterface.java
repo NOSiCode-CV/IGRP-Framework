@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+import nosi.core.webapp.databse.helpers.ResultSet.Record;
 
 /**
  * Emanuel
@@ -23,7 +24,11 @@ public interface BaseQueryInterface {
 	
 	public List<Tuple> getResultList();
 	
-	public Object getSigleResult();
+	public Tuple getSigleResult();
+	
+	public Record getRecordList();
+	
+	public Record getSigleRescord();
 	
 	public TypedQuery<?> getSingleResult();
 	
