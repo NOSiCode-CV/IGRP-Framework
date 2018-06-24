@@ -81,7 +81,11 @@ public class XMLWritter {
 		}
 
 		public void setElement(String tag,Object value){
-			this.setElement(tag, value.toString());
+			if(value != null && !value.equals("")) {
+				this.setElement(tag, value.toString());
+			}else {
+				this.emptyTag(tag);
+			}			
 		}
 		
 		private void closeLarger(){

@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,8 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=36</preserve_url>
     </plsql>
-    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Import Arquivo</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -93,7 +94,7 @@
         </sectionheader_5>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept=".jar,.zip" targetrend="" multiple="false" rendvalue="false">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -134,7 +135,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="100" required="true" disabled="false" right="false" class="primary">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" accept=".jar,.zip" targetrend="" multiple="false" rendvalue="false" maxlength="100" required="true" disabled="false" right="false" class="primary">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -151,25 +152,6 @@
                 </item>
             </tools-bar>
         </form_1>
-        <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <jar_file name="p_jar_file" type="file" accept="" targetrend="" multiple="true" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
-                    <label>Jar file</label>
-                    <value/>
-                </jar_file>
-            </fields>
-            <tools-bar>
-                <item type="form" code="" class="primary" rel="importar_jar_file">
-                    <title>Importar</title>
-                    <app>igrp_studio</app>
-                    <page>ImportArquivo</page>
-                    <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
-                    <target>submit_form</target>
-                    <img>primary|fa-upload</img>
-                </item>
-            </tools-bar>
-        </form_3>
         <form_4 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao_script name="p_aplicacao_script" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
@@ -216,7 +198,7 @@
                         </option>
                     </list>
                 </data_source>
-                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary">
                     <label>Sql Script</label>
                     <value/>
                 </sql_script>
@@ -233,5 +215,24 @@
                 </item>
             </tools-bar>
         </form_4>
+        <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <jar_file name="p_jar_file" type="file" accept=".jar" targetrend="" multiple="true" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
+                    <label>Jar file</label>
+                    <value/>
+                </jar_file>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="importar_jar_file">
+                    <title>Importar</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-upload</img>
+                </item>
+            </tools-bar>
+        </form_3>
     </content>
 </rows>

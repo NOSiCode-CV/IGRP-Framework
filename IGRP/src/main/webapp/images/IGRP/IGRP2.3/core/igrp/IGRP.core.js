@@ -122,7 +122,7 @@
 				return null;
 			},
 			resetFields  : function(o){
-				$(":input",o).each(function(i,e){
+				$("input",o).each(function(i,e){
                     var parents = $(e).parents('.form-group')
                     	type 	= parents.attr('item-type');
                     switch(type){

@@ -26,10 +26,16 @@ public class EncrypDecrypt {
 	}
 
 	private static boolean getWakandaList(String content) {
-		return !content.equals("igrp/login/login") && !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception") && !content.equals("igrp/login/logout") 
-				&& !content.contains("igrp/page") && !content.contains("changeStatus");
+		return 
+				!content.equals("igrp/login/login")	&&
+				!content.equals("igrp/ErrorPage/exception") && 
+				!content.equals("igrp/error-page/exception") && 
+				!content.equals("igrp/login/logout") &&
+				!content.contains("igrp/page") && 	
+				!content.contains("changeStatus");
 	}
 
+	
 	public static String decrypt(String content) {
 		if (getWakandaList(content) )
 			return decrypt(content.replace(" ", "+"), getSecretKey());
