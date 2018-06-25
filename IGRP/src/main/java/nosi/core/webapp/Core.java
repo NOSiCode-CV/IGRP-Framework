@@ -1161,26 +1161,52 @@ public final class Core { // Not inherit
 		return new Transaction().getPermission(transaction);
 	}
 
-	public static Response getLinkReport(String code_report, Report rep) {
-		return new Report().invokeReport(code_report, rep);
-	}
-
+	/**
+	 * This method you can invoking using Link or Button.
+	 * 
+	 * Example: model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))
+	 * 
+	 * @param code_report (The unique code that identifies Report)
+	 * @return
+	 */
 	public static Report getLinkReport(String code_report) {
 		return new Report().getLinkReport(code_report);
 	}
 	
+	/**
+	 * Get Report for Response redirect
+	 * 
+	 * @param code_report (The unique code that identifies Report)
+	 * @param report (Using: new Report().addParam("id",1) OR this.loadQueryString())
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static Response getLinkReport(String code_report, Object report) {		
+		Report rep = new Report();
+		if(report!=null && report instanceof QueryString) {
+			((QueryString<String,Object>)report).getQueryString().entrySet().stream().forEach(q -> {
+				rep.addParam(q.getKey(), q.getValue());
+			});
+		}
+		else if(report!=null && report instanceof Report) {
+			return new Report().invokeReport(code_report, (Report) report);
+		}
+		return new Report().invokeReport(code_report, rep);
+	}
+	
+
+	/**
+	 * Link for get file
+	 * 
+	 * 
+	 * @param p_id (Unique file id)
+	 * @return
+	 */
 	public static String getLinkFile(String p_id) {
 		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
 
-	public static Response getLinkReport(String code_report, QueryString<String, Object> qs) {
-		Report rep = new Report();
-		qs.getQueryString().entrySet().stream().forEach(q -> {
-			rep.addParam(q.getKey(), q.getValue());
-		});
-		return new Report().invokeReport(code_report, rep);
-	}
-
+	
 	public static GenericServiceResponse getBizTalkClient(String clientId, String transaction, String service,
 			String args) {
 		GenericService_DevProxy proxy = new GenericService_DevProxy();

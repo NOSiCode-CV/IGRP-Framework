@@ -163,7 +163,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	}
 
 	public void setType_query(String type_query) {
-		this.type_query = type_query;
+		this.type_query = type_query.replaceAll(";", "");
 	}
 
 	public int getStatus() {
