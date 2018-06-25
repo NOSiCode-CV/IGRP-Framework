@@ -152,7 +152,7 @@ public class QuerySelect extends CommonFIlter{
 	}
 
 	@Override
-	public Record getSigleRescord() {
+	public Record getSigleRecord() {
 		Record r = new Record();
 		r.Row = this.getSigleResult();
 		return r;

@@ -668,7 +668,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	@Override
-	public Record getSigleRescord() {
+	public Record getSigleRecord() {
 		throw new UnsupportedOperationException();
 	}
 }
