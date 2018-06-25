@@ -17,7 +17,6 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.User;
 
 /**
  * Iekiny Marcel
@@ -29,7 +28,6 @@ public class ImportJavaPage {
 	private Action page;
 	private Application env;
 	private Config config;
-	private User user;
 	private List<String> errors;
 	private List<FileImportAppOrPage> pagesToCompile;
 	
@@ -37,7 +35,6 @@ public class ImportJavaPage {
 		this.file = file;
 		this.config = new Config();
 		this.errors = new ArrayList<>();
-		this.user = new User().findOne(0);
 		this.env = app;
 	}
 	
@@ -60,7 +57,7 @@ public class ImportJavaPage {
 					this.errors.add("Ocorreu um erro ! Aplicação destino inválido.");
 				
 			}else if(j.getKey().equalsIgnoreCase("ConfigurationPages")){
-				System.out.println(j.getValue());
+				@SuppressWarnings("unchecked")
 				List<JavaClasse> configPages = (List<JavaClasse>) ResponseConverter.convertJsonToListDao(j.getValue(), new TypeToken<List<JavaClasse>>(){}.getType());
 				this.saveConfigPages(configPages);
 			}

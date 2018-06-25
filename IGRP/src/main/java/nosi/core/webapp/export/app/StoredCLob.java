@@ -1,7 +1,7 @@
 package nosi.core.webapp.export.app;
 
 import java.util.Arrays;
-
+import java.util.Date;
 /**
  * Emanuel
  * 3 Apr 2018
@@ -10,7 +10,7 @@ public class StoredCLob {
 	private String name;
 	private String mime_type;
 	private byte[] c_lob_content;
-	private String dt_created;
+	private Date dt_created;
 	
 	
 	public String getName() {
@@ -31,10 +31,10 @@ public class StoredCLob {
 	public void setC_lob_content(byte[] c_lob_content) {
 		this.c_lob_content = c_lob_content;
 	}
-	public String getDt_created() {
+	public Date getDt_created() {
 		return dt_created;
 	}
-	public void setDt_created(String dt_created) {
+	public void setDt_created(Date dt_created) {
 		this.dt_created = dt_created;
 	}
 	
