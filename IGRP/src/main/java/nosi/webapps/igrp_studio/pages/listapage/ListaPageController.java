@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,10 @@ public class ListaPageController extends Controller {
 		/*----#start-code(index)----*/
 
 		view.id_page.setParam(true);
-
+		Map<Object, Object> listApp = new Application().getListApps();
+		if(listApp!=null && listApp.size()==2) {
+			model.setApplication(listApp.keySet().stream().filter(a->a!=null).findFirst().get().toString());
+		}
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
 
@@ -132,7 +136,8 @@ public class ListaPageController extends Controller {
 			// model.setInfopanel_3_val(""+apps.size());
 		}
 
-		view.application.setValue(new Application().getListApps());
+		
+		view.application.setValue(listApp );
 		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "id",
 				"name", "-- Selecionar --"));
 

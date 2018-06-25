@@ -28,7 +28,7 @@ public interface BaseQueryInterface {
 	
 	public Record getRecordList();
 	
-	public Record getSigleRescord();
+	public Record getSigleRecord();
 	
 	public TypedQuery<?> getSingleResult();
 	
