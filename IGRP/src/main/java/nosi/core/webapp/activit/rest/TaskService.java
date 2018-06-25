@@ -15,14 +15,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 import nosi.webapps.igrp.dao.TaskAccess;
-import nosi.webapps.igrp.dao.User;
 
 /**
  * @author: Emanuel Pereira
@@ -114,7 +112,6 @@ public class TaskService extends Activit{
 
 	public List<TaskService> getUnassigedTasks(){
 		this.addFilter("unassigned","true");
-		this.addFilter("candidateUser",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
