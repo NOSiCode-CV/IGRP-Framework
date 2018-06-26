@@ -143,6 +143,18 @@
 						-->
 							
 						<xsl:value-of select="concat($tag_name,'.propertie()')"/>
+						
+						<!-- For rules -->
+						<xsl:if test="./rules">
+							<xsl:variable name="app_" select="/rows/app" />
+							<xsl:variable name="page_" select="/rows/page" />
+							<xsl:for-each select="./rules/rule"> 
+								<xsl:variable name="action_" select="./proc" />
+								<xsl:value-of select="concat('.add(',$double_quotes,'remote',$double_quotes,',', 'new Config().getResolveUrl(',$double_quotes, $app_, $double_quotes, ',', $double_quotes, $page_, $double_quotes, ',', $double_quotes, $action_, $double_quotes ,')',')')"/>
+		    				</xsl:for-each>
+						</xsl:if>
+						
+						
 						<xsl:for-each select="@*">
 							<xsl:call-template name="filterComponentsAttrs"/>
 		    			</xsl:for-each>
