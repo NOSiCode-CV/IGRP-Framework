@@ -184,9 +184,10 @@ public class ConfigDBIGRP {
 		registryBuilder.applySettings(settings);
 		StandardServiceRegistry registry = registryBuilder.build();
 		MetadataSources sources = new MetadataSources(registry);
-		Metadata metadata = sources.getMetadataBuilder().build();		
+		
     	boolean isConnected = false;
-    	try{
+    	try{	
+    		Metadata metadata = sources.getMetadataBuilder().build();	
     		SessionFactory sf = metadata.getSessionFactoryBuilder().build();
     		sf.close();
     		StandardServiceRegistryBuilder.destroy(registry);

@@ -165,7 +165,7 @@ public class Config {
 	}
 
 	public String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v.180624";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v.180626";
 	}
 	public String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";
@@ -465,7 +465,7 @@ public class Config {
 
 	public static Object getDatabaseTypes() {
 		Map<String,String> tipos = new HashMap<>();
-		tipos.put(null, gt("-- Selecione Base de Dados --"));
+		tipos.put(null, gt("-- Selecionar --"));
 		tipos.put("mysql", "MySql");
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");
@@ -502,7 +502,8 @@ public class Config {
 		if(Core.getParam("target") !=null ) {
 			target = Core.getParam("target");
 		}
-		String title = app.getDescription();		
+		String title = app.getName();
+		String description= app.getDescription();	
 		String link_home = config.getLinkHome();
 		if(new Permission().getCurrentEnv().equalsIgnoreCase("igrp_studio")) {
 			link_home = config.getLinkHomeStudio();
@@ -511,6 +512,7 @@ public class Config {
 		Random r = new Random();
 		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", Core.getSwitchNotNullValue(title,config.getTitle()));
+		xml.setElement("description", Core.getSwitchNotNullValue(description,""));
 		xml.setElement("version",Math.abs(r.nextLong()));
 		xml.setElement("link",link_home);
 		xml.setElement("link_img",getLinkImg());

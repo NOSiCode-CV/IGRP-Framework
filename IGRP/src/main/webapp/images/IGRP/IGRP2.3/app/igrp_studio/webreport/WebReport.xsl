@@ -25,13 +25,13 @@
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
                         <img src="{$path}/themes/igrp_studio/img/studioLogoBlank.svg"/>
-                        <span class=""><b>IGRP</b></span>
+                        <span class=""><b>IGRP Studio</b></span>
                     </a>
                     <div id="side-bar-ctrl">
                         <i class="fa fa-navicon"></i>
                     </div>
                     <div id="igrp-app-title" class="">
-                        <xsl:value-of select="rows/content/page_title/fields/page_title_text/value"/>
+                 Report Designer
                     </div>
                 </nav>
                 <form method="POST" class="IGRP-form" name="formular_default">

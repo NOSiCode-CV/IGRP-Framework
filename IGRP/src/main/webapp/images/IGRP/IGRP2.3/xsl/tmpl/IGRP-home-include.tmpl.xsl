@@ -141,14 +141,14 @@
       <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
         <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
          <img src="{$logo}"/>
-         <span class=""><b>IGRP</b></span>
+         <span class=""><b><xsl:value-of select="rows/title"/></b></span>
         </a>
 
         <div id="side-bar-ctrl">
           <i class="fa fa-navicon"></i>
         </div>
 
-        <div id="igrp-app-title" class=""><xsl:value-of select="rows/title"/></div>
+        <div id="igrp-app-title" class=""><xsl:value-of select="rows/description"/></div>
 
         <xsl:variable name="topMenus" select="document(rows/top_menu/@file)/top_menu/button"/>
 

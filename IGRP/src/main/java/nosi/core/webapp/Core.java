@@ -1164,9 +1164,9 @@ public final class Core { // Not inherit
 	/**
 	 * This method you can invoking using Link or Button.
 	 * 
-	 * Example: model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))
+	 * Example with filter id=2: {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
-	 * @param code_report (The unique code that identifies Report)
+	 * @param code_report The unique code that identifies Report
 	 * @return
 	 */
 	public static Report getLinkReport(String code_report) {
@@ -1175,9 +1175,10 @@ public final class Core { // Not inherit
 	
 	/**
 	 * Get Report for Response redirect
-	 * 
-	 * @param code_report (The unique code that identifies Report)
-	 * @param report (Using: new Report().addParam("id",1) OR this.loadQueryString())
+	 *  {@code .addParam } for filtering 
+	 *  
+	 * @param code_report The unique code that identifies Report
+	 * @param report use filter {@code new Report().addParam("id",1) } OR this.loadQueryString()
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -1199,7 +1200,7 @@ public final class Core { // Not inherit
 	 * Link for get file
 	 * 
 	 * 
-	 * @param p_id (Unique file id)
+	 * @param p_id Unique file id
 	 * @return
 	 */
 	public static String getLinkFile(String p_id) {

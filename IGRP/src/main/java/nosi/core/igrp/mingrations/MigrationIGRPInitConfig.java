@@ -15,17 +15,17 @@ public class MigrationIGRPInitConfig {
 	
 	public static void start(){
 		Application app_igrp = new Application();
-		app_igrp.setDad("igrp");
-		app_igrp.setDescription("IGRP");
+		app_igrp.setDad("igrp");		
 		app_igrp.setName("IGRP");
+		app_igrp.setDescription("Integrated Government Resource Planning");
 		app_igrp.setImg_src("igrp.svg");
 		app_igrp.setStatus(1);
 		app_igrp = app_igrp.insertOnly();
 		
-		Application app_tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
+		Application app_tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "IGRP web TODO", 1, null);
 		app_tutorial = app_tutorial.insertOnly();
 		
-		Application app_igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "IGRP Studio - Software Developer", 1, null,"igrp_studio");
+		Application app_igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "{4 Developers}", 1, null,"igrp_studio");
 		app_igrp_studio = app_igrp_studio.insertOnly();
 		
 		if(app_igrp!=null){

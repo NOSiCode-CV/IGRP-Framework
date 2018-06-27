@@ -2,13 +2,15 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.FlashMessage;
+import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.helpers.FileHelper;
@@ -20,32 +22,28 @@ import java.util.ArrayList;
 /*----#end-code----*/
 
 
-
 public class ConfigDatabaseController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		ConfigDatabase model = new ConfigDatabase();
-		ConfigDatabaseView view = new ConfigDatabaseView();
 		model.load();
-		
+		ConfigDatabaseView view = new ConfigDatabaseView();
+		view.id.setParam(true);
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		Change 'null' param with your db connection name added in application builder.
-		
-		model.loadTable_1(Core.query("SELECT 'nome_de_conexao_tabela' as nome_de_conexao_tabela,'hostname_tabela' as hostname_tabela,'porta_tabela' as porta_tabela,'nome_base_de_dados_tabela' as nome_base_de_dados_tabela,'user_name_tabela' as user_name_tabela,'tipo_de_base_de_dados_tabela' as tipo_de_base_de_dados_tabela "));
-		
-		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		view.tipo_base_dados.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		
-		----#gen-example */
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		model.loadTable_1(Core.query(null,"SELECT 'nome_de_conexao_tabela' as nome_de_conexao_tabela,'hostname_tabela' as hostname_tabela,'porta_tabela' as porta_tabela,'nome_base_de_dados_tabela' as nome_base_de_dados_tabela,'user_name_tabela' as user_name_tabela,'tipo_de_base_de_dados_tabela' as tipo_de_base_de_dados_tabela,'hidden' as hidden "));
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		String id_app = model.getAplicacao();
 			java.util.List<Config_env> list_app = new Config_env().find().andWhere("application", "=",Core.toInt(id_app)).all();
 			ArrayList<ConfigDatabase.Table_1> lista_tabela = new ArrayList<>();
 			for(Config_env lista : list_app) {
 				ConfigDatabase.Table_1 tabela = new ConfigDatabase.Table_1();
+              	tabela.setId(""+lista.getId());
 				tabela.setHostname_tabela(Core.decrypt(lista.getHost(), Config.SECRET_KEY_ENCRYPT_DB));
 				tabela.setNome_base_de_dados_tabela(Core.decrypt(lista.getName_db(), Config.SECRET_KEY_ENCRYPT_DB));
 				tabela.setNome_de_conexao_tabela(lista.getName());
@@ -77,38 +75,27 @@ public class ConfigDatabaseController extends Controller {
 			view.setModel(model);
 			view.aplicacao.setQuery(
 					Core.query(Config.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
+          
 			view.tipo_base_dados.setValue(Config.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
-			return this.renderView(view);
+		
 		}
 		//return this.redirect("igrp", "error-page", "exception");
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		ConfigDatabase model = new ConfigDatabase();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		Change 'null' param with your db connection name added in application builder.
-		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","ConfigDatabase","index");
-		}
-		
-		----#gen-example */
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
 			Config_env config = new Config_env();
@@ -132,21 +119,39 @@ public class ConfigDatabaseController extends Controller {
 				config = config.insert();
 				if (config != null) {
 					this.saveConfigHibernateFile(config);
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO,
-							gt("Nome da conexão: ") + config.getName());
+					Core.setMessageSuccess();
+                    Core.setMessageInfo(gt("Nome da conexão: ") + config.getName());
 					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 				}
 			} else {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt("Nome da conexão já existe"));
+              Core.setMessageWarning(gt("Nome da conexão já existe"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
 		}
 		
 		/*----#end-code----*/
+		return this.redirect("igrp","ConfigDatabase","index", this.queryString());	
+	}
+	
+	public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		return this.redirect("igrp","ConfigDatabase","index", this.queryString());
-		
+		ConfigDatabase model = new ConfigDatabase();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(delete)----*/
+		if (new Config_env().delete(Core.getParamInt("p_id"))) {
+				Core.setMessageSuccess();
+			}else
+				Core.setMessageError();
+      this.addQueryString("p_aplicacao",Core.getParam("p_aplicacao")); 
+      return this.redirect("igrp", "ConfigDatabase", "index", this.queryString());
+		/*----#end-code----*/
+			
 	}
 	
 	/*----#start-code(custom_actions)----*/
@@ -166,8 +171,4 @@ public class ConfigDatabaseController extends Controller {
 		}
 	}
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}

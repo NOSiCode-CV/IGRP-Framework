@@ -95,7 +95,7 @@
 			},
 			getFieldsValidate:function(f){
 				var form = f && f[0] ? f : $.IGRP.utils.getForm();
-				var fields = $('input,select,textarea',form).not('.no-validation, .no-required-validation, .not-form').not('.IGRP_checkall');
+				var fields = $(':input',form).not('.no-validation, .no-required-validation, .not-form').not('.IGRP_checkall');
 				
 				return fields;
 			},
@@ -122,7 +122,7 @@
 				return null;
 			},
 			resetFields  : function(o){
-				$("input",o).each(function(i,e){
+				$(":input",o).each(function(i,e){
                     var parents = $(e).parents('.form-group')
                     	type 	= parents.attr('item-type');
                     switch(type){
