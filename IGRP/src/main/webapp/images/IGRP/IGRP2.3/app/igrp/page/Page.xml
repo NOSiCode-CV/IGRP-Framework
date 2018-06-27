@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,6 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=17</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Pagina</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -56,11 +59,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Accusantium totam anim accusantium stract</value>
+                    <value>Natus ut ipsum aliqua anim</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Accusantium dolor rem dolor lorem</value>
+                    <value>Omnis lorem iste dolor sed</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label>Ativo?</label>
@@ -73,7 +76,7 @@
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -103,11 +106,11 @@
                     <label>Extras</label>
                 </extras>
                 <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
-                    <label>Criar menu?</label>
+                    <label> Criar menu?</label>
                     <value>1</value>
                     <rules/>
                 </criar_menu>
-                <modulo name="p_modulo" type="select" multiple="false" domain="" maxlength="50" required="false" change="false" disabled="false" right="false" java-type="">
+                <modulo name="p_modulo" type="select" multiple="false" domain="" maxlength="50" required="false" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Módulo</label>
                     <list>
                         <option/>
@@ -129,11 +132,15 @@
                         </option>
                     </list>
                 </modulo>
-                <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false">
+                <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="">
                     <label>Modulo</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </novo_modulo>
-                <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="">
+                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                    <label> Primeira Página</label>
+                    <value>1</value>
+                </primeira_pagina>
+                <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Versão de Página</label>
                     <list>
                         <option/>
