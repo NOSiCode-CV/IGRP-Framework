@@ -35,6 +35,10 @@ public class Page extends Model{
 	private int componente_check;
 	@RParam(rParamName = "p_extras")
 	private String extras;
+	@RParam(rParamName = "p_primeira_pagina")
+	private int primeira_pagina;
+	@RParam(rParamName = "p_primeira_pagina_check")
+	private int primeira_pagina_check;
 	@RParam(rParamName = "p_criar_menu")
 	private int criar_menu;
 	@RParam(rParamName = "p_criar_menu_check")
@@ -45,10 +49,6 @@ public class Page extends Model{
 	private IGRPLink novo_modulo;
 	@RParam(rParamName = "p_novo_modulo_desc")
 	private String novo_modulo_desc;
-	@RParam(rParamName = "p_primeira_pagina")
-	private int primeira_pagina;
-	@RParam(rParamName = "p_primeira_pagina_check")
-	private int primeira_pagina_check;
 	@RParam(rParamName = "p_version")
 	private String version;
 	@RParam(rParamName = "p_id")
@@ -163,6 +163,19 @@ public class Page extends Model{
 		return this.extras;
 	}
 	
+	public void setPrimeira_pagina(int primeira_pagina){
+		this.primeira_pagina = primeira_pagina;
+	}
+	public int getPrimeira_pagina(){
+		return this.primeira_pagina;
+	}
+	public void setPrimeira_pagina_check(int primeira_pagina_check){
+		this.primeira_pagina_check = primeira_pagina_check;
+	}
+	public int getPrimeira_pagina_check(){
+		return this.primeira_pagina_check;
+	}
+	
 	public void setCriar_menu(int criar_menu){
 		this.criar_menu = criar_menu;
 	}
@@ -203,19 +216,6 @@ public class Page extends Model{
 	public IGRPLink setNovo_modulo(Report link){
 		this.novo_modulo = new IGRPLink(link);
 		return this.novo_modulo;
-	}
-	
-	public void setPrimeira_pagina(int primeira_pagina){
-		this.primeira_pagina = primeira_pagina;
-	}
-	public int getPrimeira_pagina(){
-		return this.primeira_pagina;
-	}
-	public void setPrimeira_pagina_check(int primeira_pagina_check){
-		this.primeira_pagina_check = primeira_pagina_check;
-	}
-	public int getPrimeira_pagina_check(){
-		return this.primeira_pagina_check;
 	}
 	
 	public void setVersion(String version){

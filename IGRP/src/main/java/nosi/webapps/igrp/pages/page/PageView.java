@@ -26,12 +26,12 @@ public class PageView extends View {
 	public Field componente;
 	public Field componente_check;
 	public Field extras;
+	public Field primeira_pagina;
+	public Field primeira_pagina_check;
 	public Field criar_menu;
 	public Field criar_menu_check;
 	public Field modulo;
 	public Field novo_modulo;
-	public Field primeira_pagina;
-	public Field primeira_pagina_check;
 	public Field version;
 	public Field id;
 	public Field table_name;
@@ -76,7 +76,7 @@ public class PageView extends View {
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","255").add("required","true");
 		
 		status = new CheckBoxField(model,"status");
-		status.setLabel(gt("Ativo?"));
+		status.setLabel(gt("Ativo"));
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
@@ -99,6 +99,10 @@ public class PageView extends View {
 		extras.setLabel(gt("Extras"));
 		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30");
 		
+		primeira_pagina = new CheckBoxField(model,"primeira_pagina");
+		primeira_pagina.setLabel(gt(" Primeira Página"));
+		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("switch","true").add("check","true");
+		
 		criar_menu = new CheckBoxField(model,"criar_menu");
 		criar_menu.setLabel(gt(" Criar menu?"));
 		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
@@ -112,10 +116,6 @@ public class PageView extends View {
 		novo_modulo.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
 									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","");
-		
-		primeira_pagina = new CheckBoxField(model,"primeira_pagina");
-		primeira_pagina.setLabel(gt(" Primeira Página"));
-		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("switch","true").add("check","true");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
@@ -204,10 +204,10 @@ public class PageView extends View {
 		form_1.addField(env_fk);
 		form_1.addField(componente);
 		form_1.addField(extras);
+		form_1.addField(primeira_pagina);
 		form_1.addField(criar_menu);
 		form_1.addField(modulo);
 		form_1.addField(novo_modulo);
-		form_1.addField(primeira_pagina);
 		form_1.addField(version);
 		form_1.addField(id);
 		form_1.addField(table_name);
@@ -242,10 +242,10 @@ public class PageView extends View {
 		env_fk.setValue(model);
 		componente.setValue(model);
 		extras.setValue(model);
+		primeira_pagina.setValue(model);
 		criar_menu.setValue(model);
 		modulo.setValue(model);
 		novo_modulo.setValue(model);
-		primeira_pagina.setValue(model);
 		version.setValue(model);
 		id.setValue(model);
 		table_name.setValue(model);

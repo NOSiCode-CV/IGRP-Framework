@@ -59,14 +59,14 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Natus ut ipsum aliqua anim</value>
+                    <value>Natus labore dolor accusantium labore</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Omnis lorem iste dolor sed</value>
+                    <value>Amet elit aliqua laudantium mollit</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
-                    <label>Ativo?</label>
+                    <label>Ativo</label>
                     <value>1</value>
                 </status>
                 <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
@@ -105,6 +105,10 @@
                 <extras name="p_extras" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Extras</label>
                 </extras>
+                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                    <label> Primeira Página</label>
+                    <value>1</value>
+                </primeira_pagina>
                 <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label> Criar menu?</label>
                     <value>1</value>
@@ -136,10 +140,6 @@
                     <label>Modulo</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </novo_modulo>
-                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
-                    <label> Primeira Página</label>
-                    <value>1</value>
-                </primeira_pagina>
                 <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Versão de Página</label>
                     <list>
