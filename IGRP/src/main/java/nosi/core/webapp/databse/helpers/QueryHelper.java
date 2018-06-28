@@ -262,8 +262,11 @@ public abstract class QueryHelper implements QueryInterface{
 				updates += col.getName().toLowerCase()+"=:"+col.getName().toLowerCase()+",";
 			}
 		}	
-		updates = updates.substring(0, updates.length()-1);
-		return "UPDATE "+tableName +" SET "+updates;
+		//System.out.println(updates);
+		updates = Core.isNotNull(updates)?updates.substring(0, updates.length()-1):"";
+		String s = "UPDATE "+tableName +" SET "+updates;
+		System.out.println(s);
+		return s;
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {
