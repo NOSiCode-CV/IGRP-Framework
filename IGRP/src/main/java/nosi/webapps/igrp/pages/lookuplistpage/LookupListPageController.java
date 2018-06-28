@@ -64,7 +64,8 @@ public class LookupListPageController extends Controller {
 					"       ELSE 0 " + 
 					"  END as obrigatorio_check, "
 					+ "nome as nome,descricao as descricao_documento,(SELECT tipo FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) as tipo"
-					+ ",'tp' as type_doc FROM public.tbl_tipo_documento tp")
+					+ ",'tp' as type_doc FROM public.tbl_tipo_documento tp")					
+					.where("tp.status=:status AND tp.env_fk=:env_fk")
 					.union()
 					.select("SELECT id as checkbox, "
 					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.report_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 

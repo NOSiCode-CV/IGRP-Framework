@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +18,7 @@ import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.page.Page;
+import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.IntefaceBPMNTask;
@@ -127,6 +130,19 @@ public abstract class Controller{
 	}
 	
 	public Response renderView(String app, String page, View v,IntefaceBPMNTask bpmn) throws IOException {
+		String taskId = Core.getParam("taskId",false);
+		String p_processId = Core.getParam("p_processId");
+		String taskDefinition = Core.getParam("taskDefinition",false);
+		String processDefinition = Core.getParam("processDefinition",false);
+		TaskService task = new TaskService().getTask(taskId);
+		Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
+					+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
+					+ gt("Nº Tarefa")  +" : "+taskId + "<br/>"
+					+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
+					+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
+		);
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
 		this.view = v;
 		Action ac = new Action().find()
 				.andWhere("application.dad", "=",app)
@@ -149,16 +165,11 @@ public abstract class Controller{
 		XMLExtractComponent comp = new XMLExtractComponent();
 		String content = this.view.getPage().renderContent(false);
 		content = comp.removeXMLButton(content);
-		String taskId = Core.getParam("taskId");
-		String p_processId = Core.getParam("p_processId");
-		//String taskName = Core.getParam("taskName");
-		String taskDefinition = Core.getParam("taskDefinition");
-		String processDefinition = Core.getParam("processDefinition");
+		
 		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId(), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
-		//xml.setElement("title", taskName+" - Nº "+taskId);
 		if(Core.isNotNull(p_processId)) {
 			xml.addXml(comp.generateButtonProcess(p_processId).toString());
 		}
@@ -167,8 +178,6 @@ public abstract class Controller{
 		}
 		xml.addXml(content);
 		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac));
-		IGRPMessage msg = new IGRPMessage();
-		String m = msg.toString();
 		if(m!=null){
 			xml.addXml(m);
 		}
@@ -183,7 +192,7 @@ public abstract class Controller{
 		
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setListDocmentType(bpmn.getInputDocumentType());
-		String previewTask = Core.getParam("previewTask");
+		String previewTask = Core.getParam("previewTask",false);
 		if(Core.isNotNull(previewTask)) {
 			try {
 				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();
@@ -382,7 +391,7 @@ public abstract class Controller{
 		app.getLog().addMessage(viewName);
 		app.getLog().addMessage(modelName);
 		app.getLog().addMessage(xsl);
-		}
+	}
 	
 	protected static Object run(){ 
 		Igrp app = Igrp.getInstance();
@@ -413,13 +422,21 @@ public abstract class Controller{
 	}
 	
 	public Response call(String app, String page, String action,QueryString<String,Object> queryString) {
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
 		this.setQueryStringToAttributes(queryString);
 		String auxcontrollerPath = this.config.getPackage(app,page,action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
 		Object obj = Page.loadPage(auxcontrollerPath, "action"+StringHelper.camelCaseFirst(action));
-		return (Response) obj;
+		Response resp = (Response) obj;
+		String content = resp.getContent();		
+		if(m!=null){
+			content = content.replaceAll("<messages></messages>", m);
+		}
+		resp.setContent(content);
+		return  resp ;
 	}	
 	
 	protected Response forward(String app, String page, String action, QueryString<String,Object> queryString) {

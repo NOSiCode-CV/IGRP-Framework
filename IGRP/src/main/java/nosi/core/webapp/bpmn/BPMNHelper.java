@@ -93,8 +93,8 @@ public class BPMNHelper {
 	public static List<TipoDocumentoEtapa> getInputDocumentType(String processDefinition,String taskDefinition,Integer idApp){
 		List<TipoDocumentoEtapa> tipoDocsIN = new TipoDocumentoEtapa()
 				.find()
-				.andWhere("processId", "=",processDefinition)
-				.andWhere("taskId", "=",taskDefinition)
+				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
+				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
 				.andWhere("status", "=",1)
 				.andWhere("tipo", "=","IN")
 				.andWhere("tipoDocumento.application", "=",idApp)
@@ -117,8 +117,8 @@ public class BPMNHelper {
 		List<TipoDocumentoEtapa> tipoDocs = null;
 		tipoDocs = new TipoDocumentoEtapa()
 				.find()
-				.andWhere("processId", "=",processDefinition)
-				.andWhere("taskId", "=",taskDefinition)
+				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
+				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
 				.andWhere("status", "=",1)
 				.andWhere("tipo", "=","OUT")
 				.andWhere("repTemplate", "notnull")
