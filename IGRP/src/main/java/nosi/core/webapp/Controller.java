@@ -146,13 +146,14 @@ public abstract class Controller{
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}		
 		
+		XMLExtractComponent comp = new XMLExtractComponent();
 		String content = this.view.getPage().renderContent(false);
+		content = comp.removeXMLButton(content);
 		String taskId = Core.getParam("taskId");
 		String p_processId = Core.getParam("p_processId");
 		//String taskName = Core.getParam("taskName");
 		String taskDefinition = Core.getParam("taskDefinition");
-		String processDefinition = Core.getParam("processDefinition");		
-		XMLExtractComponent comp = new XMLExtractComponent();
+		String processDefinition = Core.getParam("processDefinition");
 		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId(), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
@@ -196,6 +197,7 @@ public abstract class Controller{
 				e.printStackTrace();
 			}
 		}
+		
 		return display.display();
 	}
 

@@ -30,10 +30,9 @@ public class DisplayDocmentType {
 	
 	public String display() {
 		IGRPFormList formlist_documento_task = new IGRPFormList("formlist_documento_task");
-		this.addField(formlist_documento_task);
-		
+		this.addField(formlist_documento_task);		
 		formlist_documento_task.addData(this.getData());
-		return formlist_documento_task.toString();
+		return this.getListDocmentType()!=null && this.getListDocmentType().size() > 0?formlist_documento_task.toString():"";
 	}
 
 	public List<TipoDocumentoEtapa> getListDocmentType() {
