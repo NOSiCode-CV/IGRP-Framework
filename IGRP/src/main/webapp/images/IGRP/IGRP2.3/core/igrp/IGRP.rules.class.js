@@ -644,6 +644,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				$.IGRP.request( p.procedure ,{
 					params  : getParam(p.request_fields),
+					headers : {
+				       	'X-IGRP-REMOTE' : 1
+				   	},
 					method 	: 'POST',
 					success : function(data){
 
@@ -666,6 +669,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				$.ajax({
 					url 	: p.procedure,
+					headers : {
+				       	'X-IGRP-REMOTE' : 1
+				   	},
 					method 	: 'post',
 					dataType: 'xml',
 					data 	: getParam(p.request_fields)

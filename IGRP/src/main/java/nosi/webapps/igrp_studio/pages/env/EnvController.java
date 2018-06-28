@@ -455,6 +455,8 @@ public class EnvController extends Controller {
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
 			String devUrl = properties.getProperty("igrp.env.dev.url"); 
 			
+			
+			
 			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
 				String qs = "?_t=" + Base64.getEncoder().encodeToString((Core.getCurrentUser().getUser_name() + ":" + Core.getCurrentUser().getValid_until()).getBytes());
 				devUrl += qs;

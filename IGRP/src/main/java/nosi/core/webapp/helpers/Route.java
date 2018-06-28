@@ -1,5 +1,6 @@
 package nosi.core.webapp.helpers;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -63,8 +64,13 @@ public class Route {
 	}
 
 	public static void remember() { // For back button funcionality purpose ...
-		String route = new String(Igrp.getInstance().getRequest().getRequestURL() + "?"
-				+ Igrp.getInstance().getRequest().getQueryString());
+		String qs = Igrp.getInstance().getRequest().getQueryString();
+		String r = Igrp.getInstance().getRequest().getParameter("r");
+		
+		if(r != null && qs != null) 
+			qs = qs.replace(r, EncrypDecrypt.encrypt(r));
+		
+		String route = new String(Igrp.getInstance().getRequest().getRequestURL() + "?" + qs);
 		Igrp.getInstance().getRequest().getSession().setAttribute("_route", route);
 	}
 

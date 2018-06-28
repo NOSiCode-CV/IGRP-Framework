@@ -10,6 +10,8 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import nosi.core.webapp.Igrp;
+
 public class EncrypDecrypt {
 
 	private static final String ALGO = "AES/ECB/PKCS5Padding";// "AES/ECB/PKCS5PADDING"
@@ -21,8 +23,7 @@ public class EncrypDecrypt {
 	public static String encrypt(String content) {
 		if (getWakandaList(content))
 			return encrypt(content, getSecretKey()).replace(" ", "+");
-		else
-			return content;
+		return content;
 	}
 
 	private static boolean getWakandaList(String content) {
@@ -37,6 +38,10 @@ public class EncrypDecrypt {
 
 	
 	public static String decrypt(String content) {
+		
+		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
+		if(customHeader != null && customHeader.equals("1")) return content;
+		
 		if (getWakandaList(content) )
 			return decrypt(content.replace(" ", "+"), getSecretKey());
 		else
