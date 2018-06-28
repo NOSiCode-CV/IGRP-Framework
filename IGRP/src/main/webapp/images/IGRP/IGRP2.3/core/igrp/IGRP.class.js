@@ -212,6 +212,7 @@
 
 			var options = $.extend(true, {
 				params   : {},
+				headers	 : {},
 				dataType : null,
 				success  : function(){},
 				fail     : function(){},
@@ -223,6 +224,7 @@
 				req = $.ajax({
 					url      : url,
 					data     : options.params,
+					headers	 : options.headers,
 					method	 : options.method,
 					dataType : options.dataType
 				})
