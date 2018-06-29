@@ -21,8 +21,8 @@ public class EncrypDecrypt {
 	public static String SECRET_KEY = "igrp.encrypt";
 
 	public static String encrypt(String content) {
-		if (getWakandaList(content))
-			return encrypt(content, getSecretKey()).replace(" ", "+");
+//		if (getWakandaList(content))
+//			return encrypt(content, getSecretKey()).replace(" ", "+");
 		return content;
 	}
 
@@ -38,13 +38,13 @@ public class EncrypDecrypt {
 
 	
 	public static String decrypt(String content) {
-		
-		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
-		if(customHeader != null && customHeader.equals("1")) return content;
-		
-		if (getWakandaList(content) )
-			return decrypt(content.replace(" ", "+"), getSecretKey());
-		else
+//		
+//		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
+//		if(customHeader != null && customHeader.equals("1")) return content;
+//		
+//		if (getWakandaList(content) )
+//			return decrypt(content.replace(" ", "+"), getSecretKey());
+//		else
 			return content;
 	}
 
