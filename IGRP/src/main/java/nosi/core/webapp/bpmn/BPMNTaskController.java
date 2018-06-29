@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import com.google.gson.Gson;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMessage;
-import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Model;
@@ -29,6 +27,7 @@ import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+import static nosi.core.i18n.Translator.gt;
 
 /**
  * Emanuel
@@ -40,9 +39,6 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	private String app;
 	private String page;
 	private Action action;
-	private String taskDefinition;
-	private String processDefinition;
-	private List<HistoricTaskService> taskHistories;
 	
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
@@ -79,7 +75,6 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 			xml.addXml(this.getConfig().getHeader(null));
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
-			//xml.setElement("title", taskName+" - Nº "+taskId);
 			if(Core.isNotNull(p_processId)) {
 				xml.addXml(comp.generateButtonProcess(p_processId).toString());
 			}
@@ -183,24 +178,29 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 
 	@Override
 	public List<TipoDocumentoEtapa> getOutputDocumentType() {
-		if(this.processDefinition!=null && this.taskDefinition!=null && this.taskHistories!=null) {
-			return BPMNHelper.getOutputDocumentType(this.processDefinition, this.taskDefinition,this.getAction().getApplication().getId());
-		}
 		String taskDefinition = Core.getParam("previewTask");
 		String processDefinition = Core.getParam("preiviewProcessDefinition");	
 		String preiviewApp = Core.getParam("preiviewApp");	
+		String isDetails = Core.getParam("isDetails");
 		this.page = Config.PREFIX_TASK_NAME+taskDefinition;
 		this.app = preiviewApp;
+		if(Core.isNotNull(isDetails)) {
+			return BPMNHelper.getOutputDocumentType(processDefinition, taskDefinition,this.getAction().getApplication().getId());
+		}
 		return BPMNHelper.getOutputDocumentType(processDefinition,taskDefinition,this.getAction().getApplication().getId());
 	}
 
 	@Override
 	public List<TipoDocumentoEtapa> getInputDocumentType() {
-		if(this.processDefinition!=null && this.taskDefinition!=null && this.taskHistories!=null) {
-			return BPMNHelper.getInputDocumentTypeHistory(this.processDefinition, this.taskDefinition,this.taskHistories, this.getAction().getApplication().getId());
-		}
 		String taskDefinition = Core.getParam("taskDefinition");
 		String processDefinition = Core.getParam("processDefinition");	
+		String isDetails = Core.getParam("isDetails");
+		if(Core.isNotNull(isDetails)) {
+			HistoricTaskService history = new HistoricTaskService();
+			history.setFilter("processFinished=true");	
+			List<HistoricTaskService> taskHistories = history.getHistory(Core.getParam("taskId"));	
+			return BPMNHelper.getInputDocumentTypeHistory(processDefinition, taskDefinition,taskHistories, this.getAction().getApplication().getId());
+		}
 		return BPMNHelper.getInputDocumentType(processDefinition, taskDefinition, this.getAction().getApplication().getId());
 	}
 
@@ -213,20 +213,10 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 
 	@Override
 	public String details(TaskServiceQuery task) throws IOException, ServletException {
-		this.app = task.getTenantId();
-		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
-		HistoricTaskService history = new HistoricTaskService();
-		history.setFilter("processFinished=true");
-		this.taskHistories = history.getHistory(task.getId());
-		this.taskDefinition = task.getTaskDefinitionKey();
-		this.processDefinition = task.getProcessDefinitionKey();
-		
-		Gson gson = new Gson();
-		
+		this.page = Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey();
+		Gson gson = new Gson();		
 		XMLExtractComponent comp = new XMLExtractComponent();
-		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
-		String dad = action.getApplication().getDad();
-		String page = action.getPage();
+		Action action = new Action().find().andWhere("page", "=",this.page).andWhere("application.dad", "=",task.getTenantId()).one();
 		String json = "";
 		if(task.getVariables()!=null) {
 			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
@@ -236,34 +226,36 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);
 			if(custom!=null){
 				for(Rows rows:custom.getRows()) {
-					if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
-						page = rows.getValue().toString();
-					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
-						dad = rows.getValue().toString();
-					}else {
+					if(!rows.getName().equalsIgnoreCase("page_igrp_ativiti") && !rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
 						for(Object obj:(Object[])rows.getValue()) {
 							this.addQueryString(rows.getName(), obj.toString());
 						}
 					}
 				}
 			}
-		}
-		Response resp = this.call(dad, page, "index",this.queryString());
-		String content = comp.removeXMLButton(resp.getContent());
-		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+task.getFormKey()+"&amp;app="+action.getApplication().getId(), "utf-8");
-		xml.addXml(this.getConfig().getHeader(null));
-		xml.startElement("content");
-		xml.writeAttribute("type", "");
-		xml.setElement("title", gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()));
-		IGRPSeparatorList sep = comp.addFormlistFile();
-		xml.addXml(sep.toString());
-		xml.addXml(content);
-		DisplayDocmentType display = new DisplayDocmentType();
-		display.setShowInputFile(false);
-		display.setListDocmentType(this.getInputDocumentType());
-		display.addListDocumentType(this.getOutputDocumentType());
-		xml.addXml(display.display());
-		xml.endElement();
-		return xml.toString();	
+		}		
+		this.addQueryString("taskId",task.getId())
+			.addQueryString("isDetails", "true")
+	        .addQueryString("appId", action.getApplication().getId())
+	        .addQueryString("appDad", task.getTenantId())
+	        .addQueryString("formKey", task.getFormKey())
+	        .addQueryString("processDefinition", task.getProcessDefinitionKey())
+	        .addQueryString("taskDefinition", task.getTaskDefinitionKey())
+	        //for output documents details
+	        .addQueryString("preiviewApp",task.getTenantId())
+	        .addQueryString("previewTask", task.getTaskDefinitionKey())
+	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey());
+		 Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
+		 										+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
+		 										+ gt("Nº Tarefa")  +" : "+task.getId() + "<br/>"
+		 										+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
+		 										+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
+												+ gt("Data Inicio")+" : "+task.getStartTime() +"<br/>"
+												+ gt("Data de fim")+" : "+task.getEndTime() +"<br/>"
+		 					);
+		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
+		 String content = resp.getContent();
+		 content = comp.removeXMLButton(content);
+		 return content;
 	}
 }

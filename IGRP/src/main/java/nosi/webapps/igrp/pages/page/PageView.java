@@ -1,11 +1,17 @@
 
 package nosi.webapps.igrp.pages.page;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+
+
+
 public class PageView extends View {
 
 	public Field sectionheader_1_text;
@@ -20,6 +26,8 @@ public class PageView extends View {
 	public Field componente;
 	public Field componente_check;
 	public Field extras;
+	public Field primeira_pagina;
+	public Field primeira_pagina_check;
 	public Field criar_menu;
 	public Field criar_menu_check;
 	public Field modulo;
@@ -68,7 +76,7 @@ public class PageView extends View {
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","255").add("required","true");
 		
 		status = new CheckBoxField(model,"status");
-		status.setLabel(gt("Ativo?"));
+		status.setLabel(gt("Ativo"));
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
@@ -81,7 +89,7 @@ public class PageView extends View {
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","").add("tags","false");
 		
 		componente = new CheckBoxField(model,"componente");
 		componente.setLabel(gt("Componente?"));
@@ -91,22 +99,27 @@ public class PageView extends View {
 		extras.setLabel(gt("Extras"));
 		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30");
 		
+		primeira_pagina = new CheckBoxField(model,"primeira_pagina");
+		primeira_pagina.setLabel(gt(" Primeira Página"));
+		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("switch","true").add("check","true");
+		
 		criar_menu = new CheckBoxField(model,"criar_menu");
-		criar_menu.setLabel(gt("Criar menu?"));
+		criar_menu.setLabel(gt(" Criar menu?"));
 		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("java-type","");
+		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("java-type","").add("tags","false");
 		
 		novo_modulo = new LinkField(model,"novo_modulo");
 		novo_modulo.setLabel(gt("Modulo"));
 		novo_modulo.setValue(new Config().getResolveUrl("igrp","Page","index"));
-		novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30");
+
+									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
-		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
+		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","").add("tags","false");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -191,6 +204,7 @@ public class PageView extends View {
 		form_1.addField(env_fk);
 		form_1.addField(componente);
 		form_1.addField(extras);
+		form_1.addField(primeira_pagina);
 		form_1.addField(criar_menu);
 		form_1.addField(modulo);
 		form_1.addField(novo_modulo);
@@ -217,7 +231,8 @@ public class PageView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(Page model) {
+	@Override
+	public void setModel(Model model) {
 		
 		page_descr.setValue(model);
 		page.setValue(model);
@@ -227,6 +242,7 @@ public class PageView extends View {
 		env_fk.setValue(model);
 		componente.setValue(model);
 		extras.setValue(model);
+		primeira_pagina.setValue(model);
 		criar_menu.setValue(model);
 		modulo.setValue(model);
 		novo_modulo.setValue(model);

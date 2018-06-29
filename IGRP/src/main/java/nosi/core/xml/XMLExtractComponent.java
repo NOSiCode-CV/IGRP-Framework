@@ -247,7 +247,6 @@ public class XMLExtractComponent {
 	}
 	
 	public String removeXMLButton(String content) {
-		content = this.extractXML(content);
 		int index = content.indexOf("xml-type=\"toolsbar\"");
 		if(index != -1) {
 			int index2 = content.indexOf("<item",index);

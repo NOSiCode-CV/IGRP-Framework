@@ -42,6 +42,8 @@ public class Config {
 	
 	private final static String SEPARATOR_FOR_HTTP = "/";
 	private final static String SEPARATOR_FOR_FILESYS = File.separator;
+	
+	public final static String VERSION = "180628";
 
 	public String getLinkXSLLogin() {
 		return this.getLinkImgBase().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_LOGIN;
@@ -165,7 +167,7 @@ public class Config {
 	}
 
 	public String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v.180626";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v."+VERSION;
 	}
 	public String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";

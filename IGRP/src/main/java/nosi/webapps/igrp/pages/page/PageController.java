@@ -2,11 +2,12 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import java.lang.reflect.Method;
@@ -44,23 +45,22 @@ import nosi.webapps.igrp.dao.Transaction;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
-public class PageController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+public class PageController extends Controller {		
 
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		Page model = new Page();
 		model.load();
+		model.setNovo_modulo("igrp","Page","index");
 		PageView view = new PageView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		Boolean isEdit = false;
 		final Integer idPage = Core.getParamInt("p_id_page");
@@ -70,8 +70,9 @@ public class PageController extends Controller {
 			a = a.findOne(idPage);
 			if (a != null) {
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk("" + a.getApplication().getId());
-				model.setAction(a.getAction());
+				model.setEnv_fk("" + a.getApplication().getId());            
+			 	model.setPrimeira_pagina(idPage.equals(new Application().findOne(a.getApplication().getId()).getAction().getId())? 1:0);				
+             	model.setAction(a.getAction());
 				model.setPage_descr(a.getPage_descr());
 				model.setPage(a.getPage());
 				model.setId("" + a.getId());
@@ -105,11 +106,11 @@ public class PageController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		/*----#start-code(gravar)----*/
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -135,13 +136,21 @@ public class PageController extends Controller {
 					}
 				}
 				action = action.update();
-				if (action != null)
+				
+				if (action != null) {
 					Core.setMessageSuccess("Página atualizada com sucesso.");
-				else
+					
+					if(model.getPrimeira_pagina()==1) {	
+						Application app2 = new Application().findOne(action.getApplication().getId());
+						app2.setAction(action);
+						app2.update();
+					}
+						
+				}else
 					Core.setMessageError();
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
-				// ______________________________________# END # Edit/update page
+				// ______________________________________««« END »»»» Edit/update page
 			} else if (checkifexists(model)) {
 				// New page ________
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
@@ -150,7 +159,7 @@ public class PageController extends Controller {
 				action.setStatus(model.getStatus());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
-				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
+				action.setVersion(model.getVersion() == null ? "2.3."+Config.VERSION : model.getVersion()+"."+Config.VERSION);
 				action.setAction("index");
 				action.setIsComponent((short) model.getComponente());
 				action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
@@ -199,7 +208,12 @@ public class PageController extends Controller {
 
 					}
 					Core.setMessageSuccess();
-
+					if(model.getPrimeira_pagina()==1) {
+						Application app2 = new Application().findOne(action.getApplication().getId());
+						app2.setAction(action);
+						app2.update();
+					}
+						
 					this.addQueryString("p_env_fk", model.getEnv_fk());
 					return this.redirect("igrp", "page", "index", this.queryString());
 
@@ -216,10 +230,10 @@ public class PageController extends Controller {
 		}
 
 		/*----#end-code----*/
-
-		return this.redirect("igrp", "page", "index");
+		
+		return this.redirect("igrp","page","index");	
 	}
-
+	
 	/*----#start-code(custom_actions)----*/
 
 	private boolean checkifexists(Page model) {
@@ -708,4 +722,4 @@ public class PageController extends Controller {
 		return this.renderView(json);
 	}
 	/*----#end-code----*/
-}
+	}

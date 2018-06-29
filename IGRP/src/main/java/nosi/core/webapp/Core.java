@@ -470,16 +470,32 @@ public final class Core { // Not inherit
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
 	 * @param name
-	 *            of the string label
+	 *            of the string name
+	 *            remove the attribute after get it
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
 		Object v = Igrp.getInstance().getRequest().getParameter(name);
 		if (Core.isNull(v))
-			v = Core.getAttribute(name);
+			v = Core.getAttribute(name,true);
 		return v != null ? v.toString() : "";
 	}
 
+	/**
+	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
+	 * 
+	 * @param name
+	 *            of the string name
+	 * @param isRemoved 
+	 * 			  if you don't remove the attribute
+	 * @return {@code v!=null?v.toString():"";}
+	 */
+	public static String getParam(String name,boolean isRemoved) {
+		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		if (Core.isNull(v))
+			v = Core.getAttribute(name,isRemoved);
+		return v != null ? v.toString() : "";
+	}
 	/**
 	 * Core.getParam first
 	 * 
@@ -490,7 +506,7 @@ public final class Core { // Not inherit
 	public static Integer getParamInt(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name);
+			x = Core.getAttribute(name,true);
 		return Core.isNotNull(x) ? Core.toInt(x) : 0;
 	}
 
@@ -504,7 +520,7 @@ public final class Core { // Not inherit
 	public static Double getParamDouble(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name);
+			x = Core.getAttribute(name,true);
 		return Core.isNotNull(x) ? Core.toDouble(x) : 0;
 	}
 
@@ -518,7 +534,7 @@ public final class Core { // Not inherit
 	public static Short getParamShort(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name);
+			x = Core.getAttribute(name,true);
 		return Core.isNotNull(x) ? Core.toShort(x) : 0;
 	}
 
@@ -532,7 +548,7 @@ public final class Core { // Not inherit
 	public static Float getParamFloat(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name);
+			x = Core.getAttribute(name,true);
 		return Core.isNotNull(x) ? Core.toFloat(x) : 0;
 	}
 
@@ -546,7 +562,7 @@ public final class Core { // Not inherit
 	public static Long getParamLong(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name);
+			x = Core.getAttribute(name,true);
 		return Core.isNotNull(x) ? Core.toLong(x) : 0;
 	}
 
@@ -573,14 +589,16 @@ public final class Core { // Not inherit
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 
-	public static String getAttribute(String name) {
+
+	public static String getAttribute(String name,boolean isRemoved) {
 		if (Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
 			else
 				v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-			Igrp.getInstance().getRequest().removeAttribute(name);
+			if(isRemoved)
+				Igrp.getInstance().getRequest().removeAttribute(name);
 			return v;
 		}
 		return null;
