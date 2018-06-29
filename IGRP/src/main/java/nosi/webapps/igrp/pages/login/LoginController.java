@@ -118,7 +118,7 @@ public class LoginController extends Controller {
 				
 				switch(this.getConfig().getAutenticationType()){
 					case "db":
-						if(this.loginWithDb(model.getUser().toLowerCase(), model.getPassword())) {
+						if(this.loginWithDb(model.getUser(), model.getPassword())) {
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 								StringBuilder oauth2ServerUrl = new StringBuilder();
 								User user = (User) Igrp.getInstance().getUser().getIdentity();
@@ -143,7 +143,7 @@ public class LoginController extends Controller {
 					break;
 					
 					case "ldap":{
-						if(this.loginWithLdap(model.getUser().toLowerCase(), model.getPassword())) {
+						if(this.loginWithLdap(model.getUser(), model.getPassword())) {
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 								StringBuilder oauth2ServerUrl = new StringBuilder();
 								User user = (User) Igrp.getInstance().getUser().getIdentity();
@@ -307,7 +307,7 @@ public class LoginController extends Controller {
 				if(this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio  
 					
 					User newUser = new User();
-					newUser.setUser_name(username);
+					newUser.setUser_name(username.trim().toLowerCase());
 					
 					if (personArray != null && personArray.size() > 0) 
 						for(int i = 0; i < personArray.size(); i++) {
