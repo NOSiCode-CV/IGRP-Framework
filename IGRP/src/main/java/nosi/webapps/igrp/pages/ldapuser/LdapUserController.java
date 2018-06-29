@@ -146,10 +146,14 @@ public class LdapUserController extends Controller {
         	  e.printStackTrace();
           }
           
-           int httpStatusCode = -1;
-           httpStatusCode = stub.getHttpResponseStatusCode();
+         int httpStatusCode = -1;
+         try {
+        	 httpStatusCode = stub.getHttpResponseStatusCode(); // bug due version of jax-ws client TomEE 
+         }catch (NullPointerException e) {
+        	 httpStatusCode = 200;
+         }
            
-          if(httpStatusCode == 202) {
+          if(httpStatusCode == 202 || httpStatusCode == 200) {
         	  Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
         	  flag = true;
           }else 

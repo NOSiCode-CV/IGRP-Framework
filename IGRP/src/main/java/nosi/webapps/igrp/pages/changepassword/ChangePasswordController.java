@@ -108,12 +108,13 @@ public class ChangePasswordController extends Controller {
 		
 		Properties settings = loadIdentityServerSettings();
 		
-		if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true"))
+		if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
 			if(!useIds(currentPassword, newPassword, settings))
 				return forward("igrp","ChangePassword","index");
-		else
+		}else {
 			if(!dontUseIds(currentPassword, newPassword))
 				return forward("igrp","ChangePassword","index");
+		}
 		
 		return redirect("igrp","ChangePassword","index");
 	}
@@ -145,24 +146,21 @@ public class ChangePasswordController extends Controller {
 			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, newPassword));
 			        credential.setOldCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "oldCredential"), String.class, currentPassword));
 		
-			        try {
-			        	stub.getOperations().updateCredential(credential);
-			        }catch(Exception e) {
-			        	e.printStackTrace();
-			        }
+			        stub.getOperations().updateCredential(credential);
+			        
 			        javax.xml.ws.BindingProvider bp =  (javax.xml.ws.BindingProvider)stub.getOperations();
-			        System.out.println(bp);
+			        
 			        Map<String, Object> m = bp.getResponseContext();
-			        System.out.println("Map: " + m.size());
+			      
 			        
-			        m.forEach((k,v)->{
-			        	System.out.println(k + " - " + v);
-			        });
+			        int responseCode = -1;
 			        
-			        m.get(MessageContext.HTTP_RESPONSE_CODE);
-			        
-			        int responseCode = (Integer)m.get(MessageContext.HTTP_RESPONSE_CODE);
-			        if(responseCode == 202) { 
+			        try {
+			        	responseCode = (Integer)m.get(MessageContext.HTTP_RESPONSE_CODE); // bug due version of jax-ws client TomEE 
+			        }catch (NullPointerException e) {
+			        	responseCode = 200;
+					}
+			        if(responseCode == 202 || responseCode == 200) { 
 			        	Core.setMessageSuccess(gt("Password alterado com sucesso."));
 			        	flag = true;
 			        }
