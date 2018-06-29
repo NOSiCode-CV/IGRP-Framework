@@ -135,12 +135,14 @@ public abstract class Controller{
 		String taskDefinition = Core.getParam("taskDefinition",false);
 		String processDefinition = Core.getParam("processDefinition",false);
 		TaskService task = new TaskService().getTask(taskId);
-		Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
-					+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
-					+ gt("Nº Tarefa")  +" : "+taskId + "<br/>"
-					+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
-					+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
-		);
+		if(task!=null) {
+			Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
+						+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
+						+ gt("Nº Tarefa")  +" : "+taskId + "<br/>"
+						+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
+						+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
+			);
+		}
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.view = v;
@@ -171,7 +173,7 @@ public abstract class Controller{
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		if(Core.isNotNull(p_processId)) {
-			xml.addXml(comp.generateButtonProcess(p_processId).toString());
+			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
 		if(Core.isNotNull(taskId)) {
 			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
@@ -193,6 +195,10 @@ public abstract class Controller{
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setListDocmentType(bpmn.getInputDocumentType());
 		String previewTask = Core.getParam("previewTask",false);
+		String isDetails = Core.getParam("isDetails");
+		if(Core.isNotNull(isDetails))
+			display.setShowInputFile(false);
+		
 		if(Core.isNotNull(previewTask)) {
 			try {
 				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();

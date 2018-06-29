@@ -12,16 +12,19 @@ import nosi.core.webapp.Core;
  */
 public class TaskFile {
 
-	public void addFile(ProcessInstancesService task) throws IOException, ServletException{
-		List<Part> parts = Core.getFiles();
-		String[] indexs = Core.getParamArray("p_formlist_documento_task_idx");
+	public void addFile(ProcessInstancesService task,List<Part> parts) throws IOException, ServletException{
+		String[] indexs = Core.getParamArray("p_formlist_documento_task_id");
 		String[] names = Core.getParamArray("p_formlist_documento_task_nome_fk");
 		this.addFile(task, parts, indexs, names);
 	}
 	
+	public void addFile(ProcessInstancesService task) throws IOException, ServletException{
+		List<Part> parts = Core.getFiles();
+		this.addFile(task, parts);
+	}
+	
 	public void addFile(ProcessInstancesService task,List<Part> parts,String[] indexs,String[] names) throws IOException, ServletException{
-
-		if(parts!=null && indexs!=null && names!=null) {			
+		if(parts!=null && indexs!=null && names!=null) {	
 			for(int i=0;i<indexs.length;i++) {
 				try {
 					Part file = parts.get(i);

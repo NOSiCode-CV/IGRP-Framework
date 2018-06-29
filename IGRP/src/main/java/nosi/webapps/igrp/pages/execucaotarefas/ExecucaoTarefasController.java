@@ -508,13 +508,11 @@ public class ExecucaoTarefasController extends Controller {
    public Response actionProcessTask() throws IOException, ServletException{
       String taskId = Core.getParam("p_prm_taskid");
       String processDefinitionId = Core.getParam("p_prm_definitionid");
-      String customForm = Core.getParam("customForm");
-      String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
       if(Core.isNotNull(taskId)){
-         return this.processTask(taskId,customForm,content);
+         return this.processTask(taskId);
       }
       if(Core.isNotNull(processDefinitionId)){
-         ProcessInstancesService pi = this.processStartEvent(processDefinitionId,customForm,content);
+         ProcessInstancesService pi = this.processStartEvent(processDefinitionId);
          if(Core.isNotNull(pi.getError())){
             Core.setMessageError(pi.getError().getException());
             return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
@@ -533,7 +531,7 @@ public class ExecucaoTarefasController extends Controller {
       return this.redirect("igrp", "ErrorPage", "exception");
    }
    
-   private Response processTask(String taskId, String customForm, String content) {
+   private Response processTask(String taskId) {
       TaskService task = new TaskService().getTask(taskId);
       this.addQueryString("taskId",taskId);
       Application app = new Application().findByDad(task.getTenantId());
@@ -541,7 +539,7 @@ public class ExecucaoTarefasController extends Controller {
    }
 
    //Inicia tarefa de um processo
-   private ProcessInstancesService processStartEvent(String processDefinitionId,String customForm,String content) throws IOException, ServletException{
+   private ProcessInstancesService processStartEvent(String processDefinitionId) throws IOException, ServletException{
       FormDataService formData = new FormDataService();
       FormDataService properties = null;
       ProcessInstancesService pi = new ProcessInstancesService();
@@ -558,9 +556,9 @@ public class ExecucaoTarefasController extends Controller {
          }
       }
       formData.addVariable("baseHostNameIgrp",this.getConfig().getHostName());
-      if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
-         formData.addVariable("customVariableIGRP",content);         
-      }
+//      if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
+//         formData.addVariable("customVariableIGRP",content);         
+//      }
       StartProcess st = formData.submitFormByProcessDenifition();
       if(st!=null){
          pi.setId(st.getId());

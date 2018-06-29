@@ -59,7 +59,14 @@ public abstract class Model { // IGRP super model
 				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 				if(custom.getRows()!=null){
 					custom.getRows().stream().forEach(v->{
-						if(!v.getName().equalsIgnoreCase("taskId"))
+						if(!v.getName().equalsIgnoreCase("taskId") 
+								&& !v.getName().equalsIgnoreCase("processDefinition") 
+								&& !v.getName().equalsIgnoreCase("taskDefinition")
+								&& !v.getName().equalsIgnoreCase("appId")
+								&& !v.getName().equalsIgnoreCase("preiviewApp")
+								&& !v.getName().equalsIgnoreCase("previewTask")
+								&& !v.getName().equalsIgnoreCase("preiviewProcessDefinition")
+						  )
 							Core.setAttribute(v.getName(), v.getValue());
 					});
 				}
