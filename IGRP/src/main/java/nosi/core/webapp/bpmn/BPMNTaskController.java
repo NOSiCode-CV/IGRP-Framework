@@ -34,7 +34,7 @@ import static nosi.core.i18n.Translator.gt;
  * 7 May 2018
  */
 
-public abstract class BPMNTaskController extends Controller implements IntefaceBPMNTask{
+public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 
 	private String app;
 	private String page;
@@ -49,7 +49,7 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	}
 
 	@Override
-	public Response index(String app,Model model,View view,IntefaceBPMNTask bpmnTask) throws IOException {
+	public Response index(String app,Model model,View view,InterfaceBPMNTask bpmnTask) throws IOException {
 		view.setModel(model);
 		this.app = app;
 		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
@@ -79,7 +79,7 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 				xml.addXml(comp.generateButtonProcess(p_processId).toString());
 			}
 			if(Core.isNotNull(taskId)) {
-				xml.addXml(comp.generateButtonTask(appDad,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+				xml.addXml(comp.generateButtonTask(appDad,action.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			xml.addXml(content);
 			xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null));
@@ -98,11 +98,24 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	@Override
 	public Response save() throws IOException, ServletException {
 		String taskId = Core.getParamTaskId();
-		String customForm = Core.getParam("customForm");
-		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
-		FormDataService formData = new FormDataService();
 		TaskService task = new TaskService().getTask(taskId);	
 		if(task!=null){
+			//Validate if required document is uploaded
+			if(!ValidateInputDocument.validateRequiredDocument(this)) {
+				this.addQueryString("taskId",taskId)
+                .addQueryString("appId", Core.getParam("appId"))
+                .addQueryString("appDad",Core.getParam("appDad"))
+                .addQueryString("formKey",Core.getParam("formKey"))
+                .addQueryString("processDefinition", task.getProcessDefinitionKey())
+                .addQueryString("taskDefinition", task.getTaskDefinitionKey())
+                .addQueryString("previewTask", Core.getParam("previewTask"))
+                .addQueryString("preiviewApp", Core.getParam("preiviewApp"))
+                .addQueryString("preiviewProcessDefinition", Core.getParam("preiviewProcessDefinition"));
+				return this.forward(task.getTenantId(), Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
+			}
+			String customForm = Core.getParam("customForm");
+			String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
+			FormDataService formData = new FormDataService();
 			FormDataService properties = null;
 			ProcessInstancesService p = new ProcessInstancesService();
 			p.setId(task.getProcessInstanceId());	
@@ -126,8 +139,8 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 				p.submitVariables();
 				task.submitVariables();
 			}
-		
 			new TaskFile().addFile(p);
+			
 			StartProcess st = formData.submitFormByTask();
 			if((st!=null && st.getError()!=null)) {
 				Core.setMessageError(st.getError().getException());

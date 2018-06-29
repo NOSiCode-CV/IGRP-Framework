@@ -16,7 +16,11 @@ public class TaskFile {
 		List<Part> parts = Core.getFiles();
 		String[] indexs = Core.getParamArray("p_formlist_documento_task_idx");
 		String[] names = Core.getParamArray("p_formlist_documento_task_nome_fk");
-		
+		this.addFile(task, parts, indexs, names);
+	}
+	
+	public void addFile(ProcessInstancesService task,List<Part> parts,String[] indexs,String[] names) throws IOException, ServletException{
+
 		if(parts!=null && indexs!=null && names!=null) {			
 			for(int i=0;i<indexs.length;i++) {
 				try {

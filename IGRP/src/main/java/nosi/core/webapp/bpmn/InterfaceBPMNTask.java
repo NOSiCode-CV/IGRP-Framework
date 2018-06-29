@@ -13,14 +13,14 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  * Emanuel
  * 7 May 2018
  */
-public interface IntefaceBPMNTask {
+public interface InterfaceBPMNTask {
 
 	//Display task
 	public Response index() throws IOException, ServletException;
 	
 	public Response index(String app,Model model,View view) throws IOException,ServletException;
 	
-	public Response index(String app,Model model,View view, IntefaceBPMNTask bpmnTask) throws IOException,ServletException;
+	public Response index(String app,Model model,View view, InterfaceBPMNTask bpmnTask) throws IOException,ServletException;
 	
 	//Details of Task
 	public String details(TaskServiceQuery task) throws IOException,ServletException;

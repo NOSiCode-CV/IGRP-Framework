@@ -21,7 +21,7 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
-import nosi.core.webapp.bpmn.IntefaceBPMNTask;
+import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
@@ -129,7 +129,7 @@ public abstract class Controller{
 		return this.renderView(app, page, v,null);
 	}
 	
-	public Response renderView(String app, String page, View v,IntefaceBPMNTask bpmn) throws IOException {
+	public Response renderView(String app, String page, View v,InterfaceBPMNTask bpmn) throws IOException {
 		String taskId = Core.getParam("taskId",false);
 		String p_processId = Core.getParam("p_processId");
 		String taskDefinition = Core.getParam("taskDefinition",false);
@@ -174,7 +174,7 @@ public abstract class Controller{
 			xml.addXml(comp.generateButtonProcess(p_processId).toString());
 		}
 		if(Core.isNotNull(taskId)) {
-			xml.addXml(comp.generateButtonTask(app,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		xml.addXml(content);
 		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac));
@@ -186,7 +186,7 @@ public abstract class Controller{
 		return resp;
 	}
 
-	private String getDocument(IntefaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {
+	private String getDocument(InterfaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {
 		if(bpmn==null)
 			return BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null);
 		
