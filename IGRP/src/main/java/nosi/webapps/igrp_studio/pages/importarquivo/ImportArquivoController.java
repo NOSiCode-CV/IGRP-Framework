@@ -68,21 +68,26 @@ public class ImportArquivoController extends Controller {
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
 				descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
-				if(file.getSubmittedFileName().endsWith(".zip")){
+				if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".app.jar")) {
+					if(file.getSubmittedFileName().endsWith(".zip")){
 					result = new Import().importApp(new ImportAppZip(file));
-				}else if(file.getSubmittedFileName().endsWith(".app.jar")){					
-					ImportAppJava importApp = new ImportAppJava(file);
-					importApp.importApp();
-					if(importApp.hasError()) {
-						importApp.getErros().stream().forEach(err->{
-							Core.setMessageError(err);
-						});
-					}else {
-						result = true;
+					}else if(file.getSubmittedFileName().endsWith(".app.jar")){					
+						ImportAppJava importApp = new ImportAppJava(file);
+						importApp.importApp();
+						if(importApp.hasError()) {
+							importApp.getErros().stream().forEach(err->{
+								Core.setMessageError(err);
+							});
+						}else {
+							result = true;
+						}
+					}else{
+						result = false;
 					}
-				}else{
-					result = false;
+				}else {
+					Core.setMessageError("Extensão válido tem de ser .zip ou .app.jar... tente de novo!!");
 				}
+				
 				FileHelper.deletePartFile(file);
 			} catch (ServletException e) {
 				Core.setMessageError(e.getMessage());
@@ -118,27 +123,30 @@ public class ImportArquivoController extends Controller {
 				try {
 					Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_pagina");
 					descricao += file.getSubmittedFileName().replace(".page.jar", "").replace(".zip", "");
-					if(file.getSubmittedFileName().endsWith(".zip")){
-						result = new Import().importPage(new ImportAppZip(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
-					}else if(file.getSubmittedFileName().endsWith(".page.jar")){
-						
-						//result = new Import().importPage(new ImportAppJar(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
-						Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));
-						ImportJavaPage importApp = new ImportJavaPage(file, application);
-						
-						importApp.importApp();
-						
-						if(importApp.hasError()) {
-							importApp.getErros().stream().forEach(err->{
-								Core.setMessageError(err);
-							});
-						}else {
-							result = true;
+					if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".page.jar")) {
+						if(file.getSubmittedFileName().endsWith(".zip")){
+							result = new Import().importPage(new ImportAppZip(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
+						}else if(file.getSubmittedFileName().endsWith(".page.jar")){
+							
+							//result = new Import().importPage(new ImportAppJar(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
+							Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));
+							ImportJavaPage importApp = new ImportJavaPage(file, application);
+							
+							importApp.importApp();
+							
+							if(importApp.hasError()) {
+								importApp.getErros().stream().forEach(err->{
+									Core.setMessageError(err);
+								});
+							}else {
+								result = true;
+							}
+						}else{
+							result = false;
 						}
-					
-					
-					}else{
-						result = false;
+					}else {
+						Core.setMessageError("Extensão válido tem de ser .zip ou .app.jar... tente de novo!!");
+						
 					}
 					FileHelper.deletePartFile(file);
 				} catch (ServletException e) {
@@ -149,42 +157,8 @@ public class ImportArquivoController extends Controller {
 					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
 					ie_dao = ie_dao.insert();
 					Core.setMessageSuccess();
-				}else
-					Core.setMessageError(FlashMessage.ERROR_IMPORT);
-			}
-		}
-		/*----#end-code----*/
-		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
-	}
-	
-	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
-		ImportArquivo model = new ImportArquivo();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
-		/*----#start-code(importar_script)----*/
-		try {
-			this.loadQueryString();
-			Part file = Core.getFile("p_sql_script");
-			if(file!=null && Core.isNotNull(model.getData_source())) {
-				ResultSet r = Core.executeQuery(new Config_env().find().andWhere("application", "=",Core.toInt(model.getAplicacao_script())).andWhere("id", "=",Core.toInt(model.getData_source())).one(), FileHelper.convertToString(file));
-				if(r.hasError()) {
-					Core.setMessageError(r.getError());
-				}else {
-					Core.setMessageSuccess();
 				}
-				file.delete();
-			}else {
-				Core.setMessageError();
 			}
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
@@ -220,6 +194,39 @@ public class ImportArquivoController extends Controller {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
+	}
+	
+	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		ImportArquivo model = new ImportArquivo();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(importar_script)----*/
+		try {
+			this.loadQueryString();
+			Part file = Core.getFile("p_sql_script");
+			if(file!=null && Core.isNotNull(model.getData_source())) {
+				ResultSet r = Core.executeQuery(new Config_env().find().andWhere("application", "=",Core.toInt(model.getAplicacao_script())).andWhere("id", "=",Core.toInt(model.getData_source())).one(), FileHelper.convertToString(file));
+				if(r.hasError()) {
+					Core.setMessageError(r.getError());
+				}else {
+					Core.setMessageSuccess();
+				}
+				file.delete();
+			}else {
+				Core.setMessageError();
+			}
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
