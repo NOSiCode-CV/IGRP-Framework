@@ -147,8 +147,8 @@ public class BPMNDesignerController extends Controller {
 			ac.update();
 		}
 		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(),ac.getPage(),task.getFormKey());
-		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
-		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId()).toLowerCase();
+		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
+		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
 		files[index] = FileHelper.saveFilesControllerJava(classPathServer, ac.getPage(), content);
 		FileHelper.saveFilesControllerJava(classPathWorkspace, ac.getPage(), content);
 		
