@@ -2,8 +2,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -70,8 +68,7 @@ public class PageController extends Controller {
 			a = a.findOne(idPage);
 			if (a != null) {
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk("" + a.getApplication().getId());            
-			 	model.setPrimeira_pagina(idPage.equals(new Application().findOne(a.getApplication().getId()).getAction().getId())? 1:0);				
+				model.setEnv_fk("" + a.getApplication().getId());   			
              	model.setAction(a.getAction());
 				model.setPage_descr(a.getPage_descr());
 				model.setPage(a.getPage());
@@ -82,6 +79,10 @@ public class PageController extends Controller {
 				model.setComponente(a.getIsComponent());
 				if (a.getModulo() != null)
 					model.setModulo(a.getModulo().getId() + "");
+				
+				Application app = new Application().findOne(a.getApplication().getId());	
+				if(app!=null && app.getAction()!=null)
+					model.setPrimeira_pagina(idPage.equals(app.getAction().getId())? 1:0);
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
