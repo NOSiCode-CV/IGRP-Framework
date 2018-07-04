@@ -475,6 +475,16 @@ public class Config {
 		tipos.put("mssql", "MS SQL Server");
 		return tipos;
 	}
+
+	public static String getDatabaseTypesSiglas(String key) {
+		Map<String,String> tipos = new HashMap<>();
+		tipos.put("mysql", "mq");
+		tipos.put("postgresql", "pg");
+		tipos.put("h2", "h2");
+		tipos.put("oracle", "oci");
+		tipos.put("mssql", "ms");
+		return tipos.get(key);
+	}
 	
 	public String getStartReseveCodeAction(String actionName){
 		return "/*----#START-PRESERVED-AREA("+actionName.toUpperCase()+")----*/";
