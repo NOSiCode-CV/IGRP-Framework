@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.View;
@@ -34,7 +36,7 @@ import static nosi.core.i18n.Translator.gt;
  * 7 May 2018
  */
 
-public abstract class BPMNTaskController extends Controller implements IntefaceBPMNTask{
+public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 
 	private String app;
 	private String page;
@@ -49,7 +51,7 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	}
 
 	@Override
-	public Response index(String app,Model model,View view,IntefaceBPMNTask bpmnTask) throws IOException {
+	public Response index(String app,Model model,View view,InterfaceBPMNTask bpmnTask) throws IOException {
 		view.setModel(model);
 		this.app = app;
 		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
@@ -76,10 +78,10 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
 			if(Core.isNotNull(p_processId)) {
-				xml.addXml(comp.generateButtonProcess(p_processId).toString());
+				xml.addXml(comp.generateButtonProcess(appDad,action.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 			}
 			if(Core.isNotNull(taskId)) {
-				xml.addXml(comp.generateButtonTask(appDad,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+				xml.addXml(comp.generateButtonTask(appDad,action.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			xml.addXml(content);
 			xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null));
@@ -97,54 +99,125 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	//Save the task
 	@Override
 	public Response save() throws IOException, ServletException {
+		String processDefinitionId = Core.getParam("p_prm_definitionid");
 		String taskId = Core.getParamTaskId();
-		String customForm = Core.getParam("customForm");
-		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
+		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
+		if(Core.isNotNull(taskId)){
+			TaskService task = new TaskService().getTask(taskId);	
+			if(!ValidateInputDocument.validateRequiredDocument(this,parts)) {
+				this.addQueryString("taskId",taskId)
+		            .addQueryString("appId", Core.getParam("appId"))
+		            .addQueryString("appDad",Core.getParam("appDad"))
+		            .addQueryString("formKey",Core.getParam("formKey"))
+		            .addQueryString("processDefinition", task.getProcessDefinitionKey())
+		            .addQueryString("taskDefinition", task.getTaskDefinitionKey())
+		            .addQueryString("previewTask", Core.getParam("previewTask"))
+		            .addQueryString("preiviewApp", Core.getParam("preiviewApp"))
+		            .addQueryString("preiviewProcessDefinition", Core.getParam("preiviewProcessDefinition"));
+				return this.forward(task.getTenantId(), Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
+			}
+			return this.saveTask(task,taskId,parts);
+		}
+		if(Core.isNotNull(processDefinitionId)){
+			if(!ValidateInputDocument.validateRequiredDocument(this,parts)) {
+				return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
+			}
+			return this.startProcess(processDefinitionId,parts);
+		}		
+		return this.redirect("igrp", "ErrorPage", "exception");
+	}
+
+	private Response startProcess(String processDefinitionId,List<Part> parts) throws IOException, ServletException {
+		String content = Core.getJsonParams();
 		FormDataService formData = new FormDataService();
-		TaskService task = new TaskService().getTask(taskId);	
-		if(task!=null){
-			FormDataService properties = null;
-			ProcessInstancesService p = new ProcessInstancesService();
-			p.setId(task.getProcessInstanceId());	
-			formData.setTaskId(taskId);
-			properties = new FormDataService().getFormDataByTaskId(taskId);
-			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
-				for(FormProperties prop:properties.getFormProperties()){
-					Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
-						formData.addVariable(prop.getId(),value);
-					}
-				}
-			}
-			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {				
-				Core.getParameters().entrySet().stream().forEach(param-> {
-					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				});
-				task.addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
-				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
-				p.submitVariables();
-				task.submitVariables();
-			}
-		
-			new TaskFile().addFile(p);
-			StartProcess st = formData.submitFormByTask();
-			if((st!=null && st.getError()!=null)) {
-				Core.setMessageError(st.getError().getException());
-				return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
-			}else {
-				Core.setMessageSuccess();
-				task.addFilter("processDefinitionId",task.getProcessDefinitionId());
-				task.addFilter("processInstanceId", task.getProcessInstanceId());
-				List<TaskService> tasks = task.getMyTasks();
-				if(tasks!=null && !tasks.isEmpty()) {
-					return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
-				}else {
-					return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
+	      FormDataService properties = null;
+	      ProcessInstancesService pi = new ProcessInstancesService();
+	         formData.setProcessDefinitionId(processDefinitionId);
+	         properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
+	         if(formData!=null && properties!=null && properties.getFormProperties()!=null){
+	            for(FormProperties prop:properties.getFormProperties()){
+	               Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
+	               if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+	                  formData.addVariable(prop.getId(),value);
+	               }
+	            }
+	         }
+	      formData.addVariable("baseHostNameIgrp",this.getConfig().getHostName());
+	      if(Core.isNotNull(content)) {
+	         formData.addVariable("customVariableIGRP",content);         
+	      }
+	      StartProcess st = formData.submitFormByProcessDenifition();
+	      if(st!=null){
+	         pi.setId(st.getId());
+	         pi.setError(st.getError());
+	         pi.addVariable("p_process_id", "local", "string", pi.getId());
+	         pi.submitVariables();
+	 		parts = parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
+					.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
+	         new TaskFile().addFile(pi,parts);
+	      }
+	      if(Core.isNotNull(pi.getError())){
+            Core.setMessageError(pi.getError().getException());
+            return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
+         }
+         Core.setMessageSuccess();
+         TaskService task = new TaskService();
+         task.addFilter("processDefinitionId",processDefinitionId);
+         task.addFilter("processInstanceId", pi.getId());
+         List<TaskService> tasks = task.getMyTasks();
+         if(tasks!=null && !tasks.isEmpty()) {
+            return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+         }else {
+            return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
+         }
+	}
+
+	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException {
+		String content = Core.getJsonParams();
+		FormDataService formData = new FormDataService();
+		FormDataService properties = null;
+		ProcessInstancesService p = new ProcessInstancesService();
+		p.setId(task.getProcessInstanceId());	
+		formData.setTaskId(taskId);
+		properties = new FormDataService().getFormDataByTaskId(taskId);
+		if(formData!=null && properties!=null && properties.getFormProperties()!=null){
+			for(FormProperties prop:properties.getFormProperties()){
+				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
+				if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					formData.addVariable(prop.getId(),value);
 				}
 			}
 		}
-		return this.redirect("igrp", "ErrorPage", "exception");
+		if(Core.isNotNull(content)) {				
+			Core.getParameters().entrySet().stream().forEach(param-> {
+				task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
+				p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
+			});
+			task.addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
+			p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+			p.submitVariables();
+			task.submitVariables();
+		}
+		parts = parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
+				.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
+		new TaskFile().addFile(p,parts);
+		
+		StartProcess st = formData.submitFormByTask();
+		if((st!=null && st.getError()!=null)) {
+			Core.setMessageError(st.getError().getException());
+			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
+		}else {
+			Core.removeAttribute("taskId");
+			Core.setMessageSuccess();
+			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
+			task.addFilter("processInstanceId", task.getProcessInstanceId());
+			List<TaskService> tasks = task.getMyTasks();
+			if(tasks!=null && !tasks.isEmpty()) {
+				return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+			}else {
+				return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
+			}
+		}
 	}
 
 	@Override
@@ -181,12 +254,8 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 		String taskDefinition = Core.getParam("previewTask");
 		String processDefinition = Core.getParam("preiviewProcessDefinition");	
 		String preiviewApp = Core.getParam("preiviewApp");	
-		String isDetails = Core.getParam("isDetails");
 		this.page = Config.PREFIX_TASK_NAME+taskDefinition;
 		this.app = preiviewApp;
-		if(Core.isNotNull(isDetails)) {
-			return BPMNHelper.getOutputDocumentType(processDefinition, taskDefinition,this.getAction().getApplication().getId());
-		}
 		return BPMNHelper.getOutputDocumentType(processDefinition,taskDefinition,this.getAction().getApplication().getId());
 	}
 
@@ -194,11 +263,11 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	public List<TipoDocumentoEtapa> getInputDocumentType() {
 		String taskDefinition = Core.getParam("taskDefinition");
 		String processDefinition = Core.getParam("processDefinition");	
-		String isDetails = Core.getParam("isDetails");
+		String isDetails = Core.getParam("isDetails",false);
 		if(Core.isNotNull(isDetails)) {
 			HistoricTaskService history = new HistoricTaskService();
 			history.setFilter("processFinished=true");	
-			List<HistoricTaskService> taskHistories = history.getHistory(Core.getParam("taskId"));	
+			List<HistoricTaskService> taskHistories = history.getHistory(Core.getParam("taskId"));			
 			return BPMNHelper.getInputDocumentTypeHistory(processDefinition, taskDefinition,taskHistories, this.getAction().getApplication().getId());
 		}
 		return BPMNHelper.getInputDocumentType(processDefinition, taskDefinition, this.getAction().getApplication().getId());
@@ -226,14 +295,16 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);
 			if(custom!=null){
 				for(Rows rows:custom.getRows()) {
-					if(!rows.getName().equalsIgnoreCase("page_igrp_ativiti") && !rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
+					if(!rows.getName().equalsIgnoreCase("page_igrp_ativiti") && !rows.getName().equalsIgnoreCase("app_igrp_ativiti")
+							   && !rows.getName().equalsIgnoreCase("processDefinition") &&!rows.getName().equalsIgnoreCase("taskDefinition")
+							   &&!rows.getName().equalsIgnoreCase("taskId") &&!rows.getName().equalsIgnoreCase("appId")) {
 						for(Object obj:(Object[])rows.getValue()) {
 							this.addQueryString(rows.getName(), obj.toString());
 						}
 					}
 				}
 			}
-		}		
+		}	
 		this.addQueryString("taskId",task.getId())
 			.addQueryString("isDetails", "true")
 	        .addQueryString("appId", action.getApplication().getId())
@@ -245,7 +316,8 @@ public abstract class BPMNTaskController extends Controller implements IntefaceB
 	        .addQueryString("preiviewApp",task.getTenantId())
 	        .addQueryString("previewTask", task.getTaskDefinitionKey())
 	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey());
-		 Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
+		
+		Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
 		 										+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
 		 										+ gt("Nº Tarefa")  +" : "+task.getId() + "<br/>"
 		 										+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"

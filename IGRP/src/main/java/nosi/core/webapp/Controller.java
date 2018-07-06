@@ -21,7 +21,7 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
-import nosi.core.webapp.bpmn.IntefaceBPMNTask;
+import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
@@ -129,18 +129,20 @@ public abstract class Controller{
 		return this.renderView(app, page, v,null);
 	}
 	
-	public Response renderView(String app, String page, View v,IntefaceBPMNTask bpmn) throws IOException {
+	public Response renderView(String app, String page, View v,InterfaceBPMNTask bpmn) throws IOException {
 		String taskId = Core.getParam("taskId",false);
 		String p_processId = Core.getParam("p_processId");
 		String taskDefinition = Core.getParam("taskDefinition",false);
 		String processDefinition = Core.getParam("processDefinition",false);
 		TaskService task = new TaskService().getTask(taskId);
-		Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
-					+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
-					+ gt("Nº Tarefa")  +" : "+taskId + "<br/>"
-					+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
-					+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
-		);
+		if(task!=null) {
+			Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
+						+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
+						+ gt("Nº Tarefa")  +" : "+taskId + "<br/>"
+						+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
+						+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
+			);
+		}
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.view = v;
@@ -171,10 +173,10 @@ public abstract class Controller{
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		if(Core.isNotNull(p_processId)) {
-			xml.addXml(comp.generateButtonProcess(p_processId).toString());
+			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
 		if(Core.isNotNull(taskId)) {
-			xml.addXml(comp.generateButtonTask(app,Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		xml.addXml(content);
 		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac));
@@ -186,13 +188,17 @@ public abstract class Controller{
 		return resp;
 	}
 
-	private String getDocument(IntefaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {
+	private String getDocument(InterfaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {
 		if(bpmn==null)
 			return BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null);
 		
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setListDocmentType(bpmn.getInputDocumentType());
 		String previewTask = Core.getParam("previewTask",false);
+		String isDetails = Core.getParam("isDetails");
+		if(Core.isNotNull(isDetails))
+			display.setShowInputFile(false);
+		
 		if(Core.isNotNull(previewTask)) {
 			try {
 				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();

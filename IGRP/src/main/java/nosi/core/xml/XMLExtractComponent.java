@@ -57,16 +57,16 @@ public class XMLExtractComponent {
 		return "";
 	}
 	
-	public IGRPToolsBar generateButtonProcess(String p_processId) {
+	public IGRPToolsBar generateButtonProcess(String appDad,Integer appId, String page,String action,String p_processId) {
 		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
 		button.getProperties().add("type", "specific");
 		button.setTitle(gt("Iniciar Processo"));
-		button.setApp("igrp");
-		button.setPage("ExecucaoTarefas");
-		button.setLink("process-task&"+"p_prm_definitionid="+p_processId+"&customForm=true");
+		button.setApp(appDad);
+		button.setPage(page);
+		button.setLink(action+"&"+"p_prm_definitionid="+p_processId+"&processDefinition="+Core.getParam("processDefinition",false)+"&taskDefinition="+Core.getParam("taskDefinition",false)+"&appId="+appId);
 		button.setTarget("submit");
 		button.setImg("primary|fa-play");
 		toolsbar1.addButton(button);
@@ -74,24 +74,24 @@ public class XMLExtractComponent {
 	}
 	
 
-	public IGRPToolsBar generateButtonTask(String app, String page,String action, String taskId) {
-		return this.generateButtonTask(app, page, action, "primary|fa-save", taskId);
+	public IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action, String taskId) {
+		return this.generateButtonTask(appDad,appId, page, action, "primary|fa-save", taskId);
 	}
 
-	public IGRPToolsBar generateButtonEditTask(String app,String page,String action,String taskId) {
-		return this.generateButtonTask(app, page, action, "success|fa-save", taskId);
+	public IGRPToolsBar generateButtonEditTask(String appDad,Integer appId,String page,String action,String taskId) {
+		return this.generateButtonTask(appDad,appId, page, action, "success|fa-save", taskId);
 	}
 	
-	public IGRPToolsBar generateButtonTask(String app, String page,String action,String icon, String taskId) {
+	public IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action,String icon, String taskId) {
 		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
 		button.getProperties().add("type", "specific");
 		button.setTitle(gt("Gravar"));
-		button.setApp(app);
+		button.setApp(appDad);
 		button.setPage(page);
-		button.setLink(action+"&"+"taskId="+taskId+"&customForm=true");
+		button.setLink(action+"&"+"taskId="+taskId+"&processDefinition="+Core.getParam("processDefinition",false)+"&taskDefinition="+Core.getParam("taskDefinition",false)+"&appId="+appId);
 		button.setTarget("submit");
 		button.setImg(icon);
 		toolsbar1.addButton(button);

@@ -9,6 +9,7 @@ import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTable.Table;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
@@ -22,6 +23,7 @@ public class DisplayDocmentType {
 
 	private boolean showInputFile = true;
 	private List<TipoDocumentoEtapa> listDocmentType;
+	private Field formlist_documento_id_tp_doc;
 	private Field formlist_documento_task_nome;
 	private Field formlist_documento_task_descricao;
 	private Field formlist_documento_task_obrigatoriedade;
@@ -62,9 +64,10 @@ public class DisplayDocmentType {
 	private List<Formlist_documento_task> getData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{
+			this.listDocmentType.stream().forEach(td->{				
 				Formlist_documento_task ft = new Formlist_documento_task();
 				String descricao="",nome = "";
+				ft.setFormlist_documento_id_tp_doc(new Pair(""+td.getId(),""+td.getId()));
 				if(td.getTipoDocumento()!=null) {
 					descricao = td.getTipoDocumento().getDescricao();
 					nome = td.getTipoDocumento().getNome();
@@ -88,6 +91,9 @@ public class DisplayDocmentType {
 	}
 
 	private void addField(IGRPFormList formlist_documento_task) {
+		formlist_documento_id_tp_doc = new HiddenField(null,"formlist_documento_id_tp_doc");
+		formlist_documento_id_tp_doc.propertie().add("name","p_formlist_documento_id_tp_doc").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
+		
 		formlist_documento_task_nome = new TextField(null,"formlist_documento_task_nome");
 		formlist_documento_task_nome.setLabel(gt("Nome"));
 		formlist_documento_task_nome.propertie().add("name","p_formlist_documento_task_nome").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
@@ -112,6 +118,7 @@ public class DisplayDocmentType {
 		formlist_documento_task.addField(formlist_documento_task_nome);
 		formlist_documento_task.addField(formlist_documento_task_descricao);
 		formlist_documento_task.addField(formlist_documento_task_obrigatoriedade);
+		formlist_documento_task.addField(formlist_documento_id_tp_doc);
 		if(this.isShowInputFile())
 			formlist_documento_task.addField(formlist_documento_task_documento);
 		formlist_documento_task.addField(formlist_documento_task_mostrar);
@@ -123,15 +130,25 @@ public class DisplayDocmentType {
 	
 	public static class Formlist_documento_task extends Table{
 		
+		private Pair formlist_documento_id_tp_doc;
 		private Pair formlist_documento_task_nome;
 		private Pair formlist_documento_task_descricao;
 		private Pair formlist_documento_task_obrigatoriedade;
 		private Pair formlist_documento_task_documento;
-		private Pair formlist_documento_task_mostrar;
+		private Pair formlist_documento_task_mostrar;		
+		
+		public Pair getFormlist_documento_id_tp_doc() {
+			return formlist_documento_id_tp_doc;
+		}
+		
+		public void setFormlist_documento_id_tp_doc(Pair formlist_documento_id_tp_doc) {
+			this.formlist_documento_id_tp_doc = formlist_documento_id_tp_doc;
+		}
 		
 		public void setFormlist_documento_task_nome(Pair formlist_documento_task_nome){
 			this.formlist_documento_task_nome = formlist_documento_task_nome;
 		}
+		
 		public Pair getFormlist_documento_task_nome(){
 			return this.formlist_documento_task_nome;
 		}
@@ -139,6 +156,7 @@ public class DisplayDocmentType {
 		public void setFormlist_documento_task_descricao(Pair formlist_documento_task_descricao){
 			this.formlist_documento_task_descricao = formlist_documento_task_descricao;
 		}
+		
 		public Pair getFormlist_documento_task_descricao(){
 			return this.formlist_documento_task_descricao;
 		}
@@ -146,6 +164,7 @@ public class DisplayDocmentType {
 		public void setFormlist_documento_task_obrigatoriedade(Pair formlist_documento_task_obrigatoriedade){
 			this.formlist_documento_task_obrigatoriedade = formlist_documento_task_obrigatoriedade;
 		}
+		
 		public Pair getFormlist_documento_task_obrigatoriedade(){
 			return this.formlist_documento_task_obrigatoriedade;
 		}
@@ -160,6 +179,7 @@ public class DisplayDocmentType {
 		public void setFormlist_documento_task_mostrar(Pair formlist_documento_task_mostrar){
 			this.formlist_documento_task_mostrar = formlist_documento_task_mostrar;
 		}
+		
 		public Pair getFormlist_documento_task_mostrar(){
 			return this.formlist_documento_task_mostrar;
 		}

@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -30,8 +31,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=66</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=55</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>AddFileTask</title>
         <formlist_documento_task type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
@@ -48,71 +51,82 @@
                 <formlist_documento_task_documento name="p_formlist_documento_task_documento" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="false" disabled="false" right="false" class="default" desc="true">
                     <label>Documento</label>
                 </formlist_documento_task_documento>
-                <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" type="link" target="_newtab" target_fields="" closerefresh="false" action="index" page="Addfiletask" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="10000" placeholder="" right="false" desc="true">
+                <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" type="link" target="_newtab" target_fields="" closerefresh="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="10000" placeholder="" right="false" request_fields="" desc="true">
                     <label>Mostrar</label>
                 </formlist_documento_task_mostrar>
+                <formlist_documento_id_tp_doc name="p_formlist_documento_id_tp_doc" type="hidden" maxlength="250" java-type="" tag="formlist_documento_id_tp_doc" desc="true"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Iste sit aperiam dolor stract</formlist_documento_task_nome>
-                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Iste sit aperiam dolor stract</formlist_documento_task_nome_desc>
-                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Perspiciatis accusantium anim iste officia</formlist_documento_task_descricao>
-                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Perspiciatis accusantium anim iste officia</formlist_documento_task_descricao_desc>
-                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Accusantium magna officia accu</formlist_documento_task_obrigatoriedade>
-                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Accusantium magna officia accu</formlist_documento_task_obrigatoriedade_desc>
+                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Voluptatem perspiciatis natus ut anim</formlist_documento_task_nome>
+                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Voluptatem perspiciatis natus ut anim</formlist_documento_task_nome_desc>
+                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Laudantium rem doloremque adipiscing omnis</formlist_documento_task_descricao>
+                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Laudantium rem doloremque adipiscing omnis</formlist_documento_task_descricao_desc>
+                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Mollit perspiciatis ipsum offi</formlist_documento_task_obrigatoriedade>
+                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Mollit perspiciatis ipsum offi</formlist_documento_task_obrigatoriedade_desc>
                         <formlist_documento_task_documento name="p_formlist_documento_task_documento" desc="true"/>
                         <formlist_documento_task_documento_desc name="p_formlist_documento_task_documento_desc"/>
-                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</formlist_documento_task_mostrar>
+                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</formlist_documento_task_mostrar>
                         <formlist_documento_task_mostrar_desc name="p_formlist_documento_task_mostrar_desc">Mostrar</formlist_documento_task_mostrar_desc>
+                        <formlist_documento_id_tp_doc name="p_formlist_documento_id_tp_doc" tag="formlist_documento_id_tp_doc" desc="true">1</formlist_documento_id_tp_doc>
+                        <formlist_documento_id_tp_doc_desc name="p_formlist_documento_id_tp_doc_desc">1</formlist_documento_id_tp_doc_desc>
                     </row>
                     <row>
-                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Voluptatem amet unde mollit labore</formlist_documento_task_nome>
-                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Voluptatem amet unde mollit labore</formlist_documento_task_nome_desc>
-                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Rem consectetur sit totam sit</formlist_documento_task_descricao>
-                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Rem consectetur sit totam sit</formlist_documento_task_descricao_desc>
-                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Perspiciatis labore mollit eli</formlist_documento_task_obrigatoriedade>
-                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Perspiciatis labore mollit eli</formlist_documento_task_obrigatoriedade_desc>
+                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Aliqua labore ut mollit rem</formlist_documento_task_nome>
+                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Aliqua labore ut mollit rem</formlist_documento_task_nome_desc>
+                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Dolor sit consectetur adipiscing aliqua</formlist_documento_task_descricao>
+                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Dolor sit consectetur adipiscing aliqua</formlist_documento_task_descricao_desc>
+                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Iste dolor aperiam elit sed</formlist_documento_task_obrigatoriedade>
+                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Iste dolor aperiam elit sed</formlist_documento_task_obrigatoriedade_desc>
                         <formlist_documento_task_documento name="p_formlist_documento_task_documento" desc="true"/>
                         <formlist_documento_task_documento_desc name="p_formlist_documento_task_documento_desc"/>
-                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</formlist_documento_task_mostrar>
+                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</formlist_documento_task_mostrar>
                         <formlist_documento_task_mostrar_desc name="p_formlist_documento_task_mostrar_desc">Mostrar</formlist_documento_task_mostrar_desc>
+                        <formlist_documento_id_tp_doc name="p_formlist_documento_id_tp_doc" tag="formlist_documento_id_tp_doc" desc="true">1</formlist_documento_id_tp_doc>
+                        <formlist_documento_id_tp_doc_desc name="p_formlist_documento_id_tp_doc_desc">1</formlist_documento_id_tp_doc_desc>
                     </row>
                     <row>
-                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Doloremque iste sed elit mollit</formlist_documento_task_nome>
-                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Doloremque iste sed elit mollit</formlist_documento_task_nome_desc>
-                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Aliqua rem amet consectetur sed</formlist_documento_task_descricao>
-                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Aliqua rem amet consectetur sed</formlist_documento_task_descricao_desc>
-                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Laudantium deserunt mollit rem</formlist_documento_task_obrigatoriedade>
-                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Laudantium deserunt mollit rem</formlist_documento_task_obrigatoriedade_desc>
+                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Doloremque sit doloremque totam officia</formlist_documento_task_nome>
+                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Doloremque sit doloremque totam officia</formlist_documento_task_nome_desc>
+                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Iste adipiscing stract laudantium officia</formlist_documento_task_descricao>
+                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Iste adipiscing stract laudantium officia</formlist_documento_task_descricao_desc>
+                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Rem unde labore magna anim</formlist_documento_task_obrigatoriedade>
+                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Rem unde labore magna anim</formlist_documento_task_obrigatoriedade_desc>
                         <formlist_documento_task_documento name="p_formlist_documento_task_documento" desc="true"/>
                         <formlist_documento_task_documento_desc name="p_formlist_documento_task_documento_desc"/>
-                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</formlist_documento_task_mostrar>
+                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</formlist_documento_task_mostrar>
                         <formlist_documento_task_mostrar_desc name="p_formlist_documento_task_mostrar_desc">Mostrar</formlist_documento_task_mostrar_desc>
+                        <formlist_documento_id_tp_doc name="p_formlist_documento_id_tp_doc" tag="formlist_documento_id_tp_doc" desc="true">1</formlist_documento_id_tp_doc>
+                        <formlist_documento_id_tp_doc_desc name="p_formlist_documento_id_tp_doc_desc">1</formlist_documento_id_tp_doc_desc>
                     </row>
                     <row>
-                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Rem unde aperiam natus rem</formlist_documento_task_nome>
-                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Rem unde aperiam natus rem</formlist_documento_task_nome_desc>
-                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Consectetur unde sed aperiam lorem</formlist_documento_task_descricao>
-                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Consectetur unde sed aperiam lorem</formlist_documento_task_descricao_desc>
-                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Perspiciatis omnis stract accu</formlist_documento_task_obrigatoriedade>
-                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Perspiciatis omnis stract accu</formlist_documento_task_obrigatoriedade_desc>
+                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Magna consectetur dolor stract lorem</formlist_documento_task_nome>
+                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Magna consectetur dolor stract lorem</formlist_documento_task_nome_desc>
+                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Sit consectetur sit perspiciatis mollit</formlist_documento_task_descricao>
+                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Sit consectetur sit perspiciatis mollit</formlist_documento_task_descricao_desc>
+                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Amet mollit perspiciatis rem v</formlist_documento_task_obrigatoriedade>
+                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Amet mollit perspiciatis rem v</formlist_documento_task_obrigatoriedade_desc>
                         <formlist_documento_task_documento name="p_formlist_documento_task_documento" desc="true"/>
                         <formlist_documento_task_documento_desc name="p_formlist_documento_task_documento_desc"/>
-                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</formlist_documento_task_mostrar>
+                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</formlist_documento_task_mostrar>
                         <formlist_documento_task_mostrar_desc name="p_formlist_documento_task_mostrar_desc">Mostrar</formlist_documento_task_mostrar_desc>
+                        <formlist_documento_id_tp_doc name="p_formlist_documento_id_tp_doc" tag="formlist_documento_id_tp_doc" desc="true">1</formlist_documento_id_tp_doc>
+                        <formlist_documento_id_tp_doc_desc name="p_formlist_documento_id_tp_doc_desc">1</formlist_documento_id_tp_doc_desc>
                     </row>
                     <row>
-                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Sit officia consectetur elit omnis</formlist_documento_task_nome>
-                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Sit officia consectetur elit omnis</formlist_documento_task_nome_desc>
-                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Elit anim mollit adipiscing doloremque</formlist_documento_task_descricao>
-                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Elit anim mollit adipiscing doloremque</formlist_documento_task_descricao_desc>
-                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Lorem iste unde aperiam ipsum</formlist_documento_task_obrigatoriedade>
-                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Lorem iste unde aperiam ipsum</formlist_documento_task_obrigatoriedade_desc>
+                        <formlist_documento_task_nome name="p_formlist_documento_task_nome" desc="true">Amet unde amet rem dolor</formlist_documento_task_nome>
+                        <formlist_documento_task_nome_desc name="p_formlist_documento_task_nome_desc">Amet unde amet rem dolor</formlist_documento_task_nome_desc>
+                        <formlist_documento_task_descricao name="p_formlist_documento_task_descricao" desc="true">Sit consectetur laudantium lorem stract</formlist_documento_task_descricao>
+                        <formlist_documento_task_descricao_desc name="p_formlist_documento_task_descricao_desc">Sit consectetur laudantium lorem stract</formlist_documento_task_descricao_desc>
+                        <formlist_documento_task_obrigatoriedade name="p_formlist_documento_task_obrigatoriedade" desc="true">Doloremque perspiciatis offici</formlist_documento_task_obrigatoriedade>
+                        <formlist_documento_task_obrigatoriedade_desc name="p_formlist_documento_task_obrigatoriedade_desc">Doloremque perspiciatis offici</formlist_documento_task_obrigatoriedade_desc>
                         <formlist_documento_task_documento name="p_formlist_documento_task_documento" desc="true"/>
                         <formlist_documento_task_documento_desc name="p_formlist_documento_task_documento_desc"/>
-                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/addfiletask/Addfiletask.xml</formlist_documento_task_mostrar>
+                        <formlist_documento_task_mostrar name="p_formlist_documento_task_mostrar" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</formlist_documento_task_mostrar>
                         <formlist_documento_task_mostrar_desc name="p_formlist_documento_task_mostrar_desc">Mostrar</formlist_documento_task_mostrar_desc>
+                        <formlist_documento_id_tp_doc name="p_formlist_documento_id_tp_doc" tag="formlist_documento_id_tp_doc" desc="true">1</formlist_documento_id_tp_doc>
+                        <formlist_documento_id_tp_doc_desc name="p_formlist_documento_id_tp_doc_desc">1</formlist_documento_id_tp_doc_desc>
                     </row>
                 </value>
             </table>
