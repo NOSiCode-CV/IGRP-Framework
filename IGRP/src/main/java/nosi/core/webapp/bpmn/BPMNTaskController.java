@@ -315,7 +315,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        //for output documents details
 	        .addQueryString("preiviewApp",task.getTenantId())
 	        .addQueryString("previewTask", task.getTaskDefinitionKey())
-	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey());
+	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey())
+	        .addQueryString("overrided", "false");
 		
 		Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
 		 										+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
