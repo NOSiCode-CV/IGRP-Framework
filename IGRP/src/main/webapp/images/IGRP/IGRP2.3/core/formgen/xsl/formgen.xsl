@@ -377,7 +377,6 @@
                                       <label>Package Name (HTML)</label>
                                       <input rel="html" type="text" required="" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="50"/>
                                   </div>
-
                                   <!-- <div class="col-md-6 form-group" item-name="subversionpath">
                                       <label>Subversion Path</label>
                                       <input rel="subversionpath" type="text" name="plsql_subv" value="" class="text gen-page-setter form-control"/>
@@ -385,6 +384,12 @@
                                   <div class="col-md-6 form-group" item-name="page_service">
                                       <label>Service</label>
                                       <div class="settings-service"></div>
+                                  </div>
+								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
+                                      <div  item-name="process">
+                                          <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/>
+                                          <span>Processo</span>
+                                      </div>
                                   </div>
                                   <!-- <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
                                       <div  item-name="replace">

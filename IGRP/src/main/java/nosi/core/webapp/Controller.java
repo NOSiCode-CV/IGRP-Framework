@@ -1,6 +1,5 @@
 package nosi.core.webapp;
 
-import static nosi.core.i18n.Translator.gt;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -10,18 +9,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.components.IGRPMessage;
+import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNHelper;
+import nosi.core.webapp.bpmn.BPMNTimeLine;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
+import nosi.core.webapp.bpmn.ViewTaskDetails;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
@@ -30,6 +33,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 /**
  * @author Marcel Iekiny
@@ -134,15 +138,7 @@ public abstract class Controller{
 		String p_processId = Core.getParam("p_processId");
 		String taskDefinition = Core.getParam("taskDefinition",false);
 		String processDefinition = Core.getParam("processDefinition",false);
-		TaskService task = new TaskService().getTask(taskId);
-		if(task!=null) {
-			Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
-						+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
-						+ gt("Nº Tarefa")  +" : "+taskId + "<br/>"
-						+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
-						+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
-			);
-		}
+		
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.view = v;
@@ -150,7 +146,6 @@ public abstract class Controller{
 				.andWhere("application.dad", "=",app)
 				.andWhere("page", "=",Page.resolvePageName(page))
 				.one();
-		this.view.getPage().setLinkXsl(new Config().getLinkPageXsl(ac));
 		Response resp = new Response();
 		this.view.setContext(this); // associa controller ao view
 		this.view.render();
@@ -167,17 +162,18 @@ public abstract class Controller{
 		XMLExtractComponent comp = new XMLExtractComponent();
 		String content = this.view.getPage().renderContent(false);
 		content = comp.removeXMLButton(content);
-		
-		XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+ac.getPage()+"&amp;app="+ac.getApplication().getId(), "utf-8");
+		XMLWritter xml = new XMLWritter("rows",new Config().getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
+		xml.addXml(this.getTimeLine(taskId));
 		if(Core.isNotNull(p_processId)) {
 			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
 		if(Core.isNotNull(taskId)) {
 			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
+		xml.addXml(this.getTaskViewDetails(taskId));
 		xml.addXml(content);
 		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac));
 		if(m!=null){
@@ -186,6 +182,27 @@ public abstract class Controller{
 		xml.endElement();
 		resp.setContent(xml.toString());
 		return resp;
+	}
+
+	private String getTimeLine(String taskId) {		
+		return BPMNTimeLine.get().toString();
+	}
+
+	private String getTaskViewDetails(String taskId) {
+		Object obj = Core.getAttributeObject("taskObj", true);
+		if(Core.isNotNull(obj)) {			
+			TaskServiceQuery task = (TaskServiceQuery) obj;		
+			List<TaskVariables.TaskVariableDetails> v = task.queryHistoryTaskVariables(task.getId());
+			ProfileType prof = new ProfileType().findOne(Core.toInt(v.get(1).getPropertyValue()));
+			IGRPView viewTD = ViewTaskDetails.get(task.getProcessDefinitionKey(), task.getName(),task.getProcessInstanceId(), taskId,task.getStartTime(), task.getEndTime(),prof.getOrganization().getName(),prof.getDescr(),v.get(2).getPropertyValue());
+			return  viewTD.toString();
+		}
+		TaskService task = new TaskService().getTask(taskId);
+		if(task!=null) {
+			IGRPView viewTD = ViewTaskDetails.get(task.getProcessDefinitionKey(), task.getName(),task.getProcessInstanceId(), taskId);
+			return  viewTD.toString();
+		}
+		return "";
 	}
 
 	private String getDocument(InterfaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {

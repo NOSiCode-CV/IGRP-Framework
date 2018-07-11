@@ -135,7 +135,6 @@ public class _CONS_PROC extends Model{
 		private String eatapa;
 		private String dt_inicio_etapa;
 		private String dt_fim_etapa;
-		private String utilizador;
 		private String estado;
 		private String id_task;
 		public void setNum_processo(String num_processo){
@@ -171,13 +170,6 @@ public class _CONS_PROC extends Model{
 		}
 		public String getDt_fim_etapa(){
 			return this.dt_fim_etapa;
-		}
-
-		public void setUtilizador(String utilizador){
-			this.utilizador = utilizador;
-		}
-		public String getUtilizador(){
-			return this.utilizador;
 		}
 
 		public void setEstado(String estado){

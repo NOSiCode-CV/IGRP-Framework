@@ -29,7 +29,7 @@ public class _CONS_PROCController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 'num_processo' as num_processo,'processo' as processo,'eatapa' as eatapa,'dt_inicio_etapa' as dt_inicio_etapa,'dt_fim_etapa' as dt_fim_etapa,'utilizador' as utilizador,'estado' as estado,'id_task' as id_task "));
+		model.loadTable_1(Core.query(null,"SELECT 'num_processo' as num_processo,'processo' as processo,'eatapa' as eatapa,'dt_inicio_etapa' as dt_inicio_etapa,'dt_fim_etapa' as dt_fim_etapa,'estado' as estado,'id_task' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.cbx_utilizador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -70,7 +70,6 @@ public class _CONS_PROCController extends Controller {
 				t.setEatapa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());
 				t.setDt_inicio_etapa(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
-				t.setUtilizador(task.getAssignee());
 				t.setId_task(task.getId());
 				t.setEstado(""+this.getStatusTask(task));
 				if(!t.getEstado().equalsIgnoreCase("1")) {
