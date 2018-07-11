@@ -29,7 +29,7 @@ public class HibernateUtils {
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
 			return getSessionFactory(config_env.getName(), config_env.getApplication().getId());
-		return null;
+		return getSessionFactory(Config.getBaseConnection());
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
@@ -100,9 +100,9 @@ public class HibernateUtils {
 		
 		// HikariCP settings		
 		// Maximum waiting time for a connection from the pool
-		settings.put("hibernate.hikari.connectionTimeout", "250");
+		settings.put("hibernate.hikari.connectionTimeout", "40000");
 		// Minimum number of ideal connections in the pool
-		settings.put("hibernate.hikari.minimumIdle", "5");
+		//settings.put("hibernate.hikari.minimumIdle", "5");
 		// Maximum number of actual connection in the pool
 		settings.put("hibernate.hikari.maximumPoolSize", "20");
 		// Maximum time that a connection is allowed to sit ideal in the pool
