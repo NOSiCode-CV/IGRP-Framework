@@ -58,5 +58,22 @@ public class TaskVariables {
 				+ ", valueUrl=" + valueUrl + "]";
 	}
 
-	
+	public static class TaskVariableDetails{
+		private String propertyId;
+        private String propertyValue;
+        
+		public String getPropertyId() {
+			return propertyId;
+		}
+		public void setPropertyId(String propertyId) {
+			this.propertyId = propertyId;
+		}
+		public String getPropertyValue() {
+			return propertyValue;
+		}
+		public void setPropertyValue(String propertyValue) {
+			this.propertyValue = propertyValue;
+		}
+        
+	}
 }

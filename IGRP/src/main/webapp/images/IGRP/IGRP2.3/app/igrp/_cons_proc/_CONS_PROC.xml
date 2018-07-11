@@ -132,11 +132,11 @@
                 </referencia_pedido>
                 <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Requerente</label>
-                    <value>Amet doloremque unde stract elit</value>
+                    <value>Magna aliqua amet natus ut</value>
                 </requerente>
                 <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>N   Processo</label>
-                    <value>Natus labore sed laudantium stract</value>
+                    <value>Magna voluptatem totam doloremque magna</value>
                 </num>
                 <intervalo_entrada type="separator" name="p_intervalo_entrada" maxlength="30" placeholder="" right="false">
                     <label>Intervalo Entrada</label>
@@ -179,9 +179,6 @@
                 <dt_fim_etapa name="p_dt_fim_etapa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Dt. Fim Etapa</label>
                 </dt_fim_etapa>
-                <utilizador name="p_utilizador" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Utilizador</label>
-                </utilizador>
                 <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Estado</label>
                 </estado>
@@ -194,13 +191,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <num_processo name="p_num_processo">Dolor ut omnis lorem consectet</num_processo>
-                        <processo name="p_processo">Sit rem ut rem voluptatem</processo>
-                        <eatapa name="p_eatapa">Omnis doloremque ipsum labore unde</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Omnis doloremque magna ut anim</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Stract rem sed labore stract</dt_fim_etapa>
-                        <utilizador name="p_utilizador">Rem adipiscing aliqua rem cons</utilizador>
-                        <estado name="p_estado">1</estado>
+                        <num_processo name="p_num_processo">Anim accusantium stract dolor</num_processo>
+                        <processo name="p_processo">Aperiam sed doloremque ipsum natus</processo>
+                        <eatapa name="p_eatapa">Accusantium doloremque ut deserunt laudantium</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Stract adipiscing stract offic</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Dolor iste laudantium consecte</dt_fim_etapa>
+                        <estado name="p_estado">2</estado>
                         <id_task name="p_id_task" tag="id_task">1</id_task>
                     </row>
                     <row>
@@ -208,12 +204,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <num_processo name="p_num_processo">Adipiscing voluptatem totam do</num_processo>
-                        <processo name="p_processo">Labore dolor anim stract mollit</processo>
-                        <eatapa name="p_eatapa">Sed officia natus consectetur voluptatem</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Mollit consectetur sed perspic</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Totam lorem iste sit voluptate</dt_fim_etapa>
-                        <utilizador name="p_utilizador">Lorem officia laudantium rem a</utilizador>
+                        <num_processo name="p_num_processo">Doloremque adipiscing magna de</num_processo>
+                        <processo name="p_processo">Rem aliqua perspiciatis voluptatem elit</processo>
+                        <eatapa name="p_eatapa">Sit sit totam stract ipsum</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Totam omnis rem amet perspicia</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Aliqua totam amet iste sed</dt_fim_etapa>
                         <estado name="p_estado">3</estado>
                         <id_task name="p_id_task" tag="id_task">1</id_task>
                     </row>
@@ -222,12 +217,24 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <num_processo name="p_num_processo">Laudantium unde totam elit lau</num_processo>
-                        <processo name="p_processo">Deserunt omnis lorem aperiam laudantium</processo>
-                        <eatapa name="p_eatapa">Perspiciatis labore omnis voluptatem adipiscing</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Perspiciatis natus aliqua ut s</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Voluptatem rem consectetur omn</dt_fim_etapa>
-                        <utilizador name="p_utilizador">Rem sed totam iste natus</utilizador>
+                        <num_processo name="p_num_processo">Rem laudantium accusantium str</num_processo>
+                        <processo name="p_processo">Ipsum perspiciatis stract adipiscing unde</processo>
+                        <eatapa name="p_eatapa">Ut magna accusantium voluptatem sit</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Unde accusantium officia anim</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Perspiciatis natus stract adip</dt_fim_etapa>
+                        <estado name="p_estado">2</estado>
+                        <id_task name="p_id_task" tag="id_task">1</id_task>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <num_processo name="p_num_processo">Iste anim unde mollit lorem</num_processo>
+                        <processo name="p_processo">Magna perspiciatis iste dolor laudantium</processo>
+                        <eatapa name="p_eatapa">Sit iste sit elit officia</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Consectetur perspiciatis amet</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Perspiciatis rem ut aperiam el</dt_fim_etapa>
                         <estado name="p_estado">1</estado>
                         <id_task name="p_id_task" tag="id_task">1</id_task>
                     </row>
@@ -236,26 +243,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <num_processo name="p_num_processo">Adipiscing natus unde ut persp</num_processo>
-                        <processo name="p_processo">Aperiam lorem natus rem elit</processo>
-                        <eatapa name="p_eatapa">Sed stract amet consectetur mollit</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Adipiscing iste anim lorem acc</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Ut officia elit stract sit</dt_fim_etapa>
-                        <utilizador name="p_utilizador">Perspiciatis adipiscing volupt</utilizador>
-                        <estado name="p_estado">1</estado>
-                        <id_task name="p_id_task" tag="id_task">1</id_task>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <num_processo name="p_num_processo">Amet laudantium deserunt amet</num_processo>
-                        <processo name="p_processo">Mollit omnis natus omnis perspiciatis</processo>
-                        <eatapa name="p_eatapa">Ipsum laudantium perspiciatis laudantium omnis</eatapa>
-                        <dt_inicio_etapa name="p_dt_inicio_etapa">Ipsum elit consectetur mollit</dt_inicio_etapa>
-                        <dt_fim_etapa name="p_dt_fim_etapa">Amet doloremque sed consectetu</dt_fim_etapa>
-                        <utilizador name="p_utilizador">Perspiciatis deserunt unde lau</utilizador>
+                        <num_processo name="p_num_processo">Consectetur iste dolor elit de</num_processo>
+                        <processo name="p_processo">Doloremque sit ipsum doloremque sed</processo>
+                        <eatapa name="p_eatapa">Aliqua magna labore aperiam rem</eatapa>
+                        <dt_inicio_etapa name="p_dt_inicio_etapa">Deserunt iste omnis aperiam se</dt_inicio_etapa>
+                        <dt_fim_etapa name="p_dt_fim_etapa">Sed iste ipsum consectetur ut</dt_fim_etapa>
                         <estado name="p_estado">1</estado>
                         <id_task name="p_id_task" tag="id_task">1</id_task>
                     </row>
@@ -264,12 +256,12 @@
                     <item>
                         <label>Terminado</label>
                         <value>1</value>
-                        <color>#dc2b4c</color>
+                        <color>#2b47dc</color>
                     </item>
                     <item>
                         <label>Não Atribuido</label>
                         <value>2</value>
-                        <color>#262eea</color>
+                        <color>#ea263e</color>
                     </item>
                     <item>
                         <label>Não Executado</label>

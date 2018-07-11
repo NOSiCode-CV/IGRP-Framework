@@ -27,7 +27,6 @@ public class _CONS_PROCView extends View {
 	public Field eatapa;
 	public Field dt_inicio_etapa;
 	public Field dt_fim_etapa;
-	public Field utilizador;
 	public Field estado;
 	public Field id_task;
 	public IGRPForm form;
@@ -105,10 +104,6 @@ public class _CONS_PROCView extends View {
 		dt_fim_etapa.setLabel(gt("Dt. Fim Etapa"));
 		dt_fim_etapa.propertie().add("name","p_dt_fim_etapa").add("type","text").add("maxlength","30");
 		
-		utilizador = new TextField(model,"utilizador");
-		utilizador.setLabel(gt("Utilizador"));
-		utilizador.propertie().add("name","p_utilizador").add("type","text").add("maxlength","30");
-		
 		estado = new ColorField(model,"estado");
 		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","color").add("maxlength","30");
@@ -150,16 +145,15 @@ public class _CONS_PROCView extends View {
 		table_1.addField(eatapa);
 		table_1.addField(dt_inicio_etapa);
 		table_1.addField(dt_fim_etapa);
-		table_1.addField(utilizador);
 		table_1.addField(estado);
 		table_1.addField(id_task);
 		/* start table_1 legend colors*/
 		Map<Object, Map<String, String>> table_1_colors= new HashMap<>();
 		Map<String, String> color_1 = new HashMap<>();
-		color_1.put("#dc2b4c","Terminado");
+		color_1.put("#2b47dc","Terminado");
 		table_1_colors.put("1",color_1);
 		Map<String, String> color_2 = new HashMap<>();
-		color_2.put("#262eea","Não Atribuido");
+		color_2.put("#ea263e","Não Atribuido");
 		table_1_colors.put("2",color_2);
 		Map<String, String> color_3 = new HashMap<>();
 		color_3.put("#95c11f","Não Executado");
@@ -191,7 +185,6 @@ public class _CONS_PROCView extends View {
 		eatapa.setValue(model);
 		dt_inicio_etapa.setValue(model);
 		dt_fim_etapa.setValue(model);
-		utilizador.setValue(model);
 		estado.setValue(model);
 		id_task.setValue(model);	
 

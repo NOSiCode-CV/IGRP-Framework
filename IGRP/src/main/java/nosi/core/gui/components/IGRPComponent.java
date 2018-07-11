@@ -29,7 +29,9 @@ public abstract class IGRPComponent {
 	public IGRPComponent(String tag_name) {
 		this(tag_name,"");
 	}
+	
 	public abstract String toString();
+	
 	public String getConnectionName() {
 		return connectionName;
 	}
@@ -40,11 +42,21 @@ public abstract class IGRPComponent {
 	public void setTitle(String title){
 		this.properties.put("title", gt(title));
 	}
+	
 	public boolean isVisible() {
 		return isVisible;
 	}
+	
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;
+	}
+	
+	public FieldProperties getProperties() {
+		return properties;
+	}
+	
+	public void setProperties(FieldProperties properties) {
+		this.properties = properties;
 	}
 	
 	

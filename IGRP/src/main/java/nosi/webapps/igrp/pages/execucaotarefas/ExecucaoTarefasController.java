@@ -408,10 +408,12 @@ public class ExecucaoTarefasController extends Controller {
                   .addQueryString("appDad", app.getDad())
                   .addQueryString("formKey", task.getFormKey())
                   .addQueryString("processDefinition", task.getProcessDefinitionKey())
+                  .addQueryString("processDefinitionId", task.getProcessDefinitionId())
                   .addQueryString("taskDefinition", task.getTaskDefinitionKey())
                   .addQueryString("previewTask", previewTask)
                   .addQueryString("preiviewApp", preiviewApp)
-                  .addQueryString("preiviewProcessDefinition", preiviewProcessDefinition);
+                  .addQueryString("preiviewProcessDefinition", preiviewProcessDefinition)
+                  .addQueryString("showTimeLine", "true");
                return this.redirect(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
             }
          }
@@ -556,9 +558,6 @@ public class ExecucaoTarefasController extends Controller {
          }
       }
       formData.addVariable("baseHostNameIgrp",this.getConfig().getHostName());
-//      if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
-//         formData.addVariable("customVariableIGRP",content);         
-//      }
       StartProcess st = formData.submitFormByProcessDenifition();
       if(st!=null){
          pi.setId(st.getId());
@@ -570,13 +569,5 @@ public class ExecucaoTarefasController extends Controller {
       return pi;
    }
    
-// private Map<String,String> getStatus() {
-//    Map<String,String> status = new HashMap<String,String>();
-//    status.put(null, "--- Selecionar Estado ---");
-//        status.put("false","Ativo");
-//        status.put("true","Terminado");
-//    return status;
-// }
-
    /*----#end-code----*/
 	}

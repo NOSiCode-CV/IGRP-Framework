@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/startprocess/Startprocess.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Startprocess</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Startprocess</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=74</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>StartProcess</title>
+        <header type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <header_text type="text" name="p_header_text" persist="true" maxlength="4000">
+                    <value>Process</value>
+                </header_text>
+            </fields>
+        </header>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="iniciar_processo">
+                <title>Iniciar Processo</title>
+                <app>igrp</app>
+                <page>Startprocess</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-play</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/startprocess/Startprocess.xml</preview>
+            </item>
+        </toolsbar_1>
+        <total_proc_finished type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_proc_finished_tit name="p_total_proc_finished_tit" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Total de processos executados</value>
+                </total_proc_finished_tit>
+                <total_proc_finished_val name="p_total_proc_finished_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>895</value>
+                </total_proc_finished_val>
+                <total_proc_finished_url name="p_total_proc_finished_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value>[object Object]</value>
+                </total_proc_finished_url>
+                <total_proc_finished_bg name="p_total_proc_finished_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </total_proc_finished_bg>
+                <total_proc_finished_icn name="p_total_proc_finished_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </total_proc_finished_icn>
+            </fields>
+        </total_proc_finished>
+        <total_proc_em_execucao type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_proc_em_execucao_tit name="p_total_proc_em_execucao_tit" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Total de processos em execução</value>
+                </total_proc_em_execucao_tit>
+                <total_proc_em_execucao_val name="p_total_proc_em_execucao_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>895</value>
+                </total_proc_em_execucao_val>
+                <total_proc_em_execucao_url name="p_total_proc_em_execucao_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value>[object Object]</value>
+                </total_proc_em_execucao_url>
+                <total_proc_em_execucao_bg name="p_total_proc_em_execucao_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-electric</value>
+                </total_proc_em_execucao_bg>
+                <total_proc_em_execucao_icn name="p_total_proc_em_execucao_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-hourglass-start</value>
+                </total_proc_em_execucao_icn>
+            </fields>
+        </total_proc_em_execucao>
+    </content>
+</rows>

@@ -29,7 +29,6 @@ import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
-import static nosi.core.i18n.Translator.gt;
 
 /**
  * Emanuel
@@ -201,6 +200,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		parts = parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
 				.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
 		new TaskFile().addFile(p,parts);
+		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
+		formData.addVariable("profile", Core.getCurrentProfile());
+		formData.addVariable("organization", Core.getCurrentOrganization());
 		
 		StartProcess st = formData.submitFormByTask();
 		if((st!=null && st.getError()!=null)) {
@@ -317,15 +319,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        .addQueryString("previewTask", task.getTaskDefinitionKey())
 	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey())
 	        .addQueryString("overrided", "false");
-		
-		Core.setMessageInfo(gt("Detalhes de Tarefa")+":<br/> "
-		 										+ gt("Nº Processo")+" : "+task.getProcessInstanceId() + "<br/>"
-		 										+ gt("Nº Tarefa")  +" : "+task.getId() + "<br/>"
-		 										+ gt("Nome Processo")+" : "+task.getProcessDefinitionKey() + "<br/>"
-		 										+ gt("Nome Tarefa")+" : "+task.getName() + "<br/>"
-												+ gt("Data Inicio")+" : "+task.getStartTime() +"<br/>"
-												+ gt("Data de fim")+" : "+task.getEndTime() +"<br/>"
-		 					);
+	        Core.setAttribute("taskObj", task);
+
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
 		 String content = resp.getContent();
 		 content = comp.removeXMLButton(content);
