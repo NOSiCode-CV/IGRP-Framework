@@ -5343,17 +5343,17 @@ var GENERATOR = function(genparams){
 		rtn = rtn.insert(idx,jsIncludes);
 
 		//omeText.replace(/(\r\n|\n|\r)/gm,"");
+		var bodyEnd  = rtn.indexOf('</body>');
 
 		if(GEN.jsEditor.getValue())
-			rtn = rtn.insert(idx,'<script>'+GEN.jsEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</script>');
+			rtn = rtn.insert(bodyEnd,'<script>'+GEN.jsEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</script>');
 
 		/*RULES SCRIPT*/
 		var rulesStr = GEN.getRules();
 
 		if(rulesStr){
 
-			var bodyEnd  = rtn.indexOf('</body>');
-
+		
 			var caller 	 = rulesStr.caller;
 
 			caller = GEN.escapeXSLChars( caller );
