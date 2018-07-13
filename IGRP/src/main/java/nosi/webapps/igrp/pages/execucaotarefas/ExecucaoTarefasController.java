@@ -123,7 +123,7 @@ public class ExecucaoTarefasController extends Controller {
          t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
          t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
          t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
-         t.setTipo_tabela_minhas_tarefas(task.getCategory());
+         t.setTipo_tabela_minhas_tarefas(task.getProcessDefinitionKey());
          t.setId(task.getId());
          t.setN_tarefa_m(task.getProcessInstanceId());
          t.setData_fim_m(task.getDueDate()!=null?task.getDueDate().toString():"");
@@ -169,6 +169,7 @@ public class ExecucaoTarefasController extends Controller {
       view.n_tarefa_d.setLabel("Número Processo");
       view.n_tarefa_g.setLabel("Número Processo");
       view.n_tarefa_m.setLabel("Número Processo");
+      view.btn_detalhes_minha_tarefa.setVisible(false);
       /*
       view.pesquisa_gerir_tarefa.setVisible(false);
       view.pesquisa_minhas_tarefas.setVisible(false);
@@ -416,6 +417,9 @@ public class ExecucaoTarefasController extends Controller {
                   .addQueryString("showTimeLine", "true");
                return this.redirect(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
             }
+            System.out.println("NOT NULL");
+         }else {
+        	 System.out.println("NULL");
          }
          throw new IOException(Core.NO_PERMITION_MSG);
       }

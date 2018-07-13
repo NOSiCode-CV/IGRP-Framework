@@ -34,7 +34,6 @@ public class ValidateInputDocument {
 			String[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");			
 			if(p_ids!=null && parts!=null) {
 				parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
-
 				for(int i=0;i<p_ids.length;i++) {				
 					TipoDocumentoEtapa tp = listMap.get(Core.toInt(p_ids[i]));
 					if(tp!=null && tp.getRequired()==1 && !validateRequired(tp,parts,i)){

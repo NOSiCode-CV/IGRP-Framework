@@ -138,6 +138,8 @@ public abstract class Controller{
 		String p_processId = Core.getParam("p_processId");
 		String taskDefinition = Core.getParam("taskDefinition",false);
 		String processDefinition = Core.getParam("processDefinition",false);
+		String saveButton = Core.getParam("saveButton");
+		String backButton = Core.getParam("backButton");
 		
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
@@ -170,8 +172,11 @@ public abstract class Controller{
 		if(Core.isNotNull(p_processId)) {
 			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
-		if(Core.isNotNull(taskId)) {
+		if(Core.isNull(saveButton) && Core.isNotNull(taskId)) {
 			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+		}
+		if(Core.isNotNull(backButton) && Core.isNotNull(taskId)) {
+			xml.addXml(comp.generateBackButtonTask("igrp","ExecucaoTarefas","executar_button_minha_tarefas",taskId).toString());
 		}
 		xml.addXml(this.getTaskViewDetails(taskId));
 		xml.addXml(content);

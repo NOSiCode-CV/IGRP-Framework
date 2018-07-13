@@ -3,7 +3,6 @@ package nosi.core.webapp.bpmn;
 import static nosi.core.i18n.Translator.gt;
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPFormList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.gui.components.IGRPTable.Table;
@@ -33,6 +32,7 @@ public class DisplayDocmentType {
 	public String display() {
 		IGRPFormList formlist_documento_task = new IGRPFormList("formlist_documento_task");
 		formlist_documento_task.getProperties().put("type", "workflow_document");
+		formlist_documento_task.getProperties().add("no-delete", "true").add("no-add", "true");
 		this.addField(formlist_documento_task);		
 		formlist_documento_task.addData(this.getData());
 		return this.getListDocmentType()!=null && this.getListDocmentType().size() > 0?formlist_documento_task.toString():"";
@@ -93,7 +93,7 @@ public class DisplayDocmentType {
 
 	private void addField(IGRPFormList formlist_documento_task) {
 		formlist_documento_id_tp_doc = new HiddenField(null,"formlist_documento_id_tp_doc");
-		formlist_documento_id_tp_doc.propertie().add("name","p_formlist_documento_id_tp_doc").add("type","text").add("maxlength","100").add("required","false").add("desc","true");
+		formlist_documento_id_tp_doc.propertie().add("name","p_formlist_documento_id_tp_doc").add("maxlength","100").add("required","false").add("desc","true");
 		
 		formlist_documento_task_nome = new TextField(null,"formlist_documento_task_nome");
 		formlist_documento_task_nome.setLabel(gt("Nome"));
@@ -111,9 +111,8 @@ public class DisplayDocmentType {
 		formlist_documento_task_documento.setLabel(gt("Documento"));
 		formlist_documento_task_documento.propertie().add("name","p_formlist_documento_task_documento").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","false").add("desc","true");
 		
-		formlist_documento_task_mostrar = new LinkField(null,"formlist_documento_task_mostrar");
-		formlist_documento_task_mostrar.setLabel(gt("Mostrar"));
-		formlist_documento_task_mostrar.setValue(new Config().getResolveUrl("igrp","Addfiletask","index"));							
+		formlist_documento_task_mostrar = new LinkField(null,"formlist_documento_task_mostrar");	
+		formlist_documento_task_mostrar.setLabel(gt("Mostrar"));					
 		formlist_documento_task_mostrar.propertie().add("name","p_formlist_documento_task_mostrar").add("type","link").add("target","_newtab").add("maxlength","10000").add("desc","true");
 		
 		formlist_documento_task.addField(formlist_documento_task_nome);

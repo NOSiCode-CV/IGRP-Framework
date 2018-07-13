@@ -1,4 +1,6 @@
 package nosi.core.gui.components;
+import nosi.core.config.Config;
+import nosi.core.gui.fields.Field;
 /**
  * @author: Emanuel Pereira
  * 
@@ -6,7 +8,8 @@ package nosi.core.gui.components;
  *
  * Description: class to generate xml of View
  */
-import nosi.core.gui.fields.GenXMLField;
+
+import nosi.core.gui.fields.ImageField;
 
 /*Generate XML View
  * View can contain one or more fields
@@ -26,10 +29,17 @@ public class IGRPView extends IGRPForm {
 	public IGRPView(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "view");
-		//<view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
-		GenXMLField.view_img = "images/IGRP/IGRP2.3/assets/img/jon_doe.jpg";
+		this.addImageView();
 	}
 	
+	private void addImageView() {
+		String tag = tag_name.toLowerCase().replaceAll("p_", "")+"_img";
+		Field img = new ImageField(null, tag);
+		img.setValue(new Config().getRootPaht()+"images/IGRP/IGRP2.3/assets/img/jon_doe.jpg");		
+		img.setLabel("");
+		this.addField(img);
+	}
+
 	public IGRPView(String tag_name){
 		this(tag_name,"");
 	}

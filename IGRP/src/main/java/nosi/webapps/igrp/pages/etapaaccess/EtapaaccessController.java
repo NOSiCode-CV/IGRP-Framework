@@ -83,7 +83,7 @@ public class EtapaaccessController extends Controller {
 		if(p_id!=null) {
 			Organization org = new Organization().findOne(Core.toInt(orgProfId));
 			ProfileType prof = null;
-			if("prof".compareTo(type)==0 || "user".compareTo(type)==0) {
+			if("prof".compareTo(type)==0) {
 				prof = new ProfileType().findOne(Core.toInt(orgProfId));
 			}
 			for(String id:p_id) {
@@ -94,18 +94,18 @@ public class EtapaaccessController extends Controller {
 					task.setTaskName(taskProcess[0]);
 					if("org".compareTo(type)==0) {
 						task.setOrganization(org);
-						r = task.insert()!=null;
 					}
-					if("prof".compareTo(type)==0 || "user".compareTo(type)==0) {
-						String sql = "UPDATE public.tbl_task_access SET prof_fk="+prof.getId()+" WHERE processname='"+taskProcess[1]+"' AND taskname='"+taskProcess[0]+"' AND org_fk="+prof.getOrganization().getId();
-						Core.executeQuery(null, sql);
+					if("prof".compareTo(type)==0) {
+						task.setOrganization(prof.getOrganization());
+						task.setProfileType(prof);
 					}
 					if("user".compareTo(type)==0) {
-						task.setUser_fk(user.getId());
-						r = task.insert()!=null;						
+						task.setUser_fk(user.getId());				
 					}
+					r = task.insert()!=null;		
 				}
 			}
+
 			if(this.listR!=null) {
 				this.listR.stream().forEach(rr->{
 					rr.RowList.forEach(rrr->{
@@ -114,8 +114,12 @@ public class EtapaaccessController extends Controller {
 						String taskname = rrr.getString("taskname");
 						Integer org_fk = rrr.getInt("org_fk");
 						if(Core.isNotNull(prof_fk) && Core.isNotNull(org_fk) && Core.isNotNull(processname) && Core.isNotNull(taskname)) {
-							String sql = "UPDATE public.tbl_task_access SET prof_fk="+prof_fk+" WHERE processname='"+processname+"' AND taskname='"+taskname+"' AND org_fk="+org_fk;
-							Core.executeQuery(null, sql);
+							TaskAccess task = new TaskAccess();
+							task.setOrganization(new Organization().findOne(org_fk));
+							task.setProfileType(new ProfileType().findOne(prof_fk));
+							task.setProcessName(processname);
+							task.setTaskName(taskname);
+							task.insert();
 						}
 					});
 				});					
@@ -128,30 +132,34 @@ public class EtapaaccessController extends Controller {
 	 * Remove all old associates tasks
 	 */
 	private void removeOldInserts(String type,String orgProfUserId) {
-		String[] p_id = Core.getParamArray("p_processid_fk");
-		if(p_id!=null) {
+//		String[] p_id = Core.getParamArray("p_processid_fk");
+		String[] p_id = Core.getParamArray("p_id");
+		if(p_id!=null && p_id.length > 0) {
 			for(String id:p_id) {
-				if("org".compareTo(type)==0) {
+				String[] taskProcess = id.split(separator);
+				if("org".compareTo(type)==0) {	
 					ResultSet.Record r = Core.query("SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
-											 .where("org_fk=:org_fk AND processname=:processname AND prof_fk is not null")
-											 .addInt("org_fk", Core.toInt(orgProfUserId))
-											 .addString("processname", id)
-											 .getRecordList();
-					this.listR.add(r);
-					
+						 .where("org_fk=:org_fk AND processname=:processname AND taskname=:taskname AND prof_fk is not null")
+						 .addInt("org_fk", Core.toInt(orgProfUserId))
+						 .addString("processname", taskProcess[1])
+						 .addString("taskname", taskProcess[0])
+						 .getRecordList();
+					this.listR.add(r);			
 					Core.delete("tbl_task_access").where("org_fk=:org_fk")
 										   .addInt("org_fk", Core.toInt(orgProfUserId))
-										   .andWhere("processname", "=",id)
+										   .andWhere("processname", "=",taskProcess[1])
 										   .execute();
 				}
 				if("prof".compareTo(type)==0) {
-					String sql = "UPDATE public.tbl_task_access SET prof_fk=null WHERE processname='"+id+"' AND prof_fk="+Core.toInt(orgProfUserId);
-					Core.executeQuery(null, sql);
+					Core.delete("tbl_task_access").where("prof_fk=:prof_fk")
+					   .addInt("prof_fk", Core.toInt(orgProfUserId))
+					   .andWhere("processname", "=",taskProcess[1])
+					   .execute();
 				}
 				if("user".compareTo(type)==0) {
 					Core.delete("tbl_task_access").where("user_fk=:user_fk")
 										   .addInt("user_fk", Core.toInt(orgProfUserId))
-										   .andWhere("processname", "=",id)
+										   .andWhere("processname", "=",taskProcess[1])
 										   .execute();
 				}
 			}
@@ -167,6 +175,7 @@ public class EtapaaccessController extends Controller {
 		if(prof!=null) {
 			List<TaskAccess> list = new TaskAccess().find()
 													.andWhere("organization", "=",prof.getOrganization().getId())
+													.andWhere("profileType", "isnull")
 													.all();
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
@@ -247,6 +256,7 @@ public class EtapaaccessController extends Controller {
 		return new TaskAccess().find()
 				.andWhere("organization", "=",id)
 				.andWhere("processName", "=",proccessName)
+				.andWhere("profileType", "isnull")
 				.all() ;
 	}
 	
