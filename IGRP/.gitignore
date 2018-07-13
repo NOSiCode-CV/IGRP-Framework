@@ -4,3 +4,4 @@ bin/
 .project
 WebContent/WEB-INF/config/app/
 *.class
+/Export Jar Save.jardesc
