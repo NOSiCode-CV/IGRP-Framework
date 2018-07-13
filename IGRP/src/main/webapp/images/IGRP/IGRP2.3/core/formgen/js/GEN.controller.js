@@ -58,13 +58,14 @@ var GENERATOR = function(genparams){
 	
 	GEN.pfiles  = { // process files include
 		css : [
-			{file : '/core/igrp/toolsbar/toolsbar.css'},
-			{file : '/core/igrp/process/process.css'}
-		],
+				{file : '/core/igrp/toolsbar/toolsbar'},
+				{file : '/core/igrp/process/process'},
+				{file : '/plugins/view/igrp.view'}
+			  ],
 		js : [],
 		xsl : [
-			{file : 'process-utils'}
-		]
+				{file : 'IGRP-process-utils'}
+			  ]
 	};
 
 	GEN.tags = {
@@ -5253,7 +5254,7 @@ var GENERATOR = function(genparams){
 			
 			GEN.pfiles.css.forEach(function(css){
 				
-				includes+='<link type="text/css" rel="stylesheet" href="'+GEN.getIncludeURL(css.file)+'?v={$version}"/>';
+				includes+='<link type="text/css" rel="stylesheet" href="'+GEN.getIncludeURL(css.file)+'.css?v={$version}"/>';
 				
 			});
 		}
@@ -5312,7 +5313,7 @@ var GENERATOR = function(genparams){
 			
 			GEN.pfiles.xsl.forEach(function(xsl){
 				
-				includeTmpl('IGRP-'+xsl.file+'.tmpl.xsl');
+				includeTmpl(xsl.file+'.tmpl.xsl');
 				
 			});
 		}

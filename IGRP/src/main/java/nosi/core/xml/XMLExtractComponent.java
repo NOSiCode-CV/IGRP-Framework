@@ -98,6 +98,22 @@ public class XMLExtractComponent {
 		return toolsbar1;
 	}
 	
+	public IGRPToolsBar generateBackButtonTask(String app,String page,String action, String taskId) {
+		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar");
+		IGRPButton button = new IGRPButton();
+		button.getProperties().add("code", "back_task");
+		button.getProperties().add("rel", "back_task");
+		button.getProperties().add("type", "specific");
+		button.setTitle(gt("Voltar"));
+		button.setApp(app);
+		button.setPage(page);
+		button.setLink(action+"&"+"p_id="+taskId);
+		button.setTarget("submit");
+		button.setImg("primary|fa-arrow-left");
+		toolsbar1.addButton(button);
+		return toolsbar1;
+	}
+	
 	public String joinComponentXML(String codigo) {
 		List<TaskComponent> components = new TaskComponent().find().andWhere("codigo", "=",codigo).all();
 		components.stream().forEach(c->{

@@ -286,7 +286,6 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	public String details(TaskServiceQuery task) throws IOException, ServletException {
 		this.page = Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey();
 		Gson gson = new Gson();		
-		XMLExtractComponent comp = new XMLExtractComponent();
 		Action action = new Action().find().andWhere("page", "=",this.page).andWhere("application.dad", "=",task.getTenantId()).one();
 		String json = "";
 		if(task.getVariables()!=null) {
@@ -318,12 +317,13 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        .addQueryString("preiviewApp",task.getTenantId())
 	        .addQueryString("previewTask", task.getTaskDefinitionKey())
 	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey())
-	        .addQueryString("overrided", "false");
+	        .addQueryString("overrided", "false")
+	        .addQueryString("backButton", Core.getParam("backButton"))
+	        .addQueryString("saveButton", "false");
 	        Core.setAttribute("taskObj", task);
 
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
 		 String content = resp.getContent();
-		 content = comp.removeXMLButton(content);
 		 return content;
 	}
 }

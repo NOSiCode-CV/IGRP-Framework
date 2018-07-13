@@ -83,7 +83,7 @@ public class BPMNTimeLine {
 				url = "#";
 				t.setType("curent");
 			}else {
-				url +="&taskId="+tasksSQ.get(task.getId());
+				url +="&taskId="+tasksSQ.get(task.getId());//+"&backButton=true";
 				t.setType("stage");
 			}
 			t.setUrl(url);

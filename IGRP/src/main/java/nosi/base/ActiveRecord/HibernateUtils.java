@@ -47,10 +47,8 @@ public class HibernateUtils {
 				Metadata metadata = sources.getMetadataBuilder().build();
 				sessionFactory.put(connectionName,metadata.getSessionFactoryBuilder().build());
 			} catch (Exception e) {
-				if (registry != null) {
-					StandardServiceRegistryBuilder.destroy(registry);
-				}
 				e.printStackTrace();
+				destroy();
 			}
 		}
 		return sessionFactory.get(connectionName);
@@ -98,17 +96,22 @@ public class HibernateUtils {
 		settings.put(Environment.HBM2DDL_AUTO, "update");
 		//settings.put(Environment.SHOW_SQL, true);
 		
-		// HikariCP settings		
-		// Maximum waiting time for a connection from the pool
-		settings.put("hibernate.hikari.connectionTimeout", "40000");
-		// Minimum number of ideal connections in the pool
-		//settings.put("hibernate.hikari.minimumIdle", "5");
-		// Maximum number of actual connection in the pool
-		settings.put("hibernate.hikari.maximumPoolSize", "20");
-		// Maximum time that a connection is allowed to sit ideal in the pool
-		settings.put("hibernate.hikari.idleTimeout", "600000");
-        settings.put("hibernate.current_session_context_class","thread");
-        settings.put("hibernate.connection.isolation", "2");
+		// HikariCP settings (values in milliseconds)
+		ConfigHikariCP cHCp = new ConfigHikariCP();
+		//Maximum waiting time for a connection from the pool. 
+		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
+		//Maximum time that a connection is allowed to sit ideal in the pool
+		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
+		//Minimum number of ideal connections in the pool
+		settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
+		//Maximum number of actual connection in the pool
+		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
+		//Maximum lifetime of a connection in the pool
+		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
+
+		//Hibernate configuration
+       // settings.put("hibernate.current_session_context_class","thread");
+        //settings.put("hibernate.connection.isolation", "2");
         settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
 		return settings;
 	}
@@ -182,5 +185,11 @@ public class HibernateUtils {
 					continue;
 				}
 	      }
+	}
+
+	public static void closeAllConnection() {
+		sessionFactory.entrySet().stream().forEach(s->{
+			s.getValue().close();
+		});
 	}
 }

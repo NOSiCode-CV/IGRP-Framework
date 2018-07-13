@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
-  <xsl:template name="process-flow" mode="process-flow" match="table">
+  <xsl:template name="process-flow" mode="process-flow" match="*">
     
     <xsl:variable name="totalRow" select="count(table/value/row)"/>
     
@@ -77,40 +77,61 @@
       </xsl:call-template>
 
     </xsl:if>
-
-    
-
-
-
   </xsl:template>
-  
-  <!-- d = DYNAMIC  t = TMPL s = start -->
-	 <xsl:template name="dynamic-tmpl-start">
-	   <xsl:if test="rows/content/table[@type='workflow']">
-	   		<div class="row">
-	   			<div class="col-md-12">
-	     			<xsl:apply-templates mode="process-flow" select="rows/content/table[@type='workflow']" />
-	     		</div>
-	     	</div>
-	   </xsl:if>
-	   
-	   <xsl:if test="rows/content/toolsbar and count(rows/content/toolsbar/item) &gt; 0">
-		   <div class="row">
-		   		<div class="col-md-12">
-	         		<div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" item-name="toolsbar_1">
-			            <div class="btns-holder  pull-right" role="group">
-			              <xsl:apply-templates select="rows/content/toolsbar" mode="gen-buttons">
-			                <xsl:with-param name="vertical" select="'true'"/>
-			                <xsl:with-param name="outline" select="'false'"/>
-			              </xsl:apply-templates>
-			            </div>
-	          		</div>
-	          	</div>
-	     	</div>
+
+    <!-- d = DYNAMIC  t = TMPL s = start -->
+    <xsl:template name="dynamic-tmpl-start">
+
+        <xsl:if test="rows/content/*[@type='workflow']">
+            <div class="row">
+                <div class="col-md-12">
+                    <xsl:apply-templates mode="process-flow" select="rows/content/*[@type='workflow']" />
+                </div>
+            </div>
         </xsl:if>
-	 </xsl:template>
-	 
-	 <!-- d = DYNAMIC  t = TMPL e = END -->
-	 <xsl:template name="dynamic-tmpl-end">
-	 </xsl:template>
+
+        <xsl:if test="rows/content/toolsbar and count(rows/content/toolsbar/item) &gt; 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="toolsbar-holder boxed gen-container-item" item-name="toolsbar">
+                        <div class="btns-holder  pull-right" role="group">
+                            <xsl:apply-templates select="rows/content/toolsbar" mode="gen-buttons">
+                                <xsl:with-param name="vertical" select="'true'"/>
+                                <xsl:with-param name="outline" select="'false'"/>
+                            </xsl:apply-templates>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xsl:if>
+
+        <xsl:if test="rows/content/*[@type='workflow_taskview'] and count(rows/content/*[@type='workflow_taskview']/fields/*) &gt; 0">
+            <div class="row">
+                <div class="col-md-12">
+                    <xsl:for-each select="rows/content/*[@type='workflow_taskview']">
+                        <xsl:call-template name="GEN-view"/>
+                    </xsl:for-each>
+                </div>
+            </div>
+        </xsl:if>
+
+    </xsl:template>
+  
+  <!-- d = DYNAMIC  t = TMPL e = END -->
+  <xsl:template name="dynamic-tmpl-end">
+    <xsl:if test="rows/content/*[@type='workflow_document'] and count(rows/content/*[@type='workflow_document']/fields/*)  &gt; 0">
+        <div class="row">
+            <div class="col-md-12">
+                <xsl:for-each select="rows/content/*[@type='workflow_document']">
+                    <xsl:call-template name="GEN-formlist"/>
+                </xsl:for-each>
+            </div>
+        </div>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:include href="components/2.3/GEN-others.tmpl.xsl?v=1"/>
+  <xsl:include href="components/2.3/GEN-formfields.tmpl.xsl?v=4"/>
+  <xsl:include href="components/2.3/GEN-formlist.tmpl.xsl?v=4"/>
+  
 </xsl:stylesheet>

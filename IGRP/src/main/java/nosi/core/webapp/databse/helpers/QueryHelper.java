@@ -129,7 +129,7 @@ public abstract class QueryHelper implements QueryInterface{
         return this;
     }
 
-    public QueryInterface addArray(String columnName,Array value) {
+    public QueryInterface addArray(String columnName,ArrayList<?> value) {
         this.addColumn(columnName, value, Array.class);
         return this;
     }
@@ -265,7 +265,6 @@ public abstract class QueryHelper implements QueryInterface{
 		//System.out.println(updates);
 		updates = Core.isNotNull(updates)?updates.substring(0, updates.length()-1):"";
 		String s = "UPDATE "+tableName +" SET "+updates;
-		System.out.println(s);
 		return s;
 	}
 	

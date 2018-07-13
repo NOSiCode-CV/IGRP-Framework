@@ -3,11 +3,11 @@ package nosi.core.webapp.databse.helpers;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
@@ -76,7 +76,7 @@ public interface BaseQueryInterface {
     
     public QueryInterface addTimestamp(String columnName,Timestamp value);
 
-    public QueryInterface addArray(String columnName,Array value);
+    public QueryInterface addArray(String columnName,ArrayList<?> value);
 
     public QueryInterface addAsciiStream(String columnName,InputStream value);
 

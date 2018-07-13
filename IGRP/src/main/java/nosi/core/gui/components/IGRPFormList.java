@@ -1,15 +1,10 @@
 package nosi.core.gui.components;
 
 import java.util.List;
-import org.apache.commons.text.StringEscapeUtils;
-import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
-
-//import nosi.core.gui.fields.Field;
-//import nosi.core.webapp.Core;
-//import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -66,63 +61,41 @@ public class IGRPFormList extends IGRPSeparatorList {
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
-					this.xml.startElement(field.getTagName());
-					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					this.xml.writeAttribute("desc","true");
-					String val = IgrpHelper.getValue(obj, field.getName());
-					if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
-						val = field.getValue().toString();
-					}
-					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
-					this.xml.text((aux.length>0?aux[0]:""));
-					this.xml.endElement();
-					
-					this.xml.startElement(field.getTagName() + "_desc");
-					this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
-					this.xml.text(aux.length > 1?aux[1]:"");
-					this.xml.endElement();
-					
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length>0?aux[0]:"") + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 1?aux[1]:"") + "\"></hidden>");
+					this.genFields(obj,field);
 				}
 				this.xml.endElement();
 			}
 		}else if(this.data==null || this.data.size() == 0 && this.startRow){
-				this.xml.startElement("row"); 
-				for(Field field:this.fields){
-					
-					this.xml.startElement(field.getTagName());
-					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					
-					if(field instanceof CheckBoxField) {
-						this.xml.text("1");
-					}else {
-						this.xml.text("");
-					}
-					
-					this.xml.endElement();
-					
-					this.xml.startElement(field.getTagName() + "_desc");
-					this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
-					this.xml.text("");
-					this.xml.endElement(); 
-					
-				/*	if(field instanceof CheckBoxField) {
-						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + "1" + "\"></hidden>");
-						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\""  + "1" + "\"></hidden>");
-					}else {*/
-						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + "\"></hidden>");
-						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk_desc"+ "\" type=\"hidden\" value=\""  + "\"></hidden>");
-					//}
-				}
-				this.xml.endElement();
-		}
-		
+			this.xml.startElement("row"); 
+			for(Field field:this.fields){	
+				this.genFields(null,field);		
+			}
+			this.xml.endElement();
+		}		
 		if(!this.rows.equals(""))
-			this.xml.addXml(this.rows);
-		
+			this.xml.addXml(this.rows);		
 	}
 	
+	private void genFields(Object obj,Field field) {		
+		xml.startElement(field.getTagName());
+		this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+		this.xml.writeAttribute("type",field.propertie().getProperty("type"));
+		this.xml.writeAttribute("desc","true");
+		String val = IgrpHelper.getValue(obj, field.getName());
+		if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
+			val = field.getValue().toString();
+		}
+		String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
+		this.xml.text((aux.length>0?aux[0]:""));
+		this.xml.endElement();
+		if(!(field instanceof HiddenField)){
+			this.xml.startElement(field.getTagName() + "_desc");
+			this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
+			this.xml.text(aux.length > 1?aux[1]:"");
+			this.xml.endElement();
+		}
+	}
+
 	public void setStartRow(boolean isStartRow) {
 		this.startRow = isStartRow;
 	}
