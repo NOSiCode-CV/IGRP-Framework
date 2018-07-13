@@ -12,9 +12,33 @@
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="actionIndex"></xsl:call-template>
 	 		<xsl:call-template name="actionEditCalendar"></xsl:call-template>
-	 		 <xsl:call-template name="createActions"></xsl:call-template>	 	
+	 		<!--  <xsl:call-template name="createActions_"></xsl:call-template> -->
+	 		 <xsl:call-template name="createActions"></xsl:call-template> 	
  		<xsl:value-of select="'}'"/>
     </xsl:template>
+    
+    
+    
+    
+    <!-- create actions based in rules (Fields) -->
+ 	<xsl:template name="createActions_">
+ 	
+ 		<xsl:variable name="app_" select="/rows/app" />
+		<xsl:variable name="page_" select="/rows/page" />
+		
+ 		<xsl:for-each select="//rules/rule">
+ 		
+ 			<xsl:variable name="action_" select="./proc" />
+ 			
+ 				
+ 			
+ 		</xsl:for-each>
+ 		
+ 	</xsl:template>
+ 	
+ 	
+ 	
+ 	
 
      <!-- import all class to using in controller -->
  	<xsl:template name="import-packages-controller">
@@ -50,6 +74,8 @@
 		<!--<xsl:call-template name="import-class-models"></xsl:call-template>  -->
 		<xsl:value-of select="$newline"/>
  	</xsl:template>
+ 	
+ 	
  	
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
@@ -272,7 +298,7 @@
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
 						
-						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select']">
+						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
 							<xsl:call-template name="setSqlChart"/>						
@@ -505,7 +531,7 @@
  	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
  	<xsl:template name="setSqlCombobox">
  		<xsl:for-each select="//content/*">
-	 		<xsl:for-each select="fields/*[@type='select']">
+	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">
 		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 			
 		 		<xsl:choose>
 		 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">

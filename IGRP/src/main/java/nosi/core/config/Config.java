@@ -42,7 +42,7 @@ public class Config {
 	
 	private final static String SEPARATOR_FOR_HTTP = "/";
 	private final static String SEPARATOR_FOR_FILESYS = File.separator;
-	
+
 	public final static String VERSION = "180712";
 
 	public String getLinkXSLLogin() {

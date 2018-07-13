@@ -38,11 +38,11 @@ public class ListField extends AbstractField {
 	
 	@Override
 	protected void configValue(Object model){
-		if(!this.propertie.get("multiple").equals("true")) {
-			this.setValue("" + IgrpHelper.getValue(model, this.getName()));
+		if(this.propertie.get("multiple") != null && this.propertie.get("multiple").equals("true")) {
+			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
 		}
 		else
-			this.setValue(IgrpHelper.getValueArray(model, this.getName()));
+			this.setValue("" + IgrpHelper.getValue(model, this.getName()));
 	}
 	
 	@Override
