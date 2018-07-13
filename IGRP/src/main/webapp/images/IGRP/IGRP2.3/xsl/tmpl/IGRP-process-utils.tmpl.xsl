@@ -2,7 +2,7 @@
   
   <xsl:template name="process-flow" mode="process-flow" match="table">
     
-    <xsl:variable name="totalRow" select="count(value/row)"/>
+    <xsl:variable name="totalRow" select="count(table/value/row)"/>
     
     <xsl:variable name="max">
       <xsl:choose>
@@ -37,9 +37,9 @@
 
     <xsl:param name="itemSize" select="'col-sm-1'"/>
 
-    <xsl:if test="value/row[position() = $start]">
+    <xsl:if test="table/value/row[position() = $start]">
       
-      <xsl:variable name="rows" select="value/row[position() &gt;= $start and position() &lt;= $end]"/>
+      <xsl:variable name="rows" select="table/value/row[position() &gt;= $start and position() &lt;= $end]"/>
 
       <div class="f1">
         <div class="f1-steps clearfix">
@@ -69,31 +69,6 @@
         </div>
       </div>
 
-      <!-- <div class="process flat  gen-container-item">
-    
-        <xsl:for-each select="$rows">
-
-          <xsl:variable name="itemClss">
-            <xsl:choose>
-              <xsl:when test="type = 'curent'">active</xsl:when>
-              <xsl:otherwise><xsl:value-of select="type"/></xsl:otherwise>
-            </xsl:choose>
-          </xsl:variable>
-
-          <a href="{link}" class="wiz-step btn {$itemClss} col-sm-2 col-xs-12" active-bg-color="primary" style-listener="true">
-
-            <span class="process-w-counter"><xsl:value-of select="position() - 1 + $start"/></span>
-
-            <span class="process-w-title txt-ellipsis"><xsl:value-of select="title"/></span>
-
-            <span class="process-w-arrow" active-bg-color="primary"></span>
-
-          </a>
-
-        </xsl:for-each>
-
-      </div> -->
-
       <xsl:call-template name="process-flow-loop">
         <xsl:with-param name="wiz-max-item" select="$wiz-max-item"/>
         <xsl:with-param name="itemSize" select="$itemSize"/>
@@ -109,4 +84,33 @@
 
   </xsl:template>
   
+  <!-- d = DYNAMIC  t = TMPL s = start -->
+	 <xsl:template name="dynamic-tmpl-start">
+	   <xsl:if test="rows/content/table[@type='workflow']">
+	   		<div class="row">
+	   			<div class="col-md-12">
+	     			<xsl:apply-templates mode="process-flow" select="rows/content/table[@type='workflow']" />
+	     		</div>
+	     	</div>
+	   </xsl:if>
+	   
+	   <xsl:if test="rows/content/toolsbar and count(rows/content/toolsbar/item) &gt; 0">
+		   <div class="row">
+		   		<div class="col-md-12">
+	         		<div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" item-name="toolsbar_1">
+			            <div class="btns-holder  pull-right" role="group">
+			              <xsl:apply-templates select="rows/content/toolsbar" mode="gen-buttons">
+			                <xsl:with-param name="vertical" select="'true'"/>
+			                <xsl:with-param name="outline" select="'false'"/>
+			              </xsl:apply-templates>
+			            </div>
+	          		</div>
+	          	</div>
+	     	</div>
+        </xsl:if>
+	 </xsl:template>
+	 
+	 <!-- d = DYNAMIC  t = TMPL e = END -->
+	 <xsl:template name="dynamic-tmpl-end">
+	 </xsl:template>
 </xsl:stylesheet>

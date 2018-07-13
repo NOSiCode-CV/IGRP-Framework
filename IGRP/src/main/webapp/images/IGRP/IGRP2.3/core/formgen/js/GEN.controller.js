@@ -55,6 +55,17 @@ var GENERATOR = function(genparams){
 		js  : [],
 		xsl : []
 	};
+	
+	GEN.pfiles  = { // process files include
+		css : [
+			{file : '/core/igrp/toolsbar/toolsbar.css'},
+			{file : '/core/igrp/process/process.css'}
+		],
+		js : [],
+		xsl : [
+			{file : 'process-utils'}
+		]
+	};
 
 	GEN.tags = {
 
@@ -349,6 +360,9 @@ var GENERATOR = function(genparams){
 		_c+=getXSLBottom();
 
 		_c = GEN.setIGRPMessageTmpl(_c);
+		
+		if (GEN.SETTINGS.process)
+			_c = GEN.tmplProcessUtils(_c);
 
 		if(o.removeGenAttrs)
 			_c = removeGenAttrs(_c);
@@ -356,6 +370,27 @@ var GENERATOR = function(genparams){
 		return _c;
 	}
 
+	GEN.tmplProcessUtils = function(c){
+		try{
+			var doc      = $($.parseXML((' ' + c).slice(1))),
+		
+			content  = doc.find('#igrp-contents .content'),
+		
+			rows  	= content.find('>.row[id]');
+		
+			$('<xsl:call-template name="dynamic-tmpl-end"/>').insertAfter(rows);
+			
+			$('<xsl:call-template name="dynamic-tmpl-start"/>').insertBefore(rows);
+		
+			c = (new XMLSerializer()).serializeToString(doc[0]).replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
+		
+			}catch(err){
+				console.log(err);
+				console.log('ERROR SETTING IGRP PROCESS UTILS');
+			}	
+		return c;
+	};
+		
 	GEN.designRows_old = function(layoutRows,p){
 		var dParams = p ? p : {};
 
@@ -3662,6 +3697,7 @@ var GENERATOR = function(genparams){
 			replace        : false,
 			label          : false,
 			biztalk        : false,
+			process 	   : false,
 			subversionpath : '',
 			
 			GET     : function(attr){
@@ -3671,7 +3707,7 @@ var GENERATOR = function(genparams){
 
 				if(GEN.SETTINGS.hasOwnProperty(attr))
 
-					GEN.SETTINGS[attr] = val || GEN.SETTINGS[attr];
+					GEN.SETTINGS[attr] = val;
 
 				if(typeof val == 'boolean')
 					$('.gen-page-setter[rel="'+attr+'"]').prop('checked', val)
@@ -5207,12 +5243,22 @@ var GENERATOR = function(genparams){
 				
 				var path = GEN.getIncludeURL(css.file);
 
-		 		includes+='<link rel="stylesheet" href="'+path+'?v={$version}"/>';
+		 		includes+='<link type="text/css" rel="stylesheet" href="'+path+'?v={$version}"/>';
 
 			});
 			
 		}
-
+		
+		if (GEN.SETTINGS.process){
+			
+			GEN.pfiles.css.forEach(function(css){
+				
+				includes+='<link type="text/css" rel="stylesheet" href="'+GEN.getIncludeURL(css.file)+'?v={$version}"/>';
+				
+			});
+		}
+			
+		
 		includes+='<style>'+GEN.cssEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</style>'
 
 		var idx = content.indexOf('</head>');
@@ -5261,7 +5307,16 @@ var GENERATOR = function(genparams){
 			}
 			
 		});
-
+		
+		if(GEN.SETTINGS.process){
+			
+			GEN.pfiles.xsl.forEach(function(xsl){
+				
+				includeTmpl('IGRP-'+xsl.file+'.tmpl.xsl');
+				
+			});
+		}
+		
 		//console.log(GEN.getContainersIncludes());
 		//console.log(GEN.getFieldsIncludes())
 
@@ -5288,17 +5343,17 @@ var GENERATOR = function(genparams){
 		rtn = rtn.insert(idx,jsIncludes);
 
 		//omeText.replace(/(\r\n|\n|\r)/gm,"");
+		var bodyEnd  = rtn.indexOf('</body>');
 
 		if(GEN.jsEditor.getValue())
-			rtn = rtn.insert(idx,'<script>'+GEN.jsEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</script>');
+			rtn = rtn.insert(bodyEnd,'<script>'+GEN.jsEditor.getValue().replace(/(\r\n|\n|\r|\t)/gm,"")+'</script>');
 
 		/*RULES SCRIPT*/
 		var rulesStr = GEN.getRules();
 
 		if(rulesStr){
 
-			var bodyEnd  = rtn.indexOf('</body>');
-
+		
 			var caller 	 = rulesStr.caller;
 
 			caller = GEN.escapeXSLChars( caller );

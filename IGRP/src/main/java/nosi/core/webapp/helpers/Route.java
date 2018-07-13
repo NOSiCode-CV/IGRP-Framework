@@ -1,6 +1,5 @@
 package nosi.core.webapp.helpers;
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -21,7 +20,7 @@ public class Route {
 		action = resolveAction(action);
 		String aux;		
 		aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action)
-					+ (qs.equals("") || qs == null ? "" : "&" + qs);
+					+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
 	
 		return aux.replaceAll("&&", "&");
 	}

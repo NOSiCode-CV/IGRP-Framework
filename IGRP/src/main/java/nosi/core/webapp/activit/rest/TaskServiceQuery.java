@@ -23,6 +23,7 @@ public class TaskServiceQuery extends TaskService {
 	private String startTime;
 	private String endTime;
 	private String claimTime;
+	
 	private List<TaskVariablesQuery> paramsQuery;
 	private JSONObject json_Variables = new JSONObject();
 	
@@ -92,7 +93,27 @@ public class TaskServiceQuery extends TaskService {
 		return d;
 	}
 	
-
+	@SuppressWarnings("unchecked")
+	public List<TaskVariables.TaskVariableDetails> queryHistoryTaskVariables(String taskId){		
+		List<TaskVariables.TaskVariableDetails> d = new ArrayList<>();
+		Response response = new RestRequest().get("history/historic-detail?size=100000000&selectOnlyFormProperties=true&taskId="+taskId);
+		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(response.getStatus()==200){
+				d = (List<TaskVariables.TaskVariableDetails>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskVariables.TaskVariableDetails>>(){}.getType());
+			}else{
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return d;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<TaskServiceQuery> queryHistoryProcessInstance(){		
 		List<TaskServiceQuery> d = new ArrayList<>();
@@ -148,7 +169,7 @@ public class TaskServiceQuery extends TaskService {
 	}
 	
 
-  	public String getStatusTask() {
+	public String getStatusTask() {
 		if(Core.isNotNull(this.getEndTime()))
 			return "Terminado";
 		if(Core.isNotNull(this.getAssignee()))

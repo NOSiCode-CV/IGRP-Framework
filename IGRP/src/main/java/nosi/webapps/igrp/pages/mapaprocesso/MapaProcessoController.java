@@ -10,7 +10,6 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.webapp.Controller;
@@ -18,9 +17,9 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.xml.XMLExtractComponent;
-import nosi.webapps.igrp.dao.Action;
+//import nosi.core.webapp.helpers.FileHelper;
+//import nosi.core.xml.XMLExtractComponent;
+//import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
@@ -47,59 +46,53 @@ public class MapaProcessoController extends Controller{
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	public Response actionOpenProcess() throws IOException{
-		XMLExtractComponent comp = new XMLExtractComponent();
 		String p_processId = Core.getParam("p_processId");
-		String withButton = Core.getParam("withButton");
-		String processDefinition = "";
 		FormDataService formData = null;
-		String title = "";
-		String idApp = "";
+		ProcessDefinitionService process = null;
 		if(p_processId!=null){
-			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
+			process = new ProcessDefinitionService().getProcessDefinition(p_processId);
 			if(process.filterAccess(process)) {
-				title = process!=null?process.getName():"";
 				formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
-				idApp = process.getTenantId();
-				processDefinition = process.getKey();
 			}else {
 				throw new IOException(Core.NO_PERMITION_MSG);
 			}
 		}
-		if(formData != null) {
+		if(formData != null && process!=null) {
 			if(Core.isNotNull(formData.getFormKey())) {		
-				Application app = new Application().findByDad(idApp);
+				Application app = new Application().findByDad(process.getTenantId());
 				if(app!=null) {
-					String taskDefinition = "Start"+processDefinition;
+					String taskDefinition = "Start"+process.getKey();
 					this.addQueryString("p_processId",p_processId)
 						.addQueryString("appId", app.getId())
 						.addQueryString("appDad", app.getDad())
 						.addQueryString("formKey", formData.getFormKey())
-						.addQueryString("processDefinition", processDefinition)
+						.addQueryString("processDefinition", process.getKey())
 						.addQueryString("taskDefinition", taskDefinition)
-						.addQueryString("taskName","Start Process");
-					
+						.addQueryString("taskName","Start Process");					
 					return this.call(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+taskDefinition, "index",this.queryString());
 				}
 			}
-			String content = comp.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
-			return this.renderView(content);
+			this.addQueryString("p_header_text", gt("Processo: "+process.getName()))
+				.addQueryString("processDefinitionKey", process.getKey())
+				.addQueryString("process_id", p_processId);
+			return this.redirect("igrp","Startprocess","index",this.queryString());
 		}
 		return null;
 	}
 
-	public Response actionGetXsl() throws IOException{
-		String page = Core.getParam("page");
-		String app = Core.getParam("app");
-		if(Core.isNotNull(page) && Core.isNotNull(app)){
-			XMLExtractComponent comp = new XMLExtractComponent();
-			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
-			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
-			content = comp.addButtonXsl(content);
-			this.format = Response.FORMAT_XSL;			
-			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
-		}
-		return this.redirect("igrp", "ErrorPage", "exception");
-	}
+//	public Response actionGetXsl() throws IOException{
+//		String page = Core.getParam("page");
+//		String app = Core.getParam("app");
+//		if(Core.isNotNull(page) && Core.isNotNull(app)){
+//			//XMLExtractComponent comp = new XMLExtractComponent();
+//			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
+//			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
+//			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
+//			//content = comp.addButtonXsl(content);
+//			this.format = Response.FORMAT_XSL;			
+//			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
+//		}
+//		return this.redirect("igrp", "ErrorPage", "exception");
+//	}
 	/*----#END-PRESERVED-AREA----*/
 }

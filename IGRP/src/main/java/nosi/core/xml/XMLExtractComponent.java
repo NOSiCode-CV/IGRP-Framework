@@ -58,7 +58,7 @@ public class XMLExtractComponent {
 	}
 	
 	public IGRPToolsBar generateButtonProcess(String appDad,Integer appId, String page,String action,String p_processId) {
-		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
+		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar");
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
@@ -83,12 +83,12 @@ public class XMLExtractComponent {
 	}
 	
 	public IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action,String icon, String taskId) {
-		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
+		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar");
 		IGRPButton button = new IGRPButton();
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
 		button.getProperties().add("type", "specific");
-		button.setTitle(gt("Gravar"));
+		button.setTitle(gt("Seguinte"));
 		button.setApp(appDad);
 		button.setPage(page);
 		button.setLink(action+"&"+"taskId="+taskId+"&processDefinition="+Core.getParam("processDefinition",false)+"&taskDefinition="+Core.getParam("taskDefinition",false)+"&appId="+appId);

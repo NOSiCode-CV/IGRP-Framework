@@ -580,7 +580,13 @@ public final class Core { // Not inherit
 		}
 		return value;
 	}
+	
+	public static Object getParamObject(String name) {
+		Object x = Core.getAttribute(name,true);
+		return x;
+	}
 
+	
 	public static void removeAttribute(String name) {
 		Igrp.getInstance().getRequest().removeAttribute(name);
 	}
@@ -589,7 +595,13 @@ public final class Core { // Not inherit
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 
-
+	public static Object getAttributeObject(String name,boolean isRemoved) {
+		Object v =Igrp.getInstance().getRequest().getAttribute(name);
+		if(isRemoved)
+			Igrp.getInstance().getRequest().removeAttribute(name);
+		return v;
+	}
+	
 	public static String getAttribute(String name,boolean isRemoved) {
 		if (Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
@@ -1613,10 +1625,14 @@ public final class Core { // Not inherit
 	 * @throws IOException
 	 **/
 	public static List<Part> getFiles() throws IOException, ServletException {
-		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
-		if (parts != null) {
-			return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
-					.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
+		try {
+			Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
+			if (parts != null) {
+				return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
+						.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
+			}
+		}catch(javax.servlet.ServletException e) {
+			
 		}
 		return null;
 	}
