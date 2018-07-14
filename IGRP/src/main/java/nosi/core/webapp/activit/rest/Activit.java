@@ -16,7 +16,7 @@ public class Activit {
 	@Expose(serialize=false,deserialize=false)
 	private ResponseError error;
 	@Expose(serialize=false)
-	private Integer total;
+	private Integer total = 0;
 	@Expose(serialize=false)
 	private Integer start;
 	@Expose(serialize=false)
@@ -24,7 +24,7 @@ public class Activit {
 	@Expose(serialize=false)
 	private String order;
 	@Expose(serialize=false)
-	private Integer size;
+	private Integer size = 0;
 	@Expose(serialize=false,deserialize=false)
 	private String filter="";
 	
