@@ -110,8 +110,8 @@ public class HibernateUtils {
 		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
 
 		//Hibernate configuration
-       // settings.put("hibernate.current_session_context_class","thread");
-        //settings.put("hibernate.connection.isolation", "2");
+        settings.put("hibernate.current_session_context_class","thread");
+        settings.put("hibernate.connection.isolation", "2");
         settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
 		return settings;
 	}
