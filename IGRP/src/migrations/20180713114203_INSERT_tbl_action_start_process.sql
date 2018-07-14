@@ -1,2 +1,2 @@
 INSERT INTO tbl_action (action, action_descr, iscomponent, package_name, page, page_descr, processkey, status, version, xmlcontent, xslcontent, xsl_src, env_fk, module_fk) 
-	VALUES ('index', 'StartProcess', 0, 'nosi.webapps.igrp.pages', 'Startprocess', 'StartProcess', NULL, 1, '2.3', NULL, NULL, 'igrp/startprocess/Startprocess.xsl', 1, NULL);
+	VALUES ('index', 'Startprocess', 0, 'nosi.webapps.igrp.pages', 'Startprocess', 'StartProcess', NULL, 1, '2.3', NULL, NULL, 'igrp/startprocess/Startprocess.xsl', 1, NULL);
