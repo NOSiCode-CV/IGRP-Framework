@@ -236,13 +236,17 @@ public class MigrationIGRPInitConfig {
 			partilha.setMenu(partilha);
 			menus.add(partilha);
 			//Profile() the type_fk is 18
-			Menu sql = new Menu("SQL Tool", 0, 1, 0, "submit", actions.get(51), app_igrp_studio, null);
+			Menu sql = new Menu("SQL Tool", 0, 1, 0, "_self", actions.get(51), app_igrp_studio, null);
 			sql.setMenu(sql);
 			menus.add(sql);
 			//Profile() the type_fk is 19
 			Menu migrate = new Menu("Migrate IGRP", 0, 1, 0, "_self", actions.get(25), app_igrp, null);
 			migrate.setMenu(migrate);
 			menus.add(migrate);
+			
+			Menu Gestao_tipo_documento = new Menu("Gestao tipo documento", 0, 1, 0, "_self", actions.get(59), app_igrp, null);
+			Gestao_tipo_documento.setMenu(Gestao_tipo_documento);
+			menus.add(Gestao_tipo_documento);
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -308,8 +312,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(sql.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(migrate.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
 			profiles.add(new Profile(migrate.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
-
-			
+			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
 			for(Profile p:profiles){
 				p.insert();
 			}
