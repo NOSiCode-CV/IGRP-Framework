@@ -36,14 +36,14 @@ public class Config {
 	private final String LINK_XSL_GENERATOR_CRUD = "images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";//Generator XSL for CRUD pages
 	private final String LINK_XSL_JSON_GENERATOR = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//Generator JSON for CRUD pages
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
-	public static final String PREFIX_TASK_NAME = "Task";
-	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
-	public static final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
+	public final String PREFIX_TASK_NAME = "Task";
+	public final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
+	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
 	
-	private final static String SEPARATOR_FOR_HTTP = "/";
-	private final static String SEPARATOR_FOR_FILESYS = File.separator;
+	private final String SEPARATOR_FOR_HTTP = "/";
+	private final String SEPARATOR_FOR_FILESYS = File.separator;
 
-	public final static String VERSION = "180714";
+	public final String VERSION = "180714";
 
 	public String getLinkXSLLogin() {
 		return this.getLinkImgBase().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_LOGIN;
@@ -461,11 +461,11 @@ public class Config {
 		}
 	}
 
-	public static String getBaseConnection() {
+	public String getBaseConnection() {
 		return "hibernate-igrp-core";
 	}
 
-	public static Object getDatabaseTypes() {
+	public Object getDatabaseTypes() {
 		Map<String,String> tipos = new HashMap<>();
 		tipos.put(null, gt("-- Selecionar --"));
 		tipos.put("mysql", "MySql");
@@ -476,7 +476,7 @@ public class Config {
 		return tipos;
 	}
 
-	public static String getDatabaseTypesSiglas(String key) {
+	public  String getDatabaseTypesSiglas(String key) {
 		Map<String,String> tipos = new HashMap<>();
 		tipos.put("mysql", "mq");
 		tipos.put("postgresql", "pg");

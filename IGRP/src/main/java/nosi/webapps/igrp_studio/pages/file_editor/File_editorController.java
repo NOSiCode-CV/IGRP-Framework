@@ -16,7 +16,6 @@ import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
 import com.google.gson.Gson;
 import java.io.File;
-import nosi.core.config.Config;
 import nosi.core.webapp.compiler.helpers.Compiler;
 /*----#end-code----*/
 
@@ -41,7 +40,7 @@ public class File_editorController extends Controller {
 	public Response actionGetJson() {
 		String taskName = Core.getParam("task_id");
 		Integer envId = Core.getParamInt("env_fk");
-		Action ac = new Action().find().andWhere("application", "=",envId).andWhere("page", "=",Config.PREFIX_TASK_NAME+taskName).one();
+		Action ac = new Action().find().andWhere("application", "=",envId).andWhere("page", "=",this.config.PREFIX_TASK_NAME+taskName).one();
 		DirFileEditor files = new DirFileEditor();		
 		files.setDir(this.getDirFiles(ac));
 		files.setDefault_file(this.getDefualtFiles(ac));

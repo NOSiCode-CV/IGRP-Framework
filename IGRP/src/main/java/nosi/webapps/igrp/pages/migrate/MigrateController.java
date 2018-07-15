@@ -11,7 +11,6 @@ import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Igrp;
 import static nosi.core.i18n.Translator.gt;
@@ -28,7 +27,7 @@ public class MigrateController extends Controller {
 		}
 		MigrateView view = new MigrateView(model);
 		
-		view.tipo_base_dados.setValue(Config.getDatabaseTypes());
+		view.tipo_base_dados.setValue(this.config.getDatabaseTypes());
 		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar --")));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/

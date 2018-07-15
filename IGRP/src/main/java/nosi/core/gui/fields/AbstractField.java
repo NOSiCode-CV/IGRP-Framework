@@ -24,7 +24,7 @@ public abstract class AbstractField implements Field{
 	private boolean isVisible=true;
 	private boolean isParam = false;
 	private String sql;
-	private String connectionName = Config.getBaseConnection();
+	private String connectionName = new Config().getBaseConnection();
 	private Map<?,?> comboBox;
 	
 	public FieldProperties propertie;

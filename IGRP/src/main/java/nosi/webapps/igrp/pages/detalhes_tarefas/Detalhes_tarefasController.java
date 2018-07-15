@@ -5,7 +5,6 @@ package nosi.webapps.igrp.pages.detalhes_tarefas;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -47,7 +46,7 @@ public class Detalhes_tarefasController extends Controller {
 		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
 		try {
 			String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
-			Class<?> c = Class.forName(packageName+"."+Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey()+"Controller");
+			Class<?> c = Class.forName(packageName+"."+this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey()+"Controller");
 			Method method = c.getMethod("details",TaskServiceQuery.class);
 			content = (String) method.invoke(c.newInstance(), task);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

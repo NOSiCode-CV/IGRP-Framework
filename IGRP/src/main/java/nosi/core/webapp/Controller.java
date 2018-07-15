@@ -170,10 +170,10 @@ public abstract class Controller{
 		xml.writeAttribute("type", "");
 		xml.addXml(this.getTimeLine(taskId));
 		if(Core.isNotNull(p_processId)) {
-			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
+			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
 		if(Core.isNull(saveButton) && Core.isNotNull(taskId)) {
-			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		if(Core.isNotNull(backButton) && Core.isNotNull(taskId)) {
 			xml.addXml(comp.generateBackButtonTask("igrp","ExecucaoTarefas","executar_button_minha_tarefas",taskId).toString());
@@ -224,7 +224,7 @@ public abstract class Controller{
 		if(Core.isNotNull(previewTask)) {
 			try {
 				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();
-				Class<?> c = Class.forName(packageName+"."+Config.PREFIX_TASK_NAME+previewTask+"Controller");
+				Class<?> c = Class.forName(packageName+"."+this.getConfig().PREFIX_TASK_NAME+previewTask+"Controller");
 				Method method = c.getMethod("getOutputDocumentType");
 				@SuppressWarnings("unchecked")
 				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
@@ -394,8 +394,8 @@ public abstract class Controller{
 	
 		if(r!=null){
 			
-			synchronized (Config.PATTERN_CONTROLLER_NAME) {
-				String auxPattern = Config.PATTERN_CONTROLLER_NAME;
+			synchronized (new Config().PATTERN_CONTROLLER_NAME) {
+				String auxPattern = new Config().PATTERN_CONTROLLER_NAME;
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 					String []aux = r.split("/");
 					app.setCurrentAppName(aux[0]);

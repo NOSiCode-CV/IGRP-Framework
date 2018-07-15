@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -160,7 +159,7 @@ public class PageController extends Controller {
 				action.setStatus(model.getStatus());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
-				action.setVersion(model.getVersion() == null ? "2.3."+Config.VERSION : model.getVersion()+"."+Config.VERSION);
+				action.setVersion(model.getVersion() == null ? "2.3."+this.config.VERSION : model.getVersion()+"."+this.config.VERSION);
 				action.setAction("index");
 				action.setIsComponent((short) model.getComponente());
 				action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
@@ -677,7 +676,7 @@ public class PageController extends Controller {
 
 	public Response actionListDomains() throws IOException {
 		List<String> domains = new ArrayList<>();
-		for (Tuple t : Core.query(Config.getBaseConnection(), "SELECT DISTINCT dominio FROM tbl_domain")
+		for (Tuple t : Core.query(this.config.getBaseConnection(), "SELECT DISTINCT dominio FROM tbl_domain")
 				.getResultList()) {
 			try {
 				domains.add(t.get("dominio").toString());
@@ -694,7 +693,7 @@ public class PageController extends Controller {
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
-		for (Tuple t : Core.query(Config.getBaseConnection(), "SELECT DISTINCT valor,description FROM tbl_domain")
+		for (Tuple t : Core.query(this.config.getBaseConnection(), "SELECT DISTINCT valor,description FROM tbl_domain")
 				.where("dominio=:dominio").addString("dominio", p_id).getResultList()) {
 			try {
 				Properties domains = new Properties();

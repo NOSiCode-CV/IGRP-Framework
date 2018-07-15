@@ -33,7 +33,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
-		this.connectionName = Config.getBaseConnection();
+		this.connectionName = new Config().getBaseConnection();
 	}	
 	
 	public SessionFactory getEntityManagerFactory() {
