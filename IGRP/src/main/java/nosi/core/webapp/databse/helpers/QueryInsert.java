@@ -14,7 +14,7 @@ public class QueryInsert extends QueryHelper {
 	}
 
 	public QueryInsert() {
-		this(Config.getBaseConnection());
+		this(new Config().getBaseConnection());
 	}
 	
 	public QueryHelper insert(String tableName) {

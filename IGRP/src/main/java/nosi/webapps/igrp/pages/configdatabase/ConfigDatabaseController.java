@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -41,12 +40,12 @@ public class ConfigDatabaseController extends Controller {
 		for(Config_env lista : list_app) {
 			ConfigDatabase.Table_1 tabela = new ConfigDatabase.Table_1();
           	tabela.setId(""+lista.getId());
-			tabela.setHostname_tabela(Core.decrypt(lista.getHost(), Config.SECRET_KEY_ENCRYPT_DB));
-			tabela.setNome_base_de_dados_tabela(Core.decrypt(lista.getName_db(), Config.SECRET_KEY_ENCRYPT_DB));
+			tabela.setHostname_tabela(Core.decrypt(lista.getHost(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			tabela.setNome_base_de_dados_tabela(Core.decrypt(lista.getName_db(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			tabela.setNome_de_conexao_tabela(lista.getName());
-			tabela.setPorta_tabela(Integer.parseInt(Core.decrypt(lista.getPort(), Config.SECRET_KEY_ENCRYPT_DB)));
-			tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
-			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), Config.SECRET_KEY_ENCRYPT_DB));
+			tabela.setPorta_tabela(Integer.parseInt(Core.decrypt(lista.getPort(), this.getConfig().SECRET_KEY_ENCRYPT_DB)));
+			tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			lista_tabela.add(tabela);
 		}			
 		
@@ -70,9 +69,9 @@ public class ConfigDatabaseController extends Controller {
 			}
 			view.setModel(model);
 			view.aplicacao.setQuery(
-					Core.query(Config.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
+					Core.query(this.getConfig().getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
           
-			view.tipo_base_dados.setValue(Config.getDatabaseTypes());
+			view.tipo_base_dados.setValue(this.getConfig().getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
 		}
 		if(Core.isNotNull(model.getTipo_base_dados())) {
@@ -81,10 +80,10 @@ public class ConfigDatabaseController extends Controller {
 			List<Config_env> list = new Config_env()
 										.find()
 										.andWhere("application", "=",idApp)
-										.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),Config.SECRET_KEY_ENCRYPT_DB) )
+										.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB) )
 										.all();
 			int size = list!=null?(list.size()+1):1;
-			model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+Config.getDatabaseTypesSiglas(model.getTipo_base_dados())+"_"+size);
+			model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+this.getConfig().getDatabaseTypesSiglas(model.getTipo_base_dados())+"_"+size);
 		}
 		/*----#end-code----*/
 		view.setModel(model);
@@ -106,12 +105,12 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setHost(Core.encrypt(model.getHostname(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setName_db(Core.encrypt(model.getNome_de_bade_dados(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setUsername(Core.encrypt(model.getUsername(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setPassword(Core.encrypt(model.getPassword(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setPort(Core.encrypt("" + model.getPort(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setType_db(Core.encrypt(model.getTipo_base_dados(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setHost(Core.encrypt(model.getHostname(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setName_db(Core.encrypt(model.getNome_de_bade_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setPort(Core.encrypt("" + model.getPort(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();

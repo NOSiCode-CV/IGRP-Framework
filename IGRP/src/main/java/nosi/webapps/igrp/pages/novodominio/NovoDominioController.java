@@ -1,7 +1,6 @@
 
 package nosi.webapps.igrp.pages.novodominio;
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -25,7 +24,7 @@ public class NovoDominioController extends Controller {
 		view.estado.setSqlQuery(null,"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME ");
 		String isEdit = Core.getParam("isEdit");
 		if(Core.isNotNull(isEdit)) {
-			model.load(Core.query(Config.getBaseConnection(), "SELECT dominio,description,valor,status as estado,ordem,id as p_id FROM tbl_domain").where("id=:id").addInt("id", model.getP_id()));
+			model.load(Core.query(this.config.getBaseConnection(), "SELECT dominio,description,valor,status as estado,ordem,id as p_id FROM tbl_domain").where("id=:id").addInt("id", model.getP_id()));
 		}else {
 			model.setEstado("ATIVE");
 		}

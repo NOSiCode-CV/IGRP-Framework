@@ -10,16 +10,12 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-//import nosi.core.webapp.helpers.FileHelper;
-//import nosi.core.xml.XMLExtractComponent;
-//import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
@@ -69,7 +65,7 @@ public class MapaProcessoController extends Controller{
 						.addQueryString("processDefinition", process.getKey())
 						.addQueryString("taskDefinition", taskDefinition)
 						.addQueryString("taskName","Start Process");					
-					return this.call(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+taskDefinition, "index",this.queryString());
+					return this.call(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+taskDefinition, "index",this.queryString());
 				}
 			}
 			this.addQueryString("p_header_text", gt("Processo: "+process.getName()))

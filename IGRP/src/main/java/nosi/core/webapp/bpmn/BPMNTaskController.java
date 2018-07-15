@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import com.google.gson.Gson;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -77,10 +76,10 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
 			if(Core.isNotNull(p_processId)) {
-				xml.addXml(comp.generateButtonProcess(appDad,action.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
+				xml.addXml(comp.generateButtonProcess(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 			}
 			if(Core.isNotNull(taskId)) {
-				xml.addXml(comp.generateButtonTask(appDad,action.getApplication().getId(),Config.PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+				xml.addXml(comp.generateButtonTask(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			xml.addXml(content);
 			xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null));
@@ -113,7 +112,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		            .addQueryString("previewTask", Core.getParam("previewTask"))
 		            .addQueryString("preiviewApp", Core.getParam("preiviewApp"))
 		            .addQueryString("preiviewProcessDefinition", Core.getParam("preiviewProcessDefinition"));
-				return this.forward(task.getTenantId(), Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
+				return this.forward(task.getTenantId(), this.getConfig().PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
 			}
 			return this.saveTask(task,taskId,parts);
 		}
@@ -256,7 +255,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String taskDefinition = Core.getParam("previewTask");
 		String processDefinition = Core.getParam("preiviewProcessDefinition");	
 		String preiviewApp = Core.getParam("preiviewApp");	
-		this.page = Config.PREFIX_TASK_NAME+taskDefinition;
+		this.page = this.getConfig().PREFIX_TASK_NAME+taskDefinition;
 		this.app = preiviewApp;
 		return BPMNHelper.getOutputDocumentType(processDefinition,taskDefinition,this.getAction().getApplication().getId());
 	}
@@ -284,7 +283,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public String details(TaskServiceQuery task) throws IOException, ServletException {
-		this.page = Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey();
+		this.page = this.getConfig().PREFIX_TASK_NAME+task.getTaskDefinitionKey();
 		Gson gson = new Gson();		
 		Action action = new Action().find().andWhere("page", "=",this.page).andWhere("application.dad", "=",task.getTenantId()).one();
 		String json = "";

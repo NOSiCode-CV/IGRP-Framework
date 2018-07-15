@@ -29,7 +29,7 @@ public class HibernateUtils {
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
 			return getSessionFactory(config_env.getName(), config_env.getApplication().getId());
-		return getSessionFactory(Config.getBaseConnection());
+		return getSessionFactory(new Config().getBaseConnection());
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
@@ -55,8 +55,9 @@ public class HibernateUtils {
 	}
 
 	private static Map<String, Object> getSettings(String connectionName, Integer appId) {
+		Config cf = new Config();
 		String url = null, driver = null, password = null, user = null, hibernateDialect = null;
-		if (Config.getBaseConnection().equalsIgnoreCase(connectionName)) {
+		if (cf.getBaseConnection().equalsIgnoreCase(connectionName)) {
 			ConfigDBIGRP config = new ConfigDBIGRP();
 			try {
 				config.load();
@@ -75,15 +76,16 @@ public class HibernateUtils {
 			config = config.one();
 
 			if (config != null) {
+				
 				url = getUrl(
-							Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB),
-							Core.decrypt(config.getHost(), Config.SECRET_KEY_ENCRYPT_DB),
-							Core.decrypt(config.getPort(), Config.SECRET_KEY_ENCRYPT_DB),
-							Core.decrypt(config.getName_db(), Config.SECRET_KEY_ENCRYPT_DB)
+							Core.decrypt(config.getType_db(), cf .SECRET_KEY_ENCRYPT_DB),
+							Core.decrypt(config.getHost(), cf.SECRET_KEY_ENCRYPT_DB),
+							Core.decrypt(config.getPort(), cf.SECRET_KEY_ENCRYPT_DB),
+							Core.decrypt(config.getName_db(), cf.SECRET_KEY_ENCRYPT_DB)
 						);
-				driver = getDriver(Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
-				password = Core.decrypt(config.getPassword(), Config.SECRET_KEY_ENCRYPT_DB);
-				user = Core.decrypt(config.getUsername(), Config.SECRET_KEY_ENCRYPT_DB);
+				driver = getDriver(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
+				password = Core.decrypt(config.getPassword(), cf.SECRET_KEY_ENCRYPT_DB);
+				user = Core.decrypt(config.getUsername(), cf.SECRET_KEY_ENCRYPT_DB);
 				hibernateDialect = getHibernateDialect(config.getType_db());
 			}
 		}

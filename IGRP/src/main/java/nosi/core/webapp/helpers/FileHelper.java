@@ -61,8 +61,10 @@ public class FileHelper {
 	     while ((length = stream.read(imageBytes)) != -1){
 	        output.write(imageBytes, 0, length);
 	     }
+		 byte[] b = output.toByteArray();
 	     stream.close();
-		return output.toByteArray();
+	     output.close();
+		return b ;
 	}
 	
 	public static String convertInputStreamToBase64(InputStream stream) throws IOException {
@@ -105,9 +107,6 @@ public class FileHelper {
 		            code.append(line);
 		            code.append(ls);
 		        }
-		        is.close();
-		        in.close();
-		        d.close();
 		    } finally {
 		    	is.close();
 		        in.close();

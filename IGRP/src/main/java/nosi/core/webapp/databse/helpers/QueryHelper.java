@@ -39,7 +39,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
-		this.connectionName = Core.isNotNull(connectionName)?connectionName:Config.getBaseConnection();
+		this.connectionName = Core.isNotNull(connectionName)?connectionName:new Config().getBaseConnection();
 	}	
 	
 	public QueryInterface where(String condition) {

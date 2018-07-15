@@ -37,7 +37,7 @@ public class QuerySelect extends CommonFIlter{
 		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application", "=", Core.getCurrentApp().getId()).one();
 		if(firstConnectionNameOfTheApp!=null)
 			return firstConnectionNameOfTheApp.getName();
-		else return Config.getBaseConnection();
+		else return new Config().getBaseConnection();
 	}
 	
 	//Validate sql query

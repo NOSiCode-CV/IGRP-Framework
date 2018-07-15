@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.execucaotarefas;
 
 import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -415,7 +414,7 @@ public class ExecucaoTarefasController extends Controller {
                   .addQueryString("preiviewApp", preiviewApp)
                   .addQueryString("preiviewProcessDefinition", preiviewProcessDefinition)
                   .addQueryString("showTimeLine", "true");
-               return this.redirect(app.getDad().toLowerCase(),Config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
+               return this.redirect(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
             }
             System.out.println("NOT NULL");
          }else {
