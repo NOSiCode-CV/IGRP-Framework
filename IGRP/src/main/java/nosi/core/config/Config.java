@@ -43,7 +43,7 @@ public class Config {
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
 
-	public final String VERSION = "180715";
+	public final String VERSION = "180716";
 
 	public String getLinkXSLLogin() {
 		return this.getLinkImgBase().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_LOGIN;

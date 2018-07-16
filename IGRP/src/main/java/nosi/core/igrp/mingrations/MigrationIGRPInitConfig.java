@@ -22,6 +22,7 @@ public class MigrationIGRPInitConfig {
 		app_igrp.setStatus(1);
 		app_igrp = app_igrp.insertOnly();
 		
+			
 		Application app_tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "IGRP web TODO", 1, null);
 		app_tutorial = app_tutorial.insertOnly();
 		
@@ -113,7 +114,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Page builder", "Page builder", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Env", "index", "nosi.webapps.igrp_studio.pages.env", "igrp_studio/env/Env.xsl", "Registar Aplicacao", "Registar Aplicacao", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp_studio.pages.listaenv", "igrp_studio/listaenv/ListaEnv.xsl", "Application builder", "Application builder", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Gestão de Dominio", "Gestão de Dominio", "2.3", 1, app_igrp));
+			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Gestão de Domínios", "Gestão de Domínios", "2.3", 1, app_igrp));
 			actions.add(new Action("NovoDominio", "index", "nosi.webapps.igrp.pages.novodominio", "igrp/novodominio/NovoDominio.xsl", "Registar Dominio", "Registar Dominio", "2.3", 1, app_igrp));
 			actions.add(new Action("PesquisarOrganica", "index", "nosi.webapps.igrp.pages.pesquisarorganica", "igrp/pesquisarorganica/PesquisarOrganica.xsl", "Gestão de Organica", "Gestão de Organica", "2.3", 1, app_igrp));
 			actions.add(new Action("NovaOrganica", "index", "nosi.webapps.igrp.pages.novaorganica", "igrp/novaorganica/NovaOrganica.xsl", "Registar Organica", "Registar Organica", "2.3", 1, app_igrp));
@@ -251,6 +252,10 @@ public class MigrationIGRPInitConfig {
 				m.insert();
 			}
 			
+			Menu GestDominio = new Menu(actions.get(3).getAction_descr(), 0, 1, 1, "_self", actions.get(3), app_igrp, null);
+			GestDominio.setMenu(GestDominio);
+			menus.add(GestDominio);
+			
 			List<Profile> profiles = new ArrayList<>();
 			//permisao de acesso a aplicacao
 			profiles.add(new Profile(1, "ENV", prof1_ADMIN, user1demo, org_IGRP));
@@ -313,7 +318,9 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(migrate.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
 			profiles.add(new Profile(migrate.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
-			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));			
+			profiles.add(new Profile(GestDominio.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(GestDominio.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
 			for(Profile p:profiles){
 				p.insert();
 			}
