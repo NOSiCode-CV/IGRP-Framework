@@ -42,5 +42,6 @@ public interface Field {
 	public void addParam(String string, String string2);
 	public void setListOptions( Map<?,?>  map);
 	public Map<?,?> getListOptions();
+	default void loadDomain(String domain, String string) {}
 	default void loadDomain(String domain) {}
 }
