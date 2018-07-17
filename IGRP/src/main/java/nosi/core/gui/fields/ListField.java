@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Tuple;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
 
@@ -71,4 +73,9 @@ public class ListField extends AbstractField {
 	public void setDefaultValue(Object defaultValue) {
 		this.propertie.put("value", defaultValue);
 	}
+	
+	public void loadDomain(String domains) {
+		this.setQuery(Core.query(this.getConnectionName(),"SELECT valor as ID,description as NAME FROM public.tbl_domain where dominio ='"+domains+"' order by ordem"));
+	}
+	
 }
