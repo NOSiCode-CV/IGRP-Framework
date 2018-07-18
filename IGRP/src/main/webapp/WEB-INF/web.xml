@@ -79,29 +79,6 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	
-	
-	<servlet>
-	  	<servlet-name>IGRP-Rest</servlet-name>
-	  	<servlet-class>nosi.core.servlet.IgrpRestServlet</servlet-class>
-	    <init-param>
-	        <param-name>jersey.config.server.provider.packages</param-name>
-	        <param-value>nosi.core.webapp.webservices.rest</param-value>
-	    </init-param>
-	    <init-param>
-			<param-name>authentication_type</param-name>
-			<param-value>db</param-value>
-		</init-param>
-		<init-param>
-			<param-name>env</param-name>
-			<param-value>dev</param-value>
-		</init-param>
-	</servlet>
- 
-	<servlet-mapping>
-		<servlet-name>IGRP-Rest</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>
-	
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/app/webapps?r=igrp/error-page/exception</location>
