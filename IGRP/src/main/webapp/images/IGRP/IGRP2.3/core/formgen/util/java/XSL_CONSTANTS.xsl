@@ -354,6 +354,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
     <!-- begin reserve_code tmpl -->
     <xsl:template name="begin_reserve_code_action_old">
         <xsl:param name="type"/>

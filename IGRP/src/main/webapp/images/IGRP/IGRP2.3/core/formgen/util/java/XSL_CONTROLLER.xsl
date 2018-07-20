@@ -249,7 +249,7 @@
 
      	<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_on_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
-     	</xsl:variable>	   
+     	</xsl:variable>	   	
 
      	<xsl:call-template name="begin_reserve_code_action">
      		<xsl:with-param name="type" select="$action"/>
@@ -296,6 +296,11 @@
 							
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
+						
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:call-template name="newlineTab2"/>	
+						<xsl:call-template name="setSqlCombobox_"/> 
+						
 						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
@@ -532,11 +537,35 @@
  		<xsl:for-each select="//content/*">
 	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">
 	 		
-	 			<xsl:choose>
+	 			<xsl:if test="@domain=''">
+				  
+				  	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 			
+				 		<xsl:choose>
+				 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">
+				 					<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(',$double_quotes,@conn,$double_quotes,',',$double_quotes,@schemaName,$double_quotes,',',$double_quotes,@tableName,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,'));')"/>
+				 			</xsl:when>
+				 			<xsl:otherwise>
+				 				<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,'));')"/>
+				 			</xsl:otherwise>
+				 		</xsl:choose>	
+				 		<xsl:call-template name="newlineTab2"/>
+				  
+				</xsl:if>
+				 		
+			</xsl:for-each>			
+	 	</xsl:for-each>
+ 	</xsl:template>
+ 	
+ 	
+ 	
+ 	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
+ 	<xsl:template name="setSqlCombobox_">
+ 		<xsl:for-each select="//content/*">
+	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">
+	 		
+	 			<xsl:if test="@domain!=''">
 	 			
-	 				<xsl:when test="@domain!=''">
-	 					
-	 					<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+	 				<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 					
 	 						<xsl:choose>
 	 							<xsl:when test="@type='select'">
@@ -548,29 +577,13 @@
 	 						</xsl:choose>
 	 						 	
 				 		<xsl:call-template name="newlineTab2"/>
-	 					
-	 				</xsl:when>
-	 				<xsl:otherwise>
-	 					
-	 					<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 			
-				 		<xsl:choose>
-				 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">
-				 					<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(',$double_quotes,@conn,$double_quotes,',',$double_quotes,@schemaName,$double_quotes,',',$double_quotes,@tableName,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,'));')"/>
-				 			</xsl:when>
-				 			<xsl:otherwise>
-				 				<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,'));')"/>
-				 			</xsl:otherwise>
-				 		</xsl:choose>	
-				 		<xsl:call-template name="newlineTab2"/>
-	 					
-	 				</xsl:otherwise>
-	 				
-	 			</xsl:choose>
-		 		
-		 			 		
+				 
+				</xsl:if>
+	 			
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>
+ 	
  	
       
 </xsl:stylesheet>
