@@ -248,8 +248,9 @@ public class MigrationIGRPInitConfig {
 			Menu Gestao_tipo_documento = new Menu("Gestao tipo documento", 0, 1, 0, "_self", actions.get(59), app_igrp, null);
 			Gestao_tipo_documento.setMenu(Gestao_tipo_documento);
 			menus.add(Gestao_tipo_documento);
+
 			
-			Menu GestDominio = new Menu(actions.get(3).getAction_descr(), 0, 1, 1, "_self", actions.get(3), app_igrp, null);
+			Menu GestDominio = new Menu("Gestão de Dominio", 0, 1, 1, "_self", actions.get(3), app_igrp, null);
 			GestDominio.setMenu(GestDominio);
 			menus.add(GestDominio);
 			
@@ -320,8 +321,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(migrate.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));			
-			profiles.add(new Profile(GestDominio.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
-			profiles.add(new Profile(GestDominio.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(GestDominio.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(GestDominio.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));	
 			for(Profile p:profiles){
 				p.insert();
 			}
