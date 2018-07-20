@@ -23,8 +23,8 @@ import nosi.webapps.igrp.dao.Config_env;
 
 public class HibernateUtils {
 
-	private static StandardServiceRegistry registry;
-	private static Map<String,SessionFactory> sessionFactory = new HashMap<>();
+	private static StandardServiceRegistry registry= null;
+	private static final Map<String,SessionFactory> sessionFactory = new HashMap<>();
 
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
@@ -99,22 +99,45 @@ public class HibernateUtils {
 		//settings.put(Environment.SHOW_SQL, true);
 		
 		// HikariCP settings (values in milliseconds)
-		ConfigHikariCP cHCp = new ConfigHikariCP();
+		//ConfigHikariCP cHCp = new ConfigHikariCP();
+		
+//		settings.put("hibernate.c3p0.min_size",cHCp.getMinimumIdle());
+//    	settings.put("hibernate.c3p0.max_size",cHCp.getMaximumPoolSize());
+//    	
+//    	settings.put("hibernate.c3p0.timeout",cHCp.getConnectionTimeout()); // 15s 
+//    	settings.put("hibernate.c3p0.idle_test_period","10"); // 10s 
+//    	
+//    	settings.put("hibernate.c3p0.max_statements","50");
+//    	settings.put("hibernate.c3p0.acquire_increment", "2");
+//    	settings.put("hibernate.connection.provider_class","org.hibernate.connection.C3P0ConnectionProvider");
+//    	
+//    	// Ensure that all idle connections are closed in 25s 
+//    	settings.put("hibernate.c3p0.maxIdleTime",cHCp.getIdleTimeout()); // 25s to close all unused connection 
+//    	settings.put("hibernate.c3p0.maxIdleTimeExcessConnections","20"); // aggressively ... close all unused connection 20s 
+//    	
+//    	// Go to http://www.mchange.com/projects/c3p0/#configuring_to_debug_and_workaround_broken_clients 
+//    	// For memory leak prevention and bad clients ... 
+//    	settings.put("hibernate.c3p0.unreturnedConnectionTimeout","1000"); // ... increase the timeout ... 
+//    	settings.put("hibernate.c3p0.debugUnreturnedConnectionStackTraces","true"); 
+//    	settings.put("hibernate.c3p0.contextClassLoaderSource","library"); 
+//    	settings.put("hibernate.c3p0.privilegeSpawnedThreads","true"); 
+    	
 		//Maximum waiting time for a connection from the pool. 
-		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
-		//Maximum time that a connection is allowed to sit ideal in the pool
-		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
-		//Minimum number of ideal connections in the pool
-		settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
-		//Maximum number of actual connection in the pool
-		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
-		//Maximum lifetime of a connection in the pool
-		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
+//		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
+//		//Maximum time that a connection is allowed to sit ideal in the pool
+//		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
+//		//Minimum number of ideal connections in the pool
+//		settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
+//		//Maximum number of actual connection in the pool
+//		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
+//		//Maximum lifetime of a connection in the pool
+//		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
 
-		//Hibernate configuration
-//        settings.put("hibernate.current_session_context_class","thread");
-//        settings.put("hibernate.connection.isolation", "2");
-        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
+//		//Hibernate configuration
+        settings.put("hibernate.connection.isolation", "2");
+        settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
+//        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
+        settings.put("hibernate.transaction.auto_close_session", "true");
 		return settings;
 	}
 
@@ -174,6 +197,7 @@ public class HibernateUtils {
 	public synchronized static void destroy() {
 		if (registry != null) {
 			StandardServiceRegistryBuilder.destroy(registry);
+			registry = null;
 		}
 	}
 
@@ -193,5 +217,9 @@ public class HibernateUtils {
 		sessionFactory.entrySet().stream().forEach(s->{
 			s.getValue().close();
 		});
+	}
+
+	public static void removeSessionFactory(String connectionName) {
+		sessionFactory.remove(connectionName);
 	}
 }

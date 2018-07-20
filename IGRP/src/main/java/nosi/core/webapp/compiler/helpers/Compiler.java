@@ -59,8 +59,18 @@ public class Compiler {
 				+" -d "+this.config.getBasePathClass()
 				+" -1.8"
 				+" -Xemacs";
-		
-		 Thread t = new Thread(new Runnable(){
+		StringWriter swS = new StringWriter();
+		StringWriter swE = new StringWriter();
+	    PrintWriter outSuccess = new PrintWriter(swS);
+	    PrintWriter outError = new PrintWriter(swE);
+		BatchCompiler.compile( 
+ 				 buildArgs, 
+				 outSuccess, 
+				 outError, 
+				 progress
+			 );
+		extractError(outSuccess,outError,swS,swE,file);
+		/* Thread t = new Thread(new Runnable(){
 				@Override
 				public void run() {
 					StringWriter swS = new StringWriter();
@@ -73,10 +83,10 @@ public class Compiler {
 							 outError, 
 							 progress
 						 );
-					System.gc();
 					extractError(outSuccess,outError,swS,swE,file);
 				}
 		});
+		t.setName("thread-compiler");
 		t.start();
 		try {
 			Thread.sleep(TIME_SLEEP);
@@ -85,7 +95,7 @@ public class Compiler {
 		
 			System.out.println("Thread.sleep(TIME_SLEEP);! compiler");
 			Core.log("Thread.sleep(TIME_SLEEP);! compiler");
-		}
+		}*/
 	}
 	
 	private void extractError(PrintWriter outSuccess, PrintWriter outError, StringWriter swS,StringWriter swE,File file) {		

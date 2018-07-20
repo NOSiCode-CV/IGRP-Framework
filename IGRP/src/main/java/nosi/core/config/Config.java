@@ -1,6 +1,10 @@
 package nosi.core.config;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -38,13 +42,16 @@ public class Config {
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
 	public final String PREFIX_TASK_NAME = "Task";
 	public final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
-	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
-	
+	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-
-	public final String VERSION = "180718";
-
+	public final String VERSION = "180720";
+	private ConfigApp configApp;
+	
+	public Config() {
+		this.configApp = new ConfigApp(this);
+	}
+	
 	public String getLinkXSLLogin() {
 		return this.getLinkImgBase().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_LOGIN;
 	}
@@ -347,7 +354,7 @@ public class Config {
 	}
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
-		if(Config.isInstall())
+		if(this.configApp.isInstall())
 			APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null) {
 			APP_LINK_IMAGE = APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
@@ -385,7 +392,7 @@ public class Config {
 	
 	public String getBaseHttpServerPahtXsl(Action page){
 		String APP_LINK_IMAGE = null;
-		if(Config.isInstall())
+		if(this.configApp.isInstall())
 			APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null && page!=null) {
 			APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
@@ -434,30 +441,15 @@ public class Config {
 		return basePackage;
 	}
 	
-	public static void configurationApp(){
-		if(!isInstall()){
+	public void configurationApp(){
+		if(!this.configApp.isInstall()){
 			MigrationIGRPInitConfig.start();
-			configSetInstall();
-		}
-	}
-	
-	public static boolean isInstall() {
-		nosi.webapps.igrp.dao.Config config = null;
-		try{
-			config = new nosi.webapps.igrp.dao.Config();
-			config = config.find().andWhere("name", "=", "install").one();
-			return config!=null;
-		}catch(Exception e){
-			return false;
-		}
-	}
-	
-	private static void  configSetInstall(){
-		nosi.webapps.igrp.dao.Config config = new nosi.webapps.igrp.dao.Config("install", "ok");
-		if(config.insert()!=null){
-			System.out.println("IGRP foi instalado com sucesso!");
-		}else{
-			System.err.println("Nao foi possivel concluir a instação do IGRP!");
+			try {
+				this.configApp.save();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -494,14 +486,31 @@ public class Config {
 		return "/*----#END-PRESERVED-AREA----*/";
 	}
   
-	public String getPathConfigDB() {
+	public String getPathWorkspaceResources() {
 		return this.getWorkspace() + File.separator +"src"+ File.separator + "main" + File.separator + "resources";
 	}
   
 	public String getHeader(IHeaderConfig config) {
 		return getHeader(config,null);
 	}
-  
+	
+	public Properties loadProperties(String fileName) throws IOException {
+		Properties props = new Properties();
+		InputStream in = getClass().getResourceAsStream(fileName);
+		if(in!=null) {
+			props.load(in);
+			in.close();
+		}
+		return props;
+	}
+	
+	public void saveProperties(Properties p,String fileName) throws IOException {
+		OutputStream out = new FileOutputStream(fileName);	
+		if(out!=null) {
+			p.store(out, "");
+			out.close();
+		}
+	}
 	
 	public String getHeader(IHeaderConfig config,Action page) {
 		Application app = new Application().find().andWhere("dad","=",new Permission().getCurrentEnv()).one();

@@ -1,24 +1,21 @@
 package nosi.webapps.igrp.dao;
-import javax.persistence.CascadeType;
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.Core;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 
 @Entity
 @Table(name="tbl_transaction")
@@ -91,25 +88,19 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 	}
 
 	public boolean getPermission(String transaction) {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
 		String sql = "SELECT T.* FROM tbl_transaction T,tbl_profile P "
-				+ "	WHERE T.id = P.type_fk "
-				+ "	AND P.type=?"
-				+ " AND P.prof_type_fk = ? "
-				+ " AND P.org_fk = ?"
-				+ " AND T.code = ? "
-				+ " AND T.status=1 "
-				+ "	ORDER BY T.id";
-		Query q =  em.createNativeQuery(sql);
-		q.setParameter(1,"TRANS");
-		q.setParameter(2,new Permission().getCurrentPerfilId());
-		q.setParameter(3,new Permission().getCurrentOrganization());	
-		q.setParameter(4,transaction);	
-		int x = q.getResultList().size();
-		t.commit();
-		em.close();
+		+ "	WHERE T.id = P.type_fk "
+		+ "	AND P.type=:type"
+		+ " AND P.prof_type_fk=:prof_type_fk "
+		+ " AND P.org_fk=:org_fk"
+		+ " AND T.code=:code "
+		+ " AND T.status=1 ";
+		int x = Core.query(sql)
+					.addString("type", "TRANS")
+					.addInt("prof_type_fk", Core.getCurrentProfile())
+					.addInt("org_fk", Core.getCurrentOrganization())
+					.addString("code", transaction)
+					.getResultList().size();
 		return x > 0;
 	}	
 }

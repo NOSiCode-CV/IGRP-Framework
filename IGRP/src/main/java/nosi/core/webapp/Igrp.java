@@ -24,7 +24,7 @@ public final class Igrp{ // Not extends
 	private HttpServletResponse response;
 	
 	private Controller controller; // Current controller ... 
-	
+	private Config config;
 	private String currentAppName;
 	private String currentPageName;
 	private String currentActionName;
@@ -73,7 +73,7 @@ public final class Igrp{ // Not extends
 		this.basePath = this.request.getContextPath();
 		this.baseRoute = this.request.getServletPath();
 		this.homeUrl = EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");;
-		
+		this.config = new Config();
 		// init. of others configuration 
 		this.flashMessage = new FlashMessage(); // Flash Message instance
 		
@@ -96,7 +96,7 @@ public final class Igrp{ // Not extends
 	}
 	
 	public void run() throws IOException{ // run the web app 
-		Config.configurationApp();
+		this.config.configurationApp();
 		this.log.run();
 		if(!this.die){
 			this.runController();
@@ -106,7 +106,7 @@ public final class Igrp{ // Not extends
 	
 	// Exit and Send the response ... 
 	private void exit(){
-		Controller.sendResponse();
+		new Controller().sendResponse();
 		this.die = false;
 	}
 	
@@ -115,7 +115,7 @@ public final class Igrp{ // Not extends
 	}
 	
 	private void runController() throws IOException{
-		Controller.initControllerNRunAction();
+		new Controller().initControllerNRunAction();
 	}
 	
 	public HttpServlet getServlet() {
