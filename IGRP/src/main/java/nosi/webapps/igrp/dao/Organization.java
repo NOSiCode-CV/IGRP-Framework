@@ -202,9 +202,9 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		return menus;
 	}
 
-private String setMenuDescr(Menu e) {
-	return "("+e.getApplication().getName()+ ") "+gt(e.getDescr());
-}
+	private String setMenuDescr(Menu e) {
+		return "("+e.getApplication().getName()+ ") "+gt(e.getDescr());
+	}
 
 	public List<Transaction> getOrgTransaction(Integer app) {
 		return new Transaction().find().andWhere("application", "=",app).all();

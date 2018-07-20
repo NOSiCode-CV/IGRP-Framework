@@ -2,20 +2,17 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 
 /**
  * @author: Emanuel Pereira
@@ -71,13 +68,8 @@ public class RepTemplateSource extends BaseActiveRecord<RepTemplateSource> imple
 		return list;
 	}
 	public void deleteAll(Integer id) {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Query q = em.createNativeQuery("DELETE FROM tbl_rep_template_source WHERE rep_template_fk=?");
-		q.setParameter(1, id);
-		q.executeUpdate();
-		t.commit();
-		em.close();
+		Core.query("DELETE FROM tbl_rep_template_source WHERE rep_template_fk=:rep_template_fk")
+		.addInt("rep_template_fk", id)
+		.execute();
 	}
 }

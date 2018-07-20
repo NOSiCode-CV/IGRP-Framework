@@ -4,8 +4,6 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +20,7 @@ import java.util.List;
 import javax.persistence.Column;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import static nosi.core.i18n.Translator.gt;
@@ -144,7 +142,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 				.andWhere("profileType", "=",new Permission().getCurrentPerfilId())
 				.andWhere("profileType.status", "=", 1)
 				.all();
-//		EntityManager em = this.getEntityManagerFactory().createEntityManager();
+//		EntityManager em = this.getSessionFactory().createEntityManager();
 //		EntityTransaction t =  em.getTransaction();
 //		t.begin();
 //		String sql =  "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?) AND ACTION_FK=? "
@@ -186,59 +184,42 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		return menus_App;
 	}
 	
-	@SuppressWarnings("unchecked")
+
 	public HashMap<String,List<Menu>> getMyMenu() {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE STATUS=1 AND ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?)";
-//					+ "UNION "
-//					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE, 1 as FLG_BASE "
-//					+ "FROM tbl_MENU M1, tbl_menu M2 "
-//					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 AND M1.ID NOT IN (SELECT TYPE_FK FROM tbl_profile WHERE TYPE=? AND PROF_TYPE_FK=? AND ORG_FK=?) "
-//					+ "ORDER BY orderby";
-		TypedQuery<Object[]> q = (TypedQuery<Object[]>) em.createNativeQuery(sql);
-		q.setParameter(1,new Permission().getCurrentOrganization());
-		q.setParameter(2,new Permission().getCurrentPerfilId());		
-		Application a = new Application();
-		a = a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),Core.getCurrentDad())));
-		q.setParameter(3, a.getId());
-		q.setParameter(4,Core.getCurrentOrganization());	
-//		q.setParameter(5,"MEN");	
-//		q.setParameter(6,new Permission().getCurrentPerfilId());	
-//		q.setParameter(7,new Permission().getCurrentOrganization());	
 		HashMap<String,List<Menu>> list = new HashMap<>();
-		for(Object[] o: q.getResultList()){
-			if(o instanceof Object[]){
-				Menu m = new Menu();
-				m.setId(Integer.parseInt(o[5].toString()));
-				m.setDescr(o[1].toString());
-//	not working...			m.setOrderby((int) o[]); 
-				Menu selfM = new Menu();
-				selfM.setId(Integer.parseInt(o[0].toString()));
-				selfM.setDescr(o[2].toString());
-				selfM.setOrderby(Integer.parseInt(o[3].toString()));
-				Action ac = new Action();
-				Application ap = new Application();
-				ap = ap.findOne(Integer.parseInt(o[4].toString()));
-				ac = ac.findOne(Integer.parseInt(o[6].toString()));
-				m.setAction(ac);
-				selfM.setAction(ac);
-				selfM.setApplication(ap);
-				selfM.setStatus(Integer.parseInt(o[12].toString()));
-				selfM.setTarget(o[13].toString());
-				selfM.setFlg_base(Integer.parseInt(o[15].toString()));
-				m.setMenu(selfM);	
-				List<Menu> value = new ArrayList<>();
-				value.add(m);
-				if(list.containsKey(m.getDescr())){
-					value.addAll(list.get(m.getDescr()));
-				}
-				list.put(m.getDescr(), value);	
+		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE STATUS=1 AND org_fk=:org_fk AND prof_type_fk=:prof_type_fk AND env_fk_prof_type=:env_fk_prof_type AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE org_fk=:org_fk)";
+		Record row = Core.query(sql)
+						 .addInt("org_fk", Core.getCurrentOrganization())
+						 .addInt("prof_type_fk", Core.getCurrentProfile())
+						 .addInt("env_fk_prof_type", Core.getCurrentApp().getId())
+						 .addInt("org_fk", Core.getCurrentOrganization())
+						 .getRecordList();
+		row.RowList.forEach(r->{
+			Menu m = new Menu();
+			m.setId(r.getInt("self_fk"));
+			m.setDescr(r.getString("descr"));
+			Menu selfM = new Menu();
+			selfM.setId(r.getInt("id"));
+			selfM.setDescr(r.getString("descr_menu"));
+			selfM.setOrderby(r.getInt("orderby"));
+			Action ac = new Action();
+			Application ap = new Application();
+			ap = ap.findOne(r.getInt("env_fk"));
+			ac = ac.findOne(r.getInt("action_fk"));
+			m.setAction(ac);
+			selfM.setAction(ac);
+			selfM.setApplication(ap);
+			selfM.setStatus(r.getInt("status"));
+			selfM.setTarget(r.getString("target"));
+			selfM.setFlg_base(r.getInt("flg_base"));
+			m.setMenu(selfM);	
+			List<Menu> value = new ArrayList<>();
+			value.add(m);
+			if(list.containsKey(m.getDescr())){
+				value.addAll(list.get(m.getDescr()));
 			}
-		}
-		t.commit();
-		em.close();
+			list.put(m.getDescr(), value);
+		});
 		return list;
 	}
 
@@ -263,49 +244,12 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public HashMap<Integer, String> getListPrincipalMenus(int app) {
 		HashMap<Integer,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		@SuppressWarnings("unchecked")
-		List<Menu> aux = this.getEntityManagerFactory().createEntityManager().createQuery("select t from Menu t where t.application.id = :_a and t.menu is null ")
-				.setParameter("_a", app)
-				.getResultList();
+		List<Menu> aux = this.find().andWhere("application", "=",app).andWhere("menu", "isnull").all();
 		for(Menu m : aux){
 			lista.put(m.getId(),m.getDescr());
 		}
 		return lista;
 	}	
-	
-	@SuppressWarnings("unchecked")
-	public List<Menu> searchMen(){
-		List<Menu> list = new ArrayList<>();
-		String sql = "SELECT DISTINCT M1.descr super_title, M2.descr sub_title, M2.id, M2.status,M2.flg_base, M1.id super_id,A.Page page"
-		+ " FROM tbl_menu M1, tbl_menu M2, tbl_action A, tbl_profile prof"	
-		    + " WHERE M2.SELF_FK = M1.ID AND A.ID = M2.ACTION_FK AND prof.type_fk = M2.id AND prof.type = ? ";
-		sql = sql + (this.getApplication() != null ? "and (M1.env_fk = " + this.getApplication().getId() + " AND M2.env_fk = " + this.getApplication().getId() + ") " : "");
-		sql = sql + (this.getMenu() != null ? " and M1.id = " + this.getMenu().getId() + " " : "");
-		sql = sql + (this.getOrganization()!=null? " AND prof.org_fk= "+this.getOrganization().getId():"");
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		TypedQuery<Object[]> q = (TypedQuery<Object[]>) em.createNativeQuery(sql);
-		q.setParameter(1,"MEN");	
-		for(Object[] obj:q.getResultList()){
-			Menu m = new Menu();
-			Menu sm = new Menu();
-			m.setDescr(obj[0].toString());
-			sm.setDescr(obj[1].toString());
-			sm.setId(Integer.parseInt(obj[5].toString()));
-			m.setStatus(Integer.parseInt(obj[3].toString()));
-			m.setFlg_base(Integer.parseInt(obj[4].toString()));
-			m.setId(Integer.parseInt(obj[2].toString()));
-			Action ac = new Action();
-			ac.setPage(obj[6].toString());
-			m.setAction(ac);
-			m.setMenu(sm);
-			list.add(m);
-		}
-		t.commit();
-		em.close();
-		return list;
-	}
 
 	@Override
 	public String toString() {

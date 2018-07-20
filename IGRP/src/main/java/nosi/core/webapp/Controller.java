@@ -39,7 +39,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
-public abstract class Controller{
+public class Controller{
 	protected Config config = new Config();
 	private QueryString<String,Object> queryString = new QueryString<>();
 	private View view;
@@ -164,7 +164,7 @@ public abstract class Controller{
 		XMLExtractComponent comp = new XMLExtractComponent();
 		String content = this.view.getPage().renderContent(false);
 		content = comp.removeXMLButton(content);
-		XMLWritter xml = new XMLWritter("rows",new Config().getLinkPageXsl(ac), "utf-8");
+		XMLWritter xml = new XMLWritter("rows",this.config.getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
@@ -370,13 +370,13 @@ public abstract class Controller{
 	
 	// ... main statics methods ...
 	
-	public static void initControllerNRunAction() throws IOException{
-		resolveRoute(); // (1)
-		prepareResponse(); // (2)
+	public void initControllerNRunAction() throws IOException{
+		this.resolveRoute(); // (1)
+		this.prepareResponse(); // (2)
 	}
 	
-	private static void prepareResponse() throws IOException{
-		 Object obj = run();
+	private void prepareResponse() throws IOException{
+		 Object obj = this.run();
 		 if(obj != null && obj instanceof Response){
 			 Igrp app = Igrp.getInstance();
 			 if(app.getCurrentActionName()!=null && app.getCurrentAppName()!=null && app.getCurrentPageName()!=null && new Permission().isPermition(app.getCurrentAppName(), app.getCurrentPageName(), app.getCurrentActionName())) {
@@ -386,16 +386,15 @@ public abstract class Controller{
 		 }
 	}
 	
-	private static void resolveRoute() throws IOException{
+	private void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
 		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";		
 		
 		r=EncrypDecrypt.decrypt(r);
 	
 		if(r!=null){
-			
-			synchronized (new Config().PATTERN_CONTROLLER_NAME) {
-				String auxPattern = new Config().PATTERN_CONTROLLER_NAME;
+			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
+			//synchronized (auxPattern) {
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 					String []aux = r.split("/");
 					app.setCurrentAppName(aux[0]);
@@ -403,7 +402,7 @@ public abstract class Controller{
 					app.setCurrentActionName(aux[2]);
 				}else		
 					throw new ServerErrorHttpException("The route format is invalid");
-			}
+			//}
 		}
 		String application = "Application: " + app.getCurrentAppName();
 		String page = "Page: " + app.getCurrentPageName();
@@ -421,7 +420,7 @@ public abstract class Controller{
 		app.getLog().addMessage(xsl);
 	}
 	
-	protected static Object run(){ 
+	protected Object run(){ 
 		Igrp app = Igrp.getInstance();
 		String auxAppName = "";
 		String auxPageName = "";
@@ -436,10 +435,10 @@ public abstract class Controller{
 				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			}
 			auxActionName = "action" + auxActionName;
-			auxcontrollerPath = new Config().getPackage(auxAppName,auxPageName,auxActionName);
+			auxcontrollerPath = this.config.getPackage(auxAppName,auxPageName,auxActionName);
 		}else {
 			auxActionName = "actionIndex";
-			auxcontrollerPath = new Config().getPackage("igrp","Home",auxActionName);
+			auxcontrollerPath = this.config.getPackage("igrp","Home",auxActionName);
 		}
 		
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
@@ -487,7 +486,7 @@ public abstract class Controller{
 		return response;
 	}
 	
-	public static void sendResponse() {
+	public void sendResponse() {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
 		if(responseWrapper!=null) {
 			try {

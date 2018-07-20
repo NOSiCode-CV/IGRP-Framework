@@ -10,8 +10,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,9 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.Permission;
 
 import static nosi.core.i18n.Translator.gt;
@@ -135,13 +133,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	}
 
 	public ProfileType updateToZero() {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Query q = em.createNativeQuery("UPDATE tbl_profile_type SET id=0 WHERE id=1");
-		q.executeUpdate();
-		t.commit();
-		em.close();
+		Core.query("UPDATE tbl_profile_type SET id=0 WHERE id=1").execute();
 		return this.findOne(0);
 	}
 
