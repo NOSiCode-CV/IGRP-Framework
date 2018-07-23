@@ -394,7 +394,7 @@ public abstract class Controller{
 	
 		if(r!=null){
 			
-			synchronized (new Config().PATTERN_CONTROLLER_NAME) {
+		//	synchronized (new Config().PATTERN_CONTROLLER_NAME) { 
 				String auxPattern = new Config().PATTERN_CONTROLLER_NAME;
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 					String []aux = r.split("/");
@@ -403,7 +403,7 @@ public abstract class Controller{
 					app.setCurrentActionName(aux[2]);
 				}else		
 					throw new ServerErrorHttpException("The route format is invalid");
-			}
+			//} 
 		}
 		String application = "Application: " + app.getCurrentAppName();
 		String page = "Page: " + app.getCurrentPageName();
