@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i);
+
 
 ::-webkit-scrollbar-thumb {
     background-color: #00000038;
@@ -539,7 +539,7 @@ body.sidebar-off .navbar-brand{
 .treeview-menu>li>a {
     display: block;
     position: relative;
-    padding: 10px 25px;
+    padding: 6px 25px;
     opacity: .8;
     border:0;
     color: white;
@@ -547,10 +547,13 @@ body.sidebar-off .navbar-brand{
 
 .treeview-menu>li>a:hover,
 .treeview-menu>li>a.active {
-  background: rgba(0,0,0,.009);
-  text-decoration:  none;
-  opacity: 1;
-  color:white;
+     background: rgba(0, 0, 0, 0.03);
+    text-decoration: none;
+    opacity: 1;
+    padding: 9px 26px;
+    font-size: 16px;
+    font-weight: bolder;
+    color: white;
 }
 
 .treeview-menu li > a > i {

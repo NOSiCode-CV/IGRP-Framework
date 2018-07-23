@@ -188,19 +188,31 @@
 	      <artifactId>hibernate-core</artifactId>
 	      <version>5.3.1.Final</version>
 	    </dependency>
-	    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+	    
+	    <!-- <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>5.3.1.Final</version>
+		</dependency>
+		https://mvnrepository.com/artifact/com.mchange/c3p0
 		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
+		</dependency> -->
+	<!--     https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+		<!-- <dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-hikaricp</artifactId>
 		    <version>5.3.1.Final</version>
 		</dependency>
 	
-	    <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+	   https://mvnrepository.com/artifact/com.zaxxer/HikariCP 
 		<dependency>
 		    <groupId>com.zaxxer</groupId>
 		    <artifactId>HikariCP</artifactId>
 		    <version>3.1.0</version>
-		</dependency>
+		</dependency>  -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>

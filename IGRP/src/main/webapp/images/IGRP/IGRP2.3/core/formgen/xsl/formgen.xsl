@@ -1,5 +1,4 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
 	  <xsl:variable name="sourcePath" select="concat($path,'/core/formgen/util/gen.source.xml')"/>
     <xsl:variable name="gen" select="document($sourcePath)/gen"/>
     <xsl:variable name="logo">
@@ -15,18 +14,13 @@
 
   	<xsl:template name="formgen-html">
   		
-      <html>
-          
-        <head>
-            
-            <xsl:call-template name="IGRP-head"/>
-            
+      <html>          
+        <head>            
+            <xsl:call-template name="IGRP-head"/>            
             <xsl:call-template name="GEN-head"/>
-
         </head>
 
-        <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">
-            
+        <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">            
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
               <a class="navbar-brand col-sm-3 col-md-2" href="#" >
                   <img src="{$logo}"/>
@@ -282,7 +276,7 @@
                                   </a>
                                   <a href="https://nosicode.gitbook.io/faq/" class="btn btn-link" target="_newtab">                                 
                                     <i class=" fa fa-question-circle"></i>
-                                    <span>FAQ</span>
+                                    <span>FAQ - How to...</span>
                                   </a>
                               </div>
 
@@ -585,7 +579,7 @@
           <script src="{$path}/core/codemirror/js/addon/search/dialog.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/jump-to-line.js"></script>
 
-
+		  <script src="{$path}/core/codemirror/js/mode/javascript/javascript.js"></script>
           <script src="{$path}/core/codemirror/js/clike.js"></script>
           <!--gen-->
           <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>

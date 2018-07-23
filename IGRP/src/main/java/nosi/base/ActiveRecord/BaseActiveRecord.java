@@ -22,7 +22,7 @@ import nosi.core.config.Config;
 
 
 public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
-	private SessionFactory entityManagerFactory;
+	private SessionFactory sessionFactory;
 	private CriteriaBuilder builder = null;
 	private CriteriaQuery<T> criteria = null;
 	private Root<T> root = null;
@@ -36,22 +36,24 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.connectionName = new Config().getBaseConnection();
 	}	
 	
-	public SessionFactory getEntityManagerFactory() {
-		this.startCriteria();
-		return entityManagerFactory;
+	private SessionFactory getSessionFactory() {
+		if(this.sessionFactory!=null && this.sessionFactory.isOpen()) {
+			return sessionFactory;
+		}
+		this.sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
+		return sessionFactory;
 	}
 
-	public void setEntityManagerFactory(SessionFactory entityManagerFactory) {
-		this.entityManagerFactory = entityManagerFactory;
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 	@Override
 	public T insert() {
 		Session session = null;
 		Transaction transaction = null;
-		try {
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-			session = this.entityManagerFactory.openSession();
+		try {			
+			session = this.getSession();
 			transaction = session.beginTransaction();
 			session.persist(this.className);
 			transaction.commit();
@@ -65,6 +67,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				session.close();
 			}
 		}
+		this.closeFactory();
 		return this.className;
 	}
 
@@ -73,8 +76,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Session session = null;
 		Transaction transaction = null;
 		try {
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
 			session.merge(this.className);
 			transaction.commit();
@@ -88,6 +90,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				session.close();
 			}
 		}
+		this.closeFactory();
 		return this.className;
 	}
 
@@ -98,8 +101,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Session session = null;
 		Transaction transaction = null;
 		try {
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
 			this.className = (T) session.find(this.className.getClass(), id);
 			session.remove(this.className);
@@ -116,6 +118,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				session.close();
 			}
 		}
+		this.closeFactory();
 		return deleted;
 	}
 
@@ -133,7 +136,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Transaction transaction = null;
 		try {
 			this.startCriteria();
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
 			List<T> t = session.createQuery(criteria).setMaxResults(1).getResultList();
 			if(t!=null && t.size() > 0)
@@ -151,6 +154,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				session.close();
 			}
 		}
+		this.closeFactory();
 		return className;
 	}
 
@@ -161,38 +165,33 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Override
-	public T one() {
+	public T one() throws javax.persistence.NoResultException {
 		Session session = null;
 		Transaction transaction = null;
 		try {
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
-			try{
-				this.getCriteria();
-				if(this.predicates.size() > 0){
-					this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
-					this.predicates = null;
-				}
-				List<T> t = session.createQuery(this.criteria).setMaxResults(1).getResultList();
-				if(t!=null && t.size() > 0)
-					this.className = t.get(0);
-				else
-					this.className = null;
-			}catch (javax.persistence.NoResultException e) {
-				
+			this.getCriteria();
+			if(this.predicates.size() > 0){
+				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
+				this.predicates = null;
 			}
+			List<T> t = session.createQuery(this.criteria).setMaxResults(1).getResultList();
+			if(t!=null && t.size() > 0)
+				this.className = t.get(0);
+			else
+				this.className = null;
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
 			}
 		}
+		this.closeFactory();
 		return className;
 	}
 
@@ -202,30 +201,25 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Session session = null;
 		Transaction transaction = null;
 		try{
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
-			try{
-				this.getCriteria();
-				if(this.predicates.size() > 0){
-					this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
-					this.predicates = null;
-				}
-				list = (List<T>) session.createQuery(this.criteria).getResultList();
-			}catch (javax.persistence.NoResultException e) {
-				
+			this.getCriteria();
+			if(this.predicates.size() > 0){
+				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
+				this.predicates = null;
 			}
+			list = (List<T>) session.createQuery(this.criteria).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
-	      e.printStackTrace();
 		} finally {
-			if(session != null){
-		       session.close();
-	        }
+			if (session != null) {
+				session.close();
+			}
 		}
+		this.closeFactory();
 		return list;
 	}
 
@@ -447,7 +441,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Transaction transaction = null;
 		try{
 			this.startCriteria();
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
 			list = (List<T>) session.createQuery(this.getCriteria()).getResultList();
 			transaction.commit();
@@ -461,6 +455,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		       session.close();
 	        }
 		}
+		this.closeFactory();
 		return list;
 	}
 
@@ -470,8 +465,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Session session = null;
 		Transaction transaction = null;
 		try{
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-			session = this.entityManagerFactory.openSession();
+			session = this.getSession();
 			transaction = session.beginTransaction();
 			list = (List<T>) session.createQuery(criteria).getResultList();
 			transaction.commit();
@@ -485,7 +479,12 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		       session.close();
 	        }
 		}
+		this.closeFactory();
 		return list;
+	}
+
+	private Session getSession() {		
+		return HibernateUtils.getSessionFactory(this.getConnectionName()).getCurrentSession();
 	}
 
 	@Override
@@ -529,7 +528,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	 */
 	@Override
 	public Object getValuePrimaryKey() {		
-		Object id = this.entityManagerFactory.getPersistenceUnitUtil().getIdentifier(this.className);
+		Object id = this.sessionFactory.getPersistenceUnitUtil().getIdentifier(this.className);
 		return id;
 	}
 
@@ -573,14 +572,11 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	
 	@SuppressWarnings("unchecked")
 	private void startCriteria() {
-		if(this.entityManagerFactory==null) {
-			this.entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-		}
 		if(this.predicates==null) {
 			this.predicates = new ArrayList<>();
 		}
 		if(this.builder==null) {
-			this.builder = this.entityManagerFactory.getCriteriaBuilder();
+			this.builder = this.getSessionFactory().getCriteriaBuilder();
 		}
 		if(this.criteria==null) {
 			this.criteria = (CriteriaQuery<T>) this.builder.createQuery(this.className.getClass());
@@ -590,5 +586,10 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}else {
 			this.criteria.select(this.root);
 		}
+	}
+	
+	protected void closeFactory(){
+//		this.getSessionFactory().close();
+//		HibernateUtils.removeSessionFactory(this.getConnectionName());
 	}
 }

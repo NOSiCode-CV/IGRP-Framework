@@ -6,19 +6,16 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Identity;
 
 @Entity
@@ -240,13 +237,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	}
 
 	public User updateTozero() {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Query q = em.createNativeQuery("UPDATE tbl_user SET id=0 WHERE id=1");
-		q.executeUpdate();
-		t.commit();
-		em.close();
+		Core.query("UPDATE tbl_user SET id=0 WHERE id=1").execute();
 		return this.findOne(0);
 	}
 

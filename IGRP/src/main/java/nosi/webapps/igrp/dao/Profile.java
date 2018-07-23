@@ -9,8 +9,6 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -18,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import nosi.base.ActiveRecord.BaseActiveRecord;
@@ -162,21 +159,13 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	}
 
 	public void deleteAllProfile() {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Query q = em.createNativeQuery("DELETE FROM tbl_profile where "
-				+ "prof_type_fk = ? "
-				+ "and user_fk =? "
-				+ "and type =? "
-				+ "and org_fk =?");
-		q.setParameter(1, this.getProfileType().getId());
-		q.setParameter(2, this.getUser().getId());
-		q.setParameter(3, this.type  );
-		q.setParameter(4, this.getOrganization().getId());
-		q.executeUpdate();
-		t.commit();
-		em.close();
+		Core.query("DELETE FROM tbl_profile")
+			.where("prof_type_fk=:prof_type_fk AND user_fk=:user_fk AND type=:type AND org_fk=:org_fk")
+			.addInt("prof_type_fk", this.getProfileType().getId())
+			.addInt("user_fk", this.getUser().getId())
+			.addString("type", this.type)
+			.addInt("org_fk",  this.getOrganization().getId())
+			.execute();
 	}
 
 	public boolean isInsertedOrgTrans() {

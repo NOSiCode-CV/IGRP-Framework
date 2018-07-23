@@ -6,10 +6,7 @@
     <html>
       <head>
         <xsl:call-template name="IGRP-head"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css?v={$version}"/>
+       
 
       </head>
       <body class="{$bodyClass} old-v fluid sidebar-off">
@@ -60,6 +57,10 @@
           <xsl:call-template name="IGRP-bottom"/>
           
         </form>
+         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css"/>
         <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
         
         <script type="text/javascript" src="{$path}/core/igrp/home/igrp.home.js"></script>

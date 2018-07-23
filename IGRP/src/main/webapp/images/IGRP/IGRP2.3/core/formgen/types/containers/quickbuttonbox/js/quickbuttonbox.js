@@ -1,10 +1,17 @@
 
-this[VARS.name].declareContainer({
-	name:'quickbuttonbox',
-	container:function(name,params){
+(function(){
+	var GEN = VARS.getGen();
+	GEN.declareContainer({
+
+		name:'quickbuttonbox',
+		
+		container:function(name,params){		
+			
+			var container = this;
+		
 		CONTAINER.call(this,name,params);
-		var GEN = VARS.getGen();
-		var container = this;
+		
+	
 
 		container.xml.structure = 'form';
 
@@ -16,61 +23,66 @@ this[VARS.name].declareContainer({
 
 		container.ready = function(){
 
-			container.unsetProprieties(['title','hasTitle']);
+			container.unsetProprieties(['hasTitle']);
 			
 			container.setProperty({
-				name      :'tit',
+				name      :'title',
 				label     :'Title',
 				value     :'Box Title',
 				isField   : true,
 				valuePersist : true
 			});
 
-			container.setProperty({
-				name      :'val',
-				label     :'Value',
-				value     :'895',
-				isField   : true
-			});
-			
-			container.setProperty({
-				name : 'url',
-				value : '',
+			container.setPropriety({
+				name    : 'val',
+				label   : 'Value',
+				value   : ""+Math.floor((Math.random() * 999) + 1),
 				isField : true,
-				valuePersist : true,
-				editable : false
+				valuePersist : true
 			});
 			
 			GEN.setBtnActionAttr(container,{
-				value: '',
-				label : 'Action',
-				customAction : true,
-
+				value 		   : params.proprieties && params.proprieties.action ? params.proprieties.action : '',					
+				isField 	   : true,
+				valuePersist   : true,
+				tag : 'url',
+				type : 'action',
+			
 				onChange:function(v){
+					console.log(v);			
 					
-					var isCustom 	 = $('.propriety-setter[rel="action_type"]').is(':checked') || false,
-
-						customAction = $('.propriety-setter[rel="custom_action"]').val();
-					
-					if(!isCustom){
-						
-						var params = $.extend({},v.params);
-						
-						params.type = 'action';
-						
-						container.SET.url(params);
-					
-					}else{
-						
-						container.SET.url(customAction)
-						
-					}
-					
-					console.log(container.GET.url())
-
-
 				}
 			});
+//			GEN.setBtnActionAttr(container,{
+//				value: '',
+//				label : 'Action',
+//				customAction : true,
+//
+//				onChange:function(v){
+//					
+//					var isCustom 	 = $('.propriety-setter[rel="action_type"]').is(':checked') || false,
+//
+//						customAction = $('.propriety-setter[rel="custom_action"]').val();
+//					
+//					if(!isCustom){
+//						
+//						var params = $.extend({},v.params);
+//						
+//						params.type = 'action';
+//						
+//						container.SET.url(params);
+//					
+//					}else{
+//						
+//						container.SET.url(customAction)
+//						
+//					}
+//					
+//					console.log(container.GET.url())
+//
+//
+//				}
+//			});
 			
 			GEN.setTargetAttr(container,{
 				value:'modal'
@@ -122,3 +134,5 @@ this[VARS.name].declareContainer({
 
 	}
 });
+	
+})();

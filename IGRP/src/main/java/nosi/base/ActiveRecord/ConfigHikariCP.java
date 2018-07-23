@@ -1,7 +1,7 @@
 package nosi.base.ActiveRecord;
 
-import java.io.InputStream;
 import java.util.Properties;
+import nosi.core.config.Config;
 
 /**
  * Emanuel
@@ -73,16 +73,13 @@ public class ConfigHikariCP {
 
 
 	public void load() throws Exception{
-		Properties props = new Properties();
-		InputStream in = getClass().getResourceAsStream("/config/db/hikaricp.properties");
-		props.load(in);
-		in.close();
-		if(props!=null){
-			this.connectionTimeout = props.getProperty("connectionTimeout");
-			this.idleTimeout = props.getProperty("idleTimeout");
-			this.maximumPoolSize = props.getProperty("maximumPoolSize");
-			this.maxLifetime = props.getProperty("maxLifetime");
-			this.minimumIdle = props.getProperty("minimumIdle");
+		Properties p = new Config().loadProperties("/config/db/hikaricp.properties");
+		if(p!=null){
+			this.connectionTimeout = p.getProperty("connectionTimeout");
+			this.idleTimeout = p.getProperty("idleTimeout");
+			this.maximumPoolSize = p.getProperty("maximumPoolSize");
+			this.maxLifetime = p.getProperty("maxLifetime");
+			this.minimumIdle = p.getProperty("minimumIdle");
 		}
 	}
 }
