@@ -248,6 +248,7 @@ public class MigrationIGRPInitConfig {
 			Menu Gestao_tipo_documento = new Menu("Gestao tipo documento", 0, 1, 0, "_self", actions.get(59), app_igrp, null);
 			Gestao_tipo_documento.setMenu(Gestao_tipo_documento);
 			menus.add(Gestao_tipo_documento);
+
 			
 			Menu GestDominio = new Menu("Gestão de Dominio", 0, 1, 1, "_self", actions.get(3), app_igrp, null);
 			GestDominio.setMenu(GestDominio);
@@ -256,8 +257,6 @@ public class MigrationIGRPInitConfig {
 			for(Menu m:menus){
 				m.insert();
 			}
-			
-			
 			
 			List<Profile> profiles = new ArrayList<>();
 			//permisao de acesso a aplicacao

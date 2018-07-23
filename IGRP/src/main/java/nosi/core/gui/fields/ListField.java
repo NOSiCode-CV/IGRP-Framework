@@ -34,7 +34,11 @@ public class ListField extends AbstractField {
 		this.propertie.put("required", false);
 		this.setTagName(name);
 		this.configValue(model);
-		this.propertie.put("value", this.getValue());
+		try {
+			this.propertie.put("value", this.getValue());
+		}catch(NullPointerException e) {
+			
+		}
 		this.value = null;
 	}
 	
@@ -61,9 +65,11 @@ public class ListField extends AbstractField {
 					
 				}
 			}
-			this.setValue(map);
+			Object obj = (Object)map;
+			this.setValue(obj);
 		}
 	}
+	
 	@Override
 	public void setQuery(BaseQueryInterface query) {
 		this.setQuery(query, null);

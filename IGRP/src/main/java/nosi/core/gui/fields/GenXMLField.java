@@ -136,6 +136,7 @@ public class GenXMLField {
 						if(field.getValue()!=null && field.getValue() instanceof HashMap){
 							HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
 							for(Entry<?, ?> obj : values.entrySet()){
+								
 								xml.startElement("option");
 								if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 									xml.writeAttribute("selected", "true");
@@ -181,14 +182,29 @@ public class GenXMLField {
 						try {
 							Object[] o = (Object[]) field.propertie().get("value");
 							
-							if(Arrays.binarySearch(o, obj.getKey()) >= 0)
+							List aux = Arrays.asList(o);
+							
+							if(aux.contains(obj.getKey())) 
 								xml.writeAttribute("selected", "true");
+							
 						}catch(Exception e) {
 							//e.printStackTrace();
 						}
 					}else if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("selected", "true");
-					}else if((field instanceof CheckBoxListField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+					}else if(field instanceof CheckBoxListField && obj.getKey() != null && field.propertie().get("value")!=null) {
+						try {
+							Object[] o = (Object[]) field.propertie().get("value");
+							
+							List aux = Arrays.asList(o);
+							
+							if(aux.contains(obj.getKey())) 
+								xml.writeAttribute("selected", "true");
+							
+						}catch(Exception e) {
+							//e.printStackTrace();
+						}
+					}else if(field instanceof RadioListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("checked", "true");
 					}
 					xml.setElement("text", obj.getValue().toString());
