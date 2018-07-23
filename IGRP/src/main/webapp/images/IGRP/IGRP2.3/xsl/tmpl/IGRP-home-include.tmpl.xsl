@@ -97,15 +97,15 @@
     <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}" ></script>
     <!-- IGRP targets controller -->
-    <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}" async="async"></script>
+    <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}" ></script>
     <!-- IGRP sidebar controller -->
-    <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}" async="async"></script>
+    <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
     <!-- IGRP searchlist controller -->
-    <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js" async="async" charset="UTF-8"></script>
+    <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js"  charset="UTF-8"></script>
     <!-- IGRP rightpanel controller -->
     <script src="{$path}/core/igrp/rightpanel/rightpanel.js" async="async"></script>
     <!-- IGRP themes controller -->
-    <script src="{$path}/core/igrp/themes/IGRP.themes.js?v={$version}" async="async"></script>
+    <script src="{$path}/core/igrp/themes/IGRP.themes.js?v={$version}" ></script>
     <!-- IGRP scroll to top controller -->
     <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}" ></script>
     <!-- IGRP XML XSL Transform -->
