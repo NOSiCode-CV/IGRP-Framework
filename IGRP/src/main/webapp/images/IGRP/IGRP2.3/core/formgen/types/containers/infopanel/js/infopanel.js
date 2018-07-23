@@ -57,7 +57,7 @@
 				container.setPropriety({
 					name    : 'val',
 					label   : 'Value',
-					value   : ""+Math.floor((Math.random() * 100) + 1),
+					value   : ""+Math.floor((Math.random() * 99) + 1),
 					isField : true,
 					valuePersist : true
 				});

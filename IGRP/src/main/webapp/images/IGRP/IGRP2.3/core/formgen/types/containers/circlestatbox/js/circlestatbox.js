@@ -19,10 +19,10 @@ this[VARS.name].declareContainer({
 
 		container.ready = function(){
 
-			container.unsetProprieties(['title','hasTitle']);
+			container.unsetProprieties(['hasTitle']);
 
 			container.setProperty({
-				name      :'tit',
+				name      :'title',
 				label     :'Circle Box Title',
 				value     :'Circle Box Title',
 				isField   : true,
@@ -40,7 +40,7 @@ this[VARS.name].declareContainer({
 			container.setProperty({
 				name      :'val',
 				label     :'Percent Value',
-				value     :'58.5',
+				value     :""+((Math.random() * 99) + 1).toFixed(1),
 				isField   : true
 			});
 

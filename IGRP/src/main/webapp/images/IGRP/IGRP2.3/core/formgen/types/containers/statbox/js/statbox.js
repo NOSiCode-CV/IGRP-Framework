@@ -16,10 +16,10 @@ this[VARS.name].declareContainer({
 
 		container.ready = function(){
 			
-			container.unsetProprieties(['title','hasTitle']);
+			container.unsetProprieties(['hasTitle']);
 			
 			container.setProperty({
-				name      :'tit',
+				name      :'title',
 				label     :'Box Title',
 				value     :'Box Title',
 				isField   : true,
@@ -29,7 +29,7 @@ this[VARS.name].declareContainer({
 			container.setProperty({
 				name      :'val',
 				label     :'Value',
-				value     :'895',
+				value   : ""+Math.floor((Math.random() * 999) + 1),
 				isField   : true,
 				valuePersist : true
 			});

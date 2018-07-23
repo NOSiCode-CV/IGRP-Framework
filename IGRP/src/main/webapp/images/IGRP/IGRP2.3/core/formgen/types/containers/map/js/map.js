@@ -52,7 +52,9 @@ var GENMAP = function(name,params){
 
 }
 
-this[VARS.name].declareContainer({
+
+	var GEN = VARS.getGen();
+	GEN.declareContainer({
 	name:'map',
 	container:GENMAP
 });

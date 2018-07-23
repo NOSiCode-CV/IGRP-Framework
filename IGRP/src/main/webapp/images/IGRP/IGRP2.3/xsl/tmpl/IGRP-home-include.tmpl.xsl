@@ -12,22 +12,23 @@
     
     <title><xsl:value-of select="rows/title"/></title>
     <!-- Normalize -->
-    <link rel="stylesheet" href="{$path}/core/normalize/normalize.css"/>
+    <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" async="async"/>
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css"/>
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css" async="async"/>
     <!-- BS CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
-      <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css"/>
-      <link rel="stylesheet" href="{$path}/themes/bs.columns.css"/>
-      <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
+      <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css" async="async"/>
+      <link rel="stylesheet" href="{$path}/themes/bs.columns.css" async="async"/>
+      <link rel="stylesheet" href="{$path}/themes/bs.class.css" async="async"/>
     </xsl:if>
 
-    <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css"/>
+    <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" async="async"/>
 
     <!-- BS CSS -->
 
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
+   	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel='stylesheet' type='text/css' async="async" />
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
     </xsl:if>
     <!--/DEFAULT CSS -->
@@ -57,21 +58,21 @@
     <!-- FORM -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
 
-    <script src="{$path}/core/promise/promise.min.js"></script>
+    <script src="{$path}/core/promise/promise.min.js" ></script>
 
-    <script src="{$path}/core/moment/moment.min.js"></script>
+    <script src="{$path}/core/moment/moment.min.js" async="async"></script>
     
-    <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
+    <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>
 
-    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js"></script>
+    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>
 
-    <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
+    <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js" async="async"></script>
 
     <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
 
-    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js"></script>
+    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>
     
-    <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
+    <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" async="async"></script>
 
     <!-- THEME JS -->
     <xsl:for-each select="$themeConfigData/js/file">
@@ -82,35 +83,35 @@
     <!-- EVENTS class -->
     <script src="{$path}/core/igrp/IGRP.events.class.js?v={$version}"></script>
     <!-- UTILS class -->
-    <script src="{$path}/core/igrp/IGRP.jsutils.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/IGRP.jsutils.js?v={$version}" ></script>
     <!-- IGRP class -->
-    <script src="{$path}/core/igrp/IGRP.class.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/IGRP.class.js?v={$version}" ></script>
     <!-- IGRP config -->
-    <script src="{$path}/core/igrp/IGRP.defaults.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/IGRP.defaults.js?v={$version}" ></script>
     <!-- IGRP core functions -->
-    <script src="{$path}/core/igrp/IGRP.core.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/IGRP.core.js?v={$version}" ></script>
     <!-- IGRP globalModal -->
     <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"></script>
     <!-- IGRP iframeNavigation -->
-    <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}" ></script>
     <!-- IGRP targets controller -->
-    <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}" ></script>
     <!-- IGRP targets controller -->
-    <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}" async="async"></script>
     <!-- IGRP sidebar controller -->
-    <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}" async="async"></script>
     <!-- IGRP searchlist controller -->
-    <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js" charset="UTF-8"></script>
+    <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js" async="async" charset="UTF-8"></script>
     <!-- IGRP rightpanel controller -->
-    <script src="{$path}/core/igrp/rightpanel/rightpanel.js"></script>
+    <script src="{$path}/core/igrp/rightpanel/rightpanel.js" async="async"></script>
     <!-- IGRP themes controller -->
-    <script src="{$path}/core/igrp/themes/IGRP.themes.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/themes/IGRP.themes.js?v={$version}" async="async"></script>
     <!-- IGRP scroll to top controller -->
-    <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}" ></script>
     <!-- IGRP XML XSL Transform -->
-    <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}" ></script>
     <!-- IGRP handler -->
-    <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
+    <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}" ></script>
 
     <xsl:call-template name="colorpalettes-js"/>
 

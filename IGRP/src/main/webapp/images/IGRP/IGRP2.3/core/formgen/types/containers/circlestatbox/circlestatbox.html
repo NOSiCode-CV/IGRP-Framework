@@ -1,15 +1,17 @@
 <div class="circlestatbox-container csb-#[csize]#">
     <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
     <div class="circlestatbox {#path#/fields/#tag#_bg/value}">
-    <div class="header"><xsl:value-of select="#path#/fields/#tag#_tit/value"/></div>
-    <span class="percent"><xsl:value-of select="#path#/fields/#tag#_lbl/value"/></span>
-    <div class="circleStat">
+   		<div class="header"><xsl:value-of select="#path#/fields/#tag#_title/value"/></div>
+    	<span class="percent"><xsl:value-of select="#path#/fields/#tag#_lbl/value"/></span>
+    	<div class="circleStat">
         <input type="text" value="{#path#/fields/#tag#_val/value}" size="#[csize]#" class="circlestats-chart" readonly="readonly"/>
-    </div>
-        <div class="footer">
-            <a class="clickable" target="#[target]#" style="display: block;" href="{#path#/fields/#tag#_url/value}">
-                <span class="description"><xsl:value-of select="#path#/fields/#tag#_desc/value"/></span>
-            </a>
-        </div>
+   		 </div>      		
+      		<xsl:if test="#path#/fields/#tag#_desc/value != ''">
+        	  <div class="footer">
+       				<a class="clickable" target="#[target]#" style="display: block;" href="{#path#/fields/#tag#_url/value}">
+               			 <span class="description"><xsl:value-of select="#path#/fields/#tag#_desc/value"/></span>
+          	 		 </a>
+        		 </div>	
+   		 	</xsl:if>  	
     </div>
 </div>
