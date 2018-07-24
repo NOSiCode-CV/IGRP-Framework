@@ -281,7 +281,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 					 .andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
 					 .andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
 					.all();
-			allInative=true;
+			//allInative=true;
 		}else {
 			list = new Profile().find()
 						.andWhere("type", "=", "ENV")

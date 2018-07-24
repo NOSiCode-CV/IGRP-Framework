@@ -2,6 +2,9 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -27,25 +30,28 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 /*----#end-code----*/
 
-public class ListaPageController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+public class ListaPageController extends Controller {		
 
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
+		model.setLink_btn_nova_pagina("undefined","undefined","undefined");
+		model.setCrud_generator("igrp_studio","CRUDGenerator","index");
+		model.setBtn_import("igrp_studio","Env","index");
 		ListaPageView view = new ListaPageView();
 		view.id_page.setParam(true);
-		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
+		
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		model.loadTable_1(Core.query(null,"SELECT 'status_page' as status_page,'descricao_page' as descricao_page,'id_page' as id_page,'nome_page' as nome_page "));
 		model.loadMyapps_list(Core.query(null,"SELECT 'icon' as icon,'aplicacao' as aplicacao "));
-		
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		view.id_page.setParam(true);
@@ -147,39 +153,35 @@ public class ListaPageController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "Env", "index", this.queryString());
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
-
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -187,21 +189,19 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
-
-	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -209,21 +209,19 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
-
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -231,21 +229,19 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
-
-	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -253,21 +249,19 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "Env", "index", this.queryString());
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
-
-	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		ListaPage model = new ListaPage();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(download)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {
@@ -288,9 +282,9 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "ListaPage", "index", this.queryString());
+		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
-
+	
 	/*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus()
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
@@ -324,4 +318,4 @@ public class ListaPageController extends Controller {
 		}
 	}
 	/*----#end-code----*/
-}
+	}

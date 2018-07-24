@@ -7,6 +7,10 @@ import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+
+
 
 public class ListaPageView extends View {
 
@@ -151,26 +155,29 @@ public class ListaPageView extends View {
 		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
-		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","").add("tags","false");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("java-type","");
+		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("java-type","").add("tags","false");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
-		link_btn_nova_pagina.setValue(new Config().getResolveUrl("igrp","Page","index"));
-		link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30");
+		link_btn_nova_pagina.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
+
+									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
 		
 		crud_generator = new LinkField(model,"crud_generator");
 		crud_generator.setLabel(gt("CRUD generator"));
 		crud_generator.setValue(new Config().getResolveUrl("igrp_studio","CRUDGenerator","index"));
-		crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("maxlength","30");
+
+									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
 		
 		btn_import = new LinkField(model,"btn_import");
 		btn_import.setLabel(gt("Importar"));
 		btn_import.setValue(new Config().getResolveUrl("igrp_studio","Env","index"));
-		btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("maxlength","30");
+
+									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));
@@ -199,7 +206,8 @@ public class ListaPageView extends View {
 		aplicacao = new LinkField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.setValue(new Config().getResolveUrl("igrp_studio","ListaPage","index"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","link").add("target","_self").add("maxlength","30").add("desc","true");
+
+									aplicacao.propertie().add("name","p_aplicacao").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("desc","true");
 		
 
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
@@ -270,11 +278,6 @@ public class ListaPageView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_gerar_codigo);
 		table_1.addButton(btn_download);
-		myapps_list.addButton(btn_editar);
-		myapps_list.addButton(btn_visualizar);
-		myapps_list.addButton(btn_eliminar);
-		myapps_list.addButton(btn_gerar_codigo);
-		myapps_list.addButton(btn_download);
 		this.addToPage(infopanel_1);
 		this.addToPage(infopanel_2);
 		this.addToPage(infopanel_3);

@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.listapage;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -242,6 +244,14 @@ public class ListaPage extends Model{
 	public String getLink_btn_nova_pagina_desc(){
 		return this.link_btn_nova_pagina_desc;
 	}
+	public IGRPLink setLink_btn_nova_pagina(String link){
+		this.link_btn_nova_pagina = new IGRPLink(link);
+		return this.link_btn_nova_pagina;
+	}
+	public IGRPLink setLink_btn_nova_pagina(Report link){
+		this.link_btn_nova_pagina = new IGRPLink(link);
+		return this.link_btn_nova_pagina;
+	}
 	
 	public IGRPLink setCrud_generator(String app,String page,String action){
 		this.crud_generator = new IGRPLink(app,page,action);
@@ -256,6 +266,14 @@ public class ListaPage extends Model{
 	public String getCrud_generator_desc(){
 		return this.crud_generator_desc;
 	}
+	public IGRPLink setCrud_generator(String link){
+		this.crud_generator = new IGRPLink(link);
+		return this.crud_generator;
+	}
+	public IGRPLink setCrud_generator(Report link){
+		this.crud_generator = new IGRPLink(link);
+		return this.crud_generator;
+	}
 	
 	public IGRPLink setBtn_import(String app,String page,String action){
 		this.btn_import = new IGRPLink(app,page,action);
@@ -269,6 +287,14 @@ public class ListaPage extends Model{
 	}
 	public String getBtn_import_desc(){
 		return this.btn_import_desc;
+	}
+	public IGRPLink setBtn_import(String link){
+		this.btn_import = new IGRPLink(link);
+		return this.btn_import;
+	}
+	public IGRPLink setBtn_import(Report link){
+		this.btn_import = new IGRPLink(link);
+		return this.btn_import;
 	}
 
 
@@ -337,6 +363,14 @@ public class ListaPage extends Model{
 		public String getAplicacao_desc(){
 			return this.aplicacao_desc;
 		}
+	public IGRPLink setAplicacao(String link){
+		this.aplicacao = new IGRPLink(link);
+		return this.aplicacao;
+	}
+	public IGRPLink setAplicacao(Report link){
+		this.aplicacao = new IGRPLink(link);
+		return this.aplicacao;
+	}
 
 	}
 

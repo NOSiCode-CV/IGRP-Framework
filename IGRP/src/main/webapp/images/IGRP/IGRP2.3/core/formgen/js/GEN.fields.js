@@ -422,9 +422,10 @@ var Field = function(type,params){
 
 		field.folder   = VARS.genPath+'/types/fields/'+type;
 
-		if(!field.proprieties.tag || $.trim(field.proprieties.tag) == '')
-			field.SET.tag(field.parent.incrementTag('field',type));
-		
+		if(!field.proprieties.tag || $.trim(field.proprieties.tag) == ''){
+			var tag = field.parent.proprieties.tag+'_'+type;
+			field.SET.tag(field.parent.incrementTag('field',tag));
+		}
 		field.onInit();
 
 		field.ready();

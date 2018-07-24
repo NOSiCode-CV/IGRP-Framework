@@ -16,13 +16,17 @@
   		
       <html>          
         <head>            
+       	 <script>           
+ window.moveTo(0, 0);
+ window.resizeTo(screen.width, screen.height);
+      	  </script>
             <xsl:call-template name="IGRP-head"/>            
             <xsl:call-template name="GEN-head"/>
         </head>
 
         <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">            
           <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
-              <a class="navbar-brand col-sm-3 col-md-2" href="#" >
+              <a class="navbar-brand col-sm-3 col-md-2" href="{rows/link}" >
                   <img src="{$logo}"/>
                   <span><b>IGRP</b></span>
               </a>
