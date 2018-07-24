@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
-
 import com.google.gson.Gson;
-
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
@@ -28,7 +25,6 @@ public class Compiler {
 	private CompilationProgress progress = null;
 	private List<ErrorCompile> errors;
 	private String jars = "";
-    private final static int TIME_SLEEP = 1000;
 	
 	public Compiler(){
 		  this.errors = new ArrayList<>();
@@ -70,32 +66,6 @@ public class Compiler {
 				 progress
 			 );
 		extractError(outSuccess,outError,swS,swE,file);
-		/* Thread t = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					StringWriter swS = new StringWriter();
-					StringWriter swE = new StringWriter();
-				    PrintWriter outSuccess = new PrintWriter(swS);
-				    PrintWriter outError = new PrintWriter(swE);
-					BatchCompiler.compile( 
-			 				 buildArgs, 
-							 outSuccess, 
-							 outError, 
-							 progress
-						 );
-					extractError(outSuccess,outError,swS,swE,file);
-				}
-		});
-		t.setName("thread-compiler");
-		t.start();
-		try {
-			Thread.sleep(TIME_SLEEP);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-		
-			System.out.println("Thread.sleep(TIME_SLEEP);! compiler");
-			Core.log("Thread.sleep(TIME_SLEEP);! compiler");
-		}*/
 	}
 	
 	private void extractError(PrintWriter outSuccess, PrintWriter outError, StringWriter swS,StringWriter swE,File file) {		

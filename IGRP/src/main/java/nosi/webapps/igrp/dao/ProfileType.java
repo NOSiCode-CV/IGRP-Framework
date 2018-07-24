@@ -20,8 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.Permission;
-
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -133,8 +131,8 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	}
 
 	public ProfileType updateToZero() {
-		Core.query("UPDATE tbl_profile_type SET id=0 WHERE id=1").execute();
-		return this.findOne(0);
+		Core.update("tbl_profile_type").addInt("id",0).where("id=1").execute();
+		return new ProfileType().find().andWhere("code", "=","ALL").one();
 	}
 
 	public HashMap<String, String> getListMyProfiles() {
@@ -166,7 +164,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	//Verifica se � perfil pai
 	public static boolean isPerfilPai(){
-		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", new Permission().getCurrentPerfilId()).all();
+		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", Core.getCurrentProfile()).all();
 		return profiles.size() > 0;
 	}
 

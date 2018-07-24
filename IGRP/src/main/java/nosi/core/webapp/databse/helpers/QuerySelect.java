@@ -359,6 +359,7 @@ public class QuerySelect extends CommonFIlter{
 		if(conn!=null) {
 			PreparedStatement ps = null;
 			try {
+				conn.setAutoCommit(false);
 				ps = conn.prepareStatement(this.getSql());
 				ps.execute();
 				r.setSql(this.getSql());
@@ -370,6 +371,12 @@ public class QuerySelect extends CommonFIlter{
 			try {
 				conn.commit();
 			} catch (SQLException e) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally {

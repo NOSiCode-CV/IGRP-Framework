@@ -22,7 +22,6 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.helpers.EncrypDecrypt;
-import nosi.core.webapp.helpers.Permission;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -138,8 +137,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		
 		List<Profile> p = new Profile().find()
 				.andWhere("type", "=","MEN")
-				.andWhere("organization", "=",new Permission().getCurrentOrganization())
-				.andWhere("profileType", "=",new Permission().getCurrentPerfilId())
+				.andWhere("organization", "=",Core.getCurrentOrganization())
+				.andWhere("profileType", "=",Core.getCurrentProfile())
 				.andWhere("profileType.status", "=", 1)
 				.all();
 //		EntityManager em = this.getSessionFactory().createEntityManager();

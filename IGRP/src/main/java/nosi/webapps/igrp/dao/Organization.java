@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -196,7 +196,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		for (Profile p : profiles) {			
 			Menu e = new Menu().findOne(p.getType_fk());
 			
-			e.setDescr(e.getApplication().getId()==a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),new Permission().getCurrentEnv() ))).getId()?setMenuDescr(e):gt(e.getDescr()));				
+			e.setDescr(e.getApplication().getId()==a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),Core.getCurrentDad() ))).getId()?setMenuDescr(e):gt(e.getDescr()));				
 			menus.add(e);
 		}
 		return menus;

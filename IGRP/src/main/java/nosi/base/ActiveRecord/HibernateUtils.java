@@ -28,20 +28,16 @@ public class HibernateUtils {
 
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
-			return getSessionFactory(config_env.getName(), config_env.getApplication().getId());
+			return getSessionFactory(config_env.getName());
 		return getSessionFactory(new Config().getBaseConnection());
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
-		return getSessionFactory(connectionName, -1);
-	}
-
-	public static SessionFactory getSessionFactory(String connectionName, Integer appId) {
 		if (!sessionFactory.containsKey(connectionName)) {
 			try {
 				StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
-				registryBuilder.applySettings(getSettings(connectionName, appId));
+				registryBuilder.applySettings(getSettings(connectionName));
 				registry = registryBuilder.build();
 				MetadataSources sources = new MetadataSources(registry);
 				Metadata metadata = sources.getMetadataBuilder().build();
@@ -54,7 +50,7 @@ public class HibernateUtils {
 		return sessionFactory.get(connectionName);
 	}
 
-	private static Map<String, Object> getSettings(String connectionName, Integer appId) {
+	private static Map<String, Object> getSettings(String connectionName) {
 		Config cf = new Config();
 		String url = null, driver = null, password = null, user = null, hibernateDialect = null;
 		if (cf.getBaseConnection().equalsIgnoreCase(connectionName)) {
@@ -74,9 +70,7 @@ public class HibernateUtils {
 			Config_env config = new Config_env();
 			config.find().andWhere("name", "=", connectionName);
 			config = config.one();
-
-			if (config != null) {
-				
+			if (config != null) {				
 				url = getUrl(
 							Core.decrypt(config.getType_db(), cf .SECRET_KEY_ENCRYPT_DB),
 							Core.decrypt(config.getHost(), cf.SECRET_KEY_ENCRYPT_DB),
@@ -93,28 +87,27 @@ public class HibernateUtils {
 	}
 
 	public static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect) {
-		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);
-	
+		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);	
+		//Hibernate config
 		settings.put(Environment.HBM2DDL_AUTO, "update");
-		//settings.put(Environment.SHOW_SQL, true);
-		
+        settings.put("hibernate.connection.isolation", "2");
+        settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
+        settings.put("hibernate.transaction.auto_close_session", "true");
+        
 		// HikariCP settings (values in milliseconds)
-		//ConfigHikariCP cHCp = new ConfigHikariCP();
-		
+//		ConfigHikariCP cHCp = new ConfigHikariCP();
+//		
+        //c3p0 config
 //		settings.put("hibernate.c3p0.min_size",cHCp.getMinimumIdle());
-//    	settings.put("hibernate.c3p0.max_size",cHCp.getMaximumPoolSize());
-//    	
-//    	settings.put("hibernate.c3p0.timeout",cHCp.getConnectionTimeout()); // 15s 
-//    	settings.put("hibernate.c3p0.idle_test_period","10"); // 10s 
-//    	
+//    	settings.put("hibernate.c3p0.max_size",cHCp.getMaximumPoolSize()); 	
+//    	settings.put("hibernate.c3p0.timeout",cHCp.getConnectionTimeout());
 //    	settings.put("hibernate.c3p0.max_statements","50");
-//    	settings.put("hibernate.c3p0.acquire_increment", "2");
 //    	settings.put("hibernate.connection.provider_class","org.hibernate.connection.C3P0ConnectionProvider");
-//    	
+//    	settings.put("hibernate.c3p0.idle_test_period","10"); // 10s 	
+//    	settings.put("hibernate.c3p0.acquire_increment", "2");//    	
 //    	// Ensure that all idle connections are closed in 25s 
 //    	settings.put("hibernate.c3p0.maxIdleTime",cHCp.getIdleTimeout()); // 25s to close all unused connection 
-//    	settings.put("hibernate.c3p0.maxIdleTimeExcessConnections","20"); // aggressively ... close all unused connection 20s 
-//    	
+//    	settings.put("hibernate.c3p0.maxIdleTimeExcessConnections","20"); // aggressively ... close all unused connection 20s //    	
 //    	// Go to http://www.mchange.com/projects/c3p0/#configuring_to_debug_and_workaround_broken_clients 
 //    	// For memory leak prevention and bad clients ... 
 //    	settings.put("hibernate.c3p0.unreturnedConnectionTimeout","1000"); // ... increase the timeout ... 
@@ -122,6 +115,8 @@ public class HibernateUtils {
 //    	settings.put("hibernate.c3p0.contextClassLoaderSource","library"); 
 //    	settings.put("hibernate.c3p0.privilegeSpawnedThreads","true"); 
     	
+       //hickaricp config
+        
 		//Maximum waiting time for a connection from the pool. 
 //		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
 //		//Maximum time that a connection is allowed to sit ideal in the pool
@@ -134,10 +129,8 @@ public class HibernateUtils {
 //		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
 
 //		//Hibernate configuration
-        settings.put("hibernate.connection.isolation", "2");
-        settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
+
 //        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
-        settings.put("hibernate.transaction.auto_close_session", "true");
 		return settings;
 	}
 

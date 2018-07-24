@@ -322,7 +322,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));			
 			profiles.add(new Profile(GestDominio.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
-			profiles.add(new Profile(GestDominio.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));	
+			profiles.add(new Profile(GestDominio.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			
 			for(Profile p:profiles){
 				p.insert();
 			}

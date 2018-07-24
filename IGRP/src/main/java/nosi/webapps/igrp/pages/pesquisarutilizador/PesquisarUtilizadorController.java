@@ -7,7 +7,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -50,8 +49,7 @@ public class PesquisarUtilizadorController extends Controller {
 		Profile prof = new Profile();
 		List<Profile> profiles = null;
 
-		int idProfC = new Permission().getCurrentPerfilId();
-		ProfileType pp = new ProfileType().findOne(idProfC);
+		ProfileType pp = new ProfileType().findOne(Core.getCurrentProfile());
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
 			profiles = prof.find().andWhere("type", "=", "PROF").andWhere("user.user_name", "=", model.getUsername())
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
@@ -59,7 +57,7 @@ public class PesquisarUtilizadorController extends Controller {
 					.andWhere("profileType.application", "=", idApp != 0 ? idApp : null)
 					.andWhere("user.email", "=", model.getEmail()).all();
 		} else {
-			Application app = new Application().find().andWhere("dad", "=", new Permission().getCurrentEnv()).one();
+			Application app = Core.getCurrentApp();
 			profiles = prof.find().andWhere("type", "=", "PROF").andWhere("user.user_name", "=", model.getUsername())
 					.andWhere("organization", "=", idOrg != 0 ? idOrg : null)
 					.andWhere("profileType", "=", idProf != 0 ? idProf : null)
@@ -285,8 +283,7 @@ public class PesquisarUtilizadorController extends Controller {
 		// condicao para pesquisar com filtros
 		List<User> users = new ArrayList<>();
 
-		int idProfC = new Permission().getCurrentPerfilId();
-		ProfileType pp = new ProfileType().findOne(idProfC);
+		ProfileType pp = new ProfileType().findOne(Core.getCurrentProfile());
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
 			users = new User().find().andWhere("email", "=", model.getEmail())
 					.andWhere("user_name", "=", model.getUsername()).all();
