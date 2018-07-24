@@ -11,7 +11,6 @@ import java.util.List;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.export.app.ExportAppJava;
 import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.User;
@@ -45,7 +44,7 @@ public class ListaEnvController extends Controller {
 		}
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		String dad = new Permission().getCurrentEnv();
+		String dad = Core.getCurrentDad();
 		if ("igrp".equalsIgnoreCase(dad)) {
 			apps = app.find()
 					// .andWhere("dad", "like", app.getDad())

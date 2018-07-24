@@ -17,7 +17,6 @@ import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.EncrypDecrypt;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -193,7 +192,7 @@ public class Config {
 	}
 	
 	public String getResolveUrl(String app,String page,String action){
-		String qs = (Route.getQueryString(action)+"&dad="+new Permission().getCurrentEnv());//Get Query String
+		String qs = (Route.getQueryString(action)+"&dad="+Core.getCurrentDad());//Get Query String
 		action = Route.resolveAction(action);
 		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 		return url;
@@ -513,7 +512,7 @@ public class Config {
 	}
 	
 	public String getHeader(IHeaderConfig config,Action page) {
-		Application app = new Application().find().andWhere("dad","=",new Permission().getCurrentEnv()).one();
+		Application app = Core.getCurrentApp();
 		if(config==null) {
 			//Use default config
 			config = new IHeaderConfig() {
@@ -526,7 +525,7 @@ public class Config {
 		String title = app.getName();
 		String description= app.getDescription();	
 		String link_home = config.getLinkHome();
-		if(new Permission().getCurrentEnv().equalsIgnoreCase("igrp_studio")) {
+		if(app.getDad().equalsIgnoreCase("igrp_studio")) {
 			link_home = config.getLinkHomeStudio();
 		}		
 		XMLWritter xml = new XMLWritter();

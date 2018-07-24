@@ -237,8 +237,8 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	}
 
 	public User updateTozero() {
-		Core.query("UPDATE tbl_user SET id=0 WHERE id=1").execute();
-		return this.findOne(0);
+		Core.update("tbl_user").addInt("id", 0).where("id=1").execute();
+		return new User().find().andWhere("email","=","igrp@nosi.cv").one();
 	}
 
 	@Override

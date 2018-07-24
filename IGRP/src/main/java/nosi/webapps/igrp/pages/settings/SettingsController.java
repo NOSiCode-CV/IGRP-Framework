@@ -5,7 +5,6 @@ import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.Permission;
 import java.io.IOException;
 import java.util.HashMap;
 import nosi.core.webapp.Core;
@@ -33,7 +32,7 @@ public class SettingsController extends Controller {
 						// String data = model.getOrganica()+"-"+model.getPerfil();
 						Integer getOrgId = new ProfileType().findOne(model.getPerfil()).getOrganization().getId();
 						String data = getOrgId + "-" + model.getPerfil();
-						Igrp.getInstance().getResponse().addCookie(new Cookie(new Permission().getCurrentEnv(), data));
+						Igrp.getInstance().getResponse().addCookie(new Cookie(""+Core.getCurrentProfile(), data));
 						Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",Integer.parseInt(model.getPerfil()));
 						Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org",getOrgId);
 						}
@@ -67,7 +66,7 @@ public class SettingsController extends Controller {
 			}
 		}
 		if (Core.isNull(model.getPerfil()))
-			model.setPerfil(new Permission().getCurrentPerfilId() + "");
+			model.setPerfil(Core.getCurrentProfile() + "");
 		// if(Core.isNotNull(model.getOrganica()))
 		// model.setOrganica(Permission.getCurrentOrganization() + "");
 

@@ -664,6 +664,12 @@ public final class Core { // Not inherit
 		return new Permission().getCurrentEnv();
 	}
 
+	public static String getCurrentDadParam() {
+		String r = Core.getParam("r");
+		r = Core.decrypt(r);
+		String[] r_split = r.split("/");
+		return r_split[0];
+	}
 	/**
 	 * Get current Organization ID
 	 * 
