@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,11 +33,13 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=44</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>CRUD Generator</title>
         <form_1 type="form" xml-type="form" title="CRUD generator" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -59,7 +62,7 @@
                     </list>
                     <rules/>
                 </aplicacao>
-                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
                     <label>Data Source</label>
                     <list>
                         <option/>
@@ -82,11 +85,11 @@
                     </list>
                     <rules/>
                 </data_source>
-                <add_datasource name="p_add_datasource" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-th-large" maxlength="30" placeholder="" right="false" custom_action="" action_type="false">
+                <add_datasource name="p_add_datasource" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-th-large" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="">
                     <label>Add datasource</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
                 </add_datasource>
-                <schema name="p_schema" type="select" multiple="false" domain="" maxlength="30" required="false" change="true" disabled="false" right="false" java-type="">
+                <schema name="p_schema" type="select" multiple="false" domain="" maxlength="30" required="false" change="true" disabled="false" right="false" java-type="" tags="false">
                     <label>Schema</label>
                     <list>
                         <option/>
@@ -124,27 +127,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Adipiscing voluptatem elit rem</table_name>
+                        <table_name name="p_table_name">Natus adipiscing amet labore l</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ipsum mollit lorem voluptatem</table_name>
+                        <table_name name="p_table_name">Officia adipiscing lorem natus</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Accusantium ipsum lorem perspi</table_name>
+                        <table_name name="p_table_name">Amet officia accusantium magna</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Ut sit perspiciatis consectetu</table_name>
+                        <table_name name="p_table_name">Anim stract iste stract labore</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Doloremque ipsum sit sit accus</table_name>
+                        <table_name name="p_table_name">Consectetur accusantium dolore</table_name>
                     </row>
                 </value>
             </table>

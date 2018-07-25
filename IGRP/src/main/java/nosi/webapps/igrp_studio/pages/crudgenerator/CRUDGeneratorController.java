@@ -30,18 +30,18 @@ public class CRUDGeneratorController extends Controller {
 		
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
+		model.setAdd_datasource("igrp_studio","ListaEnv","index");
 		CRUDGeneratorView view = new CRUDGeneratorView();
+		
+		
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		model.loadTable_1(Core.query(null,"SELECT 'check_table' as check_table,'table_name' as table_name "));
-		
-		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		view.data_source.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		view.schema.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		
-		----#gen-example */
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		List<CRUDGenerator.Table_1> data = new ArrayList<>();    	 
 		view.schema.setVisible(false);
@@ -50,10 +50,13 @@ public class CRUDGeneratorController extends Controller {
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
 		int i=1;
-		Config_env config = new Config_env().findOne(Core.toInt(model.getData_source(),-1));
-		
+		Config_env config = new Config_env()
+								.find()
+								.andWhere("id","=",Core.toInt(model.getData_source(),-1))
+								.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
+								.one();		
 		Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
-		
+	
 		if(schemasMap.size() > 1){
 			if(schemasMap.size() == 2) {
 				model.setSchema(schemasMap.keySet().toArray()[1].toString());
@@ -82,6 +85,7 @@ public class CRUDGeneratorController extends Controller {
 				i++;
 			}
 		}
+		
 		view.table_1.addData(data);
 		view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+model.getAplicacao()));
 
@@ -95,17 +99,11 @@ public class CRUDGeneratorController extends Controller {
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp_studio","CRUDGenerator","index");
-		}
-		
-		----#gen-example */
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","CRUDGenerator","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(gerar)----*/
 
 		if(Igrp.getMethod().equalsIgnoreCase("post")){

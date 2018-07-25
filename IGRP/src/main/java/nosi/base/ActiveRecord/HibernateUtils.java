@@ -18,6 +18,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.exception.PermissionException;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 
@@ -28,65 +29,97 @@ public class HibernateUtils {
 
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
-			return getSessionFactory(config_env.getName());
-		return getSessionFactory(new Config().getBaseConnection());
+			return getSessionFactory(config_env.getName(),config_env.getApplication().getDad());
+		return getSessionFactory(new Config().getBaseConnection(),Core.getCurrentDadParam());
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
-		if (!sessionFactory.containsKey(connectionName)) {
-			try {
-				StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
-				registryBuilder.configure("/" + connectionName + ".cfg.xml");
-				registryBuilder.applySettings(getSettings(connectionName));
-				registry = registryBuilder.build();
-				MetadataSources sources = new MetadataSources(registry);
-				Metadata metadata = sources.getMetadataBuilder().build();
-				sessionFactory.put(connectionName,metadata.getSessionFactoryBuilder().build());
-			} catch (Exception e) {
-				e.printStackTrace();
-				destroy();
+		return getSessionFactory(connectionName,Core.getCurrentDadParam());
+	}
+	
+	public static SessionFactory getSessionFactory(String connectionName,String dad) {
+		Config cf = new Config();
+		String connectionName_ = cf.getBaseConnection();
+		if(!connectionName.equalsIgnoreCase(cf.getBaseConnection())) {
+			connectionName_ = connectionName+"."+dad;
+		}
+		if (!sessionFactory.containsKey(connectionName_)) {
+			registry = buildConfig(cf,connectionName,dad);
+			if(registry!=null) {
+				try {
+						MetadataSources sources = new MetadataSources(registry);
+						Metadata metadata = sources.getMetadataBuilder().build();
+						sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
+				} catch (Exception e) {
+					e.printStackTrace();
+					destroy();
+				}
+			}else {
+				throw new PermissionException("Acesso nao permitido");
 			}
 		}
-		return sessionFactory.get(connectionName);
+		return sessionFactory.get(connectionName_);
 	}
 
-	private static Map<String, Object> getSettings(String connectionName) {
-		Config cf = new Config();
-		String url = null, driver = null, password = null, user = null, hibernateDialect = null;
-		if (cf.getBaseConnection().equalsIgnoreCase(connectionName)) {
-			ConfigDBIGRP config = new ConfigDBIGRP();
-			try {
-				config.load();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	private static StandardServiceRegistry buildConfig(Config cf,String connectionName,String dad) {
+		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
+		try {
+			if (cf.getBaseConnection().equalsIgnoreCase(connectionName)) {
+				registryBuilder.configure("/" + connectionName + ".cfg.xml");
+				registryBuilder.applySettings(getIGRPSettings(connectionName));
+			}else {
+				Map<String, Object> settings = getOthersAppSettings(cf,connectionName,dad);
+				if(settings!=null) {
+					registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
+					registryBuilder.applySettings(settings);
+				}else {
+					return null;
+				}
 			}
-			url = getUrl(config.getType_db(), config.getHost(), "" + config.getPort(), config.getName_db());
-			driver = getDriver(config.getType_db());
-			password = config.getPassword();
-			user = config.getUsername();
-			hibernateDialect = getHibernateDialect(config.getType_db());
-		} else {
-			Config_env config = new Config_env();
-			config.find().andWhere("name", "=", connectionName);
-			config = config.one();
-			if (config != null) {				
-				url = getUrl(
-							Core.decrypt(config.getType_db(), cf .SECRET_KEY_ENCRYPT_DB),
-							Core.decrypt(config.getHost(), cf.SECRET_KEY_ENCRYPT_DB),
-							Core.decrypt(config.getPort(), cf.SECRET_KEY_ENCRYPT_DB),
-							Core.decrypt(config.getName_db(), cf.SECRET_KEY_ENCRYPT_DB)
-						);
-				driver = getDriver(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
-				password = Core.decrypt(config.getPassword(), cf.SECRET_KEY_ENCRYPT_DB);
-				user = Core.decrypt(config.getUsername(), cf.SECRET_KEY_ENCRYPT_DB);
-				hibernateDialect = getHibernateDialect(config.getType_db());
-			}
+		}catch(org.hibernate.internal.util.config.ConfigurationException e) {
+			throw new PermissionException("Acesso nao permitido");
 		}
+		return  registryBuilder.build();
+	}
+
+	private static Map<String, Object> getOthersAppSettings(Config cf,String connectionName, String dad) {
+		Config_env config = new Config_env().find()
+				.andWhere("name", "=", connectionName)
+				.andWhere("application.dad", "=",dad)
+				.one();
+		if (config != null) {			
+			String url = getUrl(
+						Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getHost(), cf.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getPort(), cf.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getName_db(), cf.SECRET_KEY_ENCRYPT_DB)
+					);
+			String driver = getDriver(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
+			String password = Core.decrypt(config.getPassword(), cf.SECRET_KEY_ENCRYPT_DB);
+			String user = Core.decrypt(config.getUsername(), cf.SECRET_KEY_ENCRYPT_DB);
+			String hibernateDialect = getHibernateDialect(config.getType_db());
+			return getSettings(driver, url, user, password, hibernateDialect);
+		}
+		return null;
+	}
+
+	private static Map<String, Object> getIGRPSettings(String connectionName) {
+		ConfigDBIGRP config = new ConfigDBIGRP();
+		try {
+			config.load();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String url = getUrl(config.getType_db(), config.getHost(), "" + config.getPort(), config.getName_db());
+		String driver = getDriver(config.getType_db());
+		String password = config.getPassword();
+		String user = config.getUsername();
+		String hibernateDialect = getHibernateDialect(config.getType_db());
 		return getSettings(driver, url, user, password, hibernateDialect);
 	}
 
-	public static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect) {
+	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect) {
 		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);	
 		//Hibernate config
 		settings.put(Environment.HBM2DDL_AUTO, "update");
@@ -116,8 +149,9 @@ public class HibernateUtils {
 //    	settings.put("hibernate.c3p0.privilegeSpawnedThreads","true"); 
     	
        //hickaricp config
-        
-		//Maximum waiting time for a connection from the pool. 
+
+//        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
+//		//Maximum waiting time for a connection from the pool. 
 //		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
 //		//Maximum time that a connection is allowed to sit ideal in the pool
 //		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
@@ -127,10 +161,6 @@ public class HibernateUtils {
 //		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
 //		//Maximum lifetime of a connection in the pool
 //		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
-
-//		//Hibernate configuration
-
-//        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
 		return settings;
 	}
 
@@ -215,4 +245,5 @@ public class HibernateUtils {
 	public static void removeSessionFactory(String connectionName) {
 		sessionFactory.remove(connectionName);
 	}
+
 }
