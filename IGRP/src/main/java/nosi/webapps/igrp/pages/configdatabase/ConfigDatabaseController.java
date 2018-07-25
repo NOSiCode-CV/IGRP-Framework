@@ -114,11 +114,14 @@ public class ConfigDatabaseController extends Controller {
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
-			if (!MigrationIGRP.validate(m)) {
+			if (!MigrationIGRP.validate(m) || config.getName().equalsIgnoreCase(this.getConfig().getBaseConnection())) {
 				Core.setMessageError(gt("Falha na conexão com a base de dados"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
-			boolean check = new Config_env().find().andWhere("name", "=", config.getName()).one() == null;
+			boolean check = new Config_env().find()
+											.andWhere("name", "=", config.getName())
+											.andWhere("application", "=",Integer.parseInt(model.getAplicacao()))
+											.one() == null;
 			if (check) {
 				config = config.insert();
 				if (config != null) {
@@ -169,9 +172,9 @@ public class ConfigDatabaseController extends Controller {
 				+ "</hibernate-configuration>";
 		String pathWS = this.getConfig().getPathWorkspaceResources();
 		String pathServer = this.getConfig().getBasePathClass();
-		FileHelper.save(pathServer, config.getName() + ".cfg.xml", content);
+		FileHelper.save(pathServer, config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml", content);
 		if (FileHelper.fileExists(pathWS)) {
-			FileHelper.save(pathWS, config.getName() + ".cfg.xml", content);
+			FileHelper.save(pathWS, config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml", content);
 		}
 	}
 	/*----#end-code----*/

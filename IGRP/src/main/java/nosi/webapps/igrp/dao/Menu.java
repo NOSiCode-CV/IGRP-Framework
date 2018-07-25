@@ -141,30 +141,6 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 				.andWhere("profileType", "=",Core.getCurrentProfile())
 				.andWhere("profileType.status", "=", 1)
 				.all();
-//		EntityManager em = this.getSessionFactory().createEntityManager();
-//		EntityTransaction t =  em.getTransaction();
-//		t.begin();
-//		String sql =  "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?) AND ACTION_FK=? "
-//					+ "UNION "
-//					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE, 0 as FLG_BASE "
-//					+ "FROM tbl_MENU M1, tbl_menu M2 "
-//					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 "
-//					+ "AND M1.ENV_FK=? "
-//					+ "ORDER BY orderby ";
-//		Query q =  em.createNativeQuery(sql);
-//		q.setParameter(1,new Permission().getCurrentPerfilId());
-//		q.setParameter(2,new Permission().getCurrentOrganization());
-//		q.setParameter(3,new Permission().getCurrentOrganization());	
-//		Application a = new Application().find().andWhere("dad", "=", app).one();
-//		q.setParameter(4,(a!=null && a.getId()>0)?a.getId():-1);	
-//		Action ac = new Action().find().andWhere("page", "=", Igrp.getInstance().getCurrentPageName())
-//									   .andWhere("action","=",Igrp.getInstance().getCurrentActionName())
-//									   .one();
-//		q.setParameter(5,(ac!=null && ac.getId()>0)?ac.getId():-1);		
-//		q.setParameter(6,(a!=null && a.getId()>0)?a.getId():-1);	
-//		int x = q.getResultList().size();
-//		t.commit();
-//		em.close();
 		return p.size() > 0;
 		
 		
@@ -186,8 +162,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 
 	public HashMap<String,List<Menu>> getMyMenu() {
 		HashMap<String,List<Menu>> list = new HashMap<>();
-		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE STATUS=1 AND org_fk=:org_fk AND prof_type_fk=:prof_type_fk AND env_fk_prof_type=:env_fk_prof_type AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE org_fk=:org_fk)";
-		Record row = Core.query(sql)
+		String sql = "select * from glb_v_prof_menu where status=1 and org_fk=:org_fk and prof_type_fk=:prof_type_fk and env_fk_prof_type=:env_fk_prof_type and id in (select id from glb_v_org_menu where org_fk=:org_fk)";
+		Record row = Core.query(this.getConnectionName(),sql)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
 						 .addInt("env_fk_prof_type", Core.getCurrentApp().getId())

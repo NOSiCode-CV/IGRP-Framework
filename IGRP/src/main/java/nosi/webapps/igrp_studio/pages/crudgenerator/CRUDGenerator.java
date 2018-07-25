@@ -1,8 +1,13 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
-import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +17,7 @@ public class CRUDGenerator extends Model{
 	@RParam(rParamName = "p_data_source")
 	private String data_source;
 	@RParam(rParamName = "p_add_datasource")
-	private String add_datasource;
+	private IGRPLink add_datasource;
 	@RParam(rParamName = "p_add_datasource_desc")
 	private String add_datasource_desc;
 	@RParam(rParamName = "p_schema")
@@ -24,6 +29,24 @@ public class CRUDGenerator extends Model{
 	}
 	public List<Table_1> getTable_1(){
 		return this.table_1;
+	}
+	@RParam(rParamName = "p_table_1_id")
+	private String[] p_table_1_id;
+	@RParam(rParamName = "p_table_1_del")
+	private String[] p_table_1_del;
+	
+	public void setP_table_1_id(String[] p_table_1_id){
+		this.p_table_1_id = p_table_1_id;
+	}
+	public String[] getP_table_1_id(){
+		return this.p_table_1_id;
+	}
+	
+	public void setP_table_1_del(String[] p_table_1_del){
+		this.p_table_1_del = p_table_1_del;
+	}
+	public String[] getP_table_1_del(){
+		return this.p_table_1_del;
 	}
 	
 	public void setAplicacao(String aplicacao){
@@ -40,10 +63,11 @@ public class CRUDGenerator extends Model{
 		return this.data_source;
 	}
 	
-	public void setAdd_datasource(String app,String page,String action){
-		this.add_datasource = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setAdd_datasource(String app,String page,String action){
+		this.add_datasource = new IGRPLink(app,page,action);
+		return this.add_datasource;
 	}
-	public String getAdd_datasource(){
+	public IGRPLink getAdd_datasource(){
 		return this.add_datasource;
 	}
 	public void setAdd_datasource_desc(String add_datasource_desc){
@@ -51,6 +75,14 @@ public class CRUDGenerator extends Model{
 	}
 	public String getAdd_datasource_desc(){
 		return this.add_datasource_desc;
+	}
+	public IGRPLink setAdd_datasource(String link){
+		this.add_datasource = new IGRPLink(link);
+		return this.add_datasource;
+	}
+	public IGRPLink setAdd_datasource(Report link){
+		this.add_datasource = new IGRPLink(link);
+		return this.add_datasource;
 	}
 	
 	public void setSchema(String schema){
@@ -61,7 +93,7 @@ public class CRUDGenerator extends Model{
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private int check_table;
 		private int check_table_check;
 		private String table_name;
@@ -87,7 +119,7 @@ public class CRUDGenerator extends Model{
 
 	}
 
-	public void loadTable_1(QueryHelper query) {
+	public void loadTable_1(BaseQueryInterface query) {
 		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 

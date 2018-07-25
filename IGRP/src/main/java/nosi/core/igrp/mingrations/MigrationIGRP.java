@@ -49,8 +49,6 @@ public class MigrationIGRP {
 			config.setPassword(model.getPassword());
 			config.save();
 		}
-//		PersistenceUtils.isSuccessful = false;
-//		PersistenceUtils.init();
 		saveData();
 		new CreateViews();
 	}

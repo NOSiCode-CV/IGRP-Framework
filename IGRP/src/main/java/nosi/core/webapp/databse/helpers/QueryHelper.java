@@ -17,7 +17,6 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -39,7 +38,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
-		this.connectionName = Core.isNotNull(connectionName)?connectionName:new Config().getBaseConnection();
+		this.connectionName = connectionName;
 	}	
 	
 	public QueryInterface where(String condition) {
@@ -322,56 +321,7 @@ public abstract class QueryHelper implements QueryInterface{
 			query.setObject(col.getName(), value);
 		}
 	}
-	
-//	@Override
-//	public ResultSet execute() {
-//		ResultSet r = new ResultSet();
-//		String sql = this.getSql();
-//		if(this.getConnectionName()!=null) {
-//			EntityManagerFactory entityManagerFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-//			EntityManager em = entityManagerFactory.createEntityManager();			
-//			if(this instanceof QueryInsert) {				
-//				if(retuerningKeys!=null) {
-//					sql += " returning "+ String.join(",",(String[])retuerningKeys.toArray());	
-//				}else {
-//					sql += " returning *";
-//				}
-//				Query q = em.createNativeQuery(sql,Tuple.class);
-//				try {
-//					this.setParameters(q);
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//				r.setTuple((Tuple) q.getSingleResult());
-//			}			
-//			else{
-//				Query q = em.createNativeQuery(sql);
-//				try {
-//					this.setParameters(q);
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//				em.getTransaction().begin();
-//				q.executeUpdate();
-//				em.getTransaction().commit();
-//			}
-//			em.close();
-//		}
-//		return r;
-//	}
-	
-	
-	//
-//	private void setParameters(Query q) throws SQLException {
-//		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
-//			 if(col.getDefaultValue()!=null) {
-//				 this.setParameter(q,col.getDefaultValue(),col);					
-//			 }else {
-//				 q.setParameter(col.getName(), null);
-//			 }
-//		}
-//	}
-	
+
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
