@@ -158,7 +158,7 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	}
 
 	public void deleteAllProfile() {
-		Core.query("DELETE FROM tbl_profile")
+		Core.delete("tbl_profile")
 			.where("prof_type_fk=:prof_type_fk AND user_fk=:user_fk AND type=:type AND org_fk=:org_fk")
 			.addInt("prof_type_fk", this.getProfileType().getId())
 			.addInt("user_fk", this.getUser().getId())
