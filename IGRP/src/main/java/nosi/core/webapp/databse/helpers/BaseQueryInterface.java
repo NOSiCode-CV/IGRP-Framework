@@ -46,6 +46,18 @@ public interface BaseQueryInterface {
 	
 	public QueryInterface where();
 	
+	public QueryInterface whereNotNull(String name);
+	
+	public QueryInterface whereIsNull(String name);
+	
+	public QueryInterface where(String name,String operator,String value);
+	
+	public QueryInterface where(String name,String operator,Integer value);
+	
+	public QueryInterface where(String name,String operator,Float value);
+	
+	public QueryInterface where(String name,String operator,Double value);
+	
 	public QueryInterface addLong(String columnName,Long value);
 
 	public QueryInterface addDouble(String columnName,Double value);
