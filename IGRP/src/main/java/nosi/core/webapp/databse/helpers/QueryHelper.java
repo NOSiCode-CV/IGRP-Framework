@@ -637,4 +637,44 @@ public abstract class QueryHelper implements QueryInterface{
 	public Record getSigleRecord() {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public QueryInterface whereNotNull(String name) {
+		this.sql += " WHERE "+name+" IS NOT NULL ";
+		return this;
+	}
+
+	@Override
+	public QueryInterface whereIsNull(String name) {
+		this.sql += " WHERE "+name+" IS NULL ";
+		return this;
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, String value) {
+		this.sql += " WHERE "+name+" =: "+name;
+		this.addString(name, value);
+		return this;
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, Integer value) {
+		this.sql += " WHERE "+name+" =: "+name;
+		this.addInt(name, value);
+		return this;
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, Float value) {
+		this.sql += " WHERE "+name+" =: "+name;
+		this.addFloat(name, value);
+		return this;
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, Double value) {
+		this.sql += " WHERE "+name+" =: "+name;
+		this.addDouble(name, value);
+		return this;
+	}
 }
