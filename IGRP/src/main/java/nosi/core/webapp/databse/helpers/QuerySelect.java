@@ -12,7 +12,6 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
 import nosi.base.ActiveRecord.HibernateUtils;
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.webapps.igrp.dao.Config_env;
@@ -30,15 +29,8 @@ public class QuerySelect extends CommonFIlter{
 	}
 
 	public QuerySelect() {				
-		this(getMyConnectionName());
+		this(null);
 			
-	}		
-	
-	private static String getMyConnectionName() {		
-		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application", "=", Core.getCurrentApp().getId()).one();
-		if(firstConnectionNameOfTheApp!=null)
-			return firstConnectionNameOfTheApp.getName();
-		else return new Config().getBaseConnection();
 	}
 	
 	//Validate sql query
