@@ -38,27 +38,30 @@ public class HibernateUtils {
 	}
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad) {
-		Config cf = new Config();
-		String connectionName_ = cf.getBaseConnection();
-		if(!connectionName.equalsIgnoreCase(cf.getBaseConnection())) {
-			connectionName_ = connectionName+"."+dad;
-		}
-		if (!sessionFactory.containsKey(connectionName_)) {
-			registry = buildConfig(cf,connectionName,dad);
-			if(registry!=null) {
-				try {
-						MetadataSources sources = new MetadataSources(registry);
-						Metadata metadata = sources.getMetadataBuilder().build();
-						sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
-				} catch (Exception e) {
-					e.printStackTrace();
-					destroy();
-				}
-			}else {
-				throw new PermissionException("Acesso nao permitido");
+		if(Core.isNotNull(connectionName)) {			
+			Config cf = new Config();
+			String connectionName_ = cf.getBaseConnection();
+			if(!connectionName.equalsIgnoreCase(cf.getBaseConnection())) {
+				connectionName_ = connectionName+"."+dad;
 			}
+			if (!sessionFactory.containsKey(connectionName_)) {
+				registry = buildConfig(cf,connectionName,dad);
+				if(registry!=null) {
+					try {
+							MetadataSources sources = new MetadataSources(registry);
+							Metadata metadata = sources.getMetadataBuilder().build();
+							sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
+					} catch (Exception e) {
+						e.printStackTrace();
+						destroy();
+					}
+				}else {
+					throw new PermissionException("Acesso nao permitido");
+				}
+			}
+			return sessionFactory.get(connectionName_);
 		}
-		return sessionFactory.get(connectionName_);
+		return null;
 	}
 
 	private static StandardServiceRegistry buildConfig(Config cf,String connectionName,String dad) {

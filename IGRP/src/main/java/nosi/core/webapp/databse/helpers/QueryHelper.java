@@ -21,6 +21,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.helpers.DateHelper;
+import nosi.webapps.igrp.dao.Config_env;
 
 
 /**
@@ -38,8 +39,21 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
-		this.connectionName = connectionName;
+		this.connectionName = this.getMyConnectionName(connectionName);
 	}	
+	
+	private String getMyConnectionName(String connectionName) {
+		if(Core.isNotNull(connectionName))
+			return connectionName;
+		return this.getMyConnectionName();
+	}
+	
+	private String getMyConnectionName() {		
+		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application.dad", "=",Core.getCurrentDadParam()).one();
+		if(firstConnectionNameOfTheApp!=null)
+			return firstConnectionNameOfTheApp.getName();
+		return null;
+	}
 	
 	public QueryInterface where(String condition) {
 		this.sql += " WHERE "+condition;
