@@ -95,7 +95,7 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 		+ " AND P.org_fk=:org_fk"
 		+ " AND T.code=:code "
 		+ " AND T.status=1 ";
-		int x = Core.query(sql)
+		int x = Core.query(this.getConnectionName(), sql)
 					.addString("type", "TRANS")
 					.addInt("prof_type_fk", Core.getCurrentProfile())
 					.addInt("org_fk", Core.getCurrentOrganization())
