@@ -118,8 +118,9 @@
 
 
             this.on('click',settings.btnObjAdd,function(){
-                TABLE = getObjTable($(this).attr('rel'));
-                vRel  = TABLE.attr('rel');
+            	vRel  = $(this).attr('rel');
+                TABLE = getObjTable(vRel);
+                
                 var element = type == 'table' ? "tr:first" : '.fl-box';
                 onAdd($(this).parents(element));
             });
@@ -135,8 +136,9 @@
             };
 
             this.on('click',settings.btnObjDelete,function(){
-                TABLE = getObjTable($(this).attr('rel'));
-                vRel  = TABLE.attr('rel');
+            	vRel  = $(this).attr('rel');
+                TABLE = getObjTable(vRel);
+                
                 var element = type == 'table' ? "tr:first" : '.fl-box';
                 onDelete($(this).parents(element));
             });
