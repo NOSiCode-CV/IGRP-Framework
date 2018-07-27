@@ -277,4 +277,68 @@ public final class EmailMessage { // Not inherit
 		return this;
 	}
 	
+	public static class PdexTemplate{
+		
+		public PdexTemplate() {}
+		
+		
+		protected static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
+			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) {
+				return "";
+			}
+			
+	        String body = ""
+	                + "<table style=\"border-width: 0px; border-collapse:collapse;border-spacing:0;color:#333;background:#fff;padding:0;margin:0;width:100%;font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
+	                + "        <tbody>"
+	                + "            <tr style=\"width:100%;\">"
+	                + "                <td style=\"background:#EEEEEE;padding:0px;vertical-align: top;text-align:left;font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
+	                + "                    <table style=\"border:none;padding:0 18px;margin:30px auto;width:550px; min-height: 250px;\">"
+	                + "                        <tbody>"
+	                + "                            <tr style=\"width:100%;height:57px;\" >"
+	                + "                                <td style=\"border-top-color: #ddd; border-top-width: 1px; border-top-style: solid; border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; font-size:36px;text-align:center;color:#333333;padding:0px;margin: 0 auto;\">"
+	                + "                                    <strong>" + boxTitle + "</strong>"
+	                + "                                </td>"
+	                + "                            </tr>"
+	                + "                            <tr style=\"width:100%;\" >"
+	                + "                                <td style=\"border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid; background:#FFFFFF;padding:18px;vertical-align:top;text-align:left;\">"
+	                + "                                    <h1 style=\"font-size:20px;margin:0;color:#424242\">" + msgBoasVindas + "</h1>";
+
+	        
+	        // Paragrafos
+	        for (String paragrafo : paragrafos) {
+	        	body += "                                 <p style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;color:#424242;margin-top:8px;\">" + paragrafo + "</p>";
+			}
+
+	        if (textoBtnAcao != null && textoBtnAcao.length > 0 && hrefBtnAcao != null && hrefBtnAcao.length > 0 && hrefBtnAcao.length == textoBtnAcao.length) {
+	           
+	        	for(int i = 0 ; i < hrefBtnAcao.length; i++) {
+	        		 // Botao Accao
+		            body += ""
+		                    + "                                <p style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;\">"
+		                    + "                                    <a href=\"" + hrefBtnAcao[i] + "\" style=\"color:#ffffff;background:#5cb85c;padding:12px;width:200px;display:block;text-align:center;text-decoration:none;font-weight:700;font-size:16px;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;margin:24px auto 24px;border-radius:3px;line-height:20px\" target=\"_blank\" >" + textoBtnAcao[i] + "</a>"
+		                    + "                                </p>";
+	        	}
+	        	
+	        } else {
+	            // Funciona tipo uma margem antes do rodape
+	            body += ""
+	                    + "                                <p style=\"height:30px;\"></p>";
+	        }
+	        // Rodape
+	        body += "                                    <p style=\"color:#797f89;margin-bottom:0;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;\"> "
+	                + "                                        <a href=\"" + helpLink + "\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#ef5b25;text-decoration:none\" target=\"_blank\" >Clique aqui</a>" + " para mais informações"
+	                + "                                    </p>";
+	        body += "                                </td>"
+	                + "                            </tr>"
+	                + "                        </tbody>"
+	                + "                    </table>"
+	                + "                </td>"
+	                + "            </tr>"
+	                + "        </tbody>"
+	                + "    </table>";
+
+	        return body;
+	    }
+	}
+	
 }
