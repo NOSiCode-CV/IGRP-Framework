@@ -20,8 +20,10 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
+import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServiceUserStoreException_Exception;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 
 import nosi.core.config.Config;
@@ -33,6 +35,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.OAuthClient;
@@ -50,6 +53,13 @@ import service.client.WSO2UserStub;
 public class LoginController extends Controller {	
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		Properties settings_ = loadOAuth2("sso", "oauth2.xml");
+		if(settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
+				settings_.getProperty("igrp.env.nhaLogin.url") != null && !settings_.getProperty("igrp.env.nhaLogin.url").isEmpty()
+				) {
+			return redirectToUrl(settings_.getProperty("igrp.env.nhaLogin.url"));
+		}
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
@@ -96,7 +106,7 @@ public class LoginController extends Controller {
 				new Permission().changeOrgAndProfile(param[0]);
 				return this.redirectToUrl(destination);
 			}
-			return this.redirect("igrp", "home", "index"); // go to home (Bug here)
+			return this.redirect("igrp", "home", "index");
 		}
 		
 		Login model = new Login();
@@ -153,6 +163,14 @@ public class LoginController extends Controller {
 								else 
 									;// Go to error page 
 							}else {
+								
+								Properties settings = loadOAuth2("sso", "oauth2.xml");
+								
+								if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
+									return checkEnvironments(model.getUser());
+								}
+								
+								
 								//TODO by Marcos: must decrypt de URL when you do Route.remenber() 
 								String destination = Route.previous();
 								if(destination != null) {
@@ -183,6 +201,14 @@ public class LoginController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro com registo session ..."));
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout."));
+		
+		Properties settings = loadOAuth2("sso", "oauth2.xml");
+		if(settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
+				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
+				) {
+			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
+		}
+		
 		return this.redirect("igrp", "login", "login");
 	}
 	
@@ -512,6 +538,34 @@ public class LoginController extends Controller {
 			}
 			return props;
 		}
+	
+	private Response checkEnvironments(String uid) {
+		try {
+			
+			Properties settings = loadOAuth2("ids", "wso2-ids.xml");
+			
+			URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
+	        WSO2UserStub.disableSSL();
+	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
+	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	        
+	        List<String> roles = stub.getOperations().getRoleListOfUser(uid);
+	        
+	        JSONArray jsonArray = new JSONArray();
+	        
+	        roles.forEach(obj -> {jsonArray.put(obj);});
+	        
+	        Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonArray.toString());
+	        
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		String url = Igrp.getInstance().getRequest().getRequestURL().toString();
+		url = url.replace("app/webapps", "mylinks.jsp");
+		
+		return redirectToUrl(url);
+	}
 	
 	
 	/** **/

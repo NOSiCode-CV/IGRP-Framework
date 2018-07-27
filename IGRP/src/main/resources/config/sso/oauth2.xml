@@ -11,4 +11,5 @@
 	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
 	<entry key="igrp.plsql.url">http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/</entry>
 	<entry key="igrp.env.isNhaLogin">false</entry>
+	<entry key="igrp.env.nhaLogin.url"></entry>
 </properties>
