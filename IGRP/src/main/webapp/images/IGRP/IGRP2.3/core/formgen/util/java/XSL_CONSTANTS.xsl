@@ -281,9 +281,6 @@
             <xsl:when test="$type='smallbox'">
                 <xsl:value-of select="'IGRPSmallBox'" />
             </xsl:when>
-            <xsl:when test="$type='statbox'">
-                <xsl:value-of select="'IGRPStartBox'" />
-            </xsl:when>
             <xsl:when test="$type='tabcontent'">
                 <xsl:value-of select="'IGRPTabContent'" />
             </xsl:when>
@@ -325,6 +322,9 @@
             </xsl:when>
             <xsl:when test="$type='tabmenu'">
                 <xsl:value-of select="'IGRPMenu'" />
+            </xsl:when>
+            <xsl:when test="$type='statbox'">
+                <xsl:value-of select="'IGRPStatBox'" />
             </xsl:when>
             <xsl:otherwise>
             	<xsl:value-of select="'IGRPForm'" />
