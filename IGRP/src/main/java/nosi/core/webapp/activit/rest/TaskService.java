@@ -74,6 +74,11 @@ public class TaskService extends Activit{
 	}
 	
 	public TaskService getTask(String id){
+		TaskService t = this.getTaskWhidoutFilterAccess(id);
+		return this.filterMyTaskAccess(t)? t:null;
+	}
+	
+	public TaskService getTaskWhidoutFilterAccess(String id){
 		TaskService t = new TaskService();
 		Response response = new RestRequest().get("runtime/tasks",id);
 		if(response!=null){
@@ -90,18 +95,23 @@ public class TaskService extends Activit{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return this.filterAccess(t)? t:null;
+		return t;
 	}
 	
 	public List<TaskService> getMyTasks(){
 		List<TaskService> tasks =  this.getTasks();
-		tasks = tasks.stream().filter(t->this.filterAccess(t)).collect(Collectors.toList());
+		tasks = tasks.stream().filter(t->this.filterMyTaskAccess(t)).collect(Collectors.toList());
 		return tasks;
 	}
 	
+	public List<TaskService> getAvailableTasks(){
+		List<TaskService> tasks =  this.getTasks();
+		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t)).collect(Collectors.toList());
+		return tasks;
+	}
 
-	private boolean filterAccess(TaskService t) {	
-		boolean x = new TaskAccess().getCurrentTaskAccess()
+	private boolean filterAvailableTaskAccess(TaskService t) {	
+		boolean x = new TaskAccess().getCurrentAvailableTaskAccess()
 				.stream()
 				.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
 				.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
@@ -110,8 +120,18 @@ public class TaskService extends Activit{
 		return x;
 	}
 
+	private boolean filterMyTaskAccess(TaskService t) {	
+		boolean x = new TaskAccess().getCurrentMyTaskAccess()
+				.stream()
+				.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
+				.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
+				.collect(Collectors.toList())
+				.size() > 0;
+		return x;
+	}
+
+	
 	public List<TaskService> getUnassigedTasks(){
-		this.addFilter("unassigned","true");
 		return this.getTasks();
 	}
 	
@@ -218,8 +238,17 @@ public class TaskService extends Activit{
 	}
 	
 	//Assumir tarefa
-	public boolean claimTask(String id,String assignee){
-		return this.taskAction(id, "claim", assignee);
+	public boolean claimTask(String id) {
+		TaskService task = this.getTaskWhidoutFilterAccess(id);
+		TaskAccess ta = new TaskAccess().find()
+										.andWhere("processName","=", task.getProcessDefinitionKey())
+										.andWhere("taskName", "=",task.getTaskDefinitionKey())
+										.andWhere("organization", "=",Core.getCurrentOrganization())
+										.andWhere("profileType", "=",Core.getCurrentProfile())
+										.andWhere("user_fk","isnull")
+										.one();
+		ta.setUser_fk(Core.getCurrentUser().getId());		
+		return ta.update()!=null;
 	}
 	//Transferir Tarefa
 	public boolean delegateTask(String id,String assignee){
@@ -232,7 +261,16 @@ public class TaskService extends Activit{
 
 	//Libera a tarefa
 	public boolean freeTask(String id){
-		return this.taskAction(id, "claim",null);
+		TaskService task = this.getTaskWhidoutFilterAccess(id);
+		TaskAccess ta = new TaskAccess().find()
+										.andWhere("processName","=", task.getProcessDefinitionKey())
+										.andWhere("taskName", "=",task.getTaskDefinitionKey())
+										.andWhere("organization", "=",Core.getCurrentOrganization())
+										.andWhere("profileType", "=",Core.getCurrentProfile())
+										.andWhere("user_fk","=",Core.getCurrentUser().getId())
+										.one();
+		ta.setUser_fk(null);		
+		return ta.update()!=null;
 	}
 	
 	//Completar Tarefa
@@ -289,7 +327,7 @@ public class TaskService extends Activit{
 	}
 	
 	private boolean taskAction(String id,String action,String assignee){
-		JSONObject jobj = new JSONObject();
+		/*JSONObject jobj = new JSONObject();
 		try {
 			jobj.put("action" ,action);
 			if(!action.equalsIgnoreCase("resolve"))
@@ -308,7 +346,7 @@ public class TaskService extends Activit{
 			}
 			this.setError(response.getStatus()!=200?(ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class):null);
 			return response.getStatus()==200;
-		}
+		}*/
 		return false;
 	}
 	
