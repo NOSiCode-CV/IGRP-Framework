@@ -355,7 +355,7 @@
 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
-				<xsl:with-param name="type_content"><xsl:value-of select="@xml-type" /></xsl:with-param>
+				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 				<xsl:with-param name="type"><xsl:value-of select="'instance'" /></xsl:with-param>				
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
 				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>

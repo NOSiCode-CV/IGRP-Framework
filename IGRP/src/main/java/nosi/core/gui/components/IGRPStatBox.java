@@ -16,13 +16,13 @@ package nosi.core.gui.components;
         </fields>
     </statbox_1>
  */
-public class IGRPStartBox extends IGRPForm {
+public class IGRPStatBox extends IGRPForm {
 
-	public IGRPStartBox(String tag_name,String title) {
+	public IGRPStatBox(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "statbox");
 	}
-	public IGRPStartBox(String tag_name) {
+	public IGRPStatBox(String tag_name) {
 		this(tag_name,"");
 	}
 
