@@ -108,20 +108,22 @@ public class EtapaaccessController extends Controller {
 
 			if(this.listR!=null) {
 				this.listR.stream().forEach(rr->{
-					rr.RowList.forEach(rrr->{
-						Integer prof_fk = rrr.getInt("prof_fk");
-						String processname = rrr.getString("processname");
-						String taskname = rrr.getString("taskname");
-						Integer org_fk = rrr.getInt("org_fk");
-						if(Core.isNotNull(prof_fk) && Core.isNotNull(org_fk) && Core.isNotNull(processname) && Core.isNotNull(taskname)) {
-							TaskAccess task = new TaskAccess();
-							task.setOrganization(new Organization().findOne(org_fk));
-							task.setProfileType(new ProfileType().findOne(prof_fk));
-							task.setProcessName(processname);
-							task.setTaskName(taskname);
-							task.insert();
-						}
-					});
+					if(rr!=null && rr.RowList!=null) {
+						rr.RowList.forEach(rrr->{
+							Integer prof_fk = rrr.getInt("prof_fk");
+							String processname = rrr.getString("processname");
+							String taskname = rrr.getString("taskname");
+							Integer org_fk = rrr.getInt("org_fk");
+							if(Core.isNotNull(prof_fk) && Core.isNotNull(org_fk) && Core.isNotNull(processname) && Core.isNotNull(taskname)) {
+								TaskAccess task = new TaskAccess();
+								task.setOrganization(new Organization().findOne(org_fk));
+								task.setProfileType(new ProfileType().findOne(prof_fk));
+								task.setProcessName(processname);
+								task.setTaskName(taskname);
+								task.insert();
+							}
+						});
+					}
 				});					
 			}
 		}
