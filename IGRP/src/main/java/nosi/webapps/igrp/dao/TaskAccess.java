@@ -97,21 +97,26 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 		this.user_fk = user_fk;
 	}
 
-	public List<TaskAccess> getCurrentTaskAccess(){
+	public List<TaskAccess> getCurrentMyTaskAccess(){
+		return new TaskAccess().find()
+			   	.andWhere("organization", "=",Core.getCurrentOrganization())
+			   	.andWhere("profileType", "=",Core.getCurrentProfile())
+		   		.andWhere("user_fk", "=",Core.getCurrentUser().getId())
+		   		.all();		
+	}
+	
+	public List<TaskAccess> getCurrentAvailableTaskAccess(){
+		return new TaskAccess().find()
+			   	.andWhere("organization", "=",Core.getCurrentOrganization())
+			   	.andWhere("profileType", "=",Core.getCurrentProfile())
+		   		.andWhere("user_fk", "isnull")
+			   	.all();		
+	}
+	
+	public List<TaskAccess> getCurrentAllTaskAccess(){
 		List<TaskAccess> list = new ArrayList<>();
-		list.addAll(
-					new TaskAccess().find()
-					   	.andWhere("organization", "=",Core.getCurrentOrganization())
-					   	.andWhere("profileType", "=",Core.getCurrentProfile())
-				   		.andWhere("user_fk", "isnull")
-					   	.all()
-					);
-		list.addAll(
-					new TaskAccess().find()
-				   		.andWhere("profileType", "notnull")
-				   		.andWhere("user_fk", "=",Core.getCurrentUser().getId())
-				   		.all()
-					);
+		list.addAll(this.getCurrentAvailableTaskAccess());
+		list.addAll(this.getCurrentMyTaskAccess());
 		return list;		
 	}
 	

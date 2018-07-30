@@ -29,19 +29,21 @@ public class EtapaaccessController extends Controller {
 		EtapaaccessView view = new EtapaaccessView();
 		/*----#start-code(index)----*/
 		String type = Core.getParam("type");
-		String orgProfId = Core.getParam("p_id");
+		Integer orgProfId = Core.getParamInt("p_id");
+		Integer org = null;
 		String userEmail = Core.getParam("userEmail");		
 		if(type.compareTo("org")==0) {
 			model.setTable_1(this.getOrganizationTasks(orgProfId));
 		}
 		if(type.compareTo("user")==0) {
-			ProfileType prof = new ProfileType().findOne(Core.toInt(orgProfId));
-			model.setTable_1(this.getUserTasks(prof.getOrganization().getId().toString(),orgProfId,new User().find().andWhere("email", "=",userEmail).one()));
+			ProfileType prof = new ProfileType().findOne(orgProfId);
+			model.setTable_1(this.getUserTasks(prof.getOrganization().getId().toString(),new User().findIdentityByEmail(userEmail)));
+			org = prof.getOrganization().getId();
 		}
 		if(type.compareTo("prof")==0) {
 			model.setTable_1(this.getProfileTasks(orgProfId));			
 		}
-		view.btn_gravar.setLink("gravar&type="+type+"&orgProfId="+orgProfId+"&userEmail="+userEmail);
+		view.btn_gravar.setLink("gravar&type="+type+"&orgProfId="+orgProfId+"&orgId="+org+"&userEmail="+userEmail);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -53,13 +55,13 @@ public class EtapaaccessController extends Controller {
 		model.load();
 		/*----#start-code(gravar)----*/
 		String type = Core.getParam("type");
-		String orgProfId = Core.getParam("orgProfId");
+		Integer orgProfId = Core.getParamInt("orgProfId");
 		String userEmail = Core.getParam("userEmail");
 		String[] p_id = Core.getParamArray("p_id");
 		User user = null;
 		if(type.compareTo("user")==0) {
 			user = new User().find().andWhere("email", "=",userEmail).one();
-			this.removeOldInserts(type,user.getId().toString());	
+			this.removeOldInserts(type,user.getId());	
 		}else {
 			this.removeOldInserts(type,orgProfId);	
 		}
@@ -78,13 +80,19 @@ public class EtapaaccessController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 
-	private boolean insertNew(String[] p_id, String type, String orgProfId,User user) {
+	private boolean insertNew(String[] p_id, String type, Integer orgProfId,User user) {
 		boolean r = true;
+		Integer orgId = Core.getParamInt("orgId");
 		if(p_id!=null) {
-			Organization org = new Organization().findOne(Core.toInt(orgProfId));
+			Organization org = new Organization();
+			if(Core.isNotNull(orgId)) {
+				org = org.findOne(orgId);
+			}else {
+				org = org.findOne(orgProfId);
+			}			
 			ProfileType prof = null;
-			if("prof".compareTo(type)==0) {
-				prof = new ProfileType().findOne(Core.toInt(orgProfId));
+			if("prof".compareTo(type)==0 || "user".compareTo(type)==0) {
+				prof = new ProfileType().findOne(orgProfId);
 			}
 			for(String id:p_id) {
 				String[] taskProcess = id.split(separator);
@@ -94,15 +102,22 @@ public class EtapaaccessController extends Controller {
 					task.setTaskName(taskProcess[0]);
 					if("org".compareTo(type)==0) {
 						task.setOrganization(org);
+						r = task.insert()!=null;	
 					}
 					if("prof".compareTo(type)==0) {
 						task.setOrganization(prof.getOrganization());
 						task.setProfileType(prof);
+						r = task.insert()!=null;	
 					}
 					if("user".compareTo(type)==0) {
-						task.setUser_fk(user.getId());				
-					}
-					r = task.insert()!=null;		
+						task = task.find().andWhere("processName", "=",task.getProcessName())
+								   .andWhere("taskName","=",task.getTaskName())
+								   .andWhere("profileType", "=",prof.getId())
+								   .andWhere("organization", "=",org.getId())
+								   .one();
+						task.setUser_fk(user.getId());	
+						r = task.update()!=null;				
+					}	
 				}
 			}
 
@@ -133,35 +148,35 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * Remove all old associates tasks
 	 */
-	private void removeOldInserts(String type,String orgProfUserId) {
-//		String[] p_id = Core.getParamArray("p_processid_fk");
+	private void removeOldInserts(String type,Integer orgProfUserId) {
 		String[] p_id = Core.getParamArray("p_id");
+		Integer orgId = Core.getParamInt("orgId");
 		if(p_id!=null && p_id.length > 0) {
 			for(String id:p_id) {
 				String[] taskProcess = id.split(separator);
 				if("org".compareTo(type)==0) {	
 					ResultSet.Record r = Core.query("SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
 						 .where("org_fk=:org_fk AND processname=:processname AND taskname=:taskname AND prof_fk is not null")
-						 .addInt("org_fk", Core.toInt(orgProfUserId))
+						 .addInt("org_fk", orgProfUserId)
 						 .addString("processname", taskProcess[1])
 						 .addString("taskname", taskProcess[0])
 						 .getRecordList();
 					this.listR.add(r);			
 					Core.delete("tbl_task_access").where("org_fk=:org_fk")
-										   .addInt("org_fk", Core.toInt(orgProfUserId))
+										   .addInt("org_fk",orgProfUserId)
 										   .andWhere("processname", "=",taskProcess[1])
 										   .execute();
 				}
 				if("prof".compareTo(type)==0) {
 					Core.delete("tbl_task_access").where("prof_fk=:prof_fk")
-					   .addInt("prof_fk", Core.toInt(orgProfUserId))
+					   .addInt("prof_fk",orgProfUserId)
 					   .andWhere("processname", "=",taskProcess[1])
 					   .execute();
 				}
 				if("user".compareTo(type)==0) {
-					Core.delete("tbl_task_access").where("user_fk=:user_fk")
-										   .addInt("user_fk", Core.toInt(orgProfUserId))
-										   .andWhere("processname", "=",taskProcess[1])
+					Core.update("tbl_task_access").addInt("user_fk", null).where("processname=:processname AND org_fk=:org_fk")
+										   .addString("processname",taskProcess[1])
+										   .addInt("org_fk", orgId)
 										   .execute();
 				}
 			}
@@ -171,7 +186,7 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * List all task associate to organization with references to profile
 	 */
-	private List<Table_1> getProfileTasks(String orgProfId) {
+	private List<Table_1> getProfileTasks(Integer orgProfId) {
 		List<Table_1> table = new ArrayList<>();
 		ProfileType prof = new ProfileType().findOne(orgProfId);
 		if(prof!=null) {
@@ -195,8 +210,8 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * List all task associate to application with references to organization
 	 */
-	private List<Table_1> getOrganizationTasks(String orgProfId) {
-		Organization org = new Organization().findOne(Core.toInt(orgProfId));
+	private List<Table_1> getOrganizationTasks(Integer orgProfId) {
+		Organization org = new Organization().findOne(orgProfId);
 		List<Table_1> table = new ArrayList<>();
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
@@ -228,7 +243,7 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * List all task associate to application with references to user
 	 */
-	private List<Table_1> getUserTasks(String orgId,String idProf, User user) {
+	private List<Table_1> getUserTasks(String orgId, User user) {
 		Organization org = new Organization().findOne(Core.toInt(orgId));
 		List<Table_1> table = new ArrayList<>();
 		if(org!=null) {
@@ -241,7 +256,7 @@ public class EtapaaccessController extends Controller {
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
 				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
-				if(this.getTaskUserExists(user,Core.toInt(idProf),task.getProcessDefinitionId(),task.getTaskDefinitionKey())!=null)
+				if(this.getTaskUserExists(user,task.getProcessDefinitionId(),task.getTaskDefinitionKey())!=null)
 					t.setId_check(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
 				t.setDescricao(task.getProcessDefinitionId() + " - " + task.getName());
 				t.setProcessid(task.getProcessDefinitionId());
@@ -277,19 +292,12 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * Get existing task associate to the user
 	 */
-	private TaskAccess getTaskUserExists(User user,Integer idProf,String proccessName,String taskName){
+	private TaskAccess getTaskUserExists(User user,String proccessName,String taskName){
 		TaskAccess t= new TaskAccess().find()
 				.andWhere("processName", "=",proccessName)
 				.andWhere("taskName", "=",taskName)
 				.andWhere("user_fk", "=",user.getId())		
 				.one();
-		if(t==null) {//If no associate to user, check associate to profile
-			 t= new TaskAccess().find()
-						.andWhere("processName", "=",proccessName)
-						.andWhere("taskName", "=",taskName)
-						.andWhere("profileType", "=",idProf)		
-						.one();
-		}
 		return t;
 	}
 	private final String separator = "---IGRP---";
