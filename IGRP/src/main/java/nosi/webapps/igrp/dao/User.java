@@ -208,6 +208,12 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 		return this.find().andWhere("user_name", "=", username).one();
 	}
 
+
+	
+	public User findIdentityByEmail(String username) {	
+		return this.find().andWhere("user_name", "=", username).one();
+	}
+	
 	@Override
 	public boolean validate(String inputPassword) {
 		return this.pass_hash!=null?this.pass_hash.equals(inputPassword):false;

@@ -130,9 +130,9 @@ public class ExecucaoTarefasController extends Controller {
       }
       
       List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-      for(TaskService task:objTask.getUnassigedTasks()){
+      for(TaskService task:objTask.getAvailableTasks()){
          ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
-         t.setCategorias_processo_tabela_disponiveis(task.getCategory());
+         t.setCategorias_processo_tabela_disponiveis(task.getProcessDefinitionKey());
          t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
          t.setP_id_d(task.getId());
          t.setN_tarefa_d(task.getProcessInstanceId());
@@ -416,9 +416,6 @@ public class ExecucaoTarefasController extends Controller {
                   .addQueryString("showTimeLine", "true");
                return this.redirect(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
             }
-            System.out.println("NOT NULL");
-         }else {
-        	 System.out.println("NULL");
          }
          throw new IOException(Core.NO_PERMITION_MSG);
       }
@@ -475,8 +472,7 @@ public class ExecucaoTarefasController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(leberar_tarefa_button_minha_tarefas)----*/      
       String id = Core.getParam("p_id");
-      TaskService task = new TaskService();
-      if(task.freeTask(id)){
+      if(Core.isNotNull(id) && new TaskService().freeTask(id)){
          Core.setMessageSuccess(gt("Tarefa liberada com sucesso"));
       }else{
          Core.setMessageError();       
@@ -497,9 +493,8 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","ExecucaoTarefas","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(assumir_button_tabela)----*/
-      String id = Core.getParam("p_id_d");
-      TaskService task = new TaskService();
-      if(task.claimTask(id, Core.getCurrentUser().getUser_name())){
+      String id = Core.getParam("p_p_id_d");
+      if(Core.isNotNull(id) && new TaskService().claimTask(id)){
          Core.setMessageSuccess(gt("Tarefa assumido com sucesso"));
       }else{
          Core.setMessageError();          
