@@ -125,7 +125,7 @@
 			</xsl:for-each>
     	</xsl:for-each> 
 
-    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist']">
+    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline']">
     		<xsl:value-of select="$tab"/>
 			<xsl:variable name="tableName">
     			<xsl:call-template name="gen-className">
@@ -205,7 +205,7 @@
  		<xsl:value-of select="$import_date"/>
  		
 		<xsl:value-of select="$newline"/>
-		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist']) > 0">
+		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline']) > 0">
 	 		<xsl:value-of select="$import_array_list"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$import_list"/>
@@ -507,10 +507,10 @@
  	
  	<!-- Gen subclass -->
  	<xsl:template name="gen-subclass">
- 		<xsl:for-each select="/rows/content/*[@type='table']">
+ 		<xsl:for-each select="/rows/content/*[@type='table' or @type='timeline']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 
- 	 <!--
+ 	<!-- 
  		<xsl:for-each select="/rows/content/*[@type='timeline']">
  			<xsl:call-template name="gen-ttributes-subclass-timeline"></xsl:call-template>
  		</xsl:for-each> 

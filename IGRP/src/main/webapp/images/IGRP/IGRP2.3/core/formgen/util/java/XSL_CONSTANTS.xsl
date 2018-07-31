@@ -104,13 +104,13 @@
     </xsl:variable>
     
     <xsl:variable name="import_array_list">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
-        	<xsl:text>import java.util.ArrayList;</xsl:text>
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline']) &gt; 0">
+        	<xsl:text>import java.util.ArrayList;</xsl:text> 
         </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_list">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline']) &gt; 0">
         	<xsl:text>import java.util.List;</xsl:text>
         </xsl:if>
     </xsl:variable>
@@ -122,7 +122,7 @@
     </xsl:variable>
     
     <xsl:variable name="import_query_helper">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.databse.helpers.BaseQueryInterface;</xsl:text>
         </xsl:if>
     </xsl:variable>
@@ -247,6 +247,9 @@
             </xsl:when>
             <xsl:when test="$type='table'">
                 <xsl:value-of select="'IGRPTable'" />
+            </xsl:when>
+            <xsl:when test="$type='timeline'">
+                <xsl:value-of select="'IGRPTimeline'" />
             </xsl:when>
             <xsl:when test="$type='formlist'">
                 <xsl:value-of select="'IGRPFormList'" />

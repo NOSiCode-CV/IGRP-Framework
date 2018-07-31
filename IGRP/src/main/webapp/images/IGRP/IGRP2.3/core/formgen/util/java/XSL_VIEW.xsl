@@ -46,7 +46,7 @@
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$newline"/>			
 		<xsl:value-of select="$tab2"/>	
-		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist']">			
+		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist' or @type='timeline']">			
 			<xsl:variable name="upperTag">
 				<xsl:call-template name="gen-className">
 						<xsl:with-param name="className" select="name()"/>
@@ -359,7 +359,7 @@
 			
 			<xsl:choose>
 			
-			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox'">
+			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox' or type='timeline'">
 			  
 			  <xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
