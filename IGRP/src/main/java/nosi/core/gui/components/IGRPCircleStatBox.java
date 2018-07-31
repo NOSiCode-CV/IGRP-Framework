@@ -1,4 +1,7 @@
 package nosi.core.gui.components;
+
+import nosi.core.gui.fields.GenXMLField;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -28,4 +31,5 @@ public class IGRPCircleStatBox extends IGRPForm {
 		this(tag_name,"");
 		this.properties.put("type", "circlestatbox");
 	}
+	
 }

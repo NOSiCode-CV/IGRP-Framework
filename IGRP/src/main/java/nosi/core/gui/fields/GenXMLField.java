@@ -164,7 +164,7 @@ public class GenXMLField {
 	 */
 	public static void writteAttributes(XMLWritter xml,java.util.Properties properties) {
 		for(Entry<Object, Object> p : properties.entrySet()) {
-            xml.writeAttribute(p.getKey().toString(), p.getValue().toString());
+			xml.writeAttribute(p.getKey().toString(), p.getValue().toString());
         }
 	}
 	
