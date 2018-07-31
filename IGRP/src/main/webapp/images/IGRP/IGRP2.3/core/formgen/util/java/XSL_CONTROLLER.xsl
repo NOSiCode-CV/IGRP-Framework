@@ -295,10 +295,9 @@
 						</xsl:for-each> 	
 							
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
-						<xsl:call-template name="setParam"/>
+						<xsl:call-template name="setParam"/>			
+					
 						
-						<xsl:call-template name="newlineTab2"/>
-						<xsl:call-template name="newlineTab2"/>	
 						<xsl:call-template name="setSqlCombobox_"/> 
 						
 						
@@ -537,8 +536,7 @@
  		<xsl:for-each select="//content/*">
 	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">
 	 		
-	 			<xsl:if test="@domain=''">
-				  
+	 			<xsl:if test="@domain=''">				  
 				  	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 			
 				 		<xsl:choose>
 				 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">
@@ -548,10 +546,8 @@
 				 				<xsl:value-of select="concat('view.',$instance_name,'.setQuery(Core.query(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,'));')"/>
 				 			</xsl:otherwise>
 				 		</xsl:choose>	
-				 		<xsl:call-template name="newlineTab2"/>
-				  
-				</xsl:if>
-				 		
+				 		<xsl:call-template name="newlineTab2"/>				  
+				</xsl:if>				 		
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>
@@ -561,12 +557,10 @@
  	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
  	<xsl:template name="setSqlCombobox_">
  		<xsl:for-each select="//content/*">
-	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">
-	 		
-	 			<xsl:if test="@domain!=''">
-	 			
-	 				<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
-	 					
+	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">	 		
+	 			<xsl:if test="@domain!=''">	
+	 			<xsl:call-template name="newlineTab2"/>		 			
+	 				<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 					
 	 						<xsl:choose>
 	 							<xsl:when test="@type='select'">
 	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain, $double_quotes,',', $double_quotes,'-- Selecionar --' ,$double_quotes,');')"/>
@@ -575,11 +569,7 @@
 	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain,$double_quotes,');')"/>	
 	 							</xsl:otherwise>
 	 						</xsl:choose>
-	 						 	
-				 		<xsl:call-template name="newlineTab2"/>
-				 
-				</xsl:if>
-	 			
+				</xsl:if>	 			
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>

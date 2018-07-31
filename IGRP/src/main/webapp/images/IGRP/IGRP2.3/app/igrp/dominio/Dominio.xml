@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,6 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=4</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Gestão de Dominio</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -41,120 +44,151 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="novo">
-                <title>Novo</title>
-                <app>igrp</app>
-                <page>NovoDominio</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>success|fa-plus-circle</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xml</preview>
-            </item>
-        </toolsbar_2>
-        <table_1 type="table" xml-type="table" title="Lista de Domínios" gen-type="container" gen-group="true">
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <dominio name="p_dominio" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <lst_dominio name="p_lst_dominio" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="true" disabled="false" right="false" java-type="">
                     <label>Domínio</label>
-                </dominio>
-                <description name="p_description" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Significado</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </lst_dominio>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="warning" rel="guardar">
+                    <title>Guardar</title>
+                    <app>igrp</app>
+                    <page>Dominio</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <target>submit</target>
+                    <img>warning|fa-pencil</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <key name="p_key" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Y" right="false" desc="true">
+                    <label>Chave</label>
+                </key>
+                <description name="p_description" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Yes" right="false" desc="true">
+                    <label>Descrição</label>
                 </description>
-                <valor name="p_valor" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Valor</label>
-                </valor>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Estado</label>
-                </estado>
-                <ordem name="p_ordem" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                <ordem name="p_ordem" type="number" min="0" max="20" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="" desc="true">
                     <label>Ordem</label>
                 </ordem>
-                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+                <estado name="p_estado" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="" delimiter=";" desc="true">
+                    <label>Estado</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
             </fields>
             <table>
                 <value>
                     <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <dominio name="p_dominio">Magna adipiscing ipsum iste ad</dominio>
-                        <description name="p_description">Ut mollit rem sit elit</description>
-                        <valor name="p_valor">Iste anim consectetur aliqua n</valor>
-                        <estado name="p_estado">Rem ipsum natus aperiam elit</estado>
-                        <ordem name="p_ordem">19</ordem>
-                        <id name="p_id" tag="id">1</id>
+                        <key name="p_key" desc="true">Omnis doloremque voluptatem doloremque iste</key>
+                        <key_desc name="p_key_desc">Omnis doloremque voluptatem doloremque iste</key_desc>
+                        <description name="p_description" desc="true">Laudantium ut voluptatem ipsum sed</description>
+                        <description_desc name="p_description_desc">Laudantium ut voluptatem ipsum sed</description_desc>
+                        <ordem name="p_ordem" desc="true">9</ordem>
+                        <ordem_desc name="p_ordem_desc">9</ordem_desc>
+                        <estado name="p_estado" desc="true">2</estado>
+                        <estado_desc name="p_estado_desc">2</estado_desc>
                     </row>
                     <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <dominio name="p_dominio">Ut magna adipiscing aliqua eli</dominio>
-                        <description name="p_description">Ipsum aperiam accusantium anim</description>
-                        <valor name="p_valor">Totam sit consectetur doloremq</valor>
-                        <estado name="p_estado">Magna voluptatem accusantium p</estado>
-                        <ordem name="p_ordem">14</ordem>
-                        <id name="p_id" tag="id">1</id>
+                        <key name="p_key" desc="true">Aliqua sit lorem accusantium laudantium</key>
+                        <key_desc name="p_key_desc">Aliqua sit lorem accusantium laudantium</key_desc>
+                        <description name="p_description" desc="true">Rem voluptatem perspiciatis consectetur aperiam</description>
+                        <description_desc name="p_description_desc">Rem voluptatem perspiciatis consectetur aperiam</description_desc>
+                        <ordem name="p_ordem" desc="true">147</ordem>
+                        <ordem_desc name="p_ordem_desc">147</ordem_desc>
+                        <estado name="p_estado" desc="true">2</estado>
+                        <estado_desc name="p_estado_desc">2</estado_desc>
                     </row>
                     <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <dominio name="p_dominio">Omnis sit anim stract iste</dominio>
-                        <description name="p_description">Sit labore sed stract magna</description>
-                        <valor name="p_valor">Accusantium natus voluptatem o</valor>
-                        <estado name="p_estado">Magna stract perspiciatis laud</estado>
-                        <ordem name="p_ordem">18</ordem>
-                        <id name="p_id" tag="id">1</id>
+                        <key name="p_key" desc="true">Labore aliqua iste perspiciatis stract</key>
+                        <key_desc name="p_key_desc">Labore aliqua iste perspiciatis stract</key_desc>
+                        <description name="p_description" desc="true">Aperiam voluptatem stract laudantium aliqua</description>
+                        <description_desc name="p_description_desc">Aperiam voluptatem stract laudantium aliqua</description_desc>
+                        <ordem name="p_ordem" desc="true">89</ordem>
+                        <ordem_desc name="p_ordem_desc">89</ordem_desc>
+                        <estado name="p_estado" desc="true">2</estado>
+                        <estado_desc name="p_estado_desc">2</estado_desc>
                     </row>
                     <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <dominio name="p_dominio">Omnis sit unde dolor natus</dominio>
-                        <description name="p_description">Omnis ipsum deserunt sed ut</description>
-                        <valor name="p_valor">Aliqua sed stract magna stract</valor>
-                        <estado name="p_estado">Unde sit omnis ut elit</estado>
-                        <ordem name="p_ordem">24</ordem>
-                        <id name="p_id" tag="id">1</id>
+                        <key name="p_key" desc="true">Accusantium ut natus iste unde</key>
+                        <key_desc name="p_key_desc">Accusantium ut natus iste unde</key_desc>
+                        <description name="p_description" desc="true">Lorem amet elit officia consectetur</description>
+                        <description_desc name="p_description_desc">Lorem amet elit officia consectetur</description_desc>
+                        <ordem name="p_ordem" desc="true">11</ordem>
+                        <ordem_desc name="p_ordem_desc">11</ordem_desc>
+                        <estado name="p_estado" desc="true">2</estado>
+                        <estado_desc name="p_estado_desc">2</estado_desc>
                     </row>
                     <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <dominio name="p_dominio">Ut mollit aperiam officia stra</dominio>
-                        <description name="p_description">Consectetur labore amet elit v</description>
-                        <valor name="p_valor">Lorem accusantium officia laud</valor>
-                        <estado name="p_estado">Labore aperiam aliqua doloremq</estado>
-                        <ordem name="p_ordem">3</ordem>
-                        <id name="p_id" tag="id">1</id>
+                        <key name="p_key" desc="true">Unde accusantium sit totam lorem</key>
+                        <key_desc name="p_key_desc">Unde accusantium sit totam lorem</key_desc>
+                        <description name="p_description" desc="true">Omnis stract totam voluptatem mollit</description>
+                        <description_desc name="p_description_desc">Omnis stract totam voluptatem mollit</description_desc>
+                        <ordem name="p_ordem" desc="true">201</ordem>
+                        <ordem_desc name="p_ordem_desc">201</ordem_desc>
+                        <estado name="p_estado" desc="true">2</estado>
+                        <estado_desc name="p_estado_desc">2</estado_desc>
                     </row>
                 </value>
-                <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar">
-                        <title>Editar</title>
-                        <app>igrp</app>
-                        <page>Dominio</page>
-                        <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
-                        <target>mpsubmit|refresh</target>
-                        <img>warning|fa-pencil</img>
-                    </item>
-                    <item type="specific" code="" class="primary" rel="desativar">
-                        <title>Desativar</title>
-                        <app>igrp</app>
-                        <page>Dominio</page>
-                        <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
-                        <target>confirm</target>
-                        <img>primary|fa-lock</img>
-                    </item>
-                </context-menu>
             </table>
-        </table_1>
+        </formlist_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Novo domínio</label>
+                    <value>Deserunt rem aliqua officia anim</value>
+                </novo_dominio>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="novo">
+                    <title>Novo</title>
+                    <app>igrp</app>
+                    <page>Dominio</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <target>submit_form|refresh</target>
+                    <img>success|fa-plus</img>
+                </item>
+            </tools-bar>
+        </form_2>
     </content>
 </rows>

@@ -159,7 +159,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));			
 			actions.add(new Action("_CONS_PROC", "index", "nosi.webapps.igrp.pages._cons_proc", "igrp/_cons_proc/_CONS_PROC.xsl", "Consulta Processo", "Consulta Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("DetalhesProcesso", "index", "nosi.webapps.igrp.pages.detalhesprocesso", "igrp/detalhesprocesso/DetalhesProcesso.xsl", "Detalhes Processo", "Detalhes Processo", "2.3", 1, app_igrp));
-			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Página", "Partilha Página", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Geral", "Partilha Geral", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Modulo", "index", "nosi.webapps.igrp_studio.pages.modulo", "igrp_studio/modulo/Modulo.xsl", "Módulo", "Módulo", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
 			actions.add(new Action("Sql_tools", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/sql_tools/Sql_tools.xsl", "SQL Tool", "SQL Tool", "2.3", 1, app_igrp_studio));

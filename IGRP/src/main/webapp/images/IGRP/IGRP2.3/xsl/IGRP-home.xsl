@@ -57,10 +57,10 @@
           <xsl:call-template name="IGRP-bottom"/>
           
         </form>
-         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css"/>
-        <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css"/>
+         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css" media="none" onload="if(media!='all')media='all'"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css" media="none" onload="if(media!='all')media='all'"/>
+        <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css" media="none" onload="if(media!='all')media='all'"/>
         <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
         
         <script type="text/javascript" src="{$path}/core/igrp/home/igrp.home.js"></script>

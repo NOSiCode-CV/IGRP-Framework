@@ -11,53 +11,31 @@
     <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
     
     <title><xsl:value-of select="rows/title"/></title>
+   
     <!-- Normalize -->
-    <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" async="async"/>
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css" async="async"/>
+    <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
     <!-- BS CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
-      <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css" async="async"/>
-      <link rel="stylesheet" href="{$path}/themes/bs.columns.css" async="async"/>
-      <link rel="stylesheet" href="{$path}/themes/bs.class.css" async="async"/>
-    </xsl:if>
-
-    <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" async="async"/>
-
+      <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css" media="none" onload="if(media!='all')media='all'"/>
+      <link rel="stylesheet" href="{$path}/themes/bs.columns.css" media="none" onload="if(media!='all')media='all'"/>
+      <link rel="stylesheet" href="{$path}/themes/bs.class.css" media="none" onload="if(media!='all')media='all'"/>
+    </xsl:if> 
     <!-- BS CSS -->
+    
+    	
+
 
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
-   	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel='stylesheet' type='text/css' async="async" />
-      <link rel="stylesheet" href="{$path}/themes/style.css"/>
+       <link rel="stylesheet" href="{$path}/themes/style.css" />
     </xsl:if>
     <!--/DEFAULT CSS -->
 
-    <!-- THEME CSS -->
-    <xsl:for-each select="$themeConfigData/css/file">
-      <xsl:choose>
-        <xsl:when test="@external = 'true'">
-          <link href="{.}" rel="stylesheet"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <link href="{$themePath}/{.}" rel="stylesheet"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:for-each>
+   
+ 	<!-- FORM -->
+    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />
 
-    <xsl:if test="$themeConfigData">
-      <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
-    </xsl:if>
-    <!-- /THEME CSS -->
-
-    <!-- COLOR PALETTES -->
-    <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"/>
-    <xsl:call-template name="colorpalettes-css"/>
-    <!-- /COLOR PALETTES -->
-
-    <!-- FORM -->
-    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
-
+   
     <script src="{$path}/core/promise/promise.min.js" ></script>
 
     <script src="{$path}/core/moment/moment.min.js" async="async"></script>
@@ -72,7 +50,7 @@
 
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>
     
-    <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" async="async"></script>
+    <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>
 
     <!-- THEME JS -->
     <xsl:for-each select="$themeConfigData/js/file">
@@ -329,6 +307,40 @@
     <!-- DEBUG -->
     <xsl:call-template name="IGRP-debug"/>
     <!--/DEBUG -->
+  
+  
+   <!-- FontAwesome -->
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css" media="none" onload="if(media!='all')media='all'"/>
+     
+	
+    
+     <!-- THEME CSS -->
+    <xsl:for-each select="$themeConfigData/css/file">
+      <xsl:choose>
+        <xsl:when test="@external = 'true'">
+          <link href="{.}" rel="stylesheet"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <link href="{$themePath}/{.}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+
+    <xsl:if test="$themeConfigData">
+      <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
+    </xsl:if>
+    <!-- /THEME CSS -->
+
+    <!-- COLOR PALETTES -->
+    <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"  media="none" onload="if(media!='all')media='all'"  />
+    <xsl:call-template name="colorpalettes-css"/>    
+    <!-- /COLOR PALETTES -->
+
+	  <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" media="none" onload="if(media!='all')media='all'"/>
+  
+     
+   	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
+  
   </xsl:template>
   <!-- DEBUG -->
   <xsl:template name="IGRP-debug">

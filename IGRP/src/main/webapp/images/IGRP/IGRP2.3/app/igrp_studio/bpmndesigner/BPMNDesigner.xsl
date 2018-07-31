@@ -6,23 +6,23 @@
             <head>
                 <xsl:call-template name="IGRP-head"/>
                 <!-- TOOLSBAR CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css" media="none" onload="if(media!='all')media='all'"/>
                 <!-- FORM CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'"/>
                 <!-- TABLE CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css" media="none" onload="if(media!='all')media='all'"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css" media="none" onload="if(media!='all')media='all'"/>
                 <!-- TABCONTENT CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css" media="none" onload="if(media!='all')media='all'"/>
                 <!-- SELECT CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/bpmn.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css" media="none" onload="if(media!='all')media='all'"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css" media="none" onload="if(media!='all')media='all'"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/bpmn.css" media="none" onload="if(media!='all')media='all'"/>
                 <style/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/app.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/properties.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/diagram-js.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/bpmn-font/css/bpmn-embedded.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/app.css" media="none" onload="if(media!='all')media='all'"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/properties.css" media="none" onload="if(media!='all')media='all'"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/diagram-js.css" media="none" onload="if(media!='all')media='all'"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/bpmn-font/css/bpmn-embedded.css" media="none" onload="if(media!='all')media='all'"/>
             </head>
             <body class="{$bodyClass}">
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->

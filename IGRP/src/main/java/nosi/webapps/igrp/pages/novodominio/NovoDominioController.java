@@ -2,15 +2,20 @@
 package nosi.webapps.igrp.pages.novodominio;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-
 /*----#start-code(packages_import)----*/
 import org.modelmapper.ModelMapper;
 import nosi.webapps.igrp.dao.Domain;
-/*----#end-code----*/
+import nosi.webapps.igrp.pages.novodominio.NovoDominio.Formlist_1;
 
+import java.util.ArrayList;
+import java.util.List;
+/*----#end-code----*/
 
 
 public class NovoDominioController extends Controller {		
@@ -18,65 +23,76 @@ public class NovoDominioController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		NovoDominio model = new NovoDominio();
-		NovoDominioView view = new NovoDominioView();
 		model.load();
+		NovoDominioView view = new NovoDominioView();
+		
+		view.estado.loadDomain("SIN_NAO","-- Selecionar --");
+		
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  ----#gen-example */
 		/*----#start-code(index)----*/
-		view.estado.setSqlQuery(null,"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME ");
-		String isEdit = Core.getParam("isEdit");
-		if(Core.isNotNull(isEdit)) {
-			model.load(Core.query(this.config.getBaseConnection(), "SELECT dominio,description,valor,status as estado,ordem,id as p_id FROM tbl_domain").where("id=:id").addInt("id", model.getP_id()));
-		}else {
-			model.setEstado("ATIVE");
-		}
-		/*----#end-code----*/
-		
-		
-		view.setModel(model);
-		
-		return this.renderView(view);
-		
-	}
 
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{		
+		view.estado.setQuery(Core.query(
+				"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME "));
+		String isEdit = Core.getParam("isEdit");
+		if (Core.isNotNull(isEdit)) {
+			model.loadFormlist_1(Core.query(this.config.getBaseConnection(),
+					"SELECT id,description,valor as key,status as estado,ordem FROM tbl_domain").where("dominio=:dominio").addString("dominio", model.getDominio()));
+		} 
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
+	}
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		NovoDominio model = new NovoDominio();
 		model.load();
-		
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","NovoDominio","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
-  		ModelMapper modelMapper = new ModelMapper();
-  		Domain d = new Domain();
-      	if(model.getP_id()==0){
-      		modelMapper.map(model, d);
-          	if(d.insert() != null)
-              Core.setMessageSuccess();
-          	else
-              Core.setMessageError();
-        }else{
-        	d = d.findOne(model.getP_id());
-      		modelMapper.map(model, d);
-        	if(d.update() != null)
-                Core.setMessageSuccess();
-        	else
-                Core.setMessageError();
-        }
-		/*----#end-code----*/
-		
-		return this.redirect("igrp","NovoDominio","index");
-		
-	}
-	public Response actionLista_dominios() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#start-code(lista_dominios)----*/
+		// ModelMapper modelMapper = new ModelMapper();
+		List<Formlist_1> formlistTud = new ArrayList<>();
+		boolean error=false;		 
+		if(Core.isNotNull(Core.getParam("isEdit")))
+				addQueryString("isEdit", "true").addQueryString("p_dominio",model.getDominio());
+		formlistTud = model.getFormlist_1();
+		for (int i = 0; i < formlistTud.size(); i++) {		
+			Formlist_1 formlist = formlistTud.get(i);
+			Domain d = new Domain(model.getDominio(), formlist.getKey().getKey(),
+					formlist.getDescription().getKey(), formlist.getEstado().getKey(),
+					Core.toInt(formlist.getOrdem().getKey()));
+			
+			if (Core.isNull(formlist.getId().getKey())) {
+				if (d.insert() == null) {
+					Core.setMessageError();
+					error=true;		
+					break;
+				}	
+			}else {				
+				d = d.findOne(formlist.getId().getKey());		
 				
-		/*----#end-code----*/		
-		return this.redirect("igrp","Dominio","index");
-		
+				if(d.update() == null)
+					Core.setMessageError();
+					error=true;		
+					break;
+				}			
+			
+		}
+		if(!error)
+			Core.setMessageSuccess();
+
+		/*----#end-code----*/
+		return this.redirect("igrp","NovoDominio","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
-		
-		
-		/*----#end-code----*/
-	
-	
-	
-	
-}
+
+	/*----#end-code----*/
+	}

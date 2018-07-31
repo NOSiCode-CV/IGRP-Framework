@@ -95,6 +95,7 @@ public class Compiler {
 	 * 		FileName: File1.java, Error: Error Syntax, Line: 30
 	 */
 	private void extractError(String error,File file){
+		System.out.println(error);
 		error = error.replaceAll("\n", " ");			
 		for(String e:error.split(file.getName())){	
 			if(e.startsWith(":")){		

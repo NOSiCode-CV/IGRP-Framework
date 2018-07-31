@@ -1,22 +1,49 @@
 package nosi.webapps.igrp.pages.novodominio;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NovoDominio extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_dominio")
 	private String dominio;
-	@RParam(rParamName = "p_valor")
-	private String valor;
-	@RParam(rParamName = "p_description")
-	private String description;
-	@RParam(rParamName = "p_estado")
-	private String estado;
-	@RParam(rParamName = "p_ordem")
-	private int ordem;
-	@RParam(rParamName = "p_id")
-	private int p_id;
+	
+	@SeparatorList(name = Formlist_1.class)
+	private List<Formlist_1> formlist_1 = new ArrayList<>();	
+	public void setFormlist_1(List<Formlist_1> formlist_1){
+		this.formlist_1 = formlist_1;
+	}
+	public List<Formlist_1> getFormlist_1(){
+		return this.formlist_1;
+	}
+	@RParam(rParamName = "p_formlist_1_id")
+	private String[] p_formlist_1_id;
+	@RParam(rParamName = "p_formlist_1_del")
+	private String[] p_formlist_1_del;
+	
+	public void setP_formlist_1_id(String[] p_formlist_1_id){
+		this.p_formlist_1_id = p_formlist_1_id;
+	}
+	public String[] getP_formlist_1_id(){
+		return this.p_formlist_1_id;
+	}
+	
+	public void setP_formlist_1_del(String[] p_formlist_1_del){
+		this.p_formlist_1_del = p_formlist_1_del;
+	}
+	public String[] getP_formlist_1_del(){
+		return this.p_formlist_1_del;
+	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -31,42 +58,60 @@ public class NovoDominio extends Model{
 	public String getDominio(){
 		return this.dominio;
 	}
-	
-	public void setValor(String valor){
-		this.valor = valor;
-	}
-	public String getValor(){
-		return this.valor;
-	}
-	
-	public void setDescription(String description){
-		this.description = description;
-	}
-	public String getDescription(){
-		return this.description;
-	}
-	
-	public void setEstado(String estado){
-		this.estado = estado;
-	}
-	public String getEstado(){
-		return this.estado;
-	}
-	
-	public void setOrdem(int ordem){
-		this.ordem = ordem;
-	}
-	public int getOrdem(){
-		return this.ordem;
-	}
-	
-	public void setP_id(int p_id){
-		this.p_id = p_id;
-	}
-	public int getP_id(){
-		return this.p_id;
-	}
 
 
+	public static class Formlist_1{
+		private Pair formlist_1_id;
+		private Pair key;
+		private Pair description;
+		private Pair ordem;
+		private Pair estado;
+		private Pair id;
+		public void setFormlist_1_id(Pair formlist_1_id){
+			this.formlist_1_id = formlist_1_id;
+		}
+		public Pair getFormlist_1_id(){
+			return this.formlist_1_id;
+		}
+		public void setKey(Pair key){
+			this.key = key;
+		}
+		public Pair getKey(){
+			return this.key;
+		}
+
+		public void setDescription(Pair description){
+			this.description = description;
+		}
+		public Pair getDescription(){
+			return this.description;
+		}
+
+		public void setOrdem(Pair ordem){
+			this.ordem = ordem;
+		}
+		public Pair getOrdem(){
+			return this.ordem;
+		}
+
+		public void setEstado(Pair estado){
+			this.estado = estado;
+		}
+		public Pair getEstado(){
+			return this.estado;
+		}
+
+		public void setId(Pair id){
+			this.id = id;
+		}
+		public Pair getId(){
+			return this.id;
+		}
+
+	}
+
+	public void loadFormlist_1(BaseQueryInterface query) {
+		this.setFormlist_1(this.loadFormList(query,Formlist_1.class));
+	}
 
 }

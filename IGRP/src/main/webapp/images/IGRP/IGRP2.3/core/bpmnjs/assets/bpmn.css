@@ -13,7 +13,7 @@
 #igrp-sidebar.sidebar{
   padding-top: 15px;
   border-right: 1px solid #ccc;
-  background: #fff;
+  background: #fff!important;
 }
 
 #igrp-sidebar .nav-sidebar > li > a,

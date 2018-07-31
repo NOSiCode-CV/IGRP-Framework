@@ -276,7 +276,7 @@
                               <div class="pull-left gen-toolbar-items" rel="java">
                                   <a href="{$path}/../../javadoc/index.html" class="btn btn-link" target="_newtab">                                  
                                    <i class="fa fa-file-text"></i>
-                                  <span>Javadoc</span>                                  
+                                  <span>Javadoc - Core.class</span>                                  
                                   </a>
                                   <a href="https://nosicode.gitbook.io/faq/" class="btn btn-link" target="_newtab">                                 
                                     <i class=" fa fa-question-circle"></i>
