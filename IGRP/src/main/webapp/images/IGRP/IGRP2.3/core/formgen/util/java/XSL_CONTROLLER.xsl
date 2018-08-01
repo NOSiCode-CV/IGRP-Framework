@@ -14,29 +14,16 @@
 	 		<xsl:call-template name="actionEditCalendar"></xsl:call-template>	 		
 	 		<xsl:call-template name="createActions"></xsl:call-template> 	
  		<xsl:value-of select="'}'"/>
-    </xsl:template>
-    
-    
-    
+    </xsl:template>  
     
     <!-- create actions based in rules (Fields) -->
- 	<xsl:template name="createActions_">
- 	
+ 	<xsl:template name="createActions_"> 	
  		<xsl:variable name="app_" select="/rows/app" />
-		<xsl:variable name="page_" select="/rows/page" />
-		
- 		<xsl:for-each select="//rules/rule">
- 		
+		<xsl:variable name="page_" select="/rows/page" />		
+ 		<xsl:for-each select="//rules/rule"> 		
  			<xsl:variable name="action_" select="./proc" />
- 			
- 				
- 			
- 		</xsl:for-each>
- 		
+ 		</xsl:for-each> 		
  	</xsl:template>
- 	
- 	
- 	
  	
 
      <!-- import all class to using in controller -->
@@ -71,7 +58,7 @@
      	</xsl:call-template>
      	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
 		<!--<xsl:call-template name="import-class-models"></xsl:call-template>  -->
-		<xsl:value-of select="$newline"/>
+	
  	</xsl:template>
  	
  	

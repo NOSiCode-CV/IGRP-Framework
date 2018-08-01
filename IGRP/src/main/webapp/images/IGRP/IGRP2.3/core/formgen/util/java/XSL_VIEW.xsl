@@ -80,18 +80,12 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_view"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_components"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_fields"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_date"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$import_config"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$import_Map"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$import_HashMap"/>
-		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_components"/>	
+ 		<xsl:value-of select="$import_fields"/>		
+ 		<xsl:value-of select="$import_date"/>	
+		<xsl:value-of select="$import_config"/>	
+		<xsl:value-of select="$import_Map"/>		
+		<xsl:value-of select="$import_HashMap"/>		
 		
  	</xsl:template>
  	
