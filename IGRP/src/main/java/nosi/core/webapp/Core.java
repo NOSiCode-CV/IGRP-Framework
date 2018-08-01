@@ -661,7 +661,8 @@ public final class Core { // Not inherit
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDad() {
-		return new Permission().getCurrentEnv();
+		String dad = new Permission().getCurrentEnv();
+		return dad;
 	}
 
 	public static String getCurrentDadParam() {

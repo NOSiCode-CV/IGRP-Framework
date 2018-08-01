@@ -444,7 +444,6 @@ public class EnvController extends Controller {
 
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
-		//PersistenceUtils.confiOtherConnections(app);
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
@@ -453,10 +452,7 @@ public class EnvController extends Controller {
 			
 			Properties properties = this.load("sso", "oauth2.xml");
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
-			String devUrl = properties.getProperty("igrp.env.dev.url"); 
-			
-			
-			
+			String devUrl = properties.getProperty("igrp.env.dev.url"); 			
 			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
 				String qs = "?_t=" + Base64.getEncoder().encodeToString((Core.getCurrentUser().getUser_name() + ":" + Core.getCurrentUser().getValid_until()).getBytes());
 				devUrl += qs;
@@ -472,8 +468,8 @@ public class EnvController extends Controller {
 				}
 				return this.redirectToUrl(aux);
 			}
-			
-			return this.redirect(p[0], p[1], p[2]);
+			this.addQueryString("dad", app);
+			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}
 		return this.redirectError();
 	}

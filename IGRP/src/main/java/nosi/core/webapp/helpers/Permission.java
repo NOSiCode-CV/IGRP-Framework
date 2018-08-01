@@ -6,9 +6,8 @@ package nosi.core.webapp.helpers;
 
 import java.util.Arrays;
 import java.util.Optional;
-
 import javax.servlet.http.Cookie;
-
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
@@ -56,35 +55,28 @@ public class Permission {
 	}
 
 	public  void changeOrgAndProfile(String dad){
-		
-		String _c = null;
-		
-		Optional<Cookie> container = Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst();
-		_c = container.isPresent() ? container.get().getValue() : "";
-		
-		if(_c != null && !_c.isEmpty()) {
+		Optional<Cookie> cookies = Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst();
+		String c = cookies.isPresent()?cookies.get().getValue():null;
+		if(Core.isNotNull(c)) {
 			try {
-				String []aux = _c.split("-");
+				String []aux = c.split("-");
 				String orgID = aux[0];
 				String perfilID = aux[1];
-				Application app = new Application().find().andWhere("dad", "=", dad).one();
 				Organization org = new Organization().findOne(orgID);
 				ProfileType prof = new ProfileType().findOne(perfilID);
-				if(app != null && org != null && prof != null) {
+				if(org != null && prof != null) {
 					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
 					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",prof.getId());
-					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
+					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", dad);
 					return; // end of methods 
 				}
 			}catch(Exception e) {}
 		}
-		
 		Application app = new Application().find().andWhere("dad", "=", dad).one();
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		Profile prof = new Profile();
-		if(app!=null){
-			
+		if(app!=null){			
 			int id_user = Igrp.getInstance()
 					.getUser().
 					getIdentity().

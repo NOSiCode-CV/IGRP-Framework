@@ -388,11 +388,10 @@ public class Controller{
 	
 	private void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
-		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";		
-		
-		r=EncrypDecrypt.decrypt(r);
-	
+		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";			
+		r=EncrypDecrypt.decrypt(r);	
 		if(r!=null){
+			this.changeOrgAndProfile(r);
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
 			//synchronized (auxPattern) {
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
@@ -419,6 +418,14 @@ public class Controller{
 		app.getLog().addMessage(modelName);
 		app.getLog().addMessage(xsl);
 	}
+	
+	private void changeOrgAndProfile(String r) {
+		String dad = Igrp.getInstance().getRequest().getParameter("dad");
+		if(Igrp.getInstance().getUser().isAuthenticated() && Core.isNotNull(dad)) {
+			new Permission().changeOrgAndProfile(dad);
+		}
+	}
+
 	
 	protected Object run(){ 
 		Igrp app = Igrp.getInstance();
