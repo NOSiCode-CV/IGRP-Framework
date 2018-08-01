@@ -163,10 +163,11 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public HashMap<String,List<Menu>> getMyMenu() {
 		HashMap<String,List<Menu>> list = new HashMap<>();
 		String sql = "select * from glb_v_prof_menu where status=1 and org_fk=:org_fk and prof_type_fk=:prof_type_fk and env_fk_prof_type=:env_fk_prof_type and id in (select id from glb_v_org_menu where org_fk=:org_fk)";
+		Application app = new Application().findByDad(Core.getParam("dad"));
 		Record row = Core.query(this.getConnectionName(),sql)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
-						 .addInt("env_fk_prof_type", Core.getCurrentApp().getId())
+						 .addInt("env_fk_prof_type", app.getId())
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .getRecordList();
 		row.RowList.forEach(r->{
@@ -202,7 +203,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public String getLink() {
 		if(this.getAction()!=null){
 			String dad = this.getAction().getApplication().getDad().toLowerCase();
-			return EncrypDecrypt.encrypt(dad+"/"+this.getAction().getPage()+"/"+this.getAction().getAction())+"&dad="+dad;
+			return EncrypDecrypt.encrypt(dad+"/"+this.getAction().getPage()+"/"+this.getAction().getAction())+"&dad="+Core.getCurrentDad();
 		}
 		return null;
 	}

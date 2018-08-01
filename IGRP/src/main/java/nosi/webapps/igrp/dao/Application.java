@@ -249,12 +249,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 
 	public Map<Object, Object> getListApps(){
 		User user = (User) Core.getCurrentUser();		
-		String dad = Core.getCurrentDad();
-		if("igrp".equalsIgnoreCase(dad)){
-			return IgrpHelper.toMap(this.find().andWhere("status","=",1).all(), "id", "name", gt("-- Selecionar --"));
-		}else{
-			return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
-		}
+		return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
 	}
 	
 	public Map<Object, Object> getAllApps(){
@@ -271,29 +266,21 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	
 	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
-		String dad = Core.getCurrentDad();
 		List<Profile> list = new ArrayList<>();
-		if("igrp_studio".equalsIgnoreCase(dad)) {
+		if(idUser==0) {//User master
 			list = new Profile().find()
 					.andWhere("type", "=", "ENV")
 					.andWhere("user", "=", idUser)
-					 .andWhere("type_fk", "<>", 1)//Oculta IGRP Core
-					 .andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
-					 .andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
 					.all();
-			//allInative=true;
 		}else {
 			list = new Profile().find()
-						.andWhere("type", "=", "ENV")
-						.andWhere("type_fk", "=",new Application().find().andWhere("dad", "=", dad).one().getId())
-						.andWhere("user", "=", idUser)
-						.andWhere("type_fk", "<>", 1)//Oculta IGRP Core
-						.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
-						.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
-						.andWhere("organization", "=",Core.getCurrentOrganization())
-						.andWhere("profileType", "=",Core.getCurrentProfile())
-						.all();
-		}
+					.andWhere("type", "=", "ENV")
+					.andWhere("user", "=", idUser)
+					.andWhere("type_fk", "<>", 1)//Oculta IGRP Core
+					.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
+					.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
+					.all();
+		}		
 		if(!list.isEmpty()){	
 			if(allInative) {
 			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
@@ -326,11 +313,6 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 									 .andWhere("user", "=", u.getId())
 									 .andWhere("type_fk", "<>", 1)
 									 .all();
-		String dad = Core.getCurrentDad();
-		if("igrp_studio".equalsIgnoreCase(dad)) {
-			Application app = new Application().find().andWhere("dad", "=", dad).one();
-			list = list.stream().filter(d->d.getType_fk()!=app.getId()).collect(Collectors.toList());
-		}
 		return list;
 	}
 
