@@ -202,9 +202,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_separator_list_annotation"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_date"/>
- 		
-		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_date"/> 		
+		
 		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline']) > 0">
 	 		<xsl:value-of select="$import_array_list"/>
 			<xsl:value-of select="$newline"/>
