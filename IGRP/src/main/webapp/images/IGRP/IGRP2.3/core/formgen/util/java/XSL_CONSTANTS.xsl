@@ -104,19 +104,19 @@
     </xsl:variable>
     
     <xsl:variable name="import_table">
-    	<xsl:if test="count(/rows/content/*[@type='table']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='table' or @type='treemenu']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPTable;</xsl:text>
         </xsl:if>
     </xsl:variable>
     
     <xsl:variable name="import_array_list">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.ArrayList;</xsl:text> 
         </xsl:if>
     </xsl:variable>
 
-    <xsl:variable name="import_list">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline']) &gt; 0">
+    <xsl:variable name="import_list"> 
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.List;</xsl:text>
         </xsl:if>
     </xsl:variable>
@@ -128,7 +128,7 @@
     </xsl:variable>
     
     <xsl:variable name="import_query_helper">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.databse.helpers.BaseQueryInterface;</xsl:text>
         </xsl:if>
     </xsl:variable>
@@ -516,9 +516,7 @@
     		name()!='lookup_parser' and
     		name()!='iskey' and
     		name()!='format' and
-    		name()!='change' and
-    		name()!='readonly' and
-    		name()!='disabled' and
+    		name()!='change' and 
     		name()!='placeholder' and
     		name()!='custom_action' and	
     		name()!='action_type' and

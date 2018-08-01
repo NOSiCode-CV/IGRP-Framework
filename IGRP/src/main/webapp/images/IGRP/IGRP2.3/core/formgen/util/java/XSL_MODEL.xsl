@@ -202,9 +202,10 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_separator_list_annotation"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_date"/> 		
-		
-		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline']) > 0">
+ 		<xsl:value-of select="$import_date"/>
+ 		
+		<xsl:value-of select="$newline"/>
+		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline'  or @type='treemenu']) > 0">
 	 		<xsl:value-of select="$import_array_list"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$import_list"/>
@@ -430,10 +431,6 @@
 		<xsl:value-of select="'}'"/> 	
  	</xsl:template>
  	
- 	
- 	
- 	
- 	
  	<!-- Gen attributes for subclass for separatorList and formlist-->
  	<xsl:template name="gen-ttributes-subclass-separatorList">
  		<xsl:value-of select="$newline"/>
@@ -509,11 +506,6 @@
  		<xsl:for-each select="/rows/content/*[@type='table' or @type='timeline']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 
- 	<!-- 
- 		<xsl:for-each select="/rows/content/*[@type='timeline']">
- 			<xsl:call-template name="gen-ttributes-subclass-timeline"></xsl:call-template>
- 		</xsl:for-each> 
- 		-->
  		<xsl:for-each select="/rows/content/*[@type='treemenu']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 		
