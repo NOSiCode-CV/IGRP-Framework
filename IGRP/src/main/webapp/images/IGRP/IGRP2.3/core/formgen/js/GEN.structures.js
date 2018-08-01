@@ -549,14 +549,13 @@ var GENSTRUCTURES = function(GEN){
 		rtn += '<'+tag+'_tmid type="number"><label>ID</label></'+tag+'_tmid>';
 		rtn += '<'+tag+'_parent type="number"><label>Parent ID</label></'+tag+'_parent>';
 		rtn += '<'+tag+'_icon type="text"><label>Icon</label></'+tag+'_icon>';
-		rtn += '<'+tag+'_child><label>Has child value(0/X)</label></'+tag+'_child>';
-		rtn += '<'+tag+'_active><label>Is Active value(true/false)</label></'+tag+'_active>';
+		rtn += '<'+tag+'_child type="text"><label>Has child value(0/X)</label></'+tag+'_child>';
+		rtn += '<'+tag+'_active type="text"><label>Is Active value(true/false)</label></'+tag+'_active>';
 		rtn += '</fields><table><value>';
 
 		for (var i = 0; i < 8; i++) {
 			var aux = i+1,
 			parent  = aux % 2 == 0 ? aux - 1 : aux % 3 == 0 ? aux - 2 : '';  
-
 			row += '<row>';
 			row += '<'+tag+'_link>#</'+tag+'_link>';
 			row += '<'+tag+'_link_desc> Menu '+aux+'</'+tag+'_link_desc>';
