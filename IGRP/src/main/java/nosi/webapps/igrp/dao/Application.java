@@ -277,7 +277,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 					.andWhere("type", "=", "ENV")
 					.andWhere("user", "=", idUser)
 					.andWhere("type_fk", "<>", 1)//Oculta IGRP Core
-					.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
+					//.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial 
 					.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
 					.all();
 		}		

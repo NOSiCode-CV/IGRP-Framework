@@ -166,7 +166,9 @@ public class IGRPTable extends IGRPComponent{
 				this.xml.addXml(this.contextmenu.toXmlTools());
 			}
 		this.xml.endElement();
-		return this.xml.toString();
+		String aux = this.xml.toString();
+		System.out.println(aux);
+		return aux;
 	}
 
 	public void setLegendColors(Map<Object, Map<String, String>> colors) {

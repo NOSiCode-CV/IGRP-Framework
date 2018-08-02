@@ -12,13 +12,13 @@ import nosi.core.webapp.Response;
 
 
 /*----#end-code----*/
-public class DefaultpageController extends Controller {		
+public class DefaultPageController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		Defaultpage model = new Defaultpage();
+		DefaultPage model = new DefaultPage();
 		model.load();
-		DefaultpageView view = new DefaultpageView();
+		DefaultPageView view = new DefaultPageView();
 		/*----#start-code(index)----*/
 		
 		
