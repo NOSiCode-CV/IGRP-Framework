@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -69,17 +69,21 @@
         </sectionheader_1>
         <quickbuttonbox_gestao type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox_gestao_tit name="p_quickbuttonbox_gestao_tit" type="text" maxlength="4000" persist="true">
+                <quickbuttonbox_gestao_title name="p_quickbuttonbox_gestao_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>Criação e Gestão de uma Aplicação</value>
-                </quickbuttonbox_gestao_tit>
-                <quickbuttonbox_gestao_val name="p_quickbuttonbox_gestao_val" type="text" maxlength="4000">
+                    <value>Box Title</value>
+                </quickbuttonbox_gestao_title>
+                <quickbuttonbox_gestao_val name="p_quickbuttonbox_gestao_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value/>
                 </quickbuttonbox_gestao_val>
                 <quickbuttonbox_gestao_url name="p_quickbuttonbox_gestao_url" type="text" maxlength="4000" persist="true">
                     <label/>
-                    <value>[object Object]</value>
+                    <value type="action">
+                        <app>undefined</app>
+                        <page>undefined</page>
+                        <action>undefined</action>
+                    </value>
                 </quickbuttonbox_gestao_url>
                 <quickbuttonbox_gestao_bg name="p_quickbuttonbox_gestao_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -93,10 +97,10 @@
         </quickbuttonbox_gestao>
         <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <statbox_1_tit name="p_statbox_1_tit" type="text" maxlength="4000" persist="true">
+                <statbox_1_title name="p_statbox_1_title" type="text" maxlength="4000" persist="true">
                     <label>Box Title</label>
-                    <value>FAQ</value>
-                </statbox_1_tit>
+                    <value>Box Title</value>
+                </statbox_1_title>
                 <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value>Gitbook</value>
@@ -128,17 +132,21 @@
         </paragraph_1>
         <quickbuttonbox_instalar type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox_instalar_tit name="p_quickbuttonbox_instalar_tit" type="text" maxlength="4000" persist="true">
+                <quickbuttonbox_instalar_title name="p_quickbuttonbox_instalar_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>Como importar o IGRP WEB</value>
-                </quickbuttonbox_instalar_tit>
-                <quickbuttonbox_instalar_val name="p_quickbuttonbox_instalar_val" type="text" maxlength="4000">
+                    <value>Box Title</value>
+                </quickbuttonbox_instalar_title>
+                <quickbuttonbox_instalar_val name="p_quickbuttonbox_instalar_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value/>
                 </quickbuttonbox_instalar_val>
                 <quickbuttonbox_instalar_url name="p_quickbuttonbox_instalar_url" type="text" maxlength="4000" persist="true">
                     <label/>
-                    <value>[object Object]</value>
+                    <value type="action">
+                        <app>undefined</app>
+                        <page>undefined</page>
+                        <action>undefined</action>
+                    </value>
                 </quickbuttonbox_instalar_url>
                 <quickbuttonbox_instalar_bg name="p_quickbuttonbox_instalar_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -166,17 +174,21 @@
         </video_2>
         <quickbuttonbox_ type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox__tit name="p_quickbuttonbox__tit" type="text" maxlength="4000" persist="true">
+                <quickbuttonbox__title name="p_quickbuttonbox__title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>My First App, config DB, Crud</value>
-                </quickbuttonbox__tit>
-                <quickbuttonbox__val name="p_quickbuttonbox__val" type="text" maxlength="4000">
+                    <value>Box Title</value>
+                </quickbuttonbox__title>
+                <quickbuttonbox__val name="p_quickbuttonbox__val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value/>
                 </quickbuttonbox__val>
                 <quickbuttonbox__url name="p_quickbuttonbox__url" type="text" maxlength="4000" persist="true">
                     <label/>
-                    <value>[object Object]</value>
+                    <value type="action">
+                        <app>undefined</app>
+                        <page>undefined</page>
+                        <action>undefined</action>
+                    </value>
                 </quickbuttonbox__url>
                 <quickbuttonbox__bg name="p_quickbuttonbox__bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
@@ -193,36 +205,31 @@
                 <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Documento</label>
                 </documento>
-                <ver name="p_ver" type="link" target="_newtab" target_fields="" closerefresh="false" action="undefined" page="undefined" app="undefined" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" request_fields="" custom_action="" action_type="false" desc="true">
+                <ver name="p_ver" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Ver</label>
                 </ver>
             </fields>
             <table>
                 <value>
                     <row>
-                        <documento name="p_documento">Consectetur sit omnis aliqua s</documento>
-                        <ver name="p_ver" desc="true">http://dupo.edu/epveg</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                        <documento name="p_documento">Sed dolor voluptatem magna des</documento>
+                        <ver name="p_ver">Amet natus elit amet totam</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Adipiscing voluptatem doloremq</documento>
-                        <ver name="p_ver" desc="true">http://cefol.net/taf</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                        <documento name="p_documento">Rem sit sit laudantium unde</documento>
+                        <ver name="p_ver">Adipiscing sed labore omnis la</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Stract lorem elit adipiscing o</documento>
-                        <ver name="p_ver" desc="true">http://nisgaf.io/pumfec</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                        <documento name="p_documento">Totam elit labore voluptatem r</documento>
+                        <ver name="p_ver">Anim deserunt consectetur unde</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Deserunt ipsum aperiam lorem l</documento>
-                        <ver name="p_ver" desc="true">http://bep.net/ak</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                        <documento name="p_documento">Unde natus sit doloremque aliq</documento>
+                        <ver name="p_ver">Doloremque laudantium consecte</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Adipiscing sit ipsum sit sit</documento>
-                        <ver name="p_ver" desc="true">http://if.org/zaipewi</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                        <documento name="p_documento">Anim accusantium sit consectet</documento>
+                        <ver name="p_ver">Rem ut accusantium laudantium</ver>
                     </row>
                 </value>
             </table>

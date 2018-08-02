@@ -2,6 +2,7 @@ package nosi.webapps.tutorial.pages.geralapresentacao;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -23,8 +24,8 @@ public class GeralApresentacao extends Model{
 	private String documentos_gerais;
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_quickbuttonbox_gestao_tit")
-	private String quickbuttonbox_gestao_tit;
+	@RParam(rParamName = "p_quickbuttonbox_gestao_title")
+	private String quickbuttonbox_gestao_title;
 	@RParam(rParamName = "p_quickbuttonbox_gestao_val")
 	private String quickbuttonbox_gestao_val;
 	@RParam(rParamName = "p_quickbuttonbox_gestao_url")
@@ -33,8 +34,8 @@ public class GeralApresentacao extends Model{
 	private String quickbuttonbox_gestao_bg;
 	@RParam(rParamName = "p_quickbuttonbox_gestao_icn")
 	private String quickbuttonbox_gestao_icn;
-	@RParam(rParamName = "p_statbox_1_tit")
-	private String statbox_1_tit;
+	@RParam(rParamName = "p_statbox_1_title")
+	private String statbox_1_title;
 	@RParam(rParamName = "p_statbox_1_val")
 	private String statbox_1_val;
 	@RParam(rParamName = "p_statbox_1_txt")
@@ -47,8 +48,8 @@ public class GeralApresentacao extends Model{
 	private String statbox_1_icn;
 	@RParam(rParamName = "p_paragraph_1_text")
 	private String paragraph_1_text;
-	@RParam(rParamName = "p_quickbuttonbox_instalar_tit")
-	private String quickbuttonbox_instalar_tit;
+	@RParam(rParamName = "p_quickbuttonbox_instalar_title")
+	private String quickbuttonbox_instalar_title;
 	@RParam(rParamName = "p_quickbuttonbox_instalar_val")
 	private String quickbuttonbox_instalar_val;
 	@RParam(rParamName = "p_quickbuttonbox_instalar_url")
@@ -61,8 +62,8 @@ public class GeralApresentacao extends Model{
 	private String paragraph_6_text;
 	@RParam(rParamName = "p_video_2_text")
 	private String video_2_text;
-	@RParam(rParamName = "p_quickbuttonbox__tit")
-	private String quickbuttonbox__tit;
+	@RParam(rParamName = "p_quickbuttonbox__title")
+	private String quickbuttonbox__title;
 	@RParam(rParamName = "p_quickbuttonbox__val")
 	private String quickbuttonbox__val;
 	@RParam(rParamName = "p_quickbuttonbox__url")
@@ -133,11 +134,11 @@ public class GeralApresentacao extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setQuickbuttonbox_gestao_tit(String quickbuttonbox_gestao_tit){
-		this.quickbuttonbox_gestao_tit = quickbuttonbox_gestao_tit;
+	public void setQuickbuttonbox_gestao_title(String quickbuttonbox_gestao_title){
+		this.quickbuttonbox_gestao_title = quickbuttonbox_gestao_title;
 	}
-	public String getQuickbuttonbox_gestao_tit(){
-		return this.quickbuttonbox_gestao_tit;
+	public String getQuickbuttonbox_gestao_title(){
+		return this.quickbuttonbox_gestao_title;
 	}
 	
 	public void setQuickbuttonbox_gestao_val(String quickbuttonbox_gestao_val){
@@ -168,11 +169,11 @@ public class GeralApresentacao extends Model{
 		return this.quickbuttonbox_gestao_icn;
 	}
 	
-	public void setStatbox_1_tit(String statbox_1_tit){
-		this.statbox_1_tit = statbox_1_tit;
+	public void setStatbox_1_title(String statbox_1_title){
+		this.statbox_1_title = statbox_1_title;
 	}
-	public String getStatbox_1_tit(){
-		return this.statbox_1_tit;
+	public String getStatbox_1_title(){
+		return this.statbox_1_title;
 	}
 	
 	public void setStatbox_1_val(String statbox_1_val){
@@ -217,11 +218,11 @@ public class GeralApresentacao extends Model{
 		return this.paragraph_1_text;
 	}
 	
-	public void setQuickbuttonbox_instalar_tit(String quickbuttonbox_instalar_tit){
-		this.quickbuttonbox_instalar_tit = quickbuttonbox_instalar_tit;
+	public void setQuickbuttonbox_instalar_title(String quickbuttonbox_instalar_title){
+		this.quickbuttonbox_instalar_title = quickbuttonbox_instalar_title;
 	}
-	public String getQuickbuttonbox_instalar_tit(){
-		return this.quickbuttonbox_instalar_tit;
+	public String getQuickbuttonbox_instalar_title(){
+		return this.quickbuttonbox_instalar_title;
 	}
 	
 	public void setQuickbuttonbox_instalar_val(String quickbuttonbox_instalar_val){
@@ -266,11 +267,11 @@ public class GeralApresentacao extends Model{
 		return this.video_2_text;
 	}
 	
-	public void setQuickbuttonbox__tit(String quickbuttonbox__tit){
-		this.quickbuttonbox__tit = quickbuttonbox__tit;
+	public void setQuickbuttonbox__title(String quickbuttonbox__title){
+		this.quickbuttonbox__title = quickbuttonbox__title;
 	}
-	public String getQuickbuttonbox__tit(){
-		return this.quickbuttonbox__tit;
+	public String getQuickbuttonbox__title(){
+		return this.quickbuttonbox__title;
 	}
 	
 	public void setQuickbuttonbox__val(String quickbuttonbox__val){
@@ -304,8 +305,7 @@ public class GeralApresentacao extends Model{
 
 	public static class Table_1 extends IGRPTable.Table{
 		private String documento;
-		private IGRPLink ver;
-		private String ver_desc;
+		private String ver;
 		public void setDocumento(String documento){
 			this.documento = documento;
 		}
@@ -313,27 +313,12 @@ public class GeralApresentacao extends Model{
 			return this.documento;
 		}
 
-		public IGRPLink setVer(String app,String page,String action){
-			this.ver = new IGRPLink(app,page,action);
+		public void setVer(String ver){
+			this.ver = ver;
+		}
+		public String getVer(){
 			return this.ver;
 		}
-		public IGRPLink getVer(){
-			return this.ver;
-		}
-		public void setVer_desc(String ver_desc){
-			this.ver_desc = ver_desc;
-		}
-		public String getVer_desc(){
-			return this.ver_desc;
-		}
-	public IGRPLink setVer(String link){
-		this.ver = new IGRPLink(link);
-		return this.ver;
-	}
-	public IGRPLink setVer(Report link){
-		this.ver = new IGRPLink(link);
-		return this.ver;
-	}
 
 	}
 
