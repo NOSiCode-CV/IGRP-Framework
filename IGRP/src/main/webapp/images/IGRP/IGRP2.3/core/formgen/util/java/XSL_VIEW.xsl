@@ -353,7 +353,7 @@
 			
 			<xsl:choose>
 			
-			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox' or @type='quickbuttonbox' or type='timeline' or type='treemenu'">
+			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox' or @type='quickbuttonbox' or @type='timeline' or @type='treemenu'">
 			  
 			  <xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
