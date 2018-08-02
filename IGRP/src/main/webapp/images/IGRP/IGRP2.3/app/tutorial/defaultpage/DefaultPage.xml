@@ -44,5 +44,33 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <infopanel_1 type="infopanel" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Infopanel</value>
+                </infopanel_1_title>
+                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>65</value>
+                </infopanel_1_val>
+                <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>tutorial</app>
+                        <page>DefaultPage</page>
+                        <action>index</action>
+                    </value>
+                </infopanel_1_url>
+                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </infopanel_1_bg>
+                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-info</value>
+                </infopanel_1_icn>
+            </fields>
+        </infopanel_1>
     </content>
 </rows>
