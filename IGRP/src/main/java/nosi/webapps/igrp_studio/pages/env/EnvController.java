@@ -130,19 +130,15 @@ public class EnvController extends Controller {
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
 			app.setTemplate(model.getTemplates()); 
+			Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", 2).one();
+			if(hp != null)
+				app.setAction(hp);
 			app = app.insert();
 			if(app!=null){
 				
 				//createSvnRepo(app);
 				
 				FileHelper.createDiretory(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-				FileHelper.save(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				Compiler compiler = new Compiler();
-				compiler.compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
-				
-				if(FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-					FileHelper.save(this.getConfig().getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}		
 				
 				if(autoDeploy && !appAutoDeploy(app.getDad())) 
 					Core.setMessageWarning(gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 				
@@ -304,6 +300,10 @@ public class EnvController extends Controller {
 			if(Core.isInt(model.getAction_fk())){
 				Action ac = new Action().findOne(Integer.parseInt(model.getAction_fk()));
 				aplica_db.setAction(ac);
+			}else {
+				Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", 2).one();
+				if(hp != null)
+					aplica_db.setAction(hp);
 			}
 			aplica_db.setStatus(model.getStatus());
 			aplica_db.setTemplate(model.getTemplates());	

@@ -175,6 +175,8 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Gestao_tipo_documento", "index", "nosi.webapps.igrp.pages", "igrp/gestao_tipo_documento/Gestao_tipo_documento.xsl", "Gestao Tipo Documento", "Gestao Tipo Documento", "2.3", 1, app_igrp));
 			actions.add(new Action("Startprocess", "index", "nosi.webapps.igrp.pages", "igrp/startprocess/Startprocess.xsl", "Start Process", "Start Process", "2.3", 1, app_igrp));
 			
+			actions.add(new Action("DefaultPage", "index", "nosi.webapps.tutorial.pages", "tutorial/defaultpage/DefaultPage.xsl", "Default Page", "Default Page", "2.3", 1, app_tutorial));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
