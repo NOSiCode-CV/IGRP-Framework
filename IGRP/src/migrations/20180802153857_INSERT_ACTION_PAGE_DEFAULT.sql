@@ -1,0 +1,2 @@
+INSERT INTO public.tbl_action(action, action_descr, iscomponent, package_name, page, page_descr, status, version, xsl_src, env_fk)
+VALUES ( 'index', 'DefaultPage', 0, 'nosi.webapps.tutorial.pages', 'DefaultPage', 'DefaultPage', 1, '2.3', 'tutorial/defaultpage/DefaultPage.xsl', 2);
