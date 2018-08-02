@@ -86,7 +86,7 @@ public class ChangePasswordController extends Controller {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
 		} 
-		user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "SHA-256"));
+		user.setPass_hash(nosi.core.webapp.User.encryptToHash(user.getUser_name()+ "" + newPassword, "SHA-256"));
 		user.setUpdated_at(System.currentTimeMillis());
 		user = user.update();
 		if(user !=null)

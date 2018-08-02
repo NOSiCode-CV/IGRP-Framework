@@ -40,7 +40,7 @@ public class RegistarUtilizadorController extends Controller {
 			if(!isError){				
 				User user = new User();				
 				user.setName(model.getNome());
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getPassword(), "SHA-256"));
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
 				user.setEmail(model.getEmail());
 				user.setUser_name(model.getUsername());
 				user.setStatus(1);
@@ -121,8 +121,8 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 			}				
 			if(!isError){
 				user.setName(model.getNome());
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getPassword(), "SHA-256"));
-				//user.setEmail(model.getEmail());
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
+				//user.setEmail(model.getEmail()); 
 				//user.setUser_name(model.getUsername());
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();

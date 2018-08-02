@@ -73,7 +73,7 @@ public class MigrationIGRPInitConfig {
 			User user0_IGRP = new User("IGRP", "igrp@nosi.cv", " ", "ADMIN", null, 1, null, "123456789", "admin",null, null, null, null, null,"123456789", 2017, 2017);
 			user0_IGRP = user0_IGRP.insert();
 			user0_IGRP = user0_IGRP.updateTozero();
-			User user1demo = new User("Nositeste", "demo@nosi.cv", "2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea", "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);
+			User user1demo = new User("Nositeste", "demo@nosi.cv", "60b1df41fa82696abea1deb198667eb7c4a60521dd471559a8c17efde8528913", "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);
 			user1demo = user1demo.insert();
 			/** For SSO tomcat realm  **/
 			UserRole role = new UserRole();
