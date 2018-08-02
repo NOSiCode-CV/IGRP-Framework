@@ -3,12 +3,15 @@ package nosi.webapps.tutorial.pages.geralapresentacao;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
+
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+
 
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
+
 
 
 
@@ -19,26 +22,26 @@ public class GeralApresentacaoView extends View {
 	public Field videos_tutoriais;
 	public Field documentos_gerais;
 	public Field sectionheader_1_text;
-	public Field quickbuttonbox_gestao_tit;
+	public Field quickbuttonbox_gestao_title;
 	public Field quickbuttonbox_gestao_val;
 	public Field quickbuttonbox_gestao_url;
 	public Field quickbuttonbox_gestao_bg;
 	public Field quickbuttonbox_gestao_icn;
-	public Field statbox_1_tit;
+	public Field statbox_1_title;
 	public Field statbox_1_val;
 	public Field statbox_1_txt;
 	public Field statbox_1_url;
 	public Field statbox_1_bg;
 	public Field statbox_1_icn;
 	public Field paragraph_1_text;
-	public Field quickbuttonbox_instalar_tit;
+	public Field quickbuttonbox_instalar_title;
 	public Field quickbuttonbox_instalar_val;
 	public Field quickbuttonbox_instalar_url;
 	public Field quickbuttonbox_instalar_bg;
 	public Field quickbuttonbox_instalar_icn;
 	public Field paragraph_6_text;
 	public Field video_2_text;
-	public Field quickbuttonbox__tit;
+	public Field quickbuttonbox__title;
 	public Field quickbuttonbox__val;
 	public Field quickbuttonbox__url;
 	public Field quickbuttonbox__bg;
@@ -106,18 +109,19 @@ public class GeralApresentacaoView extends View {
 		sectionheader_1_text.setValue(gt("Bem-vindo ao seu IGRP WEB"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		quickbuttonbox_gestao_tit = new TextField(model,"quickbuttonbox_gestao_tit");
-		quickbuttonbox_gestao_tit.setLabel(gt("Title"));
-		quickbuttonbox_gestao_tit.setValue(gt("Criação e Gestão de uma Aplicação"));
-		quickbuttonbox_gestao_tit.propertie().add("name","p_quickbuttonbox_gestao_tit").add("type","text").add("maxlength","4000");
+		quickbuttonbox_gestao_title = new TextField(model,"quickbuttonbox_gestao_title");
+		quickbuttonbox_gestao_title.setLabel(gt("Title"));
+		quickbuttonbox_gestao_title.setValue(gt("Box Title"));
+		quickbuttonbox_gestao_title.propertie().add("name","p_quickbuttonbox_gestao_title").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_gestao_val = new TextField(model,"quickbuttonbox_gestao_val");
 		quickbuttonbox_gestao_val.setLabel(gt("Value"));
+		quickbuttonbox_gestao_val.setValue(gt(""));
 		quickbuttonbox_gestao_val.propertie().add("name","p_quickbuttonbox_gestao_val").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_gestao_url = new TextField(model,"quickbuttonbox_gestao_url");
 		quickbuttonbox_gestao_url.setLabel(gt(""));
-		quickbuttonbox_gestao_url.setValue(gt("[object Object]"));
+		quickbuttonbox_gestao_url.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
 		quickbuttonbox_gestao_url.propertie().add("name","p_quickbuttonbox_gestao_url").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_gestao_bg = new TextField(model,"quickbuttonbox_gestao_bg");
@@ -130,10 +134,10 @@ public class GeralApresentacaoView extends View {
 		quickbuttonbox_gestao_icn.setValue(gt("fa-video-camera"));
 		quickbuttonbox_gestao_icn.propertie().add("name","p_quickbuttonbox_gestao_icn").add("type","text").add("maxlength","4000");
 		
-		statbox_1_tit = new TextField(model,"statbox_1_tit");
-		statbox_1_tit.setLabel(gt("Box Title"));
-		statbox_1_tit.setValue(gt("FAQ"));
-		statbox_1_tit.propertie().add("name","p_statbox_1_tit").add("type","text").add("maxlength","4000");
+		statbox_1_title = new TextField(model,"statbox_1_title");
+		statbox_1_title.setLabel(gt("Box Title"));
+		statbox_1_title.setValue(gt("Box Title"));
+		statbox_1_title.propertie().add("name","p_statbox_1_title").add("type","text").add("maxlength","4000");
 		
 		statbox_1_val = new TextField(model,"statbox_1_val");
 		statbox_1_val.setLabel(gt("Value"));
@@ -165,18 +169,19 @@ public class GeralApresentacaoView extends View {
 		paragraph_1_text.setValue(gt("Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito..."));
 		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
 		
-		quickbuttonbox_instalar_tit = new TextField(model,"quickbuttonbox_instalar_tit");
-		quickbuttonbox_instalar_tit.setLabel(gt("Title"));
-		quickbuttonbox_instalar_tit.setValue(gt("Como importar o IGRP WEB"));
-		quickbuttonbox_instalar_tit.propertie().add("name","p_quickbuttonbox_instalar_tit").add("type","text").add("maxlength","4000");
+		quickbuttonbox_instalar_title = new TextField(model,"quickbuttonbox_instalar_title");
+		quickbuttonbox_instalar_title.setLabel(gt("Title"));
+		quickbuttonbox_instalar_title.setValue(gt("Box Title"));
+		quickbuttonbox_instalar_title.propertie().add("name","p_quickbuttonbox_instalar_title").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_instalar_val = new TextField(model,"quickbuttonbox_instalar_val");
 		quickbuttonbox_instalar_val.setLabel(gt("Value"));
+		quickbuttonbox_instalar_val.setValue(gt(""));
 		quickbuttonbox_instalar_val.propertie().add("name","p_quickbuttonbox_instalar_val").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_instalar_url = new TextField(model,"quickbuttonbox_instalar_url");
 		quickbuttonbox_instalar_url.setLabel(gt(""));
-		quickbuttonbox_instalar_url.setValue(gt("[object Object]"));
+		quickbuttonbox_instalar_url.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
 		quickbuttonbox_instalar_url.propertie().add("name","p_quickbuttonbox_instalar_url").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_instalar_bg = new TextField(model,"quickbuttonbox_instalar_bg");
@@ -199,18 +204,19 @@ public class GeralApresentacaoView extends View {
 		video_2_text.setValue(gt("https://www.youtube.com/embed/Xc38EPBydco"));
 		video_2_text.propertie().add("type","text").add("name","p_video_2_text").add("maxlength","4000");
 		
-		quickbuttonbox__tit = new TextField(model,"quickbuttonbox__tit");
-		quickbuttonbox__tit.setLabel(gt("Title"));
-		quickbuttonbox__tit.setValue(gt("My First App, config DB, Crud"));
-		quickbuttonbox__tit.propertie().add("name","p_quickbuttonbox__tit").add("type","text").add("maxlength","4000");
+		quickbuttonbox__title = new TextField(model,"quickbuttonbox__title");
+		quickbuttonbox__title.setLabel(gt("Title"));
+		quickbuttonbox__title.setValue(gt("Box Title"));
+		quickbuttonbox__title.propertie().add("name","p_quickbuttonbox__title").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox__val = new TextField(model,"quickbuttonbox__val");
 		quickbuttonbox__val.setLabel(gt("Value"));
+		quickbuttonbox__val.setValue(gt(""));
 		quickbuttonbox__val.propertie().add("name","p_quickbuttonbox__val").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox__url = new TextField(model,"quickbuttonbox__url");
 		quickbuttonbox__url.setLabel(gt(""));
-		quickbuttonbox__url.setValue(gt("[object Object]"));
+		quickbuttonbox__url.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
 		quickbuttonbox__url.propertie().add("name","p_quickbuttonbox__url").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox__bg = new TextField(model,"quickbuttonbox__bg");
@@ -227,11 +233,9 @@ public class GeralApresentacaoView extends View {
 		documento.setLabel(gt("Documento"));
 		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30");
 		
-		ver = new LinkField(model,"ver");
+		ver = new TextField(model,"ver");
 		ver.setLabel(gt("Ver"));
-		ver.setValue(new Config().getResolveUrl("undefined","undefined","undefined"));
-
-									ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("maxlength","30").add("request_fields","").add("desc","true");
+		ver.propertie().add("name","p_ver").add("type","text").add("maxlength","30");
 		
 
 
@@ -249,13 +253,13 @@ public class GeralApresentacaoView extends View {
 
 		sectionheader_1.addField(sectionheader_1_text);
 
-		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_tit);
+		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_title);
 		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_val);
 		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_url);
 		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_bg);
 		quickbuttonbox_gestao.addField(quickbuttonbox_gestao_icn);
 
-		statbox_1.addField(statbox_1_tit);
+		statbox_1.addField(statbox_1_title);
 		statbox_1.addField(statbox_1_val);
 		statbox_1.addField(statbox_1_txt);
 		statbox_1.addField(statbox_1_url);
@@ -264,7 +268,7 @@ public class GeralApresentacaoView extends View {
 
 		paragraph_1.addField(paragraph_1_text);
 
-		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_tit);
+		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_title);
 		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_val);
 		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_url);
 		quickbuttonbox_instalar.addField(quickbuttonbox_instalar_bg);
@@ -274,7 +278,7 @@ public class GeralApresentacaoView extends View {
 
 		video_2.addField(video_2_text);
 
-		quickbuttonbox_.addField(quickbuttonbox__tit);
+		quickbuttonbox_.addField(quickbuttonbox__title);
 		quickbuttonbox_.addField(quickbuttonbox__val);
 		quickbuttonbox_.addField(quickbuttonbox__url);
 		quickbuttonbox_.addField(quickbuttonbox__bg);
@@ -302,9 +306,6 @@ public class GeralApresentacaoView extends View {
 		welcome.setValue(model);
 		videos_tutoriais.setValue(model);
 		documentos_gerais.setValue(model);
-		quickbuttonbox_gestao_val.setValue(model);
-		quickbuttonbox_instalar_val.setValue(model);
-		quickbuttonbox__val.setValue(model);
 		documento.setValue(model);
 		ver.setValue(model);	
 
