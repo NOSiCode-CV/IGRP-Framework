@@ -130,9 +130,14 @@ public class EnvController extends Controller {
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
 			app.setTemplate(model.getTemplates()); 
-			Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", 2).one();
-			if(hp != null)
-				app.setAction(hp);
+			
+			Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
+			if(tutorial != null) {
+				Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", tutorial.getId()).one();
+				if(hp != null)
+					app.setAction(hp);
+			}
+			
 			app = app.insert();
 			if(app!=null){
 				
@@ -301,9 +306,14 @@ public class EnvController extends Controller {
 				Action ac = new Action().findOne(Integer.parseInt(model.getAction_fk()));
 				aplica_db.setAction(ac);
 			}else {
-				Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", 2).one();
-				if(hp != null)
-					aplica_db.setAction(hp);
+				
+				Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
+				if(tutorial != null) {
+					Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", tutorial.getId()).one();
+					if(hp != null)
+						aplica_db.setAction(hp);
+				}
+				
 			}
 			aplica_db.setStatus(model.getStatus());
 			aplica_db.setTemplate(model.getTemplates());	

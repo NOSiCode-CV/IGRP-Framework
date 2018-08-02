@@ -227,7 +227,7 @@ public class LoginController extends Controller {
 	private boolean loginWithDb(String username, String password) throws IOException{
 		boolean success = false;
 		User user = (User) new User().findIdentityByUsername(username);
-		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "SHA-256"))){
+		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))){
 			if(user.getStatus() == 1){				
 				Profile profile = new Profile().getByUser(user.getId());
 					if(profile != null && Igrp.getInstance().getUser().login(user, 60*60/*1h*/)){ // 3600 * 24 * 30
