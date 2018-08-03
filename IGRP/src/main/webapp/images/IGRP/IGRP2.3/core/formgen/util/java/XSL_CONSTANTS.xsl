@@ -451,6 +451,8 @@
 	            <xsl:with-param name="type" select="$type"/>
 	        </xsl:call-template>
 		</xsl:if>
+		
+		<xsl:value-of select="$newline"/>
         <xsl:if test="$tabCode">
             <xsl:value-of select="$indentation"/>
         </xsl:if>     

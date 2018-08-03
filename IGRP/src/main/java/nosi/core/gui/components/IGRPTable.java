@@ -167,7 +167,7 @@ public class IGRPTable extends IGRPComponent{
 			}
 		this.xml.endElement();
 		String aux = this.xml.toString();
-		System.out.println(aux);
+		//System.out.println(aux);
 		return aux;
 	}
 
