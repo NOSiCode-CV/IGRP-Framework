@@ -57,7 +57,7 @@ public class User implements Component{
 			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 			user = user.findIdentityById(identityId);
 			
-			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
+			if(user!=null && authenticationKey.equals(user.getAuth_key())) {
 				this.identity = (Identity) user;
 			return true;
 			}
@@ -194,7 +194,7 @@ public class User implements Component{
 		// not set yet
 	}
 	
-	public synchronized static String encryptToHash(String target, String algorithm/* MD5 or SHA1 */){
+	public static String encryptToHash(String target, String algorithm/* MD5 or SHA1 */){
 		String result = "";
 		try {
 			result = new BigInteger(1, MessageDigest.getInstance(algorithm).digest(target.getBytes())).toString(16/*Hexadecimal codification*/);
@@ -204,12 +204,12 @@ public class User implements Component{
 		return result;
 	}
 	
-	public synchronized static String generateAuthenticationKey() {
+	public static String generateAuthenticationKey() {
 		//return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
 		return java.util.UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
-	public synchronized static String generateActivationKey() {
+	public static String generateActivationKey() {
 		return Base64.getUrlEncoder().encodeToString(((System.currentTimeMillis() + 1000*3600) + "").getBytes()); // 1h 
 	}
 	

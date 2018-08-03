@@ -5,6 +5,7 @@ import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Organization;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.ProfileType;
 import java.util.ArrayList;
@@ -136,7 +137,12 @@ public class PesquisarPerfilController extends Controller {
 		----#gen-example */
 		/*----#start-code(menu)----*/
      //p_id is a param (iskey=true) that will be send automatically
-      this.addQueryString("p_type","perfil"); 	
+     this.addQueryString("p_type","perfil");
+		int id = Core.getParamInt("p_id");
+        if(id!=0){
+			ProfileType p = new ProfileType().findOne(id);
+		     this.addQueryString("env_fk",p.getApplication().getId());  
+        }
       return this.forward("igrp","MenuOrganica","index", this.queryString());
 		/*----#end-code----*/
 			

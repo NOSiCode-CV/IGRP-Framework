@@ -36,13 +36,13 @@ public class MenuOrganicaController extends Controller {
     
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
 			List<Menu> menus = new ArrayList<>();
-			if (model.getType().equals("org")) {
-				int env_fk = Core.getParamInt("env_fk");
+			int env_fk = Core.getParamInt("env_fk");
+			if (model.getType().equals("org")) {		
 				menus = new Organization().getOrgMenu(env_fk);
 			} else if (model.getType().equals("perfil")) {
 				ProfileType p = new ProfileType().findOne(model.getId());
 						// ALL PROFILE org has org_fk = null so the org is 1
-				menus = new Organization().getPerfilMenu(p.getOrganization() != null ? p.getOrganization().getId() : 1); 
+				menus = new Organization().getPerfilMenu(env_fk,p.getOrganization() != null ? p.getOrganization().getId() : 1); 
 						//new menu button invisible
                 view.btn_novo.setVisible(false);              
 			}

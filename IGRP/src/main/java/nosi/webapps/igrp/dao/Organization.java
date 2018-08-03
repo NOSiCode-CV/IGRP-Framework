@@ -185,7 +185,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	}
 
 
-	public List<Menu> getPerfilMenu(Integer org) {
+	public List<Menu> getPerfilMenu(int env_fk, int org) {
 		Profile pr = new Profile();
 		List<Profile> profiles = pr
 				.findAll(pr.getCriteria().where(pr.getBuilder().equal(pr.getRoot().get("type"), "MEN"),
@@ -194,9 +194,8 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		List<Menu> menus = new ArrayList<>();
 		Application a = new Application();				
 		for (Profile p : profiles) {			
-			Menu e = new Menu().findOne(p.getType_fk());
-			
-			e.setDescr(e.getApplication().getId()==a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),Core.getCurrentDad() ))).getId()?setMenuDescr(e):gt(e.getDescr()));				
+			Menu e = new Menu().findOne(p.getType_fk());			
+			e.setDescr(e.getApplication().getId()==env_fk?gt(e.getDescr()):setMenuDescr(e));				
 			menus.add(e);
 		}
 		return menus;
