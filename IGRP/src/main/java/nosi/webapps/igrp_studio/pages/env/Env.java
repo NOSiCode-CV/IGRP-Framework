@@ -1,4 +1,8 @@
 package nosi.webapps.igrp_studio.pages.env;
+
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -15,6 +19,10 @@ public class Env extends Model{
 	private int status;
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
+	@RParam(rParamName = "p_gen_auto_code")
+	private int gen_auto_code;
+	@RParam(rParamName = "p_gen_auto_code_check")
+	private int gen_auto_code_check;
 	@RParam(rParamName = "p_personalizacoes")
 	private String personalizacoes;
 	@RParam(rParamName = "p_img_src")
@@ -41,10 +49,6 @@ public class Env extends Model{
 	private int flg_old;
 	@RParam(rParamName = "p_flg_old_check")
 	private int flg_old_check;
-	@RParam(rParamName = "p_gen_auto_code")
-	private int gen_auto_code;
-	@RParam(rParamName = "p_gen_auto_code_check")
-	private int gen_auto_code_check;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -85,6 +89,19 @@ public class Env extends Model{
 	}
 	public int getStatus_check(){
 		return this.status_check;
+	}
+	
+	public void setGen_auto_code(int gen_auto_code){
+		this.gen_auto_code = gen_auto_code;
+	}
+	public int getGen_auto_code(){
+		return this.gen_auto_code;
+	}
+	public void setGen_auto_code_check(int gen_auto_code_check){
+		this.gen_auto_code_check = gen_auto_code_check;
+	}
+	public int getGen_auto_code_check(){
+		return this.gen_auto_code_check;
 	}
 	
 	public void setPersonalizacoes(String personalizacoes){
@@ -174,19 +191,6 @@ public class Env extends Model{
 	}
 	public int getFlg_old_check(){
 		return this.flg_old_check;
-	}
-	
-	public void setGen_auto_code(int gen_auto_code){
-		this.gen_auto_code = gen_auto_code;
-	}
-	public int getGen_auto_code(){
-		return this.gen_auto_code;
-	}
-	public void setGen_auto_code_check(int gen_auto_code_check){
-		this.gen_auto_code_check = gen_auto_code_check;
-	}
-	public int getGen_auto_code_check(){
-		return this.gen_auto_code_check;
 	}
 
 

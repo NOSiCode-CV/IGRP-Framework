@@ -1,7 +1,9 @@
-
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -50,7 +52,6 @@ import nosi.core.webapp.compiler.helpers.Compiler;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
-
 public class EnvController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -59,13 +60,10 @@ public class EnvController extends Controller {
 		model.load();
 		EnvView view = new EnvView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
 		model.setStatus(1);
@@ -93,13 +91,11 @@ public class EnvController extends Controller {
 		Env model = new Env();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -327,6 +323,7 @@ public class EnvController extends Controller {
 		}	
 		EnvView view = new EnvView();
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
+    	view.dad.propertie().setProperty("disabled", "true");
 		view.btn_gravar.setLink("igrp_studio", "env", "editar&id=" + idAplicacao);
 		view.action_fk.setValue(new Action().getListActions(Integer.parseInt(idAplicacao)));
 		view.apache_dad.setVisible(false); 

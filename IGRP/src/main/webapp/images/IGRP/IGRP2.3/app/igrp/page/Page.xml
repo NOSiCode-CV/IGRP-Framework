@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -59,11 +59,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Natus labore dolor accusantium labore</value>
+                    <value>Rem sit magna sit sit</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Amet elit aliqua laudantium mollit</value>
+                    <value>Laudantium rem consectetur elit consectetur</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label>Ativo</label>
@@ -106,11 +106,11 @@
                     <label>Extras</label>
                 </extras>
                 <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
-                    <label> Primeira Página</label>
+                    <label>Primeira Página</label>
                     <value>1</value>
                 </primeira_pagina>
                 <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
-                    <label> Criar menu?</label>
+                    <label>Criar menu?</label>
                     <value>1</value>
                     <rules/>
                 </criar_menu>

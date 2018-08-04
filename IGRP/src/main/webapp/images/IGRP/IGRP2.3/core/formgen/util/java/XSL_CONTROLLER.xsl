@@ -3,8 +3,7 @@
     <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
     <!-- Join all templates to create controller -->
-    <xsl:template name="create-controller">
-    	<xsl:value-of select="$newline"/>
+    <xsl:template name="create-controller">    
      	<xsl:call-template name="import-packages-controller"></xsl:call-template>
      	<xsl:value-of select="$newline"/>
  		<xsl:value-of select="concat('public class ',$class_name,'Controller extends Controller {')"/>

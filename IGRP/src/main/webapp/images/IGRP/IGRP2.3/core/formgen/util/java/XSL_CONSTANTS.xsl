@@ -90,6 +90,7 @@
 
     <xsl:variable name="import_view">
         <xsl:text>import nosi.core.webapp.View;</xsl:text>
+        <xsl:value-of select="$newline"/>
     </xsl:variable>
 
     <xsl:variable name="import_date">
@@ -101,41 +102,48 @@
 
     <xsl:variable name="import_model">
        	<xsl:text>import nosi.core.webapp.Model;</xsl:text>
+       	<xsl:value-of select="$newline"/>
     </xsl:variable>
     
     <xsl:variable name="import_table">
     	<xsl:if test="count(/rows/content/*[@type='table' or @type='treemenu']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPTable;</xsl:text>
+        	<xsl:value-of select="$newline"/>        	
         </xsl:if>
     </xsl:variable>
     
     <xsl:variable name="import_array_list">
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.ArrayList;</xsl:text> 
+       		<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_list"> 
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.List;</xsl:text>
+        	<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_separator_list">    
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
+       		<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
     
     <xsl:variable name="import_query_helper">
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.databse.helpers.BaseQueryInterface;</xsl:text>
+       		<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_separator_list_annotation">     
     	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.SeparatorList;</xsl:text>
+      		<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 
@@ -166,6 +174,7 @@
     <xsl:variable name="import_annotations">
     	<xsl:if test="count(//fields/*) &gt; 0">
         	<xsl:text>import nosi.core.webapp.RParam;</xsl:text>
+        	<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 

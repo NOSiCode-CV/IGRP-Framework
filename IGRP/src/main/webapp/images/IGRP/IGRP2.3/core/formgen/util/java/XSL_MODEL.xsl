@@ -188,29 +188,17 @@
  	<xsl:template name="import-packages-model">
  		<xsl:value-of select="concat('package ',$package_name)"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_config"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_table"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_model"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_annotations"/>
- 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_query_helper"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_separator_list"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_separator_list_annotation"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_date"/>
- 		
-		<xsl:value-of select="$newline"/>
-		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline'  or @type='treemenu']) > 0">
-	 		<xsl:value-of select="$import_array_list"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$import_list"/>
-			<xsl:value-of select="$newline"/>
-		</xsl:if>
+		 <xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_config"/>	
+ 		<xsl:value-of select="$import_table"/>		
+ 		<xsl:value-of select="$import_model"/>	
+ 		<xsl:value-of select="$import_annotations"/> 		
+ 		<xsl:value-of select="$import_query_helper"/>	
+ 		<xsl:value-of select="$import_separator_list"/>	
+ 		<xsl:value-of select="$import_separator_list_annotation"/>		
+ 		<xsl:value-of select="$import_date"/> 		
+		<xsl:value-of select="$import_array_list"/>
+		<xsl:value-of select="$import_list"/>	
  	</xsl:template>
 
 
@@ -224,7 +212,7 @@
 	public void loadMyapps_list(BaseQueryInterface query) {
 		this.setMyapps_list(this.loadTable(query,Myapps_list.class));
 	} -->
- 	<xsl:template name="create-model">
+ 	<xsl:template name="create-model"> 	  
  		<xsl:call-template name="import-packages-model"></xsl:call-template>
  		<xsl:value-of select="$newline"/>
 	 		<xsl:value-of select="concat('public class ',$class_name,' extends Model{')"/>
