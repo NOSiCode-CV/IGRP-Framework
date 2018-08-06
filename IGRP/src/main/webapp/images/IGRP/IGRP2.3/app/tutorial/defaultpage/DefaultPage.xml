@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=63</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=202</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -40,37 +40,37 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Sectionheader</value>
+                    <value>Primeira Página</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <infopanel_1 type="infopanel" xml-type="form" gen-type="container" gen-group="">
+        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000" persist="true">
-                    <label>Title</label>
-                    <value>Infopanel</value>
-                </infopanel_1_title>
-                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000" persist="true">
+                <statbox_1_title name="p_statbox_1_title" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>FAQ - How to change this home page?</value>
+                </statbox_1_title>
+                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
-                    <value>65</value>
-                </infopanel_1_val>
-                <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
-                    <label/>
-                    <value type="action">
-                        <app>tutorial</app>
-                        <page>DefaultPage</page>
-                        <action>index</action>
-                    </value>
-                </infopanel_1_url>
-                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
+                    <value/>
+                </statbox_1_val>
+                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>GO TO</value>
+                </statbox_1_txt>
+                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>https://nosicode.gitbook.io/faq/beginner/how-to-change-the-first-page-home-of-an-application</value>
+                </statbox_1_url>
+                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
                     <value>cp-cyan</value>
-                </infopanel_1_bg>
-                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000" persist="true">
+                </statbox_1_bg>
+                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
                     <label>Icon</label>
-                    <value>fa-info</value>
-                </infopanel_1_icn>
+                    <value>fa-github</value>
+                </statbox_1_icn>
             </fields>
-        </infopanel_1>
+        </statbox_1>
     </content>
 </rows>

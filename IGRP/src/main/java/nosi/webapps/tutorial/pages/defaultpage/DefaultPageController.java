@@ -1,10 +1,8 @@
-
 package nosi.webapps.tutorial.pages.defaultpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -12,6 +10,7 @@ import nosi.core.webapp.Response;
 
 
 /*----#end-code----*/
+
 public class DefaultPageController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -22,11 +21,13 @@ public class DefaultPageController extends Controller {
 		/*----#start-code(index)----*/
 		
 		
-/*----#end-code----*/		view.setModel(model);
+/*----#end-code----*/
+		view.setModel(model);
 		return this.renderView(view);	
 	}
 	
 	/*----#start-code(custom_actions)----*/
 	
 	
-/*----#end-code----*/	}
+/*----#end-code----*/
+	}
