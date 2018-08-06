@@ -1,4 +1,7 @@
 package nosi.core.webapp.helpers;
+
+import java.io.UnsupportedEncodingException;
+
 /**
  * @author: Emanuel Pereira
  * 25 Oct 2017
@@ -46,6 +49,16 @@ public class StringHelper {
 		string = string.replaceAll("[^a-zA-Z0-9]", "_");
 		string = removeSpace(string);
 		return string;
+	}
+
+	public static String decode(String header_text) {
+		try {
+			header_text = new String(header_text.getBytes("UTF-8"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return header_text;
 	}
 	
 }

@@ -36,10 +36,17 @@ public abstract class QueryHelper implements QueryInterface{
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
 	protected String connectionName;
 	protected boolean isWhere = false;
+	protected Config_env config_env;
 	
-	public QueryHelper(String connectionName) {
+	public QueryHelper(Object connectionName) {
+		if(connectionName instanceof Config_env) {
+			this.config_env = (Config_env) connectionName;
+			
+		}else {
+			this.connectionName = connectionName!=null?(String) connectionName:null;
+		}
 		this.columnsValue = new ArrayList<>();
-		this.connectionName = this.getMyConnectionName(connectionName);
+		this.connectionName = this.getMyConnectionName(this.connectionName);
 	}	
 	
 	private String getMyConnectionName(String connectionName) {

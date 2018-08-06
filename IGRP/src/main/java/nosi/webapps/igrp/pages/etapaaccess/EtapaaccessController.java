@@ -85,7 +85,7 @@ public class EtapaaccessController extends Controller {
 		Integer orgId = Core.getParamInt("orgId");
 		if(p_id!=null) {
 			Organization org = new Organization();
-			if(Core.isNotNull(orgId)) {
+			if(Core.isNotNull(orgId) && orgId!=0) {
 				org = org.findOne(orgId);
 			}else {
 				org = org.findOne(orgProfId);
@@ -115,8 +115,10 @@ public class EtapaaccessController extends Controller {
 								   .andWhere("profileType", "=",prof.getId())
 								   .andWhere("organization", "=",org.getId())
 								   .one();
-						task.setUser_fk(user.getId());	
-						r = task.update()!=null;				
+						if(task!=null) {
+							task.setUser_fk(user.getId());	
+							r = task.update()!=null;	
+						}
 					}	
 				}
 			}
@@ -151,7 +153,7 @@ public class EtapaaccessController extends Controller {
 	private void removeOldInserts(String type,Integer orgProfUserId) {
 		String[] p_id = Core.getParamArray("p_id");
 		Integer orgId = Core.getParamInt("orgId");
-		if(p_id!=null && p_id.length > 0) {
+		if(p_id!=null && p_id.length > 0 && orgId!=0) {
 			for(String id:p_id) {
 				String[] taskProcess = id.split(separator);
 				if("org".compareTo(type)==0) {	

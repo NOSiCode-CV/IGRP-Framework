@@ -6,7 +6,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-
+import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 
 /*----#end-code----*/
@@ -20,11 +20,17 @@ public class StartprocessController extends Controller {
 		model.load();
 		StartprocessView view = new StartprocessView();
 		/*----#start-code(index)----*/
-		view.btn_iniciar_processo.setLink("Iniciar_processo&p_process_id="+Core.getParam("process_id"));
-		view.header_text.setValue(model.getHeader_text());
-		ProcessInstancesService p = new ProcessInstancesService();
-		Integer totalProcAtivos = p.totalProccesAtivos(Core.getParam("processDefinitionKey"));
-		Integer totalProcFinished = p.totalProccesTerminados(Core.getParam("processDefinitionKey"));
+		ProcessDefinitionService process = null;
+		Integer totalProcAtivos = 0,totalProcFinished = 0;
+		String p_processId = Core.getParam("process_id");
+		if(p_processId !=null){
+			process = new ProcessDefinitionService().getProcessDefinition(p_processId);
+			view.header_text.setValue(process.getName());
+			ProcessInstancesService p = new ProcessInstancesService();
+			totalProcAtivos = p.totalProccesAtivos(process.getKey());
+			totalProcFinished = p.totalProccesTerminados(process.getKey());
+		}
+		view.btn_iniciar_processo.setLink("Iniciar_processo&p_process_id="+p_processId);	
 		model.setTotal_proc_em_execucao_val(""+totalProcAtivos);
 		model.setTotal_proc_finished_val(""+totalProcFinished);
 		model.setTotal_proc_em_execucao_url("#");

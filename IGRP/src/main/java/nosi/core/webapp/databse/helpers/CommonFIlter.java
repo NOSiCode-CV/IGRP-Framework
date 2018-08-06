@@ -10,7 +10,7 @@ import nosi.core.webapp.Core;
  */
 public class CommonFIlter extends QueryHelper implements QueryInterface{	
 	
-	public CommonFIlter(String connectionName) {
+	public CommonFIlter(Object connectionName) {
 		super(connectionName);
 	}
 

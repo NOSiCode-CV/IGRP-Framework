@@ -757,6 +757,9 @@ public final class Core { // Not inherit
 		return new QuerySelect(connectionName).select(sql);
 	}
 
+	public static QueryInterface query(String sql,Config_env config_env) {
+		return new QuerySelect(config_env).select(sql);
+	}
 	public static QueryInterface query(String connectionName, String sql, Class<?> className) {
 		return new QuerySelect(connectionName).select(sql, className);
 	}
@@ -1897,5 +1900,6 @@ public final class Core { // Not inherit
 		xml += "</list>";
 		return xml;
 	}
+
 	
 }

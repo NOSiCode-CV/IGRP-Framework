@@ -68,9 +68,7 @@ public class MapaProcessoController extends Controller{
 					return this.call(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+taskDefinition, "index",this.queryString());
 				}
 			}
-			this.addQueryString("p_header_text", gt("Processo: "+process.getName()))
-				.addQueryString("processDefinitionKey", process.getKey())
-				.addQueryString("process_id", p_processId);
+			this.addQueryString("process_id", p_processId);
 			return this.redirect("igrp","Startprocess","index",this.queryString());
 		}
 		return null;
