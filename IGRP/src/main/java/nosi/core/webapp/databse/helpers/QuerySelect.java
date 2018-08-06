@@ -24,15 +24,14 @@ public class QuerySelect extends CommonFIlter{
 
 	private Class<?> className;
 	
-	public QuerySelect(String connectionName) {
+	public QuerySelect(Object connectionName) {
 		super(connectionName);
 	}
-
-	public QuerySelect() {				
-		this(null);
-			
-	}
 	
+	public QuerySelect() {				
+		this(null);			
+	}
+
 	//Validate sql query
 	public boolean validateQuery(Config_env config,String sql) {
 		boolean isValid = false;
@@ -77,7 +76,7 @@ public class QuerySelect extends CommonFIlter{
 	@SuppressWarnings("unchecked")
 	public List<Tuple> getResultList() {
 		List<Tuple> list = null;
-		SessionFactory session =  HibernateUtils.getSessionFactory(this.getConnectionName());
+		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
 			EntityManager em = null;
 			try {
@@ -103,10 +102,17 @@ public class QuerySelect extends CommonFIlter{
 		return list;
 	}
 
+	private SessionFactory getSessionFactory() {
+		if(this.config_env!=null) {
+			return HibernateUtils.getSessionFactory(config_env);
+		}
+		return HibernateUtils.getSessionFactory(this.getConnectionName());
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T> List<T> getResultList(Class<T> entity){	
 		List<T> list = null;
-		SessionFactory session =  HibernateUtils.getSessionFactory(this.getConnectionName());
+		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
 			EntityManager em = null;
 			try {
@@ -162,7 +168,7 @@ public class QuerySelect extends CommonFIlter{
 	
 	public TypedQuery<?> getSingleResult(){
 		TypedQuery<?> query = null;
-		SessionFactory session =  HibernateUtils.getSessionFactory(this.getConnectionName());
+		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
 			EntityManager em = null;
 			try {

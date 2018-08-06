@@ -56,7 +56,7 @@ public class Sql_toolsController extends Controller {
 				r = Core.executeQuery(config_env, sql);
 			} else {
 				try {
-					QueryInterface query = Core.query(config_env.getName(), sql);
+					QueryInterface query = Core.query(sql,config_env);
 					List<Tuple> list = query.getResultList();
 					this.addRowToTable(view.table_1,list, sql, config_env);
 					view.table_1.setVisible(true);

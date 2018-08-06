@@ -66,13 +66,17 @@ public class BPMNTimeLine {
 		TaskServiceQuery taskSQ = new TaskServiceQuery();
 		taskSQ.addFilter("finished", "true");
 		taskSQ.addFilter("processDefinitionId", processDefinition);
+		taskSQ.addFilter("executionId", taskS.getExecutionId());
 		try {
 			tasksSQ = taskSQ.queryHistoryTask()
 					    .stream()
+					    .peek(t->{
+					    })
 				        .collect(Collectors.toMap(TaskServiceQuery::getTaskDefinitionKey,TaskServiceQuery::getId));
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
+		
 		List<TaskService> tasks = p.extractTasks(resource,false);
 		List<TaskTimeLine> list = new ArrayList<>();
 		tasks.stream().forEach(task->{
@@ -89,6 +93,8 @@ public class BPMNTimeLine {
 			t.setUrl(url);
 			list.add(t);
 		});		
+		tasksSQ = null;
+		url= null;
 		return list ;
 	}
 	

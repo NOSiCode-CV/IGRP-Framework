@@ -21,8 +21,9 @@ public class Route {
 		String aux;		
 		aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action)
 					+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
-	
-		return aux.replaceAll("&&", "&");
+		aux = aux.replaceAll("&&", "&");
+		UrlHelper.urlEncoding(aux);
+		return aux;
 	}
 
 	public static String getQueryString(String action) {
