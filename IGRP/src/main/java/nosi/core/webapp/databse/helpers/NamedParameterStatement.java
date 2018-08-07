@@ -28,12 +28,19 @@ public class NamedParameterStatement {
 
 	private Map<String, int[]> indexMap;
 	
+	private String[] retuerningKeys;
+	
 	public NamedParameterStatement(Connection connection, String query) throws SQLException {
 		statement = connection.prepareStatement(parse(query));
 	}
 
 	public NamedParameterStatement(Connection connection, String query,int generatedkeys) throws SQLException {
 		statement = connection.prepareStatement(parse(query), generatedkeys);
+	}
+
+	public NamedParameterStatement(Connection connection, String query, String[] retuerningKeys) throws SQLException {
+		this.retuerningKeys = retuerningKeys;
+		statement = connection.prepareStatement(parse(query), retuerningKeys);
 	}
 
 	final String parse(String query) {
@@ -161,13 +168,23 @@ public class NamedParameterStatement {
 		if(statement.executeUpdate() > 0) {				
 			try (java.sql.ResultSet rs = statement.getGeneratedKeys()) {
 			        if (rs.next()) {
-			        	for(int i=1;i<=rs.getMetaData().getColumnCount();i++){
-		        			String key = rs.getMetaData().getColumnName(i);
-			        		try {
-								lastInsertedId.put(key,rs.getString(key));
-							} catch (SQLException e) {
-								lastInsertedId.put(key,"");
-							}
+			        	if(this.retuerningKeys!=null) {
+			        		for(int i=0;i<retuerningKeys.length;i++) {
+			        			try {
+									lastInsertedId.put(retuerningKeys[i],rs.getString(i+1));
+								} catch (SQLException e) {
+									lastInsertedId.put(retuerningKeys[i],"");
+								}
+			        		}
+			        	}else {
+			        		for(int i=1;i<=rs.getMetaData().getColumnCount();i++){
+			        			String key = rs.getMetaData().getColumnName(i);			        			
+				        		try {
+									lastInsertedId.put(key,rs.getString(key));
+								} catch (SQLException e) {
+									lastInsertedId.put(key,"");
+								}
+				        	}
 			        	}
 			        }
 			}

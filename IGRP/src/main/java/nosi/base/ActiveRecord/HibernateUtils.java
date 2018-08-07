@@ -48,9 +48,9 @@ public class HibernateUtils {
 				registry = buildConfig(cf,connectionName,dad);
 				if(registry!=null) {
 					try {
-							MetadataSources sources = new MetadataSources(registry);
-							Metadata metadata = sources.getMetadataBuilder().build();
-							sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
+						MetadataSources sources = new MetadataSources(registry);
+						Metadata metadata = sources.getMetadataBuilder().build();
+						sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
 					} catch (Exception e) {
 						e.printStackTrace();
 						destroy();
@@ -100,7 +100,7 @@ public class HibernateUtils {
 			String driver = getDriver(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
 			String password = Core.decrypt(config.getPassword(), cf.SECRET_KEY_ENCRYPT_DB);
 			String user = Core.decrypt(config.getUsername(), cf.SECRET_KEY_ENCRYPT_DB);
-			String hibernateDialect = getHibernateDialect(config.getType_db());
+			String hibernateDialect = getHibernateDialect(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
 			return getSettings(driver, url, user, password, hibernateDialect);
 		}
 		return null;
