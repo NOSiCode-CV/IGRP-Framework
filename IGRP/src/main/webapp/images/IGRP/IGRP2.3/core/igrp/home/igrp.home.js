@@ -1,4 +1,4 @@
-(function(){
+$(function(){
 
 	'use strict';
 
@@ -57,4 +57,4 @@
 
         
 
-})();
+})
