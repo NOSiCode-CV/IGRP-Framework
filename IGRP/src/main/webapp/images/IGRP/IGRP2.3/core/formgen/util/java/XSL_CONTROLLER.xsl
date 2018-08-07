@@ -285,6 +285,8 @@
 					
 						
 						<xsl:call-template name="setSqlCombobox_"/> 
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:call-template name="setBoxUrl"/>
 						
 						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
@@ -559,6 +561,28 @@
 			</xsl:for-each>			
 	 	</xsl:for-each>
  	</xsl:template>
+ 	
+ 	
+ 	<!-- statbox, smallbox, circlestatbox  -->
+ 	<xsl:template name="setBoxUrl">
+ 		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']">
+	 		 	
+	 			<xsl:variable name="_url" select="./fields/*[@name = concat(@name,'_url')]/value" />
+	 			
+	 			<xsl:call-template name="newlineTab2"/>
+	 			
+	 			<xsl:variable name="instance_name">
+	 				<xsl:call-template name="CamelCaseWord">
+	 					<xsl:with-param name="text"><xsl:value-of select="name()" /></xsl:with-param>
+	 				</xsl:call-template>
+	 			</xsl:variable>
+	 			
+ 				<xsl:value-of select="concat('model.','set', $instance_name,'_url(',$double_quotes, ./fields/*[contains(@name, '_url')]/value, $double_quotes,');')"/> 
+					
+	 	</xsl:for-each>
+	 	<xsl:call-template name="newlineTab2"/>
+ 	</xsl:template>
+ 	
  	
  	
       
