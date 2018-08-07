@@ -89,5 +89,5 @@ public interface QueryInterface extends BaseQueryInterface{
 	
 	public QueryInterface unionAll();
 //	@Deprecated
-//	public QueryInterface returning(String...retuerningKeys);
+	public QueryInterface returning(String...retuerningKeys);
 }

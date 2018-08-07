@@ -37,6 +37,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected String connectionName;
 	protected boolean isWhere = false;
 	protected Config_env config_env;
+	protected String[] retuerningKeys;
 	
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
@@ -350,7 +351,12 @@ public abstract class QueryHelper implements QueryInterface{
 		if(conn!=null) {
 			if(this instanceof QueryInsert) {
 				try {
-					NamedParameterStatement q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+					NamedParameterStatement q = null;
+					if(this.retuerningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+					}else {
+						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+					}
 					this.setParameters(q);	
 					Core.log("SQL:"+q.getSql());
 					r.setSql(q.getSql());
@@ -682,6 +688,12 @@ public abstract class QueryHelper implements QueryInterface{
 	public QueryInterface where(String name, String operator, Double value) {
 		this.sql += " WHERE "+name+" =: "+name;
 		this.addDouble(name, value);
+		return this;
+	}
+
+	@Override
+	public QueryInterface returning(String... retuerningKeys) {
+		this.retuerningKeys = retuerningKeys;
 		return this;
 	}
 }
