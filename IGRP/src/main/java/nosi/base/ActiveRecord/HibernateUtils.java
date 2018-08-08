@@ -188,17 +188,17 @@ public class HibernateUtils {
 			case "oracle":
 				return "oracle.jdbc.driver.OracleDriver";
 			case "mssql":
-				return "com.Microsoft.Sqlserver.Jdbc.SQLServerDriver";
+				return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			case "hsqldb":
-				return "org.Hsqldb.JdbcDriver";
+				return "org.hsqldb.jdbcDriver";
 			case "sybase":
-				return "com.Sybase.Jdbc3.Jdbc.SybDriver";
+				return "com.sybase.jdbc3.jdbc.SybDriver";
 			case "derby":
-				return "org.Apache.Derby.Jdbc.EmbeddedDriver";
+				return "org.apache.derby.jdbc.EmbeddedDriver";
 			case "ibm":
-				return "com.Ibm.Db2.Jcc.DB2Driver";
+				return "com.ibm.db2.jcc.DB2Driver";
 			case "informix":
-				return "com.Informix.Jdbc.IfxDriver";
+				return "com.informix.jdbc.IfxDriver";
 		}
 		return "org.h2.Driver";
 	}
@@ -216,15 +216,15 @@ public class HibernateUtils {
 			case "mssql":
 				return "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + db_name;
 			case "hsqldb":
-				return "org.Hsqldb.JdbcDriver";
+				return "jdbc:hsqldb:" + host + ":" + db_name;
 			case "sybase":
-				return "com.Sybase.Jdbc3.Jdbc.SybDriver";
+				return "jdbc:sybase:Tds:" + host + ":" + port + "/" + db_name;
 			case "derby":
-				return "org.Apache.Derby.Jdbc.EmbeddedDriver";
+				return "jdbc:derby:" + host + "/" + db_name + ";create=true";
 			case "ibm":
-				return "com.Ibm.Db2.Jcc.DB2Driver";
+				return "jdbc:db2://" + host + ":" + port +"/" + db_name;
 			case "informix":
-				return "com.Informix.Jdbc.IfxDriver";
+				return "jdbc:informix-sqli://" + host + ":" + port + "/" + db_name; //+ ":INFORMIXSERVER=demo_on";
 		}
 		return "";
 	}
