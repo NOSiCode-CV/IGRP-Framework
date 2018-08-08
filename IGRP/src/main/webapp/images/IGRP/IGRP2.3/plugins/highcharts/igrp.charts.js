@@ -6,6 +6,7 @@
 
 	var colorsIdx = -1;
 
+
 	function getRandomColor(size) {
 		
 		var keys = Object.keys(Colors);
@@ -440,6 +441,135 @@
 
 				return {structure:chart, colors:p.colors};
 			},
+
+			SPIDERWEB : function(p){
+				var auxtype = p.auxtype ? p.auxtype : 'line',
+					data 	= [],
+					colors  = [];
+
+				p.data.forEach(function(e,i){
+					data.push({
+						name 			: p.labels[i],
+				        data 			: e,
+				        pointPlacement 	: 'on'
+					});
+					colors.push(p.colors[i]);
+				});
+
+				var chart = {
+					chart: {
+				        polar: true,
+				        type: auxtype,
+				        marginTop: 50
+				    },
+
+				    title: {
+				        text: p.title,
+				        x: -80
+				    },
+
+				    pane: {
+				        size: '80%'
+				    },
+
+				    xAxis: {
+				        categories: p.categories,
+				        tickmarkPlacement: 'on',
+				        lineWidth: 0
+				    },
+
+				    yAxis: {
+				        gridLineInterpolation: 'polygon',
+				        lineWidth: 0,
+				        min: 0
+				    },
+
+				    tooltip: {
+				        shared: true,
+				        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+				    },
+
+				    legend: {
+				        
+				    },
+				    plotOptions : {
+			        },
+				    series: data
+				}
+
+				return {structure:chart, colors:colors};
+			},
+
+			POLAR : function(p){
+				var auxtype = p.auxtype ? p.auxtype : 'line',
+					data 	= [],
+					colors  = [],
+					arrtype = ['line','area','column'];
+
+				p.data.forEach(function(e,i){
+					var obj = {
+						name 			: p.labels[i],
+				        data 			: e,
+				        type 			: arrtype[i]
+					};
+
+					if(i== 0)
+						obj.pointPlacement = 'between';
+
+					data.push(obj);
+					colors.push(p.colors[i]);
+				});
+
+				var chart = {
+					chart: {
+				        polar: true,
+				        marginTop: 50
+				    },
+
+				    title: {
+				        text: p.title,
+				        x: -80
+				    },
+
+				    pane: {
+				        startAngle: 0,
+        				endAngle: 360
+				    },
+
+				    xAxis: {
+				        tickInterval: 45,
+				        min: 0,
+				        max: 360
+				    },
+
+				    yAxis: {
+				        min: 0
+				    },
+
+				    tooltip: {
+				        shared: true,
+				        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+				    },
+
+				    legend: {
+				        
+				    },
+				    plotOptions : {
+				    	series: {
+				            pointStart: 0,
+				            pointInterval: 45
+				        },
+				        column: {
+				            pointPadding: 0,
+				            groupPadding: 0
+				        }
+			        },
+				    series: data
+				}
+
+				return {structure:chart, colors:colors};
+			},
+
 			OTHERS : function(p){// type['LINE','AREA','COLUMN','SPLINE','BAR','STACKEDBAR','STACKEDAREA','STACKEDPERCENTAREA','STACKEDCOLUMN','STACKEDGROUPEDCOLUMN']
 				var data   = [],
 					colors = [],
@@ -600,12 +730,12 @@
 		},
 
 		getStructure : function(type){
-			var t = 'OTHERS',
-				arrOthers = ['LINE','AREA','COLUMN','SPLINE','BAR','STACKEDBAR','STACKEDAREA','STACKEDPERCENTAREA','STACKEDCOLUMN','STACKEDGROUPEDCOLUMN','STACKEDPERCENTCOLUMN'];
+			var t 			 = 'OTHERS',
+				chartThreeEx = ['LINE','AREA','COLUMN','SPLINE','BAR','STACKEDBAR','STACKEDAREA','STACKEDPERCENTAREA','STACKEDCOLUMN','STACKEDGROUPEDCOLUMN','STACKEDPERCENTCOLUMN'];
 
 			if (type == 'FUNNEL' || type == 'PYRAMID')
 				t = 'PYFU';
-			else if ($.inArray(type,arrOthers) == - 1)
+			else if ($.inArray(type,chartThreeEx) == - 1)
 				t = type;
 
 			return t;
@@ -887,10 +1017,20 @@
 				);
 
 				if (remote) {
+					var chartGroup = 'threeEx',
+						chartTwoEx = ['pie','funnel','semipie','pyramid'];
+
+					if ($.inArray(type,chartTwoEx) != - 1)
+						chartGroup = 'twoEx';
 
 					$.IGRP.utils.createHidden({
 						name:'p_fwl_charttype',
 						value:type
+					});
+
+					$.IGRP.utils.createHidden({
+						name:'p_fwl_chartgroup',
+						value:chartGroup
 					});
 
 					$.ajax({

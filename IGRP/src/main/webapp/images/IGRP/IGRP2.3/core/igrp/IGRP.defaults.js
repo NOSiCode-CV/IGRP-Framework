@@ -32,8 +32,16 @@
 						label:'Pie'
 					},
 					{
+						value:'polar',
+						label:'Polar'
+					},
+					{
 						value:'semipie',
 						label:'Semi Pie'
+					},
+					{
+						value : 'spiderweb',
+						label : 'Spider web'
 					},
 					{
 						value:'pyramid',
