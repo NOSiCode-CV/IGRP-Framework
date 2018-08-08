@@ -173,8 +173,12 @@ public class NovoMenuController extends Controller {
 	/*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		//System.out.println(model.getAction_fk());
-		return new Action().find().andWhere("id","=",model.getAction_fk()).one()
-				.getPage_descr();
+		if(Core.isNotNull(model.getAction_fk())) {
+			final Action actionOne = new Action().find().andWhere("id","=",model.getAction_fk()).one();
+			if(Core.isNotNull(actionOne))
+				return actionOne.getPage_descr();
+		}		
+		return "";
 	}
 	/*----#end-code----*/
 	}

@@ -1,13 +1,16 @@
-
 package nosi.webapps.igrp.pages.transaccao;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class TransaccaoView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field filtro_codigo;
@@ -21,13 +24,17 @@ public class TransaccaoView extends View {
 
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
+
 	public TransaccaoView(){
 
 		this.setPageTitle("Transaccao");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		form_1 = new IGRPForm("form_1","Filtro");
+
 		table_1 = new IGRPTable("table_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Gestão de Transações"));
@@ -35,19 +42,19 @@ public class TransaccaoView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		filtro_codigo = new TextField(model,"filtro_codigo");
 		filtro_codigo.setLabel(gt("Código"));
-		filtro_codigo.propertie().add("name","p_filtro_codigo").add("type","text").add("maxlength","30").add("required","false");
+		filtro_codigo.propertie().add("name","p_filtro_codigo").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Estado"));
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
 		
-		status_check = new CheckBoxField
-		(model,"status_check");
+		status_check = new CheckBoxField(model,"status_check");
 		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
@@ -63,6 +70,7 @@ public class TransaccaoView extends View {
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Transaccao","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
+
 		
 	}
 		
@@ -86,19 +94,15 @@ public class TransaccaoView extends View {
 		this.addToPage(table_1);
 	}
 		
-	public void setModel(Transaccao model) {
+	@Override
+	public void setModel(Model model) {
 		
 		aplicacao.setValue(model);
-
 		filtro_codigo.setValue(model);
-
 		status.setValue(model);
-
 		descricao.setValue(model);
+		codigo.setValue(model);	
 
-		codigo.setValue(model);
-	
-		table_1.loadModel(model.getTable_1());
-
-	}
+		table_1.loadModel(((Transaccao) model).getTable_1());
+		}
 }

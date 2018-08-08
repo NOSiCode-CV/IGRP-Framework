@@ -1,12 +1,13 @@
-
 package nosi.webapps.igrp_studio.pages.listaenv;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ListaEnvView extends View {
 
@@ -124,6 +125,5 @@ public class ListaEnvView extends View {
 		id.setValue(model);	
 
 		table_1.loadModel(((ListaEnv) model).getTable_1());
-		
-	}
+		}
 }

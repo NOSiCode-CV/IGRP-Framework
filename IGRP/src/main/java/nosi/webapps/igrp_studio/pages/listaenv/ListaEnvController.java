@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp_studio.pages.listaenv;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -16,9 +17,10 @@ import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.User;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Comparator;
+import java.util.Collections;
 import com.google.gson.Gson;
 /*----#end-code----*/
-
 
 public class ListaEnvController extends Controller {		
 
@@ -28,6 +30,8 @@ public class ListaEnvController extends Controller {
 		model.load();
 		ListaEnvView view = new ListaEnvView();
 		view.id.setParam(true);
+		
+		
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
@@ -53,7 +57,7 @@ public class ListaEnvController extends Controller {
 		} else {
 			apps = app.getListMyApp(user.getId());
 		}
-
+		Collections.sort(apps, new SortbyStatus());
 		for (Application a : apps) {
 			if (!a.getDad().toLowerCase().equals("igrp")) {
 				ListaEnv.Table_1 table = new ListaEnv.Table_1();
@@ -276,5 +280,12 @@ public class ListaEnvController extends Controller {
 		res.toJson(json);
 		return this.renderView(json.toString());
 	}
+	  class SortbyStatus implements Comparator<Application> {
+		// Used for sorting in ascending order of
+		// roll number
+		public int compare(Application a, Application b) {
+			return b.getStatus() - a.getStatus();
+		}
+      }
 	/*----#end-code----*/
 	}

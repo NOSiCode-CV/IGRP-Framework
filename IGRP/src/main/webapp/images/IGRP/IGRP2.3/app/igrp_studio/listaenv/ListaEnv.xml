@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -89,8 +89,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Lorem ipsum ut dolor natus</name>
-                        <dad name="p_dad">Aperiam totam ut natus omnis</dad>
+                        <name name="p_name">Sit anim deserunt perspiciatis</name>
+                        <dad name="p_dad">Anim laudantium perspiciatis s</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -102,8 +102,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Unde anim stract aperiam ipsum</name>
-                        <dad name="p_dad">Totam lorem adipiscing ut natu</dad>
+                        <name name="p_name">Ipsum officia dolor laudantium</name>
+                        <dad name="p_dad">Sit officia mollit stract dese</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -115,8 +115,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Ut anim doloremque sed rem</name>
-                        <dad name="p_dad">Consectetur doloremque consect</dad>
+                        <name name="p_name">Deserunt consectetur stract om</name>
+                        <dad name="p_dad">Elit lorem officia magna molli</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -128,8 +128,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Mollit aperiam doloremque tota</name>
-                        <dad name="p_dad">Labore magna perspiciatis laud</dad>
+                        <name name="p_name">Dolor iste natus perspiciatis</name>
+                        <dad name="p_dad">Dolor labore aperiam deserunt</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -141,8 +141,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Natus unde sed omnis consectet</name>
-                        <dad name="p_dad">Laudantium deserunt officia si</dad>
+                        <name name="p_name">Laudantium consectetur lorem d</name>
+                        <dad name="p_dad">Iste elit stract accusantium a</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>

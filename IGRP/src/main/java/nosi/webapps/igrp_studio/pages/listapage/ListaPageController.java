@@ -1,10 +1,8 @@
-
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -29,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 /*----#end-code----*/
-
 
 public class ListaPageController extends Controller {		
 

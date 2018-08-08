@@ -1,16 +1,13 @@
-
 package nosi.webapps.igrp_studio.pages.listapage;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
-
-
 
 public class ListaPageView extends View {
 
@@ -155,11 +152,11 @@ public class ListaPageView extends View {
 		
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
-		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","").add("tags","false");
+		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("java-type","").add("tags","false");
+		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
@@ -305,6 +302,5 @@ public class ListaPageView extends View {
 
 		table_1.loadModel(((ListaPage) model).getTable_1());
 		myapps_list.loadModel(((ListaPage) model).getMyapps_list());
-		
-	}
+		}
 }

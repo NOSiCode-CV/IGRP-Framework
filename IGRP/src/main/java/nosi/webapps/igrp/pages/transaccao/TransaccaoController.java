@@ -1,11 +1,11 @@
-
 package nosi.webapps.igrp.pages.transaccao;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
@@ -17,24 +17,22 @@ import com.google.gson.Gson;
 import java.util.List;
 /*----#end-code----*/
 
-
-
 public class TransaccaoController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Transaccao model = new Transaccao();
-		TransaccaoView view = new TransaccaoView();
 		model.load();
+		TransaccaoView view = new TransaccaoView();
+		view.codigo.setParam(true);
+		
 		
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		
-		model.loadTable_1( Core.query( "SELECT 'status' as status,'descricao' as descricao,'codigo' as codigo " ) );
-		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");view.codigo.setParam(true);
-		
-		----#gen-example */
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		model.loadTable_1(Core.query(null,"SELECT 'status' as status,'descricao' as descricao,'codigo' as codigo "));
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
@@ -60,31 +58,20 @@ public class TransaccaoController extends Controller {
 		view.table_1.addData(table_1);
 		view.codigo.setParam(true);	
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Transaccao model = new Transaccao();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","Transaccao","index");
-		}
-		
-		----#gen-example */
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Transaccao","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
     String codigo = Core.getParam("codigo");
       if(codigo!=null && !codigo.equals(""))
@@ -92,27 +79,19 @@ public class TransaccaoController extends Controller {
 		else
 			Core.setMessageError();
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","Transaccao","index");
-		
+		return this.redirect("igrp","Transaccao","index", this.queryString());	
 	}
+	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Transaccao model = new Transaccao();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
-		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","Transaccao","index");
-		}
-		
-		----#gen-example */
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Transaccao","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String code = Core.getParam("codigo");
 		Transaction t = new Transaction();
@@ -122,9 +101,7 @@ public class TransaccaoController extends Controller {
 		else
 			Core.setMessageError();
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","Transaccao","index");
-		
+		return this.redirect("igrp","Transaccao","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
@@ -155,8 +132,4 @@ public class TransaccaoController extends Controller {
 		return this.renderView(json.toString());
 	}
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}
