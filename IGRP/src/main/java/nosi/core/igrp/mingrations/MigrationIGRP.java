@@ -62,7 +62,7 @@ public class MigrationIGRP {
 			config.setPort(model.getPort());
 			config.setUsername(model.getUsername());
 			config.setPassword(model.getPassword());
-			return config.validate();
+			return config.validate(model.getUrl_connection(),model.getDriver_connection());
 		}
 		return false;
 	}

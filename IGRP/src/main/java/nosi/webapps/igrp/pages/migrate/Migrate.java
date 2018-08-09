@@ -21,6 +21,10 @@ public class Migrate extends Model{
 	private String password;
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+	@RParam(rParamName = "p_url_connection")
+	private String url_connection;
+	@RParam(rParamName = "p_driver_connection")
+	private String driver_connection;
 	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
@@ -76,6 +80,18 @@ public class Migrate extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	public String getUrl_connection() {
+		return url_connection;
+	}
+	public void setUrl_connection(String url_connection) {
+		this.url_connection = url_connection;
+	}
+	public String getDriver_connection() {
+		return driver_connection;
+	}
+	public void setDriver_connection(String driver_connection) {
+		this.driver_connection = driver_connection;
 	}
 
 

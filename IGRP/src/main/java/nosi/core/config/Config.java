@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
-import static nosi.core.i18n.Translator.gt;
 
 public class Config {
 
@@ -456,25 +454,9 @@ public class Config {
 		return "hibernate-igrp-core";
 	}
 
-	public Object getDatabaseTypes() {
-		Map<String,String> tipos = new HashMap<>();
-		tipos.put(null, gt("-- Selecionar --"));
-		tipos.put("mysql", "MySql");
-		tipos.put("postgresql", "Postgresql");
-		tipos.put("h2", "H2");
-		tipos.put("oracle", "Oracle");
-		tipos.put("mssql", "MS SQL Server");
-		return tipos;
-	}
 
-	public  String getDatabaseTypesSiglas(String key) {
-		Map<String,String> tipos = new HashMap<>();
-		tipos.put("mysql", "mq");
-		tipos.put("postgresql", "pg");
-		tipos.put("h2", "h2");
-		tipos.put("oracle", "oci");
-		tipos.put("mssql", "ms");
-		return tipos.get(key);
+	public String getH2IGRPBaseConnection() {
+		return "hibernate-igrp-core-h2";
 	}
 	
 	public String getStartReseveCodeAction(String actionName){
@@ -588,4 +570,5 @@ public class Config {
 		}
 		return xml.toString();
 	}
+
 }

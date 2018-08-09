@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
@@ -6,8 +5,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import static nosi.core.i18n.Translator.gt;
-import nosi.core.igrp.mingrations.MigrationIGRP;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -15,8 +13,9 @@ import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
 import java.util.List;
+import nosi.core.igrp.mingrations.MigrationIGRP;
+import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
 
 public class ConfigDatabaseController extends Controller {		
 
@@ -26,10 +25,12 @@ public class ConfigDatabaseController extends Controller {
 		model.load();
 		ConfigDatabaseView view = new ConfigDatabaseView();
 		view.id.setParam(true);
+		
+		
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 'nome_de_conexao_tabela' as nome_de_conexao_tabela,'hostname_tabela' as hostname_tabela,'porta_tabela' as porta_tabela,'nome_base_de_dados_tabela' as nome_base_de_dados_tabela,'user_name_tabela' as user_name_tabela,'tipo_de_base_de_dados_tabela' as tipo_de_base_de_dados_tabela,'hidden' as hidden "));
+		model.loadTable_1(Core.query(null,"SELECT 'nome_de_conexao_tabela' as nome_de_conexao_tabela,'user_name_tabela' as user_name_tabela,'tipo_de_base_de_dados_tabela' as tipo_de_base_de_dados_tabela,'t_url_connection' as t_url_connection,'t_driver_connection' as t_driver_connection,'id' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -40,51 +41,45 @@ public class ConfigDatabaseController extends Controller {
 		for(Config_env lista : list_app) {
 			ConfigDatabase.Table_1 tabela = new ConfigDatabase.Table_1();
           	tabela.setId(""+lista.getId());
-			tabela.setHostname_tabela(Core.decrypt(lista.getHost(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
-			tabela.setNome_base_de_dados_tabela(Core.decrypt(lista.getName_db(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
+          	tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			tabela.setNome_de_conexao_tabela(lista.getName());
-			tabela.setPorta_tabela(Integer.parseInt(Core.decrypt(lista.getPort(), this.getConfig().SECRET_KEY_ENCRYPT_DB)));
-			tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			tabela.setT_url_connection(
+				Core.isNotNull(lista.getUrl_connection())
+				?
+					Core.decrypt(lista.getUrl_connection(), this.getConfig().SECRET_KEY_ENCRYPT_DB)
+				:
+					DatabaseConfigHelper.getUrl(
+						tabela.getTipo_de_base_de_dados_tabela(), 
+						Core.decrypt(lista.getHost(), this.getConfig().SECRET_KEY_ENCRYPT_DB), 
+						Core.decrypt(lista.getPort(), this.getConfig().SECRET_KEY_ENCRYPT_DB), 
+						Core.decrypt(lista.getName_db(), this.getConfig().SECRET_KEY_ENCRYPT_DB)
+					)
+			);
+			tabela.setT_driver_connection(Core.isNotNull(lista.getDriver_connection())?Core.decrypt(lista.getDriver_connection(), this.getConfig().SECRET_KEY_ENCRYPT_DB):DatabaseConfigHelper.getDatabaseDriversExamples(tabela.getTipo_de_base_de_dados_tabela()));
 			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			lista_tabela.add(tabela);
-		}			
-		
+		}	
 		if (Core.isInt(model.getAplicacao()) ) {
-			switch (model.getTipo_base_dados()) {
-			case "mysql":
-				model.setPort(3306);
-				break;
-			case "postgresql":
-				model.setPort(5432);
-				break;
-			case "oracle":
-				model.setPort(1521);
-				break;
-			case "mssql":
-				model.setPort(1433);
-				break;
-			default:
-				model.setPort(0);
-				break;
-			}
-			view.setModel(model);
-			view.aplicacao.setQuery(
-					Core.query(this.getConfig().getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
-          
-			view.tipo_base_dados.setValue(this.getConfig().getDatabaseTypes());
+			view.aplicacao.setQuery(Core.query(this.getConfig().getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
+			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
+			
+			if(Core.isNotNull(model.getTipo_base_dados())) {
+				model.setUrl_connection(DatabaseConfigHelper.getUrlConnectionsExamples(model.getTipo_base_dados()));
+				model.setDriver_connection(DatabaseConfigHelper.getDatabaseDriversExamples(model.getTipo_base_dados()));
+				Integer idApp = Core.toInt(model.getAplicacao());
+				Application app = new Application().findOne(idApp);
+				List<Config_env> list = new Config_env()
+											.find()
+											.andWhere("application", "=",idApp)
+											.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB) )
+											.all();
+				int size = list!=null?(list.size()+1):1;
+				model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+model.getTipo_base_dados()+"_"+size);
+			}
 		}
-		if(Core.isNotNull(model.getTipo_base_dados())) {
-			Integer idApp = Core.toInt(model.getAplicacao());
-			Application app = new Application().findOne(idApp);
-			List<Config_env> list = new Config_env()
-										.find()
-										.andWhere("application", "=",idApp)
-										.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB) )
-										.all();
-			int size = list!=null?(list.size()+1):1;
-			model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+this.getConfig().getDatabaseTypesSiglas(model.getTipo_base_dados())+"_"+size);
-		}
+		
+	
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -101,16 +96,16 @@ public class ConfigDatabaseController extends Controller {
 		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
+		
+      if (Igrp.getMethod().equalsIgnoreCase("post")) {		
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setHost(Core.encrypt(model.getHostname(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
-			config.setName_db(Core.encrypt(model.getNome_de_bade_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			config.setUsername(Core.encrypt(model.getUsername(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			config.setPassword(Core.encrypt(model.getPassword(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
-			config.setPort(Core.encrypt("" + model.getPort(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			config.setType_db(Core.encrypt(model.getTipo_base_dados(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
+			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),this.getConfig().SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
@@ -122,7 +117,7 @@ public class ConfigDatabaseController extends Controller {
 											.andWhere("name", "=", config.getName())
 											.andWhere("application", "=",Integer.parseInt(model.getAplicacao()))
 											.one() == null;
-			if (check) {
+			if (check && !config.getName().equalsIgnoreCase(this.getConfig().getBaseConnection()) && !config.getName().equalsIgnoreCase(this.getConfig().getH2IGRPBaseConnection())) {
 				config = config.insert();
 				if (config != null) {
 					this.saveConfigHibernateFile(config);
@@ -131,7 +126,7 @@ public class ConfigDatabaseController extends Controller {
 					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 				}
 			} else {
-              Core.setMessageWarning(gt("Nome da conexão já existe"));
+              Core.setMessageWarning(gt("Nome da conexão inválido"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
 		}

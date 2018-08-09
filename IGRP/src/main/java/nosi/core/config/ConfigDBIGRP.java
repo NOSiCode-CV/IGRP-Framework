@@ -13,6 +13,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.helpers.FileHelper;
 
 /**
@@ -175,9 +176,13 @@ public class ConfigDBIGRP {
 	}
 
 	public boolean validate() {
-		String url = HibernateUtils.getUrl(this.getType_db(),this.getHost(),""+this.getPort(), this.getName_db());
-		String hibernateDialect = HibernateUtils.getHibernateDialect(this.getType_db());
-    	String driver = HibernateUtils.getDriver(this.getType_db());
+		String url = DatabaseConfigHelper.getUrl(this.getType_db(),this.getHost(),""+this.getPort(), this.getName_db());
+    	String driver = DatabaseConfigHelper.getDatabaseDriversExamples(this.getType_db());
+    	return this.validate(url, driver);
+	}
+	
+	public boolean validate(String url,String driver) {
+		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(this.getType_db());
     	Map<String, Object> settings = HibernateUtils.getBaseSettings(driver, url, this.getUsername(), this.getPassword(), hibernateDialect);        
     	StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 		registryBuilder.configure("/" + this.getName() + ".cfg.xml");

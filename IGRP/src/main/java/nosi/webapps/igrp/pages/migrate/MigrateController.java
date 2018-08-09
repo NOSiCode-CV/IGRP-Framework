@@ -9,11 +9,11 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import java.io.IOException;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Igrp;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 /*----#END-PRESERVED-AREA----*/
 
 public class MigrateController extends Controller {		
@@ -27,8 +27,8 @@ public class MigrateController extends Controller {
 		}
 		MigrateView view = new MigrateView(model);
 		
-		view.tipo_base_dados.setValue(this.config.getDatabaseTypes());
-		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar --")));
+		view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
+		view.aplicacao.setValue(new Application().getListApps());
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

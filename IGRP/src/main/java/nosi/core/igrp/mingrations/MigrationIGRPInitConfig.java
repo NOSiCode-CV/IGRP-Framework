@@ -70,10 +70,10 @@ public class MigrationIGRPInitConfig {
 			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_BI", "your id");
 			config.insert();
 			
-			User user0_IGRP = new User("IGRP", "igrp@nosi.cv", " ", "ADMIN", null, 1, null, "123456789", "admin",null, null, null, null, null,"123456789", 2017, 2017);
+			User user0_IGRP = new User("IGRP", "igrp@nosi.cv", nosi.core.webapp.User.encryptToHash("admin@nosi.cvigrp.admin.Pa$$w0rd", "SHA-256"), "ADMIN", null, 1, null, "123456789", "admin@nosi.cv",null, null, null, null, null,"123456789", 2017, 2017);
 			user0_IGRP = user0_IGRP.insert();
 			user0_IGRP = user0_IGRP.updateTozero();
-			User user1demo = new User("Nositeste", "demo@nosi.cv", "60b1df41fa82696abea1deb198667eb7c4a60521dd471559a8c17efde8528913", "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);
+			User user1demo = new User("Nositeste", "demo@nosi.cv", nosi.core.webapp.User.encryptToHash("demo@nosi.cvdemo", "SHA-256"), "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);
 			user1demo = user1demo.insert();
 			/** For SSO tomcat realm  **/
 			UserRole role = new UserRole();
@@ -275,6 +275,21 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(3, "ENV", prof_dev_igrp_studio, user1demo,org_igrp_studio));
 			//permisao de acesso do utilizador a perfil do tutorial
 			profiles.add(new Profile(4, "PROF", prof_dev_igrp_studio, user1demo, org_igrp_studio));		
+			
+			//permisao de acesso a aplicacao
+			profiles.add(new Profile(1, "ENV", prof1_ADMIN, user0_IGRP, org_IGRP));
+			//permisao de acesso do utilizador a perfil
+			profiles.add(new Profile(2, "PROF", prof1_ADMIN, user0_IGRP, org_IGRP));
+			
+			//permisao de acesso a aplicacao tutotrial
+			profiles.add(new Profile(2, "ENV", prof_tutorial, user0_IGRP, org_tutorial));
+			//permisao de acesso do utilizador a perfil do tutorial
+			profiles.add(new Profile(3, "PROF", prof_tutorial, user0_IGRP, org_tutorial));
+			
+			//permisao de acesso a aplicacao tutotrial
+			profiles.add(new Profile(3, "ENV", prof_dev_igrp_studio, user0_IGRP,org_igrp_studio));
+			//permisao de acesso do utilizador a perfil do tutorial
+			profiles.add(new Profile(4, "PROF", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));	
 			
 			//permisao de acesso ao menu
 			profiles.add(new Profile(5, "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
