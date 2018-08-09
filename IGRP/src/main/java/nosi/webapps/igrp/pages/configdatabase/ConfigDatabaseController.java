@@ -62,10 +62,9 @@ public class ConfigDatabaseController extends Controller {
 		if (Core.isInt(model.getAplicacao()) ) {
 			view.aplicacao.setQuery(Core.query(this.getConfig().getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
-			view.table_1.addData(lista_tabela);
-			
+			view.table_1.addData(lista_tabela);			
 			if(Core.isNotNull(model.getTipo_base_dados())) {
-				model.setUrl_connection(DatabaseConfigHelper.getUrlConnectionsExamples(model.getTipo_base_dados()));
+				model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));
 				model.setDriver_connection(DatabaseConfigHelper.getDatabaseDriversExamples(model.getTipo_base_dados()));
 				Integer idApp = Core.toInt(model.getAplicacao());
 				Application app = new Application().findOne(idApp);
@@ -76,6 +75,7 @@ public class ConfigDatabaseController extends Controller {
 											.all();
 				int size = list!=null?(list.size()+1):1;
 				model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+model.getTipo_base_dados()+"_"+size);
+				view.paragraph_1_text.setValue(DatabaseConfigHelper.getUrlConnectionsExamples(model.getTipo_base_dados(),new Application().findOne(model.getAplicacao()).getDad()));
 			}
 		}
 		

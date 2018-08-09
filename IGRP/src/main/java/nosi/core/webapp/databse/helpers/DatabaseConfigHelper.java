@@ -63,7 +63,7 @@ public class DatabaseConfigHelper {
 		return "";
 	}
 	
-	public static String getUrlConnectionsExamples(String dbType) {
+	public static String getUrlConnections(String dbType) {
 		switch (dbType.toLowerCase()) {
 			case "mysql":
 				return "jdbc:mysql://[machine-name/ip]:[3306]/[database-name]";
@@ -89,7 +89,31 @@ public class DatabaseConfigHelper {
 		return "";		
 	}
 	
-
+	public static String getUrlConnectionsExamples(String dbType,String dbName) {
+		switch (dbType.toLowerCase()) {
+			case "mysql":
+				return "jdbc:mysql://localhost:3306/"+dbName;
+			case "postgresql":
+				return "jdbc:postgresql://localhost:5432/"+dbName;
+			case "h2":
+				return "jdbc:h2:tcp:men:/"+dbName;
+			case "oracle":
+				return "jdbc:oracle:thin:@localhost:1521:"+dbName;
+			case "mssql":
+				return "jdbc:sqlserver://localhost:1433;databaseName="+dbName;
+			case "hsqldb":
+				return "jdbc:hsqldb:mem:"+dbName;
+			case "sybase":
+				return "jdbc:sybase:Tds:localhost:2048/"+dbName;
+			case "derby":
+				return "jdbc:derby:/home/test/databases/"+dbName+";create=true";
+			case "ibm":
+				return "jdbc:db2:"+dbName;
+			case "informix":
+				return "jdbc:informix-sqli://localhost/"+dbName+":INFORMIXSERVER=demo_on";
+		}
+		return "";		
+	}
 	public static Map<String,String> getDatabaseTypes() {
 		Map<String,String> dbTypes = new HashMap<>();
 		dbTypes.put(null, gt("-- Selecionar --"));
