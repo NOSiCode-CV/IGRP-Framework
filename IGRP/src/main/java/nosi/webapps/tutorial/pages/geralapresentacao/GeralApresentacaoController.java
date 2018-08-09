@@ -31,7 +31,8 @@ public class GeralApresentacaoController extends Controller {
 		
 		view.quickbuttonbox_gestao_url.setValue(new Config().getResolveUrl("tutorial","Video_gestao_de_aplicacao","index"));
 		view.quickbuttonbox_instalar_url.setValue(new Config().getResolveUrl("tutorial","Video_instalar_igrp_web","index"));
-		view.quickbuttonbox__url.setValue(new Config().getResolveUrl("tutorial","Video_my_first_app","index")); 
+		view.quickbuttonbox_my_first_url.setValue(new Config().getResolveUrl("tutorial","Video_my_first_app","index")); 
+		
 		/*Specify your connection name in first parameter*/
 		/*----#end-code----*/		view.setModel(model);
 		return this.renderView(view);	
