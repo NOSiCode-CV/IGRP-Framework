@@ -421,6 +421,7 @@ public class Controller{
 	
 	private void changeOrgAndProfile(String r) {
 		String dad = Igrp.getInstance().getRequest().getParameter("dad");
+		dad = Core.isNotNull(dad)?dad:Core.getCurrentDadParam();
 		if(Igrp.getInstance().getUser().isAuthenticated() && Core.isNotNull(dad)) {
 			new Permission().changeOrgAndProfile(dad);
 		}

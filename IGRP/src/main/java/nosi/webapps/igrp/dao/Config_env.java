@@ -33,22 +33,22 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable=false)
 	private String port;
+	private String host;
+	private String name_db;
+	private String charset;
 	@Column(nullable=false)
 	private String type_db;
-	@Column(nullable=false)
-	private String host;
-	@Column(nullable=false)
-	private String name_db;
 	@Column(nullable=false)
 	private String username;
 	@Column(nullable=false)
 	private String password;
-	@Column(nullable=false)
-	private String charset;
 	@Column(nullable=false,unique=true)
 	private String name;
+	@Column(nullable=false)
+	private String url_connection;
+	@Column(nullable=false)
+	private String driver_connection;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CONFIG_ENV_FK"),nullable=false)
 	private Application application;
@@ -130,6 +130,22 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	}
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+	
+	public String getUrl_connection() {
+		return url_connection;
+	}
+
+	public void setUrl_connection(String url_connection) {
+		this.url_connection = url_connection;
+	}
+
+	public String getDriver_connection() {
+		return driver_connection;
+	}
+
+	public void setDriver_connection(String driver_connection) {
+		this.driver_connection = driver_connection;
 	}
 
 	public  Map<Object, Object> getListEnv(int idEnv) {
