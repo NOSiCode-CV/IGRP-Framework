@@ -89,7 +89,7 @@ public class ConfigDatabaseView extends View {
 		
 		paragraph_1_text = new TextField(model,"paragraph_1_text");
 		paragraph_1_text.setLabel(gt(""));
-		paragraph_1_text.setValue(gt("DEVNOSI = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP) (HOST = nosidev02.gov.cv) (PORT=1521)) (CONNECT_DATA = (SERVER = DEDICATED) SERVICE_NAME = devnosi.gov.cv) ) )"));
+		paragraph_1_text.setValue(gt(""));
 		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
 		
 		nome_de_conexao_tabela = new TextField(model,"nome_de_conexao_tabela");
