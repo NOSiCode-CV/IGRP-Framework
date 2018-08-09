@@ -1,15 +1,12 @@
 package nosi.webapps.tutorial.pages.geralapresentacao;
+
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
-
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,16 +59,16 @@ public class GeralApresentacao extends Model{
 	private String paragraph_6_text;
 	@RParam(rParamName = "p_video_2_text")
 	private String video_2_text;
-	@RParam(rParamName = "p_quickbuttonbox__title")
-	private String quickbuttonbox__title;
-	@RParam(rParamName = "p_quickbuttonbox__val")
-	private String quickbuttonbox__val;
-	@RParam(rParamName = "p_quickbuttonbox__url")
-	private String quickbuttonbox__url;
-	@RParam(rParamName = "p_quickbuttonbox__bg")
-	private String quickbuttonbox__bg;
-	@RParam(rParamName = "p_quickbuttonbox__icn")
-	private String quickbuttonbox__icn;
+	@RParam(rParamName = "p_quickbuttonbox_my_first_title")
+	private String quickbuttonbox_my_first_title;
+	@RParam(rParamName = "p_quickbuttonbox_my_first_val")
+	private String quickbuttonbox_my_first_val;
+	@RParam(rParamName = "p_quickbuttonbox_my_first_url")
+	private String quickbuttonbox_my_first_url;
+	@RParam(rParamName = "p_quickbuttonbox_my_first_bg")
+	private String quickbuttonbox_my_first_bg;
+	@RParam(rParamName = "p_quickbuttonbox_my_first_icn")
+	private String quickbuttonbox_my_first_icn;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -267,39 +264,39 @@ public class GeralApresentacao extends Model{
 		return this.video_2_text;
 	}
 	
-	public void setQuickbuttonbox__title(String quickbuttonbox__title){
-		this.quickbuttonbox__title = quickbuttonbox__title;
+	public void setQuickbuttonbox_my_first_title(String quickbuttonbox_my_first_title){
+		this.quickbuttonbox_my_first_title = quickbuttonbox_my_first_title;
 	}
-	public String getQuickbuttonbox__title(){
-		return this.quickbuttonbox__title;
-	}
-	
-	public void setQuickbuttonbox__val(String quickbuttonbox__val){
-		this.quickbuttonbox__val = quickbuttonbox__val;
-	}
-	public String getQuickbuttonbox__val(){
-		return this.quickbuttonbox__val;
+	public String getQuickbuttonbox_my_first_title(){
+		return this.quickbuttonbox_my_first_title;
 	}
 	
-	public void setQuickbuttonbox__url(String quickbuttonbox__url){
-		this.quickbuttonbox__url = quickbuttonbox__url;
+	public void setQuickbuttonbox_my_first_val(String quickbuttonbox_my_first_val){
+		this.quickbuttonbox_my_first_val = quickbuttonbox_my_first_val;
 	}
-	public String getQuickbuttonbox__url(){
-		return this.quickbuttonbox__url;
-	}
-	
-	public void setQuickbuttonbox__bg(String quickbuttonbox__bg){
-		this.quickbuttonbox__bg = quickbuttonbox__bg;
-	}
-	public String getQuickbuttonbox__bg(){
-		return this.quickbuttonbox__bg;
+	public String getQuickbuttonbox_my_first_val(){
+		return this.quickbuttonbox_my_first_val;
 	}
 	
-	public void setQuickbuttonbox__icn(String quickbuttonbox__icn){
-		this.quickbuttonbox__icn = quickbuttonbox__icn;
+	public void setQuickbuttonbox_my_first_url(String quickbuttonbox_my_first_url){
+		this.quickbuttonbox_my_first_url = quickbuttonbox_my_first_url;
 	}
-	public String getQuickbuttonbox__icn(){
-		return this.quickbuttonbox__icn;
+	public String getQuickbuttonbox_my_first_url(){
+		return this.quickbuttonbox_my_first_url;
+	}
+	
+	public void setQuickbuttonbox_my_first_bg(String quickbuttonbox_my_first_bg){
+		this.quickbuttonbox_my_first_bg = quickbuttonbox_my_first_bg;
+	}
+	public String getQuickbuttonbox_my_first_bg(){
+		return this.quickbuttonbox_my_first_bg;
+	}
+	
+	public void setQuickbuttonbox_my_first_icn(String quickbuttonbox_my_first_icn){
+		this.quickbuttonbox_my_first_icn = quickbuttonbox_my_first_icn;
+	}
+	public String getQuickbuttonbox_my_first_icn(){
+		return this.quickbuttonbox_my_first_icn;
 	}
 
 

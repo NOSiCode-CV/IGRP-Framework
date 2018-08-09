@@ -71,7 +71,7 @@
             <fields>
                 <quickbuttonbox_gestao_title name="p_quickbuttonbox_gestao_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>Box Title</value>
+                    <value>Criação e Gestão de uma Aplicação</value>
                 </quickbuttonbox_gestao_title>
                 <quickbuttonbox_gestao_val name="p_quickbuttonbox_gestao_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
@@ -80,9 +80,9 @@
                 <quickbuttonbox_gestao_url name="p_quickbuttonbox_gestao_url" type="text" maxlength="4000" persist="true">
                     <label/>
                     <value type="action">
-                        <app>undefined</app>
-                        <page>undefined</page>
-                        <action>undefined</action>
+                        <app>tutorial</app>
+                        <page>GeralApresentacao</page>
+                        <action>index</action>
                     </value>
                 </quickbuttonbox_gestao_url>
                 <quickbuttonbox_gestao_bg name="p_quickbuttonbox_gestao_bg" type="text" maxlength="4000" persist="true">
@@ -134,7 +134,7 @@
             <fields>
                 <quickbuttonbox_instalar_title name="p_quickbuttonbox_instalar_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>Box Title</value>
+                    <value>Importar o IGRP WEB (GitHub)</value>
                 </quickbuttonbox_instalar_title>
                 <quickbuttonbox_instalar_val name="p_quickbuttonbox_instalar_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
@@ -143,9 +143,9 @@
                 <quickbuttonbox_instalar_url name="p_quickbuttonbox_instalar_url" type="text" maxlength="4000" persist="true">
                     <label/>
                     <value type="action">
-                        <app>undefined</app>
-                        <page>undefined</page>
-                        <action>undefined</action>
+                        <app>tutorial</app>
+                        <page>GeralApresentacao</page>
+                        <action>index</action>
                     </value>
                 </quickbuttonbox_instalar_url>
                 <quickbuttonbox_instalar_bg name="p_quickbuttonbox_instalar_bg" type="text" maxlength="4000" persist="true">
@@ -172,34 +172,34 @@
                 </video_2_text>
             </fields>
         </video_2>
-        <quickbuttonbox_ type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+        <quickbuttonbox_my_first type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox__title name="p_quickbuttonbox__title" type="text" maxlength="4000" persist="true">
+                <quickbuttonbox_my_first_title name="p_quickbuttonbox_my_first_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>Box Title</value>
-                </quickbuttonbox__title>
-                <quickbuttonbox__val name="p_quickbuttonbox__val" type="text" maxlength="4000" persist="true">
+                    <value>My First App</value>
+                </quickbuttonbox_my_first_title>
+                <quickbuttonbox_my_first_val name="p_quickbuttonbox_my_first_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value/>
-                </quickbuttonbox__val>
-                <quickbuttonbox__url name="p_quickbuttonbox__url" type="text" maxlength="4000" persist="true">
+                </quickbuttonbox_my_first_val>
+                <quickbuttonbox_my_first_url name="p_quickbuttonbox_my_first_url" type="text" maxlength="4000" persist="true">
                     <label/>
                     <value type="action">
-                        <app>undefined</app>
-                        <page>undefined</page>
-                        <action>undefined</action>
+                        <app>tutorial</app>
+                        <page>GeralApresentacao</page>
+                        <action>index</action>
                     </value>
-                </quickbuttonbox__url>
-                <quickbuttonbox__bg name="p_quickbuttonbox__bg" type="text" maxlength="4000" persist="true">
+                </quickbuttonbox_my_first_url>
+                <quickbuttonbox_my_first_bg name="p_quickbuttonbox_my_first_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
                     <value>cp-starrynight</value>
-                </quickbuttonbox__bg>
-                <quickbuttonbox__icn name="p_quickbuttonbox__icn" type="text" maxlength="4000" persist="true">
+                </quickbuttonbox_my_first_bg>
+                <quickbuttonbox_my_first_icn name="p_quickbuttonbox_my_first_icn" type="text" maxlength="4000" persist="true">
                     <label>Icon</label>
                     <value>fa-video-camera</value>
-                </quickbuttonbox__icn>
+                </quickbuttonbox_my_first_icn>
             </fields>
-        </quickbuttonbox_>
+        </quickbuttonbox_my_first>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -212,24 +212,24 @@
             <table>
                 <value>
                     <row>
-                        <documento name="p_documento">Sed dolor voluptatem magna des</documento>
-                        <ver name="p_ver">Amet natus elit amet totam</ver>
+                        <documento name="p_documento">Doloremque lorem doloremque la</documento>
+                        <ver name="p_ver">Aperiam ipsum magna labore dol</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Rem sit sit laudantium unde</documento>
-                        <ver name="p_ver">Adipiscing sed labore omnis la</ver>
+                        <documento name="p_documento">Stract aperiam omnis unde dolo</documento>
+                        <ver name="p_ver">Stract natus amet stract dolor</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Totam elit labore voluptatem r</documento>
-                        <ver name="p_ver">Anim deserunt consectetur unde</ver>
+                        <documento name="p_documento">Rem laudantium mollit ut magna</documento>
+                        <ver name="p_ver">Unde iste deserunt adipiscing</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Unde natus sit doloremque aliq</documento>
-                        <ver name="p_ver">Doloremque laudantium consecte</ver>
+                        <documento name="p_documento">Anim ipsum consectetur elit se</documento>
+                        <ver name="p_ver">Sit ipsum adipiscing stract la</ver>
                     </row>
                     <row>
-                        <documento name="p_documento">Anim accusantium sit consectet</documento>
-                        <ver name="p_ver">Rem ut accusantium laudantium</ver>
+                        <documento name="p_documento">Natus deserunt ut ipsum perspi</documento>
+                        <ver name="p_ver">Rem officia sit aperiam totam</ver>
                     </row>
                 </value>
             </table>
