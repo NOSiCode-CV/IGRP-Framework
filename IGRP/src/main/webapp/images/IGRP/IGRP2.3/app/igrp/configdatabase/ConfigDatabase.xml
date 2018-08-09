@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -44,17 +44,6 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
-                <title>Testar conexão e gravar </title>
-                <app>igrp</app>
-                <page>ConfigDatabase</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
-            </item>
-        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
@@ -103,29 +92,25 @@
                 </tipo_base_dados>
                 <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="A name ex: myConn, DEVNOSI" right="false">
                     <label>Nome da conexão</label>
-                    <value>Dolor laudantium stract magna</value>
+                    <value>Sed aperiam lorem amet rem</value>
                 </nome_de_conexao>
                 <config name="p_config" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Config</label>
                 </config>
-                <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="hostname ex: localhost, IP, nosidev02.gov.cv" right="false">
-                    <label>Host</label>
-                    <value>Consectetur sed dolor deserunt iste</value>
-                </hostname>
-                <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="" java-type="int">
-                    <label>Porta</label>
-                    <value>27</value>
-                </port>
-                <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="db name ex: db, devnosi.gov.cv" right="false">
-                    <label>Nome da base de dados</label>
-                    <value>Ipsum lorem dolor anim iste</value>
-                </nome_de_bade_dados>
+                <url_connection name="p_url_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Url Connection</label>
+                    <value>Amet elit lorem magna unde</value>
+                </url_connection>
+                <driver_connection name="p_driver_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Driver Connection</label>
+                    <value>Dolor amet doloremque magna aliqua</value>
+                </driver_connection>
                 <credenciais name="p_credenciais" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Credenciais</label>
                 </credenciais>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Amet sit omnis magna ipsum</value>
+                    <value>Natus magna rem adipiscing magna</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
@@ -133,17 +118,21 @@
                 </password>
             </fields>
         </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Testar conexão e gravar </title>
+                <app>igrp</app>
+                <page>ConfigDatabase</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
+            </item>
+        </toolsbar_1>
         <paragraph_1 type="paragraph" xml-type="form" title="Example" gen-type="container" gen-group="">
             <fields>
                 <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
-                    <value>DEVNOSI =
- (DESCRIPTION = 
- (ADDRESS = (PROTOCOL = TCP) (HOST = nosidev02.gov.cv) (PORT=1521))
-(CONNECT_DATA =
-     (SERVER = DEDICATED)
-     SERVICE_NAME = devnosi.gov.cv)
-   )
-)</value>
+                    <value/>
                 </paragraph_1_text>
             </fields>
         </paragraph_1>
@@ -152,22 +141,19 @@
                 <nome_de_conexao_tabela name="p_nome_de_conexao_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome da conexão</label>
                 </nome_de_conexao_tabela>
-                <hostname_tabela name="p_hostname_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Hostname</label>
-                </hostname_tabela>
-                <porta_tabela name="p_porta_tabela" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
-                    <label>Porta</label>
-                </porta_tabela>
-                <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Nome da base de dados</label>
-                </nome_base_de_dados_tabela>
                 <user_name_tabela name="p_user_name_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Username</label>
                 </user_name_tabela>
                 <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Tipo de base de dados</label>
                 </tipo_de_base_de_dados_tabela>
-                <hidden name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+                <t_url_connection name="p_t_url_connection" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Url Connection</label>
+                </t_url_connection>
+                <t_driver_connection name="p_t_driver_connection" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Driver Connection</label>
+                </t_driver_connection>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -176,65 +162,60 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Sed perspiciatis stract natus</nome_de_conexao_tabela>
-                        <hostname_tabela name="p_hostname_tabela">Labore elit natus amet aperiam</hostname_tabela>
-                        <porta_tabela name="p_porta_tabela">24</porta_tabela>
-                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Stract sit officia mollit laud</nome_base_de_dados_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Mollit deserunt totam amet dol</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Perspiciatis unde consectetur</tipo_de_base_de_dados_tabela>
-                        <hidden name="p_id" tag="id">1</hidden>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Perspiciatis ipsum consectetur</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Laudantium sit unde ipsum anim</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Deserunt laudantium ut ipsum a</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Officia sit accusantium adipis</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Accusantium sit deserunt sit l</t_driver_connection>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Aliqua iste accusantium sed el</nome_de_conexao_tabela>
-                        <hostname_tabela name="p_hostname_tabela">Mollit ut elit labore rem</hostname_tabela>
-                        <porta_tabela name="p_porta_tabela">7</porta_tabela>
-                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Rem aliqua sit doloremque sit</nome_base_de_dados_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Aperiam sit deserunt omnis ani</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Accusantium ut doloremque anim</tipo_de_base_de_dados_tabela>
-                        <hidden name="p_id" tag="id">1</hidden>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Officia omnis sit labore accus</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Ipsum labore magna stract pers</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Labore totam ipsum unde omnis</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Lorem mollit labore dolor unde</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Elit labore omnis dolor labore</t_driver_connection>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Omnis laudantium amet unde mol</nome_de_conexao_tabela>
-                        <hostname_tabela name="p_hostname_tabela">Omnis rem laudantium natus per</hostname_tabela>
-                        <porta_tabela name="p_porta_tabela">25</porta_tabela>
-                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Anim officia sed ut officia</nome_base_de_dados_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Accusantium iste sit ut elit</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Accusantium voluptatem dolorem</tipo_de_base_de_dados_tabela>
-                        <hidden name="p_id" tag="id">1</hidden>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Ipsum lorem sit perspiciatis l</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Adipiscing ut sit sit perspici</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Labore ut deserunt stract lore</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Sed ipsum omnis unde natus</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Iste totam omnis aperiam sit</t_driver_connection>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Laudantium consectetur laudant</nome_de_conexao_tabela>
-                        <hostname_tabela name="p_hostname_tabela">Doloremque aperiam ut sit iste</hostname_tabela>
-                        <porta_tabela name="p_porta_tabela">6</porta_tabela>
-                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Mollit natus stract elit lauda</nome_base_de_dados_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Elit laudantium aliqua rem ape</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Elit iste perspiciatis accusan</tipo_de_base_de_dados_tabela>
-                        <hidden name="p_id" tag="id">1</hidden>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Omnis elit consectetur anim al</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Accusantium ut officia omnis d</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Sit officia aliqua doloremque</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Sit sed labore rem unde</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Sit labore adipiscing ipsum ac</t_driver_connection>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Omnis rem lorem iste laudantiu</nome_de_conexao_tabela>
-                        <hostname_tabela name="p_hostname_tabela">Iste sit stract ipsum doloremq</hostname_tabela>
-                        <porta_tabela name="p_porta_tabela">5</porta_tabela>
-                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Magna totam aperiam aliqua omn</nome_base_de_dados_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Consectetur sit adipiscing sit</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Laudantium elit aperiam unde a</tipo_de_base_de_dados_tabela>
-                        <hidden name="p_id" tag="id">1</hidden>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Totam mollit perspiciatis laud</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Iste rem deserunt magna stract</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Labore mollit magna omnis iste</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Magna iste stract lorem consec</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Perspiciatis adipiscing dolor</t_driver_connection>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
                 <context-menu>

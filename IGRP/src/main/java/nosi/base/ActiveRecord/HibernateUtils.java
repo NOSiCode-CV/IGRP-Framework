@@ -20,6 +20,7 @@ import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.exception.PermissionException;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.webapps.igrp.dao.Config_env;
 
 public class HibernateUtils {
@@ -41,7 +42,7 @@ public class HibernateUtils {
 		if(Core.isNotNull(connectionName)) {			
 			Config cf = new Config();
 			String connectionName_ = cf.getBaseConnection();
-			if(!connectionName.equalsIgnoreCase(cf.getBaseConnection())) {
+			if(!connectionName.equalsIgnoreCase(cf.getBaseConnection()) && !connectionName.equalsIgnoreCase(cf.getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
@@ -90,17 +91,20 @@ public class HibernateUtils {
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.one();
-		if (config != null) {			
-			String url = getUrl(
+		if (config != null) {	
+			
+			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),cf.SECRET_KEY_ENCRYPT_DB):
+				DatabaseConfigHelper.getUrl(
 						Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB),
 						Core.decrypt(config.getHost(), cf.SECRET_KEY_ENCRYPT_DB),
 						Core.decrypt(config.getPort(), cf.SECRET_KEY_ENCRYPT_DB),
 						Core.decrypt(config.getName_db(), cf.SECRET_KEY_ENCRYPT_DB)
 					);
-			String driver = getDriver(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
+			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),cf.SECRET_KEY_ENCRYPT_DB):
+				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
 			String password = Core.decrypt(config.getPassword(), cf.SECRET_KEY_ENCRYPT_DB);
 			String user = Core.decrypt(config.getUsername(), cf.SECRET_KEY_ENCRYPT_DB);
-			String hibernateDialect = getHibernateDialect(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
+			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
 			return getSettings(driver, url, user, password, hibernateDialect);
 		}
 		return null;
@@ -114,11 +118,11 @@ public class HibernateUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String url = getUrl(config.getType_db(), config.getHost(), "" + config.getPort(), config.getName_db());
-		String driver = getDriver(config.getType_db());
+		String url = DatabaseConfigHelper.getUrl(config.getType_db(), config.getHost(), "" + config.getPort(), config.getName_db());
+		String driver = DatabaseConfigHelper.getDatabaseDriversExamples(config.getType_db());
 		String password = config.getPassword();
 		String user = config.getUsername();
-		String hibernateDialect = getHibernateDialect(config.getType_db());
+		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
 		return getSettings(driver, url, user, password, hibernateDialect);
 	}
 
@@ -177,83 +181,7 @@ public class HibernateUtils {
 		return settings;
 	}
 
-	public static String getDriver(String type) {
-		switch (type.toLowerCase()) {
-			case "h2":
-				return "org.h2.Driver";
-			case "mysql":
-				return "com.mysql.jdbc.Driver";
-			case "postgresql":
-				return "org.postgresql.Driver";
-			case "oracle":
-				return "oracle.jdbc.driver.OracleDriver";
-			case "mssql":
-				return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-			case "hsqldb":
-				return "org.hsqldb.jdbcDriver";
-			case "sybase":
-				return "com.sybase.jdbc3.jdbc.SybDriver";
-			case "derby":
-				return "org.apache.derby.jdbc.EmbeddedDriver";
-			case "ibm":
-				return "com.ibm.db2.jcc.DB2Driver";
-			case "informix":
-				return "com.informix.jdbc.IfxDriver";
-		}
-		return "org.h2.Driver";
-	}
-
-	public static String getUrl(String type, String host, String port, String db_name) {
-		switch (type) {
-			case "h2":
-				return host.equalsIgnoreCase("mem") ? ("jdbc:h2:" + host + ":" + db_name): ("jdbc:h2:" + host + "/" + db_name);
-			case "mysql":
-				return "jdbc:mysql://" + host + ":" + port + "/" + db_name;
-			case "postgresql":
-				return "jdbc:postgresql://" + host + ":" + port + "/" + db_name;
-			case "oracle":
-				return "jdbc:oracle:thin:@" + host + ":" + port + "/" + db_name;
-			case "mssql":
-				return "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + db_name;
-			case "hsqldb":
-				return "jdbc:hsqldb:" + host + ":" + db_name;
-			case "sybase":
-				return "jdbc:sybase:Tds:" + host + ":" + port + "/" + db_name;
-			case "derby":
-				return "jdbc:derby:" + host + "/" + db_name + ";create=true";
-			case "ibm":
-				return "jdbc:db2://" + host + ":" + port +"/" + db_name;
-			case "informix":
-				return "jdbc:informix-sqli://" + host + ":" + port + "/" + db_name; //+ ":INFORMIXSERVER=demo_on";
-		}
-		return "";
-	}
-
-	public static String getHibernateDialect(String type) {
-		switch (type.toLowerCase()) {
-			case "h2":
-				return "org.hibernate.dialect.H2Dialect";
-			case "mysql":
-				return "org.hibernate.dialect.MySQL5InnoDBDialect";
-			case "postgresql":
-				return "org.hibernate.dialect.PostgreSQLDialect";
-			case "oracle":
-				return "org.hibernate.dialect.OracleDialect";
-			case "mssql":
-				return "org.hibernate.dialect.SQLServerDialect";
-			case "hsqldb":
-				return "org.hibernate.dialect.HSQLDialect";
-			case "sybase":
-				return "org.hibernate.dialect.SybaseDialect";
-			case "derby":
-				return "org.hibernate.dialect.DerbyDialect";
-			case "ibm":
-				return "org.hibernate.dialect.DB2Dialect";
-			case "informix":
-				return "org.hibernate.dialect.InformixDialect";
-		}
-		return "";
-	}
+	
 
 	
 	public synchronized static void destroy() {

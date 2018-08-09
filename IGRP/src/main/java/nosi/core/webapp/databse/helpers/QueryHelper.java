@@ -17,6 +17,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -60,7 +61,7 @@ public abstract class QueryHelper implements QueryInterface{
 		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application.dad", "=",Core.getCurrentDadParam()).one();
 		if(firstConnectionNameOfTheApp!=null)
 			return firstConnectionNameOfTheApp.getName();
-		return null;
+		return new Config().getH2IGRPBaseConnection();
 	}
 	
 	public QueryInterface where(String condition) {
