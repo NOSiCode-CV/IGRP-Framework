@@ -16,6 +16,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.activit.rest.GroupService;
 import nosi.core.webapp.activit.rest.UserService;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -29,13 +30,22 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 
+import org.wso2.carbon.um.ws.service.AddRole;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+import org.wso2.carbon.um.ws.service.dao.xsd.PermissionDTO;
 
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
@@ -256,6 +266,46 @@ public class NovoUtilizadorController extends Controller {
 		return userLdap;
 	}
 	
+	private boolean addRoleToUser(Properties settings, User user) {
+		try {
+			
+			String wsdlUrl = settings.getProperty("RemoteUserStoreManagerService-wsdl-url");
+			String username = settings.getProperty("admin-usn");
+			String password = settings.getProperty("admin-pwd");
+			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+			
+			String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+			String roleName = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
+			roleName = roleName.replace("http://", "").replace("https://", "").replace(":", "0_58") + "0_47" + warName.replace("-", "0_45").replace("/", "0_47");
+			
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Authorization", "Basic " + credentials);
+			
+			Map<String, String> namespaces = new HashMap<String, String>();
+			namespaces.put("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
+			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
+			
+			Map<String, Object> bodyContent = new HashMap<String, Object>();
+			Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+			subContent.put("ser:userName", user.getUser_name());
+			subContent.put("ser:newRoles", roleName);
+			bodyContent.put("ser:updateRoleListOfUser", subContent);
+			
+			nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers, bodyContent);
+			
+			if(sc.hasErrors()) { // Verifica se ocorreu algum erro ... 
+				System.out.println(Arrays.toString(sc.getErrors().toArray()));
+				return false;
+			}
+			
+		}catch(Exception e ) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
 		String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key=" + u.getActivation_key();
 		//System.out.println(url_);
@@ -290,6 +340,12 @@ public class NovoUtilizadorController extends Controller {
 			if(userLdap != null) {
 				User u = new User().find().andWhere("email", "=", model.getEmail()).one();
 				if(u == null) {
+					
+					if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true") && !addRoleToUser(settings, userLdap)) {
+						Core.setMessageError("Ocorreu um erro ao adicionar role ao utilizador.");
+						return false;
+					}
+						
 					u = userLdap.insert();
 					UserRole role = new UserRole();
 					String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
