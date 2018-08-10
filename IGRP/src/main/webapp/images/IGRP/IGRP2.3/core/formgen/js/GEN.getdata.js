@@ -41,7 +41,11 @@ var DATA = {
 				//rtn = '0'+(genNum(8)+1)+'-0'+(genNum(8)+1)+'-201'+genNum(5);
 			break;
 
-			case 'number':
+			
+			case 'range':
+				rtn=genNum(10);
+			break;	
+			case 'number':			
 				rtn = genNum(mlength);
 				//rtn = '123456789';
 			break;

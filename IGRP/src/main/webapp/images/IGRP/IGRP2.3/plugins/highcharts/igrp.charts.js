@@ -527,8 +527,7 @@
 				    },
 
 				    title: {
-				        text: p.title,
-				        x: -80
+				        text: p.title
 				    },
 
 				    pane: {
@@ -542,27 +541,11 @@
 				        max: 360
 				    },
 
-				    yAxis: {
-				        min: 0
-				    },
-
-				    tooltip: {
-				        shared: true,
-				        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
-				    },
-
 				    legend: {
 				        
 				    },
 				    plotOptions : {
-				    	series: {
-				            pointStart: 0,
-				            pointInterval: 45
-				        },
-				        column: {
-				            pointPadding: 0,
-				            groupPadding: 0
-				        }
+				    	
 			        },
 				    series: data
 				}
@@ -852,9 +835,9 @@
 			            point : {
 				            events:{
 				                click:function(e){
-
-				                	var pointX = this.categories || this.name,
-				                		pointY = this.y || this.value,
+				                	
+				                	var pointX = this.category.toString() ||  this.name,
+				                		pointY = this.y.toString() || this.value,
 				                		pointZ = this.series.name;
 
 				                	if (type == 'HEATMAP') {
@@ -868,12 +851,14 @@
 				                		pointZ = this.parent || this.name;
 				                	}
 
-				                  	$.IGRP.utils.openChartURL({
-				                    	pUrl: url,
-				                    	pX  : pointX,
-				                    	pY  : pointY,
-				                    	pZ  : pointZ
-				                  	});
+				                	if($.IGRP.utils.url.isUrl(url)){
+					                  	$.IGRP.utils.openChartURL({
+					                    	pUrl: url,
+					                    	pX  : pointX,
+					                    	pY  : pointY,
+					                    	pZ  : pointZ
+					                  	});
+					                }
 				                }
 				            }
 			            }
@@ -884,6 +869,15 @@
 
 			        if (type == 'STACKEDBAR')
 						chart.structure.plotOptions.series.stacking = 'normal';
+
+					if(type == 'POLAR'){
+						chart.structure.plotOptions.series.pointStart 	 = 0;
+				        chart.structure.plotOptions.series.pointInterval = 45;
+				        chart.structure.plotOptions.column = {
+				            pointPadding: 0,
+				            groupPadding: 0
+				        };
+					}
 					
 
 			        chart.structure.responsive = {

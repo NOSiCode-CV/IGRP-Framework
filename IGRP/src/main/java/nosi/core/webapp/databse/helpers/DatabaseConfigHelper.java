@@ -66,15 +66,15 @@ public class DatabaseConfigHelper {
 	public static String getUrlConnections(String dbType) {
 		switch (dbType.toLowerCase()) {
 			case "mysql":
-				return "jdbc:mysql://[machine-name/ip]:[3306]/[database-name]";
+				return "jdbc:mysql://[machine-name/ip]:3306/[database-name]";
 			case "postgresql":
-				return "jdbc:postgresql://[host]:[port5432]/[database-name]";
+				return "jdbc:postgresql://[host]:5432/[database-name]";
 			case "h2":
 				return "jdbc:h2:tcp:[host]:[port]/[database-name]";
 			case "oracle":
-				return "jdbc:oracle:[drivertype]:[username/password]@[host]:[port]/[database-name]";
+				return "jdbc:oracle:[drivertype]:[username/password]@[host]:1521/[database-name]";
 			case "mssql":
-				return "jdbc:sqlserver://[host]:[port1433];databaseName=[database-name]";
+				return "jdbc:sqlserver://[host]:1433;databaseName=[database-name]";
 			case "hsqldb":
 				return "jdbc:hsqldb:[path]";
 			case "sybase":

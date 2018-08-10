@@ -11,53 +11,51 @@
     <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
     
     <title><xsl:value-of select="rows/title"/></title>
-   
+    
     <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css" media="none" onload="if(media!='all')media='all'"/>
-    <!-- BS CSS -->
+    
+       <!-- BS CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
       <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css" media="none" onload="if(media!='all')media='all'"/>
       <link rel="stylesheet" href="{$path}/themes/bs.columns.css" media="none" onload="if(media!='all')media='all'"/>
       <link rel="stylesheet" href="{$path}/themes/bs.class.css" media="none" onload="if(media!='all')media='all'"/>
     </xsl:if> 
-    <!-- BS CSS -->
-    
-    	
+    <!-- BS CSS -->    
+   
+   <!-- FORM JS-->   
 
+    <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>  
+    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>  
+    <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
+   
+ 	<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>
+    
+    <script src="{$path}/core/promise/promise.min.js" ></script>    
+   
+    <script src="{$path}/core/moment/moment.min.js" ></script>
+
+    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
+        
+    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
+	
 
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
        <link rel="stylesheet" href="{$path}/themes/style.css" />
     </xsl:if>
-    <!--/DEFAULT CSS -->
-
-   
- 	<!-- FORM -->
-    <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />
-
-   
-    <script src="{$path}/core/promise/promise.min.js" ></script>
-
-    <script src="{$path}/core/moment/moment.min.js" async="async"></script>
-    
-    <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>
-
-    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>
-
-    <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js" async="async"></script>
-
-    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
-
-    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>
-    
-    <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>
+    <!--/DEFAULT CSS --> 
+ 
 
     <!-- THEME JS -->
     <xsl:for-each select="$themeConfigData/js/file">
       <script src="{$themePath}/{.}"></script>
     </xsl:for-each>
     <!-- /THEME JS -->
-
+    
+   
     <!-- EVENTS class -->
     <script src="{$path}/core/igrp/IGRP.events.class.js?v={$version}"></script>
     <!-- UTILS class -->

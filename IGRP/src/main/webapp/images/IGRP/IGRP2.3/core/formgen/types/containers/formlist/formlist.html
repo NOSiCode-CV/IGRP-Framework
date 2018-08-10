@@ -8,7 +8,7 @@
           <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate) or not(#path#/table/value/row[position() = 1]/@nodelete)" gen-preserve="last">
             <th class="table-btn add">
               <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate)">
-                <a class="formlist-row-add btn btn-primary" rel="#tag#">
+                <a class="formlist-row-add btn btn-primary" rel="#tag#"  title="Add" data-toggle="tooltip" data-placement="left">
                   <i class="fa fa-plus"></i>
                 </a>
               </xsl:if>
@@ -24,7 +24,7 @@
             <xsl:if test="not(@nodelete) or not(@noupdate)" gen-preserve="last">
               <td class="table-btn delete" data-row="{position()}">
                 <xsl:if test="not(@nodelete)">
-                  <span class="formlist-row-remove btn btn-danger" rel="#tag#">
+                  <span class="formlist-row-remove btn btn-danger" rel="#tag#"  title="Remove" data-toggle="tooltip" data-placement="bottom">
                     <i class="fa fa-times"></i>
                   </span>
                 </xsl:if>

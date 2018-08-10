@@ -259,8 +259,8 @@
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>						
 						<xsl:call-template name="newlineTab2"/>						
-						<xsl:value-of select="'model.load();'"/>													
-						<xsl:call-template name="newlineTab2"/>	
+						<xsl:value-of select="'model.load();'"/>
+						<xsl:call-template name="setBoxUrl"/>
 						<xsl:for-each select="//rows/content/*[@type!='table']/fields/*">  
 							<xsl:if test="@action and @app and @page and @custom_action=''"> 
 								<xsl:variable name="name_">
@@ -269,8 +269,7 @@
 							        	<xsl:value-of select="name()"/>
 							        </xsl:with-param>
 						        </xsl:call-template>
-				    			</xsl:variable> 
-				    			
+				    			</xsl:variable> 				    			
 								<xsl:variable name="_app" select="concat($double_quotes,@app,$double_quotes)"/>
 						 		<xsl:variable name="_page" select="concat($double_quotes,@page,$double_quotes)"/>
 						 		<xsl:variable name="_action" select="concat($double_quotes,@action,$double_quotes)"/>					
@@ -285,8 +284,7 @@
 					
 						
 						<xsl:call-template name="setSqlCombobox_"/> 
-						<xsl:call-template name="newlineTab2"/>
-						<xsl:call-template name="setBoxUrl"/>
+										
 						
 						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">

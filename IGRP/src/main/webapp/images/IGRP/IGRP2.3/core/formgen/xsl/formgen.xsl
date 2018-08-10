@@ -280,7 +280,7 @@
                                   </a>
                                   <a href="https://nosicode.gitbook.io/faq/" class="btn btn-link" target="_newtab">                                 
                                     <i class=" fa fa-question-circle"></i>
-                                    <span>FAQ - How to...</span>
+                                    <span>Guide - How to...</span>
                                   </a>
                               </div>
 

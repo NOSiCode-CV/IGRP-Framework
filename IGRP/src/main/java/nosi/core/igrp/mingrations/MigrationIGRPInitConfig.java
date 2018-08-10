@@ -70,7 +70,7 @@ public class MigrationIGRPInitConfig {
 			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_BI", "your id");
 			config.insert();
 			
-			User user0_IGRP = new User("IGRP", "igrp@nosi.cv", nosi.core.webapp.User.encryptToHash("admin@nosi.cvigrp.admin.Pa$$w0rd", "SHA-256"), "ADMIN", null, 1, null, "123456789", "admin@nosi.cv",null, null, null, null, null,"123456789", 2017, 2017);
+			User user0_IGRP = new User("IGRP SysAdmin", "igrpweb@nosi.cv", nosi.core.webapp.User.encryptToHash("igrpweb@nosi.cvigrp.admin.Pa$$w0rd", "SHA-256"), "ADMIN", null, 1, null, "123456789", "igrpweb@nosi.cv",null, null, null, null, null,"123456789", 2017, 2017);
 			user0_IGRP = user0_IGRP.insert();
 			user0_IGRP = user0_IGRP.updateTozero();
 			User user1demo = new User("Nositeste", "demo@nosi.cv", nosi.core.webapp.User.encryptToHash("demo@nosi.cvdemo", "SHA-256"), "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);

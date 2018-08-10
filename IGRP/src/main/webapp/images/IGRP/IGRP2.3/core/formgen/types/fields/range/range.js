@@ -28,14 +28,14 @@ var RANGEFIELD = function(type,params){
 
 		field.setProperty({
 			name: 'rangeMax',
-			value: 100
+			value: 10
 		});
 		
 	};
 
 	field.onDrawEnd = function(){
-		
-		var range = $('#range-'+field.GET.tag(),field.holder);
+
+		var range = $('[range-id="range-'+field.GET.tag()+'"]',$('[item-name="'+field.GET.tag()+'"]'));
 
 		$.IGRP.components['bsRange'].init(range);
 
