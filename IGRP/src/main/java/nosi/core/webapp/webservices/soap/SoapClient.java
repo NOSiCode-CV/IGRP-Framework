@@ -16,6 +16,7 @@ import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
@@ -57,6 +58,15 @@ public class SoapClient {
 		    URL url = new URL(this.wsdl);
 		    this.request.writeTo(System.out);
 		    this.response = connection.call(this.request, url);
+		    try {
+		    	 if(this.response.getSOAPBody().hasFault()) {
+			    	 SOAPFault fault = response.getSOAPBody().getFault();
+			    	 errors.add(fault.getFaultCode() + "," + fault.getFaultString());
+			    }
+		    }catch(NullPointerException e) { // For empty response ...  
+		    	return;
+		    }
+		    
 		}catch(Exception e) {
 			errors.add(e.getMessage());
 			e.printStackTrace();

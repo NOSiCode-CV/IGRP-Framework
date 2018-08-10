@@ -13,18 +13,26 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.wso2.carbon.um.ws.service.AddRole;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServiceUserStoreException_Exception;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
+import org.wso2.carbon.um.ws.service.dao.xsd.PermissionDTO;
 
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
@@ -50,12 +58,12 @@ import service.client.WSO2UserStub;
  * Marcel Iekiny
  * Oct 4, 2017
  */
-public class LoginController extends Controller {	
+public class LoginController extends Controller { 
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Properties settings_ = loadOAuth2("sso", "oauth2.xml");
-		if(settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
+		if(!Igrp.getInstance().getUser().isAuthenticated() && settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings_.getProperty("igrp.env.nhaLogin.url") != null && !settings_.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
 			return redirectToUrl(settings_.getProperty("igrp.env.nhaLogin.url"));
@@ -95,6 +103,13 @@ public class LoginController extends Controller {
 					return this.redirectToUrl(oauth2ServerUrl.toString());
 				else
 					;// Go to error page 
+			}
+			
+			Properties settings = loadOAuth2("sso", "oauth2.xml");
+			if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
+				String url = Igrp.getInstance().getRequest().getRequestURL().toString();
+				url = url.replace("app/webapps", "mylinks.jsp");
+				return redirectToUrl(url);
 			}
 			
 			String destination = Route.previous();
@@ -165,7 +180,6 @@ public class LoginController extends Controller {
 							}else {
 								
 								Properties settings = loadOAuth2("sso", "oauth2.xml");
-								
 								if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
 									return checkEnvironments(model.getUser());
 								}
@@ -206,7 +220,8 @@ public class LoginController extends Controller {
 		if(settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
-			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
+			String _url = settings.getProperty("igrp.env.nhaLogin.url")/*.replace("igrp/login/login", "igrp/login/logout")*/;
+			return redirectToUrl(_url);
 		}
 		
 		return this.redirect("igrp", "login", "login");
@@ -329,8 +344,10 @@ public class LoginController extends Controller {
 				/** End create user session **/ 
 				
 			}else {
-				
-				if(this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio  
+				Properties settings_ = loadOAuth2("sso", "oauth2.xml");
+				if((this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) || 
+				(settings_.getProperty("igrp.env.isNhaLogin") != null && settings_.getProperty("igrp.env.isNhaLogin").equals("true")) 
+						) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio  
 					
 					User newUser = new User();
 					newUser.setUser_name(username.trim().toLowerCase());
@@ -398,8 +415,7 @@ public class LoginController extends Controller {
 				}else {
 					success = false;
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
-				}
-				
+				}	
 			}
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
@@ -542,6 +558,9 @@ public class LoginController extends Controller {
 	private Response checkEnvironments(String uid) {
 		try {
 			
+			User user = new User().find().andWhere("user_name", "=", uid).one();
+			String token = Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes());
+			
 			Properties settings = loadOAuth2("ids", "wso2-ids.xml");
 			
 			URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
@@ -550,12 +569,15 @@ public class LoginController extends Controller {
 	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
 	        
 	        List<String> roles = stub.getOperations().getRoleListOfUser(uid);
-	        
+	      
+	        JSONObject jsonObject = new JSONObject();
+	        jsonObject.put("token", token);
 	        JSONArray jsonArray = new JSONArray();
+	        jsonObject.put("myLinks", jsonArray);
 	        
 	        roles.forEach(obj -> {jsonArray.put(obj);});
 	        
-	        Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonArray.toString());
+	        Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonObject.toString());
 	        
 		}catch(Exception e) {
 			e.printStackTrace();
