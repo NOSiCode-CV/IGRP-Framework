@@ -49,7 +49,7 @@ public class ListaEnvController extends Controller {
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		String dad = Core.getCurrentDad();
-		if ("igrp".equalsIgnoreCase(dad)) {
+		if (Core.getCurrentUser().getUser_name().compareTo("igrpweb@nosi.cv")==0) {
 			apps = app.find()
 					// .andWhere("dad", "like", app.getDad())
 					// .andWhere("name", "like", app.getName())
@@ -59,6 +59,7 @@ public class ListaEnvController extends Controller {
 		}
 		Collections.sort(apps, new SortbyStatus());
 		for (Application a : apps) {
+			//Don't list app IGRP
 			if (!a.getDad().toLowerCase().equals("igrp")) {
 				ListaEnv.Table_1 table = new ListaEnv.Table_1();
 				table.setDad(a.getDad());

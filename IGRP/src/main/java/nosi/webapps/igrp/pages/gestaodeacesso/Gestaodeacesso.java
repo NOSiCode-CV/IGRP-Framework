@@ -1,12 +1,12 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
+
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +85,10 @@ public class Gestaodeacesso extends Model{
 		this.adicionar_organica = new IGRPLink(link);
 		return this.adicionar_organica;
 	}
+	public IGRPLink setAdicionar_organica(Report link){
+		this.adicionar_organica = new IGRPLink(link);
+		return this.adicionar_organica;
+	}
 	
 	public IGRPLink setGestao_de_utilizadores(String app,String page,String action){
 		this.gestao_de_utilizadores = new IGRPLink(app,page,action);
@@ -103,6 +107,10 @@ public class Gestaodeacesso extends Model{
 		this.gestao_de_utilizadores = new IGRPLink(link);
 		return this.gestao_de_utilizadores;
 	}
+	public IGRPLink setGestao_de_utilizadores(Report link){
+		this.gestao_de_utilizadores = new IGRPLink(link);
+		return this.gestao_de_utilizadores;
+	}
 	
 	public IGRPLink setGestao_de_menu(String app,String page,String action){
 		this.gestao_de_menu = new IGRPLink(app,page,action);
@@ -118,6 +126,10 @@ public class Gestaodeacesso extends Model{
 		return this.gestao_de_menu_desc;
 	}
 	public IGRPLink setGestao_de_menu(String link){
+		this.gestao_de_menu = new IGRPLink(link);
+		return this.gestao_de_menu;
+	}
+	public IGRPLink setGestao_de_menu(Report link){
 		this.gestao_de_menu = new IGRPLink(link);
 		return this.gestao_de_menu;
 	}
@@ -164,6 +176,10 @@ public class Gestaodeacesso extends Model{
 			return this.mostrar_perfis_desc;
 		}
 	public IGRPLink setMostrar_perfis(String link){
+		this.mostrar_perfis = new IGRPLink(link);
+		return this.mostrar_perfis;
+	}
+	public IGRPLink setMostrar_perfis(Report link){
 		this.mostrar_perfis = new IGRPLink(link);
 		return this.mostrar_perfis;
 	}

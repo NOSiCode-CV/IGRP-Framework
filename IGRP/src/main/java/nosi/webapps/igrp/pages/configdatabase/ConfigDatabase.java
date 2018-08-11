@@ -1,5 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -22,14 +25,14 @@ public class ConfigDatabase extends Model{
 	private String url_connection;
 	@RParam(rParamName = "p_driver_connection")
 	private String driver_connection;
+	@RParam(rParamName = "p_paragraph_1")
+	private String paragraph_1;
 	@RParam(rParamName = "p_credenciais")
 	private String credenciais;
 	@RParam(rParamName = "p_username")
 	private String username;
 	@RParam(rParamName = "p_password")
 	private String password;
-	@RParam(rParamName = "p_paragraph_1_text")
-	private String paragraph_1_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -106,6 +109,13 @@ public class ConfigDatabase extends Model{
 		return this.driver_connection;
 	}
 	
+	public void setParagraph_1(String paragraph_1){
+		this.paragraph_1 = paragraph_1;
+	}
+	public String getParagraph_1(){
+		return this.paragraph_1;
+	}
+	
 	public void setCredenciais(String credenciais){
 		this.credenciais = credenciais;
 	}
@@ -125,13 +135,6 @@ public class ConfigDatabase extends Model{
 	}
 	public String getPassword(){
 		return this.password;
-	}
-	
-	public void setParagraph_1_text(String paragraph_1_text){
-		this.paragraph_1_text = paragraph_1_text;
-	}
-	public String getParagraph_1_text(){
-		return this.paragraph_1_text;
 	}
 
 

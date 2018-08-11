@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -25,8 +27,6 @@ public class ConfigDatabaseController extends Controller {
 		model.load();
 		ConfigDatabaseView view = new ConfigDatabaseView();
 		view.id.setParam(true);
-		
-		
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
@@ -75,8 +75,9 @@ public class ConfigDatabaseController extends Controller {
 											.all();
 				int size = list!=null?(list.size()+1):1;
 				model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+model.getTipo_base_dados()+"_"+size);
-				view.paragraph_1_text.setValue(DatabaseConfigHelper.getUrlConnectionsExamples(model.getTipo_base_dados(),new Application().findOne(model.getAplicacao()).getDad()));
-			}
+				model.setParagraph_1("  Ex: "+ DatabaseConfigHelper.getUrlConnectionsExamples(model.getTipo_base_dados(),new Application().findOne(model.getAplicacao()).getDad()));
+			}else
+              Core.setMessageInfo(gt("-- Selecionar --")+" "+gt("Tipo de base de dados")+"!");
 		}
 		
 	

@@ -44,6 +44,17 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Testar conexão e gravar </title>
+                <app>igrp</app>
+                <page>ConfigDatabase</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
+            </item>
+        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
@@ -89,28 +100,33 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </tipo_base_dados>
                 <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="A name ex: myConn, DEVNOSI" right="false">
                     <label>Nome da conexão</label>
-                    <value>Sed aperiam lorem amet rem</value>
+                    <value>Ut lorem sit voluptatem adipis</value>
                 </nome_de_conexao>
                 <config name="p_config" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Config</label>
                 </config>
                 <url_connection name="p_url_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Url Connection</label>
-                    <value>Amet elit lorem magna unde</value>
+                    <value>Perspiciatis labore amet perspiciatis stract</value>
                 </url_connection>
                 <driver_connection name="p_driver_connection" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Driver Connection</label>
-                    <value>Dolor amet doloremque magna aliqua</value>
+                    <value>Voluptatem aperiam ipsum doloremque elit</value>
                 </driver_connection>
+                <paragraph_1 name="p_paragraph_1" type="plaintext" clear="false" maxlength="250" right="false">
+                    <label>Example</label>
+                    <value>Lorem sed anim doloremque amet lorem aperiam adipiscing stract doloremque anim totam anim doloremque rem officia consectetur amet aperiam unde officia natus labore unde mollit</value>
+                </paragraph_1>
                 <credenciais name="p_credenciais" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Credenciais</label>
                 </credenciais>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Natus magna rem adipiscing magna</value>
+                    <value>Totam amet omnis aliqua sit</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
@@ -118,24 +134,6 @@
                 </password>
             </fields>
         </form_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
-                <title>Testar conexão e gravar </title>
-                <app>igrp</app>
-                <page>ConfigDatabase</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
-            </item>
-        </toolsbar_1>
-        <paragraph_1 type="paragraph" xml-type="form" title="Example" gen-type="container" gen-group="">
-            <fields>
-                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
-                    <value/>
-                </paragraph_1_text>
-            </fields>
-        </paragraph_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <nome_de_conexao_tabela name="p_nome_de_conexao_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -162,11 +160,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Perspiciatis ipsum consectetur</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Laudantium sit unde ipsum anim</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Deserunt laudantium ut ipsum a</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Officia sit accusantium adipis</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Accusantium sit deserunt sit l</t_driver_connection>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Mollit ut deserunt perspiciati</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Lorem unde laudantium sit cons</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Totam rem consectetur anim nat</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Ipsum officia anim voluptatem</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Amet doloremque sit laudantium</t_driver_connection>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -174,11 +172,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Officia omnis sit labore accus</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Ipsum labore magna stract pers</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Labore totam ipsum unde omnis</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Lorem mollit labore dolor unde</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Elit labore omnis dolor labore</t_driver_connection>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Deserunt ipsum elit mollit lor</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Unde amet natus omnis anim</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Sed lorem sed stract laudantiu</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Consectetur ut totam natus ut</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Natus rem unde consectetur lor</t_driver_connection>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -186,11 +184,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Ipsum lorem sit perspiciatis l</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Adipiscing ut sit sit perspici</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Labore ut deserunt stract lore</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Sed ipsum omnis unde natus</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Iste totam omnis aperiam sit</t_driver_connection>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Totam accusantium deserunt eli</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Laudantium ipsum omnis perspic</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Unde totam officia dolor magna</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Lorem sit dolor sit lorem</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Voluptatem stract totam deseru</t_driver_connection>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -198,11 +196,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Omnis elit consectetur anim al</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Accusantium ut officia omnis d</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Sit officia aliqua doloremque</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Sit sed labore rem unde</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Sit labore adipiscing ipsum ac</t_driver_connection>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Sit sed dolor officia dolor</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Anim unde totam stract elit</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Magna natus sed labore volupta</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Sed deserunt voluptatem perspi</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Aperiam rem elit doloremque re</t_driver_connection>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -210,11 +208,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Totam mollit perspiciatis laud</nome_de_conexao_tabela>
-                        <user_name_tabela name="p_user_name_tabela">Iste rem deserunt magna stract</user_name_tabela>
-                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Labore mollit magna omnis iste</tipo_de_base_de_dados_tabela>
-                        <t_url_connection name="p_t_url_connection">Magna iste stract lorem consec</t_url_connection>
-                        <t_driver_connection name="p_t_driver_connection">Perspiciatis adipiscing dolor</t_driver_connection>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Voluptatem amet iste ipsum dol</nome_de_conexao_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Lorem sit amet totam aliqua</user_name_tabela>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Aliqua anim dolor voluptatem a</tipo_de_base_de_dados_tabela>
+                        <t_url_connection name="p_t_url_connection">Ut mollit stract labore elit</t_url_connection>
+                        <t_driver_connection name="p_t_driver_connection">Labore perspiciatis sit natus</t_driver_connection>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

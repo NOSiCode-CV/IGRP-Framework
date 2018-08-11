@@ -78,7 +78,7 @@ public class DatabaseConfigHelper {
 			case "hsqldb":
 				return "jdbc:hsqldb:[path]";
 			case "sybase":
-				return "jdbc:sybase:Tds:[host]:[port2048]/[database-name]";
+				return "jdbc:sybase:Tds:[host]:2048/[database-name]";
 			case "derby":
 				return "jdbc:derby:[path-to-data-file]";
 			case "ibm":
@@ -117,16 +117,17 @@ public class DatabaseConfigHelper {
 	public static Map<String,String> getDatabaseTypes() {
 		Map<String,String> dbTypes = new HashMap<>();
 		dbTypes.put(null, gt("-- Selecionar --"));
-		dbTypes.put("h2", "H2");
-		dbTypes.put("mysql", "MySql");
 		dbTypes.put("postgresql", "Postgresql");
-		dbTypes.put("oracle", "Oracle");
+		dbTypes.put("h2", "H2");
+		dbTypes.put("oracle", "Oracle");		
+		dbTypes.put("mysql", "MySql");	
 		dbTypes.put("mssql", "Microsoft SQL Server");
 		dbTypes.put("hsqldb", "HSQLDB");
 		dbTypes.put("sybase", "Sybase ASE");
 		dbTypes.put("derby", "Apache Derby");
 		dbTypes.put("ibm", "IBM DB2");
-		dbTypes.put("informix", "Informix");
+		dbTypes.put("informix", "Informix");		
+	
 		return dbTypes;
 	}
 

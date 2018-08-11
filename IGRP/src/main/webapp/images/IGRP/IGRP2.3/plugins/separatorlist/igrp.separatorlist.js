@@ -8,10 +8,10 @@ $.fn.separatorList = function(o){
 		removeBtn : 'table-row-remove',
 		templates : {
 			rowOptions: '<td data-row="" class="table-btn">'+
-		            		'<span class="table-row-edit btn btn-default">'+
+		            		'<span class="table-row-edit btn btn-warning" title="Edit" data-toggle="tooltip" data-placement="left">'+
                             	'<i class="fa fa-pencil"></i>'+
                         	'</span>'+
-							'<span class="table-row-remove btn btn-danger">'+
+							'<span class="table-row-remove btn btn-danger" title="Remove" data-toggle="tooltip" data-placement="right">'+
                             	'<i class="fa fa-times"></i>'+
                         	'</span>'+
 						'</td>'

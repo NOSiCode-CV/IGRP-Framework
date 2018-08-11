@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ConfigDatabaseView extends View {
 
@@ -15,10 +18,10 @@ public class ConfigDatabaseView extends View {
 	public Field config;
 	public Field url_connection;
 	public Field driver_connection;
+	public Field paragraph_1;
 	public Field credenciais;
 	public Field username;
 	public Field password;
-	public Field paragraph_1_text;
 	public Field nome_de_conexao_tabela;
 	public Field user_name_tabela;
 	public Field tipo_de_base_de_dados_tabela;
@@ -27,7 +30,6 @@ public class ConfigDatabaseView extends View {
 	public Field id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
-	public IGRPForm paragraph_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -41,8 +43,6 @@ public class ConfigDatabaseView extends View {
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
-
-		paragraph_1 = new IGRPForm("paragraph_1","Example");
 
 		table_1 = new IGRPTable("table_1","");
 
@@ -75,6 +75,10 @@ public class ConfigDatabaseView extends View {
 		driver_connection.setLabel(gt("Driver Connection"));
 		driver_connection.propertie().add("name","p_driver_connection").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
 		
+		paragraph_1 = new PlainTextField(model,"paragraph_1");
+		paragraph_1.setLabel(gt("Example"));
+		paragraph_1.propertie().add("name","p_paragraph_1").add("type","plaintext").add("clear","false").add("maxlength","250");
+		
 		credenciais = new SeparatorField(model,"credenciais");
 		credenciais.setLabel(gt("Credenciais"));
 		credenciais.propertie().add("name","p_credenciais").add("type","separator").add("maxlength","30");
@@ -86,11 +90,6 @@ public class ConfigDatabaseView extends View {
 		password = new PasswordField(model,"password");
 		password.setLabel(gt("Password"));
 		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false").add("readonly","false").add("disabled","false");
-		
-		paragraph_1_text = new TextField(model,"paragraph_1_text");
-		paragraph_1_text.setLabel(gt(""));
-		paragraph_1_text.setValue(gt(""));
-		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("maxlength","4000");
 		
 		nome_de_conexao_tabela = new TextField(model,"nome_de_conexao_tabela");
 		nome_de_conexao_tabela.setLabel(gt("Nome da conexão"));
@@ -133,18 +132,17 @@ public class ConfigDatabaseView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
+
 		form_1.addField(aplicacao);
 		form_1.addField(tipo_base_dados);
 		form_1.addField(nome_de_conexao);
 		form_1.addField(config);
 		form_1.addField(url_connection);
 		form_1.addField(driver_connection);
+		form_1.addField(paragraph_1);
 		form_1.addField(credenciais);
 		form_1.addField(username);
 		form_1.addField(password);
-
-
-		paragraph_1.addField(paragraph_1_text);
 
 		table_1.addField(nome_de_conexao_tabela);
 		table_1.addField(user_name_tabela);
@@ -157,7 +155,6 @@ public class ConfigDatabaseView extends View {
 		table_1.addButton(btn_delete);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
-		this.addToPage(paragraph_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
 	}
@@ -171,6 +168,7 @@ public class ConfigDatabaseView extends View {
 		config.setValue(model);
 		url_connection.setValue(model);
 		driver_connection.setValue(model);
+		paragraph_1.setValue(model);
 		credenciais.setValue(model);
 		username.setValue(model);
 		password.setValue(model);

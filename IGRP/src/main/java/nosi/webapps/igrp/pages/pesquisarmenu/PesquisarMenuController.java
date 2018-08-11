@@ -178,10 +178,14 @@ public class PesquisarMenuController extends Controller {
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		Menu menu_db = new Menu();
+		if (Core.isNotNull(id)) {
 		if (menu_db.delete(Integer.parseInt(id)))
 			Core.setMessageSuccess();
 		else
-			Core.setMessageError();
+			Core.setMessageError();		
+	
+		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
+		}
  	
 		/*----#end-code----*/
 		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	

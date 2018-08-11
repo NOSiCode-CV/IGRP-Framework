@@ -21,12 +21,12 @@
 						<tr gen-id="drop-zone" gen-field-template="td">
 							<td data-row="{position()}" class="table-btn" gen-preserve="last">
 								<xsl:if test="not(@noupdate)">
-									<span class="table-row-edit btn btn-warning " rel="#tag#" title="Edit" data-toggle="tooltip" data-placement="bottom">
+									<span class="table-row-edit btn btn-warning " rel="#tag#" title="Edit" data-toggle="tooltip" data-placement="left">
 										<i class="fa fa-pencil"></i>
 									</span>
 								</xsl:if>
 								<xsl:if test="not(@nodelete)">
-									<span class="table-row-remove btn btn-danger" rel="#tag#" title="Remove" data-toggle="tooltip" data-placement="bottom">
+									<span class="table-row-remove btn btn-danger" rel="#tag#" title="Remove" data-toggle="tooltip" data-placement="right">
 										<i class="fa fa-times"></i>
 									</span>
 								</xsl:if>
