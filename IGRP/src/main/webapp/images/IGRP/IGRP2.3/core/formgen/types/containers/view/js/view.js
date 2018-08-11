@@ -21,7 +21,7 @@ var GENVIEW = function(name,params){
 		
 		f.setProperty({
 			name  : 'maxlength',
-			value : 30 
+			value : 250 
 		});
 
 	}

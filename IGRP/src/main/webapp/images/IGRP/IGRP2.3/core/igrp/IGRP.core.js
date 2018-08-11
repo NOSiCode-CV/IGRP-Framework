@@ -312,8 +312,9 @@
 				if(p.name){
 					if ($('input[name="'+p.name+'"]')[0]) 
 						$('input[name="'+p.name+'"]').addClass(clss).val(p.value);
-					else
+					else if(id)
 						form.prepend('<input id="'+id+'" type="hidden" class="'+clss+'" name="'+p.name+'" value="'+p.value+'"/>');
+					else form.prepend('<input type="hidden" class="'+clss+'" name="'+p.name+'" value="'+p.value+'"/>');
 				}
 			},
 			htmlEncode:function(str){

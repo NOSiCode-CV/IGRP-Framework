@@ -2866,7 +2866,7 @@ var CONTAINER = function(name,params){
 
 			if(c.GET.tag && c.GET.tag() == rtn){
 				var arr = rtn.split('_');
-				var _i  = parseInt(arr[1])+1; 
+				var _i  = parseInt(arr[arr.length-1])+1; 
 				rtn = container.incrementTag(type,name,_i);
 			}
 		}
