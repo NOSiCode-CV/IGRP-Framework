@@ -532,7 +532,7 @@ public class LoginController extends Controller {
 	private Properties loadOAuth2(String filePath, String fileName) {
 			
 			String path = new Config().getBasePathConfig() + File.separator + filePath;
-			File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
+			File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 			
 			FileInputStream fis = null;
 			Properties props = new Properties();
