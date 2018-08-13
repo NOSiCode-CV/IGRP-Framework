@@ -132,7 +132,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	public ProfileType updateToZero() {
 		Core.update("tbl_profile_type").addInt("id",0).where("id=1").execute();
-		return new ProfileType().find().andWhere("code", "=","ALL").one();
+		return new ProfileType().findOne(0);
 	}
 
 	public HashMap<String, String> getListMyProfiles() {
