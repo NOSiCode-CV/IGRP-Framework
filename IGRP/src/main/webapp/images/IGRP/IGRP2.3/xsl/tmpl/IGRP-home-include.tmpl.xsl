@@ -24,18 +24,16 @@
     <!-- BS CSS -->    
    
    <!-- FORM JS-->   
-
+ 	 <script src="{$path}/core/promise/promise.min.js" ></script>    
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>  
     <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>  
-    <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
+
    
  	<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>
     
-    <script src="{$path}/core/promise/promise.min.js" ></script>    
-   
-    <script src="{$path}/core/moment/moment.min.js" ></script>
 
-    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
+   
+    <script src="{$path}/core/moment/moment.min.js"  async="async"></script>
         
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>
     
@@ -67,9 +65,9 @@
     <!-- IGRP core functions -->
     <script src="{$path}/core/igrp/IGRP.core.js?v={$version}" ></script>
     <!-- IGRP globalModal -->
-    <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"></script>
+    <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"  async="async"></script>
     <!-- IGRP iframeNavigation -->
-    <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}" ></script>
+    <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}"  async="async"></script>
     <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}" ></script>
     <!-- IGRP targets controller -->
@@ -306,12 +304,15 @@
     <xsl:call-template name="IGRP-debug"/>
     <!--/DEBUG -->
   
-  
+     <!-- JS -->
+    <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
+    
+    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
+     
    <!-- FontAwesome -->
     <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css" media="none" onload="if(media!='all')media='all'"/>
      
 	
-    
      <!-- THEME CSS -->
     <xsl:for-each select="$themeConfigData/css/file">
       <xsl:choose>
@@ -337,7 +338,7 @@
 	  <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css" media="none" onload="if(media!='all')media='all'"/>
   
      
-   	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
+   	<link href="{$path}/themes/robotofont.css" rel='stylesheet' type='text/css'  media="none" onload="if(media!='all')media='all'" />
   
   </xsl:template>
   <!-- DEBUG -->
