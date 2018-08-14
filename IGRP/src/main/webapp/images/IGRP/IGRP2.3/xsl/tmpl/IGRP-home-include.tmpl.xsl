@@ -23,20 +23,16 @@
     </xsl:if> 
     <!-- BS CSS -->    
    
-   <!-- FORM JS-->   
- 	 <script src="{$path}/core/promise/promise.min.js" ></script>    
+   <!-- NOT ASYNC JS-->   
+    <script src="{$path}/core/promise/promise.min.js" ></script>    
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js" ></script>  
-    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>  
-
-   
- 	<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>
+    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js" ></script>     
+    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>  
+        									 <!-- VERIFIED /NOT ASYNC JS-->  
+ 	<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>    
+    <script src="{$path}/core/moment/moment.min.js"  async="async"></script>  
     
-
-   
-    <script src="{$path}/core/moment/moment.min.js"  async="async"></script>
-        
-    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>
-    
+    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>    
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
 	
 
@@ -307,7 +303,7 @@
      <!-- JS -->
     <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
     
-    <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>
+ 
      
    <!-- FontAwesome -->
     <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css" media="none" onload="if(media!='all')media='all'"/>
