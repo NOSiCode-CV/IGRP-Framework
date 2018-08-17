@@ -2895,7 +2895,7 @@ var GENERATOR = function(genparams){
 		$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
-
+			$('.form-gen-save').text("masda");   
 			var clicked = $(this);
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
@@ -2987,7 +2987,7 @@ var GENERATOR = function(genparams){
 
 									GEN.resizeCodeMirrorArea();
 
-								}
+								}else
 
 								if(__genType == 'plsql'){
 
@@ -3025,7 +3025,7 @@ var GENERATOR = function(genparams){
 
 				    }catch(errr){
 				    	
-				    	console.log(err);
+				    	console.log("Error 3028: "+err);
 
 				    }
 
@@ -3034,160 +3034,29 @@ var GENERATOR = function(genparams){
 				try{
 
 					if(__genType == 'java')
-
 						GEN.server.compile({
-
 							mode : 'java',
-
 							then : function(results){
-
-								results.forEach(function(r){
-									
+								results.forEach(function(r){									
 									var name = r.name.toLowerCase();
-
 									vParam.push({
 										name : 'p_'+name,
 										value : r.code
-									});
-								
+									});								
 								});
-
 								compileCallback();
-
-							}
-
+								}
 						});	
 
 					if(__genType == 'plsql')
-
-						compileCallback();
-
-
-					//compileCallback();
-					
-					/*$.IGRP.utils.submitStringAsFile({
-						//pUrl        : 'test.save.xml',
-						pUrl        : vUrl,
-						pMessage    : false,
-						pLoading    : true,
-			         	pParam      : {
-			          		pArrayFiles : vParam,
-				           	pArrayItem  : [
-				           		{name:'p_id_objeto', value:vItemId},
-				           		{name:'p_table_name', value:GEN.SETTINGS.table},
-				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           	]
-				        },
-						pComplete   :function(xml,text,status){
-							//:not(')
-							var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
-
-							$.each(msgs,function(i,msg){
-								var type = $(msg).attr('type');
-								var text = $(msg).text();
-
-								$.notify({
-									icon: 'fa fa-times',
-									message: text,
-
-								},{
-									type:'success',
-									delay: 8000,
-								});
-
-							});
-						},
-						pError:function(request){
-							
-							$.notify({
-								icon: 'fa fa-times',
-								message: request.statusText,
-
-							},{
-								type:'warning',
-								delay: 8000,
-							});
-						}
-			        });*/
+						compileCallback();		
 
 				}catch(err){
-					console.log(err);
-				}
-
-				/*GEN.getJava(function(javaStr){
-
-					var vParam  =  [
-						{ name:'p_data'    , value: GEN.export() },//json
-						{ name:'p_page_xml', value: pageXML },//xml
-						{ name:'p_page_xsl', value: pageXSL },//xsl
-						{ name:'p_page_java',value:javaStr},//java
-						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
-					];
-
-					console.log(vParam)
-					
-					console.log(  GEN.export() );
-
-					var vItemId = getPageId();
-					
-					$('body').attr('has-message','false');
-					$('#gen-noif-holder').html('');
-					
-					try{
-						
-						$.IGRP.utils.submitStringAsFile({
-							//pUrl        : 'test.save.xml',
-							pUrl        : vUrl,
-							pMessage    : false,
-							pLoading    : true,
-				         	pParam      : {
-				          		pArrayFiles : vParam,
-					           	pArrayItem  : [
-					           		{name:'p_id_objeto', value:vItemId},
-					           		{name:'p_table_name', value:GEN.SETTINGS.table},
-					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-					           	]
-					        },
-							pComplete   :function(xml,text,status){
-								//:not(')
-								var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
-
-								$.each(msgs,function(i,msg){
-									var type = $(msg).attr('type');
-									var text = $(msg).text();
-
-									$.notify({
-										icon: 'fa fa-times',
-										message: text,
-
-									},{
-										type:'success',
-										delay: 8000,
-									});
-
-								});
-							},
-							pError:function(request){
-								
-								$.notify({
-									icon: 'fa fa-times',
-									message: request.statusText,
-
-								},{
-									type:'warning',
-									delay: 8000,
-								});
-							}
-				        });
-					}catch(err){
-						console.log(err);
-					}
-
-				});*/
+					console.log("Error in 3064: "+err);
+				}	
 
 				
 			}else{
-
 				openPLSQLSettings(function(){
 					
 					clicked.click();
@@ -3787,7 +3656,7 @@ var GENERATOR = function(genparams){
 
 	var resizeCodeMirrorArea = function(){
 
-		var h = $(window).height()-86;
+		var h = $(window).height()-95;
 		
 		$('.gen-viewers .cm-s-default').each(function(i,cm){
 			

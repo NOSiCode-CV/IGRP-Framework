@@ -24,7 +24,8 @@ var DATA = {
 	get:function(p){
 		
 		var rtn     = "",
-			mlength = p && p.maxLength ? p.maxLength :  p.field && p.field.GET.maxlength ? p.field.GET.maxlength() : 30;
+			mlength = p && p.maxLength ? p.maxLength :  p.field && p.field.GET.maxlength ? p.field.GET.maxlength() : 30,
+					mMaxValue = p && p.max? p.max: mlength;
 
 		switch(p.type){
 			case 'date':
@@ -46,7 +47,7 @@ var DATA = {
 				rtn=genNum(10);
 			break;	
 			case 'number':			
-				rtn = genNum(mlength);
+				rtn = genNum(mMaxValue);
 				//rtn = '123456789';
 			break;
 

@@ -305,7 +305,7 @@
 
 				$('body').removeClass('loading');
 
-			},250)
+			},25)
 
 			
 

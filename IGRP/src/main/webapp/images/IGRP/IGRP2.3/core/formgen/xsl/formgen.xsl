@@ -363,10 +363,10 @@
                                         <option value="java" selected="">Java</option>
                                       </select>
                                   </div>
-                                  <div class="col-md-6 form-group" item-name="table_name">
-                                      <label>Table Name</label>
-                                      <input rel="table" type="text" name="plsql_table" value="" class="text gen-page-setter form-control" maxlength="50"/>
-                                  </div>
+<!--                                   <div class="col-md-6 form-group" item-name="table_name"> -->
+<!--                                       <label>Table Name</label> -->
+<!--                                       <input rel="table" type="text" name="plsql_table" value="" class="text gen-page-setter form-control" maxlength="50"/> -->
+<!--                                   </div> -->
                                   <div class="col-md-6 form-group" item-name="package_db_name" required="required">
                                       <label>Package Name (DB)</label>
                                       <input rel="package" required="" type="text" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="50"/>
@@ -379,16 +379,16 @@
                                       <label>Subversion Path</label>
                                       <input rel="subversionpath" type="text" name="plsql_subv" value="" class="text gen-page-setter form-control"/>
                                   </div> -->
-                                  <div class="col-md-6 form-group" item-name="page_service">
-                                      <label>Service</label>
-                                      <div class="settings-service"></div>
-                                  </div>
-								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
-                                      <div  item-name="process">
-                                          <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/>
-                                          <span>Processo</span>
-                                      </div>
-                                  </div>
+<!--                                   <div class="col-md-6 form-group" item-name="page_service"> -->
+<!--                                       <label>Service</label> -->
+<!--                                       <div class="settings-service"></div> -->
+<!--                                   </div> -->
+<!-- 								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px"> -->
+<!--                                       <div  item-name="process"> -->
+<!--                                           <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/> -->
+<!--                                           <span>Processo</span> -->
+<!--                                       </div> -->
+<!--                                   </div> -->
                                   <!-- <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
                                       <div  item-name="replace">
                                           <input rel="replace" type="checkbox" name="plsql_replace" value="" class="checkbox gen-page-setter "/>
