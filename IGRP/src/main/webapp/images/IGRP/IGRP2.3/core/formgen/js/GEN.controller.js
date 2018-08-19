@@ -2895,7 +2895,7 @@ var GENERATOR = function(genparams){
 		$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
-			$('.form-gen-save').text("masda");   
+			$('.fa-cog').removeClass("hidden");   
 			var clicked = $(this);
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
@@ -3012,19 +3012,17 @@ var GENERATOR = function(genparams){
 							},
 							pError:function(request){
 								
-								notifyOptions.type = 'danger';
-								
+								notifyOptions.type = 'danger';								
 								$.notify({
-
 									message: request.statusText
-
 								},notifyOptions);
 								
 							}
 				        });
+							$('.fa-cog').addClass("hidden");   
 
 				    }catch(errr){
-				    	
+						$('.fa-cog').addClass("hidden");   
 				    	console.log("Error 3028: "+err);
 
 				    }
@@ -3050,8 +3048,9 @@ var GENERATOR = function(genparams){
 
 					if(__genType == 'plsql')
 						compileCallback();		
-
+					
 				}catch(err){
+					$('.fa-cog').addClass("hidden");   
 					console.log("Error in 3064: "+err);
 				}	
 
@@ -3063,7 +3062,6 @@ var GENERATOR = function(genparams){
 
 				});
 			}
-
 			return false;
 		});
 

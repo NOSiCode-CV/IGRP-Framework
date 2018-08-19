@@ -106,7 +106,7 @@ public class ImportJavaPage {
 			
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
 			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
-			 path =  warName + File.separator + config.getImageAppPath(this.page.getApplication()) + File.separator+folderPage.toLowerCase();
+			 path =  warName + File.separator + config.getImageAppPath(this.page.getApplication(),"2.3") + File.separator+folderPage.toLowerCase();
 			  
 			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.page.getApplication())+File.separator+folderPage.toLowerCase();
 			

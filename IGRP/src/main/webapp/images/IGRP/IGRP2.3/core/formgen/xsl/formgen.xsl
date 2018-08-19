@@ -71,7 +71,8 @@
                                   <xsl:with-param name="app" select="app" />
                                   <xsl:with-param name="linkextra" select="parameter" />
                               </xsl:call-template> 
-                              <xsl:value-of select="title"/>
+                              <i class="fa fa-cog fa-spin fa-fw hidden"></i><span><xsl:value-of select="title"/></span>
+                              
                           </a>
                       </li>
                   </xsl:for-each>
@@ -273,7 +274,7 @@
                                   </a>
                               </div>
                               
-                              <div class="pull-left gen-toolbar-items" rel="java">
+                              <div class="pull-right gen-toolbar-items" rel="java">
                                   <a href="{$path}/../../javadoc/index.html" class="btn btn-link" target="_newtab">                                  
                                    <i class="fa fa-file-text"></i>
                                   <span>Javadoc - Core.class</span>                                  
@@ -285,13 +286,13 @@
                               </div>
 
 
-                              <div class="btn btn-link pull-right gen-copy-to-clipboard" >
-                                 <i class="fa fa-clipboard"></i><span>Copiar</span>
-                              </div>
+<!--                               <div class="btn btn-link pull-right gen-copy-to-clipboard" > -->
+<!--                                  <i class="fa fa-clipboard"></i><span>Copiar</span> -->
+<!--                               </div> -->
                               <!-- <a class="btn btn-link pull-right gen-download-content" href="#">
                                  <i class="fa fa-upload"></i><span>Download</span>
                               </a> -->
-                              <a class="btn btn-link pull-right gen-page-setts-ctrl"  rel="plsql">
+                              <a class="btn btn-link pull-left gen-page-setts-ctrl"  rel="plsql">
                                   <i class="fa fa-gears"></i>
                                   <span>Settings</span>
                               </a>

@@ -155,7 +155,7 @@ public class ExportAppJava {
 			
 			//Get xml, json and xsl
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
-			String xslXMLJsonPath =  warName + File.separator + config.getImageAppPath(this.app) + File.separator;
+			String xslXMLJsonPath =  warName + File.separator + config.getImageAppPath(this.app,"2.3") + File.separator;
 				
 			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");			
 			

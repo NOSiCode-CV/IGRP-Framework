@@ -42,7 +42,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "180817";
+	public final String VERSION = "180819";
 	private ConfigApp configApp;
 	
 	public Config() {
@@ -370,7 +370,7 @@ public class Config {
 	}
 	
 	public String getImageAppPath(Action page) {
-		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP2.3"+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_HTTP+page.getPage().toLowerCase();
+		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+ page.getVersion()+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_HTTP+page.getPage().toLowerCase();
 	}
 	public String getBaseServerPahtXsl(Action page){
 		return this.getBasePathServerXsl() + this.getImageAppPath(page);
@@ -380,11 +380,11 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/") + this.getImageAppPath(page);
 	}
 	
-	public String getImageAppPath(Application app) {
-		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP2.3"+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+app.getDad().toLowerCase();
+	public String getImageAppPath(Application app,String version) {
+		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+ version+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+app.getDad().toLowerCase();
 	}
-	public String getBaseServerPahtXsl(Application app){
-		return this.getBasePathServerXsl() + this.getImageAppPath(app);
+	public String getBaseServerPahtXsl(Application app,String version){
+		return this.getBasePathServerXsl() + this.getImageAppPath(app, version);
 	}
 	
 	public String getBaseHttpServerPahtXsl(Action page){
@@ -403,7 +403,7 @@ public class Config {
 	}
 
 	public String getBasePahtXslWorkspace(Application app) {
-		return this.getWorkspace() + File.separator + this.getWebapp() + File.separator + this.getImageAppPath(app);
+		return this.getWorkspace() + File.separator + this.getWebapp() + File.separator + this.getImageAppPath(app,"2.3");
 	}
 	
 	public String getWebapp() {

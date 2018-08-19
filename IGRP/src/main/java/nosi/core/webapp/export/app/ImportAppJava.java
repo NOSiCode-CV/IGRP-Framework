@@ -105,7 +105,8 @@ public class ImportAppJava {
 			
 			//Get xml, json and xsl
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
-			path =  warName + File.separator + config.getImageAppPath(this.app) + File.separator + folderPage.toLowerCase();
+			//TODO: if change version must see the version inside json
+			path =  warName + File.separator + config.getImageAppPath(this.app, "2.3") + File.separator + folderPage.toLowerCase();
 			//path = this.config.getBaseServerPahtXsl(this.app) + File.separator + folderPage.toLowerCase();
 			pathWorkSpace = this.config.getBasePahtXslWorkspace(this.app)+File.separator+folderPage.toLowerCase();
 			

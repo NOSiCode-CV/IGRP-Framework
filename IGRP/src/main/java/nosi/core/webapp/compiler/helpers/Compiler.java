@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
+import static nosi.core.i18n.Translator.gt;
 
 
 /**
@@ -35,14 +36,21 @@ public class Compiler {
 		if(files!=null) {	
 			listFilesDirectory(this.config.getPathLib());
 			for(File file:files) {	
-				if(file!=null)
-					this.compile(file);
+				if(file!=null) {
+						this.compile(file);
+						if (this.hasError()) {
+							Map<String, List<ErrorCompile>> er = this.getErrors().stream()
+									.collect(Collectors.groupingBy(ErrorCompile::getFileName));
+							
+							for (String keyNameFileError : er.keySet()) {
+								 return new Gson().toJson(new MapErrorCompile(gt("Falha na compilação")+" - "+keyNameFileError,er));
+									
+							}
+							}
+				}
+				
 			}
-			if (this.hasError()) {
-				Map<String, List<ErrorCompile>> er = this.getErrors().stream()
-						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				 return new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
-			}
+			
 		}
 		return "";
 	}
@@ -100,12 +108,15 @@ public class Compiler {
 		for(String e:error.split(file.getName())){	
 			if(e.startsWith(":")){		
 				int start = e.indexOf(":");		
-				int start2 = e.indexOf("error:");		
+				int start2 = e.indexOf("error:");	
+				
 				if(start!=-1 && start2!=-1){		
 					 start += ":".length();		
-					 start2 += "error:".length();	
-					 ErrorCompile err = new ErrorCompile(e.substring(start2,e.indexOf("^")), Long.parseLong(e.substring(start,e.indexOf(":",start))), this.resolveName(file));
-					 this.errors.add(err);		
+					 // -7 because the line can be >1000 = 4index 
+					 final String beforeerror2dots = e.substring(e.indexOf(":",start2-7)+1);
+					 start2 += "error:".length();						
+					ErrorCompile err = new ErrorCompile(e.substring(start2,e.indexOf("^",start2)), Long.parseLong(beforeerror2dots.substring(0,beforeerror2dots.indexOf(":"))), this.resolveName(file));
+					 this.errors.add(err);						 
 				}		
 			}		
 		}				

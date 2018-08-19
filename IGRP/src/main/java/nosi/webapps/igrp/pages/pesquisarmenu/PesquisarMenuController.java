@@ -58,8 +58,7 @@ public class PesquisarMenuController extends Controller {
 		// If in a app, choose automatically the app in the combobox
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();
-			model.setAplicacao("" + idApp);
+			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();			
 		}	
 
 		// When onChange, it's always a post

@@ -55,7 +55,7 @@ public class ExportJavaPage {
 			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getAbsolutePath();
 			
 			//String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
-			String xslXMLJsonPath =  warName + File.separator + config.getImageAppPath(this.page.getApplication()) + File.separator;
+			String xslXMLJsonPath =  warName + File.separator + config.getImageAppPath(this.page.getApplication(),"2.3") + File.separator;
 			
 			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");
 			

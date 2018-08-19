@@ -184,7 +184,7 @@ public class PageController extends Controller {
 
 				if (action != null) {
 
-					createSvnRepo(action);
+					//createSvnRepo(action);
 
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
@@ -406,7 +406,7 @@ public class PageController extends Controller {
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
 		return this.renderView(
-				"<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(error) + "</message></messages>");
+				"<messages><message type=\"error\">" + StringEscapeUtils.escapeXml11(error) + "</message></messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {
