@@ -56,12 +56,11 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	private String link;
 	@Transient
 	private final String sqlMenu = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
-								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai,env_m.dad as dad_app_menu," 
+								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.version,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then true else false END as isSubMenuAndSuperMenu " 
 								 + " FROM tbl_profile prof INNER JOIN tbl_menu m_sub ON prof.type_fk=m_sub.id AND prof.type='MEN' " 
 								 + " LEFT JOIN tbl_menu m_super ON m_sub.self_fk=m_super.id " 
-								 + " LEFT JOIN tbl_env env_m ON env_m.id=m_sub.env_fk " 
 								 + " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " 
 								 + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
 								 + " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "  
@@ -178,11 +177,12 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public HashMap<String,List<MenuProfile>> getMyMenu() {
 		
 		HashMap<String,List<MenuProfile>> list = new HashMap<>();
+		String currentDad = Core.getCurrentDad();
 		Record row = Core.query(this.getConnectionName(),sqlMenu)
 						 .where("prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status")
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
-						 .addString("dad", Core.getParam("dad"))
+						 .addString("dad", currentDad )
 						 .addInt("status", 1)
 						 .orderBy(new String[] {"m_sub.orderby","ASC"})
 						 .getRecordList();
@@ -201,7 +201,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 			ms.setTitle(r.getString("descr"));
 			ms.setTarget(r.getString("target"));
 			ms.setStatus(r.getShort("status"));
-			ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+r.getString("dad_app_menu"));
+			ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
 			ms.setSubMenuAndSuperMenu(r.getBoolean("isSubMenuAndSuperMenu"));
 			
 			List<MenuProfile> value = new ArrayList<>();
