@@ -105,6 +105,11 @@ public class ResultSet {
 			return v!=null?v.toString():null;
 		}
 		
+		public Boolean getBoolean(String name) {
+			Object v = this.getObject(name);
+			return v!=null?(boolean)v:null;
+		}
+		
 		public Integer getInt(String name) {
 			Object v = this.getObject(name);
 			return v!=null? Core.toInt(v.toString()):null;

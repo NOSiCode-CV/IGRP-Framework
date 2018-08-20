@@ -111,6 +111,15 @@ public abstract class QueryHelper implements QueryInterface{
 	public QueryInterface addDate(String columnName,java.sql.Date value) {
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
+
+	public QueryInterface addDate(String columnName,java.util.Date value) {
+		return addDate(columnName, value, "yyyy-mm-dd");
+	}
+
+	public QueryInterface addDate(String columnName,java.util.Date value,String format) {
+		this.addColumn(columnName, value, java.util.Date.class,format);
+		return this;
+	}
 	
 	public QueryInterface addDate(String columnName,java.sql.Date value,String format) {
 		this.addColumn(columnName, value, java.sql.Date.class,format);

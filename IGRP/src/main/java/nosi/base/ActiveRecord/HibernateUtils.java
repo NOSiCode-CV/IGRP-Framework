@@ -118,12 +118,8 @@ public class HibernateUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String url = DatabaseConfigHelper.getUrl(config.getType_db(), config.getHost(), "" + config.getPort(), config.getName_db());
-		String driver = DatabaseConfigHelper.getDatabaseDriversExamples(config.getType_db());
-		String password = config.getPassword();
-		String user = config.getUsername();
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
-		return getSettings(driver, url, user, password, hibernateDialect);
+		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect);
 	}
 
 	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect) {
@@ -133,7 +129,7 @@ public class HibernateUtils {
         settings.put("hibernate.connection.isolation", "2");
         settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
         settings.put("hibernate.transaction.auto_close_session", "true");
-        
+//        settings.put("connection.pool_size", "30");
 		// HikariCP settings (values in milliseconds)
 //		ConfigHikariCP cHCp = new ConfigHikariCP();
 //		

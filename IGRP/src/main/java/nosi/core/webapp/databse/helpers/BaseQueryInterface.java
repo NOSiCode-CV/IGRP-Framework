@@ -70,6 +70,10 @@ public interface BaseQueryInterface {
 	
 	public QueryInterface addDate(String columnName,String value);
 	
+	public QueryInterface addDate(String columnName,java.util.Date value);
+	
+	public QueryInterface addDate(String columnName,java.util.Date value, String format);
+	
 	public QueryInterface addDate(String columnName,java.sql.Date value);
 	
 	public QueryInterface addDate(String columnName,java.sql.Date value,String format);

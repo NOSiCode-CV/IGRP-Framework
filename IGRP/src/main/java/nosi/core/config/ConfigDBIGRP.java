@@ -22,10 +22,9 @@ import nosi.core.webapp.helpers.FileHelper;
  */
 public class ConfigDBIGRP {
 
-	private int port;
+	private String urlConnection;
+	private String driverConnection;
 	private String type_db;
-	private String host;
-	private String name_db;
 	private String username;
 	private String password;
 	private String name;
@@ -34,10 +33,9 @@ public class ConfigDBIGRP {
 	
 	//Default configuration for h2
 	public ConfigDBIGRP() {
-		this.port = 0;
+		this.driverConnection = "";
+		this.driverConnection = "";
 		this.type_db = "h2";
-		this.host = "~";
-		this.name_db = "db_igrp_core";
 		this.username = "root";
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
@@ -45,32 +43,38 @@ public class ConfigDBIGRP {
 		this.path = new Config().getBasePathConfig()+"/"+"db"+"/";
 	}
 	
-	public void save(){
+	public boolean save(){
+		boolean r = true;
 		try {
 			File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 			FileOutputStream out = new FileOutputStream(file);
 			this.generateConfig().storeToXML(out, "store config igrp database");
-			out.close();	
-			this.saveIntoWorkSpace();
+			out.close();				
+			r = this.saveIntoWorkSpace();
 		} catch (IOException e) {
+			r = false;
 			e.printStackTrace();
 		}
+		return r;
 	}
 	
 	//Save config connection into worksapce
-	public void saveIntoWorkSpace(){
+	public boolean saveIntoWorkSpace(){
+		boolean r = true;
 		this.path = new Config().getWorkspace();
 		if(FileHelper.fileExists(this.path)){
 			try {				
-				this.path +=File.separator+ new Config().getResourcesConfigDB();
-				File file = new File(getClass().getClassLoader().getResource(path+fileName).getPath());
+				this.path +=File.separator+ new Config().getResourcesConfigDB();			
+				File file = new File(path+fileName);
 				FileOutputStream out = new FileOutputStream(file);
 				this.generateConfig().storeToXML(out, "store config igrp database");
 				out.close();			
 			} catch (IOException e) {
+				r = false;
 				e.printStackTrace();
 			}
 		}
+		return r;
 	}
   
 	public void load() throws Exception{
@@ -95,52 +99,33 @@ public class ConfigDBIGRP {
 			}
 		}
 		if(props!=null){
-			this.port = Integer.parseInt(props.getProperty("port"));
 			this.type_db = props.getProperty("type_db");
-			this.host = props.getProperty("hostname");
-			this.name_db = props.getProperty("dbname");
 			this.username = props.getProperty("username");
 			this.password = props.getProperty("password");
 			this.name = props.getProperty("connectionName");
+			this.driverConnection = props.getProperty("driverConnection");
+			this.urlConnection = props.getProperty("urlConnection");
 		}
 	}
 	
 	private Properties generateConfig(){
 		Properties props = new Properties();
-		props.setProperty("port", ""+this.port);
 		props.setProperty("type_db", this.type_db);
-		props.setProperty("hostname", this.host);
-		props.setProperty("dbname", this.name_db);
 		props.setProperty("username", this.username);
 		props.setProperty("password", this.password);
 		props.setProperty("connectionName", this.name);
+		props.setProperty("driverConnection", this.driverConnection);
+		props.setProperty("urlConnection", this.urlConnection);
 		return props;
 	}
 
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
 	public String getType_db() {
 		return type_db;
 	}
 	public void setType_db(String type_db) {
 		this.type_db = type_db;
 	}
-	public String getHost() {
-		return host;
-	}
-	public void setHost(String host) {
-		this.host = host;
-	}
-	public String getName_db() {
-		return name_db;
-	}
-	public void setName_db(String name_db) {
-		this.name_db = name_db;
-	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -168,17 +153,32 @@ public class ConfigDBIGRP {
 		this.path = path;
 	}
 
+	public String getUrlConnection() {
+		return urlConnection;
+	}
+
+	public void setUrlConnection(String urlConnection) {
+		this.urlConnection = urlConnection;
+	}
+
+	public String getDriverConnection() {
+		return driverConnection;
+	}
+
+	public void setDriverConnection(String driverConnection) {
+		this.driverConnection = driverConnection;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "ConfigDBIGRP [port=" + port + ", type_db=" + type_db + ", host=" + host + ", name_db="
-				+ name_db + ", username=" + username + ", password=" + password + ", name=" + name + ", fileName="
+		return "ConfigDBIGRP [urlConnection=" + urlConnection + ", driverConnection=" + driverConnection + ", type_db="
+				+ type_db + ", username=" + username + ", password=" + password + ", name=" + name + ", fileName="
 				+ fileName + ", path=" + path + "]";
 	}
 
 	public boolean validate() {
-		String url = DatabaseConfigHelper.getUrl(this.getType_db(),this.getHost(),""+this.getPort(), this.getName_db());
-    	String driver = DatabaseConfigHelper.getDatabaseDriversExamples(this.getType_db());
-    	return this.validate(url, driver);
+    	return this.validate(this.getUrlConnection(), this.getDriverConnection());
 	}
 	
 	public boolean validate(String url,String driver) {

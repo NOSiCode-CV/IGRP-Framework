@@ -32,7 +32,7 @@ public class DatabaseConfigHelper {
 			case "ibm":
 				return "jdbc:db2://" + host + ":" + port +"/" + db_name;
 			case "informix":
-				return "jdbc:informix-sqli://" + host + ":" + port + "/" + db_name; //+ ":INFORMIXSERVER=demo_on";
+				return "jdbc:informix-sqli://" + host + ":" + port + "/" + db_name;
 		}
 		return "";
 	}

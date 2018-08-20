@@ -52,6 +52,21 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	private Menu menu;	
 	@Transient
 	private Organization organization;
+	@Transient
+	private String link;
+	@Transient
+	private final String sqlMenu = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
+								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai,env_m.dad as dad_app_menu," 
+								 + " ac.page,ac.action,ac.version,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
+								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then true else false END as isSubMenuAndSuperMenu " 
+								 + " FROM tbl_profile prof INNER JOIN tbl_menu m_sub ON prof.type_fk=m_sub.id AND prof.type='MEN' " 
+								 + " LEFT JOIN tbl_menu m_super ON m_sub.self_fk=m_super.id " 
+								 + " LEFT JOIN tbl_env env_m ON env_m.id=m_sub.env_fk " 
+								 + " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " 
+								 + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
+								 + " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "  
+								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk ";
+	
 	public Menu(){}
 	
 	public Menu(String descr, int orderby, int status,int flg_base,String target, Action action,Application application, Menu menu) {
@@ -160,52 +175,43 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	}
 	
 
-	public HashMap<String,List<Menu>> getMyMenu() {
-		HashMap<String,List<Menu>> list = new HashMap<>();
-		String sql = "select * from glb_v_prof_menu where status=1 and org_fk=:org_fk and prof_type_fk=:prof_type_fk and env_fk_prof_type=:env_fk_prof_type and id in (select id from glb_v_org_menu where org_fk=:org_fk)";
-		Application app = new Application().findByDad(Core.getParam("dad"));
-		Record row = Core.query(this.getConnectionName(),sql)
+	public HashMap<String,List<MenuProfile>> getMyMenu() {
+		
+		HashMap<String,List<MenuProfile>> list = new HashMap<>();
+		Record row = Core.query(this.getConnectionName(),sqlMenu)
+						 .where("prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status")
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
-						 .addInt("env_fk_prof_type", app.getId())
-						 .addInt("org_fk", Core.getCurrentOrganization())
+						 .addString("dad", Core.getParam("dad"))
+						 .addInt("status", 1)
+						 .orderBy(new String[] {"m_sub.orderby","ASC"})
 						 .getRecordList();
 		row.RowList.forEach(r->{
-			Menu m = new Menu();
-			m.setId(r.getInt("self_fk"));
-			m.setDescr(r.getString("descr"));
-			Menu selfM = new Menu();
-			selfM.setId(r.getInt("id"));
-			selfM.setDescr(r.getString("descr_menu"));
-			selfM.setOrderby(r.getInt("orderby"));
-			Action ac = new Action();
-			Application ap = new Application();
-			ap = ap.findOne(r.getInt("env_fk"));
-			ac = ac.findOne(r.getInt("action_fk"));
-			m.setAction(ac);
-			selfM.setAction(ac);
-			selfM.setApplication(ap);
-			selfM.setStatus(r.getInt("status"));
-			selfM.setTarget(r.getString("target"));
-			selfM.setFlg_base(r.getInt("flg_base"));
-			m.setMenu(selfM);	
-			List<Menu> value = new ArrayList<>();
-			value.add(m);
-			if(list.containsKey(m.getDescr())){
-				value.addAll(list.get(m.getDescr()));
+			//Get Menu Pai
+			MenuProfile mp = new MenuProfile();
+			mp.setId(r.getInt("id"));
+			mp.setOrder(r.getInt("orderby"));
+			mp.setTitle(r.getString("descr_menu_pai"));
+			mp.setTarget("#");
+			mp.setSubMenuAndSuperMenu(r.getBoolean("isSubMenuAndSuperMenu"));
+			//Get subMenu
+			MenuProfile ms = new MenuProfile();
+			ms.setId(r.getInt("id"));
+			ms.setOrder(r.getInt("orderby"));
+			ms.setTitle(r.getString("descr"));
+			ms.setTarget(r.getString("target"));
+			ms.setStatus(r.getShort("status"));
+			ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+r.getString("dad_app_menu"));
+			ms.setSubMenuAndSuperMenu(r.getBoolean("isSubMenuAndSuperMenu"));
+			
+			List<MenuProfile> value = new ArrayList<>();
+			value.add(ms);
+			if(list.containsKey(r.getString("descr_menu_pai"))){
+				value.addAll(list.get(r.getString("descr_menu_pai")));
 			}
-			list.put(m.getDescr(), value);
+			list.put(r.getString("descr_menu_pai"), value);
 		});
 		return list;
-	}
-
-	@Transient
-	public String getLink() {
-		if(this.getAction()!=null){
-			String dad = this.getAction().getApplication().getDad().toLowerCase();
-			return EncrypDecrypt.encrypt(dad+"/"+this.getAction().getPage()+"/"+this.getAction().getAction())+"&dad="+Core.getCurrentDad();
-		}
-		return null;
 	}
 
 	public HashMap<Integer, String> getListPrincipalMenus() {
@@ -235,4 +241,56 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	}
 	
 	
+	public static class MenuProfile{
+		private Integer id;
+		private String title;
+		private String link;
+		private short status;
+		private String target;
+		private int order;
+		private boolean isSubMenuAndSuperMenu;
+		
+		public Integer getId() {
+			return id;
+		}
+		public void setId(Integer id) {
+			this.id = id;
+		}
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getLink() {
+			return link;
+		}
+		public void setLink(String link) {
+			this.link = link;
+		}
+		public short getStatus() {
+			return status;
+		}
+		public void setStatus(short status) {
+			this.status = status;
+		}
+		public String getTarget() {
+			return target;
+		}
+		public void setTarget(String target) {
+			this.target = target;
+		}
+		public int getOrder() {
+			return order;
+		}
+		public void setOrder(int order) {
+			this.order = order;
+		}
+		public boolean isSubMenuAndSuperMenu() {
+			return isSubMenuAndSuperMenu;
+		}
+		public void setSubMenuAndSuperMenu(boolean isSubMenuAndSuperMenu) {
+			this.isSubMenuAndSuperMenu = isSubMenuAndSuperMenu;
+		}
+	}
 }
