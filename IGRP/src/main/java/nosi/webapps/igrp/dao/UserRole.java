@@ -34,6 +34,16 @@ public class UserRole extends BaseActiveRecord<UserRole> implements Serializable
 	private User user;
 	
 	private String role_name;
+
+	public UserRole() {
+		super();
+	}
+	
+	public UserRole(User user, String role_name) {
+		super();
+		this.user = user;
+		this.role_name = role_name;
+	}
 	
 	public Integer getId() {
 		return id;

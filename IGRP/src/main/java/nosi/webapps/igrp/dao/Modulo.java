@@ -41,6 +41,18 @@ public class Modulo extends BaseActiveRecord<Modulo> implements Serializable{
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="env_fk"), nullable=false)
 	private Application application;
 
+	
+	
+	public Modulo() {
+		super();
+	}
+
+	public Modulo(String name, Application application) {
+		super();
+		this.name = name;
+		this.application = application;
+	}
+
 	public Integer getId() {
 		return id;
 	}

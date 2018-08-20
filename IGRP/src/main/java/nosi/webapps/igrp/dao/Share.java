@@ -43,6 +43,21 @@ public class Share extends BaseActiveRecord<Share> implements Serializable{
 	private int type_fk;
 	private int status;
 	
+	
+	
+	public Share() {
+		super();
+	}
+
+	public Share(Application env, Application owner, String type, int type_fk, int status) {
+		super();
+		this.env = env;
+		this.owner = owner;
+		this.type = type;
+		this.type_fk = type_fk;
+		this.status = status;
+	}
+
 	public Integer getId() {
 		return id;
 	}

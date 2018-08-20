@@ -181,6 +181,10 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 		}
 		return lista;
 	}
+
+	public ProfileType findByCode(String code) {
+		return this.find().andWhere("code", "=",code).one();
+	}
 	
 	
 }
