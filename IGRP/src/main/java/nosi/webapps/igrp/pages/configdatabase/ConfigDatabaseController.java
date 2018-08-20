@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -60,7 +58,6 @@ public class ConfigDatabaseController extends Controller {
 			lista_tabela.add(tabela);
 		}	
 		if (Core.isInt(model.getAplicacao()) ) {
-			view.aplicacao.setQuery(Core.query(this.getConfig().getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);			
 			if(Core.isNotNull(model.getTipo_base_dados())) {
@@ -110,7 +107,7 @@ public class ConfigDatabaseController extends Controller {
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
-			if (!MigrationIGRP.validate(m) || config.getName().equalsIgnoreCase(this.getConfig().getBaseConnection())) {
+			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(this.getConfig().getBaseConnection())) {
 				Core.setMessageError(gt("Falha na conexão com a base de dados"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
