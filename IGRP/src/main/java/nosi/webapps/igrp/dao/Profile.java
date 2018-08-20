@@ -65,7 +65,9 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
         return Objects.hash(this.user,this.organization,this.profileType,this.type,this.type_fk);
     }
     
-	public Profile(){}
+	public Profile(){
+		super();
+	}
 	
 	public Profile(Integer type_fk, String type, ProfileType profileType, User user, Organization organization) {
 		super();

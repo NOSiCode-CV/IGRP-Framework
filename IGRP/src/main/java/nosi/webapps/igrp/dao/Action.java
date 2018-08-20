@@ -299,4 +299,8 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 		this.modulo = modulo;
 	}
 
+	public Action findByPage(String page, String dad) {
+		return this.find().andWhere("page", "=",page).andWhere("application.dad", "=",dad).one();
+	}
+
 }

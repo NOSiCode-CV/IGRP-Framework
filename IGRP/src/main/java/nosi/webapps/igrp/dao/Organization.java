@@ -21,7 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -140,6 +139,11 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		this.profiles = profiles;
 	}
 
+	@Override
+	public String toString() {
+		return "Organization [id=" + id + ", code=" + code + ", name=" + name + ", status=" + status + "]";
+	}
+
 	public HashMap<String, String> getListMyOrganizations() {
 		HashMap<String, String> lista = new HashMap<>();
 		lista.put("", "-- Selecionar --");
@@ -191,8 +195,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 				.findAll(pr.getCriteria().where(pr.getBuilder().equal(pr.getRoot().get("type"), "MEN"),
 						pr.getBuilder().equal(pr.getRoot().get("organization"), org),
 						pr.getBuilder().equal(pr.getRoot().get("profileType"), 0)));
-		List<Menu> menus = new ArrayList<>();
-		Application a = new Application();				
+		List<Menu> menus = new ArrayList<>();			
 		for (Profile p : profiles) {			
 			Menu e = new Menu().findOne(p.getType_fk());			
 			e.setDescr(e.getApplication().getId()==env_fk?gt(e.getDescr()):setMenuDescr(e));				
@@ -220,5 +223,9 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 			trans.add(new Transaction().findOne(p.getType_fk()));
 		}
 		return trans;
+	}
+
+	public Organization findByCode(String code) {
+		return this.find().andWhere("code", "=",code).one();
 	}
 }
