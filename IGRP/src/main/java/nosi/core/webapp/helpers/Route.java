@@ -67,7 +67,7 @@ public class Route {
 		String qs = Igrp.getInstance().getRequest().getQueryString();
 		String r = Igrp.getInstance().getRequest().getParameter("r");
 		
-		if(r != null && qs != null) 
+		if(r != null && qs != null && EncrypDecrypt.getWakandaList(r)) 
 			qs = qs.replace(r, EncrypDecrypt.encrypt(r));
 		
 		String route = new String(Igrp.getInstance().getRequest().getRequestURL() + "?" + qs);
