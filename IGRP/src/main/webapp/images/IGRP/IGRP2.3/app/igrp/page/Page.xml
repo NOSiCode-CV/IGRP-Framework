@@ -59,11 +59,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Rem sit magna sit sit</value>
+                    <value>Magna voluptatem aliqua natus perspiciatis</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Laudantium rem consectetur elit consectetur</value>
+                    <value>Sit adipiscing mollit elit aliqua</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label>Ativo</label>
@@ -137,7 +137,7 @@
                     </list>
                 </modulo>
                 <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="">
-                    <label>Modulo</label>
+                    <label>Módulo</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </novo_modulo>
                 <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="" tags="false">

@@ -58,6 +58,7 @@ public class ConfigDatabaseController extends Controller {
 			lista_tabela.add(tabela);
 		}	
 		if (Core.isInt(model.getAplicacao()) ) {
+			view.aplicacao.setQuery(Core.query(this.getConfig().getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);			
 			if(Core.isNotNull(model.getTipo_base_dados())) {

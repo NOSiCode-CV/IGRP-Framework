@@ -1,8 +1,8 @@
 package nosi.core.webapp.databse.helpers;
 
 import static nosi.core.i18n.Translator.gt;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.LinkedHashMap;
 
 /**
  * Emanuel
@@ -114,14 +114,14 @@ public class DatabaseConfigHelper {
 		}
 		return "";		
 	}
-	public static Map<String,String> getDatabaseTypes() {
-		Map<String,String> dbTypes = new HashMap<>();
+	public static LinkedHashMap<String,String> getDatabaseTypes() {
+		LinkedHashMap<String,String> dbTypes = new LinkedHashMap<>();
 		dbTypes.put(null, gt("-- Selecionar --"));
 		dbTypes.put("postgresql", "Postgresql");
-		dbTypes.put("h2", "H2");
-		dbTypes.put("oracle", "Oracle");		
+		dbTypes.put("oracle", "Oracle");				
 		dbTypes.put("mysql", "MySql");	
 		dbTypes.put("mssql", "Microsoft SQL Server");
+		dbTypes.put("h2", "H2");
 		dbTypes.put("hsqldb", "HSQLDB");
 		dbTypes.put("sybase", "Sybase ASE");
 		dbTypes.put("derby", "Apache Derby");

@@ -2427,6 +2427,20 @@ var GENERATOR = function(genparams){
 			}
 			return false;
 		});
+//		Change theme of the codemirror
+		$('#code-mirror-theme-selector').on('change',function(){
+			console.log("clicou");
+			var activeEditor = getActiveEditor();		
+			if(activeEditor){
+				console.log("entou");
+				activeEditor.setOption('theme',$(this).val());	
+				}	
+
+			});
+		
+		
+		
+		
 		//subversionpathERSION APPLET CONTROLLER
 		$('#gen-execute-subv').on('click',function(){
 			setPLSQLValue({
@@ -2966,9 +2980,10 @@ var GENERATOR = function(genparams){
 									GEN.removeEditorsErrors(true);
 								
 									var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
-									
+									var nomsg = true; 
+									$('.fa-cog').addClass("hidden");
 									$.each(msgs,function(i,msg){
-										
+										nomsg = false; 
 										var mtype  	 = $(msg).attr('type'),
 											vtype    = mtype == 'error' ? 'danger' : mtype,
 											jsonStr  = $(msg).text(),
@@ -2984,7 +2999,15 @@ var GENERATOR = function(genparams){
 										
 										GEN.showEditorsErrors(jsonRes);
 									});
-
+									if(nomsg){
+										console.log("no msg");
+										notifyOptions.type='warning';
+											$.notify({													
+											message:"Check your login session! No response from server!" ,
+											
+										},notifyOptions);
+									}
+								
 									GEN.resizeCodeMirrorArea();
 
 								}else
@@ -3019,7 +3042,7 @@ var GENERATOR = function(genparams){
 								
 							}
 				        });
-							$('.fa-cog').addClass("hidden");   
+							
 
 				    }catch(errr){
 						$('.fa-cog').addClass("hidden");   
@@ -3146,6 +3169,7 @@ var GENERATOR = function(genparams){
 			}
 			return false;
 		});
+		
 
 		//before unload
 		window.onbeforeunload = function() {

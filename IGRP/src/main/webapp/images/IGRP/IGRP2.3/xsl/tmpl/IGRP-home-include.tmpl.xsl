@@ -308,7 +308,7 @@
  
      
    <!-- FontAwesome -->
-    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css" media="none" onload="if(media!='all')media='all'"/>
+    <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'"/>
      
 	
      <!-- THEME CSS -->
