@@ -36,6 +36,7 @@ import org.apache.commons.io.IOUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import nosi.core.config.Config;
 import nosi.core.cversion.Svn;
 import nosi.core.webapp.Igrp;
@@ -262,11 +263,12 @@ public class EnvController extends Controller {
 	
 	
 
-	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
+	public Response actionEditar() throws IllegalArgumentException, IllegalAccessException, IOException{
 		
 		Env model = new Env();		
 		Application aplica_db = new Application();
-		aplica_db = aplica_db.findOne(Integer.parseInt(idAplicacao));
+		int idAplicacao = Core.getParamInt("p_id");
+		aplica_db = aplica_db.findOne(idAplicacao);
 		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
 		model.setName(aplica_db.getName());
 		model.setDescription(aplica_db.getDescription());
@@ -282,10 +284,9 @@ public class EnvController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			
-			aplica_db.setDad(model.getDad());
+			//aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());	
-			
 			aplica_db.setExternal(model.getFlg_external());
 			if(aplica_db.getExternal() == 1) 
 				if(Core.isNotNull(model.getHost()))
@@ -318,19 +319,18 @@ public class EnvController extends Controller {
 				Core.setMessageSuccess();
 			}else{
 				Core.setMessageError();
-				return this.forward("igrp_studio", "env","editar&id=" + idAplicacao);
+				return this.forward("igrp_studio", "env","editar&p_id=" + idAplicacao);
 			}
 		}	
 		EnvView view = new EnvView();
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
     	view.dad.propertie().setProperty("disabled", "true");
-		view.btn_gravar.setLink("igrp_studio", "env", "editar&id=" + idAplicacao);
-		view.action_fk.setValue(new Action().getListActions(Integer.parseInt(idAplicacao)));
+		view.btn_gravar.setLink("igrp_studio", "env", "editar&p_id=" + idAplicacao);
+		view.action_fk.setValue(new Action().getListActions(idAplicacao));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
-      
 		view.setModel(model);
 		return this.renderView(view);
 	
