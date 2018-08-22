@@ -1,8 +1,5 @@
 package nosi.core.gui.fields;
 
-import java.util.Map;
-
-import nosi.core.webapp.Model;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**

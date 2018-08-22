@@ -42,53 +42,56 @@ public class CRUDGeneratorController extends Controller {
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
-		/*----#start-code(index)----*/
-		List<CRUDGenerator.Table_1> data = new ArrayList<>();    	 
+		/*----#start-code(index)----*/	 
 		view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.data_source.setValue(new Config_env().getListEnv(Core.toInt(model.getAplicacao(),-1)));			
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
-		int i=1;
-		Config_env config = new Config_env()
-								.find()
-								.andWhere("id","=",Core.toInt(model.getData_source(),-1))
-								.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
-								.one();		
-		Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
-	
-		if(schemasMap.size() > 1){
-			if(schemasMap.size() == 2) {
-				model.setSchema(schemasMap.keySet().toArray()[1].toString());
-			}
-			view.schema.setVisible(true);
-			view.schema.setValue(schemasMap);
-			if(Core.isNotNull(model.getSchema())) {
-				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
-				for(String table:list) {
-					CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
-					t.setCheck_table(i);
-					t.setCheck_table_check(-1);
-					t.setTable_name(table);
-					data.add(t);
-					i++;
+		if(Core.isNotNull(model.getAplicacao())) {
+			if(Core.isNotNull(model.getData_source())) {
+				List<CRUDGenerator.Table_1> data = new ArrayList<>();    
+				int i=1;
+				Config_env config = new Config_env()
+										.find()
+										.andWhere("id","=",Core.toInt(model.getData_source(),-1))
+										.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
+										.one();		
+				Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
+			
+				if(schemasMap.size() > 1){
+					if(schemasMap.size() == 2) {
+						model.setSchema(schemasMap.keySet().toArray()[1].toString());
+					}
+					view.schema.setVisible(true);
+					view.schema.setValue(schemasMap);
+					if(Core.isNotNull(model.getSchema())) {
+						List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
+						for(String table:list) {
+							CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
+							t.setCheck_table(i);
+							t.setCheck_table_check(-1);
+							t.setTable_name(table);
+							data.add(t);
+							i++;
+						}
+					}
+				}else {
+					List<String> list = DatabaseMetadaHelper.getTables(config,null);
+					for(String table:list) {
+						CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
+						t.setCheck_table(i);
+						t.setCheck_table_check(-1);
+						t.setTable_name(table);
+						data.add(t);
+						i++;
+					}
 				}
+				
+				view.table_1.addData(data);
 			}
-		}else {
-			List<String> list = DatabaseMetadaHelper.getTables(config,null);
-			for(String table:list) {
-				CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
-				t.setCheck_table(i);
-				t.setCheck_table_check(-1);
-				t.setTable_name(table);
-				data.add(t);
-				i++;
-			}
+			view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+model.getAplicacao()));
 		}
-		
-		view.table_1.addData(data);
-		view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+model.getAplicacao()));
-
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

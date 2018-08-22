@@ -38,7 +38,7 @@ public class Config {
 	private final String LINK_XSL_JSON_GENERATOR = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//Generator JSON for CRUD pages
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
 	public final String PREFIX_TASK_NAME = "Task";
-	public final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
+	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
@@ -450,12 +450,12 @@ public class Config {
 		}
 	}
 
-	public String getBaseConnection() {
+	public static String getBaseConnection() {
 		return "hibernate-igrp-core";
 	}
 
 
-	public String getH2IGRPBaseConnection() {
+	public static String getH2IGRPBaseConnection() {
 		return "hibernate-igrp-core-h2";
 	}
 	
