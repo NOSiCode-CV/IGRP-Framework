@@ -62,13 +62,6 @@ public class LoginController extends Controller {
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		Properties settings_ = loadOAuth2("sso", "oauth2.xml");
-		if(!Igrp.getInstance().getUser().isAuthenticated() && settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
-				settings_.getProperty("igrp.env.nhaLogin.url") != null && !settings_.getProperty("igrp.env.nhaLogin.url").isEmpty()
-				) {
-			return redirectToUrl(settings_.getProperty("igrp.env.nhaLogin.url"));
-		}
-		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
 		String client_id = Igrp.getInstance().getRequest().getParameter("client_id"); 
@@ -92,6 +85,13 @@ public class LoginController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
 			}
 			return redirect("igrp", "login", "login");
+		}
+		
+		Properties settings_ = loadOAuth2("sso", "oauth2.xml");
+		if(!Igrp.getInstance().getUser().isAuthenticated() && settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
+				settings_.getProperty("igrp.env.nhaLogin.url") != null && !settings_.getProperty("igrp.env.nhaLogin.url").isEmpty()
+				) {
+			return redirectToUrl(settings_.getProperty("igrp.env.nhaLogin.url"));
 		}
 		
 		// first 
@@ -220,7 +220,7 @@ public class LoginController extends Controller {
 		if(settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
-			String _url = settings.getProperty("igrp.env.nhaLogin.url")/*.replace("igrp/login/login", "igrp/login/logout")*/;
+			String _url = settings.getProperty("igrp.env.nhaLogin.url").replace("igrp/login/login", "igrp/login/logout");
 			return redirectToUrl(_url);
 		}
 		
