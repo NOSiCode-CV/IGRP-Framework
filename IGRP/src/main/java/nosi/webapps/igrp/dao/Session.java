@@ -276,5 +276,14 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		if(session!=null){session.setEndTime(System.currentTimeMillis());}
 		return session!=null && session.getApplication()!=null && session.update()!=null;
 	}
+
+	@Override
+	public String toString() {
+		return "Session [id=" + id + ", sessionId=" + sessionId + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", ipAddress=" + ipAddress + ", userName=" + userName + ", target=" + target + ", https=" + https
+				+ ", sessionOldId=" + sessionOldId + ", host=" + host + ", hostName=" + hostName + ", mediaType="
+				+ mediaType + ", url=" + url + ", user=" + user + ", application=" + application + ", profileType="
+				+ profileType + ", organization=" + organization + "]";
+	}
 	
 }

@@ -56,8 +56,6 @@ public class IgrpOAuth2SSO extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private static final String igrpPath = "app/webapps?r=igrp/home/index";
-   
 	public IgrpOAuth2SSO() {
         super();
     }
@@ -67,9 +65,9 @@ public class IgrpOAuth2SSO extends HttpServlet {
 		
 		String _url = "";
 		String param = request.getParameter("_url");
-		synchronized (igrpPath) {
-			_url = _url + igrpPath;
-		}
+		
+		_url = _url +  "app/webapps?r=igrp/home/index";
+					
 		_url =  (param != null &&  !param.isEmpty() ? _url + "&_url=" + param : _url + "");
 		
 		if(_u != null && !_u.isEmpty()) {
@@ -128,35 +126,10 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 					
 					Properties p = this.load("db", "db_igrp_config.xml");
-					String driverName = "";
-					String dns = "";
-					switch(p.getProperty("type_db")) {
-						case "h2": 
-							driverName = "org.h2.Driver";
-							dns = "jdbc:h2:" + p.getProperty("hostname") + (Integer.parseInt(p.getProperty("port")) == 0 ? "" : ":" + p.getProperty("port")) + "/" + p.getProperty("dbname");
-						break;
-						case "mysql": 
-							driverName = "com.mysql.jdbc.Driver";
-							dns = "jdbc:mysql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "3306" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-						break;
-						case "postgresql": 
-							driverName = "org.postgresql.Driver"; 
-							dns = "jdbc:postgresql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "5432" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-						break;
-						case "sqlserver": 
-							driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
-							//dns = "jdbc:sqlserver://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "1433" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-						break;
-						case "oracle": 
-							driverName = "oracle.jdbc.driver.Driver"; 
-							dns = "jdbc:oracle:thin:" + p.getProperty("username") + "/" + p.getProperty("password") + "@" + p.getProperty("hostname") + ":" + p.getProperty("port") + ":" + p.getProperty("dbname");
-						break;
-						default: {
-							response.sendError(500, "Invalid Database configuration ... so we block the request !");
-							return;
-						}
-					}
-				
+					
+					String driverName = p.getProperty("driverConnection", "");
+					String dns = p.getProperty("urlConnection", "");
+					
 					Connection conn = null;
 					
 					try {

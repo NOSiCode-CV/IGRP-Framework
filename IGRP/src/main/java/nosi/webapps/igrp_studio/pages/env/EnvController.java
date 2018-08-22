@@ -371,7 +371,9 @@ public class EnvController extends Controller {
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			String page = profile.getOrganization().getApplication().getDad().toLowerCase()+"/default-page/index&title="+profile.getOrganization().getApplication().getName();
+			
+			String page = "tutorial/DefaultPage/index&title="+profile.getOrganization().getApplication().getName();
+			
 			if(profile.getOrganization().getApplication().getAction()!=null){
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? ac.getApplication().getDad().toLowerCase()+"/" + ac.getPage()+"/"+ac.getAction():page;
