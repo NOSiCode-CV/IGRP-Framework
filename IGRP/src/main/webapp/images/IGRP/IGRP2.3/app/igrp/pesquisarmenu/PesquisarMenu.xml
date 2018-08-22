@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,6 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=9</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Gestão de Menu</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -43,7 +46,7 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -69,7 +72,7 @@
             </fields>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="btn_novo">
+            <item type="specific" code="" rel="btn_novo" custom_return="true">
                 <title>Novo</title>
                 <app>igrp</app>
                 <page>NovoMenu</page>
@@ -105,11 +108,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Deserunt lorem mollit labore laudantium dolor elit labore aliqua sed accusantium adipiscing natus pe</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Natus laudantium lorem consectetur anim aliqua dolor doloremque voluptatem consectetur sit voluptate</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <table_titulo name="p_table_titulo">Voluptatem dolor stract ut unde sit unde stract labore rem officia consectetur deserunt accusantium</table_titulo>
-                        <pagina name="p_pagina">Natus officia sit deserunt labore lorem dolor totam sit magna laudantium doloremque officia labore d</pagina>
+                        <table_titulo name="p_table_titulo">Labore natus consectetur aliqua ipsum accusantium rem lorem labore totam dolor aperiam stract dolor</table_titulo>
+                        <pagina name="p_pagina">Doloremque voluptatem amet doloremque ut lorem amet deserunt rem ut perspiciatis aperiam elit unde a</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -119,11 +122,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Officia perspiciatis lorem stract omnis amet sit natus unde omnis natus totam natus sit magna mollit</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Voluptatem amet deserunt amet unde doloremque ipsum aperiam consectetur unde magna aliqua officia ac</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <table_titulo name="p_table_titulo">Aliqua laudantium deserunt unde stract amet totam dolor elit mollit sit iste doloremque sit stract a</table_titulo>
-                        <pagina name="p_pagina">Officia mollit accusantium omnis aliqua perspiciatis doloremque iste voluptatem laudantium aliqua de</pagina>
+                        <table_titulo name="p_table_titulo">Officia unde ut sit iste ipsum mollit rem ipsum omnis mollit accusantium deserunt mollit unde aperia</table_titulo>
+                        <pagina name="p_pagina">Amet iste laudantium officia rem anim accusantium magna dolor lorem voluptatem magna accusantium sed</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -133,11 +136,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Accusantium labore officia voluptatem labore natus mollit labore unde adipiscing accusantium ut dolo</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Magna aperiam lorem sed sit aliqua mollit sit anim lorem labore totam accusantium anim labore sit pe</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <table_titulo name="p_table_titulo">Sed totam officia ut iste mollit accusantium labore sit amet aperiam natus doloremque aperiam magna</table_titulo>
-                        <pagina name="p_pagina">Laudantium iste dolor officia mollit accusantium sit ut amet totam rem omnis sit omnis dolor omnis p</pagina>
+                        <table_titulo name="p_table_titulo">Doloremque dolor aperiam ipsum deserunt natus totam aperiam deserunt omnis sit mollit adipiscing str</table_titulo>
+                        <pagina name="p_pagina">Aliqua lorem ipsum aliqua sit mollit aperiam dolor sit aliqua deserunt totam natus iste consectetur</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -147,11 +150,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Magna ipsum lorem stract officia deserunt omnis perspiciatis doloremque stract doloremque magna dese</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Iste mollit aperiam natus ut sit ipsum magna dolor amet doloremque natus sed totam labore accusantiu</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <table_titulo name="p_table_titulo">Unde aperiam lorem sit aliqua ut elit consectetur labore laudantium ut stract aperiam mollit aliqua</table_titulo>
-                        <pagina name="p_pagina">Anim consectetur doloremque sed accusantium officia iste unde ut aliqua doloremque consectetur labor</pagina>
+                        <table_titulo name="p_table_titulo">Deserunt dolor unde elit ipsum deserunt omnis dolor sit elit deserunt accusantium iste ut elit dolor</table_titulo>
+                        <pagina name="p_pagina">Mollit anim amet perspiciatis voluptatem aperiam stract perspiciatis totam mollit natus sit amet mag</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -161,11 +164,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t1_menu_principal name="p_t1_menu_principal">Deserunt consectetur lorem magna labore aliqua dolor ipsum deserunt adipiscing totam stract consecte</t1_menu_principal>
+                        <t1_menu_principal name="p_t1_menu_principal">Omnis deserunt ipsum omnis elit rem sit elit anim rem laudantium consectetur lorem elit omnis sit na</t1_menu_principal>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <table_titulo name="p_table_titulo">Mollit iste perspiciatis deserunt rem laudantium aliqua consectetur rem sed voluptatem mollit stract</table_titulo>
-                        <pagina name="p_pagina">Doloremque labore rem stract laudantium mollit aliqua natus lorem ipsum totam ipsum amet stract dese</pagina>
+                        <table_titulo name="p_table_titulo">Adipiscing laudantium perspiciatis mollit aperiam mollit laudantium adipiscing consectetur unde offi</table_titulo>
+                        <pagina name="p_pagina">Aperiam unde accusantium adipiscing aliqua omnis amet perspiciatis lorem sit aliqua elit stract aper</pagina>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>

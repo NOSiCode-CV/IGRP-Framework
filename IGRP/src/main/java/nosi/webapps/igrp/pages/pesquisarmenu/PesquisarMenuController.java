@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -28,7 +29,6 @@ import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
-
 public class PesquisarMenuController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -37,14 +37,11 @@ public class PesquisarMenuController extends Controller {
 		model.load();
 		PesquisarMenuView view = new PesquisarMenuView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		model.loadTable_1(Core.query(null,"SELECT 't1_menu_principal' as t1_menu_principal,'ativo' as ativo,'table_titulo' as table_titulo,'pagina' as pagina,'checkbox' as checkbox,'id' as id "));
-		
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
@@ -127,17 +124,16 @@ public class PesquisarMenuController extends Controller {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
 		this.addQueryString("app",model.getAplicacao());
+      return this.forward("igrp","NovoMenu","index", this.queryString());
 				/*----#end-code----*/
-		return this.redirect("igrp","NovoMenu","index", this.queryString());	
+			
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -145,13 +141,11 @@ public class PesquisarMenuController extends Controller {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -168,13 +162,11 @@ public class PesquisarMenuController extends Controller {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		Menu menu_db = new Menu();
@@ -183,7 +175,6 @@ public class PesquisarMenuController extends Controller {
 			Core.setMessageSuccess();
 		else
 			Core.setMessageError();		
-	
 		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
 		}
  	
