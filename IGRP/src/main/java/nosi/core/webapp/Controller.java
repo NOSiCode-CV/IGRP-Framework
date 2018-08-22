@@ -273,6 +273,9 @@ public class Controller{
 				});					
 			});
 		}
+		if(!qs.contains("dad")) {
+			qs += "&dad="+Core.getParam("dad");
+		}
 	}
 
 	private void setQueryStringToAttributes(QueryString<String,Object> queryString) {
