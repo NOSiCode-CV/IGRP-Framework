@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
 
-
 public class MenuOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -25,13 +25,10 @@ public class MenuOrganicaController extends Controller {
 		model.load();
 		MenuOrganicaView view = new MenuOrganicaView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		model.loadTable_1(Core.query(null,"SELECT 'menu' as menu,'descricao' as descricao "));
-		
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
     
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
@@ -89,13 +86,11 @@ public class MenuOrganicaController extends Controller {
 		MenuOrganica model = new MenuOrganica();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 		List<ProfileType> list = null;
@@ -196,19 +191,17 @@ public class MenuOrganicaController extends Controller {
 		MenuOrganica model = new MenuOrganica();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(novo)----*/
 		int env_fk = Core.getParamInt("env_fk");
-		if(env_fk!=0)
-			return this.redirect("igrp","NovoMenu","index&app="+env_fk);
+		this.addQueryString("app",env_fk); //to send a query string in the URL
+		return this.forward("igrp","NovoMenu","index", this.queryString());		
 		/*----#end-code----*/
-		return this.redirect("igrp","NovoMenu","index", this.queryString());	
+			
 	}
 	
 	/*----#start-code(custom_actions)----*/
