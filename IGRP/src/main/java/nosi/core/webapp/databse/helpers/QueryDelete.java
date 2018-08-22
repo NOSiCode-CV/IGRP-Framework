@@ -13,7 +13,7 @@ public class QueryDelete extends CommonFIlter{
 	}
 
 	public QueryDelete() {
-		this(new Config().getBaseConnection());
+		this(Config.getBaseConnection());
 	}
 
 	public QueryHelper delete(String tableName) {

@@ -31,7 +31,7 @@ public class HibernateUtils {
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
 			return getSessionFactory(config_env.getName(),config_env.getApplication().getDad());
-		return getSessionFactory(new Config().getBaseConnection(),Core.getCurrentDadParam());
+		return getSessionFactory(Config.getBaseConnection(),Core.getCurrentDadParam());
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
@@ -39,14 +39,13 @@ public class HibernateUtils {
 	}
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad) {
-		if(Core.isNotNull(connectionName)) {			
-			Config cf = new Config();
-			String connectionName_ = cf.getBaseConnection();
-			if(!connectionName.equalsIgnoreCase(cf.getBaseConnection()) && !connectionName.equalsIgnoreCase(cf.getH2IGRPBaseConnection())) {
+		if(Core.isNotNull(connectionName)) {		
+			String connectionName_ = Config.getBaseConnection();
+			if(!connectionName.equalsIgnoreCase(Config.getBaseConnection()) && !connectionName.equalsIgnoreCase(Config.getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
-				registry = buildConfig(cf,connectionName,dad);
+				registry = buildConfig(connectionName,dad);
 				if(registry!=null) {
 					try {
 						MetadataSources sources = new MetadataSources(registry);
@@ -65,14 +64,14 @@ public class HibernateUtils {
 		return null;
 	}
 
-	private static StandardServiceRegistry buildConfig(Config cf,String connectionName,String dad) {
+	private static StandardServiceRegistry buildConfig(String connectionName,String dad) {
 		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 		try {
-			if (cf.getBaseConnection().equalsIgnoreCase(connectionName)) {
+			if (Config.getBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getIGRPSettings(connectionName));
 			}else {
-				Map<String, Object> settings = getOthersAppSettings(cf,connectionName,dad);
+				Map<String, Object> settings = getOthersAppSettings(connectionName,dad);
 				if(settings!=null) {
 					registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
 					registryBuilder.applySettings(settings);
@@ -86,25 +85,25 @@ public class HibernateUtils {
 		return  registryBuilder.build();
 	}
 
-	private static Map<String, Object> getOthersAppSettings(Config cf,String connectionName, String dad) {
+	private static Map<String, Object> getOthersAppSettings(String connectionName, String dad) {
 		Config_env config = new Config_env().find()
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.one();
 		if (config != null) {	
 			
-			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),cf.SECRET_KEY_ENCRYPT_DB):
+			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),Config.SECRET_KEY_ENCRYPT_DB):
 				DatabaseConfigHelper.getUrl(
-						Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getHost(), cf.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getPort(), cf.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getName_db(), cf.SECRET_KEY_ENCRYPT_DB)
+						Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getHost(), Config.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getPort(), Config.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getName_db(), Config.SECRET_KEY_ENCRYPT_DB)
 					);
-			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),cf.SECRET_KEY_ENCRYPT_DB):
-				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
-			String password = Core.decrypt(config.getPassword(), cf.SECRET_KEY_ENCRYPT_DB);
-			String user = Core.decrypt(config.getUsername(), cf.SECRET_KEY_ENCRYPT_DB);
-			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), cf.SECRET_KEY_ENCRYPT_DB));
+			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),Config.SECRET_KEY_ENCRYPT_DB):
+				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
+			String password = Core.decrypt(config.getPassword(), Config.SECRET_KEY_ENCRYPT_DB);
+			String user = Core.decrypt(config.getUsername(), Config.SECRET_KEY_ENCRYPT_DB);
+			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
 			return getSettings(driver, url, user, password, hibernateDialect);
 		}
 		return null;

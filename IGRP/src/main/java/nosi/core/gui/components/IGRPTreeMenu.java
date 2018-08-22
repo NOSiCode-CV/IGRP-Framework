@@ -1,6 +1,5 @@
 package nosi.core.gui.components;
 
-import nosi.core.gui.fields.GenXMLField;
 
 /**
  * @author: Emanuel Pereira
