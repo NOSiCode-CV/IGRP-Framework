@@ -51,6 +51,7 @@ public class DataSourceController extends Controller {
 		/*----#start-code(index)----*/	
 	
 		view.tipo.setQuery(Core.query(null,"SELECT 'Task' as ID,'Etapa' as NAME UNION SELECT 'Object' as ID,'Objeto' as NAME UNION SELECT 'Page' as ID,'Pagina' as NAME UNION SELECT 'Query' as ID,'Query' as NAME"),"--- Selecionar Tipo Data Source ---");
+		
 		view.processo.setVisible(false);
 		view.query.setVisible(false);
 		view.servico.setVisible(false);
@@ -95,17 +96,20 @@ public class DataSourceController extends Controller {
 				}else if(model.getTipo().equalsIgnoreCase("task")){
 					view.etapa.setVisible(true);
 					view.processo.setVisible(true);
+					Application app = new Application().findOne(Core.toInt(model.getId_env()));
+					if(app!=null) {
+						//Get Process Type
+						view.processo.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
+					}
 				}
 			}
+			
 			if(Core.isNotNull(id)){
 				view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
 			}
 			view.btn_fechar.setVisible(false);
 		}
-		Application app = new Application().findOne(Core.toInt(model.getId_env()));
-		if(app!=null) {
-			view.processo.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
-		}
+		
 		view.nome.setVisible(true);
 		if(Core.isNotNull(model.getProcesso())) {
 			view.etapa.setValue(new TaskService().mapToComboBox(model.getProcesso()));
