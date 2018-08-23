@@ -1,6 +1,7 @@
 
 package nosi.webapps.igrp.pages.etapaaccess;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -34,14 +35,17 @@ public class EtapaaccessController extends Controller {
 		String userEmail = Core.getParam("userEmail");		
 		if(type.compareTo("org")==0) {
 			model.setTable_1(this.getOrganizationTasks(orgProfId));
+			org = orgProfId;
 		}
 		if(type.compareTo("user")==0) {
 			ProfileType prof = new ProfileType().findOne(orgProfId);
-			model.setTable_1(this.getUserTasks(prof.getOrganization().getId().toString(),new User().findIdentityByEmail(userEmail)));
+			model.setTable_1(this.getUserTasks(prof,new User().findIdentityByEmail(userEmail)));
 			org = prof.getOrganization().getId();
 		}
 		if(type.compareTo("prof")==0) {
-			model.setTable_1(this.getProfileTasks(orgProfId));			
+			ProfileType prof = new ProfileType().findOne(orgProfId);
+			model.setTable_1(this.getProfileTasks(prof));	
+			org = prof.getOrganization().getId();		
 		}
 		view.btn_gravar.setLink("gravar&type="+type+"&orgProfId="+orgProfId+"&orgId="+org+"&userEmail="+userEmail);
 		/*----#end-code----*/
@@ -157,26 +161,26 @@ public class EtapaaccessController extends Controller {
 			for(String id:p_id) {
 				String[] taskProcess = id.split(separator);
 				if("org".compareTo(type)==0) {	
-					ResultSet.Record r = Core.query("SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
+					ResultSet.Record r = Core.query(Config.getBaseConnection(),"SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
 						 .where("org_fk=:org_fk AND processname=:processname AND taskname=:taskname AND prof_fk is not null")
 						 .addInt("org_fk", orgProfUserId)
 						 .addString("processname", taskProcess[1])
 						 .addString("taskname", taskProcess[0])
 						 .getRecordList();
 					this.listR.add(r);			
-					Core.delete("tbl_task_access").where("org_fk=:org_fk")
+					Core.delete(Config.getBaseConnection(),"tbl_task_access").where("org_fk=:org_fk")
 										   .addInt("org_fk",orgProfUserId)
 										   .andWhere("processname", "=",taskProcess[1])
 										   .execute();
 				}
 				if("prof".compareTo(type)==0) {
-					Core.delete("tbl_task_access").where("prof_fk=:prof_fk")
+					Core.delete(Config.getBaseConnection(),"tbl_task_access").where("prof_fk=:prof_fk")
 					   .addInt("prof_fk",orgProfUserId)
 					   .andWhere("processname", "=",taskProcess[1])
 					   .execute();
 				}
 				if("user".compareTo(type)==0) {
-					Core.update("tbl_task_access").addInt("user_fk", null).where("processname=:processname AND org_fk=:org_fk")
+					Core.update(Config.getBaseConnection(),"tbl_task_access").addInt("user_fk", null).where("processname=:processname AND org_fk=:org_fk")
 										   .addString("processname",taskProcess[1])
 										   .addInt("org_fk", orgId)
 										   .execute();
@@ -188,9 +192,8 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * List all task associate to organization with references to profile
 	 */
-	private List<Table_1> getProfileTasks(Integer orgProfId) {
+	private List<Table_1> getProfileTasks(ProfileType prof) {
 		List<Table_1> table = new ArrayList<>();
-		ProfileType prof = new ProfileType().findOne(orgProfId);
 		if(prof!=null) {
 			List<TaskAccess> list = new TaskAccess().find()
 													.andWhere("organization", "=",prof.getOrganization().getId())
@@ -245,23 +248,21 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * List all task associate to application with references to user
 	 */
-	private List<Table_1> getUserTasks(String orgId, User user) {
-		Organization org = new Organization().findOne(Core.toInt(orgId));
+	private List<Table_1> getUserTasks(ProfileType prof, User user) {
 		List<Table_1> table = new ArrayList<>();
-		if(org!=null) {
-			List<TaskService> list = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAllAtivos(org.getApplication().getDad())){
-				String link = process.getResource().replace("/resources/", "/resourcedata/");
-				String resource = new ResourceService().getResourceData(link);
-				list.addAll(process.extractTasks(resource,true));
-			}			 
+		if(prof!=null) {
+			List<TaskAccess> list = new TaskAccess().find()
+													.andWhere("organization", "=",prof.getOrganization().getId())
+													.andWhere("profileType","=", prof.getId())
+													.andWhere("profileType", "isnotnull")
+													.all();
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
-				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
-				if(this.getTaskUserExists(user,task.getProcessDefinitionId(),task.getTaskDefinitionKey())!=null)
-					t.setId_check(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
-				t.setDescricao(task.getProcessDefinitionId() + " - " + task.getName());
-				t.setProcessid(task.getProcessDefinitionId());
+				t.setId(task.getTaskName()+separator+task.getProcessName());
+				t.setDescricao(task.getProcessName() + " - " + task.getTaskName());
+				t.setProcessid(task.getProcessName());
+				if(this.getTaskUserExists(user,task.getProcessName(), task.getTaskName())!=null)
+					t.setId_check(task.getTaskName()+separator+task.getProcessName());
 				table.add(t);
 			});
 		}

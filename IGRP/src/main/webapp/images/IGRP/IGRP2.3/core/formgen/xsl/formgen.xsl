@@ -384,12 +384,12 @@
 <!--                                       <label>Service</label> -->
 <!--                                       <div class="settings-service"></div> -->
 <!--                                   </div> -->
-<!-- 								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px"> -->
-<!--                                       <div  item-name="process"> -->
-<!--                                           <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/> -->
-<!--                                           <span>Processo</span> -->
-<!--                                       </div> -->
-<!--                                   </div> -->
+								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
+                                      <div  item-name="process">
+                                          <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/>
+                                          <span>Processo</span>
+                                      </div>
+                                  </div>
                                   <!-- <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
                                       <div  item-name="replace">
                                           <input rel="replace" type="checkbox" name="plsql_replace" value="" class="checkbox gen-page-setter "/>
