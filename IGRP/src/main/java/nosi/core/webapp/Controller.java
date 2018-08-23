@@ -260,6 +260,8 @@ public class Controller{
 	return resp;
 	}
 	protected final Response redirect(String app, String page, String action,QueryString<String,Object> queryString) throws IOException{
+		if(queryString.getValues("dad")==null && !action.contains("dad"))
+			queryString.addQueryString("dad", Core.getParam("dad"));
 		this.setQueryString(queryString);
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
@@ -272,9 +274,6 @@ public class Controller{
 					qs += "&"+q.getKey()+"="+q1.toString();
 				});					
 			});
-		}
-		if(!qs.contains("dad")) {
-			qs += "&dad="+Core.getParam("dad");
 		}
 	}
 
