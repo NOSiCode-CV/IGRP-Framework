@@ -170,7 +170,7 @@ public class ListaEnvController extends Controller {
 		/*----#start-code(configurar_base_dados)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
-			return this.redirect("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao=" + id);
+			return this.redirect("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao=" + id,this.queryString());
 		}
 		return this.forward("igrp_studio", "ListaEnv", "index");
 		/*----#end-code----*/
