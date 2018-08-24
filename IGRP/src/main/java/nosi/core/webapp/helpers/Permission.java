@@ -55,8 +55,8 @@ public class Permission {
 	}
 
 	public  void changeOrgAndProfile(String dad){
-		Optional<Cookie> cookies = Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst();
-		String c = cookies.isPresent()?cookies.get().getValue():null;
+		Optional<Cookie> cookies = Igrp.getInstance().getRequest().getCookies()!=null?Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst():null;
+		String c = (cookies!=null && cookies.isPresent())?cookies.get().getValue():null;
 		if(Core.isNotNull(c)) {
 			try {
 				String []aux = c.split("-");
