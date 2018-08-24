@@ -127,7 +127,7 @@ public class NamedParameterStatement {
 		}
 	}
 
-	public void setInt(String name, int value) throws SQLException {
+	public void setInt(String name, Integer value) throws SQLException {
 		int[] indexes = getIndexes(name);
 		for (int i = 0; i < indexes.length; i++) {
 			statement.setInt(indexes[i], value);
@@ -135,7 +135,7 @@ public class NamedParameterStatement {
 	}
 
 
-	public void setLong(String name, long value) throws SQLException {
+	public void setLong(String name, Long value) throws SQLException {
 		int[] indexes = getIndexes(name);
 		for (int i = 0; i < indexes.length; i++) {
 			statement.setLong(indexes[i], value);
@@ -207,14 +207,14 @@ public class NamedParameterStatement {
 		return statement.executeBatch();
 	}
 
-	public void setDouble(String name, double value) throws SQLException {
+	public void setDouble(String name, Double value) throws SQLException {
 		int[] indexes = getIndexes(name);
 		for (int i = 0; i < indexes.length; i++) {
 			statement.setDouble(indexes[i], value);
 		}
 	}
 
-	public void setFloat(String name, float value) throws SQLException {
+	public void setFloat(String name, Float value) throws SQLException {
 		int[] indexes = getIndexes(name);
 		for (int i = 0; i < indexes.length; i++) {
 			statement.setFloat(indexes[i], value);
@@ -344,13 +344,13 @@ public class NamedParameterStatement {
 			statement.setBlob(indexes[i], value,length);
 		}
 	}
-	public void setBoolean(String name, boolean value) throws SQLException {
+	public void setBoolean(String name, Boolean value) throws SQLException {
 		int[] indexes = getIndexes(name);
 		for (int i = 0; i < indexes.length; i++) {
 			statement.setBoolean(indexes[i], value);
 		}
 	}
-	public void setByte(String name, byte value) throws SQLException {
+	public void setByte(String name, Byte value) throws SQLException {
 		int[] indexes = getIndexes(name);
 		for (int i = 0; i < indexes.length; i++) {
 			statement.setByte(indexes[i], value);

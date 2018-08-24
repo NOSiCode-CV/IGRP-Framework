@@ -331,26 +331,30 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
-		
-		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setInt(col.getName(),Integer.parseInt(value.toString()));
-		}
-		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setInt(col.getName(),Integer.parseInt(value.toString()));
-		}else if(col.getType().equals(java.lang.Double.class)){
-			query.setDouble(col.getName(), Double.parseDouble(value.toString()));
-		}else if(col.getType().equals(java.lang.Float.class)){
-			query.setFloat(col.getName(), Float.parseFloat(value.toString()));
-		}else if(col.getType().equals(java.lang.Long.class)){
-			query.setLong(col.getName(), (Long)value);
-		}else if(col.getType().equals(java.lang.Short.class)){
-			query.setShort(col.getName(), (Short)value);
-		}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
-			query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
-		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
-			query.setString(col.getName(),value.toString());
+		if(value!=null) {
+			if(col.getType().equals(java.lang.Integer.class)) {
+				query.setInt(col.getName(),Integer.parseInt(value.toString()));
+			}else if(col.getType().equals(java.lang.Double.class)){
+				query.setDouble(col.getName(), Double.parseDouble(value.toString()));
+			}else if(col.getType().equals(java.lang.Float.class)){
+				query.setFloat(col.getName(),Float.parseFloat(value.toString()));
+			}else if(col.getType().equals(java.lang.Long.class)){
+				query.setLong(col.getName(), Core.toLong(value.toString()));
+			}else if(col.getType().equals(java.lang.Short.class)){
+				query.setShort(col.getName(), Core.toShort(value.toString()));
+			}else if(col.getType().equals(java.lang.Boolean.class)){
+				query.setBoolean(col.getName(), (Boolean)value);
+			}else if(col.getType().equals(java.lang.Byte.class)){
+				query.setByte(col.getName(), (Byte)value);
+			}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
+				query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
+			}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
+				query.setString(col.getName(),value.toString());
+			}else {
+				query.setObject(col.getName(), value);
+			}
 		}else {
-			query.setObject(col.getName(), value);
+			query.setObject(col.getName(), null);
 		}
 	}
 
@@ -454,11 +458,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	private void setParameters(NamedParameterStatement q) throws SQLException {
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(q,col.getDefaultValue(),col);					
-			 }else {
-				 q.setObject(col.getName(), null);
-			 }
+			 this.setParameter(q,col.getDefaultValue(),col);
 		}
 	}
 
