@@ -20,7 +20,7 @@ body{
     font-weight: 300;
     font-size: 13px;
     background: #fafafa;
-    opacity: 0
+    opacity: 0.4
 }
 body.fixed-nav{
   padding-top: 56px;
