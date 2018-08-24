@@ -1,45 +1,33 @@
-$(function(){
-	
+$(function() {
+
 	'use strict';
 
-	var GEN    	   = VARS.getGen(),
+	var GEN = VARS.getGen(),
 
-		genOptions 	  = GEN.params && GEN.params.server ? GEN.params.server : {},
+		genOptions = GEN.params && GEN.params.server ? GEN.params.server : {},
 
-		server 	   	  = GEN.server = {},
-		
-		codeChecked   = false,
+		server = GEN.server = {},
 
-		clicked 	  = {},
+		codeChecked = false,
+
+		clicked = {},
 
 		reservedAreas = {
-
 			java : {
-
 				controller : {
-
 					'packages_import' : {
-
 						code : ''
-
 					},
 
 					'index' : {
-
 						code : ''
-
 					},
 
 					'custom_actions' : {
-
 						code : ''
-
 					}
-
 				}
-
 			}
-
 		},
 
 		reservedExceptions = {
@@ -48,150 +36,150 @@ $(function(){
 
 	server.activeMenu = {};
 
-	server.preserved  = {};
+	server.preserved = {};
 
-	server.editors    = {};
-	
-	server.events = new $.EVENTS(['init']);
+	server.editors = {};
 
-	server.set = function(p){
+	server.events = new $.EVENTS([ 'init' ]);
 
-		var options 	= genOptions[p.mode];
+	server.set = function(p) {
 
-		if(options){
-			
-			DrawMenu(p.mode,options);
+		var options = genOptions[p.mode];
 
-			ActivateMenu( $('.gen-editor-toolsbar .server-transform').first(), {
+		if (options) {
+
+			DrawMenu(p.mode, options);
+
+			ActivateMenu($('.gen-editor-toolsbar .server-transform').first(), {
 				transform : true,
 				callback : p.callback
-			} );
+			});
 
 		}
 
 	};
 
-	server.transform = function(o){
+	server.transform = function(o) {
 
-		var xmlStr     = GEN.getXML(),
+		var xmlStr = GEN.getXML(),
 
-			xml  	   = $.parseXML(xmlStr),
+			xml = $.parseXML(xmlStr),
 
-			isIE       = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false,
+			isIE = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false,
 
 			enterParam = '$$enter$$',
 
-			xslParams  = isIE ? { jsEnter:enterParam } : false,
+			xslParams = isIE ? {
+				jsEnter : enterParam
+			} : false,
 
-			m  	       = clicked,
-			
-			type 	   = o.type || 'gen';
+			m = clicked,
+
+			type = o.type || 'gen';
 
 		GEN.waiting();
-		
-		$('<div/>').XMLTransform({
-			xml         : xml,
-			xsl         : o.basePath+'/'+o.xsl,
-			xslParams   : xslParams,
-			xslBasePath : o.basePath,
-			
-			complete    : function(d,e){
 
-				var content  = d.html(),
- 
-					onFinish = function(ncontent){
-						
-						server.events.execute(o.mode+'.'+o.part+'.gen',{
+		$('<div/>').XMLTransform({
+			xml : xml,
+			xsl : o.basePath + '/' + o.xsl,
+			xslParams : xslParams,
+			xslBasePath : o.basePath,
+
+			complete : function(d, e) {
+
+				var content = d.html(),
+
+					onFinish = function(ncontent) {
+
+						server.events.execute(o.mode + '.' + o.part + '.gen', {
 							content : content,
 							options : o
 						});
 						//server.events.execute()
-					
-						if(o.callback)
+
+						if (o.callback)
 
 							o.callback(ncontent);
-						
+
 						$('.gen-viewers-toolbar .gen-page-setts-ctrl').show();
 						//$('#gen-page-setts-ctrl').show();
 
-						setTimeout(function(){
+						setTimeout(function() {
 
 							GEN.resizeCodeMirrorArea();
 
 							GEN.done();
 
-						},250);
+						}, 250);
 
 					};
 
-				content = content.replaceAll('&lt;','<');
+				content = content.replaceAll('&lt;', '<');
 
-				content = content.replaceAll('&gt;','>');
+				content = content.replaceAll('&gt;', '>');
 
-				content = content.replaceAll('&amp;','&');
+				content = content.replaceAll('&amp;', '&');
 
-				content = content.replaceAll(enterParam,'\n');
+				content = content.replaceAll(enterParam, '\n');
 
-				LoadReservedCodes(content,type,onFinish);
-			
+				LoadReservedCodes(content, type, onFinish);
+
 			},
 
-			error:function(e){
+			error : function(e) {
 				console.log(e);
 			}
 		});
 
 	};
 
-	server.compile = function(o){
+	server.compile = function(o) {
 
 		var mode = genOptions[o.mode];
 
 		GenPartsLoop({
-
 			mode : mode,
 
-			callback : function(res){
-				
+			callback : function(res) {
+
 				console.log(res)
 
-				if(o.then)
+				if (o.then)
 
 					o.then(res);
 
 			}
-
 		});
 
 	};
 
-	var DeactivateMenus = function(){
+	var DeactivateMenus = function() {
 
 		$('.server-transform').removeClass('active');
 
 	};
 
-	var ActivateMenu = function(menu,transformOptions){
+	var ActivateMenu = function(menu, transformOptions) {
 
-		var options = GetMenuOptions( menu );
+		var options = GetMenuOptions(menu);
 
-		var editor  = server.editors[options.mode][options.part.toUpperCase()];
-		
+		var editor = server.editors[options.mode][options.part.toUpperCase()];
+
 		var toptions = transformOptions || {};
-		
-		var tcallback = toptions.callback ? toptions.callback : function(){};
+
+		var tcallback = toptions.callback ? toptions.callback : function() {};
 
 
 		clicked = {
 			mode : options.mode,
 			part : options.part
 		};
-		
-		options.callback = function(content){
+
+		options.callback = function(content) {
 
 			editor.setValue(content);
 
-			if(tcallback)
+			if (tcallback)
 
 				tcallback();
 
@@ -200,18 +188,16 @@ $(function(){
 			menu.addClass('active');
 
 			server.activeMenu = {
-
 				mode : options.mode,
 
 				part : options.part,
-				
-				editor : editor
 
+				editor : editor
 			};
 
 			$('.server-editor').removeClass('active');
 
-			$('.server-editor.'+options.mode+'-editor.'+options.part.toUpperCase()).addClass('active');
+			$('.server-editor.' + options.mode + '-editor.' + options.part.toUpperCase()).addClass('active');
 
 			editor.refresh();
 
@@ -219,316 +205,325 @@ $(function(){
 
 		};
 
-		if(toptions.transform)
-			server.transform( options );
-		else if(toptions.content)
+		if (toptions.transform)
+			server.transform(options);
+		else if (toptions.content)
 			options.callback(toptions.content);
-		
+
 
 	};
 
-	var SetEditor = function(mode,name){
+	var SetEditor = function(mode, name) {
 
-		var editorsWrapper  = $('#gen-'+mode+' .gen-editors-wrapper'),
+		var editorsWrapper = $('#gen-' + mode + ' .gen-editors-wrapper'),
 
-			partEditor 		= $('<div class="gen-code-mirror server-editor '+mode+'-editor '+name+' col-sm-10 custom-size " editor-part="'+name.toLowerCase()+'"></div>');
+			partEditor = $('<div class="gen-code-mirror server-editor ' + mode + '-editor ' + name + ' col-sm-10 custom-size " editor-part="' + name.toLowerCase() + '"></div>');
 
-		editorsWrapper.append( partEditor );
-	
-		switch(mode){
+		editorsWrapper.append(partEditor);
 
-			case 'java':
+		switch (mode) {
 
-				server.editors[mode][name] = CodeMirror(partEditor[0], {
-			    	lineNumbers: true,
-			   		matchBrackets: true,
-			   		autoCloseBrackets: true,
-			   		mode: "text/x-java",
-			   		extraKeys: {
-			   		 	"Ctrl-Space": "autocomplete"
-			   		},
-			   		//themes
-			   		autohint: true,
-					lineWrapping: true
+		case 'java':
 
-					//foldGutter: true,
-    				//gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+			server.editors[mode][name] = CodeMirror(partEditor[0], {
+				lineNumbers : true,
+				matchBrackets : true,
+				autoCloseBrackets : true,
+				mode : "text/x-java",
+				extraKeys : {
+					"Ctrl-Space" : "autocomplete"
+				},
+				//themes
+				autohint : true,
+				lineWrapping : true
 
-		        });
+				//foldGutter: true,
+				//gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+
+			});
 
 			break;
 
-			case 'plsql':
-				server.editors[mode][name] = CodeMirror(partEditor[0], {
-		        	mode: 'text/x-plsql',
-		        	readOnly:true,
-				    lineNumbers: false,
-				    matchBrackets : true,
-				    hintOptions: {tables: {
-				      users: {name: null, score: null, birthDate: null},
-				      countries: {name: null, population: null, size: null}
-				    }}
-		        });
+		case 'plsql':
+			server.editors[mode][name] = CodeMirror(partEditor[0], {
+				mode : 'text/x-plsql',
+				readOnly : true,
+				lineNumbers : false,
+				matchBrackets : true,
+				hintOptions : {
+					tables : {
+						users : {
+							name : null,
+							score : null,
+							birthDate : null
+						},
+						countries : {
+							name : null,
+							population : null,
+							size : null
+						}
+					}
+				}
+			});
 			break;
 
-		}		
+		}
 
-       	SetEditorEvents( server.editors[mode][name], mode );
+		SetEditorEvents(server.editors[mode][name], mode);
 
-        server.editors[mode][name].refresh();
+		server.editors[mode][name].refresh();
 
-   		server.editors[mode][name].focus();
-	
+		server.editors[mode][name].focus();
+
 	};
-	
-	var GetEditor = function(mode,name){
+
+	var GetEditor = function(mode, name) {
 
 		return server.editors[mode][name];
-	
+
 	};
 
-	var storeExceptions = function(content,o){
+	var storeExceptions = function(content, o) {
 
-		var commentStart  = '/*----',
+		var commentStart = '/*----',
 
-			startExp 	  = commentStart+'#START-PRESERVED-AREA(',
+			startExp = commentStart + '#START-PRESERVED-AREA(',
 
-			declaration   = 'public Response action'+capitalizeFirstLetter(o.name)+'() throws ',
+			declaration = 'public Response action' + capitalizeFirstLetter(o.name) + '() throws ',
 
-			split 	 	  = content.split(declaration),
+			split = content.split(declaration),
 
 			exceptionsRow = split[1] || false;
 
-		/*if(exceptionsRow){
+	/*if(exceptionsRow){
+		
+		var exContent = exceptionsRow.split(startExp)[0].replace('{','');
+
+		if(o.field && o.field.server){
+
+			if(o.field.server.preserved[o.mode][o.part])
+
+				o.field.server.preserved[o.mode][o.part].exceptions = exContent;
 			
-			var exContent = exceptionsRow.split(startExp)[0].replace('{','');
+		}else{
 
-			if(o.field && o.field.server){
+			if(reservedAreas[o.mode] && reservedAreas[o.mode][o.part] && reservedAreas[o.mode][o.part][o.name.toUpperCase()])
 
-				if(o.field.server.preserved[o.mode][o.part])
+				reservedAreas[o.mode][o.part][o.name.toUpperCase()].exceptions = exContent;
 
-					o.field.server.preserved[o.mode][o.part].exceptions = exContent;
-				
-			}else{
+		}
 
-				if(reservedAreas[o.mode] && reservedAreas[o.mode][o.part] && reservedAreas[o.mode][o.part][o.name.toUpperCase()])
-
-					reservedAreas[o.mode][o.part][o.name.toUpperCase()].exceptions = exContent;
-
-			}
-
-		}*/
+	}*/
 	}
 
-	var SetEditorEvents = function(editor,mode){
-		
+	var SetEditorEvents = function(editor, mode) {
+
 		var writing = false,
 
-			ctrl 	= 
+			ctrl = editor.on('blur', function(cm, change) {
 
-		editor.on('blur',function(cm,change){
-			
-			var m 			 = server.activeMenu,
+				var m = server.activeMenu,
 
-				content      = editor.getValue(),
+					content = editor.getValue(),
 
-				commentStart = '/*----',
+					commentStart = '/*----',
 
-				commentEnd   = '----*/',
+					commentEnd = '----*/',
 
-				startExp 	 = commentStart+'#start-code(',
+					startExp = commentStart + '#start-code(',
 
-				endExp   	 = commentStart+'#end-code'+commentEnd,
+					endExp = commentStart + '#end-code' + commentEnd,
 
-				startIDX 	 = getIndicesOf(startExp,content),
+					startIDX = getIndicesOf(startExp, content),
 
-				endIDX 	 	 = getIndicesOf(endExp,content),
+					endIDX = getIndicesOf(endExp, content),
 
-				reserved 	 = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
+					reserved = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
 
-			if(startIDX.length == endIDX.length){
+				if (startIDX.length == endIDX.length) {
 
-				startIDX.forEach(function(sidx,i){
+					startIDX.forEach(function(sidx, i) {
 
-					var eidx 	     = endIDX[i],
+						var eidx = endIDX[i],
 
-						partContent  = content.substring(sidx,eidx+endExp.length),
+							partContent = content.substring(sidx, eidx + endExp.length),
 
-						nameStartIdx = partContent.indexOf(startExp),
+							nameStartIdx = partContent.indexOf(startExp),
 
-						nameEndIdx 	 = partContent.indexOf(')'+commentEnd),
+							nameEndIdx = partContent.indexOf(')' + commentEnd),
 
-						name 		 = partContent.substring(nameStartIdx+startExp.length,nameEndIdx),
+							name = partContent.substring(nameStartIdx + startExp.length, nameEndIdx),
 
-						_name 		 = name.toLowerCase(),
+							_name = name.toLowerCase(),
 
-						field 		 = GEN.getFieldByTag(_name),
+							field = GEN.getFieldByTag(_name),
 
-						codeHead 	 =  startExp+name+')'+commentEnd,
+							codeHead = startExp + name + ')' + commentEnd,
 
-						codeContent  = partContent.replaceAll(codeHead,'').replaceAll(endExp,'');
+							codeContent = partContent.replaceAll(codeHead, '').replaceAll(endExp, '');
 
-					if(field){
+						if (field) {
 
-						/*storeExceptions(content,{
-							field   : field,
-							name    : _name,
-							mode    : m.mode,
-							part 	: m.part
-						});*/
+							/*storeExceptions(content,{
+								field   : field,
+								name    : _name,
+								mode    : m.mode,
+								part 	: m.part
+							});*/
 
-						if( field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part] )
+							if (field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part])
 
-    						field.server.preserved[m.mode][m.part].code = codeContent;
+								field.server.preserved[m.mode][m.part].code = codeContent;
 
 
 
-   
-					}else{
 
-						/*storeExceptions(content,{
-							name    : _name,
-							mode    : m.mode,
-							part 	: m.part
-						});*/
-						
-						if(reserved[name])
+						} else {
 
-							reserved[name].code = codeContent;
+							/*storeExceptions(content,{
+								name    : _name,
+								mode    : m.mode,
+								part 	: m.part
+							});*/
 
-					}	
+							if (reserved[name])
 
-				});
+								reserved[name].code = codeContent;
 
-			};
+						}
 
-		});
+					});
 
-		editor.on('beforeChange',function(cm,change){
-			
-			if(writing){
+				}
+				;
+
+			});
+
+		editor.on('beforeChange', function(cm, change) {
+
+			if (writing) {
 
 				var start = '/*----#start-code(',
 
-					end   = '/*----#end-code----*/',
+					end = '/*----#end-code----*/',
 
 					lines = getPreservedLines(),
 
 					isPreservedInit = editor.getLine(change.from.line).indexOf(start) != -1;
 
-				if(!isPreservedInit){
+				if (!isPreservedInit) {
 
-					if(lines){
-						
+					if (lines) {
+
 						var isReservedArea = false;
 
-						for( var x = 0; x < lines.start.length; x++ ){
-							
-							for(var i = lines.start[x]; i <= lines.end[x]; i++ ){
-							
-								if( change.from.line == i-1 )
+						for (var x = 0; x < lines.start.length; x++) {
+
+							for (var i = lines.start[x]; i <= lines.end[x]; i++) {
+
+								if (change.from.line == i - 1)
 
 									isReservedArea = true;
 							}
 
 						}
 
-						if( !isReservedArea  )
-							
+						if (!isReservedArea)
+
 							change.cancel();
 
 					}
 
-				}else{
+				} else {
 
 					change.cancel();
 
 				}
 
 
-			}else{
+			} else {
 
-				if(cm.getValue() && change.origin != 'setValue')
+				if (cm.getValue() && change.origin != 'setValue')
 
 					change.cancel();
 
 			}
-			
-			var lineNum = change.from.line+1,
-			
-				line	= $(editor.display.wrapper).find('.CodeMirror-linenumber:contains('+lineNum+')');
-			
-			if(line.parent().hasClass('has-error')){
-				
-				line.parent().removeClass('has-error');
-				
-				$('.gen-editor-errors table tr[line="'+lineNum+'"]').remove();
-				
-				setTimeout(function(){
 
-					if(!$('.gen-editor-errors table tr')[0] || !$('.CodeMirror-gutter-wrapper.has-error')[0])
+			var lineNum = change.from.line + 1,
+
+				line = $(editor.display.wrapper).find('.CodeMirror-linenumber:contains(' + lineNum + ')');
+
+			if (line.parent().hasClass('has-error')) {
+
+				line.parent().removeClass('has-error');
+
+				$('.gen-editor-errors table tr[line="' + lineNum + '"]').remove();
+
+				setTimeout(function() {
+
+					if (!$('.gen-editor-errors table tr')[0] || !$('.CodeMirror-gutter-wrapper.has-error')[0])
 
 						GEN.removeEditorsErrors(true);
 
-					
-				},100)
-	
+
+				}, 100)
+
 			}
 
 
 		});
 
-		editor.on('keydown',function(cm,e){
-			
+		editor.on('keydown', function(cm, e) {
+
 			writing = true;
 
 		});
 
-		editor.on('keyup',function(cm,e){
-			
+		editor.on('keyup', function(cm, e) {
+
 			writing = false;
-			
+
 			//autocomplete on dot. press
 
-			if ( e.keyCode == 190 && (!cm.state.completionActive && e.keyCode != 13))  {
-				try{
-					CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
-				}catch(err){
-					
-				}
-			}  
-				
-	            
+			if (e.keyCode == 190 && (!cm.state.completionActive && e.keyCode != 13)) {
+				try {
+					CodeMirror.commands.autocomplete(cm, null, {
+						completeSingle : false
+					});
+				} catch (err) {}
+			}
+
+
 
 		});
 
 	};
 
-	var DrawMenu = function(mode,options){
+	var DrawMenu = function(mode, options) {
 
 		var packName = capitalizeFirstLetter(GEN.SETTINGS.html),
 
-			menusWrapper  	= $('#gen-'+mode+' .gen-editor-toolsbar'),
+			menusWrapper = $('#gen-' + mode + ' .gen-editor-toolsbar'),
 
-			list 	 		= $('<div class="list-group"/>');
+			list = $('<div class="list-group"/>');
 
-		if(!server.editors[mode] )
+		if (!server.editors[mode])
 
 			server.editors[mode] = {};
 
-		options.codes.forEach(function(c){
-			
-			var fileName = packName+capitalizeFirstLetter(c.name.toLowerCase());
+		options.codes.forEach(function(c) {
+
+			var fileName = packName + capitalizeFirstLetter(c.name.toLowerCase());
 
 			list.append(
 
-				'<div file-name="'+fileName+'.java" base-path="'+options.basePath+'" mode="'+mode+'" part="'+c.name.toLowerCase()+'" class="list-group-item server-transform" xslt-path="'+c.xsl+'">'+fileName+'</div>'
-			
+				'<div file-name="' + fileName + '.java" base-path="' + options.basePath + '" mode="' + mode + '" part="' + c.name.toLowerCase() + '" class="list-group-item server-transform" xslt-path="' + c.xsl + '">' + fileName + '</div>'
+
 			);
 
-			if(!server.editors[mode][c.name] ){
+			if (!server.editors[mode][c.name]) {
 
-				SetEditor(mode,c.name);
+				SetEditor(mode, c.name);
 			}
 
 		});
@@ -537,218 +532,208 @@ $(function(){
 
 	};
 
-	var GetMenuOptions = function(menu){
-		
+	var GetMenuOptions = function(menu) {
+
 		var mode = menu.attr('mode'),
 
 			part = menu.attr('part'),
 
 			base = menu.attr('base-path'),
-			
-			xsl  = menu.attr('xslt-path');
+
+			xsl = menu.attr('xslt-path');
 
 		return {
-			mode 	 : mode,
-			xsl  	 : xsl,
-			part 	 : part,
+			mode : mode,
+			xsl : xsl,
+			part : part,
 			basePath : base,
-			menu 	 : menu
+			menu : menu
 		}
 
 	};
 
-	var GenPartsLoop = function(o){
+	var GenPartsLoop = function(o) {
 
 		var idx = o.index || 0;
-		
+
 		//consoel.log(idx)
-		
-		if(idx < o.mode.codes.length){
-			
+
+		if (idx < o.mode.codes.length) {
+
 			var code = o.mode.codes[idx];
 
 			server.transform({
-
 				basePath : o.mode.basePath,
 
-				xsl 	 : code.xsl,
-				
+				xsl : code.xsl,
+
 				type : 'compile',
 
-				callback:function(content){
-					
-					GenPartsLoop.arr.push({
+				callback : function(content) {
 
+					GenPartsLoop.arr.push({
 						name : code.name,
 
 						code : content
-
 					});
 
-					o.index = idx+1;
+					o.index = idx + 1;
 
 					GenPartsLoop(o);
-					
-					
-				}
 
+
+				}
 			});
 
-		}else{
-			
-			if(o.callback)
+		} else {
+
+			if (o.callback)
 
 				o.callback(GenPartsLoop.arr);
-			
+
 			GenPartsLoop.arr = [];
 
-		};
+		}
+		;
 
 	};
 
-	var replaceReservedContents = function(o){
+	var replaceReservedContents = function(o) {
 
 		var options = $.extend({
-
 				content : '',
 
-				begin   : {
-
+				begin : {
 					startExpression : '/*----#start-code(',
-					
-					endExpression   : ')----*/',
+
+					endExpression : ')----*/',
 				},
 
-				end  : {
-
+				end : {
 					expression : '/*----#end-code----*/'
-
 				},
 
 				serverJSON : {},
 
-				returner   : {},
+				returner : {},
 
-				mode 	   : 'java',
+				mode : 'java',
 
-				part 	   : 'controller',
+				part : 'controller',
 
-				index 	   : 0
+				index : 0
+			}, o),
 
-			},o),
-
-			idx     = options.index || 0,
+			idx = options.index || 0,
 
 			content = options.content,
 
-			begins  = getIndicesOf(options.begin.startExpression, content),
+			begins = getIndicesOf(options.begin.startExpression, content),
 
-			ends    = getIndicesOf(options.end.expression, content);
+			ends = getIndicesOf(options.end.expression, content);
 
-		if(idx < begins.length){
-		
+		if (idx < begins.length) {
+
 			var localR = reservedAreas[options.mode] && reservedAreas[options.mode][options.part] ? reservedAreas[options.mode][options.part] : false;
 
 			//console.log( localR )
-			
-			if(begins.length == ends.length){
 
-				var beginIdx 	 = begins[idx],
+			if (begins.length == ends.length) {
 
-					endIdx 	     = ends[idx]+options.end.expression.length,
+				var beginIdx = begins[idx],
 
-					expression   = content.substring(beginIdx,endIdx),
+					endIdx = ends[idx] + options.end.expression.length,
 
-					areaName     = expression.match(/\(([^)]+)\)/)[1],
+					expression = content.substring(beginIdx, endIdx),
 
-					startCodeXp  = options.begin.startExpression+areaName+options.begin.endExpression,
+					areaName = expression.match(/\(([^)]+)\)/)[1],
 
-					field        = GEN.getFieldByTag( areaName.toLowerCase() ),
+					startCodeXp = options.begin.startExpression + areaName + options.begin.endExpression,
 
-					serverCode   = options.serverJSON[areaName] ? options.serverJSON[areaName].content : "",
+					field = GEN.getFieldByTag(areaName.toLowerCase()),
 
-					localCode	 = localR[areaName] ? localR[areaName].code : "",
+					serverCode = options.serverJSON[areaName] ? options.serverJSON[areaName].content : "",
+
+					localCode = localR[areaName] ? localR[areaName].code : "",
 
 					reservedCode = localCode || serverCode,
 
-					tab  		 = areaName != 'packages_import' ? '\t\t' : '';
-				
-				if(field){
+					tab = areaName != 'packages_import' ? '\t\t' : '';
 
-					if(field.server.preserved[options.mode] && field.server.preserved[options.mode][options.part] && field.server.preserved[options.mode][options.part].code != '' ){
-						
+				if (field) {
+
+					if (field.server.preserved[options.mode] && field.server.preserved[options.mode][options.part] && field.server.preserved[options.mode][options.part].code != '') {
+
 						reservedCode = field.server.preserved[options.mode][options.part].code
-					
-					}else{
 
-						field.server.preserved[options.mode]  	   = field.server.preserved[options.mode] || {};
+					} else {
+
+						field.server.preserved[options.mode] = field.server.preserved[options.mode] || {};
 
 						field.server.preserved[options.mode][options.part] = field.server.preserved[options.mode][options.part] || {
-
 							code : reservedCode
-
 						}
 
 					}
-				};
-				
+				}
+				;
+
 				var xslBlock = content.substring(beginIdx, endIdx),
-					
-					xslContent =  xslBlock.substring( xslBlock.indexOf(startCodeXp)+startCodeXp.length, xslBlock.indexOf(options.end.expression)  );
-				
-				reservedCode = reservedCode || xslContent || '\n\t\t\n\t\t\n'+tab;
 
-				var originalContent 	   = content.substring(beginIdx, endIdx),
+					xslContent = xslBlock.substring(xslBlock.indexOf(startCodeXp) + startCodeXp.length, xslBlock.indexOf(options.end.expression));
 
-					actualContent   	   = startCodeXp+reservedCode+options.end.expression;
-		
+				reservedCode = reservedCode || xslContent || '\n\t\t\n\t\t\n' + tab;
+
+				var originalContent = content.substring(beginIdx, endIdx),
+
+					actualContent = startCodeXp + reservedCode + options.end.expression;
+
 				options.returner[areaName] = {
-
 					original : originalContent,
 
-					content  : actualContent
-
+					content : actualContent
 				};
 
-			};
+			}
+			;
 
-			options.index = idx+1;
+			options.index = idx + 1;
 
-			replaceReservedContents( options );
+			replaceReservedContents(options);
 
-		}else{
+		} else {
 
-			for(var a in options.returner){
+			for (var a in options.returner) {
 
 				var contents = options.returner[a];
 
-				content = content.replaceAll( contents.original, contents.content );
+				content = content.replaceAll(contents.original, contents.content);
 
-			};
+			}
+			;
 
-			if(options.callback)
+			if (options.callback)
 
 				options.callback(content);
-		
-		};
+
+		}
+		;
 
 	};
 
-	var LoadReservedCodes = function(content,type,callback){
-		
+	var LoadReservedCodes = function(content, type, callback) {
+
 		var reservedURL = GEN.UTILS.preserve_url,
 
-			data        = {
-				
-				app  : GEN.DETAILS.app,
+			data = {
+				app : GEN.DETAILS.app,
 
 				page : GEN.DETAILS.page
-
 			},
 
-			mode 		  = clicked.mode,
+			mode = clicked.mode,
 
-			part 		  = clicked.part,
+			part = clicked.part,
 
 			beginStartExpression = '/*----#start-code(',
 
@@ -756,441 +741,441 @@ $(function(){
 
 			endExpression = '/*----#end-code----*/',
 
-			localReserved = reservedAreas[mode] && reservedAreas[mode][part] ? reservedAreas[mode][part] : false;
+			localReserved = reservedAreas[mode] && reservedAreas[mode][part] ? reservedAreas[mode][part] : false,
 
-		$.get(reservedURL,data).then(function(json){
-			
+			replaceOptions = {
+				content : content,
+
+				serverJSON : null,
+
+				mode : mode,
+
+				part : part,
+
+				callback : function(content) {
+
+					if (callback)
+
+						callback(content);
+
+					codeChecked = true;
+
+				}
+			};
+
+		if (part != 'controller') {
+
+			replaceReservedContents(replaceOptions);
+
+			$.IGRP.components.globalModal.hide();
+
+			GEN.waiting(false);
+
+			return;
+
+		}
+
+		$.get(reservedURL, data).then(function(json) {
+
 			var isGlobalPreservation = false;
 
-			if($.isArray(json)){
-				
+			replaceOptions.serverJSON = json;
+
+			if ($.isArray(json)) {
+
 				var object = {};
-				
+
 				isGlobalPreservation = json[0].isGlobal;
 
-				json.forEach(function(item){
-	
+				json.forEach(function(item) {
+
 					object[item.action.toLowerCase()] = {
 						content : item.content,
-       					end     : item.end,
-        				start   : item.start,
-        				global  : item.isGlobal
+						end : item.end,
+						start : item.start,
+						global : item.isGlobal
 					}
 				});
 
 				json = object;
 
-			};
-			
-			var replaceOptions = {
+			}
+			;
 
-				content    : content,
+			if (isGlobalPreservation && !codeChecked) {
 
-				serverJSON : json,
-
-				mode 	   : mode,
-
-				part 	   : part,
-
-				callback   :function(content){
-
-					if(callback)
-
-			 			callback(content);
-					
-					codeChecked = true;
-
-				}
-
-			};
-			
-			if(isGlobalPreservation && !codeChecked ){
-				
 				$.IGRP.components.globalModal.set({
-					rel    : 'confirm-java-code',
-					content: 'Please check your Controller Code!',
-					buttons: [
+					rel : 'confirm-java-code',
+					content : 'Please check your Controller Code!',
+					buttons : [
 						{
-							class :'default',
+							class : 'default',
 							//icon  :'times',
-							text  :'Cancel',
-							attr  :{ 
-								"data-dismiss":"modal" 
+							text : 'Cancel',
+							attr : {
+								"data-dismiss" : "modal"
 							},
-							onClick : function(){
+							onClick : function() {
 								GEN.waiting(false);
 							}
 						},
 						{
-							class   :'primary',
-							//icon    :'check',	
-							text    :'Check Code',
-							onClick :function(e){
-								
-								if(type == 'compile'){
-									
-									var options 	= genOptions['java'];
+							class : 'primary',
+							//icon    :'check',              
+							text : 'Check Code',
+							onClick : function(e) {
 
-									if(options){
-										
-										DrawMenu('java',options);
-										
-										replaceOptions.callback = function(content){
-											
-											var ctrl       = $('#gen-views-ctrl ul li[rel="gen-java"]'), 
-												rel        = ctrl.attr('rel'),
-												viewr      = $('#'+rel);
-											
-											ActivateMenu( $('.gen-editor-toolsbar .server-transform').first(), {
+								if (type == 'compile') {
+
+									var options = genOptions['java'];
+
+									if (options) {
+
+										DrawMenu('java', options);
+
+										replaceOptions.callback = function(content) {
+
+											var ctrl = $('#gen-views-ctrl ul li[rel="gen-java"]'),
+												rel = ctrl.attr('rel'),
+												viewr = $('#' + rel);
+
+											ActivateMenu($('.gen-editor-toolsbar .server-transform').first(), {
 												transform : false,
 												content : content,
-												callback:function(){
-		
+												callback : function() {
+
 													$(VARS.html.viewers).removeClass('active');
 
 													$(VARS.html.viewsController).removeClass('active');
-											
+
 													ctrl.addClass('active');
 
 													viewr.addClass('active');
-													
-													if(rel != 'gen-design')
+
+													if (rel != 'gen-design')
 														$.IGRP.components.sideBar.hide();
 													else
 														$.IGRP.components.sideBar.show();
-													
-													$('body').attr('view',rel);
-													
+
+													$('body').attr('view', rel);
+
 													codeChecked = true;
 												}
-												
 											});
-											
-											
-											
+
+
+
 										}
 
-										
+
 
 									}
-									
+
 								}
-								
+
 								/*if(type == 'compile'){
-									
-									var ctrl  = $('#gen-views-ctrl ul li[rel="gen-java"]'),
-										
-										rel   = ctrl.attr('rel'),
-										
-										viewr = $('#'+rel);
-									
-									$(VARS.html.viewers).removeClass('active');
+								               
+								               var ctrl  = $('#gen-views-ctrl ul li[rel="gen-java"]'),
+								                              
+								                              rel   = ctrl.attr('rel'),
+								                              
+								                              viewr = $('#'+rel);
+								               
+								               $(VARS.html.viewers).removeClass('active');
 
-									$(VARS.html.viewsController).removeClass('active');
-							
-									ctrl.addClass('active');
+								               $(VARS.html.viewsController).removeClass('active');
+                                                                                 
+								               ctrl.addClass('active');
 
-									viewr.addClass('active');
+								               viewr.addClass('active');
 
 								}
-									
+								               
 								else
-									console.log('continue')*/
-									
+								               console.log('continue')*/
+
 								replaceReservedContents(replaceOptions);
 
 								$.IGRP.components.globalModal.hide();
 
 								GEN.waiting(false);
-								
+
 								return false;
 							}
 						}
-						
+
 					]
 				});
-				
-				
-			}else{
-				
+
+
+			} else {
+
 				replaceReservedContents(replaceOptions);
-				
+
 			}
 
 		});
 
 	};
 
-	var LoadPreservedCodes = function(content, callback){
+	var LoadPreservedCodes = function(content, callback) {
 
 		var beginExp = '/*----#START-PRESERVED-AREA(';
 
-		var endExp   = '/*----#END-PRESERVED-AREA----*/';
+		var endExp = '/*----#END-PRESERVED-AREA----*/';
 
-		var begin 	 = getIndicesOf(beginExp, content);
+		var begin = getIndicesOf(beginExp, content);
 
-		var end  	 = getIndicesOf(endExp, content);
+		var end = getIndicesOf(endExp, content);
 
-		if(begin[0] && end[0]){
+		if (begin[0] && end[0]) {
 
 			var canPreserve = begin.length == end.length;
 
-			if(canPreserve && begin[0] && end[0]){
+			if (canPreserve && begin[0] && end[0]) {
 
-				preserveArea(begin,{
-					
+				preserveArea(begin, {
 					beginExp : beginExp,
-					
-					endExp   : endExp,
 
-					content :content,
+					endExp : endExp,
 
-					end     :end,
+					content : content,
 
-					callback:function(r){
+					end : end,
+
+					callback : function(r) {
 
 						console.log(r);
-						
+
 						var m = clicked;
 
-						r.forEach(function(o){
+						r.forEach(function(o) {
 
 							var text = o.text;
 
-							if( reservedAreas[m.mode] && reservedAreas[m.mode][m.part] && reservedAreas[m.mode][m.part][o.areaName] ){
-								
+							if (reservedAreas[m.mode] && reservedAreas[m.mode][m.part] && reservedAreas[m.mode][m.part][o.areaName]) {
+
 								var reserved = reservedAreas[m.mode][m.part][o.areaName].code;
 
-								if(reserved != '')
-									
-									content = content.replaceAll(o.originalContent,reserved);
+								if (reserved != '')
 
-								else{
+									content = content.replaceAll(o.originalContent, reserved);else {
 
-									if(text!=''){
-										
-										content = content.replaceAll(o.originalContent,text);
+									if (text != '') {
 
-									reservedAreas[m.mode][m.part][o.areaName].code = text;
-									
+										content = content.replaceAll(o.originalContent, text);
+
+										reservedAreas[m.mode][m.part][o.areaName].code = text;
+
 									}
-										
+
 								}
 
-							}else{
-								
-								var tag   = o.areaName.toLowerCase(),
+							} else {
+
+								var tag = o.areaName.toLowerCase(),
 
 									field = GEN.getFieldByTag(tag);
 
-								if(field){
-									
-									if(field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part] && field.server.preserved[m.mode][m.part].code != '' ){
-										
+								if (field) {
+
+									if (field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part] && field.server.preserved[m.mode][m.part].code != '') {
+
 										var val = field.server.preserved[m.mode][m.part].code;
 
-										content = content.replaceAll(o.originalContent,val);
-									
-									}else{
-										
-										if(text != '')
+										content = content.replaceAll(o.originalContent, val);
 
-											content = content.replaceAll(o.originalContent,text);
-										
-										field.server.preserved[m.mode] =field.server.preserved[m.mode] || {};
+									} else {
+
+										if (text != '')
+
+											content = content.replaceAll(o.originalContent, text);
+
+										field.server.preserved[m.mode] = field.server.preserved[m.mode] || {};
 
 										field.server.preserved[m.mode][m.part] = field.server.preserved[m.mode][m.part] || {
-
 											code : text
-
 										}
-										
+
 									}
 								}
 
 							}
 
-							content = content.replaceAll(o.urlExpression,'');
+							content = content.replaceAll(o.urlExpression, '');
 
 						});
 
 						callback(content);
-						
-					}
 
+					}
 				});
 
 			}
 
-		}else{
-			
+		} else {
+
 			callback(content);
 
 		}
 
 	};
 
-	var LoadExceptions = function(content,callback){
-		
+	var LoadExceptions = function(content, callback) {
+
 		var expStart = '/*----#EXECEP(',
 
-			expEnd   = ')EXECEP#----*/',
+			expEnd = ')EXECEP#----*/',
 
-			sidx 	 = getIndicesOf(expStart,content),
+			sidx = getIndicesOf(expStart, content),
 
-			eidx  	 = getIndicesOf(expEnd,content);
+			eidx = getIndicesOf(expEnd, content);
 
-		if(sidx.length == eidx.length){
+		if (sidx.length == eidx.length) {
 
-			preserveExceptions(content,{
-
+			preserveExceptions(content, {
 				starts : {
-
 					expression : expStart,
 
-					group      : sidx
-
+					group : sidx
 				},
 
-				ends   : {
-
+				ends : {
 					expression : expEnd,
 
-					group 	   : eidx 
-
+					group : eidx
 				},
 
-				callback:callback
-
+				callback : callback
 			});
 
 		}
 
 	};
 
-	var getPreservedLines = function(change){
+	var getPreservedLines = function(change) {
 
-		var start  = '/*----#start-code(',
+		var start = '/*----#start-code(',
 
-			end    = '/*----#end-code----*/',
+			end = '/*----#end-code----*/',
 
-			res    = [],
+			res = [],
 
-			arrSt  = [],
+			arrSt = [],
 
-			arrEd  = [],
+			arrEd = [],
 
 			active = clicked,
 
 			editor = server.editors[active.mode][active.part.toUpperCase()];
 
-		if(editor.lineCount() > 1){
+		if (editor.lineCount() > 1) {
 
-			editor.eachLine(function(e,i){
-			
-				if(e.text.indexOf(start) >= 0){
-				
-					arrSt.push(e.lineNo() + 1 );
-					
+			editor.eachLine(function(e, i) {
+
+				if (e.text.indexOf(start) >= 0) {
+
+					arrSt.push(e.lineNo() + 1);
+
 				}
 
 
-				if(e.text.indexOf(end) >= 0)
+				if (e.text.indexOf(end) >= 0)
 
-					arrEd.push( e.lineNo() );
-				
+					arrEd.push(e.lineNo());
+
 
 			});
-			
+
 
 			return {
 				start : arrSt,
-				end   : arrEd
+				end : arrEd
 			}
 
 		}
 
-	};	
+	};
 
-	var preserveExceptions = function(content,o){
+	var preserveExceptions = function(content, o) {
 
-		var idx 	  		    = o.index || 0,
+		var idx = o.index || 0,
 
-			defaultExcp  	    = 'throws IOException, IllegalArgumentException, IllegalAccessException',
+			defaultExcp = 'throws IOException, IllegalArgumentException, IllegalAccessException',
 
 			mainExpressionStart = '/*----#EXECEP(',
 
-			afterName 		    = ')EXECEP#----*/',
+			afterName = ')EXECEP#----*/',
 
-			mainExpressionEnd 	= ','+defaultExcp+',';
+			mainExpressionEnd = ',' + defaultExcp + ',';
 
-		if(idx < o.starts.group.length){
+		if (idx < o.starts.group.length) {
 
-			var startIdx 	 	  = o.starts.group[idx],
+			var startIdx = o.starts.group[idx],
 
-				endIdx 	 	 	  = o.ends.group[idx],
+				endIdx = o.ends.group[idx],
 
-				innerContent 	  = content.substring( startIdx,endIdx+o.ends.expression.length ),
+				innerContent = content.substring(startIdx, endIdx + o.ends.expression.length),
 
-				urlSubStart  	  = innerContent.indexOf(mainExpressionStart),
+				urlSubStart = innerContent.indexOf(mainExpressionStart),
 
-				urlSubEnd 	 	  = innerContent.indexOf(mainExpressionEnd),
+				urlSubEnd = innerContent.indexOf(mainExpressionEnd),
 
-				url 	     	  = innerContent.substring(urlSubStart+mainExpressionStart.length,urlSubEnd),
+				url = innerContent.substring(urlSubStart + mainExpressionStart.length, urlSubEnd),
 
-				urlIndx 	 	  = innerContent.indexOf(url),
+				urlIndx = innerContent.indexOf(url),
 
-				beforeName   	  = mainExpressionStart+url+','+defaultExcp+',',
+				beforeName = mainExpressionStart + url + ',' + defaultExcp + ',',
 
 				startExceptionIdx = innerContent.indexOf(beforeName),
 
-				endExceptionIdx   = innerContent.indexOf(afterName),
+				endExceptionIdx = innerContent.indexOf(afterName),
 
-				itemName 		  = innerContent.substring(startExceptionIdx+beforeName.length,endExceptionIdx),
+				itemName = innerContent.substring(startExceptionIdx + beforeName.length, endExceptionIdx),
 
-				expression	 	  = mainExpressionStart+url+mainExpressionEnd;
+				expression = mainExpressionStart + url + mainExpressionEnd;
 
 
-			o.index = idx+1;
+			o.index = idx + 1;
 
 			$.ajax({
-				url: url
+				url : url
 			})
-			.done(function(d) {
+				.done(function(d) {
 
-				var xml  = $(d),
+					var xml = $(d),
 
-					text = xml.find('your_code').text() || defaultExcp;
+						text = xml.find('your_code').text() || defaultExcp;
 
-				preserveExceptions.returner.push({
-					name 	   : itemName.toLowerCase(),
-					expression : innerContent,
-					text 	   : text
+					preserveExceptions.returner.push({
+						name : itemName.toLowerCase(),
+						expression : innerContent,
+						text : text
+					});
+
+				})
+				.fail(function() {
+
+					alert('error: ' + expression);
+
+					preserveExceptions.returner.push({
+						expression : expression,
+						text : defaultExcp
+					});
+
+				})
+				.always(function() {
+
+					o.index = idx + 1;
+
+					preserveExceptions(content, o);
+
 				});
 
-			})
-			.fail(function(){
 
-				alert('error: '+expression);
+		} else {
 
-				preserveExceptions.returner.push({
-					expression:expression,
-					text:defaultExcp
-				});
-
-			})
-			.always(function(){
-				
-				o.index = idx+1;
-
-				preserveExceptions(content,o);
-
-			});
-
-
-		}else{
-
-			if(o.callback)
+			if (o.callback)
 
 				o.callback(preserveExceptions.returner);
 
@@ -1201,13 +1186,13 @@ $(function(){
 
 	preserveExceptions.returner = [];
 
-	var preserveArea = function(array,p){
+	var preserveArea = function(array, p) {
 
-		var idx  = p.idx ? p.idx : 0;
+		var idx = p.idx ? p.idx : 0;
 		//var isIE = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false;
 		var beginExp = p.beginExp;
-		
-		var endExp   = p.endExp ;
+
+		var endExp = p.endExp;
 
 		var startUrlExp = '/*----#gen(';
 
@@ -1215,107 +1200,107 @@ $(function(){
 
 		var _endComment = '----*/';
 
-		if(idx < array.length){
+		if (idx < array.length) {
 
-			var item 			= array[idx];
+			var item = array[idx];
 
-			var endItem         =  p.end[idx]+endExp.length;
+			var endItem = p.end[idx] + endExp.length;
 
-			var expression      = p.content.substring(item,endItem);
+			var expression = p.content.substring(item, endItem);
 
-			var areaName 		= expression.match(/\(([^)]+)\)/)[1];
+			var areaName = expression.match(/\(([^)]+)\)/)[1];
 
-			var areaReplaceble  = areaName+')'+_endComment;
+			var areaReplaceble = areaName + ')' + _endComment;
 
-			beginExp 			= beginExp.replace(areaName+')'+_endComment ,_endComment);
+			beginExp = beginExp.replace(areaName + ')' + _endComment, _endComment);
 
 			var originalContent = expression.substring(beginExp.length, expression.length - endExp.length);
 
-			var startUrl 		= getIndicesOf(startUrlExp, expression)[0];
+			var startUrl = getIndicesOf(startUrlExp, expression)[0];
 
-			var endUrl   		= getIndicesOf(endUrlExp, expression)[0];
+			var endUrl = getIndicesOf(endUrlExp, expression)[0];
 
-			var urlExpression 	= expression.substring(startUrl,endUrl+endUrlExp.length);
+			var urlExpression = expression.substring(startUrl, endUrl + endUrlExp.length);
 
-			var urlContent 		= expression.substring(startUrl,endUrl).split(',');
+			var urlContent = expression.substring(startUrl, endUrl).split(',');
 
-			var url 			= urlContent[1];
+			var url = urlContent[1];
 
-			originalContent = originalContent.replace(areaReplaceble,'');
+			originalContent = originalContent.replace(areaReplaceble, '');
 
 			$.ajax({
-				url: url
+				url : url
 			})
-			.done(function(d) {
-				
-				var xml  = $(d);
+				.done(function(d) {
 
-				var text = xml.find('your_code').text();
+					var xml = $(d);
 
-				preserveArea.returnObject.push({
-					areaName  : areaName,
-					originalContent : originalContent,
-					expression:expression,
-					urlExpression : urlExpression,
-					text:text
+					var text = xml.find('your_code').text();
+
+					preserveArea.returnObject.push({
+						areaName : areaName,
+						originalContent : originalContent,
+						expression : expression,
+						urlExpression : urlExpression,
+						text : text
+					});
+				})
+				.fail(function() {
+					alert('error: ' + urlContent[1]);
+					preserveArea.returnObject.push({
+						areaName : areaName,
+						originalContent : originalContent,
+						expression : expression,
+						urlExpression : urlExpression,
+						text : ''
+					});
+				})
+				.always(function() {
+					p.idx = idx + 1;
+					preserveArea(array, p)
 				});
-			})
-			.fail(function(){
-				alert('error: '+urlContent[1]);
-				preserveArea.returnObject.push({
-					areaName  : areaName,
-					originalContent : originalContent,
-					expression:expression,
-					urlExpression : urlExpression,
-					text:''
-				});
-			})
-			.always(function(){
-				p.idx = idx+1;
-				preserveArea(array,p)
-			});
 
-		}else{
+		} else {
 
-			if(p.callback)
+			if (p.callback)
 				p.callback(preserveArea.returnObject);
-			
+
 			preserveArea.returnObject = [];
 
 		}
-		
+
 	};
 
 	preserveArea.returnObject = [];
 
 	GenPartsLoop.arr = [];
 
-	var Events = function(){
+	var Events = function() {
 
-		$('.gen-editor-toolsbar').on('click','.server-transform',function(){
-			
-			ActivateMenu( $(this),{
+		$('.gen-editor-toolsbar').on('click', '.server-transform', function() {
+
+			ActivateMenu($(this), {
 				transform : true
-			} );
+			});
 
 		});
-		
-		if( genOptions ){
-			
-			for(var o in genOptions){
-				
+
+		if (genOptions) {
+
+			for (var o in genOptions) {
+
 				var option = genOptions[o];
-				
-				if(option.codes){
-					
-					option.codes.forEach(function(c){
-						
-						server.events.declare([o+'.'+c.name.toLowerCase()+'.gen']);
-						
+
+				if (option.codes) {
+
+					option.codes.forEach(function(c) {
+
+						server.events.declare([ o + '.' + c.name.toLowerCase() + '.gen' ]);
+
 					})
-					
+
 				}
-				
+
 			}
 		}
 

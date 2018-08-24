@@ -141,7 +141,7 @@ public class User implements Component{
 		}
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
-				Route.remember(); // remember the url that was requested by the client ... 
+			//	Route.remember(); // remember the url that was requested by the client ... 
 				this.checkCookieContext();
 				// Anyway, go to login page 
 				LoginController controller = new LoginController();
