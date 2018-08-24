@@ -1,7 +1,6 @@
 
 package nosi.webapps.igrp.pages.etapaaccess;
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -19,6 +18,7 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.config.Config;
 /*----#end-code----*/
 
 
@@ -31,23 +31,24 @@ public class EtapaaccessController extends Controller {
 		/*----#start-code(index)----*/
 		String type = Core.getParam("type");
 		Integer orgProfId = Core.getParamInt("p_id");
-		Integer org = null;
+		Integer orgId=null, profId= null;
 		String userEmail = Core.getParam("userEmail");		
 		if(type.compareTo("org")==0) {
 			model.setTable_1(this.getOrganizationTasks(orgProfId));
-			org = orgProfId;
+			orgId = orgProfId;
 		}
 		if(type.compareTo("user")==0) {
 			ProfileType prof = new ProfileType().findOne(orgProfId);
 			model.setTable_1(this.getUserTasks(prof,new User().findIdentityByEmail(userEmail)));
-			org = prof.getOrganization().getId();
+			orgId = prof.getOrganization().getId();
+			profId = prof.getId();
 		}
 		if(type.compareTo("prof")==0) {
 			ProfileType prof = new ProfileType().findOne(orgProfId);
 			model.setTable_1(this.getProfileTasks(prof));	
-			org = prof.getOrganization().getId();		
+			orgId = prof.getOrganization().getId();		
 		}
-		view.btn_gravar.setLink("gravar&type="+type+"&orgProfId="+orgProfId+"&orgId="+org+"&userEmail="+userEmail);
+		view.btn_gravar.setLink("gravar&type="+type+"&orgProfId="+orgProfId+"&orgId="+orgId+"&profId="+profId+"&userEmail="+userEmail);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -170,20 +171,15 @@ public class EtapaaccessController extends Controller {
 					this.listR.add(r);			
 					Core.delete(Config.getBaseConnection(),"tbl_task_access").where("org_fk=:org_fk")
 										   .addInt("org_fk",orgProfUserId)
-										   .andWhere("processname", "=",taskProcess[1])
 										   .execute();
 				}
 				if("prof".compareTo(type)==0) {
 					Core.delete(Config.getBaseConnection(),"tbl_task_access").where("prof_fk=:prof_fk")
 					   .addInt("prof_fk",orgProfUserId)
-					   .andWhere("processname", "=",taskProcess[1])
 					   .execute();
 				}
 				if("user".compareTo(type)==0) {
-					Core.update(Config.getBaseConnection(),"tbl_task_access").addInt("user_fk", null).where("processname=:processname AND org_fk=:org_fk")
-										   .addString("processname",taskProcess[1])
-										   .addInt("org_fk", orgId)
-										   .execute();
+					Core.executeQuery(Config.getBaseConnection(), "UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
 				}
 			}
 		}

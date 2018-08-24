@@ -722,7 +722,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface insert(String tableName) {
-		return new QueryInsert(new Config().getBaseConnection()).insert(tableName);
+		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
 	}
 
 	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName) {
@@ -730,7 +730,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface update(String tableName) {
-		return new QueryUpdate(new Config().getBaseConnection()).update(tableName);
+		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
 	}
 
 	public static BaseQueryInterface update(String connectionName, String tableName) {
@@ -742,7 +742,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface delete(String tableName) {
-		return new QueryDelete(new Config().getBaseConnection()).delete(tableName);
+		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
 	}
 
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
@@ -778,6 +778,12 @@ public final class Core { // Not inherit
 		return q.executeQuery(env);
 	}
 
+	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(String connectionName, String sql) {
+		QuerySelect q = new QuerySelect();
+		q.setSql(sql);
+		return q.executeQuery(Connection.getConnection(connectionName));
+	}
+	
 	/**
 	 * Find User by email
 	 * 
@@ -1424,7 +1430,7 @@ public final class Core { // Not inherit
 	 * @return int ID
 	 */
 	public static int saveFile(File file, String name, String mime_type) {
-		String igrpCoreConnection = new Config().getBaseConnection();
+		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
 		file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
@@ -1479,7 +1485,7 @@ public final class Core { // Not inherit
 	 * @return in ID
 	 */
 	public static int saveFile(Part file, String name) {
-		String igrpCoreConnection = new Config().getBaseConnection();
+		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
 		if (conn != null) {
@@ -1585,7 +1591,7 @@ public final class Core { // Not inherit
 		java.sql.Connection conn = null;
 
 		try {
-			String igrpCoreConnection = new Config().getBaseConnection();
+			String igrpCoreConnection = Config.getBaseConnection();
 			conn = Connection.getConnection(igrpCoreConnection);
 			String sql = "select * from tbl_clob where id = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
