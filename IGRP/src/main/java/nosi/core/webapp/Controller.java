@@ -393,7 +393,7 @@ public class Controller{
 		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";			
 		r=EncrypDecrypt.decrypt(r);	
 		if(r!=null){
-			this.changeOrgAndProfile(r);
+			//this.changeOrgAndProfile(r);
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
 			//synchronized (auxPattern) {
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
@@ -421,13 +421,13 @@ public class Controller{
 		app.getLog().addMessage(xsl);
 	}
 	
-	private void changeOrgAndProfile(String r) {
-		String dad = Igrp.getInstance().getRequest().getParameter("dad");
-		dad = Core.isNotNull(dad)?dad:Core.getCurrentDadParam();
-		if(Igrp.getInstance().getUser().isAuthenticated() && Core.isNotNull(dad)) {
-			new Permission().changeOrgAndProfile(dad);
-		}
-	}
+//	private void changeOrgAndProfile(String r) {
+//		String dad = Igrp.getInstance().getRequest().getParameter("dad");
+//		dad = Core.isNotNull(dad)?dad:Core.getCurrentDadParam();
+//		if(Igrp.getInstance().getUser().isAuthenticated() && Core.isNotNull(dad)) {
+//			new Permission().changeOrgAndProfile(dad);
+//		}
+//	}
 
 	
 	protected Object run(){ 
