@@ -282,7 +282,7 @@ public final class EmailMessage { // Not inherit
 		public PdexTemplate() {}
 		
 		
-		protected static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
+		public static String getCorpoFormatado(String boxTitle, String msgBoasVindas, String[] paragrafos, String []textoBtnAcao, String []hrefBtnAcao, String helpLink) {
 			if(paragrafos.length == 0 || msgBoasVindas.isEmpty()) {
 				return "";
 			}

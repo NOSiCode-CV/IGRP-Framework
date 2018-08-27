@@ -129,10 +129,11 @@ public class EnvController extends Controller {
 			app.setTemplate(model.getTemplates()); 
 			
 			Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
-			if(tutorial != null) {
+			if(tutorial != null && app.getExternal() != 1) {
 				Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", tutorial.getId()).one();
-				if(hp != null)
+				if(hp != null && app.getExternal() != 1)
 					app.setAction(hp);
+				else app.setAction(null);
 			}
 			
 			app = app.insert();
@@ -307,8 +308,10 @@ public class EnvController extends Controller {
 				Application tutorial = new Application().find().andWhere("dad", "=", "tutorial").one();
 				if(tutorial != null) {
 					Action hp = new Action().find().andWhere("page", "=", "DefaultPage").andWhere("application.id", "=", tutorial.getId()).one();
-					if(hp != null)
-						aplica_db.setAction(hp);
+					if(hp != null && aplica_db.getExternal() != 1)
+						aplica_db.setAction(hp);  
+					else 
+						aplica_db.setAction(null); 
 				}
 				
 			}
@@ -457,7 +460,7 @@ public class EnvController extends Controller {
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			
-			Application env = new Application().find().andWhere("dad", "=", p[0]).one();
+			Application env = new Application().find().andWhere("dad", "=", app).one();
 			
 			Properties properties = this.load("sso", "oauth2.xml");
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
@@ -471,10 +474,11 @@ public class EnvController extends Controller {
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 				String aux = env.getUrl();
 				Action action = env.getAction();
-				if(action != null) {
+				if(action != null && env.getExternal() != 1) {
 					aux = aux.replace(URI.create(aux).getQuery(), "");
 					aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 				}
+				
 				return this.redirectToUrl(aux);
 			}
 			this.addQueryString("dad", app);

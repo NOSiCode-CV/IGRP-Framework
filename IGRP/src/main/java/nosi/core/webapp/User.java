@@ -130,6 +130,8 @@ public class User implements Component{
 	@Override
 	public void init(HttpServletRequest request) {
 		boolean isLoginPage = false;
+		boolean isResetByEmailPage = false;
+		boolean isResetPasswordPage = false;
 		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
 		String loginUrl = "igrp/login/login";
 		//if(!aux.equals("igrp/login/login") && !aux.equals("igrp/ErrorPage/exception") && !aux.startsWith("igrp/page")) {
@@ -137,8 +139,16 @@ public class User implements Component{
 //		}
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){			
-			isLoginPage = aux.equals(loginUrl); // bug ... Perhaps 
+			isLoginPage = aux.equals(loginUrl); 
+			isResetByEmailPage = aux.contains("igrp/Resetbyemail");
+			isResetPasswordPage = aux.contains("igrp/Resetpassword");
 		}
+		
+		//System.out.println("isResetByEmailPage: " + isResetByEmailPage); 
+		//System.out.println("isResetPasswordPage: " + isResetPasswordPage); 
+		
+		if(isResetByEmailPage || isResetPasswordPage) return; 
+		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
 			//	Route.remember(); // remember the url that was requested by the client ... 
