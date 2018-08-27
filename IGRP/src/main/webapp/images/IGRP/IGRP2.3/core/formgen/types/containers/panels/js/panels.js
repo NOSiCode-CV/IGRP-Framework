@@ -295,7 +295,7 @@ var GENPANELS = function(name,tparams){
 
 			container.contents.push(btn);
 
-			console.log(rowsHolder)
+		//	console.log(rowsHolder)
 
 			__GEN.layout.setViewSortable(rowsHolder);
 

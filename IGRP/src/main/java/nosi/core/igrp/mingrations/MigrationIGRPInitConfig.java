@@ -26,7 +26,7 @@ public class MigrationIGRPInitConfig {
 		Application app_tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "IGRP web TODO", 1, null);
 		app_tutorial = app_tutorial.insertOnly();
 		
-		Application app_igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "{4 Developers}", 1, null,"igrp_studio");
+		Application app_igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "<code/> {Developers}", 1, null,"igrp_studio");
 		app_igrp_studio = app_igrp_studio.insertOnly();
 		
 		if(app_igrp!=null){

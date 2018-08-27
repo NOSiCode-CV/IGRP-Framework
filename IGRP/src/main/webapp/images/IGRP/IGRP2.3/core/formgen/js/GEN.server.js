@@ -779,8 +779,7 @@ $(function() {
 
 			var isGlobalPreservation = false;
 
-			replaceOptions.serverJSON = json;
-
+			
 			if ($.isArray(json)) {
 
 				var object = {};
@@ -798,9 +797,10 @@ $(function() {
 				});
 
 				json = object;
+				replaceOptions.serverJSON = json;
+				
 
-			}
-			;
+			};
 
 			if (isGlobalPreservation && !codeChecked) {
 

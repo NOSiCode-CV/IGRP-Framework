@@ -1129,8 +1129,9 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Maps source to destination - {@link http://modelmapper.org/getting-started/}
-	 * Example here -> {@link http://modelmapper.org/examples/flattening/}
+	 * Maps source to destination - 
+	 * {@link http://modelmapper.org/getting-started/}
+	 * Example here: {@link http://modelmapper.org/examples/flattening/}
 	 * 
 	 * @param source
 	 * @param destination
@@ -1714,7 +1715,7 @@ public final class Core { // Not inherit
 	 * @param url
 	 * @param mediaType
 	 * @param result
-	 * @return
+	 * @return {@code httpGet(url, mediaType, null, result);}
 	 */
 	public static <T> T httpGet(String url, String[] mediaType, Class<T> result) {
 		return httpGet(url, mediaType, null, result);
@@ -1727,7 +1728,7 @@ public final class Core { // Not inherit
 	 * @param mediaType
 	 * @param httpHeaders
 	 * @param result
-	 * @return
+	 * @return {@code 	T r = ib.get(result);}
 	 */
 	public static <T> T httpGet(String url, String[] mediaType, Map<String, Object> httpHeaders, Class<T> result) {
 		Client curl = ClientBuilder.newClient();
@@ -1830,6 +1831,7 @@ public final class Core { // Not inherit
 	 * @param wsdlUrl     The webservice description language url
 	 * @param headers     A Map of soap request headers
 	 * @param bodyContent String of raw request envelope
+	 * 
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> headers, String rawEnvelope) {

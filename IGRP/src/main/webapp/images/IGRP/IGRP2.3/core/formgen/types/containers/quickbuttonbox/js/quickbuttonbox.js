@@ -49,7 +49,7 @@
 				type : 'action',
 			
 				onChange:function(v){
-					console.log(v);			
+//					console.log(v);			
 					
 				}
 			});

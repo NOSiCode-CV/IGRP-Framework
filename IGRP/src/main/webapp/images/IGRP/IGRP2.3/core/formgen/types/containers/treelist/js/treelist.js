@@ -123,7 +123,7 @@ var TREELIST = function(name,params){
 
 	container.ready = function(){
 
-		console.log(container);
+//		console.log(container);
 
 	}
 

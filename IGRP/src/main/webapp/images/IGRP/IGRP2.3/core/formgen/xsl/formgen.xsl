@@ -296,7 +296,7 @@
                                   <span>Settings</span>
                               </a>                             
                              <div class="pull-left">
-                     		  <select class="form-control " id="code-mirror-theme-selector" 
+                     		  <select class="form-control btn" id="code-mirror-theme-selector" 
                      		  						style="padding-bottom: 0px;  padding-top: 0px;    height: 28px;">
                     		   		<option value="eclipse">Eclipse theme</option>
 									<option value="midnight">Midnight theme</option>

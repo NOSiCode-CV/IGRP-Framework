@@ -71,7 +71,7 @@
 					type : 'action',
 					//canAddOptions  : false,
 					onChange:function(v){
-						console.log(v);
+//						console.log(v);
 						/*var page   = v.params.page,
 							app    = v.params.app,
 							action = v.params.action,

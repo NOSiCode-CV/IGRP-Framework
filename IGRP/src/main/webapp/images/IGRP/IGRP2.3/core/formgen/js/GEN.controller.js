@@ -2428,14 +2428,15 @@ var GENERATOR = function(genparams){
 			return false;
 		});
 //		Change theme of the codemirror
-		$('#code-mirror-theme-selector').on('change',function(){
-			console.log("clicou");
+		$('#code-mirror-theme-selector').on('click',function(){
+			
 			var activeEditor = getActiveEditor();		
-			if(activeEditor){
-				console.log("entou");
+			if(activeEditor){			
 				activeEditor.setOption('theme',$(this).val());	
 				}	
-
+			if( GEN.server.activeMenu.editor ){
+			GEN.server.activeMenu.editor.setOption('theme',$(this).val());
+			}
 			});
 		
 		
@@ -2932,7 +2933,7 @@ var GENERATOR = function(genparams){
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
 
-				console.log(exportJSON);
+				//console.log(exportJSON);
 
 				var notifyOptions = {
 					delay: 12000,
