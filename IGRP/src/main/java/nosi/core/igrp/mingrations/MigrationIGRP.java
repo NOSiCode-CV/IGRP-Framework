@@ -40,14 +40,14 @@ public class MigrationIGRP {
 	public static void start(Migrate model){
 		getData();
 		if(model!=null){
-			ConfigDBIGRP config = new ConfigDBIGRP();
+			/**ConfigDBIGRP config = new ConfigDBIGRP();
 			config.setHost(model.getHostname());
 			config.setName_db(model.getNome_de_bade_dados());
 			config.setType_db(model.getTipo_base_dados());
 			config.setPort(model.getPort());
 			config.setUsername(model.getUsername());
 			config.setPassword(model.getPassword());
-			config.save();
+			config.save();*/
 		}
 		saveData();
 		new CreateViews();
@@ -56,12 +56,12 @@ public class MigrationIGRP {
 	public static boolean validate(Migrate model){
 		if(model!=null){
 			ConfigDBIGRP config = new ConfigDBIGRP();
-			config.setHost(model.getHostname());
+			/*	config.setHost(model.getHostname());
 			config.setName_db(model.getNome_de_bade_dados());
 			config.setType_db(model.getTipo_base_dados());
 			config.setPort(model.getPort());
 			config.setUsername(model.getUsername());
-			config.setPassword(model.getPassword());
+			config.setPassword(model.getPassword());*/
 			return config.validate(model.getUrl_connection(),model.getDriver_connection());
 		}
 		return false;

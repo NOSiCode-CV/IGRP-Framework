@@ -1,10 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" autoFlush="true"%>
-<%@ page import="org.json.JSONArray"%>
-<%@page import="org.json.JSONObject"%>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.Collections"%>
-<%@ page import="java.util.ArrayList"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html class="ready">
    <head>
@@ -186,13 +181,13 @@
    
      <body class="fixed-nav old-v fluid sidebar-off" template="" has-menu="true" page="Form" app="igrp"> 
        <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
-         <a class="navbar-brand col-sm-3 col-md-2" href="#"><img src="/IGRP/images/IGRP/IGRP2.3/themes/default/img/logo2.svg"><span class=""><b>IGRP</b></span></a>
+         <a class="navbar-brand col-sm-3 col-md-2" href="webapps?r=igrp/home/index&amp;dad=igrp"><img src="/IGRP/images/IGRP/IGRP2.3/themes/default/img/logo2.svg"><span class=""><b>IGRP</b></span></a>
          <div id="side-bar-ctrl"><i class="fa fa-navicon"></i></div>
          <div id="igrp-app-title" class="" style="max-width: 847.75px;">Integrated Government Resource Planning</div>
          <ul id="igrp-top-menu" class="hidden-xs nav navbar-nav navbar-right">
            <!--   <li alt="Home" title="Home"><a href="webapps?r=igrp/DefaultPage/index&amp;dad=igrp" target="_self"><i class="fa fa-home"></i></a></li> -->
-           <!--   <li alt="Settings" title="Settings"><a href="#" target="modal" close="refresh"><img src="/IGRP/images/IGRP/IGRP2.3/assets/img/english_flag.png" style="width: 26px;padding-bottom: 3px;"><span class=""><b>Nositeste</b></span></a></li> -->
-            <li alt="Sair" title="Sair"><a href="app/webapps?r=igrp/login/logout" target="_self"><i class="fa fa-sign-out"></i></a></li> 
+            <li alt="Settings" title="Settings"><a href="#" target="modal" close="refresh"><img src="/IGRP/images/IGRP/IGRP2.3/assets/img/english_flag.png" style="width: 26px;padding-bottom: 3px;"><span class=""><b>Nositeste</b></span></a></li>
+            <li alt="Sair" title="Sair"><a href="webapps?r=igrp/login/logout&amp;dad=igrp" target="_self"><i class="fa fa-sign-out"></i></a></li>
          </ul>
       </nav>
       
@@ -216,7 +211,7 @@
                         <nav class="navbar navbar-default" role="navigation">
                            <div class="container-fluid">
                               <div class="form-group" id="searcher">
-                                 <div class="input-group"><input class="form-control" id="" placeholder="Pesquisar " type="text"><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-search"></i></button></span><span class="input-group-btn"><button type="button" class="btn btn-default searcher-clean"><i class="fa fa-times"></i></button></span></div>
+                                 <div class="input-group"><input class="form-control" id="" placeholder="Pesquisar Links" type="text"><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-search"></i></button></span><span class="input-group-btn"><button type="button" class="btn btn-default searcher-clean"><i class="fa fa-times"></i></button></span></div>
                               </div>
                            </div>
                         </nav>
@@ -225,7 +220,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                            <div class="gen-tab-holder nav-tabs-custom" tab-template="clean" id="igrp-apps-1">
                               <ul class="nav nav-tabs">
-                                 <li class="active" rel="minhas_aplicacoes"><a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#minhas_aplicacoes"><span>Meus Ambientes</span></a></li>
+                                 <li class="active" rel="minhas_aplicacoes"><a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#minhas_aplicacoes"><span>Meus Links</span></a></li>
                                  <li rel="outras_apps"><a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#outras_apps"><span></span></a></li>
                               </ul>
                               <div class="tab-content">
@@ -235,59 +230,15 @@
                                           <div class="gen-inner">
                                             
                                             
-                                            
-                                            <%!
-												List<String> mylinks = new ArrayList<String>();
-												String token = "";
-											%>
-											<%
-												try{	
-													String json = (String)session.getAttribute("__links");
-													JSONObject jsonObject = new JSONObject(json);
-													JSONArray jsonArray = jsonObject.getJSONArray("myLinks");
-													token = jsonObject.getString("token");
-													
-													for(int i = 0; i < jsonArray.length(); i++){ 
-														if(jsonArray.get(i).toString().contains("0_45") || jsonArray.get(i).toString().contains("0_47") || jsonArray.get(i).toString().contains("0_58"))
-															mylinks.add(jsonArray.get(i).toString()); 
-													}
-											%>
-	
-											<% 
-											
-											Collections.sort(mylinks);
-											
-											for(int i = 0; i < mylinks.size(); i++) { 
-												String aux =  mylinks.get(i); 
-												aux = aux.replace("0_45", "-").replace("0_47", "/").replace("0_58", ":"); 
-												String link = "https://" + aux + "/igrpoauth2sso?_t=" + token;
-												mylinks.set(i, link);
-											%>   
-											
-										     <div class="col-md-3 col-sm-6 col-xs-12 apps-col">
-                                                <a href="<%=link%>" class="igrp-app-block clear clearfix" search-content="<%=aux%>">
-                                                   <div class="app-img"><img src="/IGRP/images/IGRP/IGRP2.3/assets/img/loginLogo.svg"></div>
-                                                   <div class="app-title"><span><%=aux%></span></div>
-                                                   <div class="app-desc"><span>Server</span></div>
+                                             <div class="col-md-3 col-sm-6 col-xs-12 apps-col">
+                                                <a href="webapps?r=igrp_studio/env/openApp&amp;app=teste&amp;page=teste/Login/index" class="igrp-app-block clear clearfix" search-content="Teste - Aplicação Teste">
+                                                   <div class="app-img"><img src="/IGRP/images/IGRP/IGRP2.3/assets/img/iconApp/default.svg"></div>
+                                                   <div class="app-title"><span>Teste</span></div>
+                                                   <div class="app-desc"><span>Aplicação Teste</span></div>
                                                 </a>
                                              </div>
                                              
-										    <% 
-										    	} 
-											
-											if(mylinks.size() == 1){
-												String aux = mylinks.get(0);
-												response.sendRedirect(aux);
-											}
-											
-											}catch(Exception e){
-												e.printStackTrace();
-												out.append("<p>An error has occurred ... Please click on link top-right to restore !</p>");
-											}finally{
-												mylinks.clear();
-											}
-										    %>
-                                            
+                                             
                                              
                                           </div>
                                        </div>
@@ -312,7 +263,7 @@
          <div id="igrp-global-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                <div class="modal-content">
-                  <div class="modal-header"><span class="title"></span><button type="button" class="close" data-dismiss="modal">Ã—</button></div>
+                  <div class="modal-header"><span class="title"></span><button type="button" class="close" data-dismiss="modal">×</button></div>
                   <div class="modal-body"></div>
                   <div class="modal-footer"></div>
                </div>
