@@ -6,7 +6,7 @@
 	"preserve_url":"/images/IGRP/IGRP2.3/core/formgen/util/preserve.xml",
 	"link_service_xsd":"/images/IGRP/IGRP2.3/core/formgen/util/test.xsd",
 	"link_get_page_json":"data_copy.txt?p_id=",
-	"link_preview":"http://igrp.teste.gov.cv/images/IGRP/",
+	"link_preview":"/images/IGRP/",
 	"link_domains": "domains.json",
 	"link_domains_value": "domain.yesno.json?domain="
 }

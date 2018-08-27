@@ -88,8 +88,7 @@ public final class Core { // Not inherit
 	/**
 	 * This method is used to add a message log
 	 * 
-	 * @param msg
-	 *            This is the message
+	 * @param msg This is the message
 	 * 
 	 */
 	public static void log(String msg) {
@@ -107,8 +106,7 @@ public final class Core { // Not inherit
 	/**
 	 * Shows a custom success flash message
 	 * 
-	 * @param msg
-	 *            Custom message string
+	 * @param msg Custom message string
 	 */
 	public static void setMessageSuccess(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));
@@ -125,8 +123,7 @@ public final class Core { // Not inherit
 	/**
 	 * Shows a custom error flash message
 	 * 
-	 * @param msg
-	 *            Custom message string
+	 * @param msg Custom message string
 	 */
 	public static void setMessageError(String msg) {
 		nosi.core.servlet.IgrpServlet.LOGGER.error(gt(msg));
@@ -137,8 +134,7 @@ public final class Core { // Not inherit
 	/**
 	 * Add Message Info
 	 * 
-	 * @param msg
-	 *            custom message
+	 * @param msg custom message
 	 */
 	public static void setMessageInfo(String msg) {
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg));
@@ -148,10 +144,8 @@ public final class Core { // Not inherit
 	/**
 	 * Add Message Info With Link
 	 * 
-	 * @param msg
-	 *            custom message
-	 * @param link
-	 *            set a link to show
+	 * @param msg  custom message
+	 * @param link set a link to show
 	 */
 	public static void setMessageInfoLink(String msg, String link) {
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg) + "/#RESERVE#/" + link);
@@ -161,14 +155,10 @@ public final class Core { // Not inherit
 	/**
 	 * Add Message Info With Link
 	 * 
-	 * @param msg
-	 *            custom message
-	 * @param app
-	 *            for the created link
-	 * @param page
-	 *            for the created link
-	 * @param action
-	 *            for the created link
+	 * @param msg    custom message
+	 * @param app    for the created link
+	 * @param page   for the created link
+	 * @param action for the created link
 	 */
 	public static void setMessageInfoLink(String msg, String app, String page, String action) {
 		nosi.core.servlet.IgrpServlet.LOGGER
@@ -180,8 +170,7 @@ public final class Core { // Not inherit
 	/**
 	 * Add Message Warning
 	 * 
-	 * @param msg
-	 *            custom message
+	 * @param msg custom message
 	 */
 	public static void setMessageWarning(String msg) {
 		nosi.core.servlet.IgrpServlet.LOGGER.warn(gt(msg));
@@ -467,108 +456,99 @@ public final class Core { // Not inherit
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
-	 * @param name
-	 *            of the string name
-	 *            remove the attribute after get it
+	 * @param name of the string name remove the attribute after get it
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
 		Object v = Igrp.getInstance().getRequest().getParameter(name);
 		if (Core.isNull(v))
-			v = Core.getAttribute(name,true);
+			v = Core.getAttribute(name, true);
 		return v != null ? v.toString() : "";
 	}
 
 	/**
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
-	 * @param name
-	 *            of the string name
-	 * @param isRemoved 
-	 * 			  if you don't remove the attribute
+	 * @param name      of the string name
+	 * @param isRemoved if you don't remove the attribute
 	 * @return {@code v!=null?v.toString():"";}
 	 */
-	public static String getParam(String name,boolean isRemoved) {
+	public static String getParam(String name, boolean isRemoved) {
 		Object v = Igrp.getInstance().getRequest().getParameter(name);
 		if (Core.isNull(v))
-			v = Core.getAttribute(name,isRemoved);
+			v = Core.getAttribute(name, isRemoved);
 		return v != null ? v.toString() : "";
 	}
+
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name
-	 *            of the string label
+	 * @param name of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
 	 */
 	public static Integer getParamInt(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name,true);
+			x = Core.getAttribute(name, true);
 		return Core.isNotNull(x) ? Core.toInt(x) : 0;
 	}
 
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name
-	 *            of the string label
+	 * @param name of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
 	 */
 	public static Double getParamDouble(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name,true);
+			x = Core.getAttribute(name, true);
 		return Core.isNotNull(x) ? Core.toDouble(x) : 0;
 	}
 
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name
-	 *            of the string label
+	 * @param name of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
 	 */
 	public static Short getParamShort(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name,true);
+			x = Core.getAttribute(name, true);
 		return Core.isNotNull(x) ? Core.toShort(x) : 0;
 	}
 
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name
-	 *            of the string label
+	 * @param name of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
 	 */
 	public static Float getParamFloat(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name,true);
+			x = Core.getAttribute(name, true);
 		return Core.isNotNull(x) ? Core.toFloat(x) : 0;
 	}
 
 	/**
 	 * Core.getParam first
 	 * 
-	 * @param name
-	 *            of the string label
+	 * @param name of the string label
 	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
 	 */
 	public static Long getParamLong(String name) {
 		String x = Core.getParam(name);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name,true);
+			x = Core.getAttribute(name, true);
 		return Core.isNotNull(x) ? Core.toLong(x) : 0;
 	}
 
 	/**
 	 * {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
 	 * 
-	 * @param name
-	 *            of the string label
+	 * @param name of the string label
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
@@ -578,13 +558,12 @@ public final class Core { // Not inherit
 		}
 		return value;
 	}
-	
+
 	public static Object getParamObject(String name) {
-		Object x = Core.getAttribute(name,true);
+		Object x = Core.getAttribute(name, true);
 		return x;
 	}
 
-	
 	public static void removeAttribute(String name) {
 		Igrp.getInstance().getRequest().removeAttribute(name);
 	}
@@ -593,21 +572,21 @@ public final class Core { // Not inherit
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 
-	public static Object getAttributeObject(String name,boolean isRemoved) {
-		Object v =Igrp.getInstance().getRequest().getAttribute(name);
-		if(isRemoved)
+	public static Object getAttributeObject(String name, boolean isRemoved) {
+		Object v = Igrp.getInstance().getRequest().getAttribute(name);
+		if (isRemoved)
 			Igrp.getInstance().getRequest().removeAttribute(name);
 		return v;
 	}
-	
-	public static String getAttribute(String name,boolean isRemoved) {
+
+	public static String getAttribute(String name, boolean isRemoved) {
 		if (Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
 			else
 				v = (String) Igrp.getInstance().getRequest().getAttribute(name);
-			if(isRemoved)
+			if (isRemoved)
 				Igrp.getInstance().getRequest().removeAttribute(name);
 			return v;
 		}
@@ -665,12 +644,18 @@ public final class Core { // Not inherit
 		return dad;
 	}
 
+	/**
+	 * Get Current Application Dad on the URL Example: dad/app/action
+	 * 
+	 * @return {@code new Permission().getCurrentEnv();}
+	 */
 	public static String getCurrentDadParam() {
 		String r = Core.getParam("r");
 		r = Core.decrypt(r);
 		String[] r_split = r.split("/");
 		return r_split[0];
 	}
+
 	/**
 	 * Get current Organization ID
 	 * 
@@ -692,8 +677,7 @@ public final class Core { // Not inherit
 	/**
 	 * Get Config Property
 	 * 
-	 * @param name
-	 *            of the config property
+	 * @param name of the config property
 	 * @return
 	 */
 	public static String getConfig(String name) {
@@ -722,7 +706,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface insert(String tableName) {
-		return new QueryInsert(new Config().getBaseConnection()).insert(tableName);
+		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
 	}
 
 	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName) {
@@ -730,7 +714,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface update(String tableName) {
-		return new QueryUpdate(new Config().getBaseConnection()).update(tableName);
+		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
 	}
 
 	public static BaseQueryInterface update(String connectionName, String tableName) {
@@ -742,7 +726,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface delete(String tableName) {
-		return new QueryDelete(new Config().getBaseConnection()).delete(tableName);
+		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
 	}
 
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
@@ -757,9 +741,10 @@ public final class Core { // Not inherit
 		return new QuerySelect(connectionName).select(sql);
 	}
 
-	public static QueryInterface query(String sql,Config_env config_env) {
+	public static QueryInterface query(String sql, Config_env config_env) {
 		return new QuerySelect(config_env).select(sql);
 	}
+
 	public static QueryInterface query(String connectionName, String sql, Class<?> className) {
 		return new QuerySelect(connectionName).select(sql, className);
 	}
@@ -776,6 +761,12 @@ public final class Core { // Not inherit
 		QuerySelect q = new QuerySelect();
 		q.setSql(sql);
 		return q.executeQuery(env);
+	}
+
+	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(String connectionName, String sql) {
+		QuerySelect q = new QuerySelect();
+		q.setSql(sql);
+		return q.executeQuery(Connection.getConnection(connectionName));
 	}
 
 	/**
@@ -1152,7 +1143,7 @@ public final class Core { // Not inherit
 	public static SessionFactory getSessionFactory(String connectionName) {
 		return HibernateUtils.getSessionFactory(connectionName);
 	}
-	
+
 	public static String getPinkColor() {
 		return "1";
 	}
@@ -1202,7 +1193,8 @@ public final class Core { // Not inherit
 	/**
 	 * This method you can invoking using Link or Button.
 	 * 
-	 * Example with filter id=2: {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
+	 * Example with filter id=2:
+	 * {@code model.setLink(Core.getLinkReport("rep_persons").addParam("p_id", 2))}
 	 * 
 	 * @param code_report The unique code that identifies Report
 	 * @return
@@ -1210,29 +1202,27 @@ public final class Core { // Not inherit
 	public static Report getLinkReport(String code_report) {
 		return new Report().getLinkReport(code_report);
 	}
-	
+
 	/**
-	 * Get Report for Response redirect
-	 *  {@code .addParam } for filtering 
-	 *  
+	 * Get Report for Response redirect {@code .addParam } for filtering
+	 * 
 	 * @param code_report The unique code that identifies Report
-	 * @param report use filter {@code new Report().addParam("id",1) } OR this.loadQueryString()
+	 * @param report      use filter {@code new Report().addParam("id",1) } OR
+	 *                    this.loadQueryString()
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Response getLinkReport(String code_report, Object report) {		
+	public static Response getLinkReport(String code_report, Object report) {
 		Report rep = new Report();
-		if(report!=null && report instanceof QueryString) {
-			((QueryString<String,Object>)report).getQueryString().entrySet().stream().forEach(q -> {
+		if (report != null && report instanceof QueryString) {
+			((QueryString<String, Object>) report).getQueryString().entrySet().stream().forEach(q -> {
 				rep.addParam(q.getKey(), q.getValue());
 			});
-		}
-		else if(report!=null && report instanceof Report) {
+		} else if (report != null && report instanceof Report) {
 			return new Report().invokeReport(code_report, (Report) report);
 		}
 		return new Report().invokeReport(code_report, rep);
 	}
-	
 
 	/**
 	 * Link for get file
@@ -1245,7 +1235,6 @@ public final class Core { // Not inherit
 		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
 
-	
 	public static GenericServiceResponse getBizTalkClient(String clientId, String transaction, String service,
 			String args) {
 		GenericService_DevProxy proxy = new GenericService_DevProxy();
@@ -1424,7 +1413,7 @@ public final class Core { // Not inherit
 	 * @return int ID
 	 */
 	public static int saveFile(File file, String name, String mime_type) {
-		String igrpCoreConnection = new Config().getBaseConnection();
+		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
 		file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
@@ -1433,13 +1422,14 @@ public final class Core { // Not inherit
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
 			mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath())
 					: mime_type);
-			//String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+			// String sysdate = LocalDate.parse(LocalDate.now().toString(),
+			// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
 			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 			try {
 				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
 						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
 				ps.setBinaryStream(1, new FileInputStream(file));
-				//ps.setString(2, sysdate);
+				// ps.setString(2, sysdate);
 				ps.setDate(2, new Date(System.currentTimeMillis()));
 				ps.setString(3, mime_type);
 				ps.setString(4, name);
@@ -1479,18 +1469,19 @@ public final class Core { // Not inherit
 	 * @return in ID
 	 */
 	public static int saveFile(Part file, String name) {
-		String igrpCoreConnection = new Config().getBaseConnection();
+		String igrpCoreConnection = Config.getBaseConnection();
 		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
 		if (conn != null) {
 			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
-			//String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+			// String sysdate = LocalDate.parse(LocalDate.now().toString(),
+			// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
 			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 			try {
 				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
 						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
 				ps.setBinaryStream(1, file.getInputStream());
-				//ps.setString(2, sysdate);
+				// ps.setString(2, sysdate);
 				ps.setDate(2, new Date(System.currentTimeMillis()));
 				ps.setString(3, file.getContentType());
 				ps.setString(4, name);
@@ -1535,11 +1526,9 @@ public final class Core { // Not inherit
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
-	 * @param content
-	 *            byte[]
+	 * @param content   byte[]
 	 * @param name
-	 * @param extension
-	 *            - must have dot ".txt"
+	 * @param extension - must have dot ".txt"
 	 * @param mime_type
 	 * @return in ID
 	 */
@@ -1562,8 +1551,7 @@ public final class Core { // Not inherit
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
-	 * @param content
-	 *            byte[]
+	 * @param content   byte[]
 	 * @param name
 	 * @param extension
 	 * @param mime_type
@@ -1585,7 +1573,7 @@ public final class Core { // Not inherit
 		java.sql.Connection conn = null;
 
 		try {
-			String igrpCoreConnection = new Config().getBaseConnection();
+			String igrpCoreConnection = Config.getBaseConnection();
 			conn = Connection.getConnection(igrpCoreConnection);
 			String sql = "select * from tbl_clob where id = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
@@ -1639,8 +1627,8 @@ public final class Core { // Not inherit
 				return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
 						.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
 			}
-		}catch(javax.servlet.ServletException e) {
-			
+		} catch (javax.servlet.ServletException e) {
+
 		}
 		return null;
 	}
@@ -1656,8 +1644,7 @@ public final class Core { // Not inherit
 	/**
 	 * Upload a file from a upload field with the tag given
 	 * 
-	 * @param tag
-	 *            p_file
+	 * @param tag p_file
 	 * @return class UploadedFile
 	 */
 	public static UploadedFile upload(String tag) {
@@ -1668,8 +1655,7 @@ public final class Core { // Not inherit
 	/**
 	 * Upload multiple files from a multiple upload field with the tag given
 	 * 
-	 * @param tag
-	 *            p_file
+	 * @param tag p_file
 	 * @return {@code List<UploadedFile>}
 	 */
 	public static List<UploadedFile> uploadMultiple(String tag) {
@@ -1802,10 +1788,8 @@ public final class Core { // Not inherit
 	 * @param to
 	 * @param subject
 	 * @param msg
-	 * @param charset
-	 *            UTF-8,
-	 * @param mimetype
-	 *            text/html, plaintext
+	 * @param charset  UTF-8,
+	 * @param mimetype text/html, plaintext
 	 * @param attachs
 	 * @param replyTo
 	 * @return true or false
@@ -1827,14 +1811,10 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * @param wsdlUrl
-	 *            The webservice description language url
-	 * @param namespaces
-	 *            A Map of all required namespaces
-	 * @param headers
-	 *            A Map of soap request headers
-	 * @param bodyContent
-	 *            A Map of request content that will be converted to xml
+	 * @param wsdlUrl     The webservice description language url
+	 * @param namespaces  A Map of all required namespaces
+	 * @param headers     A Map of soap request headers
+	 * @param bodyContent A Map of request content that will be converted to xml
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
@@ -1845,12 +1825,12 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
-	
+
 	/**
-	 * @param wsdlUrl The webservice description language url 
-	 * @param headers A Map of soap request headers 
-	 * @param bodyContent String of raw request envelope 
-	 * @return SoapClient object 
+	 * @param wsdlUrl     The webservice description language url
+	 * @param headers     A Map of soap request headers
+	 * @param bodyContent String of raw request envelope
+	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> headers, String rawEnvelope) {
 		SoapClient sc = new SoapClient(wsdlUrl);
@@ -1859,47 +1839,47 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
-	
+
 	/**
-	 * @param query Usually the result of Core.query(null,"(SELECT 'id' as ID,'name' as NAME) ") 
-	 * @param selected A list selected values 
-	 * @param prompt The comboBox prompt 
-	 * @return A xml result 
+	 * @param query    Usually the result of Core.query(null,"(SELECT 'id' as
+	 *                 ID,'name' as NAME) ")
+	 * @param selected A list selected values
+	 * @param prompt   The comboBox prompt
+	 * @return A xml result
 	 */
-	public static String remoteComboBoxXml(BaseQueryInterface query, String []selected, String prompt) {
-		Map<Object,Object> map = new LinkedHashMap<>();
+	public static String remoteComboBoxXml(BaseQueryInterface query, String[] selected, String prompt) {
+		Map<Object, Object> map = new LinkedHashMap<>();
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 		xml += "<list>";
-		if(prompt!=null) {
+		if (prompt != null) {
 			xml += "<option><text>" + prompt + "</text><value></value></option>";
 		}
-		List<Tuple> list=query.getResultList();
-		if(list!=null && !list.isEmpty()) {
-			for(Tuple t:list){
+		List<Tuple> list = query.getResultList();
+		if (list != null && !list.isEmpty()) {
+			for (Tuple t : list) {
 				try {
 					map.put(t.get(0), t.get(1));
-				}catch(IllegalArgumentException e) {
-					
+				} catch (IllegalArgumentException e) {
+
 				}
 			}
 		}
-		for(Object k : map.keySet()) {
+		for (Object k : map.keySet()) {
 			Object v = map.get(k);
 			xml += "<option ";
-				
-			if(selected != null )
-				for(String obj : selected) {
-					if(obj.equals(k)) {
+
+			if (selected != null)
+				for (String obj : selected) {
+					if (obj.equals(k)) {
 						xml += " selected=\"selected\" ";
 						break;
 					}
 				}
 			xml += ">";
-			xml +=  "<text>" + v + "</text><value>" + k + "</value></option>";
+			xml += "<text>" + v + "</text><value>" + k + "</value></option>";
 		}
 		xml += "</list>";
 		return xml;
 	}
 
-	
 }

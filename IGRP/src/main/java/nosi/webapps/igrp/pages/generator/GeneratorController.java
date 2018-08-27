@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Random;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
@@ -16,17 +15,17 @@ public class GeneratorController extends Controller{
 	
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		this.isNoCached=true;
 		
+		this.isNoCached=true;		
 		Generator model = new Generator();
-		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
-		if(Core.isNotNull(id)){
+		Integer id = Core.getParamInt("p_id_page");
+		if(Core.isNotNullOrZero(id)){
 			try{
 				Action ac = new Action();
-				ac = ac.findOne(Integer.parseInt(id));	
+				ac = ac.findOne(id);	
 				if(ac!=null){
 					model.setGen_elements(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/formgen.config.txt?id=");
-					model.setId_objeto(Integer.parseInt(id));
+					model.setId_objeto(id);
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	

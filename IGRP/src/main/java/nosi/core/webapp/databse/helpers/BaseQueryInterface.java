@@ -38,6 +38,10 @@ public interface BaseQueryInterface {
 	
 	public String getSql();
 	
+	public String getSqlWithData();
+	
+	public QueryInterface setAutoCommit(boolean isAutoCommit);
+	
 	public QueryInterface from(String tables);
 	
 	public QueryInterface select(String collumns);

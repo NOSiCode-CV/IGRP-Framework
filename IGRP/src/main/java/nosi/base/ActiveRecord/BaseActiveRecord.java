@@ -29,11 +29,12 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private List<Predicate> predicates = null;
 	private String connectionName;
 	private T className;
+	private boolean shoErrors = true;
 	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
-		this.connectionName = new Config().getBaseConnection();
+		this.connectionName = Config.getBaseConnection();
 	}	
 	
 	private SessionFactory getSessionFactory() {
@@ -48,6 +49,11 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.sessionFactory = sessionFactory;
 	}
 
+	public T showErrors(boolean isShowError) {
+		this.shoErrors = isShowError;
+		return this.className;
+	}
+	
 	@Override
 	public T insert() {
 		Session session = null;
@@ -61,7 +67,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			e.printStackTrace();
+			if(this.shoErrors)
+				e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -84,7 +91,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			e.printStackTrace();
+			if(this.shoErrors)
+				e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -112,7 +120,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			e.printStackTrace();
+			if(this.shoErrors)
+				e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -148,7 +157,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			e.printStackTrace();
+			if(this.shoErrors)
+				e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -186,6 +196,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			if(this.shoErrors)
+				e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -214,6 +226,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
+			if(this.shoErrors)
+				e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -449,7 +463,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
-	      e.printStackTrace();
+	      if(this.shoErrors)
+			e.printStackTrace();
 		} finally {
 			if(session != null){
 		       session.close();
@@ -473,7 +488,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
-	      e.printStackTrace();
+	      if(this.shoErrors)
+			e.printStackTrace();
 		} finally {
 			if(session != null){
 		       session.close();

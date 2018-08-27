@@ -270,10 +270,11 @@
                               
                               <div class="pull-left">
                                   <a href="#" class="btn btn-link gen-include-file">
-                                      <span class="f-count"></span> <span class="f-type"></span> included
+                                     <i class="fa fa-plus"></i>  Include<span class="f-type"></span>:<span class="f-count"></span>
                                   </a>
                               </div>
-                              
+                             
+                             
                               <div class="pull-right gen-toolbar-items" rel="java">
                                   <a href="{$path}/../../javadoc/index.html" class="btn btn-link" target="_newtab">                                  
                                    <i class="fa fa-file-text"></i>
@@ -284,8 +285,6 @@
                                     <span>Guide - How to...</span>
                                   </a>
                               </div>
-
-
 <!--                               <div class="btn btn-link pull-right gen-copy-to-clipboard" > -->
 <!--                                  <i class="fa fa-clipboard"></i><span>Copiar</span> -->
 <!--                               </div> -->
@@ -295,7 +294,22 @@
                               <a class="btn btn-link pull-left gen-page-setts-ctrl"  rel="plsql">
                                   <i class="fa fa-gears"></i>
                                   <span>Settings</span>
-                              </a>
+                              </a>                             
+                             <div class="pull-left">
+                     		  <select class="form-control " id="code-mirror-theme-selector" 
+                     		  						style="padding-bottom: 0px;  padding-top: 0px;    height: 28px;">
+                    		   		<option value="eclipse">Eclipse theme</option>
+									<option value="midnight">Midnight theme</option>
+									<option value="blackboard">Blackboard theme</option>
+									<option value="colorforth">Colorforth theme</option>
+									<option value="icecoder">Icecoder theme</option>
+									<option value="monokai">Monokai theme</option>
+								</select>
+									
+                             </div>
+                            
+                              
+                       
                           </div>
                           
 
@@ -384,12 +398,12 @@
 <!--                                       <label>Service</label> -->
 <!--                                       <div class="settings-service"></div> -->
 <!--                                   </div> -->
-<!-- 								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px"> -->
-<!--                                       <div  item-name="process"> -->
-<!--                                           <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/> -->
-<!--                                           <span>Processo</span> -->
-<!--                                       </div> -->
-<!--                                   </div> -->
+								 <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
+                                      <div  item-name="process">
+                                          <input rel="process" type="checkbox" name="plsql_process" value="" class="checkbox gen-page-setter "/>
+                                          <span>Processo</span>
+                                      </div>
+                                  </div>
                                   <!-- <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
                                       <div  item-name="replace">
                                           <input rel="replace" type="checkbox" name="plsql_replace" value="" class="checkbox gen-page-setter "/>
@@ -610,13 +624,13 @@
           <script src="{$path}/core/formgen/js/GEN.templates.js"></script>
           <script src="{$path}/core/xml2json/jquery.xml2json.js"></script>
           <script src="{$path}/core/formgen/js/GEN.downloadXSL.js"></script>
-          <script src="{$path}/core/formgen/js/GEN.controller.js"></script>
+         
           <script src="{$path}/core/formgen/js/GEN.containers.js" charset="utf-8"></script>
           <script src="{$path}/core/formgen/js/GEN.fields.js"></script>
           <script src="{$path}/core/formgen/js/GEN.html.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.server.js"></script>
-
+			<script src="{$path}/core/formgen/js/GEN.controller.js"></script>
           <script src="{$path}/core/formgen/js/GEN.structures.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.xsl.templates.utils.js"></script>
@@ -1151,6 +1165,13 @@
        
         <!--codeMirror-->
         <link href="{$path}/core/codemirror/css/codemirror.css" rel="stylesheet"/>
+                <link href="{$path}/core/codemirror/css/eclipse.css" rel="stylesheet"/>
+                <link href="{$path}/core/codemirror/css/blackboard.css" rel="stylesheet"/>
+                <link href="{$path}/core/codemirror/css/midnight.css" rel="stylesheet"/>
+                <link href="{$path}/core/codemirror/css/colorforth.css" rel="stylesheet"/>
+                <link href="{$path}/core/codemirror/css/icecoder.css" rel="stylesheet"/>
+                <link href="{$path}/core/codemirror/css/monokai.css" rel="stylesheet"/>
+        
         <!--code mirror sql-->
         <link rel="stylesheet" href="{$path}/core/codemirror/css/show-hint.css" />
         <link rel="stylesheet" href="{$path}/core/codemirror/js/addon/search/dialog.css" />

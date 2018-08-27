@@ -13,7 +13,7 @@ public class QueryUpdate extends QueryHelper {
 	}
 
 	public QueryUpdate() {
-		this(new Config().getBaseConnection());
+		this(Config.getBaseConnection());
 	}
 
 	public QueryHelper update(String tableName) {

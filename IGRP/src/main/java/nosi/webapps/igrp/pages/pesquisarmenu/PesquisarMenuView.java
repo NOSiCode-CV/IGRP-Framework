@@ -1,12 +1,13 @@
-
 package nosi.webapps.igrp.pages.pesquisarmenu;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
-
-
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PesquisarMenuView extends View {
 
@@ -46,7 +47,7 @@ public class PesquisarMenuView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		t1_menu_principal = new PlainTextField(model,"t1_menu_principal");
 		t1_menu_principal.setLabel(gt("Menu pai"));
@@ -119,7 +120,8 @@ public class PesquisarMenuView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(PesquisarMenu model) {
+	@Override
+	public void setModel(Model model) {
 		
 		aplicacao.setValue(model);
 		t1_menu_principal.setValue(model);
@@ -129,7 +131,6 @@ public class PesquisarMenuView extends View {
 		checkbox.setValue(model);
 		id.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
-		
-	}
+		table_1.loadModel(((PesquisarMenu) model).getTable_1());
+		}
 }

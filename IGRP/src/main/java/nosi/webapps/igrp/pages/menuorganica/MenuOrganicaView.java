@@ -1,13 +1,10 @@
-
 package nosi.webapps.igrp.pages.menuorganica;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
-
-
-
 
 public class MenuOrganicaView extends View {
 
@@ -84,14 +81,14 @@ public class MenuOrganicaView extends View {
 		this.addToPage(toolsbar_2);
 	}
 		
-	public void setModel(MenuOrganica model) {
+	@Override
+	public void setModel(Model model) {
 		
 		menu.setValue(model);
 		descricao.setValue(model);
 		id.setValue(model);
 		type.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
-		
-	}
+		table_1.loadModel(((MenuOrganica) model).getTable_1());
+		}
 }

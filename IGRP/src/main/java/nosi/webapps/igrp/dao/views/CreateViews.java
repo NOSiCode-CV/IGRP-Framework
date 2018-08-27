@@ -196,6 +196,6 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 			sqlViews+=sql+"; ";
 		}
 		q.setSql(sqlViews);
-		q.executeQuery(new Config().getBaseConnection()) ;
+		q.executeQuery(Config.getBaseConnection()) ;
 	}
 }

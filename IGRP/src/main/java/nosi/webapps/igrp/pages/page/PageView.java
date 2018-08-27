@@ -109,7 +109,7 @@ public class PageView extends View {
 		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
 		novo_modulo = new LinkField(model,"novo_modulo");
-		novo_modulo.setLabel(gt("Modulo"));
+		novo_modulo.setLabel(gt("Módulo"));
 		novo_modulo.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
 									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","");

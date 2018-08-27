@@ -39,6 +39,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected boolean isWhere = false;
 	protected Config_env config_env;
 	protected String[] retuerningKeys;
+	protected boolean isAutoCommit = false;
 	
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
@@ -61,7 +62,7 @@ public abstract class QueryHelper implements QueryInterface{
 		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application.dad", "=",Core.getCurrentDadParam()).one();
 		if(firstConnectionNameOfTheApp!=null)
 			return firstConnectionNameOfTheApp.getName();
-		return new Config().getH2IGRPBaseConnection();
+		return Config.getH2IGRPBaseConnection();
 	}
 	
 	public QueryInterface where(String condition) {
@@ -293,7 +294,6 @@ public abstract class QueryHelper implements QueryInterface{
 				updates += col.getName().toLowerCase()+"=:"+col.getName().toLowerCase()+",";
 			}
 		}	
-		//System.out.println(updates);
 		updates = Core.isNotNull(updates)?updates.substring(0, updates.length()-1):"";
 		String s = "UPDATE "+tableName +" SET "+updates;
 		return s;
@@ -331,26 +331,30 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
-		
-		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setInt(col.getName(),Integer.parseInt(value.toString()));
-		}
-		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setInt(col.getName(),Integer.parseInt(value.toString()));
-		}else if(col.getType().equals(java.lang.Double.class)){
-			query.setDouble(col.getName(), Double.parseDouble(value.toString()));
-		}else if(col.getType().equals(java.lang.Float.class)){
-			query.setFloat(col.getName(), Float.parseFloat(value.toString()));
-		}else if(col.getType().equals(java.lang.Long.class)){
-			query.setLong(col.getName(), (Long)value);
-		}else if(col.getType().equals(java.lang.Short.class)){
-			query.setShort(col.getName(), (Short)value);
-		}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
-			query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
-		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
-			query.setString(col.getName(),value.toString());
+		if(value!=null) {
+			if(col.getType().equals(java.lang.Integer.class)) {
+				query.setInt(col.getName(),Integer.parseInt(value.toString()));
+			}else if(col.getType().equals(java.lang.Double.class)){
+				query.setDouble(col.getName(), Double.parseDouble(value.toString()));
+			}else if(col.getType().equals(java.lang.Float.class)){
+				query.setFloat(col.getName(),Float.parseFloat(value.toString()));
+			}else if(col.getType().equals(java.lang.Long.class)){
+				query.setLong(col.getName(), Core.toLong(value.toString()));
+			}else if(col.getType().equals(java.lang.Short.class)){
+				query.setShort(col.getName(), Core.toShort(value.toString()));
+			}else if(col.getType().equals(java.lang.Boolean.class)){
+				query.setBoolean(col.getName(), (Boolean)value);
+			}else if(col.getType().equals(java.lang.Byte.class)){
+				query.setByte(col.getName(), (Byte)value);
+			}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
+				query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
+			}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
+				query.setString(col.getName(),value.toString());
+			}else {
+				query.setObject(col.getName(), value);
+			}
 		}else {
-			query.setObject(col.getName(), value);
+			query.setObject(col.getName(), null);
 		}
 	}
 
@@ -359,6 +363,12 @@ public abstract class QueryHelper implements QueryInterface{
 		ResultSet r = new ResultSet();
 		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
 		if(conn!=null) {
+			try {
+				conn.setAutoCommit(this.isAutoCommit);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			if(this instanceof QueryInsert) {
 				try {
 					NamedParameterStatement q = null;
@@ -389,7 +399,8 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}
 			try {
-				conn.commit();
+				if(!this.isAutoCommit)
+					conn.commit();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -407,13 +418,47 @@ public abstract class QueryHelper implements QueryInterface{
 		return r;
 	}
 	
+	@Override
+	public String getSqlWithData() {
+		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
+		if(conn!=null) {
+			if(this instanceof QueryInsert) {
+				try {
+					NamedParameterStatement q = null;
+					if(this.retuerningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+					}else {
+						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+					}
+					this.setParameters(q);	
+					this.sql = q.getSql();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}else {
+				try {
+					NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
+					this.setParameters(q);
+					this.sql = q.getSql();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn!=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return this.sql;
+	}
+	
 	private void setParameters(NamedParameterStatement q) throws SQLException {
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(q,col.getDefaultValue(),col);					
-			 }else {
-				 q.setObject(col.getName(), null);
-			 }
+			 this.setParameter(q,col.getDefaultValue(),col);
 		}
 	}
 
@@ -706,4 +751,11 @@ public abstract class QueryHelper implements QueryInterface{
 		this.retuerningKeys = retuerningKeys;
 		return this;
 	}
+
+	@Override
+	public QueryInterface setAutoCommit(boolean isAutoCommit) {
+		this.isAutoCommit = isAutoCommit;
+		return this;
+	}
+
 }
