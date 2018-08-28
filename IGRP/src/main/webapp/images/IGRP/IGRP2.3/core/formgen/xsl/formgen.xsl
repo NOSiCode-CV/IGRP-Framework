@@ -580,7 +580,13 @@
           <script src="{$path}/core/bootstrap/plugins/treeview/js/bootstrap-treeview.js"></script>
           <!--code mirror-->
           <script src="{$path}/core/codemirror/js/codemirror.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/fold/foldcode.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/fold/foldgutter.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/fold/brace-fold.js"></script>
           <script src="{$path}/core/codemirror/js/addon/fold/xml-fold.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/fold/indent-fold.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/fold/markdown-fold.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/fold/comment-fold.js"></script>
           <script src="{$path}/core/codemirror/js/addon/edit/matchtags.js"></script>
           <script src="{$path}/core/codemirror/js/addon/edit/closebrackets.js"></script>
           <script src="{$path}/core/codemirror/js/mode/css/css.js"></script>
@@ -1165,6 +1171,7 @@
        
         <!--codeMirror-->
         <link href="{$path}/core/codemirror/css/codemirror.css" rel="stylesheet"/>
+        <link href="{$path}/core/codemirror/js/addon/fold/foldgutter.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/eclipse.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/blackboard.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/midnight.css" rel="stylesheet"/>

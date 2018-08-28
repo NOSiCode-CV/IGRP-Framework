@@ -372,6 +372,7 @@ public class PageController extends Controller {
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
+//				TODO Marcos: must seek if the path exist, and that it was save with success
 				boolean r = FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),
 						new Part[] { fileXml, fileXsl, fileJson })
 						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
@@ -381,7 +382,7 @@ public class PageController extends Controller {
 					r = FileHelper.saveFilesJava(path_class, ac.getPage(),
 							new Part[] { fileModel, fileView, fileController });
 					error += this.processCompile(path_class, ac.getPage());
-					if (r && (error.equals("") || error == null)) {// Check if not error on the compilation class
+					if (r && Core.isNull(error)) {// Check if not error on the compilation class
 						if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist

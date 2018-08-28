@@ -233,15 +233,16 @@ $(function() {
 				extraKeys : {
 					"Ctrl-Space" : "autocomplete"
 				},
-				//themes
+				
 				autohint : true,
-				lineWrapping : true
-
-				//foldGutter: true,
-				//gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+				lineWrapping : true,
+				 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+				    foldGutter: true,
+				    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+				
 
 			});
-
+			server.editors[mode][name].foldCode(CodeMirror.Pos(0, 0));
 			break;
 
 		case 'plsql':
