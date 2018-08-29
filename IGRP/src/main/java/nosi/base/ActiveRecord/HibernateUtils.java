@@ -39,7 +39,6 @@ public class HibernateUtils {
 	}
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad) {
-		System.out.println(connectionName);
 		if(Core.isNotNull(connectionName)) {		
 			String connectionName_ = Config.getBaseConnection();
 			if(!connectionName.equalsIgnoreCase(Config.getBaseConnection()) && !connectionName.equalsIgnoreCase(Config.getH2IGRPBaseConnection())) {
