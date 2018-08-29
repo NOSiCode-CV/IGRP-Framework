@@ -107,7 +107,7 @@ $(function() {
 						setTimeout(function() {
 
 							GEN.resizeCodeMirrorArea();
-
+								
 							GEN.done();
 
 						}, 250);
@@ -236,13 +236,16 @@ $(function() {
 				
 				autohint : true,
 				lineWrapping : true,
+				lint:true,
 				 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
-				    foldGutter: true,
-				    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+				 foldGutter: true,
+				 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]				
 				
-
 			});
-			server.editors[mode][name].foldCode(CodeMirror.Pos(0, 0));
+			
+			 setTimeout(function() {
+				 server.editors[mode][name].foldCode(CodeMirror.Pos(0, 0));
+			 },100);
 			break;
 
 		case 'plsql':
@@ -652,9 +655,9 @@ $(function() {
 					startCodeXp = options.begin.startExpression + areaName + options.begin.endExpression,
 
 					field = GEN.getFieldByTag(areaName.toLowerCase()),
-
-					serverCode = options.serverJSON[areaName] ? options.serverJSON[areaName].content : "",
-
+					
+					serverCode = options.serverJSON != null ? (options.serverJSON[areaName] ? options.serverJSON[areaName].content : ""):"",				
+			
 					localCode = localR[areaName] ? localR[areaName].code : "",
 
 					reservedCode = localCode || serverCode,
@@ -764,7 +767,7 @@ $(function() {
 				}
 			};
 
-		if (part != 'controller') {
+		if (part != 'controller' && part != undefined) {
 
 			replaceReservedContents(replaceOptions);
 
@@ -801,7 +804,13 @@ $(function() {
 				replaceOptions.serverJSON = json;
 				
 
-			};
+			}
+//			else{
+//				console.log("$('.fa-cog').HIDDEN");
+//					$('.fa-cog').addClass("hidden");   
+//						return;			
+//				
+//			};
 
 			if (isGlobalPreservation && !codeChecked) {
 

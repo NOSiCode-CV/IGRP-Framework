@@ -186,8 +186,7 @@
   const hint= "(Ctrl-G Find next; Shift-Ctrl-G Find previous; Shift-Ctrl-F / Cmd-Option-F Replace; Shift-Ctrl-R Replace all; Alt-F Persistent; Alt-G Jump to line; (Use /re/ syntax for regexp search. )";
 
   function getQueryDialog(cm)  {
-    return '<span class="CodeMirror-search-label">' + cm.phrase("Search:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/> 
-    <span style="color: #888" class="CodeMirror-search-hint">'
+    return '<span class="CodeMirror-search-label">' + cm.phrase("Search:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/><span style="color: #888" class="CodeMirror-search-hint">'
     + cm.phrase(hint) + '</span>';
   }
   function getReplaceQueryDialog(cm) {

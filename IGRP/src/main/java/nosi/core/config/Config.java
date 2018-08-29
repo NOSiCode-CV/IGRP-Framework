@@ -42,7 +42,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "180828";
+	public final String VERSION = "180829";
 	private ConfigApp configApp;
 	
 	public Config() {
@@ -511,11 +511,12 @@ public class Config {
 			link_home = config.getLinkHomeStudio();
 		}		
 		XMLWritter xml = new XMLWritter();
-		Random r = new Random();
+//		Random r = new Random();
 		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", Core.getSwitchNotNullValue(title,config.getTitle()));
 		xml.setElement("description", Core.getSwitchNotNullValue(description,""));
-		xml.setElement("version",Math.abs(r.nextLong()));
+//		xml.setElement("version",Math.abs(r.nextLong()));
+		xml.setElement("version",VERSION);
 		xml.setElement("link",link_home);
 		xml.setElement("link_img",getLinkImg());
 		if(Core.isNotNull(target)) {
