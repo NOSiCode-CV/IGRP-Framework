@@ -78,6 +78,10 @@ public class ConfigDBIGRP {
 	}
   
 	public void load() throws Exception{
+		this.load(this.fileName);
+	}
+	
+	public void load(String fileName) throws Exception {
 		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 		FileInputStream fis = null;
 				Properties props = new Properties();
@@ -107,7 +111,7 @@ public class ConfigDBIGRP {
 			this.urlConnection = props.getProperty("urlConnection");
 		}
 	}
-	
+
 	private Properties generateConfig(){
 		Properties props = new Properties();
 		props.setProperty("type_db", this.type_db);

@@ -39,6 +39,7 @@ public class HibernateUtils {
 	}
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad) {
+		System.out.println(connectionName);
 		if(Core.isNotNull(connectionName)) {		
 			String connectionName_ = Config.getBaseConnection();
 			if(!connectionName.equalsIgnoreCase(Config.getBaseConnection()) && !connectionName.equalsIgnoreCase(Config.getH2IGRPBaseConnection())) {
@@ -70,6 +71,9 @@ public class HibernateUtils {
 			if (Config.getBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getIGRPSettings(connectionName));
+			}else if (Config.getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
+				registryBuilder.configure("/" + connectionName + ".cfg.xml");
+				registryBuilder.applySettings(getH2IGRPSettings(connectionName));
 			}else {
 				Map<String, Object> settings = getOthersAppSettings(connectionName,dad);
 				if(settings!=null) {
@@ -83,6 +87,18 @@ public class HibernateUtils {
 			throw new PermissionException("Acesso nao permitido");
 		}
 		return  registryBuilder.build();
+	}
+
+	private static Map<String, Object> getH2IGRPSettings(String connectionName) {
+		ConfigDBIGRP config = new ConfigDBIGRP();
+		try {
+			config.load("db_igrp_config_h2.xml");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
+		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect);
 	}
 
 	private static Map<String, Object> getOthersAppSettings(String connectionName, String dad) {
