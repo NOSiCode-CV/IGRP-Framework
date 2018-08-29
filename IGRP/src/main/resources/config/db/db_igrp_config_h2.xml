@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>store config igrp database</comment>	
+	<entry key="type_db">h2</entry>
+	<entry key="connectionName">hibernate-igrp-core-h2</entry>	
+	<entry key="urlConnection">jdbc:h2:mem:db_igrp</entry>
+	<entry key="driverConnection">org.h2.Driver</entry>
+	<entry key="username">sa</entry>
+	<entry key="password"></entry>
+</properties>

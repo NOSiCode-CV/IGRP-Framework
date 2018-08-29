@@ -19,6 +19,7 @@
 		<mapping class="nosi.webapps.igrp.dao.RepTemplate"/>
 		<mapping class="nosi.webapps.igrp.dao.RepTemplateParam"/>
 		<mapping class="nosi.webapps.igrp.dao.RepTemplateSource"/>
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateSourceParam"/>
 		<mapping class="nosi.webapps.igrp.dao.Session"/>
 		<mapping class="nosi.webapps.igrp.dao.Transaction"/>
 		<mapping class="nosi.webapps.igrp.dao.User"/>

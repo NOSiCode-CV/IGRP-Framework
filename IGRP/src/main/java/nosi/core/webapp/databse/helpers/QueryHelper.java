@@ -43,27 +43,27 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
-			this.config_env = (Config_env) connectionName;
-			
+			this.config_env = (Config_env) connectionName;			
 		}else {
 			this.connectionName = connectionName!=null?(String) connectionName:null;
 		}
 		this.columnsValue = new ArrayList<>();
 		this.connectionName = this.getMyConnectionName(this.connectionName);
+		
 	}	
-	
+
 	private String getMyConnectionName(String connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName;
-		return this.getMyConnectionName();
-	}
-	
-	private String getMyConnectionName() {		
-		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application.dad", "=",Core.getCurrentDadParam()).one();
-		if(firstConnectionNameOfTheApp!=null)
-			return firstConnectionNameOfTheApp.getName();
 		return Config.getH2IGRPBaseConnection();
 	}
+//	
+//	private String getMyConnectionName() {		
+//		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application.dad", "=",Core.getCurrentDadParam()).one();
+//		if(firstConnectionNameOfTheApp!=null)
+//			return firstConnectionNameOfTheApp.getName();
+//		return Config.getH2IGRPBaseConnection();
+//	}
 	
 	public QueryInterface where(String condition) {
 		this.sql += " WHERE "+condition;
@@ -369,9 +369,9 @@ public abstract class QueryHelper implements QueryInterface{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
 				try {
-					NamedParameterStatement q = null;
 					if(this.retuerningKeys!=null) {
 						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
 					}else {
@@ -388,7 +388,7 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}else {
 				try {
-					NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
+					q = new NamedParameterStatement(conn, this.getSql());
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
@@ -405,13 +405,14 @@ public abstract class QueryHelper implements QueryInterface{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally {
-				if(conn!=null) {
-					try {
+				try {
+					if(q!=null)
+						q.close();
+					if(conn!=null) 
 						conn.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
@@ -422,9 +423,10 @@ public abstract class QueryHelper implements QueryInterface{
 	public String getSqlWithData() {
 		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
 		if(conn!=null) {
+			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
 				try {
-					NamedParameterStatement q = null;
+					
 					if(this.retuerningKeys!=null) {
 						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
 					}else {
@@ -437,20 +439,21 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}else {
 				try {
-					NamedParameterStatement q = new NamedParameterStatement(conn, this.getSql());
+					q = new NamedParameterStatement(conn, this.getSql());
 					this.setParameters(q);
 					this.sql = q.getSql();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
-			if(conn!=null) {
-				try {
+			try {
+				if(q!=null)
+					q.close();
+				if(conn!=null) 
 					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return this.sql;
