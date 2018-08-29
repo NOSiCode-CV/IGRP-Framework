@@ -32,6 +32,8 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 import org.apache.commons.io.IOUtils;
+import org.apache.openjpa.jdbc.sql.ResultSetResult;
+
 //import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -49,6 +51,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
+import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
@@ -97,7 +100,7 @@ public class EnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
-		/*----#start-code(gravar)----*/
+		/*----#start-code(gravar)----*/ 
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 		
@@ -116,11 +119,11 @@ public class EnvController extends Controller {
 				if(Core.isNotNull(model.getHost()))
 					app.setUrl(model.getHost().trim());
 				else {
-					String uri = Igrp.getInstance().getRequest().getRequestURI();
+					/*String uri = Igrp.getInstance().getRequest().getRequestURI();
 					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					url += "/" + app.getDad().trim().toUpperCase() + "/app/webapps?r=" + app.getDad().trim().toLowerCase() + "/default-page/index" ;
 					app.setUrl(url); 				
-					
+					*/
 					autoDeploy = true;					
 				}			
 			app.setImg_src(model.getImg_src());
@@ -289,16 +292,10 @@ public class EnvController extends Controller {
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());	
 			aplica_db.setExternal(model.getFlg_external());
-			if(aplica_db.getExternal() == 1) 
-				if(Core.isNotNull(model.getHost()))
-					aplica_db.setUrl(model.getHost().trim());
-				else {
-					String uri = Igrp.getInstance().getRequest().getRequestURI();
-					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
-					url += "/" + aplica_db.getDad().trim().toUpperCase() + "/app/webapps?r=" + aplica_db.getDad().trim().toLowerCase() + "/default-page/index" ;
-					aplica_db.setUrl(url); 
-				}			
 			
+			if(aplica_db.getExternal() == 1 && Core.isNotNull(model.getHost()))
+				aplica_db.setUrl(model.getHost().trim());		
+		
 			aplica_db.setDescription(model.getDescription());
 			if(Core.isInt(model.getAction_fk())){
 				Action ac = new Action().findOne(Integer.parseInt(model.getAction_fk()));
@@ -471,15 +468,35 @@ public class EnvController extends Controller {
 			return redirectToUrl(devUrl);
 			}
 			
-			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
-				String aux = env.getUrl();
-				Action action = env.getAction();
-				if(action != null && env.getExternal() != 1) {
-					aux = aux.replace(URI.create(aux).getQuery(), "");
-					aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
+			if(env.getExternal() == 1) {
+				
+				if(env.getUrl() != null && !env.getUrl().isEmpty()) {
+					String aux = env.getUrl();
+					Action action = env.getAction();
+					if(action != null && env.getExternal() != 1) {
+						aux = aux.replace(URI.create(aux).getQuery(), "");
+						aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
+					}
+					
+					return this.redirectToUrl(aux);
+				}else {
+					
+					String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+					String uri = Igrp.getInstance().getRequest().getRequestURI();
+					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+					Action action = env.getAction();
+					
+					User currentUser = Core.getCurrentUser();
+					url += "/" + warName.trim().toLowerCase() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+					
+					if(action != null) 
+						url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+					else
+						url += "&_url=tutorial/DefaultPage/index";
+					
+					return this.redirectToUrl(url);
 				}
 				
-				return this.redirectToUrl(aux);
 			}
 			this.addQueryString("dad", app);
 			return this.redirect(p[0], p[1], p[2],this.queryString());
