@@ -474,7 +474,7 @@ public class EnvController extends Controller {
 					String aux = env.getUrl();
 					Action action = env.getAction();
 					if(action != null && env.getExternal() != 1) {
-						aux = aux.replace(URI.create(aux).getQuery(), "");
+						aux = aux.replace(URI.create(aux).getQuery(), ""); 
 						aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
 					
