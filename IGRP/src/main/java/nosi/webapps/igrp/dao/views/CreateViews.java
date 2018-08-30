@@ -3,7 +3,7 @@ package nosi.webapps.igrp.dao.views;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.databse.helpers.QuerySelect;
 
 public class CreateViews extends BaseActiveRecord<CreateViews>{
@@ -196,6 +196,6 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 			sqlViews+=sql+"; ";
 		}
 		q.setSql(sqlViews);
-		q.executeQuery(Config.getBaseConnection()) ;
+		q.executeQuery(new ConfigApp().getBaseConnection()) ;
 	}
 }

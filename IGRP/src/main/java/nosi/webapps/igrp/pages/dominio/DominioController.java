@@ -2,9 +2,6 @@
 package nosi.webapps.igrp.pages.dominio;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,8 +10,6 @@ import nosi.webapps.igrp.dao.Domain;
 import static nosi.core.i18n.Translator.gt;
 import nosi.webapps.igrp.pages.dominio.Dominio.Formlist_1;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 /*----#end-code----*/
 
@@ -34,13 +29,13 @@ public class DominioController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 	  Core.log(model.getLst_dominio());
-      view.estado.setQuery(Core.query(this.config.getBaseConnection(),"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME "));
-	   view.lst_dominio.setQuery(Core.query(this.config.getBaseConnection(), "SELECT DISTINCT dominio as id, dominio FROM tbl_domain"),gt("-- Selecionar --"));    
+      view.estado.setQuery(Core.query(this.configApp.getBaseConnection(),"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME "));
+	   view.lst_dominio.setQuery(Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio as id, dominio FROM tbl_domain"),gt("-- Selecionar --"));    
 	   		//model.loadTable_1(Core.query(this.config.getBaseConnection(),"SELECT valor as key,description,status as estado,ordem,id as p_id FROM tbl_domain WHERE dominio= '"+model.getLst_dominio()+"'"));
 		if(Core.isNotNull(Core.getParam("save")))
 	          model.setLst_dominio(Core.getParam("save"));
 		
-      model.loadFormlist_1(Core.query(this.config.getBaseConnection(),
+      model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),
 					"SELECT id as formlist_1_id,description,valor as key,status as estado,ordem FROM tbl_domain").where("dominio=:dominio").addString("dominio", model.getLst_dominio()));
 		/*----#end-code----*/
 		view.setModel(model);

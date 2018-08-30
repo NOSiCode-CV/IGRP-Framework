@@ -10,13 +10,13 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 public interface IHeaderConfig {
 
 	default public String getLinkHome() {
-        return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index"+"&dad="+Core.getCurrentDad());
+        return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index"+"&dad="+Core.getCurrentDad());
 	}
 	default public String getLinkHomeStudio() {
-		return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"ListaPage"+"/"+"index"+"&dad="+Core.getCurrentDad());
+		return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"ListaPage"+"/"+"index"+"&dad="+Core.getCurrentDad());
 	}
 	default public String getLinkMyApps() {
-        return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps"+"&dad="+Core.getCurrentDad());
+        return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"myApps"+"&dad="+Core.getCurrentDad());
 	}
 	default public String getTitle() {
         return "";
@@ -28,13 +28,13 @@ public interface IHeaderConfig {
         return "normal";
 	}
 	default public String getLinkOpenApp() {
-        return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&dad="+Core.getCurrentDad()+"&app=";
+        return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&dad="+Core.getCurrentDad()+"&app=";
 	}
 	default public String getLinkSileMenu(){
-		return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
+		return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
 	}
 	default public String getLinkTopMenu(){
-		return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu"+"&dad="+Core.getCurrentDad());
+		return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu"+"&dad="+Core.getCurrentDad());
 	}
 
 	default public String getPackageInstance(){

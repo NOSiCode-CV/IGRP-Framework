@@ -356,12 +356,12 @@ public class QuerySelect extends CommonFIlter{
 	}
 
 	public ResultSet executeQuery(Config_env env) {
-		Connection conn =nosi.core.config.Connection.getConnection(env);
+		Connection conn =  this.connection.getConnection(env);
 		return executeQuery(conn);
 	}
 	
 	public ResultSet executeQuery(String connectionName) {
-		Connection conn =nosi.core.config.Connection.getConnection(connectionName);	
+		Connection conn = this.connection.getConnection(connectionName);	
 		return executeQuery(conn);
 	}
 	

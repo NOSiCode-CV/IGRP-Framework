@@ -143,7 +143,7 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	private void genChartWithQuery() throws Exception {
-		int columnSize = DatabaseMetadaHelper.getCollumns(this.query.getConnectionName(), this.query.getSql()).size();
+		int columnSize = new DatabaseMetadaHelper().getCollumns(this.query.getConnectionName(), this.query.getSql()).size();
 		if(columnSize >= 2 && columnSize<=3) {
 			List<Tuple> list = this.query.getResultList();	
 			Set<String> labels = new HashSet<>();

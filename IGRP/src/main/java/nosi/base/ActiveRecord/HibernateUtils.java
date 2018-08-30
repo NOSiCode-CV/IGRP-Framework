@@ -16,11 +16,12 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.exception.PermissionException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
 
 public class HibernateUtils {
@@ -31,7 +32,7 @@ public class HibernateUtils {
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
 			return getSessionFactory(config_env.getName(),config_env.getApplication().getDad());
-		return getSessionFactory(Config.getBaseConnection(),Core.getCurrentDadParam());
+		return getSessionFactory(new ConfigApp().getBaseConnection(),Core.getCurrentDadParam());
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
@@ -40,8 +41,8 @@ public class HibernateUtils {
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad) {
 		if(Core.isNotNull(connectionName)) {		
-			String connectionName_ = Config.getBaseConnection();
-			if(!connectionName.equalsIgnoreCase(Config.getBaseConnection()) && !connectionName.equalsIgnoreCase(Config.getH2IGRPBaseConnection())) {
+			String connectionName_ = new ConfigApp().getBaseConnection();
+			if(!connectionName.equalsIgnoreCase(new ConfigApp().getBaseConnection()) && !connectionName.equalsIgnoreCase(new ConfigApp().getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
@@ -67,10 +68,10 @@ public class HibernateUtils {
 	private static StandardServiceRegistry buildConfig(String connectionName,String dad) {
 		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 		try {
-			if (Config.getBaseConnection().equalsIgnoreCase(connectionName)) {
+			if (new ConfigApp().getBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getIGRPSettings(connectionName));
-			}else if (Config.getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
+			}else if (new ConfigApp().getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getH2IGRPSettings(connectionName));
 			}else {
@@ -106,19 +107,19 @@ public class HibernateUtils {
 				.andWhere("application.dad", "=",dad)
 				.one();
 		if (config != null) {	
-			
-			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),Config.SECRET_KEY_ENCRYPT_DB):
+			EncrypDecrypt ed = new EncrypDecrypt();
+			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),ed.SECRET_KEY_ENCRYPT_DB):
 				DatabaseConfigHelper.getUrl(
-						Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getHost(), Config.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getPort(), Config.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getName_db(), Config.SECRET_KEY_ENCRYPT_DB)
+						Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getHost(), ed.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getPort(), ed.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getName_db(), ed.SECRET_KEY_ENCRYPT_DB)
 					);
-			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),Config.SECRET_KEY_ENCRYPT_DB):
-				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
-			String password = Core.decrypt(config.getPassword(), Config.SECRET_KEY_ENCRYPT_DB);
-			String user = Core.decrypt(config.getUsername(), Config.SECRET_KEY_ENCRYPT_DB);
-			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
+			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),ed.SECRET_KEY_ENCRYPT_DB):
+				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB));
+			String password = Core.decrypt(config.getPassword(), ed.SECRET_KEY_ENCRYPT_DB);
+			String user = Core.decrypt(config.getUsername(), ed.SECRET_KEY_ENCRYPT_DB);
+			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB));
 			return getSettings(driver, url, user, password, hibernateDialect);
 		}
 		return null;

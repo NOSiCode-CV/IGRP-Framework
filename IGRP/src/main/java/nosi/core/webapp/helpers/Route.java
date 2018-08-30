@@ -19,7 +19,7 @@ public class Route {
 		}
 		action = resolveAction(action);
 		String aux;		
-		aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action)
+		aux = "?r=" + new EncrypDecrypt().encrypt(app + "/" + page + "/" + action)
 					+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
 		aux = aux.replaceAll("&&", "&");
 		UrlHelper.urlEncoding(aux);
@@ -67,8 +67,8 @@ public class Route {
 		String qs = Igrp.getInstance().getRequest().getQueryString();
 		String r = Igrp.getInstance().getRequest().getParameter("r");
 		
-		if(r != null && qs != null && EncrypDecrypt.getWakandaList(r)) 
-			qs = qs.replace(r, EncrypDecrypt.encrypt(r));
+		if(r != null && qs != null && new EncrypDecrypt().getWakandaList(r)) 
+			qs = qs.replace(r, new EncrypDecrypt().encrypt(r));
 		
 		String route = new String(Igrp.getInstance().getRequest().getRequestURL() + "?" + qs);
 		Igrp.getInstance().getRequest().getSession().setAttribute("_route", route);

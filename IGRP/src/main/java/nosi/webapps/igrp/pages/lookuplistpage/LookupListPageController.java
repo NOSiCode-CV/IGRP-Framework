@@ -12,7 +12,6 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import java.util.ArrayList;
 import java.util.Arrays;
-import nosi.core.config.Config;
 /*----#end-code----*/
 
 
@@ -54,7 +53,7 @@ public class LookupListPageController extends Controller {
 			view.formlist_1.setVisible(false);
 			view.toolsbar_1.setVisible(false);
 		}else {
-			model.loadFormlist_1(Core.query(Config.getBaseConnection(),"SELECT id as checkbox, "
+			model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),"SELECT id as checkbox, "
 					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
 					"       THEN id " + 
 					"       ELSE 0 " + 
@@ -112,7 +111,7 @@ public class LookupListPageController extends Controller {
 			this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 	
 			if(model.getFormlist_1() !=null) {
-				 Core.delete(Config.getBaseConnection(), "tbl_tipo_documento_etapa")
+				 Core.delete(this.configApp.getBaseConnection(), "tbl_tipo_documento_etapa")
 					.where("processid=:processid AND taskid=:taskid")
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())

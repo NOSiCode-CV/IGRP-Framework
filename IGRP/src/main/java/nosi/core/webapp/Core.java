@@ -33,6 +33,7 @@ import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
@@ -706,7 +707,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface insert(String tableName) {
-		return new QueryInsert(Config.getBaseConnection()).insert(tableName);
+		return new QueryInsert(new ConfigApp().getBaseConnection()).insert(tableName);
 	}
 
 	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName) {
@@ -714,7 +715,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface update(String tableName) {
-		return new QueryUpdate(Config.getBaseConnection()).update(tableName);
+		return new QueryUpdate(new ConfigApp().getBaseConnection()).update(tableName);
 	}
 
 	public static BaseQueryInterface update(String connectionName, String tableName) {
@@ -726,7 +727,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface delete(String tableName) {
-		return new QueryDelete(Config.getBaseConnection()).delete(tableName);
+		return new QueryDelete(new ConfigApp().getBaseConnection()).delete(tableName);
 	}
 
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
@@ -766,7 +767,7 @@ public final class Core { // Not inherit
 	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(String connectionName, String sql) {
 		QuerySelect q = new QuerySelect();
 		q.setSql(sql);
-		return q.executeQuery(Connection.getConnection(connectionName));
+		return q.executeQuery(new Connection().getConnection(connectionName));
 	}
 
 	/**
@@ -860,15 +861,15 @@ public final class Core { // Not inherit
 	}
 
 	public static String encrypt(String content, String secretKey) {
-		return EncrypDecrypt.encrypt(content, secretKey);
+		return new EncrypDecrypt().encrypt(content, secretKey);
 	}
 
 	public static String decrypt(String content, String secretKey) {
-		return EncrypDecrypt.decrypt(content, secretKey);
+		return new EncrypDecrypt().decrypt(content, secretKey);
 	}
 
 	public static String encrypt(String content) {
-		return EncrypDecrypt.encrypt(content);
+		return new EncrypDecrypt().encrypt(content);
 	}
 
 	public static String decrypt(String content) {
@@ -1414,8 +1415,8 @@ public final class Core { // Not inherit
 	 * @return int ID
 	 */
 	public static int saveFile(File file, String name, String mime_type) {
-		String igrpCoreConnection = Config.getBaseConnection();
-		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
+		String igrpCoreConnection = new ConfigApp().getBaseConnection();
+		java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
 		file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
 		if (conn != null) {
@@ -1470,8 +1471,8 @@ public final class Core { // Not inherit
 	 * @return in ID
 	 */
 	public static int saveFile(Part file, String name) {
-		String igrpCoreConnection = Config.getBaseConnection();
-		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
+		String igrpCoreConnection = new ConfigApp().getBaseConnection();
+		java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
 		if (conn != null) {
 			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
@@ -1574,8 +1575,8 @@ public final class Core { // Not inherit
 		java.sql.Connection conn = null;
 
 		try {
-			String igrpCoreConnection = Config.getBaseConnection();
-			conn = Connection.getConnection(igrpCoreConnection);
+			String igrpCoreConnection = new ConfigApp().getBaseConnection();
+			conn = new Connection().getConnection(igrpCoreConnection);
 			String sql = "select * from tbl_clob where id = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, fileId);

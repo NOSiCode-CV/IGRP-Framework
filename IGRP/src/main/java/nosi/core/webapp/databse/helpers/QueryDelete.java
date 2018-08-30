@@ -1,6 +1,6 @@
 package nosi.core.webapp.databse.helpers;
 
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 
 /**
  * Emanuel
@@ -12,8 +12,8 @@ public class QueryDelete extends CommonFIlter{
 		super(connectionName);
 	}
 
-	public QueryDelete() {
-		this(Config.getBaseConnection());
+	public QueryDelete() {		
+		this(new ConfigApp().getBaseConnection());
 	}
 
 	public QueryHelper delete(String tableName) {

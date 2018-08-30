@@ -10,6 +10,7 @@ package nosi.core.gui.fields;
 import java.util.Map;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -24,7 +25,7 @@ public abstract class AbstractField implements Field{
 	private boolean isVisible=true;
 	private boolean isParam = false;
 	private String sql;
-	private String connectionName = Config.getBaseConnection();
+	private String connectionName = new ConfigApp().getBaseConnection();
 	private Map<?,?> comboBox;
 	
 	public FieldProperties propertie;

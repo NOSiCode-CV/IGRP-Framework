@@ -1,6 +1,6 @@
 package nosi.core.webapp.databse.helpers;
 
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 
 /**
  * Emanuel
@@ -13,7 +13,7 @@ public class QueryUpdate extends QueryHelper {
 	}
 
 	public QueryUpdate() {
-		this(Config.getBaseConnection());
+		this(new ConfigApp().getBaseConnection());
 	}
 
 	public QueryHelper update(String tableName) {

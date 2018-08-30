@@ -16,6 +16,14 @@ public class ConfigApp {
 	private String data_install;
 	private String isInstallation;
 	private Config config;
+
+	public String getBaseConnection() {
+		return "hibernate-igrp-core";
+	}
+
+	public String getH2IGRPBaseConnection() {
+		return "hibernate-igrp-core-h2";
+	}
 	
 	public ConfigApp(Config config) {
 		this.config = config;
@@ -27,6 +35,9 @@ public class ConfigApp {
 		}
 	}
 	
+	public ConfigApp() {
+	}
+
 	public String getVersion() {
 		return version;
 	}

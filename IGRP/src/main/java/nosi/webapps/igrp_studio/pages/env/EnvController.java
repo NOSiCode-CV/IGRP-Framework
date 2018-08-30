@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -32,14 +30,9 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.openjpa.jdbc.sql.ResultSetResult;
-
 //import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
-import nosi.core.config.Config;
 import nosi.core.cversion.Svn;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -52,7 +45,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
-import nosi.core.webapp.compiler.helpers.Compiler;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
@@ -448,7 +440,7 @@ public class EnvController extends Controller {
 	}
 	
 	private String getLinkOpenApp() {
-        return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app=";
+        return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app=";
 	}
 
 
@@ -475,7 +467,7 @@ public class EnvController extends Controller {
 					Action action = env.getAction();
 					if(action != null && env.getExternal() != 1) {
 						aux = aux.replace(URI.create(aux).getQuery(), ""); 
-						aux += "r=" + EncrypDecrypt.encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
+						aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
 					
 					return this.redirectToUrl(aux);

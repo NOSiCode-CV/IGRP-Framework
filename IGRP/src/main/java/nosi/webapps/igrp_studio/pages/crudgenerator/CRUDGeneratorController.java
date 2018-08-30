@@ -57,7 +57,7 @@ public class CRUDGeneratorController extends Controller {
 										.andWhere("id","=",Core.toInt(model.getData_source(),-1))
 										.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
 										.one();		
-				Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
+				Map<String,String> schemasMap = this.dmh.getSchemas(config );
 			
 				if(schemasMap.size() > 1){
 					if(schemasMap.size() == 2) {
@@ -66,7 +66,7 @@ public class CRUDGeneratorController extends Controller {
 					view.schema.setVisible(true);
 					view.schema.setValue(schemasMap);
 					if(Core.isNotNull(model.getSchema())) {
-						List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
+						List<String> list = this.dmh.getTables(config,model.getSchema());
 						for(String table:list) {
 							CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
 							t.setCheck_table(i);
@@ -77,7 +77,7 @@ public class CRUDGeneratorController extends Controller {
 						}
 					}
 				}else {
-					List<String> list = DatabaseMetadaHelper.getTables(config,null);
+					List<String> list = this.dmh.getTables(config,null);
 					for(String table:list) {
 						CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
 						t.setCheck_table(i);
@@ -114,7 +114,7 @@ public class CRUDGeneratorController extends Controller {
 			if(Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())) {
 		
 				Config_env config = new Config_env().findOne(Core.toInt(model.getData_source()));
-				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
+				List<String> list = this.dmh.getTables(config,model.getSchema());
 				String[] tables = Core.getParamArray("p_check_table");
 				boolean r = false;
 				if(tables!=null) {
@@ -178,7 +178,7 @@ public class CRUDGeneratorController extends Controller {
 
 	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
 		boolean r = false;
-		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
+		List<DatabaseMetadaHelper.Column> columns = this.dmh.getCollumns(config, schema, tableName);
 		XMLTransform xml = new XMLTransform();
 		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,"form",config.getName(),schema,tableName);
 		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table",config.getName(),schema,tableName);
@@ -267,5 +267,6 @@ public class CRUDGeneratorController extends Controller {
 		return false;
 	}
 	private ArrayList<File> files = new ArrayList<>();
+	private DatabaseMetadaHelper dmh = new DatabaseMetadaHelper();
 	/*----#end-code----*/
 	}

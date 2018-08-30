@@ -17,7 +17,6 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -40,7 +39,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected Config_env config_env;
 	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
-	
+	protected nosi.core.config.Connection connection;
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
@@ -49,13 +48,13 @@ public abstract class QueryHelper implements QueryInterface{
 		}
 		this.columnsValue = new ArrayList<>();
 		this.connectionName = this.getMyConnectionName(this.connectionName);
-		
+		this.connection = new nosi.core.config.Connection();
 	}	
 
 	private String getMyConnectionName(String connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName;
-		return Config.getH2IGRPBaseConnection();
+		return this.connection.getConfigApp().getH2IGRPBaseConnection();
 	}
 //	
 //	private String getMyConnectionName() {		
@@ -361,7 +360,7 @@ public abstract class QueryHelper implements QueryInterface{
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
-		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
+		Connection conn = this.connection.getConnection(this.getConnectionName());
 		if(conn!=null) {
 			try {
 				conn.setAutoCommit(this.isAutoCommit);
@@ -421,7 +420,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	@Override
 	public String getSqlWithData() {
-		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
+		Connection conn = this.connection.getConnection(this.getConnectionName());
 		if(conn!=null) {
 			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {

@@ -27,8 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-
-import nosi.core.config.Config;
 import nosi.core.cversion.Svn;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -677,7 +675,7 @@ public class PageController extends Controller {
 
 	public Response actionListDomains() throws IOException {
 		List<String> domains = new ArrayList<>();
-		for (Tuple t : Core.query(Config.getBaseConnection(), "SELECT DISTINCT dominio FROM tbl_domain")
+		for (Tuple t : Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio FROM tbl_domain")
 				.getResultList()) {
 			try {
 				domains.add(t.get("dominio").toString());
@@ -694,7 +692,7 @@ public class PageController extends Controller {
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
-		for (Tuple t : Core.query(Config.getBaseConnection(), "SELECT DISTINCT valor,description FROM tbl_domain")
+		for (Tuple t : Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT valor,description FROM tbl_domain")
 				.where("dominio=:dominio").addString("dominio", p_id).getResultList()) {
 			try {
 				Properties domains = new Properties();

@@ -6,6 +6,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -13,7 +14,6 @@ import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
@@ -40,26 +40,26 @@ public class ConfigDatabaseController extends Controller {
 		for(Config_env lista : list_app) {
 			ConfigDatabase.Table_1 tabela = new ConfigDatabase.Table_1();
           	tabela.setId(""+lista.getId());
-          	tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
+          	tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), this.ed.SECRET_KEY_ENCRYPT_DB));
 			tabela.setNome_de_conexao_tabela(lista.getName());
 			tabela.setT_url_connection(
 				Core.isNotNull(lista.getUrl_connection())
 				?
-					Core.decrypt(lista.getUrl_connection(), Config.SECRET_KEY_ENCRYPT_DB)
+					Core.decrypt(lista.getUrl_connection(), this.ed.SECRET_KEY_ENCRYPT_DB)
 				:
 					DatabaseConfigHelper.getUrl(
 						tabela.getTipo_de_base_de_dados_tabela(), 
-						Core.decrypt(lista.getHost(), Config.SECRET_KEY_ENCRYPT_DB), 
-						Core.decrypt(lista.getPort(),Config.SECRET_KEY_ENCRYPT_DB), 
-						Core.decrypt(lista.getName_db(), Config.SECRET_KEY_ENCRYPT_DB)
+						Core.decrypt(lista.getHost(), this.ed.SECRET_KEY_ENCRYPT_DB), 
+						Core.decrypt(lista.getPort(),this.ed.SECRET_KEY_ENCRYPT_DB), 
+						Core.decrypt(lista.getName_db(), this.ed.SECRET_KEY_ENCRYPT_DB)
 					)
 			);
-			tabela.setT_driver_connection(Core.isNotNull(lista.getDriver_connection())?Core.decrypt(lista.getDriver_connection(), Config.SECRET_KEY_ENCRYPT_DB):DatabaseConfigHelper.getDatabaseDriversExamples(tabela.getTipo_de_base_de_dados_tabela()));
-			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), Config.SECRET_KEY_ENCRYPT_DB));
+			tabela.setT_driver_connection(Core.isNotNull(lista.getDriver_connection())?Core.decrypt(lista.getDriver_connection(), this.ed.SECRET_KEY_ENCRYPT_DB):DatabaseConfigHelper.getDatabaseDriversExamples(tabela.getTipo_de_base_de_dados_tabela()));
+			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB));
 			lista_tabela.add(tabela);
 		}	
 		if (Core.isInt(model.getAplicacao()) ) {
-			view.aplicacao.setQuery(Core.query(Config.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
+			view.aplicacao.setQuery(Core.query(this.configApp.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);			
 			if(Core.isNotNull(model.getTipo_base_dados())) {
@@ -70,7 +70,7 @@ public class ConfigDatabaseController extends Controller {
 				List<Config_env> list = new Config_env()
 											.find()
 											.andWhere("application", "=",idApp)
-											.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),Config.SECRET_KEY_ENCRYPT_DB) )
+											.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),this.ed.SECRET_KEY_ENCRYPT_DB) )
 											.all();
 				int size = list!=null?(list.size()+1):1;
 				model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+model.getTipo_base_dados()+"_"+size);
@@ -101,15 +101,15 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setUsername(Core.encrypt(model.getUsername(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setPassword(Core.encrypt(model.getPassword(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setType_db(Core.encrypt(model.getTipo_base_dados(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),Config.SECRET_KEY_ENCRYPT_DB));
-			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
-			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(Config.getBaseConnection())) {
+			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(this.configApp.getBaseConnection())) {
 				Core.setMessageError(gt("Falha na conexão com a base de dados"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
@@ -117,7 +117,7 @@ public class ConfigDatabaseController extends Controller {
 											.andWhere("name", "=", config.getName())
 											.andWhere("application", "=",Integer.parseInt(model.getAplicacao()))
 											.one() == null;
-			if (check && !config.getName().equalsIgnoreCase(Config.getBaseConnection()) && !config.getName().equalsIgnoreCase(Config.getH2IGRPBaseConnection())) {
+			if (check && !config.getName().equalsIgnoreCase(this.configApp.getBaseConnection()) && !config.getName().equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
 				config = config.insert();
 				if (config != null) {
 					this.saveConfigHibernateFile(config);
@@ -172,5 +172,6 @@ public class ConfigDatabaseController extends Controller {
 			FileHelper.save(pathWS, config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml", content);
 		}
 	}
+	private EncrypDecrypt ed = new EncrypDecrypt();
 	/*----#end-code----*/
 	}

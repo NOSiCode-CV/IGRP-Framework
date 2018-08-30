@@ -7,7 +7,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.databse.helpers.ResultSet;
@@ -151,12 +150,12 @@ public class WebReportController extends Controller {
 					if(datasources!=null) {
 						for(DataSourceParam p:datasources) {
 							for(Parameters param:p.getParameters()) {
-								ResultSet.Record record = Core.query(Config.getBaseConnection(), "SELECT id FROM tbl_rep_template_source")
+								ResultSet.Record record = Core.query(this.configApp.getBaseConnection(), "SELECT id FROM tbl_rep_template_source")
 														.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
 														.addInt("rep_source_fk", Core.toInt(p.getId()))
 														.addInt("rep_template_fk", rt.getId())
 														.getSigleRecord();								
-								Core.insert(Config.getBaseConnection(),"tbl_rep_template_source_param")
+								Core.insert(this.configApp.getBaseConnection(),"tbl_rep_template_source_param")
 									.addString("parameter", param.getName())
 									.addString("parameter_type", param.getType())
 									.addInt("rep_template_source_fk", record.getInt("id"))

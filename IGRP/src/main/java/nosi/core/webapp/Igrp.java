@@ -72,7 +72,7 @@ public final class Igrp{ // Not extends
 		this.response = response;
 		this.basePath = this.request.getContextPath();
 		this.baseRoute = this.request.getServletPath();
-		this.homeUrl = EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");;
+		this.homeUrl = new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index");;
 		this.config = new Config();
 		// init. of others configuration 
 		this.flashMessage = new FlashMessage(); // Flash Message instance
