@@ -11,11 +11,13 @@ $(function ($) {
 		$.WR.isPreview 		= false;
 		$.WR.dataSource 	= [];
 		$.WR.keys 			= [];
+		$.WR.dataSourcekeys = {};
 		$.WR.objDataSource 	= $('#form_1_datasorce_app');
 		$.WR.objApp 		= $('#form_1_env_fk');
 		$.WR.app 			= $.WR.objApp[0] ? $.WR.objApp.val() : null;
 		$.WR.pageUrl 		= $('#p_env_frm_url')[0] ? $('#p_env_frm_url').val() : window.location.href;
 
+		$.WR.dataSourcekeys.datasources = [];
 		
 		$.WR.fieldDataSource = {
 			urlChange:$('#p_link_source')[0] ? $('#p_link_source').val() : 'XXXX',
@@ -23,62 +25,75 @@ $(function ($) {
 				$.WR.objDataSource.on('change',function(){
 					$.WR.dataSource = $(this).val();
 					
-					var param = '', 
-						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+					if($.WR.dataSource[0]){
+						var param = '', 
+							url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
 					
-					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
 						});
 
 						url += param;
-					}else
-						$('.wr-editdatasource').removeClass('active');
+					
 
-					if($.WR.id)
-						url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
+						if($.WR.app){
+							if($.WR.id)
+								url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
 
-					$.ajax({
-						url   : url,
-						error : function(e){
-							$.IGRP.notify({
-								message : 'Not Found',
-								type	: 'danger'
-							});
-						},
-						success : function(data){
-							if(data){
-								var url 	= $(data).find('fields link_add_source value').text(),
-									loading = $('<div/>').addClass('loading loader'),
-									tab 	= $('#tab-tabcontent_1-data_source');
+							$.ajax({
+								url   : url,
+								error : function(e){
+									$.IGRP.notify({
+										message : 'Not Found',
+										type	: 'danger'
+									});
+								},
+								success : function(data){
+									if(data){
+										var url 	= $(data).find('fields link_add_source value').text(),
+											loading = $('<div/>').addClass('loading loader'),
+											tab 	= $('#tab-tabcontent_1-data_source');
 
-								loading.appendTo(tab);
+										loading.appendTo(tab);
 
-								$('#wr-list-datasource').XMLTransform({
-									xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
-									xml : $(data).getXMLDocument(),
-									complete : function(c){
-										//if($.WR.id)
-											$('.wr-editdatasource').addClass('active');
+										$('#wr-list-datasource').XMLTransform({
+											xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
+											xml : $(data).getXMLDocument(),
+											complete : function(c){
+												/*if($.WR.id)
+													$('.wr-editdatasource').addClass('active');*/
 
-										$(loading,tab).remove();
-									},
-									error 	 : function(c){
-										$(loading,tab).remove();
+												$(loading,tab).remove();
+											},
+											error 	 : function(c){
+												$(loading,tab).remove();
+											}
+										});
 									}
-								});
-							}
+								}
+							});
+							$('.wr-newdatasource').addClass('active');
+						}else{
+							$('.wr-newdatasource').removeClass('active');
+							$.IGRP.notify({
+								message : 'Nenhuma Aplicação Selecionado!',
+								type	: 'info'
+							});
 						}
-					});
+					}else{
+						$('#wr-list-datasource').html('');
+						$('.wr-newdatasource').removeClass('active');
+						$('.wr-editdatasource').removeClass('active');
+					}
 				});
 			},
 			setVal : function(data,selected){
-				var option  = null,
-					selected = selected ? selected : [];
+				var option    = null,
+					selected  = selected ? selected : [],
+					activeEdit = false;
 
 				if(data && data != undefined){
-					$('.wr-editdatasource').addClass('active');
+
 					$("option",$.WR.objDataSource).remove();
 
 					data.find('option').each(function(i,e){
@@ -88,17 +103,23 @@ $(function ($) {
 							value
 						);
 
-						if($(e).attr('selected'))
+						if($(e).attr('selected')){
 							option.selected = true;
+							activeEdit		= true;
+						}
 
 						if(selected.length > 0){
 							if ($.inArray(value,selected) != -1){
 								option.selected = true;
 							}
+							activeEdit = true;
 						}
 
 						$($.WR.objDataSource).append(option);
 					});
+
+					if (activeEdit)
+						$('.wr-editdatasource').addClass('active');
 				}else
 					$('.wr-editdatasource').removeClass('active');
 
@@ -106,6 +127,16 @@ $(function ($) {
 			},
 			getVal : function(){
 				$.WR.dataSource = $.WR.objDataSource.val();
+
+				return $.WR.dataSource;
+			},
+			reset : function(){
+				$("option",$.WR.objDataSource).removeAttr('selected');
+				$.WR.objDataSource.trigger('change.select2');
+			},
+			clear : function(){
+				$("option",$.WR.objDataSource).remove();
+				$.WR.objDataSource.trigger('change.select2');
 			},
 			new : function(){
 				$('body').on('click','.wr-newdatasource',function(e){
@@ -198,65 +229,78 @@ $(function ($) {
 		};
 
 		$.WR.fieldApp = {
+			config  : function(){
+				if($.WR.app && $.WR.app != undefined){
+					$('.wr-newdocument').removeClass('hidden');
+					$('#form_1_env_fk').next('.select2:first').removeClass('error');
+				
+					$.ajax({
+						url   : $.WR.pageUrl,
+						data  : $.WR.objApp.serializeArray(),
+						type  : 'POST',
+						error : function(e){
+							$.IGRP.notify({
+								message : 'Not Found',
+								type	: 'danger'
+							});
+						},
+						success : function(data){
+							if(data){
+								var datasorceXml = $(data).find('fields datasorce_app list'),
+									url 		 = $(data).find('fields link_add_source value').text(),
+									loading 	 = $('<div/>').addClass('loading loader'),
+									tab 		 = $('#tab-tabcontent_1-reports');
+
+								loading.appendTo(tab);
+
+								$('#wr-list-document').XMLTransform({
+									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
+									xml 	 : $(data).getXMLDocument(),
+									complete : function(c){
+										$(loading,tab).remove();
+										$.WR.document.info.show();
+										if ($.WR.id)
+											$('#list-reports #'+$.WR.id+' .linkReports').click();
+									},
+									error 	 : function(c){
+										$(loading,tab).remove();
+									}
+								});
+
+								if(url && url != undefined){
+									$('.wr-op-datasource .btn').attr('href',url);
+									$('.wr-newdatasource').addClass('active');
+								}
+
+								$.WR.fieldDataSource.setVal(datasorceXml);
+
+								if(!$.WR.newDocument){
+									$.WR.editor.set.data({});
+									$.WR.document.customfooter.isActive(false);
+								}
+							}	
+						}
+					});
+				}else{
+					$('#wr-list-document').html('');
+					$('.wr-newdocument').addClass('hidden');
+					$.WR.fieldDataSource.clear();
+					$.WR.objDataSource.trigger('change');
+					$.WR.editor.set.data({});
+				}
+			},
 			onChange:function(){
 				$.WR.objApp.on('change',function(){
 					$.WR.app = $(this).val();
-					if($.WR.app && $.WR.app != undefined){
-						$('#form_1_env_fk').next('.select2:first').removeClass('error');
-					
-						$.ajax({
-							url   : $.WR.pageUrl,
-							data  : $.WR.objApp.serializeArray(),
-							type  : 'POST',
-							error : function(e){
-								$.IGRP.notify({
-									message : 'Not Found',
-									type	: 'danger'
-								});
-							},
-							success : function(data){
-								if(data){
-									var datasorceXml = $(data).find('fields datasorce_app list'),
-										url 		 = $(data).find('fields link_add_source value').text(),
-										loading 	 = $('<div/>').addClass('loading loader'),
-										tab 		 = $('#tab-tabcontent_1-reports');
-
-									loading.appendTo(tab);
-
-									$('#wr-list-document').XMLTransform({
-										xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
-										xml 	 : $(data).getXMLDocument(),
-										complete : function(c){
-											$(loading,tab).remove();
-											$.WR.document.info.show();
-											if ($.WR.id)
-												$('#list-reports #'+$.WR.id+' .linkReports').click();
-										},
-										error 	 : function(c){
-											$(loading,tab).remove();
-										}
-									});
-
-									if(url && url != undefined){
-										$('.wr-op-datasource .btn').attr('href',url);
-										$('.wr-newdatasource').addClass('active');
-									}
-
-									$.WR.fieldDataSource.setVal(datasorceXml);
-
-									if(!$.WR.newDocument){
-										$.WR.editor.set.data({});
-										$.WR.document.customfooter.isActive(false);
-									}
-								}	
-							}
-						});
-					}else{
-						$('#wr-list-document').html('');
-					}
+					$.WR.fieldApp.config();
 				});
 			},
 			init : function(){
+				if ($.WR.objApp.val()) {
+					$.WR.app = $.WR.objApp.val();
+					$.WR.fieldApp.config();
+				}
+
 				$.WR.fieldApp.onChange();
 			}	
 		};
@@ -567,6 +611,7 @@ $(function ($) {
 		      		},
 		      		pComplete 	: function(rq){
 		      			$.WR.keys = [];
+		      			$.WR.dataSourcekeys.datasources = [];
 		      			if (rq.status == 200) {
 			      			if((p.action && p.action == 'modal') || $.WR.newDocument){
 			      				if ($.WR.newDocument)
@@ -623,11 +668,44 @@ $(function ($) {
 						}
 
 						$('#datasorce .btn input:checked').each(function(ikey,ekey){// get key
-				          if ($.inArray($(ekey).val(),$.WR.keys) == -1) {
-				            saveDoc.fields.push({name:'p_key',value:$(ekey).val()});
-				            $.WR.keys.push($(ekey).val());
-				          }
+				          	var val  = $(ekey).val(),
+				          	dk    	 = $(ekey).parents('li[data-source-id]').attr('data-source-id'),
+				          	javaType = $(ekey).attr('java-type');
+
+				          	//if ($.inArray(val,$.WR.keys) == -1) {
+				          	
+				            	//saveDoc.fields.push({name:'p_key',value:val});
+
+				            	$.WR.keys.push(val);
+
+				            	var found = -1;
+
+								$.WR.dataSourcekeys.datasources.forEach(function(arr,idarr){
+							  		if(arr.id == dk)
+							  			found = idarr;
+								});
+
+				            	if(found >= 0){
+							  		$.WR.dataSourcekeys.datasources[found].parameters.push({
+				            			name : val,
+				            			type : javaType
+				            		});
+
+								}else{
+									$.WR.dataSourcekeys.datasources.push({
+						            	id : dk,
+						            	parameters : [{
+						            		name : val,
+						            		type : javaType
+						            	}]
+						            });
+								}
+				          	//}
 				        });
+
+				        if ($.WR.dataSourcekeys.datasources[0])
+				        	saveDoc.fields.push({name:'p_datasourcekeys',value:JSON.stringify($.WR.dataSourcekeys.datasources)});
+				        	
 
 				        try{// get param url
 				          if(p.url.indexOf("?")>-1){

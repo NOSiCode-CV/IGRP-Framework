@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 /*----#end-code----*/
 
 
@@ -225,15 +226,15 @@ public class DataSourceController extends Controller {
 
 	//Load data source
 	private String loadDataSource(int id,int template_id) {
+		DataSourceHelpers dsh = new DataSourceHelpers();
 		RepSource rep = new RepSource().findOne(id);
 		if(rep!=null){
 			Set<Properties> columns = new HashSet<>();
-			String title = rep.getName();
 			if(rep.getType().equalsIgnoreCase("object") || rep.getType().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-				columns = rep.getColumns(rep.getConfig_env(),template_id,query);
-				return this.transformToXml(title,columns);
+				columns = dsh.getColumns(rep.getConfig_env(),template_id,query);
+				return this.transformToXml(rep,columns);
 			}else if(rep.getType().equalsIgnoreCase("page")){
 				Action ac = new Action().findOne(rep.getType_fk());
 				return this.getDSPageOrTask(rep.getType(),ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr());
@@ -306,10 +307,11 @@ public class DataSourceController extends Controller {
 		return formProcess.toString();
 	}
 	//Transform columns to xml
-	private String transformToXml(String title,Set<Properties> columns) {
+	private String transformToXml(RepSource rep,Set<Properties> columns) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-			xml.setElement("title", title);
+			xml.setElement("title", rep.getName());
+			xml.setElement("data_source_id", rep.getId());
 			IGRPForm form = new IGRPForm("form");
 			IGRPTable table = new IGRPTable("table");
 			Iterator<Properties> listColumns = columns.iterator();
@@ -318,9 +320,10 @@ public class DataSourceController extends Controller {
 				Field f = new TextField(null,p.getProperty("tag"));
 				f.propertie().add("name",p.getProperty("tag"));
 				f.propertie().add("key",p.getProperty("key"));
+				f.propertie().add("java-type", p.getProperty("type", "String"));
 				form.addField(f);
 				table.addField(f);
-			}
+			}			
 			xml.addXml(this.getDefaultForm(this.getDefaultFields()));
 			xml.addXml(form.toString());
 			xml.addXml(table.toString());			
