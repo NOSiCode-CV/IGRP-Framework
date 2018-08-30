@@ -1,7 +1,7 @@
 package nosi.base.ActiveRecord;
 
 import java.util.Properties;
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 
 /**
  * Emanuel
@@ -73,7 +73,7 @@ public class ConfigHikariCP {
 
 
 	public void load() throws Exception{
-		Properties p = new Config().loadProperties("/config/db/hikaricp.properties");
+		Properties p = new ConfigApp().loadProperties("/config/db/hikaricp.properties");
 		if(p!=null){
 			this.connectionTimeout = p.getProperty("connectionTimeout");
 			this.idleTimeout = p.getProperty("idleTimeout");

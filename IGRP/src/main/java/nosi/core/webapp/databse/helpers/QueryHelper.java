@@ -47,8 +47,8 @@ public abstract class QueryHelper implements QueryInterface{
 			this.connectionName = connectionName!=null?(String) connectionName:null;
 		}
 		this.columnsValue = new ArrayList<>();
-		this.connectionName = this.getMyConnectionName(this.connectionName);
 		this.connection = new nosi.core.config.Connection();
+		this.connectionName = this.getMyConnectionName(this.connectionName);
 	}	
 
 	private String getMyConnectionName(String connectionName) {

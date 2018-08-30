@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -24,7 +24,6 @@ public final class Igrp{ // Not extends
 	private HttpServletResponse response;
 	
 	private Controller controller; // Current controller ... 
-	private Config config;
 	private String currentAppName;
 	private String currentPageName;
 	private String currentActionName;
@@ -72,8 +71,7 @@ public final class Igrp{ // Not extends
 		this.response = response;
 		this.basePath = this.request.getContextPath();
 		this.baseRoute = this.request.getServletPath();
-		this.homeUrl = new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index");;
-		this.config = new Config();
+		this.homeUrl = new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index");
 		// init. of others configuration 
 		this.flashMessage = new FlashMessage(); // Flash Message instance
 		
@@ -96,7 +94,7 @@ public final class Igrp{ // Not extends
 	}
 	
 	public void run() throws IOException{ // run the web app 
-		this.config.configurationApp();
+		new ConfigApp().configurationApp();
 		this.log.run();
 		if(!this.die){
 			this.runController();
