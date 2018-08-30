@@ -2,8 +2,13 @@ package nosi.core.config;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
+
+import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
 
 /**
@@ -17,6 +22,10 @@ public class ConfigApp {
 	private String isInstallation;
 	private Config config;
 
+	public ConfigApp() {
+		this.config = new Config();
+	}
+	
 	public String getBaseConnection() {
 		return "hibernate-igrp-core";
 	}
@@ -25,19 +34,18 @@ public class ConfigApp {
 		return "hibernate-igrp-core-h2";
 	}
 	
-	public ConfigApp(Config config) {
-		this.config = config;
-		try {
-			this.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void configurationApp(){
+		if(!this.isInstall()){
+			MigrationIGRPInitConfig.start();
+			try {
+				this.save();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	public ConfigApp() {
-	}
-
 	public String getVersion() {
 		return version;
 	}
@@ -58,7 +66,7 @@ public class ConfigApp {
 	}
 	
 	private void load() throws IOException {
-		Properties p = this.config.loadProperties("/config/install/install.properties");
+		Properties p = this.loadProperties("/config/install/install.properties");
 		if(p!=null){
 			this.version = p.getProperty("version");
 			this.data_install = p.getProperty("data_install");
@@ -72,12 +80,37 @@ public class ConfigApp {
 		p.setProperty("data_install", Core.getCurrentDate());
 		p.setProperty("isInstallation", "success");
 		if(Core.isNotNull(this.config.getWorkspace())) {//Save in workspace eclipse
-			this.config.saveProperties(p, this.config.getPathWorkspaceResources()+File.separator+"config"+File.separator+"install"+File.separator+"install.properties");
+			this.saveProperties(p, this.config.getPathWorkspaceResources()+File.separator+"config"+File.separator+"install"+File.separator+"install.properties");
 		}
-		this.config.saveProperties(p, this.config.getBasePathClass()+"config"+File.separator+"install"+File.separator+"install.properties");
+		this.saveProperties(p, this.config.getBasePathClass()+"config"+File.separator+"install"+File.separator+"install.properties");
 	}
 	
+	public Properties loadProperties(String fileName) throws IOException {
+		Properties props = new Properties();
+		InputStream in = getClass().getResourceAsStream(fileName);
+		if(in!=null) {
+			props.load(in);
+			in.close();
+		}
+		return props;
+	}
+	
+	public void saveProperties(Properties p,String fileName) throws IOException {
+		OutputStream out = new FileOutputStream(fileName);	
+		if(out!=null) {
+			p.store(out, "");
+			out.close();
+		}
+	}
 	public boolean isInstall() {
+		if(Core.isNull(this.isInstallation)) {
+			try {
+				this.load();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return Core.isNotNull(this.isInstallation);
 	}
 }

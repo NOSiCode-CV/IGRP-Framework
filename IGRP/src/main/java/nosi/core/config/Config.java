@@ -1,17 +1,12 @@
 package nosi.core.config;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
-import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -41,10 +36,9 @@ public class Config {
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
 	public final String VERSION = "180829";
-	private ConfigApp configApp;
-	
+
 	public Config() {
-		this.configApp = new ConfigApp(this);
+		
 	}
 	
 	public String getLinkXSLLogin() {
@@ -349,7 +343,7 @@ public class Config {
 	}
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
-		if(this.configApp.isInstall())
+		if(new ConfigApp().isInstall())
 			APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null) {
 			APP_LINK_IMAGE = APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
@@ -386,9 +380,7 @@ public class Config {
 	}
 	
 	public String getBaseHttpServerPahtXsl(Action page){
-		String APP_LINK_IMAGE = null;
-		if(this.configApp.isInstall())
-			APP_LINK_IMAGE = this.getLinkImgBase();
+		String APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null && page!=null) {
 			APP_LINK_IMAGE = SEPARATOR_FOR_HTTP + APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
 			return APP_LINK_IMAGE + "images"+ SEPARATOR_FOR_HTTP +"IGRP"+ SEPARATOR_FOR_HTTP + "IGRP" + page.getVersion() + SEPARATOR_FOR_HTTP + "app"+ SEPARATOR_FOR_HTTP +page.getApplication().getDad().toLowerCase() + SEPARATOR_FOR_HTTP + page.getPage().toLowerCase();
@@ -435,20 +427,7 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".process." + processId.toLowerCase() + "." + taskName + "Controller";
 		return basePackage;
 	}
-	
-	public void configurationApp(){
-		if(!this.configApp.isInstall()){
-			MigrationIGRPInitConfig.start();
-			try {
-				this.configApp.save();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	
+		
 	public String getStartReseveCodeAction(String actionName){
 		return "/*----#START-PRESERVED-AREA("+actionName.toUpperCase()+")----*/";
 	}
@@ -463,24 +442,6 @@ public class Config {
   
 	public String getHeader(IHeaderConfig config) {
 		return getHeader(config,null);
-	}
-	
-	public Properties loadProperties(String fileName) throws IOException {
-		Properties props = new Properties();
-		InputStream in = getClass().getResourceAsStream(fileName);
-		if(in!=null) {
-			props.load(in);
-			in.close();
-		}
-		return props;
-	}
-	
-	public void saveProperties(Properties p,String fileName) throws IOException {
-		OutputStream out = new FileOutputStream(fileName);	
-		if(out!=null) {
-			p.store(out, "");
-			out.close();
-		}
 	}
 	
 	public String getHeader(IHeaderConfig config,Action page) {
