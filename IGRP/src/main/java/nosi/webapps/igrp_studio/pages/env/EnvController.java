@@ -481,13 +481,13 @@ public class EnvController extends Controller {
 					return this.redirectToUrl(aux);
 				}else {
 					
-					String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+					//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 					String uri = Igrp.getInstance().getRequest().getRequestURI();
 					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					Action action = env.getAction();
 					
 					User currentUser = Core.getCurrentUser();
-					url += "/" + warName.trim().toLowerCase() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+					url += "/" + env.getDad().trim().toLowerCase() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
 					
 					if(action != null) 
 						url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
