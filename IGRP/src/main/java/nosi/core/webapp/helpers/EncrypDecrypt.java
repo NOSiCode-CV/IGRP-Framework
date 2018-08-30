@@ -14,19 +14,20 @@ import nosi.core.webapp.Igrp;
 
 public class EncrypDecrypt {
 
-	private static final String ALGO = "AES/ECB/PKCS5Padding";// "AES/ECB/PKCS5PADDING"
-	private static final String CHARTSET = "UTF-8";
-	private static final String SECRET_KEY_SPEC = "AES";
-	private static final String SECRET_KEY_ALGO = "SHA-1";
-	public static String SECRET_KEY = "igrp.encrypt";
-
-	public static String encrypt(String content) {
+	private final String ALGO = "AES/ECB/PKCS5Padding";// "AES/ECB/PKCS5PADDING"
+	private final String CHARTSET = "UTF-8";
+	private final String SECRET_KEY_SPEC = "AES";
+	private final String SECRET_KEY_ALGO = "SHA-1";
+	public String SECRET_KEY = "igrp.encrypt";
+	public final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
+	
+	public String encrypt(String content) {
 //		if (getWakandaList(content))
 //			return encrypt(content, getSecretKey()).replace(" ", "+");
 		return content;
 	}
 
-	public static boolean getWakandaList(String content) {
+	public boolean getWakandaList(String content) {
 		return 
 				!content.equals("igrp/login/login")	&&
 				!content.equals("igrp/ErrorPage/exception") && 
@@ -48,11 +49,13 @@ public class EncrypDecrypt {
 			return content;
 	}
 
-	private static String getSecretKey() {
-		return EncrypDecrypt.SECRET_KEY;
+	private String getSecretKey() {
+		if(this.SECRET_KEY==null)
+			this.SECRET_KEY = (Igrp.getInstance()!=null && Igrp.getInstance().getRequest()!=null)? Igrp.getInstance().getRequest().getSession().getId():null;
+		return this.SECRET_KEY;
 	}
 
-	public static SecretKeySpec generateSecretKey(String key) {
+	public SecretKeySpec generateSecretKey(String key) {
 		try {
 			byte[] byteKey = key.getBytes(CHARTSET);
 			MessageDigest sha = MessageDigest.getInstance(SECRET_KEY_ALGO);
@@ -65,7 +68,7 @@ public class EncrypDecrypt {
 		return null;
 	}
 
-	public static String encrypt(String content, String secretKey) {
+	public String encrypt(String content, String secretKey) {
 		try {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));
@@ -76,7 +79,7 @@ public class EncrypDecrypt {
 		return null;
 	}
 
-	public static String decrypt(String content, String secretKey) {
+	public String decrypt(String content, String secretKey) {
 		try {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(secretKey));

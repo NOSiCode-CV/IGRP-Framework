@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPView;
@@ -41,6 +42,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  */
 public class Controller{
 	protected Config config = new Config();
+	protected ConfigApp configApp = new ConfigApp();
 	private QueryString<String,Object> queryString = new QueryString<>();
 	private View view;
 	

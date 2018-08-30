@@ -6,7 +6,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.igrp.mingrations.MigrationIGRP;
-import nosi.core.config.Config;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 /*----#end-code----*/
 
@@ -26,7 +25,7 @@ public class MigrateController extends Controller {
 		/*----#start-code(index)----*/						
 		if (Core.isInt(model.getAplicacao()) ) {
 			if(model.getAplicacao().compareTo("1")==0) {
-				model.setNome_de_conexao(Config.getBaseConnection());
+				model.setNome_de_conexao(this.configApp.getBaseConnection());
 				view.nome_de_conexao.propertie().add("disabled","true");
 			}
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());		
@@ -36,7 +35,7 @@ public class MigrateController extends Controller {
 			}
 		}
 		view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
-		view.aplicacao.setQuery(Core.query(Config.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=:id").addInt("id", 1));
+		view.aplicacao.setQuery(Core.query(this.configApp.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=:id").addInt("id", 1));
 		
 		//return this.renderView(view);
 		/*----#end-code----*/
@@ -56,7 +55,7 @@ public class MigrateController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(migrar)----*/		
 		if(model.getAplicacao().equals("1")){
-			model.setNome_de_conexao(Config.getBaseConnection());
+			model.setNome_de_conexao(this.configApp.getBaseConnection());
 			MigrationIGRP migrate = new MigrationIGRP();
 			if(migrate.validate(model)){
 				migrate.start(model);

@@ -19,9 +19,14 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class DatabaseMetadaHelper {
 
-	public static Map<String,String> getTablesMap(Config_env config,String schema) {
+	private Connection connection;
+	
+	public DatabaseMetadaHelper() {
+		this.connection = new Connection();
+	}
+	public Map<String,String> getTablesMap(Config_env config,String schema) {
 		Map<String,String> list = new HashMap<>();
-		java.sql.Connection con = Connection.getConnection(config.getName());
+		java.sql.Connection con = this.connection.getConnection(config.getName());
 		if(con!=null ) {
 			ResultSet tables = null;
 			try {
@@ -46,9 +51,9 @@ public class DatabaseMetadaHelper {
 		return list;
 	}
 	
-	public static List<String> getTables(Config_env config,String schema) {
+	public List<String> getTables(Config_env config,String schema) {
 		List<String> list = new ArrayList<>();
-		java.sql.Connection con = Connection.getConnection(config);
+		java.sql.Connection con = this.connection.getConnection(config);
 		if(con!=null ) {			
 			ResultSet tables = null;			
 			try {
@@ -73,10 +78,10 @@ public class DatabaseMetadaHelper {
 		return list;
 	}
 	
-	public static List<String> getPrimaryKeys(Config_env config,String schema,String tableName){
-		java.sql.Connection con = Connection.getConnection(config.getName());
+	public List<String> getPrimaryKeys(Config_env config,String schema,String tableName){
+		java.sql.Connection con = this.connection.getConnection(config.getName());
 		if(con != null) {
-			List<String> keys = getPrimaryKeys(con, schema, tableName);
+			List<String> keys = this.getPrimaryKeys(con, schema, tableName);
 			try {
 				if(con!=null)
 					con.close();
@@ -89,7 +94,7 @@ public class DatabaseMetadaHelper {
 	}
 	
 	//Get primary key of table
-	public static List<String> getPrimaryKeys(java.sql.Connection con,String schema,String tableName){
+	public List<String> getPrimaryKeys(java.sql.Connection con,String schema,String tableName){
 		List<String> keys = new ArrayList<>();
 		if(con != null) {
 			DatabaseMetaData metaData;
@@ -107,10 +112,10 @@ public class DatabaseMetadaHelper {
 	}
 	
 	//Get foreign key of table
-	public static Map<String,String> getForeignKeys(Config_env config,String schema,String tableName){
-		java.sql.Connection con = Connection.getConnection(config.getName());
+	public Map<String,String> getForeignKeys(Config_env config,String schema,String tableName){
+		java.sql.Connection con = this.connection.getConnection(config.getName());
 		if(con != null) {
-			Map<String,String> keys = getForeignKeys(con, schema, tableName);
+			Map<String,String> keys = this.getForeignKeys(con, schema, tableName);
 			try {
 				if(con!=null)
 					con.close();
@@ -122,7 +127,7 @@ public class DatabaseMetadaHelper {
 		return null;
 	}
 	
-	public static Map<String,String> getForeignKeys(java.sql.Connection con,String schema,String tableName){
+	public Map<String,String> getForeignKeys(java.sql.Connection con,String schema,String tableName){
 		Map<String,String> keys = new HashMap<>();
 		if(con != null) {
 			DatabaseMetaData metaData;
@@ -139,7 +144,7 @@ public class DatabaseMetadaHelper {
 		return keys;
 	}
 	
-	public static List<String> getExportedKeys(java.sql.Connection con,String schema,String tableName){
+	public List<String> getExportedKeys(java.sql.Connection con,String schema,String tableName){
 		List<String> keys = new ArrayList<>();
 		if(con != null) {
 			DatabaseMetaData metaData;
@@ -157,8 +162,8 @@ public class DatabaseMetadaHelper {
 	}
 	
 	//Get collumns name of query
-	public static List<Column> getCollumns(String connectionName,String sql) {
-		java.sql.Connection con = Connection.getConnection(connectionName);
+	public List<Column> getCollumns(String connectionName,String sql) {
+		java.sql.Connection con = this.connection.getConnection(connectionName);
 		List<Column> list = new ArrayList<>();
 		if(con!=null && sql!=null) {
 			PreparedStatement st = null;
@@ -193,14 +198,14 @@ public class DatabaseMetadaHelper {
 	
 	
 	//Get collumns name of table
-	public static List<Column> getCollumns(Config_env config,String schema,String tableName) {
+	public List<Column> getCollumns(Config_env config,String schema,String tableName) {
 		List<Column> list = new ArrayList<>();
-		java.sql.Connection con = Connection.getConnection(config);
+		java.sql.Connection con = this.connection.getConnection(config);
 		if(con!=null) {
 			PreparedStatement st = null;
 			ResultSet rs = null;
 			try {
-			    List<String> pkeys = getPrimaryKeys(con, schema, tableName);	
+			    List<String> pkeys = this.getPrimaryKeys(con, schema, tableName);	
 			    Map<String,String> fkeys = getForeignKeys(con, schema, tableName);	
 			    tableName = (schema!=null && !schema.equals(""))?schema+"."+tableName:tableName;
 			    String sql = "SELECT * FROM "+tableName;
@@ -248,10 +253,10 @@ public class DatabaseMetadaHelper {
 	}
 
 	//Get Schemas of connection datasource
-	public static Map<String,String> getSchemas(Config_env config) {
+	public Map<String,String> getSchemas(Config_env config) {
 		Map<String,String> schemasMap = new HashMap<>();
 		schemasMap.put(null, "-- Escolha o Schema --");
-		java.sql.Connection con = Connection.getConnection(config);
+		java.sql.Connection con = this.connection.getConnection(config);
 		if(con!=null) {
 			ResultSet schemas = null;
 			try {				
@@ -402,7 +407,7 @@ public class DatabaseMetadaHelper {
 	}
 
 
-	public static Column getPrimaryKey(Config_env config, String schemaName, String tableName) {
+	public Column getPrimaryKey(Config_env config, String schemaName, String tableName) {
 		List<Column> list = getCollumns(config, schemaName, tableName);
 		List<String> keys = getPrimaryKeys(config, schemaName, tableName);
 		if(list!=null) {
@@ -412,10 +417,10 @@ public class DatabaseMetadaHelper {
 		return null;
 	}
 
-	public static List<Column> getCollumns(Config_env config_env, String sql) throws SQLException {
+	public List<Column> getCollumns(Config_env config_env, String sql) throws SQLException {
 		List<Column> list = new ArrayList<>();
 		if(config_env!=null && sql!=null) {
-			java.sql.Connection con = Connection.getConnection(config_env);
+			java.sql.Connection con = this.connection.getConnection(config_env);
 			PreparedStatement st = null;
 			ResultSet rs = null;
 		    st = con.prepareStatement(sql);

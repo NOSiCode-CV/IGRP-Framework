@@ -2,17 +2,12 @@
 package nosi.webapps.igrp.pages.novodominio;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import org.modelmapper.ModelMapper;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.pages.novodominio.NovoDominio.Formlist_1;
-
 import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
@@ -38,7 +33,7 @@ public class NovoDominioController extends Controller {
 				"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME "));
 		String isEdit = Core.getParam("isEdit");
 		if (Core.isNotNull(isEdit)) {
-			model.loadFormlist_1(Core.query(this.config.getBaseConnection(),
+			model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),
 					"SELECT id,description,valor as key,status as estado,ordem FROM tbl_domain").where("dominio=:dominio").addString("dominio", model.getDominio()));
 		} 
 		/*----#end-code----*/

@@ -18,7 +18,6 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.config.Config;
 /*----#end-code----*/
 
 
@@ -162,24 +161,24 @@ public class EtapaaccessController extends Controller {
 			for(String id:p_id) {
 				String[] taskProcess = id.split(separator);
 				if("org".compareTo(type)==0) {	
-					ResultSet.Record r = Core.query(Config.getBaseConnection(),"SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
+					ResultSet.Record r = Core.query(this.configApp.getBaseConnection(),"SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
 						 .where("org_fk=:org_fk AND processname=:processname AND taskname=:taskname AND prof_fk is not null")
 						 .addInt("org_fk", orgProfUserId)
 						 .addString("processname", taskProcess[1])
 						 .addString("taskname", taskProcess[0])
 						 .getRecordList();
 					this.listR.add(r);			
-					Core.delete(Config.getBaseConnection(),"tbl_task_access").where("org_fk=:org_fk")
+					Core.delete(this.configApp.getBaseConnection(),"tbl_task_access").where("org_fk=:org_fk")
 										   .addInt("org_fk",orgProfUserId)
 										   .execute();
 				}
 				if("prof".compareTo(type)==0) {
-					Core.delete(Config.getBaseConnection(),"tbl_task_access").where("prof_fk=:prof_fk")
+					Core.delete(this.configApp.getBaseConnection(),"tbl_task_access").where("prof_fk=:prof_fk")
 					   .addInt("prof_fk",orgProfUserId)
 					   .execute();
 				}
 				if("user".compareTo(type)==0) {
-					Core.executeQuery(Config.getBaseConnection(), "UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
+					Core.executeQuery(this.configApp.getBaseConnection(), "UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
 				}
 			}
 		}

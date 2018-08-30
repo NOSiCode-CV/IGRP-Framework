@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
@@ -38,7 +37,6 @@ public class Config {
 	private final String LINK_XSL_JSON_GENERATOR = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//Generator JSON for CRUD pages
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
 	public final String PREFIX_TASK_NAME = "Task";
-	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
@@ -192,7 +190,7 @@ public class Config {
 	public String getResolveUrl(String app,String page,String action){
 		String qs = (Route.getQueryString(action)+"&dad="+Core.getCurrentDad());//Get Query String
 		action = Route.resolveAction(action);
-		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
+		String url = "webapps?r="+new EncrypDecrypt().encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 		return url;
 	}
 	
@@ -339,10 +337,10 @@ public class Config {
 		return this.getRawBasePathClassWorkspace()+ this.getBasePackage(app).replace(".", SEPARATOR_FOR_FILESYS);
 	}
 	public String getBasePahtClassWorkspace(String app,String page){
-		return this.getRawBasePathClassWorkspace()+ Config.getBasePackage(app,page).replace(".", SEPARATOR_FOR_FILESYS);
+		return this.getRawBasePathClassWorkspace()+ this.getBasePackage(app,page).replace(".", SEPARATOR_FOR_FILESYS);
 	}
 
-	private static String getBasePackage(String app,String page) {
+	private String getBasePackage(String app,String page) {
 		return "nosi.webapps."+app.toLowerCase()+".pages."+page.toLowerCase();
 	}
 
@@ -450,14 +448,6 @@ public class Config {
 		}
 	}
 
-	public static String getBaseConnection() {
-		return "hibernate-igrp-core";
-	}
-
-
-	public static String getH2IGRPBaseConnection() {
-		return "hibernate-igrp-core-h2";
-	}
 	
 	public String getStartReseveCodeAction(String actionName){
 		return "/*----#START-PRESERVED-AREA("+actionName.toUpperCase()+")----*/";

@@ -1,6 +1,6 @@
 package nosi.core.gui.components;
 
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
 import static nosi.core.i18n.Translator.gt;
@@ -24,7 +24,7 @@ public abstract class IGRPComponent {
 		this.xml = new XMLWritter();
 		this.properties = new FieldProperties();
 		this.properties.put("title", gt(title));
-		this.connectionName = Config.getBaseConnection();
+		this.connectionName = new ConfigApp().getBaseConnection();
 	}
 	public IGRPComponent(String tag_name) {
 		this(tag_name,"");

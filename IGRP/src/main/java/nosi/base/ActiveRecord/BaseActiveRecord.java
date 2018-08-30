@@ -18,7 +18,7 @@ package nosi.base.ActiveRecord;
  import org.hibernate.Session;
  import org.hibernate.SessionFactory;
  import org.hibernate.Transaction;
-import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 
 
 public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
@@ -34,7 +34,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
-		this.connectionName = Config.getBaseConnection();
+		this.connectionName = new ConfigApp().getBaseConnection();
 	}	
 	
 	private SessionFactory getSessionFactory() {

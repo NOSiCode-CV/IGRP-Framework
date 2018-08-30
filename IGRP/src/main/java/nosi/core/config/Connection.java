@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -13,12 +14,25 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class Connection {
 
-	public static java.sql.Connection getConnection(String connectionName){		
+	private ConfigApp configApp;
+	private EncrypDecrypt ed;
+	public Connection() {
+		this.configApp = new ConfigApp();
+		this.ed = new EncrypDecrypt();
+	}
+	
+	
+	
+	public ConfigApp getConfigApp() {
+		return configApp;
+	}
+
+	public java.sql.Connection getConnection(String connectionName){		
 		String url = "";
 		String password = "";
 		String user = "";
 		
-		if(connectionName.equalsIgnoreCase(Config.getBaseConnection()) || connectionName.equalsIgnoreCase(Config.getH2IGRPBaseConnection())) {
+		if(connectionName.equalsIgnoreCase(this.configApp.getBaseConnection()) || connectionName.equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
 			ConfigDBIGRP config = new ConfigDBIGRP();
 			try {
 				config.load();
@@ -34,30 +48,30 @@ public class Connection {
 					.andWhere("name", "=", connectionName)
 					.andWhere("application.dad", "=",dad)
 					.one();
-			return getConnectionWithConfig(config);
+			return this.getConnectionWithConfig(config);
 		}
-		return getConnection(url,user,password);
+		return this.getConnection(url,user,password);
 	}
 	
-	private static java.sql.Connection getConnectionWithConfig(Config_env config) {
+	private java.sql.Connection getConnectionWithConfig(Config_env config) {
 		String url = "";
 		String password = "";
 		String user = "";
 		if (config != null) {
-			url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),Config.SECRET_KEY_ENCRYPT_DB):
+			url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB):
 				DatabaseConfigHelper.getUrl(
-						Core.decrypt(config.getType_db(), Config.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getHost(), Config.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getPort(), Config.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getName_db(), Config.SECRET_KEY_ENCRYPT_DB)
+						Core.decrypt(config.getType_db(), this.ed.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getHost(), this.ed.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getPort(), this.ed.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getName_db(), this.ed.SECRET_KEY_ENCRYPT_DB)
 					);
-			password = Core.decrypt(config.getPassword(), Config.SECRET_KEY_ENCRYPT_DB);
-			user = Core.decrypt(config.getUsername(), Config.SECRET_KEY_ENCRYPT_DB);				
+			password = Core.decrypt(config.getPassword(), this.ed.SECRET_KEY_ENCRYPT_DB);
+			user = Core.decrypt(config.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB);				
 		}
-		return getConnection(url,user,password);
+		return this.getConnection(url,user,password);
 	}
 
-	private static java.sql.Connection getConnection(String url, String user, String password) {
+	private java.sql.Connection getConnection(String url, String user, String password) {
 		java.sql.Connection conn = null;
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", user);
@@ -85,7 +99,7 @@ public class Connection {
 	    return null;
 	}
 
-	public static java.sql.Connection getConnection(Config_env config_env){
-		return getConnectionWithConfig(config_env);
+	public java.sql.Connection getConnection(Config_env config_env){
+		return this.getConnectionWithConfig(config_env);
 	}
 }

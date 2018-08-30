@@ -97,7 +97,7 @@ public class Sql_toolsController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	private void addRowToTable(IGRPTable table_1, List<Tuple> list, String sql, Config_env config_env) throws SQLException {
-		List<Column> columns = DatabaseMetadaHelper.getCollumns(config_env, sql.trim());
+		List<Column> columns = new DatabaseMetadaHelper().getCollumns(config_env, sql.trim());
 		columns.stream().forEach(c -> {
 			Field field = new TextField(null, c.getName());
 			field.setLabel(c.getName());
