@@ -3,19 +3,23 @@
 /*Create Controller*/
 package nosi.webapps.igrp_studio.pages.webreport;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
+import nosi.core.config.Config;
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.gui.page.Page;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.FlashMessage;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import nosi.core.webapp.Response;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.xml.XMLExtractComponent;
@@ -26,10 +30,12 @@ import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
-import nosi.webapps.igrp.dao.RepTemplateParam;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.datasource.DataSourceController;
+import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
+import nosi.core.webapp.datasource.helpers.DataSourceParam;
+import nosi.core.webapp.datasource.helpers.Parameters;
 /*----#END-PRESERVED-AREA----*/
 
 public class WebReportController extends Controller {		
@@ -41,21 +47,22 @@ public class WebReportController extends Controller {
 		WebReportView view = new WebReportView(model);
 		model.load();	
 		if(Core.isNotNull(model.getEnv_fk())){
-			RepSource ds = new RepSource();
 			int env_fk = Integer.parseInt(model.getEnv_fk());
-			view.datasorce_app.setValue(ds.getListSources(env_fk));
+			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));
 			RepTemplate  rep = new RepTemplate();
 			List<WebReport.Gen_table> data = new ArrayList<>(); 
 			for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
-				RepTemplateParam rtp = new RepTemplateParam();
-				String params = "null";
-				List<RepTemplateParam> listParams = rtp.find().andWhere("reptemplate", "=", r.getId()).all();
+				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
 				if(listParams.size() > 0){
 					params = "new Report()";
 					//Get parameters
-					for(RepTemplateParam p:listParams){
-						params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
+					for(RepTemplateSource param:listParams){
+						if(param.getParameters()!=null) {
+							param.getParameters().stream().forEach(p->{
+								params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
+							});
+						}
 					}
 				}
 				String link = "Core.getLinkReport(\""+r.getCode()+"\","+params+");";
@@ -88,7 +95,7 @@ public class WebReportController extends Controller {
 			String env_fk = Igrp.getInstance().getRequest().getParameter("p_env_fk");
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
 			String [] data_sources = Igrp.getInstance().getRequest().getParameterValues("p_datasorce_app");
-			String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
+			//String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
 			if(fileTxt!=null && fileXsl!=null && Core.isNotNull(env_fk)){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
@@ -128,17 +135,6 @@ public class WebReportController extends Controller {
 					clob_html.update();
 					rt.update();
 				}
-
-				RepTemplateParam rtp = new RepTemplateParam();
-				rtp.deleteAll(rt.getId());//Delete old params of report
-				if(keys!=null && keys.length>0){
-					for(String key:keys){
-						rtp = new RepTemplateParam();
-						rtp.setReptemplate(rt);
-						rtp.setParameter(key.toLowerCase());
-						rtp.insert(); //insert news params of report 
-					}
-				}
 				RepTemplateSource rts = new RepTemplateSource();
 				rts.deleteAll(rt.getId());//Delete old data source of report
 				if(data_sources!=null && data_sources.length>0){
@@ -146,7 +142,29 @@ public class WebReportController extends Controller {
 						rts = new RepTemplateSource(rt, new RepSource().findOne(Integer.parseInt(dts)));
 						rts.insert();
 					}
-				}	
+				}
+				String p_datasourcekeys= Core.getParam("p_datasourcekeys");
+				if(p_datasourcekeys!=null) {
+					Gson g = new Gson();
+					@SuppressWarnings("unchecked")
+					List<DataSourceParam> datasources = (List<DataSourceParam>) g.fromJson(p_datasourcekeys, new TypeToken<List<DataSourceParam>>(){}.getType());
+					if(datasources!=null) {
+						for(DataSourceParam p:datasources) {
+							for(Parameters param:p.getParameters()) {
+								ResultSet.Record record = Core.query(Config.getBaseConnection(), "SELECT id FROM tbl_rep_template_source")
+														.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
+														.addInt("rep_source_fk", Core.toInt(p.getId()))
+														.addInt("rep_template_fk", rt.getId())
+														.getSigleRecord();								
+								Core.insert(Config.getBaseConnection(),"tbl_rep_template_source_param")
+									.addString("parameter", param.getName())
+									.addString("parameter_type", param.getType())
+									.addInt("rep_template_source_fk", record.getInt("id"))
+									.execute();
+							}
+						}
+					}
+				}
 				XMLWritter xml = new XMLWritter();
 				xml.startElement("rows");
 				xml.addXml(FlashMessage.MSG_SUCCESS);
@@ -315,7 +333,7 @@ public class WebReportController extends Controller {
 		String query = rep.getRepSource().getType_query();
 		query = rep.getRepSource().getType().equalsIgnoreCase("object")?("SELECT * FROM "+query):query;
 		query += rep.getRepSource().getType().equalsIgnoreCase("query") && !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
-		String rowsXml = rep.getRepSource().getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
+		String rowsXml = this.dsh.getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
 		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}
 
@@ -425,6 +443,8 @@ public class WebReportController extends Controller {
 		}
 		return this.redirectError();
 	}
-	DataSourceController ds = new DataSourceController();
+	private DataSourceController ds = new DataSourceController();
+	private DataSourceHelpers dsh = new DataSourceHelpers();
+	private String params = "null";
 	/*----#END-PRESERVED-AREA----*/
 }

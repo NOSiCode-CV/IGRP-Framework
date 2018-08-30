@@ -45,25 +45,30 @@ public class RepTemplateParam extends BaseActiveRecord<RepTemplateParam> impleme
 	public RepTemplate getReptemplate() {
 		return reptemplate;
 	}
+	
 	public void setReptemplate(RepTemplate reptemplate) {
 		this.reptemplate = reptemplate;
 	}
+
 	public String getParameter() {
 		return parameter;
 	}
+	
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
 	}
+	
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	public void deleteAll(Integer id) {
 		if(Core.isNotNull(id)) {
-			Core.query("DELETE FROM tbl_rep_template_param WHERE rep_template_fk=:rep_template_fk")
+			Core.delete(this.getConnectionName(),"tbl_rep_template_param").where("rep_template_fk=:rep_template_fk")
 				.addInt("rep_template_fk", id)
 				.execute();
 		}

@@ -8,12 +8,17 @@
       <xsl:for-each select="//rows/*[name() = 'content']">
         <xsl:variable name="pos" select="position()"/>
         <li class="treeview head" pos="{$pos}" type="node">
+          <xsl:if test="data_source_id">
+            <xsl:attribute name="data-source-id">
+              <xsl:value-of select="data_source_id"/>
+            </xsl:attribute>
+          </xsl:if>
           <a type="node">
             <i class="fa fa-angle-right pull-right icon"></i>
             <span><xsl:value-of select="title"/></span>
           </a>
           <ul class="treeview-menu">
-            <xsl:for-each select="*[name() != 'title' and name() != 'menu' and name() != 'messages' and not(substring(name(),(string-length(name())-4),5) =  '_desc') and not(substring(name(),(string-length(name())-5),6) =  '_check') and not(substring(name(),1,5) =  'p_fwl') and @type != 'sectionheader' and @type != 'toolsbar' and @type != 'tabcontent']|*[name() ='form']/table/*|*[name() ='form']|*[name() ='filter']|*[name() ='view']">
+            <xsl:for-each select="*[name() != 'title' and name() != 'data_source_id' and name() != 'menu' and name() != 'messages' and not(substring(name(),(string-length(name())-4),5) =  '_desc') and not(substring(name(),(string-length(name())-5),6) =  '_check') and not(substring(name(),1,5) =  'p_fwl') and @type != 'sectionheader' and @type != 'toolsbar' and @type != 'tabcontent']|*[name() ='form']/table/*|*[name() ='form']|*[name() ='filter']|*[name() ='view']">
               <xsl:variable name="no" select="name()"/>
               <xsl:variable name="nohead" select="local-name(..)"/>
               <xsl:variable name="vnoType" select="@type"/>
@@ -102,6 +107,11 @@
                                   </xsl:attribute>
                                   <xsl:attribute name="title">
                                     <xsl:value-of select="'Remover chave'"/>
+                                  </xsl:attribute>
+                                </xsl:if>
+                                <xsl:if test="@java-type">
+                                  <xsl:attribute name="java-type">
+                                    <xsl:value-of select="@java-type"/>
                                   </xsl:attribute>
                                 </xsl:if>
                               </input>
