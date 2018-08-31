@@ -384,11 +384,11 @@
 <!--                                   </div> -->
                                   <div class="col-md-6 form-group" item-name="package_db_name" required="required">
                                       <label>Package Name (DB)</label>
-                                      <input rel="package" required="" type="text" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="50"/>
+                                      <input rel="package" required="" type="text" name="plsql_pack" value="" class="text gen-page-setter form-control" maxlength="500"/>
                                   </div>
                                   <div class="col-md-6 form-group" item-name="package_html_name" required="required">
                                       <label>Package Name (HTML)</label>
-                                      <input rel="html" type="text" required="" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="50"/>
+                                      <input rel="html" type="text" required="" name="plsql_html" value="" class="text gen-page-setter form-control" maxlength="500"/>
                                   </div>
                                   <!-- <div class="col-md-6 form-group" item-name="subversionpath">
                                       <label>Subversion Path</label>
