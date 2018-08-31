@@ -184,35 +184,20 @@
 
 
 		<dependency>
-	      <groupId>org.hibernate</groupId>
-	      <artifactId>hibernate-core</artifactId>
-	      <version>5.3.1.Final</version>
-	    </dependency>
-	    
-	    <!-- <dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
+			<artifactId>hibernate-core</artifactId>
 			<version>5.3.1.Final</version>
 		</dependency>
-		https://mvnrepository.com/artifact/com.mchange/c3p0
-		<dependency>
-			<groupId>com.mchange</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.5.2</version>
-		</dependency> -->
-	<!--     https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
-		<!-- <dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-hikaricp</artifactId>
-		    <version>5.3.1.Final</version>
-		</dependency>
-	
-	   https://mvnrepository.com/artifact/com.zaxxer/HikariCP 
-		<dependency>
-		    <groupId>com.zaxxer</groupId>
-		    <artifactId>HikariCP</artifactId>
-		    <version>3.1.0</version>
-		</dependency>  -->
+
+		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-c3p0</artifactId> 
+			<version>5.3.1.Final</version> </dependency> https://mvnrepository.com/artifact/com.mchange/c3p0 
+			<dependency> <groupId>com.mchange</groupId> <artifactId>c3p0</artifactId> 
+			<version>0.9.5.2</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-hikaricp</artifactId> 
+			<version>5.3.1.Final</version> </dependency> https://mvnrepository.com/artifact/com.zaxxer/HikariCP 
+			<dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP</artifactId> 
+			<version>3.1.0</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
@@ -249,8 +234,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-		<!--<dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId> 
-			<version>1.4.196</version> <scope>test</scope> </dependency> -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+		</dependency>
 		<!-- RDBMS -->
 
 		<!-- For Soap & SOA services -->
@@ -421,12 +409,10 @@
 			<version>5.1.0-M2</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- <dependency>
-		  <groupId>se.jiderhamn.classloader-leak-prevention</groupId> 
-		  <artifactId>classloader-leak-prevention-servlet3</artifactId>
-		  <version>2.6.1</version>
-		</dependency>-->
+
+		<!-- <dependency> <groupId>se.jiderhamn.classloader-leak-prevention</groupId> 
+			<artifactId>classloader-leak-prevention-servlet3</artifactId> <version>2.6.1</version> 
+			</dependency> -->
 
 	</dependencies>
 

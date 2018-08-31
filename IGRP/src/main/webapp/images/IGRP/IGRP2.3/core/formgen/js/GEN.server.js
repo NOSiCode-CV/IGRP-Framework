@@ -237,7 +237,15 @@ $(function() {
 				autohint : true,
 				lineWrapping : true,
 				lint:true,
-				 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+				keyMap: "sublime",
+				 extraKeys: {
+					 "F11": function(cm) {
+				          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+				        },
+				        "Esc": function(cm) {
+				          if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+				        },
+					 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
 				 foldGutter: true,
 				 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]				
 				

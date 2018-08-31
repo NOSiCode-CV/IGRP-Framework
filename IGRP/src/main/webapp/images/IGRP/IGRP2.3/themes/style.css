@@ -557,6 +557,9 @@ body.sidebar-off .navbar-brand{
     font-weight: bolder;
     color: white;
 }
+.treeview-menu>li>a.active {
+	    font-size: 16px;
+	}
 
 .treeview-menu li > a > i {
 	position: absolute;

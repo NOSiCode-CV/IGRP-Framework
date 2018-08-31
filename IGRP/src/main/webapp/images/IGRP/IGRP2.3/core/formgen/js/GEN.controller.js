@@ -12,6 +12,7 @@ var GENERATOR = function(genparams){
 	var xslEditing         = false;
 	var baseXslSet         = false;
 	var configDataSet 	   = false;
+	const version=(new Date()).getDate();
 
 	/*EVENTS ARRAY*/
 	var readyEvents = [];
@@ -2160,14 +2161,14 @@ var GENERATOR = function(genparams){
 		
 		GEN.defaultIncludes.forEach(function(name){
 
-			rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.tmpl.xsl?v='+_getDate()+'"/>';
+			rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.tmpl.xsl?v='+version+'"/>';
 		
 		});
 
 		if(GEN.files.xsl[0]){
 
 			GEN.files.xsl.forEach(function(x){
-				rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/'+x.file+'?v='+_getDate()+'"/>';
+				rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/'+x.file+'?v='+version+'"/>';
 			});
 		}
 
@@ -2179,7 +2180,7 @@ var GENERATOR = function(genparams){
 		var iPath = path;
 
 		names.forEach(function(name){
-			var tmpl = '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.tmpl.xsl?v='+_getDate()+'"/>';
+			var tmpl = '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.tmpl.xsl?v='+version+'"/>';
 
 			if(!isIncluded(name)){
 				GEN.XSL.find('stylesheet').append(tmpl);
@@ -2197,7 +2198,7 @@ var GENERATOR = function(genparams){
 		var includStr = relative ? xslTmplPath : iPath;
 
 		TMPL_INCLUDES.forEach(function(tmpl){
-			rtn = rtn + '<xsl:include href="'+includStr+'/xsl/tmpl/IGRP-'+tmpl+'.tmpl.xsl?v='+_getDate()+'"/>';
+			rtn = rtn + '<xsl:include href="'+includStr+'/xsl/tmpl/IGRP-'+tmpl+'.tmpl.xsl?v='+version+'"/>';
 		})
 		return rtn;
 	}
@@ -2237,8 +2238,8 @@ var GENERATOR = function(genparams){
 		if(viewLink.indexOf('{$path}') >= 0)
 			viewLink = viewLink.replace('{$path}', path);
 
-		var viewInclude = p.type == 'css' ? '<link media="'+media+'" rel="stylesheet" type="text/css" href="'+viewLink+'?v='+_getDate()+'"/>' :
-					      p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+viewLink+'?v='+_getDate()+'"></script>' : null;
+		var viewInclude = p.type == 'css' ? '<link media="'+media+'" rel="stylesheet" type="text/css" href="'+viewLink+'?v='+version+'"/>' :
+					      p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+viewLink+'?v='+version+'"></script>' : null;
 
 	    //include css to the GEN VIEW
 		if(!GEN.viewFileIncluded(viewLink,p.type)) {
@@ -3094,7 +3095,7 @@ var GENERATOR = function(genparams){
 			var select = $(this);
 			if(!select.hasClass('loadin')){
 				
-				select.addClass('loadin');
+//				select.addClass('loadin');
 
 				var vApp = select.val(), 
 					vUrl = $("input[name='p_env_frm_url']").val() ? $("input[name='p_env_frm_url']").val() : 'GEN.APP.TEST.xml';
@@ -4139,7 +4140,8 @@ var GENERATOR = function(genparams){
         GEN.plsqlEditor.refresh();
         GEN.plsqlEditor.focus();
 	}
-
+	
+//	NOT IN USE -------------------
 	var configJAVAEditor = function(){
 
 		CodeMirror.commands.autocomplete = function(cm) {
@@ -5174,7 +5176,7 @@ var GENERATOR = function(genparams){
 
 			includes.push(name);
 
-			includesStr+='<xsl:include href="'+xslTmplPath+'/xsl/tmpl/'+name+'?v='+_getDate()+'"/>';
+			includesStr+='<xsl:include href="'+xslTmplPath+'/xsl/tmpl/'+name+'?v='+version+'"/>';
 
 		}
 		

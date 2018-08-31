@@ -304,6 +304,7 @@
 									<option value="colorforth">Colorforth theme</option>
 									<option value="icecoder">Icecoder theme</option>
 									<option value="monokai">Monokai theme</option>
+									<option value="monokai">Night theme</option>
 								</select>
 									
                              </div>
@@ -580,6 +581,16 @@
           <script src="{$path}/core/bootstrap/plugins/treeview/js/bootstrap-treeview.js"></script>
           <!--code mirror-->
           <script src="{$path}/core/codemirror/js/codemirror.js"></script>
+          <script src="{$path}/core/codemirror/js/clike.js"></script>
+          <script src="{$path}/core/codemirror/js/formatting.js"></script>
+          <script src="{$path}/core/codemirror/js/mode/sql/sql.js"></script>
+          <script src="{$path}/core/codemirror/js/mode/xml/xml.js"></script>
+          <script src="{$path}/core/codemirror/js/mode/xml/xslt.js"></script>
+          <script src="{$path}/core/codemirror/js/mode/css/css.js"></script>
+          <script src="{$path}/core/codemirror/js/mode/javascript/javascript.js"></script>
+          
+          <script src="{$path}/core/codemirror/js/keymap/sublime.js"></script>
+          
           <script src="{$path}/core/codemirror/js/addon/fold/foldcode.js"></script>
           <script src="{$path}/core/codemirror/js/addon/fold/foldgutter.js"></script>
           <script src="{$path}/core/codemirror/js/addon/fold/brace-fold.js"></script>
@@ -588,24 +599,20 @@
           <script src="{$path}/core/codemirror/js/addon/fold/markdown-fold.js"></script>
           <script src="{$path}/core/codemirror/js/addon/fold/comment-fold.js"></script>
           <script src="{$path}/core/codemirror/js/addon/edit/matchtags.js"></script>
-          <script src="{$path}/core/codemirror/js/addon/edit/closebrackets.js"></script>
-          <script src="{$path}/core/codemirror/js/mode/css/css.js"></script>
-          <script src="{$path}/core/codemirror/js/addon/edit/matchbrackets.js"></script>
-          <script src="{$path}/core/codemirror/js/mode/xml/xml.js"></script>
-          <script src="{$path}/core/codemirror/js/mode/xml/xslt.js"></script>
-          <script src="{$path}/core/codemirror/js/formatting.js"></script>
-          <script src="{$path}/core/codemirror/js/addon/hint/xml-hint.js"></script>
-          <script src="{$path}/core/codemirror/js/mode/sql/sql.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/edit/closebrackets.js"></script>        
+          <script src="{$path}/core/codemirror/js/addon/edit/matchbrackets.js"></script> 
+          <script src="{$path}/core/codemirror/js/addon/hint/xml-hint.js"></script>         
           <script src="{$path}/core/codemirror/js/addon/hint/show-hint.js"></script>
           <script src="{$path}/core/codemirror/js/addon/hint/sql-hint.js"></script>
-
           <script src="{$path}/core/codemirror/js/addon/search/search.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/searchcursor.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/dialog.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/jump-to-line.js"></script>
-
-		  <script src="{$path}/core/codemirror/js/mode/javascript/javascript.js"></script>
-          <script src="{$path}/core/codemirror/js/clike.js"></script>
+          <script src="{$path}/core/codemirror/js/addon/display/fullscreen.js"></script>
+<!--           <script src="{$path}/core/codemirror/js/addon/lint/jshint.min.js"></script>         -->
+<!--           <script src="{$path}/core/codemirror/js/addon/lint/lint.js"></script> -->
+<!--           <script src="{$path}/core/codemirror/js/addon/lint/javascript-lint.js"></script> -->
+           
           <!--gen-->
           <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>
           <script src="{$path}/core/formgen/js/chance.js"></script>
@@ -1172,17 +1179,19 @@
         <!--codeMirror-->
         <link href="{$path}/core/codemirror/css/codemirror.css" rel="stylesheet"/>
         <link href="{$path}/core/codemirror/js/addon/fold/foldgutter.css" rel="stylesheet"/>
+         <link href="{$path}/core/codemirror/js/addon/display/fullscreen.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/eclipse.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/blackboard.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/midnight.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/colorforth.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/icecoder.css" rel="stylesheet"/>
                 <link href="{$path}/core/codemirror/css/monokai.css" rel="stylesheet"/>
-        
-        <!--code mirror sql-->
+                <link href="{$path}/core/codemirror/css/night.css" rel="stylesheet"/>        
+   
         <link rel="stylesheet" href="{$path}/core/codemirror/css/show-hint.css" />
         <link rel="stylesheet" href="{$path}/core/codemirror/js/addon/search/dialog.css" />
         <link rel="stylesheet" href="{$path}/core/codemirror/js/addon/search/matchesonscrollbar.css" />
+<!--         <link rel="stylesheet" href="{$path}/core/codemirror/js/addon/lint/lint.css" /> -->
         <!--GEN-->
         
         <!-- start:SEPARATORLIST CSS INCLUDES -->

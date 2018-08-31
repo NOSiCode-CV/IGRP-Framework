@@ -187,7 +187,7 @@
      <body class="fixed-nav old-v fluid sidebar-off" template="" has-menu="true" page="Form" app="igrp"> 
        <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
          <a class="navbar-brand col-sm-3 col-md-2" href="#"><img src="/IGRP/images/IGRP/IGRP2.3/themes/default/img/logo2.svg"><span class=""><b>IGRP</b></span></a>
-         <div id="side-bar-ctrl"><i class="fa fa-navicon"></i></div>
+<!--          <div id="side-bar-ctrl"><i class="fa fa-navicon"></i></div> -->
          <div id="igrp-app-title" class="" style="max-width: 847.75px;">Integrated Government Resource Planning</div>
          <ul id="igrp-top-menu" class="hidden-xs nav navbar-nav navbar-right">
            <!--   <li alt="Home" title="Home"><a href="webapps?r=igrp/DefaultPage/index&amp;dad=igrp" target="_self"><i class="fa fa-home"></i></a></li> -->
