@@ -139,8 +139,14 @@ public class EnvController extends Controller {
 				else app.setAction(null);
 			}
 			
-			app = app.insert();
-			if(app!=null){
+			Application app2 = new Application().find().andWhere("dad", "=", app.getDad()).one();
+			if(app2 != null){
+				Core.setMessageError(gt("Código da aplicação inválido ou já existe."));
+				app = null;
+			}else
+				app = app.insert();
+			
+			if(app != null){
 				
 				//createSvnRepo(app);
 				
@@ -273,7 +279,7 @@ public class EnvController extends Controller {
 		Application aplica_db = new Application();
 		int idAplicacao = Core.getParamInt("p_id");
 		aplica_db = aplica_db.findOne(idAplicacao);
-		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
+		model.setDad(aplica_db.getDad()); 
 		model.setName(aplica_db.getName());
 		model.setDescription(aplica_db.getDescription());
 		model.setFlg_external(aplica_db.getExternal());
@@ -284,7 +290,6 @@ public class EnvController extends Controller {
 		model.setImg_src(aplica_db.getImg_src());
 		model.setStatus(aplica_db.getStatus());
 		model.setTemplates(aplica_db.getTemplate());
-		
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			
@@ -318,8 +323,9 @@ public class EnvController extends Controller {
 			aplica_db.setStatus(model.getStatus());
 			aplica_db.setTemplate(model.getTemplates());	
 			aplica_db = aplica_db.update();
-			if(aplica_db!=null){
+			if(aplica_db != null){
 				Core.setMessageSuccess();
+				return redirect("igrp_studio", "env","editar&p_id=" + idAplicacao);
 			}else{
 				Core.setMessageError();
 				return this.forward("igrp_studio", "env","editar&p_id=" + idAplicacao);
