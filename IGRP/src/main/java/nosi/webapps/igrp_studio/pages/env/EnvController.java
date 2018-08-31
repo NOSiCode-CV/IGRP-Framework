@@ -293,8 +293,11 @@ public class EnvController extends Controller {
 			aplica_db.setImg_src(model.getImg_src());	
 			aplica_db.setExternal(model.getFlg_external());
 			
-			if(aplica_db.getExternal() == 1 && Core.isNotNull(model.getHost()))
-				aplica_db.setUrl(model.getHost().trim());		
+			if(aplica_db.getExternal() == 1)
+				if(Core.isNotNull(model.getHost()))
+					aplica_db.setUrl(model.getHost().trim());
+				else
+					aplica_db.setUrl(null);
 		
 			aplica_db.setDescription(model.getDescription());
 			if(Core.isInt(model.getAction_fk())){
