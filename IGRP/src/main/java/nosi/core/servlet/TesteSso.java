@@ -8,44 +8,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
-import java.security.cert.CertificateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.wso2.carbon.um.ws.service.AddUser;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.user.mgt.common.xsd.ClaimValue;
-
 import nosi.core.config.Config;
 import nosi.core.webapp.User;
-import service.client.WSO2UserStub;
 
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Properties;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 /**
  * Marcel Iekiny
@@ -96,8 +77,6 @@ public class TesteSso extends HttpServlet {
 			response.getWriter().append("{\"error\": \"Token inválido.\"}");
 			return;
 		}
-		
-		
 		
 		Properties properties = this.load("sso", "oauth2.xml");
 		
@@ -156,40 +135,14 @@ public class TesteSso extends HttpServlet {
 	private boolean insertUserToDb(String username, String password, String commonName, String fullName) {
 		boolean flag = true;
 		
-		
 		// if success create the cookie information 
 		int userId = -1;
 		String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 		
 		Properties p = this.load("db", "db_igrp_config.xml");
-		String driverName = "";
-		String dns = "";
-		switch(p.getProperty("type_db")) {
-			case "h2": 
-				driverName = "org.h2.Driver";
-				dns = "jdbc:h2:" + p.getProperty("hostname") + (Integer.parseInt(p.getProperty("port")) == 0 ? "" : ":" + p.getProperty("port")) + "/" + p.getProperty("dbname");
-			break;
-			case "mysql": 
-				driverName = "com.mysql.jdbc.Driver";
-				dns = "jdbc:mysql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "3306" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-			break;
-			case "postgresql": 
-				driverName = "org.postgresql.Driver"; 
-				dns = "jdbc:postgresql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "5432" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-			break;
-			case "sqlserver": 
-				driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
-				//dns = "jdbc:sqlserver://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "1433" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-			break;
-			case "oracle": 
-				driverName = "oracle.jdbc.driver.Driver"; 
-				dns = "jdbc:oracle:thin:" + p.getProperty("username") + "/" + p.getProperty("password") + "@" + p.getProperty("hostname") + ":" + p.getProperty("port") + ":" + p.getProperty("dbname");
-			break;
-			default: {
-				flag = false;
-			}
-		}
-	
+		String driverName = p.getProperty("driverConnection", "");
+		String dns = p.getProperty("urlConnection", "");
+		
 		Connection conn = null;
 		
 		try {
@@ -321,68 +274,6 @@ public class TesteSso extends HttpServlet {
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 			flag = false;
-		}
-		
-		return flag;
-	}
-	
-	private boolean insertUserToLdap(String username, String password, String commonName, String fullName) {
-		boolean flag = true;
-		try {
-			
-			Properties settings = this.load("ids", "wso2-ids.xml");
-			
-			URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
-			String uri = settings.getProperty("RemoteUserStoreManagerService-wsdl-url");
-			
-			  WSO2UserStub.disableSSL();  
-		      WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-		      stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
-		        
-		     AddUser addUser = new AddUser();
-	          
-	         addUser.setRequirePasswordChange(false);
-	         
-	         // aux = model.getEmail_1().trim().split("@")[0];
-	         addUser.setUserName(new JAXBElement<String>(new QName(uri, "userName"), String.class, username));
-	         
-	         addUser.setCredential(new JAXBElement<String>(new QName(uri, "credential"), String.class, "Pa$$w0rd"));
-	         addUser.setProfileName(new JAXBElement<String>(new QName(uri, "profileName"), String.class, "default"));
-	       
-	         ClaimValue email = new ClaimValue();
-	         email.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/emailaddress"));
-	         
-	         email.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, username));
-	         
-	         ClaimValue cn = new ClaimValue();
-	         cn.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/fullname"));
-	         cn.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, commonName));
-	         
-	         ClaimValue sn = new ClaimValue();
-	         sn.setClaimURI(new JAXBElement<String>(new QName(uri, "claimURI"), String.class, "http://wso2.org/claims/lastname"));
-	         sn.setValue(new JAXBElement<String>(new QName(uri, "value"), String.class, fullName));
-	         
-	         addUser.getClaims().addAll(Arrays.asList(cn, email, sn));
-	        
-	         try {
-	        	 stub.getOperations().addUser(addUser); 
-	         }catch (Exception e) {
-	        	 e.printStackTrace();
-			}
-	         
-	         int httpStatusCode = -1;
-	         
-	         try {
-	        	 httpStatusCode = stub.getHttpResponseStatusCode(); // bug TomEE 
-	         }catch (NullPointerException e) {
-	        	 httpStatusCode = 200;
-			}
-	         
-	        flag = !(httpStatusCode != 202 && httpStatusCode != 200);
-	        
-		}catch (Exception e) {
-			flag = false;
-			e.printStackTrace();
 		}
 		
 		return flag;
