@@ -112,7 +112,9 @@ public class File_editorController extends Controller {
 		String fileName = Core.getParam("fileName");
 		String proccessKey = Core.getParam("proccessKey");
 		String dadApp = Core.getParam("dadApp");
-		String path = this.getBasePath(dadApp,proccessKey);
+		String path = this.getBasePathWorkspace(dadApp, proccessKey);
+		if(!FileHelper.dirExists(path))
+			path = this.getBasePath(dadApp,proccessKey);
 		String content = FileHelper.readFile(path, fileName+"Controller.java");
 		this.format = Response.FORMAT_TEXT;
 		return this.renderView(content);
