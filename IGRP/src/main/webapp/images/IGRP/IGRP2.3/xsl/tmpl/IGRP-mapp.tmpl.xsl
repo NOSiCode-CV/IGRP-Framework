@@ -11,7 +11,7 @@
           <xsl:value-of select="$url"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>/images/IGRP/xml/REDGISAPP.TMPL.xml</xsl:text>
+          <xsl:text>/IGRP/images/IGRP/IGRP2.3/xml/gis/map.xml</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -55,7 +55,7 @@
           <xsl:value-of select="$url"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:text>/images/IGRP/xml/REDGISAPP.TMPL.xml</xsl:text>
+          <xsl:text>/IGRP/images/IGRP/IGRP2.3/xml/gis/map.xml</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>

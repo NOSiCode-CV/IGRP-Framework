@@ -12,7 +12,7 @@
 
 				var height = $('body',iframe.contents()).height() + 50;
 
-				console.log(height);
+//				console.log(height);
 
 				iframe.height( height );
 

@@ -602,7 +602,7 @@
            
             $.each($('.igrp-highmaps'),function(i,m){
                 
-                console.log(m);
+//                console.log(m);
 
                 if(!$(m).hasClass('map-set')){
                     var id      = $(m).attr('id'),
@@ -658,7 +658,7 @@
 
                     $(m).addClass('map-set');
 
-                    console.log(btnPos)
+//                    console.log(btnPos)
 
                     $.IGRP.components.highmap.events.execute('map-init',options);
 
@@ -745,9 +745,9 @@ function getStyle(el, styleProp) {
             canvas.width = render_width;
             var image = new Image();
             image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
-            console.log(image);
+//            console.log(image);
             image.addEventListener('load', function() {
-                console.log(chart);
+//                console.log(chart);
                 canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
                 callback(canvas.toDataURL('image/png'));
             }, false);

@@ -133,7 +133,7 @@ public class EnvController extends Controller {
 			
 			Application app2 = new Application().find().andWhere("dad", "=", app.getDad()).one();
 			if(app2 != null){
-				Core.setMessageError(gt("Código da aplicação inválido ou já existe."));
+				Core.setMessageError(gt("ENV1"));
 				app = null;
 			}else
 				app = app.insert();
