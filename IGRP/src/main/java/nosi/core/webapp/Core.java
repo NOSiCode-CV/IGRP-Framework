@@ -348,6 +348,17 @@ public final class Core { // Not inherit
 	}
 
 	/**
+	 * 
+	 * @param values
+	 * @param keyField
+	 * @param valueField
+	 * @return
+	 */
+	public static Map<?, ?> toMap(List<?> values, String keyField, String valueField){
+		return IgrpHelper.toMap(values, keyField, valueField);
+	}
+	
+	/**
 	 * Verifies if the String is a Float, than returns the parse of it, else returns
 	 * 0
 	 * 
