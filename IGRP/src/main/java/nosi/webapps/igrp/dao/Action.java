@@ -232,11 +232,11 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 		this.processKey = processKey;
 	}
 
-	
-
 	@Override
 	public String toString() {
-		return "Action [page=" + page + ", package_name=" + package_name + ", processKey=" + processKey + "]";
+		return "Action [page=" + page + ", action=" + action + ", package_name=" + package_name + ", xsl_src=" + xsl_src
+				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", version=" + version + ", status="
+				+ status + "]";
 	}
 
 	public HashMap<Integer, String> getListActions() {
