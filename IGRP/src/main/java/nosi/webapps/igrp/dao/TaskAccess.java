@@ -13,8 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.ResultSet;
 
 /**
  * Emanuel
@@ -43,7 +46,9 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 	@Column(length=100)
 	private String taskName;
 	@Column(length=150)
-	private String processName;
+	private String processName;	
+	@Transient
+	private String taskId;
 	
 	public TaskAccess() {
 		
@@ -97,12 +102,35 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 		this.user_fk = user_fk;
 	}
 
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
 	public List<TaskAccess> getCurrentMyTaskAccess(){
 		return new TaskAccess().find()
 			   	.andWhere("organization", "=",Core.getCurrentOrganization())
 			   	.andWhere("profileType", "=",Core.getCurrentProfile())
 		   		.andWhere("user_fk", "=",Core.getCurrentUser().getId())
-		   		.all();		
+		   		.all();	
+	}
+	
+	public List<TaskAccess> getCurrentTaskUnassigned(){
+		List<TaskAccess> list = new ArrayList<>();
+		ResultSet.Record r = Core.query("SELECT id, noAssumed, processKey, taskId, taskKey, user_fk FROM tbl_task_unassigned")
+								 .where("noAssumed=true")
+								 .getRecordList();
+		r.RowList.forEach(row->{
+			TaskAccess t = new TaskAccess();
+			t.setProcessName(row.getString("processKey"));
+			t.setTaskName(row.getString("taskKey"));
+			t.setTaskId(row.getString("taskId"));
+			list.add(t);
+		});
+		return list;
 	}
 	
 	public List<TaskAccess> getCurrentAvailableTaskAccess(){
