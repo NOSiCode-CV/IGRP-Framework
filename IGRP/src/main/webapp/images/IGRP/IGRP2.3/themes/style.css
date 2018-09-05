@@ -370,7 +370,7 @@ body[screen-size="xs"] #side-bar-ctrl{
 
 /* Sidebar navigation */
 #igrp-sidebar .nav-sidebar {
-	padding-bottom: 20px;
+
 	position: absolute;
 	height: calc(100% - 55px);
 	width: 100%;
@@ -609,7 +609,7 @@ body.sidebar-off .navbar-brand {
 .treeview>a.active {
 	border-top: 4px solid transparent;
 	border-bottom: 4px solid transparent;
-    background: #1f4b74;
+    background: #01091112;
     opacity: 1 !important;
 }
 
