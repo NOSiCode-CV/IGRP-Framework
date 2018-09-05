@@ -720,5 +720,13 @@ public class PageController extends Controller {
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}
+	
+	 public Response actionFileExists() throws IOException {
+		 String fileName = this.config.basePathServer()+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"core"+File.separator+"formgen"+File.separator+"types"+File.separator+"fields"+File.separator+"text"+File.separator+"templates"+File.separator+"text.formlist.th.html";
+		 Properties p = new Properties();
+		 p.put("exists", FileHelper.fileExists(fileName));
+		 this.format = Response.FORMAT_JSON;
+		 return this.renderView(new Gson().toJson(p));
+	 }
 	/*----#end-code----*/
 	}
