@@ -2,6 +2,9 @@
 	background: #fdfdfd!important;
 }
 
+li.treeview.head.active {
+   background-color: #fff !important;
+}
 .box-wr .form-group{
 	margin: 0;
 }

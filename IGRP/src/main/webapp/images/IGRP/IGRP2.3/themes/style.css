@@ -212,13 +212,13 @@ body[screen-size="xs"] #igrp-top-nav{
 #side-bar-ctrl {
   float: left;
  /* position: relative;*/
-  height: 51px;
+  height: 53px;
   width: 52px;
   text-align: center;
   padding: 0 15px;
   cursor: pointer;
   transition:background .5s;
-  font-size: 1.6em;
+  font-size: 1.5em;
   position: absolute;
   left: 16.6667%;
   top: 0;
@@ -303,7 +303,7 @@ body[screen-size="xs"] #side-bar-ctrl{
   border-bottom-color: transparent;
   border:0!important;
   transition: color .3s;
-  line-height: 56px;
+  line-height: 59px;
 
 
 }
