@@ -40,7 +40,10 @@
     <xsl:key name="unique_instance" match="//content/*" use="local-name()"/>
    
     <xsl:variable name="sql_chart">
-        <xsl:text>SELECT 'X1' as EixoX, 15 as valor UNION SELECT 'X2' as EixoX,10 as valor UNION SELECT 'X2' as EixoX,23 as valor UNION SELECT 'X3' as EixoX,40 as valor</xsl:text>
+        <xsl:text>SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as valor"+ 
+                                      +"UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as valor"
+                                      +"UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as valor"
+                                      +"UNION SELECT 'X3' as EixoX, 'Y3' as EixoY, 40 as valor</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="double_quotes">"</xsl:variable>
@@ -452,7 +455,11 @@
         </xsl:if>        
         <xsl:value-of select="$text"/>
 		<xsl:value-of select="$newline"/>     
-          
+		
+       <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+        
 		<xsl:if test="$end = true()">
 	        <xsl:call-template name="end-code">
 	            <xsl:with-param name="type" select="$type"/>
@@ -464,7 +471,8 @@
             <xsl:value-of select="$indentation"/>
         </xsl:if>     
     </xsl:template>
-
+    
+	<!-- END CODE Template  -->
     <xsl:template name="end-code">
         <xsl:param name="type"/>      
         <xsl:text>/*----#end-code----*/</xsl:text>
@@ -477,7 +485,7 @@
         <xsl:call-template name="newlineTab2"/>
         <xsl:text>  EXAMPLES COPY/PASTE:</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
+        <xsl:text>  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.</xsl:text>
         <xsl:call-template name="newlineTab2"/>
     </xsl:template>
 

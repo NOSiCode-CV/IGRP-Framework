@@ -110,7 +110,7 @@ $(function() {
 								
 							GEN.done();
 
-						}, 250);
+						}, 100);
 
 					};
 
@@ -253,7 +253,7 @@ $(function() {
 			
 			 setTimeout(function() {
 				 server.editors[mode][name].foldCode(CodeMirror.Pos(0, 0));
-			 },100);
+			 },50);
 			break;
 
 		case 'plsql':
@@ -478,7 +478,7 @@ $(function() {
 						GEN.removeEditorsErrors(true);
 
 
-				}, 100)
+				}, 50)
 
 			}
 
@@ -721,15 +721,13 @@ $(function() {
 
 				content = content.replaceAll(contents.original, contents.content);
 
-			}
-			;
+			};
 
 			if (options.callback)
 
 				options.callback(content);
 
-		}
-		;
+		};
 
 	};
 
@@ -774,10 +772,12 @@ $(function() {
 
 				}
 			};
-
+						
+			
 		if (part != 'controller' && part != undefined) {
 
-			replaceReservedContents(replaceOptions);
+//			replaceReservedContents(replaceOptions);
+			replaceOptions.callback(content);
 
 			$.IGRP.components.globalModal.hide();
 
@@ -785,7 +785,18 @@ $(function() {
 
 			return;
 
+		}else if(localReserved['index']['code']!=""){
+			
+			replaceReservedContents(replaceOptions);
+			
+
+			$.IGRP.components.globalModal.hide();
+
+			GEN.waiting(false);
+
+			return;
 		}
+			
 
 		$.get(reservedURL, data).then(function(json) {
 
@@ -880,37 +891,9 @@ $(function() {
 													codeChecked = true;
 												}
 											});
-
-
-
 										}
-
-
-
 									}
-
 								}
-
-								/*if(type == 'compile'){
-								               
-								               var ctrl  = $('#gen-views-ctrl ul li[rel="gen-java"]'),
-								                              
-								                              rel   = ctrl.attr('rel'),
-								                              
-								                              viewr = $('#'+rel);
-								               
-								               $(VARS.html.viewers).removeClass('active');
-
-								               $(VARS.html.viewsController).removeClass('active');
-                                                                                 
-								               ctrl.addClass('active');
-
-								               viewr.addClass('active');
-
-								}
-								               
-								else
-								               console.log('continue')*/
 
 								replaceReservedContents(replaceOptions);
 

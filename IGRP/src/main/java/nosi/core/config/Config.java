@@ -35,7 +35,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "180831";
+	public final String VERSION = "180905";
 
 	public Config() {
 		
@@ -361,6 +361,10 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	
+	public String basePathServer() {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
+	}
+	
 	public String getImageAppPath(Action page) {
 		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+ page.getVersion()+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_HTTP+page.getPage().toLowerCase();
 	}
@@ -412,7 +416,19 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
-			Action ac = new Action().find().andWhere("application.dad", "=", app.toLowerCase()).andWhere("page", "=", Page.resolvePageName(page)).one();
+			String processDefinition = Core.getParam("processDefinition");
+			Action ac = new Action();
+			if(Core.isNotNull(processDefinition))
+				ac = ac.find()
+					   .andWhere("application.dad", "=", app.toLowerCase())
+					   .andWhere("page", "=", Page.resolvePageName(page))
+					   .andWhere("processKey", "=", processDefinition.toLowerCase())
+					   .one();
+			else
+				ac = ac.find()
+					   .andWhere("application.dad", "=", app.toLowerCase())
+					   .andWhere("page", "=", Page.resolvePageName(page))
+					   .one();
 			if(ac!=null && ac.getPackage_name()!=null) {
 				String p = ac.getPackage_name().toLowerCase();
 				if(p.endsWith("pages"))

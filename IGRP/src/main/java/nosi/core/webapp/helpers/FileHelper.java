@@ -204,7 +204,7 @@ public class FileHelper {
 	        isSaved = true;
 	    } catch (FileNotFoundException e) {
 	    	isSaved = false;
-	    	System.err.println(e.getMessage());
+	    	e.printStackTrace();
 	    } finally {
 	        if (out != null) {
 	            out.close();
@@ -261,7 +261,7 @@ public class FileHelper {
 			    	code.append(ls);
 			    }
 			} catch (IOException e) {
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}finally {
 			    try {
 					is.close();
@@ -295,7 +295,7 @@ public class FileHelper {
 			    in.close();
 			    d.close();
 			} catch (IOException e) {
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		return code.toString();

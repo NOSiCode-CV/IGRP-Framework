@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
@@ -21,11 +20,14 @@ import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 
 public class BPMNTimeLine {
-	private static int countTask=0;
-	private static String url = "";
-	private static Map<String,String> tasksSQ = new HashMap<>();
+	private int countTask=0;
+	private String url = "";
+	private Map<String,String> tasksSQ;
 	
-	public static IGRPTable get() {
+	public BPMNTimeLine() {
+	}
+	
+	public IGRPTable get() {
 		String showTimeLine = Core.getParam("showTimeLine");
 		IGRPTable table = new IGRPTable("table");
 		if(showTimeLine.equalsIgnoreCase("true")) {
@@ -40,7 +42,7 @@ public class BPMNTimeLine {
 			
 			List<TimeLine> list = new ArrayList<>();
 			List<TaskTimeLine> tasks = getTasks();
-			countTask=0;
+			this.countTask=0;
 			tasks.stream().forEach(task->{
 				TimeLine t = new TimeLine();
 				t.setTitle((++countTask)+" - "+task.getName());
@@ -55,8 +57,9 @@ public class BPMNTimeLine {
 	}
 	
 	
-	public static List<TaskTimeLine> getTasks() {
-		url = new Config().getResolveUrl("igrp", "Detalhes_tarefas", "index");
+	public List<TaskTimeLine> getTasks() {
+		this.tasksSQ = new HashMap<>();
+		this.url = new Config().getResolveUrl("igrp", "Detalhes_tarefas", "index");
 		String processDefinition = Core.getParam("processDefinitionId");
 		String taskId = Core.getParam("taskId");
 		TaskService taskS = new TaskService().getTask(taskId);		
@@ -68,11 +71,17 @@ public class BPMNTimeLine {
 		taskSQ.addFilter("processDefinitionId", processDefinition);
 		taskSQ.addFilter("executionId", taskS.getExecutionId());
 		try {
-			tasksSQ = taskSQ.queryHistoryTask()
+		taskSQ.queryHistoryTask()
 					    .stream()
-					    .peek(t->{
-					    })
-				        .collect(Collectors.toMap(TaskServiceQuery::getTaskDefinitionKey,TaskServiceQuery::getId));
+					    .forEach(task->{
+					    	if(this.tasksSQ.size()==0) {
+					    		this.tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
+					    	}else {
+					    		if(!this.tasksSQ.containsKey(task.getTaskDefinitionKey())) {
+					    			this.tasksSQ.put(task.getTaskDefinitionKey(), task.getId());
+					    		}
+					    	}
+					    });
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -87,13 +96,12 @@ public class BPMNTimeLine {
 				url = "#";
 				t.setType("curent");
 			}else {
-				url +="&taskId="+tasksSQ.get(task.getId());//+"&backButton=true";
+				url +="&taskId="+this.tasksSQ.get(task.getId());//+"&backButton=true";
 				t.setType("stage");
 			}
 			t.setUrl(url);
 			list.add(t);
 		});		
-		tasksSQ = null;
 		url= null;
 		return list ;
 	}

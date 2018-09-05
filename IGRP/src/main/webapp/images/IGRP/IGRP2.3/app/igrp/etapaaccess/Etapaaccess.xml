@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/etapaaccess/Etapaaccess.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -30,69 +31,77 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=96</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=54</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>EtapaAccess</title>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+        <sectionheader_1 type="sectionheader" gen-type="container" gen-group="" xml-type="form">
             <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" maxlength="4000" persist="true">
                     <value>Associar Etapa a Organica/Perfil</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" custom_return="true">
+        <toolsbar_1 type="toolsbar" gen-type="menu" gen-group="" xml-type="toolsbar">
+            <item type="specific" rel="gravar" custom_return="true" code="">
                 <title>Gravar</title>
-                <app>igrp</app>
-                <page>Etapaaccess</page>
-                <link>index</link>
+                <app />
+                <page />
+                <link />
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/etapaaccess/Etapaaccess.xml</preview>
+                <preview>undefined</preview>
             </item>
         </toolsbar_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+        <table_1 type="table" gen-type="container" gen-group="true" xml-type="table">
             <fields>
-                <id name="p_id" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
-                    <label/>
+                <id type="checkbox" align="left" name="p_id" maxlength="30" desc="true" check="true" switch="false" iskey="false" lookup_parser="false">
+                    <label />
                 </id>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <descricao type="text" align="left" name="p_descricao" maxlength="30" iskey="false" lookup_parser="false">
                     <label>Descricao</label>
                 </descricao>
-                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" tag="processid"/>
+                <processid type="hidden" name="p_processId" tag="processid" maxlength="30" iskey="false" />
+                <task_description type="hidden" name="p_task_description" tag="task_description" maxlength="30" iskey="false" />
             </fields>
             <table>
                 <value>
                     <row>
-                        <id name="p_id" check="true" desc="true">1</id>
+                        <id name="p_id" desc="true" check="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Laudantium anim accusantium is</descricao>
+                        <descricao name="p_descricao">Aperiam sit voluptatem natus a</descricao>
                         <processid name="p_processId" tag="processid">1</processid>
+                        <task_description name="p_task_description" tag="task_description">1</task_description>
                     </row>
                     <row>
-                        <id name="p_id" check="true" desc="true">1</id>
+                        <id name="p_id" desc="true" check="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Sed aliqua rem anim mollit</descricao>
+                        <descricao name="p_descricao">Sit perspiciatis ut totam laud</descricao>
                         <processid name="p_processId" tag="processid">1</processid>
+                        <task_description name="p_task_description" tag="task_description">1</task_description>
                     </row>
                     <row>
-                        <id name="p_id" check="true" desc="true">1</id>
+                        <id name="p_id" desc="true" check="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Perspiciatis labore totam stra</descricao>
+                        <descricao name="p_descricao">Unde deserunt mollit stract se</descricao>
                         <processid name="p_processId" tag="processid">1</processid>
+                        <task_description name="p_task_description" tag="task_description">1</task_description>
                     </row>
                     <row>
-                        <id name="p_id" check="true" desc="true">1</id>
+                        <id name="p_id" desc="true" check="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Amet sed rem dolor sed</descricao>
+                        <descricao name="p_descricao">Magna amet voluptatem natus si</descricao>
                         <processid name="p_processId" tag="processid">1</processid>
+                        <task_description name="p_task_description" tag="task_description">1</task_description>
                     </row>
                     <row>
-                        <id name="p_id" check="true" desc="true">1</id>
+                        <id name="p_id" desc="true" check="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Lorem dolor stract aliqua ipsu</descricao>
+                        <descricao name="p_descricao">Dolor aperiam mollit rem conse</descricao>
                         <processid name="p_processId" tag="processid">1</processid>
+                        <task_description name="p_task_description" tag="task_description">1</task_description>
                     </row>
                 </value>
             </table>

@@ -2001,7 +2001,7 @@ var CONTAINER = function(name,params){
 				container:container.GET.type(),
 				genType  : container.genType,
 				callback:function(result){
-					p.field.templates[context] = result;
+					p.field.templates[context] = result || container.fieldDefaultTemplate;
 					//call again and increments dropZone
 					getDropZonesFieldsTemplate({
 						field    :p.field,

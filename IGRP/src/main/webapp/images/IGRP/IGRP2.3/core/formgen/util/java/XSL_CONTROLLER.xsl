@@ -7,8 +7,8 @@
      	<xsl:call-template name="import-packages-controller"></xsl:call-template>
      	<xsl:value-of select="$newline"/>
  		<xsl:value-of select="concat('public class ',$class_name,'Controller extends Controller {')"/>
-	 		<xsl:value-of select="$tab2"/>
-	     	<xsl:value-of select="$newline"/>
+<!-- 	 		<xsl:value-of select="$tab2"/> -->
+<!-- 	     	<xsl:value-of select="$newline"/> -->
 	 		<xsl:call-template name="actionIndex"></xsl:call-template>
 	 		<xsl:call-template name="actionEditCalendar"></xsl:call-template>	 		
 	 		<xsl:call-template name="createActions"></xsl:call-template> 	
@@ -55,7 +55,12 @@
      		<xsl:with-param name="url" select="$url"/>
      		<xsl:with-param name="tabCode" select="false()"/>
      	</xsl:call-template>
+     	
+     		<xsl:value-of select="$tab2"/>
      	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
+     
+
+ 
 		<!--<xsl:call-template name="import-class-models"></xsl:call-template>  -->
 	
  	</xsl:template>
@@ -115,7 +120,7 @@
      	<xsl:call-template name="start-code">
      		<xsl:with-param name="type" select="'custom_actions'"/>
      		<xsl:with-param name="url" select="$url"/>
-     		<xsl:with-param name="tabIndent" select="'1'"/>
+     		<xsl:with-param name="tabCode" select="false()"/>
      	</xsl:call-template>
      	
      	<xsl:choose>
@@ -227,8 +232,8 @@
 				<xsl:value-of select="concat('public Response action',$action,'() throws IOException, IllegalArgumentException, IllegalAccessException{')"/>
 			</xsl:otherwise>
 		</xsl:choose> -->
-     	<xsl:value-of select="$newline"/>	
-     	<xsl:value-of select="$tab2"/>     	
+<!--      	<xsl:value-of select="$newline"/>	 -->
+<!--      	<xsl:value-of select="$tab2"/>     	 -->
      	<!--         Actions modified by programmer -->     	
      	
      	<!-- <xsl:value-of select="$begin_reserve_code_controller_on_action"></xsl:value-of> -->		
@@ -298,6 +303,7 @@
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>
+				    
 				     	</xsl:call-template>			     
 							
 				     	<xsl:value-of select="'view.setModel(model);'"/>

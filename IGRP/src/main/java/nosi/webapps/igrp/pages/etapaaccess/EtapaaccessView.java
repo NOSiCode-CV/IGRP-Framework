@@ -1,12 +1,10 @@
-
 package nosi.webapps.igrp.pages.etapaaccess;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
-
-
 
 public class EtapaaccessView extends View {
 
@@ -15,6 +13,7 @@ public class EtapaaccessView extends View {
 	public Field id_check;
 	public Field descricao;
 	public Field processid;
+	public Field task_description;
 	public IGRPForm sectionheader_1;
 	public IGRPTable table_1;
 
@@ -36,18 +35,22 @@ public class EtapaaccessView extends View {
 		
 		id = new CheckBoxField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		id.propertie().add("type","checkbox").add("name","p_id").add("maxlength","30").add("desc","true").add("check","true").add("switch","false");
 		
 		id_check = new CheckBoxField(model,"id_check");
-		id_check.propertie().add("name","p_id").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		id_check.propertie().add("type","checkbox").add("name","p_id").add("maxlength","30").add("desc","true").add("check","true").add("switch","false");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Descricao"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
+		descricao.propertie().add("type","text").add("name","p_descricao").add("maxlength","30");
 		
 		processid = new HiddenField(model,"processid");
 		processid.setLabel(gt(""));
-		processid.propertie().add("name","p_processId").add("type","hidden").add("maxlength","30").add("tag","processid");
+		processid.propertie().add("type","hidden").add("name","p_processId").add("tag","processid").add("maxlength","30");
+		
+		task_description = new HiddenField(model,"task_description");
+		task_description.setLabel(gt(""));
+		task_description.propertie().add("type","hidden").add("name","p_task_description").add("tag","task_description").add("maxlength","30");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -68,6 +71,7 @@ public class EtapaaccessView extends View {
 		table_1.addField(id_check);
 		table_1.addField(descricao);
 		table_1.addField(processid);
+		table_1.addField(task_description);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -75,13 +79,14 @@ public class EtapaaccessView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(Etapaaccess model) {
+	@Override
+	public void setModel(Model model) {
 		
 		id.setValue(model);
 		descricao.setValue(model);
-		processid.setValue(model);	
+		processid.setValue(model);
+		task_description.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
-		
-	}
+		table_1.loadModel(((Etapaaccess) model).getTable_1());
+		}
 }

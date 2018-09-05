@@ -21,7 +21,7 @@
          <span style="font-size:14px"><xsl:value-of select="rows/title"/></span>
         </a>
 
-        <ul id="igrp-top-menu" class="hidden-xs nav navbar-nav navbar-right">
+        <ul id="igrp-top-menu" class="nav navbar-nav navbar-right">
           <li>
             <a href="#"><xsl:value-of select="rows/site/user_name"/></a>
           </li>

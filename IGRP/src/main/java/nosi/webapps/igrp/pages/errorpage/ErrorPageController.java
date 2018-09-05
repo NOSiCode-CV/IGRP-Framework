@@ -30,7 +30,8 @@ public class ErrorPageController extends Controller {
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			
 			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-			e.printStackTrace();
+			if(e!=null)
+				e.printStackTrace();
 			
 			String errorMsg = Igrp.getInstance().getRequest().getAttribute("javax.servlet.error.message") + ""; 
 			

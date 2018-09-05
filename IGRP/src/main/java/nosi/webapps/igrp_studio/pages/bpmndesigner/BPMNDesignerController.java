@@ -126,7 +126,9 @@ public class BPMNDesignerController extends Controller {
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
 				.andWhere("page", "=",taskName)
+				.andWhere("processKey", "=",task.getProcessDefinitionId().toLowerCase())
 				.one();
+		
 		if(ac==null) {
 			ac = new Action();
 			ac.setApplication(app);

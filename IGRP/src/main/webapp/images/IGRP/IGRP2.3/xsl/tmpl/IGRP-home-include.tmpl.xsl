@@ -127,7 +127,7 @@
 
         <xsl:variable name="settingsURL" select="$topMenus[title = 'Settings']"/>
 
-        <ul id="igrp-top-menu" class="hidden-xs nav navbar-nav navbar-right">
+        <ul id="igrp-top-menu" class="nav navbar-nav navbar-right">
           
           <xsl:for-each select="$topMenus[not(title = 'Settings')]">
             
@@ -184,19 +184,23 @@
       <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
         
         <div class="side-bar-ctrl visible-xs clearfix" >
-          <i class="fa fa-navicon pull-right"></i>
+         	 <i class="fa fa-navicon pull-right"></i>
         </div>
+     
 
         <div class="igrp-sidebar-menu-search-wrapper">
           <input 
             type="text" 
             class="form-control igrp-search-list" 
-            placeholder="Pesquisar Menu..." 
+            placeholder="Pesquisar Menu" 
             search-list="#igrp-sidebar ul.treeview-menu li a"
             search-attr="text"
             search-item-parent=".treeview"
             search-item-wrapper=".treeview-menu" />
         </div>
+        
+        <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" >
+    </i>
 
         <ul class="nav nav-sidebar">
           <xsl:for-each select="$menus/menu">
