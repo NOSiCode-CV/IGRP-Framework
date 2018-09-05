@@ -10,7 +10,7 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 public interface IHeaderConfig {
 
 	default public String getLinkHome() {
-        return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index"+"&dad="+Core.getCurrentDad());
+        return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index") + "&dad=" + Core.getCurrentDad();
 	}
 	default public String getLinkHomeStudio() {
 		return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"ListaPage"+"/"+"index") +"&dad="+Core.getCurrentDad();  
