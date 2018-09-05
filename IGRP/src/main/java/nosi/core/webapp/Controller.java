@@ -393,8 +393,10 @@ public class Controller{
 	private void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
 		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";			
-		r=EncrypDecrypt.decrypt(r);	
-		if(r!=null){
+		
+		r = new EncrypDecrypt().decrypt(r);	
+		
+		if(r != null){
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
 				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 					String []aux = r.split("/");

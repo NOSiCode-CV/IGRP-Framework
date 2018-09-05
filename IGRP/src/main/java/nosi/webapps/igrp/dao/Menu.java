@@ -201,7 +201,10 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 			ms.setTitle(r.getString("descr"));
 			ms.setTarget(r.getString("target"));
 			ms.setStatus(r.getShort("status"));
+			
 			ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+			//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);
+			
 			ms.setSubMenuAndSuperMenu(r.getBoolean("isSubMenuAndSuperMenu"));
 			
 			List<MenuProfile> value = new ArrayList<>();

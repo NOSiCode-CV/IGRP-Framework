@@ -22,37 +22,43 @@ public class EncrypDecrypt {
 	public final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 	
 	public String encrypt(String content) {
-//		if (getWakandaList(content))
-//			return encrypt(content, getSecretKey()).replace(" ", "+");
+		if (getWakandaList(content)) {
+			content = encrypt(content, getSecretKey()).replace(" ", "+");
+		}
 		return content;
 	}
 
 	public boolean getWakandaList(String content) {
 		return 
-				!content.equals("igrp/login/login")	&&
+				!content.equals("igrp/login/login")	&& 
 				!content.equals("igrp/ErrorPage/exception") && 
 				!content.equals("igrp/error-page/exception") && 
-				!content.equals("igrp/login/logout") &&
+				!content.equals("igrp/login/logout") && 
 				!content.contains("igrp/page") && 	
 				!content.contains("changeStatus");
 	}
-
 	
-	public static String decrypt(String content) {
+	public String decrypt(String content) {
+		/*String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
+		if(customHeader != null && customHeader.equals("1")) return content; */
 		
-//		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
-//		if(customHeader != null && customHeader.equals("1")) return content;
-//		
-//		if (getWakandaList(content) )
-//			return decrypt(content.replace(" ", "+"), getSecretKey());
-//		else
-			return content;
+		if (getWakandaList(content) ) {
+			content = decrypt(content.replace(" ", "+"), getSecretKey()); 
+		}
+		return content;
 	}
 
 	private String getSecretKey() {
 		if(this.SECRET_KEY==null)
-			this.SECRET_KEY = (Igrp.getInstance()!=null && Igrp.getInstance().getRequest()!=null)? Igrp.getInstance().getRequest().getSession().getId():null;
+			this.SECRET_KEY = (Igrp.getInstance().getRequest() != null) ? Igrp.getInstance().getRequest().getSession().getId() : null;
 		return this.SECRET_KEY;
+	}
+	
+	public static void main(String[] args) {
+		String encryt = new EncrypDecrypt().encrypt("r=igrp/Gestaodeacesso/index&dad=igrp"); 
+		System.out.println("Encripitado: " + encryt); 
+		String decryt = new EncrypDecrypt().decrypt(encryt); 
+		System.out.println("Decripitado: " + decryt); 
 	}
 
 	public SecretKeySpec generateSecretKey(String key) {
@@ -76,7 +82,7 @@ public class EncrypDecrypt {
 		} catch (Exception e) {
 
 		}
-		return null;
+		return null; 
 	}
 
 	public String decrypt(String content, String secretKey) {

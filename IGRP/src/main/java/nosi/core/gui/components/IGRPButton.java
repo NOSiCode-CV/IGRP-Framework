@@ -123,7 +123,10 @@ public class IGRPButton {
 		}
 		target_ += Route.getQueryString(link);//Get Query String
 		link = Route.resolveAction(link);
-		return !isGenReverse() ? new EncrypDecrypt().encrypt(app + "/" + page + "/" + link)+target_ : new EncrypDecrypt().encrypt(link)+target_;
+		
+		String result = !isGenReverse() ? new EncrypDecrypt().encrypt(app + "/" + page + "/" + link)+target_ : new EncrypDecrypt().encrypt(link)+target_; 
+		
+		return result;
 	}
 
 	public boolean isGenReverse() {
