@@ -361,6 +361,10 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	
+	public String basePathServer() {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
+	}
+	
 	public String getImageAppPath(Action page) {
 		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+ page.getVersion()+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_HTTP+page.getPage().toLowerCase();
 	}
@@ -425,8 +429,6 @@ public class Config {
 					   .andWhere("application.dad", "=", app.toLowerCase())
 					   .andWhere("page", "=", Page.resolvePageName(page))
 					   .one();
-			
-			System.out.println(ac);
 			if(ac!=null && ac.getPackage_name()!=null) {
 				String p = ac.getPackage_name().toLowerCase();
 				if(p.endsWith("pages"))
