@@ -416,7 +416,7 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
-			String processDefinition = Core.getParam("processDefinition");
+			String processDefinition = Core.getParam("processDefinition",false);
 			Action ac = new Action();
 			if(Core.isNotNull(processDefinition))
 				ac = ac.find()

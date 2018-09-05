@@ -287,7 +287,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	public String details(TaskServiceQuery task) throws IOException, ServletException {
 		this.page = this.getConfig().PREFIX_TASK_NAME+task.getTaskDefinitionKey();
 		Gson gson = new Gson();		
-		Action action = new Action().find().andWhere("page", "=",this.page).andWhere("application.dad", "=",task.getTenantId()).one();
+		Action action = new Action().find()
+									.andWhere("page", "=",this.page)
+									.andWhere("application.dad", "=",task.getTenantId())
+									 .andWhere("processKey", "=", task.getProcessDefinitionKey().toLowerCase())
+									.one();
 		String json = "";
 		if(task.getVariables()!=null) {
 			List<TaskVariables> var = task.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.getId())).collect(Collectors.toList());
@@ -322,7 +326,6 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        .addQueryString("backButton", Core.getParam("backButton"))
 	        .addQueryString("saveButton", "false");
 	        Core.setAttribute("taskObj", task);
-
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
 		 String content = resp.getContent();
 		 return content;

@@ -292,9 +292,9 @@ public class WebReportController extends Controller {
 			//Process_Test:01_01 => Process_Test
 			processDefinitionKey = processDefinitionKey.contains(":")?processDefinitionKey.substring(0,processDefinitionKey.indexOf(":")):processDefinitionKey;
 		}
+		this.loadQueryString();
 		this.addQueryString("processDefinitionKey", processDefinitionKey)
 			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
-		this.loadQueryString();
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
 		xml.addXml(new XMLExtractComponent().extractXML(content));
 		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
