@@ -28,6 +28,7 @@ import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+import static nosi.core.i18n.Translator.gt;
 
 /**
  * Emanuel
@@ -91,6 +92,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			xml.endElement();
 			return this.renderView(xml.toString());	
 		}
+		Core.setAttribute("javax.servlet.error.message", gt("Task não tem página associada!"));
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 

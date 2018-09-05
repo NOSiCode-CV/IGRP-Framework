@@ -21,6 +21,7 @@ import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 import nosi.webapps.igrp.dao.TaskAccess;
+import nosi.webapps.igrp.dao.TaskUnassigned;
 
 /**
  * @author: Emanuel Pereira
@@ -75,7 +76,9 @@ public class TaskService extends Activit{
 	
 	public TaskService getTask(String id){
 		TaskService t = this.getTaskWhidoutFilterAccess(id);
-		return this.filterMyTaskAccess(t)? t:null;
+		List<TaskAccess> myTasAccess = new TaskAccess().getCurrentMyTaskAccess();
+		List<TaskAccess> taskUnassigneds = new TaskAccess().getCurrentTaskUnassigned();	
+		return this.filterMyTaskAccess(t,myTasAccess,taskUnassigneds)? t:null;
 	}
 	
 	public TaskService getTaskWhidoutFilterAccess(String id){
@@ -100,36 +103,52 @@ public class TaskService extends Activit{
 	
 	public List<TaskService> getMyTasks(){
 		List<TaskService> tasks =  this.getTasks();
-		tasks = tasks.stream().filter(t->this.filterMyTaskAccess(t)).collect(Collectors.toList());
+		List<TaskAccess> myTasAccess = new TaskAccess().getCurrentMyTaskAccess();
+		List<TaskAccess> taskUnassigneds = new TaskAccess().getCurrentTaskUnassigned();		
+		tasks = tasks.stream().filter(t->this.filterMyTaskAccess(t,myTasAccess,taskUnassigneds)).collect(Collectors.toList());
 		return tasks;
+	}
+	
+	private boolean filterMyTaskAccess(TaskService t,List<TaskAccess> myTasAccess,List<TaskAccess> taskUnassigneds) {	
+		return myTasAccess
+							.stream()
+							.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
+							.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
+							.collect(Collectors.toList())
+							.size() > 0 
+				&& taskUnassigneds
+							.stream()
+							.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
+							.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
+							.filter(a->a.getTaskId().compareTo(t.getId())==0)
+							.collect(Collectors.toList())
+							.size() == 0;
 	}
 	
 	public List<TaskService> getAvailableTasks(){
 		List<TaskService> tasks =  this.getTasks();
-		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t)).collect(Collectors.toList());
+		List<TaskAccess> myTasAccess = new TaskAccess().getCurrentAvailableTaskAccess();
+		List<TaskAccess> taskUnassigneds = new TaskAccess().getCurrentTaskUnassigned();	
+		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t,myTasAccess,taskUnassigneds)).collect(Collectors.toList());
 		return tasks;
 	}
 
-	private boolean filterAvailableTaskAccess(TaskService t) {	
-		boolean x = new TaskAccess().getCurrentAvailableTaskAccess()
-				.stream()
-				.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
-				.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
-				.collect(Collectors.toList())
-				.size() > 0;
+	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTasAccess,List<TaskAccess> taskUnassigneds) {	
+		boolean x = myTasAccess
+						.stream()
+						.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
+						.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
+						.collect(Collectors.toList())
+						.size() > 0;
+				x = taskUnassigneds
+						.stream()
+						.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
+						.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
+						.filter(a->a.getTaskId().compareTo(t.getId())==0)
+						.collect(Collectors.toList())
+						.size() > 0;
 		return x;
 	}
-
-	private boolean filterMyTaskAccess(TaskService t) {	
-		boolean x = new TaskAccess().getCurrentMyTaskAccess()
-				.stream()
-				.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
-				.filter(a->a.getTaskName().compareTo(t.getTaskDefinitionKey())==0)
-				.collect(Collectors.toList())
-				.size() > 0;
-		return x;
-	}
-
 	
 	public List<TaskService> getUnassigedTasks(){
 		return this.getTasks();
@@ -240,20 +259,30 @@ public class TaskService extends Activit{
 	//Assumir tarefa
 	public boolean claimTask(String id) {
 		TaskService task = this.getTaskWhidoutFilterAccess(id);
-		TaskAccess ta = new TaskAccess().find()
+		/*TaskAccess ta = new TaskAccess().find()
 										.andWhere("processName","=", task.getProcessDefinitionKey())
 										.andWhere("taskName", "=",task.getTaskDefinitionKey())
 										.andWhere("organization", "=",Core.getCurrentOrganization())
 										.andWhere("profileType", "=",Core.getCurrentProfile())
 										.andWhere("user_fk","isnull")
 										.one();
-		ta.setUser_fk(Core.getCurrentUser().getId());		
-		return ta.update()!=null;
+		ta.setUser_fk(Core.getCurrentUser().getId());	
+		*/	
+		TaskUnassigned tu = new TaskUnassigned().find()
+												.andWhere("taskId", "=",id)
+												.andWhere("processKey", "=",task.getProcessDefinitionKey())
+												.andWhere("taskKey", "=",task.getTaskDefinitionKey())
+												.andWhere("user", "=",Core.getCurrentUser().getId())
+												.one();
+		tu.setNoAssumed(false);
+		return tu.update()!=null;
 	}
+	
 	//Transferir Tarefa
 	public boolean delegateTask(String id,String assignee){
 		return this.taskAction(id, "delegate", assignee);
 	}
+	
 	//Devolve a tarefa de volta para o proprietario, se houver 
 	public boolean resolveTask(String id,String assignee){
 		return this.taskAction(id, "resolve", assignee);
@@ -262,15 +291,16 @@ public class TaskService extends Activit{
 	//Libera a tarefa
 	public boolean freeTask(String id){
 		TaskService task = this.getTaskWhidoutFilterAccess(id);
-		TaskAccess ta = new TaskAccess().find()
+		/*TaskAccess ta = new TaskAccess().find()
 										.andWhere("processName","=", task.getProcessDefinitionKey())
 										.andWhere("taskName", "=",task.getTaskDefinitionKey())
 										.andWhere("organization", "=",Core.getCurrentOrganization())
 										.andWhere("profileType", "=",Core.getCurrentProfile())
 										.andWhere("user_fk","=",Core.getCurrentUser().getId())
 										.one();
-		ta.setUser_fk(null);		
-		return ta.update()!=null;
+		ta.setUser_fk(null);	*/
+		TaskUnassigned tu = new TaskUnassigned(id, task.getProcessDefinitionKey(),task.getTaskDefinitionKey(), Core.getCurrentUser());
+		return tu.insert()!=null;
 	}
 	
 	//Completar Tarefa

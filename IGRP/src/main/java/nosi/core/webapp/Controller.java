@@ -192,7 +192,7 @@ public class Controller{
 	}
 
 	private String getTimeLine(String taskId) {		
-		return BPMNTimeLine.get().toString();
+		return new BPMNTimeLine().get().toString();
 	}
 
 	private String getTaskViewDetails(String taskId) {
@@ -273,7 +273,8 @@ public class Controller{
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
 			queryString.getQueryString().entrySet().stream().forEach(q->{
 				q.getValue().stream().forEach(q1->{
-					qs += "&"+q.getKey()+"="+q1.toString();
+					if(q1!=null)
+						qs += "&"+q.getKey()+"="+q1.toString();
 				});					
 			});
 		}

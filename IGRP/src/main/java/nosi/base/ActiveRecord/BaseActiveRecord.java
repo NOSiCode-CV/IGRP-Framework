@@ -9,7 +9,8 @@ package nosi.base.ActiveRecord;
  import java.lang.reflect.Method;
  import java.sql.Date;
  import java.util.ArrayList;
- import java.util.List;
+import java.util.Arrays;
+import java.util.List;
  import javax.persistence.criteria.CriteriaBuilder;
  import javax.persistence.criteria.CriteriaQuery;
  import javax.persistence.criteria.Expression;
@@ -261,6 +262,14 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 					Expression<String> x = this.getRoot().get(columnName);
 					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
 				}
+				break;
+			case "not in":
+				List<String> valuesNotIN = Arrays.asList(new String[] {value.toString()});
+				e = this.getRoot().get(columnName).in(valuesNotIN).not();
+				break;
+			case "in":
+				List<String> valuesIn = Arrays.asList(new String[] {value.toString()});
+				e = this.getRoot().get(columnName).in(valuesIn);
 				break;
 			}
 			this.predicates.add(e);

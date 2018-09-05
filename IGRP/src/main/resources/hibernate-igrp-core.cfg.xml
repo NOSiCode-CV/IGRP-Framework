@@ -38,5 +38,8 @@
 		<mapping class="nosi.webapps.igrp.dao.OAuthRefreshToken"/>		
 		<mapping class="nosi.webapps.igrp.dao.UserRole"/>
 		
+		<!-- Task Access -->	
+		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned"/>
+		
 	</session-factory>
 </hibernate-configuration>
