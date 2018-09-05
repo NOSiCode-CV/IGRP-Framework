@@ -101,7 +101,7 @@
 .nav-sidebar li .tree-menu-options{
 	position: absolute;
 	right:0;
-	top: -1px;
+    top: 10px;
 	display: none;
 	z-index: 10;
 }
