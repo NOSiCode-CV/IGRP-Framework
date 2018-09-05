@@ -104,6 +104,7 @@ public class EtapaaccessController extends Controller {
 					TaskAccess task = new TaskAccess();
 					task.setProcessName(taskProcess[1]);
 					task.setTaskName(taskProcess[0]);
+					task.setTaskDescription(taskProcess[2]);
 					if("org".compareTo(type)==0) {
 						task.setOrganization(org);
 						r = task.insert()!=null;	
@@ -183,29 +184,6 @@ public class EtapaaccessController extends Controller {
 			}
 		}
 	}
-	
-	/*
-	 * List all task associate to organization with references to profile
-	 */
-	private List<Table_1> getProfileTasks(ProfileType prof) {
-		List<Table_1> table = new ArrayList<>();
-		if(prof!=null) {
-			List<TaskAccess> list = new TaskAccess().find()
-													.andWhere("organization", "=",prof.getOrganization().getId())
-													.andWhere("profileType", "isnull")
-													.all();
-			list.stream().forEach(task->{
-				Table_1 t = new Table_1();
-				t.setId(task.getTaskName()+separator+task.getProcessName());
-				t.setDescricao(task.getProcessName() + " - " + task.getTaskName());
-				t.setProcessid(task.getProcessName());
-				if(this.getTaskProfExists(prof.getOrganization().getId(), prof.getId(), task.getProcessName(), task.getTaskName())!=null)
-					t.setId_check(task.getTaskName()+separator+task.getProcessName());
-				table.add(t);
-			});
-		}
-		return table;
-	}
 
 	/*
 	 * List all task associate to application with references to organization
@@ -225,10 +203,10 @@ public class EtapaaccessController extends Controller {
 			 
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
-				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
+				t.setId(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId()+separator+task.getProcessDefinitionId() + " - " + task.getName());
 				if(listExist!=null) {
 					if(!listExist.stream().filter(c->c.getProcessName().compareTo(task.getProcessDefinitionId())==0).filter(c->c.getTaskName().compareTo(task.getTaskDefinitionKey())==0).collect(Collectors.toList()).isEmpty()) {
-						t.setId_check(task.getTaskDefinitionKey()+separator+task.getProcessDefinitionId());
+						t.setId_check(t.getId());
 					}
 				}
 				t.setDescricao(task.getProcessDefinitionId() + " - " + task.getName());
@@ -239,6 +217,30 @@ public class EtapaaccessController extends Controller {
 		return table;
 	}
 	
+	
+	/*
+	 * List all task associate to organization with references to profile
+	 */
+	private List<Table_1> getProfileTasks(ProfileType prof) {
+		List<Table_1> table = new ArrayList<>();
+		if(prof!=null) {
+			List<TaskAccess> list = new TaskAccess().find()
+													.andWhere("organization", "=",prof.getOrganization().getId())
+													.andWhere("profileType", "isnull")
+													.all();
+			list.stream().forEach(task->{
+				Table_1 t = new Table_1();
+				t.setId(task.getTaskName()+separator+task.getProcessName()+separator+task.getTaskDescription());
+				t.setProcessid(task.getProcessName());
+				t.setDescricao(task.getTaskDescription());
+				if(this.getTaskProfExists(prof.getOrganization().getId(), prof.getId(), task.getProcessName(), task.getTaskName())!=null)
+					t.setId_check(t.getId());
+				table.add(t);
+			});
+		}
+		return table;
+	}
+
 	
 	/*
 	 * List all task associate to application with references to user
@@ -253,11 +255,11 @@ public class EtapaaccessController extends Controller {
 													.all();
 			list.stream().forEach(task->{
 				Table_1 t = new Table_1();
-				t.setId(task.getTaskName()+separator+task.getProcessName());
-				t.setDescricao(task.getProcessName() + " - " + task.getTaskName());
+				t.setId(task.getTaskName()+separator+task.getProcessName()+separator+task.getTaskDescription());
 				t.setProcessid(task.getProcessName());
+				t.setDescricao(task.getTaskDescription());
 				if(this.getTaskUserExists(user,task.getProcessName(), task.getTaskName())!=null)
-					t.setId_check(task.getTaskName()+separator+task.getProcessName());
+					t.setId_check(t.getId());
 				table.add(t);
 			});
 		}

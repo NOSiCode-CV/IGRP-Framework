@@ -47,6 +47,8 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 	private String taskName;
 	@Column(length=150)
 	private String processName;	
+	private String taskDescription;
+	
 	@Transient
 	private String taskId;
 	
@@ -54,15 +56,20 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 		
 	}
 	
-	public TaskAccess(Organization organization, ProfileType profileType, String taskName,
-			String processName) {
+	
+	public TaskAccess(Organization organization, ProfileType profileType, Integer user_fk, String taskName,
+			String processName, String taskDescription, String taskId) {
 		super();
 		this.organization = organization;
 		this.profileType = profileType;
+		this.user_fk = user_fk;
 		this.taskName = taskName;
 		this.processName = processName;
+		this.taskDescription = taskDescription;
+		this.taskId = taskId;
 	}
-	
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -108,6 +115,14 @@ public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializ
 
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
+	}
+	
+	public String getTaskDescription() {
+		return taskDescription;
+	}
+
+	public void setTaskDescription(String taskDescription) {
+		this.taskDescription = taskDescription;
 	}
 
 	public List<TaskAccess> getCurrentMyTaskAccess(){
