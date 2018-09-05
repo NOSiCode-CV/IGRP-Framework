@@ -275,8 +275,6 @@ public class LoginController extends Controller {
 	           stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
 	           flag = stub.getOperations().authenticate(username, password);
 	          
-	           //System.out.println("Success: " + flag);
-	           
 	           // Pesquisar user from Ids 
 	           List<ClaimDTO> result = stub.getOperations().getUserClaimValues(username, "");
 	           LdapPerson ldapPerson = new LdapPerson();
@@ -324,7 +322,6 @@ public class LoginController extends Controller {
 			success = authenticate_(username, password, true, settings, personArray);
 		}else {
 			success = authenticate_(username, password, false, ldap, personArray);
-			//System.out.println(ldap.getError()); 
 		}
 		
 		if(success) {

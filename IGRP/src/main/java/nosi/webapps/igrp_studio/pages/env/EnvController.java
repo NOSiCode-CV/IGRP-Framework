@@ -338,13 +338,14 @@ public class EnvController extends Controller {
 	}
 
 	// App list I have access to 
-	public Response actionMyApps() throws IOException{
+	public Response actionMyApps() throws IOException{ 
+		System.out.println("actionMyApps: ");
 		String type = Core.getParam("type");
 		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"); 
 
-		List<Profile> myApp = new Application().getMyApp();
+		List<Profile> myApp = new Application().getMyApp(); 
 		myApp = myApp.stream()
 				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
 		if(type!=null && type.equalsIgnoreCase("dev")) {
@@ -449,7 +450,8 @@ public class EnvController extends Controller {
 	}
 	
 	private String getLinkOpenApp() {
-        return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app=";
+        String result = "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app="; 
+        return result;
 	}
 
 
@@ -476,7 +478,8 @@ public class EnvController extends Controller {
 					Action action = env.getAction();
 					if(action != null && env.getExternal() != 1) {
 						aux = aux.replace(URI.create(aux).getQuery(), ""); 
-						aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
+						//aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
+						aux = "r=" + (env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
 					
 					return this.redirectToUrl(aux);

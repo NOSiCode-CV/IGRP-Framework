@@ -96,7 +96,7 @@ public class User implements Component{
 		Cookie aux = new Cookie("_identity-igrp", value);
 		aux.setMaxAge(this.expire);
 		aux.setHttpOnly(true);
-		aux.setPath("/");
+		//aux.setPath("/");
 		Igrp.getInstance().getResponse().addCookie(aux);
 	}
 	
@@ -135,7 +135,7 @@ public class User implements Component{
 		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
 		String loginUrl = "igrp/login/login";
 		//if(!aux.equals("igrp/login/login") && !aux.equals("igrp/ErrorPage/exception") && !aux.startsWith("igrp/page")) {
-			aux=EncrypDecrypt.decrypt(aux);
+			aux = new EncrypDecrypt().decrypt(aux);
 //		}
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){			

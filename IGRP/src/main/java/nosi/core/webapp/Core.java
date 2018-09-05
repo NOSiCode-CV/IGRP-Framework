@@ -662,8 +662,8 @@ public final class Core { // Not inherit
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDadParam() {
-		String r = Core.getParam("r");
-		r = Core.decrypt(r);
+		String r = Core.getParam("r"); 
+		//r = Core.decrypt(r); 
 		String[] r_split = r.split("/");
 		return r_split[0];
 	}
@@ -884,7 +884,7 @@ public final class Core { // Not inherit
 	}
 
 	public static String decrypt(String content) {
-		return EncrypDecrypt.decrypt(content);
+		return new EncrypDecrypt().decrypt(content);
 	}
 
 	public static void addHiddenField(String name, Object value) {
