@@ -339,7 +339,6 @@ public class EnvController extends Controller {
 
 	// App list I have access to 
 	public Response actionMyApps() throws IOException{ 
-		System.out.println("actionMyApps: ");
 		String type = Core.getParam("type");
 		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
