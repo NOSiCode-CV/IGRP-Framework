@@ -39,8 +39,8 @@ public class EncrypDecrypt {
 	}
 	
 	public String decrypt(String content) {
-		/*String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
-		if(customHeader != null && customHeader.equals("1")) return content; */
+		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
+		if(customHeader != null && customHeader.equals("1")) return content;
 		
 		if (getWakandaList(content) ) {
 			content = decrypt(content.replace(" ", "+"), getSecretKey()); 
@@ -52,13 +52,6 @@ public class EncrypDecrypt {
 		if(this.SECRET_KEY==null)
 			this.SECRET_KEY = (Igrp.getInstance().getRequest() != null) ? Igrp.getInstance().getRequest().getSession().getId() : null;
 		return this.SECRET_KEY;
-	}
-	
-	public static void main(String[] args) {
-		String encryt = new EncrypDecrypt().encrypt("r=igrp/Gestaodeacesso/index&dad=igrp"); 
-		System.out.println("Encripitado: " + encryt); 
-		String decryt = new EncrypDecrypt().decrypt(encryt); 
-		System.out.println("Decripitado: " + decryt); 
 	}
 
 	public SecretKeySpec generateSecretKey(String key) {
