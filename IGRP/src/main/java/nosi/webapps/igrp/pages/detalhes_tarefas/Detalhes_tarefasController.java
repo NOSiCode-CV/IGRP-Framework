@@ -9,7 +9,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
-import nosi.webapps.igrp.dao.Action;
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
@@ -43,9 +42,8 @@ public class Detalhes_tarefasController extends Controller {
 
 	private String generateCustomFormTask(TaskServiceQuery task) throws InstantiationException {	
 		String content = "";
-		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application.dad", "=",task.getTenantId()).one();
 		try {
-			String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
+			String packageName =  "nosi.webapps."+task.getTenantId().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
 			Class<?> c = Class.forName(packageName+"."+this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey()+"Controller");
 			Method method = c.getMethod("details",TaskServiceQuery.class);
 			content = (String) method.invoke(c.newInstance(), task);

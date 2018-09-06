@@ -212,13 +212,13 @@ body[screen-size="xs"] #igrp-top-nav{
 #side-bar-ctrl {
   float: left;
  /* position: relative;*/
-  height: 56px;
+  height: 53px;
   width: 52px;
   text-align: center;
   padding: 0 15px;
   cursor: pointer;
   transition:background .5s;
-  font-size: 14px;
+  font-size: 1.5em;
   position: absolute;
   left: 16.6667%;
   top: 0;
@@ -303,7 +303,7 @@ body[screen-size="xs"] #side-bar-ctrl{
   border-bottom-color: transparent;
   border:0!important;
   transition: color .3s;
-  line-height: 56px;
+  line-height: 59px;
 
 
 }
@@ -361,7 +361,7 @@ body[screen-size="xs"] #side-bar-ctrl{
 	z-index: 1000;
 	top: 0;
 	box-shadow: 0 5px 5px 0 #eee;
-	font-size: 14px;
+	font-size: 1.1em;
 	z-index: 1002;
 	height: 100%;
 	overflow-x: hidden;
@@ -382,10 +382,10 @@ body[screen-size="xs"] #side-bar-ctrl{
 
 #igrp-sidebar .side-bar-ctrl {
 	transition: background .5s;
-	padding: 17px 10px;
+	padding: 19px 10px;
 	position: relative;
 	color: white;
-	font-size: 16px;
+	font-size: 1.2em;
 	cursor: pointer;
 	z-index: 15;
 	float: right;
@@ -394,6 +394,11 @@ body[screen-size="xs"] #side-bar-ctrl{
 
 #igrp-sidebar .side-bar-ctrl .fa{
   
+}
+
+ul#list-reports {
+
+    position: unset!important;
 }
 
 @-webkit-keyframes spin {
@@ -446,17 +451,17 @@ body[screen-size="xs"] #side-bar-ctrl{
 	opacity: .8;
 	font-weight: 400;
 	color: white;
-	    padding: 13px 15px;
+	    padding: 12px 15px;
     /* min-height: 46px; */
 
 }
 
 #igrp-sidebar .nav>li>a:focus, #igrp-sidebar .nav-sidebar>li.active {
-	background: #1f4b74;
+		background-color: #01091112;
 }
 
 #igrp-sidebar .nav-sidebar>li.active {
-	border-left: 4px solid #d0d6dd;
+	border-left: 4px solid white;
 	border-top: 4px solid transparent;
 	border-bottom: 4px solid transparent;
 	
@@ -472,7 +477,8 @@ body[screen-size="xs"] #side-bar-ctrl{
 #igrp-sidebar .nav>li>a:hover {
 	background-color: #01091112;
 	opacity: 1;
-	font-size: 15px;
+	font-weight: 500;
+
 }
 
 #igrp-sidebar .nav-sidebar>.active>a .nav-bar-active {
@@ -592,19 +598,21 @@ body.sidebar-off .navbar-brand {
 	font-weight: bolder;
 	color: white;
 	/*     font-size: 15px; */
-	padding-left: 29px;
-	margin-left: -4px;
-	border-left: 4px solid #265b88;
+
+
 }
 
-.treeview-menu>li>a.active {
-		border-left: 4px solid transparent;
-}
+/* .treeview-menu>li>a.active { */
+/* 		border-left: 4px solid transparent; */
+/* } */
 
 .treeview-menu>li>a.active,
 .treeview>a.active {
 	font-size: 15px;
 	border-right: 4px solid #fafafa;
+	padding-top: 8px !important; 
+    padding-bottom: 8px !important;
+   
 }
 .treeview>a.active {
 	border-top: 4px solid transparent;
