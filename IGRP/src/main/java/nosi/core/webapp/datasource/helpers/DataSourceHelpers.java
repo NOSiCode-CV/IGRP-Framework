@@ -235,19 +235,19 @@ public class DataSourceHelpers {
 		String column_name = param.getName().contains("p_")?param.getName().substring(2, param.getName().length()):param.getName();
 		type = Core.isNull(type)?parameters.get(column_name):type;
 		
-		if(type.equals("java.lang.Integer.class")) {
+		if(type.equals("java.lang.Integer")) {
 			query.setParameter(param.getName(),value!=null?Core.toInt(value.toString()):0);
-		}else if(type.equals("java.lang.Double.class")){
+		}else if(type.equals("java.lang.Double")){
 			query.setParameter(param.getName(),value!=null? Core.toDouble(value.toString()):0);
-		}else if(type.equals("java.lang.Float.class")){
+		}else if(type.equals("java.lang.Float")){
 			query.setParameter(param.getName(),value!=null?Core.toFloat(value.toString()):0);
-		}else if(type.equals("java.lang.Character.class")){
+		}else if(type.equals("java.lang.Character")){
 			query.setParameter(param.getName(), value!=null?(Character)value:"");
-		}else if(type.equals("java.lang.Long.class")){
+		}else if(type.equals("java.lang.Long")){
 			query.setParameter(param.getName(), value!=null?Core.toLong(value.toString()):0);
-		}else if(type.equals("java.lang.Short.class")){
+		}else if(type.equals("java.lang.Short")){
 			query.setParameter(param.getName(), value!=null?Core.toShort(value.toString()):0);
-		}else if(type.equals("java.sql.Date.class")){
+		}else if(type.equals("java.sql.Date")){
 			if((value instanceof String) && Core.isNotNull(value))
 				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-mm-dd"));
 			else
