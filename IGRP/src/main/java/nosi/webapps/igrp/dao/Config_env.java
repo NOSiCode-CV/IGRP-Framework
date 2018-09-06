@@ -43,7 +43,7 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	private String username;
 	@Column(nullable=false)
 	private String password;
-	@Column(nullable=false,unique=true)
+	@Column(nullable=false)
 	private String name;
 	@Column(nullable=false)
 	private String url_connection;

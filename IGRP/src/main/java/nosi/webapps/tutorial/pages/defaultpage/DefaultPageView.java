@@ -12,14 +12,14 @@ import nosi.core.webapp.Report;
 public class DefaultPageView extends View {
 
 	public Field sectionheader_1_text;
-	public Field statbox_1_title;
-	public Field statbox_1_val;
-	public Field statbox_1_txt;
-	public Field statbox_1_url;
-	public Field statbox_1_bg;
-	public Field statbox_1_icn;
+	public Field infopanel_1_title;
+	public Field infopanel_1_val;
+	public Field infopanel_1_url;
+	public Field infopanel_1_bg;
+	public Field infopanel_1_icn;
 	public IGRPForm sectionheader_1;
-	public IGRPForm statbox_1;
+	public IGRPForm infopanel_1;
+	public IGRPCarousel carousel_1;
 
 
 	public DefaultPageView(){
@@ -28,42 +28,39 @@ public class DefaultPageView extends View {
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
-		statbox_1 = new IGRPStatBox("statbox_1","");
+		infopanel_1 = new IGRPForm("infopanel_1","");
+
+		carousel_1 = new IGRPCarousel("carousel_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Primeira Página"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		statbox_1_title = new TextField(model,"statbox_1_title");
-		statbox_1_title.setLabel(gt("Box Title"));
-		statbox_1_title.setValue(gt("FAQ - How to change this home page?"));
-		statbox_1_title.propertie().add("name","p_statbox_1_title").add("type","text").add("maxlength","4000");
+		infopanel_1_title = new TextField(model,"infopanel_1_title");
+		infopanel_1_title.setLabel(gt("Title"));
+		infopanel_1_title.setValue(gt("Guide - How to change this home page?"));
+		infopanel_1_title.propertie().add("name","p_infopanel_1_title").add("type","text").add("maxlength","4000");
 		
-		statbox_1_val = new TextField(model,"statbox_1_val");
-		statbox_1_val.setLabel(gt("Value"));
-		statbox_1_val.setValue(gt(""));
-		statbox_1_val.propertie().add("name","p_statbox_1_val").add("type","text").add("maxlength","4000");
+		infopanel_1_val = new TextField(model,"infopanel_1_val");
+		infopanel_1_val.setLabel(gt("Value"));
+		infopanel_1_val.setValue(gt(""));
+		infopanel_1_val.propertie().add("name","p_infopanel_1_val").add("type","text").add("maxlength","4000");
 		
-		statbox_1_txt = new TextField(model,"statbox_1_txt");
-		statbox_1_txt.setLabel(gt("Url Text"));
-		statbox_1_txt.setValue(gt("GO TO"));
-		statbox_1_txt.propertie().add("name","p_statbox_1_txt").add("type","text").add("maxlength","4000");
+		infopanel_1_url = new TextField(model,"infopanel_1_url");
+		infopanel_1_url.setLabel(gt(""));
+		infopanel_1_url.setValue(new Config().getResolveUrl("tutorial","Video_gestao_de_aplicacao","index"));
+		infopanel_1_url.propertie().add("name","p_infopanel_1_url").add("type","text").add("maxlength","4000");
 		
-		statbox_1_url = new TextField(model,"statbox_1_url");
-		statbox_1_url.setLabel(gt("Url"));
-		statbox_1_url.setValue(gt("https://nosicode.gitbook.io/faq/beginner/how-to-change-the-first-page-home-of-an-application"));
-		statbox_1_url.propertie().add("name","p_statbox_1_url").add("type","text").add("maxlength","4000");
+		infopanel_1_bg = new TextField(model,"infopanel_1_bg");
+		infopanel_1_bg.setLabel(gt("Background"));
+		infopanel_1_bg.setValue(gt("cp-irises"));
+		infopanel_1_bg.propertie().add("name","p_infopanel_1_bg").add("type","text").add("maxlength","4000");
 		
-		statbox_1_bg = new TextField(model,"statbox_1_bg");
-		statbox_1_bg.setLabel(gt("Background"));
-		statbox_1_bg.setValue(gt("cp-cyan"));
-		statbox_1_bg.propertie().add("name","p_statbox_1_bg").add("type","text").add("maxlength","4000");
-		
-		statbox_1_icn = new TextField(model,"statbox_1_icn");
-		statbox_1_icn.setLabel(gt("Icon"));
-		statbox_1_icn.setValue(gt("fa-github"));
-		statbox_1_icn.propertie().add("name","p_statbox_1_icn").add("type","text").add("maxlength","4000");
+		infopanel_1_icn = new TextField(model,"infopanel_1_icn");
+		infopanel_1_icn.setLabel(gt("Icon"));
+		infopanel_1_icn.setValue(gt("fa-github-square"));
+		infopanel_1_icn.propertie().add("name","p_infopanel_1_icn").add("type","text").add("maxlength","4000");
 		
 
 
@@ -75,15 +72,16 @@ public class DefaultPageView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
-		statbox_1.addField(statbox_1_title);
-		statbox_1.addField(statbox_1_val);
-		statbox_1.addField(statbox_1_txt);
-		statbox_1.addField(statbox_1_url);
-		statbox_1.addField(statbox_1_bg);
-		statbox_1.addField(statbox_1_icn);
+		infopanel_1.addField(infopanel_1_title);
+		infopanel_1.addField(infopanel_1_val);
+		infopanel_1.addField(infopanel_1_url);
+		infopanel_1.addField(infopanel_1_bg);
+		infopanel_1.addField(infopanel_1_icn);
+
 
 		this.addToPage(sectionheader_1);
-		this.addToPage(statbox_1);
+		this.addToPage(infopanel_1);
+		this.addToPage(carousel_1);
 	}
 		
 	@Override

@@ -44,33 +44,62 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
+        <infopanel_1 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <statbox_1_title name="p_statbox_1_title" type="text" maxlength="4000" persist="true">
-                    <label>Box Title</label>
-                    <value>FAQ - How to change this home page?</value>
-                </statbox_1_title>
-                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
+                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Guide - How to change this home page?</value>
+                </infopanel_1_title>
+                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000" persist="true">
                     <label>Value</label>
                     <value/>
-                </statbox_1_val>
-                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
-                    <label>Url Text</label>
-                    <value>GO TO</value>
-                </statbox_1_txt>
-                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
-                    <label>Url</label>
-                    <value>https://nosicode.gitbook.io/faq/beginner/how-to-change-the-first-page-home-of-an-application</value>
-                </statbox_1_url>
-                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
+                </infopanel_1_val>
+                <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>tutorial</app>
+                        <page>Video_gestao_de_aplicacao</page>
+                        <action>index</action>
+                    </value>
+                </infopanel_1_url>
+                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
-                    <value>cp-cyan</value>
-                </statbox_1_bg>
-                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <value>cp-irises</value>
+                </infopanel_1_bg>
+                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000" persist="true">
                     <label>Icon</label>
-                    <value>fa-github</value>
-                </statbox_1_icn>
+                    <value>fa-github-square</value>
+                </infopanel_1_icn>
             </fields>
-        </statbox_1>
+        </infopanel_1>
+        <carousel_1 type="carousel" xml-type="carousel" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="carousel_1_img_1">
+                <title>Img</title>
+                <app/>
+                <page/>
+                <link/>
+                <target/>
+                <img>/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_dashboard.png</img>
+                <preview/>
+            </item>
+            <item type="specific" code="" rel="carousel_1_img_2">
+                <title>Img</title>
+                <app/>
+                <page/>
+                <link/>
+                <target/>
+                <img>/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_igrp_studio.png</img>
+                <preview/>
+            </item>
+            <item type="specific" code="" rel="carousel_1_img_3">
+                <title>Img</title>
+                <app/>
+                <page/>
+                <link/>
+                <target/>
+                <img>/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_tutorial.png</img>
+                <preview/>
+            </item>
+        </carousel_1>
     </content>
 </rows>

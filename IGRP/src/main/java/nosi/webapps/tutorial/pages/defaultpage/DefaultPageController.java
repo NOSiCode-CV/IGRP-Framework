@@ -10,24 +10,22 @@ import nosi.core.webapp.Response;
 
 
 /*----#end-code----*/
-
-public class DefaultPageController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class DefaultPageController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		DefaultPage model = new DefaultPage();
 		model.load();
 		DefaultPageView view = new DefaultPageView();
 		/*----#start-code(index)----*/
 		
 		
-/*----#end-code----*/
+		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
 	}
 	
-	/*----#start-code(custom_actions)----*/
-	
-	
+/*----#start-code(custom_actions)----*/
+
+
 /*----#end-code----*/
-	}
+}
