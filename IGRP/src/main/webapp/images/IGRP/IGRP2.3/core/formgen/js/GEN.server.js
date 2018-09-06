@@ -611,7 +611,7 @@ $(function() {
 	};
 
 	var replaceReservedContents = function(o) {
-
+		
 		var options = $.extend({
 				content : '',
 
@@ -772,7 +772,7 @@ $(function() {
 
 				}
 			};
-						
+
 			
 		if (part != 'controller' && part != undefined) {
 
@@ -785,18 +785,16 @@ $(function() {
 
 			return;
 
-		}else if(localReserved['index']['code']!=""){
+		}else if(localReserved && localReserved['index'] && localReserved['index']['code']!=""){
 			
 			replaceReservedContents(replaceOptions);
 			
-
 			$.IGRP.components.globalModal.hide();
 
 			GEN.waiting(false);
 
 			return;
 		}
-			
 
 		$.get(reservedURL, data).then(function(json) {
 
@@ -820,6 +818,7 @@ $(function() {
 				});
 
 				json = object;
+				
 				replaceOptions.serverJSON = json;
 				
 
