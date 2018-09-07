@@ -117,7 +117,7 @@ var GENSTRUCTURES = function(GEN){
 
 					if(container.xml.type == 'text'){
 						var value   = container.GET.text ? container.GET.text() : '';
-						rtn+='<fields><'+tag+'_text type="text" name="p_'+tag+'_text" persist="true" maxlength="'+container.GET.maxlength()+'"><value>'+value+'</value></'+tag+'_text></fields>';
+						rtn+='<fields><'+tag+'_text type="text" name="p_'+tag+'_text" persist="true" maxlength="'+container.GET.maxlength()+'"><value><![CDATA['+escapeDoubleQuotes(value)+']]></value></'+tag+'_text></fields>';
 					}
 
 					if(container.xml.type == 'map')
@@ -621,6 +621,10 @@ var GENSTRUCTURES = function(GEN){
 
 		return rtn;
 	}
+	
+	var escapeDoubleQuotes = function(str) {
+		return str.replace(/\\([\s\S])|(")/g,"\\$1$2"); // thanks @slevithan!
+	};
 
 	var returnAttr = function(field,name){
 		var arr = '';

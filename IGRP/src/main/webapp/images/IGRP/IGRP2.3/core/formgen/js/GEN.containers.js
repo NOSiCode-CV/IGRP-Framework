@@ -2146,7 +2146,7 @@ var CONTAINER = function(name,params){
 					name:'text',
 					order:0,
 					size:'12',
-					inputType:'textarea',
+					inputType:'texteditor',
 					value:container.xml.dataExample ? container.xml.dataExample : capitalizeFirstLetter(container.type)
 				});
 

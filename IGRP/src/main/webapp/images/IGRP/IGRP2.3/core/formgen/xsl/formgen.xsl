@@ -554,6 +554,8 @@
           </form>
 
           <script src="{$path}/core/formgen/js/GEN.componentsSearcher.js"></script>
+          
+          <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
 
           <script src="{$path}/core/bootstrap/plugins/tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
 

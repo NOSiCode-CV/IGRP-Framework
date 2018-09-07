@@ -3,7 +3,6 @@
 
 	var GEN = VARS.getGen();
 
-
 	GEN.declareContainer({
 
 		name:'infopanel',

@@ -1173,6 +1173,23 @@ var GENERATOR = function(genparams){
 				holder.append(label);
 				holder.append($('<textarea name="edit-'+propriety+'" rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" type="'+type+'">'+value+'</textarea>'));
 			break;
+			case 'texteditor':
+				
+				var id = 'edit-'+propriety+'-'+(new Date()).getTime();
+
+				holder.append(label);
+				holder.append($('<textarea id="'+id+'" name="edit-'+propriety+'" rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" type="'+type+'">'+value+'</textarea>'));
+				
+				setTimeout(function(){
+
+					$.IGRP.components.form.texteditor({
+						parent : holder,
+						selector : '#'+id
+					});
+
+				},100)
+
+			break;
 			default:
 				holder.append(label);
 				holder.append($('<input name="edit-'+propriety+'" rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'" value="'+value+'" type="'+type+'"/>'));
@@ -2697,6 +2714,16 @@ var GENERATOR = function(genparams){
 								value = $(setter).attr('attr-value');
 	
 							break;
+							
+							case 'texteditor':
+
+								var id = $(setter).attr('id'),
+
+									val = CKEDITOR.instances[id].getData();
+
+								value = val;
+
+							break;
 	
 							default: 
 	
@@ -3252,7 +3279,9 @@ var GENERATOR = function(genparams){
 				menu.addClass('has-error');
 				
 				partErrors.forEach(function(err){
-						
+					
+					console.log(GEN.server.activeMenu)
+					
 					GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
 					
 					errorsW.find('tbody').append(
