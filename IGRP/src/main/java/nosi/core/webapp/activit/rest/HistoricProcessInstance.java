@@ -30,40 +30,20 @@ public class HistoricProcessInstance extends Activit{
 	private Integer superProcessInstanceId;
     private List<TaskVariables> variables;
     private String tenantId;
-       
-    @SuppressWarnings("unchecked")
+           
    	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey){
-   		List<HistoricProcessInstance> d = new ArrayList<>();
-   		RestRequest request = new RestRequest();
-   		Response response = request.get("history/historic-process-instances?processDefinitionKey="+processDefinitionKey+"&includeProcessVariables=true");
-   		if(response!=null){
-   			String contentResp = "";
-   			InputStream is = (InputStream) response.getEntity();
-   			try {
-   				contentResp = FileHelper.convertToString(is);
-   			} catch (IOException e) {
-   				e.printStackTrace();
-   			}
-   			if(Response.Status.OK.getStatusCode() == response.getStatus()){		
-   				HistoricProcessInstance dep = (HistoricProcessInstance) ResponseConverter.convertJsonToDao(contentResp,HistoricProcessInstance.class);
-   				this.setTotal(dep.getTotal());
-   				this.setSize(dep.getSize());
-   				this.setSort(dep.getSort());
-   				this.setOrder(dep.getOrder());
-   				this.setStart(dep.getStart());
-   				d = (List<HistoricProcessInstance>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<HistoricProcessInstance>>(){}.getType());
-   			}else{
-   				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-   			}
-   		}
-   		return d;
+    	return this.getHistoryOfProccessInstanceId(processDefinitionKey, false);
    	}
-    
-    @SuppressWarnings("unchecked")
+        
    	public List<HistoricProcessInstance> getHistoryOfProccessInstanceIdFinished(String processDefinitionKey){
-   		List<HistoricProcessInstance> d = new ArrayList<>();
+    	return this.getHistoryOfProccessInstanceId(processDefinitionKey, true);
+   	}	
+
+    @SuppressWarnings("unchecked")
+   	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,boolean isFinished ){
+    	List<HistoricProcessInstance> d = new ArrayList<>();
    		RestRequest request = new RestRequest();
-   		Response response = request.get("history/historic-process-instances?processDefinitionKey="+processDefinitionKey+"&finished=true&includeProcessVariables=true");
+   		Response response = request.get("history/historic-process-instances?processDefinitionKey="+processDefinitionKey+"&includeProcessVariables=true"+(isFinished?"&finished=true":""));
    		if(response!=null){
    			String contentResp = "";
    			InputStream is = (InputStream) response.getEntity();
@@ -85,8 +65,10 @@ public class HistoricProcessInstance extends Activit{
    			}
    		}
    		return d;
-   	}
-	public String getProcessDefinitionId() {
+    }
+    
+    
+   	public String getProcessDefinitionId() {
 		return processDefinitionId;
 	}
 	public void setProcessDefinitionId(String processDefinitionId) {
