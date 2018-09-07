@@ -9,6 +9,8 @@ import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
@@ -168,7 +170,7 @@ public class ProcessInstancesService extends Activit{
 	}
 
 	public Integer totalProccesAtivos(String processKey){
-		Response response = new RestRequest().get("runtime/process-instances?processDefinitionKey="+processKey);
+		Response response = new RestRequest().get("runtime/process-instances?processDefinitionKey="+processKey+"&suspended=false");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -189,6 +191,27 @@ public class ProcessInstancesService extends Activit{
 			}
 		}
 		return this.getTotal();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ProcessInstancesService> getRuntimeProcessIntances(String processKey){
+		List<ProcessInstancesService> list = new ArrayList<>();
+		Response response = new RestRequest().get("runtime/process-instances?processDefinitionKey="+processKey+"&suspended=false");
+		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(Response.Status.OK.getStatusCode() == response.getStatus()){	
+				list = (List<ProcessInstancesService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessInstancesService>>(){}.getType());
+	   		}else{
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return list;
 	}
 	
 	public boolean submitProcessFile(Part file, String processDefinitionId,String file_desc) throws IOException {
@@ -229,6 +252,18 @@ public class ProcessInstancesService extends Activit{
 		Response response = new RestRequest().put("runtime/process-instances/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
 		return response.getStatus() == 201;
 	}
+	
+	public boolean suspend(String processInstanceId){
+		Response response = new RestRequest().put("runtime/process-instances/","{\"action\":\"suspend\"}",processInstanceId);
+		return response.getStatus() == 200;
+	}
+	
+
+	public boolean delete(String processInstanceId){
+		Response response = new RestRequest().delete("runtime/process-instances/",processInstanceId);
+		return response.getStatus() == 204;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProcessInstancesService [businessKey=" + businessKey + ", processDefinitionId=" + processDefinitionId

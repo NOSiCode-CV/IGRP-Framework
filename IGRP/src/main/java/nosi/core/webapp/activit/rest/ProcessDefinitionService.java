@@ -396,4 +396,16 @@ public class ProcessDefinitionService extends Activit{
 		return list;
 	}
 
+	public boolean suspend(String processDefinitionId){
+		Response response = new RestRequest().put("repository/process-definitions","{\"action\":\"suspend\",\"includeProcessInstances\":\"true\"}",processDefinitionId);
+		String contentResp = "";
+		InputStream is = (InputStream) response.getEntity();
+		try {
+			contentResp = FileHelper.convertToString(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(contentResp);
+		return response.getStatus() == 200;
+	}
 }

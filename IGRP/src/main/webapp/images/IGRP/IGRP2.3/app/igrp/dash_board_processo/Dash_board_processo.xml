@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Dash_board_processo</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Dash_board_processo</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=73</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Dash Board Processo</title>
+        <table_2 type="table" xml-type="table" title="Lista de processos" gen-type="container" gen-group="true">
+            <fields>
+                <nome_processo name="p_nome_processo" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="Dash_board_processo" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Nome Processo</label>
+                </nome_processo>
+                <process_id name="p_process_id" type="hidden" maxlength="30" iskey="false" tag="process_id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome_processo name="p_nome_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</nome_processo>
+                        <nome_processo_desc name="p_nome_processo_desc">Nome Processo</nome_processo_desc>
+                        <process_id name="p_process_id" tag="process_id">1</process_id>
+                    </row>
+                    <row>
+                        <nome_processo name="p_nome_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</nome_processo>
+                        <nome_processo_desc name="p_nome_processo_desc">Nome Processo</nome_processo_desc>
+                        <process_id name="p_process_id" tag="process_id">1</process_id>
+                    </row>
+                    <row>
+                        <nome_processo name="p_nome_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</nome_processo>
+                        <nome_processo_desc name="p_nome_processo_desc">Nome Processo</nome_processo_desc>
+                        <process_id name="p_process_id" tag="process_id">1</process_id>
+                    </row>
+                    <row>
+                        <nome_processo name="p_nome_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</nome_processo>
+                        <nome_processo_desc name="p_nome_processo_desc">Nome Processo</nome_processo_desc>
+                        <process_id name="p_process_id" tag="process_id">1</process_id>
+                    </row>
+                    <row>
+                        <nome_processo name="p_nome_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</nome_processo>
+                        <nome_processo_desc name="p_nome_processo_desc">Nome Processo</nome_processo_desc>
+                        <process_id name="p_process_id" tag="process_id">1</process_id>
+                    </row>
+                </value>
+            </table>
+        </table_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="iniciar_novo_processo">
+                <title>Iniciar processo</title>
+                <app>igrp</app>
+                <page>MapaProcesso</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>success|fa-play</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/mapaprocesso/MapaProcesso.xml</preview>
+            </item>
+        </toolsbar_1>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <detalhes_processo name="p_detalhes_processo" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-sitemap" maxlength="50">
+                    <label>Detalhes Processo</label>
+                    <value/>
+                </detalhes_processo>
+                <instanciasocorencias name="p_instanciasocorencias" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-tasks" maxlength="50">
+                    <label>Instancias/Ocorencias</label>
+                    <value/>
+                </instanciasocorencias>
+            </fields>
+        </tabcontent_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Title process</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <table_1 type="table" xml-type="table" title="Instancias" gen-type="container" gen-group="true">
+            <fields>
+                <n_processo name="p_n_processo" type="link" target="mpsubmit" request_fields="" target_fields="" closerefresh="false" action="index" page="Dash_board_processo" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Nº processo</label>
+                </n_processo>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao>
+                <iniciado_em name="p_iniciado_em" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Iniciado em</label>
+                </iniciado_em>
+                <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </estado>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+                <process_definition name="p_process_definition" type="hidden" maxlength="30" iskey="true" tag="process_definition"/>
+                <process_key name="p_process_key" type="hidden" maxlength="30" iskey="true" tag="process_key"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Sed amet iste aliqua rem</descricao>
+                        <iniciado_em name="p_iniciado_em">Amet aperiam consectetur elit</iniciado_em>
+                        <estado name="p_estado">2</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <process_definition name="p_process_definition" tag="process_definition">1</process_definition>
+                        <process_key name="p_process_key" tag="process_key">1</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Accusantium sed ipsum laudanti</descricao>
+                        <iniciado_em name="p_iniciado_em">Voluptatem labore laudantium a</iniciado_em>
+                        <estado name="p_estado">2</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <process_definition name="p_process_definition" tag="process_definition">1</process_definition>
+                        <process_key name="p_process_key" tag="process_key">1</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Anim accusantium anim ut dolor</descricao>
+                        <iniciado_em name="p_iniciado_em">Adipiscing labore aliqua iste</iniciado_em>
+                        <estado name="p_estado">2</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <process_definition name="p_process_definition" tag="process_definition">1</process_definition>
+                        <process_key name="p_process_key" tag="process_key">1</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Dolor consectetur adipiscing s</descricao>
+                        <iniciado_em name="p_iniciado_em">Doloremque mollit natus unde u</iniciado_em>
+                        <estado name="p_estado">1</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <process_definition name="p_process_definition" tag="process_definition">1</process_definition>
+                        <process_key name="p_process_key" tag="process_key">1</process_key>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <n_processo name="p_n_processo" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml</n_processo>
+                        <n_processo_desc name="p_n_processo_desc">Nº processo</n_processo_desc>
+                        <descricao name="p_descricao">Elit totam aperiam natus aperi</descricao>
+                        <iniciado_em name="p_iniciado_em">Iste lorem iste perspiciatis i</iniciado_em>
+                        <estado name="p_estado">2</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <process_definition name="p_process_definition" tag="process_definition">1</process_definition>
+                        <process_key name="p_process_key" tag="process_key">1</process_key>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Terminado</label>
+                        <value>1</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Em execucao</label>
+                        <value>2</value>
+                        <color>#1eed57</color>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item type="specific" code="" class="info" rel="show_diagram">
+                        <title>Show diagram</title>
+                        <app>igrp</app>
+                        <page>DetalhesProcesso</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>info|fa-eye</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="cancelar_processo">
+                        <title>Cancelar processo</title>
+                        <app>igrp</app>
+                        <page>Dash_board_processo</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dash_board_processo/Dash_board_processo.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-times</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+        <total_proc_finished type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_proc_finished_title name="p_total_proc_finished_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Box Title</value>
+                </total_proc_finished_title>
+                <total_proc_finished_val name="p_total_proc_finished_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>528</value>
+                </total_proc_finished_val>
+                <total_proc_finished_url name="p_total_proc_finished_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>igrp</app>
+                        <page>Dash_board_processo</page>
+                        <action>index</action>
+                    </value>
+                </total_proc_finished_url>
+                <total_proc_finished_bg name="p_total_proc_finished_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </total_proc_finished_bg>
+                <total_proc_finished_icn name="p_total_proc_finished_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </total_proc_finished_icn>
+            </fields>
+        </total_proc_finished>
+        <total_proc_em_execucao type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_proc_em_execucao_title name="p_total_proc_em_execucao_title" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Box Title</value>
+                </total_proc_em_execucao_title>
+                <total_proc_em_execucao_val name="p_total_proc_em_execucao_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>537</value>
+                </total_proc_em_execucao_val>
+                <total_proc_em_execucao_url name="p_total_proc_em_execucao_url" type="text" maxlength="4000" persist="true">
+                    <label/>
+                    <value type="action">
+                        <app>igrp</app>
+                        <page>Dash_board_processo</page>
+                        <action>index</action>
+                    </value>
+                </total_proc_em_execucao_url>
+                <total_proc_em_execucao_bg name="p_total_proc_em_execucao_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-electric</value>
+                </total_proc_em_execucao_bg>
+                <total_proc_em_execucao_icn name="p_total_proc_em_execucao_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </total_proc_em_execucao_icn>
+            </fields>
+        </total_proc_em_execucao>
+    </content>
+</rows>
