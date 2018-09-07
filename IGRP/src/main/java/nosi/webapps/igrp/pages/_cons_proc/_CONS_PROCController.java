@@ -13,7 +13,6 @@ import java.util.Map;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
 
@@ -122,8 +121,7 @@ public class _CONS_PROCController extends Controller {
 		 return this.forward("igrp","DetalhesProcesso","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(ver_etapa)----*/
-		String p_id_task = Igrp.getInstance().getRequest().getParameter("p_id_task");
-		this.addQueryString("taskId", p_id_task).addQueryString("target", "_blank");
+		this.addQueryString("taskId", Core.getParam("p_id_task")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","Detalhes_tarefas","index", this.queryString());	
 	}
@@ -139,9 +137,7 @@ public class _CONS_PROCController extends Controller {
 		 return this.forward("igrp","DetalhesProcesso","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(ver_processo)----*/
-		String p_id_task = Igrp.getInstance().getRequest().getParameter("p_id_task");
-		this.addQueryString("taskId", p_id_task).addQueryString("target", "_blank");
-		
+		this.addQueryString("taskId", Core.getParam("p_id_task")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}

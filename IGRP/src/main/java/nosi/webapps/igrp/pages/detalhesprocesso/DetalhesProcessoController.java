@@ -10,7 +10,6 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.ResourcesService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
-import nosi.core.webapp.Igrp;
 /*----#END-PRESERVED-AREA----*/
 
 public class DetalhesProcessoController extends Controller {		
@@ -20,9 +19,10 @@ public class DetalhesProcessoController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 	
 		DetalhesProcesso model = new DetalhesProcesso();
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+		String taskId = Core.getParam("taskId");
 		String processId = Core.getParam("process_id");
 		String process_definitionId = Core.getParam("process_definitionId");
+		boolean showView = Core.isNotNull(processId) && Core.isNotNull(process_definitionId);
 		if(Core.isNotNull(taskId)) {
 			TaskServiceQuery taskS = new TaskServiceQuery();
 			taskS.addFilter("taskId", taskId);
@@ -62,7 +62,7 @@ public class DetalhesProcessoController extends Controller {
 				throw new IOException(Core.NO_PERMITION_MSG);
 			}
 		}
-		if(Core.isNotNull(processId) && Core.isNotNull(process_definitionId)) {
+		if(showView) {
 			view.view_1.setVisible(false);
 			view.sectionheader_1.setVisible(false);
 		}
