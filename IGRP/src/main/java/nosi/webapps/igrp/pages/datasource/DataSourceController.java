@@ -250,7 +250,9 @@ public class DataSourceController extends Controller {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 		xml.setElement("title", title);
-		String content = this.call(app,page,action).getContent();
+		this.addQueryString("current_app_conn", app);
+		String content = this.call(app,page,action,this.queryString()).getContent();
+		Core.removeAttribute("current_app_conn");
 		content = comp.extractXML(content);
 		List<Field> list = this.getDefaultFields();
 		if(type.equalsIgnoreCase("task")) {

@@ -247,7 +247,7 @@ public class PesquisarMenuController extends Controller {
 		
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "modal", flag, "webapps?r=");
 		if(isStartProc)
-			topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png", "webapps?r=");
+			topMenu.addItem("Mapa Processos", "igrp", "Dash_board_processo", "index", "_self", "process.png", "webapps?r=");
 		if(isTask)
 			topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
 		return this.renderView(topMenu.toString());

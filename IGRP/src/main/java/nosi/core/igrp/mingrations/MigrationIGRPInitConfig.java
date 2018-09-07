@@ -177,6 +177,9 @@ public class MigrationIGRPInitConfig {
 			
 			actions.add(new Action("DefaultPage", "index", "nosi.webapps.tutorial.pages", "tutorial/defaultpage/DefaultPage.xsl", "Default Page", "Default Page", "2.3", 1, app_tutorial));
 			
+			actions.add(new Action("Dash_board_processo", "index", "nosi.webapps.igrp.pages", "igrp/dash_board_processo/Dash_board_processo.xsl", "Dash Board Processo", "Dash Board Processo", "2.3", 1, app_igrp));
+			actions.add(new Action("Lista_terfa_de_processo", "index", "nosi.webapps.igrp.pages", "igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl", "Lista Terfa de Processo", "Lista Terfa de Processo", "2.3", 1, app_igrp));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
