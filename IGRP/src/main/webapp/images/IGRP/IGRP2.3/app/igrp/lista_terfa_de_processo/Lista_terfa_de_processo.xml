@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Lista_terfa_de_processo</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Lista_terfa_de_processo</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=74</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Lista Terfa de Processo</title>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <n_tarefa name="p_n_tarefa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nº Tarefa</label>
+                </n_tarefa>
+                <descricao_tarefa name="p_descricao_tarefa" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao Tarefa</label>
+                </descricao_tarefa>
+                <data_inicio name="p_data_inicio" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Data Inicio</label>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Data Fim</label>
+                </data_fim>
+                <estado name="p_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </estado>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <n_tarefa name="p_n_tarefa">Dolor adipiscing elit ut accus</n_tarefa>
+                        <descricao_tarefa name="p_descricao_tarefa">Mollit laudantium mollit totam</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Ut natus aliqua voluptatem sit</data_inicio>
+                        <data_fim name="p_data_fim">Voluptatem laudantium totam un</data_fim>
+                        <estado name="p_estado">1</estado>
+                    </row>
+                    <row>
+                        <n_tarefa name="p_n_tarefa">Laudantium dolor aperiam sit a</n_tarefa>
+                        <descricao_tarefa name="p_descricao_tarefa">Dolor laudantium lorem labore</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Sit ipsum unde adipiscing sed</data_inicio>
+                        <data_fim name="p_data_fim">Totam sit totam officia lorem</data_fim>
+                        <estado name="p_estado">1</estado>
+                    </row>
+                    <row>
+                        <n_tarefa name="p_n_tarefa">Sit amet anim ut rem</n_tarefa>
+                        <descricao_tarefa name="p_descricao_tarefa">Natus aperiam ipsum natus laud</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Sed laudantium natus deserunt</data_inicio>
+                        <data_fim name="p_data_fim">Accusantium deserunt officia l</data_fim>
+                        <estado name="p_estado">2</estado>
+                    </row>
+                    <row>
+                        <n_tarefa name="p_n_tarefa">Laudantium sit deserunt unde s</n_tarefa>
+                        <descricao_tarefa name="p_descricao_tarefa">Stract laudantium anim officia</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Aliqua iste adipiscing deserun</data_inicio>
+                        <data_fim name="p_data_fim">Magna natus ut sed accusantium</data_fim>
+                        <estado name="p_estado">1</estado>
+                    </row>
+                    <row>
+                        <n_tarefa name="p_n_tarefa">Anim lorem sed aliqua adipisci</n_tarefa>
+                        <descricao_tarefa name="p_descricao_tarefa">Aperiam totam officia anim mol</descricao_tarefa>
+                        <data_inicio name="p_data_inicio">Laudantium stract doloremque p</data_inicio>
+                        <data_fim name="p_data_fim">Consectetur totam doloremque a</data_fim>
+                        <estado name="p_estado">1</estado>
+                    </row>
+                </value>
+                <legend_color>
+                    <item>
+                        <label>Terminado</label>
+                        <value>1</value>
+                        <color>#dc2b4c</color>
+                    </item>
+                    <item>
+                        <label>Em execucao</label>
+                        <value>2</value>
+                        <color>#95c11f</color>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+    </content>
+</rows>

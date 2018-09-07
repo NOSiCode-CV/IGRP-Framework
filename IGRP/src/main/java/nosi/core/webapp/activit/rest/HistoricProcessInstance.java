@@ -30,12 +30,20 @@ public class HistoricProcessInstance extends Activit{
 	private Integer superProcessInstanceId;
     private List<TaskVariables> variables;
     private String tenantId;
-       
-    @SuppressWarnings("unchecked")
+           
    	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey){
-   		List<HistoricProcessInstance> d = new ArrayList<>();
+    	return this.getHistoryOfProccessInstanceId(processDefinitionKey, false);
+   	}
+        
+   	public List<HistoricProcessInstance> getHistoryOfProccessInstanceIdFinished(String processDefinitionKey){
+    	return this.getHistoryOfProccessInstanceId(processDefinitionKey, true);
+   	}	
+
+    @SuppressWarnings("unchecked")
+   	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,boolean isFinished ){
+    	List<HistoricProcessInstance> d = new ArrayList<>();
    		RestRequest request = new RestRequest();
-   		Response response = request.get("history/historic-process-instances?processDefinitionKey="+processDefinitionKey+"&includeProcessVariables=true");
+   		Response response = request.get("history/historic-process-instances?processDefinitionKey="+processDefinitionKey+"&includeProcessVariables=true"+(isFinished?"&finished=true":""));
    		if(response!=null){
    			String contentResp = "";
    			InputStream is = (InputStream) response.getEntity();
@@ -57,9 +65,10 @@ public class HistoricProcessInstance extends Activit{
    			}
    		}
    		return d;
-   	}
+    }
     
-	public String getProcessDefinitionId() {
+    
+   	public String getProcessDefinitionId() {
 		return processDefinitionId;
 	}
 	public void setProcessDefinitionId(String processDefinitionId) {
