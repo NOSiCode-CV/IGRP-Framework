@@ -362,7 +362,7 @@ public class EnvController extends Controller {
 		/** Begin **/
 		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
 		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-		//getAllApps(allowApps,denyApps);
+		getAllApps(allowApps,denyApps);
 		/** End **/
 
 		boolean displaySubtitle = false;
@@ -530,7 +530,6 @@ public class EnvController extends Controller {
 					endpoint += "/" + session.getId() + ":" + session.getSessionId() + "/" + session.getIpAddress();
 				}
 				
-				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -553,7 +552,7 @@ public class EnvController extends Controller {
 				else
 					denyApps.add(obj);
 		}catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
