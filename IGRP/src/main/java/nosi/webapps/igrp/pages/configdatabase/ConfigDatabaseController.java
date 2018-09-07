@@ -122,11 +122,11 @@ public class ConfigDatabaseController extends Controller {
 				if (config != null) {
 					this.saveConfigHibernateFile(config);
 					Core.setMessageSuccess();
-                    Core.setMessageInfo(gt("Nome da conexão: ") + config.getName());
+                    Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
 					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 				}
 			} else {
-              Core.setMessageWarning(gt("Nome da conexão inválido"));
+              Core.setMessageWarning(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+" "+gt("INV"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
 		}

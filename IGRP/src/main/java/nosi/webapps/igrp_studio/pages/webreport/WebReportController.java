@@ -311,8 +311,10 @@ public class WebReportController extends Controller {
 			for(String aux : ac.getAction().split("-"))
 				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			actionName = "action" + actionName;
-			String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());
+			Core.setAttribute("current_app_conn", ac.getApplication().getDad());			
+			String controllerPath = this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());			
 			Object ob = Page.loadPage(controllerPath,actionName);
+			Core.removeAttribute("current_app_conn");
 			if(ob!=null){
 				Response resp = (Response) ob;
 				if(resp!=null){
