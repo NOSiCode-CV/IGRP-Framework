@@ -51,7 +51,8 @@ public class ListaEnv extends Model{
 	public static class Table_1 extends IGRPTable.Table{
 		private int status;
 		private int status_check;
-		private String name;
+		private IGRPLink name;
+		private String name_desc;
 		private String dad;
 		private IGRPLink t_page_builder;
 		private String t_page_builder_desc;
@@ -69,12 +70,27 @@ public class ListaEnv extends Model{
 			return this.status_check;
 		}
 
-		public void setName(String name){
-			this.name = name;
-		}
-		public String getName(){
+		public IGRPLink setName(String app,String page,String action){
+			this.name = new IGRPLink(app,page,action);
 			return this.name;
 		}
+		public IGRPLink getName(){
+			return this.name;
+		}
+		public void setName_desc(String name_desc){
+			this.name_desc = name_desc;
+		}
+		public String getName_desc(){
+			return this.name_desc;
+		}
+	public IGRPLink setName(String link){
+		this.name = new IGRPLink(link);
+		return this.name;
+	}
+	public IGRPLink setName(Report link){
+		this.name = new IGRPLink(link);
+		return this.name;
+	}
 
 		public void setDad(String dad){
 			this.dad = dad;

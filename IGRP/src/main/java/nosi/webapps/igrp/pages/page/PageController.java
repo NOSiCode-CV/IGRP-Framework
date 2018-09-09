@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -40,18 +42,16 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
-public class PageController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class PageController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
 		model.setNovo_modulo("igrp","Page","index");
 		PageView view = new PageView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.version.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -108,7 +108,6 @@ public class PageController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		/*----#start-code(gravar)----*/
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -232,7 +231,7 @@ public class PageController extends Controller {
 		return this.redirect("igrp","page","index");	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 
 	private boolean checkifexists(Page model) {
 		// TODO Auto-generated method stub
@@ -733,4 +732,4 @@ public class PageController extends Controller {
 		 return this.renderView(new Gson().toJson(p));
 	 }
 	/*----#end-code----*/
-	}
+}

@@ -49,9 +49,11 @@ public class ListaEnvView extends View {
 		status_check = new CheckBoxField(model,"status_check");
 		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
 		
-		name = new TextField(model,"name");
-		name.setLabel(gt("Nome"));
-		name.propertie().add("name","p_name").add("type","text").add("maxlength","30");
+		name = new LinkField(model,"name");
+		name.setLabel(gt("Name"));
+		name.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
+
+									name.propertie().add("name","p_name").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("desc","true");
 		
 		dad = new TextField(model,"dad");
 		dad.setLabel(gt("Código"));

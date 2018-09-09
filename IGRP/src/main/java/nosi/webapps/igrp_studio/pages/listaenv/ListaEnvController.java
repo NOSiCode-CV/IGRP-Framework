@@ -21,20 +21,16 @@ import java.util.Comparator;
 import java.util.Collections;
 import com.google.gson.Gson;
 /*----#end-code----*/
-
-public class ListaEnvController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class ListaEnvController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaEnv model = new ListaEnv();
 		model.load();
 		ListaEnvView view = new ListaEnvView();
 		view.id.setParam(true);
-		
-		
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		model.loadTable_1(Core.query(null,"SELECT 'status' as status,'name' as name,'dad' as dad,'t_page_builder' as t_page_builder,'id' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -63,7 +59,11 @@ public class ListaEnvController extends Controller {
 			if (!a.getDad().toLowerCase().equals("igrp")) {
 				ListaEnv.Table_1 table = new ListaEnv.Table_1();
 				table.setDad(a.getDad());
-				table.setName("" + a.getName());
+				
+             	table.setName("igrp_studio", "env", "openApp")
+						.addParam("app", a.getDad())
+						.addParam("page", a.getDad().toLowerCase() + "/default-page" + "/index&title=\"");
+				table.setName_desc(a.getName());
 				table.setStatus(a.getStatus());
 				if (a.getStatus() == 1) {
 					table.setStatus_check(a.getStatus());
@@ -84,12 +84,11 @@ public class ListaEnvController extends Controller {
 	}
 	
 	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaEnv model = new ListaEnv();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -100,12 +99,11 @@ public class ListaEnvController extends Controller {
 	}
 	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaEnv model = new ListaEnv();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -116,12 +114,11 @@ public class ListaEnvController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaEnv model = new ListaEnv();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -136,12 +133,11 @@ public class ListaEnvController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaEnv model = new ListaEnv();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -158,12 +154,11 @@ public class ListaEnvController extends Controller {
 	}
 	
 	public Response actionConfigurar_base_dados() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaEnv model = new ListaEnv();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -178,12 +173,11 @@ public class ListaEnvController extends Controller {
 	}
 	
 	public Response actionExportar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ListaEnv model = new ListaEnv();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -206,7 +200,7 @@ public class ListaEnvController extends Controller {
 		return this.redirect("igrp_studio","ListaEnv","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	private Response exportApp(Application app) {
 //		
 //		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
@@ -289,4 +283,4 @@ public class ListaEnvController extends Controller {
 		}
       }
 	/*----#end-code----*/
-	}
+}

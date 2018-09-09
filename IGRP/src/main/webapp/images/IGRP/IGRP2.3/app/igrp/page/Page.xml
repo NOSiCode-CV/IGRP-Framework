@@ -40,7 +40,9 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Page builder - Novo</value>
+                    <value>
+                        <![CDATA[Page builder - Novo]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -59,11 +61,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Magna voluptatem aliqua natus perspiciatis</value>
+                    <value>Iste sed deserunt natus sed</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Sit adipiscing mollit elit aliqua</value>
+                    <value>Stract lorem ipsum iste doloremque</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
                     <label>Ativo</label>

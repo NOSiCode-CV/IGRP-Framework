@@ -1,12 +1,14 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.File;
+import nosi.core.config.Config;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -47,17 +49,15 @@ import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
-public class EnvController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class EnvController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
 		model.load();
 		EnvView view = new EnvView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -83,12 +83,11 @@ public class EnvController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		Env model = new Env();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -157,7 +156,7 @@ public class EnvController extends Controller {
 			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	private boolean appAutoDeploy(String appDad) {
 		boolean flag = true;
@@ -481,7 +480,7 @@ public class EnvController extends Controller {
 						aux = "r=" + (env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
 					
-					return this.redirectToUrl(aux);
+					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
 					//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
@@ -643,4 +642,4 @@ public class EnvController extends Controller {
 	}
 
 	/*----#end-code----*/
-	}
+}

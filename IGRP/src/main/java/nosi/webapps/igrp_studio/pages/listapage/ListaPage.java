@@ -45,6 +45,8 @@ public class ListaPage extends Model{
 	private String application;
 	@RParam(rParamName = "p_modulo")
 	private String[] modulo;
+	@RParam(rParamName = "p_form_1_separator_1")
+	private String form_1_separator_1;
 	@RParam(rParamName = "p_link_btn_nova_pagina")
 	private IGRPLink link_btn_nova_pagina;
 	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
@@ -227,6 +229,13 @@ public class ListaPage extends Model{
 	}
 	public String[] getModulo(){
 		return this.modulo;
+	}
+	
+	public void setForm_1_separator_1(String form_1_separator_1){
+		this.form_1_separator_1 = form_1_separator_1;
+	}
+	public String getForm_1_separator_1(){
+		return this.form_1_separator_1;
 	}
 	
 	public IGRPLink setLink_btn_nova_pagina(String app,String page,String action){

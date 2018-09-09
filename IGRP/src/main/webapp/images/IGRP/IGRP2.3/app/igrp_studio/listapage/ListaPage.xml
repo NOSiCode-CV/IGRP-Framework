@@ -171,17 +171,20 @@
                         </option>
                     </list>
                 </modulo>
+                <form_1_separator_1 name="p_form_1_separator_1" type="separator" maxlength="250" placeholder="" right="false">
+                    <label></label>
+                </form_1_separator_1>
                 <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
                     <label>Nova página</label>
-                    <value>http://tazun.com/ahiiva</value>
+                    <value>http://rib.gov/mekge</value>
                 </link_btn_nova_pagina>
                 <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
                     <label>CRUD generator</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
                 </crud_generator>
-                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Env" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
+                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ImportArquivo" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
                     <label>Importar</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</value>
                 </btn_import>
             </fields>
         </form_1>
@@ -208,7 +211,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Totam doloremque officia totam</descricao_page>
+                        <descricao_page name="p_descricao_page">Unde adipiscing unde sed dolor</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -219,7 +222,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Officia natus voluptatem omnis</descricao_page>
+                        <descricao_page name="p_descricao_page">Amet deserunt adipiscing natus</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -230,7 +233,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sit unde natus ipsum stract</descricao_page>
+                        <descricao_page name="p_descricao_page">Voluptatem iste accusantium do</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -241,7 +244,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Laudantium totam sit accusanti</descricao_page>
+                        <descricao_page name="p_descricao_page">Accusantium dolor laudantium d</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -252,7 +255,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Rem magna dolor laudantium ut</descricao_page>
+                        <descricao_page name="p_descricao_page">Deserunt mollit ipsum aperiam</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
