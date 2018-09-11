@@ -1,0 +1,16 @@
+<div class="box">
+	<div class="box-body" style="padding:0">
+		<div id="leaflet-#[tag]#" class="igrp-leaflet-map" style="min-height: #[height]#px;">
+			<xsl:if test="rows/content/#[tag]#_markers">
+				<xsl:attribute name="markers-data">
+					<xsl:call-template name="igrp-leaflet-markers-json">
+						<xsl:with-param name="tag" select="'#[tag]#'"/>
+						<xsl:with-param name="data" select="rows/content/#[tag]#_markers"/>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+		</div>
+	</div>
+</div>
+
+

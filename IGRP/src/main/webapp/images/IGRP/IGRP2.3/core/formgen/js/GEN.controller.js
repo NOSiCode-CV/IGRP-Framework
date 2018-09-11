@@ -307,6 +307,9 @@ var GENERATOR = function(genparams){
 						if(container && container.getXML){
 					
 							rtn+= $(container.getXML()).getXMLStr();
+							
+							if(container.onXMLGenerate)
+								rtn+=container.onXMLGenerate(rtn);
 						}
 					});
 				}else{
