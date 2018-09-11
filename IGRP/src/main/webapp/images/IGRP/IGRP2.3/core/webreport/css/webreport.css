@@ -2,9 +2,6 @@
 	background: #fdfdfd!important;
 }
 
-li.treeview.head.active {
-   background-color: #fff !important;
-}
 .box-wr .form-group{
 	margin: 0;
 }
@@ -104,7 +101,7 @@ li.treeview.head.active {
 .nav-sidebar li .tree-menu-options{
 	position: absolute;
 	right:0;
-    top: 10px;
+	top: -1px;
 	display: none;
 	z-index: 10;
 }
@@ -302,4 +299,8 @@ div[data-notify="container"].alert{
 }
 #side-bar-ctrl{
     left: 25%;
+}
+
+div[data-notify="container"]{
+	top: 55px !important;
 }

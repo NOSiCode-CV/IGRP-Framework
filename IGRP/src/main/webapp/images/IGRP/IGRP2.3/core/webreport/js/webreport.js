@@ -59,10 +59,7 @@ $(function ($) {
 										$('#wr-list-datasource').XMLTransform({
 											xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
 											xml : $(data).getXMLDocument(),
-											complete : function(c){
-												/*if($.WR.id)
-													$('.wr-editdatasource').addClass('active');*/
-
+											complete : function(c){												
 												$(loading,tab).remove();
 											},
 											error 	 : function(c){
@@ -72,6 +69,7 @@ $(function ($) {
 									}
 								}
 							});
+							$('.wr-editdatasource').addClass('active');
 							$('.wr-newdatasource').addClass('active');
 						}else{
 							$('.wr-newdatasource').removeClass('active');
@@ -193,7 +191,8 @@ $(function ($) {
 									text  	: 'Confirmar',
 									onClick : function(){
 										$.IGRP.targets.modal.action({
-											url:$.IGRP.utils.getUrl(url)+name+'='+$('.rw_datasorce_edit input[type="radio"]:checked').val()
+											url  	: $.IGRP.utils.getUrl(url)+name+'='+$('.rw_datasorce_edit input[type="radio"]:checked').val(),
+											clicked : $(this)
 										});
 										$.IGRP.components.globalModal.hide();
 										return false;
@@ -213,7 +212,8 @@ $(function ($) {
 
 					}else{
 						$.IGRP.targets.modal.action({
-							url:$.IGRP.utils.getUrl(url)+name+'='+$.WR.dataSource
+							url     : $.IGRP.utils.getUrl(url)+name+'='+$.WR.dataSource,
+							clicked : $(this)
 						});
 					}
 
