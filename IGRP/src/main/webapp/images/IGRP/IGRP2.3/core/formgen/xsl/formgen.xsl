@@ -19,14 +19,7 @@
        	  
           <xsl:call-template name="IGRP-head"/>            
           <xsl:call-template name="GEN-head"/>
-          <script>  
-       	  	
-       	  	console.log(screen.width);
-       	  	
-       	  	console.log($(window).width());
-       	  	
-       	  	console.log('WWW')
-       	  	        
+          <script>    
            	window.moveTo(0, 0);
            	window.resizeTo(screen.width, screen.height);
       	  </script>
@@ -132,7 +125,7 @@
                               <i class="fa fa-times"></i>
                             </span>
 
-                            <div class="gen-searcher-contents" bg-color="primary">
+                            <div class="gen-searcher-contents" bg-color="secondary">
                               
                             </div>
 

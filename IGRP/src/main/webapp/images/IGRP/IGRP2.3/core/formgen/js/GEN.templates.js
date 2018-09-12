@@ -1,3 +1,4 @@
+
 var TEMPLATES = {
 	path : path+VARS.genPath,
 	container:{
@@ -37,20 +38,43 @@ var TEMPLATES = {
 
 		},
 		container:function(p){
-
+			
+			var fileExistsURL = VARS.getGen().UTILS.gen_file_exists;
+			
 			var tReady  = false;
 			var ftReady = false;
-			
 
 			var getField = p.getField == false ? false : true;
 			
 			var fieldTemp = p.fieldStyle ? p.fieldStyle : 'field';
 			//console.log(p)
+
 			if(!TEMPLATES.container[p.name] || !TEMPLATES.container[p.name].template){
 				$.ajax({
-					url: TEMPLATES.path+'/types/'+p.genType+'s/'+p.name+'/'+p.name+'.html',
-					success:function(html){
-						var temp = html;
+					url: fileExistsURL+p.genType+'s/'+p.name+'/'+p.name+'.html',
+					success:function(r){
+						
+						if(r.status && r.content){
+							
+							var temp = r.content;
+
+							TEMPLATES.SET.container({
+								name:p.name,
+								template:temp
+							});
+
+							tReady = true;
+							
+							if(tReady && ftReady)
+								if(p.callback) p.callback(TEMPLATES.container[p.name]);
+							
+						}else{
+								
+							if(p.error) p.error(); 
+							
+						}
+						
+						/*var temp = html;
 
 						TEMPLATES.SET.container({
 							name:p.name,
@@ -60,7 +84,7 @@ var TEMPLATES = {
 						tReady = true;
 						
 						if(tReady && ftReady)
-							if(p.callback) p.callback(TEMPLATES.container[p.name]);
+							if(p.callback) p.callback(TEMPLATES.container[p.name]);*/
 					},
 					error:function(e){
 						if(p.error) p.error(e); 
@@ -76,9 +100,23 @@ var TEMPLATES = {
 				if(!TEMPLATES.container[p.name] || !TEMPLATES.container[p.name].fields[fieldTemp] ){
 					
 					$.ajax({
-						url:  TEMPLATES.path+'/types/'+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
-						success:function(fieldhtml){
-							var temp =fieldhtml;
+						url:  fileExistsURL+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
+						success:function(r){
+					
+							if(r.status && r.content){
+								var fieldhtml = r.content;
+								var temp = r.content;
+								
+								TEMPLATES.SET.container({
+									name:p.name,
+									field:{
+										name:fieldTemp,
+										html:fieldhtml
+									}
+								});
+								
+							}
+							/*var temp =fieldhtml;
 				
 							TEMPLATES.SET.container({
 								name:p.name,
@@ -86,7 +124,7 @@ var TEMPLATES = {
 									name:fieldTemp,
 									html:fieldhtml
 								}
-							});
+							});*/
 
 							
 						},
@@ -110,7 +148,9 @@ var TEMPLATES = {
 				if(p.callback) p.callback(TEMPLATES.container[p.name]);
 		},
 		field:function(p){
-
+			
+			var fileExistsURL = VARS.getGen().UTILS.gen_file_exists;
+			
 			var field = TEMPLATES.field[p.field];
 
 			if(field && field[p.container] && field[p.container][p.context]){
@@ -132,18 +172,120 @@ var TEMPLATES = {
 
 				var fieldTemplate = temp == 'field' ? '' : '.'+temp;
 
-				var fieldContainerTmpl = TEMPLATES.path+'/types/fields/'+p.field+'/templates/'+p.field+'.'+p.container+fieldTemplate+'.html';
+				var fieldContainerTmpl = fileExistsURL+'fields/'+p.field+'/templates/'+p.field+'.'+p.container+fieldTemplate+'.html';
 	
-				var fieldCopyTempl = TEMPLATES.path+'/types/fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
+				var fieldCopyTempl 	   = fileExistsURL+'fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
 				//url = path+'/components/core/formgen/types/fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
 	
 				//console.log(fieldContainerTmpl);
-
+		
 				$.ajax({
 					url:fieldContainerTmpl,
 					
 					success:function(result){
-						var fTemp = result;
+						if(result.content){
+							var fTemp = result.content;
+							var useDefault = false;
+							
+							TEMPLATES.SET.field({
+								name     : p.field,
+								container: p.container,
+								context  : temp,
+								template : fTemp,
+								useDefault:useDefault
+							});
+
+							if(p.callback) p.callback(fTemp,{
+								useDefault:useDefault
+							});
+						}else{
+							
+							if(fieldCopyTempl != fieldContainerTmpl){
+								
+								$.ajax({
+									url:fieldCopyTempl,
+									
+									success:function(result){
+										if(result.status && result.content){
+											var fTemp = result.content;
+											var useDefault = false;
+										
+											TEMPLATES.SET.field({
+												name     : p.field,
+												container: p.container,
+												context  : temp,
+												template : fTemp,
+												useDefault:useDefault
+											});
+	
+											if(p.callback) p.callback(fTemp,{
+												useDefault:useDefault
+											})
+										}else{
+											//use default
+											TEMPLATES.GET.container({
+												name:container,
+												fieldStyle:temp,
+												genType  : p.genType,
+												callback:function(contents){
+													var fTempl = contents.fields[temp];
+													var useDefault = true;
+
+													TEMPLATES.SET.field({
+														name     : p.field,
+														container: p.container,
+														context  : temp,
+														template : fTempl,
+														useDefault:useDefault
+													});
+
+													if(p.callback) p.callback(fTempl,{
+														useDefault:useDefault
+													});
+												}
+											});
+										}
+											
+											
+									},
+									error:function(e){
+
+										
+
+
+									}
+								});
+							}else{
+								//use default
+
+								//console.log(temp)
+						
+								TEMPLATES.GET.container({
+									name:container,
+									fieldStyle:temp,
+									genType  : p.genType,
+									callback:function(contents){
+										var fTempl = contents.fields[temp];
+										var useDefault = true;
+
+										TEMPLATES.SET.field({
+											name     : p.field,
+											container: container,
+											context  : temp,
+											template : fTempl,
+											useDefault:useDefault
+										});
+
+										if(p.callback) 
+											p.callback(fTempl,{
+												useDefault:useDefault
+											});
+									}
+								});
+							}
+							
+						}
+						/*var fTemp = result.content;
 						var useDefault = false;
 						
 						TEMPLATES.SET.field({
@@ -156,89 +298,16 @@ var TEMPLATES = {
 
 						if(p.callback) p.callback(fTemp,{
 							useDefault:useDefault
-						});
+						});*/
 							
 					},
 					error:function(e){
 						
-						if(fieldCopyTempl != fieldContainerTmpl){
-							
-							$.ajax({
-								url:fieldCopyTempl,
-								
-								success:function(result){
-									var fTemp = result;
-									var useDefault = false;
-								
-									TEMPLATES.SET.field({
-										name     : p.field,
-										container: p.container,
-										context  : temp,
-										template : fTemp,
-										useDefault:useDefault
-									});
-
-									if(p.callback) p.callback(fTemp,{
-										useDefault:useDefault
-									})
-										
-								},
-								error:function(e){
-
-									//use default
-									TEMPLATES.GET.container({
-										name:container,
-										fieldStyle:temp,
-										genType  : p.genType,
-										callback:function(contents){
-											var fTempl = contents.fields[temp];
-											var useDefault = true;
-
-											TEMPLATES.SET.field({
-												name     : p.field,
-												container: p.container,
-												context  : temp,
-												template : fTempl,
-												useDefault:useDefault
-											});
-
-											if(p.callback) p.callback(fTempl,{
-												useDefault:useDefault
-											});
-										}
-									});
-
-
-								}
-							});
-						}else{
-							//use default
-
-							//console.log(temp)
-					
-							TEMPLATES.GET.container({
-								name:container,
-								fieldStyle:temp,
-								genType  : p.genType,
-								callback:function(contents){
-									var fTempl = contents.fields[temp];
-									var useDefault = true;
-
-									TEMPLATES.SET.field({
-										name     : p.field,
-										container: container,
-										context  : temp,
-										template : fTempl,
-										useDefault:useDefault
-									});
-
-									if(p.callback) 
-										p.callback(fTempl,{
-											useDefault:useDefault
-										});
-								}
-							});
-						}
+						
+						
+						
+						
+						
 						
 
 						/*//use default
