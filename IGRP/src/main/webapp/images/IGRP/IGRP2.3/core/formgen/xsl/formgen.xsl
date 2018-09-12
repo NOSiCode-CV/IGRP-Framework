@@ -921,7 +921,7 @@
                         Procedure
                       </span>
                     </label>
-                    <input type="text" value="" class="form-control rule-setter " id="p_gen_rule_procedure" name="p_gen_rule_procedure" maxlength="500" placeholder="">
+                    <input type="text" value="" class="form-control rule-setter " id="p_gen_rule_procedure" name="p_gen_rule_procedure" maxlength="500" placeholder="Action ex: index">
                     </input>
                   </div>
 
@@ -1100,7 +1100,7 @@
 
                         <div class="form-group col-md-6" item-name="gen_rule_procedure" item-type="text">
                             <label>Procedure</label>
-                            <input name="p_gen_rule_procedure" type="text" class="form-control rule-setter" rel="gen_rule_procedure"/>
+                            <input name="p_gen_rule_procedure" type="text" class="form-control rule-setter" rel="gen_rule_procedure" placeholder="Action ex: index"/>
                         </div>
 
                         <div class="col-md-6 form-group" item-name="gen_rule_msg_type" item-type="select" required="required">

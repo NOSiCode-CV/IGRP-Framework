@@ -52,6 +52,8 @@ public class Sql_toolsController extends Controller {
 					.andWhere("application", "=", Core.toInt(model.getApplication()))
 					.andWhere("id", "=", Core.toInt(model.getData_source())).one();
 			ResultSet r = new ResultSet();
+			long start=System.currentTimeMillis();
+			
 			if (!this.startWithSelect(sql)) {				
 				r = Core.executeQuery(config_env, sql);
 			} else {
@@ -69,6 +71,7 @@ public class Sql_toolsController extends Controller {
 			} else {
 				Core.setMessageSuccess();
 			}
+			Core.setMessageInfo(""+(System.currentTimeMillis() - start )+" ms");
 		}
 		/*----#end-code----*/
 		view.setModel(model);

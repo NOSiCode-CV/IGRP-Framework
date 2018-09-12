@@ -46,9 +46,9 @@ public class DatabaseConfigHelper {
 			case "postgresql":
 				return "org.hibernate.dialect.PostgreSQLDialect";
 			case "oracle":
-				return "org.hibernate.dialect.OracleDialect";
+				return "org.hibernate.dialect.Oracle10gDialect";
 			case "mssql":
-				return "org.hibernate.dialect.SQLServerDialect";
+				return "org.hibernate.dialect.SQLServer2008Dialect";
 			case "hsqldb":
 				return "org.hibernate.dialect.HSQLDialect";
 			case "sybase":

@@ -1,11 +1,13 @@
-
 package nosi.webapps.igrp_studio.pages.crudgenerator;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class CRUDGeneratorView extends View {
 
@@ -32,11 +34,11 @@ public class CRUDGeneratorView extends View {
 
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("java-type","").add("tags","false");
+		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
 		
 		add_datasource = new LinkField(model,"add_datasource");
 		add_datasource.setLabel(gt("Add datasource"));
@@ -46,7 +48,7 @@ public class CRUDGeneratorView extends View {
 		
 		schema = new ListField(model,"schema");
 		schema.setLabel(gt("Schema"));
-		schema.propertie().add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("java-type","").add("tags","false");
+		schema.propertie().add("name","p_schema").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));
@@ -98,6 +100,5 @@ public class CRUDGeneratorView extends View {
 		table_name.setValue(model);	
 
 		table_1.loadModel(((CRUDGenerator) model).getTable_1());
-		
-	}
+		}
 }

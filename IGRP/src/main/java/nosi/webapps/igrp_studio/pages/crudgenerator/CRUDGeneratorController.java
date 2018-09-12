@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -22,32 +23,29 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.core.webapp.Igrp;
 /*----#end-code----*/
-
-
-public class CRUDGeneratorController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class CRUDGeneratorController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
 		model.setAdd_datasource("igrp_studio","ListaEnv","index");
 		CRUDGeneratorView view = new CRUDGeneratorView();
-		
-		
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		model.loadTable_1(Core.query(null,"SELECT 'check_table' as check_table,'table_name' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/	 
-		view.schema.setVisible(false);
+		model.setAdd_datasource("igrp","ConfigDatabase","index");     	 
+      	view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.data_source.setValue(new Config_env().getListEnv(Core.toInt(model.getAplicacao(),-1)));			
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
+      
 		if(Core.isNotNull(model.getAplicacao())) {
 			if(Core.isNotNull(model.getData_source())) {
 				List<CRUDGenerator.Table_1> data = new ArrayList<>();    
@@ -90,7 +88,7 @@ public class CRUDGeneratorController extends Controller {
 				
 				view.table_1.addData(data);
 			}
-			view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+model.getAplicacao()));
+			model.getAdd_datasource().addParam("p_aplicacao",model.getAplicacao());
 		}
 		/*----#end-code----*/
 		view.setModel(model);
@@ -98,12 +96,11 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 	public Response actionGerar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		CRUDGenerator model = new CRUDGenerator();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","CRUDGenerator","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -123,7 +120,7 @@ public class CRUDGeneratorController extends Controller {
 						try {
 							r = this.generateCRUD(config,model.getSchema(),tableName);
 						} catch (TransformerConfigurationException | URISyntaxException e) {
-							// TODO Auto-generated catch block
+							// TODO Auto-generated catch block							
 							e.printStackTrace();
 						}
 					}
@@ -148,7 +145,7 @@ public class CRUDGeneratorController extends Controller {
 		return this.redirect("igrp_studio","CRUDGenerator","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
 		String pageNameForm = Page.resolvePageName(tableName)+"Form";
@@ -182,7 +179,7 @@ public class CRUDGeneratorController extends Controller {
 		
 		try {
 			 flag = this.processGenerate(config, tableName, schema, pageForm, pageList);
-		}catch(Exception e) {
+		}catch(Exception e) {			
 			return false;
 		} 
 		if(flag) {
@@ -201,7 +198,15 @@ public class CRUDGeneratorController extends Controller {
 
 	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
 		boolean r = false;
-		List<DatabaseMetadaHelper.Column> columns = this.dmh.getCollumns(config, schema, tableName);
+		List<DatabaseMetadaHelper.Column> columns = null;
+		try {
+			columns = this.dmh.getCollumns(config, schema, tableName);
+		} catch (Exception e) {
+			// TODO: handle exception
+			Core.setMessageError(tableName+" error: "+e.getMessage());
+			return false;
+		}
+		
 		XMLTransform xml = new XMLTransform();
 		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,"form",config.getName(),schema,tableName);
 		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table",config.getName(),schema,tableName);
@@ -292,4 +297,4 @@ public class CRUDGeneratorController extends Controller {
 	private ArrayList<File> files = new ArrayList<>();
 	private DatabaseMetadaHelper dmh = new DatabaseMetadaHelper();
 	/*----#end-code----*/
-	}
+}

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import nosi.core.config.Connection;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -200,6 +201,7 @@ public class DatabaseMetadaHelper {
 	//Get collumns name of table
 	public List<Column> getCollumns(Config_env config,String schema,String tableName) {
 		List<Column> list = new ArrayList<>();
+		String justTablename = tableName;
 		java.sql.Connection con = this.connection.getConnection(config);
 		if(con!=null) {
 			PreparedStatement st = null;
@@ -234,7 +236,8 @@ public class DatabaseMetadaHelper {
 			    	col.setType(SqlJavaType.sqlToJava(metaData.getColumnType(i)));
 			    	list.add(col);
 			    }
-			} catch (SQLException e) {
+			} catch (SQLException e) {		
+				Core.setMessageError(justTablename+" error- "+e.getMessage());
 				e.printStackTrace();
 			}finally {
 				try {
@@ -245,7 +248,7 @@ public class DatabaseMetadaHelper {
 					if(con!=null)
 						con.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					e.printStackTrace();				
 				}
 			}
 		}		
