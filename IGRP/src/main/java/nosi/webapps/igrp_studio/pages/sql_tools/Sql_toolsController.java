@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp_studio.pages.sql_tools;
 
 import nosi.core.webapp.Controller;
@@ -21,25 +20,19 @@ import java.sql.SQLException;
 import nosi.core.xml.XMLWritter;
 
 /*----#end-code----*/
-
-
-public class Sql_toolsController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class Sql_toolsController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Sql_tools model = new Sql_tools();
 		model.load();
 		Sql_toolsView view = new Sql_toolsView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		model.loadTable_1(Core.query(null,"SELECT  "));
-		
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.application.setValue(new Application().getListApps());
 		if (Core.isNotNull(model.getApplication())) {
@@ -60,9 +53,11 @@ public class Sql_toolsController extends Controller {
 				try {
 					QueryInterface query = Core.query(sql,config_env);
 					List<Tuple> list = query.getResultList();
+					Core.setMessageInfo(""+(System.currentTimeMillis() - start )+" ms");
 					this.addRowToTable(view.table_1,list, sql, config_env);
 					view.table_1.setVisible(true);
 				}catch(SQLException e) {
+					Core.setMessageInfo("error catch: "+(System.currentTimeMillis() - start )+" ms");
 					r.setError(e.getMessage());
 				}
 			}
@@ -71,7 +66,7 @@ public class Sql_toolsController extends Controller {
 			} else {
 				Core.setMessageSuccess();
 			}
-			Core.setMessageInfo(""+(System.currentTimeMillis() - start )+" ms");
+			
 		}
 		/*----#end-code----*/
 		view.setModel(model);
@@ -79,17 +74,14 @@ public class Sql_toolsController extends Controller {
 	}
 	
 	public Response actionRun() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		Sql_tools model = new Sql_tools();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(run)----*/
 		if (Core.isNotNull(model.getApplication()) && Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getSql())) {
 			return this.forward("igrp_studio", "Sql_tools", "index", this.queryString());
@@ -98,7 +90,7 @@ public class Sql_toolsController extends Controller {
 		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	private void addRowToTable(IGRPTable table_1, List<Tuple> list, String sql, Config_env config_env) throws SQLException {
 		List<Column> columns = new DatabaseMetadaHelper().getCollumns(config_env, sql.trim());
 		columns.stream().forEach(c -> {
@@ -135,4 +127,4 @@ public class Sql_toolsController extends Controller {
 		return "";
 	}
 	/*----#end-code----*/
-	}
+}

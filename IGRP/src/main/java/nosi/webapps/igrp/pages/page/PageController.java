@@ -150,6 +150,11 @@ public class PageController extends Controller {
 				// ______________________________________««« END »»»» Edit/update page
 			} else if (checkifexists(model)) {
 				// New page ________
+				if(model.getPage().equals("import") || model.getPage().equals("package")) {
+					Core.setMessageError("Reserved code: "+model.getPage()+". Try another!");					
+					return this.forward("igrp", "page", "index");
+				}
+				
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 				action.setAction_descr(model.getPage_descr());
 				action.setPage_descr(model.getPage_descr());

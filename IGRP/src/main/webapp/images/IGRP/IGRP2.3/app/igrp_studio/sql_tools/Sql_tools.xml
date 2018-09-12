@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/sql_tools/Sql_tools.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -30,13 +31,15 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=127</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=52</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Sql Tools</title>
+        <title>SQL Tool</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <application name="p_application" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="">
+                <application name="p_application" type="select" multiple="false" domain="" maxlength="250" required="true" change="true" disabled="false" right="false" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -58,7 +61,7 @@
                         </option>
                     </list>
                 </application>
-                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="" tags="false">
                     <label>Data Source</label>
                     <list>
                         <option/>
@@ -85,7 +88,7 @@
                 </separator_1>
                 <sql name="p_sql" type="textarea" maxlength="1000000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>SQL</label>
-                    <value>Adipiscing stract accusantium natus lorem totam elit totam accusantium aliqua magna ut consectetur rem iste</value>
+                    <value>Adipiscing rem magna stract totam consectetur sit unde doloremque totam omnis rem ipsum labore omnis</value>
                 </sql>
             </fields>
             <tools-bar>
@@ -95,7 +98,7 @@
                     <page>ListaPage</page>
                     <link>index</link>
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
-                    <target>submit</target>
+                    <target>submit_form</target>
                     <img>success|fa-play-circle</img>
                 </item>
             </tools-bar>

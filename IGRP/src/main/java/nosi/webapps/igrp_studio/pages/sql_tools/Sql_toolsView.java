@@ -1,14 +1,10 @@
-
 package nosi.webapps.igrp_studio.pages.sql_tools;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
-
-
-
 
 public class Sql_toolsView extends View {
 
@@ -23,7 +19,7 @@ public class Sql_toolsView extends View {
 
 	public Sql_toolsView(){
 
-		this.setPageTitle("Sql Tools");
+		this.setPageTitle("SQL Tool");
 			
 		form_1 = new IGRPForm("form_1","");
 
@@ -31,11 +27,11 @@ public class Sql_toolsView extends View {
 
 		application = new ListField(model,"application");
 		application.setLabel(gt("Aplicação"));
-		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","");
+		application.propertie().add("name","p_application").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
 		
 		data_source = new ListField(model,"data_source");
 		data_source.setLabel(gt("Data Source"));
-		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","");
+		data_source.propertie().add("name","p_data_source").add("type","select").add("multiple","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
 		
 		separator_1 = new SeparatorField(model,"separator_1");
 		separator_1.setLabel(gt("   "));
@@ -43,11 +39,11 @@ public class Sql_toolsView extends View {
 		
 		sql = new TextAreaField(model,"sql");
 		sql.setLabel(gt("SQL"));
-		sql.propertie().add("name","p_sql").add("type","textarea").add("maxlength","1000000").add("required","true");
+		sql.propertie().add("name","p_sql").add("type","textarea").add("maxlength","1000000").add("required","true").add("readonly","false").add("disabled","false");
 		
 
 
-		btn_run = new IGRPButton("Run","igrp_studio","Sql_tools","run","submit","success|fa-play-circle","","");
+		btn_run = new IGRPButton("Run","igrp_studio","Sql_tools","run","submit_form","success|fa-play-circle","","");
 		btn_run.propertie.add("type","form").add("rel","run");
 
 		
@@ -76,6 +72,5 @@ public class Sql_toolsView extends View {
 		sql.setValue(model);	
 
 		table_1.loadModel(((Sql_tools) model).getTable_1());
-		
-	}
+		}
 }
