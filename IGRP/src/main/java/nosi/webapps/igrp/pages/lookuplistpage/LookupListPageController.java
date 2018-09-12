@@ -1,8 +1,8 @@
-
 package nosi.webapps.igrp.pages.lookuplistpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,19 +13,16 @@ import nosi.webapps.igrp.dao.Application;
 import java.util.ArrayList;
 import java.util.Arrays;
 /*----#end-code----*/
-
-
-public class LookupListPageController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class LookupListPageController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		LookupListPage model = new LookupListPage();
 		model.load();
 		LookupListPageView view = new LookupListPageView();
 		/*----#gen-example
-		  Query examples COPY/PASTE:
-		  Info!: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 'nome_pagina' as nome_pagina,'descricao' as descricao,'id' as id "));
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT 'descricao' as descricao,'nome_pagina' as nome_pagina,'id' as id "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -48,10 +45,8 @@ public class LookupListPageController extends Controller {
 		}
 		model.setTaskid(Core.getParam("p_general_id"));
 		model.setProcessid(Core.getParam("p_process_id"));
-		if(Core.isNull(model.getProcessid()) && Core.isNull(model.getTaskid())) {
-			view.form_2.setVisible(false);
-			view.formlist_1.setVisible(false);
-			view.toolsbar_1.setVisible(false);
+		if(Core.isNull(model.getProcessid()) && Core.isNull(model.getTaskid())) {			
+          view.associar_documentos.setVisible(false);
 		}else {
 			model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),"SELECT id as checkbox, "
 					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
@@ -96,15 +91,14 @@ public class LookupListPageController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		LookupListPage model = new LookupListPage();
 		model.load();
 		/*----#gen-example
-		  Query examples COPY/PASTE:
-		  Info!: Core.query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","LookupListPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","LookupListPage","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		ResultSet result  = new ResultSet();
 		if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
@@ -153,22 +147,21 @@ public class LookupListPageController extends Controller {
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		LookupListPage model = new LookupListPage();
 		model.load();
 		/*----#gen-example
-		  Query examples COPY/PASTE:
-		  Info!: Core.query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
 				/*----#end-code----*/
 		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
 		if(p_checkbox_fk!=null && Core.toInt(p_checkbox_fk,-1)!=-1) {
 			return  Core.insert("tbl_tipo_documento_etapa")
@@ -184,4 +177,4 @@ public class LookupListPageController extends Controller {
 		
 	}
 	/*----#end-code----*/
-	}
+}

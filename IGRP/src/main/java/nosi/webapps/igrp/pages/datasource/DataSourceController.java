@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.datasource;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,18 +34,15 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 /*----#end-code----*/
-
-
-public class DataSourceController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class DataSourceController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		DataSource model = new DataSource();
 		model.load();
 		DataSourceView view = new DataSourceView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -51,7 +50,11 @@ public class DataSourceController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/	
 	
-		view.tipo.setQuery(Core.query(null,"SELECT 'Task' as ID,'Etapa' as NAME UNION SELECT 'Object' as ID,'Objeto' as NAME UNION SELECT 'Page' as ID,'Pagina' as NAME UNION SELECT 'Query' as ID,'Query' as NAME"),"--- Selecionar Tipo Data Source ---");
+		
+		view.tipo.setQuery(Core.query(null,"SELECT 'Task' as ID,'Etapa' as NAME UNION "
+				+ "SELECT 'Object' as ID,'Objeto' as NAME UNION "
+				+ "SELECT 'Page' as ID,'Pagina' as NAME UNION "
+				+ "SELECT 'Query' as ID,'Query' as NAME"),"--- Selecionar Tipo Data Source ---");
 		
 		view.processo.setVisible(false);
 		view.query.setVisible(false);
@@ -60,7 +63,13 @@ public class DataSourceController extends Controller {
 		view.pagina.setVisible(false);
 		view.objecto.setVisible(false);
 		model.setId_env(Core.isNotNull(model.getId_env())?model.getId_env():Core.getParam("id_env"));
-		if(Core.isNotNull(model.getId_env())) {
+		
+		if(Core.isNotNull(model.getId_env())) {		
+			//			If just one data source exist, will be choosed
+			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Integer.parseInt(model.getId_env()));
+			if(listDSbyEnv!=null && listDSbyEnv.size()==2) {				
+				model.setData_source(listDSbyEnv.keySet().stream().filter(a->a!=null).findFirst().get().toString());
+			}
 			String id = Core.getParam("p_datasorce_app");
 			if(Core.isNotNull(id)){
 				RepSource rep = new RepSource().findOne(Integer.parseInt(id));
@@ -84,7 +93,8 @@ public class DataSourceController extends Controller {
 			view.pagina.addParam("p_id_pagina", "id");
 			view.pagina.addParam("p_pagina", "descricao");
 			view.pagina.addParam("p_env_fk", model.getId_env());
-			view.data_source.setValue(new Config_env().getListEnv(Integer.parseInt(model.getId_env())));
+			
+			view.data_source.setValue(listDSbyEnv);
 			
 			//habilita botao de acordo com tipo de objeto
 			if(Core.isNotNull(model.getTipo())){
@@ -94,7 +104,8 @@ public class DataSourceController extends Controller {
 					view.pagina.setVisible(true);
 				}else if(model.getTipo().equalsIgnoreCase("query")){
 					view.query.setVisible(true);
-				}else if(model.getTipo().equalsIgnoreCase("task")){
+				}else
+					if(model.getTipo().equalsIgnoreCase("task")){
 					view.etapa.setVisible(true);
 					view.processo.setVisible(true);
 					Application app = new Application().findOne(Core.toInt(model.getId_env()));
@@ -121,12 +132,11 @@ public class DataSourceController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		DataSource model = new DataSource();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","DataSource","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
@@ -199,7 +209,6 @@ public class DataSourceController extends Controller {
 	}
 	
 	public Response actionFechar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		/*----#start-code(fechar)----*/		
 		
 		/*----#end-code----*/
@@ -207,7 +216,7 @@ public class DataSourceController extends Controller {
 		return this.redirect("igrp","datasource","index");	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	//Print data source in xml format
 	public Response actionGetDataSource() throws IOException{
@@ -334,4 +343,4 @@ public class DataSourceController extends Controller {
 	}
 	
 	/*----#end-code----*/
-	}
+}

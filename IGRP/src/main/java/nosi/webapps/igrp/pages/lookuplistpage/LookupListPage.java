@@ -6,7 +6,6 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +16,10 @@ public class LookupListPage extends Model{
 	private String associar_documentos;
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
-	@RParam(rParamName = "p_page")
-	private String page;
 	@RParam(rParamName = "p_page_descr")
 	private String page_descr;
+	@RParam(rParamName = "p_page")
+	private String page;
 	@RParam(rParamName = "p_taskId")
 	private String taskid;
 	@RParam(rParamName = "p_processId")
@@ -100,18 +99,18 @@ public class LookupListPage extends Model{
 		return this.env_fk;
 	}
 	
-	public void setPage(String page){
-		this.page = page;
-	}
-	public String getPage(){
-		return this.page;
-	}
-	
 	public void setPage_descr(String page_descr){
 		this.page_descr = page_descr;
 	}
 	public String getPage_descr(){
 		return this.page_descr;
+	}
+	
+	public void setPage(String page){
+		this.page = page;
+	}
+	public String getPage(){
+		return this.page;
 	}
 	
 	public void setTaskid(String taskid){
@@ -130,21 +129,21 @@ public class LookupListPage extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private String nome_pagina;
 		private String descricao;
+		private String nome_pagina;
 		private String id;
-		public void setNome_pagina(String nome_pagina){
-			this.nome_pagina = nome_pagina;
-		}
-		public String getNome_pagina(){
-			return this.nome_pagina;
-		}
-
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
 		public String getDescricao(){
 			return this.descricao;
+		}
+
+		public void setNome_pagina(String nome_pagina){
+			this.nome_pagina = nome_pagina;
+		}
+		public String getNome_pagina(){
+			return this.nome_pagina;
 		}
 
 		public void setId(String id){
@@ -226,15 +225,7 @@ public class LookupListPage extends Model{
 		public Pair getType_doc(){
 			return this.type_doc;
 		}
-		@Override
-		public String toString() {
-			return "Formlist_1 [formlist_1_id=" + formlist_1_id + ", checkbox=" + checkbox + ", checkbox_check="
-					+ checkbox_check + ", obrigatorio=" + obrigatorio + ", obrigatorio_check=" + obrigatorio_check
-					+ ", tipo=" + tipo + ", nome=" + nome + ", descricao_documento=" + descricao_documento
-					+ ", type_doc=" + type_doc + "]";
-		}
 
-		
 	}
 
 	public void loadFormlist_1(BaseQueryInterface query) {

@@ -36,7 +36,7 @@ public class Sql_toolsController extends Controller {
 		/*----#start-code(index)----*/
 		view.application.setValue(new Application().getListApps());
 		if (Core.isNotNull(model.getApplication())) {
-			view.data_source.setValue(new Config_env().getListEnv(Core.toInt(model.getApplication())));
+			view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getApplication())));
 		}
 		view.table_1.setVisible(false);
 		if (Core.isNotNull(model.getApplication()) && Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getSql())) {

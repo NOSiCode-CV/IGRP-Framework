@@ -42,7 +42,7 @@ public class CRUDGeneratorController extends Controller {
 		model.setAdd_datasource("igrp","ConfigDatabase","index");     	 
       	view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.data_source.setValue(new Config_env().getListEnv(Core.toInt(model.getAplicacao(),-1)));			
+		view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao(),-1)));			
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
       

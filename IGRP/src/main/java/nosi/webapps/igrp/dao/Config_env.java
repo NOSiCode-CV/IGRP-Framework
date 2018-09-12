@@ -148,8 +148,8 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 		this.driver_connection = driver_connection;
 	}
 
-	public  Map<Object, Object> getListEnv(int idEnv) {
-		return IgrpHelper.toMap(this.find().andWhere("application", "=",idEnv).all(), "id", "name", gt("-- Selecionar Data Source --"));
+	public  Map<Object, Object> getListDSbyEnv(int idEnv) {
+		return IgrpHelper.toMap(this.find().andWhere("application", "=",idEnv).all(), "id", "name", gt("-- Selecionar --"));
 	}
 	
 }

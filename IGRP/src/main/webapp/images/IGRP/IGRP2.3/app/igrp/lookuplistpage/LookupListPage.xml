@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,26 +33,26 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=25</preserve_url>
     </plsql>
-    <slide-menu file="../../../xml/IGRP-slide-menu.xml?v=2" />
-    <top_menu file="../../../xml/IGRP-top_menu.xml?v=2" />
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Lista de Pagina Para Lookup</title>
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" request_fields="" maxlength="50">
+                <associar_pagina name="p_associar_pagina" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-powerpoint-o" request_fields="" maxlength="50">
                     <label>Associar Página</label>
                     <value/>
                 </associar_pagina>
-                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" request_fields="" maxlength="50">
+                <associar_documentos name="p_associar_documentos" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-file-word-o" request_fields="" maxlength="50">
                     <label>Associar Documentos</label>
                     <value/>
                 </associar_documentos>
             </fields>
         </tabcontent_1>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
-                    <label>Aplicacao</label>
+                    <label>Aplicação</label>
                     <list>
                         <option/>
                         <option>
@@ -72,14 +73,14 @@
                         </option>
                     </list>
                 </env_fk>
-                <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome Pagina</label>
-                    <value>Amet iste aliqua natus magna</value>
-                </page>
                 <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Descricao Pagina</label>
-                    <value>Officia accusantium magna ipsum rem</value>
+                    <label>Título</label>
+                    <value>Lorem adipiscing aperiam sed adipiscing</value>
                 </page_descr>
+                <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Code</label>
+                    <value>Sit rem sit stract adipiscing</value>
+                </page>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="primary" rel="pesquisar">
@@ -151,10 +152,10 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Amet sit iste lorem rem</nome>
-                        <nome_desc name="p_nome_desc">Amet sit iste lorem rem</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Officia labore consectetur ame</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Officia labore consectetur ame</descricao_documento_desc>
+                        <nome name="p_nome" desc="true">Omnis adipiscing totam ipsum o</nome>
+                        <nome_desc name="p_nome_desc">Omnis adipiscing totam ipsum o</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Sit magna natus consectetur re</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Sit magna natus consectetur re</descricao_documento_desc>
                         <type_doc name="p_type_doc" tag="type_doc" desc="true">1</type_doc>
                         <type_doc_desc name="p_type_doc_desc">1</type_doc_desc>
                     </row>
@@ -165,10 +166,10 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Elit laudantium natus perspici</nome>
-                        <nome_desc name="p_nome_desc">Elit laudantium natus perspici</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Magna consectetur adipiscing d</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Magna consectetur adipiscing d</descricao_documento_desc>
+                        <nome name="p_nome" desc="true">Perspiciatis ipsum ut mollit s</nome>
+                        <nome_desc name="p_nome_desc">Perspiciatis ipsum ut mollit s</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Magna aperiam iste officia acc</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Magna aperiam iste officia acc</descricao_documento_desc>
                         <type_doc name="p_type_doc" tag="type_doc" desc="true">1</type_doc>
                         <type_doc_desc name="p_type_doc_desc">1</type_doc_desc>
                     </row>
@@ -179,10 +180,10 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Rem dolor elit aperiam adipisc</nome>
-                        <nome_desc name="p_nome_desc">Rem dolor elit aperiam adipisc</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Mollit omnis dolor iste offici</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Mollit omnis dolor iste offici</descricao_documento_desc>
+                        <nome name="p_nome" desc="true">Omnis ut iste ut dolor</nome>
+                        <nome_desc name="p_nome_desc">Omnis ut iste ut dolor</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Ut aliqua iste doloremque iste</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Ut aliqua iste doloremque iste</descricao_documento_desc>
                         <type_doc name="p_type_doc" tag="type_doc" desc="true">1</type_doc>
                         <type_doc_desc name="p_type_doc_desc">1</type_doc_desc>
                     </row>
@@ -193,10 +194,10 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Sit consectetur ipsum amet des</nome>
-                        <nome_desc name="p_nome_desc">Sit consectetur ipsum amet des</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Natus adipiscing consectetur a</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Natus adipiscing consectetur a</descricao_documento_desc>
+                        <nome name="p_nome" desc="true">Mollit aliqua dolor voluptatem</nome>
+                        <nome_desc name="p_nome_desc">Mollit aliqua dolor voluptatem</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Voluptatem sed mollit anim omn</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Voluptatem sed mollit anim omn</descricao_documento_desc>
                         <type_doc name="p_type_doc" tag="type_doc" desc="true">1</type_doc>
                         <type_doc_desc name="p_type_doc_desc">1</type_doc_desc>
                     </row>
@@ -207,10 +208,10 @@
                         <obrigatorio_desc name="p_obrigatorio_desc">1</obrigatorio_desc>
                         <tipo name="p_tipo" desc="true">2</tipo>
                         <tipo_desc name="p_tipo_desc">2</tipo_desc>
-                        <nome name="p_nome" desc="true">Unde deserunt dolor stract sed</nome>
-                        <nome_desc name="p_nome_desc">Unde deserunt dolor stract sed</nome_desc>
-                        <descricao_documento name="p_descricao_documento" desc="true">Accusantium aperiam anim offic</descricao_documento>
-                        <descricao_documento_desc name="p_descricao_documento_desc">Accusantium aperiam anim offic</descricao_documento_desc>
+                        <nome name="p_nome" desc="true">Ut magna voluptatem consectetu</nome>
+                        <nome_desc name="p_nome_desc">Ut magna voluptatem consectetu</nome_desc>
+                        <descricao_documento name="p_descricao_documento" desc="true">Voluptatem deserunt totam offi</descricao_documento>
+                        <descricao_documento_desc name="p_descricao_documento_desc">Voluptatem deserunt totam offi</descricao_documento_desc>
                         <type_doc name="p_type_doc" tag="type_doc" desc="true">1</type_doc>
                         <type_doc_desc name="p_type_doc_desc">1</type_doc_desc>
                     </row>
@@ -219,39 +220,39 @@
         </formlist_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <nome_pagina name="p_nome_pagina" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
-                    <label>Nome Pagina</label>
-                </nome_pagina>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
-                    <label>Descricao</label>
+                    <label>Título</label>
                 </descricao>
+                <nome_pagina name="p_nome_pagina" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Code</label>
+                </nome_pagina>
                 <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Iste officia stract deserunt i</nome_pagina>
-                        <descricao name="p_descricao">Aliqua voluptatem iste consect</descricao>
+                        <descricao name="p_descricao">Magna totam aperiam deserunt m</descricao>
+                        <nome_pagina name="p_nome_pagina">Voluptatem laudantium totam re</nome_pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Mollit rem mollit iste magna</nome_pagina>
-                        <descricao name="p_descricao">Sit adipiscing rem laudantium</descricao>
+                        <descricao name="p_descricao">Magna totam rem aliqua sed</descricao>
+                        <nome_pagina name="p_nome_pagina">Ut sed anim perspiciatis aliqu</nome_pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Rem accusantium deserunt sit t</nome_pagina>
-                        <descricao name="p_descricao">Dolor sit consectetur unde off</descricao>
+                        <descricao name="p_descricao">Amet omnis accusantium ut omni</descricao>
+                        <nome_pagina name="p_nome_pagina">Iste voluptatem sit accusantiu</nome_pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Iste stract ipsum anim ipsum</nome_pagina>
-                        <descricao name="p_descricao">Omnis dolor elit ut anim</descricao>
+                        <descricao name="p_descricao">Dolor ipsum labore sit volupta</descricao>
+                        <nome_pagina name="p_nome_pagina">Ipsum stract dolor sit officia</nome_pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Rem ut sit magna anim</nome_pagina>
-                        <descricao name="p_descricao">Sit natus sit labore stract</descricao>
+                        <descricao name="p_descricao">Aliqua sed adipiscing deserunt</descricao>
+                        <nome_pagina name="p_nome_pagina">Elit voluptatem unde dolor omn</nome_pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

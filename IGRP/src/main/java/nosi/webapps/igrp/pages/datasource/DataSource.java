@@ -1,12 +1,7 @@
 package nosi.webapps.igrp.pages.datasource;
 
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-
-
-
 
 public class DataSource extends Model{		
 	@RParam(rParamName = "p_data_source")
