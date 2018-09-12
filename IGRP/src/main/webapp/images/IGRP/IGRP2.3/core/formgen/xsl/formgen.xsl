@@ -16,12 +16,20 @@
   		
       <html>          
         <head>            
-       	 <script>           
- window.moveTo(0, 0);
- window.resizeTo(screen.width, screen.height);
+       	  
+          <xsl:call-template name="IGRP-head"/>            
+          <xsl:call-template name="GEN-head"/>
+          <script>  
+       	  	
+       	  	console.log(screen.width);
+       	  	
+       	  	console.log($(window).width());
+       	  	
+       	  	console.log('WWW')
+       	  	        
+           	window.moveTo(0, 0);
+           	window.resizeTo(screen.width, screen.height);
       	  </script>
-            <xsl:call-template name="IGRP-head"/>            
-            <xsl:call-template name="GEN-head"/>
         </head>
 
         <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">            
@@ -92,9 +100,9 @@
           <form class="IGRP-form" name="formular_default" novalidate="">
               <div class="container-fluid">
                   <div class="row">
-                      <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar" bg-color="primary">
+                      <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar" bg-color="secondary">
                           
-                          <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" bg-color="primary">
+                          <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" bg-color="secondary">
                              <!--<li class="col-xs-4">
                                   <a class="txt-ellipsis" href="#gen-page-properties" role="tab" data-toggle="tab">
                                       <i class="fa fa-cog"></i>
@@ -118,7 +126,7 @@
 
                           <div class="form-group gen-searcher-wrapper col-md-2 col-sm-3 col-xs-12" h-calc="-55">
                            
-                            <input bg-color="primary" type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
+                            <input bg-color="secondary" type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
                             
                             <span class="gen-type-search-clear">
                               <i class="fa fa-times"></i>

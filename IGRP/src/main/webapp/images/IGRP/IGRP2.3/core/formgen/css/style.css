@@ -68,8 +68,8 @@ body.no-drop{
 }
 
 #igrp-sidebar.sidebar{
-	padding-top: 89px;
-	padding-bottom: 29px;
+	margin-top: 89px;
+	padding-bottom: 55px;
 	top: 0;
 	/*background: #fdfdfd!important;*/
 }

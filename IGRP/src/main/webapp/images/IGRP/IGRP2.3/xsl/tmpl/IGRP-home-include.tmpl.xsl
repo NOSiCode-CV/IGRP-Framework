@@ -470,6 +470,21 @@
             }
           </xsl:if>
 
+          <xsl:if test="nav/brandColor">
+           #side-bar-ctrl, 
+           #igrp-app-title,
+           .navbar-brand>span{
+                color: <xsl:value-of select="nav/brandColor"/>;
+           }
+          </xsl:if>
+
+          <xsl:if test="nav/buttonsColor">
+           #igrp-top-menu>li>a, 
+           #igrp-top-menu>li>a{
+                color: <xsl:value-of select="nav/buttonsColor"/>;
+           }
+          </xsl:if>
+
           <xsl:if test="nav/buttonsHover">
            #igrp-top-menu>li>a:hover, 
            #igrp-top-menu>li>a:focus{
@@ -480,10 +495,23 @@
         </xsl:if>
 
         <xsl:if test="sidebar">
+
+          <xsl:if test="sidebar/@shadow = 'false'">
+            #igrp-sidebar.sidebar{
+            box-shadow:none;
+            }
+          </xsl:if>
           
           <xsl:if test="sidebar/background">
             #igrp-sidebar.sidebar{
-              background-color:<xsl:value-of select="sidebar/background"/>
+              background-color:<xsl:value-of select="sidebar/background"/>!important
+            }
+          </xsl:if>
+
+          <xsl:if test="sidebar/buttonsColor">
+            #igrp-sidebar .nav-sidebar > li > a,
+            .treeview-menu>li>a{
+              color : <xsl:value-of select="sidebar/buttonsColor"/>
             }
           </xsl:if>
 
@@ -610,8 +638,8 @@
 
           <xsl:choose>
 
-            <xsl:when test="colors/color[@name='main']">
-              <xsl:value-of select="colors/color[@name='main']"/>
+            <xsl:when test="colors/color[@main='true']">
+              <xsl:value-of select="colors/color[@main='true']"/>
             </xsl:when>
 
             <xsl:when test="sidebar/background">
@@ -686,17 +714,16 @@
         </xsl:if>
 
         /*formgen*/
-<!--         /*, -->
-<!--         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a,  -->
-<!--         #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover, -->
-        #igrp-form-gen #gen-views-ctrl ul li.active, #igrp-form-gen .gen-viewers-toolbar .btn{
-<!--         #igrp-form-gen .treeview-menu>li>a{ -->
-          color:<xsl:value-of select="$mainColor"/>!important; 
-         } 
-<!--         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after -->
-		.list-group-item.active{
-          background:<xsl:value-of select="$mainColor"/>!important;
+        /*#igrp-form-gen #gen-views-ctrl ul li.active,
+        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a, 
+        #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover,
+        #igrp-form-gen .gen-viewers-toolbar .btn,
+        #igrp-form-gen .treeview-menu>li>a{
+          color:<xsl:value-of select="$mainColor"/>!important;
         }
+        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after{
+          background:<xsl:value-of select="$mainColor"/>!important;
+        }*/
 
     </style>
   </xsl:template>
