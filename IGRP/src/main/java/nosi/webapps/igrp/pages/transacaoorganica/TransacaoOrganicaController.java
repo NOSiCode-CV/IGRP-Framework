@@ -51,8 +51,8 @@ public class TransacaoOrganicaController extends Controller {
 				table.setNome(t.getDescr()+" ("+t.getCode()+")");
 				Profile prof = new Profile();
 				prof.setOrganization(new Organization().findOne(id));
-				prof.setProfileType(new ProfileType().findOne(0));
-				prof.setUser(new User().findOne(0));
+				prof.setProfileType(profAdmin);
+				prof.setUser(userAdmin);
 				prof.setType_fk(t.getId());
 				if(type.equals("perfil")){
 					ProfileType p = new ProfileType().findOne(id);
@@ -100,8 +100,8 @@ public class TransacaoOrganicaController extends Controller {
 				organization1 = new Organization().findOne(id);
 				profD.setOrganization(organization1);
 				profD.setType("TRANS");
-				profD.setProfileType(new ProfileType().findOne(0));
-				profD.setUser(new User().findOne(0));
+				profD.setProfileType(profAdmin);
+				profD.setUser(userAdmin);
 				profD.deleteAllProfile();
 				list = new ProfileType().find().andWhere("organization.id", "=", organization1.getId()).all();
 				if (list != null && list.size() > 0) {
@@ -116,7 +116,7 @@ public class TransacaoOrganicaController extends Controller {
 					Profile pAux2 = new Profile();
 					pAux2.setOrganization(organization1);
 					pAux2.setType("TRANS");
-					pAux2.setUser(new User().findOne(0));
+					pAux2.setUser(userAdmin);
 					pAux2.setProfileType(pAux);
 					pAux2.deleteAllProfile();
 				}
@@ -124,7 +124,7 @@ public class TransacaoOrganicaController extends Controller {
 				ProfileType pt = new ProfileType().findOne(id);
 				profD.setOrganization(pt.getOrganization());
 				profD.setType("TRANS");
-				profD.setUser(new User().findOne(0));
+				profD.setUser(userAdmin);
 				profD.setProfileType(new ProfileType().findOne(id));
 				profD.deleteAllProfile();
 			}
@@ -133,13 +133,13 @@ public class TransacaoOrganicaController extends Controller {
               Boolean sucess=true;
 				for(String x:trans){
 					Profile prof = new Profile();
-					prof.setUser(new User().findOne(0));
+					prof.setUser(userAdmin);
 					prof.setType("TRANS");
 					prof.setType_fk(Integer.parseInt(x.toString()));
 					if(type.equals("org")){
 						Organization auxOrg = new Organization().findOne(id);
 						prof.setOrganization(auxOrg);
-						prof.setProfileType(new ProfileType().findOne(0));
+						prof.setProfileType(profAdmin);
 						list = new ProfileType().find().andWhere("organization.id", "=", auxOrg.getId()).all();
 						if (list != null && list.size() > 0) {
 							list.sort((o1, o2) -> {
@@ -151,7 +151,7 @@ public class TransacaoOrganicaController extends Controller {
 							});
 							ProfileType pAux = list.get(0);
 							Profile pAux2 = new Profile();
-							pAux2.setUser(new User().findOne(0));
+							pAux2.setUser(userAdmin);
 							pAux2.setType("TRANS");		
 							pAux2.setType_fk(Integer.parseInt(x.toString()));
 							pAux2.setOrganization(auxOrg);
@@ -203,6 +203,8 @@ public class TransacaoOrganicaController extends Controller {
 	}
 	
 	/*----#start-code(custom_actions)----*/
-	
+
+	private User userAdmin = new User().getUserAdmin();
+	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
 	/*----#end-code----*/
 	}

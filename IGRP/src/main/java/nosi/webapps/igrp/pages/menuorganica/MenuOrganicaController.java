@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -49,8 +47,8 @@ public class MenuOrganicaController extends Controller {
 					table.setMenu(m.getId());
 					Profile prof = new Profile();
 					prof.setOrganization(new Organization().findOne(model.getId()));
-					prof.setProfileType(new ProfileType().findOne(0));
-					prof.setUser(new User().findOne(0));
+					prof.setProfileType(profAdmin);
+					prof.setUser(userAdmin);
 					prof.setType_fk(m.getId());
 					if (model.getType().equals("perfil")) {
 						ProfileType p = new ProfileType().findOne(model.getId());
@@ -104,8 +102,8 @@ public class MenuOrganicaController extends Controller {
 				organization2 = organization1.find().andWhere("application.id", "=", model.getId());
 				profD.setOrganization(organization1);
 				profD.setType("MEN");
-				profD.setProfileType(new ProfileType().findOne(0));
-				profD.setUser(new User().findOne(0));
+				profD.setProfileType(profAdmin);
+				profD.setUser(userAdmin);
 				profD.deleteAllProfile();
 			
 				list = new ProfileType().find().andWhere("organization.id", "=", organization1.getId()).all();
@@ -121,7 +119,7 @@ public class MenuOrganicaController extends Controller {
 					Profile pAux2 = new Profile();
 					pAux2.setOrganization(organization1);
 					pAux2.setType("MEN");
-					pAux2.setUser(new User().findOne(0));
+					pAux2.setUser(userAdmin);
 					pAux2.setProfileType(pAux);
 					pAux2.deleteAllProfile();
 				}
@@ -130,7 +128,7 @@ public class MenuOrganicaController extends Controller {
 				ProfileType pt = new ProfileType().findOne(model.getId());
 				profD.setOrganization(pt.getOrganization());
 				profD.setType("MEN");
-				profD.setUser(new User().findOne(0));
+				profD.setUser(userAdmin);
 				profD.setProfileType(pt);
 				profD.deleteAllProfile();
 			}
@@ -139,13 +137,13 @@ public class MenuOrganicaController extends Controller {
 			if (mens != null && mens.length > 0) {
 				for (String x : mens) {
 					Profile prof = new Profile();
-					prof.setUser(new User().findOne(0));
+					prof.setUser(userAdmin);
 					prof.setType("MEN");
 					prof.setType_fk(Integer.parseInt(x.toString()));
 					if (model.getType().equals("org")) {
 						Organization aux = new Organization().findOne(model.getId());
 						prof.setOrganization(aux);
-						prof.setProfileType(new ProfileType().findOne(0));
+						prof.setProfileType(profAdmin);
 
 						/**  **/
 						list = new ProfileType().find().andWhere("organization.id", "=", aux.getId()).all();
@@ -159,7 +157,7 @@ public class MenuOrganicaController extends Controller {
 							});
 							ProfileType pAux = list.get(0);
 							Profile pAux2 = new Profile();
-							pAux2.setUser(new User().findOne(0));
+							pAux2.setUser(userAdmin);
 							pAux2.setType("MEN");
 							pAux2.setType_fk(Integer.parseInt(x.toString()));
 							pAux2.setOrganization(aux);
@@ -206,5 +204,7 @@ public class MenuOrganicaController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 
+	private User userAdmin = new User().getUserAdmin();
+	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
 	/*----#end-code----*/
 	}
