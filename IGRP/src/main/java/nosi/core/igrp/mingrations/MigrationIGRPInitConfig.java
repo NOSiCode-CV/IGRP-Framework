@@ -72,7 +72,6 @@ public class MigrationIGRPInitConfig {
 			
 			User user0_IGRP = new User("IGRP SysAdmin", "igrpweb@nosi.cv", nosi.core.webapp.User.encryptToHash("igrpweb@nosi.cvigrp.admin.Pa$$w0rd", "SHA-256"), "ADMIN", null, 1, null, "123456789", "igrpweb@nosi.cv",null, null, null, null, null,"123456789", 2017, 2017);
 			user0_IGRP = user0_IGRP.insert();
-			user0_IGRP = user0_IGRP.updateTozero();
 			User user1demo = new User("Nositeste", "demo@nosi.cv", nosi.core.webapp.User.encryptToHash("demo@nosi.cvdemo", "SHA-256"), "ADMIN", null, 1, null, "123456789", "demo@nosi.cv",null, null, null, null, null,"123456", 2017, 2017);
 			user1demo = user1demo.insert();
 			/** For SSO tomcat realm  **/
@@ -88,7 +87,6 @@ public class MigrationIGRPInitConfig {
 
 			ProfileType prof0_ALL = new ProfileType("ALL PROFILE", "ALL", 1, null, app_igrp, null);
 			prof0_ALL = prof0_ALL.insert();
-			prof0_ALL = prof0_ALL.updateToZero();
 			
 			ProfileType prof1_ADMIN = new ProfileType("Administrador", "ADMIN", 1, org_IGRP, app_igrp, null);
 			prof1_ADMIN = prof1_ADMIN.insert();
