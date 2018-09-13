@@ -43,7 +43,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	private String xsl_src;
 	private String page_descr;
 	private String action_descr;
-	private String version;
+	private String versao;
 	@Transient
 	private String version_src;
 	@Transient
@@ -77,7 +77,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 		this.xsl_src = xsl_src;
 		this.page_descr = page_descr;
 		this.action_descr = action_descr;
-		this.version = version;
+		this.versao = version;
 		this.status = status;
 		this.application = application;
 	}
@@ -143,7 +143,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	}
 
 	public void setVersion(String version) {
-		this.version = "2.3";
+		this.versao = "2.3";
 	}
 
 	@Transient
@@ -235,7 +235,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	@Override
 	public String toString() {
 		return "Action [page=" + page + ", action=" + action + ", package_name=" + package_name + ", xsl_src=" + xsl_src
-				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", version=" + version + ", status="
+				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", version=" + versao + ", status="
 				+ status + "]";
 	}
 

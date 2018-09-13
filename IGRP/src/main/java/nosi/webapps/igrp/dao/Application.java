@@ -44,7 +44,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	private String description;
 	private int status;
 	private String template;
-	private int external;
+	private int externo;
 	private String url;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -95,11 +95,11 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 	
 	public int getExternal() {
-		return external;
+		return externo;
 	}
 
 	public void setExternal(int external) {
-		this.external = external;
+		this.externo = external;
 	}
 
 	public String getUrl() {
@@ -362,9 +362,9 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 				}
 				
 					//Organization - Access Management (Gestão de acesso) is ID 10,
-				new Profile(10, "MEN", new ProfileType().findOne(0), new User().findOne(0), org).insert();
+				new Profile(10, "MEN", new ProfileType().getProfileAdmin(), new User().getUserAdmin(), org).insert();
 					//Profile/Perfil - Access Management (Gestão de acesso) is ID 10, ignores USER by using 0 to facilitates delete
-				new Profile(10, "MEN", proty, new User().findOne(0), org).insert();
+				new Profile(10, "MEN", proty, new User().getUserAdmin(), org).insert();
 				
 //				
 			}

@@ -43,7 +43,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	@JoinColumn(name = "env_fk", foreignKey = @ForeignKey(name = "ORGANIZATION_ENV_FK"), nullable = false)
 	private Application application;
 	@ManyToOne
-	@JoinColumn(name = "user_created_fk", foreignKey = @ForeignKey(name = "ORGANIZATION_USER_FK"), nullable = false)
+	@JoinColumn(name = "user_created_fk", foreignKey = @ForeignKey(name = "ORGANIZATION_USER_FK"))
 	private User user;
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "self_fk", foreignKey = @ForeignKey(name = "ORGANIZATION_SELF_FK"), nullable = true)
