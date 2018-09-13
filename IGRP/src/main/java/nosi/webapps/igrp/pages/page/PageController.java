@@ -724,15 +724,14 @@ public class PageController extends Controller {
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}
-	
-	 public Response actionFileExists() throws IOException {
-		 String uri = Core.getParam("uri");	
-		 String basePath = this.config.basePathServer()+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"core"+File.separator
-				 +"formgen"+File.separator+"types"+File.separator;
-		 String fileName = uri.replaceAll("\\\\", File.separator);
-		 Properties p = new Properties();
-		 p.put("status", FileHelper.fileExists(basePath+fileName));
-		 p.put("content",FileHelper.readFile(basePath, fileName));
+	final String basePath = this.config.basePathServer()+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"core"+File.separator
+			 +"formgen"+File.separator+"types"+File.separator;
+	 public Response actionFileExists() throws IOException {			
+		 final String fileName = Core.getParam("uri").replaceAll("\\\\", File.separator);
+		 final Properties p = new Properties();
+		 final boolean fileExists = FileHelper.fileExists(basePath+fileName);
+		 p.put("status", fileExists);		
+		 p.put("content", fileExists ? FileHelper.readFile(basePath, fileName):"");
 		 this.format = Response.FORMAT_JSON;
 		 return this.renderView(new Gson().toJson(p));
 	 }
