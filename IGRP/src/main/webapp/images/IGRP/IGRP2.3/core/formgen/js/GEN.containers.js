@@ -2162,7 +2162,7 @@ var CONTAINER = function(name,params){
 
 
 			var templateCallback = function(contents){
-				
+				console.log(contents)
 				if(contents.template){
 					
 					var contextMenuFields = container.contextMenu ? container.contextMenu.getGenFields() : [];

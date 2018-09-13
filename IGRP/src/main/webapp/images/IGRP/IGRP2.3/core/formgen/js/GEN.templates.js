@@ -53,7 +53,7 @@ var TEMPLATES = {
 				$.ajax({
 					url: fileExistsURL+p.genType+'s/'+p.name+'/'+p.name+'.html',
 					success:function(r){
-						
+						console.log(r);
 						if(r.status && r.content){
 							
 							var temp = r.content;
@@ -102,7 +102,7 @@ var TEMPLATES = {
 					$.ajax({
 						url:  fileExistsURL+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
 						success:function(r){
-					
+							console.log(r);
 							if(r.status && r.content){
 								var fieldhtml = r.content;
 								var temp = r.content;

@@ -499,6 +499,14 @@ ul#list-reports {
 	display: none;
 }
 
+.igrp-paragraph p{
+	word-break: break-word;
+}
+.igrp-paragraph li{
+	list-style:inherit;
+	
+}
+
 body.sidebar-off #igrp-sidebar {
 	display: none
 }
