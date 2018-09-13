@@ -46,7 +46,7 @@ public class ImportAppJava {
 		this.file = file;
 		this.config = new Config();
 		this.errors = new ArrayList<>();
-		this.user = new User().findOne(0);
+		this.user = new User().getUserAdmin();
 	}
 
 	@SuppressWarnings("unchecked")

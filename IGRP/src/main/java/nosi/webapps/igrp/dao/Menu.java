@@ -57,8 +57,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private final String sqlMenu = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
-								 + " ac.page,ac.action,ac.version,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
-								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then true else false END as isSubMenuAndSuperMenu " 
+								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
+								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
 								 + " FROM tbl_profile prof INNER JOIN tbl_menu m_sub ON prof.type_fk=m_sub.id AND prof.type='MEN' " 
 								 + " LEFT JOIN tbl_menu m_super ON m_sub.self_fk=m_super.id " 
 								 + " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " 
@@ -193,7 +193,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 			mp.setOrder(r.getInt("orderby"));
 			mp.setTitle(r.getString("descr_menu_pai"));
 			mp.setTarget("#");
-			mp.setSubMenuAndSuperMenu(r.getBoolean("isSubMenuAndSuperMenu"));
+			mp.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 			//Get subMenu
 			MenuProfile ms = new MenuProfile();
 			ms.setId(r.getInt("id"));
@@ -205,7 +205,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 			ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
 			//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);
 			
-			ms.setSubMenuAndSuperMenu(r.getBoolean("isSubMenuAndSuperMenu"));
+			ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 			
 			List<MenuProfile> value = new ArrayList<>();
 			value.add(ms);

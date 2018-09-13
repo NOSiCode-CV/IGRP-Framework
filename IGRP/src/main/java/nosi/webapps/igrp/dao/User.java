@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Identity;
 
 @Entity
@@ -242,11 +241,6 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 		this.profileType = profile;
 	}
 
-	public User updateTozero() {
-		Core.update("tbl_user").addInt("id", 0).where("id=1").execute();
-		return new User().findOne(0);
-	}
-
 	@Override
 	public String getAuthenticationKey() {
 		return this.auth_key;
@@ -258,5 +252,9 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
 				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
 				+ ", password_reset_token=" + password_reset_token + "]";
+	}
+
+	public User getUserAdmin() {
+		return this.findIdentityByEmail("igrpweb@nosi.cv");
 	}
 }
