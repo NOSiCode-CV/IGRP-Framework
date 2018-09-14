@@ -139,27 +139,6 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 		return list;
 	}
 
-	public boolean isInsertedPerfMen() {
-		Profile p = new Profile().find()
-				.andWhere("type", "=", "MEN")
-				.andWhere("type_fk", "=", this.getType_fk())
-				.andWhere("organization", "=", this.getOrganization()!=null?this.getOrganization().getId():1)
-				.andWhere("profileType", "=", this.getProfileType()!=null?this.getProfileType().getId():-1)
-				.one();
-		return p!=null && p.getProfileType()!=null;
-	}
-
-	public boolean isInsertedOrgMen() {
-		Profile p = new Profile().find()
-					.andWhere("type", "=", "MEN")
-					.andWhere("type_fk", "=", this.getType_fk())
-					.andWhere("organization", "=", this.getOrganization().getId())
-					.andWhere("profileType.code", "=", "ALL")
-					.andWhere("profileType.descr", "=", "ALL PROFILE")
-					.one();
-		return p!=null && p.getOrganization()!=null;
-	}
-
 	public void deleteAllProfile() {
 		Core.delete("tbl_profile")
 			.where("prof_type_fk=:prof_type_fk AND user_fk=:user_fk AND type=:type AND org_fk=:org_fk")
@@ -168,27 +147,6 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 			.addString("type", this.type)
 			.addInt("org_fk",  this.getOrganization().getId())
 			.execute();
-	}
-
-	public boolean isInsertedOrgTrans() {
-		Profile p = new Profile();
-		p = p.findOne(p.getCriteria().where(
-					p.getBuilder().equal(p.getRoot().get("type"), "TRANS"),
-					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
-					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization().getId())
-				));
-		return p!=null && p.getOrganization()!=null;
-	}
-
-	public boolean isInsertedPerfTrans() {
-		Profile p = new Profile();
-		p = p.findOne(p.getCriteria().where(
-					p.getBuilder().equal(p.getRoot().get("type"), "TRANS"),
-					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
-					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization()!=null?this.getOrganization().getId():1),
-					p.getBuilder().equal(p.getRoot().get("profileType"),this.getProfileType().getId())
-				));
-		return p!=null && p.getProfileType()!=null;
 	}
 
 	@Override

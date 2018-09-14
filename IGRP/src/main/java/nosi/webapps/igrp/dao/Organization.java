@@ -21,6 +21,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.ResultSet;
+
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -162,7 +165,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		return lista;
 	}
 
-	public HashMap<String, String> getListOrganizations(int app) {
+	public HashMap<String, String> getListOrganizations(Integer app) {
 		HashMap<String, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		for (Organization o : this.find().andWhere("application.id", "=", app).all()) {
@@ -171,61 +174,94 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		return lista;
 	}
 
-	public List<Menu> getOrgMenu(int env_fk) {
-		
-		Menu m = new Menu();
-			List<Menu> myMenu = new ArrayList<>();
-			List<Menu> menu = m.getMyMen_de_env(env_fk);
-			if (menu != null) {
-				for (Menu mm : menu) {
-					Menu e = new Menu();					
-					e.setDescr(mm.getApplication().getId()==env_fk?gt(mm.getDescr()):setMenuDescr(mm));
-					e.setId(mm.getId());
-					e.setFlg_base(mm.getFlg_base());
-					myMenu.add(e);
-				}
-			}
+	public List<Menu> getOrgMenu(Integer appId,Integer orgId) {		
+			List<Menu> myMenu = new ArrayList<>();			
+			//First shows all the app pages than all the public pages in the menu
+			String sqlMenuByApp = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  FROM tbl_menu m WHERE m.action_fk is not null AND m.status=1 AND m.env_fk=:env_fk";
+			String sqlPublicMenu = "SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND type_fk=m.id) then 1 else 0 END) as isInserted FROM tbl_menu m WHERE m.action_fk is not null AND m.status=1 AND m.env_fk<>:env_fk AND m.flg_base=1";
+			ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByApp)
+										  .union()
+										  .select(sqlPublicMenu)
+										  .addInt("org_fk", orgId)
+										  .addInt("org_fk", orgId)
+										  .addInt("env_fk", appId)
+										  .addInt("env_fk", appId)
+										  .getRecordList();
+			record.RowList.forEach(row->{
+				Menu m = new Menu();					
+				m.setDescr(row.getString("descr"));
+				m.setId(row.getInt("id"));
+				m.setFlg_base(row.getInt("flg_base"));
+				m.setInserted(row.getInt("isInserted")==1);
+				myMenu.add(m);
+			});
 			return myMenu;
 	}
 
 
-	public List<Menu> getPerfilMenu(int env_fk, int org) {
-		Profile pr = new Profile();
-		List<Profile> profiles = pr
-				.find()
-				.andWhere("type", "=","MEN")
-				.andWhere("organization", "=",org)
-				.andWhere("profileType.code", "=","ALL")
-				.andWhere("profileType.descr", "=","ALL PROFILE")
-				.all();
-		List<Menu> menus = new ArrayList<>();			
-		for (Profile p : profiles) {			
-			Menu e = new Menu().findOne(p.getType_fk());			
-			e.setDescr(e.getApplication().getId()==env_fk?gt(e.getDescr()):setMenuDescr(e));				
-			menus.add(e);
-		}
-		return menus;
+	public List<Menu> getPerfilMenu(Integer orgId,Integer profId) {
+		List<Menu> myMenu = new ArrayList<>();			
+		//First shows all the app pages than all the public pages in the menu
+		String sqlMenuByOrg = " SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
+							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
+							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
+							+ " WHERE m.action_fk is not null AND m.status=1";
+		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByOrg)
+									  .addInt("org_fk", orgId)
+									  .addInt("prof_fk", profId)
+									  .addInt("org_fk", orgId)
+									  .getRecordList();
+		record.RowList.forEach(row->{
+			Menu m = new Menu();					
+			m.setDescr(row.getString("descr"));
+			m.setId(row.getInt("id"));
+			m.setFlg_base(row.getInt("flg_base"));
+			m.setInserted(row.getInt("isInserted")==1);
+			myMenu.add(m);
+		});
+		return myMenu;
 	}
 
-	private String setMenuDescr(Menu e) {
-		return "("+e.getApplication().getName()+ ") "+gt(e.getDescr());
+	public List<Transaction> getOrgTransaction(Integer appId,Integer orgId) {
+		List<Transaction> transactions = new ArrayList<>();
+		String sqlTransationByApp = " SELECT t.id,t.code,t.descr,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
+				+ " FROM tbl_transaction t"
+				+ " WHERE t.env_fk=:env_fk AND t.status=1";
+		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByApp)
+								  .addInt("org_fk", orgId)
+								  .addInt("env_fk", appId)
+								  .getRecordList();
+		record.RowList.forEach(row->{
+			Transaction t = new Transaction();
+			t.setId(row.getInt("id"));
+			t.setCode(row.getString("code"));
+			t.setDescr(row.getString("descr"));
+			t.setInserted(row.getInt("isInserted")==1);
+			transactions.add(t );
+		});
+		return transactions ;
 	}
 
-	public List<Transaction> getOrgTransaction(Integer app) {
-		return new Transaction().find().andWhere("application", "=",app).all();
-	}
-
-	public List<Transaction> getPerfilTransaction(int org) {
-		Profile pr = new Profile();
-		List<Profile> profiles = pr
-				.findAll(pr.getCriteria().where(pr.getBuilder().equal(pr.getRoot().get("type"), "TRANS"),
-						pr.getBuilder().equal(pr.getRoot().get("organization"), org),
-						pr.getBuilder().equal(pr.getRoot().get("profileType"), 0)));
-		List<Transaction> trans = new ArrayList<>();
-		for (Profile p : profiles) {
-			trans.add(new Transaction().findOne(p.getType_fk()));
-		}
-		return trans;
+	public List<Transaction> getPerfilTransaction(Integer orgId,Integer profId) {
+		String sqlTransationByOrg = " SELECT t.id,t.code,t.descr,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
+								+ " FROM tbl_transaction t INNER JOIN tbl_profile p ON p.type_fk=t.id AND p.type='TRANS' AND p.org_fk=:org_fk"
+								+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
+								+ " WHERE t.status=1";
+		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByOrg)
+				  .addInt("org_fk", orgId)
+				  .addInt("prof_fk", profId)
+				  .addInt("org_fk", orgId)
+				  .getRecordList();
+		List<Transaction> transactions = new ArrayList<>();
+		record.RowList.forEach(row->{
+			Transaction t = new Transaction();
+			t.setId(row.getInt("id"));
+			t.setCode(row.getString("code"));
+			t.setDescr(row.getString("descr"));
+			t.setInserted(row.getInt("isInserted")==1);
+			transactions.add(t );
+		});
+		return transactions;
 	}
 
 	public Organization findByCode(String code) {
