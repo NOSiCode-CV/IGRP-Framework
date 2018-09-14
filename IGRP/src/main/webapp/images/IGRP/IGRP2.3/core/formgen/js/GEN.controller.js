@@ -2941,7 +2941,7 @@ var GENERATOR = function(genparams){
 		$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
-			$('.fa-cog').removeClass("hidden");   
+			$('.gen-form-save .fa-cog').removeClass("hidden");   
 			var clicked = $(this);
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
@@ -3013,7 +3013,7 @@ var GENERATOR = function(genparams){
 								
 									var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
 									var nomsg = true; 
-									$('.fa-cog').addClass("hidden");
+									$('.gen-form-save .fa-cog').addClass("hidden");
 									$.each(msgs,function(i,msg){
 										nomsg = false; 
 										var mtype  	 = $(msg).attr('type'),
@@ -3077,8 +3077,12 @@ var GENERATOR = function(genparams){
 							
 
 				    }catch(errr){
-						$('.fa-cog').addClass("hidden");   
-				    	console.log("Error 3028: "+err);
+						$('.gen-form-save .fa-cog').addClass("hidden");  
+						$.IGRP.notify({
+							message : "Error 3028: "+err,
+							type    : 'alert'
+						});
+				    	
 
 				    }
 
@@ -3087,6 +3091,7 @@ var GENERATOR = function(genparams){
 				try{
 
 					if(__genType == 'java')
+						
 						GEN.server.compile({
 							mode : 'java',
 							then : function(results){
@@ -3105,8 +3110,12 @@ var GENERATOR = function(genparams){
 						compileCallback();		
 					
 				}catch(err){
-					$('.fa-cog').addClass("hidden");   
-					console.log("Error in 3064: "+err);
+					$('.gen-form-save .fa-cog').addClass("hidden");   
+					
+					$.IGRP.notify({
+						message : "Error 3064: "+err,
+						type    : 'alert'
+					});
 				}	
 
 				

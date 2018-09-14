@@ -121,8 +121,19 @@ $(function() {
 				content = content.replaceAll('&amp;', '&');
 
 				content = content.replaceAll(enterParam, '\n');
-
-				LoadReservedCodes(content, type, onFinish);
+				
+				if(o.part == 'controller')
+					
+					LoadReservedCodes(content, type, onFinish);
+				
+				else
+					
+					onFinish( content );
+					
+				//if(.o.xsl.)
+				//onFinish( content );
+				
+				//LoadReservedCodes(content, type, onFinish);
 
 			},
 
@@ -138,6 +149,7 @@ $(function() {
 		var mode = genOptions[o.mode];
 
 		GenPartsLoop({
+			
 			mode : mode,
 
 			callback : function(res) {
@@ -575,6 +587,7 @@ $(function() {
 			var code = o.mode.codes[idx];
 
 			server.transform({
+				
 				basePath : o.mode.basePath,
 
 				xsl : code.xsl,
