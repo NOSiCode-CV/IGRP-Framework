@@ -57,7 +57,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private boolean isInserted;
 	@Transient
-	private final String sqlMenu = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
+	private final String sqlMenuByProfile = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -66,8 +66,20 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 								 + " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " 
 								 + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
 								 + " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "  
-								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk ";
-	
+								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
+								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status ";
+	@Transient
+	private final String sqlMenuByUser = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
+								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
+								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
+								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
+								 + " FROM tbl_profile prof INNER JOIN tbl_menu m_sub ON prof.type_fk=m_sub.id AND prof.type='MEN_USER' AND user_fk=:user_fk" 
+								 + " LEFT JOIN tbl_menu m_super ON m_sub.self_fk=m_super.id " 
+								 + " LEFT JOIN tbl_action ac ON ac.id=m_sub.action_fk " 
+								 + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
+								 + " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "  
+								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
+								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status ";
 	public Menu(){}
 	
 	public Menu(String descr, int orderby, int status,int flg_base,String target, Action action,Application application, Menu menu) {
@@ -188,13 +200,19 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		
 		HashMap<String,List<MenuProfile>> list = new HashMap<>();
 		String currentDad = Core.getCurrentDad();
-		Record row = Core.query(this.getConnectionName(),sqlMenu)
-						 .where("prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status")
+		Record row = Core.query(this.getConnectionName(),sqlMenuByProfile)
+						 .union()
+						 .select(sqlMenuByUser)
 						 .addInt("org_fk", Core.getCurrentOrganization())
 						 .addInt("prof_type_fk", Core.getCurrentProfile())
 						 .addString("dad", currentDad )
 						 .addInt("status", 1)
-						 .orderBy(new String[] {"m_sub.orderby","ASC"})
+						 .addInt("org_fk", Core.getCurrentOrganization())
+						 .addInt("prof_type_fk", Core.getCurrentProfile())
+						 .addString("dad", currentDad )
+						 .addInt("status", 1)
+						 .addInt("user_fk", Core.getCurrentUser().getId())
+						 .orderBy(new String[] {"orderby","ASC"})
 						 .getRecordList();
 		row.RowList.forEach(r->{
 			//Get Menu Pai

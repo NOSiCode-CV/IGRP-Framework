@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
@@ -16,28 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*----#end-code----*/
-
-
-public class PesquisarUtilizadorController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class PesquisarUtilizadorController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView();
 		view.tb_email.setParam(true);
 		view.id.setParam(true);
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		model.loadTable_1(Core.query(null,"SELECT 'nominho' as nominho,'number_1' as number_1,'range_1' as range_1,'nome' as nome,'tb_email' as tb_email,'perfile' as perfile,'id' as id "));
-		
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
    		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
@@ -101,17 +94,14 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(convidar)----*/
    
       // this.addQueryString("p_aplicacao",  model.getAplicacao());
@@ -131,17 +121,14 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(adicionar_utilizador)----*/
 
 		/*----#end-code----*/
@@ -149,17 +136,14 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 	
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
@@ -171,17 +155,14 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(editar)----*/
 		 
       if (Core.isNotNull(Core.getParam("p_tb_email"))) {
@@ -197,17 +178,14 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		if (id != null) {
@@ -226,17 +204,14 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar_user() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(convidar_user)----*/
 		Integer id = Core.getParamInt("p_id");		
 		Profile p = new Profile().findOne(id);
@@ -251,18 +226,52 @@ public class PesquisarUtilizadorController extends Controller {
 			
 	}
 	
-	public Response actionAssiocar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+	public Response actionAssiocar_menu() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(assiocar_menu)----*/
+		this.addQueryString("p_id",Core.getParamInt("p_id"))
+			.addQueryString("userEmail", Core.getParam("p_tb_email"))
+			.addQueryString("p_type", "user");
+      	return this.redirect("igrp","MenuOrganica","index", this.queryString());
 		
-		----#gen-example */
+		/*----#end-code----*/
+			
+	}
+	
+	public Response actionAssiocar_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(assiocar_transacao)----*/
+		this.addQueryString("p_id",Core.getParamInt("p_id"))
+			.addQueryString("userEmail", Core.getParam("p_tb_email"))
+			.addQueryString("p_type", "user");		
+      	return this.redirect("igrp","TransacaoOrganica","index", this.queryString());
+		/*----#end-code----*/
+			
+	}
+	
+	public Response actionAssiocar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(assiocar_etapa)----*/
 		Profile p = new Profile().findOne(Core.getParamInt("p_id"));
       	if(p!=null)
@@ -273,7 +282,7 @@ public class PesquisarUtilizadorController extends Controller {
 			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	public Response actionListaGeral() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -369,4 +378,4 @@ public class PesquisarUtilizadorController extends Controller {
 
 	}
 	/*----#end-code----*/
-	}
+}
