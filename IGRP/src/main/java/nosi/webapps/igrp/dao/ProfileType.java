@@ -182,7 +182,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	}
 
 	public ProfileType getProfileAdmin() {
-		return this.find().andWhere("code", "=","ALL").andWhere("name", "=","ALL PROFILE").one();
+		return this.find().andWhere("code", "=","ALL").andWhere("descr", "=","ALL PROFILE").one();
 	}
 	
 	

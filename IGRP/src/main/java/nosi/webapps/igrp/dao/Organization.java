@@ -192,9 +192,12 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	public List<Menu> getPerfilMenu(int env_fk, int org) {
 		Profile pr = new Profile();
 		List<Profile> profiles = pr
-				.findAll(pr.getCriteria().where(pr.getBuilder().equal(pr.getRoot().get("type"), "MEN"),
-						pr.getBuilder().equal(pr.getRoot().get("organization"), org),
-						pr.getBuilder().equal(pr.getRoot().get("profileType"), 0)));
+				.find()
+				.andWhere("type", "=","MEN")
+				.andWhere("organization", "=",org)
+				.andWhere("profileType.code", "=","ALL")
+				.andWhere("profileType.descr", "=","ALL PROFILE")
+				.all();
 		List<Menu> menus = new ArrayList<>();			
 		for (Profile p : profiles) {			
 			Menu e = new Menu().findOne(p.getType_fk());			
