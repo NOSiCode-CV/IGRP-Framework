@@ -154,7 +154,8 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 					.andWhere("type", "=", "MEN")
 					.andWhere("type_fk", "=", this.getType_fk())
 					.andWhere("organization", "=", this.getOrganization().getId())
-					.andWhere("profileType", "=", 0)
+					.andWhere("profileType.code", "=", "ALL")
+					.andWhere("profileType.descr", "=", "ALL PROFILE")
 					.one();
 		return p!=null && p.getOrganization()!=null;
 	}
