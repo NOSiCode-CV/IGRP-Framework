@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -14,9 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.Cookie;
-
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;

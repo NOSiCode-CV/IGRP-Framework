@@ -1,11 +1,9 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 

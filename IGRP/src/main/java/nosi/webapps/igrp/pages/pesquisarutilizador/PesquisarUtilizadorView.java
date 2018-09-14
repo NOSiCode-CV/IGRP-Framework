@@ -1,11 +1,10 @@
-
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
 public class PesquisarUtilizadorView extends View {
 
 	public Field sectionheader_1_text;
@@ -33,6 +32,8 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_convidar_user;
+	public IGRPButton btn_assiocar_menu;
+	public IGRPButton btn_assiocar_transacao;
 	public IGRPButton btn_assiocar_etapa;
 
 	public PesquisarUtilizadorView(){
@@ -52,11 +53,11 @@ public class PesquisarUtilizadorView extends View {
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false");
 		
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
@@ -64,15 +65,15 @@ public class PesquisarUtilizadorView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("domain","").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("domain","").add("java-type","");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		nominho = new PlainTextField(model,"nominho");
 		nominho.setLabel(gt("Nome"));
@@ -123,6 +124,12 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
 		btn_convidar_user.propertie.add("type","specific").add("rel","convidar_user");
 
+		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel","primary|fa-bars","","");
+		btn_assiocar_menu.propertie.add("type","specific").add("rel","assiocar_menu");
+
+		btn_assiocar_transacao = new IGRPButton("Assiocar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","primary|fa-exchange","","");
+		btn_assiocar_transacao.propertie.add("type","specific").add("rel","assiocar_transacao");
+
 		btn_assiocar_etapa = new IGRPButton("Assiocar Etapa","igrp","PesquisarUtilizador","assiocar_etapa","right_panel","primary|fa-sitemap","","");
 		btn_assiocar_etapa.propertie.add("type","specific").add("rel","assiocar_etapa");
 
@@ -156,6 +163,8 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_convidar_user);
+		table_1.addButton(btn_assiocar_menu);
+		table_1.addButton(btn_assiocar_transacao);
 		table_1.addButton(btn_assiocar_etapa);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
@@ -181,6 +190,5 @@ public class PesquisarUtilizadorView extends View {
 		id.setValue(model);	
 
 		table_1.loadModel(((PesquisarUtilizador) model).getTable_1());
-		
-	}
+		}
 }

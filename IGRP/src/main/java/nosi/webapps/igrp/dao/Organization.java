@@ -267,4 +267,49 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	public Organization findByCode(String code) {
 		return this.find().andWhere("code", "=",code).one();
 	}
+
+	public List<Menu> getOrgMenuByUser(Integer orgId, Integer userId) {
+		List<Menu> myMenu = new ArrayList<>();			
+		//First shows all the app pages than all the public pages in the menu
+		String sqlMenuByOrg = " SELECT m.id,m.descr,m.flg_base,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='MEN_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=m.id) then 1 else 0 END) as isInserted  "
+							+ " FROM tbl_menu m INNER JOIN tbl_profile p ON p.type_fk=m.id AND p.type='MEN' AND p.org_fk=:org_fk"
+							+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
+							+ " WHERE m.action_fk is not null AND m.status=1";
+		ResultSet.Record record = Core.query(this.getConnectionName(),sqlMenuByOrg)
+									  .addInt("org_fk", orgId)
+									  .addInt("user_fk", userId)
+									  .addInt("org_fk", orgId)
+									  .getRecordList();
+		record.RowList.forEach(row->{
+			Menu m = new Menu();					
+			m.setDescr(row.getString("descr"));
+			m.setId(row.getInt("id"));
+			m.setFlg_base(row.getInt("flg_base"));
+			m.setInserted(row.getInt("isInserted")==1);
+			myMenu.add(m);
+		});
+		return myMenu;
+	}
+
+	public List<Transaction> getOrgTransactionByUser(Integer orgId, Integer userId) {
+		List<Transaction> transactions = new ArrayList<>();
+		String sqlTransationByOrg = " SELECT t.id,t.code,t.descr,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
+				+ " FROM tbl_transaction t INNER JOIN tbl_profile p ON p.type_fk=t.id AND p.type='TRANS' AND p.org_fk=:org_fk"
+				+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
+				+ " WHERE t.status=1";
+		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByOrg)
+								  .addInt("org_fk", orgId)
+								  .addInt("user_fk", userId)
+								  .addInt("org_fk", orgId)
+								  .getRecordList();
+		record.RowList.forEach(row->{
+			Transaction t = new Transaction();
+			t.setId(row.getInt("id"));
+			t.setCode(row.getString("code"));
+			t.setDescr(row.getString("descr"));
+			t.setInserted(row.getInt("isInserted")==1);
+			transactions.add(t );
+		});
+		return transactions ;
+	}
 }
