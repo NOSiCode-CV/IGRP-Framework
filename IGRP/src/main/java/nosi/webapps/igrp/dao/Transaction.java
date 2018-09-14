@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
 import java.io.Serializable;
@@ -36,7 +38,9 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="TRANSACTION_SOURCE_ENV_FK"),nullable=false)
 	private Application application;
-
+	@Transient
+	private boolean isInserted;
+	
 	public Transaction(){}
 	
 	public Transaction(String code, String descr, int status, Application application) {
@@ -85,6 +89,14 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+	
+	public boolean isInserted() {
+		return isInserted;
+	}
+
+	public void setInserted(boolean isInserted) {
+		this.isInserted = isInserted;
 	}
 
 	public boolean getPermission(String transaction) {

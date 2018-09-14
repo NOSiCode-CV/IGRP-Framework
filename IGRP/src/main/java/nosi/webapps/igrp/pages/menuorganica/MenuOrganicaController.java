@@ -33,30 +33,22 @@ public class MenuOrganicaController extends Controller {
 			List<Menu> menus = new ArrayList<>();
 			int env_fk = Core.getParamInt("env_fk");
 			if (model.getType().equals("org")) {		
-				menus = new Organization().getOrgMenu(env_fk);
+				menus = new Organization().getOrgMenu(env_fk,model.getId());
 			} else if (model.getType().equals("perfil")) {
 				ProfileType p = new ProfileType().findOne(model.getId());
-						// ALL PROFILE org has org_fk = null so the org is 1
-				menus = new Organization().getPerfilMenu(env_fk,p.getOrganization() != null ? p.getOrganization().getId() : 1); 
-						//new menu button invisible
+				// ALL PROFILE org has org_fk = null so the org is 1
+				if(p.getOrganization()!=null)
+				  menus = new Organization().getPerfilMenu(p.getOrganization().getId(),p.getId()); 
+				else
+					  menus = new Organization().getPerfilMenu(1,p.getId()); 
+				//new menu button invisible
                 view.btn_novo.setVisible(false);              
 			}
 			for (Menu m : menus) {
 				if (m != null) {
 					MenuOrganica.Table_1 table = new MenuOrganica.Table_1();
 					table.setMenu(m.getId());
-					Profile prof = new Profile();
-					prof.setOrganization(new Organization().findOne(model.getId()));
-					prof.setProfileType(profAdmin);
-					prof.setUser(userAdmin);
-					prof.setType_fk(m.getId());
-					if (model.getType().equals("perfil")) {
-						ProfileType p = new ProfileType().findOne(model.getId());
-						prof.setOrganization(p.getOrganization());
-						prof.setProfileType(new ProfileType().findOne(p.getId()));
-					}
-					if ((model.getType().equals("org") && prof.isInsertedOrgMen())
-							|| (model.getType().equals("perfil") && prof.isInsertedPerfMen())) {
+					if (m.isInserted()) {
 						table.setMenu_check(m.getId());
 					} else {
 						table.setMenu_check(-1);

@@ -40,26 +40,20 @@ public class TransacaoOrganicaController extends Controller {
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
 			List<Transaction> transactions = null;
 			if(type.equals("org")){
-				transactions = new Organization().getOrgTransaction(new Organization().findOne(id).getApplication().getId());
+				Organization org = new Organization().findOne(id);
+				transactions = new Organization().getOrgTransaction(org.getApplication().getId(),org.getId());
 			}else if(type.equals("perfil")){
 				ProfileType p = new ProfileType().findOne(id);
-				transactions = new Organization().getPerfilTransaction(p.getOrganization()!=null?p.getOrganization().getId():1);
+				if(p.getOrganization()!=null)
+					transactions = new Organization().getPerfilTransaction(p.getOrganization().getId(),p.getId());
+				else
+					transactions = new Organization().getPerfilTransaction(1,p.getId());
 			}          
 			for(Transaction t:transactions){
 				TransacaoOrganica.Table_1 table =new TransacaoOrganica.Table_1();
 				table.setTransacao(t.getId());
 				table.setNome(t.getDescr()+" ("+t.getCode()+")");
-				Profile prof = new Profile();
-				prof.setOrganization(new Organization().findOne(id));
-				prof.setProfileType(profAdmin);
-				prof.setUser(userAdmin);
-				prof.setType_fk(t.getId());
-				if(type.equals("perfil")){
-					ProfileType p = new ProfileType().findOne(id);
-					prof.setOrganization(p.getOrganization());
-					prof.setProfileType(new ProfileType().findOne(p.getId()));
-				}
-				if((type.equals("org") && prof.isInsertedOrgTrans()) || (type.equals("perfil") && prof.isInsertedPerfTrans())){
+				if(t.isInserted()){
 					table.setTransacao_check(t.getId());
 				}else{
 					table.setTransacao_check(-1);

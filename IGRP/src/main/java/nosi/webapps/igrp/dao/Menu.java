@@ -55,6 +55,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private String link;
 	@Transient
+	private boolean isInserted;
+	@Transient
 	private final String sqlMenu = " SELECT prof.type,prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
@@ -145,6 +147,14 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	public boolean isInserted() {
+		return isInserted;
+	}
+
+	public void setInserted(boolean isInserted) {
+		this.isInserted = isInserted;
 	}
 
 	public boolean getPermissionMen(String app) {
