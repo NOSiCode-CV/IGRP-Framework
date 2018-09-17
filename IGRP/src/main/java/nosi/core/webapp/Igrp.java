@@ -124,8 +124,6 @@ public final class Igrp{ // Not extends
 		this.servlet = servlet;
 	}
 	
-	
-	
 	public void setServlet(HttpServlet servlet) {
 		this.servlet = servlet;
 	}

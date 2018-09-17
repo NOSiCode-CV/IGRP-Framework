@@ -74,10 +74,16 @@ public class Permission {
 		Organization org = new Organization();
 		Profile prof = new Profile();
 		if(app!=null){			
-			int id_user = Igrp.getInstance()
-					.getUser().
-					getIdentity().
-					getIdentityId();
+			int id_user = 0;
+			
+			try {// eliminar 
+				id_user = Igrp.getInstance()
+						.getUser().
+						getIdentity().
+						getIdentityId();
+			}catch(Exception e) {
+				
+			}
 			
 			if(app.getPermissionApp(dad)){
 				prof = (Profile) prof.getByUserPerfil(id_user,app.getId());

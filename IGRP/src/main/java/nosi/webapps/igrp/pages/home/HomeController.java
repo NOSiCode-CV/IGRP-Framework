@@ -25,7 +25,13 @@ public class HomeController extends Controller {
 				
 			}
 		}
-		new Permission().changeOrgAndProfile("igrp");
+		
+		try { // Eliminar 
+			new Permission().changeOrgAndProfile("igrp");
+		}catch(Exception e) {
+			
+		}
+		
 		HomeView view = new HomeView();
 		view.title = "Home";
 		return this.renderView(view,true);

@@ -73,6 +73,7 @@ public class PageController extends Controller {
 				model.setVersion(a.getVersion());
 				model.setXsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
+				model.setPublico(a.getTipo());
 				model.setComponente(a.getIsComponent());
 				if (a.getModulo() != null)
 					model.setModulo(a.getModulo().getId() + "");
@@ -122,6 +123,7 @@ public class PageController extends Controller {
 				action.setPage_descr(model.getPage_descr());
 				action.setAction_descr(model.getPage_descr());
 				action.setStatus(model.getStatus());
+				action.setTipo((short)model.getPublico());
 				action.setIsComponent((short) model.getComponente());
 				if (model.getModulo() != null && !model.getModulo().isEmpty()) {
 					try {
@@ -147,7 +149,7 @@ public class PageController extends Controller {
 					Core.setMessageError();
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
-				// ______________________________________««« END »»»» Edit/update page
+				// ______________________________________Â«Â«Â« END Â»Â»Â»Â» Edit/update page
 			} else if (checkifexists(model)) {
 				// New page ________
 				if(model.getPage().equals("import") || model.getPage().equals("package") || model.getPage().equals("public") || model.getPage().equals("private") || model.getPage().equals("abstracts")) {
@@ -159,6 +161,7 @@ public class PageController extends Controller {
 				action.setAction_descr(model.getPage_descr());
 				action.setPage_descr(model.getPage_descr());
 				action.setStatus(model.getStatus());
+				action.setTipo((short)model.getPublico());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
 				action.setVersion(model.getVersion() == null ? "2.3."+this.config.VERSION : model.getVersion()+"."+this.config.VERSION);
@@ -397,7 +400,7 @@ public class PageController extends Controller {
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson()
-							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("Compilação efetuada com sucesso")
+							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("CompilaÃ§Ã£o efetuada com sucesso")
 									: gt("Componente registado com sucesso"), null));
 
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });

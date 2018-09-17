@@ -384,10 +384,22 @@ public class Controller{
 		 Object obj = this.run();
 		 if(obj != null && obj instanceof Response){
 			 Igrp app = Igrp.getInstance();
-			 if(app.getCurrentActionName()!=null && app.getCurrentAppName()!=null && app.getCurrentPageName()!=null && new Permission().isPermition(app.getCurrentAppName(), app.getCurrentPageName(), app.getCurrentActionName())) {
-				 Response resp = (Response) obj;
-				 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);				 
+			 
+			 String appDad = app.getCurrentAppName();
+			 String pageName = app.getCurrentPageName();
+			 
+			 if(app.getCurrentActionName() != null && appDad != null && pageName != null) {
+				 if(!new Action().isPublicPage(appDad, pageName)) {
+					 if(new Permission().isPermition(appDad, pageName, app.getCurrentActionName())) {
+						 Response resp = (Response) obj;
+						 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
+					 }
+				 }else {
+					 Response resp = (Response) obj;
+					 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
+				 }
 			 }
+			 
 		 }
 	}
 	

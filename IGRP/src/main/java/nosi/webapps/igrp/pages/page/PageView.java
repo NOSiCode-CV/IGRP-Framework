@@ -18,6 +18,8 @@ public class PageView extends View {
 	public Field status_check;
 	public Field gen_auto_code;
 	public Field gen_auto_code_check;
+	public Field publico;
+	public Field publico_check;
 	public Field nada;
 	public Field env_fk;
 	public Field componente;
@@ -79,6 +81,10 @@ public class PageView extends View {
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Gen Auto Code"));
 		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("check","true");
+		
+		publico = new CheckBoxField(model,"publico");
+		publico.setLabel(gt("Publico"));
+		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("check","true");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
@@ -197,6 +203,7 @@ public class PageView extends View {
 		form_1.addField(page);
 		form_1.addField(status);
 		form_1.addField(gen_auto_code);
+		form_1.addField(publico);
 		form_1.addField(nada);
 		form_1.addField(env_fk);
 		form_1.addField(componente);
@@ -235,6 +242,7 @@ public class PageView extends View {
 		page.setValue(model);
 		status.setValue(model);
 		gen_auto_code.setValue(model);
+		publico.setValue(model);
 		nada.setValue(model);
 		env_fk.setValue(model);
 		componente.setValue(model);

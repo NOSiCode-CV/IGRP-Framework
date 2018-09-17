@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.pages.login.LoginController;
 /**
  * @author Marcel Iekiny
@@ -130,24 +131,23 @@ public class User implements Component{
 	@Override
 	public void init(HttpServletRequest request) {
 		boolean isLoginPage = false;
-		boolean isResetByEmailPage = false;
-		boolean isResetPasswordPage = false;
 		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
 		String loginUrl = "igrp/login/login";
-		//if(!aux.equals("igrp/login/login") && !aux.equals("igrp/ErrorPage/exception") && !aux.startsWith("igrp/page")) {
-			aux = new EncrypDecrypt().decrypt(aux);
-//		}
+		aux = new EncrypDecrypt().decrypt(aux);
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){			
 			isLoginPage = aux.equals(loginUrl); 
-			isResetByEmailPage = aux.contains("igrp/Resetbyemail");
-			isResetPasswordPage = aux.contains("igrp/Resetpassword");
 		}
 		
-		//System.out.println("isResetByEmailPage: " + isResetByEmailPage); 
-		//System.out.println("isResetPasswordPage: " + isResetPasswordPage); 
-		
-		if(isResetByEmailPage || isResetPasswordPage) return; 
+		try {
+			String r[] = aux.split("/");
+			String appDad = r[0];
+			String pageName = r[1];
+			if(new Action().isPublicPage(appDad, pageName))
+				return; 
+		}catch(Exception e) {
+			
+		}
 		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
@@ -215,12 +215,15 @@ public class User implements Component{
 	}
 	
 	public static String generateAuthenticationKey() {
-		//return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
 		return java.util.UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
 	public static String generateActivationKey() {
 		return Base64.getUrlEncoder().encodeToString(((System.currentTimeMillis() + 1000*3600) + "").getBytes()); // 1h 
+	}
+	
+	public static String generatePasswordResetToken() {
+		return Base64.getUrlEncoder().encodeToString(((java.util.UUID.randomUUID().toString().replaceAll("-", "") + "_" + (System.currentTimeMillis() + 1000*10*60)) + "").getBytes()); // 10 min. 
 	}
 	
 }

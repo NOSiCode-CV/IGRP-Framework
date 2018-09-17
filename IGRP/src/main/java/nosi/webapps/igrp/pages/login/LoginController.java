@@ -301,11 +301,13 @@ public class LoginController extends Controller {
 		}
 		
 		NosiLdapAPI ldap = (NosiLdapAPI) objects[0];
+		
 		return ldap.validateLogin(username, password, personArray);
 	}
 	
 	private boolean loginWithLdap(String username, String password){
-		boolean success = false;
+		
+		boolean success = false; 
 		
 		Properties settings = loadIdentityServerSettings();
 		
@@ -319,9 +321,9 @@ public class LoginController extends Controller {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		
 		if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
-			success = authenticate_(username, password, true, settings, personArray);
+			success = authenticate_(username, password, true, settings, personArray); 
 		}else {
-			success = authenticate_(username, password, false, ldap, personArray);
+			success = authenticate_(username, password, false, ldap, personArray); 
 		}
 		
 		if(success) {
