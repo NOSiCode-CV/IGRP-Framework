@@ -289,8 +289,51 @@
 					
 						
 						<xsl:call-template name="setSqlCombobox_"/> 
+							
+						<xsl:if test="//rows/content/*[@type='carousel']">
+							
+							<xsl:for-each select="//content/*[@type='carousel' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
+								
+								<xsl:variable name="tagName" select="name()"/>
+								
+								<xsl:call-template name="newlineTab2"/>
+								<xsl:call-template name="newlineTab2"/>
+								
+								<xsl:text>model.load</xsl:text>
+								<xsl:call-template name="CamelCaseWord">
+					 				<xsl:with-param name="text" select="$tagName"/>
+					 			</xsl:call-template>
+								<xsl:value-of select="concat('(',$newline,$tab2,$tab2,'Core.query(null,',$double_quotes,'SELECT ')"/>
+									
+									<xsl:for-each select="table/value/row ">
+									
+										<xsl:variable name="labelTag" select="concat($tagName,'_label')"/>
 										
-						
+										<xsl:variable name="imgTag" select="concat($tagName,'_img')"/>
+										
+										<xsl:variable name="carouselRowLabel" select="*[name() = $labelTag]"/>
+										
+										<xsl:variable name="carouselRowImg" select="*[name() = $imgTag]"/>
+									
+										<xsl:value-of select="concat( $simple_quotes, $carouselRowLabel, $simple_quotes, ' as ', $labelTag,',',$simple_quotes,$carouselRowImg,$simple_quotes,' as ', $imgTag )"/>
+										
+										<xsl:if test="position() != last()">
+											<xsl:value-of select="concat($double_quotes,'+', $newline, $tab2,$tab2,$tab2,$tab2,$double_quotes, ' UNION SELECT ' )"/>
+										</xsl:if>
+										
+									</xsl:for-each>
+								
+								<xsl:value-of select="concat($double_quotes,')',$newline,$tab2,' );')"/>
+								
+								<!--  view.chart_1.loadQuery(Core.query(null,"SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as valor"
+                                      +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as valor"
+                                      +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as valor"
+                                      +" UNION SELECT 'X3' as EixoX, 'Y3' as EixoY, 40 as valor"));-->
+								
+								
+							</xsl:for-each>
+							
+						</xsl:if>
 						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		

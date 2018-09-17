@@ -42,7 +42,7 @@
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$newline"/>			
 		<xsl:value-of select="$tab2"/>	
-		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist' or @type='timeline']">			
+		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist' or @type='timeline' or @type='carousel']">			
 			<xsl:variable name="upperTag">
 				<xsl:call-template name="gen-className">
 						<xsl:with-param name="className" select="name()"/>
@@ -108,6 +108,8 @@
 			<xsl:call-template name="instance-components-view"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab2"></xsl:value-of>
+		
+
 		<xsl:call-template name="config-chart"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
@@ -349,7 +351,7 @@
 			
 			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox' or @type='quickbuttonbox' or @type='timeline' or @type='treemenu'">
 			  
-			  <xsl:call-template name="gen-instance-components">
+			  	<xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 					<xsl:with-param name="type"><xsl:value-of select="'instance'" /></xsl:with-param>
 					<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
@@ -365,6 +367,8 @@
 					<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
 					<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
 				</xsl:call-template>
+				
+			
 			  	
 			  </xsl:otherwise>
 			  
@@ -388,7 +392,8 @@
 		</xsl:call-template>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
-
+	
+	
 	<xsl:template name="config-chart">
 		<xsl:for-each select="//content/*[@type='chart' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>

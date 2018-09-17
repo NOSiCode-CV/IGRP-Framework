@@ -125,7 +125,7 @@
 			</xsl:for-each>
     	</xsl:for-each> 
 
-    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline']">
+    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline' or @type='carousel']">
     		<xsl:value-of select="$tab"/>
 			<xsl:variable name="tableName">
     			<xsl:call-template name="gen-className">
@@ -416,7 +416,7 @@
  	
  	<!-- Gen subclass -->
  	<xsl:template name="gen-subclass">
- 		<xsl:for-each select="/rows/content/*[@type='table' or @type='timeline']">
+ 		<xsl:for-each select="/rows/content/*[@type='table' or @type='timeline' or @type='carousel']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 
  		<xsl:for-each select="/rows/content/*[@type='treemenu']">

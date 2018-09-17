@@ -61,7 +61,7 @@
 						<xsl:value-of select="concat($tag_name,'.setLabel(gt(',$double_quotes,./label,$double_quotes,'));')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-					
+						
 						<xsl:variable name="container_type">
 					 		<xsl:value-of select="../../@type"/>
 					 	</xsl:variable>
@@ -228,6 +228,8 @@
 				<!-- <xsl:value-of select="$newline"/> -->
 			<!-- </xsl:if> -->
 		</xsl:for-each>
+	
+		
 	</xsl:template>
 
 	<!-- get type class field -->

@@ -278,6 +278,16 @@ var Field = function(type,params){
 	}
 	
 	var notEditableAttrs = {};
+	
+	field.setHiddenProperty = function(name){
+		
+		if(!field.propertiesOptions[name])
+			
+			field.propertiesOptions[name] = {};
+		
+		field.propertiesOptions[name].hidden = true;	
+		
+	}
 
 	field.isEditable = function(attr){
 		return notEditableAttrs[attr] ? false : true;
