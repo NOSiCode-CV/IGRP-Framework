@@ -70,7 +70,9 @@ $(function() {
 			enterParam = '$$enter$$',
 
 			xslParams = isIE ? {
+				
 				jsEnter : enterParam
+				
 			} : false,
 
 			m = clicked,
@@ -92,10 +94,12 @@ $(function() {
 					onFinish = function(ncontent) {
 
 						server.events.execute(o.mode + '.' + o.part + '.gen', {
+							
 							content : content,
+							
 							options : o
+							
 						});
-						//server.events.execute()
 
 						if (o.callback)
 
@@ -147,7 +151,7 @@ $(function() {
 	server.compile = function(o) {
 
 		var mode = genOptions[o.mode];
-
+		
 		GenPartsLoop({
 			
 			mode : mode,
@@ -580,26 +584,29 @@ $(function() {
 
 		var idx = o.index || 0;
 
-		//consoel.log(idx)
-
 		if (idx < o.mode.codes.length) {
 
 			var code = o.mode.codes[idx];
-
+			
+			
 			server.transform({
 				
 				basePath : o.mode.basePath,
 
 				xsl : code.xsl,
+				
+				part : code.name.toLowerCase(),
 
 				type : 'compile',
 
 				callback : function(content) {
 
 					GenPartsLoop.arr.push({
+						
 						name : code.name,
 
 						code : content
+						
 					});
 
 					o.index = idx + 1;

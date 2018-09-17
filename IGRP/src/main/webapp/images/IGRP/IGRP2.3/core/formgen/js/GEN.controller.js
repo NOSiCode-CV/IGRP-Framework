@@ -3101,6 +3101,7 @@ var GENERATOR = function(genparams){
 						GEN.server.compile({
 							mode : 'java',
 							then : function(results){
+				
 								results.forEach(function(r){									
 									var name = r.name.toLowerCase();
 									vParam.push({
