@@ -267,7 +267,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
 		List<Profile> list = new ArrayList<>();
-		if(Core.getCurrentUser().getUser_name().compareTo("igrpweb@nosi.cv")==0) {//User master
+		if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
 			list = new Profile().find()
 					.andWhere("type", "=", "ENV")					
 					.all();
