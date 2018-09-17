@@ -122,21 +122,21 @@
 
 	container.setPropriety({
 		name:'noupdate',
-		label:'No Add',
+		label:'No Add (+)',
 		xslValue:'noupdate',
 		value:false
 	});
 
 	container.setPropriety({
 		name:'nodelete',
-		label:'No Delete',
+		label:'No Delete (-)',
 		xslValue:'nodelete',
 		value:false
 	});
 
 	container.setPropriety({
 		name:'ordertable',
-		label : 'Order Table',
+		label : 'Order Table (^v)',
 		value:false,
 		xslValue:'ordertable',
 		onChange:function(v){

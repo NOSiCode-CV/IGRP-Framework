@@ -7,6 +7,7 @@
                 <xsl:with-param name="rel" select="concat('#tag#_',position())"/>
                 <xsl:with-param name="input_type" select="'password'"/>
                 <xsl:with-param name="input_name" select="concat(../../fields/#tag#/@name,'_fk')"/>
+                  <xsl:with-param name="placeholder" select="'#[placeholder]#'"/>
             </xsl:call-template>
         </div>
     </td>

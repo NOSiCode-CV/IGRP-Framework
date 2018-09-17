@@ -6,5 +6,7 @@
         <xsl:with-param name="input_type" select="'password'"/>
         <xsl:with-param name="input_name" select="#path#/@name"/>
         <xsl:with-param name="id" select="'#parent.tag#_#tag#'"/>
+        <xsl:with-param name="placeholder" select="'#[placeholder]#'"/>
+      
     </xsl:call-template>
 </div>

@@ -520,7 +520,7 @@ public class PageController extends Controller {
 			}
 
 		List<Action> actions = new Action().find().andWhere("application.id", "=", app).andWhere("status", "=", "1")
-				.andWhere("isComponent", "=", "0").all();
+				.all();
 
 		if (aux != null)
 			actions.addAll(aux);

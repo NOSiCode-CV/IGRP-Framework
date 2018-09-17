@@ -6,9 +6,10 @@
         <xsl:param name="input_name" select="'p_vkb'"/>
         <xsl:param name="vkimg" select="'true'"/>
         <xsl:param name="id"/>
+        <xsl:param name="placeholder" select="''" />
         <xsl:param name="vRequired"/>
         <div class="VKB_geral input-group" id="{$id}" rel="{$rel}" vkbtype="{$type}">
-            <input type="{$input_type}" name="{$input_name}" class="VKB_input form-control {$vRequired}" id="INP_{$rel}" readonly="readonly" rel="{$rel}" post="{$type}"/>
+            <input type="{$input_type}" name="{$input_name}" class="VKB_input form-control {$vRequired}" id="INP_{$rel}" readonly="readonly" rel="{$rel}" post="{$type}" placeholder="{$placeholder}"/>
             <xsl:if test="$vkimg = 'true'">
                 <span class="input-group-addon VKB_ctrl" rel="{$rel}">
                     <i class="fa fa-keyboard-o"></i>
