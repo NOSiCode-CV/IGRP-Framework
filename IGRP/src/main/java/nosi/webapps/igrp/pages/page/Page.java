@@ -21,6 +21,10 @@ public class Page extends Model{
 	private int gen_auto_code;
 	@RParam(rParamName = "p_gen_auto_code_check")
 	private int gen_auto_code_check;
+	@RParam(rParamName = "p_publico")
+	private int publico;
+	@RParam(rParamName = "p_publico_check")
+	private int publico_check;
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_env_fk")
@@ -123,6 +127,19 @@ public class Page extends Model{
 	}
 	public int getGen_auto_code_check(){
 		return this.gen_auto_code_check;
+	}
+	
+	public void setPublico(int publico){
+		this.publico = publico;
+	}
+	public int getPublico(){
+		return this.publico;
+	}
+	public void setPublico_check(int publico_check){
+		this.publico_check = publico_check;
+	}
+	public int getPublico_check(){
+		return this.publico_check;
 	}
 	
 	public void setNada(String nada){

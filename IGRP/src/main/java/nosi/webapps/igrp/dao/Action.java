@@ -61,6 +61,8 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	private String xslContent;
 	private String processKey;
 	
+	private short tipo = 0; // 0 = Privado (Authentication); 1 = Publico; ... 
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "module_fk", foreignKey = @ForeignKey(name = "module_fk"))
 	private Modulo modulo;
@@ -303,4 +305,26 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 		return this.find().andWhere("page", "=",page).andWhere("application.dad", "=",dad).one();
 	}
 
+	public short getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(short tipo) {
+		this.tipo = tipo;
+	}
+	
+	public boolean isPublicPage(String appDad, String pageId) {
+		boolean flag = false;
+		try {
+			Application app = new Application().find().andWhere("dad", "=", appDad).one();
+			if(app != null) {
+				Action action = new Action().find().andWhere("page", "=", pageId).andWhere("application.id", "=", app.getId()).one();
+				flag = action != null && action.getTipo() == 1;
+			}
+		}catch (Exception e) {
+			
+		}
+		return flag;
+	}
+	
 }

@@ -61,13 +61,13 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Iste sed deserunt natus sed</value>
+                    <value>Sit unde anim consectetur natus</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Stract lorem ipsum iste doloremque</value>
+                    <value>Magna lorem labore sed sit</value>
                 </page>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </status>
@@ -75,6 +75,10 @@
                     <label>Gen Auto Code</label>
                     <value>1</value>
                 </gen_auto_code>
+                <publico name="p_publico" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                    <label>Publico</label>
+                    <value>1</value>
+                </publico>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
