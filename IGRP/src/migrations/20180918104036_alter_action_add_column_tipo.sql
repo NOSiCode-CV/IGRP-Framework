@@ -1,0 +1,2 @@
+ALTER TABLE tbl_action
+  ADD COLUMN tipo SMALLINT DEFAULT 0
