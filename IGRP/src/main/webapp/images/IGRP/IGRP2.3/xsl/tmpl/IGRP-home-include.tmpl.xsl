@@ -193,7 +193,7 @@
             type="text" 
             class="form-control igrp-search-list" 
             placeholder="Pesquisar Menu" 
-            search-list="#igrp-sidebar ul.treeview-menu li a"
+            search-list="#igrp-sidebar .treeview>a, #igrp-sidebar ul.treeview-menu>li>a"
             search-attr="text"
             search-item-parent=".treeview"
             search-item-wrapper=".treeview-menu" />
@@ -210,7 +210,7 @@
               <xsl:choose>
                 <xsl:when test="link">
                   <xsl:attribute name="class">treeview</xsl:attribute>
-                  <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}">
+                  <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}" text="{title}">
                     <span>
                       <xsl:value-of select="title" />
                     </span>
@@ -221,7 +221,7 @@
                   <xsl:if test="submenu">
                     <xsl:attribute name="class">treeview</xsl:attribute>
                   </xsl:if>
-                  <a href="#">
+                  <a href="#" text="{title}">
                     <xsl:value-of select="title" />
                     <i class="fa fa-angle-right pull-right"></i>
                     <span class="nav-bar-active" bg-color="2" />
