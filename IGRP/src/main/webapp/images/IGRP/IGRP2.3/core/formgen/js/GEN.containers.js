@@ -2142,13 +2142,13 @@ var CONTAINER = function(name,params){
 
 			if(container.contextMenu) SETUPCONTEXTMENU();
 
-			if(container.xml.type == 'text'){
+			if(container.xml.type == 'text' || container.xml.type == 'texteditor'){
 
 				container.setPropriety({
 					name:'text',
 					order:0,
 					size:'12',
-					inputType:'texteditor',
+					inputType:container.xml.type,
 					value:container.xml.dataExample ? container.xml.dataExample : capitalizeFirstLetter(container.type)
 				});
 

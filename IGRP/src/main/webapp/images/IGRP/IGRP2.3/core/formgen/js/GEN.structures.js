@@ -115,7 +115,7 @@ var GENSTRUCTURES = function(GEN){
 						rtn+=genTreeMenu(container);
 					}
 
-					if(container.xml.type == 'text'){
+					if(container.xml.type == 'text' || container.xml.type == 'texteditor'){
 						var value   = container.GET.text ? container.GET.text() : '';
 						rtn+='<fields><'+tag+'_text type="text" name="p_'+tag+'_text" persist="true" maxlength="'+container.GET.maxlength()+'"><value><![CDATA['+escapeDoubleQuotes(value)+']]></value></'+tag+'_text></fields>';
 					}

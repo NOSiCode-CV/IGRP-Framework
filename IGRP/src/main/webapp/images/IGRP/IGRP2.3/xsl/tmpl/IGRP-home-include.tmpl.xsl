@@ -724,7 +724,11 @@
         #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after{
           background:<xsl:value-of select="$mainColor"/>!important;
         }*/
-
+	
+		body.white-sidebar #igrp-sidebar.sidebar{
+			background:white!important;
+		}
+		
     </style>
   </xsl:template>
   <!-- Local Themes definitions -->

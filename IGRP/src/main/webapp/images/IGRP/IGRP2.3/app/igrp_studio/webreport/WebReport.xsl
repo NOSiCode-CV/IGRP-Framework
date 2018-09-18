@@ -20,7 +20,7 @@
                 <style/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/webreport/css/webreport.css"/>
             </head>
-            <body class="{$bodyClass}">
+            <body class="{$bodyClass} white-sidebar">
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >

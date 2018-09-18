@@ -24,7 +24,7 @@
                 <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/diagram-js.css" media="none" onload="if(media!='all')media='all'"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/bpmn-font/css/bpmn-embedded.css" media="none" onload="if(media!='all')media='all'"/>
             </head>
-            <body class="{$bodyClass}">
+            <body class="{$bodyClass} white-sidebar">
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
