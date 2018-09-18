@@ -284,20 +284,14 @@
 							</xsl:if>	
 						</xsl:for-each> 	
 							
-						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
-						<xsl:call-template name="setParam"/>			
-					
-						
-						<xsl:call-template name="setSqlCombobox_"/> 
-							
 						<xsl:if test="//rows/content/*[@type='carousel']">
 							
 							<xsl:for-each select="//content/*[@type='carousel' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
 								
 								<xsl:variable name="tagName" select="name()"/>
 								
-								<xsl:call-template name="newlineTab2"/>
-								<xsl:call-template name="newlineTab2"/>
+							
+							
 								
 								<xsl:text>model.load</xsl:text>
 								<xsl:call-template name="CamelCaseWord">
@@ -332,8 +326,16 @@
 								
 								
 							</xsl:for-each>
+								<xsl:call-template name="newlineTab2"/>
+						</xsl:if>	
 							
-						</xsl:if>
+						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
+						<xsl:call-template name="setParam"/>			
+					
+						
+						<xsl:call-template name="setSqlCombobox_"/> 
+							
+						
 						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		

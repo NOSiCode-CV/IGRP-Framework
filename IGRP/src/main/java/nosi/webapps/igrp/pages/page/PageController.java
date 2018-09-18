@@ -149,7 +149,7 @@ public class PageController extends Controller {
 					Core.setMessageError();
 				this.addQueryString("p_id_page", idPage);
 				return this.redirect("igrp", "page", "index", this.queryString());
-				// ______________________________________Â«Â«Â« END Â»Â»Â»Â» Edit/update page
+				// ______________________________________««« END »»»» Edit/update page
 			} else if (checkifexists(model)) {
 				// New page ________
 				if(model.getPage().equals("import") || model.getPage().equals("package") || model.getPage().equals("public") || model.getPage().equals("private") || model.getPage().equals("abstracts")) {
@@ -353,6 +353,7 @@ public class PageController extends Controller {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
 		String error = "";
+		Boolean workspace=false;
 		if (ac != null) {
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
 			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
@@ -365,22 +366,27 @@ public class PageController extends Controller {
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
 			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-			String path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp()
+			String path_xsl_work_space = null,path_class_work_space = null;
+
+			if(!this.getConfig().getWorkspace().equals("")) {
+				workspace=true;
+				path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp()
 					+ File.separator + "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion()
 					+ File.separator + "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
 
-			String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),
+			 path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),
 					ac.getPage());
+			}
 			path_class = this.getConfig().getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
-//				TODO Marcos: must seek if the path exist, and that it was save with success
-				boolean r = FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),
-						new Part[] { fileXml, fileXsl, fileJson })
-						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
+				
+				if(workspace)
+					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[] { fileXml, fileXsl, fileJson });
+				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
 								new Part[] { fileXml, fileXsl, fileJson });
 
 				if (ac.getIsComponent() == 0) {
@@ -388,7 +394,7 @@ public class PageController extends Controller {
 							new Part[] { fileModel, fileView, fileController });
 					error += this.processCompile(path_class, ac.getPage());
 					if (r && Core.isNull(error)) {// Check if not error on the compilation class
-						if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
+						if (workspace) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
@@ -400,7 +406,7 @@ public class PageController extends Controller {
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson()
-							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("CompilaÃ§Ã£o efetuada com sucesso")
+							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("Compilação efetuada com sucesso")
 									: gt("Componente registado com sucesso"), null));
 
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });

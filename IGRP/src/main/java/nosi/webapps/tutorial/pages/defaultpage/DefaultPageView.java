@@ -17,9 +17,11 @@ public class DefaultPageView extends View {
 	public Field infopanel_1_url;
 	public Field infopanel_1_bg;
 	public Field infopanel_1_icn;
+	public Field carousel_1_label;
+	public Field carousel_1_img;
 	public IGRPForm sectionheader_1;
 	public IGRPForm infopanel_1;
-	public IGRPCarousel carousel_1;
+	public IGRPTable carousel_1;
 
 
 	public DefaultPageView(){
@@ -30,7 +32,7 @@ public class DefaultPageView extends View {
 
 		infopanel_1 = new IGRPForm("infopanel_1","");
 
-		carousel_1 = new IGRPCarousel("carousel_1","");
+		carousel_1 = new IGRPTable("carousel_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -62,6 +64,14 @@ public class DefaultPageView extends View {
 		infopanel_1_icn.setValue(gt("fa-github-square"));
 		infopanel_1_icn.propertie().add("name","p_infopanel_1_icn").add("type","text").add("maxlength","4000");
 		
+		carousel_1_label = new TextField(model,"carousel_1_label");
+		carousel_1_label.setLabel(gt("Title"));
+		carousel_1_label.propertie().add("name","p_carousel_1_label").add("type","text").add("maxlength","200");
+		
+		carousel_1_img = new TextField(model,"carousel_1_img");
+		carousel_1_img.setLabel(gt("Image"));
+		carousel_1_img.propertie().add("name","p_carousel_1_img").add("type","text").add("maxlength","200");
+		
 
 
 		
@@ -78,6 +88,8 @@ public class DefaultPageView extends View {
 		infopanel_1.addField(infopanel_1_bg);
 		infopanel_1.addField(infopanel_1_icn);
 
+		carousel_1.addField(carousel_1_label);
+		carousel_1.addField(carousel_1_img);
 
 		this.addToPage(sectionheader_1);
 		this.addToPage(infopanel_1);
@@ -86,7 +98,10 @@ public class DefaultPageView extends View {
 		
 	@Override
 	public void setModel(Model model) {
-			
+		
+		carousel_1_label.setValue(model);
+		carousel_1_img.setValue(model);	
 
+		carousel_1.loadModel(((DefaultPage) model).getCarousel_1());
 		}
 }

@@ -40,7 +40,9 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Primeira Página</value>
+                    <value>
+                        <![CDATA[Primeira Página]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -72,34 +74,31 @@
                 </infopanel_1_icn>
             </fields>
         </infopanel_1>
-        <carousel_1 type="carousel" xml-type="carousel" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="carousel_1_img_1">
-                <title>Img</title>
-                <app/>
-                <page/>
-                <link/>
-                <target/>
-                <img>/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_dashboard.png</img>
-                <preview/>
-            </item>
-            <item type="specific" code="" rel="carousel_1_img_2">
-                <title>Img</title>
-                <app/>
-                <page/>
-                <link/>
-                <target/>
-                <img>/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_igrp_studio.png</img>
-                <preview/>
-            </item>
-            <item type="specific" code="" rel="carousel_1_img_3">
-                <title>Img</title>
-                <app/>
-                <page/>
-                <link/>
-                <target/>
-                <img>/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_tutorial.png</img>
-                <preview/>
-            </item>
+        <carousel_1 type="carousel" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <carousel_1_label name="p_carousel_1_label" type="text" maxlength="200">
+                    <label>Title</label>
+                </carousel_1_label>
+                <carousel_1_img name="p_carousel_1_img" type="text" maxlength="200">
+                    <label>Image</label>
+                </carousel_1_img>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_dashboard.png</carousel_1_img>
+                    </row>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_igrp_studio.png</carousel_1_img>
+                    </row>
+                    <row>
+                        <carousel_1_label name="p_carousel_1_label">Img</carousel_1_label>
+                        <carousel_1_img name="p_carousel_1_img">/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_tutorial2.png</carousel_1_img>
+                    </row>
+                </value>
+            </table>
         </carousel_1>
     </content>
 </rows>

@@ -15,6 +15,11 @@ public class DefaultPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		DefaultPage model = new DefaultPage();
 		model.load();
+		model.loadCarousel_1(
+				Core.query(null,"SELECT 'Img' as carousel_1_label,'/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_dashboard.png' as carousel_1_img"+
+								" UNION SELECT 'Img' as carousel_1_label,'/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_igrp_studio.png' as carousel_1_img"+
+								" UNION SELECT 'Img' as carousel_1_label,'/IGRP/images/IGRP/IGRP2.3/assets/img/tutorial/home_tutorial2.png' as carousel_1_img")
+		 );
 		DefaultPageView view = new DefaultPageView();
 		/*----#start-code(index)----*/
 		
