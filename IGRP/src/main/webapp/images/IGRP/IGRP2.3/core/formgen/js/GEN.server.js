@@ -844,8 +844,8 @@ $(function() {
 
 			}
 //			else{
-//				console.log("$('.fa-cog').HIDDEN");
-//					$('.fa-cog').addClass("hidden");   
+//				console.log("$('.form-gen-save .fa-cog').HIDDEN");
+//					$('.form-gen-save .fa-cog').addClass("hidden");   
 //						return;			
 //				
 //			};

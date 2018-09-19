@@ -2947,7 +2947,7 @@ var GENERATOR = function(genparams){
 		$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
-			$('.gen-form-save .fa-cog').removeClass("hidden");   
+			$('.form-gen-save .fa-cog').removeClass("hidden");   
 			var clicked = $(this);
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
@@ -3019,7 +3019,7 @@ var GENERATOR = function(genparams){
 								
 									var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
 									var nomsg = true; 
-									$('.gen-form-save .fa-cog').addClass("hidden");
+									$('.form-gen-save .fa-cog').addClass("hidden");
 									$.each(msgs,function(i,msg){
 										nomsg = false; 
 										var mtype  	 = $(msg).attr('type'),
@@ -3083,7 +3083,7 @@ var GENERATOR = function(genparams){
 							
 
 				    }catch(errr){
-						$('.gen-form-save .fa-cog').addClass("hidden");  
+						$('.form-gen-save .fa-cog').addClass("hidden");  
 						$.IGRP.notify({
 							message : "Error 3028: "+err,
 							type    : 'alert'
@@ -3117,7 +3117,7 @@ var GENERATOR = function(genparams){
 						compileCallback();		
 					
 				}catch(err){
-					$('.gen-form-save .fa-cog').addClass("hidden");   
+					$('.form-gen-save .fa-cog').addClass("hidden");   
 					
 					$.IGRP.notify({
 						message : "Error 3064: "+err,

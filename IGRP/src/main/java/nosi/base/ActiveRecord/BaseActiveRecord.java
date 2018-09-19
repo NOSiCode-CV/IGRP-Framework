@@ -68,6 +68,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			this.className = null;
 			if(this.shoErrors)
 				e.printStackTrace();
 		} finally {
@@ -92,6 +93,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			this.className = null;
 			if(this.shoErrors)
 				e.printStackTrace();
 		} finally {
@@ -158,6 +160,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			this.className = null;
 			if(this.shoErrors)
 				e.printStackTrace();
 		} finally {
@@ -197,6 +200,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			this.className = null;
 			if(this.shoErrors)
 				e.printStackTrace();
 		} finally {
@@ -227,6 +231,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
+	      list=null;
 			if(this.shoErrors)
 				e.printStackTrace();
 		} finally {
@@ -472,6 +477,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
+	      list=null;
 	      if(this.shoErrors)
 			e.printStackTrace();
 		} finally {
@@ -497,6 +503,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
+	      list=null;
 	      if(this.shoErrors)
 			e.printStackTrace();
 		} finally {

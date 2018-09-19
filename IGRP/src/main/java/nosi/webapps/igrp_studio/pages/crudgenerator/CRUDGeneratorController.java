@@ -273,13 +273,16 @@ public class CRUDGeneratorController extends Controller {
 				String path_class = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
+				Boolean workspace= this.getConfig().getWorkspace().equals("");
+				String path_class_work_space = null;
+				if(workspace)
+					path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
 				path_class = this.getConfig().getBasePathClass()+ path_class;	
 			
 				
 				boolean r = FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
 				
-				if(FileHelper.fileExists(this.getConfig().getWorkspace())){
+				if(workspace){
 					if(!FileHelper.fileExists(path_class_work_space)){//check directory
 						FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 					}

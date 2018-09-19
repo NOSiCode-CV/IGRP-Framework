@@ -18,6 +18,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.TaskAccess;
 import org.json.JSONException;
@@ -63,15 +64,15 @@ public class PesquisarMenuController extends Controller {
 		List<Menu> menus = null;
 
 		if (idOrg == 0 && idApp!=0) {
-			if ("igrp".equalsIgnoreCase(dad)) {
-				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
-			} else {
-				menus = menu.find().andWhere("application.id", "=", idApp)
-						.andWhere("application", "<>", 1)// Oculta IGRP Core
-						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
-						.andWhere("application", "<>", 3)// Oculta IGRP Studio
+			if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
+				menus = menu.find().andWhere("application", "=", idApp).all();
+			}else {
+				menus = menu.find().andWhere("application.id", "=", idApp)							
+						.andWhere("application", "<>", 1)//Oculta IGRP Core
+						.andWhere("application", "<>", 2)//Oculta IGRP Tutorial 
+						.andWhere("application", "<>", 3)//Oculta IGRP Studio
 						.all();
-			}	
+			}					
 			
 			Collections.sort(menus,new SortbyStatus());
 			
