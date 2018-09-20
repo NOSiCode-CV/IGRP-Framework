@@ -21,8 +21,11 @@ public class Route {
 		//String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));	
 		String aux = "?r=" + new EncrypDecrypt().encrypt(app + "/" + page + "/" + action)
 					+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
-		//aux = aux.replaceAll("&&", "&"); */
+		aux = aux.replaceAll("&&", "&");
 		//UrlHelper.urlEncoding(aux); 
+		
+		System.out.println(aux);
+		
 		return aux;
 	}
 

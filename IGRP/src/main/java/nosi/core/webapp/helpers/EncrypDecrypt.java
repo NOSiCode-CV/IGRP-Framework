@@ -11,6 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import nosi.core.webapp.Igrp;
+import nosi.webapps.igrp.dao.Action;
 
 public class EncrypDecrypt {
 
@@ -29,23 +30,40 @@ public class EncrypDecrypt {
 	}
 
 	public boolean getWakandaList(String content) {
-		return 
+		String qs = Igrp.getInstance().getRequest().getQueryString();
+		return	
 				!content.equals("igrp/login/login")	&& 
+				!content.equals("igrp/home/index")	&& 
 				!content.equals("igrp/ErrorPage/exception") && 
 				!content.equals("igrp/error-page/exception") && 
 				!content.equals("igrp/login/logout") && 
 				!content.contains("igrp/page") && 	
-				!content.contains("changeStatus");
+				!content.contains("changeStatus") && 
+				!(qs.contains("target=_blank") && qs.contains("isPublic=1")); // Para paginas totalmente publicas 
 	}
 	
 	public String decrypt(String content) {
 		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
 		if(customHeader != null && customHeader.equals("1")) return content;
 		
-		if (getWakandaList(content) ) {
+		if (getWakandaList(content) ) { 
 			content = decrypt(content.replace(" ", "+"), getSecretKey()); 
 		}
 		return content;
+	}
+	
+	public boolean isPublicUrl() {
+		boolean flag = false;
+		try {
+			String r = Igrp.getInstance().getRequest().getParameter("r");
+			String aux[] = r.split("/");
+			String dad = aux[0];
+			String page = aux[1];
+			//flag = new Action().isPublicPage(dad, page); 
+		}catch(Exception e) {
+			
+		}
+		return flag;
 	}
 
 	private String getSecretKey() {

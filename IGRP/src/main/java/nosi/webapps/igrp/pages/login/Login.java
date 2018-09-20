@@ -14,6 +14,9 @@ public class Login extends Model{
 	@RParam(rParamName = "p_button")
 	private String button;
 	
+	@RParam(rParamName = "p_button2")
+	private String button2;
+	
 	@RParam(rParamName = "p_buttontoken")
 	private String buttontoken;
 	
@@ -88,6 +91,12 @@ public class Login extends Model{
 	}
 	public void setP_env_dml(String p_env_dml) {
 		this.p_env_dml = p_env_dml;
+	}
+	public String getButton2() {
+		return button2;
+	}
+	public void setButton2(String button2) {
+		this.button2 = button2;
 	}
 	
 }
