@@ -379,6 +379,7 @@ public class MigrationIGRPInitConfig {
 		User aux = new User();
 		aux.setAuth_key("123456");
 		aux.setCreated_at(12345);
+		aux.setEmail("nosicode@nosi.cv");
 		aux.setPass_hash("Pa$$w0rd");
 		aux.setStatus(1);
 		aux.setUpdated_at(133);
