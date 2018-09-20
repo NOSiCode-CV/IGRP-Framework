@@ -48,6 +48,12 @@
                     <label>Login</label>
                     <value>Mollit doloremque perspiciatis totam dolor</value>
                 </button>
+                
+                <button name="p_button2" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Recuperar conta</label>
+                    <value>Recuperar conta</value>
+                </button>
+                
                 <buttontoken name="p_buttontoken" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Login com Token</label>
                     <value>Unde anim perspiciatis sed accusantium</value>

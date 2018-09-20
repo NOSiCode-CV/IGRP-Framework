@@ -58,8 +58,14 @@ import service.client.WSO2UserStub;
  * Marcel Iekiny
  * Oct 4, 2017
  */
+/*----#start-code(packages_import)----*/
+
+
+/*----#end-code----*/
 public class LoginController extends Controller { 
 	
+	
+	/*----#start-code(custom_actions)----*/
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
@@ -126,6 +132,8 @@ public class LoginController extends Controller {
 		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
+		
+		
 		
 		if(oauth2 != null && oauth2.equalsIgnoreCase("1") && !validateOAuth2Parameters(response_type, client_id, redirect_uri, scope)) {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro ... Autenticação OAuth2 falhada !"));
@@ -205,6 +213,7 @@ public class LoginController extends Controller {
 					default:;
 				}
 			}
+			
 		return this.renderView(view,true);
 	}
 	
@@ -635,5 +644,5 @@ public class LoginController extends Controller {
 				return false;
 		return true;
 	}
-	
+	/*----#end-code----*/
 }
