@@ -318,6 +318,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        .addQueryString("formKey", task.getFormKey())
 	        .addQueryString("processDefinition", task.getProcessDefinitionKey())
 	        .addQueryString("taskDefinition", task.getTaskDefinitionKey())
+	        .addQueryString("report_p_prm_definitionid", task.getProcessInstanceId())
 	        //for output documents details
 	        .addQueryString("preiviewApp",task.getTenantId())
 	        .addQueryString("previewTask", task.getTaskDefinitionKey())
