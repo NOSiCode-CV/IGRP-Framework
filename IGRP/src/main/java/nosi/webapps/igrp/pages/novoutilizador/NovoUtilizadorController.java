@@ -246,10 +246,10 @@ public class NovoUtilizadorController extends Controller {
 
 		if (viaIds) {
 			try {
-				URL url = new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
+				URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 				WSO2UserStub.disableSSL();
 				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-				stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"),
+				stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"),
 						2);
 
 				List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
@@ -305,8 +305,8 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setName(person.getFullName());
 				try {
 
-					if (settings.getProperty("enabled") != null
-							&& settings.getProperty("enabled").equalsIgnoreCase("true")) {
+					if (settings.getProperty("ids.wso2.enabled") != null
+							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
 						// String aux = person.getMail().toLowerCase().split("@")[0];
 						String aux = person.getMail().toLowerCase().trim();
 						userLdap.setUser_name(aux);
@@ -338,9 +338,9 @@ public class NovoUtilizadorController extends Controller {
 	private boolean addRoleToUser(Properties settings, User user) {
 		try {
 
-			String wsdlUrl = settings.getProperty("RemoteUserStoreManagerService-wsdl-url");
-			String username = settings.getProperty("admin-usn");
-			String password = settings.getProperty("admin-pwd");
+			String wsdlUrl = settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url");
+			String username = settings.getProperty("ids.wso2.admin-usn");
+			String password = settings.getProperty("ids.wso2.admin-pwd");
 			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
 
 			String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
@@ -409,14 +409,14 @@ public class NovoUtilizadorController extends Controller {
 		Properties settings = loadIdentityServerSettings();
 		User userLdap = null;
 		userLdap = invite(email,
-				(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")),
+				(settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")),
 				settings);
 
 		if (userLdap != null) {
 			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
 			if (u == null) {
 
-				if (settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")
+				if (settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
 						&& !addRoleToUser(settings, userLdap)) {
 					Core.setMessageError("Ocorreu um erro ao adicionar role ao utilizador.");
 					return false;
@@ -471,8 +471,8 @@ public class NovoUtilizadorController extends Controller {
 
 	private Properties loadIdentityServerSettings() {
 
-		String path = new Config().getBasePathConfig() + File.separator + "ids";
-		String fileName = "wso2-ids.xml";
+		String path = new Config().getBasePathConfig() + File.separator + "common";
+		String fileName = "main.xml";
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath()
 				.replaceAll("%20", " "));
 
