@@ -1,9 +1,10 @@
 package nosi.webapps.igrp.pages.novoutilizador;
+
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-
-
 
 public class NovoUtilizador extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

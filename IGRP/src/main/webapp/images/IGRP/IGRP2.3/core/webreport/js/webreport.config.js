@@ -1,32 +1,67 @@
 var xslpath = '../../',
   WR = {
   editor   : 'form_1_report_editor',
-  listType : [{type:'table',icon:'fa-table'},{type:'ul',icon:'fa-list-ul'},{type:'ol',icon:'fa-list-ol'}],
-  listGroup: [{label:'Linha', value:'row'},{label:'Coluna',value:'col'},{label:'Normal',value:''}],
+  listType : [
+  	{type:'table',icon:'fa-table'},
+  	{type:'ul',icon:'fa-list-ul'},
+  	{type:'ol',icon:'fa-list-ol'}
+  ],
+  listGroup: [
+  	{label:'Linha', value:'row'},
+  	{label:'Coluna',value:'col'},
+  	{label:'Normal',value:''}
+  ],
   document : {
   	config: {
   		printsize : {
   			label   : 'Print Size',
   			name 	: 'wr_printsize',
-  			options : [{text : 'A3', value : 'A3'},{text : 'A4', value : 'A4', selected:'selected="selected"'},{text : 'A5', value : 'A5'}]
+  			options : [
+  				{text : 'A3', value : 'A3'},
+  				{text : 'A4', value : 'A4', selected:'selected="selected"'},
+  				{text : 'A5', value : 'A5'},
+  				{text : 'A6', value : 'A6'},
+  				{text : 'A7', value : 'A7'}
+  			]
   		},
-  		customfooter : {
-  			label : 'Custom Footer',
-  			name  : 'wr_customfooter',
-  			value : '<div class="noprint">'+
-  					'<div class="control">'+
-		  				'<div class="lfooter"></div>'+
-				        '<div id="containerQrcode"></div>'+
-				        '<div class="rfooter">'+
-				        	'<div class="contraProva">'+
-				            	'<div class="clabel"><span footer="footer" no="print_report" tag="name_contraprova">Titulo Contra Prova</span></div>'+
-				            	'<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
-				          	'</div>'+
-				          	'<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>'+
-				          	'/<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
-				        '</div>'+
-			        '</div>'+
-		        '</div>'
+  		layout : {
+  			label   : 'Layout',
+  			name 	: 'wr_layout',
+  			options : [
+  				{text : 'Portrait', value : 'P', checked:'checked="checked"'},
+  				{text : 'Landscape', value : 'L'}
+  			]
+  		},
+  		pagesize : {
+  			'A3'  : {w : '297mm', h : '420mm'},
+  			'A4'  : {w : '210mm', h : '297mm'},
+  			'A5'  : {w : '148mm', h : '210mm'},
+  			'A6'  : {w : '105mm', h : '148mm'},
+  			'A7'  : {w : '74mm',  h : '105mm'}
+  		},
+  		footer : {
+  			custom : {
+	  			label : 'Custom Footer',
+	  			name  : 'wr_customfooter',
+	  			value : '<div class="holder-footer">'+
+	  					'<div id="containerQrcode"></div>'+
+						'<div class="rfooter">'+
+						    '<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>/'+
+						    '<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
+						    '<div class="contraProva">'+
+						        '<div class="clabel"><span footer="footer" no="print_report" tag="name_contraprova">Titulo Contra Prova</span></div>'+
+						        '<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
+						    '</div>'+
+						'</div></div>'
+			},
+			has : {
+				label   : 'Footer',
+	  			name 	: 'wr_hasfooter',
+	  			options : [
+	  				{text : 'Yes', value : 'Y', checked:'checked="checked"'},
+	  				{text : 'No', value : 'N'}
+	  			]
+			}
   		}
   	},	
   	xsl    : {
@@ -288,12 +323,12 @@ var xslpath = '../../',
 	      '<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
 	      '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />'+
 	      '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />',
-	    body : '<style type="text/css">@page {size:=:WRPZ:=;margin: 0;}</style></head><body>',
+	    body : '<style type="text/css">@page {size:=:WRLS:=;}</style></head><body>',
 	    endbody : '</body></html></xsl:template>',
 	    end : '</xsl:stylesheet>'
   	},
   	includ : {
-  		head : '<xsl:call-template name="IGRP-head"/>',
+  		head : '',
   		css  : {
   			all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"/>',
   			chart : '<link rel="stylesheet" type="text/css" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"/>',
