@@ -1,9 +1,13 @@
-
 package nosi.webapps.igrp.pages.novoutilizador;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class NovoUtilizadorView extends View {
 
@@ -32,9 +36,9 @@ public class NovoUtilizadorView extends View {
 		sectionheader_1_text.setValue(gt("Convite - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		email = new EmailField(model,"email");
+		email = new TextField(model,"email");
 		email.setLabel(gt("E-mail"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","true");
+		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
@@ -42,15 +46,15 @@ public class NovoUtilizadorView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","int");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","int");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","int");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -79,7 +83,8 @@ public class NovoUtilizadorView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(NovoUtilizador model) {
+	@Override
+	public void setModel(Model model) {
 		
 		email.setValue(model);
 		nada.setValue(model);
@@ -87,6 +92,5 @@ public class NovoUtilizadorView extends View {
 		organica.setValue(model);
 		perfil.setValue(model);	
 
-		
-	}
+		}
 }

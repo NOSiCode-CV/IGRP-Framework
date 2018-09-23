@@ -1,6 +1,7 @@
 body {
   -webkit-print-color-adjust: exact;
   background: rgb(204,204,204);
+  text-align: justify;
 }
 
 *{
@@ -8,137 +9,112 @@ body {
   -moz-box-sizing: border-box;
 }
 
-div[size="A4"]{
-  width: 210mm; 
-  min-height: 297mm;
-}
-
 div[size="A3"]{
   width: 297mm;
   min-height: 420mm;
 }
-
+div[size="A3L"]{
+  width: 420mm;
+  min-height:280mm;
+}
+/*------------------------------------------*/
+div[size="A4"]{
+  width: 210mm; 
+  min-height: 297mm;
+}
+div[size="A4L"]{
+  width: 297mm; 
+  min-height: 210mm;
+}
+/*------------------------------------------*/
 div[size="A5"]{
   width: 148mm;
   min-height: 210mm; 
 }
-
+div[size="A5L"]{
+  width: 210mm;
+  min-height:148mm; 
+}
+/*------------------------------------------*/
 div[size="A6"]{
   width: 105mm;
   min-height: 148mm; 
 }
-
+div[size="A6L"]{
+  width: 148mm;
+  min-height: 105mm; 
+}
+/*------------------------------------------*/
 div[size="A7"]{
   width: 74mm;
   min-height: 105mm; 
 }
-
-div[size="A4"] .footer{
-  width: 210mm; 
-}
-
-div[size="A4"] .footer .lfooter{
-  width: 2mm; 
-}
-
-div[size="A4"] .footer .rfooter{
-  width: 175.7mm; 
-}
-
-div[size="A4"] .footer #containerQrcode{
-  padding:5px; 
-  width: 30mm; 
-}
-
-div[size="A3"] .footer{
-  width: 297mm;
-}
-
-div[size="A5"] .footer{
-  width: 148mm;
-}
-
-div[size="A6"] .footer{
+div[size="A7L"]{
   width: 105mm;
+  min-height: 74mm; 
+}
+/*--------------------------------------*/
+div[size] #footer{
+  width: 100%; 
 }
 
-div[size="A7"] .footer{
-  width: 74mm;
+div[size] #footer .rfooter{
+  width:calc(100% - 135px); 
+}
+
+div[size] #footer .holder-footer{
+  width: 100%;
+  background-color: #fff;
+  display: block;
+  height: 55px;
 }
 
 .page{
   background: white;
   display: block;
   margin: 5mm auto;
-  box-shadow:0 0 0.5cm rgba(0,0,0,0.5);
+  box-shadow:0 0 1mm rgba(0,0,0,0.5);
   position: relative;
-  font-size: 12pt;
+  font-size: 12px;
   font-family:"Times New Roman";
 }
 
-.page .head{
+.page #header{
   padding: 10px 20px;
 }
 
-.page .content{
-  padding: 10px 20px 130px 20px;
+.page #content{
+  padding: 20px 20px 130px 20px;
   display: block;
   margin-bottom: 10px;
 }
 
-.wrap{
-  padding: 1cm;
-  min-height: 257mm;
-  position: relative;
+.page[hasfooter="N"] #content{
+  padding: 20px;
 }
 
-.footer{
+#footer{
   position: absolute;
   bottom: 0;
+  background-color: #267199;
 }
 
-.noprint{
-  display: block;
-  height:65px; 
+.rfooter{
+  float: left;
+  padding: 60px 10px 0 10px;
 }
 
-.lfooter, .rfooter{
-  display: inline-block;
-  border-bottom:60px solid #267199;
-  position: relative;
-}
-
-.control{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.content:after, .header:after, .footer:after{
-  content: "";
-  display: block;
-  clear: both;
-}
-
-/*.rfooter{
-  width:673.5px;
-}
-
-@media screen and (-webkit-min-device-pixel-ratio:0){ 
-  .rfooter{ width:667px; } 
-}*/
-
-#containerQrcode{
-  display: inline-block; 
-  height: 100px;
+#containerQrcode{ 
+  padding:5px; 
+  width: 29mm;
+  background-color: #fff;
+  float: left;
+  margin-left: 15px;
+  /*margin-top: -43px;*/
 }
 
 .contraProva{
-  padding: 0 10px;
-  font-size: 16px;
-  position: absolute;
-  bottom: -58px;
+  font-size: 14px;
 }
 
 .contraProva .clabel{
@@ -154,13 +130,15 @@ div[size="A7"] .footer{
 .userprint{
   font-size: 11px; 
   color: #faf7f7;
-  right: 5px;
-  bottom: -55px;
-  position: absolute;
+  text-align: right;
 }
 
-.userprint span{
-  padding: 0 5px
+canvas{
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  line-height: 0;
 }
 
 table{
@@ -198,15 +176,15 @@ table.clean tbody tr td{
   min-height: 80px;
 }
 
-.content{
+#content{
   margin:3cm 0;
 }
 
-.head{
+#header{
   top: 1cm;
 }
 
-.footer{
+#footer{
   bottom: 1cm;
 }*/
 
@@ -218,43 +196,93 @@ p{
 @media print {
   html, body {
     -webkit-print-color-adjust:exact;
+    background: #fff; 
     margin: 0;
     padding: 0; 
-    font: 14pt "Times New Roman";       
+    font: 12px "Times New Roman";     
   }
 
- /* .fixed{
-    position: fixed;
-  }*/
+  @top-left, @top-right, @top-center { display: none; }
+  @bottom-center, @bottom-left, @bottom-right { display: none; }
 
   table{
     width: 100%;
   }
+  table thead, table tfoot, table tbody{
+    display: table-header-group;
+  }
 
   .page{
+    background: white;
     margin: 0;
+    padding: 0;
     border: initial;
     border-radius: initial;
-    width: initial;
-    min-height: initial;
-    box-shadow: initial;
+    box-shadow: 0 0 0 #fff;
     background: initial;
-    page-break-after: always;
-    page-break-before: always;
+    font-size: 12px;
+    font-family:"Times New Roman";
   }
 
-  .page .head{
-    padding: 10px 20px;
+  .page #header {
+    display: table-header-group\9;
+    padding:0;
   }
 
-  .page .content{
-    padding: 10px 20px 130px 20px;
-    display: block;
-    margin-bottom: 10px;
+
+  .page #content {
+    display: table-row-group\9;
+    margin-bottom:0;
+    padding:0;
   }
 
-  .wrap{
-    min-height: initial;
+
+  .page footer {
+    display: table-footer-group\9;
+    height: 400px;
+    width: 420mm\9;
+  }
+
+  .page #footer{
+    position: fixed;
+    bottom: 0;
+    page-break-after:always;
+    page-break-inside:avoid;
+  }
+
+  div[size="A3"] #content .holder{
+    width: 297mm\9;
+  }
+  div[size="A3L"] #content .holder{
+    width: 420mm\9;
+  }
+  /*------------------------------------------*/
+  div[size="A4"] #content .holder{
+    width: 210mm\9;
+  }
+  div[size="A4L"] #content .holder{
+    width: 297mm\9;
+  }
+  /*------------------------------------------*/
+  div[size="A5"] #content .holder{
+    width: 148mm\9; 
+  }
+  div[size="A5L"] #content .holder{
+    width: 210mm\9; 
+  }
+  /*------------------------------------------*/
+  div[size="A6"] #content .holder{
+    width: 105mm\9;
+  }
+  div[size="A6L"] #content .holder{
+    width: 148mm\9; 
+  }
+  /*------------------------------------------*/
+  div[size="A7"] #content .holder{
+    width: 74mm\9;
+  }
+  div[size="A7L"] #content .holder{
+    width: 105mm\9;
   }
 
   p a {

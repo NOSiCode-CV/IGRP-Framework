@@ -274,9 +274,9 @@ $(function ($) {
 
 								$.WR.fieldDataSource.setVal(datasorceXml);
 
-								if(!$.WR.newDocument){
+								if(!$.WR.newDocument && $.WR.id){
 									$.WR.editor.set.data({});
-									$.WR.document.customfooter.isActive(false);
+									$.WR.document.footer.custom.isActive(false);
 								}
 							}	
 						}
@@ -305,23 +305,24 @@ $(function ($) {
 			}	
 		};
 
-		$.WR.fieldPrintSize = {
-			getVal : function(){
-				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || 'A4';
-			},
-			setVal : function(v){
-				var selPrintSize = $('select[name="'+WR.document.config.printsize.name+'"]');
-				$('option[selected]',selPrintSize).removeAttr('selected');
-				$('option[value="'+v+'"]',selPrintSize).attr('selected','selected');
-			}
-		}
-
 		$.WR.document = {
 			modal : function(p){
-				var option = '';
+				var option = '',
+					wrls   = '',
+					hasf   = '';
 				WR.document.config.printsize.options.forEach(function(e,i){
 					var sel = e.selected || '';
 					option += '<option value="'+e.value+'" '+sel+'>'+e.text+'</option>';		
+				});
+
+				WR.document.config.layout.options.forEach(function(e,i){
+					var sel = e.checked || '';
+					wrls += '<div class="col-md-6 radio"><label><input class="radiolist" type="radio" name="'+WR.document.config.layout.name+'" value="'+e.value+'" '+sel+'/><span>'+e.text+'</span></label></div>';		
+				});
+
+				WR.document.config.footer.has.options.forEach(function(e,i){
+					var sel = e.checked || '';
+					hasf += '<div class="col-md-6 radio"><label><input class="radiolist" type="radio" name="'+WR.document.config.footer.has.name+'" value="'+e.value+'" '+sel+'/><span>'+e.text+'</span></label></div>';		
 				});
 
 				var content = '<div class="row reporttitle"><div class="col-md-12 form-group">'+
@@ -334,9 +335,15 @@ $(function ($) {
 					'<label for="'+WR.document.config.printsize.name+'">'+WR.document.config.printsize.label+'</label></div>'+
 					'<div class="col-md-8"><select class="form-control" name="'+WR.document.config.printsize.name+'">'+
 					option+'</select></div></div>'+
+					'<div class="col-md-12 form-group radiolist clear"><div class="col-md-4">'+
+						'<label for="'+WR.document.config.layout.name+'">'+WR.document.config.layout.label+'</label></div>'+
+					'<div class="col-md-8">'+wrls+'</div></div>'+
+					'<div class="col-md-12 form-group radiolist clear"><div class="col-md-4">'+
+						'<label for="'+WR.document.config.footer.has.name+'">'+WR.document.config.footer.has.label+'</label></div>'+
+					'<div class="col-md-8">'+hasf+'</div></div>'+
 					/*'<div class="col-md-12 form-group"><div class="col-md-4">'+
-						'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
-					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div>'+*/
+						'<label for="'+WR.document.config.footer.custom.name+'">'+WR.document.config.footer.custom.label+'</label></div>'+
+					'<div class="col-md-8"><input name="'+WR.document.config.footer.custom.name+'" type="checkbox"/></div></div>'+*/
 					'</div>';
 
 				$.IGRP.components.globalModal.set({
@@ -368,6 +375,8 @@ $(function ($) {
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
+										
+										$.WR.document.properties();
 
 										if (p.action == 'edit') 
 											data.push({name:'p_id',value:$.WR.id});
@@ -454,6 +463,59 @@ $(function ($) {
 							window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", info);
 					});
 				}
+			},
+			print : {
+				size : {
+					get : function(){
+						return $('select[name="'+WR.document.config.printsize.name+'"]').val() || $.WR.document.print.size.val || 'A4';
+					},
+					set : function(v){
+						var selPrintSize = $('select[name="'+WR.document.config.printsize.name+'"]');
+						$('option[selected]',selPrintSize).removeAttr('selected');
+						$('option[value="'+v+'"]',selPrintSize).attr('selected','selected');
+					}
+				},
+				layout : {
+					get : function(){
+						return $('input[name="'+WR.document.config.layout.name+'"]:checked').val() || $.WR.document.print.layout.val || 'P';
+					},
+					set : function(v){
+						$('input[name="'+WR.document.config.layout.name+'"]').filter('[value="'+v+'"]').prop('checked',true);
+					}
+				}
+			},
+			footer : {
+				custom : {
+					isActive : function(type){
+						var obj   = $('#footer-wr').parents('.box-wr'),
+							input = $('input[name="'+WR.document.config.footer.custom.name+'"]');
+
+						type ? obj.removeClass('hidden') : obj.addClass('hidden');
+						input.attr('checked',type).prop('checked',type);
+					},
+					onClick : function(){
+						$('body').on('change','input[name="'+WR.document.config.footer.custom.name+'"]',function(){
+							$.WR.document.footer.custom.isActive($(this).is(':checked'));
+						});
+					},
+					get : function(){
+						return $('input[name="'+WR.document.config.footer.custom.name+'"]').is(':checked') || $.WR.document.footer.custom.val || 0;
+					}
+				},
+				has : {
+					get : function(){
+						return $('input[name="'+WR.document.config.footer.has.name+'"]:checked').val() || $.WR.document.footer.has.val || 'Y';
+					},
+					set : function(v){
+						$('input[name="'+WR.document.config.footer.has.name+'"]').filter('[value="'+v+'"]').prop('checked',true);
+					}
+				}
+			},
+			properties : function(){
+				$.WR.document.print.size.val   	= $.WR.document.print.size.get();
+				$.WR.document.print.layout.val 	= $.WR.document.print.layout.get();
+				$.WR.document.footer.has.val   	= $.WR.document.footer.has.get();
+				$.WR.document.footer.custom.val = $.WR.document.footer.custom.get();
 			},
 			newOrEdit : function(p){
 				if($.WR.title && !$.WR.id){
@@ -583,25 +645,41 @@ $(function ($) {
 			},
 			save   : function(p){
 
-				var size = $.WR.fieldPrintSize.getVal();
+				$.WR.document.properties();
 
-				p.file.forEach(function(e,i){
-					if (e.name == 'p_textreport') {
-						e.value.config.customfooter = $.WR.document.customfooter.getChecked();
-						e.value.config.printsize 	= size;
+				var size  = $.WR.document.print.size.val,
+					lsize = $.WR.document.print.layout.val,
+					WRLS  = WR.document.config.pagesize[size];
 
-						e.value = JSON.stringify(e.value);
-					}
-					else if(e.name == 'p_xslreport'){
-						e.value = e.value.replace(/=:WRPZ:=/g,size);
-					}
-				});
+				size = lsize == 'L' ? size+lsize : size;
+				WRLS = lsize == 'L' ? WRLS.h+' '+WRLS.w : WRLS.w+' '+WRLS.h;
 
-				/*console.log(p.file[0].value);
-				console.log('--------------------');
-				console.log(p.file[1].value);
-				console.log('-----------------');
-				console.log(p.fields);*/
+				/* files save */
+
+				var files 		= {},
+					head 		= WR.document.includ.css.all, /*WR.document.includ.head+*/
+					includJs 	= WR.document.includ.js.all,
+					includTmpl 	= ''; //WR.document.includ.tmpl.defoult
+
+						
+				if ($.WR.hasCarts && !$.WR.notCartsInclud) {
+					head 		+= WR.document.includ.css.chart;
+					includJs 	+= WR.document.includ.js.chart;
+					includTmpl 	+= WR.document.includ.tmpl.chart;
+
+					$.WR.notCartsInclud = true;
+				}
+
+				files.text = JSON.stringify($.WR.editor.structures.text());
+
+				files.xsl  = WR.document.xsl.init+head+
+					WR.document.xsl.body.replace(/=:WRLS:=/g,WRLS)+
+					$.WR.element.filter().replace(/=:WRPS:=/g,size)+includJs+
+					WR.document.xsl.endbody+includTmpl+
+					WR.document.xsl.end;
+
+				p.file.push({name : 'p_xslreport', value  : files.xsl});
+				p.file.push({name : 'p_textreport', value : files.text});
 
 				$.IGRP.utils.submitStringAsFile({
 		      		pUrl    	: p.url,
@@ -633,27 +711,7 @@ $(function ($) {
 			onSave : function(){
 				$.IGRP.targets['submit'].action = function(p){
 					if($.WR.app != null){
-						var saveDoc 	= {},
-							head 		= WR.document.includ.css.all, /*WR.document.includ.head+*/
-							includJs 	= WR.document.includ.js.all,
-							includTmpl 	= ''; //WR.document.includ.tmpl.defoult
-
-						
-						if ($.WR.hasCarts && !$.WR.notCartsInclud) {
-							head 		+= WR.document.includ.css.chart;
-							includJs 	+= WR.document.includ.js.chart;
-							includTmpl 	+= WR.document.includ.tmpl.chart;
-
-							$.WR.notCartsInclud = true;
-						}
-
-						saveDoc.text = $.WR.editor.structures.text();
-
-						saveDoc.xsl  = WR.document.xsl.init+head+
-							WR.document.xsl.body+
-							$.WR.element.filter()+includJs+
-							WR.document.xsl.endbody+includTmpl+
-							WR.document.xsl.end;
+						var saveDoc 	= {};
 
 						saveDoc.file 	= [];
 						saveDoc.fields  = [];
@@ -717,9 +775,6 @@ $(function ($) {
 				            }
 				          }
 				        }catch(e){null;}
-
-				        saveDoc.file.push({name:'p_xslreport',value:saveDoc.xsl});
-				        saveDoc.file.push({name:'p_textreport',value:saveDoc.text});
 
 				        if ($.WR.id && $.WR.id != undefined) {
 				        	saveDoc.fields.push({name:'p_id',value:$.WR.id});
@@ -854,7 +909,9 @@ $(function ($) {
 			convert2Do : function(p){
 				var isActive  = false,
 					content   = '',
-					printsize = 'A4';
+					printsize = 'A4',
+					hasfooter = 1,
+					layout    = WR.document.config.pagesize[printsize];
 
 				if(p){
 					if (!p.content) {
@@ -869,31 +926,20 @@ $(function ($) {
 						isActive  = p.config.customfooter;
 						content   = p.content;
 						printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
+						layout 	  = p.config.layout  && p.config.layout != undefined ? p.config.layout : layout;
+						hasfooter = p.config.hasfooter  && p.config.hasfooter != undefined ? p.config.hasfooter : hasfooter;
 					}
 				}
 
-				$.WR.fieldPrintSize.setVal(printsize);
+				$.WR.document.print.size.set(printsize);
 
-				$.WR.document.customfooter.isActive(isActive);
+				$.WR.document.print.layout.set(layout);
+
+				$.WR.document.footer.has.set(hasfooter);
+
+				$.WR.document.footer.custom.isActive(isActive);
 				
 				$.WR.editor.set.data(content);
-			},
-			customfooter : {
-				isActive : function(type){
-					var obj   = $('#footer-wr').parents('.box-wr'),
-						input = $('input[name="'+WR.document.config.customfooter.name+'"]');
-
-					type ? obj.removeClass('hidden') : obj.addClass('hidden');
-					input.attr('checked',type).prop('checked',type);
-				},
-				onClick : function(){
-					$('body').on('change','input[name="'+WR.document.config.customfooter.name+'"]',function(){
-						$.WR.document.customfooter.isActive($(this).is(':checked'));
-					});
-				},
-				getChecked : function(){
-					return $('input[name="'+WR.document.config.customfooter.name+'"]').is(':checked');
-				}
 			},
 			init : function(){
 				$.WR.document.new();
@@ -901,7 +947,7 @@ $(function ($) {
 				$.WR.document.onClick();
 				$.WR.document.onSave();
 				$.WR.document.onPreview();
-				$.WR.document.customfooter.onClick();
+				$.WR.document.footer.custom.onClick();
 				$.WR.document.info.show();
 				$.WR.document.info.copy();
 			}
@@ -1192,7 +1238,7 @@ $(function ($) {
 								'</tbody>';
 
 							}else{
-								table = '<thead><tr>'+th+'</tr></thead>'+
+								table = '<thead>'+p.thead+'</thead>'+
 								'<tbody>'+
 									'<xsl:for-each select="'+path+'">'+
 										'<tr>'+td+'</tr>'+
@@ -1210,7 +1256,7 @@ $(function ($) {
 								th += '<th '+e.th.style+'>'+e.th.value+'</th>';
 							});
 
-							table = '<thead><tr>'+th+'</tr></thead>'+
+							table = '<thead>'+p.thead+'</thead>'+
 							'<tbody>'+
 								'<xsl:for-each select="'+p.path+'">'+
 									'<tr>'+td+'</tr>'+
@@ -1281,6 +1327,7 @@ $(function ($) {
 			    			table.vars 		= '';
 			    			table.cond 		= '';
 			    			table.colgroup 	= colgroup ? colgroup.split(',') : [];
+			    			table.thead 	= element.children[0].getHtml();
 
 			    			if(table.no && table.no != undefined){
 			    				var th   		= [],
@@ -1469,28 +1516,32 @@ $(function ($) {
 						data 	   = $.WR.editor.getData();
 
 					structure.config  			  = {};
-					structure.config.printsize 	  = $.WR.fieldPrintSize.getVal();
-					structure.config.customfooter = $.WR.document.customfooter.getChecked();
+					structure.config.printsize 	  = $.WR.document.print.size.val;
+					structure.config.layout 	  = $.WR.document.print.layout.val;
+					structure.config.customfooter = $.WR.document.footer.custom.val;
+					structure.config.hasfooter 	  = $.WR.document.footer.has.val;
 
 					structure.content 		 = {};
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
-					structure.content.footer = $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," "));
+					structure.content.footer = $.WR.document.footer.has.val == 'Y' ? $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," ")) : "";
 					
 					return structure;
 				},
 				html : function(){
+					console.log($.WR.document.footer.has.val);
 					var data = $.WR.editor.getData(),
-						size = $('select[name="'+WR.document.config.printsize.name+'"]').val();
-
-					size = size && size != undefined ? size : '=:WRPZ:=';
-
-					var html   = '<div class="page" size="'+size+'"><div class="head">',
-						footer = data.footer ? data.footer : WR.document.config.customfooter.value;
+						html = '<div class="page" hasfooter="'+$.WR.document.footer.has.val+'" size="=:WRPS:="><div id="header">';
 
 					html += data.head+'</div>';
-					html += '<div class="content">'+data.body+'</div>';
-					html += '<div class="footer">'+footer+'</div></div>';
+					html += '<div id="content">'+data.body+'</div>';
+
+					if ($.WR.document.footer.has.val == 'Y'){
+						var footer = data.footer ? data.footer : WR.document.config.footer.custom.value;
+						html += '<footer></footer><div id="footer">'+footer+'</div>';
+					}
+
+					html += '</div>';
 					
 					return html;
 				}
@@ -1499,7 +1550,7 @@ $(function ($) {
 				CKEDITOR.on( 'instanceReady', function(ev) {
 
 					if(ev.editor.name === 'footer-wr')
-						$.WR.editor.get(ev.editor.name).setData(WR.document.config.customfooter.value);
+						$.WR.editor.get(ev.editor.name).setData(WR.document.config.footer.custom.value);
 
 					ev.editor.on('focus',function(fc){
 						fc.stop();

@@ -53,11 +53,11 @@ var WRControl = {
     		$(f).html($(f).text());
   		});
 
-  		var qrc 	= $('div.page[size] div.footer .noprint').clone(!1),
+  		var qrc 	= $('div.page[size] div.footer').clone(!1),
 		    head 	= $('div.page[size] .head').html();
 
 	    $('div.page[size] .footer').each(function(i,e){
-	        qrc = $('div.page[size] div.footer .noprint').clone(!1);
+	        qrc = $('div.page[size] div.footer').clone(!1);
 	        
 	        $(e).html('');
 	        $(e).append(qrc);
@@ -76,7 +76,7 @@ var WRControl = {
 	    	'text' : qrcodeResult
 	  	}; 
 
-	  	$('div[size="A4"] .footer').each(function(i,e){
+	  	$('div[size] #footer').each(function(i,e){
     		$(containerQrcode, $(e)).empty().qrcode(options);
   		});
 	},
