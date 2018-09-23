@@ -134,8 +134,8 @@ public final class EmailMessage { // Not inherit
 	private boolean load() {
 		boolean flag = false;
 		
-		String fileName = "mail.xml";
-		String path = new Config().getBasePathConfig() + File.separator + "mail";
+		String fileName = "main.xml";
+		String path = new Config().getBasePathConfig() + File.separator + "common";
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
 		
 		FileInputStream fis = null;

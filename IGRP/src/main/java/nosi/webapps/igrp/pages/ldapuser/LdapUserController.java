@@ -57,7 +57,7 @@ public class LdapUserController extends Controller {
 			boolean success = false;
 			
 			Properties settings = loadIdentityServerSettings();
-			if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
+			if(settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
 				success = addThroughIds(model, settings);
 			}else {
 				success = addThroughLdap(model);
@@ -109,11 +109,11 @@ public class LdapUserController extends Controller {
 		Properties settings = (Properties) obj[0];
 		
 		try {
-			String uri = settings.getProperty("RemoteUserStoreManagerService-wsdl-url");
+			String uri = settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url");
 			URL url =  new URL(uri);
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
 	        
 	        AddUser addUser = new AddUser();
             
@@ -269,8 +269,8 @@ public class LdapUserController extends Controller {
 	
 	private Properties loadIdentityServerSettings() {
 		
-		String path = new Config().getBasePathConfig() + File.separator + "ids";
-		String fileName = "wso2-ids.xml";
+		String path = new Config().getBasePathConfig() + File.separator + "common";
+		String fileName = "main.xml";
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 		
 		FileInputStream fis = null;

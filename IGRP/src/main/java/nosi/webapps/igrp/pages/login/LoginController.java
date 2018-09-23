@@ -93,7 +93,7 @@ public class LoginController extends Controller {
 			return redirect("igrp", "login", "login");
 		}
 		
-		Properties settings_ = loadOAuth2("sso", "oauth2.xml");
+		Properties settings_ = loadOAuth2("common", "main.xml");
 		if(!Igrp.getInstance().getUser().isAuthenticated() && settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings_.getProperty("igrp.env.nhaLogin.url") != null && !settings_.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
@@ -111,7 +111,7 @@ public class LoginController extends Controller {
 					;// Go to error page 
 			}
 			
-			Properties settings = loadOAuth2("sso", "oauth2.xml");
+			Properties settings = loadOAuth2("common", "main.xml");
 			if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
 				String url = Igrp.getInstance().getRequest().getRequestURL().toString();
 				url = url.replace("app/webapps", "mylinks.jsp");
@@ -187,7 +187,7 @@ public class LoginController extends Controller {
 									;// Go to error page 
 							}else {
 								
-								Properties settings = loadOAuth2("sso", "oauth2.xml");
+								Properties settings = loadOAuth2("common", "main.xml");
 								if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
 									return checkEnvironments(model.getUser());
 								}
@@ -225,7 +225,7 @@ public class LoginController extends Controller {
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout."));
 		
-		Properties settings = loadOAuth2("sso", "oauth2.xml");
+		Properties settings = loadOAuth2("common", "main.xml");
 		if(settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
@@ -278,10 +278,10 @@ public class LoginController extends Controller {
 			Properties settings = (Properties) objects[0];
 			boolean flag = false;
 			try {
-	           URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
+	           URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 	           WSO2UserStub.disableSSL();
 	           WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	           stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	           stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
 	           flag = stub.getOperations().authenticate(username, password);
 	          
 	           // Pesquisar user from Ids 
@@ -329,7 +329,7 @@ public class LoginController extends Controller {
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		
-		if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
+		if(settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
 			success = authenticate_(username, password, true, settings, personArray); 
 		}else {
 			success = authenticate_(username, password, false, ldap, personArray); 
@@ -352,7 +352,7 @@ public class LoginController extends Controller {
 				/** End create user session **/ 
 				
 			}else {
-				Properties settings_ = loadOAuth2("sso", "oauth2.xml");
+				Properties settings_ = loadOAuth2("common", "main.xml");
 				if((this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) || 
 				(settings_.getProperty("igrp.env.isNhaLogin") != null && settings_.getProperty("igrp.env.isNhaLogin").equals("true")) 
 						) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio  
@@ -457,11 +457,11 @@ public class LoginController extends Controller {
 	private boolean sso(String username, String password, User dao) {
 		boolean flag = true;
 		
-		Properties properties = loadOAuth2("sso", "oauth2.xml");
+		Properties properties = loadOAuth2("common", "main.xml");
 		
-		String client_id = properties.getProperty("oauth2.client_id");
-		String client_secret = properties.getProperty("oauth2.client_secret");
-		String endpoint = properties.getProperty("oauth2.endpoint.token");
+		String client_id = properties.getProperty("ids.wso2.oauth2.client_id");
+		String client_secret = properties.getProperty("ids.wso2.oauth2.client_secret");
+		String endpoint = properties.getProperty("ids.wso2.oauth2.endpoint.token");
 		
 		String postData = "grant_type=password"
 				+ "&username=" + username
@@ -512,9 +512,9 @@ public class LoginController extends Controller {
 	}
 	
 	private Properties loadIdentityServerSettings() {
-		String path = new Config().getBasePathConfig() + File.separator + "ids";
+		String path = new Config().getBasePathConfig() + File.separator + "common";
 		
-		String fileName = "wso2-ids.xml";
+		String fileName = "main.xml";
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 		FileInputStream fis = null;
 		Properties props = new Properties();
@@ -569,12 +569,12 @@ public class LoginController extends Controller {
 			User user = new User().find().andWhere("user_name", "=", uid).one();
 			String token = Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes());
 			
-			Properties settings = loadOAuth2("ids", "wso2-ids.xml");
+			Properties settings = loadOAuth2("common", "main.xml");
 			
-			URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
+			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
 	        
 	        List<String> roles = stub.getOperations().getRoleListOfUser(uid);
 	      

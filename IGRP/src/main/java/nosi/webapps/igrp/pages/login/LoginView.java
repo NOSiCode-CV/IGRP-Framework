@@ -73,7 +73,7 @@ public class LoginView extends View {
 		form_1.addField(button);
 		
 		
-		Properties p = this.loadConfig("sso", "oauth2.xml"); 
+		Properties p = this.loadConfig("common", "main.xml"); 
 		if(p != null && p.getProperty("igrp.pwdRecover") != null && p.getProperty("igrp.pwdRecover").equals("true")) 
 			form_1.addField(button2); 
 		
