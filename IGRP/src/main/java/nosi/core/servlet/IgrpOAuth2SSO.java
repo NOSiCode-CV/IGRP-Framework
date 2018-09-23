@@ -79,10 +79,10 @@ public class IgrpOAuth2SSO extends HttpServlet {
 				String username = aux[0];
 				String token = aux[1];
 				
-				Properties properties = this.load("sso", "oauth2.xml");
-				String client_id = properties.getProperty("oauth2.client_id");
-				String client_secret = properties.getProperty("oauth2.client_secret");
-				String endpoint = properties.getProperty("oauth2.endpoint.token");
+				Properties properties = this.load("common", "main.xml");
+				String client_id = properties.getProperty("ids.wso2.oauth2.client_id");
+				String client_secret = properties.getProperty("ids.wso2.oauth2.client_secret");
+				String endpoint = properties.getProperty("ids.wso2.oauth2.endpoint.token");
 				
 				if(client_id == null || client_id.isEmpty() || client_secret == null || client_secret.isEmpty() || endpoint == null || endpoint.isEmpty()) {
 					response.sendError(500, "Bad configuration ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
@@ -96,7 +96,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					
 					// disableSSL(); 
 					
-					String userEndpoint = properties.getProperty("oauth2.endpoint.user");
+					String userEndpoint = properties.getProperty("ids.wso2.oauth2.endpoint.user");
 					HttpURLConnection curl = (HttpURLConnection) URI.create(userEndpoint).toURL().openConnection();
 					curl.setDoInput(true);
 					curl.setRequestProperty("Authorization", "Bearer " + token);

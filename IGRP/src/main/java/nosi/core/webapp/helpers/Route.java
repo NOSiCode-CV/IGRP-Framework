@@ -24,8 +24,6 @@ public class Route {
 		aux = aux.replaceAll("&&", "&");
 		//UrlHelper.urlEncoding(aux); 
 		
-		System.out.println(aux);
-		
 		return aux;
 	}
 

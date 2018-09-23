@@ -78,7 +78,7 @@ public class TesteSso extends HttpServlet {
 			return;
 		}
 		
-		Properties properties = this.load("sso", "oauth2.xml");
+		Properties properties = this.load("common", "main.xml");
 		
 		String userEndpoint = properties.getProperty("oauth2.endpoint.user");
 		HttpURLConnection curl = (HttpURLConnection) URI.create(userEndpoint).toURL().openConnection();

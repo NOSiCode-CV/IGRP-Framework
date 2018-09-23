@@ -98,7 +98,7 @@
                     <xsl:if test="rows/content/form/label/button2">
                       <div class="form-group col-xs-12" item-name="button2" item-type="link">
                           
-                        <a href="app/webapps?r=passwordrecovery/Resetbyemail/index&amp;target=_blank&amp;isPublic=1" type="submit" class="btn-normal btn btn-link" id="{rows/content/form/value/button2/@name}" >
+                        <a href="app/webapps?r=igrp/Resetbyemail/index&amp;target=_blank&amp;isPublic=1" type="submit" class="btn-normal btn btn-link" id="{rows/content/form/value/button2/@name}" >
                           <span><xsl:value-of select="rows/content/form/label/button2"/></span>
                         </a>
                         

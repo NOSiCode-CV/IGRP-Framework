@@ -108,7 +108,7 @@ public class ChangePasswordController extends Controller {
 		
 		Properties settings = loadIdentityServerSettings();
 		
-		if(settings.getProperty("enabled") != null && settings.getProperty("enabled").equalsIgnoreCase("true")) {
+		if(settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
 			if(!useIds(currentPassword, newPassword, settings))
 				return forward("igrp","ChangePassword","index");
 		}else {
@@ -124,10 +124,10 @@ public class ChangePasswordController extends Controller {
 		Properties settings = (Properties)obj[0];
 		User user = Core.getCurrentUser();
 		try {
-			URL url =  new URL(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"));
+			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-	        stub.applyHttpBasicAuthentication(settings.getProperty("admin-usn"), settings.getProperty("admin-pwd"), 2);
+	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
 	        
 	        flag = stub.getOperations().authenticate(user.getUser_name(), currentPassword);
 	        
@@ -142,9 +142,9 @@ public class ChangePasswordController extends Controller {
 	        if(result != null && result.size() > 0) {
 	        	try {
 	        		UpdateCredential credential = new UpdateCredential();
-			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, user.getUser_name()));
-			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, newPassword));
-			        credential.setOldCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "oldCredential"), String.class, currentPassword));
+			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, user.getUser_name()));
+			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, newPassword));
+			        credential.setOldCredential(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "oldCredential"), String.class, currentPassword));
 		
 			        stub.getOperations().updateCredential(credential);
 			        
@@ -213,8 +213,8 @@ public class ChangePasswordController extends Controller {
 	}
 	
 	private Properties loadIdentityServerSettings() {
-		String path = new Config().getBasePathConfig() + File.separator  + "ids";
-		String fileName = "wso2-ids.xml";
+		String path = new Config().getBasePathConfig() + File.separator  + "common";
+		String fileName = "main.xml";
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
 		
 		FileInputStream fis = null;
