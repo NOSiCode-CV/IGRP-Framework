@@ -40,11 +40,11 @@ public class ResetbyemailController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetbyemail model = new Resetbyemail();
 		model.load();
-		model.setSign_in("passwordrecovery","Resetbyemail","index");
+		model.setSign_in("igrp","Resetbyemail","index");
 		ResetbyemailView view = new ResetbyemailView();
 		/*----#start-code(index)----*/
 		
-		view.btn_enviar.setLink("enviar&target=_blank&isPublic=1");
+		view.btn_enviar.setLink("enviar&isPublic=1");
 		
 /*----#end-code----*/
 		view.setModel(model);
@@ -57,9 +57,11 @@ public class ResetbyemailController extends Controller {
       Resetbyemail model = new Resetbyemail();
 		model.load();
       
+		System.out.println("Entrado ... ");
+		
 		String token = nosi.core.webapp.User.generatePasswordResetToken();
 		
-		String link = Igrp.getInstance().getRequest().getRequestURL() + "?r=" + "passwordrecovery" + "/Resetpassword/index"; 
+		String link = Igrp.getInstance().getRequest().getRequestURL() + "?r=" + "igrp" + "/Resetpassword/index"; 
 		link += "&target=_blank&isPublic=1" + "&t=" + token; 
 		
 		String email = model.getForm_1_email_1();
@@ -68,13 +70,13 @@ public class ResetbyemailController extends Controller {
 			case "db": 
 				if(!db(email, token)) { 
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
-					return forward("passwordrecovery","Resetbyemail","index&isPublic=1", this.queryString()); 
+					return forward("igrp","Resetbyemail","index&isPublic=1&target=_blank", this.queryString()); 
 				}
 			break;
 			case "ldap": 
 				if(!ldap(email, token)) {
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado.");
-					return forward("passwordrecovery","Resetbyemail","index&isPublic=1", this.queryString());
+					return forward("igrp","Resetbyemail","index&isPublic=1&target=_blank", this.queryString());
 				}
 			break;
 	}
@@ -100,7 +102,7 @@ public class ResetbyemailController extends Controller {
 		
 /*----#end-code----*/
 		
-		return this.redirect("passwordrecovery","Resetbyemail","index", this.queryString());	
+		return this.redirect("igrp","Resetbyemail","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/

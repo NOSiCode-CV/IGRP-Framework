@@ -48,7 +48,7 @@ public class ResetbyemailView extends View {
 		
 
 
-		btn_enviar = new IGRPButton("Enviar","passwordrecovery","Resetbyemail","enviar","submit_form","primary|fa-send-o","","");
+		btn_enviar = new IGRPButton("Enviar","igrp","Resetbyemail","enviar","submit_form","primary|fa-send-o","","");
 		btn_enviar.propertie.add("type","form").add("rel","enviar");
 
 		
