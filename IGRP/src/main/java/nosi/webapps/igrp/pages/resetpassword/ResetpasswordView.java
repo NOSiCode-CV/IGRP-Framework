@@ -58,7 +58,7 @@ public class ResetpasswordView extends View {
 		
 
 
-		btn_guardar = new IGRPButton("Guardar","passwordrecovery","Resetpassword","guardar","submit_form","success|fa-save","","");
+		btn_guardar = new IGRPButton("Guardar","igrp","Resetpassword","guardar","submit_form","success|fa-save","","");
 		btn_guardar.propertie.add("type","form").add("rel","guardar");
 
 		

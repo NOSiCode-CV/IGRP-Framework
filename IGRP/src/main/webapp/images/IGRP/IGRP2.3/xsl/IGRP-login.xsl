@@ -88,7 +88,7 @@
                     <xsl:if test="rows/content/form/label/button">
                       <div class="form-group col-xs-12" item-name="button" item-type="button">
                           
-                        <button type="submit" class="btn btn-primary form-control" id="{rows/content/form/value/button/@name}" >
+                        <button name="p_button" value="p_button" type="submit" class="btn btn-primary form-control" id="{rows/content/form/value/button/@name}" >
                           <span><xsl:value-of select="rows/content/form/label/button"/> <i class="fa fa-sign-in"/></span>
                         </button>
 
@@ -97,11 +97,11 @@
                     
                     <xsl:if test="rows/content/form/label/button2">
                       <div class="form-group col-xs-12" item-name="button2" item-type="link">
+                      
+                      	<button name="p_button2" value="p_button2" type="submit" class="btn-normal btn btn-link" id="{rows/content/form/value/button2/@name}" >
+                         	<span><xsl:value-of select="rows/content/form/label/button2"/></span>
+                        </button>
                           
-                        <a href="app/webapps?r=igrp/Resetbyemail/index&amp;target=_blank&amp;isPublic=1" type="submit" class="btn-normal btn btn-link" id="{rows/content/form/value/button2/@name}" >
-                          <span><xsl:value-of select="rows/content/form/label/button2"/></span>
-                        </a>
-                        
                       </div>
                     </xsl:if>
 

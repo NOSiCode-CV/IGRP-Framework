@@ -35,7 +35,7 @@
 	<entry key="igrp.env.nhaLogin.url"></entry>
 	
 	<!--  -->
-	<entry key="igrp.pwdRecover">true</entry>
+	<entry key="igrp.pwdRecover">false</entry>
 	
 	<!--  -->
 	<entry key="java.net.preferIPv4Stack">true</entry>

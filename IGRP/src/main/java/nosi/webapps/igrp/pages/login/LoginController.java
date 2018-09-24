@@ -68,6 +68,13 @@ public class LoginController extends Controller {
 	/*----#start-code(custom_actions)----*/
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		// Go to password recover page ... 
+		String p_button2 = Igrp.getInstance().getRequest().getParameter("p_button2");
+		if(p_button2 != null && p_button2.equals("p_button2")) {
+			String url = Igrp.getInstance().getRequest().getRequestURL().toString() + "?r=igrp/Resetbyemail/index&target=_blank&isPublic=1";
+			return redirectToUrl(url);
+		}
+		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
 		String client_id = Igrp.getInstance().getRequest().getParameter("client_id"); 

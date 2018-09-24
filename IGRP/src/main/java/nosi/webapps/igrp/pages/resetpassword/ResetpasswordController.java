@@ -28,6 +28,7 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.UpdateCredential;
+import org.wso2.carbon.um.ws.service.UpdateCredentialByAdmin;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 
 import nosi.webapps.igrp.dao.User;
@@ -42,7 +43,7 @@ public class ResetpasswordController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetpassword model = new Resetpassword();
 		model.load();
-		model.setSign_in("passwordrecovery","Resetpassword","index");
+		model.setSign_in("igrp","Resetpassword","index");
 		ResetpasswordView view = new ResetpasswordView();
 		/*----#start-code(index)----*/
 		
@@ -70,7 +71,7 @@ public class ResetpasswordController extends Controller {
 		}catch(Exception e) {
 			Core.setMessageError(gt("Token inválido ou expirado."));
 			Core.setMessageInfo(gt("Favor solicitar um novo reset."));
-			return redirect("passwordrecovery","Resetbyemail","index", this.queryString());
+			return redirect("igrp","Resetbyemail","index", this.queryString());
 		}
 		
 		view.btn_guardar.setLink("guardar&target=_blank&isPublic=1&t=" + token); 
@@ -110,7 +111,7 @@ public class ResetpasswordController extends Controller {
 			this.addQueryString("isPublic", "1");
 			Core.setMessageError(gt("Token inválido ou expirado."));
 			Core.setMessageInfo(gt("Favor solicitar um novo reset."));
-			return forward("passwordrecovery","Resetbyemail","index", this.queryString());
+			return forward("igrp","Resetbyemail","index", this.queryString());
 		}
 		
 		String username = user.getUser_name();
@@ -120,7 +121,7 @@ public class ResetpasswordController extends Controller {
 		if(!pwd.equals(pwdConfirm)) {
 			Core.setMessageError("Password inconsistentes. Tente novamente !");
 			
-		//	return forward("passwordrecovery","Resetpassword","index", this.queryString());
+		//	return forward("igrp","Resetpassword","index", this.queryString());
 		}else {
 			switch(this.getConfig().getAutenticationType()) {
 				case "db": 
@@ -144,7 +145,7 @@ public class ResetpasswordController extends Controller {
 		
 /*----#end-code----*/
 		
-		return this.redirect("passwordrecovery","Resetpassword","index", this.queryString());	
+		return this.redirect("igrp","Resetpassword","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
@@ -175,10 +176,10 @@ public class ResetpasswordController extends Controller {
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 	        stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
 	        
-	        flag = stub.getOperations().authenticate(username, password);
+	        flag = stub.getOperations().isExistingUser(username);
 	        
 	        if(!flag) { 
-	        	Core.setMessageError(gt("Ooops! Email e senha inconsistentes."));
+	        	Core.setMessageError(gt("Ooops! Email e senha inconsistentes.")); 
 	        	return flag;
 	        }
 	        
@@ -187,12 +188,12 @@ public class ResetpasswordController extends Controller {
 	        List<ClaimDTO> result = stub.getOperations().getUserClaimValues(username, "");
 	        if(result != null && result.size() > 0) {
 	        	try {
-	        		UpdateCredential credential = new UpdateCredential();
-			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, username));
-			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, password));
-			       // credential.setOldCredential(new JAXBElement<String>(new QName(settings.getProperty("RemoteUserStoreManagerService-wsdl-url"), "oldCredential"), String.class, currentPassword));
-		
-			        stub.getOperations().updateCredential(credential);
+	        		
+			        UpdateCredentialByAdmin credential = new UpdateCredentialByAdmin();
+			        credential.setUserName(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "userName"), String.class, username));
+			        credential.setNewCredential(new JAXBElement<String>(new QName(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"), "newCredential"), String.class, password));
+			        
+			        stub.getOperations().updateCredentialByAdmin(credential);
 			        
 			        javax.xml.ws.BindingProvider bp =  (javax.xml.ws.BindingProvider)stub.getOperations();
 			        
