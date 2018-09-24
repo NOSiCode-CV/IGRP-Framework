@@ -279,7 +279,7 @@ public abstract class Model { // IGRP super model
 					
 					String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
 					
-					if(m.getName().contains(s)) {
+					if(m.getName().equals(s + "_id")) {
 						
 						String []values1 = (String[]) Core.getParamArray("p_" + m.getName());
 						if(values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
@@ -293,7 +293,6 @@ public abstract class Model { // IGRP super model
 						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
 						
 					}else {
-						
 						String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
 						String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
 						
