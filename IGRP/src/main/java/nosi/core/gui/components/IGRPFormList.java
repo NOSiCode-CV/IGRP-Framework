@@ -67,7 +67,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 					
 					String val = IgrpHelper.getValue(obj, field.getName());
 					
-					if(field.getName().contains(this.tag_name)) {
+					if(field.getName().equals(this.tag_name + "_id")) {
 						
 						if(val != null && !val.isEmpty()) {
 							this.xml.startElement(this.tag_name + "_id");
