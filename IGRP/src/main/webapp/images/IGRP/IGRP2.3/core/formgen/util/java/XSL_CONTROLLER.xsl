@@ -319,10 +319,23 @@
 								<xsl:call-template name="newlineTab2"/>
 						</xsl:if>	
 							
-						<xsl:if test="//rows/content/view_1/fields/view_1_img">	
-						 <xsl:value-of select="concat('model.setView_1_img(',$double_quotes,//rows/link_img,'/assets/img/jon_doe.jpg',$double_quotes,');')" />
-							<xsl:call-template name="newlineTab2"/>
-						</xsl:if>
+						<xsl:for-each select="//rows/content/*[@type='view']">
+							<xsl:variable name="img_tag" select="concat( name(),'_img' )"/>
+							<xsl:variable name="img" select="fields/*[name() = $img_tag]"/>
+							<xsl:variable name="img_tag_upper">
+								<xsl:call-template name="CamelCaseWord">
+							        <xsl:with-param name="text">
+							        	<xsl:value-of select="$img_tag"/>
+							        </xsl:with-param>
+						        </xsl:call-template>
+							</xsl:variable>
+							<xsl:if test="$img">	
+								<xsl:value-of select="concat('model.set',$img_tag_upper,'(',$double_quotes,$img,$double_quotes,');')"/>
+							</xsl:if>
+						</xsl:for-each>
+						
+
+
 						
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
