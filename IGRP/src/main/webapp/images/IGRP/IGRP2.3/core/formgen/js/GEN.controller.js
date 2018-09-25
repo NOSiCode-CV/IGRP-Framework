@@ -3224,7 +3224,13 @@ var GENERATOR = function(genparams){
 			return "Tenha aten\u00e7\u00e3o \u00e0s altera\u00e7\u00f5es!";
 		};
 
-		GEN.edit.XSLEditor = CodeMirror($('#gen-edit-xsl')[0], {
+		GEN.edit.XSLEditor = CodeMirror($('#gen-edit-xsl')[0], {			
+	          lineNumbers : true,			
+			 foldGutter: true,
+			 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"],
+			 lineWrapping : true,
+	         matchBrackets : true,
+	  		autoCloseBrackets : true,  
 			readOnly:false,
 	        mode: "xml",
 	        matchTags: {bothTags: true},
@@ -3236,6 +3242,8 @@ var GENERATOR = function(genparams){
 	          "'/'": CM_XSLT_completeIfAfterLt,
 	          "' '": CM_XSLT_completeIfInTag,
 	          "'='": CM_XSLT_completeIfInTag,
+	          "Ctrl-J": "toMatchingTag",        
+				 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor());}, 
 	          "Ctrl-Space": function(cm) {
 	            CodeMirror.showHint(cm, CodeMirror.hint.xml, {schemaInfo: CM_XSLT_tags});
 	          }
@@ -4121,11 +4129,18 @@ var GENERATOR = function(genparams){
         GEN.xslEditor = CodeMirror($(VARS.html.codeArea)[0], {
           //value: content,
           mode: "application/xml",
-          matchTags: {bothTags: true},
-          extraKeys: {"Ctrl-J": "toMatchingTag"},
+          matchTags: {bothTags: true},  		
+          lineNumbers : true,
+		 extraKeys: { "Ctrl-J": "toMatchingTag",        
+			 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+		 foldGutter: true,
+		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]		,    
           autofocus:true,
           enterMode:'indent',
           smartIndent:true,
+          lineWrapping : true,
+         matchBrackets : true,
+  		autoCloseBrackets : true,
           readOnly:true
         });
 
@@ -4136,9 +4151,18 @@ var GENERATOR = function(genparams){
         GEN.xmlEditor = CodeMirror($('#gen-xml-view')[0], {
         	matchTags: {bothTags: true},
 			autofocus:true,
+			 lineNumbers : true,
           	enterMode:'indent',
           	smartIndent:true,
+          	extraKeys: { "Ctrl-J": "toMatchingTag",        
+    			 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+    		 foldGutter: true,
+    		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]		,    
+              autofocus:true,
           	readOnly:true,
+          	 lineWrapping : true,
+            matchBrackets : true,
+           	autoCloseBrackets : true,
           	mode: "text/xml"
         });
         GEN.xmlEditor.refresh();
@@ -4161,9 +4185,18 @@ var GENERATOR = function(genparams){
         /*JS Editor*/
         GEN.jsEditor = CodeMirror($('#gen-js-view')[0],{
 	        lineNumbers : true,
-	        matchBrackets : true,
-	       	autoCloseBrackets: true,
-	        mode: "text/javascript"
+	        matchTags: {bothTags: true}, 
+	        extraKeys: { "Ctrl-J": "toMatchingTag",        
+				 "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+			 foldGutter: true,
+			 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter","CodeMirror-lint-markers"]		,    
+	          autofocus:true,
+	          enterMode:'indent',
+	          smartIndent:true,
+	          lineWrapping : true,
+	         matchBrackets : true,
+	  		autoCloseBrackets : true,
+	  		mode: "text/javascript"
 	    });
 
         GEN.jsEditor.on('blur',setCustomJStoView);
@@ -4171,7 +4204,7 @@ var GENERATOR = function(genparams){
         GEN.jsEditor.refresh();
         GEN.jsEditor.focus();
 
-	}
+	}	
 
 	var configPLSQLEditor = function(){
 		/*get editor*/

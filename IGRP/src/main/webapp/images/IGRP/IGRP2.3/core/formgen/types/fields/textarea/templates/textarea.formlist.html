@@ -2,7 +2,7 @@
   <td data-row="{position()}" data-title="{../../../fields/#tag#/label}" class="textarea" item-name="#[tag]#">
     <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
     
-    <textarea name="{../../../fields/#tag#/@name}_fk" class="textarea form-control" maxlength="#[maxlength]#" rel="F_#parent.tag#" #[disabled]# #[readonly]# #[required]#>
+    <textarea name="{../../../fields/#tag#/@name}_fk" class="textarea form-control" maxlength="#[maxlength]#" rel="F_#parent.tag#" #[disabled]# #[readonly]# #[required]# placeholder="#[placeholder]#">
       	<xsl:call-template name="setAttributes">
             <xsl:with-param name="field" select="#path#"/>
         </xsl:call-template>

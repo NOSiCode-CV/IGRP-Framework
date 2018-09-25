@@ -38,11 +38,14 @@ var DATA = {
 
 				}*/
 				//console.log(p);
-				rtn='';
-				//rtn = '0'+(genNum(8)+1)+'-0'+(genNum(8)+1)+'-201'+genNum(5);
+				//rtn='';
+				
+				rtn = '0'+(genNum(8)+1)+'-0'+(genNum(8)+1)+'-201'+genNum(8);
 			break;
 
-			
+			case 'time':
+				rtn=''+(genNum(2))+(genNum(8)+1)+':'+(genNum(5))+(genNum(8)+1);
+			break;	
 			case 'range':
 				rtn=genNum(10);
 			break;	
@@ -72,6 +75,10 @@ var DATA = {
 
 			case 'checkbox':
 				rtn = '1';
+			break;
+			
+			case 'checkboxlist':
+				rtn = (genNum(4)+1)+','+(genNum(4)+1);
 			break;
 
 			case 'radio':

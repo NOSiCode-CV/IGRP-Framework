@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,6 +33,8 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=20</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Associar Transacao a Organica</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
@@ -59,27 +62,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Stract anim dolor unde deserun</nome>
+                        <nome name="p_nome">Stract unde voluptatem laudant</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Adipiscing sed aperiam dolor a</nome>
+                        <nome name="p_nome">Totam mollit laudantium consec</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Ut stract sit iste aliqua</nome>
+                        <nome name="p_nome">Natus ipsum labore laudantium</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Stract mollit anim sit magna</nome>
+                        <nome name="p_nome">Unde perspiciatis iste stract</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Aperiam laudantium mollit aliq</nome>
+                        <nome name="p_nome">Magna unde officia accusantium</nome>
                     </row>
                 </value>
             </table>

@@ -40,7 +40,9 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Gestão de Transações</value>
+                    <value>
+                        <![CDATA[Gestão de Transações]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -70,7 +72,7 @@
                 </aplicacao>
                 <filtro_codigo name="p_filtro_codigo" type="text" maxlength="30" required="false" change="true" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Voluptatem natus sit perspicia</value>
+                    <value>Omnis sit aperiam iste labore</value>
                 </filtro_codigo>
             </fields>
         </form_1>
@@ -95,8 +97,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Iste natus iste sit totam</descricao>
-                        <codigo name="p_codigo">Ut stract adipiscing iste cons</codigo>
+                        <descricao name="p_descricao">Stract lorem ipsum doloremque</descricao>
+                        <codigo name="p_codigo">Mollit iste rem stract dolorem</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -105,8 +107,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Voluptatem iste amet deserunt</descricao>
-                        <codigo name="p_codigo">Sit amet mollit ipsum stract</codigo>
+                        <descricao name="p_descricao">Ut totam stract totam omnis</descricao>
+                        <codigo name="p_codigo">Elit ut unde elit ut</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -115,8 +117,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Magna sed doloremque iste ut</descricao>
-                        <codigo name="p_codigo">Labore aperiam iste ipsum cons</codigo>
+                        <descricao name="p_descricao">Labore ipsum sit sit doloremqu</descricao>
+                        <codigo name="p_codigo">Amet voluptatem deserunt lauda</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -125,8 +127,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Elit doloremque elit aliqua ap</descricao>
-                        <codigo name="p_codigo">Omnis ut mollit aliqua aperiam</codigo>
+                        <descricao name="p_descricao">Deserunt elit officia lorem la</descricao>
+                        <codigo name="p_codigo">Adipiscing consectetur ut sed</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -135,18 +137,18 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Anim ut perspiciatis sit accus</descricao>
-                        <codigo name="p_codigo">Mollit perspiciatis labore sit</codigo>
+                        <descricao name="p_descricao">Aliqua rem omnis dolor ut</descricao>
+                        <codigo name="p_codigo">Doloremque labore doloremque o</codigo>
                     </row>
                 </value>
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
                         <app>igrp</app>
-                        <page>Transaccao</page>
+                        <page>EditarTransacao</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
-                        <target>modal|refresh</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xml?</parameter>
+                        <target>right_panel|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">

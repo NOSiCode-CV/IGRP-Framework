@@ -36,9 +36,9 @@ public class NovoUtilizadorView extends View {
 		sectionheader_1_text.setValue(gt("Convite - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		email = new TextField(model,"email");
-		email.setLabel(gt("E-mail"));
-		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
+		email = new TextAreaField(model,"email");
+		email.setLabel(gt("E-mail(s)"));
+		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));

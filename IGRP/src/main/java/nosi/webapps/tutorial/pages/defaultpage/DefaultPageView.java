@@ -32,7 +32,7 @@ public class DefaultPageView extends View {
 
 		infopanel_1 = new IGRPForm("infopanel_1","");
 
-		carousel_1 = new IGRPTable("carousel_1","");
+		carousel_1 = new IGRPTable("carousel_1","Examples");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));

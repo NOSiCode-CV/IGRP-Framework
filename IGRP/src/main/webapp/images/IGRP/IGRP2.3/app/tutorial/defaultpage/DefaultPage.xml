@@ -74,7 +74,7 @@
                 </infopanel_1_icn>
             </fields>
         </infopanel_1>
-        <carousel_1 type="carousel" xml-type="table" gen-type="container" gen-group="true">
+        <carousel_1 type="carousel" xml-type="table" title="Examples" gen-type="container" gen-group="true">
             <fields>
                 <carousel_1_label name="p_carousel_1_label" type="text" maxlength="200">
                     <label>Title</label>

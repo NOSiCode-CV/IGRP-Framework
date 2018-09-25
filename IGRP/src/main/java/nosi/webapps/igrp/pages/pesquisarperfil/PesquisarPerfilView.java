@@ -1,10 +1,13 @@
-
 package nosi.webapps.igrp.pages.pesquisarperfil;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PesquisarPerfilView extends View {
 
@@ -21,11 +24,11 @@ public class PesquisarPerfilView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_novo;
 	public IGRPButton btn_editar;
-	public IGRPButton btn_eliminar;
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacao;
 	public IGRPButton btn_associar_etapa;
 	public IGRPButton btn_convidar;
+	public IGRPButton btn_eliminar;
 
 	public PesquisarPerfilView(){
 
@@ -72,9 +75,6 @@ public class PesquisarPerfilView extends View {
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
-		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","alert_submit","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
-
 		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","right_panel","info|fa-bars","","");
 		btn_menu.propertie.add("type","specific").add("rel","menu");
 
@@ -86,6 +86,9 @@ public class PesquisarPerfilView extends View {
 
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarPerfil","convidar","right_panel","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
+
+		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","alert_submit","danger|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
 
 		
 	}
@@ -105,11 +108,11 @@ public class PesquisarPerfilView extends View {
 
 		toolsbar_1.addButton(btn_novo);
 		table_1.addButton(btn_editar);
-		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
 		table_1.addButton(btn_associar_etapa);
 		table_1.addButton(btn_convidar);
+		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
@@ -125,6 +128,5 @@ public class PesquisarPerfilView extends View {
 		id.setValue(model);	
 
 		table_1.loadModel(((PesquisarPerfil) model).getTable_1());
-		
-	}
+		}
 }

@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.transacaoorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -14,23 +15,17 @@ import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
-
-
-public class TransacaoOrganicaController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class TransacaoOrganicaController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
 		TransacaoOrganicaView view = new TransacaoOrganicaView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		model.loadTable_1(Core.query(null,"SELECT 'transacao' as transacao,'nome' as nome "));
-		
-		
-		----#gen-example */
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Magna anim ipsum aliqua sed' as nome "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();
         String type= model.getType();
@@ -79,19 +74,13 @@ public class TransacaoOrganicaController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-
-		 return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values
-		}
-		
-		----#gen-example */
+		 return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){
 			this.deleteOldTransactions(model);
@@ -101,22 +90,15 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#end-code----*/
 			
 	}
-
-
+	
 	public Response actionGestao_de_transacoes() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-
-		 return this.forward("igrp","Transaccao","index", this.queryString()); //if submit, loads the values
-		}
-		
-		----#gen-example */
+		 return this.forward("igrp","Transaccao","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gestao_de_transacoes)----*/
 		
 		
@@ -124,7 +106,7 @@ public class TransacaoOrganicaController extends Controller {
 		return this.redirect("igrp","Transaccao","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 
 	private User userAdmin = new User().getUserAdmin();
 	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
@@ -232,4 +214,4 @@ public class TransacaoOrganicaController extends Controller {
    			
 	}
 	/*----#end-code----*/
-	}
+}
