@@ -98,10 +98,10 @@
                     <xsl:if test="rows/content/form/label/button2">
                       <div class="form-group col-xs-12" item-name="button2" item-type="link">
                       
-                      	<button name="p_button2" value="p_button2" type="submit" class="btn-normal btn btn-link" id="{rows/content/form/value/button2/@name}" >
+                      	<button style="margin: 0 auto;text-transform:none;" name="p_button2" value="p_button2" type="submit" class="link btn btn-link form-link" id="{rows/content/form/value/button2/@name}" >
                          	<span><xsl:value-of select="rows/content/form/label/button2"/></span>
                         </button>
-                          
+                        
                       </div>
                     </xsl:if>
 
