@@ -72,7 +72,7 @@ public class DatabaseConfigHelper {
 			case "h2":
 				return "jdbc:h2:tcp:[host]:[port]/[database-name]";
 			case "oracle":
-				return "jdbc:oracle:[drivertype]:[username/password]@[host]:1521/[database-name]";
+				return "jdbc:oracle:thin:@//[host]:1521/[service_name]";
 			case "mssql":
 				return "jdbc:sqlserver://[host]:1433;databaseName=[database-name]";
 			case "hsqldb":
