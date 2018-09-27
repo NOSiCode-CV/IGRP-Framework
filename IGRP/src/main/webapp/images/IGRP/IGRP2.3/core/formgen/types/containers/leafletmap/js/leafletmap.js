@@ -42,7 +42,7 @@
 				com.setProperty({
 					name : 'height',
 					label : 'Height (px)',
-					hint : 'carajo',
+					//hint : 'carajo',
 					value : 400
 				});
 
@@ -80,11 +80,11 @@
 							'</fields>'+
 							'<table><value>'+
 								'<row>'+
-							        '<'+tag+'_title>Cabo Verde</'+tag+'_title>'+
-							        '<'+tag+'_lng>-24</'+tag+'_lng>'+
-							        '<'+tag+'_lat>16</'+tag+'_lat>'+
-									'<'+tag+'_info>Centro de Cabo Verde</'+tag+'_info>'+
-									'<'+tag+'_icon></'+tag+'_icon>'+
+							        '<'+tag+'_title name="p_'+tag+'_title">Cabo Verde</'+tag+'_title>'+
+							        '<'+tag+'_lng name="p_'+tag+'_lng">-24</'+tag+'_lng>'+
+							        '<'+tag+'_lat name="p_'+tag+'_lat">16</'+tag+'_lat>'+
+									'<'+tag+'_info name="p_'+tag+'_info">Centro de Cabo Verde</'+tag+'_info>'+
+									'<'+tag+'_icon name="p_'+tag+'_icon"></'+tag+'_icon>'+
 								'</row>'+
 							'</value>';
 
