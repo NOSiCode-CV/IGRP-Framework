@@ -282,17 +282,12 @@
 								<xsl:call-template name="newlineTab2"/>		
 								
 							</xsl:if>	
-						</xsl:for-each> 	
-							
+						</xsl:for-each> 							
 						<xsl:if test="//rows/content/*[@type='carousel']">
 							
 							<xsl:for-each select="//content/*[@type='carousel' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
-								
-								<xsl:variable name="tagName" select="name()"/>
-								
 							
-							
-								
+								<xsl:variable name="tagName" select="name()"/>	
 								<xsl:text>model.load</xsl:text>
 								<xsl:call-template name="CamelCaseWord">
 					 				<xsl:with-param name="text" select="$tagName"/>
@@ -305,38 +300,46 @@
 										
 										<xsl:variable name="imgTag" select="concat($tagName,'_img')"/>
 										
-										<xsl:variable name="carouselRowLabel" select="*[name() = $labelTag]"/>
-										
-										<xsl:variable name="carouselRowImg" select="*[name() = $imgTag]"/>
-									
+										<xsl:variable name="carouselRowLabel" select="*[name() = $labelTag]"/>										
+										<xsl:variable name="carouselRowImg" select="*[name() = $imgTag]"/>									
 										<xsl:value-of select="concat( $simple_quotes, $carouselRowLabel, $simple_quotes, ' as ', $labelTag,',',$simple_quotes,$carouselRowImg,$simple_quotes,' as ', $imgTag )"/>
-										
+									
 										<xsl:if test="position() != last()">
 											<xsl:value-of select="concat($double_quotes,'+', $newline, $tab2,$tab2,$tab2,$tab2,$double_quotes, ' UNION SELECT ' )"/>
 										</xsl:if>
 										
-									</xsl:for-each>
-								
-								<xsl:value-of select="concat($double_quotes,')',$newline,$tab2,' );')"/>
-								
+									</xsl:for-each>								
+								<xsl:value-of select="concat($double_quotes,')',$newline,$tab2,' );')"/>								
 								<!--  view.chart_1.loadQuery(Core.query(null,"SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as valor"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as valor"
                                       +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as valor"
-                                      +" UNION SELECT 'X3' as EixoX, 'Y3' as EixoY, 40 as valor"));-->
-								
+                                      +" UNION SELECT 'X3' as EixoX, 'Y3' as EixoY, 40 as valor"));-->					
 								
 							</xsl:for-each>
 								<xsl:call-template name="newlineTab2"/>
 						</xsl:if>	
 							
+						<xsl:for-each select="//rows/content/*[@type='view']">
+							<xsl:variable name="img_tag" select="concat( name(),'_img' )"/>
+							<xsl:variable name="img" select="fields/*[name() = $img_tag]"/>
+							<xsl:variable name="img_tag_upper">
+								<xsl:call-template name="CamelCaseWord">
+							        <xsl:with-param name="text">
+							        	<xsl:value-of select="$img_tag"/>
+							        </xsl:with-param>
+						        </xsl:call-template>
+							</xsl:variable>
+							<xsl:if test="$img">	
+								<xsl:value-of select="concat('model.set',$img_tag_upper,'(',$double_quotes,$img,$double_quotes,');')"/>
+							</xsl:if>
+						</xsl:for-each>
+						
+
+
+						
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
-						<xsl:call-template name="setParam"/>			
-					
-						
+						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_"/> 
-							
-						
-						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
@@ -358,25 +361,32 @@
 					</xsl:when>
 					
 					<xsl:when test="$type_render_='redirect'">
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						
+						<xsl:call-template name="newlineTab2"/>		
+											
 						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 					    <xsl:call-template name="newlineTab2"/>		
-					    	
+					    					    	
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="start-example"/>						
 						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>	
+						<xsl:call-template name="newlineTab2"/>	
+										
+						<xsl:for-each select="//content/*[@type='table']">
+		 					<xsl:for-each select="fields/*[@iskey='true']">	
+		 					<xsl:choose>
+		 						<xsl:when test="@type='hidden'">
+		 							<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_',@tag,$double_quotes,',','Core.getParam(',$double_quotes,'p_',@tag,$double_quotes,'));')"/>					
+								</xsl:when>
+		 						<xsl:otherwise>
+		 							<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_',local-name(),$double_quotes,',','Core.getParam(',$double_quotes,'p_',local-name(),$double_quotes,'));')"/>				
+								</xsl:otherwise>
+		 					</xsl:choose>	 	
+		 					<xsl:call-template name="newlineTab2"/>			 						
+	 						</xsl:for-each> 	 			
+						</xsl:for-each>
 						
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString()); //if submit, loads the values')"/>							
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						
-
-						<xsl:call-template name="end-example"/>
-			
+						<xsl:call-template name="end-example"/>			
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>
@@ -534,11 +544,16 @@
  	
  	<!-- view.table_1.setSqlQuery("select 'name' name, 1 id FROM dual"); -->
  	<xsl:template name="setSqlTable"> 	
- 		<xsl:for-each select="//content/*[@type='table']">
-	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+ 		<xsl:for-each select="//content/*[@type='table' or @type='formlist' or @type='separatorlist' ]">
+	 		<xsl:variable name="instance_name">
+	 			<xsl:value-of select="local-name()"/>
+	 		</xsl:variable>
 	 		<xsl:variable name="sql_fields">
-	 			<xsl:for-each select="fields/*">
-	 				<xsl:value-of select="concat($simple_quotes,local-name(),$simple_quotes,' as ',local-name())"/>
+	 			<xsl:for-each select="fields/*">	
+	 				<xsl:variable name="vlocal-name">
+	 					<xsl:value-of select="local-name()"/>
+	 				</xsl:variable> 			
+	 				<xsl:value-of select="concat($simple_quotes,//table/value/row/*[@name=concat('p_',$vlocal-name)],$simple_quotes,' as ',local-name())"/>
 	 				<xsl:if test="position() != last()">,</xsl:if>
 	 			</xsl:for-each>
 	 		</xsl:variable>

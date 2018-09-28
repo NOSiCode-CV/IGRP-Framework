@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,48 +33,52 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=21</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Editar Transacao</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Editar transação</value>
+                    <value>
+                        <![CDATA[Editar transação]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
-                <title>Gravar</title>
-                <app>igrp</app>
-                <page>Dominio</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
-            </item>
-        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <descricao name="p_descricao" type="text" maxlength="150" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Iste perspiciatis unde sed consectetur</value>
+                    <value>Stract consectetur ipsum unde iste</value>
                 </descricao>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
             </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="gravar">
+                    <title>Gravar</title>
+                    <app>igrp</app>
+                    <page>EditarTransacao</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-save</img>
+                </item>
+            </tools-bar>
         </form_1>
-        <view_1 type="view" xml-type="view" title="Detalhes" gen-type="container" gen-group="">
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="text" maxlength="30">
                     <label>Aplicação</label>
-                    <value>Mollit rem anim sit aliqua</value>
+                    <value>Mollit aperiam dolor iste sit</value>
                 </aplicacao>
                 <codigo name="p_codigo" type="text" maxlength="30">
                     <label>Código</label>
-                    <value>Totam laudantium mollit elit s</value>
+                    <value>Adipiscing aliqua mollit aliqu</value>
                 </codigo>
             </fields>
         </view_1>

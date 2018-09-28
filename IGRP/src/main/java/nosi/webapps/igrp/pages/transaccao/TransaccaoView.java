@@ -65,7 +65,7 @@ public class TransaccaoView extends View {
 		
 
 
-		btn_editar = new IGRPButton("Editar","igrp","Transaccao","editar","modal|refresh","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","Transaccao","editar","right_panel|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Transaccao","eliminar","confirm","danger|fa-trash","","");

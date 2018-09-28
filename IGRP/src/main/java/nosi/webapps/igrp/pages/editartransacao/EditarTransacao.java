@@ -1,4 +1,8 @@
 package nosi.webapps.igrp.pages.editartransacao;
+
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -12,7 +16,7 @@ public class EditarTransacao extends Model{
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
 	@RParam(rParamName = "p_id")
-	private int p_id;
+	private int id;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 	@RParam(rParamName = "p_codigo")
@@ -45,11 +49,11 @@ public class EditarTransacao extends Model{
 		return this.status_check;
 	}
 	
-	public void setP_id(int p_id){
-		this.p_id = p_id;
+	public void setId(int id){
+		this.id = id;
 	}
-	public int getP_id(){
-		return this.p_id;
+	public int getId(){
+		return this.id;
 	}
 	
 	public void setAplicacao(String aplicacao){
@@ -65,6 +69,7 @@ public class EditarTransacao extends Model{
 	public String getCodigo(){
 		return this.codigo;
 	}
+
 
 
 }

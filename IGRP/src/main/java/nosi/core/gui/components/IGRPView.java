@@ -29,7 +29,7 @@ public class IGRPView extends IGRPForm {
 	public IGRPView(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "view");
-		this.addImageView();
+//		this.addImageView();
 	}
 	
 	private void addImageView() {

@@ -35,11 +35,11 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPButton btn_adicionar_utilizador;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_editar;
-	public IGRPButton btn_eliminar;
-	public IGRPButton btn_convidar_user;
 	public IGRPButton btn_assiocar_menu;
 	public IGRPButton btn_assiocar_transacao;
 	public IGRPButton btn_assiocar_etapa;
+	public IGRPButton btn_convidar_user;
+	public IGRPButton btn_eliminar;
 
 	public PesquisarUtilizadorView(){
 
@@ -126,20 +126,20 @@ public class PesquisarUtilizadorView extends View {
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
-		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
-
-		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
-		btn_convidar_user.propertie.add("type","specific").add("rel","convidar_user");
-
-		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel","primary|fa-bars","","");
+		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel","info|fa-bars","","");
 		btn_assiocar_menu.propertie.add("type","specific").add("rel","assiocar_menu");
 
-		btn_assiocar_transacao = new IGRPButton("Assiocar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","primary|fa-exchange","","");
+		btn_assiocar_transacao = new IGRPButton("Assiocar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","black|fa-exchange","","");
 		btn_assiocar_transacao.propertie.add("type","specific").add("rel","assiocar_transacao");
 
 		btn_assiocar_etapa = new IGRPButton("Assiocar Etapa","igrp","PesquisarUtilizador","assiocar_etapa","right_panel","primary|fa-sitemap","","");
 		btn_assiocar_etapa.propertie.add("type","specific").add("rel","assiocar_etapa");
+
+		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
+		btn_convidar_user.propertie.add("type","specific").add("rel","convidar_user");
+
+		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","danger|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
 
 		
 	}
@@ -170,11 +170,11 @@ public class PesquisarUtilizadorView extends View {
 		toolsbar_1.addButton(btn_adicionar_utilizador);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);
-		table_1.addButton(btn_eliminar);
-		table_1.addButton(btn_convidar_user);
 		table_1.addButton(btn_assiocar_menu);
 		table_1.addButton(btn_assiocar_transacao);
 		table_1.addButton(btn_assiocar_etapa);
+		table_1.addButton(btn_convidar_user);
+		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);

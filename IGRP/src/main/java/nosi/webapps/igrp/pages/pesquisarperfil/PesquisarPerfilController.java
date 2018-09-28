@@ -1,33 +1,27 @@
-
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.webapps.igrp.dao.Organization;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.ProfileType;
 import java.util.ArrayList;
 /*----#end-code----*/
-
-
-public class PesquisarPerfilController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class PesquisarPerfilController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		PesquisarPerfilView view = new PesquisarPerfilView();
 		view.id.setParam(true);
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		model.loadTable_1(Core.query(null,"SELECT 'organica' as organica,'estado' as estado,'descricao' as descricao,'codigo' as codigo,'id' as id "));
-		
-		
-		----#gen-example */
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT 'Aliqua omnis lorem mollit unde' as organica,'1' as estado,'Doloremque elit voluptatem off' as descricao,'Sit unde accusantium perspicia' as codigo,'1' as id "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 	
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
@@ -58,17 +52,14 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(novo)----*/
       
       //NOT IN USE. setlink() in actionIndex set because getParam dosent work for a variable and param of other page
@@ -79,17 +70,14 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
  			return this.forward("igrp","NovoPerfil","editar", this.queryString());
 
@@ -97,44 +85,15 @@ public class PesquisarPerfilController extends Controller {
 			
 	}
 	
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
-		PesquisarPerfil model = new PesquisarPerfil();
-		model.load();
-		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","PesquisarPerfil","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
-		/*----#start-code(eliminar)----*/
-		int id = Core.getParamInt("p_id");
-        if(id!=0){
-			ProfileType p = new ProfileType().findOne(id);
-            if(p!=null && p.delete(id)){
-              Core.setMessageSuccess();
-              return this.forward("igrp","PesquisarPerfil","index");
-            }
-        }
-		//return this.redirectError();
-		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarPerfil","index", this.queryString());	
-	}
-	
 	public Response actionMenu() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(menu)----*/
      //p_id is a param (iskey=true) that will be send automatically
      this.addQueryString("p_type","perfil");
@@ -149,17 +108,14 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionTransacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(transacao)----*/
 		//don't need to add p_id because its declared view.id.setParam(true);
         this.addQueryString("p_type","perfil");        
@@ -169,17 +125,14 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionAssociar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","PesquisarPerfil","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","PesquisarPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(associar_etapa)----*/
 		
 		this.loadQueryString().addQueryString("type", "prof");
@@ -189,24 +142,44 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarPerfil model = new PesquisarPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(convidar)----*/
 	 return this.forward("igrp","NovoUtilizador","index", this.queryString());
 		/*----#end-code----*/
 			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		PesquisarPerfil model = new PesquisarPerfil();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","PesquisarPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(eliminar)----*/
+		int id = Core.getParamInt("p_id");
+        if(id!=0){
+			ProfileType p = new ProfileType().findOne(id);
+            if(p!=null && p.delete(id)){
+              Core.setMessageSuccess();
+              return this.forward("igrp","PesquisarPerfil","index");
+            }
+        }
+		//return this.redirectError();
+		/*----#end-code----*/
+		return this.redirect("igrp","PesquisarPerfil","index", this.queryString());	
+	}
+	
+/*----#start-code(custom_actions)----*/
 	
 	/*----#end-code----*/
-	}
+}

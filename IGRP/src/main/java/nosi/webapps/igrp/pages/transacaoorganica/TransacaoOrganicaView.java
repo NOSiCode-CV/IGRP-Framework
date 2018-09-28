@@ -1,13 +1,13 @@
-
 package nosi.webapps.igrp.pages.transacaoorganica;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
 public class TransacaoOrganicaView extends View {
-	
-	
+
 	public Field transacao;
 	public Field transacao_check;
 	public Field nome;
@@ -20,19 +20,22 @@ public class TransacaoOrganicaView extends View {
 	public IGRPToolsBar toolsbar_3;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_gestao_de_transacoes;
+
 	public TransacaoOrganicaView(){
 
 		this.setPageTitle("Associar Transacao a Organica");
 			
 		table_1 = new IGRPTable("table_1","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		transacao = new CheckBoxField(model,"transacao");
 		transacao.setLabel(gt("Ativo"));
 		transacao.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		
-		transacao_check = new CheckBoxField
-		(model,"transacao_check");
+		transacao_check = new CheckBoxField(model,"transacao_check");
 		transacao_check.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome (code)"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30");
@@ -54,6 +57,7 @@ public class TransacaoOrganicaView extends View {
 
 		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","_blank","black|fa-exchange","","");
 		btn_gestao_de_transacoes.propertie.add("type","specific").add("rel","gestao_de_transacoes");
+
 		
 	}
 		
@@ -77,14 +81,14 @@ public class TransacaoOrganicaView extends View {
 		this.addToPage(toolsbar_3);
 	}
 		
-	public void setModel(TransacaoOrganica model) {
+	@Override
+	public void setModel(Model model) {
 		
 		transacao.setValue(model);
 		nome.setValue(model);
 		id.setValue(model);
 		type.setValue(model);	
 
-		table_1.loadModel(model.getTable_1());
-		
-	}
+		table_1.loadModel(((TransacaoOrganica) model).getTable_1());
+		}
 }
