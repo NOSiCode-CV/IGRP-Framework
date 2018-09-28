@@ -42,8 +42,8 @@ public class Sql_toolsController extends Controller {
 		if (Core.isNotNull(model.getApplication()) && Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getSql())) {
 			String sql = this.getRemoveSpaceSql(model.getSql());
 			Config_env config_env = new Config_env().find()
-					.andWhere("application", "=", Core.toInt(model.getApplication()))
-					.andWhere("id", "=", Core.toInt(model.getData_source())).one();
+					.andWhere("application", "=", Core.toInt(model.getApplication(),-1))
+					.andWhere("id", "=", Core.toInt(model.getData_source(),-1)).one();
 			ResultSet r = new ResultSet();
 			long start=System.currentTimeMillis();
 			

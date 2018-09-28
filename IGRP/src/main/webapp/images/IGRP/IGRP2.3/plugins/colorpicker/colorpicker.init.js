@@ -13,7 +13,7 @@ $(function(){
 
             $.each(slist,function(i,sl){
               
-              console.log(sl);
+           //   console.log(sl);
 
               sl.events.declare(events);
 

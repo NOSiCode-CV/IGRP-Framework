@@ -72,7 +72,7 @@ public class DatabaseConfigHelper {
 			case "h2":
 				return "jdbc:h2:tcp:[host]:[port]/[database-name]";
 			case "oracle":
-				return "jdbc:oracle:thin:@//[host]:1521/[service_name]";
+				return "jdbc:oracle:thin:@[host]:1521/[service_name]";
 			case "mssql":
 				return "jdbc:sqlserver://[host]:1433;databaseName=[database-name]";
 			case "hsqldb":
@@ -98,7 +98,7 @@ public class DatabaseConfigHelper {
 			case "h2":
 				return "jdbc:h2:tcp:men:/"+dbName;
 			case "oracle":
-				return "jdbc:oracle:thin:@localhost:1521:"+dbName;
+				return "jdbc:oracle:thin:@nosidev02.gov.cv:1521/"+dbName;
 			case "mssql":
 				return "jdbc:sqlserver://localhost:1433;databaseName="+dbName;
 			case "hsqldb":

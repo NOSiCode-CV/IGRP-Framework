@@ -110,7 +110,11 @@ public class CRUDGeneratorController extends Controller {
 	
 			if(Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getAplicacao())) {
 		
-				Config_env config = new Config_env().findOne(Core.toInt(model.getData_source()));
+				Config_env config = new Config_env()
+						.find()
+						.andWhere("id","=",Core.toInt(model.getData_source(),-1))
+						.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
+						.one();	
 				List<String> list = this.dmh.getTables(config,model.getSchema());
 				String[] tables = Core.getParamArray("p_check_table");
 				boolean r = false;
@@ -152,14 +156,12 @@ public class CRUDGeneratorController extends Controller {
 		String pageNameList = Page.resolvePageName(tableName)+"List";
 
 		Action pageForm = new Action().find().andWhere("page", "=",pageNameForm).andWhere("application", "=",config.getApplication().getId()).one();
-		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();
-		
-		boolean commitpageForm = false; 
-		boolean commitpageList = false; 
+		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();		
 		
 		if(pageForm==null) {
 			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication());
-			commitpageForm = true;
+			pageForm = pageForm.insert();
+
 		}else {
 			if(!pageForm.getPackage_name().endsWith(".pages")) {
 				pageForm.setPackage_name(("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase());
@@ -168,7 +170,8 @@ public class CRUDGeneratorController extends Controller {
 		}
 		if(pageList==null) {
 			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication());
-			commitpageList = true;
+			pageList = pageList.insert();
+
 		}else {
 			if(!pageList.getPackage_name().endsWith(".pages")) {
 				pageList.setPackage_name(("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase());
@@ -179,20 +182,11 @@ public class CRUDGeneratorController extends Controller {
 		
 		try {
 			 flag = this.processGenerate(config, tableName, schema, pageForm, pageList);
-		}catch(Exception e) {			
+		}catch(Exception e) {
+			pageList.delete(pageList.getId());	
+			pageForm.delete(pageForm.getId());
 			return false;
-		} 
-		if(flag) {
-			if(commitpageForm) {
-				pageForm = pageForm.insert();
-				flag = pageForm != null;
-			}
-			if(commitpageList) {
-				pageList = pageList.insert();
-				flag = pageList != null;
-			}
-		}
-			
+		} 					
 		return flag;
 	}
 
