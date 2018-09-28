@@ -326,7 +326,6 @@ public class PesquisarUtilizadorController extends Controller {
 		view.id.setParam(true);
 		view.email.setParam(true);
 		view.btn_adicionar_utilizador.setVisible(false);
-		view.btn_convidar.setVisible(false);
 
 		view.btn_eliminar.setLink("eliminarUser");
 		view.btn_eliminar.setTitle("Alterar Estado");
