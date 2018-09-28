@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -93,7 +95,23 @@ public class PesquisarUtilizadorController extends Controller {
 		return this.renderView(view);	
 	}
 	
-	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionUsers() throws IOException, IllegalArgumentException, IllegalAccessException{
+		PesquisarUtilizador model = new PesquisarUtilizador();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Listautilizadores","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(users)----*/
+		
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","Listautilizadores","index", this.queryString());	
+	}
+	
+	public Response actionButton_1() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		model.load();
 		/*----#gen-example
@@ -102,20 +120,9 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
-		/*----#start-code(convidar)----*/
-   
-      // this.addQueryString("p_aplicacao",  model.getAplicacao());
-        // this.addQueryString("p_organica",  model.getOrganica());
-         //this.addQueryString("p_perfil",  model.getPerfil());
-		if (Core.isNotNull(model.getEmail())) {
-			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
-			if (Core.isNotNull(u)) {
-               	this.addQueryString("id", u.getId());
-				return this.redirect("igrp", "NovoUtilizador", "index", this.queryString());
-			}
-		}     	
-    
-      
+		/*----#start-code(button_1)----*/
+		
+		
 		/*----#end-code----*/
 		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
 	}
@@ -315,7 +322,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.id.setParam(true);
 		view.email.setParam(true);
 		view.btn_adicionar_utilizador.setVisible(false);
-		view.btn_convidar.setVisible(false);
+		//view.btn_convidar.setVisible(false);
 
 		view.btn_eliminar.setLink("eliminarUser");
 		view.btn_eliminar.setTitle("Alterar Estado");

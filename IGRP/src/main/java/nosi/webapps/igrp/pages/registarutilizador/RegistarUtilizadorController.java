@@ -1,8 +1,13 @@
-
 package nosi.webapps.igrp.pages.registarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
@@ -17,12 +22,9 @@ import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
-
-public class RegistarUtilizadorController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class RegistarUtilizadorController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		RegistarUtilizador model = new RegistarUtilizador();
 		model.load();
 		RegistarUtilizadorView view = new RegistarUtilizadorView();
@@ -85,24 +87,21 @@ public class RegistarUtilizadorController extends Controller {
 	}
 	
 	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		RegistarUtilizador model = new RegistarUtilizador();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(guardar)----*/
 
 		/*----#end-code----*/
 		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		
@@ -111,7 +110,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 		User user = new User().findOne(Integer.parseInt(idUser));		
 		model.setNome(user.getName());
 		model.setUsername(user.getUser_name());
-		model.setEmail(user.getEmail());		
+		model.setEmail(user.getEmail());
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
 					
 			boolean isError = false;
@@ -145,5 +144,6 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 		return this.renderView(view);
 	
 	}
+
 	/*----#end-code----*/
-	}
+}

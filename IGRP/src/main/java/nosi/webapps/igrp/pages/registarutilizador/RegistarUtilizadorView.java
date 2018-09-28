@@ -1,9 +1,13 @@
-
 package nosi.webapps.igrp.pages.registarutilizador;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class RegistarUtilizadorView extends View {
 
@@ -35,15 +39,15 @@ public class RegistarUtilizadorView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","true");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false");
 		
 		email = new TextField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","true");
+		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
@@ -51,16 +55,16 @@ public class RegistarUtilizadorView extends View {
 		
 		password = new PasswordField(model,"password");
 		password.setLabel(gt("Password"));
-		password.propertie().add("name","p_password").add("type","password").add("maxlength","20").add("required","true");
+		password.propertie().add("name","p_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false");
 		
 		confirmar_password = new PasswordField(model,"confirmar_password");
 		confirmar_password.setLabel(gt("Confirmar password"));
-		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true");
+		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("readonly","false").add("disabled","false");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_guardar = new IGRPButton("Guardar","igrp","RegistarUtilizador","index","submit","primary|fa-save","","");
+		btn_guardar = new IGRPButton("Guardar","igrp","RegistarUtilizador","guardar","submit","primary|fa-save","","");
 		btn_guardar.propertie.add("type","specific").add("rel","guardar");
 
 		
@@ -85,7 +89,8 @@ public class RegistarUtilizadorView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(RegistarUtilizador model) {
+	@Override
+	public void setModel(Model model) {
 		
 		nome.setValue(model);
 		username.setValue(model);
@@ -94,6 +99,5 @@ public class RegistarUtilizadorView extends View {
 		password.setValue(model);
 		confirmar_password.setValue(model);	
 
-		
-	}
+		}
 }

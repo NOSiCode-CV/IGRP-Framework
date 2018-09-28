@@ -99,7 +99,8 @@ public class ResetpasswordController extends Controller {
 			
 			if(user != null) {
 				String aux = new String(Base64.getUrlDecoder().decode(user.getPassword_reset_token()));
-				String time = aux.split("_")[1];
+				String arr[] = aux.split("_");
+				String time = arr[1];
 				if(time.compareTo(System.currentTimeMillis() + "") <= 0 || user.getStatus() == 0) 
 					throw new Exception("Invalid or expired token.");
 			}else
