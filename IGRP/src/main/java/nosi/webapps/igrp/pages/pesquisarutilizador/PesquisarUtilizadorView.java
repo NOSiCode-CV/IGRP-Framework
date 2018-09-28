@@ -30,7 +30,8 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_convidar;
+	public IGRPButton btn_users;
+	public IGRPButton btn_button_1;
 	public IGRPButton btn_adicionar_utilizador;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_editar;
@@ -110,8 +111,11 @@ public class PesquisarUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel|refresh","warning|fa-send","","");
-		btn_convidar.propertie.add("type","specific").add("rel","convidar");
+		btn_users = new IGRPButton("","igrp","PesquisarUtilizador","users","modal|refresh","primary|fa-users","","");
+		btn_users.propertie.add("type","specific").add("rel","users");
+
+		btn_button_1 = new IGRPButton("Convidar","igrp","PesquisarUtilizador","button_1","right_panel|refresh","warning|fa-send","","");
+		btn_button_1.propertie.add("type","specific").add("rel","button_1");
 
 		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","right_panel_submit","success|fa-plus-square","","");
 		btn_adicionar_utilizador.propertie.add("type","specific").add("rel","adicionar_utilizador");
@@ -161,7 +165,8 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(perfile);
 		table_1.addField(id);
 
-		toolsbar_1.addButton(btn_convidar);
+		toolsbar_1.addButton(btn_users);
+		toolsbar_1.addButton(btn_button_1);
 		toolsbar_1.addButton(btn_adicionar_utilizador);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);

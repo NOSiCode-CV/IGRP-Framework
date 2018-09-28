@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/listautilizadores/Listautilizadores.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Listautilizadores</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Listautilizadores</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=68</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>ListaUtilizadores</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Lista Utilizadores]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <usernameemail name="p_usernameemail" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Username/Email</label>
+                    <value>Labore lorem dolor totam omnis</value>
+                </usernameemail>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Listautilizadores</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/listautilizadores/Listautilizadores.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <username name="p_username" type="plaintext" maxlength="200" align="left" lookup_parser="false" iskey="true">
+                    <label>Username</label>
+                </username>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
+                <email name="p_email" type="plaintext" maxlength="200" align="left" lookup_parser="false" iskey="false">
+                    <label>Email</label>
+                </email>
+                <ativo name="p_ativo" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
+                    <label>Ativo?</label>
+                </ativo>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <username name="p_username">Consectetur stract voluptatem omnis labore voluptatem anim aperiam omnis accusantium iste elit unde accusantium amet magna stract dolor adipiscing aliqua laudantium dolor aperiam sed laudantium</username>
+                        <nome name="p_nome">Aliqua lorem natus anim unde</nome>
+                        <email name="p_email">Magna omnis consectetur totam magna sit unde amet lorem sed sit totam lorem anim unde mollit rem iste sed unde stract rem aperiam ut accusantium</email>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                    </row>
+                    <row>
+                        <username name="p_username">Labore sit accusantium anim labore stract perspiciatis anim dolor stract iste dolor deserunt officia sit labore sit dolor laudantium doloremque unde doloremque adipiscing laudantium aperiam</username>
+                        <nome name="p_nome">Elit iste rem omnis omnis</nome>
+                        <email name="p_email">Omnis elit mollit laudantium officia dolor perspiciatis adipiscing officia adipiscing natus rem totam elit natus ipsum omnis officia deserunt ut elit mollit sit ut magna</email>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                    </row>
+                    <row>
+                        <username name="p_username">Sit ipsum deserunt amet lorem anim voluptatem deserunt voluptatem ut natus iste lorem sit laudantium amet iste labore ut lorem rem accusantium anim ipsum omnis</username>
+                        <nome name="p_nome">Stract adipiscing ut aliqua unde</nome>
+                        <email name="p_email">Lorem ut accusantium amet totam omnis sed voluptatem ipsum doloremque unde ut dolor rem doloremque mollit totam accusantium voluptatem doloremque aliqua perspiciatis officia aliqua sed</email>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                    </row>
+                    <row>
+                        <username name="p_username">Dolor lorem amet consectetur mollit lorem doloremque totam natus sit mollit ut laudantium doloremque stract adipiscing sit aperiam amet accusantium elit ipsum rem unde aliqua</username>
+                        <nome name="p_nome">Sit natus consectetur omnis iste</nome>
+                        <email name="p_email">Unde consectetur totam accusantium ut magna totam consectetur elit laudantium omnis ut officia unde aperiam aliqua omnis ipsum aperiam magna accusantium dolor elit deserunt aperiam</email>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                    </row>
+                    <row>
+                        <username name="p_username">Magna ipsum unde magna voluptatem aliqua perspiciatis labore iste sit iste omnis voluptatem deserunt totam magna aliqua dolor ut doloremque magna rem accusantium omnis aliqua</username>
+                        <nome name="p_nome">Anim laudantium rem aliqua ipsum</nome>
+                        <email name="p_email">Aliqua accusantium lorem adipiscing accusantium rem sit aperiam iste adipiscing officia sed labore natus totam sit sed iste sit sed amet perspiciatis labore totam adipiscing</email>
+                        <ativo name="p_ativo" check="true" desc="true">1</ativo>
+                        <ativo_desc name="p_ativo_desc">1</ativo_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>
