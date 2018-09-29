@@ -40,8 +40,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'status_page' as status_page,'descricao_page' as descricao_page,'id_page' as id_page,'nome_page' as nome_page "));
-		model.loadMyapps_list(Core.query(null,"SELECT 'icon' as icon,'aplicacao' as aplicacao "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Sit deserunt perspiciatis adip' as descricao_page,'1' as id_page,'1' as nome_page "));
+		model.loadMyapps_list(Core.query(null,"SELECT 'images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as icon,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as aplicacao "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -158,8 +158,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
@@ -173,8 +173,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -192,8 +192,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -211,8 +211,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -230,8 +230,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -249,8 +249,8 @@ public class ListaPageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(download)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {

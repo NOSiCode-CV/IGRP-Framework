@@ -72,10 +72,10 @@ public class ListaEnvView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_importar = new IGRPButton("Importar","igrp_studio","ListaEnv","importar","modal|refresh","default|fa-upload","","");
+		btn_importar = new IGRPButton("Importar","igrp_studio","ListaEnv","importar","modal|refresh","danger|fa-upload","","");
 		btn_importar.propertie.add("type","specific").add("rel","importar");
 
-		btn_novo = new IGRPButton("Nova aplicação","igrp_studio","ListaEnv","novo","modal|refresh","success|fa-plus","","");
+		btn_novo = new IGRPButton("Novo","igrp_studio","ListaEnv","novo","modal|refresh","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("rel","novo");
 
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaEnv","editar","mpsubmit|refresh","warning|fa-pencil","","");
