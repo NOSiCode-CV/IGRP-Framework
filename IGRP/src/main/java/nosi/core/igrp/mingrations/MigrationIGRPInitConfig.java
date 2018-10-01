@@ -185,8 +185,6 @@ public class MigrationIGRPInitConfig {
 			actions.add(r1);
 			actions.add(r2);
 			
-			actions.add(new Action("Listautilizadores", "index", "nosi.webapps.igrp.pages", "igrp/listautilizadores/Listautilizadores.xsl", "Lista utilizadores", "Lista utilizadores", "2.3", 1, app_igrp));
-			
 			for(Action ac:actions){
 				ac.insert();
 			}

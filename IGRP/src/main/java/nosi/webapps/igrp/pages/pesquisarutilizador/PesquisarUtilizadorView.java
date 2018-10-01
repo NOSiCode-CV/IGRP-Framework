@@ -18,8 +18,9 @@ public class PesquisarUtilizadorView extends View {
 	public Field aplicacao;
 	public Field organica;
 	public Field perfil;
+	public Field ativo;
+	public Field ativo_check;
 	public Field nominho;
-	public Field number_1;
 	public Field range_1;
 	public Field nome;
 	public Field tb_email;
@@ -30,7 +31,6 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_users;
 	public IGRPButton btn_convidar;
 	public IGRPButton btn_adicionar_utilizador;
 	public IGRPButton btn_pesquisar;
@@ -49,7 +49,7 @@ public class PesquisarUtilizadorView extends View {
 
 		form_1 = new IGRPForm("form_1","Filtro");
 
-		table_1 = new IGRPTable("table_1","Utilizadores Convidados");
+		table_1 = new IGRPTable("table_1","Utilizadores");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -80,13 +80,16 @@ public class PesquisarUtilizadorView extends View {
 		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
+		ativo = new CheckBoxField(model,"ativo");
+		ativo.setLabel(gt("Ativo?"));
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		
+		ativo_check = new CheckBoxField(model,"ativo_check");
+		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		
 		nominho = new PlainTextField(model,"nominho");
 		nominho.setLabel(gt("Nome"));
 		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50");
-		
-		number_1 = new NumberField(model,"number_1");
-		number_1.setLabel(gt("Number"));
-		number_1.propertie().add("name","p_number_1").add("type","number").add("min","2").add("max","6").add("maxlength","30").add("total_footer","false");
 		
 		range_1 = new TextField(model,"range_1");
 		range_1.setLabel(gt("Range"));
@@ -110,9 +113,6 @@ public class PesquisarUtilizadorView extends View {
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-
-		btn_users = new IGRPButton("","igrp","PesquisarUtilizador","users","modal|refresh","primary|fa-users","","");
-		btn_users.propertie.add("type","specific").add("rel","users");
 
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel|refresh","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
@@ -157,15 +157,15 @@ public class PesquisarUtilizadorView extends View {
 		form_1.addField(perfil);
 
 
+		table_1.addField(ativo);
+		table_1.addField(ativo_check);
 		table_1.addField(nominho);
-		table_1.addField(number_1);
 		table_1.addField(range_1);
 		table_1.addField(nome);
 		table_1.addField(tb_email);
 		table_1.addField(perfile);
 		table_1.addField(id);
 
-		toolsbar_1.addButton(btn_users);
 		toolsbar_1.addButton(btn_convidar);
 		toolsbar_1.addButton(btn_adicionar_utilizador);
 		form_1.addButton(btn_pesquisar);
@@ -190,8 +190,8 @@ public class PesquisarUtilizadorView extends View {
 		aplicacao.setValue(model);
 		organica.setValue(model);
 		perfil.setValue(model);
+		ativo.setValue(model);
 		nominho.setValue(model);
-		number_1.setValue(model);
 		range_1.setValue(model);
 		nome.setValue(model);
 		tb_email.setValue(model);
