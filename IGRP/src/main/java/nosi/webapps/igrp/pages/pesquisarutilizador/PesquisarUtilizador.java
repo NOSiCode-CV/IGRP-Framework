@@ -103,25 +103,32 @@ public class PesquisarUtilizador extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private int ativo;
+		private int ativo_check;
 		private String nominho;
-		private int number_1;
 		private int range_1;
 		private String nome;
 		private String tb_email;
 		private String perfile;
 		private String id;
+		public void setAtivo(int ativo){
+			this.ativo = ativo;
+		}
+		public int getAtivo(){
+			return this.ativo;
+		}
+		public void setAtivo_check(int ativo_check){
+			this.ativo_check = ativo_check;
+		}
+		public int getAtivo_check(){
+			return this.ativo_check;
+		}
+
 		public void setNominho(String nominho){
 			this.nominho = nominho;
 		}
 		public String getNominho(){
 			return this.nominho;
-		}
-
-		public void setNumber_1(int number_1){
-			this.number_1 = number_1;
-		}
-		public int getNumber_1(){
-			return this.number_1;
 		}
 
 		public void setRange_1(int range_1){
