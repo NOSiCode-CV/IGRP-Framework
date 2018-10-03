@@ -40,7 +40,9 @@
         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
-                    <value>Tutorial IGRP WEB</value>
+                    <value>
+                        <![CDATA[Tutorial IGRP WEB]]>
+                    </value>
                 </sectionheader_2_text>
             </fields>
         </sectionheader_2>
@@ -63,7 +65,9 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Bem-vindo ao seu IGRP WEB</value>
+                    <value>
+                        <![CDATA[Bem-vindo ao seu IGRP WEB]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -81,7 +85,7 @@
                     <label/>
                     <value type="action">
                         <app>tutorial</app>
-                        <page>GeralApresentacao</page>
+                        <page>Video_gestao_de_aplicacao</page>
                         <action>index</action>
                     </value>
                 </quickbuttonbox_gestao_url>
@@ -126,7 +130,9 @@
         <paragraph_1 type="paragraph" xml-type="form" title="Tutorial IGRP WEB" gen-type="container" gen-group="">
             <fields>
                 <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
-                    <value>Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito...</value>
+                    <value>
+                        <![CDATA[Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP WEB através de vídeos e documentos., como gerir um App desde a sua criação até atribuição de acesso, gerar as páginas e os CRUDs numa tabela. Agora é só navegar e descobrir a mágica da criaão e integração das aplicações. Bom aproveito...]]>
+                    </value>
                 </paragraph_1_text>
             </fields>
         </paragraph_1>
@@ -144,7 +150,7 @@
                     <label/>
                     <value type="action">
                         <app>tutorial</app>
-                        <page>GeralApresentacao</page>
+                        <page>Video_instalar_igrp_web</page>
                         <action>index</action>
                     </value>
                 </quickbuttonbox_instalar_url>
@@ -161,14 +167,18 @@
         <paragraph_6 type="paragraph" xml-type="form" title="Documentos IGRP WEB" gen-type="container" gen-group="">
             <fields>
                 <paragraph_6_text type="text" name="p_paragraph_6_text" persist="true" maxlength="4000">
-                    <value>Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!</value>
+                    <value>
+                        <![CDATA[Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP WEB. Para mais dúvidas... por favor consulte o nosso FAQ ao lado!!]]>
+                    </value>
                 </paragraph_6_text>
             </fields>
         </paragraph_6>
         <video_2 type="video" xml-type="video" title="Welcome IGRP WEB Framework" gen-type="container" gen-group="">
             <fields>
                 <video_2_text type="text" name="p_video_2_text" persist="true" maxlength="4000">
-                    <value>https://www.youtube.com/embed/Xc38EPBydco</value>
+                    <value>
+                        <![CDATA[https://www.youtube.com/embed/Xc38EPBydco]]>
+                    </value>
                 </video_2_text>
             </fields>
         </video_2>
@@ -186,7 +196,7 @@
                     <label/>
                     <value type="action">
                         <app>tutorial</app>
-                        <page>GeralApresentacao</page>
+                        <page>Video_my_first_app</page>
                         <action>index</action>
                     </value>
                 </quickbuttonbox_my_first_url>
@@ -205,31 +215,36 @@
                 <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Documento</label>
                 </documento>
-                <ver name="p_ver" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <ver name="p_ver" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="GeralApresentacao" app="tutorial" custom_action="" action_type="false" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-external-link-square" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
                     <label>Ver</label>
                 </ver>
             </fields>
             <table>
                 <value>
                     <row>
-                        <documento name="p_documento">Doloremque lorem doloremque la</documento>
-                        <ver name="p_ver">Aperiam ipsum magna labore dol</ver>
+                        <documento name="p_documento">Mollit lorem officia iste unde</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Stract aperiam omnis unde dolo</documento>
-                        <ver name="p_ver">Stract natus amet stract dolor</ver>
+                        <documento name="p_documento">Natus sed adipiscing labore ac</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Rem laudantium mollit ut magna</documento>
-                        <ver name="p_ver">Unde iste deserunt adipiscing</ver>
+                        <documento name="p_documento">Anim adipiscing aperiam perspi</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Anim ipsum consectetur elit se</documento>
-                        <ver name="p_ver">Sit ipsum adipiscing stract la</ver>
+                        <documento name="p_documento">Lorem accusantium sit labore a</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Natus deserunt ut ipsum perspi</documento>
-                        <ver name="p_ver">Rem officia sit aperiam totam</ver>
+                        <documento name="p_documento">Accusantium mollit sed perspic</documento>
+                        <ver name="p_ver" desc="true">/IGRP/images/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xml</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                 </value>
             </table>
