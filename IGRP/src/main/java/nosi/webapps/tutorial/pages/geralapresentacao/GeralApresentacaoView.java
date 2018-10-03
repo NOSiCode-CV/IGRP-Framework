@@ -115,7 +115,7 @@ public class GeralApresentacaoView extends View {
 		
 		quickbuttonbox_gestao_url = new TextField(model,"quickbuttonbox_gestao_url");
 		quickbuttonbox_gestao_url.setLabel(gt(""));
-		quickbuttonbox_gestao_url.setValue(new Config().getResolveUrl("tutorial","GeralApresentacao","index"));
+		quickbuttonbox_gestao_url.setValue(new Config().getResolveUrl("tutorial","Video_gestao_de_aplicacao","index"));
 		quickbuttonbox_gestao_url.propertie().add("name","p_quickbuttonbox_gestao_url").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_gestao_bg = new TextField(model,"quickbuttonbox_gestao_bg");
@@ -175,7 +175,7 @@ public class GeralApresentacaoView extends View {
 		
 		quickbuttonbox_instalar_url = new TextField(model,"quickbuttonbox_instalar_url");
 		quickbuttonbox_instalar_url.setLabel(gt(""));
-		quickbuttonbox_instalar_url.setValue(new Config().getResolveUrl("tutorial","GeralApresentacao","index"));
+		quickbuttonbox_instalar_url.setValue(new Config().getResolveUrl("tutorial","Video_instalar_igrp_web","index"));
 		quickbuttonbox_instalar_url.propertie().add("name","p_quickbuttonbox_instalar_url").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_instalar_bg = new TextField(model,"quickbuttonbox_instalar_bg");
@@ -210,7 +210,7 @@ public class GeralApresentacaoView extends View {
 		
 		quickbuttonbox_my_first_url = new TextField(model,"quickbuttonbox_my_first_url");
 		quickbuttonbox_my_first_url.setLabel(gt(""));
-		quickbuttonbox_my_first_url.setValue(new Config().getResolveUrl("tutorial","GeralApresentacao","index"));
+		quickbuttonbox_my_first_url.setValue(new Config().getResolveUrl("tutorial","Video_my_first_app","index"));
 		quickbuttonbox_my_first_url.propertie().add("name","p_quickbuttonbox_my_first_url").add("type","text").add("maxlength","4000");
 		
 		quickbuttonbox_my_first_bg = new TextField(model,"quickbuttonbox_my_first_bg");
@@ -227,9 +227,11 @@ public class GeralApresentacaoView extends View {
 		documento.setLabel(gt("Documento"));
 		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30");
 		
-		ver = new TextField(model,"ver");
+		ver = new LinkField(model,"ver");
 		ver.setLabel(gt("Ver"));
-		ver.propertie().add("name","p_ver").add("type","text").add("maxlength","30");
+		ver.setValue(new Config().getResolveUrl("tutorial","GeralApresentacao","index"));
+
+									ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("request_fields","").add("maxlength","30").add("desc","true");
 		
 
 

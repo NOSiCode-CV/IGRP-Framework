@@ -302,7 +302,8 @@ public class GeralApresentacao extends Model{
 
 	public static class Table_1 extends IGRPTable.Table{
 		private String documento;
-		private String ver;
+		private IGRPLink ver;
+		private String ver_desc;
 		public void setDocumento(String documento){
 			this.documento = documento;
 		}
@@ -310,12 +311,27 @@ public class GeralApresentacao extends Model{
 			return this.documento;
 		}
 
-		public void setVer(String ver){
-			this.ver = ver;
-		}
-		public String getVer(){
+		public IGRPLink setVer(String app,String page,String action){
+			this.ver = new IGRPLink(app,page,action);
 			return this.ver;
 		}
+		public IGRPLink getVer(){
+			return this.ver;
+		}
+		public void setVer_desc(String ver_desc){
+			this.ver_desc = ver_desc;
+		}
+		public String getVer_desc(){
+			return this.ver_desc;
+		}
+	public IGRPLink setVer(String link){
+		this.ver = new IGRPLink(link);
+		return this.ver;
+	}
+	public IGRPLink setVer(Report link){
+		this.ver = new IGRPLink(link);
+		return this.ver;
+	}
 
 	}
 
