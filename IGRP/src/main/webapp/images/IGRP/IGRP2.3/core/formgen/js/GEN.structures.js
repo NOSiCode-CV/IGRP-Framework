@@ -402,7 +402,7 @@ var GENSTRUCTURES = function(GEN){
 	}
 
 	var genMap = function(container){
-		return 'http://igrp.teste.gov.cv'+path+'/xml/gis/map.xml';
+		return path+'/xml/gis/map.xml';
 	}
 
 	GEN.genContextMenu = function(container){
@@ -510,7 +510,9 @@ var GENSTRUCTURES = function(GEN){
 		rtn+='</fields>';
 		return rtn;
 	}
-
+	function genNum(limit){
+	    return Math.floor(Math.random() * limit);
+	}
 	var genGraphic = function(container){
 		var colors = '<colors>'+
 						'<col>'+DATA.get({ type:'color',format:'hex' })+'</col>'+
@@ -520,7 +522,7 @@ var GENSTRUCTURES = function(GEN){
 					'</colors>';
 		var chartType = container.GET.chart_type ? container.GET.chart_type() : 'line';
 
-		return '<caption></caption> <chart_type>'+chartType+'</chart_type> <xaxys>Eixo de X</xaxys><yaxys>Eixo de Y</yaxys><url>#</url><label><col>Ano</col><col>X1</col><col>X2</col><col>X3</col><col>X4</col></label><value><row><col>2010</col><col>265</col><col>658</col><col>498</col><col>698</col></row><row><col>2009</col><col>784</col><col>258</col><col>594</col><col>498</col></row><row><col>2015</col><col>1010</col><col>698</col><col>366</col><col>498</col></row></value>'+colors;
+		return '<caption></caption> <chart_type>'+chartType+'</chart_type> <xaxys>Eixo de X</xaxys><yaxys>Eixo de Y</yaxys><url>#</url><label><col>Ano</col><col>X1</col><col>X2</col><col>X3</col><col>X4</col></label><value><row><col>2010</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col></row><row><col>2009</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col></row><row><col>2015</col><col>1010</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col><col>'+genNum(999)+'</col></row></value>'+colors;
 	};
 
 	var genFingerPrint = function(container){

@@ -49,7 +49,7 @@ a,
 p{
   margin-bottom: 0;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 ul,

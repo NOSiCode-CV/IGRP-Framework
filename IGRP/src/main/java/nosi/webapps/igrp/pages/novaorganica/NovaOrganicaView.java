@@ -1,9 +1,13 @@
-
 package nosi.webapps.igrp.pages.novaorganica;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class NovaOrganicaView extends View {
 
@@ -36,15 +40,15 @@ public class NovaOrganicaView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","60").add("required","true");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","60").add("required","true").add("readonly","false").add("disabled","false");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("switch","true").add("check","true");
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("check","true");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
@@ -52,11 +56,11 @@ public class NovaOrganicaView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("domain","").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		organizacao_pai = new ListField(model,"organizacao_pai");
 		organizacao_pai.setLabel(gt("Organização pai"));
-		organizacao_pai.propertie().add("name","p_organizacao_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		organizacao_pai.propertie().add("name","p_organizacao_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -86,7 +90,8 @@ public class NovaOrganicaView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(NovaOrganica model) {
+	@Override
+	public void setModel(Model model) {
 		
 		nome.setValue(model);
 		codigo.setValue(model);
@@ -95,6 +100,5 @@ public class NovaOrganicaView extends View {
 		aplicacao.setValue(model);
 		organizacao_pai.setValue(model);	
 
-		
-	}
+		}
 }

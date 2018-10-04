@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.novaorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,24 +14,18 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
-
-public class NovaOrganicaController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class NovaOrganicaController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovaOrganica model = new NovaOrganica();
 		model.load();
 		NovaOrganicaView view = new NovaOrganicaView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organizacao_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 
@@ -49,18 +44,13 @@ public class NovaOrganicaController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		NovaOrganica model = new NovaOrganica();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovaOrganica","index", this.queryString()); //if submit, loads the values
-		
-		
-		----#gen-example */
+		 return this.forward("igrp","NovaOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
@@ -92,7 +82,7 @@ public class NovaOrganicaController extends Controller {
 		return this.redirect("igrp","NovaOrganica","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovaOrganica model = new NovaOrganica();
@@ -155,4 +145,4 @@ public class NovaOrganicaController extends Controller {
 	}
 
 	/*----#end-code----*/
-	}
+}

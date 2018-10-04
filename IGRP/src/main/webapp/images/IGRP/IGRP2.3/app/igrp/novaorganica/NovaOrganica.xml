@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,12 +33,16 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=7</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Organica</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="40">
-                    <value>Gestão de Orgânica - Novo</value>
+                    <value>
+                        <![CDATA[Gestão de Orgânica - Novo]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -56,11 +61,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Lorem anim natus consectetur doloremque</value>
+                    <value>Accusantium mollit sit consectetur totam</value>
                 </nome>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false">
+                <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false">
                     <label>Código</label>
-                    <value>Amet ut ipsum rem voluptatem</value>
+                    <value>Stract laudantium stract anim labore</value>
                 </codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
                     <label>Ativo</label>
@@ -69,7 +74,7 @@
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -91,7 +96,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organizacao_pai name="p_organizacao_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                <organizacao_pai name="p_organizacao_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Organização pai</label>
                     <list>
                         <option/>

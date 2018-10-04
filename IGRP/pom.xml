@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<tomee.version>7.0.4</tomee.version>
+		<tomee.version>7.1.0</tomee.version>
 
 		<!-- Test properties -->
 		<arquillian.bom.version>1.0.0.Final</arquillian.bom.version>
@@ -223,7 +223,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.2</version>
+			<version>42.2.5</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
 		<dependency>
