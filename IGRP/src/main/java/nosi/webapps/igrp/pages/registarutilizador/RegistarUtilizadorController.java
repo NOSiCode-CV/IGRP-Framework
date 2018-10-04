@@ -4,6 +4,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,22 @@ public class RegistarUtilizadorController extends Controller {
 		RegistarUtilizadorView view = new RegistarUtilizadorView();
 		/*----#start-code(index)----*/
 
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
+	}
+	
+	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		RegistarUtilizador model = new RegistarUtilizador();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
+		/*----#start-code(guardar)----*/
+
 		boolean isError = false;
 
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){			
@@ -37,10 +54,11 @@ public class RegistarUtilizadorController extends Controller {
 			if(!model.getPassword().equals(model.getConfirmar_password())){
 				Core.setMessageError("Password inconsistentes ... Tente de novo.");
 				isError = true;
+				 return this.forward("igrp","RegistarUtilizador","index", this.queryString());
 			}
 				
 			if(!isError){				
-				User user = new User();				
+				User user = new User();
 				user.setName(model.getNome());
 				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
 				user.setEmail(model.getEmail());
@@ -50,7 +68,16 @@ public class RegistarUtilizadorController extends Controller {
 				user.setUpdated_at(System.currentTimeMillis());
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-				user = user.insert();
+				//verificar se o email/username existe
+				User ur_email = new User().find().andWhere("email", "=", model.getEmail()).one();//verificar email
+				User ur_name = new User().find().andWhere("user_name", "=", model.getUsername()).one();//verificar username
+				if(ur_email != null || ur_name != null) {
+						Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
+						return this.forward("igrp","RegistarUtilizador","index", this.queryString());
+					}else {
+						user = user.insert();
+						}
+				
 				UserRole role = new UserRole();
 				String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
 				role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
@@ -80,23 +107,6 @@ public class RegistarUtilizadorController extends Controller {
 					Core.setMessageError("Error ao registar uilizador.");
 			}			
 		}	
-	
-		/*----#end-code----*/
-		view.setModel(model);
-		return this.renderView(view);	
-	}
-	
-	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		RegistarUtilizador model = new RegistarUtilizador();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
-		/*----#start-code(guardar)----*/
-
 		/*----#end-code----*/
 		return this.redirect("igrp","RegistarUtilizador","index", this.queryString());	
 	}
