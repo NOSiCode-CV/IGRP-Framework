@@ -39,7 +39,7 @@ var TEMPLATES = {
 		},
 		container:function(p){
 			
-			var fileExistsURL = VARS.getGen().UTILS.gen_file_exists;
+			//var fileExistsURL = VARS.getGen().UTILS.gen_file_exists;
 			
 			var tReady  = false;
 			var ftReady = false;
@@ -74,20 +74,35 @@ var TEMPLATES = {
 							
 						}
 						
-						/*var temp = html;
 
-						TEMPLATES.SET.container({
-							name:p.name,
-							template:temp
-						});
-
-						tReady = true;
-						
-						if(tReady && ftReady)
-							if(p.callback) p.callback(TEMPLATES.container[p.name]);*/
 					},
 					error:function(e){
-						if(p.error) p.error(e); 
+						console.log(e);
+						$.ajax({
+							url: TEMPLATES.path+'/types/'+p.genType+'s/'+p.name+'/'+p.name+'.html',
+							success:function(html){
+								
+								var temp = html;
+
+								TEMPLATES.SET.container({
+									name:p.name,
+									template:temp
+								});
+
+								tReady = true;
+								
+								if(tReady && ftReady)
+									if(p.callback) p.callback(TEMPLATES.container[p.name]);
+							},
+							error:function(e){
+								if(p.error) 
+									p.error(e); 
+							}
+						});
+							
+						
+						//if(p.error) p.error(e); 
+						
 					}
 				});
 			}else{
@@ -101,8 +116,37 @@ var TEMPLATES = {
 					
 					$.ajax({
 						url:  fileExistsURL+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
+						
+						error : function(e){
+							console.log(e);
+							
+							$.ajax({
+								url:  TEMPLATES.path+'/types/'+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
+								success:function(fieldhtml){
+									var temp =fieldhtml;
+									
+									TEMPLATES.SET.container({
+										name:p.name,
+										field:{
+											name:fieldTemp,
+											html:fieldhtml
+										}
+									});
+								},
+								complete:function(e,i){
+									ftReady = true;
+									
+									if(tReady && ftReady)
+										if(p.callback) p.callback(TEMPLATES.container[p.name]);
+
+								}
+							});
+							
+							
+						},
+						
 						success:function(r){
-							//console.log(r);
+							
 							if(r.status && r.content){
 								var fieldhtml = r.content;
 								var temp = r.content;
