@@ -10,6 +10,7 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Action;
 
@@ -38,8 +39,8 @@ public class EncrypDecrypt {
 				!content.equals("igrp/error-page/exception") && 
 				!content.equals("igrp/login/logout") && 
 				!content.contains("igrp/page") && 	
-				!content.contains("changeStatus") && 
-				!(qs.contains("target=_blank") && qs.contains("isPublic=1")); // Para paginas totalmente publicas 
+				!content.contains("changeStatus") && (Core.isNotNull(qs)?
+				!(qs.contains("target=_blank") && qs.contains("isPublic=1")):true); // Para paginas totalmente publicas 
 	}
 	
 	public String decrypt(String content) {

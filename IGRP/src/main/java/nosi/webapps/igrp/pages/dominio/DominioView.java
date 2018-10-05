@@ -1,16 +1,13 @@
-
 package nosi.webapps.igrp.pages.dominio;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
-
-
 
 public class DominioView extends View {
 
@@ -48,27 +45,27 @@ public class DominioView extends View {
 		
 		lst_dominio = new ListField(model,"lst_dominio");
 		lst_dominio.setLabel(gt("Domínio"));
-		lst_dominio.propertie().add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("java-type","");
+		lst_dominio.propertie().add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
 		
 		key = new TextField(model,"key");
 		key.setLabel(gt("Chave"));
-		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("desc","true");
+		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desc","true");
 		
 		description = new TextField(model,"description");
 		description.setLabel(gt("Descrição"));
-		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("desc","true");
+		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desc","true");
 		
 		ordem = new NumberField(model,"ordem");
 		ordem.setLabel(gt("Ordem"));
-		ordem.propertie().add("name","p_ordem").add("type","number").add("min","0").add("max","20").add("maxlength","250").add("required","false").add("java-type","").add("desc","true");
+		ordem.propertie().add("name","p_ordem").add("type","number").add("min","0").add("max","20").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","").add("desc","true");
 		
 		estado = new ListField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("java-type","").add("delimiter",";").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("delimiter",";").add("desc","true");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
-		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false");
+		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
 		
 
 
@@ -114,6 +111,5 @@ public class DominioView extends View {
 		novo_dominio.setValue(model);	
 
 		formlist_1.loadModel(((Dominio) model).getFormlist_1());
-		
-	}
+		}
 }

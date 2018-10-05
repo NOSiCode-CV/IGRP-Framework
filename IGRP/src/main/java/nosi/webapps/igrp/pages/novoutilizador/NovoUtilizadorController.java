@@ -134,7 +134,7 @@ public class NovoUtilizadorController extends Controller {
 		String[] arrayEmails = model.getEmail().split(";");
 		for (int i = 0; i < arrayEmails.length; i++) {
 			String email = arrayEmails[i];
-			if(!email.contains("@"))
+			if(Core.isNull(email) && !email.contains("@"))
 				continue;
 			User u = new User().find().andWhere("email", "=", email.trim()).one();
 			if (Core.isNotNull(u)) {
@@ -403,8 +403,12 @@ public class NovoUtilizadorController extends Controller {
 		p.setOrganization(new Organization().findOne(model.getOrganica()));
 		p.setProfileType(new ProfileType().findOne(model.getPerfil()));
 		p.setType("PROF");
-
-		String email = model.getEmail().trim();
+		Boolean ok = true;
+		String[] arrayEmails = model.getEmail().split(";");
+		for (int i = 0; i < arrayEmails.length; i++) {
+			String email = arrayEmails[i];
+			if(Core.isNull(email) && !email.contains("@"))
+				continue;	
 
 		Properties settings = loadIdentityServerSettings();
 		User userLdap = null;
@@ -413,13 +417,15 @@ public class NovoUtilizadorController extends Controller {
 				settings);
 
 		if (userLdap != null) {
-			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
+			User u = new User().find().andWhere("email", "=", email.trim()).one();
 			if (u == null) {
 
 				if (settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
 						&& !addRoleToUser(settings, userLdap)) {
-					Core.setMessageError("Ocorreu um erro ao adicionar role ao utilizador.");
-					return false;
+					Core.setMessageError("Ocorreu um erro ao adicionar role ao "+email);
+					ok=false;
+					continue;
+					
 				}
 
 				u = userLdap.insert();
@@ -454,18 +460,25 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.create(userActiviti0);
 					new GroupService().addUser(p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
 							userActiviti0.getId());
-					Core.setMessageSuccess();
-					return true;
+					Core.setMessageSuccess(email);
+					continue;
 				} else {
 					Core.setMessageError();
+					ok=false;
+					continue;
 				}
 			} else {
 				Core.setMessageError();
+				ok=false;
+				continue;
 			}
 		} else {
 			Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
+			ok=false;
+			continue;
 		}
-		return false;
+		}
+		return ok;
 
 	}
 
