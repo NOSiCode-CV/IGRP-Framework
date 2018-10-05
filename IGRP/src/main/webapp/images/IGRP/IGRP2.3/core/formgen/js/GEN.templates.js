@@ -47,7 +47,7 @@ var TEMPLATES = {
 			var getField = p.getField == false ? false : true;
 			
 			var fieldTemp = p.fieldStyle ? p.fieldStyle : 'field';
-			//console.log(p)
+		
 
 			if(!TEMPLATES.container[p.name] || !TEMPLATES.container[p.name].template){
 				$.ajax({
