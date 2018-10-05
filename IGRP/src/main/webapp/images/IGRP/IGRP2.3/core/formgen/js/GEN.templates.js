@@ -39,7 +39,7 @@ var TEMPLATES = {
 		},
 		container:function(p){
 			
-			//var fileExistsURL = VARS.getGen().UTILS.gen_file_exists;
+			var fileExistsURL = VARS.getGen().UTILS.gen_file_exists;
 			
 			var tReady  = false;
 			var ftReady = false;
