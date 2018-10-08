@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
-
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -137,12 +139,27 @@ public class ConfigDatabase extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private int default_;
+		private int default__check;
 		private String nome_de_conexao_tabela;
 		private String user_name_tabela;
 		private String tipo_de_base_de_dados_tabela;
 		private String t_url_connection;
 		private String t_driver_connection;
 		private String id;
+		public void setDefault_(int default_){
+			this.default_ = default_;
+		}
+		public int getDefault_(){
+			return this.default_;
+		}
+		public void setDefault__check(int default__check){
+			this.default__check = default__check;
+		}
+		public int getDefault__check(){
+			return this.default__check;
+		}
+
 		public void setNome_de_conexao_tabela(String nome_de_conexao_tabela){
 			this.nome_de_conexao_tabela = nome_de_conexao_tabela;
 		}

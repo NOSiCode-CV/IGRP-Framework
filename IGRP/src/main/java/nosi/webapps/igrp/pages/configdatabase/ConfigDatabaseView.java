@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ConfigDatabaseView extends View {
 
@@ -19,6 +22,8 @@ public class ConfigDatabaseView extends View {
 	public Field credenciais;
 	public Field username;
 	public Field password;
+	public Field default_;
+	public Field default__check;
 	public Field nome_de_conexao_tabela;
 	public Field user_name_tabela;
 	public Field tipo_de_base_de_dados_tabela;
@@ -88,6 +93,13 @@ public class ConfigDatabaseView extends View {
 		password.setLabel(gt("Password"));
 		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false").add("readonly","false").add("disabled","false");
 		
+		default_ = new RadioField(model,"default_");
+		default_.setLabel(gt("Default"));
+		default_.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("check","true").add("desc","true");
+		
+		default__check = new RadioField(model,"default__check");
+		default__check.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("check","true").add("desc","true");
+		
 		nome_de_conexao_tabela = new TextField(model,"nome_de_conexao_tabela");
 		nome_de_conexao_tabela.setLabel(gt("Nome da conexão"));
 		nome_de_conexao_tabela.propertie().add("name","p_nome_de_conexao_tabela").add("type","text").add("maxlength","30");
@@ -141,6 +153,8 @@ public class ConfigDatabaseView extends View {
 		form_1.addField(username);
 		form_1.addField(password);
 
+		table_1.addField(default_);
+		table_1.addField(default__check);
 		table_1.addField(nome_de_conexao_tabela);
 		table_1.addField(user_name_tabela);
 		table_1.addField(tipo_de_base_de_dados_tabela);
@@ -169,6 +183,7 @@ public class ConfigDatabaseView extends View {
 		credenciais.setValue(model);
 		username.setValue(model);
 		password.setValue(model);
+		default_.setValue(model);
 		nome_de_conexao_tabela.setValue(model);
 		user_name_tabela.setValue(model);
 		tipo_de_base_de_dados_tabela.setValue(model);

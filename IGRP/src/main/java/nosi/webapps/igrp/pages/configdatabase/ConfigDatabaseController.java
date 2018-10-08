@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,23 +15,25 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import org.json.JSONObject;
+
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
-public class ConfigDatabaseController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class ConfigDatabaseController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ConfigDatabase model = new ConfigDatabase();
 		model.load();
 		ConfigDatabaseView view = new ConfigDatabaseView();
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 'nome_de_conexao_tabela' as nome_de_conexao_tabela,'user_name_tabela' as user_name_tabela,'tipo_de_base_de_dados_tabela' as tipo_de_base_de_dados_tabela,'t_url_connection' as t_url_connection,'t_driver_connection' as t_driver_connection,'id' as id "));
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Rem voluptatem omnis rem dolor' as nome_de_conexao_tabela,'Accusantium dolor amet perspic' as user_name_tabela,'Labore amet natus sed aliqua' as tipo_de_base_de_dados_tabela,'Officia magna accusantium dese' as t_url_connection,'Aperiam aliqua sit amet natus' as t_driver_connection,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -37,6 +41,7 @@ public class ConfigDatabaseController extends Controller {
 		String id_app = model.getAplicacao();
 		java.util.List<Config_env> list_app = new Config_env().find().andWhere("application", "=",Core.toInt(id_app)).all();
 		ArrayList<ConfigDatabase.Table_1> lista_tabela = new ArrayList<>();
+		list_app.sort(Comparator.comparing(Config_env::getName));
 		for(Config_env lista : list_app) {
 			ConfigDatabase.Table_1 tabela = new ConfigDatabase.Table_1();
           	tabela.setId(""+lista.getId());
@@ -56,6 +61,15 @@ public class ConfigDatabaseController extends Controller {
 			);
 			tabela.setT_driver_connection(Core.isNotNull(lista.getDriver_connection())?Core.decrypt(lista.getDriver_connection(), this.ed.SECRET_KEY_ENCRYPT_DB):DatabaseConfigHelper.getDatabaseDriversExamples(tabela.getTipo_de_base_de_dados_tabela()));
 			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB));
+			
+			if(lista.getIsDefault() == 1) {
+				tabela.setDefault_(1);
+				tabela.setDefault__check(1);
+			}else {
+				tabela.setDefault_(0);
+				tabela.setDefault__check(1);
+			}
+			
 			lista_tabela.add(tabela);
 		}	
 		if (Core.isInt(model.getAplicacao()) ) {
@@ -87,15 +101,14 @@ public class ConfigDatabaseController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ConfigDatabase model = new ConfigDatabase();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		
       if (Igrp.getMethod().equalsIgnoreCase("post")) {		
@@ -119,7 +132,13 @@ public class ConfigDatabaseController extends Controller {
 											.andWhere("application", "=",Integer.parseInt(model.getAplicacao()))
 											.one() == null;
 			if (check && !config.getName().equalsIgnoreCase(this.configApp.getBaseConnection()) && !config.getName().equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
+				
+				java.util.List<Config_env> all = new Config_env().find().andWhere("application", "=", Integer.parseInt(model.getAplicacao())).all();
+				if(all == null || all.isEmpty())
+					config.setIsDefault((short)1); 
+				
 				config = config.insert();
+				
 				if (config != null) {
 					this.saveConfigHibernateFile(config);
 					Core.setMessageSuccess();
@@ -137,27 +156,37 @@ public class ConfigDatabaseController extends Controller {
 	}
 	
 	public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ConfigDatabase model = new ConfigDatabase();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(delete)----*/
-		if (new Config_env().delete(Core.getParamInt("p_id"))) {
+		Config_env obj = new Config_env().findOne(Core.getParamInt("p_id"));
+		if(obj != null && obj.getApplication() != null) {
+			if(obj.getIsDefault() == 1) {
+				java.util.List<Config_env> all = new Config_env().find().andWhere("name", "<>", obj.getName()).andWhere("application", "=", Integer.parseInt(model.getAplicacao())).all();
+				if(all != null && all.size() > 0) {
+					Config_env aux = all.get(0);
+					aux.setIsDefault((short)1);
+					aux = aux.update();
+				}
+			}
+			if (obj.delete(obj.getId())) {
 				Core.setMessageSuccess();
 			}else
 				Core.setMessageError();
+			
+		}
       this.addQueryString("p_aplicacao",Core.getParam("p_aplicacao")); 
       return this.redirect("igrp", "ConfigDatabase", "index", this.queryString());
-		/*----#end-code----*/
-			
+		/*----#end-code----*/	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	private void saveConfigHibernateFile(Config_env config) throws IOException {
 		String package_ = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
 		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -174,5 +203,35 @@ public class ConfigDatabaseController extends Controller {
 		}
 	}
 	private EncrypDecrypt ed = new EncrypDecrypt();
-	/*----#end-code----*/
+	
+	public Response actionChangeStatus() {
+		this.format = Response.FORMAT_JSON;
+        String id = Core.getParam("p_id");
+        int status = Core.getParamInt("p_status");
+        
+        boolean response = false;
+        
+        if(id != null) {
+        	Config_env config_env = new Config_env().find().andWhere("name", "=", id).one();
+        	if(config_env != null) {
+        		java.util.List<Config_env> all = new Config_env().find().andWhere("application.id", "=", config_env.getApplication().getId()).all();
+        		if(all != null) {
+        			all.forEach(obj->{
+        				obj.setIsDefault((short)0);
+        				obj = obj.update();
+        			});
+        		}
+        		config_env.setIsDefault((short)1);
+        		config_env = config_env.update();
+        		if(config_env != null)
+        			response = true;
+        	}
+        }
+        
+        JSONObject json = new JSONObject();
+        json.put("status", response);     
+        return this.renderView(json.toString());
 	}
+	
+	/*----#end-code----*/
+}
