@@ -16,11 +16,13 @@ public class IgrpServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	/** Init log4j2**/
     public final static org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(IgrpServlet.class.getName());
-
+    
 	public IgrpServlet() { super(); }
     
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    	nosi.core.webapp.Igrp.getInstance().init(this, request, response).run();
+    	nosi.core.webapp.Igrp igrp = nosi.core.webapp.Igrp.getInstance();
+    	igrp.init(this, request, response);
+    	igrp.run(); 
     }
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
