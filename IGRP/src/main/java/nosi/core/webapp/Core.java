@@ -1857,6 +1857,20 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
+	
+	/**
+	 * @return Return the default connection name of the current application 
+	 */
+	public static String defaultConnection() {
+		String result = "";
+		Application app = new Application().find().andWhere("dad", "=", Core.getCurrentDad()).one();
+		if(app != null) {
+			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", 1).andWhere("application", "=", app.getId()).one();
+			if(config_env != null)
+				result = config_env.getName();
+		}
+		return result;
+	}
 
 	/**
 	 * @param query    Usually the result of Core.query(null,"(SELECT 'id' as

@@ -53,6 +53,8 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CONFIG_ENV_FK"),nullable=false)
 	private Application application;
 	
+	private short isdefault = 0; // 0 -> false; 1 -> true 
+	
 	public Config_env(){}
 	
 	public Config_env(String port, String type_db, String host, String name_db, String username,
@@ -150,6 +152,22 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 
 	public  Map<Object, Object> getListDSbyEnv(int idEnv) {
 		return IgrpHelper.toMap(this.find().andWhere("application", "=",idEnv).all(), "id", "name", gt("-- Selecionar --"));
+	}
+
+	public short getIsDefault() {
+		return isdefault;
+	}
+
+	public void setIsDefault(short isdefault) {
+		this.isdefault = isdefault;
+	}
+
+	@Override
+	public String toString() {
+		return "Config_env [id=" + id + ", port=" + port + ", host=" + host + ", name_db=" + name_db + ", charset="
+				+ charset + ", type_db=" + type_db + ", username=" + username + ", password=" + password + ", name="
+				+ name + ", url_connection=" + url_connection + ", driver_connection=" + driver_connection
+				+ ", application=" + application + ", isdefault=" + isdefault + "]";
 	}
 	
 }
