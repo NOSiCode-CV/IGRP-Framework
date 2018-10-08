@@ -31,11 +31,14 @@
 	<entry key="igrp.plsql.url">https://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/</entry>
 	
 	<!--  -->
+	<entry key="igrp.authentication.govcv.enbaled">false</entry>
+	
+	<!--  -->
 	<entry key="igrp.env.isNhaLogin">false</entry>
 	<entry key="igrp.env.nhaLogin.url"></entry>
 	
 	<!--  -->
-	<entry key="igrp.pwdRecover">false</entry>
+	<entry key="igrp.pwdRecover">true</entry>
 	
 	<!--  -->
 	<entry key="java.net.preferIPv4Stack">true</entry>

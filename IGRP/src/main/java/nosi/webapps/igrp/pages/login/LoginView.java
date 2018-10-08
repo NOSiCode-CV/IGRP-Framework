@@ -34,7 +34,7 @@ public class LoginView extends View {
 	public LoginView(Login model){
 		form_1 = new IGRPLogin("form_1");
 		user = new TextField(model,"user");
-		user.setLabel(gt("Utilizador"));
+		user.setLabel(gt("Email"));
 		user.propertie().add("name","p_user").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		password = new PasswordField(model,"password");
 		password.setLabel(gt("Senha"));

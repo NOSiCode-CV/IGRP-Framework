@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
@@ -220,6 +221,12 @@ public class LoginController extends Controller {
 					default:;
 				}
 			}
+			
+		Properties p = this.loadIdentityServerSettings();
+		String aux = p.getProperty("igrp.authentication.govcv.enbaled");
+		if(aux != null && !aux.isEmpty() && aux.equals("true")) {
+			view.user.setLabel("Username");
+		}
 			
 		return this.renderView(view,true);
 	}
@@ -651,5 +658,6 @@ public class LoginController extends Controller {
 				return false;
 		return true;
 	}
+	
 	/*----#end-code----*/
 }
