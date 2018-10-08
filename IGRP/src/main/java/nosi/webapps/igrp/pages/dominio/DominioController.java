@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.dominio;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -12,18 +13,16 @@ import nosi.webapps.igrp.pages.dominio.Dominio.Formlist_1;
 import java.util.ArrayList;
 import java.util.List;
 /*----#end-code----*/
-
-
-public class DominioController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class DominioController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Dominio model = new Dominio();
 		model.load();
 		DominioView view = new DominioView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadFormlist_1(Core.query(null,"SELECT 'Perspiciatis doloremque laudantium stract officia' as key,'Aperiam sed deserunt anim totam' as description,'77' as ordem,'2' as estado "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.estado.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -43,15 +42,13 @@ public class DominioController extends Controller {
 	}
 	
 	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		Dominio model = new Dominio();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(guardar)----*/
 
          if(Core.isNotNull(model.getLst_dominio())){
@@ -59,7 +56,7 @@ public class DominioController extends Controller {
       String[] formlistDel = model.getP_formlist_1_del();
 		boolean error=false;		 		
 		formlistTud = model.getFormlist_1();
-	  	this.addQueryString("save",model.getLst_dominio());
+	  //	this.addQueryString("save",model.getLst_dominio());
       if(Core.isNotNull(formlistDel))
 	  	for (int i = 0; i < formlistDel.length; i++) {		  		
 	         Domain del = new Domain();	
@@ -96,20 +93,20 @@ public class DominioController extends Controller {
 			Core.setMessageSuccess();
 		}else
             Core.setMessageWarning("DOMW1");
+      
+      return this.forward("igrp","Dominio","index", this.queryString());
 		/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+			
 	}
 	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		Dominio model = new Dominio();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(novo)----*/
 	  if(Core.isNotNull(model.getNovo_dominio())){
       if(new Domain(model.getNovo_dominio(), "","", "",0).insert()!=null)	
@@ -123,8 +120,8 @@ public class DominioController extends Controller {
 		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 		
 		
 		/*----#end-code----*/
-	}
+}
