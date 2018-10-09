@@ -15,15 +15,15 @@ import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 
-public final class Igrp{ // Not extends 
+public final class Igrp{
 	
-	private static IgrpFactory<Igrp> appInstance = null;
+	private static IgrpThreadLocal appInstance = new IgrpThreadLocal();
 
-	private HttpServlet servlet; // Refer to HttpServlet 
+	private HttpServlet servlet;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
-	private Controller controller; // Current controller ... 
+	private Controller controller;
 	private String currentAppName;
 	private String currentPageName;
 	private String currentActionName;
@@ -47,22 +47,19 @@ public final class Igrp{ // Not extends
 	private IgrpLog log;
 	
 	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
-	/**
-		Ensure a single instance of Igrp.class per thread for each request 
-		That is a Threadlocal Singleton :-) 
-	 **/
+	
 	public static Igrp getInstance() {
-        if (appInstance == null) {
-            appInstance = new ThreadLocalIgrpFactory<>(
-            		new IgrpFactory<Igrp>() {
-						@Override
-						public Igrp create() {
-							return new Igrp();
-						}
-				});
-        }
-	    return appInstance.create();
+		Igrp app = appInstance.getCurrentInstance();
+	    return app;
 	 }
+	
+	 public static void set() {
+		 appInstance.set(new Igrp());
+	 }
+	 
+    public static void remove() {
+    	appInstance.cleanUp();
+    }
 	 
 	// Inicialize the web app components
 	public Igrp init(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response){
@@ -108,7 +105,7 @@ public final class Igrp{ // Not extends
 		this.die = false;
 	}
 	
-	public IgrpFactory<Igrp> currentThreadLocal() {
+	public IgrpThreadLocal currentThreadLocal() {
 		return appInstance;
 	}
 	

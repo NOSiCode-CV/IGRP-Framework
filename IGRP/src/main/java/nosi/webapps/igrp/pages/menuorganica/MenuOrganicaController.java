@@ -51,6 +51,7 @@ public class MenuOrganicaController extends Controller {
 		      	if(user!=null && profile!=null)
 		      		menus = new Organization().getOrgMenuByUser(profile.getOrganization().getId(),user.getId());
 			}
+			
 			for (Menu m : menus) {
 				if (m != null) {
 					MenuOrganica.Table_1 table = new MenuOrganica.Table_1();
@@ -60,9 +61,16 @@ public class MenuOrganicaController extends Controller {
 					} else {
 						table.setMenu_check(-1);
 					}
-					table.setDescricao(m.getDescr());
+					
+					Menu aux = m.find().andWhere("id", "=", m.getId()).one();
+					if(aux.getApplication() != null && aux.getApplication().getId() != env_fk)
+						table.setDescricao(m.getDescr() + " (" + aux.getApplication().getDad() + ")");
+					else
+						table.setDescricao(m.getDescr());
+					
 					data.add(table);
 				}
+				
 			}
 
 			view.table_1.addData(data);

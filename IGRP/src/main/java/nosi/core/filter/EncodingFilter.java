@@ -14,7 +14,7 @@ import nosi.core.webapp.Core;
  * Emanuel
  * 12 Feb 2018
  */
-public class ModifyParams implements Filter{
+public class EncodingFilter implements Filter{
 
 	private String encoding = "UTF-8";
 	
@@ -27,16 +27,12 @@ public class ModifyParams implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
-		//Transform params into attributes
 		this.req = (HttpServletRequest) request;
 		request.setCharacterEncoding(this.encoding);
 		chain.doFilter(req, response);
 	}
 
 	@Override
-	public void destroy() {
-
-	}
+	public void destroy() {}
 	
 }

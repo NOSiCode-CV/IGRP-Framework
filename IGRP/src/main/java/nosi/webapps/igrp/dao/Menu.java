@@ -4,6 +4,7 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,7 +45,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="action_fk",foreignKey=@ForeignKey(name="MENU_ACTION_FK"),nullable=true)
 	private Action action;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="MENU_ENV_FK"),nullable=false)
 	private Application application;
 	@OneToOne
