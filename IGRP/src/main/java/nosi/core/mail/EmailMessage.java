@@ -48,12 +48,15 @@ public final class EmailMessage { // Not inherit
 	private List<File> attaches;
 	
 	private EmailMessage() { // Not instantiate 
+		
+		this.loadDefaultConfig();
+		/*
 		if(!this.load()) 
 			this.loadDefaultConfig();
 		else {
 			this.auth_username = this.getSettings().getProperty("mail.user");
 			this.auth_password = this.getSettings().getProperty("mail.password");
-		}
+		}*/
 		this.attaches = new ArrayList<File>();
 		this.multipleRecipients = false;
 	}
@@ -148,12 +151,12 @@ public final class EmailMessage { // Not inherit
 			this.settings = new Properties();
 			this.settings.loadFromXML(fis);
 			flag = true;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
 			try {
 				fis.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -339,6 +342,15 @@ public final class EmailMessage { // Not inherit
 
 	        return body;
 	    }
+	}
+	
+	public static void main(String[] args) throws IOException {
+		String email = "iekinyfernandes@gmail.com";
+		String aux = "<p>Activity Test Email </p>";
+		boolean r = EmailMessage.newInstance()
+				.authenticate("igrpframeworkjava@gmail.com", "Pa$$w0rd10")
+				.setTo(email).setFrom("igrpframeworkjava@gmail.com").setSubject("Reset de Password")
+				.setMsg(aux, "utf-8", "html").send();
 	}
 	
 }
