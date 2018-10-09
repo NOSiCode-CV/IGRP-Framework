@@ -60,7 +60,7 @@
                     <xsl:apply-templates select="rows/content/messages" mode="igrp-messages"/>
                     <xsl:if test="rows/content/form/label/user">
                       <div class="input-group col-md-12" item-name="user" item-type="text">
-                        <input placeholder="{rows/content/form/label/user}" type="text" value="{rows/content/form/value/user}" class="form-control" id="{rows/content/form/value/user/@name}" name="{rows/content/form/value/user/@name}"/>
+                        <input placeholder="{rows/content/form/label/user}" type="{rows/content/form/value/user/@type}" value="{rows/content/form/value/user}" class="form-control" id="{rows/content/form/value/user/@name}" name="{rows/content/form/value/user/@name}"/>
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                       </div>
                     </xsl:if>

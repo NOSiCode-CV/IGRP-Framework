@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -136,6 +137,7 @@ public class NovoUtilizadorController extends Controller {
 			String email = arrayEmails[i];
 			if(Core.isNull(email) && !email.contains("@"))
 				continue;
+			email=email.toLowerCase(Locale.ROOT);
 			User u = new User().find().andWhere("email", "=", email.trim()).one();
 			if (Core.isNotNull(u)) {
 				Profile p = new Profile();
@@ -409,7 +411,7 @@ public class NovoUtilizadorController extends Controller {
 			String email = arrayEmails[i];
 			if(Core.isNull(email) && !email.contains("@"))
 				continue;	
-
+		email=email.toLowerCase(Locale.ROOT);
 		Properties settings = loadIdentityServerSettings();
 		User userLdap = null;
 		userLdap = invite(email,
@@ -456,7 +458,7 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.setPassword("password.igrp");
 					userActiviti0.setFirstName(u.getName());
 					userActiviti0.setLastName("");
-					userActiviti0.setEmail(u.getEmail());
+					userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
 					userActiviti0.create(userActiviti0);
 					new GroupService().addUser(p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
 							userActiviti0.getId());

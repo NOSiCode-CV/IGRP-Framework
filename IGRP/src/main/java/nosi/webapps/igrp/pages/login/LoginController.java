@@ -226,6 +226,8 @@ public class LoginController extends Controller {
 		String aux = p.getProperty("igrp.authentication.govcv.enbaled");
 		if(aux != null && !aux.isEmpty() && aux.equals("true")) {
 			view.user.setLabel("Username");
+			view.user.propertie().setProperty("type","text");
+		 	
 		}
 			
 		return this.renderView(view,true);
