@@ -25,32 +25,7 @@ public class DatabaseMetadaHelper {
 	public DatabaseMetadaHelper() {
 		this.connection = new Connection();
 	}
-	public Map<String,String> getTablesMap(Config_env config,String schema) {
-		Map<String,String> list = new HashMap<>();
-		java.sql.Connection con = this.connection.getConnection(config.getName());
-		if(con!=null ) {
-			ResultSet tables = null;
-			try {
-				DatabaseMetaData metaData = con.getMetaData();
-				tables = metaData.getTables(null, schema, null, new String[]{"TABLE"});//Get All Tables on the schema database
-			    while (tables.next()) {
-			    	list.put(tables.getString(3),tables.getString(3));//Get Table Name
-			    }
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					if(tables!=null)
-						tables.close();
-					if(con!=null)
-						con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
-	}
+	
 	
 	public List<String> getTables(Config_env config,String schema) {
 		List<String> list = new ArrayList<>();
@@ -286,7 +261,33 @@ public class DatabaseMetadaHelper {
 		}
 		return schemasMap;
 	}
-	
+	//Not in use
+		public Map<String,String> getTablesMap(Config_env config,String schema) {
+			Map<String,String> list = new HashMap<>();
+			java.sql.Connection con = this.connection.getConnection(config.getName());
+			if(con!=null ) {
+				ResultSet tables = null;
+				try {
+					DatabaseMetaData metaData = con.getMetaData();
+					tables = metaData.getTables(null, schema, null, new String[]{"TABLE"});//Get All Tables on the schema database
+				    while (tables.next()) {
+				    	list.put(tables.getString(3),tables.getString(3));//Get Table Name
+				    }
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					try {
+						if(tables!=null)
+							tables.close();
+						if(con!=null)
+							con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return list;
+		}
 
 	public static class Column{
 		private String schemaName;

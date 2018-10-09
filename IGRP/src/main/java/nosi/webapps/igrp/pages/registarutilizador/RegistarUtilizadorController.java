@@ -5,6 +5,7 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +62,7 @@ public class RegistarUtilizadorController extends Controller {
 				User user = new User();
 				user.setName(model.getNome());
 				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
-				user.setEmail(model.getEmail());
+				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT));
 				user.setUser_name(model.getUsername());
 				user.setStatus(1);
 				user.setCreated_at(System.currentTimeMillis());
@@ -120,7 +121,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 		User user = new User().findOne(Integer.parseInt(idUser));		
 		model.setNome(user.getName());
 		model.setUsername(user.getUser_name());
-		model.setEmail(user.getEmail());
+		model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
 					
 			boolean isError = false;
