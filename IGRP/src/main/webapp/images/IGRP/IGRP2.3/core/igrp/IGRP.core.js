@@ -384,6 +384,21 @@
 				});
 				return str;
 			},
+			ffoxDisableOutputEscaping: function(){
+
+				var doe = $('.disable-output-escaping');
+
+				if($.browser &&  $.browser.mozilla)
+
+					doe.each(function(i,d){
+						
+						$(d).html( doe.text() );
+
+					})
+
+				doe.addClass('set');
+
+			},
 			message : {
 				getIcon : {
 					'danger' : 'exclamation-circle',
@@ -870,10 +885,16 @@
         jQuery.expr[':'].contains = containsFunc;
 
         var init = function(){
+        	
+        	$.IGRP.utils.ffoxDisableOutputEscaping();
 
         	$.IGRP.utils.verticalCentralize();
         
         };
+        
+        $.IGRP.on('init',function(){
+        	init();
+        });
 
 	}else{
 		console.log('jQuery or IGRP.js missing!')
