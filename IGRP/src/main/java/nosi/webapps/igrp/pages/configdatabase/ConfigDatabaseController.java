@@ -33,7 +33,7 @@ public class ConfigDatabaseController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Rem voluptatem omnis rem dolor' as nome_de_conexao_tabela,'Accusantium dolor amet perspic' as user_name_tabela,'Labore amet natus sed aliqua' as tipo_de_base_de_dados_tabela,'Officia magna accusantium dese' as t_url_connection,'Aperiam aliqua sit amet natus' as t_driver_connection,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Mollit ipsum mollit rem anim' as nome_de_conexao_tabela,'Labore adipiscing dolor sit ap' as user_name_tabela,'Totam sit lorem magna accusant' as tipo_de_base_de_dados_tabela,'Aperiam aliqua doloremque anim' as t_url_connection,'Sit amet lorem aliqua voluptat' as t_driver_connection,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -166,9 +166,15 @@ public class ConfigDatabaseController extends Controller {
 		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(delete)----*/
 		Config_env obj = new Config_env().findOne(Core.getParamInt("p_id"));
+		
+		System.out.println(model.getAplicacao());
+		
 		if(obj != null && obj.getApplication() != null) {
 			if(obj.getIsDefault() == 1) {
-				java.util.List<Config_env> all = new Config_env().find().andWhere("name", "<>", obj.getName()).andWhere("application", "=", Integer.parseInt(model.getAplicacao())).all();
+				java.util.List<Config_env> all = new Config_env().find().
+						andWhere("name", "<>", obj.getName())
+						.andWhere("application", "=", Integer.parseInt(model.getAplicacao()))
+						.all();
 				if(all != null && all.size() > 0) {
 					Config_env aux = all.get(0);
 					aux.setIsDefault((short)1);
@@ -182,8 +188,9 @@ public class ConfigDatabaseController extends Controller {
 			
 		}
       this.addQueryString("p_aplicacao",Core.getParam("p_aplicacao")); 
-      return this.redirect("igrp", "ConfigDatabase", "index", this.queryString());
-		/*----#end-code----*/	
+      return this.forward("igrp", "ConfigDatabase", "index", this.queryString());
+		/*----#end-code----*/
+			
 	}
 	
 /*----#start-code(custom_actions)----*/

@@ -40,10 +40,10 @@ public class ResetbyemailController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetbyemail model = new Resetbyemail();
 		model.load();
-		model.setSign_in("igrp","Resetbyemail","index");
+		
 		ResetbyemailView view = new ResetbyemailView();
 		/*----#start-code(index)----*/
-		
+		model.setSign_in("igrp","login","login");
 		view.btn_enviar.setLink("enviar&isPublic=1");
 		
 /*----#end-code----*/
@@ -57,8 +57,6 @@ public class ResetbyemailController extends Controller {
       Resetbyemail model = new Resetbyemail();
 		model.load();
       
-		System.out.println("Entrado ... ");
-		
 		String token = nosi.core.webapp.User.generatePasswordResetToken();
 		
 		String link = Igrp.getInstance().getRequest().getRequestURL() + "?r=" + "igrp" + "/Resetpassword/index"; 

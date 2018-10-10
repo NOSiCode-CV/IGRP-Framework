@@ -43,9 +43,9 @@ public class ResetpasswordController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetpassword model = new Resetpassword();
 		model.load();
-		model.setSign_in("igrp","Resetpassword","index");
 		ResetpasswordView view = new ResetpasswordView();
 		/*----#start-code(index)----*/
+		model.setSign_in("igrp","login","login");
 		
 		String token = Core.getParam("t");
 		
