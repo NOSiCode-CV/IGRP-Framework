@@ -1,10 +1,10 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-
-
 
 public class NovoPerfil extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -25,6 +25,10 @@ public class NovoPerfil extends Model{
 	private int organica;
 	@RParam(rParamName = "p_perfil_pai")
 	private String perfil_pai;
+	@RParam(rParamName = "p_extras")
+	private String extras;
+	@RParam(rParamName = "p_primeira_pagina")
+	private int primeira_pagina;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -86,6 +90,20 @@ public class NovoPerfil extends Model{
 	}
 	public String getPerfil_pai(){
 		return this.perfil_pai;
+	}
+	
+	public void setExtras(String extras){
+		this.extras = extras;
+	}
+	public String getExtras(){
+		return this.extras;
+	}
+	
+	public void setPrimeira_pagina(int primeira_pagina){
+		this.primeira_pagina = primeira_pagina;
+	}
+	public int getPrimeira_pagina(){
+		return this.primeira_pagina;
 	}
 
 

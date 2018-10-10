@@ -53,6 +53,10 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	@OneToMany(mappedBy="profileType")
 	private List<Profile> profiles;
 	
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="firstPage",foreignKey=@ForeignKey(name="PROFILE_TYPE_ACTION_FK"))
+	private Action firstPage;
+	
 	public ProfileType(){}
 	
 	public ProfileType(String descr, String code, int status, Organization organization,
@@ -184,6 +188,13 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	public ProfileType getProfileAdmin() {
 		return this.find().andWhere("code", "=","ALL").andWhere("descr", "=","ALL PROFILE").one();
 	}
-	
+
+	public Action getFirstPage() {
+		return firstPage;
+	}
+
+	public void setFirstPage(Action firstPage) {
+		this.firstPage = firstPage;
+	}
 	
 }

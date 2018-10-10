@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.novoperfil;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -9,29 +10,25 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.GroupService;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 /*----#end-code----*/
-
-
-public class NovoPerfilController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class NovoPerfilController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoPerfil model = new NovoPerfil();
 		model.load();
 		NovoPerfilView view = new NovoPerfilView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		view.primeira_pagina.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		model.setActivo(1);
@@ -42,6 +39,9 @@ public class NovoPerfilController extends Controller {
 		// Perfil pai/Parent profile ocult (not in use)
 		view.perfil_pai.setVisible(false);
 		view.btn_gravar.setTitle("Adicionar");
+		
+		if(Core.isNotNullOrZero(model.getAplicacao()))
+			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
 
 		/*----#end-code----*/
 		view.setModel(model);
@@ -49,17 +49,13 @@ public class NovoPerfilController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		NovoPerfil model = new NovoPerfil();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 	   		ProfileType pt = new ProfileType();    
 			pt.setCode(model.getCodigo());
@@ -71,6 +67,7 @@ public class NovoPerfilController extends Controller {
 			 */
 			pt.setStatus(model.getActivo());
 			pt.setApplication(new Application().findOne(model.getAplicacao()));
+			pt.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
 			pt = pt.insert();
 			if (pt != null) {
 				/*
@@ -99,7 +96,7 @@ public class NovoPerfilController extends Controller {
 			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	private Profile insertProfile(ProfileType pt) throws IOException {
 		Profile prof = new Profile();
@@ -129,10 +126,15 @@ public class NovoPerfilController extends Controller {
 		if (p.getProfiletype() != null) {
 			// model.setPerfil_pai(p.getProfiletype().getId());
 		}
+		if(p.getFirstPage() != null)
+			model.setPrimeira_pagina(p.getFirstPage().getId());
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");
 		view.btn_gravar.setTitle("Gravar");      
 		view.btn_gravar.setLink("GravarEdicao&p_id="+idProf);
 		view.aplicacao.setValue(new Application().getListApps());
+		
+		if(Core.isNotNullOrZero(model.getAplicacao()))
+			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
 		/*
 		 * view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ?
 		 * new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica())
@@ -163,6 +165,7 @@ public class NovoPerfilController extends Controller {
 			 */
 			p.setStatus(model.getActivo());
 			p.setApplication(new Application().findOne(model.getAplicacao()));
+			p.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
 			p = p.update();
 			if (p != null) {
 				group.setId(p.getOrganization().getCode() + "." + p.getCode());
@@ -182,4 +185,4 @@ public class NovoPerfilController extends Controller {
 	}
 
 	/*----#end-code----*/
-	}
+}
