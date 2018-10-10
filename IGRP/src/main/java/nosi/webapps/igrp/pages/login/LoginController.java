@@ -13,27 +13,17 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.wso2.carbon.um.ws.service.AddRole;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerServiceUserStoreException_Exception;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import org.wso2.carbon.um.ws.service.dao.xsd.PermissionDTO;
 
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
@@ -44,7 +34,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.OAuthClient;
@@ -67,6 +56,9 @@ public class LoginController extends Controller {
 	
 	
 	/*----#start-code(custom_actions)----*/
+	
+	private Properties settings = loadConfig("common", "main.xml");
+	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		// Go to password recover page ... 
@@ -101,11 +93,10 @@ public class LoginController extends Controller {
 			return redirect("igrp", "login", "login");
 		}
 		
-		Properties settings_ = loadOAuth2("common", "main.xml");
-		if(!Igrp.getInstance().getUser().isAuthenticated() && settings_.getProperty("igrp.env.isNhaLogin") != null && !settings_.getProperty("igrp.env.isNhaLogin").equals("true") && 
-				settings_.getProperty("igrp.env.nhaLogin.url") != null && !settings_.getProperty("igrp.env.nhaLogin.url").isEmpty()
+		if(!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
+				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
-			return redirectToUrl(settings_.getProperty("igrp.env.nhaLogin.url"));
+			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
 		}
 		
 		// first 
@@ -119,7 +110,6 @@ public class LoginController extends Controller {
 					;// Go to error page 
 			}
 			
-			Properties settings = loadOAuth2("common", "main.xml");
 			if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
 				String url = Igrp.getInstance().getRequest().getRequestURL().toString();
 				url = url.replace("app/webapps", "mylinks.jsp");
@@ -194,13 +184,9 @@ public class LoginController extends Controller {
 								else 
 									;// Go to error page 
 							}else {
-								
-								Properties settings = loadOAuth2("common", "main.xml");
 								if(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
 									return checkEnvironments(model.getUser());
 								}
-								
-								
 								//TODO by Marcos: must decrypt de URL when you do Route.remenber() 
 								String destination = Route.previous();
 								if(destination != null) {
@@ -221,9 +207,7 @@ public class LoginController extends Controller {
 					default:;
 				}
 			}
-			
-		Properties p = this.loadIdentityServerSettings();
-		String aux = p.getProperty("igrp.authentication.govcv.enbaled");
+		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");
 		if(aux != null && !aux.isEmpty() && aux.equals("true")) {
 			view.user.setLabel("Username");
 			view.user.propertie().setProperty("type","text");
@@ -241,7 +225,6 @@ public class LoginController extends Controller {
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout."));
 		
-		Properties settings = loadOAuth2("common", "main.xml");
 		if(settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
@@ -331,11 +314,7 @@ public class LoginController extends Controller {
 	}
 	
 	private boolean loginWithLdap(String username, String password){
-		
 		boolean success = false; 
-		
-		Properties settings = loadIdentityServerSettings();
-		
 		//String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
 		String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
 		File file = new File(getClass().getClassLoader().getResource(x).getPath().replaceAll("%20", " "));
@@ -368,9 +347,8 @@ public class LoginController extends Controller {
 				/** End create user session **/ 
 				
 			}else {
-				Properties settings_ = loadOAuth2("common", "main.xml");
 				if((this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) || 
-				(settings_.getProperty("igrp.env.isNhaLogin") != null && settings_.getProperty("igrp.env.isNhaLogin").equals("true")) 
+				(settings.getProperty("igrp.env.isNhaLogin") != null && settings.getProperty("igrp.env.isNhaLogin").equals("true")) 
 						) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio  
 					
 					User newUser = new User();
@@ -472,22 +450,16 @@ public class LoginController extends Controller {
 	
 	private boolean sso(String username, String password, User dao) {
 		boolean flag = true;
-		
-		Properties properties = loadOAuth2("common", "main.xml");
-		
-		String client_id = properties.getProperty("ids.wso2.oauth2.client_id");
-		String client_secret = properties.getProperty("ids.wso2.oauth2.client_secret");
-		String endpoint = properties.getProperty("ids.wso2.oauth2.endpoint.token");
-		
+		String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
+		String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
+		String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
 		String postData = "grant_type=password"
 				+ "&username=" + username
 				+ "&password=" + password
 				+ "&client_id=" + client_id
 				+ "&client_secret=" + client_secret
 				+ "&scope=openid";
-		
 		try {
-			
 			HttpURLConnection curl = (HttpURLConnection) URI.create(endpoint).toURL().openConnection();
 			curl.setDoOutput(true);
 			curl.setDoInput(true);
@@ -526,11 +498,8 @@ public class LoginController extends Controller {
 		}
 		return true;
 	}
-	
-	private Properties loadIdentityServerSettings() {
-		String path = new Config().getBasePathConfig() + File.separator + "common";
-		
-		String fileName = "main.xml";
+	private Properties loadConfig(String filePath, String fileName) {
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 		FileInputStream fis = null;
 		Properties props = new Properties();
@@ -553,40 +522,10 @@ public class LoginController extends Controller {
 		return props;
 	}
 	
-	private Properties loadOAuth2(String filePath, String fileName) {
-			
-			String path = new Config().getBasePathConfig() + File.separator + filePath;
-			File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-			
-			FileInputStream fis = null;
-			Properties props = new Properties();
-			try {
-				fis = new FileInputStream(file);
-			} catch (FileNotFoundException e) {
-				fis = null;	
-			}
-			try {
-				props.loadFromXML(fis);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}finally{
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			return props;
-		}
-	
 	private Response checkEnvironments(String uid) {
 		try {
-			
 			User user = new User().find().andWhere("user_name", "=", uid).one();
 			String token = Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes());
-			
-			Properties settings = loadOAuth2("common", "main.xml");
-			
 			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
@@ -601,8 +540,7 @@ public class LoginController extends Controller {
 	        
 	        roles.forEach(obj -> {jsonArray.put(obj);});
 	        
-	        Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonObject.toString());
-	        
+	        Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonObject.toString()); 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
