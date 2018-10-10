@@ -139,6 +139,15 @@ b{
   display: none!important;
 }
 
+
+.disable-output-escaping{
+  opacity: 0;
+}
+
+.disable-output-escaping.set{
+  opacity: 1;
+}
+
 /*LOGIN*/
 
 

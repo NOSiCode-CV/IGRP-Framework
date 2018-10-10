@@ -45,6 +45,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
@@ -500,6 +501,22 @@ public class EnvController extends Controller {
 				}
 				
 			}
+			
+			try {
+				Integer idPerfil = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
+				if(idPerfil != null) {
+					ProfileType prof = new ProfileType().findOne(idPerfil);
+					if(prof != null && prof.getFirstPage() != null) {
+						Action action = prof.getFirstPage();
+						p[0] = action.getApplication().getDad();
+						p[1] = action.getPage();
+						p[2] = action.getAction();
+					}
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			this.addQueryString("dad", app);
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}
