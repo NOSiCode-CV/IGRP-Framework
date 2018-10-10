@@ -394,7 +394,7 @@
 						
 						$(d).html( doe.text() );
 
-					})
+					});
 
 				doe.addClass('set');
 
