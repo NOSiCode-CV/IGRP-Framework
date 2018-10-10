@@ -738,7 +738,8 @@ public class PageController extends Controller {
 	
 	 public Response actionFileExists() throws IOException {	
 
-		 final String fileName = Core.getParam("uri").replaceAll("/", "\\\\");
+		 final String fileName = Core.getParam("uri").replaceAll("\\\\", File.separator);
+//		 final String fileName = Core.getParam("uri").replaceAll("/", "\\\\");
 		 final Properties p = new Properties();
 		 final boolean fileExists = FileHelper.fileExists(basePath+fileName);
 		 
