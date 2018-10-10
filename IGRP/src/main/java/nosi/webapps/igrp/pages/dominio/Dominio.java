@@ -70,23 +70,16 @@ public class Dominio extends Model{
 
 	public static class Formlist_1{
 		private Pair formlist_1_id;
-		private Pair key;
 		private Pair description;
-		private Pair ordem;
+		private Pair key;
 		private Pair estado;
+		private Pair ordem;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
 		}
 		public Pair getFormlist_1_id(){
 			return this.formlist_1_id;
 		}
-		public void setKey(Pair key){
-			this.key = key;
-		}
-		public Pair getKey(){
-			return this.key;
-		}
-
 		public void setDescription(Pair description){
 			this.description = description;
 		}
@@ -94,11 +87,11 @@ public class Dominio extends Model{
 			return this.description;
 		}
 
-		public void setOrdem(Pair ordem){
-			this.ordem = ordem;
+		public void setKey(Pair key){
+			this.key = key;
 		}
-		public Pair getOrdem(){
-			return this.ordem;
+		public Pair getKey(){
+			return this.key;
 		}
 
 		public void setEstado(Pair estado){
@@ -106,6 +99,13 @@ public class Dominio extends Model{
 		}
 		public Pair getEstado(){
 			return this.estado;
+		}
+
+		public void setOrdem(Pair ordem){
+			this.ordem = ordem;
+		}
+		public Pair getOrdem(){
+			return this.ordem;
 		}
 
 	}
