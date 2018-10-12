@@ -162,12 +162,16 @@ public class EnvController extends Controller {
 	private boolean appAutoDeploy(String appDad) {
 		boolean flag = true;
 		try {
+			/*String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP")
+					.replace("webapps", "..")
+					.replace("images", "IGRP-Template.war"); */		
+			String result = System.getProperty("catalina.base");
+			if(result != null)
+				result += File.separator + "FrontIGRP" + File.separator + "IGRP-Template.war";
+			File file = new File(result); 	
 			
-			String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP").replace("images", "IGRP-Template.war"); 		     
-			File file = new File(result); 			
 			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase())); 			
 			//boolean b  = Files.copy(file, destinationFile);
-			
 			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());			
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());			
 			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));				
@@ -184,7 +188,7 @@ public class EnvController extends Controller {
 				jis.closeEntry();
 			}
 			jis.close();
-			 
+			 /*
 			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";			
 			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";			
 			String string2 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.class";			
@@ -206,12 +210,12 @@ public class EnvController extends Controller {
 			fis2.close();
 			
 			jos.closeEntry();
-			 
+			 */
 			jos.close();
 			cos.close();
 			fos.close();
 			
-			File newWarFile =  new File(destinationFile.getAbsolutePath().replace(File.separator + "FrontIGRP", ""));
+			File newWarFile =  new File(result.replace("FrontIGRP", "webapps").replace("IGRP-Template", appDad.toLowerCase()));
 			flag = destinationFile.renameTo(newWarFile) && newWarFile.exists();
 			
 		}catch(Exception e) {
