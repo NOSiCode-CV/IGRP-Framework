@@ -165,7 +165,7 @@ public class EnvController extends Controller {
 			
 			String result = this.config.getPathOfImagesFolder().replace("IGRP", "FrontIGRP").replace("images", "IGRP-Template.war"); 		     
 			File file = new File(result); 			
-			File destinationFile = new File(result.replace("IGRP-Template", appDad.toUpperCase())); 			
+			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase())); 			
 			//boolean b  = Files.copy(file, destinationFile);
 			
 			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());			
