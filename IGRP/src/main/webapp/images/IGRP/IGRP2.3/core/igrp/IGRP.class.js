@@ -250,6 +250,13 @@
 
 			}();
 			
+			var MOZ = function(){
+				console.log($.browser)
+				if($.browser.mozilla )
+					$('html').addClass('mozilla');
+				
+			}();
+			
 		},
 
 
