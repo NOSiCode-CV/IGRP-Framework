@@ -22,24 +22,37 @@
 				tables.each(function(i,t){
 					
 					var legendBox = $(t).prev('.box-table-legend');
-				
-					$(t).DataTable({						
+					
+					var table = $(t).DataTable({	
+						
 						language: {
 				            url: path+'/core/igrp/table/datatable/language/'+o.language+'.json'				        
 				        },
-				        "order"  		: [],
-						"columnDefs"	: [{
-					      	"targets" 	: 'no-sort',
-					      	"orderable" : false
+				        order 		: [],
+						columnDefs	: [{
+					      	targets 	: 'no-sort',
+					      	orderable : false
 					    }],
-					    "lengthMenu": [[20, 50, -1], [20, 50, "All"]],
-				        initComplete:function(){				        	
+					    lengthMenu: [[20, 50, -1], [20, 50, "All"]],
+					    
+					    buttons: [
+				            'copy', 'csv', 'excel', 'pdf', 'print'
+				        ],
+					    
+				        initComplete:function(){	
+				        	
 				        	if(legendBox[0])
 				        		legendBox.prependTo($(t).parent());
 				        
 				        }
 
 					});
+					
+					/*var exportHolder = $(t).parents('.box-table-contents').find('.table-export-options');
+
+					console.log( table.buttons() )
+					table.buttons().container()
+				        .appendTo( exportHolder );*/
 					
 				});
 
@@ -85,6 +98,30 @@
 			});
 			
 		},
+		
+		contextTHWidth : function(){
+
+			$('th.igrp-table-ctx-th').each(function(i,th){
+
+				var table   = $(th).parents('table').first(),
+
+					tds     = table.find('tbody>tr').first().find('td.igrp-table-ctx-td'),
+
+					buttons = tds.find('.table-ctx-holder>li'),
+
+					mr 		= 4;//margin-right
+
+				if(buttons.length>=3)
+
+					$(th).css('width',128 );//.css('min-width',128)
+
+				else
+
+					$(th).width( (buttons.width()+mr) * buttons.length + 2)
+
+			});
+
+		},
 
 		setEvents : function(){
 
@@ -97,6 +134,12 @@
 
 				checkers.prop('checked',checkAll).attr('checked',checkAll);
 			});
+			
+			$.IGRP.on('windowResize',function(){
+
+            	com.contextTHWidth();
+
+            });
 
 		},
 
@@ -111,6 +154,8 @@
 		//	com.ordertable();
 
 			com.setTableStyle();
+			
+			com.contextTHWidth();
 			
 		}
 
