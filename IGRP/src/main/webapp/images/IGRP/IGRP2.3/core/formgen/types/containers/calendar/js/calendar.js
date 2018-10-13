@@ -28,24 +28,37 @@ var GENCALENDAR = function(name,params){
 		var tag  = $.trim(container.GET.tag()),
 			rtn  = '<'+tag+'_events type="table" xml-type="table" gen-type="container" gen-group="true">'+
 			'<fields>'+
-				'<'+tag+'_title name="p_'+tag+'_title" type="text" maxlength="200"><label>Titulo do Evento</label></'+tag+'_title>'+
-				'<'+tag+'_description name="p_'+tag+'_description" type="text" maxlength="400"><label>Descricao do evento</label></'+tag+'_description>'+
+				'<'+tag+'_title name="p_'+tag+'_title" type="text" maxlength="200"><label>Título do Evento</label></'+tag+'_title>'+
+				'<'+tag+'_description name="p_'+tag+'_description" type="text" maxlength="400"><label>Descrição do evento</label></'+tag+'_description>'+
 				'<'+tag+'_id name="p_'+tag+'_id" type="text" maxlength="30"><label>ID do Evento</label></'+tag+'_id>'+
 				'<'+tag+'_start name="p_'+tag+'_start" type="date" maxlength="30"><label>Data Inicio do Evento</label></'+tag+'_start>'+
-				'<'+tag+'_end name="p_'+tag+'_end" type="date" maxlength="30"><label>Data Fim do Evento</label></'+tag+'_end>'+
+				'<'+tag+'_end  type="date" maxlength="30"><label>Data Fim do Evento</label></'+tag+'_end>'+
 				'<'+tag+'_color name="p_'+tag+'_color" type="text" maxlength="30"><label>Cor de Fundo do Evento simboliza prioridade</label></'+tag+'_color>'+
 				'<'+tag+'_allday name="p_'+tag+'_allday" type="text" maxlength="30"><label>Evento Dia Todo (value Boolean)</label></'+tag+'_allday>'+
 			'</fields>'+
 			'<table><value>'+
-				'<row>'+
-			        '<'+tag+'_title>Event</'+tag+'_title>'+
-			        '<'+tag+'_start>'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T10:00:00</'+tag+'_start>'+
-			        '<'+tag+'_id>1</'+tag+'_id>'+
-			        '<'+tag+'_end>'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T12:00:00</'+tag+'_end>'+
-					'<'+tag+'_allday>true</'+tag+'_allday>'+
-					'<'+tag+'_description>Event Event Event</'+tag+'_description>'+
+				'<row> <context-menu></context-menu>'+
+			        '<'+tag+'_title name="p_'+tag+'_title">Birthday</'+tag+'_title>'+
+			        '<'+tag+'_start name="p_'+tag+'_start" >'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T10:00:00</'+tag+'_start>'+
+			        '<'+tag+'_id name="p_'+tag+'_id">1</'+tag+'_id>'+
+			        '<'+tag+'_end name="p_'+tag+'_end">'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T12:00:00</'+tag+'_end>'+
+			        '<'+tag+'_color name="p_'+tag+'_color">red</'+tag+'_color>'+
+					'<'+tag+'_allday>false</'+tag+'_allday>'+
+					'<'+tag+'_description name="p_'+tag+'_description">Marcos fez anos</'+tag+'_description>'+
 				'</row>'+
+				'<row> <context-menu></context-menu>'+
+		        '<'+tag+'_title name="p_'+tag+'_title">Meeting</'+tag+'_title>'+
+		        '<'+tag+'_start name="p_'+tag+'_start" >'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T10:00:00</'+tag+'_start>'+
+		        '<'+tag+'_id name="p_'+tag+'_id">1</'+tag+'_id>'+
+		        '<'+tag+'_end name="p_'+tag+'_end">'+date.replace(/(\d*)-(\d*)-(\d*)/,'$3-$2-$1')+'T12:00:00</'+tag+'_end>'+
+		        '<'+tag+'_color name="p_'+tag+'_color">green</'+tag+'_color>'+
+				'<'+tag+'_allday>true</'+tag+'_allday>'+
+				'<'+tag+'_description name="p_'+tag+'_description">With Jose</'+tag+'_description>'+
+			'</row>'+
 			'</value>';
+
+
+		
 
 			if(container.contextMenu && container.contextMenu.items[0])
 				rtn+=GEN.genContextMenu(container);

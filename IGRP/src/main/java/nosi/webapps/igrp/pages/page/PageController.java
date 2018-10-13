@@ -745,6 +745,7 @@ public class PageController extends Controller {
 		 
 		 p.put("status", fileExists);		
 		 p.put("content", fileExists ? FileHelper.readFile(basePath, fileName):"");
+		 p.put("filename",fileName);
 		 this.format = Response.FORMAT_JSON;
 		 return this.renderView(new Gson().toJson(p));
 	 }

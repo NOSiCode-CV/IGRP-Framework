@@ -95,7 +95,10 @@ public class EnvController extends Controller {
 		/*----#start-code(gravar)----*/ 
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-		
+			if(!Character.isJavaIdentifierStart(model.getDad().charAt(0))) {
+				Core.setMessageError("Code error! First char is a number: "+model.getDad()+". Change please!");					
+				return this.forward("igrp_studio", "env", "index");
+			}
 			Application app = new Application();		
 			Action ac = new Action();
 			if(Core.isInt(model.getAction_fk())){
