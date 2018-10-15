@@ -5,10 +5,6 @@
     <param-name>workspace</param-name>
     <param-value>C:\git\IGRP-Framework\IGRP</param-value>
   </context-param>
-  <context-param>
-    <param-name>images</param-name>
-    <param-value>/IGRP/</param-value>
-  </context-param>
   <servlet>
     <servlet-name>IGRP</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>

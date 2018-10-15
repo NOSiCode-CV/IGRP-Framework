@@ -149,7 +149,9 @@ public class Config {
 	}
 
 	public String getLinkImgBase() {
-		return Igrp.getInstance().getServlet().getServletContext().getInitParameter("images");
+		String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+		warName = "/" + warName + "/";
+		return warName;
 	}
 	
 	public String getLinkImg(){
