@@ -1535,18 +1535,16 @@ ul.nav-tabs{
     position: absolute;
     left: 15px;
     height: 50px;
-    width: 50px;
-    top: 50%;
+    width: 50px;   
     max-width: 50px;
-    margin-top: -25px;
 }
 
 
 #igrp-apps-1 a.igrp-app-block {
     background: #fff;
-    padding: 30px 30px 30px 75px;
+    padding: 25px 10px 25px 75px;
     position: relative;
-    height: 105px;
+    height: 80px;
     margin: 5px;
     overflow: hidden;
 }

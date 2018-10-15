@@ -146,9 +146,9 @@ public class LoginController extends Controller {
 					Core.setMessageError("A sua conta ou palavra-passe está incorreta.");
 					return this.renderView(view,true);
 				}
-				
+			
 				switch(this.getConfig().getAutenticationType()){
-					case "db":
+					case "db":						
 						if(this.loginWithDb(model.getUser(), model.getPassword())) {
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 								StringBuilder oauth2ServerUrl = new StringBuilder();
@@ -208,7 +208,8 @@ public class LoginController extends Controller {
 				}
 			}
 		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");
-		if(aux != null && !aux.isEmpty() && aux.equals("true")) {
+		boolean isDb=this.getConfig().getAutenticationType().equals("db");
+		if((aux != null && !aux.isEmpty() && aux.equals("true"))|| isDb) {
 			view.user.setLabel("Username");
 			view.user.propertie().setProperty("type","text");
 		 	

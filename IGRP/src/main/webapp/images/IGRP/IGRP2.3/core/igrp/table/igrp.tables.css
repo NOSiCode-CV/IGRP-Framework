@@ -235,9 +235,13 @@ table.dataTable th.bs-checkbox{
   min-height: 28px;
 }
 
-table.align .igrp-table-ctx-td>ul>.operationTable{
+/*table.align .igrp-table-ctx-td>ul>.operationTable{
   min-width:0;
   min-height:0;
+}*/
+
+table:not(.align) .table-ctx-holder li[invisible="true"]{
+  display: none!important;
 }
 
 .igrp-table-ctx-td>ul>.operationTable > .btn{
