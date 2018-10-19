@@ -722,28 +722,28 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface where(String name, String operator, String value) {
-		this.sql += " WHERE "+name+" =: "+name;
+		this.sql += " WHERE "+name+" =:"+name;
 		this.addString(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Integer value) {
-		this.sql += " WHERE "+name+" =: "+name;
+		this.sql += " WHERE "+name+" =:"+name;
 		this.addInt(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Float value) {
-		this.sql += " WHERE "+name+" =: "+name;
+		this.sql += " WHERE "+name+" =:"+name;
 		this.addFloat(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Double value) {
-		this.sql += " WHERE "+name+" =: "+name;
+		this.sql += " WHERE "+name+" =:"+name;
 		this.addDouble(name, value);
 		return this;
 	}
