@@ -18,7 +18,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
 import nosi.webapps.igrp.dao.TaskAccess;
 import org.json.JSONException;
@@ -222,8 +221,18 @@ public class PesquisarMenuController extends Controller {
 		List<TaskAccess> listTask = new TaskAccess().getCurrentAllTaskAccess();
 		boolean isStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
 		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
-		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
-		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
+		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");		
+		String dad = Core.getParam("dad");
+		if(!(dad.compareTo("igrp")==0)){
+			 Application app = Core.getCurrentApp();
+			 String page = "tutorial/DefaultPage/index&title="+app.getName();
+			 if(app.getAction()!=null) {
+				 page = app.getAction().getApplication().getDad().toLowerCase()+"/" + app.getAction().getPage()+"/"+app.getAction().getAction();
+			 }
+			 topMenu.addItem("Home", "igrp_studio","env","openApp"+"&app="+dad+"&page="+page, "_self", "home.png", "webapps?r=");
+		}else {
+			 topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
+		}
 		String flag="english_flag.png";
 		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
 			if (cookie.getName().equals("igrp_lang")) {

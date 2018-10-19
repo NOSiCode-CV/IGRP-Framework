@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -35,7 +33,7 @@ import org.apache.commons.io.IOUtils;
 //import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nosi.core.cversion.Svn;
+//import nosi.core.cversion.Svn;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -228,47 +226,47 @@ public class EnvController extends Controller {
 		return flag;
 	}
 	
-	private void createSvnRepo(Application app){
-		Svn  svnapi = new Svn();
-		String env = "";
-		env = Igrp.getInstance().getServlet().getInitParameter("env");
-		switch(env) {
-			case "dev": 
-				svnapi.setWorkFolder("dev/" + app.getDad().toLowerCase() + "/pages");
-			break;
-			case "prod": 
-				svnapi.setWorkFolder("prod/" + app.getDad().toLowerCase() + "/pages");
-			break;
-			case "sta": 
-				svnapi.setWorkFolder("sta/" + app.getDad().toLowerCase() + "/pages");
-			break;
-		}
-        svnapi.setMessage("Create Repo. for Application - " + app.getDad());
-        boolean flag = false;
-		try {
-			flag = svnapi.mkdir();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-      /*  System.out.println("Criar Pasta " + flag); 
-        System.out.println(svnapi.getCmd());
-        System.out.println(svnapi.getCmdResult());*/
-        
-		try {
-			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-			svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/"); 
-			svnapi.setSvnUrl(svnapi.getSvnUrl()  + env + "/" + app.getDad().toLowerCase() + "/pages");
-			svnapi.setWorkFolder("");
-			flag = svnapi.co();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		} 
-	/*	
-      System.out.println("Checkout " + flag); 
-      System.out.println(svnapi.getCmd());
-      System.out.println(svnapi.getCmdResult());*/
-        
-	}
+//	private void createSvnRepo(Application app){
+//		Svn  svnapi = new Svn();
+//		String env = "";
+//		env = Igrp.getInstance().getServlet().getInitParameter("env");
+//		switch(env) {
+//			case "dev": 
+//				svnapi.setWorkFolder("dev/" + app.getDad().toLowerCase() + "/pages");
+//			break;
+//			case "prod": 
+//				svnapi.setWorkFolder("prod/" + app.getDad().toLowerCase() + "/pages");
+//			break;
+//			case "sta": 
+//				svnapi.setWorkFolder("sta/" + app.getDad().toLowerCase() + "/pages");
+//			break;
+//		}
+//        svnapi.setMessage("Create Repo. for Application - " + app.getDad());
+//        boolean flag = false;
+//		try {
+//			flag = svnapi.mkdir();
+//		} catch (IOException | InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//      /*  System.out.println("Criar Pasta " + flag); 
+//        System.out.println(svnapi.getCmd());
+//        System.out.println(svnapi.getCmdResult());*/
+//        
+//		try {
+//			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+//			svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/"); 
+//			svnapi.setSvnUrl(svnapi.getSvnUrl()  + env + "/" + app.getDad().toLowerCase() + "/pages");
+//			svnapi.setWorkFolder("");
+//			flag = svnapi.co();
+//		} catch (IOException | InterruptedException e) {
+//			e.printStackTrace();
+//		} 
+//	/*	
+//      System.out.println("Checkout " + flag); 
+//      System.out.println(svnapi.getCmd());
+//      System.out.println(svnapi.getCmdResult());*/
+//        
+//	}
 	
 	
 

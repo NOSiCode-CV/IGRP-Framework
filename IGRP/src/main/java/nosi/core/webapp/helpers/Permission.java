@@ -4,9 +4,6 @@ package nosi.core.webapp.helpers;
  * May 29, 2017
  */
 
-import java.util.Arrays;
-import java.util.Optional;
-import javax.servlet.http.Cookie;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
@@ -52,23 +49,6 @@ public class Permission {
 	}
 
 	public  void changeOrgAndProfile(String dad){
-		Optional<Cookie> cookies = Igrp.getInstance().getRequest().getCookies()!=null?Arrays.asList(Igrp.getInstance().getRequest().getCookies()).stream().filter(c -> c.getName().equalsIgnoreCase(dad)).findFirst():null;
-		String c = (cookies!=null && cookies.isPresent())?cookies.get().getValue():null;
-		if(Core.isNotNull(c)) {
-			try {
-				String []aux = c.split("-");
-				String orgID = aux[0];
-				String perfilID = aux[1];
-				Organization org = new Organization().findOne(orgID);
-				ProfileType prof = new ProfileType().findOne(perfilID);
-				if(org != null && prof != null) {
-					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
-					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",prof.getId());
-					Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", dad);
-					return; // end of methods 
-				}
-			}catch(Exception e) {}
-		}
 		Application app = new Application().find().andWhere("dad", "=", dad).one();
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
@@ -90,9 +70,8 @@ public class Permission {
 				if(prof!=null){
 					 org.setId(prof.getOrganization().getId());
 					 profType.setId(prof.getProfileType().getId());
-					 Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", prof.getOrganization().getId());
-					 Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",prof.getProfileType().getId());
-					 Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
+					 ApplicationPermition appP = new ApplicationPermition(dad, prof.getOrganization().getId(), prof.getProfileType().getId());
+					 Igrp.getInstance().getRequest().getSession().setAttribute(dad, appP);
 				}
 			}
 		}		
@@ -100,24 +79,26 @@ public class Permission {
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
-			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
-			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof", profType.getId());
-			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
+			ApplicationPermition appP = new ApplicationPermition(dad, org.getId(), profType.getId());
+		    Igrp.getInstance().getRequest().getSession().setAttribute(dad, appP);
 		}
 	}
 	
 	public  String getCurrentEnv() {
-		String env = (String) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.env");
-		return env!=null && !env.equals("")?env:"igrp";
+		String dad = Core.getParam("dad");
+		ApplicationPermition appP = (ApplicationPermition) Igrp.getInstance().getRequest().getSession().getAttribute(dad);
+		return appP!=null && !appP.getDad().equals("")?appP.getDad():"igrp";
 	}
 	
 	public  Integer getCurrentPerfilId() {
-		Integer prof = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
-		return prof!=null?prof:-1;
+		String dad = Core.getParam("dad");
+		ApplicationPermition appP = (ApplicationPermition) Igrp.getInstance().getRequest().getSession().getAttribute(dad);
+		return appP!=null?appP.getProfId():-1;
 	}
 
 	public  Integer getCurrentOrganization() {
-		Integer org = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.org");
-		return org!=null?org:-1;
+		String dad = Core.getParam("dad");
+		ApplicationPermition appP = (ApplicationPermition) Igrp.getInstance().getRequest().getSession().getAttribute(dad);
+		return appP!=null?appP.getOgrId():-1;
 	}
 }
