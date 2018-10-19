@@ -69,7 +69,8 @@ public class BPMNTimeLine {
 		TaskServiceQuery taskSQ = new TaskServiceQuery();
 		taskSQ.addFilter("finished", "true");
 		taskSQ.addFilter("processDefinitionId", processDefinition);
-		taskSQ.addFilter("executionId", taskS.getExecutionId());
+		if(taskS != null)
+			taskSQ.addFilter("executionId", taskS.getExecutionId());
 		try {
 		taskSQ.queryHistoryTask()
 					    .stream()

@@ -81,7 +81,7 @@ public class ListaPageController extends Controller {
 	
 		if (Core.getParamArray("p_modulo") != null) {
 			for (String m : Core.getParamArray("p_modulo")) {
-				List<Action> actions_ = new Action().find().andWhere("modulo.id", "=", m)
+				List<Action> actions_ = new Action().find().andWhere("nomeModulo", "=", m) 
 						.andWhere("application", "=", Core.toInt(model.getApplication()))
 						.andWhere("isComponent", "<>", 2).all();
 				if (actions_ != null)
@@ -137,8 +137,8 @@ public class ListaPageController extends Controller {
 
 		
 		view.application.setValue(listApp );
-		final Map<Object, Object> map = IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "id",
-				"name", "-- Selecionar --");
+		final Map<Object, Object> map = IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
+				"descricao", "-- Selecionar --");
 		view.modulo.setValue(map);
 	   	view.modulo.setVisible(map.size() > 1);
 

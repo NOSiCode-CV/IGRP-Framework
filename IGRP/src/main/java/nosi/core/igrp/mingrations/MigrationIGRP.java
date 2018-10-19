@@ -188,9 +188,9 @@ public final class MigrationIGRP {
 					.addString("xslContent",a.getXslContent())
 					.addString("xsl_src", a.getXsl_src())
 					.addInt("env_fk", a.getApplication().getId())
-					.addInt("module_fk", a.getModulo()!=null?a.getModulo().getId():null)
+					.addString("nomeModulo", a.getNomeModulo())
 					.execute();
-				new Action().showErrors(false).insert();//Using to increment value for last id
+				new Action().showErrors(false).insert();//Using to increment value for last id 
 			});
 			applications = applications.stream().filter(a->a.getAction()!=null).collect(Collectors.toList());
 			applications.stream().forEach(app->{

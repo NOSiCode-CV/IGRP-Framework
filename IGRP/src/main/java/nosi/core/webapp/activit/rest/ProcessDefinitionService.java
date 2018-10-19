@@ -138,8 +138,24 @@ public class ProcessDefinitionService extends Activit{
 			return true;
 		boolean x = new TaskAccess().getCurrentMyTaskAccess()
 				.stream()
-				.filter(a->a.getProcessName().compareTo(p.getKey())==0)
-				.filter(a->a.getTaskName().compareTo("Start"+p.getKey())==0)
+				.filter(
+						a->{
+							try {
+									return a.getProcessName().compareTo(p.getKey())==0;
+								}catch(Exception e) {
+									return false;
+								}
+							}
+						)
+				.filter(
+						a->{
+							try {
+								return a.getTaskName().compareTo("Start"+p.getKey())==0;
+							}catch(Exception e) {
+								return false;
+								}
+							}
+						)
 				.collect(Collectors.toList())
 				.size() > 0;
 		return x;

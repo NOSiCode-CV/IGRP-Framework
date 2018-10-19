@@ -1,15 +1,20 @@
-
 package nosi.webapps.igrp_studio.pages.modulo;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ModuloView extends View {
 
 	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field modulo;
+	public Field descricao;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 
@@ -17,7 +22,7 @@ public class ModuloView extends View {
 
 	public ModuloView(){
 
-		this.setPageTitle("Modulo");
+		this.setPageTitle("Módulo");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
@@ -30,11 +35,15 @@ public class ModuloView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","true").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","50").add("required","true").add("disabled","false").add("java-type","").add("tags","false");
 		
 		modulo = new TextField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
-		modulo.propertie().add("name","p_modulo").add("type","text").add("maxlength","50").add("required","true");
+		modulo.propertie().add("name","p_modulo").add("type","text").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false");
+		
+		descricao = new TextField(model,"descricao");
+		descricao.setLabel(gt("Descrição"));
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
 		
 
 
@@ -51,17 +60,19 @@ public class ModuloView extends View {
 
 		form_1.addField(aplicacao);
 		form_1.addField(modulo);
+		form_1.addField(descricao);
 
 		form_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 	}
 		
-	public void setModel(Modulo model) {
+	@Override
+	public void setModel(Model model) {
 		
 		aplicacao.setValue(model);
-		modulo.setValue(model);	
+		modulo.setValue(model);
+		descricao.setValue(model);	
 
-		
-	}
+		}
 }

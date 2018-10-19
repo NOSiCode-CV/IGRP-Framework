@@ -1,10 +1,10 @@
 package nosi.webapps.igrp_studio.pages.modulo;
+
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-
-
-
 
 public class Modulo extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -13,6 +13,8 @@ public class Modulo extends Model{
 	private String aplicacao;
 	@RParam(rParamName = "p_modulo")
 	private String modulo;
+	@RParam(rParamName = "p_descricao")
+	private String descricao;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -33,6 +35,13 @@ public class Modulo extends Model{
 	}
 	public String getModulo(){
 		return this.modulo;
+	}
+	
+	public void setDescricao(String descricao){
+		this.descricao = descricao;
+	}
+	public String getDescricao(){
+		return this.descricao;
 	}
 
 
