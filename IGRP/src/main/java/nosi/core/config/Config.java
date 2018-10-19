@@ -475,10 +475,7 @@ public class Config {
 		}
 		String title = app.getName();
 		String description= app.getDescription();	
-		String link_home = config.getLinkHome();
-		if(app.getDad().equalsIgnoreCase("igrp_studio")) {
-			link_home = config.getLinkHomeStudio();
-		}		
+		String link_home = config.getLinkHome();	
 		XMLWritter xml = new XMLWritter();
 //		Random r = new Random();
 		xml.setElement("template", app.getTemplate());
