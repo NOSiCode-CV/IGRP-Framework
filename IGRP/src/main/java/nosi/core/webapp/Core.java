@@ -722,7 +722,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface insert(String tableName) {
-		return new QueryInsert(new ConfigApp().getBaseConnection()).insert(tableName);
+		return new QueryInsert(Core.defaultConnection()).insert(tableName);
 	}
 
 	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName) {
@@ -730,7 +730,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface update(String tableName) {
-		return new QueryUpdate(new ConfigApp().getBaseConnection()).update(tableName);
+		return new QueryUpdate(Core.defaultConnection()).update(tableName);
 	}
 
 	public static BaseQueryInterface update(String connectionName, String tableName) {
@@ -742,7 +742,7 @@ public final class Core { // Not inherit
 	}
 
 	public static BaseQueryInterface delete(String tableName) {
-		return new QueryDelete(new ConfigApp().getBaseConnection()).delete(tableName);
+		return new QueryDelete(Core.defaultConnection()).delete(tableName);
 	}
 
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
@@ -765,8 +765,8 @@ public final class Core { // Not inherit
 		return new QuerySelect(connectionName).select(sql, className);
 	}
 
-	public static QueryInterface query(String sql) {
-		return new QuerySelect().select(sql);
+	public static QueryInterface query(String sql) {		
+			return new QuerySelect(Core.defaultConnection()).select(sql);
 	}
 
 	public static boolean validateQuery(Config_env config_env, String query) {

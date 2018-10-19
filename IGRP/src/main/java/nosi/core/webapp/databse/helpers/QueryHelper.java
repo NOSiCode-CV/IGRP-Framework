@@ -43,8 +43,6 @@ public abstract class QueryHelper implements QueryInterface{
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
-		}else {
-			this.connectionName = connectionName!=null?(String) connectionName:null;
 		}
 		this.columnsValue = new ArrayList<>();
 		this.connection = new nosi.core.config.Connection();

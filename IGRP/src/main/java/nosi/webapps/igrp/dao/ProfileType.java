@@ -136,7 +136,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	public HashMap<String, String> getListMyProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put("", gt("-- Selecionar --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(Profile p: new Profile().getMyPerfile()){
 			lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " / "+ p.getProfileType().getDescr());
 		}
