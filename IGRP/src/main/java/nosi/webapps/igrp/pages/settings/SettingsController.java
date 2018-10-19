@@ -5,6 +5,8 @@ import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.ApplicationPermition;
+
 import java.io.IOException;
 import java.util.HashMap;
 import nosi.core.webapp.Core;
@@ -29,19 +31,16 @@ public class SettingsController extends Controller {
 			if (Core.isNotNull(ichange)) {
 				try {
 					if(Core.isNotNull(model.getPerfil())){
-						// String data = model.getOrganica()+"-"+model.getPerfil();
-						Integer getOrgId = new ProfileType().findOne(model.getPerfil()).getOrganization().getId();
-						String data = getOrgId + "-" + model.getPerfil();
-						Igrp.getInstance().getResponse().addCookie(new Cookie(""+Core.getCurrentProfile(), data));
-						Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",Integer.parseInt(model.getPerfil()));
-						Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org",getOrgId);
-						}
+						ProfileType prof = new ProfileType().findOne(model.getPerfil());
+						ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId());
+						Igrp.getInstance().getRequest().getSession().setAttribute(appP.getDad(),appP);
+					}
 					if (Core.isNotNull(model.getIdioma())) {
 						Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
 						Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
 						cookie.setMaxAge(I18nManager.cookieExpire);
 						Igrp.getInstance().getResponse().addCookie(cookie);
-						}
+					}
 				}catch(Exception e) {
 					success = false;
 				}
@@ -92,7 +91,7 @@ public class SettingsController extends Controller {
 		view.perfil.setValue(profiles);
 
 		HashMap<String, String> idioma = new HashMap<String, String>();
-		idioma.put("", gt("-- Selecionar --"));
+		idioma.put(null, gt("-- Selecionar --"));
 		idioma.put("pt_PT", gt("Português"));
 		idioma.put("en_US", gt("Inglês"));
 		idioma.put("fr_FR", gt("Francês"));
