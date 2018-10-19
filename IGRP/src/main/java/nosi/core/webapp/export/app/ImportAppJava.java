@@ -260,14 +260,6 @@ public class ImportAppJava {
 			Core.mapper(page, action);
 			action.setApplication(this.app);
 			
-			Modulo modulo = new Modulo();
-			if(page.getModule_fk() != 0) {
-				modulo.setId(page.getModule_fk());
-				action.setModulo(modulo);
-			}else {
-				action.setModulo(null);
-			}
-			
 			action = action.insert();
 		}
 	}

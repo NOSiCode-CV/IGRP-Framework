@@ -68,8 +68,6 @@ public class ExportAppJava {
 			actions.stream().forEach(a->{
 				StoredPages stp = new StoredPages();				
 				Core.mapper(a, stp);
-				if(a.getModulo() != null)
-					stp.setModule_fk(a.getModulo().getId());
 				stpages.add(stp);
 			});			
 			return new Gson().toJson(stpages);

@@ -36,6 +36,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -60,7 +61,6 @@ public class LoginController extends Controller {
 	private Properties settings = loadConfig("common", "main.xml");
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		// Go to password recover page ... 
 		String p_button2 = Igrp.getInstance().getRequest().getParameter("p_button2");
 		if(p_button2 != null && p_button2.equals("p_button2")) {

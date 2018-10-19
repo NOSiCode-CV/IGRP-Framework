@@ -41,7 +41,7 @@ public class Modulo extends BaseActiveRecord<Modulo> implements Serializable{
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="env_fk"), nullable=false)
 	private Application application;
 
-	
+	private String descricao;
 	
 	public Modulo() {
 		super();
@@ -77,6 +77,14 @@ public class Modulo extends BaseActiveRecord<Modulo> implements Serializable{
 		this.application = application;
 	}
 	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	public List<Modulo> getModuloByApp(int appId){
 		List<Modulo> l = new ArrayList<Modulo>();
 		l = this.find().andWhere("application.id", "=", appId).all();

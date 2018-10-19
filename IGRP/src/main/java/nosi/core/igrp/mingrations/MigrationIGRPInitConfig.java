@@ -112,7 +112,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Page builder", "Page builder", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Env", "index", "nosi.webapps.igrp_studio.pages.env", "igrp_studio/env/Env.xsl", "Registar Aplicacao", "Registar Aplicacao", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp_studio.pages.listaenv", "igrp_studio/listaenv/ListaEnv.xsl", "Application builder", "Application builder", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("Domínio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Gestão de Domínios", "Gestão de Domínios", "2.3", 1, app_igrp));
+			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Gestão de Domínios", "Gestão de Domínios", "2.3", 1, app_igrp));
 			actions.add(new Action("NovoDominio", "index", "nosi.webapps.igrp.pages.novodominio", "igrp/novodominio/NovoDominio.xsl", "Registar Dominio", "Registar Dominio", "2.3", 1, app_igrp));
 			actions.add(new Action("PesquisarOrganica", "index", "nosi.webapps.igrp.pages.pesquisarorganica", "igrp/pesquisarorganica/PesquisarOrganica.xsl", "Gestão de Organica", "Gestão de Organica", "2.3", 1, app_igrp));
 			actions.add(new Action("NovaOrganica", "index", "nosi.webapps.igrp.pages.novaorganica", "igrp/novaorganica/NovaOrganica.xsl", "Registar Organica", "Registar Organica", "2.3", 1, app_igrp));

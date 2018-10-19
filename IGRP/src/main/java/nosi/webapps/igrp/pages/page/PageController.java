@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 import nosi.core.cversion.Svn;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -75,9 +76,10 @@ public class PageController extends Controller {
 				model.setStatus(a.getStatus());
 				model.setPublico(a.getTipo());
 				model.setComponente(a.getIsComponent());
-				if (a.getModulo() != null)
-					model.setModulo(a.getModulo().getId() + "");
-				
+				if (a.getNomeModulo() != null && !a.getNomeModulo().isEmpty())
+					model.setModulo(a.getNomeModulo());
+				else
+					model.setModulo(null);
 				Application app = new Application().findOne(a.getApplication().getId());	
 				if(app!=null && app.getAction()!=null)
 					model.setPrimeira_pagina(idPage.equals(app.getAction().getId())? 1:0);
@@ -96,7 +98,7 @@ public class PageController extends Controller {
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.id.setParam(true);
-		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "id", "name","-- Selecionar --"));
+		view.modulo.setValue(IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getEnv_fk())), "name", "descricao","-- Selecionar --"));
 
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
@@ -125,15 +127,12 @@ public class PageController extends Controller {
 				action.setStatus(model.getStatus());
 				action.setTipo((short)model.getPublico());
 				action.setIsComponent((short) model.getComponente());
-				if (model.getModulo() != null && !model.getModulo().isEmpty()) {
-					try {
-						Modulo m = new Modulo();
-						m.setId(Integer.parseInt(model.getModulo()));
-						action.setModulo(m);
-					} catch (Exception e) {
-
-					}
-				}
+				
+				if(model.getModulo() != null && !model.getModulo().isEmpty())
+					action.setNomeModulo(model.getModulo());
+				else
+					action.setNomeModulo(null);
+					
 				action = action.update();
 				
 				if (action != null) {
@@ -173,17 +172,12 @@ public class PageController extends Controller {
 					Core.setMessageWarning(FlashMessage.WARNING_PAGE_INVALID);
 					return this.forward("igrp", "page", "index");
 				}
-
-				if (model.getModulo() != null && !model.getModulo().isEmpty()) {
-					try {
-						Modulo m = new Modulo();
-						m.setId(Integer.parseInt(model.getModulo()));
-						action.setModulo(m);
-					} catch (Exception e) {
-
-					}
-				}
-
+				
+				if(model.getModulo() != null && !model.getModulo().isEmpty()) 
+					action.setNomeModulo(model.getModulo()); 
+				else
+					action.setNomeModulo(null); 
+				
 				action = action.insert();
 
 				if (action != null) {

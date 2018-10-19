@@ -55,7 +55,8 @@ public class File_editorController extends Controller {
 		}
 		List<FileEditor> dir = new ArrayList<>();
 		FileEditor dirFiles = new FileEditor();
-		dirFiles.setName(ac.getProcessKey().toUpperCase());		
+		if(ac.getProcessKey() != null)
+			dirFiles.setName(ac.getProcessKey().toUpperCase());		
 		dirFiles.setChilds(this.getChildFiles(ac));
 		dir.add(dirFiles);
 		return dir;
@@ -122,10 +123,14 @@ public class File_editorController extends Controller {
 	/*----#end-code----*/
 
 	private String getBasePath(String dadApp,String proccessKey) {
-		return this.getConfig().getPathServerClass(dadApp)+"process"+File.separator+proccessKey.toLowerCase();
+		return this.getConfig()
+				.getPathServerClass(dadApp)+"process"+
+				File.separator + 
+				(proccessKey != null ? proccessKey.toLowerCase() : "");
 	}
 	
 	private String getBasePathWorkspace(String dadApp,String proccessKey) {
-		return this.getConfig().getBasePahtClassWorkspace(dadApp)+File.separator+"process"+File.separator+proccessKey.toLowerCase();
+		return this.getConfig().getBasePahtClassWorkspace(dadApp)+File.separator+"process"+File.separator+
+				(proccessKey != null ? proccessKey.toLowerCase() : "");
 	}
 }

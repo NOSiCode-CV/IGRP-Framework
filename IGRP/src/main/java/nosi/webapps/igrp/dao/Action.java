@@ -19,8 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Tuple;
+
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.StringHelper;
 import static nosi.core.i18n.Translator.gt;
 
@@ -63,9 +67,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	
 	private short tipo = 0; // 0 = Privado (Authentication); 1 = Publico; ... 
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "module_fk", foreignKey = @ForeignKey(name = "module_fk"))
-	private Modulo modulo;
+	private String nomeModulo;
 
 	public Action() {
 	}
@@ -266,7 +268,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 				if (action != null)
 					aux.add(action);
 			}
-
+		
 		HashMap<Integer, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", "1")
@@ -292,13 +294,13 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 
 		return lista;
 	}
-
-	public Modulo getModulo() {
-		return modulo;
+	
+	public String getNomeModulo() {
+		return nomeModulo;
 	}
 
-	public void setModulo(Modulo modulo) {
-		this.modulo = modulo;
+	public void setNomeModulo(String nomeModulo) {
+		this.nomeModulo = nomeModulo;
 	}
 
 	public Action findByPage(String page, String dad) {
