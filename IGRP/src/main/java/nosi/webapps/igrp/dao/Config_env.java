@@ -24,7 +24,7 @@ import nosi.core.webapp.helpers.IgrpHelper;
 
 @Entity
 @Table(name="tbl_config_env")
-public class Config_env extends BaseActiveRecord<Config_env> implements Serializable{
+public class Config_env extends IGRPBaseActiveRecord<Config_env> implements Serializable{
 
 	/**
 	 * 

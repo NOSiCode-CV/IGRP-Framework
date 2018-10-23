@@ -15,7 +15,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name="tbl_domain")
-public class Domain extends BaseActiveRecord<Domain> implements Serializable{
+public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable{
 
 	/**
 	 * 

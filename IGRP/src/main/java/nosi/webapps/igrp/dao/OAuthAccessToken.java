@@ -18,7 +18,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name = "oauth_access_tokens")
-public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implements Serializable{
+public class OAuthAccessToken extends IGRPBaseActiveRecord <OAuthAccessToken> implements Serializable{
 	
 	/**
 	 * 

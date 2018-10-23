@@ -20,7 +20,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Table(name="tbl_task_unassigned")
 @Entity
-public class TaskUnassigned extends BaseActiveRecord<TaskUnassigned> implements Serializable{
+public class TaskUnassigned extends IGRPBaseActiveRecord<TaskUnassigned> implements Serializable{
 
 	/**
 	 * 

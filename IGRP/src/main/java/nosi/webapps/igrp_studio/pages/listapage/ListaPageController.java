@@ -11,7 +11,6 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.export.app.ExportJavaPage;
 import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
@@ -137,7 +136,7 @@ public class ListaPageController extends Controller {
 
 		
 		view.application.setValue(listApp );
-		final Map<Object, Object> map = IgrpHelper.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
+		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(Core.toInt(model.getApplication())), "name",
 				"descricao", "-- Selecionar --");
 		view.modulo.setValue(map);
 	   	view.modulo.setVisible(map.size() > 1);

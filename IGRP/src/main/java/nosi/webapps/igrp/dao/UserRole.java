@@ -18,7 +18,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name="tbl_user_roles")
-public class UserRole extends BaseActiveRecord<UserRole> implements Serializable{
+public class UserRole extends IGRPBaseActiveRecord<UserRole> implements Serializable{
 	
 	/**
 	 * 

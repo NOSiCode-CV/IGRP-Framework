@@ -15,7 +15,7 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 @Entity
 @Table(name = "oauth_scopes")
-public class OAuthScope extends BaseActiveRecord<OAuthScope> implements Serializable{
+public class OAuthScope extends IGRPBaseActiveRecord<OAuthScope> implements Serializable{
 	
 	/**
 	 * 

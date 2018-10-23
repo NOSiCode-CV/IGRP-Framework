@@ -20,7 +20,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name="glb_t_acl")
-public class Share extends BaseActiveRecord<Share> implements Serializable{
+public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	
 	/**
 	 * 

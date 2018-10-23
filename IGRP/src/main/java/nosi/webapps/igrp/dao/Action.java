@@ -30,7 +30,7 @@ import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_action")
-public class Action extends BaseActiveRecord<Action> implements Serializable {
+public class Action extends IGRPBaseActiveRecord<Action> implements Serializable {
 
 	/**
 	 * 
@@ -70,11 +70,12 @@ public class Action extends BaseActiveRecord<Action> implements Serializable {
 	private String nomeModulo;
 
 	public Action() {
+		super();
 	}
 
 	public Action(String page, String action, String package_name, String xsl_src, String page_descr,
-			String action_descr, String version, int status, Application application) {
-		super();
+			String action_descr, String version, int status, Application application) {	
+		this();	
 		this.page = StringHelper.removeSpecialCharaterAndSpace(page);
 		this.action = action;
 		this.package_name = (package_name != null) ? package_name.toLowerCase() : package_name;

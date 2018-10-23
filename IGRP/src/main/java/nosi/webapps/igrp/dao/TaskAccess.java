@@ -26,7 +26,7 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 
 @Entity
 @Table(name="tbl_task_access")
-public class TaskAccess extends BaseActiveRecord<TaskAccess> implements Serializable {
+public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Serializable {
 
 	/**
 	 * 

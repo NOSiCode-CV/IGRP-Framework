@@ -21,7 +21,7 @@ import javax.persistence.CascadeType;
 
 @Entity
 @Table(name="tbl_transaction")
-public class Transaction extends BaseActiveRecord<Transaction> implements Serializable {
+public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Serializable {
 	
 	/**
 	 * 

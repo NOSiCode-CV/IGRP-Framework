@@ -21,7 +21,7 @@ import nosi.core.webapp.Igrp;
 
 @Entity
 @Table(name="tbl_session")
-public class Session extends BaseActiveRecord<Session> implements Serializable{
+public class Session extends IGRPBaseActiveRecord<Session> implements Serializable{
 	  
 	/**
 	 * 

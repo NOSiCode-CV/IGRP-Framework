@@ -24,7 +24,7 @@ import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name="tbl_profile_type")
-public class ProfileType extends BaseActiveRecord<ProfileType> implements Serializable {
+public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Serializable {
 	
 	/**
 	 * 

@@ -22,7 +22,7 @@ import nosi.core.gui.components.IGRPLink;
 
 @Entity
 @Table(name="tbl_tipo_documento_etapa")
-public class TipoDocumentoEtapa extends BaseActiveRecord<TipoDocumentoEtapa> implements Serializable{
+public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa> implements Serializable{
 
 	/**
 	 * 

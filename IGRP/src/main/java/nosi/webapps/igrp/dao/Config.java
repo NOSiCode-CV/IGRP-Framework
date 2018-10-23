@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="tbl_config")
-public class Config extends BaseActiveRecord<Config> implements Serializable{
+public class Config extends IGRPBaseActiveRecord<Config> implements Serializable{
 
 	/**
 	 * 

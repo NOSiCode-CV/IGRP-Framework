@@ -28,7 +28,7 @@ import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name = "tbl_organization")
-public class Organization extends BaseActiveRecord<Organization> implements Serializable {
+public class Organization extends IGRPBaseActiveRecord<Organization> implements Serializable {
 
 	/**
 	 * 

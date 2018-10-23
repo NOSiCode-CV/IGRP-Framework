@@ -20,7 +20,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name = "oauth_clients")
-public class OAuthClient extends BaseActiveRecord<OAuthClient> implements Serializable{
+public class OAuthClient extends IGRPBaseActiveRecord<OAuthClient> implements Serializable{
 
 	/**
 	 * 

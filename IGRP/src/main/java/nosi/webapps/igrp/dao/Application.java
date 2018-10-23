@@ -27,7 +27,7 @@ import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name="tbl_env")
-public class Application extends BaseActiveRecord<Application> implements Serializable{
+public class Application extends IGRPBaseActiveRecord<Application> implements Serializable{
 
 	/*
 	 * 
@@ -78,7 +78,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	
 	public Application(String dad, String name, String img_src, String description, int status,
 			Action action) {
-		super();
+		this();
 		this.dad = dad;
 		this.name = name;
 		this.img_src = img_src;

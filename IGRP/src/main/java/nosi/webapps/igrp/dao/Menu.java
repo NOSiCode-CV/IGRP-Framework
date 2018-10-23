@@ -27,7 +27,7 @@ import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name="tbl_menu")
-public class Menu extends BaseActiveRecord<Menu> implements Serializable{
+public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	
 	/**
 	 * 

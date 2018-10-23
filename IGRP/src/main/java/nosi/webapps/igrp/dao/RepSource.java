@@ -23,7 +23,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
 @Table(name = "tbl_rep_source")
-public class RepSource extends BaseActiveRecord<RepSource> implements Serializable {
+public class RepSource extends IGRPBaseActiveRecord<RepSource> implements Serializable {
 	/**
 	 * 
 	 */

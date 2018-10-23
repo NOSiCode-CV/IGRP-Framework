@@ -5,8 +5,9 @@ import java.util.List;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.databse.helpers.QuerySelect;
+import nosi.webapps.igrp.dao.IGRPBaseActiveRecord;
 
-public class CreateViews extends BaseActiveRecord<CreateViews>{
+public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 
 	private static List<String> VIEWS = new ArrayList<>();
 	static{

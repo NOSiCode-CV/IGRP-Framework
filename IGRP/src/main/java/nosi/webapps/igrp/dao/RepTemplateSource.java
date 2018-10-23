@@ -22,7 +22,7 @@ import nosi.core.webapp.Core;
  */
 @Entity
 @Table(name="tbl_rep_template_source")
-public class RepTemplateSource extends BaseActiveRecord<RepTemplateSource> implements Serializable{
+public class RepTemplateSource extends IGRPBaseActiveRecord<RepTemplateSource> implements Serializable{
 
 	/**
 	 * 

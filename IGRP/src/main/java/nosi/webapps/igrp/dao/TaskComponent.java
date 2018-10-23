@@ -21,7 +21,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
 @Table(name="tbl_task_component")
-public class TaskComponent extends BaseActiveRecord<TaskComponent> implements Serializable{
+public class TaskComponent extends IGRPBaseActiveRecord<TaskComponent> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	/**

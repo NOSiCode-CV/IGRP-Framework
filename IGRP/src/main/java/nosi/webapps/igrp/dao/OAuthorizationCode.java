@@ -19,7 +19,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name = "oauth_authorization_code")
-public class OAuthorizationCode extends BaseActiveRecord<OAuthorizationCode> implements Serializable{
+public class OAuthorizationCode extends IGRPBaseActiveRecord<OAuthorizationCode> implements Serializable{
 	
 	/**
 	 * 

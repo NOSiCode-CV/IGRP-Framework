@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Core;
 
 /**
  * Iekiny Marcel
@@ -23,7 +24,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name="tbl_modulo")
-public class Modulo extends BaseActiveRecord<Modulo> implements Serializable{
+public class Modulo extends IGRPBaseActiveRecord<Modulo> implements Serializable{
 	
 	/**
 	 * 
@@ -88,6 +89,9 @@ public class Modulo extends BaseActiveRecord<Modulo> implements Serializable{
 	public List<Modulo> getModuloByApp(int appId){
 		List<Modulo> l = new ArrayList<Modulo>();
 		l = this.find().andWhere("application.id", "=", appId).all();
+		
+		l.stream().filter(r->Core.isNull(r.getDescricao())).forEach(r->{ r.setDescricao(r.getName()); });
+
 		return l;
 
 	}

@@ -19,7 +19,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name = "oauth_refresh_tokens")
-public class OAuthRefreshToken extends BaseActiveRecord<OAuthRefreshToken> implements Serializable{
+public class OAuthRefreshToken extends IGRPBaseActiveRecord<OAuthRefreshToken> implements Serializable{
 
 	/**
 	 * 

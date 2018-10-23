@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="tbl_rep_template")
-public class RepTemplate extends BaseActiveRecord<RepTemplate> implements Serializable{
+public class RepTemplate extends IGRPBaseActiveRecord<RepTemplate> implements Serializable{
 
 	/**
 	 * 

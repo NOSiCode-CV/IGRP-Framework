@@ -26,7 +26,7 @@ import nosi.core.webapp.Core;
 @Table(name="tbl_profile",uniqueConstraints={
 	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})
 	})
-public class Profile extends BaseActiveRecord<Profile> implements Serializable{
+public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializable{
 	
 	/**
 	 * 

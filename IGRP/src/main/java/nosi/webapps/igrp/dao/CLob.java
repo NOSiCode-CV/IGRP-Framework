@@ -24,7 +24,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
 @Table(name="tbl_clob")
-public class CLob extends BaseActiveRecord<CLob> implements Serializable{
+public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 
 	/**
 	 * 

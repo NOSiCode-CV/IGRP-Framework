@@ -19,7 +19,7 @@ import nosi.core.webapp.Identity;
 
 @Entity
 @Table(name="tbl_user")
-public class User extends BaseActiveRecord<User> implements Serializable, Identity{
+public class User extends IGRPBaseActiveRecord<User> implements Serializable, Identity{
 	
 	/**
 	 * 

@@ -18,7 +18,7 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 @Entity
 @Table(name="tbl_ImportExport")
-public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implements Serializable{
+public class ImportExportDAO extends IGRPBaseActiveRecord<ImportExportDAO> implements Serializable{
 
 	private static final long serialVersionUID = 9030716918029909217L;
 

@@ -21,7 +21,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
 @Table(name="tbl_rep_instance")
-public class RepInstance extends BaseActiveRecord<RepInstance> implements Serializable{
+public class RepInstance extends IGRPBaseActiveRecord<RepInstance> implements Serializable{
 
 	/**
 	 * 

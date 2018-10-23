@@ -20,7 +20,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
 @Table(name="tbl_tipo_documento")
-public class TipoDocumento extends BaseActiveRecord<TipoDocumento> implements Serializable{
+public class TipoDocumento extends IGRPBaseActiveRecord<TipoDocumento> implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	/**

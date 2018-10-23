@@ -20,6 +20,7 @@ import java.util.List;
  import org.hibernate.SessionFactory;
  import org.hibernate.Transaction;
 import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 
 
 public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
@@ -35,7 +36,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
-		this.connectionName = new ConfigApp().getBaseConnection();
+		
 	}	
 	
 	private SessionFactory getSessionFactory() {
@@ -525,8 +526,8 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Override
-	public String getConnectionName() {
-		return this.connectionName;
+	public String getConnectionName() {		
+		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
 	}
 
 	@Override
