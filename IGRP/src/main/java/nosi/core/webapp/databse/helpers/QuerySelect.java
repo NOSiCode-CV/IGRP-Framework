@@ -148,6 +148,7 @@ public class QuerySelect extends CommonFIlter{
 	public Record getRecordList() {
 		Record r = new Record();
 		List<Tuple> list = this.getResultList();
+		r.setSql(this.getSql());
 		if(list!=null) { 
 			r.RowList = new ArrayList<>();
 			list.stream().forEach(l->{
@@ -163,6 +164,7 @@ public class QuerySelect extends CommonFIlter{
 	public Record getSigleRecord() {
 		Record r = new Record();
 		r.Row = this.getSigleResult();
+		r.setSql(this.getSql());
 		return r;
 	}
 	

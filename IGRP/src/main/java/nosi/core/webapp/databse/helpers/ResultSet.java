@@ -88,6 +88,7 @@ public class ResultSet {
 
 		public Tuple Row;	
 		public List<Record> RowList;
+		private String sql;
 		
 		public Object getObject(String name) {
 			if(this.Row!=null) {
@@ -140,6 +141,13 @@ public class ResultSet {
 			return v!=null? Core.toBigDecimal(v.toString()):null;
 		}
 
+		public void setSql(String sql) {
+			this.sql = sql;
+		}
+		
+		public String getSql() {
+			return this.sql;
+		}
 	}
 
 }
