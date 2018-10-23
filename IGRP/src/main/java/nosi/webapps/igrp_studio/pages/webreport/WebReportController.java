@@ -292,14 +292,31 @@ public class WebReportController extends Controller {
 			//Process_Test:01_01 => Process_Test
 			processDefinitionKey = processDefinitionKey.contains(":")?processDefinitionKey.substring(0,processDefinitionKey.indexOf(":")):processDefinitionKey;
 		}
+		String taskId = this.getCurrentTaskId();
 		this.loadQueryString();
 		this.addQueryString("processDefinitionKey", processDefinitionKey)
-			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid());
+			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid())
+			.addQueryString("taskId", taskId);
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
 		xml.addXml(new XMLExtractComponent().extractXML(content));
 		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
 		xml.endElement();
 		return xml.toString();
+	}
+
+
+
+	private String getCurrentTaskId() {
+		String[] nameArray = Core.getParamArray("name_array");
+		String[] valueArray = Core.getParamArray("value_array");
+		if(nameArray.length > 0 && valueArray.length > 0) {
+			for(int i=0;i<nameArray.length;i++) {
+				if(nameArray[i].equalsIgnoreCase("taskId")) {
+					return valueArray[i];
+				}
+			}
+		}
+		return null;
 	}
 
 
