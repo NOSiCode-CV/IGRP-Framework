@@ -53,8 +53,8 @@ public class Dash_board_processoController extends Controller {
 			view.total_proc_em_execucao_val.setValue(totalProcAtivos);
 			model.setTotal_proc_em_execucao_url("#");
 			model.setTotal_proc_finished_url("#");
-			view.total_proc_em_execucao_title.setValue("Total de processos executados");
-			view.total_proc_finished_title.setValue("Total de processos em execução");
+			view.total_proc_em_execucao_title.setValue("Total de processos em execução");
+			view.total_proc_finished_title.setValue("Total de processos executados");
 			
 			view.tabcontent_1.setVisible(true);			
 			view.toolsbar_1.setVisible(true);

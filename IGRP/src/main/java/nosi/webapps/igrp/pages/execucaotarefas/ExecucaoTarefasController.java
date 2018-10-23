@@ -70,33 +70,8 @@ public class ExecucaoTarefasController extends Controller {
       
       Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
       TaskService objTask = new TaskService();
+      this.applyFiler(objTask,model);  
 
-   
-      String proc_tp = Core.getSwitchNotNullValue(model.getTipo_processo_colaborador(), model.getTipo_processo_estatistica(),model.getTipo_processo_form_disponiveis(), model.getTipo_processo_gerir_tarefa() ,model.getTipo_processo_minhas_tarefas());
-      String num_proc = Core.getSwitchNotNullValue(model.getNumero_processo_colaborador(),model.getNumero_processo_estatistica(),model.getNumero_processo_form_disponiveis(),model.getNumero_processo_gerir_tarefa(),model.getNumero_processo_minhas_tarefas());
-      String status = Core.getSwitchNotNullValue(model.getEstado_estatistica());
-      String data_inicio = Core.getSwitchNotNullValue(model.getData_inicio_colaborador(),model.getData_inicio_estatistica(),model.getData_inicio_form_disponiveis(),model.getData_inicio_gerir_tarefa(),model.getData_inicio_minhas_tarefas());
-      String data_fim = Core.getSwitchNotNullValue(model.getData_fim_colaborador(),model.getData_fim_estatistica(),model.getData_fim_form_disponiveis(),model.getData_fim_gerir_tarefa(),model.getData_fim_minhas_tarefas());
-      String prioridade = Core.getSwitchNotNullValue(model.getPrioridade_colaborador(),model.getPrioridade_estatistica(),model.getPrioridade_form_disponiveis(),model.getPrioridade_gerir_tarefa(),model.getPrioridade_minhas_tarefas());
-   
-      if(Core.isNotNull(proc_tp)){
-         objTask.addFilter("processDefinitionKey",proc_tp);
-      }
-      if(Core.isNotNull(num_proc)){
-         objTask.addFilter("processInstanceId",num_proc);
-      }
-      if(Core.isNotNull(status)) {
-         objTask.addFilter("finished",status);
-      }
-      if(Core.isNotNull(data_inicio)) {
-         objTask.addFilter("taskCompletedAfter",Core.ToChar(Core.ToChar(data_inicio, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
-      }
-      if(Core.isNotNull(data_fim)) {
-         objTask.addFilter("taskCompletedBefore",Core.ToChar(Core.ToChar(data_fim, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
-      }
-      if(Core.isNotNull(prioridade)) {
-         objTask.addFilter("taskPriority", prioridade);
-      }
       List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = new ArrayList<>();
       
       //Verifica se é perfil pai
@@ -110,7 +85,7 @@ public class ExecucaoTarefasController extends Controller {
             t.setNumero_processo_tabela(task.getProcessDefinitionId());
             t.setP_id_g(task.getId());
             t.setN_tarefa_g(task.getProcessInstanceId());
-            t.setTipo(task.getCategory());
+            t.setTipo(listProc.get(task.getProcessDefinitionId()));
             t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
             taskManage.add(t);
          }
@@ -122,7 +97,7 @@ public class ExecucaoTarefasController extends Controller {
          t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
          t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
          t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
-         t.setTipo_tabela_minhas_tarefas(task.getProcessDefinitionKey());
+         t.setTipo_tabela_minhas_tarefas(listProc.get(task.getProcessDefinitionId()));
          t.setId(task.getId());
          t.setN_tarefa_m(task.getProcessInstanceId());
          t.setData_fim_m(task.getDueDate()!=null?task.getDueDate().toString():"");
@@ -155,11 +130,11 @@ public class ExecucaoTarefasController extends Controller {
       view.tipo_processo_gerir_tarefa.setValue(listProc);
       view.tipo_processo_minhas_tarefas.setValue(listProc);
       
-      view.btn_pesquisar_button_disponiveis.setLink("index");
-      view.btn_pesquisar_button_minhas_tarefas.setLink("index");
-      view.btn_pesquisar_colaborador.setLink("index");
-      view.btn_pesquisar_estatistica.setLink("index");
-      view.btn_pesquisar_tarefa.setLink("index");
+      view.btn_pesquisar_button_disponiveis.setLink("index&btn_search="+AVAILABLE);
+      view.btn_pesquisar_button_minhas_tarefas.setLink("index&btn_search="+MY_TASK);
+      view.btn_pesquisar_colaborador.setLink("index&btn_search="+CONTRIBUTOR);
+      view.btn_pesquisar_estatistica.setLink("index&btn_search="+STATISTIC);
+      view.btn_pesquisar_tarefa.setLink("index&btn_search="+MANAGE_TASK);
       
       view.btn_alterar_prioridade_tarefa.setLink("index");
       view.btn_alterar_prioridade_tarefa.setPage("Alter_prioridade_tarefa");
@@ -185,6 +160,8 @@ public class ExecucaoTarefasController extends Controller {
 		return this.renderView(view);	
 	}
 	
+
+
 	public Response actionPesquisar_tarefa() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();
@@ -401,6 +378,7 @@ public class ExecucaoTarefasController extends Controller {
             String previewTask = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTaskDefinitionKey():"";
             String preiviewProcessDefinition = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getProcessDefinitionId():"";
             String preiviewApp = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getTenantId():"";
+            String previewTaskId = (hts!=null && hts.size() > 0)?hts.get(hts.size()-1).getId():"";
             Application app = new Application().findByDad(task.getTenantId());
             if(app!=null) {
                this.addQueryString("taskId",id)
@@ -413,7 +391,8 @@ public class ExecucaoTarefasController extends Controller {
                   .addQueryString("previewTask", previewTask)
                   .addQueryString("preiviewApp", preiviewApp)
                   .addQueryString("preiviewProcessDefinition", preiviewProcessDefinition)
-                  .addQueryString("showTimeLine", "true");
+                  .addQueryString("showTimeLine", "true")
+                  .addQueryString("previewTaskId", previewTaskId);
                return this.redirect(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
             }
          }
@@ -567,5 +546,74 @@ public class ExecucaoTarefasController extends Controller {
       return pi;
    }
    
+   
+	private void applyFiler(TaskService objTask, ExecucaoTarefas model) {
+		String proc_tp = null, num_proc = null, status = null, data_inicio = null, data_fim = null, prioridade = null;
+		int btn_search = Core.getParamInt("btn_search");
+		switch (btn_search) {
+		case AVAILABLE:
+			proc_tp = model.getTipo_processo_form_disponiveis();
+			num_proc = model.getNumero_processo_form_disponiveis();
+			data_inicio = model.getData_inicio_form_disponiveis();
+			data_fim = model.getData_fim_form_disponiveis();
+			prioridade = model.getPrioridade_form_disponiveis();
+			break;
+		case CONTRIBUTOR:
+			proc_tp = model.getTipo_processo_colaborador();
+			num_proc = model.getNumero_processo_colaborador();
+			data_inicio = model.getData_inicio_colaborador();
+			data_fim = model.getData_fim_colaborador();
+			prioridade = model.getPrioridade_colaborador();
+			break;
+		case MANAGE_TASK:
+			proc_tp = model.getTipo_processo_gerir_tarefa();
+			num_proc = model.getNumero_processo_gerir_tarefa();
+			data_inicio = model.getData_inicio_gerir_tarefa();
+			data_fim = model.getData_fim_gerir_tarefa();
+			prioridade = model.getPrioridade_gerir_tarefa();
+			break;
+		case MY_TASK:
+			proc_tp = model.getTipo_processo_minhas_tarefas();
+			num_proc = model.getNumero_processo_minhas_tarefas();
+			data_inicio = model.getData_inicio_minhas_tarefas();
+			data_fim = model.getData_fim_minhas_tarefas();
+			prioridade = model.getPrioridade_minhas_tarefas();
+			break;
+		case STATISTIC:
+			status = model.getEstado_estatistica();
+			proc_tp = model.getTipo_processo_estatistica();
+			num_proc = model.getNumero_processo_estatistica();
+			data_inicio = model.getData_inicio_estatistica();
+			data_fim = model.getData_fim_estatistica();
+			prioridade = model.getPrioridade_estatistica();
+			break;
+		}
+		if (Core.isNotNull(proc_tp)) {
+			objTask.addFilter("processDefinitionId", proc_tp);
+		}
+		if (Core.isNotNull(num_proc)) {
+			objTask.addFilter("processInstanceId", num_proc);
+		}
+		if (Core.isNotNull(status)) {
+			objTask.addFilter("finished", status);
+		}
+		if (Core.isNotNull(data_inicio)) {
+			objTask.addFilter("taskCompletedAfter",
+					Core.ToChar(Core.ToChar(data_inicio, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		}
+		if (Core.isNotNull(data_fim)) {
+			objTask.addFilter("taskCompletedBefore",
+					Core.ToChar(Core.ToChar(data_fim, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		}
+		if (Core.isNotNull(prioridade)) {
+			objTask.addFilter("taskPriority", prioridade);
+		}
+	}
+	
+	private static final int MANAGE_TASK = 0;
+	private static final int CONTRIBUTOR = 1;
+	private static final int STATISTIC = 2;
+	private static final int MY_TASK = 3;
+	private static final int AVAILABLE = 4;
    /*----#end-code----*/
 	}

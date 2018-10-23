@@ -123,12 +123,20 @@ public class BPMNHelper {
 				.andWhere("tipo", "=","OUT")
 				.andWhere("repTemplate", "notnull")
 				.andWhere("repTemplate.application", "=",idApp)
-				.all();
+				.all();		
 		tipoDocs.stream().forEach(t->{
-			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()));
+			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam("taskId", getCurrentTaskId()));
  			 link.setLink_desc("Mostrar");
 			 t.setLink(link);
 		});
 		return tipoDocs;
+	}
+
+	private static String getCurrentTaskId() {
+		String taskId = Core.getParam("previewTaskId");
+		if(Core.isNull(taskId)) {
+			taskId = Core.getParam("taskId");
+		}
+		return taskId;
 	}
 }

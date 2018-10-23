@@ -304,7 +304,7 @@ public class Controller{
 	}
 	
 	protected final Response redirect(String app, String page, String action) throws IOException{
-		return this.redirect_(Route.toUrl(app, page, action));
+		return this.redirect_(Route.toUrl(app, page,  this.addParamDad(action)));
 	}
 	
 	protected final Response redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
@@ -322,10 +322,17 @@ public class Controller{
 	protected final Response forward(String app, String page, String action) {
 		Response resp = new Response();
 		resp.setType(3);
-		resp.setUrl(Route.toUrl(app, page, action));
+		resp.setUrl(Route.toUrl(app, page, this.addParamDad(action)));
 		return resp;
 	}
 	
+	private String addParamDad(String action) {
+		if(!action.contains("dad")) {
+			action+="&dad="+Core.getParam("dad");
+		}
+		return action;
+	}
+
 	protected final Response sendFile(File file, String name, String contentType, boolean download) {
 		byte []content = null;
 		try {

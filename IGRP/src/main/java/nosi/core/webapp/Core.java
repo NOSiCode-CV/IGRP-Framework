@@ -86,6 +86,81 @@ public final class Core { // Not inherit
 	private Core() {
 	} // Not instantiate
 
+	
+	/**
+	 * Get Current Application
+	 * 
+	 * @return {@code Core.findApplicationByDad(Core.getCurrentDad())}
+	 */
+	public static Application getCurrentApp() {
+		return Core.findApplicationByDad(Core.getCurrentDad());
+	}
+
+	/**
+	 * Get Current Application Dad on Cookie
+	 * 
+	 * @return {@code new Permission().getCurrentEnv();}
+	 */
+	public static String getCurrentDad() {
+		String dad = new Permission().getCurrentEnv();
+		return dad;
+	}
+
+	/**
+	 * Get Current Application Dad on the URL Example: dad/app/action
+	 * 
+	 * @return {@code new Permission().getCurrentEnv();}
+	 */
+	public static String getCurrentDadParam() {
+		String current_app_conn = Core.getParam("current_app_conn",false);
+		if(Core.isNotNull(current_app_conn)) {
+			return current_app_conn;
+		}
+		String r = Core.getParam("r"); 
+		r = Core.decrypt(r); 
+		String[] r_split = r.split("/");
+		return r_split[0];
+	}
+
+	/**
+	 * Get current Organization ID
+	 * 
+	 * @return {@code Organization integer ID}
+	 */
+	public static Integer getCurrentOrganization() {
+		return new Permission().getCurrentOrganization();
+	}
+
+	/**
+	 * Get current Profile ID
+	 * 
+	 * @return Profile integer ID
+	 */
+	public static Integer getCurrentProfile() {
+		return new Permission().getCurrentPerfilId();
+	}
+
+	/**
+	 * Get current user identity
+	 * 
+	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
+	 */
+	public static nosi.webapps.igrp.dao.User getCurrentUser() {
+		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
+	}
+
+	/**
+	 * Get Config Property
+	 * 
+	 * @param name of the config property
+	 * @return
+	 */
+	public static String getConfig(String name) {
+		nosi.webapps.igrp.dao.Config c = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", name).one();
+		return c != null ? c.getValue() : null;
+	}
+	
+	
 	/**
 	 * This method is used to add a message log
 	 * 
@@ -346,17 +421,6 @@ public final class Core { // Not inherit
 			return Double.parseDouble(value);
 		return defaultValue;
 	}
-
-	/**
-	 * 
-	 * @param values
-	 * @param keyField
-	 * @param valueField
-	 * @return
-	 */
-	public static Map<?, ?> toMap(List<?> values, String keyField, String valueField){
-		return IgrpHelper.toMap(values, keyField, valueField);
-	}
 	
 	/**
 	 * Verifies if the String is a Float, than returns the parse of it, else returns
@@ -404,6 +468,17 @@ public final class Core { // Not inherit
 		return DateHelper.formatDate(date, formatIn, formatOut);
 	}
 
+	/**
+	 * 
+	 * @param values
+	 * @param keyField
+	 * @param valueField
+	 * @return
+	 */
+	public static Map<?, ?> toMap(List<?> values, String keyField, String valueField){
+		return IgrpHelper.toMap(values, keyField, valueField);
+	}
+	
 	/**
 	 * Format date and return to Type String Example use
 	 * {@code Core.convertDate("11-10-2017", "dd-MM-yyyy", "dd-MM-yyyy h:mm")}
@@ -637,79 +712,7 @@ public final class Core { // Not inherit
 		return "";
 	}
 
-	/**
-	 * Get Current Application
-	 * 
-	 * @return {@code Core.findApplicationByDad(Core.getCurrentDad())}
-	 */
-	public static Application getCurrentApp() {
-		return Core.findApplicationByDad(Core.getCurrentDad());
-	}
-
-	/**
-	 * Get Current Application Dad on Cookie
-	 * 
-	 * @return {@code new Permission().getCurrentEnv();}
-	 */
-	public static String getCurrentDad() {
-		String dad = new Permission().getCurrentEnv();
-		return dad;
-	}
-
-	/**
-	 * Get Current Application Dad on the URL Example: dad/app/action
-	 * 
-	 * @return {@code new Permission().getCurrentEnv();}
-	 */
-	public static String getCurrentDadParam() {
-		String current_app_conn = Core.getParam("current_app_conn",false);
-		if(Core.isNotNull(current_app_conn)) {
-			return current_app_conn;
-		}
-		String r = Core.getParam("r"); 
-		r = Core.decrypt(r); 
-		String[] r_split = r.split("/");
-		return r_split[0];
-	}
-
-	/**
-	 * Get current Organization ID
-	 * 
-	 * @return {@code Organization integer ID}
-	 */
-	public static Integer getCurrentOrganization() {
-		return new Permission().getCurrentOrganization();
-	}
-
-	/**
-	 * Get current Profile ID
-	 * 
-	 * @return Profile integer ID
-	 */
-	public static Integer getCurrentProfile() {
-		return new Permission().getCurrentPerfilId();
-	}
-
-	/**
-	 * Get Config Property
-	 * 
-	 * @param name of the config property
-	 * @return
-	 */
-	public static String getConfig(String name) {
-		nosi.webapps.igrp.dao.Config c = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", name).one();
-		return c != null ? c.getValue() : null;
-	}
-
-	/**
-	 * Get current user identity
-	 * 
-	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
-	 */
-	public static nosi.webapps.igrp.dao.User getCurrentUser() {
-		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
-	}
-
+	
 	/**
 	 * Queey insert
 	 * 
@@ -1157,6 +1160,20 @@ public final class Core { // Not inherit
 		mapper.map(source, destination);
 	}
 
+	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2, Predicate<? super Integer> filter) {
+		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
+			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().filter(filter)
+					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
+		return null;
+	}
+
+	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
+		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
+			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed()
+					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
+		return null;
+	}
+	
 	public static SessionFactory getSessionFactory(String connectionName) {
 		return HibernateUtils.getSessionFactory(connectionName);
 	}
@@ -1241,16 +1258,7 @@ public final class Core { // Not inherit
 		return new Report().invokeReport(code_report, rep);
 	}
 
-	/**
-	 * Link for get file
-	 * 
-	 * 
-	 * @param p_id Unique file id
-	 * @return
-	 */
-	public static String getLinkFile(String p_id) {
-		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
-	}
+	
 
 	public static GenericServiceResponse getBizTalkClient(String clientId, String transaction, String service,
 			String args) {
@@ -1619,19 +1627,7 @@ public final class Core { // Not inherit
 		return cLob;
 	}
 
-	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2, Predicate<? super Integer> filter) {
-		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
-			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().filter(filter)
-					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
-		return null;
-	}
-
-	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
-		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
-			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed()
-					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
-		return null;
-	}
+	
 
 	/**
 	 * @throws ServletException
@@ -1691,6 +1687,17 @@ public final class Core { // Not inherit
 		return uF;
 	}
 
+	/**
+	 * Link for get file
+	 * 
+	 * 
+	 * @param p_id Unique file id
+	 * @return
+	 */
+	public static String getLinkFile(String p_id) {
+		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+	}
+	
 	public static Object unnserializeFromTask(Object obj, String json)
 			throws IllegalArgumentException, IllegalAccessException {
 		CustomVariableIGRP rows = new Gson().fromJson(json, CustomVariableIGRP.class);
