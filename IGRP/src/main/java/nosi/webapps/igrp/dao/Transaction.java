@@ -100,18 +100,19 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 	}
 
 	public boolean getPermission(String transaction) {
-		String sqlByProfile = "SELECT T.* FROM tbl_transaction T,tbl_profile P "
-				+ "	WHERE (T.id = P.type_fk "
-				+ " AND T.code=:code "
-				+ " AND T.status=1 "
+		String sqlByProfile = "SELECT T.* FROM tbl_transaction T,tbl_profile P"
+				+ "	WHERE (T.id = P.type_fk"
+				+ " AND T.code=:code"
+				+ " AND T.status=1"
 				+ "	AND P.type=:type"
-				+ " AND P.prof_type_fk=:prof_type_fk "
+				+ " AND P.prof_type_fk=:prof_type_fk"
 				+ " AND P.org_fk=:org_fk) "
-				+ " OR (P.type=:type "
+				+ " OR (T.id = P.type_fk "
+				+ "	AND P.type=:type_user"
 				+ " AND P.user_fk=:user_fk"
-				+ " AND T.code=:code "
-				+ " AND T.status=1 "
-				+ " AND P.prof_type_fk=:prof_type_fk "
+				+ " AND T.code=:code"
+				+ " AND T.status=1"
+				+ " AND P.prof_type_fk=:prof_type_fk"
 				+ " AND P.org_fk=:org_fk"
 				+ " )";
 		int x = Core.query(this.getConnectionName(), sqlByProfile)
@@ -119,7 +120,7 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 					.addInt("prof_type_fk", Core.getCurrentProfile())
 					.addInt("org_fk", Core.getCurrentOrganization())
 					.addString("code", transaction)
-					.addString("type", "TRANS_USER")
+					.addString("type_user", "TRANS_USER")
 					.addInt("user_fk", Core.getCurrentUser().getId())
 					.addString("code", transaction)
 					.addInt("prof_type_fk", Core.getCurrentProfile())
