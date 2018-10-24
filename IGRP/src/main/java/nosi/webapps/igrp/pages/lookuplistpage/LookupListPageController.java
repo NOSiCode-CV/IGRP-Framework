@@ -1,9 +1,7 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
 
-import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -165,7 +163,7 @@ public class LookupListPageController extends Controller {
 /*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
 		if(p_checkbox_fk!=null && Core.toInt(p_checkbox_fk,-1)!=-1) {
-			return  Core.insert(new ConfigApp().getBaseConnection(),"tbl_tipo_documento_etapa")
+			return  Core.insert(this.configApp.getBaseConnection(),"tbl_tipo_documento_etapa")
 					.addInt("status", 1)
 					.addInt(relation_type_id,Core.toInt(p_checkbox_fk))
 					.addString("processid", model.getProcessid())

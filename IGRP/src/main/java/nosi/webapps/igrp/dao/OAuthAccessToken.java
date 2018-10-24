@@ -1,7 +1,6 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import nosi.base.ActiveRecord.BaseActiveRecord;
 /**
  * Marcel Iekiny
  * Sep 16, 2017

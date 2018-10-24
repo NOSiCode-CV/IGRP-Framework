@@ -14,8 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet;
 
@@ -135,7 +133,7 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	
 	public List<TaskAccess> getCurrentTaskUnassigned(){
 		List<TaskAccess> list = new ArrayList<>();
-		ResultSet.Record r = Core.query("SELECT id, noAssumed, processKey, taskId, taskKey, user_fk FROM tbl_task_unassigned")
+		ResultSet.Record r = Core.query(this.getConnectionName(),"SELECT id, noAssumed, processKey, taskId, taskKey, user_fk FROM tbl_task_unassigned")
 								 .where("noAssumed=true")
 								 .getRecordList();
 		r.RowList.forEach(row->{

@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.gui.components.IGRPLink;
 
 /**

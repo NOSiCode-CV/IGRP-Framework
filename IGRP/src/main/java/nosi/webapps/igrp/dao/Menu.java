@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Column;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.core.webapp.helpers.EncrypDecrypt;

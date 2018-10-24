@@ -19,12 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.Tuple;
-
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.helpers.StringHelper;
 import static nosi.core.i18n.Translator.gt;
 

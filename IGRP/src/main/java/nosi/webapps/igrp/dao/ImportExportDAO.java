@@ -2,14 +2,11 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.Map;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**

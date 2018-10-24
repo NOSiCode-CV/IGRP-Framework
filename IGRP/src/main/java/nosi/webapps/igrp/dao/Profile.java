@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Core;
 
 
@@ -140,7 +139,7 @@ public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializab
 	}
 
 	public void deleteAllProfile() {
-		Core.delete("tbl_profile")
+		Core.delete(this.getConnectionName(),"tbl_profile")
 			.where("prof_type_fk=:prof_type_fk AND user_fk=:user_fk AND type=:type AND org_fk=:org_fk")
 			.addInt("prof_type_fk", this.getProfileType().getId())
 			.addInt("user_fk", this.getUser().getId())

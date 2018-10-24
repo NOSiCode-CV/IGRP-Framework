@@ -19,7 +19,6 @@ import java.util.List;
  import org.hibernate.Session;
  import org.hibernate.SessionFactory;
  import org.hibernate.Transaction;
-import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 
 

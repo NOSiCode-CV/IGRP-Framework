@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Identity;
 
 @Entity

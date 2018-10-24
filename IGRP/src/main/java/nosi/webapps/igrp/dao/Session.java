@@ -14,8 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.servlet.http.HttpServletRequest;
-
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
 
 

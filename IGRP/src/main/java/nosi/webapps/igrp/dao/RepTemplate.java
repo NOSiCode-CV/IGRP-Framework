@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import java.io.Serializable;
 
 @Entity
