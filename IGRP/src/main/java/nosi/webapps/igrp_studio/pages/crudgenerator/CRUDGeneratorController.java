@@ -150,7 +150,8 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-	
+	private ArrayList<File> files = new ArrayList<>();
+	private DatabaseMetadaHelper dmh = new DatabaseMetadaHelper();
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
 		String pageNameForm = Page.resolvePageName(tableName)+"Form";
 		String pageNameList = Page.resolvePageName(tableName)+"List";
@@ -267,7 +268,7 @@ public class CRUDGeneratorController extends Controller {
 				String path_class = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-				Boolean workspace= this.getConfig().getWorkspace().equals("");
+				Boolean workspace= !this.getConfig().getWorkspace().equals("");
 				String path_class_work_space = null;
 				if(workspace)
 					path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
@@ -291,7 +292,6 @@ public class CRUDGeneratorController extends Controller {
 		}
 		return false;
 	}
-	private ArrayList<File> files = new ArrayList<>();
-	private DatabaseMetadaHelper dmh = new DatabaseMetadaHelper();
+	
 	/*----#end-code----*/
 }

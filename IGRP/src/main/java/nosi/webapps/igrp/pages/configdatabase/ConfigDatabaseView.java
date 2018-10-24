@@ -63,7 +63,7 @@ public class ConfigDatabaseView extends View {
 		
 		nome_de_conexao = new TextField(model,"nome_de_conexao");
 		nome_de_conexao.setLabel(gt("Nome da conexão"));
-		nome_de_conexao.propertie().add("name","p_nome_de_conexao").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false");
+		nome_de_conexao.propertie().add("name","p_nome_de_conexao").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
 		
 		config = new SeparatorField(model,"config");
 		config.setLabel(gt("Config"));

@@ -33,9 +33,9 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tools.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/WSO2UserStub.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/conversion-box-v1.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json-me.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mssql-jdbc-6.4.0.jre8.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ojdbc8.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

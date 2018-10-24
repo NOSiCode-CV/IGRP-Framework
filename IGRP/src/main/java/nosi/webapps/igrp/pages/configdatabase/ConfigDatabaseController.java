@@ -33,7 +33,7 @@ public class ConfigDatabaseController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Mollit ipsum mollit rem anim' as nome_de_conexao_tabela,'Labore adipiscing dolor sit ap' as user_name_tabela,'Totam sit lorem magna accusant' as tipo_de_base_de_dados_tabela,'Aperiam aliqua doloremque anim' as t_url_connection,'Sit amet lorem aliqua voluptat' as t_driver_connection,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Elit dolor adipiscing stract i' as nome_de_conexao_tabela,'Ipsum anim iste anim laudantiu' as user_name_tabela,'Adipiscing magna rem omnis ame' as tipo_de_base_de_dados_tabela,'Accusantium voluptatem dolor t' as t_url_connection,'Sit aperiam laudantium aperiam' as t_driver_connection,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
