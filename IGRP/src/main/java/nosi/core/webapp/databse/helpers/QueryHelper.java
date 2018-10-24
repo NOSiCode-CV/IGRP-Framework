@@ -46,12 +46,12 @@ public abstract class QueryHelper implements QueryInterface{
 		}
 		this.columnsValue = new ArrayList<>();
 		this.connection = new nosi.core.config.Connection();
-		this.connectionName = this.getMyConnectionName(this.connectionName);
+		this.connectionName = this.getMyConnectionName(connectionName);
 	}	
 
-	private String getMyConnectionName(String connectionName) {
+	private String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
-			return connectionName;
+			return connectionName.toString();
 		return this.connection.getConfigApp().getH2IGRPBaseConnection();
 	}
 //	
