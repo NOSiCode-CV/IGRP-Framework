@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import nosi.base.ActiveRecord.BaseActiveRecord;
-
 /**
  * Iekiny Marcel
  * Mar 9, 2018

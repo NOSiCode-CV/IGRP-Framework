@@ -6,12 +6,9 @@ package nosi.webapps.igrp.dao;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-
 import static nosi.core.i18n.Translator.gt;
-
 import java.io.Serializable;
 import java.util.Map;
-
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 @Entity

@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
-import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
 @Table(name = "tbl_rep_source")
