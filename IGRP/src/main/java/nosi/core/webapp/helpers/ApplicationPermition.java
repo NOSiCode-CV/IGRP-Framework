@@ -6,8 +6,8 @@ package nosi.core.webapp.helpers;
 public class ApplicationPermition {
 
 	private String dad = "igrp";
-	private Integer profId;
-	private Integer ogrId;
+	private Integer profId = -1;
+	private Integer ogrId = -1;
 	
 	public ApplicationPermition() {
 		

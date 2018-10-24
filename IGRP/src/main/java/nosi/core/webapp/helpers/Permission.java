@@ -93,12 +93,16 @@ public class Permission {
 	public  Integer getCurrentPerfilId() {
 		String dad = Core.getParam("dad");
 		ApplicationPermition appP = (ApplicationPermition) Igrp.getInstance().getRequest().getSession().getAttribute(dad);
-		return appP!=null?appP.getProfId():-1;
+		if(appP!=null && appP.getProfId()!=null)
+			return appP.getProfId();
+		return -1;
 	}
 
 	public  Integer getCurrentOrganization() {
 		String dad = Core.getParam("dad");
 		ApplicationPermition appP = (ApplicationPermition) Igrp.getInstance().getRequest().getSession().getAttribute(dad);
-		return appP!=null?appP.getOgrId():-1;
+		if(appP!=null && appP.getOgrId()!=null)
+			return appP.getOgrId();
+		return -1;
 	}
 }
