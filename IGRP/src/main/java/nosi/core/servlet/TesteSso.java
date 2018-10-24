@@ -58,7 +58,7 @@ public class TesteSso extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//String token = request.getHeader("Authorization");
-		String token = request.getParameter("_t"); // _t = Token
+		String token = request.getParameter("_t"); // _t = Token 
 		String uid = "";
 		try {
 			token = token/*.replaceFirst("Basic ", "")*/.trim().replace("\n", "").replace("\r", "");
@@ -78,17 +78,25 @@ public class TesteSso extends HttpServlet {
 			return;
 		}
 		
+		System.out.println(uid);
+		
+		System.out.println("TokenDescodificado: " + token);
+		
 		Properties properties = this.load("common", "main.xml");
 		
-		String userEndpoint = properties.getProperty("oauth2.endpoint.user");
+		String userEndpoint = properties.getProperty("ids.wso2.oauth2.endpoint.user");
 		HttpURLConnection curl = (HttpURLConnection) URI.create(userEndpoint).toURL().openConnection();
 		curl.setDoInput(true);
+		
+		System.out.println("Leu endpoint ... ");
 		
 		curl.setRequestProperty("Authorization", "Bearer " + token);
 		curl.connect();
 		BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
 		
 		String result = br.lines().collect(Collectors.joining());
+		
+		System.out.println("Resultadp de wos2: " + result);
 		
 		int code = curl.getResponseCode();
 		
@@ -103,7 +111,9 @@ public class TesteSso extends HttpServlet {
 			JSONObject jToken = new JSONObject(result);
 			String aux = (String) jToken.get("sub");
 			
-			if(!aux.equals(uid)) {
+			System.out.println("Sub: " + aux);
+			
+			if(!aux.trim().equals(uid.trim())) {
 				response.setStatus(500);
 				response.setContentType("application/json");
 				response.getWriter().append("{\"error\": \"Token ou username inconsistentes.\"}");
@@ -253,8 +263,12 @@ public class TesteSso extends HttpServlet {
 					if(result1.length == 5)
 						conn.commit();
 					
+					
+					System.out.println("Inserido ");
+					
 				}else {
 					flag = false;
+					System.out.println("Não Inserido ");
 				}
 			}else {
 				userId = rs.getInt("id");
