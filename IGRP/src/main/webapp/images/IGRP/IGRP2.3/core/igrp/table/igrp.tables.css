@@ -270,11 +270,41 @@ table:not(.align) .table-ctx-holder li[invisible="true"]{
   margin:4px;
 }
 
-.dataTables_wrapper .dt-buttons{
-  display: none!important;
-  visibility: hidden!important
+.dataTables_length,
+.dataTables_info{
+  float: left;
+  text-align: left!important;
+  
+}
+.dataTables_filter,
+.dataTables_paginate{
+  float:right;
+  text-align: right!important;
 }
 
+.dataTables_length,
+.dataTables_filter{
+  width: 50%;
+  background: #fdfdfd;
+  padding: 10px 15px 0;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #f8f8f8;
+
+}
+
+.dataTables_wrapper .dt-buttons{
+    padding: 10px 15px;
+    background: #fdfdfd;
+    margin-bottom: 1px;
+    text-align: right;
+    border-bottom: 1px solid #f8f8f8;
+    clear: both;
+  /*display: none!important;
+  visibility: hidden!important*/
+}
+.dataTables_wrapper .dt-buttons a:not(:last-child){
+  margin-right: 10px;
+}
 
 .table-view-blocks .view-block img{
   width: 70px;

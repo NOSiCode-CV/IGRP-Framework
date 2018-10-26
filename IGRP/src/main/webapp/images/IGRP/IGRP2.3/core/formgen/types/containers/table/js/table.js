@@ -51,16 +51,40 @@ var GENTABLE = function(name,params){
 		]
 	};
 
-	var tableExportIncludes = [
+	/*var tableExportIncludes = [
 		{ path:'/core/igrp/table/igrp.table.export2.js'},
 		{ path:'/core/jspdf/js/jspdf.plugin.table.js'},
 		{ path:'/core/filesaver/filesaver.js'},
 		{ path:'/core/jspdf/js/bluebird.min.js'},
 		{ path:'/core/jspdf/js/jspdf.debug.js'},
 		{ path:'/core/jspdf/js/html2pdf.js'}
-	];
+	];*/
+	
+	var tableExportIncludes = [
+		
+		{ path:'/core/igrp/table/export/buttons.print.min.js'},
+		{ path:'/core/igrp/table/export/buttons.html5.min.js'},
+		{ path:'/core/igrp/table/export/vfs_fonts.js'},
+		{ path:'/core/igrp/table/export/pdfmake.min.js'},
+		{ path:'/core/igrp/table/export/jszip.min.js'},
+		{ path:'/core/igrp/table/export/buttons.flash.min.js'},
+		{ path:'/core/igrp/table/export/dataTables.buttons.min.js'}
+
+	]
 
 	var tableExportInc = false;
+	
+	function CheckExport(val){
+
+		var action = val ? 'show' : 'hide';
+		
+		$('.gen-properties-setts-holder [item-name="edit-export"]')[action]();
+
+		if(!val)
+
+			$('.gen-properties-setts-holder [item-name="edit-export"] select').val('').trigger('change');
+
+	};
 
 	container.ready = function(){
 
@@ -76,13 +100,6 @@ var GENTABLE = function(name,params){
 			value:false,
 			editable:false,
 			xslValue:'<xsl:apply-templates mode="context-param" select="context-menu" />'
-		});
-
-		container.setPropriety({
-			name:'dataTable',
-			label : 'Data Table',
-			value:true,
-			xslValue:'igrp-data-table'
 		});
 
 		container.setPropriety({
@@ -193,11 +210,38 @@ var GENTABLE = function(name,params){
 			},
 			onChange:function(v){
 				var set = v && v[0] ? true : false;
-				container.SET.exportTmpl(set);
+				
+				if(set)
+
+					for(var i = tableExportIncludes.length - 1; i >= 0; i--)
+
+						container.includes.js.push(tableExportIncludes[i])
+
 			}
 		});
+		
 
+		
 		container.setPropriety({
+			name:'dataTable',
+			label : 'Data Table',
+			value:true,
+			xslValue:'igrp-data-table',
+			onEditionStart:function(){
+				
+				CheckExport( container.GET.dataTable() );
+				
+				$('.gen-properties-setts-holder').on('change','[item-name="edit-dataTable"] input', function(){
+					
+					CheckExport( $(this).is(':checked') )
+
+				});
+
+			},
+			//editable:false
+		});
+
+		/*container.setPropriety({
 			name:'exportTmpl',
 			value:false,
 			editable:false,
@@ -216,7 +260,7 @@ var GENTABLE = function(name,params){
 
 					if(!tableExportInc){
 						tableExportIncludes.forEach(function(e){
-							container.includes.js.unshift(e);
+							container.includes.js.push(e);
 						});
 						tableExportInc = true;
 					}					
@@ -236,7 +280,7 @@ var GENTABLE = function(name,params){
 				}
 				
 			}			
-		});
+		});*/
 
 		container.setPropriety({
 			name:'ctxInlineTmpl',

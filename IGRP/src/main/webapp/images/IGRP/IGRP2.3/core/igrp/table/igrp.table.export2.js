@@ -39,7 +39,7 @@
 			    
 			    tab_text = tab_text + '</table></body></html>';
 
-			    var fileName = name + '_' + parseInt(Math.random() * 10000000000) + '.xls';
+			    var fileName = name + '_' + parseInt(Math.random() * 10000000000) + '.xlsx';
 			    
 			    var blob = new Blob([tab_text], { type: "application/vnd.ms-excel" });
 

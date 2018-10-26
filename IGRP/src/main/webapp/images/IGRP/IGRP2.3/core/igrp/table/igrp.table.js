@@ -4,6 +4,34 @@
 
 	var lang = document.cookie.split(';');
 	
+	var exportOptions = {
+
+			pdf : {
+	           extend          : 'pdfHtml5',
+	           text            : '<i class="fa fa-file-pdf-o"></i> PDF',
+	           titleAttr       : 'Exportar para PDF',
+	           className 	   : 'btn btn-danger btn-xs',
+	           exportOptions   : {
+	               columns     : ':not(.igrp-table-ctx-th)'
+	           },
+	           customize: function (doc) {
+	        	   console.log(doc)
+	        	    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+	           }
+	       },
+
+	       excel : {
+	           extend          : 'excelHtml5',
+	           text            : '<i class="fa fa-file-excel-o"></i> Excel',
+	           titleAttr       : 'Exportar para Excel',
+	           className 	   : 'btn btn-success btn-xs',
+	           exportOptions   : {
+	               columns     : ':not(.igrp-table-ctx-th)'
+	           }
+	       }
+
+		};
+	
 	$.IGRP.component('tableCtrl',{
 
 		dataTable : function(options){
@@ -21,38 +49,68 @@
 
 				tables.each(function(i,t){
 					
-					var legendBox = $(t).prev('.box-table-legend');
-					
-					var table = $(t).DataTable({	
-						
-						language: {
-				            url: path+'/core/igrp/table/datatable/language/'+o.language+'.json'				        
-				        },
-				        order 		: [],
-						columnDefs	: [{
-					      	targets 	: 'no-sort',
-					      	orderable : false
-					    }],
-					    lengthMenu: [[20, 50, -1], [20, 50, "All"]],
-					    
-					    buttons: [
-				            'copy', 'csv', 'excel', 'pdf', 'print'
-				        ],
-					    
-				        initComplete:function(){	
-				        	
-				        	if(legendBox[0])
-				        		legendBox.prependTo($(t).parent());
-				        
-				        }
+					var headerContents = $(t).parents('.box-table-contents').first().find('.table-contents-head'),
 
-					});
-					
-					/*var exportHolder = $(t).parents('.box-table-contents').find('.table-export-options');
+						tableTitle 	   = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
 
-					console.log( table.buttons() )
-					table.buttons().container()
-				        .appendTo( exportHolder );*/
+						exprts 		   = $(t).attr('exports'),
+
+						options 	   = {
+
+							dom: 'lfrtip',
+
+							language: {
+
+					            url: path+'/core/igrp/table/datatable/language/'+o.language+'.json'	
+
+					        },
+					        stateSave   : true,
+
+					        order  		: [],
+
+							columnDefs	: [{
+
+						      	targets   : 'no-sort',
+
+						      	orderable : false
+
+						    }],
+
+					        initComplete:function(){}
+
+						};
+
+					if(exprts){
+
+						var expArr = exprts.split(',');
+
+						options.buttons = [];
+
+						expArr.forEach(function(e){
+
+							var eOpts = exportOptions[e];
+
+							if(eOpts){
+								
+								eOpts.title = tableTitle;
+
+								options.buttons.push( eOpts );
+
+							}
+							
+						});
+
+						options.dom = 'lfBrtip';
+
+					};
+
+					var datatable = $(t).DataTable(options)
+
+					$.IGRP.on('submit',function(o){
+
+						datatable.destroy();
+
+	            	});
 					
 				});
 
