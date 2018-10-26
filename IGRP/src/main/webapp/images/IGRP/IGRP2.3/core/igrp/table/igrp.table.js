@@ -15,8 +15,10 @@
 	               columns     : ':not(.igrp-table-ctx-th)'
 	           },
 	           customize: function (doc) {
-	        	   console.log(doc)
-	        	    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+	        	   var tcontent = doc.content[1] || doc.content[0];
+	        	   
+	        	   if(tcontent && tcontent.table)
+	        		   tcontent.table.widths = Array(tcontent.table.body[0].length + 1).join('*').split('');
 	           }
 	       },
 
