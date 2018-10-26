@@ -37,6 +37,12 @@ public class ApplicationPermition {
 	}
 	public void setOgrId(Integer ogrId) {
 		this.ogrId = ogrId;
+	}
+
+	@Override
+	public String toString() {
+		return "ApplicationPermition [dad=" + dad + ", profId=" + profId + ", ogrId=" + ogrId + "]";
 	}	
+	
 	
 }

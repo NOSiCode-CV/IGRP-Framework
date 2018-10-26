@@ -214,34 +214,36 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						 .addInt("user_fk", Core.getCurrentUser().getId())
 						 .orderBy(new String[] {"orderby","ASC"})
 						 .getRecordList();
-		row.RowList.forEach(r->{
-			//Get Menu Pai
-			MenuProfile mp = new MenuProfile();
-			mp.setId(r.getInt("id"));
-			mp.setOrder(r.getInt("orderby"));
-			mp.setTitle(r.getString("descr_menu_pai"));
-			mp.setTarget("#");
-			mp.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
-			//Get subMenu
-			MenuProfile ms = new MenuProfile();
-			ms.setId(r.getInt("id"));
-			ms.setOrder(r.getInt("orderby"));
-			ms.setTitle(r.getString("descr"));
-			ms.setTarget(r.getString("target"));
-			ms.setStatus(r.getShort("status"));
-			
-			ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
-			//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);
-			
-			ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
-			
-			List<MenuProfile> value = new ArrayList<>();
-			value.add(ms);
-			if(list.containsKey(r.getString("descr_menu_pai"))){
-				value.addAll(list.get(r.getString("descr_menu_pai")));
-			}
-			list.put(r.getString("descr_menu_pai"), value);
-		});
+		if(row.RowList!=null) {
+			row.RowList.forEach(r->{
+				//Get Menu Pai
+				MenuProfile mp = new MenuProfile();
+				mp.setId(r.getInt("id"));
+				mp.setOrder(r.getInt("orderby"));
+				mp.setTitle(r.getString("descr_menu_pai"));
+				mp.setTarget("#");
+				mp.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
+				//Get subMenu
+				MenuProfile ms = new MenuProfile();
+				ms.setId(r.getInt("id"));
+				ms.setOrder(r.getInt("orderby"));
+				ms.setTitle(r.getString("descr"));
+				ms.setTarget(r.getString("target"));
+				ms.setStatus(r.getShort("status"));
+				
+				ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+				//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);
+				
+				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
+				
+				List<MenuProfile> value = new ArrayList<>();
+				value.add(ms);
+				if(list.containsKey(r.getString("descr_menu_pai"))){
+					value.addAll(list.get(r.getString("descr_menu_pai")));
+				}
+				list.put(r.getString("descr_menu_pai"), value);
+			});
+		}
 		return list;
 	}
 

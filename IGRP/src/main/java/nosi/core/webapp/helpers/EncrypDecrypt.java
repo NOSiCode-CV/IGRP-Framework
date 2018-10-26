@@ -9,10 +9,8 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.Action;
 
 public class EncrypDecrypt {
 
@@ -53,19 +51,19 @@ public class EncrypDecrypt {
 		return content;
 	}
 	
-	public boolean isPublicUrl() {
-		boolean flag = false;
-		try {
-			String r = Igrp.getInstance().getRequest().getParameter("r");
-			String aux[] = r.split("/");
-			String dad = aux[0];
-			String page = aux[1];
-			//flag = new Action().isPublicPage(dad, page); 
-		}catch(Exception e) {
-			
-		}
-		return flag;
-	}
+//	public boolean isPublicUrl() {
+//		boolean flag = false;
+//		try {
+//			String r = Igrp.getInstance().getRequest().getParameter("r");
+//			String aux[] = r.split("/");
+//			String dad = aux[0];
+//			String page = aux[1];
+//			//flag = new Action().isPublicPage(dad, page); 
+//		}catch(Exception e) {
+//			
+//		}
+//		return flag;
+//	}
 
 	private String getSecretKey() {
 		if(this.SECRET_KEY==null)

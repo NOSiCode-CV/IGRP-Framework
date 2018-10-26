@@ -1939,4 +1939,14 @@ public final class Core { // Not inherit
 	private Core() {
 	} // Not instantiate
 
+
+	public static String toJson(Object appP) {
+		if(appP!=null)
+			return new Gson().toJson(appP);
+		return "";
+	}
+
+	public static Object  fromJson(String json, Class<?> classOfT) {
+		return new Gson().fromJson(json, classOfT);
+	}
 }
