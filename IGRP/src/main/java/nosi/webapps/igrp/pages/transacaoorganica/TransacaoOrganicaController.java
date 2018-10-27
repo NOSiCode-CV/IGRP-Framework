@@ -30,7 +30,7 @@ public class TransacaoOrganicaController extends Controller {
 		int id=model.getId();
         String type= model.getType();
 	
-		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){		
+		if(Core.isInt(id) && Core.isNotNull(type)){		
 			
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
 			List<Transaction> transactions = null;
@@ -45,8 +45,8 @@ public class TransacaoOrganicaController extends Controller {
 					transactions = new Organization().getPerfilTransaction(p.getOrganization().getId(),p.getId());
 				else
 					transactions = new Organization().getPerfilTransaction(1,p.getId());
-			} else if(model.getType().equalsIgnoreCase("user")) {
-				profile = new Profile().findOne(model.getId());
+			} else if(type.equalsIgnoreCase("user")) {
+				profile = new Profile().findOne(id);
 		      	user = new User().findIdentityByEmail(Core.getParam("userEmail"));
 		      	if(user!=null && profile!=null)
 					transactions = new Organization().getOrgTransactionByUser(profile.getOrganization().getId(),user.getId());

@@ -55,7 +55,7 @@ public class NovaOrganicaController extends Controller {
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
 			Organization organization = new Organization();		
-			organization.setCode(model.getCodigo()+"."+model.getAplicacao());
+			organization.setCode(model.getCodigo()+"."+Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
 			/*
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new

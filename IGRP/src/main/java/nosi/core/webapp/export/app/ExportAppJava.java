@@ -82,8 +82,9 @@ public class ExportAppJava {
 			String pathHc = new Config().getBasePathClass();
 			List<StoredConfigDB> stconfigs = new ArrayList<>();
 			configs.stream().forEach(c->{
-				StoredConfigDB stc = new StoredConfigDB();
+				StoredConfigDB stc = new StoredConfigDB();				
 				Core.mapper(c, stc);
+				stc.setPassword("");
 				stconfigs.add(stc);
 				JavaClasse jcHC = new JavaClasse();
 				jcHC.setName(c.getName()+".cfg.xml");

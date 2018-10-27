@@ -57,8 +57,8 @@ public class NovoPerfilController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
-	   		ProfileType pt = new ProfileType();    
-			pt.setCode(model.getCodigo());
+	   		ProfileType pt = new ProfileType();  
+	   		pt.setCode(model.getCodigo()+"."+Core.findApplicationById(model.getAplicacao()).getDad());			
 			pt.setDescr(model.getNome());
 			pt.setOrganization(new Organization().findOne(model.getOrganica()));
 			/*
