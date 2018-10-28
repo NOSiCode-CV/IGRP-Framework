@@ -58,6 +58,7 @@ public class MenuOrganica extends Model{
 		private int menu;
 		private int menu_check;
 		private String descricao;
+		private String app;
 		public void setMenu(int menu){
 			this.menu = menu;
 		}
@@ -76,6 +77,13 @@ public class MenuOrganica extends Model{
 		}
 		public String getDescricao(){
 			return this.descricao;
+		}
+
+		public void setApp(String app){
+			this.app = app;
+		}
+		public String getApp(){
+			return this.app;
 		}
 
 	}

@@ -11,6 +11,7 @@ public class MenuOrganicaView extends View {
 	public Field menu;
 	public Field menu_check;
 	public Field descricao;
+	public Field app;
 	public Field id;
 	public Field type;
 	public IGRPTable table_1;
@@ -40,6 +41,10 @@ public class MenuOrganicaView extends View {
 		descricao.setLabel(gt("Nome"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
 		
+		app = new HiddenField(model,"app");
+		app.setLabel(gt(""));
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","30").add("tag","app");
+		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id");
@@ -68,6 +73,7 @@ public class MenuOrganicaView extends View {
 		table_1.addField(menu);
 		table_1.addField(menu_check);
 		table_1.addField(descricao);
+		table_1.addField(app);
 
 
 		form_1.addField(id);
@@ -86,6 +92,7 @@ public class MenuOrganicaView extends View {
 		
 		menu.setValue(model);
 		descricao.setValue(model);
+		app.setValue(model);
 		id.setValue(model);
 		type.setValue(model);	
 

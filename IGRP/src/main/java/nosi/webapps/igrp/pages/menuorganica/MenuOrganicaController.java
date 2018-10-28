@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,19 +15,19 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 /*----#end-code----*/
-
-public class MenuOrganicaController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class MenuOrganicaController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		MenuOrganica model = new MenuOrganica();
 		model.load();
 		MenuOrganicaView view = new MenuOrganicaView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 'menu' as menu,'descricao' as descricao "));
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Aperiam sed ipsum anim sit' as descricao,'1' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
     
@@ -42,7 +44,7 @@ public class MenuOrganicaController extends Controller {
 				if(p.getOrganization()!=null)
 				  menus = new Organization().getPerfilMenu(p.getOrganization().getId(),p.getId()); 
 				else
-					  menus = new Organization().getPerfilMenu(1,p.getId()); 
+				  menus = new Organization().getPerfilMenu(1,p.getId()); 
 				//new menu button invisible
                 view.btn_novo.setVisible(false);              
 			}else if(model.getType().equalsIgnoreCase("user")) {
@@ -61,14 +63,20 @@ public class MenuOrganicaController extends Controller {
 					} else {
 						table.setMenu_check(-1);
 					}
-					
+		
 					Menu aux = m.find().andWhere("id", "=", m.getId()).one();
-					if(aux.getApplication() != null && aux.getApplication().getId() != env_fk)
+					if(aux.getApplication() != null && aux.getApplication().getId() != env_fk) {
 						table.setDescricao(m.getDescr() + " (" + aux.getApplication().getDad() + ")");
-					else
+						table.setApp("public");
+						}
+					else {
 						table.setDescricao(m.getDescr());
+						table.setApp("env");
+					}
 					
 					data.add(table);
+					data.sort(Comparator.comparing(MenuOrganica.Table_1::getApp));
+					
 				}
 				
 			}
@@ -89,15 +97,13 @@ public class MenuOrganicaController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		MenuOrganica model = new MenuOrganica();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 		Organization organization = new Organization();
@@ -116,20 +122,14 @@ public class MenuOrganicaController extends Controller {
 		return this.redirect("igrp","MenuOrganica","index", this.queryString());	
 	}
 	
-
-
-	
-
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		MenuOrganica model = new MenuOrganica();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(novo)----*/
 		int env_fk = Core.getParamInt("env_fk");
 		this.addQueryString("app",env_fk); //to send a query string in the URL
@@ -138,10 +138,17 @@ public class MenuOrganicaController extends Controller {
 			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	private User userAdmin = new User().getUserAdmin();
 	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
+	
+	class SortbyStatus implements Comparator<MenuOrganica.Table_1> {   
+		public int compare(MenuOrganica.Table_1 a, MenuOrganica.Table_1  b) {       
+			return b.getMenu() - a.getMenu();      
+			}
+
+		}
 	
 	private void deleteOldMenu(MenuOrganica model) {
 		List<ProfileType> list = null;
@@ -242,4 +249,4 @@ public class MenuOrganicaController extends Controller {
 		Core.setMessageSuccess();
 	}
 	/*----#end-code----*/
-	}
+}

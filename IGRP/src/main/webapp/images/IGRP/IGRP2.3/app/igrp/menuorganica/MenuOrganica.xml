@@ -56,33 +56,39 @@
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </descricao>
+                <app name="p_app" type="hidden" maxlength="30" iskey="false" tag="app"/>
             </fields>
             <table>
                 <value>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Mollit rem totam iste anim</descricao>
+                        <descricao name="p_descricao">Iste consectetur totam aliqua</descricao>
+                        <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Totam rem labore ut rem</descricao>
+                        <descricao name="p_descricao">Dolor unde doloremque aliqua a</descricao>
+                        <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sed accusantium aliqua ut sed</descricao>
+                        <descricao name="p_descricao">Officia stract sed stract labo</descricao>
+                        <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Magna lorem totam perspiciatis</descricao>
+                        <descricao name="p_descricao">Adipiscing lorem sit amet sit</descricao>
+                        <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Unde perspiciatis officia dolo</descricao>
+                        <descricao name="p_descricao">Amet aperiam sed magna ut</descricao>
+                        <app name="p_app" tag="app">1</app>
                     </row>
                 </value>
             </table>
