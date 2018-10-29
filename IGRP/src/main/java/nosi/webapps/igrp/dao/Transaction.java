@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.core.webapp.Core;
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 
 @Entity
 @Table(name="tbl_transaction")
@@ -33,7 +32,7 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 	@Column(nullable=false)
 	private String descr;
 	private int status;
-	@ManyToOne(cascade=CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="TRANSACTION_SOURCE_ENV_FK"),nullable=false)
 	private Application application;
 	@Transient
