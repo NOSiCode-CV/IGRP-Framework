@@ -1,13 +1,10 @@
 package nosi.webapps.igrp.pages.transaccao;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import java.util.ArrayList;
@@ -48,7 +45,7 @@ public class TransaccaoController extends Controller {
 			table_1.add(table);
 		}		
 		
-		view.btn_eliminar.setVisible(false);
+		//view.btn_eliminar.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
 //		view.organica.setValue(new Organization().getListMyOrganizations());
 		view.table_1.addData(table_1);
