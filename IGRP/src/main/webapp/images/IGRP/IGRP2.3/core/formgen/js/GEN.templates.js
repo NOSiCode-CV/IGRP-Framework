@@ -50,7 +50,31 @@ var TEMPLATES = {
 		
 
 			if(!TEMPLATES.container[p.name] || !TEMPLATES.container[p.name].template){
+				
 				$.ajax({
+					url: TEMPLATES.path+'/types/'+p.genType+'s/'+p.name+'/'+p.name+'.html',
+					success:function(html){
+						
+						var temp = html;
+
+						TEMPLATES.SET.container({
+							name:p.name,
+							template:temp
+						});
+
+						tReady = true;
+						
+						if(tReady && ftReady)
+							if(p.callback) p.callback(TEMPLATES.container[p.name]);
+					},
+					error:function(e){
+						if(p.error) 
+							p.error(e); 
+					}
+				});
+				
+				
+				/*$.ajax({
 					url: fileExistsURL+p.genType+'s/'+p.name+'/'+p.name+'.html',
 					success:function(r){
 						//console.log(r);
@@ -104,7 +128,9 @@ var TEMPLATES = {
 						//if(p.error) p.error(e); 
 						
 					}
-				});
+				});*/
+				
+				
 			}else{
 				tReady = true;
 			}
@@ -113,8 +139,30 @@ var TEMPLATES = {
 
 				//console.log(p.genType)
 				if(!TEMPLATES.container[p.name] || !TEMPLATES.container[p.name].fields[fieldTemp] ){
-					
 					$.ajax({
+						url:  TEMPLATES.path+'/types/'+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
+						success:function(fieldhtml){
+							var temp =fieldhtml;
+				
+							TEMPLATES.SET.container({
+								name:p.name,
+								field:{
+									name:fieldTemp,
+									html:fieldhtml
+								}
+							});
+
+							
+						},
+						complete:function(e,i){
+							ftReady = true;
+							
+							if(tReady && ftReady)
+								if(p.callback) p.callback(TEMPLATES.container[p.name]);
+
+						}
+					});
+					/*$.ajax({
 						url:  fileExistsURL+p.genType+'s/'+p.name+'/'+fieldTemp+'.html',
 						
 						error : function(e){
@@ -160,16 +208,6 @@ var TEMPLATES = {
 								});
 								
 							}
-							/*var temp =fieldhtml;
-				
-							TEMPLATES.SET.container({
-								name:p.name,
-								field:{
-									name:fieldTemp,
-									html:fieldhtml
-								}
-							});*/
-
 							
 						},
 						complete:function(e,i){
@@ -179,7 +217,9 @@ var TEMPLATES = {
 								if(p.callback) p.callback(TEMPLATES.container[p.name]);
 
 						}
-					});
+					});*/
+					
+					
 				}else{
 					ftReady = true;
 				}
