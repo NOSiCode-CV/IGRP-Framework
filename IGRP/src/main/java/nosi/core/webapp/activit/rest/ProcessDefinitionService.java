@@ -70,6 +70,13 @@ public class ProcessDefinitionService extends Activit{
 		return process;
 	}
 	
+	
+	public ProcessDefinitionService getLatestProcessDefinitionByKey(String processKey,String tenantId){
+		this.setFilter("?key="+processKey+"&latest=true&tenantId="+tenantId);
+		List<ProcessDefinitionService> list = this.getProcessDefinitions();		
+		return list!=null && list.size() > 0?list.get(0):null;
+	}
+	
 	public String getDiagram(String url){
 		String d = null;
 		new RestRequest().setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
@@ -351,11 +358,19 @@ public class ProcessDefinitionService extends Activit{
 		return map;
 	}
 	
-	public List<TaskService> getTasks(String processId){
+	public Map<String,String> mapToComboBoxByKey(String idApp) {
+		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivosToCombox(idApp);
+		Map<String,String> map = new HashMap<>();
+		map.put(null, "--- Selecionar Processo ----");
+		map.putAll(list.stream().collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
+		return map;
+	}
+	
+	public List<TaskService> getTasksByProcessDefinitionId(String processDefinitionId){
 		List<TaskService> list = new ArrayList<>();
 		RestRequest req=new RestRequest();
 		req.setAccept_format(MediaType.APPLICATION_XML);
-		Response response = req.get("repository/process-definitions/"+processId+"/resourcedata");
+		Response response = req.get("repository/process-definitions/"+processDefinitionId+"/resourcedata");
 		if(response!=null){
 			InputStream is = (InputStream) response.getEntity();
 			try {
@@ -369,6 +384,27 @@ public class ProcessDefinitionService extends Activit{
 		return list;
 	}
 
+	public List<TaskService> getTasksByProcessKey(String processKey, String tenantId) {
+		List<TaskService> list = new ArrayList<>();
+		ProcessDefinitionService processD = this.getLatestProcessDefinitionByKey(processKey, tenantId);
+		if (processD != null && processD.getId()!=null) {
+			RestRequest req = new RestRequest();
+			req.setAccept_format(MediaType.APPLICATION_XML);
+			Response response = req.get("repository/process-definitions/" + processD.getId() + "/resourcedata");
+			if (response != null) {
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					String xml = FileHelper.convertToString(is);
+					list = this.extractTasks(xml, false);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
 	public List<TaskService> extractTasks(String xml,boolean includeStartProcess) {
 		List<TaskService> list = new ArrayList<>();
 		xml = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey", "formKey");

@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.datasource;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -71,6 +69,7 @@ public class DataSourceController extends Controller {
 				model.setData_source(listDSbyEnv.keySet().stream().filter(a->a!=null).findFirst().get().toString());
 			}
 			String id = Core.getParam("p_datasorce_app");
+			String ichange = Core.getParam("ichange");
 			if(Core.isNotNull(id)){
 				RepSource rep = new RepSource().findOne(Integer.parseInt(id));
 				model.setNome(rep.getName());
@@ -80,14 +79,17 @@ public class DataSourceController extends Controller {
 				if(rep.getConfig_env()!=null) {
 					model.setData_source(""+rep.getConfig_env().getId());
 				}
-				model.setEtapa(rep.getTaskid());
-				model.setProcesso(rep.getProcessid());
+				if(Core.isNull(ichange)) {
+					model.setEtapa(rep.getTaskid());
+					model.setProcesso(rep.getProcessid());
+				}
 				if(rep.getType_name().equalsIgnoreCase("page")) {
 					Action ac = new Action().findOne(rep.getType_fk());
 					model.setPagina(ac.getPage_descr());
 					model.setId_pagina(ac.getId());
 				}
 			}
+			Application app = new Application().findOne(Core.toInt(model.getId_env()));
 			view.pagina.setLookup("igrp","LookupListPage","index");
 			view.pagina.addParam("p_prm_target","_blank");
 			view.pagina.addParam("p_id_pagina", "id");
@@ -108,10 +110,9 @@ public class DataSourceController extends Controller {
 					if(model.getTipo().equalsIgnoreCase("task")){
 					view.etapa.setVisible(true);
 					view.processo.setVisible(true);
-					Application app = new Application().findOne(Core.toInt(model.getId_env()));
 					if(app!=null) {
 						//Get Process Type
-						view.processo.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
+						view.processo.setValue(new ProcessDefinitionService().mapToComboBoxByKey(app.getDad()));
 					}
 				}
 			}
@@ -120,12 +121,13 @@ public class DataSourceController extends Controller {
 				view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
 			}
 			view.btn_fechar.setVisible(false);
+			if(Core.isNotNull(model.getProcesso())) {
+				view.etapa.setValue(new TaskService().mapToComboBoxByProcessKey(model.getProcesso(),app.getDad()));
+			}
 		}
 		
 		view.nome.setVisible(true);
-		if(Core.isNotNull(model.getProcesso())) {
-			view.etapa.setValue(new TaskService().mapToComboBox(model.getProcesso()));
-		}
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -144,6 +146,7 @@ public class DataSourceController extends Controller {
 		
   		this.addQueryString("p_id_env",model.getId_env());
 		if(Core.isNotNull(model.getId_env())){
+			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
 			RepSource rep = new RepSource();
 			rep.setName(model.getNome());
 			rep.setType(model.getTipo());
@@ -169,19 +172,20 @@ public class DataSourceController extends Controller {
 					return this.forward("igrp","DataSource","index&id_env="+model.getId_env());
 				}
 			}
+		
 			if(model.getTipo().equalsIgnoreCase("task")) {
-				ProcessDefinitionService p = new ProcessDefinitionService().getProcessDefinition(model.getProcesso());
-				if(p.filterAccess(p)) {
-					rep.setProcessid(p.getId());
+				ProcessDefinitionService p = new ProcessDefinitionService().getLatestProcessDefinitionByKey(model.getProcesso(),app.getDad());				
+				//if(p.filterAccess(p)) {
+					rep.setProcessid(p.getKey());
 					rep.setTaskid(model.getEtapa());
 					rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
-					List<TaskService> task = p.getTasks(model.getProcesso()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
+					List<TaskService> task = p.getTasksByProcessKey(model.getProcesso(),app.getDad()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
 					rep.setFormkey((task!=null && !task.isEmpty())?task.get(0).getFormKey():"");
-				}else {
+				/*}else {
 					throw new IOException(Core.NO_PERMITION_MSG);
-				}
+				}*/
 			}
-			Application app = new Application().findOne(Integer.parseInt(model.getId_env()));
+			
 			rep.setApplication(app);
 			rep.setStatus(1);
 			rep.setApplication_source(app);

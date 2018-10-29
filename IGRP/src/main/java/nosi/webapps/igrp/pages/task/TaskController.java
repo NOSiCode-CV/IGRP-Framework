@@ -14,27 +14,29 @@ import java.util.ArrayList;
 public class TaskController extends Controller {		
 
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Task model = new Task();
 		model.load();
+		TaskView view = null;
 		List<Task.Table_1> data = new ArrayList<>();
-		if(Core.isNotNull(model.getProcesso())) {
-			new ProcessDefinitionService().getTasks(model.getProcesso()).stream().forEach(t->{
-				Task.Table_1 t1 = new Task.Table_1();
-				t1.setSelecionar(t.getProcessDefinitionId()+"_"+t.getId());
-				t1.setDescricao(t.getName());
-				data.add(t1);
-			});
+		if (Core.isNotNull(model.getAplicacao())) {
+			Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
+			if (Core.isNotNull(model.getProcesso())) {
+				new ProcessDefinitionService().getTasksByProcessKey(model.getProcesso(),app.getDad()).stream().forEach(t -> {
+					Task.Table_1 t1 = new Task.Table_1();
+					t1.setSelecionar(t.getProcessDefinitionId() + "_" + t.getId());
+					t1.setDescricao(t.getName());
+					data.add(t1);
+				});
+			}
+			view = new TaskView(model);
+			view.table_1.addData(data);
+			if (app != null) {
+				view.processo.setValue(new ProcessDefinitionService().mapToComboBoxByKey(app.getDad()));
+			}
+			view.aplicacao.setValue(new Application().getListApps());
 		}
-		TaskView view = new TaskView(model);
-		view.table_1.addData(data);
-		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
-		if(app!=null) {
-			view.processo.setValue(new ProcessDefinitionService().mapToComboBox(app.getDad()));
-		}
-		view.aplicacao.setValue(new Application().getListApps());
-		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
