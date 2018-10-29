@@ -573,10 +573,10 @@ public class TaskService extends Activit{
 		}
 		return "";
 	}
-
-	public Map<String, String> mapToComboBox(String processo) {
-		if(Core.isNotNull(processo)) {
-			List<TaskService> list = new ProcessDefinitionService().getTasks(processo);
+	
+	public Map<String, String> mapToComboBoxByProcessKey(String processKey,String tenantId) {
+		if(Core.isNotNull(processKey)) {
+			List<TaskService> list = new ProcessDefinitionService().getTasksByProcessKey(processKey, tenantId);
 			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());//Remove Duplicate
 			Map<String, String> map = listDistint.stream().collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName));
 			return map;
