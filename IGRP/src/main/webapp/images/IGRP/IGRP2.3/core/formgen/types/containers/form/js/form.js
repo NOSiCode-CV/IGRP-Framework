@@ -56,25 +56,25 @@ var GENFORM = function(name,params){
 		GEN.setFormFieldAttr(field);
 	}
 
-	container.ready = function(){
-		container.setProperty({
-			name:'template',
-			value:{
-				value  : 'form',
-				options : [
-					{
-						label : 'Form',
-						value : 'form'
-					},
-					{
-						label : 'Filter',
-						value : 'filter'
-					}
-				]
-			}
-		})
-		//console.log('dsaljdhlsakdbhaslkd')
-	}
+	// container.ready = function(){
+	// 	container.setProperty({
+	// 		name:'template',
+	// 		value:{
+	// 			value  : 'form',
+	// 			options : [
+	// 				{
+	// 					label : 'Form',
+	// 					value : 'form'
+	// 				},
+	// 				{
+	// 					label : 'Filter',
+	// 					value : 'filter'
+	// 				}
+	// 			]
+	// 		}
+	// 	})
+	// 	//console.log('dsaljdhlsakdbhaslkd')
+	// }
 	
 	
 

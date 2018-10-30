@@ -1,16 +1,16 @@
 <div class="box box-table-contents">
 	<div class="box-body ">
-		<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+		<!--<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>-->
 		<div class="table-contents-head">
 			<div class="table-contents-inner">
-				#[exportTmpl]#
+				
 				#[hasColorTmpl]#
 		  		#[filterTemplate]#
 		  	</div>
 		</div>
 		<div class="table-box">
 			<div class="table-box-inner">
-				<table id="#tag#" class="table table-striped #[dataTable]# #[ctxMenuClass]# #[ctxStyle]#" exports="#[export]#">
+				<table id="#tag#" class="table table-striped #[ordertable]# #[dataTable]# #[ctxMenuClass]# #[ctxStyle]#" exports="#[export]#">
 					<thead>
 						<tr gen-id="drop-zone" gen-field-template="th">
 							#[ctxInlineHeadTmpl]#
