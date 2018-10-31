@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import static nosi.core.i18n.Translator.gt;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -147,7 +148,8 @@ public class Config_env extends IGRPBaseActiveRecord<Config_env> implements Seri
 	}
 
 	public  Map<Object, Object> getListDSbyEnv(int idEnv) {
-		return IgrpHelper.toMap(this.find().andWhere("application", "=",idEnv).all(), "id", "name", gt("-- Selecionar --"));
+		final List<Config_env> findall = this.find().andWhere("application", "=",idEnv).all();
+		return IgrpHelper.toMap(findall, "id", "name", findall.size()!=0 ?gt("-- Selecionar --"):gt("++ Add a datasource ++"));
 	}
 
 	public short getIsDefault() {

@@ -41,13 +41,13 @@ var GENTABLE = function(name,params){
 		xsl :[ 'table-utils'],
 		css :[ 
 			{path:'/core/igrp/table/datatable/dataTables.bootstrap.css', id:'DataTable'},
-			{path:'/core/igrp/table/igrp.tables.css'}
+			{path:'/core/igrp/table/igrp.tables.css'},		
 		],
 		js  :[ 
 			{path : '/core/igrp/form/igrp.forms.js',id:'Form'},
 			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
-			{path :'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
-			{path :'/core/igrp/table/igrp.table.js'}
+			{path:'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
+			{path:'/core/igrp/table/igrp.table.js'}
 		]
 	};
 
@@ -59,21 +59,25 @@ var GENTABLE = function(name,params){
 		{ path:'/core/jspdf/js/jspdf.debug.js'},
 		{ path:'/core/jspdf/js/html2pdf.js'}
 	];*/
-	
-	var tableExportIncludes = [
-		
+
+	var tableOrderIncludes 		= [{path : '/core/formgen/js/jquery-ui.min.js'}],
+
+		tablePaginationIncludes = [{path : '/core/igrp/table/pagination.js'}];
+
+	var tableExportIncludes = [		
 		{ path:'/core/igrp/table/export/buttons.print.min.js'},
 		{ path:'/core/igrp/table/export/buttons.html5.min.js'},
 		{ path:'/core/igrp/table/export/vfs_fonts.js'},
 		{ path:'/core/igrp/table/export/pdfmake.min.js'},
 		{ path:'/core/igrp/table/export/jszip.min.js'},
 		{ path:'/core/igrp/table/export/buttons.flash.min.js'},
-		{ path:'/core/igrp/table/export/dataTables.buttons.min.js'}
+		{ path:'/core/igrp/table/export/dataTables.buttons.min.js'}		
+	];
 
-	]
+	var tableExportInc = false,
+		tableOrderInc  = false,
+		paginationInc  = false;
 
-	var tableExportInc = false;
-	
 	function CheckExport(val){
 
 		var action = val ? 'show' : 'hide';
@@ -100,6 +104,43 @@ var GENTABLE = function(name,params){
 			value:false,
 			editable:false,
 			xslValue:'<xsl:apply-templates mode="context-param" select="context-menu" />'
+		});
+
+
+
+		var includesJs = function(arr){
+			arr.forEach(function(e){
+				for( var i = 0; i < container.includes.js.length; i++){
+					var inc = container.includes.js[i];
+					if(inc.path == e.path){
+						var index = container.includes.js.indexOf(inc);
+						if (index > -1) 
+						    container.includes.js.splice(index, 1);
+						break;
+					}
+				}
+			});
+		};
+
+		container.setPropriety({
+			name:'ordertable',
+			label : 'Order Table',
+			value:false,
+			xslValue:'ordertable',
+			onChange:function(v){
+				if(v){
+
+					if(!tableOrderInc){
+						tableOrderIncludes.forEach(function(e){
+							container.includes.js.unshift(e);
+						});
+						tableOrderInc = true;
+					}					
+				}else{
+					includesJs(tableOrderIncludes);
+					tableOrderInc = false;
+				}
+			}
 		});
 
 		container.setPropriety({
@@ -139,6 +180,20 @@ var GENTABLE = function(name,params){
 	                    fltPg+
 	                    '<xsl:with-param name="type" select="'+filter+'"/>'+
 	                  '</xsl:call-template>';
+			},
+			onChange:function(v){
+				if(v){
+
+					if(!paginationInc){
+						tablePaginationIncludes.forEach(function(e){
+							container.includes.js.unshift(e);
+						});
+						paginationInc = true;
+					}					
+				}else{
+					includesJs(tablePaginationIncludes);
+					paginationInc = false;
+				}
 			}
 		});
 
@@ -190,7 +245,8 @@ var GENTABLE = function(name,params){
 					{value:'',label:'Default'},
 					{value:'align',label:'Align'}
 				]
-			},onEditionStart : function(o){
+			},
+			onEditionStart : function(o){
 				if(container.GET.ctxType && container.GET.ctxType() == 'inl')
 					o.input.show();
 				else
@@ -209,6 +265,7 @@ var GENTABLE = function(name,params){
 				multiple:true
 			},
 			onChange:function(v){
+				
 				var set = v && v[0] ? true : false;
 				
 				if(set)
@@ -218,27 +275,6 @@ var GENTABLE = function(name,params){
 						container.includes.js.push(tableExportIncludes[i])
 
 			}
-		});
-		
-
-		
-		container.setPropriety({
-			name:'dataTable',
-			label : 'Data Table',
-			value:true,
-			xslValue:'igrp-data-table',
-			onEditionStart:function(){
-				
-				CheckExport( container.GET.dataTable() );
-				
-				$('.gen-properties-setts-holder').on('change','[item-name="edit-dataTable"] input', function(){
-					
-					CheckExport( $(this).is(':checked') )
-
-				});
-
-			},
-			//editable:false
 		});
 
 		/*container.setPropriety({
@@ -260,27 +296,36 @@ var GENTABLE = function(name,params){
 
 					if(!tableExportInc){
 						tableExportIncludes.forEach(function(e){
-							container.includes.js.push(e);
+							container.includes.js.unshift(e);
 						});
 						tableExportInc = true;
 					}					
 				}else{
-					tableExportIncludes.forEach(function(e){
-						for( var i = 0; i < container.includes.js.length; i++){
-							var inc = container.includes.js[i];
-							if(inc.path == e.path){
-								var index = container.includes.js.indexOf(inc);
-								if (index > -1) 
-								    container.includes.js.splice(index, 1);
-								break;
-							}
-						}
-					});
+					includesJs(tableExportIncludes);
 					tableExportInc = false;
 				}
-				
+				console.log(container)
 			}			
 		});*/
+
+		container.setPropriety({
+			name:'dataTable',
+			label : 'Data Table',
+			value:true,
+			xslValue:'igrp-data-table',
+			onEditionStart:function(){
+				
+				CheckExport( container.GET.dataTable() );
+
+				$('.gen-properties-setts-holder').on('change','[item-name="edit-dataTable"] input', function(){
+
+					CheckExport( $(this).is(':checked') )
+
+				});
+
+			},
+			//editable:false
+		});
 
 		container.setPropriety({
 			name:'ctxInlineTmpl',
@@ -292,7 +337,7 @@ var GENTABLE = function(name,params){
 			},
 
 			xslValue:function(){
-				return '<xsl:if test="//'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><td class="igrp-table-ctx-td" >'+
+					return '<xsl:if test="//'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><td class="igrp-table-ctx-td" >'+
 							'<xsl:apply-templates select="../../context-menu'+'" mode="table-context-inline">'+
 								'<xsl:with-param name="row-params" select="context-menu"/>'+
 							'</xsl:apply-templates>'+
@@ -305,7 +350,7 @@ var GENTABLE = function(name,params){
 			editable:false,
 			value:true,
 			xslValue:function(){
-				return '<xsl:if test="'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><th class="igrp-table-ctx-th" gen-preserve="last"></th></xsl:if>';
+					return '<xsl:if test="'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><th class="igrp-table-ctx-th" gen-preserve="last"></th></xsl:if>';
 			}
 		});
 
@@ -315,6 +360,8 @@ var GENTABLE = function(name,params){
 			editable:false,
 			xslValue:getTableFooter
 		});
+
+		
 
 	}
 	/* WHEN A FIELD IS DROPPED - SET EXAMPLE DATA TO THE TABLE*/
@@ -381,10 +428,34 @@ var GENTABLE = function(name,params){
 			xslValue : 'checkbox-switch switch'
 		});
 	}
+
+	container.onLinkFieldSet = function(f){
+		//console.log(f.proprieties.btnSize.value);
+		/*f.setPropriety({
+			name:'btnSize',
+			label:'Buttons Size',
+			propriety:{
+				value: 'btn-xs',
+				options:[
+					{value:'',label:'Normal'},
+					{value:'btn-lg',label:'Large'},
+					{value:'btn-xs',label:'Small'}
+				]
+			}
+		});*/
+
+		f.setPropriety({
+			name:'show_header',
+			label:'Show Header',
+			value : true,
+			xslValue : '<span><xsl:value-of select="'+container.GET.path()+'/fields/'+f.GET.tag()+'/label"/></span>'
+		});
+
+	}
 	
 	container.onContextMenuSet = function(field){
 
-		if(!ctxIncludes){
+			if(!ctxIncludes){
 			container.SET.ctxMenuClass(true);
 			container.SET.ctxMenuTemplate(true);
 			container.SET.hasContextMenu(true);
@@ -416,7 +487,7 @@ var GENTABLE = function(name,params){
 		container.includes.css.push(
 			{ path:'/core/igrp/table/table-colors.css' }
 		);
-		
+
 		if(!container.proprieties.legendColors)
 
 			container.setPropriety({
@@ -429,7 +500,7 @@ var GENTABLE = function(name,params){
 
 				value : {
 
-					value : params.proprieties && params.proprieties.legendColors || [
+				value : params.proprieties && params.proprieties.legendColors || [
                         {
                             "color": "#dc2b4c",
                             "text": "Cor 1",
@@ -470,17 +541,17 @@ var GENTABLE = function(name,params){
 				size : 12
 
 			});
-	}
+
+	}	
 
 	container.onColorFieldRemove = function(field){
-		
+		//has no Color 
 		if(!container.hasFieldType('color')) {
 
 			container.SET.hasColorTmpl(false);
 			
 			container.unsetProprieties(['legendColors']);
 		}
-		
 	}
 	
 	container.xml.getLegendColors = function(){
@@ -505,7 +576,7 @@ var GENTABLE = function(name,params){
 		
 		return rtn;
 	}
-
+	
 	container.onDrawEnd = function(){
 
 		if(tableExportInc &&  container.GET.fields()[0])
@@ -522,6 +593,9 @@ var GENTABLE = function(name,params){
 			});
 		if(container.GET.legendColors && container.GET.legendColors())
 			$.IGRP.components.tableCtrl.setTableStyle( $('.box-table-contents',container.holder) );
+		if(container.GET.ordertable())
+
+			$.IGRP.components.tableCtrl.ordertable( 'table#'+container.GET.tag() );
 	}
 
 	var getTableFooter = function(){

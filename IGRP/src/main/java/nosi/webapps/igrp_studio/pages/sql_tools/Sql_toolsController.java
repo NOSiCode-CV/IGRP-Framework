@@ -10,6 +10,8 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Tuple;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -36,7 +38,11 @@ public class Sql_toolsController extends Controller {
 		/*----#start-code(index)----*/
 		view.application.setValue(new Application().getListApps());
 		if (Core.isNotNull(model.getApplication())) {
-			view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getApplication())));
+			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getApplication()));
+			if(listDSbyEnv.size() == 2){
+				model.setData_source(listDSbyEnv.keySet().toArray()[1].toString());
+			}
+			view.data_source.setValue(listDSbyEnv);
 		}
 		view.table_1.setVisible(false);
 		if (Core.isNotNull(model.getApplication()) && Core.isNotNull(model.getData_source()) && Core.isNotNull(model.getSql())) {

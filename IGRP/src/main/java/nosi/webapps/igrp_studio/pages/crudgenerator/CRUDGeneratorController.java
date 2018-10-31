@@ -11,6 +11,7 @@ import nosi.core.gui.page.Page;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import static nosi.core.i18n.Translator.gt;
 import java.util.List;
 import java.util.Map;
 import javax.xml.transform.TransformerConfigurationException;
@@ -42,7 +43,11 @@ public class CRUDGeneratorController extends Controller {
 		model.setAdd_datasource("igrp","ConfigDatabase","index");     	 
       	view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao(),-1)));			
+		final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao(),-1));
+		if(listDSbyEnv.size() == 2){
+			model.setData_source(listDSbyEnv.keySet().toArray()[1].toString());
+		}
+		view.data_source.setValue(listDSbyEnv);			
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
       
