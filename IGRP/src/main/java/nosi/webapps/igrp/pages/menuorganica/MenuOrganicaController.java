@@ -53,7 +53,7 @@ public class MenuOrganicaController extends Controller {
 		      	if(user!=null && profile!=null)
 		      		menus = new Organization().getOrgMenuByUser(profile.getOrganization().getId(),user.getId());
 			}
-			
+			menus.sort(Comparator.comparing(Menu::getDescr));
 			for (Menu m : menus) {
 				if (m != null) {
 					MenuOrganica.Table_1 table = new MenuOrganica.Table_1();

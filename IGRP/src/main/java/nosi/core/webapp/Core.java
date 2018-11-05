@@ -77,6 +77,8 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
 
 /**
+ * This page is the core of the IGRP. Here you can find all the main functions and helper function useful like toInt, parceInt, isNotNull...
+ * 
  * @author: Emanuel Pereira 13 Nov 2017
  */
 public final class Core { // Not inherit

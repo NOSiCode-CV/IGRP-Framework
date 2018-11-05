@@ -111,7 +111,7 @@
 						      	orderable : false
 
 						    }],
-
+						    lengthMenu: [[20, 50, -1], [20, 50, "All"]],
 					        initComplete:function(){}
 
 						};
