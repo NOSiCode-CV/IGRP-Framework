@@ -31,6 +31,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private String connectionName;
 	private T className;
 	private boolean shoErrors = true;
+	private String error;
 	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
@@ -65,6 +66,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			session.persist(this.className);
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -90,6 +92,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			session.merge(this.className);
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -119,6 +122,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction.commit();
 			deleted=true;
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 			deleted=false;
 			if (transaction != null) {
 				transaction.rollback();
@@ -157,6 +161,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				this.className = null;
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -197,6 +202,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				this.className = null;
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -228,6 +234,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			list = (List<T>) session.createQuery(this.criteria).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
@@ -474,6 +481,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			list = (List<T>) session.createQuery(this.getCriteria()).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
@@ -500,6 +508,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			list = (List<T>) session.createQuery(criteria).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
+			this.setError(e.getMessage());
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
@@ -602,6 +611,19 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return this.root;
 	}
 	
+	
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+	
+	public boolean hasError() {
+		return Core.isNotNull(this.error);
+	}
+
 	@SuppressWarnings("unchecked")
 	private void startCriteria() {
 		if(this.predicates==null) {
