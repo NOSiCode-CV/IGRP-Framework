@@ -137,12 +137,23 @@ public class QuerySelect extends CommonFIlter{
 		return list;
 	}
 	
+	@Deprecated
+	@Override
 	public Tuple getSigleResult() {
 		List<Tuple> list = this.getResultList();		
 		if(list!=null && list.size()> 0)
 			return list.get(0);
 		return null;
 	}
+	
+	@Override
+	public Tuple getSingleResult() {
+		List<Tuple> list = this.getResultList();		
+		if(list!=null && list.size()> 0)
+			return list.get(0);
+		return null;
+	}
+	
 	
 	@Override
 	public Record getRecordList() {
@@ -161,6 +172,7 @@ public class QuerySelect extends CommonFIlter{
 	}
 
 	@Override
+	@Deprecated
 	public Record getSigleRecord() {
 		Record r = new Record();
 		r.Row = this.getSigleResult();
@@ -168,7 +180,17 @@ public class QuerySelect extends CommonFIlter{
 		return r;
 	}
 	
-	public TypedQuery<?> getSingleResult(){
+
+	@Override
+	public Record getSingleRecord() {
+		Record r = new Record();
+		r.Row = this.getSigleResult();
+		r.setSql(this.getSql());
+		return r;
+	}
+	
+	@Override
+	public TypedQuery<?> getTypedQuery(){
 		TypedQuery<?> query = null;
 		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
@@ -193,7 +215,6 @@ public class QuerySelect extends CommonFIlter{
 		}
 		return query;
 	}
-
 	
 
 	@Override

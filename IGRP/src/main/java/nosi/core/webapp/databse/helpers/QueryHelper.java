@@ -17,6 +17,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -472,7 +473,7 @@ public abstract class QueryHelper implements QueryInterface{
 		throw new UnsupportedOperationException();
 	}
 	
-	public TypedQuery<?> getSingleResult(){
+	public Tuple getSingleResult(){
 		throw new UnsupportedOperationException();
 	}
 	
@@ -706,6 +707,16 @@ public abstract class QueryHelper implements QueryInterface{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public Record getSingleRecord() {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public TypedQuery<?> getTypedQuery(){
+		throw new UnsupportedOperationException();
+	}
+	
 	@Override
 	public QueryInterface whereNotNull(String name) {
 		this.sql += " WHERE "+name+" IS NOT NULL ";
