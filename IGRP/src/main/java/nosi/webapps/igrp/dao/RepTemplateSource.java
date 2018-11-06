@@ -76,7 +76,8 @@ public class RepTemplateSource extends IGRPBaseActiveRecord<RepTemplateSource> i
 	public List<RepTemplateSource> getAllDataSources(int id) {
 		List<RepTemplateSource> list = this.find().andWhere("repTemplate", "=", id).all();
 		return list;
-	}
+	}	
+	
 	public void deleteAll(Integer id) {
 		Core.delete(this.getConnectionName(), "tbl_rep_template_source_param")
 			.where("rep_template_source_fk IN (SELECT id FROM tbl_rep_template_source WHERE rep_template_fk=:rep_template_fk)")

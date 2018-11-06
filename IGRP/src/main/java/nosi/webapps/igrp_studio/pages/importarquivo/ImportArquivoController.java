@@ -3,8 +3,6 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-import nosi.core.config.Config;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,12 +11,12 @@ import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.export.app.ImportJavaPage;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppZip;
 import nosi.core.webapp.import_export.ImportPluginIGRP;
+import nosi.core.webapp.import_export_v2.imports.ImportHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
@@ -68,14 +66,14 @@ public class ImportArquivoController extends Controller {
 			try {
 				Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
 				descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
-				if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".app.jar")) {
+				if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".jar")) {
 					if(file.getSubmittedFileName().endsWith(".zip")){
-					result = new Import().importApp(new ImportAppZip(file));
-					}else if(file.getSubmittedFileName().endsWith(".app.jar")){					
-						ImportAppJava importApp = new ImportAppJava(file);
-						importApp.importApp();
+						result = new Import().importApp(new ImportAppZip(file));
+					}else if(file.getSubmittedFileName().endsWith(".jar")){					
+						ImportHelper importApp = new ImportHelper();
+						importApp.importFile(file);
 						if(importApp.hasError()) {
-							importApp.getErros().stream().forEach(err->{
+							importApp.getErrors().stream().forEach(err->{
 								Core.setMessageError(err);
 							});
 						}else {

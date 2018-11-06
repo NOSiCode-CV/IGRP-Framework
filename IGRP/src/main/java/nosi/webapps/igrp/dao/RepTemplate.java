@@ -19,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import nosi.core.webapp.Core;
+
 import java.io.Serializable;
 
 @Entity
@@ -65,7 +68,10 @@ public class RepTemplate extends IGRPBaseActiveRecord<RepTemplate> implements Se
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="repSource",fetch=FetchType.EAGER)
 	private Set<RepTemplateSource> reptemplatesources;
 	
-	public RepTemplate(){}
+	private String report_identify = Core.getUUID();//Unique data source identify
+	
+	public RepTemplate(){
+	}
 	
 	public RepTemplate(String code, String name, Date dt_created, Date dt_updated, int status,User user_created, User user_updated, Application application,
 			CLob xml_content, CLob xsl_content) {
@@ -184,6 +190,14 @@ public class RepTemplate extends IGRPBaseActiveRecord<RepTemplate> implements Se
 
 	public void setReptemplatesources(Set<RepTemplateSource> reptemplatesources) {
 		this.reptemplatesources = reptemplatesources;
+	}
+
+	public String getReport_identify() {
+		return Core.isNotNull(this.report_identify)?this.report_identify:Core.getUUID();
+	}
+
+	public void setReport_identify(String report_identify) {
+		this.report_identify = report_identify;
 	}
 
 	

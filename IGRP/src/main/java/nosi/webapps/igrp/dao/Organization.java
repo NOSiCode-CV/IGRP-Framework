@@ -50,9 +50,9 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "self_fk", foreignKey = @ForeignKey(name = "ORGANIZATION_SELF_FK"), nullable = true)
 	private Organization organization;
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "organization")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "organization",fetch=FetchType.EAGER)
 	private List<ProfileType> profilesType;
-	@OneToMany(mappedBy = "organization")
+	@OneToMany(mappedBy = "organization",fetch=FetchType.EAGER)
 	private List<Profile> profiles;
 
 	public Organization() {

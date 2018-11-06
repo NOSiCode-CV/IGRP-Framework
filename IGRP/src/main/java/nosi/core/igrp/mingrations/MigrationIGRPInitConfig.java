@@ -178,6 +178,9 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Dash_board_processo", "index", "nosi.webapps.igrp.pages", "igrp/dash_board_processo/Dash_board_processo.xsl", "Dash Board Processo", "Dash Board Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("Lista_terfa_de_processo", "index", "nosi.webapps.igrp.pages", "igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl", "Lista Terfa de Processo", "Lista Terfa de Processo", "2.3", 1, app_igrp));
 			
+			actions.add(new Action("Wizard_export_step_1", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_1/Wizard_export_step_1.xsl", "Export Wizard Step 1", "Export Wizard Step 1", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Wizard_export_step_2", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_2/Wizard_export_step_2.xsl", "Export Wizard Step 2", "Export Wizard Step 2", "2.3", 1, app_igrp_studio));
+			
 			Action r1 = new Action("Resetbyemail", "index", "nosi.webapps.igrp.pages", "igrp/resetbyemail/Resetbyemail.xsl", "Reset by email", "Reset by email", "2.3", 1, app_igrp);
 			r1.setTipo((short)1);
 			Action r2 = new Action("Resetpassword", "index", "nosi.webapps.igrp.pages", "igrp/resetpassword/Resetpassword.xsl", "Reset password", "Reset password", "2.3", 1, app_igrp);
