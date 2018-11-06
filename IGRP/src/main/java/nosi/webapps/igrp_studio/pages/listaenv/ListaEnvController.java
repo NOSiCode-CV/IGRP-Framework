@@ -83,7 +83,7 @@ public class ListaEnvController extends Controller {
 		}
 		view.table_1.addData(lista);		
 		view.btn_eliminar.setVisible(false);
-	
+		view.btn_exportar.setTarget("modal|refresh");
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -190,7 +190,9 @@ public class ListaEnvController extends Controller {
 		/*----#start-code(exportar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
-			Application app = new Application().findOne(id);
+			this.addQueryString("p_application_id", id);
+			return this.redirect("igrp_studio","Wizard_export_step_1","index", this.queryString());	
+			/*Application app = new Application().findOne(id);
 			if (app != null) {
 				// Insert data on Export/Import
 				ImportExportDAO ie_dao = new ImportExportDAO(app.getName(), this.getConfig().getUserName(),
@@ -199,7 +201,7 @@ public class ListaEnvController extends Controller {
 				return this.exportApp(app);
 			} else {
 				Core.setMessageError();
-			}
+			}*/
 		}
 		
 		/*----#end-code----*/

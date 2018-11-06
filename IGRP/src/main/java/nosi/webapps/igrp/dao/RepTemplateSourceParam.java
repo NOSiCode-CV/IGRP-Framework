@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tbl_rep_template_source_param")
-public class RepTemplateSourceParam extends IGRPBaseActiveRecord<RepTemplateParam> implements Serializable{
+public class RepTemplateSourceParam extends IGRPBaseActiveRecord<RepTemplateSourceParam> implements Serializable{
 
 	/**
 	 * 

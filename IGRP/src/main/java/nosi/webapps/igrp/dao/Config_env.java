@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 @Entity
@@ -51,6 +53,7 @@ public class Config_env extends IGRPBaseActiveRecord<Config_env> implements Seri
 	private Application application;
 	
 	private short isdefault = 0; // 0 -> false; 1 -> true 
+	private String connection_identify = Core.getUUID();
 	
 	public Config_env(){}
 	
@@ -145,6 +148,14 @@ public class Config_env extends IGRPBaseActiveRecord<Config_env> implements Seri
 
 	public void setDriver_connection(String driver_connection) {
 		this.driver_connection = driver_connection;
+	}
+	
+	public String getConnection_identify() {
+		return Core.isNotNull(this.connection_identify)?this.connection_identify:Core.getUUID();
+	}
+
+	public void setConnection_identify(String connection_identify) {
+		this.connection_identify = connection_identify;
 	}
 
 	public  Map<Object, Object> getListDSbyEnv(int idEnv) {

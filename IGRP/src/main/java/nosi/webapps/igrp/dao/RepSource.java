@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 
+import nosi.core.webapp.Core;
+
 @Entity
 @Table(name = "tbl_rep_source")
 public class RepSource extends IGRPBaseActiveRecord<RepSource> implements Serializable {
@@ -69,6 +71,7 @@ public class RepSource extends IGRPBaseActiveRecord<RepSource> implements Serial
 
 	@Column(length = 100)
 	private String formkey;
+	private String source_identify = Core.getUUID();//Unique data source identify
 
 	public RepSource() {
 	}
@@ -228,6 +231,12 @@ public class RepSource extends IGRPBaseActiveRecord<RepSource> implements Serial
 		this.processid = processid;
 	}
 
+	public String getSource_identify() {
+		return  Core.isNotNull(this.source_identify)?this.source_identify:Core.getUUID();
+	}
+	public void setSource_identify(String source_identify) {
+		this.source_identify = source_identify;
+	}
 	@Override
 	public String toString() {
 		return "RepSource [id=" + id + ", name=" + name + ", type=" + type + ", type_fk=" + type_fk + ", type_name="

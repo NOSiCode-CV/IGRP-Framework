@@ -5,13 +5,11 @@ package nosi.webapps.igrp.dao;
  */
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.core.webapp.Identity;
@@ -48,9 +46,6 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	private long created_at;
 	private long updated_at;
 
-	@OneToMany(mappedBy="user")
-	private List<Profile> profiles; 
-	
 	@Transient
 	private ProfileType profileType;
 	@Transient
@@ -202,11 +197,9 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	}
 
 	@Override
-	public Object findIdentityByUsername(String username) {	
+	public User findIdentityByUsername(String username) {	
 		return this.find().andWhere("user_name", "=", username).one();
 	}
-
-
 	
 	public User findIdentityByEmail(String email) {	
 		return this.find().andWhere("email", "=", email).one();
