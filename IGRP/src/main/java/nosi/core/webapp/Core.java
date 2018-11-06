@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -31,6 +32,7 @@ import javax.xml.bind.JAXB;
 import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
@@ -54,6 +56,7 @@ import nosi.core.webapp.databse.helpers.QuerySelect;
 import nosi.core.webapp.databse.helpers.QueryUpdate;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
@@ -1225,6 +1228,21 @@ public final class Core { // Not inherit
 	}
 
 	/**
+	 * Checks if it's not null or "" for multiple values
+	 * 
+	 * @param values
+	 * @return {@code value!=null && !value.equals("");}
+	 */
+	
+	public static boolean isNotNull(Object... values) {
+		boolean r = false;
+		for(Object value:values) {
+			r = Core.isNotNull(value);
+		}
+		return r;
+	}
+	
+	/**
 	 * Checks if it's not null or not 0 First {@code Core.isNotNull(value)}
 	 * 
 	 * @param value
@@ -1941,14 +1959,35 @@ public final class Core { // Not inherit
 	private Core() {
 	} // Not instantiate
 
-
+	public static String toJsonWithJsonBuilder(Object appP) {
+		if(appP!=null)
+			return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(appP);
+		return "";
+	}
+	
+	public static Object  fromJsonWithJsonBuilder(String json, Type type) {
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);
+	}
+	
 	public static String toJson(Object appP) {
 		if(appP!=null)
 			return new Gson().toJson(appP);
 		return "";
 	}
 
-	public static Object  fromJson(String json, Class<?> classOfT) {
-		return new Gson().fromJson(json, classOfT);
+	public static Object fromJson(String json, Type type) {
+		return new Gson().fromJson(json, type);
 	}
+	/**
+	 * Get UUID
+	 * @return
+	 */
+	public static String getUUID() {
+		return GUIDGenerator.getGUIDLowerCase();
+	}
+	
+	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType{
+		
+	}
+
 }
