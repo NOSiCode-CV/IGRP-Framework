@@ -24,13 +24,19 @@ public interface BaseQueryInterface {
 	
 	public List<Tuple> getResultList();
 	
+	@Deprecated
 	public Tuple getSigleResult();
 	
 	public Record getRecordList();
 	
+	@Deprecated
 	public Record getSigleRecord();
 	
-	public TypedQuery<?> getSingleResult();
+	public Record getSingleRecord();
+	
+	public Tuple getSingleResult();
+	
+	public TypedQuery<?> getTypedQuery();
 	
 	public <T> List<T> getResultList(Class<T> type);
 	
