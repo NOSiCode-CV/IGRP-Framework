@@ -143,7 +143,7 @@ public class ProcessDefinitionService extends Activit{
 	public boolean filterAccess(ProcessDefinitionService p) {
 		if(Core.getCurrentApp().getDad().equalsIgnoreCase("igrp_studio"))
 			return true;
-		boolean x = new TaskAccess().getCurrentMyTaskAccess()
+		boolean x = new TaskAccess().getTaskAccess()
 				.stream()
 				.filter(
 						a->{

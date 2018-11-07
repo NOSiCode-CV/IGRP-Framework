@@ -26,8 +26,7 @@ public interface IHeaderConfig {
 	default public String getTypeHeader() {
         return "normal";
 	}
-	default public String getLinkOpenApp() {
-       // return "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&dad="+Core.getCurrentDad()+"&app="; 
+	default public String getLinkOpenApp() { 
         return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getCurrentDad()+"&app=";
 	}
 	default public String getLinkSileMenu(){

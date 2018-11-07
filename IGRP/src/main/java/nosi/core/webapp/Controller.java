@@ -22,7 +22,6 @@ import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNHelper;
-import nosi.core.webapp.bpmn.BPMNTimeLine;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.ViewTaskDetails;
@@ -170,7 +169,7 @@ public class Controller{
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
-		xml.addXml(this.getTimeLine(taskId));
+//		xml.addXml(new BPMNTimeLine().get().toString());
 		if(Core.isNotNull(p_processId)) {
 			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
@@ -189,10 +188,6 @@ public class Controller{
 		xml.endElement();
 		resp.setContent(xml.toString());
 		return resp;
-	}
-
-	private String getTimeLine(String taskId) {		
-		return new BPMNTimeLine().get().toString();
 	}
 
 	private String getTaskViewDetails(String taskId) {

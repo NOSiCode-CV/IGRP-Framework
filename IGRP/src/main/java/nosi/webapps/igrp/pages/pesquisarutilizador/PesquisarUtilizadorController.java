@@ -103,6 +103,7 @@ public class PesquisarUtilizadorController extends Controller {
 		
 		view.table_1.addData(lista);
 
+		view.btn_assiocar_etapa.setVisible(false);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

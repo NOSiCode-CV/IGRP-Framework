@@ -473,7 +473,7 @@ public class ExecucaoTarefasController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(assumir_button_tabela)----*/
       String id = Core.getParam("p_p_id_d");
-      if(Core.isNotNull(id) && new TaskService().claimTask(id)){
+      if(Core.isNotNull(id) && new TaskService().claimTask(id,Core.getCurrentUser().getUser_name())){
          Core.setMessageSuccess(gt("Tarefa assumido com sucesso"));
       }else{
          Core.setMessageError();          
