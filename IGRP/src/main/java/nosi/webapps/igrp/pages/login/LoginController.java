@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.login;
 
 
 import static nosi.core.i18n.Translator.gt;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,14 +16,12 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
-
+import javax.servlet.http.Cookie;
 import javax.xml.bind.JAXB;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
@@ -36,7 +33,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -232,7 +228,12 @@ public class LoginController extends Controller {
 			String _url = settings.getProperty("igrp.env.nhaLogin.url").replace("igrp/login/login", "igrp/login/logout");
 			return redirectToUrl(_url);
 		}
-		
+		//Clear the cookies
+		for(Cookie c:Igrp.getInstance().getRequest().getCookies()) {
+			c.setMaxAge(0);
+			c.setValue(null);
+			Igrp.getInstance().getResponse().addCookie(c);
+		}
 		return this.redirect("igrp", "login", "login");
 	}
 	

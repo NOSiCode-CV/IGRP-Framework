@@ -86,7 +86,7 @@ public class BPMNTimeLine {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(resource);
 		List<TaskService> tasks = p.extractTasks(resource,false);
 		List<TaskTimeLine> list = new ArrayList<>();
 		tasks.stream().forEach(task->{

@@ -213,12 +213,13 @@ public class PesquisarMenuController extends Controller {
 			}
 		}
 		xml_menu.endElement();
-		return this.renderView(xml_menu + "");
+		this.format = Response.FORMAT_XML;
+		return this.renderView(xml_menu.toString());
 	}
 
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
-		List<TaskAccess> listTask = new TaskAccess().getCurrentAllTaskAccess();
+		List<TaskAccess> listTask = new TaskAccess().getTaskAccess();
 		boolean isStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
 		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");		
@@ -252,10 +253,13 @@ public class PesquisarMenuController extends Controller {
 		
 		
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "modal", flag, "webapps?r=");
-		if(isStartProc)
+		if(isStartProc) {
 			topMenu.addItem("Mapa Processos", "igrp", "Dash_board_processo", "index", "_self", "process.png", "webapps?r=");
-		if(isTask)
+		}
+		if(isTask) {
 			topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
+		}
+		this.format = Response.FORMAT_XML;
 		return this.renderView(topMenu.toString());
 	}
 

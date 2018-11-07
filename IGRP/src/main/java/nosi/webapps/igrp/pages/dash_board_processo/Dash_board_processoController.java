@@ -9,8 +9,11 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.pages.dash_board_processo.Dash_board_processo.Table_1;
 import nosi.webapps.igrp.pages.dash_board_processo.Dash_board_processo.Table_2;
+import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.HistoricProcessInstance;
 /*----#end-code----*/
 		
@@ -140,7 +143,25 @@ public class Dash_board_processoController extends Controller {
 		List<Dash_board_processo.Table_2> listProcess = new ArrayList<>();
 		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.getCurrentApp().getDad())){
 			Dash_board_processo.Table_2 table2 = new Dash_board_processo.Table_2();
-			table2.setNome_processo("igrp", "Dash_board_processo", "index").addParam("process_id", process.getId()).addParam("processKey", process.getKey());
+			FormDataService formData = new FormDataService().getFormDataByProcessDefinitionId(process.getId());
+			if(formData!=null && Core.isNotNull(formData.getFormKey())) {		
+				Application app = new Application().findByDad(process.getTenantId());
+				if(app!=null) {
+					String taskDefinition = "Start"+process.getKey();	
+					table2.setNome_processo(app.getDad().toLowerCase(), this.config.PREFIX_TASK_NAME+taskDefinition, "index")
+						  .addParam("p_processId", process.getId())
+						  .addParam("processKey", process.getKey())
+						  .addParam("appId", app.getId())
+						  .addParam("appDad", app.getDad())
+						  .addParam("formKey", formData.getFormKey())
+						  .addParam("processDefinition", process.getKey())
+						  .addParam("taskDefinition", taskDefinition)
+						  .addParam("taskName","Start Process");
+				}
+			}
+			else{
+				table2.setNome_processo("igrp", "Dash_board_processo", "index").addParam("process_id", process.getId()).addParam("processKey", process.getKey());
+			}
 			table2.setNome_processo_desc(process.getName());
 			table2.setProcess_id(process.getId());
 			listProcess.add(table2 );

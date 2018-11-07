@@ -1,7 +1,6 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.ResultSet;
 
 /**
  * Emanuel
@@ -122,43 +120,13 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	public void setTaskDescription(String taskDescription) {
 		this.taskDescription = taskDescription;
 	}
-
-	public List<TaskAccess> getCurrentMyTaskAccess(){
+	
+	
+	public List<TaskAccess> getTaskAccess(){
 		return new TaskAccess().find()
 			   	.andWhere("organization", "=",Core.getCurrentOrganization())
 			   	.andWhere("profileType", "=",Core.getCurrentProfile())
-		   		.andWhere("user_fk", "=",Core.getCurrentUser().getId())
-		   		.all();	
-	}
-	
-	public List<TaskAccess> getCurrentTaskUnassigned(){
-		List<TaskAccess> list = new ArrayList<>();
-		ResultSet.Record r = Core.query(this.getConnectionName(),"SELECT id, noAssumed, processKey, taskId, taskKey, user_fk FROM tbl_task_unassigned")
-								 .where("noAssumed=true")
-								 .getRecordList();
-		r.RowList.forEach(row->{
-			TaskAccess t = new TaskAccess();
-			t.setProcessName(row.getString("processKey"));
-			t.setTaskName(row.getString("taskKey"));
-			t.setTaskId(row.getString("taskId"));
-			list.add(t);
-		});
-		return list;
-	}
-	
-	public List<TaskAccess> getCurrentAvailableTaskAccess(){
-		return new TaskAccess().find()
-			   	.andWhere("organization", "=",Core.getCurrentOrganization())
-			   	.andWhere("profileType", "=",Core.getCurrentProfile())
-		   		.andWhere("user_fk", "isnull")
 			   	.all();		
-	}
-	
-	public List<TaskAccess> getCurrentAllTaskAccess(){
-		List<TaskAccess> list = new ArrayList<>();
-		list.addAll(this.getCurrentAvailableTaskAccess());
-		list.addAll(this.getCurrentMyTaskAccess());
-		return list;		
 	}
 	
 	@Override
