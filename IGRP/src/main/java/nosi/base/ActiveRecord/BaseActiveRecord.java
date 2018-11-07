@@ -22,7 +22,7 @@ import java.util.List;
 import nosi.core.webapp.Core;
 
 
-public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
+public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private SessionFactory sessionFactory;
 	private CriteriaBuilder builder = null;
 	private CriteriaQuery<T> criteria = null;
@@ -137,7 +137,14 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.closeFactory();
 		return deleted;
 	}
+	
 
+	@Override
+	public boolean delete() {
+		Object id =this.getValuePrimaryKey();
+		return this.delete(id);
+	}
+	
 	@Override
 	public T findOne(Object id) {
  		this.startCriteria();
@@ -283,6 +290,15 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				List<String> valuesIn = Arrays.asList(new String[] {value.toString()});
 				e = this.getRoot().get(columnName).in(valuesIn);
 				break;
+			case "<>":
+				if(columnName.contains(".")){
+					String[] aux = columnName.split("\\.");
+					e = this.getBuilder().notEqual(this.getRoot().join(aux[0]).get(aux[1]), value);
+				}else{
+					if(value!=null)
+						e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
+				}
+				break;
 			}
 			this.predicates.add(e);
  		}
@@ -378,6 +394,17 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				}else{
 					if(value!=null)
 						e = this.getBuilder().lessThanOrEqualTo(this.getRoot().get(columnName),value);
+				}
+				break;
+			case "<>":
+				if(columnName.contains(".")){
+					String[] aux = columnName.split("\\.");
+					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
+					if(value!=null)
+						e = this.getBuilder().notEqual(x,value);
+				}else{
+					if(value!=null)
+						e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
 				}
 				break;
 			}
@@ -569,7 +596,7 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	 */
 	@Override
 	public Object getValuePrimaryKey() {		
-		Object id = this.sessionFactory.getPersistenceUnitUtil().getIdentifier(this.className);
+		Object id = this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this.className);
 		return id;
 	}
 
@@ -646,4 +673,5 @@ public class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 //		this.getSessionFactory().close();
 //		HibernateUtils.removeSessionFactory(this.getConnectionName());
 	}
+
 }
