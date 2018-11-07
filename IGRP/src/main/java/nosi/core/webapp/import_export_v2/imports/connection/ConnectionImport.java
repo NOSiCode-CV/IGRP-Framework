@@ -68,7 +68,7 @@ public class ConnectionImport  implements IImport{
 				path = this.config.getBasePathClass();
 			}
 			try {
-				FileHelper.save(path, c.getFileName().getFileName()+"."+c.getDad().toLowerCase() + ".cfg.xml", c.getFileName().getFileContent());
+				FileHelper.save(path, c.getFileName().getFileName(), c.getFileName().getFileContent());
 			} catch (IOException e) {
 				this.addError(e.getMessage());
 			}
