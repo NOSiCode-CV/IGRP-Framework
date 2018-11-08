@@ -64,7 +64,7 @@ public class PesquisarMenuController extends Controller {
 
 		if (idOrg == 0 && idApp!=0) {
 			if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
-				menus = menu.find().andWhere("application", "=", idApp).all();
+				menus = menu.find().andWhere("application.id", "=", idApp).all();
 			}else {
 				menus = menu.find().andWhere("application.id", "=", idApp)							
 						.andWhere("application", "<>", 1)//Oculta IGRP Core
@@ -82,9 +82,9 @@ public class PesquisarMenuController extends Controller {
 				if (Core.isNull(menu_db1.getMenu())) {
 					table1.setT1_menu_principal(menu_db1.getDescr());
 				} 
-//				else {
-//					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
-//				}
+				else if(menu_db1.getMenu().getId()!=menu_db1.getId()){
+					table1.setT1_menu_principal("     \\___");
+				}
 				if (menu_db1.getAction() != null) {
 					table1.setPagina(menu_db1.getAction().getPage_descr());
 					table1.setTable_titulo(menu_db1.getDescr());
@@ -191,12 +191,13 @@ public class PesquisarMenuController extends Controller {
 				for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
 					xml_menu.startElement("menu");
 					xml_menu.setElement("title", gt(m.getKey()));
+					
 					for (MenuProfile main : m.getValue()) {
 						if (main.isSubMenuAndSuperMenu()) {
-							xml_menu.setElement("link","webapps?r=" + main.getLink());
-							xml_menu.setElement("order", "" + main.getOrder());
+							xml_menu.setElement("link","webapps?r=" + main.getLink());							
 							xml_menu.setElement("target", main.getTarget());
 						}
+						xml_menu.setElement("order", "" + main.getOrder());
 						xml_menu.startElement("submenu");
 						xml_menu.writeAttribute("title", gt(main.getTitle()));
 						xml_menu.writeAttribute("id", "" + main.getId());
@@ -255,8 +256,8 @@ public class PesquisarMenuController extends Controller {
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "modal", flag, "webapps?r=");
 		if(isStartProc) {
 			topMenu.addItem("Mapa Processos", "igrp", "Dash_board_processo", "index", "_self", "process.png", "webapps?r=");
-		}
-		if(isTask) {
+		}	
+		if(isTask){
 			topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
 		}
 		this.format = Response.FORMAT_XML;

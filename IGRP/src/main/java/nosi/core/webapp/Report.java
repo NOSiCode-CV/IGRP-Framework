@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 
+ * Use the functions getLinkReport and other to manage and invoke reports.
+ * 
  * @author: Emanuel Pereira
  * 9 Oct 2017
  */

@@ -35,7 +35,9 @@ public class DominioController extends Controller {
 	          model.setLst_dominio(Core.getParam("save"));
 		
       model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),
-					"SELECT id as formlist_1_id,description,valor as key,status as estado,ordem FROM tbl_domain").where("dominio=:dominio").addString("dominio", 			model.getLst_dominio()));
+					"SELECT id as formlist_1_id,description,valor as key,status as estado,ordem FROM tbl_domain")
+    		  .where("dominio=:dominio")
+    		  .addString("dominio", model.getLst_dominio()));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

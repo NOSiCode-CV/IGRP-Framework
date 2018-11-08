@@ -157,7 +157,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));			
 			actions.add(new Action("_CONS_PROC", "index", "nosi.webapps.igrp.pages._cons_proc", "igrp/_cons_proc/_CONS_PROC.xsl", "Consulta Processo", "Consulta Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("DetalhesProcesso", "index", "nosi.webapps.igrp.pages.detalhesprocesso", "igrp/detalhesprocesso/DetalhesProcesso.xsl", "Detalhes Processo", "Detalhes Processo", "2.3", 1, app_igrp));
-			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Geral", "Partilha Geral", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Inter-Aplicações", "Partilha Inter-Aplicações", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Modulo", "index", "nosi.webapps.igrp_studio.pages.modulo", "igrp_studio/modulo/Modulo.xsl", "Módulo", "Módulo", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
 			actions.add(new Action("Sql_tools", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/sql_tools/Sql_tools.xsl", "SQL Tool", "SQL Tool", "2.3", 1, app_igrp_studio));
@@ -176,7 +176,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("DefaultPage", "index", "nosi.webapps.tutorial.pages", "tutorial/defaultpage/DefaultPage.xsl", "Default Page", "Default Page", "2.3", 1, app_tutorial));
 			
 			actions.add(new Action("Dash_board_processo", "index", "nosi.webapps.igrp.pages", "igrp/dash_board_processo/Dash_board_processo.xsl", "Dash Board Processo", "Dash Board Processo", "2.3", 1, app_igrp));
-			actions.add(new Action("Lista_terfa_de_processo", "index", "nosi.webapps.igrp.pages", "igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl", "Lista Terfa de Processo", "Lista Terfa de Processo", "2.3", 1, app_igrp));
+			actions.add(new Action("Lista_terfa_de_processo", "index", "nosi.webapps.igrp.pages", "igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl", "Lista Tarefa de Processo", "Lista Tarefa de Processo", "2.3", 1, app_igrp));
 			
 			actions.add(new Action("Wizard_export_step_1", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_1/Wizard_export_step_1.xsl", "Export Wizard Step 1", "Export Wizard Step 1", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Wizard_export_step_2", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_2/Wizard_export_step_2.xsl", "Export Wizard Step 2", "Export Wizard Step 2", "2.3", 1, app_igrp_studio));

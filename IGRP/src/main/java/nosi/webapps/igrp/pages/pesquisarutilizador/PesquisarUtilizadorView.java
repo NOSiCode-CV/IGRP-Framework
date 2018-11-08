@@ -126,7 +126,7 @@ public class PesquisarUtilizadorView extends View {
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
-		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel","info|fa-bars","","");
+		btn_assiocar_menu = new IGRPButton("Assiocar Menu","igrp","PesquisarUtilizador","assiocar_menu","right_panel_submit","info|fa-bars","","");
 		btn_assiocar_menu.propertie.add("type","specific").add("rel","assiocar_menu");
 
 		btn_assiocar_transacao = new IGRPButton("Assiocar Transacao","igrp","PesquisarUtilizador","assiocar_transacao","right_panel","black|fa-exchange","","");

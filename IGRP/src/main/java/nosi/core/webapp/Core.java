@@ -80,21 +80,25 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
 
 /**
- * This page is the core of the IGRP. Here you can find all the main functions and helper function useful like toInt, parceInt, isNotNull...
+ * The core of the IGRP, here you can find all the main functions and helper function useful like toInt, parceInt, isNotNull...
  * 
  * @author: Emanuel Pereira 13 Nov 2017
  */
 public final class Core { // Not inherit
 
+	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType{
+		
+	}
+
 	public static final String NO_PERMITION_MSG = "No permision";
 
+	
 	public static void addHiddenField(String name, Object value) {
 		Field f = new HiddenField(name, value != null ? value.toString() : "");
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
 	}
 
-	
 	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		if (Core.isNotNull(taskId)) {
@@ -150,7 +154,8 @@ public final class Core { // Not inherit
 	public static String decrypt(String content, String secretKey) {
 		return new EncrypDecrypt().decrypt(content, secretKey);
 	}
-
+	
+	
 	/**
 	 * @return Return the default connection name of the current application 
 	 */
@@ -164,8 +169,7 @@ public final class Core { // Not inherit
 		}
 		return result;
 	}
-	
-	
+
 	public static BaseQueryInterface delete(String tableName) {
 		return new QueryDelete(Core.defaultConnection()).delete(tableName);
 	}
@@ -299,6 +303,21 @@ public final class Core { // Not inherit
 	public static java.sql.Date formatDate(String data, String inputFormat, String outputFormat) {
 		return DateHelper.formatDate(data, inputFormat, outputFormat);
 	}
+/**
+ * 
+ * @return {@code return new Gson().fromJson(json, type);}
+ */
+	public static Object fromJson(String json, Type type) {
+		return new Gson().fromJson(json, type);
+	}
+
+	
+	/**
+	 * @return {@code return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);}
+	 */
+	public static Object  fromJsonWithJsonBuilder(String json, Type type) {
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);
+	}
 
 	public static String getAmberColor() {
 		return "2";
@@ -336,7 +355,7 @@ public final class Core { // Not inherit
 			Igrp.getInstance().getRequest().removeAttribute(name);
 		return v;
 	}
-
+	
 	public static GenericServiceResponse getBizTalkClient(String clientId, String transaction, String service,
 			String args) {
 		GenericService_DevProxy proxy = new GenericService_DevProxy();
@@ -364,7 +383,7 @@ public final class Core { // Not inherit
 	public static PesquisaBI getBizTalkPesquisaBI(Integer bi, String nome) {
 		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
 	}
-	
+
 	/**
 	 * Pesquia BI via Biztalk
 	 * 
@@ -425,7 +444,7 @@ public final class Core { // Not inherit
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa) {
 		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa), pesquisa);
 	}
-
+	
 	/**
 	 * Pesquia Nascimento via Biztalk
 	 * 
@@ -459,7 +478,7 @@ public final class Core { // Not inherit
 	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa) {
 		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa), pesquisa);
 	}
-	
+
 	/**
 	 * Pesquia SNIAC via Biztalk
 	 * 
@@ -653,6 +672,7 @@ public final class Core { // Not inherit
 		return cLob;
 	}
 
+	
 	public static Part getFile(String name) throws IOException, ServletException {
 		Part part = Igrp.getInstance().getRequest().getPart(name);
 		if (part != null) {
@@ -682,7 +702,6 @@ public final class Core { // Not inherit
 		return getFromSession(key, false);
 	}
 
-	
 	public static Object getFromSession(String key, boolean flag) {
 		Object result = Igrp.getInstance().getRequest().getSession().getAttribute(key);
 		if (flag)
@@ -1056,6 +1075,14 @@ public final class Core { // Not inherit
 		return Core.isNotNull(v) ? Core.toShort(v) : 0;
 	}
 
+	/**
+	 * Get UUID
+	 * @return
+	 */
+	public static String getUUID() {
+		return GUIDGenerator.getGUIDLowerCase();
+	}
+
 	public static String getXMLParams() {
 		Map<String, String[]> params = Igrp.getInstance().getRequest().getParameterMap();
 		XMLWritter xml = new XMLWritter();
@@ -1182,7 +1209,7 @@ public final class Core { // Not inherit
 		}
 		return false;
 	}
-
+	
 	public static boolean isFloat(Object value) {
 		if (isNotNull(value)) {
 			try {
@@ -1241,7 +1268,7 @@ public final class Core { // Not inherit
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Checks if it's not null or not 0 First {@code Core.isNotNull(value)}
 	 * 
@@ -1281,7 +1308,7 @@ public final class Core { // Not inherit
 			return value == null || new Integer(value.toString()) == 0;
 		return value == null || value.equals("");
 	}
-
+	
 	/**
 	 * This method is used to add a message log
 	 * 
@@ -1335,7 +1362,7 @@ public final class Core { // Not inherit
 					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
 		return null;
 	}
-	
+
 	/**
 	 * Maps source to destination - 
 	 * {@link http://modelmapper.org/getting-started/}
@@ -1450,6 +1477,8 @@ public final class Core { // Not inherit
 		}
 		return -1;
 	}
+
+	
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
@@ -1594,8 +1623,6 @@ public final class Core { // Not inherit
 
 		return lastInsertedId;
 	}
-
-	
 
 	public static void setAttribute(String name, Object value) {
 		Igrp.getInstance().getRequest().setAttribute(name, value);
@@ -1759,6 +1786,8 @@ public final class Core { // Not inherit
 		return DateHelper.convertDate(date, "yyyy-MM-dd", formatOut);
 	}
 
+	
+
 	public static String ToChar(String date, String formatIn, String formatOut) {
 		return DateHelper.convertDate(date, formatIn, formatOut);
 	}
@@ -1785,8 +1814,6 @@ public final class Core { // Not inherit
 		return 0.0;
 	}
 
-	
-
 	public static Double toDouble(String value, double defaultValue) {
 		if (Core.isDouble(value))
 			return Double.parseDouble(value);
@@ -1806,7 +1833,7 @@ public final class Core { // Not inherit
 			return Float.parseFloat(value);
 		return (float) 0;
 	}
-
+	
 	public static Float toFloat(String value, float defaultValue) {
 		if (Core.isFloat(value))
 			return Float.parseFloat(value);
@@ -1842,12 +1869,24 @@ public final class Core { // Not inherit
 		return defaultValue;
 	}
 
+	public static String toJson(Object appP) {
+		if(appP!=null)
+			return new Gson().toJson(appP);
+		return "";
+	}
+
+	public static String toJsonWithJsonBuilder(Object appP) {
+		if(appP!=null)
+			return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(appP);
+		return "";
+	}
+
 	public static Long toLong(String value) {
 		if (Core.isInt(value))
 			return Long.parseLong(value);
 		return (long) 0;
 	}
-	
+
 	public static Long toLong(String value, long defaultValue) {
 		if (Core.isInt(value))
 			return Long.parseLong(value);
@@ -1906,7 +1945,7 @@ public final class Core { // Not inherit
 		}
 		return (Object) obj;
 	}
-
+	
 	public static BaseQueryInterface update(String tableName) {
 		return new QueryUpdate(Core.defaultConnection()).update(tableName);
 	}
@@ -1918,7 +1957,7 @@ public final class Core { // Not inherit
 	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName) {
 		return new QueryUpdate(connectionName).update(schemaName, tableName);
 	}
-
+	
 	/**
 	 * Upload a file from a upload field with the tag given
 	 * 
@@ -1929,7 +1968,7 @@ public final class Core { // Not inherit
 		UploadedFile uF = UploadedFile.getInstance(tag);
 		return uF;
 	}
-
+	
 	/**
 	 * Upload all files from a all the upload field
 	 * 
@@ -1951,43 +1990,11 @@ public final class Core { // Not inherit
 		List<UploadedFile> uF = UploadedFile.getInstances(tag);
 		return uF;
 	}
-	
 	public static boolean validateQuery(Config_env config_env, String query) {
 		return new QuerySelect().validateQuery(config_env, query);
 	}
-
+	
 	private Core() {
 	} // Not instantiate
-
-	public static String toJsonWithJsonBuilder(Object appP) {
-		if(appP!=null)
-			return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(appP);
-		return "";
-	}
-	
-	public static Object  fromJsonWithJsonBuilder(String json, Type type) {
-		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);
-	}
-	
-	public static String toJson(Object appP) {
-		if(appP!=null)
-			return new Gson().toJson(appP);
-		return "";
-	}
-
-	public static Object fromJson(String json, Type type) {
-		return new Gson().fromJson(json, type);
-	}
-	/**
-	 * Get UUID
-	 * @return
-	 */
-	public static String getUUID() {
-		return GUIDGenerator.getGUIDLowerCase();
-	}
-	
-	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType{
-		
-	}
 
 }

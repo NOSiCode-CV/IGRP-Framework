@@ -21,6 +21,8 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 /**
+ * We have function like loadFromlist for separatorlist and formlist, loadTable for table/list.
+ * 
  * @author Marcel Iekiny
  * Apr 15, 2017
  */

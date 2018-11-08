@@ -7,6 +7,8 @@ import nosi.core.gui.components.IGRPComponent;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 /**
+ * You can set/get the page title, addToPage...
+ * 
  * @author Marcel Iekiny
  * Apr 15, 2017
  */

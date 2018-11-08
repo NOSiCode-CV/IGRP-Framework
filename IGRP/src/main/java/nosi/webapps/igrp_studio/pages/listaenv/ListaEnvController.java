@@ -9,6 +9,8 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Action;
 import nosi.core.webapp.export.app.ExportAppJava;
@@ -37,12 +39,7 @@ public class ListaEnvController extends Controller {
 		/*----#start-code(index)----*/
 
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
-		Application app = new Application();
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			model.load();
-			// app.setDad(model.getDad());
-			// app.setName(model.getNome());
-		}
+		Application app = new Application();		
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		String dad = Core.getCurrentDad();
@@ -51,6 +48,8 @@ public class ListaEnvController extends Controller {
 					// .andWhere("dad", "like", app.getDad())
 					// .andWhere("name", "like", app.getName())
 					.all();
+			apps = apps.stream()
+		     .distinct().collect(Collectors.toList());
 		} else {
 			apps = app.getListMyApp(user.getId());
 		}

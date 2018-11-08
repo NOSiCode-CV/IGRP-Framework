@@ -36,6 +36,8 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 /**
+ * Useful functions like addQueryString
+ * 
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
@@ -64,6 +66,11 @@ public class Controller{
 		queryString = new QueryString<>();
 	}
 	
+	/**
+	 * Get all the r Params, and in a forEach does this.addQueryString of them all
+	 * 
+	 * @return
+	 */
 	protected QueryString<String,Object> loadQueryString() {
 		Core.getParameters().entrySet().stream().filter(p->!p.getKey().equals("r")).forEach(p->{
 			this.addQueryString(p.getKey(),p.getValue()!=null?p.getValue()[0]:"");
