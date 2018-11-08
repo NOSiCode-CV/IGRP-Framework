@@ -680,24 +680,32 @@ if($ && $.IGRP && !$.IGRP.rules){
 					
 					$.each( p.targetFields ,function(i,f){
 
-						var options = [];
-
-						$.each( $('option',list),function(z,o){
+						var options  = [],
+						
+							itemName = $(f).attr('item-name'),
 							
-							var selected = $(o).attr('selected') ? true : false;
+							wrapper  = $(list).is(itemName) ? list : $(list).find(itemName)[0];
+						
+						if (wrapper) {
 							
-							options.push({
-								text     : $('text',o).text(),
-								value    : $('value',o).text(),
-								selected : selected
+							$.each($('option', wrapper), function(z, o) {
+								
+								var selected = $(o).attr('selected') ? true : false;
+								
+								options.push({
+									text: $('text', o).text(),
+									value: $('value', o).text(),
+									selected: selected
+								});
+								
 							});
-
-						});
-
-						$.IGRP.components.select2.setOptions({
-							select  : $('select',f),
-							options : options
-						});
+							
+							$.IGRP.components.select2.setOptions({
+								select: $('select', f),
+								options: options
+							});
+						}
+						
 					});
 					
 				})
