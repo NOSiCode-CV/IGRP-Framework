@@ -398,15 +398,15 @@ public class Controller{
 			 String pageName = app.getCurrentPageName();
 			 
 			 if(app.getCurrentActionName() != null && appDad != null && pageName != null) {
-				 if(!new Action().isPublicPage(appDad, pageName)) {
-					 if(new Permission().isPermition(appDad, pageName, app.getCurrentActionName())) {
-						 Response resp = (Response) obj;
-						 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
-					 }
-				 }else {
+//				 if(!new Action().isPublicPage(appDad, pageName)) {
+//					 if(new Permission().isPermition(appDad, pageName, app.getCurrentActionName())) {
+//						 Response resp = (Response) obj;
+//						 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
+//					 }
+//				 }else {
 					 Response resp = (Response) obj;
 					 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
-				 }
+//				 }
 			 }
 			 
 		 }

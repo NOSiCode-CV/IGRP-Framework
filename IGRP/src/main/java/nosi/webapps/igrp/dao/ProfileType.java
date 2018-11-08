@@ -160,10 +160,11 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 		return lista;
 	}
 
-	//Verifica se � perfil pai
+	//Verifica se é perfil pai
 	public static boolean isPerfilPai(){
-		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", Core.getCurrentProfile()).all();
-		return profiles.size() > 0;
+		String sql = "SELECT count(self_fk) as total FROM public.tbl_profile_type";
+		nosi.core.webapp.databse.helpers.ResultSet.Record r = Core.query(null, sql).where("self_fk", "=",Core.getCurrentProfile()).getSingleRecord();
+		return r.getInt("total") > 0;
 	}
 
 	@Override
