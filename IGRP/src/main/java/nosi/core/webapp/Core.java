@@ -1263,8 +1263,10 @@ public final class Core { // Not inherit
 	
 	public static boolean isNotNull(Object... values) {
 		boolean r = false;
-		for(Object value:values) {
-			r = Core.isNotNull(value);
+		if(values!=null) {
+			for(Object value:values) {
+				r = Core.isNotNull(value);
+			}
 		}
 		return r;
 	}
