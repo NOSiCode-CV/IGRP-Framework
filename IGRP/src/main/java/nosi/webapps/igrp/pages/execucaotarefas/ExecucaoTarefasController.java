@@ -18,13 +18,15 @@ import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_disponiveis;
+import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_gerir_tarefas;
+import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_minhas_tarefas;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
 
@@ -41,80 +43,20 @@ public class ExecucaoTarefasController extends Controller {
 		view.id.setParam(true);
 		view.p_id_d.setParam(true);
 		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_gerir_tarefas(Core.query(null,"SELECT 'numero_processo_tabela' as numero_processo_tabela,'n_tarefa_g' as n_tarefa_g,'tipo' as tipo,'desc_tarefa' as desc_tarefa,'atribuido_por' as atribuido_por,'atribuido_a' as atribuido_a,'data_entrada' as data_entrada,'data_fim_g' as data_fim_g,'p_id_g' as p_id_g "));
-		model.loadTable__colaboradores(Core.query(null,"SELECT 'nome_colab_tabela' as nome_colab_tabela,'contacto_colab_tabela' as contacto_colab_tabela,'n_tarefas_colab_tabela' as n_tarefas_colab_tabela,'n_atendimento_colab_tabela' as n_atendimento_colab_tabela,'media_tempo_colab_tabela' as media_tempo_colab_tabela,'ranking_colab_tabela' as ranking_colab_tabela,'percentagem_colab_tabela' as percentagem_colab_tabela,'foto_colab_tabela' as foto_colab_tabela,'param_colab_tabela' as param_colab_tabela,'p_id_c' as p_id_c "));
-		model.loadTable_estatistica(Core.query(null,"SELECT 'n_processo_estat_tabela' as n_processo_estat_tabela,'tipo_estatistica_tabela' as tipo_estatistica_tabela,'desc_tarefa_estat_tabela' as desc_tarefa_estat_tabela,'data_entrada_estat_tabela' as data_entrada_estat_tabela,'data_conclusao_estat_tabela' as data_conclusao_estat_tabela,'p_id_e' as p_id_e "));
-		model.loadTable_minhas_tarefas(Core.query(null,"SELECT 'n_tarefa_m' as n_tarefa_m,'tipo_tabela_minhas_tarefas' as tipo_tabela_minhas_tarefas,'desc_tarefa_tabela_minhas_tarefas' as desc_tarefa_tabela_minhas_tarefas,'atribuido_por_tabela_minhas_tarefas' as atribuido_por_tabela_minhas_tarefas,'data_entrada_tabela_minhas_tarefas' as data_entrada_tabela_minhas_tarefas,'data_fim_m' as data_fim_m,'espera_tabela_minhas_tarefas' as espera_tabela_minhas_tarefas,'id' as id "));
-		model.loadTable_disponiveis(Core.query(null,"SELECT 'n_tarefa_d' as n_tarefa_d,'tarefas_tabela_disponiveis' as tarefas_tabela_disponiveis,'categorias_processo_tabela_disponiveis' as categorias_processo_tabela_disponiveis,'data_entrada_tabela_disponiveis' as data_entrada_tabela_disponiveis,'data_fim_d' as data_fim_d,'p_id_d' as p_id_d "));
-		view.tipo_processo_gerir_tarefa.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.prioridade_gerir_tarefa.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.tipo_processo_colaborador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.tipo_etapa_colaborador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.prioridade_colaborador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.tipo_processo_minhas_tarefas.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.prioridade_minhas_tarefas.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.tipo_processo_form_disponiveis.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.prioridade_form_disponiveis.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.tipo_processo_estatistica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.prioridade_estatistica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.estado_estatistica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/      
-      Map<String,String> listPrioridade = new HashMap<String,String>();
-      listPrioridade.put(null, gt("-- Escolher Prioridade --"));
-      listPrioridade.put("100", "Urgente");
-      listPrioridade.put("50", "Médio");
-      listPrioridade.put("0", "Normal");
       
-      Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
+      
+      this.showTabManage(view, false);//hide tab when user is not manager
+      
       TaskService objTask = new TaskService();
       this.applyFiler(objTask,model);  
 
-      List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = new ArrayList<>();
+      List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = this.getTaskManage(model,view,objTask);
       
-      //Verifica se é perfil pai
-      if(ProfileType.isPerfilPai()){
-         for(TaskService task:objTask.getTasks()){
-            ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
-            t.setAtribuido_a(task.getAssignee());
-            t.setAtribuido_por(task.getOwner());
-            t.setData_entrada(task.getCreateTime().toString());
-            t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
-            t.setNumero_processo_tabela(task.getProcessDefinitionId());
-            t.setP_id_g(task.getId());
-            t.setN_tarefa_g(task.getProcessInstanceId());
-            t.setTipo(listProc.get(task.getProcessDefinitionId()));
-            t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
-            taskManage.add(t);
-         }
-      }
+      List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = this.getMyTasks(model,view,objTask);
       
-      List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = new ArrayList<>();
-      for(TaskService task:objTask.getMyTasks()){
-         ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
-         t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
-         t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
-         t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
-         t.setTipo_tabela_minhas_tarefas(listProc.get(task.getProcessDefinitionId()));
-         t.setId(task.getId());
-         t.setN_tarefa_m(task.getProcessInstanceId());
-         t.setData_fim_m(task.getDueDate()!=null?task.getDueDate().toString():"");
-         myTasks.add(t);
-      }
-      
-      List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-      for(TaskService task:objTask.getAvailableTasks()){
-         ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
-         t.setCategorias_processo_tabela_disponiveis(task.getProcessDefinitionKey());
-         t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
-         t.setP_id_d(task.getId());
-         t.setN_tarefa_d(task.getProcessInstanceId());
-         t.setData_fim_d(task.getDueDate()!=null?task.getDueDate().toString():"");
-         t.setTarefas_tabela_disponiveis(task.getDescription()!=null?task.getDescription():task.getName());
-         tasksDisponiveis.add(t);
-      }
+      List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = this.getAvailableTask(model,view,objTask);
       
       view.table_gerir_tarefas.addData(taskManage);
       view.table_disponiveis.addData(tasksDisponiveis);
@@ -130,11 +72,11 @@ public class ExecucaoTarefasController extends Controller {
       view.tipo_processo_gerir_tarefa.setValue(listProc);
       view.tipo_processo_minhas_tarefas.setValue(listProc);
       
-      view.btn_pesquisar_button_disponiveis.setLink("index&btn_search="+AVAILABLE);
-      view.btn_pesquisar_button_minhas_tarefas.setLink("index&btn_search="+MY_TASK);
-      view.btn_pesquisar_colaborador.setLink("index&btn_search="+CONTRIBUTOR);
-      view.btn_pesquisar_estatistica.setLink("index&btn_search="+STATISTIC);
-      view.btn_pesquisar_tarefa.setLink("index&btn_search="+MANAGE_TASK);
+      view.btn_pesquisar_button_disponiveis.addParameter("btn_search=",AVAILABLE);
+      view.btn_pesquisar_button_minhas_tarefas.addParameter("btn_search",MY_TASK);
+      view.btn_pesquisar_colaborador.addParameter("btn_search",CONTRIBUTOR);
+      view.btn_pesquisar_estatistica.addParameter("btn_search",STATISTIC);
+      view.btn_pesquisar_tarefa.addParameter("btn_search",MANAGE_TASK);
       
       view.btn_alterar_prioridade_tarefa.setLink("index");
       view.btn_alterar_prioridade_tarefa.setPage("Alter_prioridade_tarefa");
@@ -144,6 +86,16 @@ public class ExecucaoTarefasController extends Controller {
       view.n_tarefa_g.setLabel("Número Processo");
       view.n_tarefa_m.setLabel("Número Processo");
       view.btn_detalhes_minha_tarefa.setVisible(false);
+      view.btn_detalhes_tarefa.setVisible(false);
+      view.numero_processo_tabela.setVisible(false);
+      view.btn_alterar_prioridade_tarefa.setVisible(false);
+      
+      view.btn_pesquisar_button_minhas_tarefas.setTarget("submit_ajax");
+      view.btn_pesquisar_button_disponiveis.setTarget("submit_ajax");
+      view.btn_pesquisar_colaborador.setTarget("submit_ajax");
+      view.btn_pesquisar_estatistica.setTarget("submit_ajax");
+      view.btn_pesquisar_tarefa.setTarget("submit");
+      
       /*
       view.pesquisa_gerir_tarefa.setVisible(false);
       view.pesquisa_minhas_tarefas.setVisible(false);
@@ -159,7 +111,8 @@ public class ExecucaoTarefasController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-	
+
+
 
 
 	public Response actionPesquisar_tarefa() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -269,7 +222,7 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","ExecucaoTarefas","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(detalhes_tarefa)----*/     
-		String id =  Core.getParam("p_id_g");
+		String id =  Core.getParam("p_p_id_g");
 		if(Core.isNotNull(id)) {
 			this.addQueryString("taskId", id).addQueryString("target", "_blank");
 			return this.redirect("igrp","Detalhes_tarefas","index", this.queryString());	
@@ -289,7 +242,7 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","DetalhesProcesso","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(detalhes_processo)----*/   
-      this.addQueryString("taskId", Core.getParam("p_id")).addQueryString("target", "_blank");
+      this.addQueryString("taskId", Core.getParam("p_p_id_g")).addQueryString("target", "_blank");
       /*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}
@@ -452,7 +405,7 @@ public class ExecucaoTarefasController extends Controller {
 		/*----#start-code(leberar_tarefa_button_minha_tarefas)----*/      
       String id = Core.getParam("p_id");
       if(Core.isNotNull(id) && new TaskService().freeTask(id)){
-         Core.setMessageSuccess(gt("Tarefa liberada com sucesso"));
+         Core.setMessageSuccess(Core.gt("Tarefa liberada com sucesso"));
       }else{
          Core.setMessageError();       
       }
@@ -474,7 +427,7 @@ public class ExecucaoTarefasController extends Controller {
 		/*----#start-code(assumir_button_tabela)----*/
       String id = Core.getParam("p_p_id_d");
       if(Core.isNotNull(id) && new TaskService().claimTask(id,Core.getCurrentUser().getUser_name())){
-         Core.setMessageSuccess(gt("Tarefa assumido com sucesso"));
+         Core.setMessageSuccess(Core.gt("Tarefa assumido com sucesso"));
       }else{
          Core.setMessageError();          
       }     
@@ -551,42 +504,44 @@ public class ExecucaoTarefasController extends Controller {
 		String proc_tp = null, num_proc = null, status = null, data_inicio = null, data_fim = null, prioridade = null;
 		int btn_search = Core.getParamInt("btn_search");
 		switch (btn_search) {
-		case AVAILABLE:
-			proc_tp = model.getTipo_processo_form_disponiveis();
-			num_proc = model.getNumero_processo_form_disponiveis();
-			data_inicio = model.getData_inicio_form_disponiveis();
-			data_fim = model.getData_fim_form_disponiveis();
-			prioridade = model.getPrioridade_form_disponiveis();
-			break;
-		case CONTRIBUTOR:
-			proc_tp = model.getTipo_processo_colaborador();
-			num_proc = model.getNumero_processo_colaborador();
-			data_inicio = model.getData_inicio_colaborador();
-			data_fim = model.getData_fim_colaborador();
-			prioridade = model.getPrioridade_colaborador();
-			break;
-		case MANAGE_TASK:
-			proc_tp = model.getTipo_processo_gerir_tarefa();
-			num_proc = model.getNumero_processo_gerir_tarefa();
-			data_inicio = model.getData_inicio_gerir_tarefa();
-			data_fim = model.getData_fim_gerir_tarefa();
-			prioridade = model.getPrioridade_gerir_tarefa();
-			break;
-		case MY_TASK:
-			proc_tp = model.getTipo_processo_minhas_tarefas();
-			num_proc = model.getNumero_processo_minhas_tarefas();
-			data_inicio = model.getData_inicio_minhas_tarefas();
-			data_fim = model.getData_fim_minhas_tarefas();
-			prioridade = model.getPrioridade_minhas_tarefas();
-			break;
-		case STATISTIC:
-			status = model.getEstado_estatistica();
-			proc_tp = model.getTipo_processo_estatistica();
-			num_proc = model.getNumero_processo_estatistica();
-			data_inicio = model.getData_inicio_estatistica();
-			data_fim = model.getData_fim_estatistica();
-			prioridade = model.getPrioridade_estatistica();
-			break;
+			case AVAILABLE:
+				proc_tp = model.getTipo_processo_form_disponiveis();
+				num_proc = model.getNumero_processo_form_disponiveis();
+				data_inicio = model.getData_inicio_form_disponiveis();
+				data_fim = model.getData_fim_form_disponiveis();
+				prioridade = model.getPrioridade_form_disponiveis();
+				break;
+			case CONTRIBUTOR:
+				proc_tp = model.getTipo_processo_colaborador();
+				num_proc = model.getNumero_processo_colaborador();
+				data_inicio = model.getData_inicio_colaborador();
+				data_fim = model.getData_fim_colaborador();
+				prioridade = model.getPrioridade_colaborador();
+				break;
+			case MANAGE_TASK:
+				proc_tp = model.getTipo_processo_gerir_tarefa();
+				num_proc = model.getNumero_processo_gerir_tarefa();
+				System.out.println("num_proc:"+num_proc);
+				System.out.println("p_numero_processo_gerir_tarefa:"+Core.getParam("p_numero_processo_gerir_tarefa"));
+				data_inicio = model.getData_inicio_gerir_tarefa();
+				data_fim = model.getData_fim_gerir_tarefa();
+				prioridade = model.getPrioridade_gerir_tarefa();
+				break;
+			case MY_TASK:
+				proc_tp = model.getTipo_processo_minhas_tarefas();
+				num_proc = model.getNumero_processo_minhas_tarefas();
+				data_inicio = model.getData_inicio_minhas_tarefas();
+				data_fim = model.getData_fim_minhas_tarefas();
+				prioridade = model.getPrioridade_minhas_tarefas();
+				break;
+			case STATISTIC:
+				status = model.getEstado_estatistica();
+				proc_tp = model.getTipo_processo_estatistica();
+				num_proc = model.getNumero_processo_estatistica();
+				data_inicio = model.getData_inicio_estatistica();
+				data_fim = model.getData_fim_estatistica();
+				prioridade = model.getPrioridade_estatistica();
+				break;
 		}
 		if (Core.isNotNull(proc_tp)) {
 			objTask.addFilter("processDefinitionId", proc_tp);
@@ -610,6 +565,80 @@ public class ExecucaoTarefasController extends Controller {
 		}
 	}
 	
+	private void showTabManage(ExecucaoTarefasView view,boolean isVisible) {
+        view.gerir_tarefas.setVisible(isVisible);;
+        view.colaboradores.setVisible(isVisible);
+	}
+	
+	private static Map<String,String> listPrioridade = new HashMap<String,String>();
+	static {
+	    listPrioridade.put(null, Core.gt("-- Escolher Prioridade --"));
+	    listPrioridade.put("100", "Urgente");
+	    listPrioridade.put("50", "Médio");
+	    listPrioridade.put("0", "Normal");
+	}
+	
+	//Get tasks for user manager
+	private List<Table_gerir_tarefas> getTaskManage(ExecucaoTarefas model, ExecucaoTarefasView view,
+			TaskService objTask) {
+		List<Table_gerir_tarefas> taskManage = new ArrayList<>();
+	      //Verifica se é perfil pai
+	      if(ProfileType.isPerfilPai()){
+	         for(TaskService task:objTask.getTasks()){
+	            ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
+	            t.setAtribuido_a(task.getAssignee());
+	            t.setAtribuido_por(task.getOwner());
+	            t.setData_entrada(task.getCreateTime().toString());
+	            t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
+	            t.setNumero_processo_tabela(task.getProcessDefinitionId());
+	            t.setP_id_g(task.getId());
+	            t.setN_tarefa_g(task.getProcessInstanceId());
+	            t.setTipo(this.listProc.get(task.getProcessDefinitionId()));
+	            t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
+	            taskManage.add(t);
+	         }
+	         this.showTabManage(view, true);//show tab when user is manager
+	      }
+	      return taskManage;
+	}
+	
+	
+	//Get all tasks of current user
+	private List<Table_minhas_tarefas> getMyTasks(ExecucaoTarefas model, ExecucaoTarefasView view,
+			TaskService objTask) {
+        List<Table_minhas_tarefas> myTasks = new ArrayList<>();
+	      for(TaskService task:objTask.getMyTasks()){
+	          ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
+	          t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
+	          t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
+	          t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
+	          t.setTipo_tabela_minhas_tarefas(listProc.get(task.getProcessDefinitionId()));
+	          t.setId(task.getId());
+	          t.setN_tarefa_m(task.getProcessInstanceId());
+	          t.setData_fim_m(task.getDueDate()!=null?task.getDueDate().toString():"");
+			myTasks.add(t);
+	       }
+	      return myTasks;
+	}
+	
+	//Get all available task
+	private List<Table_disponiveis> getAvailableTask(ExecucaoTarefas model, ExecucaoTarefasView view,
+			TaskService objTask) {
+		List<Table_disponiveis> tasksDisponiveis = new ArrayList<>();
+	      for(TaskService task:objTask.getAvailableTasks()){
+	         ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
+	         t.setCategorias_processo_tabela_disponiveis(task.getProcessDefinitionKey());
+	         t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
+	         t.setP_id_d(task.getId());
+	         t.setN_tarefa_d(task.getProcessInstanceId());
+	         t.setData_fim_d(task.getDueDate()!=null?task.getDueDate().toString():"");
+	         t.setTarefas_tabela_disponiveis(task.getDescription()!=null?task.getDescription():task.getName());
+	         tasksDisponiveis.add(t);
+	      }
+	      return tasksDisponiveis;
+	}
+	
+	private Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
 	private static final int MANAGE_TASK = 0;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;

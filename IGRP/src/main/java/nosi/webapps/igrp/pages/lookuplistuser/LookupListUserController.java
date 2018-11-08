@@ -1,57 +1,91 @@
-/*-------------------------*/
-
-/*Create Controller*/
-
 package nosi.webapps.igrp.pages.lookuplistuser;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException;
-import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.User;
-/*----#END-PRESERVED-AREA----*/
-
-public class LookupListUserController extends Controller {		
-
-
+import nosi.webapps.igrp.pages.lookuplistuser.LookupListUser.Table_1;
+/*----#end-code----*/
+		
+public class LookupListUserController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/		
 		LookupListUser model = new LookupListUser();
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			model.load();
+		model.load();
+		LookupListUserView view = new LookupListUserView();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT 'epape@example.com' as email_1,'Accusantium dolor voluptatem r' as login_1,'Accusantium amet deserunt ut s' as nome_1,'1' as id "));
+		  ----#gen-example */
+		/*----#start-code(index)----*/		
+		String type = Core.getParam("type");
+		
+		
+		List<LookupListUser.Table_1> data = null;
+		if(type!=null && type.equalsIgnoreCase("my_user")) {
+			data = this.getMyUser(model);
+		}else {
+			data = this.getAllUser(model);
 		}
+		view.table_1.addData(data);
+		view.target = "_blank";
+		view.btn_pesquisar.setLink("index");
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
+	}
+	
+
+
+	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#start-code(pesquisar)----*/		
+		
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","lookuplistuser","index");	
+	}
+	
+	/*----#start-code(custom_actions)----*/
+
+	private List<Table_1> getAllUser(LookupListUser model) {
 		List<User> users = new User().find()
 				.andWhere("user_name","=",model.getLogin())
 				.andWhere("email", "=", model.getEmail())
 				.andWhere("name", "like", model.getNome())
 				.all();
-		List<LookupListUser.Table_1> data = new ArrayList<>();
+		List<Table_1> data = new ArrayList<>();
 		for(User user:users){
 			LookupListUser.Table_1 t = new LookupListUser.Table_1();
 			t.setEmail_1(user.getEmail());
 			t.setLogin_1(user.getUser_name());
 			t.setNome_1(user.getName());
-			t.setP_id(""+user.getId());
+			t.setId(""+user.getId());
 			data.add(t);
 		}
-		LookupListUserView view = new LookupListUserView(model);
-		view.table_1.addData(data);
-		view.target = "_blank";
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		return data;
 	}
 
-
-	public Response actionPesquisar() throws IOException{
-		/*----#START-PRESERVED-AREA(PESQUISAR)----*/		
-		return this.redirect("igrp","LookupListUser","index");
-		/*----#END-PRESERVED-AREA----*/
+	private List<Table_1> getMyUser(LookupListUser model) {
+		List<Profile> profiles = new Profile().find()
+					.andWhere("profileType.profiletype", "=",Core.getCurrentProfile())
+					.andWhere("organization", "=",Core.getCurrentOrganization())
+					.andWhere("type", "=","PROF")
+					.all();
+		List<Table_1> data = new ArrayList<>();
+		for(Profile p:profiles){
+			LookupListUser.Table_1 t = new LookupListUser.Table_1();
+			t.setEmail_1(p.getUser().getEmail());
+			t.setLogin_1(p.getUser().getUser_name());
+			t.setNome_1(p.getUser().getName());
+			t.setId(""+p.getUser().getId());
+			data.add(t);
+		}
+		return data;
 	}
-	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
 }

@@ -1,77 +1,79 @@
-/*-------------------------*/
-
-/*Create Controller*/
-
 package nosi.webapps.igrp.pages.transferir_tarefas;
 
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import java.io.IOException;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
+
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.webapps.igrp.dao.User;
-import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
-
-public class Transferir_tarefasController extends Controller {		
-
-
+/*----#end-code----*/
+		
+public class Transferir_tarefasController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/				
 		Transferir_tarefas model = new Transferir_tarefas();
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if(Core.isInt(id)){
+		model.load();
+		Transferir_tarefasView view = new Transferir_tarefasView();
+		/*----#start-code(index)----*/				
+
+		String id = Igrp.getInstance().getRequest().getParameter("p_p_id_g");
+		if(Core.isNotNull(id)){
 			TaskService task = new TaskService().getTask(id);
 			if(task!=null){
-				model.setAtribuido_por(task.getOwner());
-				model.setP_id(id);
-				model.setCodigo_processo(task.getTaskDefinitionKey());
-				model.setCriado_por_(task.getOwner());
-				model.setNumero_processo(task.getProcessDefinitionId());
-				model.setUtilizador_actual(task.getAssignee());
-				model.setTipo_processo(task.getCategory());
-				model.setData_criacao(task.getCreateTime()!=null?task.getCreateTime().toString():"");
-				model.setData_fim(task.getDueDate()!=null?task.getDueDate().toString():"");
+				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(task.getProcessDefinitionId());
+				ProcessInstancesService history = new ProcessInstancesService().historicProcess(task.getProcessInstanceId());
+				model.setData_inicio(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setCriado_por_(history.getStartUserId());
+				model.setId(id);
+				model.setAtribuido_a(task.getAssignee());
+				model.setDescricao_de_tarefa(Core.getSwitchNotNullValue(task.getDescription(),task.getName()));
+				model.setN_tarefa(task.getId());
+				model.setNumero_processo(task.getProcessInstanceId());
+				model.setTipo_processo(process.getName());
 			}
 		}		
-		Transferir_tarefasView view = new Transferir_tarefasView(model);
-		view.btn_gravar.setLink("index");
-
-		view.novo_utilizador.setLookup("igrp","LookupListUser","index&dad=igrp");
+		view.novo_utilizador.setLookup("igrp","LookupListUser","index&dad="+Core.getCurrentDad()+"&type=my_user");
 		view.novo_utilizador.addParam("p_prm_target","_blank");
 		view.novo_utilizador.addParam("p_id_utilizador", "p_id");
-		view.novo_utilizador.addParam("p_novo_utilizador", "nome_1");
-		
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			model.load();
-			if(Core.isNotNull(model.getP_id_utilizador())){
-				User user = new User().findOne(Integer.parseInt(model.getP_id_utilizador()));
-				if(user!=null && new TaskService().delegateTask(id, user.getUser_name())){
-					Core.setMessageSuccess(gt("Tarefa transferida para ")+user.getName()+gt(" com sucesso"));
-				}else{
-					Core.setMessageError();			
-				}
-			}else{
-				Core.setMessageError();				
-			}
-		}
+		view.novo_utilizador.addParam("p_novo_utilizador", "login_1");
+
 		view.target = "_blank";
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
-	}
-
-
-	public Response actionGravar() throws IOException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/				
-		return this.redirect("igrp","Transferir_tarefas","index");
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
 	
-
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Transferir_tarefas model = new Transferir_tarefas();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Transferir_tarefas","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(gravar)----*/				
+		String userName = Core.getParam("p_novo_utilizador");
+		String taskId = Core.getParam("p_id");
+		User user = new User().findIdentityByUsername(userName);
+		if(Core.isNotNullMultiple(userName,taskId) && user!=null) {
+			 if(new TaskService().claimTask(taskId,userName)){
+				 Core.setMessageSuccess(Core.gt("Tarefa transferida para ")+user.getName()+Core.gt(" com sucesso"));
+		     }else {
+		    	 Core.setMessageError(Core.gt("Nao foi possivel transferir a tarefa para ")+user.getName());
+		     }
+			this.addQueryString("p_p_id_g", taskId);
+		}else {
+	    	 Core.setMessageError(Core.gt("User invalido"));
+	     }
+		/*----#end-code----*/
+		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
+	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+/*----#start-code(custom_actions)----*/
 	
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
 }

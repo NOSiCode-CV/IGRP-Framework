@@ -31,7 +31,7 @@ public class Permission {
 			if(!new EncrypDecrypt().getWakandaList(app+"/"+page+"/"+action) ||
 					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("home")) || 	
 					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("DefaultPage")) || 		
-					(action.equalsIgnoreCase("executar_button_minha_tarefas") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("ExecucaoTarefas"))||
+					(app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("ExecucaoTarefas"))||//for all action on this controller
 					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("Dash_board_processo"))||
 					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("Dash_board_processo"))||
 					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("ExecucaoTarefas"))||

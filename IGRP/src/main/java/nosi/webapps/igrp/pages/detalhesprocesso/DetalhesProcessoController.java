@@ -30,16 +30,13 @@ public class DetalhesProcessoController extends Controller {
 				model.setNumero_de_processo(task.getProcessInstanceId());
 				process_definitionId = task.getProcessDefinitionId();
 				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(task.getProcessDefinitionId());
-				if(process.filterAccess(process)) {
-					ProcessInstancesService history = new ProcessInstancesService().historicProcess(task.getProcessInstanceId());
-					DeploymentService deploy = new DeploymentService().getDeployment(process.getDeploymentId());
-					model.setData_criacao_de_processo(Core.isNotNull(deploy.getDeploymentTime())?Core.ToChar(deploy.getDeploymentTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
-					model.setDescricao(Core.isNotNull(process.getDescription())?process.getDescription():process.getName());
-					model.setData_inicio_de_processo(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
-					model.setData_fim_processo(Core.isNotNull(history.getEndTime())?Core.ToChar(history.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
-					
-					break;
-				}
+				ProcessInstancesService history = new ProcessInstancesService().historicProcess(task.getProcessInstanceId());
+				DeploymentService deploy = new DeploymentService().getDeployment(process.getDeploymentId());
+				model.setData_criacao_de_processo(Core.isNotNull(deploy.getDeploymentTime())?Core.ToChar(deploy.getDeploymentTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setDescricao(Core.isNotNull(process.getDescription())?process.getDescription():process.getName());
+				model.setData_inicio_de_processo(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				model.setData_fim_processo(Core.isNotNull(history.getEndTime())?Core.ToChar(history.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+				break;
 			}
 			processId = model.getNumero_de_processo();
 		}
@@ -58,8 +55,6 @@ public class DetalhesProcessoController extends Controller {
 					content = r.getResourceContent(r.getContentUrl());
 					view.img_1.setValue("data:image/png;base64,"+content);
 				}
-			}else {
-				throw new IOException(Core.NO_PERMITION_MSG);
 			}
 		}
 		if(showView) {
