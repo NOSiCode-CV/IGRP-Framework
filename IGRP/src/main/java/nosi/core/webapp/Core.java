@@ -1261,7 +1261,7 @@ public final class Core { // Not inherit
 	 * @return {@code value!=null && !value.equals("");}
 	 */
 	
-	public static boolean isNotNull(Object... values) {
+	public static boolean isNotNullMultiple(Object... values) {
 		boolean r = false;
 		if(values!=null) {
 			for(Object value:values) {
