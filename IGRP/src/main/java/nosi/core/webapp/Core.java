@@ -161,7 +161,7 @@ public final class Core { // Not inherit
 	 */
 	public static String defaultConnection() {
 		String result = "";
-		Application app = new Application().find().andWhere("dad", "=", Core.getCurrentDad()).one();
+		Application app = new Application().find().andWhere("dad", "=", Core.getCurrentDadParam()).one();
 		if(app != null) {
 			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", 1).andWhere("application", "=", app.getId()).one();
 			if(config_env != null)

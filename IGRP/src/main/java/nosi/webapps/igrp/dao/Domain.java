@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import nosi.core.webapp.Core;
+
 /**
  * Emanuel
  * 27 Mar 2018
@@ -40,7 +42,7 @@ public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable
 		this.dominio = dominio;
 		this.valor = valor;
 		this.description = description;
-		this.status = status;
+		this.status = Core.isNotNull(status)?status:"ATIVE";
 		this.ordem = ordem;
 	}
 

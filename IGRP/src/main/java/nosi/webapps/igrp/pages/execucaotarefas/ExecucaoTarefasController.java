@@ -45,8 +45,7 @@ public class ExecucaoTarefasController extends Controller {
 		/*----#gen-example
 		  ----#gen-example */
 		/*----#start-code(index)----*/      
-      
-      
+
       this.showTabManage(view, false);//hide tab when user is not manager
       
       TaskService objTask = new TaskService();
@@ -72,11 +71,11 @@ public class ExecucaoTarefasController extends Controller {
       view.tipo_processo_gerir_tarefa.setValue(listProc);
       view.tipo_processo_minhas_tarefas.setValue(listProc);
       
-      view.btn_pesquisar_button_disponiveis.addParameter("btn_search=",AVAILABLE);
-      view.btn_pesquisar_button_minhas_tarefas.addParameter("btn_search",MY_TASK);
-      view.btn_pesquisar_colaborador.addParameter("btn_search",CONTRIBUTOR);
-      view.btn_pesquisar_estatistica.addParameter("btn_search",STATISTIC);
-      view.btn_pesquisar_tarefa.addParameter("btn_search",MANAGE_TASK);
+      view.btn_pesquisar_button_disponiveis.addParameter("btn_search=",AVAILABLE).setLink("index");
+      view.btn_pesquisar_button_minhas_tarefas.addParameter("btn_search",MY_TASK).setLink("index");
+      view.btn_pesquisar_colaborador.addParameter("btn_search",CONTRIBUTOR).setLink("index");
+      view.btn_pesquisar_estatistica.addParameter("btn_search",STATISTIC).setLink("index");
+      view.btn_pesquisar_tarefa.addParameter("btn_search",MANAGE_TASK).setLink("index");
       
       view.btn_alterar_prioridade_tarefa.setLink("index");
       view.btn_alterar_prioridade_tarefa.setPage("Alter_prioridade_tarefa");
@@ -94,19 +93,7 @@ public class ExecucaoTarefasController extends Controller {
       view.btn_pesquisar_button_disponiveis.setTarget("submit_ajax");
       view.btn_pesquisar_colaborador.setTarget("submit_ajax");
       view.btn_pesquisar_estatistica.setTarget("submit_ajax");
-      view.btn_pesquisar_tarefa.setTarget("submit");
-      
-      /*
-      view.pesquisa_gerir_tarefa.setVisible(false);
-      view.pesquisa_minhas_tarefas.setVisible(false);
-      view.pesquisar_form_disponiveis.setVisible(false);
-      view.tipo_etapa_colaborador.setVisible(false);
-      view.organica_colaborador.setVisible(false);
-      view.organica_form_disponiveis.setVisible(false);
-      view.organica_gerir_tarefa.setVisible(false);
-      view.organica_minhas_tarefas.setVisible(false);
-      view.estado_estatistica.setValue(this.getStatus());
-        */
+      view.btn_pesquisar_tarefa.setTarget("submit_ajax");
       /*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -521,8 +508,6 @@ public class ExecucaoTarefasController extends Controller {
 			case MANAGE_TASK:
 				proc_tp = model.getTipo_processo_gerir_tarefa();
 				num_proc = model.getNumero_processo_gerir_tarefa();
-				System.out.println("num_proc:"+num_proc);
-				System.out.println("p_numero_processo_gerir_tarefa:"+Core.getParam("p_numero_processo_gerir_tarefa"));
 				data_inicio = model.getData_inicio_gerir_tarefa();
 				data_fim = model.getData_fim_gerir_tarefa();
 				prioridade = model.getPrioridade_gerir_tarefa();
