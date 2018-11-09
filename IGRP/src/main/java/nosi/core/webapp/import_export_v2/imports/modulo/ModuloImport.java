@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.modulo.ModuloSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
-import nosi.core.webapp.import_export_v2.imports.page.PageImport;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Modulo;
 
@@ -13,12 +12,13 @@ import nosi.webapps.igrp.dao.Modulo;
  * Emanuel
  * 5 Nov 2018
  */
-public class ModuloImport extends PageImport implements IImport {
-
+public class ModuloImport implements IImport {
+	private String error = "";
+	protected Application application;
 	private List<ModuloSerializable> modulos;
 	
 	public ModuloImport(Application application) {
-		super(application);
+		this.application = application;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -45,25 +45,19 @@ public class ModuloImport extends PageImport implements IImport {
 					m = m.insert();
 					this.addError(m.getError());
 				}
-				if(modulo.getPages()!=null) {
-					modulo.getPages().stream().forEach(page->{
-						this.insertPgae(page);
-					});
-				}
-			});
-			this.compiler.compile();
-			this.addError(this.compiler.getError());			
+			});			
 		}
 	}
 
 	@Override
 	public void addError(String error) {
-		super.addError(error);
+		if(Core.isNotNull(error))
+			this.error += error+"\n";
 	}
 
 	@Override
 	public String getError() {
-		return super.getError();
+		return this.error;
 	}
 
 	

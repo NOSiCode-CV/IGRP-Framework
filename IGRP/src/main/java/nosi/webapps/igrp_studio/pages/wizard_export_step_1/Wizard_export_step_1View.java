@@ -5,9 +5,6 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class Wizard_export_step_1View extends View {
 
@@ -40,7 +37,7 @@ public class Wizard_export_step_1View extends View {
 		
 		selecionar_opcao = new CheckBoxListField(model,"selecionar_opcao");
 		selecionar_opcao.setLabel(gt("Selecionar opções"));
-		selecionar_opcao.propertie().add("name","p_selecionar_opcao").add("type","checkboxlist").add("domain","").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("child_size","6").add("java-type","");
+		selecionar_opcao.propertie().add("name","p_selecionar_opcao").add("type","checkboxlist").add("domain","").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("child_size","6");
 		
 		application_id = new HiddenField(model,"application_id");
 		application_id.setLabel(gt(""));

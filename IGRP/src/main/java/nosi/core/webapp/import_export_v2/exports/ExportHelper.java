@@ -7,7 +7,6 @@ import nosi.core.webapp.import_export_v2.exports.connection.ConnectionExport;
 import nosi.core.webapp.import_export_v2.exports.dao.DAOExport;
 import nosi.core.webapp.import_export_v2.exports.domain.DomainExport;
 import nosi.core.webapp.import_export_v2.exports.menu.MenuExport;
-import nosi.core.webapp.import_export_v2.exports.modulo.ModuloExport;
 import nosi.core.webapp.import_export_v2.exports.page.PageExport;
 import nosi.core.webapp.import_export_v2.exports.report.ReportExport;
 import nosi.webapps.igrp.dao.Application;
@@ -37,8 +36,7 @@ public class ExportHelper {
 		Application application = new Application().findOne(model.getApplication_id());
 		new ApplicationExport(application).export(export,null);
 		new BPMNExport(application).export(export,bpm_ids);
-		new DomainExport().export(export,domain_ids);
-		new ModuloExport().export(export, modulo_ids);		
+		new DomainExport().export(export,domain_ids);	
 		new PageExport().export(export,page_ids);		
 		new ReportExport().export(export,report_ids);
 		new ConnectionExport().export(export,conexao_ids);

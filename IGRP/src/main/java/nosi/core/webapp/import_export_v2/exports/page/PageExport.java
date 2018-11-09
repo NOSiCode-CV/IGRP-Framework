@@ -12,8 +12,10 @@ import nosi.core.webapp.import_export_v2.common.serializable.page.PageFilesSeria
 import nosi.core.webapp.import_export_v2.common.serializable.page.PageSerializable;
 import nosi.core.webapp.import_export_v2.exports.Export;
 import nosi.core.webapp.import_export_v2.exports.IExport;
+import nosi.core.webapp.import_export_v2.exports.modulo.ModuloExport;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Modulo;
 
 /**
  * Emanuel
@@ -23,10 +25,12 @@ public class PageExport implements IExport{
 
 	private List<PageSerializable> pages;
 	private Config config;
+	private List<String> modulo_ids;
 	
 	public PageExport() {
 		this.pages = new ArrayList<>();
 		this.config = new Config();
+		this.modulo_ids = new ArrayList<>();
 	}
 	
 	@Override
@@ -42,6 +46,10 @@ public class PageExport implements IExport{
 	@Override
 	public void add(String id) {
 		Action ac = new Action().findOne(Core.toInt(id));
+		if(Core.isNotNull(ac.getNomeModulo())) {
+			Modulo modulo = new Modulo().find().andWhere("name", "=",ac.getNomeModulo()).andWhere("application", "=",ac.getApplication().getId()).one();
+			this.modulo_ids.add(""+modulo.getId());
+		}
 		PageSerializable page = new PageSerializable();
 		Core.mapper(ac,page);		
 		page.setDad(ac.getApplication().getDad());
@@ -58,6 +66,11 @@ public class PageExport implements IExport{
 				this.add(id);
 			}
 			export.add(this);
+			if(this.modulo_ids!=null && this.modulo_ids.size() > 0) {
+				String[] modulos = new String[this.modulo_ids.size()];
+				modulos = this.modulo_ids.toArray(modulos);
+				new ModuloExport().export(export,modulos);	
+			}
 		}
 	}	
 
