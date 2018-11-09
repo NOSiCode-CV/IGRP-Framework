@@ -1,21 +1,33 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_1;
 
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class Wizard_export_step_1 extends Model{		
-	@RParam(rParamName = "p_exportacao_aplicacao___passo_1")
-	private String exportacao_aplicacao___passo_1;
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
+	@RParam(rParamName = "p_file_name")
+	private String file_name;
 	@RParam(rParamName = "p_selecionar_opcao")
 	private int[] selecionar_opcao;
 	@RParam(rParamName = "p_application_id")
 	private int application_id;
 	
-	public void setExportacao_aplicacao___passo_1(String exportacao_aplicacao___passo_1){
-		this.exportacao_aplicacao___passo_1 = exportacao_aplicacao___passo_1;
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
 	}
-	public String getExportacao_aplicacao___passo_1(){
-		return this.exportacao_aplicacao___passo_1;
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
+	}
+	
+	public void setFile_name(String file_name){
+		this.file_name = file_name;
+	}
+	public String getFile_name(){
+		return this.file_name;
 	}
 	
 	public void setSelecionar_opcao(int[] selecionar_opcao){

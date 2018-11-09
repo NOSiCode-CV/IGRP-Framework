@@ -56,10 +56,10 @@ public class ExportSqlHelper {
 				view.table_menu.setVisible(true);
 				this.loadMenuData(model);
 			}
-			else if(t==OptionsImportExport.MODULO.getValor()) {
-				view.table_modulo.setVisible(true);
-				this.loadModuloData(model);
-			}
+//			else if(t==OptionsImportExport.MODULO.getValor()) {
+//				view.table_modulo.setVisible(true);
+//				this.loadModuloData(model);
+//			}
 	//		else if(t==ExportTypes.SERVICE.getValor()) {
 	//			this.loadServiceData(model);
 	//		}
@@ -140,7 +140,7 @@ public class ExportSqlHelper {
 	}
 
 	private void loadPageData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as pagina_ids,id as pagina_ids_check,concat(page,' - ',page_descr) as descricao_pagina "
+		String sql = "SELECT id as pagina_ids,id as pagina_ids_check,concat(page,' (',page_descr,')') as descricao_pagina "
 				   + "FROM tbl_action "
 				   + "WHERE env_fk=:application_id AND status=1 AND processkey is null";
 		model.loadTable_pagina(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
@@ -156,8 +156,8 @@ public class ExportSqlHelper {
 		List<Table_bpmn> table_1 = new ArrayList<>();
 		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAllAtivos(this.application.getDad())){
 			Table_bpmn t = new Table_bpmn();
-			t.setBpmn_ids(process.getId());
-			t.setBpmn_ids_check(process.getId());
+			t.setBpmn_ids(Core.toInt(process.getId()));
+			t.setBpmn_ids_check(Core.toInt(process.getId()));
 			t.setDescricao_bpmn(process.getName());
 			table_1.add(t );
 		}

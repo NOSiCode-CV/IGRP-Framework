@@ -1,13 +1,15 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_1;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
-
-
+import static nosi.core.i18n.Translator.gt;
+import java.lang.String;
 /*----#end-code----*/
 		
 public class Wizard_export_step_1Controller extends Controller {
@@ -21,10 +23,19 @@ public class Wizard_export_step_1Controller extends Controller {
 		view.selecionar_opcao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/		
-		String sql = this.getSql();		
+			String nomeApp = Core.findApplicationById(model.getApplication_id()).getName();
+//			   model.setSelecionar_opcao(Core.getParamArray("p_selecionar_opcao"));
+//		        model.setTodos_check(Core.getParamInt("p_todos")); 
+  
+      model.setFile_name(nomeApp+"_igrpweb_v."+config.VERSION);
+      String sql = this.getSql();		
 		if(Core.isNotNull(sql)) {
 			view.selecionar_opcao.setQuery(Core.query(null,sql));
 		}
+      
+      	view.sectionheader_1_text.setValue(String.format("%s: %s - %s 1", gt("Exportação"),nomeApp,gt("Passo")));
+    
+       
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -37,21 +48,24 @@ public class Wizard_export_step_1Controller extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Wizard_export_step_2","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(seguinte)----*/
-		String[] p_selecionar_opcao = Core.getParamArray("p_selecionar_opcao");
+
+       String[] p_selecionar_opcao = Core.getParamArray("p_selecionar_opcao");
+         
 		if(p_selecionar_opcao!=null) {
 			for(String opc:p_selecionar_opcao) {
 				this.addQueryString("p_selecionar_opcao",opc);
 			}
 			this.addQueryString("p_application_id", model.getApplication_id());
-			return this.redirect("igrp_studio", "Wizard_export_step_2", "index",this.queryString());
+          	this.addQueryString("p_file_name", Core.getParam("p_file_name"));
+			return this.forward("igrp_studio", "Wizard_export_step_2", "index",this.queryString());
 		}else {
 			Core.setMessageError(Core.gt("Por favor selecione as opções abaixo"));
 		}
 		
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Wizard_export_step_2","index", this.queryString());	
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
