@@ -56,22 +56,10 @@ public class ExportSqlHelper {
 				view.table_menu.setVisible(true);
 				this.loadMenuData(model);
 			}
-//			else if(t==OptionsImportExport.MODULO.getValor()) {
-//				view.table_modulo.setVisible(true);
-//				this.loadModuloData(model);
-//			}
 	//		else if(t==ExportTypes.SERVICE.getValor()) {
 	//			this.loadServiceData(model);
 	//		}
 		}
-	}
-
-	
-	private void loadModuloData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as modulo_ids,id as modulo_ids_check, concat(name,' - ',descricao) as descricao_modulo "
-				   + "FROM tbl_modulo "
-				   + "WHERE env_fk=:application_id";
-		model.loadTable_modulo(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 
@@ -143,6 +131,18 @@ public class ExportSqlHelper {
 		String sql = "SELECT id as pagina_ids,id as pagina_ids_check,concat(page,' (',page_descr,')') as descricao_pagina "
 				   + "FROM tbl_action "
 				   + "WHERE env_fk=:application_id AND status=1 AND processkey is null";
+		if(Core.isNotNull(model.getModulo())) {
+			sql+= " AND (";
+			int count=0;
+			int size = model.getModulo().length;			
+			for(String modulo:model.getModulo()) {
+				sql+=" nomeModulo='"+modulo+"'";
+				++count;
+				if(count!=size)
+					sql+=" OR ";
+			}
+			sql+= ")";
+		}
 		model.loadTable_pagina(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
 	}
 

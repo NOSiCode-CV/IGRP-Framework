@@ -5,9 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
+
 
 public class Wizard_export_step_2View extends View {
 
@@ -22,35 +20,35 @@ public class Wizard_export_step_2View extends View {
 	public Field pagina_ids;
 	public Field pagina_ids_check;
 	public Field descricao_pagina;
-	public Field domain_ids;
-	public Field domain_ids_check;
-	public Field descricao_domain;
 	public Field report_ids;
 	public Field report_ids_check;
 	public Field descricao_report;
-	public Field dao_ids;
-	public Field dao_ids_check;
-	public Field descricao_dao;
 	public Field conexao_ids;
 	public Field conexao_ids_check;
 	public Field descricao_conexao;
-	public Field menu_ids;
-	public Field menu_ids_check;
-	public Field descricao_menu;
 	public Field modulo_ids;
 	public Field modulo_ids_check;
 	public Field descricao_modulo;
+	public Field menu_ids;
+	public Field menu_ids_check;
+	public Field descricao_menu;
+	public Field domain_ids;
+	public Field domain_ids_check;
+	public Field descricao_domain;
+	public Field dao_ids;
+	public Field dao_ids_check;
+	public Field descricao_dao;
 	public IGRPForm sectionheader_1;
 	public IGRPForm box_paginas;
 	public IGRPForm form_2;
 	public IGRPTable table_bpmn;
 	public IGRPTable table_pagina;
-	public IGRPTable table_domain;
 	public IGRPTable table_report;
-	public IGRPTable table_dao;
 	public IGRPTable table_connections;
-	public IGRPTable table_menu;
 	public IGRPTable table_modulo;
+	public IGRPTable table_menu;
+	public IGRPTable table_domain;
+	public IGRPTable table_dao;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_voltar;
@@ -70,17 +68,17 @@ public class Wizard_export_step_2View extends View {
 
 		table_pagina = new IGRPTable("table_pagina","");
 
-		table_domain = new IGRPTable("table_domain","Domínios");
-
 		table_report = new IGRPTable("table_report","Reports");
-
-		table_dao = new IGRPTable("table_dao","Classes DAO");
 
 		table_connections = new IGRPTable("table_connections","Conexões com Base Dados");
 
+		table_modulo = new IGRPTable("table_modulo","Módulos");
+
 		table_menu = new IGRPTable("table_menu","Menu");
 
-		table_modulo = new IGRPTable("table_modulo","Módulos");
+		table_domain = new IGRPTable("table_domain","Domínios");
+
+		table_dao = new IGRPTable("table_dao","Classes DAO");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -125,17 +123,6 @@ public class Wizard_export_step_2View extends View {
 		descricao_pagina.setLabel(gt("Título (código)"));
 		descricao_pagina.propertie().add("name","p_descricao_pagina").add("type","text").add("maxlength","30");
 		
-		domain_ids = new CheckBoxField(model,"domain_ids");
-		domain_ids.setLabel(gt(""));
-		domain_ids.propertie().add("name","p_domain_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
-		
-		domain_ids_check = new CheckBoxField(model,"domain_ids_check");
-		domain_ids_check.propertie().add("name","p_domain_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
-		
-		descricao_domain = new TextField(model,"descricao_domain");
-		descricao_domain.setLabel(gt("Descrição"));
-		descricao_domain.propertie().add("name","p_descricao_domain").add("type","text").add("maxlength","30");
-		
 		report_ids = new CheckBoxField(model,"report_ids");
 		report_ids.setLabel(gt(""));
 		report_ids.propertie().add("name","p_report_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
@@ -146,17 +133,6 @@ public class Wizard_export_step_2View extends View {
 		descricao_report = new TextField(model,"descricao_report");
 		descricao_report.setLabel(gt("Descrição"));
 		descricao_report.propertie().add("name","p_descricao_report").add("type","text").add("maxlength","30");
-		
-		dao_ids = new CheckBoxField(model,"dao_ids");
-		dao_ids.setLabel(gt(""));
-		dao_ids.propertie().add("name","p_dao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
-		
-		dao_ids_check = new CheckBoxField(model,"dao_ids_check");
-		dao_ids_check.propertie().add("name","p_dao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
-		
-		descricao_dao = new TextField(model,"descricao_dao");
-		descricao_dao.setLabel(gt("Descrição"));
-		descricao_dao.propertie().add("name","p_descricao_dao").add("type","text").add("maxlength","30");
 		
 		conexao_ids = new CheckBoxField(model,"conexao_ids");
 		conexao_ids.setLabel(gt(""));
@@ -169,6 +145,17 @@ public class Wizard_export_step_2View extends View {
 		descricao_conexao.setLabel(gt("Descrição"));
 		descricao_conexao.propertie().add("name","p_descricao_conexao").add("type","text").add("maxlength","30");
 		
+		modulo_ids = new CheckBoxField(model,"modulo_ids");
+		modulo_ids.setLabel(gt(""));
+		modulo_ids.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		
+		modulo_ids_check = new CheckBoxField(model,"modulo_ids_check");
+		modulo_ids_check.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		
+		descricao_modulo = new TextField(model,"descricao_modulo");
+		descricao_modulo.setLabel(gt("Descricao"));
+		descricao_modulo.propertie().add("name","p_descricao_modulo").add("type","text").add("maxlength","30");
+		
 		menu_ids = new CheckBoxField(model,"menu_ids");
 		menu_ids.setLabel(gt(""));
 		menu_ids.propertie().add("name","p_menu_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
@@ -180,16 +167,27 @@ public class Wizard_export_step_2View extends View {
 		descricao_menu.setLabel(gt("Descrição"));
 		descricao_menu.propertie().add("name","p_descricao_menu").add("type","text").add("maxlength","30");
 		
-		modulo_ids = new CheckBoxField(model,"modulo_ids");
-		modulo_ids.setLabel(gt(""));
-		modulo_ids.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		domain_ids = new CheckBoxField(model,"domain_ids");
+		domain_ids.setLabel(gt(""));
+		domain_ids.propertie().add("name","p_domain_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		
-		modulo_ids_check = new CheckBoxField(model,"modulo_ids_check");
-		modulo_ids_check.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		domain_ids_check = new CheckBoxField(model,"domain_ids_check");
+		domain_ids_check.propertie().add("name","p_domain_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		
-		descricao_modulo = new TextField(model,"descricao_modulo");
-		descricao_modulo.setLabel(gt("Descricao"));
-		descricao_modulo.propertie().add("name","p_descricao_modulo").add("type","text").add("maxlength","30");
+		descricao_domain = new TextField(model,"descricao_domain");
+		descricao_domain.setLabel(gt("Descrição"));
+		descricao_domain.propertie().add("name","p_descricao_domain").add("type","text").add("maxlength","30");
+		
+		dao_ids = new CheckBoxField(model,"dao_ids");
+		dao_ids.setLabel(gt(""));
+		dao_ids.propertie().add("name","p_dao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		
+		dao_ids_check = new CheckBoxField(model,"dao_ids_check");
+		dao_ids_check.propertie().add("name","p_dao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		
+		descricao_dao = new TextField(model,"descricao_dao");
+		descricao_dao.setLabel(gt("Descrição"));
+		descricao_dao.propertie().add("name","p_descricao_dao").add("type","text").add("maxlength","30");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -223,29 +221,29 @@ public class Wizard_export_step_2View extends View {
 		table_pagina.addField(pagina_ids_check);
 		table_pagina.addField(descricao_pagina);
 
-		table_domain.addField(domain_ids);
-		table_domain.addField(domain_ids_check);
-		table_domain.addField(descricao_domain);
-
 		table_report.addField(report_ids);
 		table_report.addField(report_ids_check);
 		table_report.addField(descricao_report);
-
-		table_dao.addField(dao_ids);
-		table_dao.addField(dao_ids_check);
-		table_dao.addField(descricao_dao);
 
 		table_connections.addField(conexao_ids);
 		table_connections.addField(conexao_ids_check);
 		table_connections.addField(descricao_conexao);
 
+		table_modulo.addField(modulo_ids);
+		table_modulo.addField(modulo_ids_check);
+		table_modulo.addField(descricao_modulo);
+
 		table_menu.addField(menu_ids);
 		table_menu.addField(menu_ids_check);
 		table_menu.addField(descricao_menu);
 
-		table_modulo.addField(modulo_ids);
-		table_modulo.addField(modulo_ids_check);
-		table_modulo.addField(descricao_modulo);
+		table_domain.addField(domain_ids);
+		table_domain.addField(domain_ids_check);
+		table_domain.addField(descricao_domain);
+
+		table_dao.addField(dao_ids);
+		table_dao.addField(dao_ids_check);
+		table_dao.addField(descricao_dao);
 
 		toolsbar_1.addButton(btn_voltar);
 		toolsbar_1.addButton(btn_finalizar);
@@ -254,12 +252,12 @@ public class Wizard_export_step_2View extends View {
 		this.addToPage(form_2);
 		this.addToPage(table_bpmn);
 		this.addToPage(table_pagina);
-		this.addToPage(table_domain);
 		this.addToPage(table_report);
-		this.addToPage(table_dao);
 		this.addToPage(table_connections);
-		this.addToPage(table_menu);
 		this.addToPage(table_modulo);
+		this.addToPage(table_menu);
+		this.addToPage(table_domain);
+		this.addToPage(table_dao);
 		this.addToPage(toolsbar_1);
 	}
 		
@@ -274,26 +272,26 @@ public class Wizard_export_step_2View extends View {
 		descricao_bpmn.setValue(model);
 		pagina_ids.setValue(model);
 		descricao_pagina.setValue(model);
-		domain_ids.setValue(model);
-		descricao_domain.setValue(model);
 		report_ids.setValue(model);
 		descricao_report.setValue(model);
-		dao_ids.setValue(model);
-		descricao_dao.setValue(model);
 		conexao_ids.setValue(model);
 		descricao_conexao.setValue(model);
+		modulo_ids.setValue(model);
+		descricao_modulo.setValue(model);
 		menu_ids.setValue(model);
 		descricao_menu.setValue(model);
-		modulo_ids.setValue(model);
-		descricao_modulo.setValue(model);	
+		domain_ids.setValue(model);
+		descricao_domain.setValue(model);
+		dao_ids.setValue(model);
+		descricao_dao.setValue(model);	
 
 		table_bpmn.loadModel(((Wizard_export_step_2) model).getTable_bpmn());
 		table_pagina.loadModel(((Wizard_export_step_2) model).getTable_pagina());
-		table_domain.loadModel(((Wizard_export_step_2) model).getTable_domain());
 		table_report.loadModel(((Wizard_export_step_2) model).getTable_report());
-		table_dao.loadModel(((Wizard_export_step_2) model).getTable_dao());
 		table_connections.loadModel(((Wizard_export_step_2) model).getTable_connections());
-		table_menu.loadModel(((Wizard_export_step_2) model).getTable_menu());
 		table_modulo.loadModel(((Wizard_export_step_2) model).getTable_modulo());
+		table_menu.loadModel(((Wizard_export_step_2) model).getTable_menu());
+		table_domain.loadModel(((Wizard_export_step_2) model).getTable_domain());
+		table_dao.loadModel(((Wizard_export_step_2) model).getTable_dao());
 		}
 }

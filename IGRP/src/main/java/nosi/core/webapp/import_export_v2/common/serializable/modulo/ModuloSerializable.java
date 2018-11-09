@@ -1,8 +1,6 @@
 package nosi.core.webapp.import_export_v2.common.serializable.modulo;
 
 import java.io.Serializable;
-import java.util.List;
-import nosi.core.webapp.import_export_v2.common.serializable.page.PageSerializable;
 
 /**
  * Emanuel
@@ -19,7 +17,6 @@ public class ModuloSerializable implements Serializable{
 	private String name;
 	private String dad_app;
 	private String descricao;
-	private List<PageSerializable> pages;
 	
 	public String getName() {
 		return name;
@@ -38,12 +35,6 @@ public class ModuloSerializable implements Serializable{
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-	public List<PageSerializable> getPages() {
-		return pages;
-	}
-	public void setPages(List<PageSerializable> pages) {
-		this.pages = pages;
 	}
 	
 }

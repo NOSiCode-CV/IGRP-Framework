@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_2;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -23,19 +21,19 @@ public class Wizard_export_step_2Controller extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Lorem officia stract totam sit' as descricao_bpmn "));
-		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Stract officia natus sit conse' as descricao_pagina "));
-		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Sit ipsum sit elit mollit' as descricao_domain "));
-		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Perspiciatis mollit deserunt n' as descricao_report "));
-		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Amet ipsum officia lorem molli' as descricao_dao "));
-		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Aperiam dolor perspiciatis lau' as descricao_conexao "));
-		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Elit rem elit totam sed' as descricao_menu "));
-		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Sit elit lorem sit elit' as descricao_modulo "));
+		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Unde sed voluptatem dolor magn' as descricao_bpmn "));
+		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Stract adipiscing aliqua sit d' as descricao_pagina "));
+		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Accusantium officia doloremque' as descricao_report "));
+		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Lorem amet laudantium doloremq' as descricao_conexao "));
+		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Stract sed ut deserunt adipisc' as descricao_modulo "));
+		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Ut natus stract voluptatem eli' as descricao_menu "));
+		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Laudantium adipiscing elit dol' as descricao_domain "));
+		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Sed lorem adipiscing rem dolor' as descricao_dao "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		String[] p_selecionar_opcao = Core.getParamArray("p_selecionar_opcao");
      	String nomeApp = Core.findApplicationById(model.getApplication_id()).getName();
+		String[] p_selecionar_opcao = Core.getParamArray("p_selecionar_opcao");
 		if(Core.isNotNull(model.getApplication_id()) && p_selecionar_opcao!=null) {
 			String aux = Arrays.toString(p_selecionar_opcao);
 			aux = aux.replace("[", "").replace("]", "");
@@ -53,17 +51,11 @@ public class Wizard_export_step_2Controller extends Controller {
 	}
 	
 	public Response actionVoltar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Wizard_export_step_2 model = new Wizard_export_step_2();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Wizard_export_step_1","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(voltar)----*/
 		
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Wizard_export_step_1","index", this.queryString());	
+		
+		return this.redirect("igrp_studio","wizard_export_step_2","index");	
 	}
 	
 	public Response actionFinalizar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -73,7 +65,7 @@ public class Wizard_export_step_2Controller extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Wizard_export_step_2","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(finalizar)----*/
 		byte[] bytes = new ExportHelper().export(model);
 		if(bytes!=null) {
@@ -85,7 +77,7 @@ public class Wizard_export_step_2Controller extends Controller {
 			this.addQueryString("p_selecionar_opcao",opc);
 		}
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		return this.redirect("igrp_studio","Wizard_export_step_2","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
