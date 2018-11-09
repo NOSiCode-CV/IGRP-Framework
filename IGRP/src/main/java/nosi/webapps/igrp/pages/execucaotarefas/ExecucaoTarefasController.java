@@ -336,7 +336,7 @@ public class ExecucaoTarefasController extends Controller {
                return this.redirect(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
             }
          }
-         throw new IOException(Core.NO_PERMITION_MSG);
+         return this.redirect("igrp","ExecucaoTarefas","index");
       }
       //return this.redirect("igrp", "ErrorPage", "exception");
       /*----#end-code----*/
