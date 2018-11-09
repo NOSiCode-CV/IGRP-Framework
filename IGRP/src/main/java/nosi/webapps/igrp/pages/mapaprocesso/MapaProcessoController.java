@@ -50,7 +50,7 @@ public class MapaProcessoController extends Controller{
 			if(process.filterAccess(process)) {
 				formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 			}else {
-				throw new IOException(Core.NO_PERMITION_MSG);
+				return this.redirect("igrp","ExecucaoTarefas","index");
 			}
 		}
 		if(formData != null && process!=null) {
@@ -73,20 +73,6 @@ public class MapaProcessoController extends Controller{
 		}
 		return null;
 	}
-//
-//	public Response actionGetXsl() throws IOException{
-//		String page = Core.getParam("page");
-//		String app = Core.getParam("app");
-//		if(Core.isNotNull(page) && Core.isNotNull(app)){
-//			//XMLExtractComponent comp = new XMLExtractComponent();
-//			Action ac = new Action().find().andWhere("page", "=",page).andWhere("application", "=",Core.toInt(app)).one();
-//			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
-//			String content = FileHelper.readFile(path_xsl, ac.getPage()+".xsl");
-//			//content = comp.addButtonXsl(content);
-//			this.format = Response.FORMAT_XSL;			
-//			return this.renderView(content.replaceAll("<xsl:include href=\"../../../","<xsl:include href=\""+this.getConfig().getLinkImg()+"/"));
-//		}
-//		return this.redirect("igrp", "ErrorPage", "exception");
-//	}
+
 	/*----#END-PRESERVED-AREA----*/
 }
