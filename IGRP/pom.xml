@@ -10,7 +10,7 @@
 	<properties>
 		<!-- Database migrations properties -->
 		<activejdbc.version>1.4.13</activejdbc.version>
-		<environments>igrp.lab,igrp.dev</environments>
+		<environments>igrp.lab,igrp.dev, igrp.tst</environments>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
