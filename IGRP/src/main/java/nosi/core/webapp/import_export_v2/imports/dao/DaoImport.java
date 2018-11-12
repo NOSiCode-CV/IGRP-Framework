@@ -49,11 +49,11 @@ public class DaoImport  implements IImport{
 
 	private void saveFile(DAOSerializable dao) {
 		String basePath = Path.getPath(this.application);
-		basePath += "dao" + File.separator;
+		basePath += "dao";
 		String fileName = this.resolveFileName(dao.getFileName());
 		try {
 			FileHelper.save(basePath, fileName, dao.getContent());
-			this.compiler.addFileName(basePath+fileName);
+			this.compiler.addFileName(basePath + File.separator+fileName);
 		} catch (IOException e) {
 			this.addError(e.getMessage());
 		}
