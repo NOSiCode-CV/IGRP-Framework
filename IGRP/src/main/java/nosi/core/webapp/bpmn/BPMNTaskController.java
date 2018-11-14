@@ -325,7 +325,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey())
 	        .addQueryString("overrided", "false")
 	        .addQueryString("backButton", Core.getParam("backButton"))
-	        .addQueryString("saveButton", "false");
+	        .addQueryString("saveButton", "false")
+	        .addQueryString("current_app_conn", task.getTenantId());
 	        Core.setAttribute("taskObj", task);
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
 		 String content = resp.getContent();

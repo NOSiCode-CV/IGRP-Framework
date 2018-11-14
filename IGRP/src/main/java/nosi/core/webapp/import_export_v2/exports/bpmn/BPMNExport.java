@@ -46,17 +46,19 @@ public class BPMNExport implements IExport{
 	@Override
 	public void add(String id) {
 		ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(id);
-		String link = process.getResource().replace("/resources/", "/resourcedata/");
-		String xml = new ResourceService().getResourceData(link);
-		BPMNSerializable bpmn = new BPMNSerializable();
-		bpmn.setId(id);
-		bpmn.setXml(xml);
-		bpmn.setDad(this.application.getDad());
-		bpmn.setFileName(process.getKey()+"_"+this.application.getDad()+".bpmn20.xml");
-		bpmn.setKey(process.getKey());
-		this.addClassesBPMN(bpmn,process.getKey());
-		this.addPages(bpmn,process.getKey());
-		this.bpmns.add(bpmn);
+		if(process!=null) {
+			String link = process.getResource().replace("/resources/", "/resourcedata/");
+			String xml = new ResourceService().getResourceData(link);
+			BPMNSerializable bpmn = new BPMNSerializable();
+			bpmn.setId(id);
+			bpmn.setXml(xml);
+			bpmn.setDad(this.application.getDad());
+			bpmn.setFileName(process.getKey()+"_"+this.application.getDad()+".bpmn20.xml");
+			bpmn.setKey(process.getKey());
+			this.addClassesBPMN(bpmn,process.getKey());
+			this.addPages(bpmn,process.getKey());
+			this.bpmns.add(bpmn);
+		}
 	}
 
 	private void addPages(BPMNSerializable bpmn, String processKey) {		
