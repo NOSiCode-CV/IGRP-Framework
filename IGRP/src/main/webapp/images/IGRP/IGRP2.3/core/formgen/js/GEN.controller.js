@@ -4832,7 +4832,8 @@ var GENERATOR = function(genparams){
 			//field.xml.tag = 'hidden';
 		}
 		
-		if(field.type == 'hidden' || field.type == 'select' || field.type == 'number')
+		if(field.type == 'hidden' || field.type == 'select' || field.type == 'number' || field.type == 'checkboxlist' || field.type == 'radiolist' || field.type == 'radio' ||
+				field.type == 'checkbox' )
 			field.setPropriety({
 				name:'java-type',
 				label : 'Java Type',

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.rmi.RemoteException;
@@ -279,6 +280,16 @@ public final class Core { // Not inherit
 	 * @return {@code new User().findOne(id)}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserById(Integer id) {
+		return new nosi.webapps.igrp.dao.User().findOne(id);
+	}
+	
+	/**
+	 * Find User by ID
+	 * 
+	 * @param id
+	 * @return {@code new User().findOne(id)}
+	 */
+	public static nosi.webapps.igrp.dao.User findUserById(BigInteger id) {
 		return new nosi.webapps.igrp.dao.User().findOne(id);
 	}
 
