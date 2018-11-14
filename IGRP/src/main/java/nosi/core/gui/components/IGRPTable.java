@@ -217,6 +217,13 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.setElement("param", field.propertie().getProperty("name")+"="+ value);
 				}
 			}
+			if(l instanceof IGRPTable.Table && ((IGRPTable.Table)l).getHiddenButtons()!=null) {
+				this.xml.startElement("param");
+				for(IGRPButton button:((IGRPTable.Table)l).getHiddenButtons()) {
+					this.xml.text("ctx_hidden="+button.getProperties().getProperty("rel")+",");
+				}			
+				this.xml.endElement();		
+			}
 			this.xml.endElement();			
 			for(Field field:this.fields){
 				if(field.isVisible()) {
