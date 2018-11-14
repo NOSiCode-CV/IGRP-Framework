@@ -4832,26 +4832,38 @@ var GENERATOR = function(genparams){
 			//field.xml.tag = 'hidden';
 		}
 		
-		if(field.type == 'hidden' || field.type == 'select' || field.type == 'number' || field.type == 'checkboxlist' || field.type == 'radiolist' || field.type == 'radio' ||
-				field.type == 'checkbox' )
-			field.setPropriety({
-				name:'java-type',
-				label : 'Java Type',
-				value : {
-					value : '',
-						options : [
-										{ value : '', label : '' },
-										{ value : 'int', label : 'Integer' },
-										{ value : 'double', label : 'Double' },
-										{ value : 'float', label : 'Float' },
-										{ value : 'short', label : 'Short' },
-										{ value : 'long', label : 'Long' },
-										{ value : 'String', label : 'String' }
-									]
-						}
-				})
+		GEN.SetJavaTypeAttr( field )
 	}
-
+	
+	GEN.SetJavaTypeAttr = function(field){
+		
+		if( field.type == 'hidden' || 
+				field.type == 'select' || 
+				field.type == 'number' || 
+				field.type == 'checkboxlist' || 
+				field.type == 'radiolist' || 
+				field.type == 'radio' ||
+				field.type == 'checkbox' )
+				
+				field.setPropriety({
+					name:'java-type',
+					label : 'Java Type',
+					value : {
+						value : '',
+							options : [
+											{ value : '', label : '' },
+											{ value : 'int', label : 'Integer' },
+											{ value : 'double', label : 'Double' },
+											{ value : 'float', label : 'Float' },
+											{ value : 'short', label : 'Short' },
+											{ value : 'long', label : 'Long' },
+											{ value : 'String', label : 'String' }
+										]
+							}
+					})
+			
+	}
+	
 	GEN.setImgAttr = function(field,p){
 
 		var fParent = field.parent || false;

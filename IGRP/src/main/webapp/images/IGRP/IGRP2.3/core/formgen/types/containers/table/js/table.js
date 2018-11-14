@@ -371,7 +371,7 @@ var GENTABLE = function(name,params){
 			name:'maxlength',
 			value : 30
 		});
-
+		
 		if(!field.hidden){
 			
 			field.setPropriety({
@@ -418,6 +418,8 @@ var GENTABLE = function(name,params){
 				}
 			});
 		}
+		
+		GEN.SetJavaTypeAttr( field );
 	}
 
 	container.onCheckboxFieldSet = function(f){
