@@ -26,7 +26,6 @@ import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.ViewTaskDetails;
 import nosi.core.webapp.helpers.EncrypDecrypt;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;

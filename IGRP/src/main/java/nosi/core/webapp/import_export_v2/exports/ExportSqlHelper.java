@@ -156,8 +156,8 @@ public class ExportSqlHelper {
 		List<Table_bpmn> table_1 = new ArrayList<>();
 		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAllAtivos(this.application.getDad())){
 			Table_bpmn t = new Table_bpmn();
-			t.setBpmn_ids(Core.toInt(process.getId()));
-			t.setBpmn_ids_check(Core.toInt(process.getId()));
+			t.setBpmn_ids(process.getId());
+			t.setBpmn_ids_check(process.getId());
 			t.setDescricao_bpmn(process.getName());
 			table_1.add(t );
 		}

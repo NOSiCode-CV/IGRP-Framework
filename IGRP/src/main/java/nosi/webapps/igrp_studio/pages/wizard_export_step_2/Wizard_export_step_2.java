@@ -98,6 +98,32 @@ public class Wizard_export_step_2 extends Model{
 		return this.p_table_report_del;
 	}
 	
+	private List<Table_dao> table_dao = new ArrayList<>();	
+	public void setTable_dao(List<Table_dao> table_dao){
+		this.table_dao = table_dao;
+	}
+	public List<Table_dao> getTable_dao(){
+		return this.table_dao;
+	}
+	@RParam(rParamName = "p_table_dao_id")
+	private String[] p_table_dao_id;
+	@RParam(rParamName = "p_table_dao_del")
+	private String[] p_table_dao_del;
+	
+	public void setP_table_dao_id(String[] p_table_dao_id){
+		this.p_table_dao_id = p_table_dao_id;
+	}
+	public String[] getP_table_dao_id(){
+		return this.p_table_dao_id;
+	}
+	
+	public void setP_table_dao_del(String[] p_table_dao_del){
+		this.p_table_dao_del = p_table_dao_del;
+	}
+	public String[] getP_table_dao_del(){
+		return this.p_table_dao_del;
+	}
+	
 	private List<Table_connections> table_connections = new ArrayList<>();	
 	public void setTable_connections(List<Table_connections> table_connections){
 		this.table_connections = table_connections;
@@ -122,6 +148,32 @@ public class Wizard_export_step_2 extends Model{
 	}
 	public String[] getP_table_connections_del(){
 		return this.p_table_connections_del;
+	}
+	
+	private List<Table_domain> table_domain = new ArrayList<>();	
+	public void setTable_domain(List<Table_domain> table_domain){
+		this.table_domain = table_domain;
+	}
+	public List<Table_domain> getTable_domain(){
+		return this.table_domain;
+	}
+	@RParam(rParamName = "p_table_domain_id")
+	private String[] p_table_domain_id;
+	@RParam(rParamName = "p_table_domain_del")
+	private String[] p_table_domain_del;
+	
+	public void setP_table_domain_id(String[] p_table_domain_id){
+		this.p_table_domain_id = p_table_domain_id;
+	}
+	public String[] getP_table_domain_id(){
+		return this.p_table_domain_id;
+	}
+	
+	public void setP_table_domain_del(String[] p_table_domain_del){
+		this.p_table_domain_del = p_table_domain_del;
+	}
+	public String[] getP_table_domain_del(){
+		return this.p_table_domain_del;
 	}
 	
 	private List<Table_modulo> table_modulo = new ArrayList<>();	
@@ -176,58 +228,6 @@ public class Wizard_export_step_2 extends Model{
 		return this.p_table_menu_del;
 	}
 	
-	private List<Table_domain> table_domain = new ArrayList<>();	
-	public void setTable_domain(List<Table_domain> table_domain){
-		this.table_domain = table_domain;
-	}
-	public List<Table_domain> getTable_domain(){
-		return this.table_domain;
-	}
-	@RParam(rParamName = "p_table_domain_id")
-	private String[] p_table_domain_id;
-	@RParam(rParamName = "p_table_domain_del")
-	private String[] p_table_domain_del;
-	
-	public void setP_table_domain_id(String[] p_table_domain_id){
-		this.p_table_domain_id = p_table_domain_id;
-	}
-	public String[] getP_table_domain_id(){
-		return this.p_table_domain_id;
-	}
-	
-	public void setP_table_domain_del(String[] p_table_domain_del){
-		this.p_table_domain_del = p_table_domain_del;
-	}
-	public String[] getP_table_domain_del(){
-		return this.p_table_domain_del;
-	}
-	
-	private List<Table_dao> table_dao = new ArrayList<>();	
-	public void setTable_dao(List<Table_dao> table_dao){
-		this.table_dao = table_dao;
-	}
-	public List<Table_dao> getTable_dao(){
-		return this.table_dao;
-	}
-	@RParam(rParamName = "p_table_dao_id")
-	private String[] p_table_dao_id;
-	@RParam(rParamName = "p_table_dao_del")
-	private String[] p_table_dao_del;
-	
-	public void setP_table_dao_id(String[] p_table_dao_id){
-		this.p_table_dao_id = p_table_dao_id;
-	}
-	public String[] getP_table_dao_id(){
-		return this.p_table_dao_id;
-	}
-	
-	public void setP_table_dao_del(String[] p_table_dao_del){
-		this.p_table_dao_del = p_table_dao_del;
-	}
-	public String[] getP_table_dao_del(){
-		return this.p_table_dao_del;
-	}
-	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
 	}
@@ -265,19 +265,19 @@ public class Wizard_export_step_2 extends Model{
 
 
 	public static class Table_bpmn extends IGRPTable.Table{
-		private int bpmn_ids;
-		private int bpmn_ids_check;
+		private String bpmn_ids;
+		private String bpmn_ids_check;
 		private String descricao_bpmn;
-		public void setBpmn_ids(int bpmn_ids){
+		public void setBpmn_ids(String bpmn_ids){
 			this.bpmn_ids = bpmn_ids;
 		}
-		public int getBpmn_ids(){
+		public String getBpmn_ids(){
 			return this.bpmn_ids;
 		}
-		public void setBpmn_ids_check(int bpmn_ids_check){
+		public void setBpmn_ids_check(String bpmn_ids_check){
 			this.bpmn_ids_check = bpmn_ids_check;
 		}
-		public int getBpmn_ids_check(){
+		public String getBpmn_ids_check(){
 			return this.bpmn_ids_check;
 		}
 
@@ -290,19 +290,19 @@ public class Wizard_export_step_2 extends Model{
 
 	}
 	public static class Table_pagina extends IGRPTable.Table{
-		private int pagina_ids;
-		private int pagina_ids_check;
+		private String pagina_ids;
+		private String pagina_ids_check;
 		private String descricao_pagina;
-		public void setPagina_ids(int pagina_ids){
+		public void setPagina_ids(String pagina_ids){
 			this.pagina_ids = pagina_ids;
 		}
-		public int getPagina_ids(){
+		public String getPagina_ids(){
 			return this.pagina_ids;
 		}
-		public void setPagina_ids_check(int pagina_ids_check){
+		public void setPagina_ids_check(String pagina_ids_check){
 			this.pagina_ids_check = pagina_ids_check;
 		}
-		public int getPagina_ids_check(){
+		public String getPagina_ids_check(){
 			return this.pagina_ids_check;
 		}
 
@@ -315,19 +315,19 @@ public class Wizard_export_step_2 extends Model{
 
 	}
 	public static class Table_report extends IGRPTable.Table{
-		private int report_ids;
-		private int report_ids_check;
+		private String report_ids;
+		private String report_ids_check;
 		private String descricao_report;
-		public void setReport_ids(int report_ids){
+		public void setReport_ids(String report_ids){
 			this.report_ids = report_ids;
 		}
-		public int getReport_ids(){
+		public String getReport_ids(){
 			return this.report_ids;
 		}
-		public void setReport_ids_check(int report_ids_check){
+		public void setReport_ids_check(String report_ids_check){
 			this.report_ids_check = report_ids_check;
 		}
-		public int getReport_ids_check(){
+		public String getReport_ids_check(){
 			return this.report_ids_check;
 		}
 
@@ -339,20 +339,45 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
+	public static class Table_dao extends IGRPTable.Table{
+		private String dao_ids;
+		private String dao_ids_check;
+		private String descricao_dao;
+		public void setDao_ids(String dao_ids){
+			this.dao_ids = dao_ids;
+		}
+		public String getDao_ids(){
+			return this.dao_ids;
+		}
+		public void setDao_ids_check(String dao_ids_check){
+			this.dao_ids_check = dao_ids_check;
+		}
+		public String getDao_ids_check(){
+			return this.dao_ids_check;
+		}
+
+		public void setDescricao_dao(String descricao_dao){
+			this.descricao_dao = descricao_dao;
+		}
+		public String getDescricao_dao(){
+			return this.descricao_dao;
+		}
+
+	}
 	public static class Table_connections extends IGRPTable.Table{
-		private int conexao_ids;
-		private int conexao_ids_check;
+		private String conexao_ids;
+		private String conexao_ids_check;
 		private String descricao_conexao;
-		public void setConexao_ids(int conexao_ids){
+		public void setConexao_ids(String conexao_ids){
 			this.conexao_ids = conexao_ids;
 		}
-		public int getConexao_ids(){
+		public String getConexao_ids(){
 			return this.conexao_ids;
 		}
-		public void setConexao_ids_check(int conexao_ids_check){
+		public void setConexao_ids_check(String conexao_ids_check){
 			this.conexao_ids_check = conexao_ids_check;
 		}
-		public int getConexao_ids_check(){
+		public String getConexao_ids_check(){
 			return this.conexao_ids_check;
 		}
 
@@ -364,20 +389,45 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
+	public static class Table_domain extends IGRPTable.Table{
+		private String domain_ids;
+		private String domain_ids_check;
+		private String descricao_domain;
+		public void setDomain_ids(String domain_ids){
+			this.domain_ids = domain_ids;
+		}
+		public String getDomain_ids(){
+			return this.domain_ids;
+		}
+		public void setDomain_ids_check(String domain_ids_check){
+			this.domain_ids_check = domain_ids_check;
+		}
+		public String getDomain_ids_check(){
+			return this.domain_ids_check;
+		}
+
+		public void setDescricao_domain(String descricao_domain){
+			this.descricao_domain = descricao_domain;
+		}
+		public String getDescricao_domain(){
+			return this.descricao_domain;
+		}
+
+	}
 	public static class Table_modulo extends IGRPTable.Table{
-		private int modulo_ids;
-		private int modulo_ids_check;
+		private String modulo_ids;
+		private String modulo_ids_check;
 		private String descricao_modulo;
-		public void setModulo_ids(int modulo_ids){
+		public void setModulo_ids(String modulo_ids){
 			this.modulo_ids = modulo_ids;
 		}
-		public int getModulo_ids(){
+		public String getModulo_ids(){
 			return this.modulo_ids;
 		}
-		public void setModulo_ids_check(int modulo_ids_check){
+		public void setModulo_ids_check(String modulo_ids_check){
 			this.modulo_ids_check = modulo_ids_check;
 		}
-		public int getModulo_ids_check(){
+		public String getModulo_ids_check(){
 			return this.modulo_ids_check;
 		}
 
@@ -390,19 +440,19 @@ public class Wizard_export_step_2 extends Model{
 
 	}
 	public static class Table_menu extends IGRPTable.Table{
-		private int menu_ids;
-		private int menu_ids_check;
+		private String menu_ids;
+		private String menu_ids_check;
 		private String descricao_menu;
-		public void setMenu_ids(int menu_ids){
+		public void setMenu_ids(String menu_ids){
 			this.menu_ids = menu_ids;
 		}
-		public int getMenu_ids(){
+		public String getMenu_ids(){
 			return this.menu_ids;
 		}
-		public void setMenu_ids_check(int menu_ids_check){
+		public void setMenu_ids_check(String menu_ids_check){
 			this.menu_ids_check = menu_ids_check;
 		}
-		public int getMenu_ids_check(){
+		public String getMenu_ids_check(){
 			return this.menu_ids_check;
 		}
 
@@ -411,56 +461,6 @@ public class Wizard_export_step_2 extends Model{
 		}
 		public String getDescricao_menu(){
 			return this.descricao_menu;
-		}
-
-	}
-	public static class Table_domain extends IGRPTable.Table{
-		private int domain_ids;
-		private int domain_ids_check;
-		private String descricao_domain;
-		public void setDomain_ids(int domain_ids){
-			this.domain_ids = domain_ids;
-		}
-		public int getDomain_ids(){
-			return this.domain_ids;
-		}
-		public void setDomain_ids_check(int domain_ids_check){
-			this.domain_ids_check = domain_ids_check;
-		}
-		public int getDomain_ids_check(){
-			return this.domain_ids_check;
-		}
-
-		public void setDescricao_domain(String descricao_domain){
-			this.descricao_domain = descricao_domain;
-		}
-		public String getDescricao_domain(){
-			return this.descricao_domain;
-		}
-
-	}
-	public static class Table_dao extends IGRPTable.Table{
-		private int dao_ids;
-		private int dao_ids_check;
-		private String descricao_dao;
-		public void setDao_ids(int dao_ids){
-			this.dao_ids = dao_ids;
-		}
-		public int getDao_ids(){
-			return this.dao_ids;
-		}
-		public void setDao_ids_check(int dao_ids_check){
-			this.dao_ids_check = dao_ids_check;
-		}
-		public int getDao_ids_check(){
-			return this.dao_ids_check;
-		}
-
-		public void setDescricao_dao(String descricao_dao){
-			this.descricao_dao = descricao_dao;
-		}
-		public String getDescricao_dao(){
-			return this.descricao_dao;
 		}
 
 	}
@@ -477,8 +477,16 @@ public class Wizard_export_step_2 extends Model{
 		this.setTable_report(this.loadTable(query,Table_report.class));
 	}
 
+	public void loadTable_dao(BaseQueryInterface query) {
+		this.setTable_dao(this.loadTable(query,Table_dao.class));
+	}
+
 	public void loadTable_connections(BaseQueryInterface query) {
 		this.setTable_connections(this.loadTable(query,Table_connections.class));
+	}
+
+	public void loadTable_domain(BaseQueryInterface query) {
+		this.setTable_domain(this.loadTable(query,Table_domain.class));
 	}
 
 	public void loadTable_modulo(BaseQueryInterface query) {
@@ -487,14 +495,6 @@ public class Wizard_export_step_2 extends Model{
 
 	public void loadTable_menu(BaseQueryInterface query) {
 		this.setTable_menu(this.loadTable(query,Table_menu.class));
-	}
-
-	public void loadTable_domain(BaseQueryInterface query) {
-		this.setTable_domain(this.loadTable(query,Table_domain.class));
-	}
-
-	public void loadTable_dao(BaseQueryInterface query) {
-		this.setTable_dao(this.loadTable(query,Table_dao.class));
 	}
 
 }
