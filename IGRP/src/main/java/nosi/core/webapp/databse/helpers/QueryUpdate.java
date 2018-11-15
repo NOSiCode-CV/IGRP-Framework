@@ -6,7 +6,7 @@ import nosi.core.webapp.Core;
  * Emanuel
  * 21 Dec 2017
  */
-public class QueryUpdate extends QueryHelper {
+public class QueryUpdate extends CommonFIlter {
 	
 	public QueryUpdate(String connectionName) {
 		super(connectionName);
