@@ -331,6 +331,7 @@
 							</xsl:variable>
 							<xsl:if test="$img">	
 								<xsl:value-of select="concat('model.set',$img_tag_upper,'(',$double_quotes,$img,$double_quotes,');')"/>
+								<xsl:call-template name="newlineTab2"/>
 							</xsl:if>
 						</xsl:for-each>
 						
