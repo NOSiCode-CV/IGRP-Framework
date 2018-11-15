@@ -52,6 +52,10 @@ public class ImportHelper {
 			menu.deserialization(this.getJsonContent(OptionsImportExport.MENU.getFileName()));
 			imp.add(menu);
 			
+			DaoImport dao = new DaoImport(app.getApplication());
+			dao.deserialization(this.getJsonContent(OptionsImportExport.DAO.getFileName()));
+			imp.add(dao);
+			
 			PageImport page = new PageImport(application);
 			page.deserialization(this.getJsonContent(OptionsImportExport.PAGE.getFileName()));
 			imp.add(page);
@@ -67,10 +71,7 @@ public class ImportHelper {
 			ConnectionImport conn = new ConnectionImport(application);
 			conn.deserialization(this.getJsonContent(OptionsImportExport.CONNECTION.getFileName()));
 			imp.add(conn);
-			
-			DaoImport dao = new DaoImport(app.getApplication());
-			dao.deserialization(this.getJsonContent(OptionsImportExport.DAO.getFileName()));
-			imp.add(dao);
+		
 			
 			DomainImport domain = new DomainImport();
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
