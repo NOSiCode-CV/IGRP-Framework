@@ -61,6 +61,7 @@ public class Compiler {
 				+" -cp ."+System.getProperty("path.separator")+jars+this.config.getBasePathClass()+System.getProperty("path.separator")
 				+" -classpath "+this.config.getBasePathClass()
 				+" -d "+this.config.getBasePathClass()
+				+" -warn:none"
 				+" -1.8"
 				+" -Xemacs";
 		StringWriter swS = new StringWriter();
