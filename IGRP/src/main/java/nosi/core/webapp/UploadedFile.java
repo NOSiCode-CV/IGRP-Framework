@@ -47,8 +47,6 @@ public final class UploadedFile {
 		List<UploadedFile> files = new ArrayList<UploadedFile>();
 		try {
 			ArrayList<Part> list = new ArrayList<Part>(Igrp.getInstance().getRequest().getParts());
-			
-			int i = 0;
 			for(Part obj : list) {
 				UploadedFile aux = new UploadedFile();
 				aux.fileName = obj.getName();

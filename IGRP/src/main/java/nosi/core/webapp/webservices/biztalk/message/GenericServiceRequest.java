@@ -8,7 +8,9 @@
 package nosi.core.webapp.webservices.biztalk.message;
 
 public class GenericServiceRequest  implements java.io.Serializable {
-    private java.lang.String clientId;
+
+
+	private java.lang.String clientId;
 
     private java.lang.String transaction;
 

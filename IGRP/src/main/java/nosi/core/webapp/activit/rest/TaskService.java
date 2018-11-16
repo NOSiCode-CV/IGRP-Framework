@@ -94,7 +94,6 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(){
-		this.setFilter("");//clean filter
 		this.addFilter("assignee", Core.getCurrentUser().getUser_name());
 		return this.getTasks();
 	}
@@ -102,13 +101,21 @@ public class TaskService extends Activit{
 
 
 	public List<TaskService> getAvailableTasks() {
-		this.setFilter("");//clean filter
 		this.addFilter("unassigned", "true");
 		List<TaskService> tasks =  this.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess )).collect(Collectors.toList());
 		return tasks;
 	}
+	
+	
+	public List<TaskService> getMabageTasks() {
+		List<TaskService> tasks =  this.getTasks();
+		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess )).collect(Collectors.toList());
+		return tasks;
+	}
+	
 	
 	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTasAccess) {	
 		return myTasAccess
