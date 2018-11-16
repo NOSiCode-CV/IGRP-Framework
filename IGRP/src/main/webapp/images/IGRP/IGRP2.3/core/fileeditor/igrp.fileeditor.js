@@ -191,7 +191,7 @@
 
 					path 	= $(li).attr('file-path'),
 
-					name    = $(li).attr('name');
+					name    = $(li).attr('title');
 
 				if(!li.request){
 
@@ -251,25 +251,25 @@
 					
 					DrawList( d );
 
-					/*if(d.default_file){
+					if(d.default_file){
 
 						d.default_file.forEach(function(f){
 
-							var file   = $('.file[file-id="'+f.id+'"]'),
-							
-								parent = file.parents('li.folder');
+							var fileItem = $('.file[file-name="'+f.fileName+'"]');
 
-							if(file[0]){
+							if(fileItem[0]){
 
-								file.click();
+								var parents = fileItem.parents('.folder')
 
-								if (parent[0])
+								parents.find('span[data-toggle]').click();
 
-									$('span[data-toggle]',parent).click();
-							}						
+								fileItem.click();
+
+							}
+					
 						});
 
-					}*/
+					}
 
 				},ErrorHandler);
 

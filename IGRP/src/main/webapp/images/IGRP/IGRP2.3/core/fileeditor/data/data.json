@@ -10,15 +10,18 @@
          "dir_files": [
            {
              "name": "Page_to_share.java",
-              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
            },
            {
              "name": "Page_to_shareController.java",
-              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
            },
            {
-             "name": "Page_to_shareView.java",
-              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+              "name": "Page_to_shareView.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java",
+              "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
            }
          ]
        }
@@ -26,18 +29,14 @@
      "dir_files": []
    }
  ],
- "dir_files": [
+ "dir_files": [],
+
+ "default_file": [
     {
-     "name": "Page_to_share.java",
-      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
-   },
-   {
-     "name": "Page_to_shareController.java",
-      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
-   },
-   {
-     "name": "Page_to_shareView.java",
-      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
-   }
- ]
+      "name": "Page_to_shareController.java",
+      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java",
+      "fileName": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+    }
+  ]
+
 }

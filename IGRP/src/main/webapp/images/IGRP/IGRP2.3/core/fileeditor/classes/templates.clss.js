@@ -14,9 +14,11 @@
 			
 			files.forEach(function(f){
 				
-				var id = f.id || Math.random().toString(36).substr(2, 9);
+				var id 		 = f.id || Math.random().toString(36).substr(2, 9),
 
-				r+='<li id="'+id+'" class="file" file-path="'+f.path+'" name="'+f.name+'" title="'+f.name+'">'+
+					fileName = f.fileName || '';
+
+				r+='<li id="'+id+'" class="file" file-name="'+fileName+'" file-path="'+f.path+'"  title="'+f.name+'">'+
 					'<span class="txt-ellipsis">'+f.name+'</span>'+
 				 '</li>';
 
@@ -49,8 +51,6 @@
 								'</div>'+
 								
 							 '</li>';
-
-				console.log(files)
 
 		    return item;
 		},
