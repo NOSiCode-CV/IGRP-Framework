@@ -1,7 +1,6 @@
 package nosi.core.webapp;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
