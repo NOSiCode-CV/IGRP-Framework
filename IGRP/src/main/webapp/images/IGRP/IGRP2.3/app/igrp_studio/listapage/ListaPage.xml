@@ -176,7 +176,7 @@
                 </form_1_separator_1>
                 <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
                     <label>Nova página</label>
-                    <value>http://judaludo.net/tetile</value>
+                    <value>http://apim.net/vupod</value>
                 </link_btn_nova_pagina>
                 <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
                     <label>CRUD generator</label>
@@ -211,7 +211,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Natus ut natus amet aperiam</descricao_page>
+                        <descricao_page name="p_descricao_page">Accusantium totam sed dolor si</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -222,7 +222,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Laudantium natus sed ut omnis</descricao_page>
+                        <descricao_page name="p_descricao_page">Doloremque mollit magna sed pe</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -233,7 +233,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Rem aperiam ipsum amet laudant</descricao_page>
+                        <descricao_page name="p_descricao_page">Anim aperiam officia voluptate</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -244,7 +244,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Totam voluptatem sit magna sit</descricao_page>
+                        <descricao_page name="p_descricao_page">Mollit rem ut omnis sed</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -255,7 +255,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Stract mollit consectetur iste</descricao_page>
+                        <descricao_page name="p_descricao_page">Totam sed rem iste rem</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -325,38 +325,69 @@
                 <icon name="p_icon" type="img" persist="true" img="images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Icon</label>
                 </icon>
-                <aplicacao name="p_aplicacao" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" desc="true">
+                <aplicacao name="p_aplicacao" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
                     <label>Aplicação</label>
                 </aplicacao>
             </fields>
             <table>
                 <value>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="info" rel="file_editor">
+                        <title>File editor</title>
+                        <app>igrp_studio</app>
+                        <page>File_editor</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/file_editor/File_editor.xml?</parameter>
+                        <target>modal</target>
+                        <img>info|fa-file-code-o</img>
+                    </item>
+                </context-menu>
             </table>
         </myapps_list>
     </content>

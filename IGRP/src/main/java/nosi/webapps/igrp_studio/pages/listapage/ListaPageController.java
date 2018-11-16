@@ -1,21 +1,21 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.export.app.ExportJavaPage;
 import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.import_export_v2.exports.ExportHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp_studio.pages.file_editor.DirType;
+import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,7 +39,7 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Sit deserunt perspiciatis adip' as descricao_page,'1' as id_page,'1' as nome_page "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Doloremque lorem doloremque do' as descricao_page,'1' as id_page,'1' as nome_page "));
 		model.loadMyapps_list(Core.query(null,"SELECT 'images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as icon,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as aplicacao "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -253,24 +253,43 @@ public class ListaPageController extends Controller {
 		/*----#start-code(download)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {
-
 			Action page = new Action().findOne(Integer.parseInt(id));
-
+			Wizard_export_step_2 model_w = new Wizard_export_step_2();
+			model_w.setApplication_id(page.getApplication().getId());
+			model_w.setFile_name(page.getPage());
+			Core.setAttribute("p_pagina_ids",new String[] {id});
 			// insert data on import/export table
-			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
-					DateHelper.getCurrentDataTime(), "Export");
+			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),DateHelper.getCurrentDataTime(), "Export");
 			ie_dao = ie_dao.insert();
-
-			// Core.setMessageWarning(FlashMessage.WARNING_EXPORT_PAGE);
-
-			return xSend(new ExportJavaPage(page).export(), page.getPage() + ".page.jar", "application/jar", true);
-
+			
+			byte[] bytes = new ExportHelper().export(model_w);
+			if(bytes!=null) {
+				return this.xSend(bytes,model_w.getFile_name() + ".jar", Core.MimeType.APPLICATION_JAR, true);
+			}
 		} else {
 			Core.setMessageError();
 		}
 
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+	}
+	
+	public Response actionFile_editor() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ListaPage model = new ListaPage();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
+		 return this.forward("igrp_studio","File_editor","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(file_editor)----*/
+		Action ac = new Action().findOne(Core.toInt(Core.getParam("p_id_page")));
+		if(ac!=null)
+			this.addQueryString("p_env_fk", ac.getApplication().getId())
+				.addQueryString("dir_type", DirType.ALL);
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","File_editor","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/

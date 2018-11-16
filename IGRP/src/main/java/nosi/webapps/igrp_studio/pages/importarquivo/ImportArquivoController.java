@@ -11,6 +11,7 @@ import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.export.app.ImportJavaPage;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export.Import;
@@ -69,11 +70,21 @@ public class ImportArquivoController extends Controller {
 				if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".jar")) {
 					if(file.getSubmittedFileName().endsWith(".zip")){
 						result = new Import().importApp(new ImportAppZip(file));
-					}else if(file.getSubmittedFileName().endsWith(".jar")){					
+					}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".app.jar")){					
 						ImportHelper importApp = new ImportHelper();
 						importApp.importFile(file);
 						if(importApp.hasError()) {
 							importApp.getErrors().stream().forEach(err->{
+								Core.setMessageError(err);
+							});
+						}else {
+							result = true;
+						}
+					}else if(file.getSubmittedFileName().endsWith(".app.jar")){//Old import (deprecated)			
+						ImportAppJava importApp = new ImportAppJava(file);
+						importApp.importApp();
+						if(importApp.hasError()) {
+							importApp.getErros().stream().forEach(err->{
 								Core.setMessageError(err);
 							});
 						}else {
@@ -124,9 +135,17 @@ public class ImportArquivoController extends Controller {
 					if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".page.jar")) {
 						if(file.getSubmittedFileName().endsWith(".zip")){
 							result = new Import().importPage(new ImportAppZip(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
-						}else if(file.getSubmittedFileName().endsWith(".page.jar")){
-							
-							//result = new Import().importPage(new ImportAppJar(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
+						}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".page.jar")){
+							ImportHelper importApp = new ImportHelper();
+							importApp.importFile(file);
+							if(importApp.hasError()) {
+								importApp.getErrors().stream().forEach(err->{
+									Core.setMessageError(err);
+								});
+							}else {
+								result = true;
+							}
+						}else if(file.getSubmittedFileName().endsWith(".page.jar")){//Old import (deprecated)
 							Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));
 							ImportJavaPage importApp = new ImportJavaPage(file, application);
 							
