@@ -110,11 +110,23 @@
 					pNotify     : false,
 					pLoading    : true,
 		         	pParam      : {
-		          		pArrayFiles : [{name : 'p_package', value : editor[0].CodeMirror.getValue()}],
-			           	pArrayItem  : [{name : 'p_package_id', value : $(active.li).attr('item-id')}]
+		          		pArrayFiles : [
+			          		{
+			          			name : 'p_package', 
+			          			value : editor[0].CodeMirror.getValue()
+			          		}
+		          		],
+			           	pArrayItem  : [
+			           		{
+			           			name : 'p_package_id', 
+			           			value : $(active.li).attr('item-id')
+			           		}
+			           	]
 			        },
 					pComplete   :function(req,text,status){
+
 						var type 	= 'danger',
+						
 							message = req.statusText;
 
 						removeEditorsErrors(true);
@@ -220,7 +232,7 @@
 		};
 
 		function DrawList(dir){
-
+			
 			fileEditor.menu = $(fileEditor.templates.tree(dir));
 
 			$('.'+selectors.leftPanelClss,dom).html(fileEditor.menu);
@@ -237,13 +249,14 @@
 				
 				$.get(dataURL).then(function(d){	
 					
-					DrawList( d.dir );
+					DrawList( d );
 
-					if(d.default_file){
+					/*if(d.default_file){
 
 						d.default_file.forEach(function(f){
 
 							var file   = $('.file[file-id="'+f.id+'"]'),
+							
 								parent = file.parents('li.folder');
 
 							if(file[0]){
@@ -256,7 +269,7 @@
 							}						
 						});
 
-					}
+					}*/
 
 				},ErrorHandler);
 

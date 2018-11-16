@@ -37,7 +37,7 @@ form .container-fluid,
 .igrp-fileeditor .igrp-fileeditor-left-panel ul{
 	padding: 0
 }
-.igrp-fileeditor .igrp-fileeditor-left-panel ul>li>ul{
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li ul{
 	padding-left: 15px;
 }
 

@@ -6,44 +6,91 @@
 
 		},
 
+		folderFiles : function(files, ulID){
+
+			var r = '';
+
+			r+='<ul >';
+			
+			files.forEach(function(f){
+				
+				var id = f.id || Math.random().toString(36).substr(2, 9);
+
+				r+='<li id="'+id+'" class="file" file-path="'+f.path+'" name="'+f.name+'" title="'+f.name+'">'+
+					'<span class="txt-ellipsis">'+f.name+'</span>'+
+				 '</li>';
+
+			});
+
+			r+='</ul>';
+
+			return r;
+
+		},
+
 		treeItem : function(i){
 
-			var clss   	   = i.childs ? 'folder' : 'file',
+			var clss   	   = i.dir_files && i.dir_files[0] ? 'folder' : 'file',
 
-				unique     = Math.random().toString(36).substr(2, 9),
+				uniq       = Math.random().toString(36).substr(2, 9),
 
-				id 	   	   = 'folder'+'_' +unique,
+				id 	       = 'folder'+'_'+uniq,
 
-				fileId 	   = i.id ? ' file-id='+i.id : '',
+				toggleAttr = i.dir && i.dir[0] || i.dir_files && i.dir_files[0]? ' data-toggle="collapse" data-target="#'+id+'"' : '',
 
-				childs 	   = i.childs ? templates.tree(i.childs, id, 'collapse'): '',
+				dirs 	   = i.dir &&  i.dir[0] ? templates.tree( i.dir, '', '') : '',
 
-				filePath   = i.path ? ' file-path="'+i.path+'"' : '',
+				files      = i.dir_files && i.dir_files[0] ? templates.folderFiles( i.dir_files, id ) : '',
 
-				toggleAttr = i.childs ? ' data-toggle="collapse" data-target="#'+id+'"' : '',
+				item 	   = '<li id="'+uniq+'" class="folder">'+
+								'<span class="txt-ellipsis" '+toggleAttr+'>'+i.dir_name+'</span>'+
+								'<div id="'+id+'" class="collapse">'+
+									dirs+files+
+								'</div>'+
+								
+							 '</li>';
 
-				item   = 
-				'<li id="'+unique+'" '+fileId+' class="'+clss+'" '+filePath+' name="'+i.name+'">'+
-					'<span class="txt-ellipsis" '+toggleAttr+'>'+i.name+'</span>'+
-					childs+
-				'</li>';
+				console.log(files)
 
 		    return item;
 		},
 
 		tree : function(data, id, clss){
-			
+
 			id 	 = id || '';
 
 			clss = clss || '';
 
 			var tree = '<ul id="'+id+'" class="'+clss+'">';
 
-			data.forEach(function(d){
+			try{
 
-				tree+=templates.treeItem(d);;
+				if($.isArray(data)){
 
-			});
+					data.forEach(function(d){
+				
+						tree += templates.treeItem(d);
+
+					});
+
+				}else{
+
+					tree += templates.treeItem(data);
+				}
+
+				
+			
+			}catch(err){
+				console.log(err)
+			}
+			
+
+			/*data.forEach(function(d){
+
+				//console.log(d)
+				tree+=templates.treeItem(d);
+
+			});*/
 
 			tree+='</ul>';
 

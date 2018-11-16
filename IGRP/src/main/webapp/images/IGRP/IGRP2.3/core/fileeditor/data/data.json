@@ -1,34 +1,43 @@
 {
-    "dir": [
-        {
-            "name": "Dir 2",
-            "childs": [
-
-                {
-                    "name": "File1.java",
-                    "id"  : 1,
-                    "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
-                },
-                {
-                    "name": "File2.java",
-                    "id"  : 2,
-                    "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
-                }
-
-            ]
-        },
-        {
-            "name": "File3.java",
-            "id"  : 3,
-            "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
-        }
-    ],
-
-    "default_file": [
-        {
-            "name": "File3.java",
-            "id"  : 3,
-            "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
-        }
-    ]
+ "dir_name": "imac_soluction_2",
+ "dir": [
+   {
+     "dir_name": "pages",
+     "dir": [
+       {
+         "dir_name": "page_to_share",
+         "dir": [],
+         "dir_files": [
+           {
+             "name": "Page_to_share.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
+           },
+           {
+             "name": "Page_to_shareController.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+           },
+           {
+             "name": "Page_to_shareView.java",
+              "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+           }
+         ]
+       }
+     ],
+     "dir_files": []
+   }
+ ],
+ "dir_files": [
+    {
+     "name": "Page_to_share.java",
+      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file1.java"
+   },
+   {
+     "name": "Page_to_shareController.java",
+      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file2.java"
+   },
+   {
+     "name": "Page_to_shareView.java",
+      "path": "/images/IGRP/IGRP2.3/core/fileeditor/data/files/file3.java"
+   }
+ ]
 }
