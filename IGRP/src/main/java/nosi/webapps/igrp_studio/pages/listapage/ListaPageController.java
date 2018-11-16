@@ -14,7 +14,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp_studio.pages.file_editor.DirType;
+//import nosi.webapps.igrp_studio.pages.file_editor.DirType;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -286,8 +286,8 @@ public class ListaPageController extends Controller {
 		/*----#start-code(file_editor)----*/
 		Action ac = new Action().findOne(Core.toInt(Core.getParam("p_id_page")));
 		if(ac!=null)
-			this.addQueryString("p_env_fk", ac.getApplication().getId())
-				.addQueryString("dir_type", DirType.ALL);
+			this.addQueryString("p_env_fk", ac.getApplication().getId());
+//				.addQueryString("dir_type", DirType.ALL);
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","File_editor","index", this.queryString());	
 	}
