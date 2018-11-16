@@ -27,6 +27,7 @@ import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import static nosi.core.i18n.Translator.gt;
 
@@ -164,9 +165,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
          TaskService task = new TaskService();
          task.addFilter("processDefinitionId",processDefinitionId);
          task.addFilter("processInstanceId", pi.getId());
-         List<TaskService> tasks = task.getMyTasks();
+         List<TaskService> tasks = task.getAvailableTasks();
          if(tasks!=null && !tasks.isEmpty()) {
-            return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+			return this.renderNextTask(task,tasks);
          }else {
             return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
@@ -214,13 +215,32 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
 			task.addFilter("processInstanceId", task.getProcessInstanceId());
-			List<TaskService> tasks = task.getMyTasks();
-			if(tasks!=null && !tasks.isEmpty()) {
-				return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas&p_id="+tasks.get(0).getId());
+			List<TaskService> tasks = task.getAvailableTasks();
+			if(tasks!=null  && !tasks.isEmpty()) {
+				return this.renderNextTask(task,tasks);
 			}else {
-				return this.redirect("igrp","Detalhes_tarefas", "index&taskId="+taskId);
+				return this.redirect("igrp","ExecucaoTarefas","index");
 			}
 		}
+	}
+
+	private Response renderNextTask(TaskService task,List<TaskService> tasks) throws IOException {
+		TaskService nextTask = tasks.get(tasks.size()-1);
+		nextTask.claimTask(nextTask.getId(), Core.getCurrentUser().getUser_name());
+		Application app = new Application().findByDad(nextTask.getTenantId());
+		this.addQueryString("taskId",nextTask.getId())
+        .addQueryString("appId", app.getId())
+        .addQueryString("appDad", app.getDad())
+        .addQueryString("formKey", nextTask.getFormKey())
+        .addQueryString("processDefinition", nextTask.getProcessDefinitionKey())
+        .addQueryString("processDefinitionId", nextTask.getProcessDefinitionId())
+        .addQueryString("taskDefinition", nextTask.getTaskDefinitionKey())
+        .addQueryString("previewTask", task.getTaskDefinitionKey())
+        .addQueryString("preiviewApp", task.getTenantId())
+        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionId())
+        .addQueryString("showTimeLine", "true")
+        .addQueryString("previewTaskId", task.getId());
+		return this.redirect(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+nextTask.getTaskDefinitionKey(), "index",this.queryString());
 	}
 
 	@Override
