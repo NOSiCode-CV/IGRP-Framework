@@ -6,8 +6,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class ListaPageView extends View {
 
@@ -55,6 +53,7 @@ public class ListaPageView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_gerar_codigo;
 	public IGRPButton btn_download;
+	public IGRPButton btn_file_editor;
 
 	public ListaPageView(){
 
@@ -209,7 +208,7 @@ public class ListaPageView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.setValue(new Config().getResolveUrl("igrp_studio","ListaPage","index"));
 
-									aplicacao.propertie().add("name","p_aplicacao").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("desc","true");
+									aplicacao.propertie().add("name","p_aplicacao").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
 		
 
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
@@ -231,6 +230,9 @@ public class ListaPageView extends View {
 
 		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","confirm","grey|fa-download","","");
 		btn_download.propertie.add("type","specific").add("rel","download");
+
+		btn_file_editor = new IGRPButton("File editor","igrp_studio","ListaPage","file_editor","modal","info|fa-file-code-o","","");
+		btn_file_editor.propertie.add("type","specific").add("rel","file_editor");
 
 		
 	}
@@ -281,6 +283,7 @@ public class ListaPageView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_gerar_codigo);
 		table_1.addButton(btn_download);
+		myapps_list.addButton(btn_file_editor);
 		this.addToPage(infopanel_1);
 		this.addToPage(infopanel_2);
 		this.addToPage(infopanel_3);
