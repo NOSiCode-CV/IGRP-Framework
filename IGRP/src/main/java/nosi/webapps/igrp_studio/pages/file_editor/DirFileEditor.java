@@ -7,7 +7,7 @@ import java.util.List;
  * 12 Jun 2018
  */
 public class DirFileEditor {
-
+/*
 	private List<FileEditor> dir;	
 	private FileEditor.DefualtFile[] default_file;
 	
@@ -30,5 +30,5 @@ public class DirFileEditor {
 	public void setDefault_file(FileEditor.DefualtFile[] default_file) {
 		this.default_file = default_file;
 	}
-	
+	*/
 }

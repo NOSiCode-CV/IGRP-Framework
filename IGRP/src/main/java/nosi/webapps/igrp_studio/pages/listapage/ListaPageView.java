@@ -6,6 +6,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ListaPageView extends View {
 
@@ -35,8 +37,9 @@ public class ListaPageView extends View {
 	public Field descricao_page;
 	public Field id_page;
 	public Field nome_page;
-	public Field icon;
-	public Field aplicacao;
+	public Field my_app_img;
+	public Field my_aplicacao;
+	public Field env_fk;
 	public IGRPForm infopanel_1;
 	public IGRPForm infopanel_2;
 	public IGRPForm infopanel_3;
@@ -44,7 +47,7 @@ public class ListaPageView extends View {
 	public IGRPForm form_1;
 	public IGRPForm box_1;
 	public IGRPTable table_1;
-	public IGRPTable myapps_list;
+	public IGRPTable table_2;
 
 	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_nova_aplicacao;
@@ -73,7 +76,7 @@ public class ListaPageView extends View {
 
 		table_1 = new IGRPTable("table_1","");
 
-		myapps_list = new IGRPTable("myapps_list","Minhas Aplicações");
+		table_2 = new IGRPTable("table_2","Minhas Aplicações");
 
 		infopanel_1_title = new TextField(model,"infopanel_1_title");
 		infopanel_1_title.setLabel(gt("Title"));
@@ -182,10 +185,10 @@ public class ListaPageView extends View {
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));
-		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		status_page_check = new CheckBoxField(model,"status_page_check");
-		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		descricao_page = new TextField(model,"descricao_page");
 		descricao_page.setLabel(gt("Título (código)"));
@@ -193,22 +196,26 @@ public class ListaPageView extends View {
 		
 		id_page = new HiddenField(model,"id_page");
 		id_page.setLabel(gt(""));
-		id_page.propertie().add("name","p_id_page").add("type","hidden").add("maxlength","30").add("tag","id_page");
+		id_page.propertie().add("name","p_id_page").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id_page");
 		
 		nome_page = new HiddenField(model,"nome_page");
 		nome_page.setLabel(gt(""));
-		nome_page.propertie().add("name","p_nome_page").add("type","hidden").add("maxlength","30").add("tag","nome_page");
+		nome_page.propertie().add("name","p_nome_page").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","nome_page");
 		
-		icon = new TextField(model,"icon");
-		icon.setLabel(gt("Icon"));
-		icon.setValue(gt(""));
-		icon.propertie().add("name","p_icon").add("type","img").add("width","").add("height","").add("croppie","false").add("rounded","false").add("maxlength","30");
+		my_app_img = new TextField(model,"my_app_img");
+		my_app_img.setLabel(gt("  "));
+		my_app_img.setValue(gt(""));
+		my_app_img.propertie().add("name","p_my_app_img").add("type","img").add("width","").add("height","").add("croppie","false").add("rounded","false").add("maxlength","30");
 		
-		aplicacao = new LinkField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.setValue(new Config().getResolveUrl("igrp_studio","ListaPage","index"));
+		my_aplicacao = new LinkField(model,"my_aplicacao");
+		my_aplicacao.setLabel(gt("Aplicação"));
+		my_aplicacao.setValue(new Config().getResolveUrl("igrp_studio","ListaPage","index"));
 
-									aplicacao.propertie().add("name","p_aplicacao").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
+									my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("desc","true");
+		
+		env_fk = new HiddenField(model,"env_fk");
+		env_fk.setLabel(gt(""));
+		env_fk.propertie().add("name","p_env_fk").add("type","hidden").add("maxlength","30").add("java-type","Integer").add("tag","env_fk");
 		
 
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
@@ -231,7 +238,7 @@ public class ListaPageView extends View {
 		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","confirm","grey|fa-download","","");
 		btn_download.propertie.add("type","specific").add("rel","download");
 
-		btn_file_editor = new IGRPButton("File editor","igrp_studio","ListaPage","file_editor","modal","info|fa-file-code-o","","");
+		btn_file_editor = new IGRPButton("File Editor","igrp_studio","ListaPage","file_editor","_blank","info|fa-file-code-o","","");
 		btn_file_editor.propertie.add("type","specific").add("rel","file_editor");
 
 		
@@ -274,8 +281,9 @@ public class ListaPageView extends View {
 		table_1.addField(nome_page);
 
 
-		myapps_list.addField(icon);
-		myapps_list.addField(aplicacao);
+		table_2.addField(my_app_img);
+		table_2.addField(my_aplicacao);
+		table_2.addField(env_fk);
 
 		toolsbar_2.addButton(btn_nova_aplicacao);
 		table_1.addButton(btn_editar);
@@ -283,7 +291,7 @@ public class ListaPageView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_gerar_codigo);
 		table_1.addButton(btn_download);
-		myapps_list.addButton(btn_file_editor);
+		table_2.addButton(btn_file_editor);
 		this.addToPage(infopanel_1);
 		this.addToPage(infopanel_2);
 		this.addToPage(infopanel_3);
@@ -291,7 +299,7 @@ public class ListaPageView extends View {
 		this.addToPage(form_1);
 		this.addToPage(box_1);
 		this.addToPage(table_1);
-		this.addToPage(myapps_list);
+		this.addToPage(table_2);
 		this.addToPage(toolsbar_2);
 	}
 		
@@ -308,9 +316,10 @@ public class ListaPageView extends View {
 		descricao_page.setValue(model);
 		id_page.setValue(model);
 		nome_page.setValue(model);
-		aplicacao.setValue(model);	
+		my_aplicacao.setValue(model);
+		env_fk.setValue(model);	
 
 		table_1.loadModel(((ListaPage) model).getTable_1());
-		myapps_list.loadModel(((ListaPage) model).getMyapps_list());
+		table_2.loadModel(((ListaPage) model).getTable_2());
 		}
 }

@@ -147,7 +147,8 @@ public class FileHelper {
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 			try {
-				File file = new File(path+File.separator+file_name);
+				String fileName = path+(file_name!=null?(File.separator+file_name):"");
+				File file = new File(fileName);
 				// if file doesnt exists, then create it
 				if (!file.exists()) {
 					file.createNewFile();
@@ -245,13 +246,18 @@ public class FileHelper {
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
 		StringBuilder  code = new StringBuilder();
-		fileName = basePath+File.separator+fileName;
+		if(Core.isNotNull(fileName))
+			fileName = basePath+File.separator+fileName;
+		else
+			fileName = basePath;
 		if(fileExists(fileName)){
+			File file = new File(fileName);
+			file.setReadable(true);	
 			InputStream is = null;
 			DataInputStream in = null;
 			BufferedReader d = null;
-			try {
-				is = new FileInputStream(new File(fileName));				
+			try {			
+				is = new FileInputStream(file);				
 			    String         ls = System.getProperty("line.separator");
 			    String         line = null;
 			    in = new DataInputStream(is);   
@@ -264,13 +270,16 @@ public class FileHelper {
 				e.printStackTrace();
 			}finally {
 			    try {
-					is.close();
-				    in.close();
-				    d.close();
+			    	if(is!=null)
+				    	is.close();
+				    if(in!=null)
+				    	in.close();
+				    if(d!=null)
+				    	d.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				file.setReadable(false);	
 			}
 		}
 		return code.toString();
@@ -278,7 +287,10 @@ public class FileHelper {
 	
 	public static String readFileFromServer(String basePath,String fileName){
 		StringBuilder  code = new StringBuilder();
-		fileName = basePath+File.separator+fileName;
+		if(Core.isNotNull(fileName))
+			fileName = basePath+File.separator+fileName;
+		else
+			fileName = basePath;
 		if(fileExists(fileName)) {
 			try {
 				ServletContext context = Igrp.getInstance().getServlet().getServletContext();
@@ -287,13 +299,18 @@ public class FileHelper {
 			    String         line = null;
 			    DataInputStream in = new DataInputStream(is);   
 			    BufferedReader d = new BufferedReader(new InputStreamReader(in));
-			    while((line=d.readLine())!=null){
-			    	code.append(line);
-			    	code.append(ls);
+			    if(d!=null) {
+				    while((line=d.readLine())!=null){
+				    	code.append(line);
+				    	code.append(ls);
+				    }
 			    }
-			    is.close();
-			    in.close();
-			    d.close();
+			    if(is!=null)
+			    	is.close();
+			    if(in!=null)
+			    	in.close();
+			    if(d!=null)
+			    	d.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
