@@ -2,15 +2,11 @@
 
 	var templates = {
 
-		tab : function(){
-
-		},
-
 		folderFiles : function(files, ulID){
 
 			var r = '';
 
-			r+='<ul >';
+			r+='<ul>';
 			
 			files.forEach(function(f){
 				
@@ -19,8 +15,10 @@
 					fileName = f.fileName || '';
 
 				r+='<li id="'+id+'" class="file" file-name="'+fileName+'" file-path="'+f.path+'"  title="'+f.name+'">'+
-					'<span class="txt-ellipsis">'+f.name+'</span>'+
-				 '</li>';
+					
+						'<span class="txt-ellipsis">'+f.name+'</span>'+
+					
+				 	'</li>';
 
 			});
 
@@ -49,7 +47,6 @@
 								'<div id="'+id+'" class="collapse">'+
 									dirs+files+
 								'</div>'+
-								
 							 '</li>';
 
 		    return item;
@@ -83,14 +80,6 @@
 			}catch(err){
 				console.log(err)
 			}
-			
-
-			/*data.forEach(function(d){
-
-				//console.log(d)
-				tree+=templates.treeItem(d);
-
-			});*/
 
 			tree+='</ul>';
 

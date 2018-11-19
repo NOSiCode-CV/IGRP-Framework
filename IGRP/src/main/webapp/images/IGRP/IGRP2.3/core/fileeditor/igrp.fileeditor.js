@@ -120,6 +120,10 @@
 			           		{
 			           			name : 'p_package_id', 
 			           			value : $(active.li).attr('item-id')
+			           		},
+			           		{
+			           			name : 'fileName', 
+			           			value : $(active.li).attr('file-name')
 			           		}
 			           	]
 			        },
@@ -176,7 +180,9 @@
 		};
 
 		function GetEditor(active){
+
 			return active.pane.find('.CodeMirror');
+
 		}
 
 		function Events(){
@@ -191,7 +197,9 @@
 
 					path 	= $(li).attr('file-path'),
 
-					name    = $(li).attr('title');
+					name    = $(li).attr('title'),
+
+					file    = $(li).attr('file-name');
 
 				if(!li.request){
 
@@ -211,7 +219,13 @@
 
 							content : GetCodeEditor( { id : tabID, content : d } ),
 
-							active  : true
+							active  : true,
+
+							attrs   : {
+
+								'file-name' : file
+
+							}
 
 						});
 
@@ -227,7 +241,7 @@
 
 			});
 
-			$('.'+selectors.saveClss,dom).on('click',Save);
+			$('.'+selectors.saveClss,dom).on('click', Save);
 
 		};
 
@@ -259,7 +273,7 @@
 
 							if(fileItem[0]){
 
-								var parents = fileItem.parents('.folder')
+								var parents = fileItem.parents('.folder');
 
 								parents.find('span[data-toggle]').click();
 
@@ -272,6 +286,23 @@
 					}
 
 				},ErrorHandler);
+
+			$('.igrp-fileeditor-main-panel').on('shown.bs.tab','.nav-tabs a', function(event){
+				
+				var href = $(this).attr('href'),
+
+					id   = href ? href.split('#file-')[1] : false;
+
+				if(id){
+
+					$('.file').removeClass('active');
+
+					$('.file#'+id).addClass('active'); 
+
+				}
+
+			});
+
 
 		};
 

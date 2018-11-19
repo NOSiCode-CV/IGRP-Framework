@@ -34,6 +34,31 @@ form .container-fluid,
 	font-size: 14px;
 }
 
+.igrp-fileeditor .file.active{
+	background:rgba(0,0,0,.08);
+	position: relative;
+}
+
+.igrp-fileeditor .file.active:after{
+	content: "";
+    background: rgba(0,0,0,.08);
+    position: absolute;
+    top: 0;
+    right: -100%;
+    height: 100%;
+    width: 100%;
+}
+
+.igrp-fileeditor .file.active:before{
+	content:"";
+	left:-100%;
+	width: 100%;
+	height: 100%;
+	background:rgba(0,0,0,.08);
+	position: absolute;
+	top: 0
+}
+
 .igrp-fileeditor .igrp-fileeditor-left-panel ul{
 	padding: 0
 }
@@ -46,6 +71,7 @@ form .container-fluid,
 	padding:5px;
 	cursor: pointer;
 	position: relative;
+	z-index: 2
 }
 .igrp-fileeditor .igrp-fileeditor-left-panel ul li.folder>span:before,
 .igrp-fileeditor .igrp-fileeditor-left-panel ul li.file>span:before{

@@ -69,6 +69,10 @@
 
 						}
 
+						if(o.attrs)
+
+							li.attr( o.attrs );
+
 						ul.append(li);
 
 						contents.append(bd);
