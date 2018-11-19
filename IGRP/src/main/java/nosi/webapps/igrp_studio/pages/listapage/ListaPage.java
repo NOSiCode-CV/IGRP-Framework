@@ -1,5 +1,8 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
@@ -85,30 +88,30 @@ public class ListaPage extends Model{
 		return this.p_table_1_del;
 	}
 	
-	private List<Myapps_list> myapps_list = new ArrayList<>();	
-	public void setMyapps_list(List<Myapps_list> myapps_list){
-		this.myapps_list = myapps_list;
+	private List<Table_2> table_2 = new ArrayList<>();	
+	public void setTable_2(List<Table_2> table_2){
+		this.table_2 = table_2;
 	}
-	public List<Myapps_list> getMyapps_list(){
-		return this.myapps_list;
+	public List<Table_2> getTable_2(){
+		return this.table_2;
 	}
-	@RParam(rParamName = "p_myapps_list_id")
-	private String[] p_myapps_list_id;
-	@RParam(rParamName = "p_myapps_list_del")
-	private String[] p_myapps_list_del;
+	@RParam(rParamName = "p_table_2_id")
+	private String[] p_table_2_id;
+	@RParam(rParamName = "p_table_2_del")
+	private String[] p_table_2_del;
 	
-	public void setP_myapps_list_id(String[] p_myapps_list_id){
-		this.p_myapps_list_id = p_myapps_list_id;
+	public void setP_table_2_id(String[] p_table_2_id){
+		this.p_table_2_id = p_table_2_id;
 	}
-	public String[] getP_myapps_list_id(){
-		return this.p_myapps_list_id;
+	public String[] getP_table_2_id(){
+		return this.p_table_2_id;
 	}
 	
-	public void setP_myapps_list_del(String[] p_myapps_list_del){
-		this.p_myapps_list_del = p_myapps_list_del;
+	public void setP_table_2_del(String[] p_table_2_del){
+		this.p_table_2_del = p_table_2_del;
 	}
-	public String[] getP_myapps_list_del(){
-		return this.p_myapps_list_del;
+	public String[] getP_table_2_del(){
+		return this.p_table_2_del;
 	}
 	
 	public void setInfopanel_1_title(String infopanel_1_title){
@@ -345,38 +348,46 @@ public class ListaPage extends Model{
 		}
 
 	}
-	public static class Myapps_list extends IGRPTable.Table{
-		private String icon;
-		private IGRPLink aplicacao;
-		private String aplicacao_desc;
-		public void setIcon(String icon){
-			this.icon = icon;
+	public static class Table_2 extends IGRPTable.Table{
+		private String my_app_img;
+		private IGRPLink my_aplicacao;
+		private String my_aplicacao_desc;
+		private Integer env_fk;
+		public void setMy_app_img(String my_app_img){
+			this.my_app_img = my_app_img;
 		}
-		public String getIcon(){
-			return this.icon;
+		public String getMy_app_img(){
+			return this.my_app_img;
 		}
 
-		public IGRPLink setAplicacao(String app,String page,String action){
-			this.aplicacao = new IGRPLink(app,page,action);
-			return this.aplicacao;
+		public IGRPLink setMy_aplicacao(String app,String page,String action){
+			this.my_aplicacao = new IGRPLink(app,page,action);
+			return this.my_aplicacao;
 		}
-		public IGRPLink getAplicacao(){
-			return this.aplicacao;
+		public IGRPLink getMy_aplicacao(){
+			return this.my_aplicacao;
 		}
-		public void setAplicacao_desc(String aplicacao_desc){
-			this.aplicacao_desc = aplicacao_desc;
+		public void setMy_aplicacao_desc(String my_aplicacao_desc){
+			this.my_aplicacao_desc = my_aplicacao_desc;
 		}
-		public String getAplicacao_desc(){
-			return this.aplicacao_desc;
+		public String getMy_aplicacao_desc(){
+			return this.my_aplicacao_desc;
 		}
-	public IGRPLink setAplicacao(String link){
-		this.aplicacao = new IGRPLink(link);
-		return this.aplicacao;
+	public IGRPLink setMy_aplicacao(String link){
+		this.my_aplicacao = new IGRPLink(link);
+		return this.my_aplicacao;
 	}
-	public IGRPLink setAplicacao(Report link){
-		this.aplicacao = new IGRPLink(link);
-		return this.aplicacao;
+	public IGRPLink setMy_aplicacao(Report link){
+		this.my_aplicacao = new IGRPLink(link);
+		return this.my_aplicacao;
 	}
+
+		public void setEnv_fk(Integer env_fk){
+			this.env_fk = env_fk;
+		}
+		public Integer getEnv_fk(){
+			return this.env_fk;
+		}
 
 	}
 
@@ -384,8 +395,8 @@ public class ListaPage extends Model{
 		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 
-	public void loadMyapps_list(BaseQueryInterface query) {
-		this.setMyapps_list(this.loadTable(query,Myapps_list.class));
+	public void loadTable_2(BaseQueryInterface query) {
+		this.setTable_2(this.loadTable(query,Table_2.class));
 	}
 
 }

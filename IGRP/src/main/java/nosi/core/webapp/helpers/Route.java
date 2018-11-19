@@ -66,7 +66,7 @@ public class Route {
 
 	public static void remember() { // For back button funcionality purpose ...
 		String qs = Igrp.getInstance().getRequest().getQueryString();
-		String r = Igrp.getInstance().getRequest().getParameter("r");
+		//String r = Igrp.getInstance().getRequest().getParameter("r");
 		
 		
 	/*	
