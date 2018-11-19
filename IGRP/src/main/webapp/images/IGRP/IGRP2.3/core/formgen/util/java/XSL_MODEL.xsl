@@ -189,6 +189,7 @@
  		<xsl:value-of select="concat('package ',$package_name)"/>
 		<xsl:value-of select="$newline"/>
 		 <xsl:value-of select="$newline"/>
+		 <xsl:value-of select="$import_bignumber"/>			 
  		<xsl:value-of select="$import_config"/>	
  		<xsl:value-of select="$import_table"/>		
  		<xsl:value-of select="$import_model"/>	

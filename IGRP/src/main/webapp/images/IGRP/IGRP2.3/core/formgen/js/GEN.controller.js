@@ -4852,12 +4852,16 @@ var GENERATOR = function(genparams){
 						value : '',
 							options : [
 											{ value : '', label : '' },
-											{ value : 'int', label : 'Integer' },
-											{ value : 'double', label : 'Double' },
-											{ value : 'float', label : 'Float' },
-											{ value : 'short', label : 'Short' },
-											{ value : 'long', label : 'Long' },
-											{ value : 'String', label : 'String' }
+											{ value : 'int', label : 'int' },										
+											{ value : 'double', label : 'double' },
+											{ value : 'float', label : 'float' },
+											{ value : 'short', label : 'short' },
+											{ value : 'long', label : 'long' },
+											{ value : 'String', label : 'String' },
+											{ value : 'BigInteger', label : 'BigInteger' },
+											{ value : 'BigDecimal', label : 'BigDecimal' },
+											{ value : 'Integer', label : 'Integer' },	
+									
 										]
 							}
 					})

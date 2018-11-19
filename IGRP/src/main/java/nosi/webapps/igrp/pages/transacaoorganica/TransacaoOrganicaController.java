@@ -63,7 +63,11 @@ public class TransacaoOrganicaController extends Controller {
 				data.add(table);
 			}
 			if(model.getType().equals("user") && user!=null && profile!=null) {
-				view.btn_gravar.setLink("igrp","TransacaoOrganica","gravar&user_id=" + user.getId()+"&org_id="+profile.getOrganization().getId()+"&prof_id="+profile.getProfileType().getId());		
+				view.btn_gravar.addParameter("user_id",  user.getId())
+				.addParameter("org_id", profile.getOrganization().getId())
+				.addParameter("prof_id", profile.getProfileType().getId());
+//				view.btn_gravar.setLink("igrp","TransacaoOrganica","gravar&user_id=" +
+//				user.getId()+"&org_id="+profile.getOrganization().getId()+"&prof_id="+profile.getProfileType().getId());		
 			}
 			view.table_1.addData(data);
 		}

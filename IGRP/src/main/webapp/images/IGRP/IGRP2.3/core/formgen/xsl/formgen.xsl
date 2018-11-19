@@ -305,7 +305,7 @@
 									<option value="colorforth">Colorforth theme</option>
 									<option value="icecoder">Icecoder theme</option>
 									<option value="monokai">Monokai theme</option>
-									<option value="monokai">Night theme</option>
+									<option value="night">Night theme</option>
 								</select>
 									
                              </div>

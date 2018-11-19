@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -24,18 +26,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
-public class PesquisarMenuController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class PesquisarMenuController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		PesquisarMenuView view = new PesquisarMenuView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 't1_menu_principal' as t1_menu_principal,'ativo' as ativo,'table_titulo' as table_titulo,'pagina' as pagina,'checkbox' as checkbox,'id' as id "));
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT 'Rem stract magna stract accusantium sit totam anim sit iste doloremque laudantium accusantium elit d' as t1_menu_principal,'1' as ativo,'Sed dolor sed dolor elit aliqua voluptatem labore elit adipiscing stract omnis aliqua labore rem nat' as table_titulo,'Deserunt natus stract doloremque magna sed totam ipsum officia stract consectetur sit rem officia st' as pagina,'1' as checkbox,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -83,11 +83,11 @@ public class PesquisarMenuController extends Controller {
 					table1.setT1_menu_principal(menu_db1.getDescr());
 				} 
 				else if(menu_db1.getMenu().getId()!=menu_db1.getId()){
-					table1.setT1_menu_principal("     \\___");
+					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				if (menu_db1.getAction() != null) {
-					table1.setPagina(menu_db1.getAction().getPage_descr());
-					table1.setTable_titulo(menu_db1.getDescr());
+					table1.setPagina(gt(menu_db1.getAction().getPage_descr())+" ("+menu_db1.getAction().getPage()+")");
+					table1.setTable_titulo(gt(menu_db1.getDescr()));
 				}
 
 				table1.setAtivo(menu_db1.getStatus());
@@ -116,15 +116,13 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
 		this.addQueryString("app",model.getAplicacao());
       return this.forward("igrp","NovoMenu","index", this.queryString());
@@ -133,15 +131,13 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -154,17 +150,16 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
+		this.addQueryString("id_app",model.getAplicacao());
 		Menu menu_db = new Menu();
 		if (Core.isNotNull(id)) {
 		if (menu_db.delete(Integer.parseInt(id)))
@@ -178,7 +173,7 @@ public class PesquisarMenuController extends Controller {
 		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
 	public Response actionMyMenu() throws IOException {
@@ -293,4 +288,4 @@ public class PesquisarMenuController extends Controller {
 	    }
 	}
 	/*----#end-code----*/
-	}
+}

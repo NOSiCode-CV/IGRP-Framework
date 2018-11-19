@@ -20,7 +20,7 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Aliqua omnis lorem mollit unde' as organica,'1' as estado,'Doloremque elit voluptatem off' as descricao,'Sit unde accusantium perspicia' as codigo,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Lorem accusantium labore elit' as organica,'1' as estado,'Aperiam magna adipiscing dolor' as descricao,'Iste natus mollit sit unde' as codigo,'1' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 	

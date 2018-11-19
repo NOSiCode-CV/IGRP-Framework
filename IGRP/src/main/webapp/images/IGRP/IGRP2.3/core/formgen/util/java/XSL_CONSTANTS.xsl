@@ -91,8 +91,16 @@
         </xsl:if>
     </xsl:variable>
 
+
     <xsl:variable name="import_view">
         <xsl:text>import nosi.core.webapp.View;</xsl:text>
+        <xsl:value-of select="$newline"/>
+    </xsl:variable>
+    
+     <xsl:variable name="import_bignumber">
+        <xsl:text>import java.math.BigInteger;</xsl:text>
+        <xsl:value-of select="$newline"/>
+         <xsl:text>import java.math.BigDecimal;</xsl:text>
         <xsl:value-of select="$newline"/>
     </xsl:variable>
 

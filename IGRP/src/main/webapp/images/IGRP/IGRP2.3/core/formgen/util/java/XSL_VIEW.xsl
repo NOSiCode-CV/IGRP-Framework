@@ -72,7 +72,7 @@
  		<xsl:value-of select="concat('package ',$package_name)"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_model"/>
+ 		<xsl:value-of select="$import_model"/> 	
  		<xsl:value-of select="$import_view"/>
  		<xsl:value-of select="$import_components"/>	
  		<xsl:value-of select="$import_fields"/>		

@@ -62,7 +62,7 @@
                 <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Organização</label>
                 </organica>
-                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
+                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -71,7 +71,7 @@
                 <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </codigo>
-                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -80,11 +80,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sed elit mollit doloremque sit</organica>
+                        <organica name="p_organica">Totam aliqua sit deserunt ut</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Adipiscing voluptatem ipsum co</descricao>
-                        <codigo name="p_codigo">Accusantium aliqua aperiam vol</codigo>
+                        <descricao name="p_descricao">Amet laudantium omnis stract p</descricao>
+                        <codigo name="p_codigo">Doloremque accusantium officia</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -92,11 +92,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Aperiam elit doloremque sit el</organica>
+                        <organica name="p_organica">Ut perspiciatis labore consect</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Labore officia accusantium sit</descricao>
-                        <codigo name="p_codigo">Magna labore amet laudantium d</codigo>
+                        <descricao name="p_descricao">Adipiscing deserunt amet offic</descricao>
+                        <codigo name="p_codigo">Aperiam unde natus adipiscing</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -104,11 +104,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Aliqua rem voluptatem perspici</organica>
+                        <organica name="p_organica">Perspiciatis ipsum aliqua dolo</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Anim totam laudantium amet str</descricao>
-                        <codigo name="p_codigo">Aperiam consectetur lorem pers</codigo>
+                        <descricao name="p_descricao">Adipiscing magna accusantium l</descricao>
+                        <codigo name="p_codigo">Omnis elit sed lorem dolor</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -116,11 +116,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sit dolor sit totam aliqua</organica>
+                        <organica name="p_organica">Sit mollit iste magna voluptat</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Rem officia voluptatem mollit</descricao>
-                        <codigo name="p_codigo">Officia ipsum voluptatem strac</codigo>
+                        <descricao name="p_descricao">Perspiciatis ipsum voluptatem</descricao>
+                        <codigo name="p_codigo">Anim elit dolor amet sit</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -128,11 +128,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Anim dolor aliqua magna ut</organica>
+                        <organica name="p_organica">Ipsum officia dolor totam aper</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Dolor voluptatem doloremque om</descricao>
-                        <codigo name="p_codigo">Iste accusantium laudantium of</codigo>
+                        <descricao name="p_descricao">Totam elit aperiam totam accus</descricao>
+                        <codigo name="p_codigo">Doloremque aperiam mollit omni</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

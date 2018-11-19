@@ -215,7 +215,8 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#start-code(assiocar_menu)----*/
 		this.addQueryString("p_id",Core.getParamInt("p_id"))
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
-			.addQueryString("p_type", "user").addQueryString("env_fk",model.getAplicacao());  ;
+			.addQueryString("p_type", "user")
+			.addQueryString("env_fk",model.getAplicacao());  ;
 	   	return this.redirect("igrp","MenuOrganica","index", this.queryString());
 		
 		/*----#end-code----*/

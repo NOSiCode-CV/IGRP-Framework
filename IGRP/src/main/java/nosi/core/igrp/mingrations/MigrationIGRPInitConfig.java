@@ -23,7 +23,7 @@ public class MigrationIGRPInitConfig {
 		app_igrp = app_igrp.insertOnly();
 		
 			
-		Application app_tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "IGRP web TODO", 1, null);
+		Application app_tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "IGRPweb TODO", 1, null);
 		app_tutorial = app_tutorial.insertOnly();
 		
 		Application app_igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "<code/> {Developers}", 1, null,"igrp_studio");
@@ -151,7 +151,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, app_igrp));
 			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app_igrp));
 			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, app_tutorial));
-			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 0, app_igrp_studio));
 			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, app_igrp_studio));	
 			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, app_igrp));
 			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));			
@@ -203,23 +203,23 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app_igrp_studio, null));			
 //		Temp menu for making this menu parent less	
 				//Profile() the type_fk is 5
-			Menu tempMenuAB = new Menu("Application Builder", 2, 1, 1, "_self", actions.get(2), app_igrp_studio,null);
-			tempMenuAB.setMenu(tempMenuAB);
+			Menu tempMenuAB = new Menu("Application Builder", 2, 1, 1, "_self", actions.get(2), app_igrp_studio,menus.get(3));
+//			tempMenuAB.setMenu(tempMenuAB);
 			menus.add(tempMenuAB);
 				//Profile() the type_fk is 6
-			Menu tempMenuPB = new Menu("Page Builder", 3, 1, 0, "_self", actions.get(0), app_igrp_studio, null);
+			Menu tempMenuPB = new Menu("Home - Page Builder", 0, 1, 0, "_self", actions.get(0), app_igrp_studio, null);
 			tempMenuPB.setMenu(tempMenuPB);
 			menus.add(tempMenuPB);
 				//Profile() the type_fk is 7
-			Menu tempMenuRD = new Menu("Report Designer", 4, 1, 0, "_self", actions.get(22), app_igrp_studio, null);
-			tempMenuRD.setMenu(tempMenuRD);
+			Menu tempMenuRD = new Menu("Report Designer", 4, 1, 0, "_self", actions.get(22), app_igrp_studio, menus.get(3));
+//			tempMenuRD.setMenu(tempMenuRD);
 			menus.add(tempMenuRD);
 				//Profile() the type_fk is 8
 			menus.add(new Menu("Gestão de Menu", 7, 0, 0, "_self", actions.get(8), app_igrp, menus.get(0)));
 				//Profile() the type_fk is 9
 			menus.add(new Menu("Gestão de Transação", 8, 0, 0, "_self", actions.get(15), app_igrp, menus.get(0)));		
 				//Profile() the type_fk is 10
-			Menu tempMenuGA = new Menu("Gestão de Acesso", 9, 1, 1, "_self", actions.get(40), app_igrp, null);
+			Menu tempMenuGA = new Menu("Gestão de Acesso", 999, 1, 1, "_self", actions.get(40), app_igrp, null);
 			tempMenuGA.setMenu(tempMenuGA);
 			menus.add(tempMenuGA);			
 				//Profile() the type_fk is 11
@@ -229,41 +229,41 @@ public class MigrationIGRPInitConfig {
 			tempMenuAP.setMenu(tempMenuAP);
 			menus.add(tempMenuAP);	
 				//Profile() the type_fk is 13
-			Menu tempMenuBD = new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app_igrp_studio, null);
-			tempMenuBD.setMenu(tempMenuBD);
+			Menu tempMenuBD = new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app_igrp_studio, menus.get(3));
+//			tempMenuBD.setMenu(tempMenuBD);
 			menus.add(tempMenuBD);
 				//Profile() the type_fk is 14
-			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(43), app_igrp_studio, null);
-			tempMenuCG.setMenu(tempMenuCG);
+			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(43), app_igrp_studio, menus.get(3));
+//			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 				//Profile() the type_fk is 15
-			Menu tempMenuCP = new Menu("Consultar Processo", 2, 1, 1, "_self", actions.get(46), app_igrp,null);
+			Menu tempMenuCP = new Menu("Consultar Processo", 99, 1, 1, "_self", actions.get(46), app_igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
 				//Profile() the type_fk is 16
-			Menu tempMenuOA = new Menu("OAuth Client Id", 1, 0, 0, "_self", actions.get(26), app_igrp, null);
+			Menu tempMenuOA = new Menu("OAuth Client Id", 99, 0, 0, "_self", actions.get(26), app_igrp, null);
 			tempMenuOA.setMenu(tempMenuOA);
 			menus.add(tempMenuOA);		
 			
 			//Profile() the type_fk is 17
-			Menu partilha = new Menu("Partilha Página", 0, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
+			Menu partilha = new Menu("Partilha Inter-Aplicações", 99, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
 			partilha.setMenu(partilha);
 			menus.add(partilha);
 			//Profile() the type_fk is 18
-			Menu sql = new Menu("SQL Tool", 0, 1, 0, "_self", actions.get(51), app_igrp_studio, null);
+			Menu sql = new Menu("SQL Tool", 99, 1, 0, "_self", actions.get(51), app_igrp_studio, null);
 			sql.setMenu(sql);
 			menus.add(sql);
 			//Profile() the type_fk is 19
-			Menu migrate = new Menu("Migrate IGRP", 0, 1, 0, "_self", actions.get(25), app_igrp, null);
+			Menu migrate = new Menu("Migrate IGRP", 99, 1, 0, "_self", actions.get(25), app_igrp, null);
 			migrate.setMenu(migrate);
 			menus.add(migrate);
 			
-			Menu Gestao_tipo_documento = new Menu("Gestao tipo documento", 0, 1, 0, "_self", actions.get(59), app_igrp, null);
+			Menu Gestao_tipo_documento = new Menu("Gestao tipo documento", 99, 1, 0, "_self", actions.get(59), app_igrp, null);
 			Gestao_tipo_documento.setMenu(Gestao_tipo_documento);
 			menus.add(Gestao_tipo_documento);
 
 			
-			Menu GestDominio = new Menu("Gestão de Domínio", 0, 1, 1, "_self", actions.get(3), app_igrp, null);
+			Menu GestDominio = new Menu("Gestão de Domínio", 99, 1, 1, "_self", actions.get(3), app_igrp, null);
 			GestDominio.setMenu(GestDominio);
 			menus.add(GestDominio);
 			

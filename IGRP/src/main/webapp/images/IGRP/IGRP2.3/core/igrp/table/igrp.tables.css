@@ -61,6 +61,9 @@ table tfoot{
   max-width: 300px;
   box-shadow: 0px 4px 10px 0px #ddd
 }
+th.igrp-table-ctx-th{
+  width: 230px !important;
+}
 
 .table-context-menu>li>a{
   border-radius: 0!important;
@@ -103,6 +106,7 @@ table tfoot{
 
 table td.img{
   width: 70px;
+  padding: 5px 0px !important;
 }
 
 
