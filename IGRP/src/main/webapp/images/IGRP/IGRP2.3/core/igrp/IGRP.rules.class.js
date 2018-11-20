@@ -484,7 +484,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-					var c = $(t).attr('item-type') ? 'no-validation' : 'no-required-validation';
+					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).removeClass(c);
 
 				});
@@ -500,7 +500,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				$.each(p.targetFields,function(i,t){
-					var c = $(t).attr('item-type') ? 'no-validation' : 'no-required-validation';
+					var c = $(t).attr('item-type') ? 'no-required-validation' : 'no-validation-required';
 					$(':input[required]',t).addClass(c);
 
 				});
