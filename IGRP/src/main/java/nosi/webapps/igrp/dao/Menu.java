@@ -67,7 +67,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								 + " LEFT JOIN tbl_env env_a ON env_a.id=ac.env_fk "
 								 + " LEFT JOIN tbl_profile_type prof_type ON prof_type.id=prof.prof_type_fk "  
 								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
-								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status ";
+								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status AND prof.user_fk<>0";
 	@Transient
 	private final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
