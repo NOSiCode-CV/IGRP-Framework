@@ -9,7 +9,8 @@ var CHECKBOXLIST = function(type,params){
 
 	field.ready = function(){
 		GEN.setDomainAttr(field,{
-			value: proprieties && proprieties.domain ? proprieties.domain : ''
+			value: proprieties && proprieties.domain ? proprieties.domain : '',
+			selected : proprieties && proprieties.domain_value ? proprieties.domain_value : false
 		});
 	};
 	

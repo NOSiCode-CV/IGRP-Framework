@@ -44,7 +44,8 @@ var SELECTFIELD = function(type,params){
 			propriety:false,
 			xslValue : 'tags="true"'
 		});
-		//console.log(proprieties)
+
+		
 		GEN.setDomainAttr(field,{
 			value: proprieties && proprieties.domain ? proprieties.domain : '',
 			selected : proprieties && proprieties.domain_value ? proprieties.domain_value : false

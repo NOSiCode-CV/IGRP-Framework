@@ -741,7 +741,7 @@ var GENSTRUCTURES = function(GEN){
 			rtn+='<option></option>';
 
 		if(f.GET.domain && f.GET.domain() && f.proprieties.domain_value && f.proprieties.domain_value[0]){
-
+			
 			f.proprieties.domain_value.forEach(function(d){
 				var value = $.IGRP.utils.htmlEncode(d.value),
 					text  = $.IGRP.utils.htmlEncode(d.text);

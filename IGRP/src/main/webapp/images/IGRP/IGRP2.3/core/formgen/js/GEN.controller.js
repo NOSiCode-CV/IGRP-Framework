@@ -4526,7 +4526,7 @@ var GENERATOR = function(genparams){
 	};
 
 
-	GEN.setDomainAttr = function(f,p){
+	/*GEN.setDomainAttr = function(f,p){
 
 		f.setProperty({
 			name : 'domain_value',
@@ -4551,6 +4551,55 @@ var GENERATOR = function(genparams){
 					f.proprieties.domain_value = GEN.domains[v];
 				else
 					f.proprieties.domain_value = [];
+
+			},
+			onEditionStart:function(o){
+				
+				var select = $('select',o.input);
+				
+				select.on("change", function (e){ 
+
+					var value  = select.val();
+
+					if(value)
+
+						GEN.getDomainValues( value );
+
+				});
+
+				select.trigger('change');
+
+			}
+		});
+
+	};*/
+	
+	GEN.setDomainAttr = function(f,p){
+		
+		f.setProperty({
+			name : 'domain_value',
+			editable:false,
+			value: p.selected || '',
+			onChange:function(v){
+				f.proprieties.domain_value = v;
+			}
+		});
+
+		f.setProperty({
+			name:'domain',
+			value:{
+				value: p.value || '',
+				options:GEN.DETAILS.domains
+			},
+			onChange:function(v){
+				
+				var dval = GEN.domains[v];
+
+				if(dval)
+					f.proprieties.domain_value = GEN.domains[v];
+				else
+					f.proprieties.domain_value = f.proprieties.domain_value || [];
+
 
 			},
 			onEditionStart:function(o){
