@@ -61,9 +61,6 @@ table tfoot{
   max-width: 300px;
   box-shadow: 0px 4px 10px 0px #ddd
 }
-th.igrp-table-ctx-th{
-  width: 230px !important;
-}
 
 .table-context-menu>li>a{
   border-radius: 0!important;
@@ -214,7 +211,7 @@ table.dataTable th.bs-checkbox{
 .table>tfoot>tr>th, 
 .table>thead>tr>td, 
 .table>thead>tr>th{
-  padding: 10px 15px;
+/*   padding: 10px 15px; */
   vertical-align: middle;
 }
 
@@ -225,6 +222,11 @@ table.dataTable th.bs-checkbox{
 .igrp-table-ctx-th{
   min-width: 125px;
 }
+
+th.igrp-table-ctx-th{
+  width: 230px !important;
+}
+
 .igrp-table-ctx-td>ul{
   margin:0;
   padding: 0;
