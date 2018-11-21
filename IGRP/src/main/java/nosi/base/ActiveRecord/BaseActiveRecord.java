@@ -3,22 +3,24 @@ package nosi.base.ActiveRecord;
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
- */import java.lang.annotation.Annotation;
- import java.lang.reflect.Field;
- import java.lang.reflect.InvocationTargetException;
- import java.lang.reflect.Method;
- import java.sql.Date;
- import java.util.ArrayList;
+ */
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
- import javax.persistence.criteria.CriteriaBuilder;
- import javax.persistence.criteria.CriteriaQuery;
- import javax.persistence.criteria.Expression;
- import javax.persistence.criteria.Predicate;
- import javax.persistence.criteria.Root;
- import org.hibernate.Session;
- import org.hibernate.SessionFactory;
- import org.hibernate.Transaction;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.hibernate.AnnotationException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import nosi.core.webapp.Core;
 
 
@@ -30,13 +32,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private List<Predicate> predicates = null;
 	private String connectionName;
 	private T className;
-	private boolean shoErrors = true;
-	private String error;
+	private List<String> error;
 	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
-		
+		this.error = new ArrayList<>();
 	}	
 	
 	private SessionFactory getSessionFactory() {
@@ -50,11 +51,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
-	public T showErrors(boolean isShowError) {
-		this.shoErrors = isShowError;
-		return this.className;
-	}
 	
 	@Override
 	public T insert() {
@@ -65,14 +61,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction = session.beginTransaction();
 			session.persist(this.className);
 			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.className = null;
-			if(this.shoErrors)
-				e.printStackTrace();
+		}catch (Exception e) {
+			this.setError(e.getCause().getCause().getMessage());
 		} finally {
 			if (session != null) {
 				session.close();
@@ -91,14 +81,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction = session.beginTransaction();
 			session.merge(this.className);
 			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
+		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			this.className = null;
-			if(this.shoErrors)
-				e.printStackTrace();
+			this.setError(e.getCause().getCause().getMessage());
 		} finally {
 			if (session != null) {
 				session.close();
@@ -121,14 +108,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			session.remove(this.className);
 			transaction.commit();
 			deleted=true;
-		} catch (Exception e) {
-			this.setError(e.getMessage());
-			deleted=false;
+		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			if(this.shoErrors)
-				e.printStackTrace();
+			this.setError(e.getCause().getCause().getMessage());
 		} finally {
 			if (session != null) {
 				session.close();
@@ -152,44 +136,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.criteria.where(this.builder.equal(this.root.get(this.getNamePrimaryKey()),id));
 		return this.one();
 	}
-
-	@Override
-	public T findOne(CriteriaQuery<T> criteria) {
-		Session session = null;
-		Transaction transaction = null;
-		try {
-			this.startCriteria();
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			List<T> t = session.createQuery(criteria).setMaxResults(1).getResultList();
-			if(t!=null && t.size() > 0)
-				this.className = t.get(0);
-			else
-				this.className = null;
-			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.className = null;
-			if(this.shoErrors)
-				e.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		this.closeFactory();
-		return className;
-	}
-
-	@Override
-	public T find() {
- 		this.startCriteria();
-		return this.className;
-	}
-
 	@Override
 	public T one() throws javax.persistence.NoResultException {
 		Session session = null;
@@ -208,14 +154,18 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			else
 				this.className = null;
 			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
+		}catch(AnnotationException e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
 			this.className = null;
-			if(this.shoErrors)
-				e.printStackTrace();
+			this.setError(e.getMessage());
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.className = null;
+			this.setError(e.getCause().getCause().getMessage());
 		} finally {
 			if (session != null) {
 				session.close();
@@ -225,6 +175,42 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return className;
 	}
 
+	@Override
+	public T findOne(CriteriaQuery<T> criteria) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			this.startCriteria();
+			session = this.getSession();
+			transaction = session.beginTransaction();
+			List<T> t = session.createQuery(criteria).setMaxResults(1).getResultList();
+			if(t!=null && t.size() > 0)
+				this.className = t.get(0);
+			else
+				this.className = null;
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.className = null;
+			this.setError(e.getCause().getCause().getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		this.closeFactory();
+		return className;
+	}
+
+	@Override
+	public T find() {
+ 		this.startCriteria();
+		return this.className;
+	}
+
+	
 	@Override
 	public List<T> all() {
 		List<T> list = null;
@@ -240,14 +226,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			list = (List<T>) session.createQuery(this.criteria).getResultList();
 			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
-	      if (transaction != null) {
-	          transaction.rollback();
-	      }
-	      list=null;
-			if(this.shoErrors)
-				e.printStackTrace();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e.getCause().getCause().getMessage());
 		} finally {
 			if (session != null) {
 				session.close();
@@ -258,6 +241,54 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 
+	@Override
+	public List<T> findAll() {
+		List<T> list = null;
+		Session session = null;
+		Transaction transaction = null;
+		try{
+			this.startCriteria();
+			session = this.getSession();
+			transaction = session.beginTransaction();
+			list = (List<T>) session.createQuery(this.getCriteria()).getResultList();
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e.getCause().getCause().getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		this.closeFactory();
+		return list;
+	}
+
+	@Override
+	public List<T> findAll(CriteriaQuery<T> criteria) {
+		List<T> list = null;
+		Session session = null;
+		Transaction transaction = null;
+		try{
+			session = this.getSession();
+			transaction = session.beginTransaction();
+			list = (List<T>) session.createQuery(criteria).getResultList();
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e.getCause().getCause().getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		this.closeFactory();
+		return list;
+	}
  	@Override
  	public T andWhere(String columnName, String operator, Object value) {
  		if(value!=null && !value.toString().equals("")){
@@ -496,60 +527,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
  		return this.className;
  	}
 
-	@Override
-	public List<T> findAll() {
-		List<T> list = null;
-		Session session = null;
-		Transaction transaction = null;
-		try{
-			this.startCriteria();
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			list = (List<T>) session.createQuery(this.getCriteria()).getResultList();
-			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
-	      if (transaction != null) {
-	          transaction.rollback();
-	      }
-	      list=null;
-	      if(this.shoErrors)
-			e.printStackTrace();
-		} finally {
-			if(session != null){
-		       session.close();
-	        }
-		}
-		this.closeFactory();
-		return list;
-	}
-
-	@Override
-	public List<T> findAll(CriteriaQuery<T> criteria) {
-		List<T> list = null;
-		Session session = null;
-		Transaction transaction = null;
-		try{
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			list = (List<T>) session.createQuery(criteria).getResultList();
-			transaction.commit();
-		} catch (Exception e) {
-			this.setError(e.getMessage());
-	      if (transaction != null) {
-	          transaction.rollback();
-	      }
-	      list=null;
-	      if(this.shoErrors)
-			e.printStackTrace();
-		} finally {
-			if(session != null){
-		       session.close();
-	        }
-		}
-		this.closeFactory();
-		return list;
-	}
 
 	private Session getSession() {		
 		return HibernateUtils.getSessionFactory(this.getConnectionName()).getCurrentSession();
@@ -639,18 +616,26 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	
-	public String getError() {
+	public List<String> getError() {
 		return error;
 	}
 
 	public void setError(String error) {
-		this.error = error;
+		this.error.add(error);
 	}
 	
 	public boolean hasError() {
-		return Core.isNotNull(this.error);
+		return this.error!=null && !this.error.isEmpty();
 	}
 
+	public void showMessage() {
+		if(this.hasError()) {
+			this.error.stream().forEach(e->{
+				Core.setMessageError(e);
+			});
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void startCriteria() {
 		if(this.predicates==null) {

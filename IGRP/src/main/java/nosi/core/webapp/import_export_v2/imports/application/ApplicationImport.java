@@ -43,7 +43,7 @@ public class ApplicationImport implements IImport{
 					application.setUrl(this.appSerializable.getUrl());
 					application.setTemplate(this.appSerializable.getTemplate());
 					application = application.insert();
-					this.addError(application.getError());
+					this.addError(application.hasError()?application.getError().get(0):null);
 				}
 				this.application = application;
 			}

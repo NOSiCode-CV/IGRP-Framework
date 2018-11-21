@@ -43,7 +43,7 @@ public class ModuloImport implements IImport {
 					m.setDescricao(modulo.getDescricao());
 					m.setName(modulo.getName());
 					m = m.insert();
-					this.addError(m.getError());
+					this.addError(m.hasError()?m.getError().get(0):null);
 				}
 			});			
 		}

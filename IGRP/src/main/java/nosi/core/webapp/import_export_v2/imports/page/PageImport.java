@@ -90,7 +90,7 @@ public class PageImport implements IImport{
 			ac.setProcessKey(page.getProcessKey());
 			ac.setTipo(page.getTipo());
 			ac = ac.insert();
-			this.addError(ac.getError());
+			this.addError(ac.hasError()?ac.getError().get(0):null);
 		}
 		if(!ac.hasError()) {
 			this.saveFile(page,ac);

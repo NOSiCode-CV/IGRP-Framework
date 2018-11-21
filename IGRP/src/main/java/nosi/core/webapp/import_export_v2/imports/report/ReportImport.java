@@ -59,7 +59,7 @@ public class ReportImport  implements IImport{
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.insert();
-					this.addError(repTemplate.getError());
+					this.addError(repTemplate.hasError()?repTemplate.getError().get(0):null);
 					this.saveDataSource(report);
 					this.saveParamDataSource(report,repTemplate);
 				}
@@ -75,7 +75,7 @@ public class ReportImport  implements IImport{
 				repTS.setRepSource(repSource);
 				repTS.setRepTemplate(repTemplate);
 				repTS = repTS.insert();
-				this.addError(repTS.getError());
+				this.addError(repTS.hasError()?repTS.getError().get(0):null);
 				if(pds.getParams()!=null) {
 					for(ReportParamsSerializable p:pds.getParams()){
 						RepTemplateSourceParam param = new RepTemplateSourceParam();
@@ -83,7 +83,7 @@ public class ReportImport  implements IImport{
 						param.setParameter_type(p.getParameter_type());
 						param.setRepTemplateSource(repTS);
 						param = param.insert();
-						this.addError(param.getError());
+						this.addError(param.hasError()?param.getError().get(0):null);
 					}
 				}
 			});
@@ -114,7 +114,7 @@ public class ReportImport  implements IImport{
 				repSource.setUser_created(new User().findIdentityByUsername(source.getUsername_created()));
 				repSource.setUser_updated(new User().findIdentityByUsername(source.getUsername_updated()));
 				repSource = repSource.insert();
-				this.addError(repSource.getError());
+				this.addError(repSource.hasError()?repSource.getError().get(0):null);
 			});
 		}
 	}
@@ -123,7 +123,7 @@ public class ReportImport  implements IImport{
 		if(report!=null) {
 			CLob clob = new CLob(report.getName(), report.getMime_type(), report.getC_lob_content(), report.getDt_created());
 			clob = clob.insert();
-			this.addError(clob.getError());
+			this.addError(clob.hasError()?clob.getError().get(0):null);
 			return clob;
 		}
 		return null;

@@ -140,7 +140,7 @@ public final class MigrationIGRP {
 					.addString("url", app.getUrl())
 					.execute();
 				try {
-					new Application().showErrors(false).insertOnly();//Using to increment value for last id
+					new Application().insertOnly();//Using to increment value for last id
 				}catch(Exception e) {
 					
 				}
@@ -154,7 +154,7 @@ public final class MigrationIGRP {
 					.addString("name", m.getName())
 					.addInt("env_fk", m.getApplication().getId())
 					.execute();
-				new Modulo().showErrors(false).insert();//Using to increment value for last id
+				new Modulo().insert();//Using to increment value for last id
 			});
 		}
 		if(domains.size() > 0 ) {
@@ -167,7 +167,7 @@ public final class MigrationIGRP {
 					.addString("status", d.getStatus())
 					.addString("valor", d.getValor())
 					.execute();
-				new Domain().showErrors(false).insert();//Using to increment value for last id
+				new Domain().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -190,7 +190,7 @@ public final class MigrationIGRP {
 					.addInt("env_fk", a.getApplication().getId())
 					.addString("nomeModulo", a.getNomeModulo())
 					.execute();
-				new Action().showErrors(false).insert();//Using to increment value for last id 
+				new Action().insert();//Using to increment value for last id 
 			});
 			applications = applications.stream().filter(a->a.getAction()!=null).collect(Collectors.toList());
 			applications.stream().forEach(app->{
@@ -212,7 +212,7 @@ public final class MigrationIGRP {
 					.addInt("env_fk", s.getEnv().getId())
 					.addInt("env_owner_fk", s.getOwner().getId())
 					.execute();
-				new Share().showErrors(false).insert();//Using to increment value for last id
+				new Share().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -226,7 +226,7 @@ public final class MigrationIGRP {
 					.addString("mime_type", cl.getMime_type())
 					.addString("name", cl.getName())
 					.execute();
-				new CLob().showErrors(false).insert();//Using to increment value for last id
+				new CLob().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -246,7 +246,7 @@ public final class MigrationIGRP {
 					.addString("username", c.getUsername())
 					.addInt("env_fk", c.getApplication().getId())
 					.execute();
-				new Config_env().showErrors(false).insert();//Using to increment value for last id
+				new Config_env().insert();//Using to increment value for last id
 			});
 		}
 		if(users.size() > 0){
@@ -271,7 +271,7 @@ public final class MigrationIGRP {
 					.addString("user_name", u.getUser_name())
 					.addString("valid_until", u.getValid_until())
 					.execute();
-				new User().showErrors(false).insert();//Using to increment value for last id
+				new User().insert();//Using to increment value for last id
 			});
 		}
 		if(organizations.size() > 0){
@@ -285,7 +285,7 @@ public final class MigrationIGRP {
 					.addInt("self_fk", o.getOrganization()!=null?o.getOrganization().getId():null)
 					.addInt("user_created_fk", o.getUser().getId())
 					.execute();
-				new Organization().showErrors(false).insert();//Using to increment value for last id
+				new Organization().insert();//Using to increment value for last id
 			});
 		}
 		if(profile_types.size() > 0){
@@ -299,7 +299,7 @@ public final class MigrationIGRP {
 					.addInt("self_fk", p.getProfiletype()!=null?p.getProfiletype().getId():null)
 					.addInt("org_fk", p.getOrganization()!=null?p.getOrganization().getId():null)
 					.execute();
-				new ProfileType().showErrors(false).insert();//Using to increment value for last id
+				new ProfileType().insert();//Using to increment value for last id
 			});
 		}		
 
@@ -316,7 +316,7 @@ public final class MigrationIGRP {
 					.addInt("env_fk", m.getApplication().getId())
 					.addInt("self_fk", m.getMenu()!=null?m.getMenu().getId():null)
 					.execute();
-				new Menu().showErrors(false).insert();//Using to increment value for last id
+				new Menu().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -329,7 +329,7 @@ public final class MigrationIGRP {
 					.addInt("status", t.getStatus())
 					.addInt("env_fk", t.getApplication().getId())
 					.execute();
-				new Transaction().showErrors(false).insert();//Using to increment value for last id
+				new Transaction().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -343,7 +343,7 @@ public final class MigrationIGRP {
 					.addInt("prof_type_fk", p.getProfileType().getId())
 					.addInt("user_fk",p.getUser().getId())
 					.execute();
-				new Profile().showErrors(false).insert();//Using to increment value for last id
+				new Profile().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -362,7 +362,7 @@ public final class MigrationIGRP {
 					.addInt("xml_content_fk",rt.getXml_content().getId())
 					.addInt("xsl_content_fk", rt.getXsl_content().getId())
 					.execute();
-				new RepTemplate().showErrors(false).insert();//Using to increment value for last id
+				new RepTemplate().insert();//Using to increment value for last id
 			});
 		}
 		if(rep_template_parmas.size() > 0){
@@ -372,7 +372,7 @@ public final class MigrationIGRP {
 					.addString("parameter", rt.getParameter())
 					.addInt("rep_template_fk", rt.getReptemplate().getId())
 					.execute();
-				new RepTemplateParam().showErrors(false).insert();//Using to increment value for last id
+				new RepTemplateParam().insert();//Using to increment value for last id
 			});
 		}
 		if(rep_instances.size() > 0){
@@ -389,7 +389,7 @@ public final class MigrationIGRP {
 					.addInt("xml_content_fk", ri.getXml_content().getId())
 					.addInt("xsl_content_fk", ri.getXsl_content().getId())
 					.execute();
-				new RepInstance().showErrors(false).insert();//Using to increment value for last id
+				new RepInstance().insert();//Using to increment value for last id
 			});
 		}
 		if(rep_sources.size() > 0){
@@ -413,7 +413,7 @@ public final class MigrationIGRP {
 					.addInt("user_created_fk", rs.getUser_created()!=null?rs.getUser_created().getId():null)
 					.addInt("user_updated_fk", rs.getUser_updated()!=null?rs.getUser_updated().getId():null)
 					.execute();
-				new RepSource().showErrors(false).insert();//Using to increment value for last id
+				new RepSource().insert();//Using to increment value for last id
 			});
 		}
 		if(rep_template_sources.size() > 0){
@@ -423,7 +423,7 @@ public final class MigrationIGRP {
 					.addInt("rep_source_fk", rt.getRepSource().getId())
 					.addInt("rep_template_fk", rt.getRepTemplate().getId())
 					.execute();
-				new RepTemplateSource().showErrors(false).insert();//Using to increment value for last id
+				new RepTemplateSource().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -438,7 +438,7 @@ public final class MigrationIGRP {
 					.addString("title", tc.getTitle())
 					.addInt("action_fk", tc.getAction().getId())
 					.execute();
-				new TaskComponent().showErrors(false).insert();//Using to increment value for last id
+				new TaskComponent().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -452,7 +452,7 @@ public final class MigrationIGRP {
 					.addInt("org_fk", ta.getOrganization()!=null?ta.getOrganization().getId():null)
 					.addInt("prof_fk", ta.getProfileType()!=null?ta.getProfileType().getId():null)
 					.execute();
-				new TaskAccess().showErrors(false).insert();//Using to increment value for last id
+				new TaskAccess().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -466,7 +466,7 @@ public final class MigrationIGRP {
 					.addInt("status", td.getStatus())
 					.addInt("env_fk", td.getApplication().getId())
 					.execute();
-				new TipoDocumento().showErrors(false).insert();//Using to increment value for last id
+				new TipoDocumento().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -482,7 +482,7 @@ public final class MigrationIGRP {
 					.addInt("report_fk", td.getRepTemplate()!=null?td.getRepTemplate().getId():null)
 					.addInt("tipo_documento_fk", td.getTipoDocumento()!=null?td.getTipoDocumento().getId():null)
 					.execute();
-				new TipoDocumentoEtapa().showErrors(false).insert();//Using to increment value for last id
+				new TipoDocumentoEtapa().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -507,7 +507,7 @@ public final class MigrationIGRP {
 					.addInt("prof_type_fk", s.getProfileType()!=null?s.getProfileType().getId():null)
 					.addInt("user_fk", s.getUser()!=null?s.getUser().getId():null)
 					.execute();
-				new Session().showErrors(false).insert();//Using to increment value for last id
+				new Session().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -524,7 +524,7 @@ public final class MigrationIGRP {
 					.addString("scope", obj.getScope())
 					.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
 					.execute();
-				new OAuthClient().showErrors(false).insert();//Using to increment value for last id
+				new OAuthClient().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -534,7 +534,7 @@ public final class MigrationIGRP {
 					.addString("scope", obj.getScope())
 					.addInt("is_default", obj.getIs_default())
 					.execute();
-				new OAuthScope().showErrors(false).insert();//Using to increment value for last id
+				new OAuthScope().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -550,7 +550,7 @@ public final class MigrationIGRP {
 					.addString("client_id", obj.getAuthClient().getClient_id())
 					.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
 					.execute();
-				new OAuthorizationCode().showErrors(false).insert();//Using to increment value for last id
+				new OAuthorizationCode().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -564,7 +564,7 @@ public final class MigrationIGRP {
 					.addString("client_id", obj.getAuthClient().getClient_id())
 					.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
 					.execute();
-				new OAuthAccessToken().showErrors(false).insert();//Using to increment value for last id
+				new OAuthAccessToken().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -578,7 +578,7 @@ public final class MigrationIGRP {
 				.addString("client_id", obj.getAuthClient().getClient_id())
 				.addInt("user_id", obj.getUser()!=null?obj.getUser().getId():null)
 				.execute();
-				new OAuthRefreshToken().showErrors(false).insert();//Using to increment value for last id
+				new OAuthRefreshToken().insert();//Using to increment value for last id
 			});
 		}
 		
@@ -589,7 +589,7 @@ public final class MigrationIGRP {
 				.addString("role_name", obj.getRole_name())
 				.addString("user_name",obj.getUser()!=null? obj.getUser().getUser_name():null)
 				.execute();
-				new UserRole().showErrors(false).insert();//Using to increment value for last id
+				new UserRole().insert();//Using to increment value for last id
 			});
 		}
 		

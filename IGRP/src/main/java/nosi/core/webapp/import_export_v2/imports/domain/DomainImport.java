@@ -32,7 +32,7 @@ public class DomainImport  implements IImport{
 				if(dm==null) {
 					dm = new Domain(d.getDominio(), d.getValor(), d.getDescription(), d.getStatus(), d.getOrdem());
 					dm = dm.insert();
-					this.error = dm.getError();
+					this.error = dm.hasError()?dm.getError().get(0):null;
 				}
 			});
 		}
