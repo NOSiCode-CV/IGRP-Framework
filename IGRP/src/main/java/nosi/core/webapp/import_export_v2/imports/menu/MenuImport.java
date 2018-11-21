@@ -63,7 +63,7 @@ public class MenuImport implements IImport{
 			}
 			new_menu.setAction(action);
 			new_menu = new_menu.insert();
-			this.addError(new_menu.getError());
+			this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
 	}
 
 	@Override

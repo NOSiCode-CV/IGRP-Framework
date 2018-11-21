@@ -55,7 +55,7 @@ public class ConnectionImport  implements IImport{
 						c.setDad(this.application.getDad());
 						this.saveConnectionFile(c);
 					}
-					this.error = config.getError();
+					this.error = config.hasError()?config.getError().get(0):null;
 				}
 			});
 		}

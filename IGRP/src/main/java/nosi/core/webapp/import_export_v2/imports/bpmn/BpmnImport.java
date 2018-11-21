@@ -77,7 +77,7 @@ public class BpmnImport implements IImport {
 				Core.mapper(page, ac);
 				ac.setApplication(this.application);
 				ac = ac.insert();
-				this.addError(ac.getError());
+				this.addError(ac.hasError()?ac.getError().get(0):null);
 			});
 		}
 	}
