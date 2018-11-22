@@ -7,6 +7,7 @@ import nosi.core.webapp.import_export_v2.exports.connection.ConnectionExport;
 import nosi.core.webapp.import_export_v2.exports.dao.DAOExport;
 import nosi.core.webapp.import_export_v2.exports.domain.DomainExport;
 import nosi.core.webapp.import_export_v2.exports.menu.MenuExport;
+import nosi.core.webapp.import_export_v2.exports.others_class.OthersClassExport;
 import nosi.core.webapp.import_export_v2.exports.page.PageExport;
 import nosi.core.webapp.import_export_v2.exports.report.ReportExport;
 import nosi.webapps.igrp.dao.Application;
@@ -28,7 +29,9 @@ public class ExportHelper {
 		String[] menu_ids = Core.getParamArray("p_menu_ids");
 		String[] dao_ids = Core.getParamArray("p_dao_ids");
 		String[] modulo_ids = Core.getParamArray("p_modulo_ids");
-		if(dao_ids==null && report_ids==null && domain_ids==null && page_ids==null && conexao_ids==null && menu_ids==null && bpm_ids==null && modulo_ids==null) {
+		String[] others_class_ids = Core.getParamArray("p_others_class");
+		
+		if(others_class_ids==null && dao_ids==null && report_ids==null && domain_ids==null && page_ids==null && conexao_ids==null && menu_ids==null && bpm_ids==null && modulo_ids==null) {
 			Core.setMessageError(Core.gt("Por favor selecione os dados a serem exportados"));
 			return null;
 		}
@@ -42,6 +45,7 @@ public class ExportHelper {
 		new ConnectionExport().export(export,conexao_ids);
 		new MenuExport().export(export,menu_ids);
 		new DAOExport().export(export,dao_ids);
+		new OthersClassExport().export(export, others_class_ids);
 //		new ServicesExport().export(export, ids);
 		return export.execute();
 	}

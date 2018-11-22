@@ -15,6 +15,7 @@ import nosi.core.webapp.import_export_v2.imports.dao.DaoImport;
 import nosi.core.webapp.import_export_v2.imports.domain.DomainImport;
 import nosi.core.webapp.import_export_v2.imports.menu.MenuImport;
 import nosi.core.webapp.import_export_v2.imports.modulo.ModuloImport;
+import nosi.core.webapp.import_export_v2.imports.others_class.OthersClassImport;
 import nosi.core.webapp.import_export_v2.imports.page.PageImport;
 import nosi.core.webapp.import_export_v2.imports.report.ReportImport;
 import nosi.webapps.igrp.dao.Application;
@@ -76,6 +77,10 @@ public class ImportHelper {
 			DomainImport domain = new DomainImport();
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
 			imp.add(domain);
+			
+			OthersClassImport others_class = new OthersClassImport(app.getApplication());
+			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
+			imp.add(others_class);
 			
 			imp.execute();
 			this.setEerror(imp.getErrors());

@@ -481,11 +481,13 @@ public class Controller{
 		Igrp.getInstance().setCurrentActionName(action);
 		Object obj = Page.loadPage(auxcontrollerPath, "action"+StringHelper.camelCaseFirst(action));
 		Response resp = (Response) obj;
-		String content = resp.getContent();		
-		if(m!=null){
-			content = content.replaceAll("<messages></messages>", m);
+		if(resp!=null) {
+			String content = resp.getContent();		
+			if(m!=null){
+				content = Core.isNotNull(content)?content.replaceAll("<messages></messages>", m):content;
+			}
+			resp.setContent(content);
 		}
-		resp.setContent(content);
 		return  resp ;
 	}	
 	
@@ -519,6 +521,7 @@ public class Controller{
 							if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
 								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
 								Igrp.getInstance().getResponse().getOutputStream().close();
+								Igrp.getInstance().getResponse().flushBuffer();
 							}else if(responseWrapper.getFile()!=null){
 								 HttpServletResponse response = Igrp.getInstance().getResponse();
 								 String name = responseWrapper.getFile().getFileName();
@@ -557,7 +560,8 @@ public class Controller{
 							} catch (MalformedURLException e) { // Ensure the url format is perfect ...
 								isAbsolute = false;
 							}
-							Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url : "webapps" + url);
+							if(!Igrp.getInstance().getResponse().isCommitted())
+								Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url : "webapps" + url);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -569,6 +573,15 @@ public class Controller{
 						} catch (ServletException | IOException e) {
 							e.printStackTrace();
 						} 
+						break;
+					case 4:
+						try {
+							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+//							Igrp.getInstance().getResponse().getOutputStream().close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
 					default:;
 				}

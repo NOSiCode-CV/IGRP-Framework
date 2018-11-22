@@ -22,6 +22,7 @@ import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2.
 public class ExportSqlHelper {
 
 	private Application application;
+	private List<File> files;
 	
 	public void loadDataExport(Wizard_export_step_2View view, Wizard_export_step_2 model, String[] opcoes) {
 		this.application = new Application().findOne(model.getApplication_id());
@@ -56,11 +57,17 @@ public class ExportSqlHelper {
 				view.table_menu.setVisible(true);
 				this.loadMenuData(model);
 			}
+			else if(t==OptionsImportExport.OTHERS_CLASS.getValor()) {
+				view.table_others_class.setVisible(true);
+				this.loadOthersClassData(model);
+			}
 	//		else if(t==ExportTypes.SERVICE.getValor()) {
 	//			this.loadServiceData(model);
 	//		}
 		}
 	}
+
+
 
 
 	private void showAllTable(Wizard_export_step_2View view, boolean isVisible) {
@@ -72,9 +79,45 @@ public class ExportSqlHelper {
 		view.table_pagina.setVisible(isVisible);
 		view.table_report.setVisible(isVisible);
 		view.table_modulo.setVisible(isVisible);
+		view.table_others_class.setVisible(isVisible);
 	}
 
 
+	private void loadOthersClassData(Wizard_export_step_2 model) {
+		String sql = "";
+		String basePath = Path.getPath(this.application);		
+		this.files = new ArrayList<>();
+		this.listFilesDirectory(basePath);
+		if(this.files!=null) {
+			int size = this.files.size();
+			int count = 0;
+			for(File f:this.files) {
+				sql += "SELECT '"+f.getAbsolutePath()+"' as others_class,'"+f.getAbsolutePath()+"' as others_class_check, '"+f.getParentFile().getName()+" - "+f.getName()+"' as descricao_others_class";
+				++count;
+				if(count!=size) {
+					sql+=" UNION ";
+				}
+			}
+			if(Core.isNotNull(sql))
+				model.loadTable_others_class(Core.query(null,sql));
+		}
+	}
+	public void listFilesDirectory(String path) {
+		if(FileHelper.fileExists(path)){
+			File folder = new File(path);
+		    for (final File fileEntry : folder.listFiles()) {
+		        if (fileEntry.isDirectory()) {
+		        	//dao folder export in another option
+		        	if(!fileEntry.getName().equals("dao") && !fileEntry.getName().equals("process")&& !fileEntry.getName().equals("pages"))
+		        		listFilesDirectory(fileEntry.toString());
+		        } else {
+		        	if(fileEntry.getName().endsWith(".java"))
+		        		this.files.add(fileEntry);
+		        }
+		    }
+		}
+	}
+	
 //	private void loadServiceData(Wizard_export_step_2 model) {
 //		this.loadDataFromFile(model,"services");
 //	}
@@ -89,11 +132,13 @@ public class ExportSqlHelper {
 
 
 	private void loadDaoData(Wizard_export_step_2 model) {
-		this.loadDataFromFile(model,"dao");
+		String sql = this.loadDataFromFile(model,"dao");
+		if(Core.isNotNull(sql))
+			model.loadTable_dao(Core.query(null,sql));
 	}
 
 
-	private void loadDataFromFile(Wizard_export_step_2 model, String dir) {
+	private String loadDataFromFile(Wizard_export_step_2 model, String dir) {
 		String sql = "";
 		String basePath = Path.getPath(this.application);
 		basePath += dir + File.separator;
@@ -102,16 +147,16 @@ public class ExportSqlHelper {
 			int size = files.size();
 			int count = 0;
 			for(Entry<String, String> f:files.entrySet()){
-				sql += "SELECT '"+f.getValue()+"' as dao_ids,'"+f.getValue()+"' as dao_ids_check, '"+f.getKey()+"' as descricao_dao ";
+				sql += "SELECT '"+f.getValue()+"' as "+dir+"_ids,'"+f.getValue()+"' as "+dir+"_ids_check, '"+f.getKey()+"' as descricao_"+dir;
 				++count;
 				if(count!=size) {
 					sql+=" UNION ";
 				}
 			}
 		}
-		if(Core.isNotNull(sql))
-			model.loadTable_dao(Core.query(null,sql));
+		return sql;
 	}
+	
 	private void loadConnectionData(Wizard_export_step_2 model) {
 		String sql = "SELECT id as conexao_ids,id as conexao_ids_check, name as descricao_conexao "
 				   + "FROM tbl_config_env "

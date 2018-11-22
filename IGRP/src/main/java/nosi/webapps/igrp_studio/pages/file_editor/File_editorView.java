@@ -36,8 +36,7 @@ public class File_editorView extends View {
 		create_url = new LinkField(model,"create_url");
 		create_url.setLabel(gt("Create_url"));
 		create_url.setValue(new Config().getResolveUrl("igrp_studio","File_editor","index"));
-
-									create_url.propertie().add("name","p_create_url").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
+		create_url.propertie().add("name","p_create_url").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
 		
 
 

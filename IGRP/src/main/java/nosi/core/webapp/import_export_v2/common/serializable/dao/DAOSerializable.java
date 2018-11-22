@@ -12,7 +12,7 @@ public class DAOSerializable implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private String path;
 	private String fileName;
 	private String content;
 	
@@ -28,4 +28,11 @@ public class DAOSerializable implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
 }

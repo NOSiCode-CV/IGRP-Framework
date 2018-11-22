@@ -98,6 +98,32 @@ public class Wizard_export_step_2 extends Model{
 		return this.p_table_report_del;
 	}
 	
+	private List<Table_menu> table_menu = new ArrayList<>();	
+	public void setTable_menu(List<Table_menu> table_menu){
+		this.table_menu = table_menu;
+	}
+	public List<Table_menu> getTable_menu(){
+		return this.table_menu;
+	}
+	@RParam(rParamName = "p_table_menu_id")
+	private String[] p_table_menu_id;
+	@RParam(rParamName = "p_table_menu_del")
+	private String[] p_table_menu_del;
+	
+	public void setP_table_menu_id(String[] p_table_menu_id){
+		this.p_table_menu_id = p_table_menu_id;
+	}
+	public String[] getP_table_menu_id(){
+		return this.p_table_menu_id;
+	}
+	
+	public void setP_table_menu_del(String[] p_table_menu_del){
+		this.p_table_menu_del = p_table_menu_del;
+	}
+	public String[] getP_table_menu_del(){
+		return this.p_table_menu_del;
+	}
+	
 	private List<Table_dao> table_dao = new ArrayList<>();	
 	public void setTable_dao(List<Table_dao> table_dao){
 		this.table_dao = table_dao;
@@ -122,6 +148,32 @@ public class Wizard_export_step_2 extends Model{
 	}
 	public String[] getP_table_dao_del(){
 		return this.p_table_dao_del;
+	}
+	
+	private List<Table_modulo> table_modulo = new ArrayList<>();	
+	public void setTable_modulo(List<Table_modulo> table_modulo){
+		this.table_modulo = table_modulo;
+	}
+	public List<Table_modulo> getTable_modulo(){
+		return this.table_modulo;
+	}
+	@RParam(rParamName = "p_table_modulo_id")
+	private String[] p_table_modulo_id;
+	@RParam(rParamName = "p_table_modulo_del")
+	private String[] p_table_modulo_del;
+	
+	public void setP_table_modulo_id(String[] p_table_modulo_id){
+		this.p_table_modulo_id = p_table_modulo_id;
+	}
+	public String[] getP_table_modulo_id(){
+		return this.p_table_modulo_id;
+	}
+	
+	public void setP_table_modulo_del(String[] p_table_modulo_del){
+		this.p_table_modulo_del = p_table_modulo_del;
+	}
+	public String[] getP_table_modulo_del(){
+		return this.p_table_modulo_del;
 	}
 	
 	private List<Table_connections> table_connections = new ArrayList<>();	
@@ -176,56 +228,30 @@ public class Wizard_export_step_2 extends Model{
 		return this.p_table_domain_del;
 	}
 	
-	private List<Table_modulo> table_modulo = new ArrayList<>();	
-	public void setTable_modulo(List<Table_modulo> table_modulo){
-		this.table_modulo = table_modulo;
+	private List<Table_others_class> table_others_class = new ArrayList<>();	
+	public void setTable_others_class(List<Table_others_class> table_others_class){
+		this.table_others_class = table_others_class;
 	}
-	public List<Table_modulo> getTable_modulo(){
-		return this.table_modulo;
+	public List<Table_others_class> getTable_others_class(){
+		return this.table_others_class;
 	}
-	@RParam(rParamName = "p_table_modulo_id")
-	private String[] p_table_modulo_id;
-	@RParam(rParamName = "p_table_modulo_del")
-	private String[] p_table_modulo_del;
+	@RParam(rParamName = "p_table_others_class_id")
+	private String[] p_table_others_class_id;
+	@RParam(rParamName = "p_table_others_class_del")
+	private String[] p_table_others_class_del;
 	
-	public void setP_table_modulo_id(String[] p_table_modulo_id){
-		this.p_table_modulo_id = p_table_modulo_id;
+	public void setP_table_others_class_id(String[] p_table_others_class_id){
+		this.p_table_others_class_id = p_table_others_class_id;
 	}
-	public String[] getP_table_modulo_id(){
-		return this.p_table_modulo_id;
-	}
-	
-	public void setP_table_modulo_del(String[] p_table_modulo_del){
-		this.p_table_modulo_del = p_table_modulo_del;
-	}
-	public String[] getP_table_modulo_del(){
-		return this.p_table_modulo_del;
+	public String[] getP_table_others_class_id(){
+		return this.p_table_others_class_id;
 	}
 	
-	private List<Table_menu> table_menu = new ArrayList<>();	
-	public void setTable_menu(List<Table_menu> table_menu){
-		this.table_menu = table_menu;
+	public void setP_table_others_class_del(String[] p_table_others_class_del){
+		this.p_table_others_class_del = p_table_others_class_del;
 	}
-	public List<Table_menu> getTable_menu(){
-		return this.table_menu;
-	}
-	@RParam(rParamName = "p_table_menu_id")
-	private String[] p_table_menu_id;
-	@RParam(rParamName = "p_table_menu_del")
-	private String[] p_table_menu_del;
-	
-	public void setP_table_menu_id(String[] p_table_menu_id){
-		this.p_table_menu_id = p_table_menu_id;
-	}
-	public String[] getP_table_menu_id(){
-		return this.p_table_menu_id;
-	}
-	
-	public void setP_table_menu_del(String[] p_table_menu_del){
-		this.p_table_menu_del = p_table_menu_del;
-	}
-	public String[] getP_table_menu_del(){
-		return this.p_table_menu_del;
+	public String[] getP_table_others_class_del(){
+		return this.p_table_others_class_del;
 	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
@@ -339,6 +365,31 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
+	public static class Table_menu extends IGRPTable.Table{
+		private String menu_ids;
+		private String menu_ids_check;
+		private String descricao_menu;
+		public void setMenu_ids(String menu_ids){
+			this.menu_ids = menu_ids;
+		}
+		public String getMenu_ids(){
+			return this.menu_ids;
+		}
+		public void setMenu_ids_check(String menu_ids_check){
+			this.menu_ids_check = menu_ids_check;
+		}
+		public String getMenu_ids_check(){
+			return this.menu_ids_check;
+		}
+
+		public void setDescricao_menu(String descricao_menu){
+			this.descricao_menu = descricao_menu;
+		}
+		public String getDescricao_menu(){
+			return this.descricao_menu;
+		}
+
+	}
 	public static class Table_dao extends IGRPTable.Table{
 		private String dao_ids;
 		private String dao_ids_check;
@@ -361,6 +412,31 @@ public class Wizard_export_step_2 extends Model{
 		}
 		public String getDescricao_dao(){
 			return this.descricao_dao;
+		}
+
+	}
+	public static class Table_modulo extends IGRPTable.Table{
+		private String modulo_ids;
+		private String modulo_ids_check;
+		private String descricao_modulo;
+		public void setModulo_ids(String modulo_ids){
+			this.modulo_ids = modulo_ids;
+		}
+		public String getModulo_ids(){
+			return this.modulo_ids;
+		}
+		public void setModulo_ids_check(String modulo_ids_check){
+			this.modulo_ids_check = modulo_ids_check;
+		}
+		public String getModulo_ids_check(){
+			return this.modulo_ids_check;
+		}
+
+		public void setDescricao_modulo(String descricao_modulo){
+			this.descricao_modulo = descricao_modulo;
+		}
+		public String getDescricao_modulo(){
+			return this.descricao_modulo;
 		}
 
 	}
@@ -414,53 +490,28 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
-	public static class Table_modulo extends IGRPTable.Table{
-		private String modulo_ids;
-		private String modulo_ids_check;
-		private String descricao_modulo;
-		public void setModulo_ids(String modulo_ids){
-			this.modulo_ids = modulo_ids;
+	public static class Table_others_class extends IGRPTable.Table{
+		private String others_class;
+		private String others_class_check;
+		private String descricao_others_class;
+		public void setOthers_class(String others_class){
+			this.others_class = others_class;
 		}
-		public String getModulo_ids(){
-			return this.modulo_ids;
+		public String getOthers_class(){
+			return this.others_class;
 		}
-		public void setModulo_ids_check(String modulo_ids_check){
-			this.modulo_ids_check = modulo_ids_check;
+		public void setOthers_class_check(String others_class_check){
+			this.others_class_check = others_class_check;
 		}
-		public String getModulo_ids_check(){
-			return this.modulo_ids_check;
-		}
-
-		public void setDescricao_modulo(String descricao_modulo){
-			this.descricao_modulo = descricao_modulo;
-		}
-		public String getDescricao_modulo(){
-			return this.descricao_modulo;
+		public String getOthers_class_check(){
+			return this.others_class_check;
 		}
 
-	}
-	public static class Table_menu extends IGRPTable.Table{
-		private String menu_ids;
-		private String menu_ids_check;
-		private String descricao_menu;
-		public void setMenu_ids(String menu_ids){
-			this.menu_ids = menu_ids;
+		public void setDescricao_others_class(String descricao_others_class){
+			this.descricao_others_class = descricao_others_class;
 		}
-		public String getMenu_ids(){
-			return this.menu_ids;
-		}
-		public void setMenu_ids_check(String menu_ids_check){
-			this.menu_ids_check = menu_ids_check;
-		}
-		public String getMenu_ids_check(){
-			return this.menu_ids_check;
-		}
-
-		public void setDescricao_menu(String descricao_menu){
-			this.descricao_menu = descricao_menu;
-		}
-		public String getDescricao_menu(){
-			return this.descricao_menu;
+		public String getDescricao_others_class(){
+			return this.descricao_others_class;
 		}
 
 	}
@@ -477,8 +528,16 @@ public class Wizard_export_step_2 extends Model{
 		this.setTable_report(this.loadTable(query,Table_report.class));
 	}
 
+	public void loadTable_menu(BaseQueryInterface query) {
+		this.setTable_menu(this.loadTable(query,Table_menu.class));
+	}
+
 	public void loadTable_dao(BaseQueryInterface query) {
 		this.setTable_dao(this.loadTable(query,Table_dao.class));
+	}
+
+	public void loadTable_modulo(BaseQueryInterface query) {
+		this.setTable_modulo(this.loadTable(query,Table_modulo.class));
 	}
 
 	public void loadTable_connections(BaseQueryInterface query) {
@@ -489,12 +548,8 @@ public class Wizard_export_step_2 extends Model{
 		this.setTable_domain(this.loadTable(query,Table_domain.class));
 	}
 
-	public void loadTable_modulo(BaseQueryInterface query) {
-		this.setTable_modulo(this.loadTable(query,Table_modulo.class));
-	}
-
-	public void loadTable_menu(BaseQueryInterface query) {
-		this.setTable_menu(this.loadTable(query,Table_menu.class));
+	public void loadTable_others_class(BaseQueryInterface query) {
+		this.setTable_others_class(this.loadTable(query,Table_others_class.class));
 	}
 
 }

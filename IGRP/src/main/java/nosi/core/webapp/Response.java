@@ -1,6 +1,8 @@
 package nosi.core.webapp;
 
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import nosi.core.webapp.webservices.helpers.FileRest;
@@ -30,6 +32,8 @@ public class Response extends HttpServletResponseWrapper{
 	private HttpStatus httpStatus; // Http statusCode + Http statusText
 	private FileRest file;
 	private byte []stream; // For raw format (Ex.: binary files ...)
+	private PrintWriter printWriter;
+	
 	
 	public Response(HttpServletResponse response) {
 		super(response);
@@ -82,6 +86,14 @@ public class Response extends HttpServletResponseWrapper{
 
 	public void setFile(FileRest file) {
 		this.file = file;
+	}
+
+	public PrintWriter getPrintWriter() {
+		return printWriter;
+	}
+
+	public void setPrintWriter(PrintWriter printWriter) {
+		this.printWriter = printWriter;
 	}
 
 
