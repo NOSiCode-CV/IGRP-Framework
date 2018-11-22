@@ -2,21 +2,17 @@
 
 	var templates = {
 
+		newItem : function(type){
+
+			return '<li class="'+type+' brand-new"><span><input class="adder-input" type="text"/></span></li>';
+
+		},
+
 		folderOptions : function(){
 
-			var r = '<div class="dropdown">'+
-					  '<a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">'+
-					  	'<i class="fa fa fa-ellipsis-v"></i>'+
-					  '</a>'+
-					  '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">'+
-					    '<li class="add-new" type="folder"><a href="#">Add Folder</a></li>'+
-					    '<li class="add-new" type="file"><a href="#">Add File</a></li>'+
-					  '</ul>'+
-					'</div>';
+			var r = $('.add-new-options').html();
 
 			return r;
-
-			//return '';
 
 		},
 
@@ -93,7 +89,6 @@
 					tree += templates.treeItem(data);
 				}
 
-				
 			
 			}catch(err){
 				console.log(err)
