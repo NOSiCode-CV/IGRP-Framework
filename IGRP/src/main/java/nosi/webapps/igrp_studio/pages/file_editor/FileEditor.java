@@ -10,6 +10,7 @@ public class FileEditor {
 	private String name;
 	private String path;	
 	private String fileName;
+	private String dir_path;
 	
 	public Integer getId() {
 		return id;
@@ -34,5 +35,11 @@ public class FileEditor {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public String getDir_path() {
+		return dir_path;
+	}
+	public void setDir_path(String dir_path) {
+		this.dir_path = dir_path;
 	}
 }

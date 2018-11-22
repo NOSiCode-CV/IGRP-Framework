@@ -1,13 +1,10 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.import_export_v2.exports.ExportHelper;
@@ -16,7 +13,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp_studio.pages.file_editor.DirType;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -295,8 +291,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
 		 return this.forward("igrp_studio","File_editor","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(file_editor)----*/
-		this.addQueryString("p_env_fk", Core.getParam("p_env_fk"))
-				.addQueryString("dir_type", DirType.ALL);
+		this.addQueryString("p_env_fk", Core.getParam("p_env_fk"));
 		/*----#end-code----*/
 		
 		return this.redirect("igrp_studio","File_editor","index", this.queryString());		

@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp_studio.pages.file_editor;
 
 import nosi.core.webapp.Controller;
@@ -25,30 +24,58 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 /*----#end-code----*/
-
-
-public class File_editorController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class File_editorController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		File_editor model = new File_editor();
 		model.load();
+		model.setJson_data("undefined","undefined","undefined");
+		model.setSave_url("undefined","undefined","undefined");
+		model.setCreate_url("igrp_studio","File_editor","index");
 		File_editorView view = new File_editorView();
 		/*----#start-code(index)----*/
-		int dir_type = Core.getParamInt("dir_type");
-		if(dir_type==DirType.ALL.getType()) {
-			model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("env_fk", Core.getParam("p_env_fk"));
-		}else {
-			model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
-		}
+		model.setJson_data("igrp_studio", "File_editor", "get-json-all-folder").addParam("task_id", Core.getParam("p_task_id")).addParam("env_fk", Core.getParam("p_env_fk"));
 		model.setSave_url("igrp_studio", "File_editor", "save-and-compile-file");
+		String type = Core.getParam("type");
+		String path = Core.getParam("path");
+		String name = Core.getParam("name");
+		path = URLDecoder.decode(path, "UTF-8");
+		
+		if(Core.isNotNullMultiple(type,path,name)) {
+			return this.saveFolderFile(type,path,name);
+		}
 		view.save_url.setLabel("Save");
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+
+/*----#start-code(custom_actions)----*/
+	private Response saveFolderFile(String type, String path, String name) throws IOException {
+		Map<String, Object> dirs = new HashMap<>();
+		if(type.compareTo("folder")==0) {
+			System.out.println("Dir: "+path+File.separator+name);
+			FileHelper.createDiretory(path+File.separator+name);
+			dirs.put("dir_name", name);
+			dirs.put("dir", new Object[0]);
+			dirs.put("dir_files", new Object[0]);
+			dirs.put("dir_path", path+File.separator+name);
+		}
+		if(type.compareTo("file")==0) {
+			System.out.println("File: "+path+File.separator+ name);
+			FileHelper.save(path, name, "");
+			dirs.put("name", name);
+			dirs.put("path", this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
+			dirs.put("fileName", path+File.separator+name);
+		}
+
+		this.format = Response.FORMAT_JSON;
+		String json = new Gson().toJson(dirs);
+		System.out.println("Json: "+json);
+		return this.renderView(json);
+	}
+
 	
 	public Response actionGetJsonAllFolder() {
 		Integer envId = Core.getParamInt("env_fk");
@@ -80,7 +107,7 @@ public class File_editorController extends Controller {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()+ "&dir_type=" + DirType.ALL.getType()));
+		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 		file.setId(null);
 		ArrayList<FileEditor> files = new ArrayList<>();
 		files.add(file);
@@ -101,14 +128,16 @@ public class File_editorController extends Controller {
 					FileEditor file = new FileEditor();
 					file.setName(URLEncoder.encode(f.getName(),"UTF-8"));
 					file.setFileName(URLEncoder.encode(f.getAbsolutePath(), "UTF-8"));
-					file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()+ "&dir_type=" + DirType.ALL.getType()));
+					file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
 					file.setId(null);
+					file.setDir_path(URLEncoder.encode(f.getParent(),"UTF-8"));
 					files.add(file);
 				}
 			}
 		}
 		Map<String, Object> result = new HashMap<>();
 		result.put("dir_name", dir.getName());
+		result.put("dir_path", URLEncoder.encode(dir.getPath(),"UTF-8"));
 		result.put("dir", folders);
 		result.put("dir_files", files);
 		return result;
