@@ -280,6 +280,8 @@
 
 					text  = input.val(),
 
+					options = input.data('add-options'),
+
 					enter = e.keyCode === 13 ? true : false,
 
 					blur  = e.type == 'focusout',
@@ -287,8 +289,6 @@
 					esc   = e.keyCode === 27,
 
 					remove = function(){
-
-						var options = input.data('add-options');
 
 						try{
 
@@ -302,7 +302,7 @@
 
 					};
 
-				if ( (enter|| blur )  && !esc ){
+				if ( (enter || blur )  && !esc ){
 			        
 			        e.preventDefault();
 
@@ -314,11 +314,15 @@
 
 			        		$('#igrp-fileeditor').addClass('requesting');
 
+			        		options.item.addClass('loading');
+
 			        		newRequest = $.post( createURL, {
 
 					        	type : options.type,
 
 					        	path : options.path,
+
+					        	file_type : options.fileExtension,
 
 					        	name : text
 
@@ -354,7 +358,21 @@
 
 			    	remove();
 
-			}
+			   	if(options.fileExtension && e.keyCode != 8){
+			   		
+			   		var ext     = options.fileExtension,
+
+			   			startAt = input[0].selectionStart,
+
+			   			newVal = text.split('.'+ext)[0];
+
+			   		input.val( newVal+'.'+ext );
+
+			   		input[0].selectionStart= startAt;
+
+			   	}
+
+			};
 
 		    return false;
 
@@ -364,7 +382,7 @@
 
 			var container = o.folder.find('>.collapse>ul'),
 
-				item      = $('<li class="'+o.type+'"><span><input class="adder-input" type="text"/></span></li>'),
+				item      = $(fileEditor.templates.newItem(o.type)),
 
 				operation = o.type == 'folder' ? 'prepend' : 'append';
 
@@ -396,11 +414,15 @@
 
 			e.preventDefault();
 
-			var folder  = $(this).parents('li.folder').first(),
+			var folder   = $(this).parents('li.folder').first(),
 
-				type    = $(this).attr('type'),
+				type     = $(this).attr('type'),
 
-				dirPath = folder.attr('dir-path');
+				fileType =  $(this).attr('file-type'),
+
+				fileExt  =  $(this).attr('file-ext'),
+
+				dirPath  = folder.attr('dir-path');
 
 			DrawNew({
 
@@ -408,7 +430,11 @@
 
 				type : type,
 
-				path : dirPath
+				path : dirPath,
+
+				fileType : fileType,
+
+				fileExtension : fileExt
 
 			});
 
@@ -418,11 +444,11 @@
 
 		function Events(){
 
-			$(fileEditor.menu).on('click','li.file', OpenFile);
+			$(fileEditor.menu).on('click','li.file:not(.brand-new)', OpenFile );
 
-			$(dom).on('click','.add-new', HandleNew);
+			$(dom).on('click','.add-new', HandleNew );
 
-			$(dom).on('contextmenu','li.folder', ShowAddMenu);
+			$(dom).on('contextmenu','li.folder', ShowAddMenu );
 
 			$(dom).on('keyup blur','.adder-input', AddNew );
 

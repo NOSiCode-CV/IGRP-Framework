@@ -36,6 +36,7 @@
                           <xsl:with-param name="dataURL" select="rows/content/form_1/fields/json_data/value"/>
                           <xsl:with-param name="saveURL" select="rows/content/form_1/fields/save_url/value"/>
                           <xsl:with-param name="saveLabel" select="rows/content/form_1/fields/save_url/label"/>
+                          <xsl:with-param name="createURL" select="rows/content/form_1/fields/create_url/value"/>
                         </xsl:call-template>
                       </div>
                     </div>

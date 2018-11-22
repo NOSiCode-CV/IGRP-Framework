@@ -2,32 +2,37 @@
   <!-- IGRP FILE EDITOR TMPL -->
   <xsl:template name="IGRP-fileeditor">
     <xsl:param name="dataURL"/>
+    <xsl:param name="createURL"/>
     <xsl:param name="saveURL"/>
     <xsl:param name="saveLabel"/>
-    <div id="igrp-fileeditor" class="igrp-fileeditor clearfix" data-url="{$dataURL}">
-      <div class="igrp-fileeditor-left-panel col-xs-2" bg-color="secondary"></div>
-      <div class="igrp-fileeditor-main-panel col-xs-10">
+    <div id="igrp-fileeditor" class="igrp-fileeditor clearfix" data-url="{$dataURL}" create-url="{$createURL}">
+      <div class="igrp-fileeditor-left-panel" bg-color="secondary"></div>
+      <div class="igrp-fileeditor-main-panel">
         <div class="gen-tab-holder nav-tabs-custom igrp-fileeditor-tab" item-name="igrp-fileeditor" tab-template="clean"> 
-          <button class="igrp-fileeditor-save btn btn-sm btn-outline btn-success" href="{$saveURL}">
+          <a class="igrp-fileeditor-save btn btn-sm btn-outline btn-success" href="{$saveURL}">
             <span><xsl:value-of select="$saveLabel"/></span>
-          </button>
+          </a>
           <ul class="nav nav-tabs"></ul>
           <div class="tab-content">
           </div>
         </div>
       </div>
-      <div id="fileeditor-add-modal" class="modal fade" role="dialog" >
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-body">
-              <div class="form-group col-sm-8">
-                <label>Name</label>
-                <input type="text" class="form-control"/>
-              </div>
-              <button type="button" class="btn btn-primary col-sm-4 confirm-add" data-dismiss="modal">Confirm</button>
-            </div>
+      <div class="add-new-options hidden">
+        <div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
+              <i class="fa fa fa-ellipsis-v"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li class="add-new" type="folder"><a href="#">Add Folder</a></li>
+              <li role="presentation" class="divider"></li>
+              <li class="add-new" type="file" file-type="annotation" file-ext="java"><a href="#">Add Annotation</a></li>
+              <li class="add-new" type="file" file-type="class" file-ext="java"><a href="#">Add Class</a></li>
+              <li class="add-new" type="file" file-type="enum" file-ext="java"><a href="#">Add Enum</a></li>
+              <li role="presentation" class="divider"></li>
+              <li class="add-new" type="file" file-type="xml" file-ext="xml"><a href="#">Add XML</a></li>
+              <li class="add-new" type="file" file-type="txt" file-ext="txt"><a href="#">Add Txt</a></li>
+            </ul>
           </div>
-        </div>
       </div>
     </div>
 

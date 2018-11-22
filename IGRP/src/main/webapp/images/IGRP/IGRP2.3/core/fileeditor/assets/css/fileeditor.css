@@ -45,7 +45,44 @@ form .container-fluid,
 	position: relative;
 }
 
-.igrp-fileeditor .file.active:after{
+.igrp-fileeditor .file.brand-new{
+	position: relative;
+	background:rgba(0,0,0,.05);
+	font-style: italic;
+	font-weight: bold;
+}
+
+/*.igrp-fileeditor .file.brand-new .spinner{
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin-top: -7px;
+	display: none
+}
+
+.igrp-fileeditor .file.brand-new.requesting .spinner{
+	display: block;
+}*/
+
+/*.igrp-fileeditor .file.brand-new.requesting :after{
+	display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    content:"\f110";
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right:0;
+}*/
+
+.igrp-fileeditor .file.active:after,
+.igrp-fileeditor .file.brand-new:after
+{
 	content: "";
     background: rgba(0,0,0,.15);
     position: absolute;
@@ -55,7 +92,8 @@ form .container-fluid,
     width: 100%;
 }
 
-.igrp-fileeditor .file.active:before{
+.igrp-fileeditor .file.active:before,
+.igrp-fileeditor .file.brand-new:before{
 	content:"";
 	left:-100%;
 	width: 100%;
@@ -65,12 +103,18 @@ form .container-fluid,
 	top: 0
 }
 
+.igrp-fileeditor .file.brand-new:after,
+.igrp-fileeditor .file.brand-new:before{
+	background:rgba(0,0,0,.05);
+}
+
 .igrp-fileeditor .igrp-fileeditor-left-panel ul{
 	padding: 0
 }
 .igrp-fileeditor .igrp-fileeditor-left-panel ul>li{
 	position: relative;
 }
+
 
 .igrp-fileeditor .igrp-fileeditor-left-panel ul>li ul:not(.dropdown-menu){
 	padding-left: 8px;
@@ -81,8 +125,21 @@ form .container-fluid,
 	padding:5px;
 	cursor: pointer;
 	position: relative;
-	
+	color: #f3f3f3;
+	font-weight: 300;
 }
+
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li:not(.file)>span[aria-expanded="true"]{
+	
+	font-weight: 500
+}
+
+.igrp-fileeditor .igrp-fileeditor-left-panel ul>li:not(.file)>span:hover{
+	color: white;
+
+}
+
 .igrp-fileeditor .igrp-fileeditor-left-panel ul li.folder>span:before,
 .igrp-fileeditor .igrp-fileeditor-left-panel ul li.file>span:before{
 	display: inline-block;
@@ -141,6 +198,12 @@ form .container-fluid,
 .igrp-fileeditor .dropdown-menu{
 	margin-top: 15px;
 } 
+.igrp-fileeditor .dropdown-menu a{
+	border: 0
+}
+.igrp-fileeditor .dropdown-menu .divider{
+	margin: 0
+}
 /*main panel*/
 .igrp-fileeditor .igrp-fileeditor-main-panel {
 	position: absolute;
