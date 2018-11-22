@@ -319,6 +319,7 @@ div[item-name="igrp-fileeditor"] ul.nav li.active a{
 .gen-editor-errors table tbody tr:hover{
 	background-color:none!important;
 }
+
 .CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
 	background:#fa0000;
 	color:white;
