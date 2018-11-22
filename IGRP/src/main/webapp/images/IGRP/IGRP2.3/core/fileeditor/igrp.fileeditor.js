@@ -370,11 +370,11 @@
 
 			   		input[0].selectionStart= startAt;
 
-			   	}else{
+			   	}
+
+			   	if(options.type == 'folder')
 
 			   		input.val( replaceSpecialChars( text.toLowerCase() ) );
-
-			   	}
 			};
 
 		    return false;
