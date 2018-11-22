@@ -258,6 +258,8 @@
 
 					});
 
+					ResizeTab();
+
 					$(li).removeClass('loading');
 
 				});
@@ -445,6 +447,24 @@
 
 		};
 
+		function ResizeTab(){
+
+			/*var ul   = $('ul',fileEditor.viewr),
+
+				items = $('>li',ul),
+
+				itemsWidth = 0;
+
+			items.each(function(i,item){
+				itemsWidth+= $(item).width() + 4
+			});
+
+			ul.width( itemsWidth )
+
+			console.log(itemsWidth)*/
+		
+		};
+
 		function Events(){
 
 			$(fileEditor.menu).on('click','li.file:not(.brand-new)', OpenFile );
@@ -466,6 +486,8 @@
 			fileEditor.menu = $(fileEditor.templates.tree(dir));
 
 			$('.'+selectors.leftPanelClss,dom).html(fileEditor.menu);
+
+			ResizeTab();
 
 			Events();
 

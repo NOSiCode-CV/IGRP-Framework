@@ -21,11 +21,20 @@ form .container-fluid,
 
 /*buttons*/
 .igrp-fileeditor-save{
-	position: absolute!important;
-	right: 4.5px;
-	top: 4.5px;
-	z-index: 10;
+	position: fixed!important;
+	right: 5px;
+	top: 5px;
+	z-index: 100
+	/*top: auto;
+	z-index: 100;
+	width: 55px;
+	height: 55px;
+	border-radius: 100%;
+	line-height: 32px;*/
 }
+/*.igrp-fileeditor-save i{
+	margin-left: -2px
+}*/
 /*left panel*/
 .igrp-fileeditor .igrp-fileeditor-left-panel{
 	position: absolute;
@@ -258,13 +267,15 @@ form .container-fluid,
 
 div[item-name="igrp-fileeditor"] ul.nav li {
 	/*max-width: 150px;*/
+	border: 1px solid #e4e4e4;
+    margin: 2px;
 
 }
 
 div[item-name="igrp-fileeditor"] ul.nav li .fileeditor-menu-closer {
 	position: absolute;
-    right: 0;
-    top: 0;
+    right: 2px;
+    top: 7px;
     z-index: 2;
     font-size: 12px;
     color: #b2b2b2;
@@ -284,10 +295,19 @@ div[item-name="igrp-fileeditor"] ul.nav li a{
     text-overflow: ellipsis;
     display: block;
     font-size: 12px!important;
+    padding-right: 25px!important;
 }
 
 div[item-name="igrp-fileeditor"] ul.nav li.active a{
 	background: white!important;
+}
+
+div[item-name="igrp-fileeditor"] ul.nav li.active a:after{
+	/*content:"";
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background: red*/
 }
 
 .gen-editor-errors{

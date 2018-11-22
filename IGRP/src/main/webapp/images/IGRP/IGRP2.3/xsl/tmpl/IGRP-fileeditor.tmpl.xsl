@@ -10,7 +10,8 @@
       <div class="igrp-fileeditor-main-panel">
         <div class="gen-tab-holder nav-tabs-custom igrp-fileeditor-tab" item-name="igrp-fileeditor" tab-template="clean"> 
           <a class="igrp-fileeditor-save btn btn-sm btn-outline btn-success" href="{$saveURL}">
-            <span><xsl:value-of select="$saveLabel"/></span>
+            <i class="fa fa-send"></i>
+            <span><xsl:value-of select="$saveLabel"/></span> 
           </a>
           <ul class="nav nav-tabs"></ul>
           <div class="tab-content">
