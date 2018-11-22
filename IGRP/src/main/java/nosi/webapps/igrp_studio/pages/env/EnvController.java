@@ -14,6 +14,9 @@ import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
+import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
 //import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
@@ -459,7 +463,7 @@ public class EnvController extends Controller {
 	}
 
 
-	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
+	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws Exception{
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
@@ -485,7 +489,9 @@ public class EnvController extends Controller {
 						//aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 						aux = "r=" + (env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
-					
+					if(env.getDad().compareTo("kriol_db")==0) {
+						return this.postToPgStudio(env);
+					}
 					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
@@ -526,6 +532,65 @@ public class EnvController extends Controller {
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}
 		return this.redirectError();
+	}
+	
+	private Response postToPgStudio(Application env) throws Exception {	
+		// make sure cookies is turn on
+		CookieHandler.setDefault(new CookieManager());
+		String urlParams = "dbURL=" + "kriolplat06.gov.cv"
+				+ "&dbPort=7716"
+				+ "&dbName=" + "kriol116"
+				+ "&username=" + "emanuel.j.pereira@nosi.cv"
+				+ "&password=" + "TMOSFRUH2";
+		String result = this.sendPost("https://kriolbd.igrp.cv/login", urlParams);
+
+		result = result.replaceAll("src=\"", "src=\"//kriolbd.igrp.cv/");
+		result = result.replaceAll("href=\"", "href=\"//kriolbd.igrp.cv/");
+		result = result.replaceAll("//kriolbd.igrp.cv/javascript:''", "javascript:''");
+		System.out.println(result);
+		Response resp = new Response();
+		resp.setContent(result);
+		resp.setType(4);
+		resp.setContentType(Response.FORMAT_HTML);
+		return resp;
+	}
+
+	
+	
+	private String sendPost(String url, String postParams) throws Exception {
+		byte[] postData = postParams.getBytes();
+	 	URL obj = new URL(url);
+		HttpsURLConnection conn = (HttpsURLConnection) obj.openConnection();
+
+		conn.setUseCaches(false);
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
+		conn.setRequestProperty("User-Agent", Igrp.getInstance().getRequest().getHeader("User-Agent"));
+		conn.setInstanceFollowRedirects(true);
+		conn.setDoOutput(true);
+		conn.setDoInput(true);
+		DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+		wr.write(postData);
+		wr.flush();
+		wr.close();
+
+		int responseCode = conn.getResponseCode();
+		if(responseCode == HttpURLConnection.HTTP_OK) {
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+	
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			return response.toString();
+		}else {
+			Core.setMessageError();
+		}
+		return "";
+		
 	}
 	
 	/** Integration with IGRP-PLSQL Apps **

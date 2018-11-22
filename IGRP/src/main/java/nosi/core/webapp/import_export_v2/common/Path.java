@@ -24,6 +24,17 @@ public class Path {
 		return basePath;
 	}
 
+	public static String getRootPath() {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			basePath = config.getRawBasePathClassWorkspace()+"nosi"+File.separator+"webapps"+File.separator; 			
+		}else {
+			basePath = config.getBasePathClass()+"nosi"+File.separator+"webapps"+File.separator;
+		}
+		return basePath;
+	}
+	
 	public static String getPathImages(Action action) {
 		Config config = new Config();
 		String basePath = config.getWorkspace();

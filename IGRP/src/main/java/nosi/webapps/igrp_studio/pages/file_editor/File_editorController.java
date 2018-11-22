@@ -39,10 +39,11 @@ public class File_editorController extends Controller {
 		String type = Core.getParam("type");
 		String path = Core.getParam("path");
 		String name = Core.getParam("name");
-		path = URLDecoder.decode(path, "UTF-8");
+		String file_type = Core.getParam("file_type");
 		
+		path = URLDecoder.decode(path, "UTF-8");
 		if(Core.isNotNullMultiple(type,path,name)) {
-			return this.saveFolderFile(type,path,name);
+			return this.saveFolderFile(type,path,name,file_type);
 		}
 		view.save_url.setLabel("Save");
 		/*----#end-code----*/
@@ -52,10 +53,9 @@ public class File_editorController extends Controller {
 	
 
 /*----#start-code(custom_actions)----*/
-	private Response saveFolderFile(String type, String path, String name) throws IOException {
+	private Response saveFolderFile(String type, String path, String name,String file_type) throws IOException {
 		Map<String, Object> dirs = new HashMap<>();
 		if(type.compareTo("folder")==0) {
-			System.out.println("Dir: "+path+File.separator+name);
 			FileHelper.createDiretory(path+File.separator+name);
 			dirs.put("dir_name", name);
 			dirs.put("dir", new Object[0]);
@@ -63,8 +63,7 @@ public class File_editorController extends Controller {
 			dirs.put("dir_path", path+File.separator+name);
 		}
 		if(type.compareTo("file")==0) {
-			System.out.println("File: "+path+File.separator+ name);
-			FileHelper.save(path, name, "");
+			FileHelper.save(path, name, FileJavaType.createFile(this.convertToPackageName(path),name.substring(0, name.indexOf(".")),file_type));
 			dirs.put("name", name);
 			dirs.put("path", this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ URLEncoder.encode(path+File.separator+name,"UTF-8")));
 			dirs.put("fileName", path+File.separator+name);
@@ -72,7 +71,6 @@ public class File_editorController extends Controller {
 
 		this.format = Response.FORMAT_JSON;
 		String json = new Gson().toJson(dirs);
-		System.out.println("Json: "+json);
 		return this.renderView(json);
 	}
 
@@ -144,6 +142,16 @@ public class File_editorController extends Controller {
 	}
 
 	
+	private String convertToPackageName(String dir) {
+		int start = dir.indexOf("nosi"+File.separator+"webapps");
+		if(Core.isNotNull(dir) && start!=-1) {
+			dir = dir.substring(start, dir.length());
+			dir = dir.replace(File.separator, ".");
+		}
+		return dir;
+	}
+
+
 	public Response actionSaveAndCompileFile() {
 		try {
 			Part javaCode = Core.getFile("p_package");
@@ -153,9 +161,11 @@ public class File_editorController extends Controller {
 				String content = FileHelper.convertToString(javaCode);
 				File[] files = new File[]{new File(fileName)};
 				FileHelper.save(fileName, null, content);
-				String erros = new Compiler().compile(files);		
-				if(Core.isNotNull(erros)) {
-					return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(erros)+"</message></messages>");
+				if(fileName.endsWith(".java")) {
+					String erros = new Compiler().compile(files);
+					if(Core.isNotNull(erros)) {
+						return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(erros)+"</message></messages>");
+					}
 				}
 			}
 		} catch (IOException | ServletException e) {

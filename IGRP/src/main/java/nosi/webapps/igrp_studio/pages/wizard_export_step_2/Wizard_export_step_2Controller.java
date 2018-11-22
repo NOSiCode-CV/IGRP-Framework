@@ -9,8 +9,9 @@ import nosi.core.webapp.import_export_v2.exports.ExportHelper;
 import nosi.core.webapp.import_export_v2.exports.ExportSqlHelper;
 import nosi.webapps.igrp.dao.Modulo;
 import java.util.Map;
-import static nosi.core.i18n.Translator.gt;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import nosi.core.webapp.Igrp;
 /*----#end-code----*/
 		
 public class Wizard_export_step_2Controller extends Controller {
@@ -42,7 +43,7 @@ public class Wizard_export_step_2Controller extends Controller {
 		}
 		final Map<Object, Object> map = Core.toMap(new Modulo().getModuloByApp(model.getApplication_id()), "name",
 				"descricao", "-- Selecionar --");
-        view.sectionheader_1_text.setValue(String.format("%s: %s - %s 2", gt("Exportação"),nomeApp,gt("Passo")));
+        view.sectionheader_1_text.setValue(String.format("%s: %s - %s 2", Core.gt("Exportação"),nomeApp,Core.gt("Passo")));
  		view.modulo.setValue(map);
 	   	view.modulo.setVisible(map.size() > 1);
 		/*----#end-code----*/
@@ -67,21 +68,31 @@ public class Wizard_export_step_2Controller extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp_studio","Wizard_export_step_2","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(finalizar)----*/
-		byte[] bytes = new ExportHelper().export(model);
-		if(bytes!=null) {
-			return this.xSend(bytes,model.getFile_name() + ".jar", Core.MimeType.APPLICATION_JAR, true);
-		}
 		this.loadQueryString();
-		String[] opcoes = model.getExport_type().split(",");
-		for(String opc:opcoes) {
-			this.addQueryString("p_selecionar_opcao",opc);
-		}
+		this.addQueryString("fileName", model.getFile_name() + ".jar");
+		this.call("igrp_studio", "Wizard_export_step_2", "download", this.queryString());
+		this.restartQueryString();
+		this.addQueryString("dad", "igrp_studio");
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Wizard_export_step_2","index", this.queryString());	
+		return this.redirect("igrp_studio","ListaEnv","index");	
 	}
 	
 /*----#start-code(custom_actions)----*/
-
+	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Wizard_export_step_2 model = new Wizard_export_step_2();
+		model.load();
+		byte[] bytes = new ExportHelper().export(model);
+		String fileName = Core.getParam("fileName");
+		HttpServletResponse response = Igrp.getInstance().getResponse();
+        response.setContentType(Core.MimeType.APPLICATION_JAR);						 
+        response.setHeader("Content-Disposition", "attachment; filename=\""+fileName + ".jar"+"\";");
+        response.setHeader("Cache-Control", "no-cache");  
+        response.setContentLength(bytes.length);						  
+        Igrp.getInstance().getResponse().getOutputStream().write(bytes);
+		 Igrp.getInstance().getResponse().getOutputStream().close();
+		 Igrp.getInstance().getResponse().flushBuffer();
+		return null;
+	}
 
 /*----#end-code----*/
 }
