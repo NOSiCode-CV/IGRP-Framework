@@ -206,7 +206,7 @@ public class Page{
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
 			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
-			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getMessage());
+			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
 		}
 	}
 
