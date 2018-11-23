@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
+import nosi.core.webapp.Igrp;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 
@@ -20,9 +21,13 @@ public class IgrpServlet extends HttpServlet{
 	public IgrpServlet() { super(); }
     
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    	nosi.core.webapp.Igrp igrp = nosi.core.webapp.Igrp.getInstance();
+    	Igrp igrp = Igrp.getInstance();
+    	if(igrp==null) {
+    		Igrp.set();
+    		igrp = Igrp.getInstance();
+    	}
     	igrp.init(this, request, response);
-    	igrp.run(); 
+    	igrp.run();
     }
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
