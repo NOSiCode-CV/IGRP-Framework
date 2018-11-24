@@ -13,6 +13,14 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class Path {
 
+	public static String getPathHibernateConfig() {
+		Config config = new Config();
+		String basePath = config.getPathWorkspaceResources();
+		if(Core.isNull(config.getWorkspace())) {
+			basePath = config.getBasePathClass();
+		}
+		return basePath;
+	}
 	public static String getPath(Application application) {
 		Config config = new Config();
 		String basePath = config.getWorkspace();

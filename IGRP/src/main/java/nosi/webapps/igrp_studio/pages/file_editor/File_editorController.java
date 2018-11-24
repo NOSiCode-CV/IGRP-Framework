@@ -8,6 +8,7 @@ import nosi.core.webapp.Response;
 import java.io.UnsupportedEncodingException;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.Path;
 import javax.servlet.ServletException;
@@ -82,7 +83,7 @@ public class File_editorController extends Controller {
 		if(app!=null) {
 			String path = Path.getPath(app);
 			try {
-				dirs = this.listDirectory(new File(path));
+				dirs = this.listDirectory(app,new File(path),true);
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -112,24 +113,34 @@ public class File_editorController extends Controller {
 		dirs.put("default_file",files);
 	}
 
-	public Map<String, Object> listDirectory(File dir) throws UnsupportedEncodingException {
+	public Map<String, Object> listDirectory(Application app,File dir, boolean addHibernateConfigs) throws UnsupportedEncodingException {
 		File[] content = dir.listFiles();
 		List<FileEditor> files = new LinkedList<>();
 		List<Map<String, Object>> folders = new LinkedList<>();
-
 		for (File f : content) {
 			if (f.isDirectory()) {
-				Map<String, Object> subList = listDirectory(f);
+				Map<String, Object> subList = listDirectory(app,f,false);
 				folders.add(subList);
 			} else {
 				if(f.getName().endsWith(".java")) {
-					FileEditor file = new FileEditor();
-					file.setName(URLEncoder.encode(f.getName(),"UTF-8"));
-					file.setFileName(URLEncoder.encode(f.getAbsolutePath(), "UTF-8"));
-					file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
-					file.setId(null);
-					file.setDir_path(URLEncoder.encode(f.getParent(),"UTF-8"));
-					files.add(file);
+					this.addFile(files,f);
+				}
+			}
+		}
+		if(addHibernateConfigs) {
+			String path = Path.getPathHibernateConfig();
+			File[] hibernateFiles = new File(path).listFiles();
+			for (File f : hibernateFiles) {
+				int index = f.getName().indexOf("."+app.getDad().toLowerCase()+".cfg.xml");
+				if(index!=-1) {
+					Config_env config = new Config_env()
+								.find()
+								.andWhere("name","=", f.getName().substring(0, index))
+								.andWhere("application", "=",app.getId())
+								.one();
+					if(config!=null) {
+						this.addFile(files, f);
+					}
 				}
 			}
 		}
@@ -142,6 +153,17 @@ public class File_editorController extends Controller {
 	}
 
 	
+	private void addFile(List<FileEditor> files, File f) throws UnsupportedEncodingException {
+		FileEditor file = new FileEditor();
+		file.setName(URLEncoder.encode(f.getName(),"UTF-8"));
+		file.setFileName(URLEncoder.encode(f.getAbsolutePath(), "UTF-8"));
+		file.setPath(this.config.getResolveUrl("igrp_studio", "File_editor", "get-file&fileName="+ file.getFileName()));
+		file.setId(null);
+		file.setDir_path(URLEncoder.encode(f.getParent(),"UTF-8"));
+		files.add(file);
+	}
+
+
 	private String convertToPackageName(String dir) {
 		int start = dir.indexOf("nosi"+File.separator+"webapps");
 		if(Core.isNotNull(dir) && start!=-1) {

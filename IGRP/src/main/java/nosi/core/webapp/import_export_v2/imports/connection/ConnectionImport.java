@@ -3,9 +3,9 @@ package nosi.core.webapp.import_export_v2.imports.connection;
 import java.io.IOException;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.connection.ConnectionSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
@@ -20,10 +20,8 @@ public class ConnectionImport  implements IImport{
 	private String error;
 	private List<ConnectionSerializable> conns;
 
-	private Config config;
-	
+
 	public ConnectionImport(Application application) {
-		this.config = new Config();
 		this.application = application;
 	}
 	
@@ -63,10 +61,7 @@ public class ConnectionImport  implements IImport{
 
 	private void saveConnectionFile(ConnectionSerializable c) {
 		if(c.getFileName()!=null){
-			String path = this.config.getPathWorkspaceResources();
-			if(Core.isNull(path)) {
-				path = this.config.getBasePathClass();
-			}
+			String path = Path.getPathHibernateConfig();
 			try {
 				FileHelper.save(path, c.getFileName().getFileName(), c.getFileName().getFileContent());
 			} catch (IOException e) {
