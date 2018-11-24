@@ -5,7 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class EnvView extends View {
 
@@ -63,11 +65,11 @@ public class EnvView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Gen Auto Code"));
-		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("check","true");
+		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
 		
 		personalizacoes = new SeparatorField(model,"personalizacoes");
 		personalizacoes.setLabel(gt("Personalizações"));
@@ -95,7 +97,7 @@ public class EnvView extends View {
 		
 		flg_external = new CheckBoxField(model,"flg_external");
 		flg_external.setLabel(gt("Externo?"));
-		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("check","true");
+		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
 		
 		link_menu = new TextField(model,"link_menu");
 		link_menu.setLabel(gt("Link Menu (Antigo)"));
@@ -111,7 +113,7 @@ public class EnvView extends View {
 		
 		flg_old = new CheckBoxField(model,"flg_old");
 		flg_old.setLabel(gt("Antigo?"));
-		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("check","true");
+		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

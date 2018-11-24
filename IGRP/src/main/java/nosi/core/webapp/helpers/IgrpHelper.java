@@ -3,6 +3,7 @@ package nosi.core.webapp.helpers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import nosi.core.gui.components.IGRPLink;
@@ -21,7 +22,7 @@ public final class IgrpHelper {
 	}
 	
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
-		Map<Object, Object> map = new HashMap<>();
+		Map<Object, Object> map = new LinkedHashMap<>();
 		if(prompt != null)
 			map.put(null, prompt);
 		for(Object obj : values) {

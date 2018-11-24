@@ -1,10 +1,12 @@
 package nosi.webapps.igrp.dao;
+
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,23 +23,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.IgrpHelper;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
-@Table(name="tbl_env")
-public class Application extends IGRPBaseActiveRecord<Application> implements Serializable{
+@Table(name = "tbl_env")
+public class Application extends IGRPBaseActiveRecord<Application> implements Serializable {
 
 	/*
 	 * 
 	 */
 	private static final long serialVersionUID = 1261352599073552072L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable=false,unique=true)
+	@Column(nullable = false, unique = true)
 	private String dad;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String name;
 	private String img_src;
 	private String description;
@@ -45,38 +46,37 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	private String template;
 	private int externo;
 	private String url;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "action_fk", foreignKey = @ForeignKey(name = "ENV_ACTION_FK"))
 	private Action action;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Action> actions;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Config_env> configs;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Menu> menus;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<ProfileType> profilesType;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Organization> organizations;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<RepSource> repsources;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<RepTemplate> repTemplates;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Transaction> transactions;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<RepInstance> repinstances;
-	
-	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="application")
+
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Modulo> modulo;
-	
-	public Application(){
+
+	public Application() {
 		super();
 	}
-	
-	public Application(String dad, String name, String img_src, String description, int status,
-			Action action) {
+
+	public Application(String dad, String name, String img_src, String description, int status, Action action) {
 		this();
 		this.dad = dad;
 		this.name = name;
@@ -85,14 +85,13 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		this.status = status;
 		this.action = action;
 	}
-	
-	
-	public Application(String dad, String name, String img_src, String description, int status,
-			Action action,String template) {
+
+	public Application(String dad, String name, String img_src, String description, int status, Action action,
+			String template) {
 		this(dad, name, img_src, description, status, action);
 		this.template = template;
 	}
-	
+
 	public int getExternal() {
 		return externo;
 	}
@@ -112,42 +111,55 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getDad() {
 		return dad;
 	}
+
 	public void setDad(String dad) {
-		this.dad = dad.replaceAll("\\s+","_").toLowerCase();
+		this.dad = dad.replaceAll("\\s+", "_").toLowerCase();
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getImg_src() {
 		return img_src;
 	}
+
 	public void setImg_src(String img_src) {
 		this.img_src = img_src;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public int getStatus() {
 		return status;
 	}
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
 	public Action getAction() {
 		return action;
 	}
+
 	public void setAction(Action action) {
 		this.action = action;
 	}
@@ -183,7 +195,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
-	
+
 	public List<ProfileType> getProfilesType() {
 		return profilesType;
 	}
@@ -231,7 +243,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	public void setRepinstances(List<RepInstance> repinstances) {
 		this.repinstances = repinstances;
 	}
-	
+
 	public List<Modulo> getModulo() {
 		return modulo;
 	}
@@ -246,23 +258,23 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 				+ ", url=" + url + ", action=" + action + "]";
 	}
 
-	public Map<Object, Object> getListApps(){
-		User user = (User) Core.getCurrentUser();		
-		return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
+	public Map<Object, Object> getListApps() {
+		User user = (User) Core.getCurrentUser();
+		return Core.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
 	}
-	
-	public Map<Object, Object> getAllApps(){
-		return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar --"));
+
+	public Map<Object, Object> getAllApps() {
+		return Core.toMap(this.findAll(), "id", "name", gt("-- Selecionar --"));
 	}
-	
-	public Map<Object, Object> getAllAppsByFilterId(int appId){
-		return IgrpHelper.toMap(this.find().andWhere("id", "<>", appId).all(), "id", "name", gt("-- Selecionar --"));
+
+	public Map<Object, Object> getAllAppsByFilterId(int appId) {
+		return Core.toMap(this.find().andWhere("id", "<>", appId).all(), "id", "name", gt("-- Selecionar --"));
 	}
-	
-	public List<Application> getListMyApp(int idUser){
-		return getListMyApp(idUser,false);
+
+	public List<Application> getListMyApp(int idUser) {
+		return getListMyApp(idUser, false);
 	}
-	
+
 	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
 		List<Profile> list = new ArrayList<>();
@@ -279,7 +291,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
 					.all();
 		}		
-		if(!list.isEmpty()){	
+		if(!list.isEmpty()){
 			if(allInative) {
 			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
 			.collect(Collectors.toList());
@@ -288,96 +300,92 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			.peek(e->listApp.add(e.getProfileType().getApplication()))
 			.collect(Collectors.toList());
 			}
+			listApp.sort(Comparator.comparing(Application::getId));
 		}
+		
 		return listApp;
 	}
-	
-	
+
 	public boolean getPermissionApp(String dad) {
-		 User u = (User) Core.getCurrentUser();		
-		 Profile p = new Profile();
-		 p = p.findOne(p.getCriteria().where(
-				 p.getBuilder().equal(p.getRoot().get("user"), u.getId()),
-				 p.getBuilder().equal(p.getRoot().get("type"), "ENV"),
-				 p.getBuilder().equal(p.getRoot().join("profileType").join("application").get("dad"), dad)
-				));
-		return p!=null;
+		User u = (User) Core.getCurrentUser();
+		Profile p = new Profile();
+		p = p.findOne(p.getCriteria().where(p.getBuilder().equal(p.getRoot().get("user"), u.getId()),
+				p.getBuilder().equal(p.getRoot().get("type"), "ENV"),
+				p.getBuilder().equal(p.getRoot().join("profileType").join("application").get("dad"), dad)));
+		return p != null;
 	}
 
-	public List<Profile> getMyApp() {	
-		User u = (User) Core.getCurrentUser();		
-		List<Profile> list = new Profile().find()
-									 .andWhere("type", "=", "ENV")
-									 .andWhere("user", "=", u.getId())
-									 .andWhere("type_fk", "<>", 1)
-									 .all();
+	public List<Profile> getMyApp() {
+		User u = (User) Core.getCurrentUser();
+		List<Profile> list = new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", u.getId())
+				.andWhere("type_fk", "<>", 1).all();
+		list.sort(Comparator.comparing(Profile::getType_fk));
 		return list;
 	}
 
 	public List<Application> getOtherApp() {
-		List<Application> list = this.find()
-				 .andWhere("id", "<>", 1)
-				 .all();
+		List<Application> list = this.find().andWhere("id", "<>", 1).all();
+
 		return list;
 	}
-	
+
 	@Override
 	public Application insert() {
 		Application app = super.insert();
-		if(app!=null){
+		if (app != null) {
 			User user = new User();
 			user = user.findOne(Core.getCurrentUser().getIdentityId());
-			Organization org = new Organization();				
+			Organization org = new Organization();
 			org.setCode("Org." + app.getDad());
-			org.setName("IGRP"); //+ app.getName()
+			org.setName("IGRP"); // + app.getName()
 			org.setUser(user);
 			org.setApplication(app);
 			org.setStatus(1);
 			org = org.insert();
-			if(org!=null){	
-				ProfileType proty = new ProfileType();			
+			if (org != null) {
+				ProfileType proty = new ProfileType();
 				proty.setCode("admin." + app.getDad());
 				proty.setDescr("Admin");
 				proty.setOrganization(org);
 				proty.setApplication(app);
-				proty.setStatus(1);		
-				proty = proty.insert();		
-				if(proty!=null){
+				proty.setStatus(1);
+				proty = proty.insert();
+				if (proty != null) {
 					Profile p1 = new Profile(app.getId(), "ENV", proty, user, org);
 					p1.insert();
 					Profile p2 = new Profile(proty.getId(), "PROF", proty, user, org);
-					p2.insert();					
-				}			
-				ProfileType proty2 = new ProfileType();			
+					p2.insert();
+				}
+				ProfileType proty2 = new ProfileType();
 				proty2.setCode("user." + app.getDad());
 				proty2.setDescr("User");
 				proty2.setOrganization(org);
 				proty2.setApplication(app);
-				proty2.setStatus(1);		
-				proty2 = proty2.insert();		
-				if(proty2!=null){					
+				proty2.setStatus(1);
+				proty2 = proty2.insert();
+				if (proty2 != null) {
 					Profile p2 = new Profile(proty2.getId(), "PROF", proty2, user, org);
-					p2.insert();					
+					p2.insert();
 				}
-				
-					//Organization - Access Management (Gestão de acesso) is ID 10,
+
+				// Organization - Access Management (Gestão de acesso) is ID 10,
 				new Profile(10, "MEN", new ProfileType().getProfileAdmin(), new User().getUserAdmin(), org).insert();
-					//Profile/Perfil - Access Management (Gestão de acesso) is ID 10, ignores USER by using 0 to facilitates delete
+				// Profile/Perfil - Access Management (Gestão de acesso) is ID 10, ignores USER
+				// by using 0 to facilitates delete
 				new Profile(10, "MEN", proty, new User().getUserAdmin(), org).insert();
-				
+
 //				
 			}
 		}
 		return app;
 	}
-	
+
 	public Application insertOnly() {
 		return super.insert();
 	}
-	
-	
-	public Application findByDad(String dad){
-		return new Application().find().andWhere("dad","=",dad).one();
+
+	public Application findByDad(String dad) {
+		return new Application().find().andWhere("dad", "=", dad).one();
 	}
-	
+
 }

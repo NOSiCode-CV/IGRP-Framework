@@ -75,10 +75,12 @@ public class PesquisarMenuController extends Controller {
 			
 			Collections.sort(menus,new SortbyStatus());
 			
+			
 			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 			// Preenchendo a tabela
 			for (Menu menu_db1 : menus) {
 				PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
+				table1.setT1_menu_principal("-");
 				if (Core.isNull(menu_db1.getMenu())) {
 					table1.setT1_menu_principal(menu_db1.getDescr());
 				} 
@@ -99,7 +101,8 @@ public class PesquisarMenuController extends Controller {
 				}
 				lista.add(table1);
 			}
-					
+			if(!lista.isEmpty())
+				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 			view.table_1.addData(lista);
 		} 
 //		else {

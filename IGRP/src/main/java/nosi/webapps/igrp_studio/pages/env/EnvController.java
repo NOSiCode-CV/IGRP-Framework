@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -92,8 +94,7 @@ public class EnvController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/ 
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
