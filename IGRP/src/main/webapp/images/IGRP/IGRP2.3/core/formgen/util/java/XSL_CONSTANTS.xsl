@@ -50,10 +50,10 @@
 
     <xsl:variable name="simple_quotes">'</xsl:variable>
 
-    <xsl:variable name="import_config">
-    	<xsl:if test="count(//fields/*[@persist='true' or @type='link']) &gt; 0">
+    <xsl:variable name="import_config">    	
         	<xsl:text>import nosi.core.config.Config;</xsl:text>
         	 <xsl:value-of select="$newline"/>
+        <xsl:if test="count(//fields/*[@persist='true' or @type='link']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPLink;</xsl:text>
         	 <xsl:value-of select="$newline"/>
         	<xsl:text>import nosi.core.webapp.Report;</xsl:text>
