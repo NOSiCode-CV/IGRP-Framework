@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.helpers.FileHelper;
@@ -144,6 +146,7 @@ public class ExportSqlHelper {
 		basePath += dir + File.separator;
 		Map<String, String> files = new FileHelper().readAllFileDirectory(basePath);
 		if(files!=null) {
+			files = files.entrySet().stream().filter(f->f.getValue().endsWith(".java")).collect(Collectors.toMap(f->f.getKey(),f-> f.getValue()));
 			int size = files.size();
 			int count = 0;
 			for(Entry<String, String> f:files.entrySet()){
