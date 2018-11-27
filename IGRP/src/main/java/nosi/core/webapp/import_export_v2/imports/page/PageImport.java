@@ -53,7 +53,7 @@ public class PageImport implements IImport{
 	}
 
 	protected void saveFile(PageSerializable page, Action ac) {
-		if(page.getClassFiles()!=null) {
+		if(page.getClassFiles()!=null && ac!=null) {
 			String path = Path.getPath(ac.getApplication())+"pages"+File.separator+ac.getPage().toLowerCase()+File.separator;
 			try {
 				FileHelper.save(path,ac.getPage()+".java", page.getClassFiles().getXmlOrModel());
