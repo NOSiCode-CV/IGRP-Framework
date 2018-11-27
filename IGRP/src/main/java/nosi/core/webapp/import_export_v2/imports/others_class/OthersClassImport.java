@@ -60,12 +60,14 @@ public class OthersClassImport implements IImport{
 
 	private void saveFile(DAOSerializable fileClass) {
 		String basePath = Path.getRootPath();
-		basePath += fileClass.getPath().replace("\\", File.separator).replace("//", File.separator);
-		try {
-			FileHelper.save(basePath, fileClass.getFileName(), fileClass.getContent());
-			this.compiler.addFileName(basePath + File.separator+fileClass.getFileName());
-		} catch (IOException e) {
-			this.addError(e.getMessage());
+		if(Core.isNotNull(fileClass.getPath())) {
+			basePath += fileClass.getPath().replace("\\", File.separator).replace("//", File.separator);
+			try {
+				FileHelper.save(basePath, fileClass.getFileName(), fileClass.getContent());
+				this.compiler.addFileName(basePath + File.separator+fileClass.getFileName());
+			} catch (IOException e) {
+				this.addError(e.getMessage());
+			}
 		}
 	}
 }
