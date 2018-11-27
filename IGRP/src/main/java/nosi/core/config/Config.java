@@ -341,7 +341,7 @@ public class Config {
 	}
 
 	public String getPathServerClass(String app) {
-		return this.getBasePathClass()+"nosi"+File.separator+"webapps"+File.separator+app.toLowerCase()+File.separator;
+		return this.getBasePathClass()+"nosi"+SEPARATOR_FOR_FILESYS+"webapps"+SEPARATOR_FOR_FILESYS+app.toLowerCase()+SEPARATOR_FOR_FILESYS;
 	}
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
@@ -350,9 +350,9 @@ public class Config {
 		if(APP_LINK_IMAGE!=null) {
 			APP_LINK_IMAGE = APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;
 			String root = "";
-			String paths[] = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(File.separator+File.separator);
+			String paths[] = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYS+SEPARATOR_FOR_FILESYS);
 			if(paths.length <=1) {
-				paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(File.separator);
+				paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(SEPARATOR_FOR_FILESYS);
 			}
 			for(int i=0;i<paths.length-1;i++) {
 				root += paths[i] + SEPARATOR_FOR_HTTP;
@@ -395,23 +395,23 @@ public class Config {
 	}
 	
 	public String getBasePahtXslWorkspace(Action page){
-		return this.getWorkspace() + File.separator + this.getWebapp() + File.separator + this.getImageAppPath(page);
+		return this.getWorkspace() + SEPARATOR_FOR_FILESYS + this.getWebapp() + SEPARATOR_FOR_FILESYS + this.getImageAppPath(page);
 	}
 
 	public String getBasePahtXslWorkspace(Application app) {
-		return this.getWorkspace() + File.separator + this.getWebapp() + File.separator + this.getImageAppPath(app,"2.3");
+		return this.getWorkspace() + SEPARATOR_FOR_FILESYS + this.getWebapp() + SEPARATOR_FOR_FILESYS + this.getImageAppPath(app,"2.3");
 	}
 	
 	public String getWebapp() {
-		return "src"+File.separator+"main"+File.separator+"webapp"; 
+		return "src"+SEPARATOR_FOR_FILESYS+"main"+SEPARATOR_FOR_FILESYS+"webapp"; 
 	}
 	
 	/** getResourcesConfigDB
 	 * 
-	 * @return {@code "src"+File.separator+"main"+File.separator+"resources"+File.separator+"config"+File.separator+"db"+File.separator; }
+	 * @return {@code "src"+SEPARATOR_FOR_FILESYS+"main"+SEPARATOR_FOR_FILESYS+"resources"+SEPARATOR_FOR_FILESYS+"config"+SEPARATOR_FOR_FILESYS+"db"+SEPARATOR_FOR_FILESYS; }
 	 */
 	public String getResourcesConfigDB() {
-		return "src"+File.separator+"main"+File.separator+"resources"+File.separator+"config"+File.separator+"db"+File.separator; 
+		return "src"+SEPARATOR_FOR_FILESYS+"main"+SEPARATOR_FOR_FILESYS+"resources"+SEPARATOR_FOR_FILESYS+"config"+SEPARATOR_FOR_FILESYS+"db"+SEPARATOR_FOR_FILESYS; 
 	}
 
 	public String getPackage(String app, String page,String action) {
@@ -455,7 +455,7 @@ public class Config {
 	}
   
 	public String getPathWorkspaceResources() {
-		return this.getWorkspace() + File.separator +"src"+ File.separator + "main" + File.separator + "resources";
+		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +"src"+ SEPARATOR_FOR_FILESYS + "main" + SEPARATOR_FOR_FILESYS + "resources";
 	}
   
 	public String getHeader(IHeaderConfig config) {

@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.persistence.Column;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -625,8 +627,8 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Get current user identity
-	 * 
+	 * Get current user and than use then .getName()  or getEmail or getUser_name;
+	 *  
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser() {

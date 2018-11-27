@@ -1,5 +1,6 @@
 package nosi.core.i18n;
 
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 /**
  * Marcel Iekiny
@@ -14,6 +15,8 @@ public final class Translator { // Not extends
 	}
 	
 	public static String gt(String name, String text) { // call the GNU Gettext for IGRP-apps  
+		if(Core.isNull(text))
+			return "";
 		I18n language = Igrp.getInstance().getI18nManager().getIgrpCore(name);
 		if(language == null)
 			return text;
