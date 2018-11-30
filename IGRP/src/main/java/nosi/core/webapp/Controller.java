@@ -280,6 +280,8 @@ public class Controller{
 						queryString.addQueryString(param, field.get(model));
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 						Core.log(e.getMessage());
+					}finally {
+						field.setAccessible(false);
 					}
 				}
 			}
