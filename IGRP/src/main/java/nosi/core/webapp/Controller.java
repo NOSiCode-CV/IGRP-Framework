@@ -5,6 +5,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -262,6 +263,29 @@ public class Controller{
 		resp.setHttpStatus(HttpStatus.STATUS_200);
 	return resp;
 	}
+	
+	protected final Response redirect(String app, String page, String action,Model model,QueryString<String,Object> queryString) throws IOException{
+		this.modelToQueryString(model,queryString);
+		return this.redirect(app,page,action,queryString);
+	}
+	
+	
+	private void modelToQueryString(Model model, QueryString<String, Object> queryString) {
+		if(model!=null) {
+			for(Field field:model.getClass().getDeclaredFields()) {
+				if(field.isAnnotationPresent(RParam.class)) {
+					field.setAccessible(true);
+					String param = field.getAnnotation(RParam.class).rParamName();
+					try {
+						queryString.addQueryString(param, field.get(model));
+					} catch (IllegalArgumentException | IllegalAccessException e) {
+						Core.log(e.getMessage());
+					}
+				}
+			}
+		}
+	}
+
 	protected final Response redirect(String app, String page, String action,QueryString<String,Object> queryString) throws IOException{
 		if(queryString.getValues("dad")==null && !action.contains("dad"))
 			queryString.addQueryString("dad", Core.getParam("dad"));
@@ -306,6 +330,10 @@ public class Controller{
 	
 	protected final Response redirect(String app, String page, String action) throws IOException{
 		return this.redirect_(Route.toUrl(app, page,  this.addParamDad(action)));
+	}
+	
+	protected final Response redirect(String app, String page, String action,Model model) throws IOException{
+		return this.redirect(app, page, action, model, new QueryString<>());
 	}
 	
 	protected final Response redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
@@ -377,6 +405,34 @@ public class Controller{
 		return response;
 	}
 
+	public final Response xSend(byte []file, String name, String contentType, boolean download,String url) {
+		if(file == null) throw new ServerErrorHttpException();
+//		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
+		Response response = new Response();
+		if(contentType == null || contentType.isEmpty()) {
+			contentType = "application/octet-stream"; // default 
+		}else {
+			try {
+				String extension = "." + contentType.split("/")[1];
+				if(!name.contains("."))
+					name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
+			}catch(Exception e) {
+				contentType = "application/octet-stream";
+				e.printStackTrace();
+			}
+		}
+		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
+		if(download)
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+		else
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+		response.setType(1);
+		response.setContentLength(file.length);
+		response.setContentType(contentType);
+		response.setStream(file);
+		response.setUrl(url);
+		return response;
+	}
 	public View getView(){
 		return this.view;
 	}
@@ -491,6 +547,15 @@ public class Controller{
 		return  resp ;
 	}	
 	
+	protected Response forward(String app, String page, String action,Model model) {
+		return this.forward(app, page, action,model, new QueryString<>());
+	}
+	
+	protected Response forward(String app, String page, String action,Model model, QueryString<String,Object> queryString) {
+		this.modelToQueryString(model, queryString);
+		return this.forward(app, page, action, queryString);
+	}
+	
 	protected Response forward(String app, String page, String action, QueryString<String,Object> queryString) {
 		this.setQueryString(queryString);
 		Response resp = new Response();
@@ -520,8 +585,10 @@ public class Controller{
 						try {
 							if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
 								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+								Igrp.getInstance().getResponse().getOutputStream().flush();
 								Igrp.getInstance().getResponse().getOutputStream().close();
 								Igrp.getInstance().getResponse().flushBuffer();
+								return;
 							}else if(responseWrapper.getFile()!=null){
 								 HttpServletResponse response = Igrp.getInstance().getResponse();
 								 String name = responseWrapper.getFile().getFileName();
@@ -576,8 +643,9 @@ public class Controller{
 						break;
 					case 4:
 						try {
-							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
-//							Igrp.getInstance().getResponse().getOutputStream().close();
+							Igrp.getInstance().getResponse().sendRedirect("pg_studio.jsp");
+//							Igrp.getInstance().getRequest().getRequestDispatcher("pg_studio.jsp").forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+							Igrp.getInstance().getResponse().getOutputStream().close();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
