@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import javax.persistence.Column;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -1787,12 +1785,6 @@ public final class Core { // Not inherit
 		return sc;
 	}
 
-	public static BigDecimal toBigDecimal(String value) {
-		if (Core.isNotNull(value))
-			return new BigDecimal(value.toString());
-		return null;
-	}
-
 	public static String ToChar(java.sql.Date date, String formatIn) {
 		return DateHelper.convertDateToString(date, formatIn);
 	}
@@ -1815,6 +1807,53 @@ public final class Core { // Not inherit
 		return DateHelper.formatDate(date, formatIn, formatOut);
 	}
 
+
+	/**
+	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse of it,
+	 * else returns 0
+	 * 
+	 * @param value
+	 * @return new BigDecimal(value) or 0
+	 * 
+	 */
+	public static BigDecimal toBigDecimal(String value) {
+		return toBigDecimal(value,new BigDecimal(0.0));
+	}
+	
+	public static BigDecimal toBigDecimal(String value,BigDecimal defaultValue) {
+		if (Core.isNotNull(value)) {
+			try {
+				return new BigDecimal(value.toString());
+			}catch(NumberFormatException e) {
+				
+			}
+		}
+		return defaultValue;
+	}
+	
+	/**
+	 * Verifies if the Core.isBigInteger and if true, than returns BigInteger parse of it,
+	 * else returns 0
+	 * 
+	 * @param value
+	 * @return new BigInteger(value) or 0
+	 * 
+	 */
+	public static BigInteger toBigInteger(String value) {
+		return toBigInteger(value,new BigInteger("0"));
+	}
+	
+	public static BigInteger toBigInteger(String value,BigInteger defaultValue) {
+		if (Core.isNotNull(value)) {
+			try {
+				return new BigInteger(value.toString());
+			}catch(NumberFormatException e) {
+				
+			}
+		}
+		return defaultValue;
+	}
+	
 	/**
 	 * Verifies if the Core.isDouble and if true, than returns double parse of it,
 	 * else returns 0
@@ -1824,14 +1863,17 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Double toDouble(String value) {
-		if (Core.isDouble(value))
-			return Double.parseDouble(value);
-		return 0.0;
+		return toDouble(value, 0.0);
 	}
 
 	public static Double toDouble(String value, double defaultValue) {
-		if (Core.isDouble(value))
-			return Double.parseDouble(value);
+		if (Core.isDouble(value)) {
+			try {
+				return Double.parseDouble(value);
+			}catch(NumberFormatException e) {
+				
+			}
+		}
 		return defaultValue;
 	}
 
@@ -1844,14 +1886,17 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Float toFloat(String value) {
-		if (Core.isFloat(value))
-			return Float.parseFloat(value);
-		return (float) 0;
+		return toFloat(value,0);
 	}
 	
 	public static Float toFloat(String value, float defaultValue) {
-		if (Core.isFloat(value))
-			return Float.parseFloat(value);
+		if (Core.isFloat(value)) {
+			try {
+				return Float.parseFloat(value);
+			}catch(NumberFormatException e) {
+				
+			}
+		}
 		return defaultValue;
 	}
 
@@ -1864,9 +1909,7 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Integer toInt(String value) {
-		if (Core.isInt(value))
-			return Integer.parseInt(value);
-		return 0;
+		return toInt(value,0);
 	}
 
 	/**
@@ -1879,11 +1922,16 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Integer toInt(String value, int defaultValue) {
-		if (Core.isInt(value))
-			return Integer.parseInt(value);
+		if (Core.isInt(value)) {
+			try{
+				return Integer.parseInt(value);
+			}catch(NumberFormatException e) {
+				
+			}
+		}
 		return defaultValue;
 	}
-
+	
 	public static String toJson(Object appP) {
 		if(appP!=null)
 			return new Gson().toJson(appP);
@@ -1897,14 +1945,17 @@ public final class Core { // Not inherit
 	}
 
 	public static Long toLong(String value) {
-		if (Core.isInt(value))
-			return Long.parseLong(value);
-		return (long) 0;
+		return toLong(value,0);
 	}
 
 	public static Long toLong(String value, long defaultValue) {
-		if (Core.isInt(value))
-			return Long.parseLong(value);
+		if (Core.isInt(value)) {
+			try {
+				return Long.parseLong(value);
+			}catch(NumberFormatException e) {
+				
+			}
+		}
 		return defaultValue;
 	}
 

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
 import com.google.gson.Gson;
-import java.lang.Double;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
@@ -212,44 +211,43 @@ public abstract class Model { // IGRP super model
 				}catch(Exception e) {
 					aux = "0"; 
 				}
-				class GetValue{
-					public String getValue(String typeName,String value) {
-						switch(typeName){
-							case "int":
-							case "float":
-							case "double":
-							case "long":
-							case "short":
-								if(Core.isNotNull(value)) {
-									try {
-										Double.parseDouble(value.toString());
-									}catch(NumberFormatException e) {
-										return "0";
-									}
-								}
-								return value.toString();
-						}
-						return value.toString();
-					}
-				}
-				aux = new GetValue().getValue(typeName,aux);
-				
 				switch(typeName){
 					case "int":
-							m.setInt(this, Core.toInt(aux));
+						m.setInt(this, Core.toInt(aux));
+						break;
+					case "java.lang.Integer":
+						m.set(this, Core.toInt(aux));
 						break;
 					case "float":
-							m.setFloat(this, Core.toFloat(aux));
+						m.setFloat(this, Core.toFloat(aux));
+						break;
+					case "java.lang.Float":
+						m.set(this, Core.toFloat(aux));
 						break;
 					case "double":
-							m.setDouble(this,Core.toDouble(aux));
+						m.setDouble(this,Core.toDouble(aux));
+						break;
+					case "java.lang.Double":
+						m.set(this,Core.toDouble(aux));
 						break;
 					case "long":
-							m.setLong(this, Core.toLong(aux));
+						m.setLong(this, Core.toLong(aux));
+						break;
+					case "java.lang.Long":
+						m.set(this, Core.toLong(aux));
 						break;
 					case "short":
-							m.setShort(this, Core.toShort(aux));
+						m.setShort(this, Core.toShort(aux));
 						break;
+					case "java.lang.Short":
+						m.set(this, Core.toShort(aux));
+						break;
+					case "java.math.BigInteger":
+						m.set(this,Core.toBigInteger(aux));
+						break;
+					case "java.math.BigDecimal":
+						m.set(this,Core.toBigDecimal(aux));
+						break;						
 					case "java.sql.Date":
 						if(Core.isNotNull(aux) && !aux.equals("0")) {
 							m.set(this, DateHelper.formatDate(aux, "dd-mm-yyyy"));
