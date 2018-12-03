@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class MenuOrganicaView extends View {
 
@@ -26,16 +27,16 @@ public class MenuOrganicaView extends View {
 
 		this.setPageTitle("Associar Menu a Organica");
 			
-		table_1 = new IGRPTable("table_1","Menu");
+		table_1 = new IGRPTable("table_1","Menu «--» Profile");
 
 		form_1 = new IGRPForm("form_1","");
 
 		menu = new CheckBoxField(model,"menu");
 		menu.setLabel(gt(" "));
-		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		menu_check = new CheckBoxField(model,"menu_check");
-		menu_check.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		menu_check.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
@@ -43,7 +44,7 @@ public class MenuOrganicaView extends View {
 		
 		app = new HiddenField(model,"app");
 		app.setLabel(gt(""));
-		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","30").add("tag","app");
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","app");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));

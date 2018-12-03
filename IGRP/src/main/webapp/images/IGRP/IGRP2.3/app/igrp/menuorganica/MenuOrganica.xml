@@ -48,46 +48,46 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
             </item>
         </toolsbar_1>
-        <table_1 type="table" xml-type="table" title="Menu" gen-type="container" gen-group="true">
+        <table_1 type="table" xml-type="table" title="Menu «--» Profile" gen-type="container" gen-group="true">
             <fields>
-                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
+                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
                     <label></label>
                 </menu>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </descricao>
-                <app name="p_app" type="hidden" maxlength="30" iskey="false" tag="app"/>
+                <app name="p_app" type="hidden" maxlength="30" iskey="false" java-type="" tag="app"/>
             </fields>
             <table>
                 <value>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Iste consectetur totam aliqua</descricao>
+                        <descricao name="p_descricao">Amet accusantium perspiciatis</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Dolor unde doloremque aliqua a</descricao>
+                        <descricao name="p_descricao">Accusantium sed natus totam do</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Officia stract sed stract labo</descricao>
+                        <descricao name="p_descricao">Aliqua amet aperiam sed aliqua</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Adipiscing lorem sit amet sit</descricao>
+                        <descricao name="p_descricao">Rem sit consectetur magna amet</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Amet aperiam sed magna ut</descricao>
+                        <descricao name="p_descricao">Mollit doloremque sit stract a</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                 </value>
