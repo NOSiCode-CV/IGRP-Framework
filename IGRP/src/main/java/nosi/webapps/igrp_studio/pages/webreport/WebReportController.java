@@ -54,7 +54,6 @@ public class WebReportController extends Controller {
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
 				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
 				if(listParams.size() > 0){
-					params = "new Report()";
 					//Get parameters
 					for(RepTemplateSource param:listParams){
 						if(param.getParameters()!=null) {
@@ -64,7 +63,7 @@ public class WebReportController extends Controller {
 						}
 					}
 				}
-				String link = "Core.getLinkReport(\""+r.getCode()+"\","+params+");";
+				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+";";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());
@@ -154,7 +153,7 @@ public class WebReportController extends Controller {
 														.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
 														.addInt("rep_source_fk", Core.toInt(p.getId()))
 														.addInt("rep_template_fk", rt.getId())
-														.getSigleRecord();								
+														.getSingleRecord();								
 								Core.insert(this.configApp.getBaseConnection(),"tbl_rep_template_source_param")
 									.addString("parameter", param.getName())
 									.addString("parameter_type", param.getType())
@@ -463,6 +462,6 @@ public class WebReportController extends Controller {
 	}
 	private DataSourceController ds = new DataSourceController();
 	private DataSourceHelpers dsh = new DataSourceHelpers();
-	private String params = "null";
+	private String params = "";
 	/*----#END-PRESERVED-AREA----*/
 }
