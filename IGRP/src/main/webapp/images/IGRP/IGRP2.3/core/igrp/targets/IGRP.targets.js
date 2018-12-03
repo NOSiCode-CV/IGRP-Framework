@@ -62,7 +62,7 @@
  				action    = $.IGRP.utils.getSubmitParams(p.url,p.form,p.scrollTo);
 
  			fields.addClass('submittable');
-
+ 			
  			try{
 
  				if(p.clicked && p.clicked.parents('li.operationTable')[0])
