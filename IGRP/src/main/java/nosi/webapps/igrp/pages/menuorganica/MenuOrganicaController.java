@@ -27,7 +27,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Aperiam sed ipsum anim sit' as descricao,'1' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Elit consectetur dolor dolorem' as descricao,'1' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
     
@@ -39,7 +39,7 @@ public class MenuOrganicaController extends Controller {
 			if (model.getType().equals("org")) {		
 				menus = new Organization().getOrgMenu(env_fk,model.getId());
 			} else if (model.getType().equals("perfil")) {
-				ProfileType p = new ProfileType().findOne(model.getId());
+				ProfileType p = Core.findProfileById((model.getId()));
 				// ALL PROFILE org has org_fk = null so the org is 1
 				if(p.getOrganization()!=null)
 				  menus = new Organization().getPerfilMenu(p.getOrganization().getId(),p.getId()); 
@@ -49,9 +49,10 @@ public class MenuOrganicaController extends Controller {
                 view.btn_novo.setVisible(false);              
 			}else if(model.getType().equalsIgnoreCase("user")) {
 				profile = new Profile().findOne(model.getId());
-		      	user = new User().findIdentityByEmail(Core.getParam("userEmail"));
+		      	user = Core.findUserByEmail(Core.getParam("userEmail"));
 		      	if(user!=null && profile!=null)
 		      		menus = new Organization().getOrgMenuByUser(profile.getOrganization().getId(),user.getId());
+              view.btn_novo.setVisible(false);    
 			}
 			menus.sort(Comparator.comparing(Menu::getDescr));
 			for (Menu m : menus) {
@@ -87,9 +88,13 @@ public class MenuOrganicaController extends Controller {
 			view.btn_novo.setLink("igrp","MenuOrganica","novo&env_fk=" + Core.getParam("env_fk"));		
 			view.btn_novo.setVisible(true);
 		}
-		
+		view.btn_gravar.addParameter("env_fk", Core.getParam("env_fk"));
 		if(model.getType().equals("user") && user!=null && profile!=null) {
-			view.btn_gravar.setLink("igrp","MenuOrganica","gravar&user_id=" + user.getId()+"&org_id="+profile.getOrganization().getId()+"&prof_id="+profile.getProfileType().getId());		
+			view.btn_gravar.addParameter("user_id",  user.getId())
+							.addParameter("userEmail",  user.getEmail())
+							.addParameter("org_id", profile.getOrganization().getId())
+							.addParameter("prof_id", profile.getProfileType().getId());
+	
 		}
 		/*----#end-code----*/
 		view.setModel(model);
@@ -106,20 +111,18 @@ public class MenuOrganicaController extends Controller {
 		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
-		Organization organization = new Organization();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") ) {
-			this.deleteOldMenu(model);
-			if (model.getType().equals("org")) {
-				organization = new Organization().findOne(model.getId());
-			}
+			this.deleteOldMenu(model);			
 			this.assocNewsMenu(model);
 		}
-		if (model.getType().equals("org"))
-			return this.forward("igrp", "MenuOrganica", "index&env_fk=" + organization.getApplication().getId());
-		else if (model.getType().equals("perfil") || model.getType().equals("user"))          
-			return this.forward("igrp", "MenuOrganica", "index");
+		this.addQueryString("env_fk", Core.getParam("env_fk"));		
+		if(model.getType().equals("user"))	
+			this.addQueryString("userEmail",Core.getParam("userEmail"));			
+			return this.forward("igrp", "MenuOrganica", "index", this.queryString());			
+			
+		
 		/*----#end-code----*/
-		return this.redirect("igrp","MenuOrganica","index", this.queryString());	
+			
 	}
 	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -197,9 +200,8 @@ public class MenuOrganicaController extends Controller {
 	}
 	
 	private void assocNewsMenu(MenuOrganica model) {
-		//TODO: mudar para Core.getParamArray()
-		String[] mens = Igrp.getInstance().getRequest().getParameterValues("p_menu");
-		
+		//TODO: mudar para Core.getParamArray()		
+		String[] mens = Core.getParamArray("p_menu");		
 		if (mens != null && mens.length > 0) {
 			List<ProfileType> list = null;
 			for (String x : mens) {
@@ -239,9 +241,9 @@ public class MenuOrganicaController extends Controller {
 					prof.setProfileType(new ProfileType().findOne(model.getId()));
 				}else if (model.getType().equals("user")) {
 					prof.setType("MEN_USER");
-					prof.setOrganization(new Organization().findOne(Core.getParamInt("org_id")));
-					prof.setUser(new User().findOne(Core.getParamInt("user_id")));
-					prof.setProfileType(new ProfileType().findOne(Core.getParamInt("prof_id")));
+					prof.setOrganization(Core.findOrganizationById((Core.getParamInt("org_id"))));
+					prof.setUser(Core.findUserById((Core.getParamInt("user_id"))));
+					prof.setProfileType(Core.findProfileById((Core.getParamInt("prof_id"))));
 				}
 				prof = prof.insert();
 			}
