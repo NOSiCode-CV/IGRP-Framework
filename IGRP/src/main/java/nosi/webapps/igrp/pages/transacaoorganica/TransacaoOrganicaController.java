@@ -47,7 +47,7 @@ public class TransacaoOrganicaController extends Controller {
 					transactions = new Organization().getPerfilTransaction(1,p.getId());
 			} else if(type.equalsIgnoreCase("user")) {
 				profile = new Profile().findOne(id);
-		      	user = new User().findIdentityByEmail(Core.getParam("userEmail"));
+		      	user = Core.findUserByEmail(Core.getParam("userEmail"));
 		      	if(user!=null && profile!=null)
 					transactions = new Organization().getOrgTransactionByUser(profile.getOrganization().getId(),user.getId());
 			}         
@@ -62,12 +62,12 @@ public class TransacaoOrganicaController extends Controller {
 				}
 				data.add(table);
 			}
+			
 			if(model.getType().equals("user") && user!=null && profile!=null) {
 				view.btn_gravar.addParameter("user_id",  user.getId())
+				.addParameter("userEmail",  user.getEmail())
 				.addParameter("org_id", profile.getOrganization().getId())
 				.addParameter("prof_id", profile.getProfileType().getId());
-//				view.btn_gravar.setLink("igrp","TransacaoOrganica","gravar&user_id=" +
-//				user.getId()+"&org_id="+profile.getOrganization().getId()+"&prof_id="+profile.getProfileType().getId());		
 			}
 			view.table_1.addData(data);
 		}
@@ -90,6 +90,7 @@ public class TransacaoOrganicaController extends Controller {
 			this.deleteOldTransactions(model);
 			this.assocNewsTransactios(model);
 		}
+		this.addQueryString("userEmail",Core.getParam("userEmail"));	
 	 return this.forward("igrp","TransacaoOrganica","index", this.queryString());
 		/*----#end-code----*/
 			

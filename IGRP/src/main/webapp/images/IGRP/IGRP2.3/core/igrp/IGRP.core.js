@@ -106,7 +106,7 @@
 			},
 			getFieldsValidate:function(f){
 				var form = f && f[0] ? f : $.IGRP.utils.getForm();
-				var fields = $(':input',form).not('.no-validation, .no-required-validation, .not-form').not('.IGRP_checkall');
+				var fields = $(':input',form).not('.no-validation, .no-required-validation, .no-validation-required, .not-form').not('.IGRP_checkall');
 				
 				return fields;
 			},

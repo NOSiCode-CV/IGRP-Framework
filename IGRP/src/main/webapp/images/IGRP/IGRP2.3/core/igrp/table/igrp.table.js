@@ -143,8 +143,10 @@
 					var datatable = $(t).DataTable(options)
 
 					$.IGRP.on('submit',function(o){
+						
+						if(o.valid)
 
-						datatable.destroy();
+							datatable.destroy();
 
 	            	});
 					

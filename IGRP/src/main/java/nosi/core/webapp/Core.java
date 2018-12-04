@@ -87,10 +87,10 @@ import nosi.webapps.igrp.dao.Transaction;
  */
 public final class Core { // Not inherit
 
+	//TODO: ver javadoc de nao incluir no javadoc
 	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType{
 		
 	}
-
 	public static final String NO_PERMITION_MSG = "No permision";
 
 	
@@ -252,7 +252,7 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Find Profile By Code
+	 * Find ProfileType() By Code
 	 * 
 	 * @param code
 	 * @return
@@ -264,7 +264,7 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Find Profile By ID
+	 * Find ProfileType() By ID
 	 * 
 	 * @param id
 	 * @return
@@ -1498,7 +1498,6 @@ public final class Core { // Not inherit
 	 * 
 	 * @param content   byte[]
 	 * @param name
-	 * @param extension
 	 * @param mime_type
 	 * @return in ID
 	 */
