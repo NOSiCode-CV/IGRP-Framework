@@ -319,6 +319,13 @@ public class FileHelper {
 	}
 	
 	
+	public static boolean renameFile(String classPath, String oldName, String newName) throws IOException {
+		Path pathFile = Paths.get(classPath + oldName);
+		if(Files.move(pathFile, pathFile.resolveSibling(newName))!=null)
+			return true;
+		else return false;
+	}
+	
 	public static File saveFilesControllerJava(String classPath,String fileName,String content) {
 		if(!FileHelper.fileExists(classPath+File.separator+fileName+"Controller.java")) {
 			try {
