@@ -33,6 +33,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private String connectionName;
 	private T className;
 	private List<String> error;
+	private boolean isReadOnly = false;
 	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
@@ -54,6 +55,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	
 	@Override
 	public T insert() {
+		if(this.isReadOnly())
+			return this.className;
 		Session session = null;
 		Transaction transaction = null;
 		try {			
@@ -74,6 +77,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	public T update() {
+		if(this.isReadOnly())
+			return this.className;
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -98,6 +103,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean delete(Object id) {
+		if(this.isReadOnly())
+			return false;
 		boolean deleted = false;
 		Session session = null;
 		Transaction transaction = null;
@@ -654,6 +661,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}
 	}
 	
+	
+	
+	public boolean isReadOnly() {
+		return isReadOnly;
+	}
+
+	public void setReadOnly(boolean isReadOnly) {
+		this.isReadOnly = isReadOnly;
+	}
+
 	protected void closeFactory(){
 //		this.getSessionFactory().close();
 //		HibernateUtils.removeSessionFactory(this.getConnectionName());
