@@ -210,7 +210,9 @@ public final class Core { // Not inherit
 	 * @return {@code new Application().findByDad(dad);}
 	 */
 	public static Application findApplicationByDad(String dad) {
-		return new Application().findByDad(dad);
+		Application app = new Application();
+		app.setReadOnly(true);
+		return app.findByDad(dad);
 	}
 
 	/**
@@ -220,7 +222,9 @@ public final class Core { // Not inherit
 	 * @return {@code new Application().findOne(id);}
 	 */
 	public static Application findApplicationById(Integer id) {
-		return new Application().findOne(id);
+		Application app = new Application();
+		app.setReadOnly(true);
+		return app.findOne(id);
 	}
 
 	/**
@@ -230,7 +234,9 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static Organization findOrganizationByCode(String code) {
-		return new Organization().find().andWhere("code", "=", code).one();
+		Organization org = new Organization();
+		org.setReadOnly(true);
+		return org.find().andWhere("code", "=", code).one();
 	}
 
 	/**
@@ -240,7 +246,9 @@ public final class Core { // Not inherit
 	 * @return {@code new Organization().findOne(id);}
 	 */
 	public static Organization findOrganizationById(Integer id) {
-		return new Organization().findOne(id);
+		Organization org = new Organization();
+		org.setReadOnly(true);
+		return org.findOne(id);
 	}
 
 	/**
@@ -250,7 +258,9 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static ProfileType findProfileByCode(String code) {
-		return new ProfileType().find().andWhere("code", "=", code).one();
+		ProfileType prof = new ProfileType();
+		prof.setReadOnly(true);
+		return prof.find().andWhere("code", "=", code).one();
 	}
 
 	/**
@@ -260,7 +270,9 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static ProfileType findProfileById(Integer id) {
-		return new ProfileType().findOne(id);
+		ProfileType prof = new ProfileType();
+		prof.setReadOnly(true);
+		return prof.findOne(id);
 	}
 
 	/**
@@ -270,7 +282,9 @@ public final class Core { // Not inherit
 	 * @return {@code User().find().andWhere("username", "=", email).one();}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserByEmail(String email) {
-		return new nosi.webapps.igrp.dao.User().find().andWhere("email", "=", email).one();
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+		user.setReadOnly(true);
+		return user.find().andWhere("username", "=", email).one();
 	}
 
 	/**
@@ -280,7 +294,9 @@ public final class Core { // Not inherit
 	 * @return {@code new User().findOne(id)}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserById(Integer id) {
-		return new nosi.webapps.igrp.dao.User().findOne(id);
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+		user.setReadOnly(true);
+		return user.findOne(id);
 	}
 	
 	/**
@@ -290,7 +306,9 @@ public final class Core { // Not inherit
 	 * @return {@code new User().findOne(id)}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserById(BigInteger id) {
-		return new nosi.webapps.igrp.dao.User().findOne(id);
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+		user.setReadOnly(true);
+		return user.findOne(id);
 	}
 
 	/**
@@ -300,7 +318,9 @@ public final class Core { // Not inherit
 	 * @return {@code User().find().andWhere("username", "=", userName).one();}
 	 */
 	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName) {
-		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", userName).one();
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+		user.setReadOnly(true);
+		return user.find().andWhere("username", "=", userName).one();
 	}
 
 	/**
@@ -630,7 +650,9 @@ public final class Core { // Not inherit
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser() {
-		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
+		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
+		user.setReadOnly(true);
+		return user;
 	}
 
 	public static String getDeepPurpleColor() {
