@@ -202,7 +202,6 @@ public class ConfigDBIGRP {
     		StandardServiceRegistryBuilder.destroy(registry);
 			isConnected = true;
     	}catch(Exception e){
-    		e.printStackTrace();
     		isConnected = false;
     	}
     	return isConnected;

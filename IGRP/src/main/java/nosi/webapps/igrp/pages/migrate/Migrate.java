@@ -104,7 +104,11 @@ public class Migrate extends Model{
 	public String getPassword(){
 		return this.password;
 	}
-
-
+	@Override
+	public String toString() {
+		return "Migrate [aplicacao=" + aplicacao + ", tipo_base_dados=" + tipo_base_dados + ", nome_de_conexao="
+				+ nome_de_conexao + ", url_connection=" + url_connection + ", driver_connection=" + driver_connection
+				+ ", username=" + username + ", password=" + password + "]";
+	}
 
 }

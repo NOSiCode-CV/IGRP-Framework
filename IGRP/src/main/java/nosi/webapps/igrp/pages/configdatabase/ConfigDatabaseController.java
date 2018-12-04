@@ -3,6 +3,8 @@ package nosi.webapps.igrp.pages.configdatabase;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import java.io.File;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -33,7 +35,7 @@ public class ConfigDatabaseController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Elit dolor adipiscing stract i' as nome_de_conexao_tabela,'Ipsum anim iste anim laudantiu' as user_name_tabela,'Adipiscing magna rem omnis ame' as tipo_de_base_de_dados_tabela,'Accusantium voluptatem dolor t' as t_url_connection,'Sit aperiam laudantium aperiam' as t_driver_connection,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Iste rem labore natus rem' as nome_de_conexao_tabela,'Consectetur amet rem consectet' as user_name_tabela,'Anim perspiciatis magna accusa' as tipo_de_base_de_dados_tabela,'Aperiam natus lorem perspiciat' as t_url_connection,'Accusantium anim elit magna un' as t_driver_connection,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -71,11 +73,38 @@ public class ConfigDatabaseController extends Controller {
 			}
 			
 			lista_tabela.add(tabela);
-		}	
+		}
 		if (Core.isInt(model.getAplicacao()) ) {
 			view.aplicacao.setQuery(Core.query(this.configApp.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
-			view.table_1.addData(lista_tabela);			
+			view.table_1.addData(lista_tabela);
+			//if EDIT
+			if(Core.isNotNull(Core.getParam("p_id_connection"))) {
+				Integer id = Core.getParamInt("p_id_connection");
+				Config_env config = new Config_env().findOne(id);
+				// if it didnt came from failed connection
+				if(Core.isNull(Core.getParam("failed_conn"))) {
+					model.setAplicacao(config.getApplication().getId().toString());
+					model.setTipo_base_dados(Core.decrypt(config.getType_db(),this.ed.SECRET_KEY_ENCRYPT_DB));
+					model.setNome_de_conexao(config.getName());
+					model.setUrl_connection(Core.decrypt(config.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
+					model.setDriver_connection(Core.decrypt(config.getDriver_connection(), this.ed.SECRET_KEY_ENCRYPT_DB));
+					model.setUsername(Core.decrypt(config.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB));
+					model.setPassword(null);
+					view.btn_gravar.addParameter("p_id", id)
+								   .addParameter("conn_name", config.getName())
+								   .addParameter("app_name", config.getApplication().getDad())
+								   .setLink("edit-gravar");
+				}
+				// if it is an edit and came from failed connection, just edit the save btn
+				else {
+					view.btn_gravar.addParameter("p_id", id)
+					   .addParameter("conn_name", config.getName())
+					   .addParameter("app_name", config.getApplication().getDad())
+					   .setLink("edit-gravar");
+				}
+				
+			} else
 			if(Core.isNotNull(model.getTipo_base_dados())) {
 				model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));
 				model.setDriver_connection(DatabaseConfigHelper.getDatabaseDriversExamples(model.getTipo_base_dados()));
@@ -94,7 +123,6 @@ public class ConfigDatabaseController extends Controller {
               Core.setMessageInfo(gt("-- Selecionar --")+" "+gt("Tipo de base de dados")+"!");
 		}
 		
-	
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -153,6 +181,23 @@ public class ConfigDatabaseController extends Controller {
 		
 		/*----#end-code----*/
 		return this.redirect("igrp","ConfigDatabase","index", this.queryString());	
+	}
+	
+	public Response actionEdit() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ConfigDatabase model = new ConfigDatabase();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(edit)----*/
+		this.addQueryString("isEdit", true);
+        this.addQueryString("p_id_connection", Core.getParam("p_id"));
+		return this.forward("igrp","ConfigDatabase","index", this.queryString());
+		/*----#end-code----*/
+			
 	}
 	
 	public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -234,10 +279,75 @@ public class ConfigDatabaseController extends Controller {
         			response = true;
         	}
         }
-        
         JSONObject json = new JSONObject();
         json.put("status", response);     
         return this.renderView(json.toString());
+	}
+	
+	public Response actionEditGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ConfigDatabase model = new ConfigDatabase();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(gravar)----*/
+		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
+			Integer id_conn = Core.getParamInt("p_id");
+			Config_env config = new Config_env().findOne(id_conn);
+			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
+			config.setCharset("utf-8");
+			config.setUsername(Core.encrypt(model.getUsername(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setName(model.getNome_de_conexao());
+			Migrate m = new Migrate();
+			m.load();
+
+			if (!(new MigrationIGRP().validate(m)) || config.getName().equalsIgnoreCase(this.configApp.getBaseConnection()) || config.getName().equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
+				Core.setMessageError(gt("Falha na conexão com a base de dados"));
+				
+				return this.forward("igrp", "ConfigDatabase", "index&failed_conn=" + true + "&p_id_connection=" + id_conn);
+			}
+			boolean check = false;
+			if(config.getName().equals(Core.getParam("conn_name"))) {
+				check = true;
+			}
+			else check = new Config_env().find()
+											.andWhere("name", "=", config.getName())
+											.andWhere("application", "=",Integer.parseInt(model.getAplicacao()))
+											.one() == null;
+			if (check) {
+				config = config.update();
+				
+				if (config != null) {
+					this.editConfigHibernateFile(config);
+					Core.setMessageSuccess();
+                    Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
+					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
+				}
+			} else {
+              Core.setMessageWarning(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+" "+gt("INV"));
+				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
+			}
+		}
+		return this.redirect("igrp","ConfigDatabase","index", this.queryString());	
+	}
+
+	private void editConfigHibernateFile(Config_env config) throws IOException {
+		String oldConnName = Core.getParam("conn_name");
+		String oldAppName = Core.getParam("app_name");
+		
+		String pathWS = this.getConfig().getPathWorkspaceResources();
+		String pathServer = this.getConfig().getBasePathClass();
+		FileHelper.renameFile(pathServer, oldConnName+"."+oldAppName+".cfg.xml", config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml");
+		if (FileHelper.fileExists(pathWS)) {
+			FileHelper.renameFile(pathWS + File.separator, oldConnName+"."+oldAppName+".cfg.xml", config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml");
+		}
 	}
 	
 	/*----#end-code----*/

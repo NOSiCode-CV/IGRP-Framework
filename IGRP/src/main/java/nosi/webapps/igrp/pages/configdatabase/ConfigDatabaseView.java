@@ -36,6 +36,7 @@ public class ConfigDatabaseView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_edit;
 	public IGRPButton btn_delete;
 
 	public ConfigDatabaseView(){
@@ -95,10 +96,10 @@ public class ConfigDatabaseView extends View {
 		
 		default_ = new RadioField(model,"default_");
 		default_.setLabel(gt("Default"));
-		default_.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("check","true").add("desc","true");
+		default_.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("java-type","").add("check","true").add("desc","true");
 		
 		default__check = new RadioField(model,"default__check");
-		default__check.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("check","true").add("desc","true");
+		default__check.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("java-type","").add("check","true").add("desc","true");
 		
 		nome_de_conexao_tabela = new TextField(model,"nome_de_conexao_tabela");
 		nome_de_conexao_tabela.setLabel(gt("Nome da conexão"));
@@ -122,13 +123,16 @@ public class ConfigDatabaseView extends View {
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Testar conexão e gravar ","igrp","ConfigDatabase","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+
+		btn_edit = new IGRPButton("Edit","igrp","ConfigDatabase","edit","submit","warning|fa-pencil","","");
+		btn_edit.propertie.add("type","specific").add("rel","edit");
 
 		btn_delete = new IGRPButton("Delete","igrp","ConfigDatabase","delete","submit","danger|fa-trash","","");
 		btn_delete.propertie.add("type","specific").add("rel","delete");
@@ -163,6 +167,7 @@ public class ConfigDatabaseView extends View {
 		table_1.addField(id);
 
 		toolsbar_1.addButton(btn_gravar);
+		table_1.addButton(btn_edit);
 		table_1.addButton(btn_delete);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
