@@ -21,8 +21,8 @@ this[VARS.name].declareContainer({
 				name      :'title',
 				label     :'Small Box Title',
 				value     :'Small Box Title',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
 			container.setProperty({
@@ -47,8 +47,8 @@ this[VARS.name].declareContainer({
 				name      :'lbl',
 				label     :'Url label',
 				value     :'View Details',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+			//	valuePersist : true
 			});
 
 
@@ -63,16 +63,16 @@ this[VARS.name].declareContainer({
 					},
 					size:'12'
 				},
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 				
 			});
 
 			GEN.setImgAttr(container,{
 				name:'icn',
 				value:'fa-check',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
 			/*container.setPropriety({
