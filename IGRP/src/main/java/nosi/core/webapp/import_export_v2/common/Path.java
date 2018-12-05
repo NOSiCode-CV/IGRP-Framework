@@ -3,6 +3,7 @@ package nosi.core.webapp.import_export_v2.common;
 import java.io.File;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -32,6 +33,19 @@ public class Path {
 		return basePath;
 	}
 
+
+	public static String getImage() {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			basePath = config.getWorkspace()+File.separator+"src"+File.separator+"main"+File.separator+"webapp"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+"reports"; 			
+		}else {
+			 basePath = Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+"reports";
+		}
+		return basePath;
+	}
+	
+	
 	public static String getRootPath() {
 		Config config = new Config();
 		String basePath = config.getWorkspace();

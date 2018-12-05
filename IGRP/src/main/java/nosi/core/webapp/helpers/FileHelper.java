@@ -1,5 +1,6 @@
 package nosi.core.webapp.helpers;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -25,6 +26,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 import nosi.core.webapp.Core;
@@ -69,6 +72,10 @@ public class FileHelper {
 	
 	public static String convertInputStreamToBase64(InputStream stream) throws IOException {
 		return Base64.getEncoder().encodeToString(convertInputStreamToByte(stream));
+	}
+	
+	public static String convertInputStreamToBase64(byte[] bytes) throws IOException {
+		return Base64.getEncoder().encodeToString(bytes);
 	}
 	/*public static void reset(){
 		files = new HashMap<>();
@@ -143,6 +150,7 @@ public class FileHelper {
 	}
 	//Save file in a specific directory
 	public static boolean save(String path,String file_name,String data) throws IOException{	
+		boolean isSaved = false;
 		createDiretory(path);
 			BufferedWriter bw = null;
 			FileWriter fw = null;
@@ -157,8 +165,9 @@ public class FileHelper {
 				fw = new FileWriter(file.getAbsoluteFile(), false);
 				bw = new BufferedWriter(fw);
 				bw.write(data);
-				return true;
+				isSaved = true;
 			} catch (IOException e) {
+				isSaved = false;
 				e.printStackTrace();	
 			} finally {
 				try {	
@@ -170,7 +179,7 @@ public class FileHelper {
 					ex.printStackTrace();
 				}
 			}		
-		return false;
+		return isSaved;
 	}
 	
 	//Write data using default encode UTF-8
@@ -217,6 +226,30 @@ public class FileHelper {
 		return isSaved;
 	}
 	
+	
+	//save image using default encode UTF-8
+	public static boolean saveImage(String path,String filename,String formatName,Part file) throws IOException{
+		return saveImage(path, filename, formatName, file, ENCODE_UTF8,ENCODE_UTF8);
+	}
+	
+	public static boolean saveImage(String path,String filename,String formatName,Part filePart,String encode_in,String encode_out) throws IOException{
+		createDiretory(path);
+		boolean isSaved = false;
+		BufferedImage bImage = null;
+		try {
+			 String fileName = path+(filename!=null?(File.separator+filename):"");
+			 File file = new File(fileName);
+			 bImage = ImageIO.read(filePart.getInputStream());
+			 ImageIO.write(bImage, formatName,file);
+			 bImage.flush();
+			 isSaved = true;
+		}catch(IOException e) {
+			isSaved = false;
+			e.printStackTrace();
+		}
+		return isSaved;
+	}
+		
 	//Create directories
 	public static boolean createDiretory(String path){
 		Path dir = Paths.get(path);
@@ -280,6 +313,29 @@ public class FileHelper {
 					e.printStackTrace();
 				}
 				file.setReadable(false);	
+			}
+		}
+		return code.toString();
+	}
+	
+	
+	//Read file and return your content
+	public static String readImage(String basePath,String fileName){
+		StringBuilder  code = new StringBuilder();
+		if(Core.isNotNull(fileName))
+			fileName = basePath+File.separator+fileName;
+		else
+			fileName = basePath;
+		if(fileExists(fileName)){
+			BufferedImage bImage = null;
+			try {
+				File file = new File(fileName);
+				file.setReadable(true);	
+				bImage = ImageIO.read(file);
+				code.append(bImage.toString());
+				bImage.flush();
+			}catch(IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return code.toString();
