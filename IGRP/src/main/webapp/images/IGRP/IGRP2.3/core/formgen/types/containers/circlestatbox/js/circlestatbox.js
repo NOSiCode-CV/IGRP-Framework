@@ -25,16 +25,16 @@ this[VARS.name].declareContainer({
 				name      :'title',
 				label     :'Circle Box Title',
 				value     :'Circle Box Title',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
             container.setProperty({
                 name      :'lbl',
                 label     :'Percent Text',
                 value     :'percent',
-                isField   : true,
-                valuePersist : true
+                isField   : true
+               // valuePersist : true
             });
 
 			container.setProperty({
@@ -48,8 +48,8 @@ this[VARS.name].declareContainer({
 				name      :'desc',
 				label     :'Description',
 				value     :'Some Text Here',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
 			container.setProperty({
@@ -74,8 +74,8 @@ this[VARS.name].declareContainer({
 					},
 					size:'12'
 				},
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
             container.setPropriety({

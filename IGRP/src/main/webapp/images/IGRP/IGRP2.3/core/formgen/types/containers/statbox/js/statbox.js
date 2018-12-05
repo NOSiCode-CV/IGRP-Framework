@@ -23,7 +23,7 @@ this[VARS.name].declareContainer({
 				label     :'Box Title',
 				value     :'Box Title',
 				isField   : true,
-				valuePersist : true
+				//valuePersist : true
 			});
 
 			container.setProperty({
@@ -31,7 +31,7 @@ this[VARS.name].declareContainer({
 				label     :'Value',
 				value   : ""+Math.floor((Math.random() * 999) + 1),
 				isField   : true,
-				valuePersist : true
+				//valuePersist : true
 			});
 
 			container.setProperty({
@@ -39,7 +39,7 @@ this[VARS.name].declareContainer({
 				label     :'Url Text',
 				value     :'Read More...',
 				isField   : true,
-				valuePersist : true
+				//valuePersist : true 
 			});
 
 			container.setProperty({
@@ -47,7 +47,7 @@ this[VARS.name].declareContainer({
 				label     :'Url',
 				value     :'http://www.example.com' ,
 				isField   : true,
-				valuePersist : true
+				//valuePersist : true 
 			});
 
 			GEN.setTargetAttr(container,{
@@ -69,8 +69,8 @@ this[VARS.name].declareContainer({
 					},
 					size:'12'
 				},
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
 			GEN.setImgAttr(container,{

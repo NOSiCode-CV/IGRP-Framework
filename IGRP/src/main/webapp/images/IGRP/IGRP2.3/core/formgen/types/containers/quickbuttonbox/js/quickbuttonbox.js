@@ -29,16 +29,16 @@
 				name      :'title',
 				label     :'Title',
 				value     :'Box Title',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
 			container.setPropriety({
 				name    : 'val',
 				label   : 'Value',
 				value   : ""+Math.floor((Math.random() * 999) + 1),
-				isField : true,
-				valuePersist : true
+				isField : true
+				//valuePersist : true
 			});
 			
 			GEN.setBtnActionAttr(container,{
@@ -101,16 +101,16 @@
 					},
 					size:'12'
 				},
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 				
 			});
 
 			GEN.setImgAttr(container,{
 				name:'icn',
 				value:'fa-check',
-				isField   : true,
-				valuePersist : true
+				isField   : true
+				//valuePersist : true
 			});
 
 			/*container.setPropriety({
