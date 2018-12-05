@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -11,7 +9,6 @@ import nosi.core.gui.page.Page;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import static nosi.core.i18n.Translator.gt;
 import java.util.List;
 import java.util.Map;
 import javax.xml.transform.TransformerConfigurationException;

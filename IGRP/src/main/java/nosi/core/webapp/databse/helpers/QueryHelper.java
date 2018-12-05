@@ -364,8 +364,7 @@ public abstract class QueryHelper implements QueryInterface{
 			try {
 				conn.setAutoCommit(this.isAutoCommit);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				r.setError(e1.getMessage());
 			}
 			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
@@ -382,7 +381,6 @@ public abstract class QueryHelper implements QueryInterface{
 				} catch (SQLException e) {
 					r.setError(e.getMessage());
 					Core.log(e.getMessage());
-					e.printStackTrace();
 				}
 			}else {
 				try {
@@ -400,8 +398,7 @@ public abstract class QueryHelper implements QueryInterface{
 				if(!this.isAutoCommit)
 					conn.commit();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				r.setError(e.getMessage());
 			}finally {
 				try {
 					if(q!=null)
@@ -409,8 +406,7 @@ public abstract class QueryHelper implements QueryInterface{
 					if(conn!=null) 
 						conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					r.setError(e.getMessage());
 				}
 			}
 		}
@@ -538,8 +534,7 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface orderBy(String[]... orderByNames) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -554,8 +549,7 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface notBetween(String name, Object value, Object value2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

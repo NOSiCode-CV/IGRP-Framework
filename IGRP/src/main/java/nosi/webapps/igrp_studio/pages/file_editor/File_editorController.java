@@ -117,13 +117,15 @@ public class File_editorController extends Controller {
 		File[] content = dir.listFiles();
 		List<FileEditor> files = new LinkedList<>();
 		List<Map<String, Object>> folders = new LinkedList<>();
-		for (File f : content) {
-			if (f.isDirectory()) {
-				Map<String, Object> subList = listDirectory(app,f,false);
-				folders.add(subList);
-			} else {
-				if(f.getName().endsWith(".java")) {
-					this.addFile(files,f);
+		if(content!=null) {
+			for (File f : content) {
+				if (f.isDirectory()) {
+					Map<String, Object> subList = listDirectory(app,f,false);
+					folders.add(subList);
+				} else {
+					if(f.getName().endsWith(".java")) {
+						this.addFile(files,f);
+					}
 				}
 			}
 		}
