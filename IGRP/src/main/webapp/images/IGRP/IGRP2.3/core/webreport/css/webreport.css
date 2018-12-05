@@ -304,3 +304,13 @@ div[data-notify="container"].alert{
 div[data-notify="container"]{
 	top: 55px !important;
 }
+
+body.wb-report #igrp-global-modal{
+	z-index: 99999
+}
+
+.rw_datasorce_edit div.radio, 
+.rw_datasorce_edit div.checkbox{
+	margin: 0;
+
+}

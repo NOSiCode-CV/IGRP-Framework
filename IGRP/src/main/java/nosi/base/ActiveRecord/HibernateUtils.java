@@ -84,6 +84,7 @@ public class HibernateUtils {
 				}
 			}
 		}catch(org.hibernate.internal.util.config.ConfigurationException e) {
+			Core.setMessageError(e.getMessage());
 			throw new PermissionException("Acesso nao permitido");
 		}
 		return  registryBuilder.build();
