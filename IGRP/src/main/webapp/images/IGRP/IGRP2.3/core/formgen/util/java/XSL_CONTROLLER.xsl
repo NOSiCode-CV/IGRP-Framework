@@ -341,11 +341,12 @@
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_"/> 
-						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
+						<xsl:if test="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox'] or //rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
 							<xsl:call-template name="setSqlChart"/>						
-							<xsl:call-template name="setSqlCombobox"/>	
+							<xsl:call-template name="setSqlCombobox"/>					
+							<xsl:call-template name="setBoxValue"/>	
 							<xsl:call-template name="end-example"/>
 						</xsl:if>						
 
@@ -633,6 +634,10 @@
  		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']">
 	 		 	
 	 			<xsl:variable name="_url" select="./fields/*[@name = concat(@name,'_url')]/value" />
+	 			<xsl:variable name="_title" select="./fields/*[@name = concat(@name,'_title')]/value" />
+	 			<xsl:variable name="_bg" select="./fields/*[@name = concat(@name,'_bg')]/value" />
+	 			<xsl:variable name="_icn" select="./fields/*[@name = concat(@name,'_icn')]/value" />
+	 			<xsl:variable name="_txt" select="./fields/*[@name = concat(@name,'_txt')]/value" />
 	 			
 	 			<xsl:call-template name="newlineTab2"/>
 	 			
@@ -643,12 +648,39 @@
 	 			</xsl:variable>
 	 			
  				<xsl:value-of select="concat('model.','set', $instance_name,'_url(',$double_quotes, ./fields/*[contains(@name, '_url')]/value, $double_quotes,');')"/> 
+ 				<xsl:call-template name="newlineTab2"/>
+	 			<xsl:value-of select="concat('model.','set', $instance_name,'_title(',$double_quotes, ./fields/*[contains(@name, '_title')]/value, $double_quotes,');')"/> 
+				<xsl:call-template name="newlineTab2"/>
+	 			<xsl:value-of select="concat('model.','set', $instance_name,'_bg(',$double_quotes, ./fields/*[contains(@name, '_bg')]/value, $double_quotes,');')"/> 
+				<xsl:call-template name="newlineTab2"/>
+	 			<xsl:value-of select="concat('model.','set', $instance_name,'_icn(',$double_quotes, ./fields/*[contains(@name, '_icn')]/value, $double_quotes,');')"/> 
+				<xsl:call-template name="newlineTab2"/>
+	 			<xsl:value-of select="concat('model.','set', $instance_name,'_txt(',$double_quotes, ./fields/*[contains(@name, '_txt')]/value, $double_quotes,');')"/> 
 					
 	 	</xsl:for-each>
 	 	<xsl:call-template name="newlineTab2"/>
  	</xsl:template>
  	
- 	
+ 	<xsl:template name="setBoxValue">
+ 		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']">
+	 		 	
+	 			<xsl:variable name="_url" select="./fields/*[@name = concat(@name,'_url')]/value" />
+	 			<xsl:variable name="_val" select="./fields/*[@name = concat(@name,'_val')]/value" />
+	 			
+	 			<xsl:call-template name="newlineTab2"/>
+	 			
+	 			<xsl:variable name="instance_name">
+	 				<xsl:call-template name="CamelCaseWord">
+	 					<xsl:with-param name="text"><xsl:value-of select="name()" /></xsl:with-param>
+	 				</xsl:call-template>
+	 			</xsl:variable>
+	 			
+ 				<xsl:value-of select="concat('model.','set', $instance_name,'_url(','Core.getIGRPLink(',$double_quotes,'your app',$double_quotes,',your page',$double_quotes,',',$double_quotes,'your action',$double_quotes,');')"/>
+				<xsl:call-template name="newlineTab2"/>
+	 			<xsl:value-of select="concat('model.','set', $instance_name,'_val(',$double_quotes, ./fields/*[contains(@name, '_val')]/value, $double_quotes,');')"/> 					
+	 	</xsl:for-each>
+	 	<xsl:call-template name="newlineTab2"/>
+ 	</xsl:template>
  	
       
 </xsl:stylesheet>
