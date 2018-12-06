@@ -70,10 +70,10 @@ public class GestaodeacessoView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","true").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","true").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		org_nome = new TextField(model,"org_nome");
 		org_nome.setLabel(gt("Nome"));
@@ -83,11 +83,11 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		mostrar_perfis.setValue(new Config().getResolveUrl("igrp","PesquisarPerfil","index"));
 
-									mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("desc","true");
+									mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
 		
 
 

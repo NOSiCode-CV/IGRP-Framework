@@ -34,7 +34,8 @@ public class ListaEnvController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as name,'Sed iste sit stract anim' as dad,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as t_page_builder,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as name,'Deserunt sit natus totam offic' as dad,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as t_page_builder,'1' as id "));
+		
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
@@ -96,7 +97,7 @@ public class ListaEnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(importar)----*/
 		
 		/*----#end-code----*/
@@ -111,7 +112,7 @@ public class ListaEnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(novo)----*/
 		
 		/*----#end-code----*/
@@ -126,7 +127,7 @@ public class ListaEnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id = Core.getParam("p_id");
 		if (Core.isNotNull(p_id)) {
@@ -145,7 +146,7 @@ public class ListaEnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		Application app = new Application();
@@ -166,7 +167,7 @@ public class ListaEnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(configurar_base_dados)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -185,7 +186,7 @@ public class ListaEnvController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp_studio","ListaEnv","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(exportar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {

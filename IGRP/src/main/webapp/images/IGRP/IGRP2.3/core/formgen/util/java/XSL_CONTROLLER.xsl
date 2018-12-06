@@ -352,8 +352,7 @@
 
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
-				     		<xsl:with-param name="url" select="$url"/>
-				    
+				     		<xsl:with-param name="url" select="$url"/>				    
 				     	</xsl:call-template>			     
 							
 				     	<xsl:value-of select="'view.setModel(model);'"/>
@@ -363,8 +362,7 @@
 					</xsl:when>
 					
 					<xsl:when test="$type_render_='redirect'">
-						<xsl:call-template name="newlineTab2"/>		
-											
+						<xsl:call-template name="newlineTab2"/>														
 						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 					    <xsl:call-template name="newlineTab2"/>		
 					    					    	
@@ -387,7 +385,7 @@
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString()); //if submit, loads the values')"/>							
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
 						<xsl:call-template name="end-example"/>			
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
@@ -426,15 +424,41 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="$your_code=''">
+					  <xsl:call-template name="newlineTab2"/>		
+						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
+					    <xsl:call-template name="newlineTab2"/>							    					    	
+						<xsl:value-of select="'model.load();'"/>
+						<xsl:call-template name="start-example"/>		
+						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
+						<xsl:call-template name="newlineTab2"/>	
+										
+						<xsl:for-each select="//content/*[@type='table']">
+		 					<xsl:for-each select="fields/*[@iskey='true']">	
+		 					<xsl:choose>
+		 						<xsl:when test="@type='hidden'">
+		 							<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_',@tag,$double_quotes,',','Core.getParam(',$double_quotes,'p_',@tag,$double_quotes,'));')"/>					
+								</xsl:when>
+		 						<xsl:otherwise>
+		 							<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_',local-name(),$double_quotes,',','Core.getParam(',$double_quotes,'p_',local-name(),$double_quotes,'));')"/>				
+								</xsl:otherwise>
+		 					</xsl:choose>	 	
+		 					<xsl:call-template name="newlineTab2"/>			 						
+	 						</xsl:for-each> 	 			
+						</xsl:for-each>
+						
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
+						<xsl:call-template name="end-example"/>			
+						
 					
 					<xsl:call-template name="start-code">
 			     		<xsl:with-param name="type" select="$action"/>
 			     		<xsl:with-param name="url" select="$url"/>
 			     	</xsl:call-template>
 			     	
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
+					<xsl:call-template name="newlineTab2"/>		
+					<xsl:if test="not(@custom_return) or @custom_return!='true'">
+							<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
+					</xsl:if>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>  
@@ -681,6 +705,7 @@
 	 	</xsl:for-each>
 	 	<xsl:call-template name="newlineTab2"/>
  	</xsl:template>
+ 	
  	
       
 </xsl:stylesheet>

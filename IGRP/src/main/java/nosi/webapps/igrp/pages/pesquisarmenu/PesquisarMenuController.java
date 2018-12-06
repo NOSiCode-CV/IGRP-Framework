@@ -35,8 +35,9 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Rem stract magna stract accusantium sit totam anim sit iste doloremque laudantium accusantium elit d' as t1_menu_principal,'1' as ativo,'Sed dolor sed dolor elit aliqua voluptatem labore elit adipiscing stract omnis aliqua labore rem nat' as table_titulo,'Deserunt natus stract doloremque magna sed totam ipsum officia stract consectetur sit rem officia st' as pagina,'1' as checkbox,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sit anim aperiam consectetur mollit deserunt totam sed sit omnis anim perspiciatis rem mollit stract' as t1_menu_principal,'1' as ativo,'Magna aliqua magna voluptatem aliqua ut aliqua ipsum deserunt elit mollit iste adipiscing aliqua sed' as table_titulo,'Ut totam omnis sit accusantium dolor unde aliqua mollit aliqua accusantium sit voluptatem accusantiu' as pagina,'1' as checkbox,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
@@ -125,7 +126,7 @@ public class PesquisarMenuController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
 		this.addQueryString("app",model.getAplicacao());
       return this.forward("igrp","NovoMenu","index", this.queryString());
@@ -140,7 +141,7 @@ public class PesquisarMenuController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -159,7 +160,7 @@ public class PesquisarMenuController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		this.addQueryString("id_app",model.getAplicacao());

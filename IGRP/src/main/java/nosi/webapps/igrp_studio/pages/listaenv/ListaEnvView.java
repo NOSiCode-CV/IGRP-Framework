@@ -44,16 +44,16 @@ public class ListaEnvView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		status_check = new CheckBoxField(model,"status_check");
-		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		name = new LinkField(model,"name");
 		name.setLabel(gt("Name"));
 		name.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
 
-									name.propertie().add("name","p_name").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("desc","true");
+									name.propertie().add("name","p_name").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("desc","true");
 		
 		dad = new TextField(model,"dad");
 		dad.setLabel(gt("Código"));
@@ -63,11 +63,11 @@ public class ListaEnvView extends View {
 		t_page_builder.setLabel(gt("Page builder"));
 		t_page_builder.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
 
-									t_page_builder.propertie().add("name","p_t_page_builder").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("desc","true");
+									t_page_builder.propertie().add("name","p_t_page_builder").add("type","link").add("target","_self").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

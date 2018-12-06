@@ -303,7 +303,7 @@ a, button {
 
 .gen-settings-holder { 
 	text-align: right;
-	padding-bottom: 4px;
+/* 	padding-bottom: 4px; */
 	
 }
 
@@ -335,7 +335,7 @@ a, button {
     border: 1px solid transparent;
     font-size: 12px;
     background: transparent;
-    color: #97a0b3;
+    color: #54565aed;
 }
 
 /*
@@ -651,6 +651,7 @@ max-height: 34px;
     right: -1px;
     z-index: 5;
     opacity: 0;
+    background: rgba(253, 253, 253, 0.76);
     transition: opacity .5s;
     width: 68px;
 }

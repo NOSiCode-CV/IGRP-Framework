@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -29,7 +31,7 @@ public class ListaPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaPage model = new ListaPage();
 		model.load();
-		model.setLink_btn_nova_pagina("undefined","undefined","undefined");
+		model.setLink_btn_nova_pagina("igrp","Page","index");
 		model.setCrud_generator("igrp_studio","CRUDGenerator","index");
 		model.setBtn_import("igrp_studio","ImportArquivo","index");
 		ListaPageView view = new ListaPageView();
@@ -38,10 +40,11 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Officia unde voluptatem magna' as descricao_page,'1' as id_page,'1' as nome_page "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Consectetur magna iste sit vol' as descricao_page,'1' as id_page,'1' as nome_page "));
 		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'1' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
@@ -159,7 +162,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
@@ -175,7 +178,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -195,7 +198,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(visualizar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -215,7 +218,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -235,7 +238,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","Env","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -255,7 +258,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(download)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {
@@ -289,12 +292,11 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","File_editor","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","File_editor","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(file_editor)----*/
 		this.addQueryString("p_env_fk", Core.getParam("p_env_fk"));
 		/*----#end-code----*/
-		
-		return this.redirect("igrp_studio","File_editor","index", this.queryString());		
+		return this.redirect("igrp_studio","File_editor","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
