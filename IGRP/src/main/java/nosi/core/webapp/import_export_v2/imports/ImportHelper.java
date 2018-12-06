@@ -18,6 +18,7 @@ import nosi.core.webapp.import_export_v2.imports.modulo.ModuloImport;
 import nosi.core.webapp.import_export_v2.imports.others_class.OthersClassImport;
 import nosi.core.webapp.import_export_v2.imports.page.PageImport;
 import nosi.core.webapp.import_export_v2.imports.report.ReportImport;
+import nosi.core.webapp.import_export_v2.imports.transation.ImportTransation;
 import nosi.webapps.igrp.dao.Application;
 
 /**
@@ -60,6 +61,11 @@ public class ImportHelper {
 			PageImport page = new PageImport(application);
 			page.deserialization(this.getJsonContent(OptionsImportExport.PAGE.getFileName()));
 			imp.add(page);
+			
+
+			ImportTransation transation = new ImportTransation(application);
+			transation.deserialization(this.getJsonContent(OptionsImportExport.TRANSATION.getFileName()));
+			imp.add(transation);
 			
 			ReportImport report = new ReportImport(application);
 			report.deserialization(this.getJsonContent(OptionsImportExport.REPORT.getFileName()));

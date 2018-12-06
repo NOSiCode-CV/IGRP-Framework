@@ -586,11 +586,10 @@ public class Controller{
 				case 1: // render it 
 						try {
 							if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
-								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());								
 								Igrp.getInstance().getResponse().getOutputStream().flush();
 								Igrp.getInstance().getResponse().getOutputStream().close();
-								Igrp.getInstance().getResponse().flushBuffer();
-								return;
+								Igrp.getInstance().getResponse().flushBuffer();						         
 							}else if(responseWrapper.getFile()!=null){
 								 HttpServletResponse response = Igrp.getInstance().getResponse();
 								 String name = responseWrapper.getFile().getFileName();
