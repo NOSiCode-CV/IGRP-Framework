@@ -43,6 +43,10 @@ public class ExportSqlHelper {
 				view.table_pagina.setVisible(true);
 				this.loadPageData(model);
 			}
+			else if(t==OptionsImportExport.TRANSATION.getValor()) {
+				view.tbl_transation.setVisible(true);
+				this.loadTransationData(model);
+			}
 			else if(t==OptionsImportExport.REPORT.getValor()) {
 				view.table_report.setVisible(true);
 				this.loadReportData(model);
@@ -72,6 +76,9 @@ public class ExportSqlHelper {
 
 
 
+
+
+
 	private void showAllTable(Wizard_export_step_2View view, boolean isVisible) {
 		view.table_bpmn.setVisible(isVisible);
 		view.table_connections.setVisible(isVisible);
@@ -81,9 +88,17 @@ public class ExportSqlHelper {
 		view.table_pagina.setVisible(isVisible);
 		view.table_report.setVisible(isVisible);
 		view.table_modulo.setVisible(isVisible);
+		view.tbl_transation.setVisible(isVisible);
 		view.table_others_class.setVisible(isVisible);
 	}
 
+
+	private void loadTransationData(Wizard_export_step_2 model) {
+		String sql = "SELECT id as transation_ids,id as transation_ids_check, concat(code,' - ',descr) as descricao_transation "
+				   + "FROM tbl_transaction "
+				   + "WHERE status=1 AND env_fk=:application_id";
+		model.loadTbl_transation(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
+	}
 
 	private void loadOthersClassData(Wizard_export_step_2 model) {
 		String sql = "";
@@ -104,6 +119,7 @@ public class ExportSqlHelper {
 				model.loadTable_others_class(Core.query(null,sql));
 		}
 	}
+	
 	public void listFilesDirectory(String path) {
 		if(FileHelper.fileExists(path)){
 			File folder = new File(path);
