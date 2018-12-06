@@ -1,10 +1,12 @@
 package nosi.webapps.igrp_studio.pages.importarquivo;
+
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-
-
-
 
 public class ImportArquivo extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -17,6 +19,8 @@ public class ImportArquivo extends Model{
 	private String importar_jar_file;
 	@RParam(rParamName = "p_importar_sql_script")
 	private String importar_sql_script;
+	@RParam(rParamName = "p_importar_imagem")
+	private String importar_imagem;
 	@RParam(rParamName = "p_sectionheader_2_text")
 	private String sectionheader_2_text;
 	@RParam(rParamName = "p_sectionheader_3_text")
@@ -25,6 +29,8 @@ public class ImportArquivo extends Model{
 	private String sectionheader_4_text;
 	@RParam(rParamName = "p_sectionheader_5_text")
 	private String sectionheader_5_text;
+	@RParam(rParamName = "p_sectionheader_6_text")
+	private String sectionheader_6_text;
 	@RParam(rParamName = "p_arquivo_aplicacao")
 	private String arquivo_aplicacao;
 	@RParam(rParamName = "p_list_aplicacao")
@@ -39,6 +45,10 @@ public class ImportArquivo extends Model{
 	private String data_source;
 	@RParam(rParamName = "p_sql_script")
 	private String sql_script;
+	@RParam(rParamName = "p_aplicacao_combo_img")
+	private String aplicacao_combo_img;
+	@RParam(rParamName = "p_imagens")
+	private String imagens;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -75,6 +85,13 @@ public class ImportArquivo extends Model{
 		return this.importar_sql_script;
 	}
 	
+	public void setImportar_imagem(String importar_imagem){
+		this.importar_imagem = importar_imagem;
+	}
+	public String getImportar_imagem(){
+		return this.importar_imagem;
+	}
+	
 	public void setSectionheader_2_text(String sectionheader_2_text){
 		this.sectionheader_2_text = sectionheader_2_text;
 	}
@@ -101,6 +118,13 @@ public class ImportArquivo extends Model{
 	}
 	public String getSectionheader_5_text(){
 		return this.sectionheader_5_text;
+	}
+	
+	public void setSectionheader_6_text(String sectionheader_6_text){
+		this.sectionheader_6_text = sectionheader_6_text;
+	}
+	public String getSectionheader_6_text(){
+		return this.sectionheader_6_text;
 	}
 	
 	public void setArquivo_aplicacao(String arquivo_aplicacao){
@@ -150,6 +174,20 @@ public class ImportArquivo extends Model{
 	}
 	public String getSql_script(){
 		return this.sql_script;
+	}
+	
+	public void setAplicacao_combo_img(String aplicacao_combo_img){
+		this.aplicacao_combo_img = aplicacao_combo_img;
+	}
+	public String getAplicacao_combo_img(){
+		return this.aplicacao_combo_img;
+	}
+	
+	public void setImagens(String imagens){
+		this.imagens = imagens;
+	}
+	public String getImagens(){
+		return this.imagens;
 	}
 
 
