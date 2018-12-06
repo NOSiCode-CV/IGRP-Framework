@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180620</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -40,7 +40,9 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Importar Arquivos</value>
+                    <value>
+                        <![CDATA[Importar Arquivos]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -62,39 +64,60 @@
                     <label>Importar Sql Script</label>
                     <value/>
                 </importar_sql_script>
+                <importar_imagem name="p_importar_imagem" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-cloud-upload" maxlength="50">
+                    <label>Importar Imagem</label>
+                    <value/>
+                </importar_imagem>
             </fields>
         </tabcontent_1>
         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
-                    <value>Importar aplicação (.app.jar/.zip)</value>
+                    <value>
+                        <![CDATA[Importar aplicação (.app.jar/.zip)]]>
+                    </value>
                 </sectionheader_2_text>
             </fields>
         </sectionheader_2>
         <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
-                    <value>Importar página (.page.jar/.zip)</value>
+                    <value>
+                        <![CDATA[Importar página (.page.jar/.zip)]]>
+                    </value>
                 </sectionheader_3_text>
             </fields>
         </sectionheader_3>
         <sectionheader_4 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_4_text type="text" name="p_sectionheader_4_text" persist="true" maxlength="4000">
-                    <value>Importar jar File (.jar)</value>
+                    <value>
+                        <![CDATA[Importar jar File (.jar)]]>
+                    </value>
                 </sectionheader_4_text>
             </fields>
         </sectionheader_4>
         <sectionheader_5 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_5_text type="text" name="p_sectionheader_5_text" persist="true" maxlength="4000">
-                    <value>Importar Sql Script</value>
+                    <value>
+                        <![CDATA[Importar Sql Script]]>
+                    </value>
                 </sectionheader_5_text>
             </fields>
         </sectionheader_5>
+        <sectionheader_6 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_6_text type="text" name="p_sectionheader_6_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Importar Imagens (.jpg/.png/...)]]>
+                    </value>
+                </sectionheader_6_text>
+            </fields>
+        </sectionheader_6>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -135,7 +158,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="100" required="true" disabled="false" right="false" class="primary">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="100" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -154,7 +177,7 @@
         </form_1>
         <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <jar_file name="p_jar_file" type="file" accept=".jar" targetrend="" multiple="true" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
+                <jar_file name="p_jar_file" type="file" maxlength="10000" required="true" disabled="false" right="false" class="primary" accept="[object Object]" targetrend="[object Object]" multiple="false" rendvalue="false">
                     <label>Jar file</label>
                     <value/>
                 </jar_file>
@@ -217,7 +240,7 @@
                         </option>
                     </list>
                 </data_source>
-                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary">
                     <label>Sql Script</label>
                     <value/>
                 </sql_script>
@@ -234,5 +257,46 @@
                 </item>
             </tools-bar>
         </form_4>
+        <form_5 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao_combo_img name="p_aplicacao_combo_img" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao_combo_img>
+                <imagens name="p_imagens" type="file" accept="[object Object]" targetrend="[object Object]" multiple="true" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="primary">
+                    <label>Imagens</label>
+                    <value/>
+                </imagens>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="import_images">
+                    <title>Import</title>
+                    <app>igrp_studio</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-upload</img>
+                </item>
+            </tools-bar>
+        </form_5>
     </content>
 </rows>

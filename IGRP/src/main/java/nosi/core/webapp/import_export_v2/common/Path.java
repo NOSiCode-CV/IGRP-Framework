@@ -34,17 +34,17 @@ public class Path {
 	}
 
 
-	public static String getImageWorkSpace() {
+	public static String getImageWorkSpace(String nameApp) {
 		Config config = new Config();
 		String basePath = config.getWorkspace();
 		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
-			return config.getWorkspace()+File.separator+"src"+File.separator+"main"+File.separator+"webapp"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+"reports"; 			
+			return config.getWorkspace()+File.separator+"src"+File.separator+"main"+File.separator+"webapp"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp; 			
 		}
 		return null;
 	}
 	
-	public static String getImageServer() {
-		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+"reports";
+	public static String getImageServer(String nameApp) {
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/")+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"assets"+File.separator+"img"+File.separator+nameApp;
 	}
 	
 	public static String getRootPath() {

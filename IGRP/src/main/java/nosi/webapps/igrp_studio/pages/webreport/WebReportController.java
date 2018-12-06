@@ -503,11 +503,11 @@ public class WebReportController extends Controller {
 					int index = fileName.indexOf(".");
 					if(index!=-1) {
 						String extensionName = fileName.substring(index+1);
-						String workSapce = Path.getImageWorkSpace();
+						String workSapce = Path.getImageWorkSpace("reports");
 						if(Core.isNotNull(workSapce))//Saving in your workspace case exists
 							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
 						//Saving into server
-						r = FileHelper.saveImage(Path.getImageServer(), fileName,extensionName.toLowerCase(), file);
+						r = FileHelper.saveImage(Path.getImageServer("reports"), fileName,extensionName.toLowerCase(), file);
 					}
 				}
 			}

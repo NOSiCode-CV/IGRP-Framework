@@ -1,13 +1,17 @@
-
 package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Arrays;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.FlashMessage;
@@ -17,31 +21,31 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppZip;
 import nosi.core.webapp.import_export.ImportPluginIGRP;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.imports.ImportHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.core.webapp.Igrp;
 /*----#end-code----*/
-
-
-public class ImportArquivoController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class ImportArquivoController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		ImportArquivoView view = new ImportArquivoView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.aplicacao_combo_img.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
+		view.aplicacao_combo_img.setValue(new Application().getListApps());
 		if(Core.isNotNull(model.getAplicacao_script())) {
 			view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao_script())));
 		}
@@ -51,15 +55,13 @@ public class ImportArquivoController extends Controller {
 	}
 	
 	public Response actionBtm_import_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btm_import_aplicacao)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			boolean result = false;
@@ -113,15 +115,13 @@ public class ImportArquivoController extends Controller {
 	}
 	
 	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btm_importar_page)----*/
 		
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
@@ -162,7 +162,7 @@ public class ImportArquivoController extends Controller {
 							result = false;
 						}
 					}else {
-						Core.setMessageError("Extensão válido tem de ser .zip ou .app.jar... tente de novo!!");
+						Core.setMessageError("Extensão válido tem de ser .zip ou .page.jar... tente de novo!!");
 						
 					}
 					FileHelper.deletePartFile(file);
@@ -182,15 +182,13 @@ public class ImportArquivoController extends Controller {
 	}
 	
 	public Response actionImportar_jar_file() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(importar_jar_file)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			Collection<Part> parts;
@@ -217,15 +215,13 @@ public class ImportArquivoController extends Controller {
 	}
 	
 	public Response actionImportar_script() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		ImportArquivo model = new ImportArquivo();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(importar_script)----*/
 		try {
 			this.loadQueryString();
@@ -249,7 +245,53 @@ public class ImportArquivoController extends Controller {
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+	public Response actionImport_images() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ImportArquivo model = new ImportArquivo();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(import_images)----*/
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			try {
+				Collection<Part> parts = Core.getFiles();
+				boolean imported = false;
+				for(Part part:parts){
+					if(part!=null) {
+						String fileName = part.getSubmittedFileName();
+						if(Core.isNotNull(fileName)) {
+							int index = fileName.indexOf(".");
+							if(index!=-1) {
+								String extensionName = fileName.substring(index+1);
+								Application application = new Application().findOne(Integer.parseInt(model.getAplicacao_combo_img()));
+								String imgPath = application.getDad();
+								String workSapce = Path.getImageWorkSpace(imgPath);
+								if(Core.isNotNull(workSapce))//Saving in your workspace case exists
+									imported = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), part);
+								//Saving into server
+								imported = FileHelper.saveImage(Path.getImageServer(imgPath), fileName,extensionName.toLowerCase(), part);
+							}
+						}
+					}
+				}
+				if(imported){
+					Core.setMessageSuccess();
+				}else{
+					Core.setMessageError();
+				}
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
+	}
+	
+/*----#start-code(custom_actions)----*/
 	
 	/*----#end-code----*/
-	}
+}
