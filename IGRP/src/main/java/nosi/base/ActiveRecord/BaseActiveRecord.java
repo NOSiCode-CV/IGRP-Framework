@@ -15,6 +15,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.AnnotationException;
@@ -22,6 +23,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.ORDERBY;
 
 
 public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
@@ -30,6 +32,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private CriteriaQuery<T> criteria = null;
 	private Root<T> root = null;
 	private List<Predicate> predicates = null;
+	private List<Order> listOrder = null;
 	private String connectionName;
 	private T className;
 	private List<String> error;
@@ -230,6 +233,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if(this.predicates.size() > 0){
 				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
 				this.predicates = null;
+			}
+			if(this.listOrder.size() > 0) {
+				this.getCriteria().select(this.getRoot());
+				this.getCriteria().orderBy(listOrder);
 			}
 			list = (List<T>) session.createQuery(this.criteria).getResultList();
 			transaction.commit();
@@ -534,7 +541,27 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
  		return this.className;
  	}
 
-
+ 	@Override
+ 	public T orderBy(String columnName){
+ 		return orderBy(columnName, ORDERBY.ASC);
+ 	}
+ 	
+ 	@Override
+	public T orderBy(String columnName, String ascOrDesc){
+		if(columnName!=null && (ascOrDesc.equals(ORDERBY.ASC) || ascOrDesc.equals(ORDERBY.DESC))) {
+			
+	 			CriteriaBuilder cb = this.getBuilder();
+	 			CriteriaQuery<T> cq = this.getCriteria();
+	 			Root<T> r = this.getRoot();
+	 			cq.select(r);
+	 			if(ascOrDesc.equals(ORDERBY.ASC))
+	 				this.listOrder.add(cb.asc(r.get(columnName)));
+	 			else
+	 				this.listOrder.add(cb.desc(r.get(columnName)));
+		}
+		return this.className;
+	}
+ 	
 	private Session getSession() {		
 		return HibernateUtils.getSessionFactory(this.getConnectionName()).getCurrentSession();
 	}
@@ -647,6 +674,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private void startCriteria() {
 		if(this.predicates==null) {
 			this.predicates = new ArrayList<>();
+		}
+		if(this.listOrder==null) {
+			this.listOrder = new ArrayList<>();
 		}
 		if(this.builder==null) {
 			this.builder = this.getSessionFactory().getCriteriaBuilder();
