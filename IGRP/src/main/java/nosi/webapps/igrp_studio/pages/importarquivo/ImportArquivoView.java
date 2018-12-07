@@ -154,7 +154,7 @@ public class ImportArquivoView extends View {
 		
 		sql_script = new FileField(model,"sql_script");
 		sql_script.setLabel(gt("Sql Script"));
-		sql_script.propertie().add("name","p_sql_script").add("type","file").add("maxlength","250").add("required","true").add("disabled","false");
+		sql_script.propertie().add("name","p_sql_script").add("type","file").add("maxlength","250").add("required","true").add("disabled","false").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		
 		aplicacao_combo_img = new ListField(model,"aplicacao_combo_img");
 		aplicacao_combo_img.setLabel(gt("Aplicação"));
@@ -162,7 +162,7 @@ public class ImportArquivoView extends View {
 		
 		imagens = new FileField(model,"imagens");
 		imagens.setLabel(gt("Imagens"));
-		imagens.propertie().add("name","p_imagens").add("type","file").add("accept","[object Object]").add("targetrend","[object Object]").add("multiple","true").add("rendvalue","false").add("maxlength","250").add("required","true").add("disabled","false");
+		imagens.propertie().add("name","p_imagens").add("type","file").add("accept","image/*").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","250").add("required","true").add("disabled","false");
 		
 
 

@@ -240,7 +240,7 @@
                         </option>
                     </list>
                 </data_source>
-                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary">
+                <sql_script name="p_sql_script" type="file" maxlength="250" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Sql Script</label>
                     <value/>
                 </sql_script>
@@ -281,7 +281,7 @@
                         </option>
                     </list>
                 </aplicacao_combo_img>
-                <imagens name="p_imagens" type="file" accept="[object Object]" targetrend="[object Object]" multiple="true" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="primary">
+                <imagens name="p_imagens" type="file" accept="image/*" targetrend="" multiple="true" rendvalue="false" maxlength="250" required="true" disabled="false" right="false" class="primary">
                     <label>Imagens</label>
                     <value/>
                 </imagens>
