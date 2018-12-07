@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -16,7 +14,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.activit.rest.GroupService;
 import nosi.core.webapp.activit.rest.UserService;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -39,16 +36,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import org.wso2.carbon.um.ws.service.AddRole;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-import org.wso2.carbon.um.ws.service.dao.xsd.PermissionDTO;
-
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 

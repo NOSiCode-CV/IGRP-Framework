@@ -110,7 +110,7 @@ public class WebReportController extends Controller {
 			String id = Core.getParam("p_id");			
 			String [] data_sources = Core.getParamArray("p_datasorce_app");
 			//String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
-			if(fileTxt!=null && fileXsl!=null && Core.isNotNull(env_fk)){
+			if(fileTxt!=null && fileXsl!=null && Core.isNotNullMultiple(env_fk,title,code)){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
 				RepTemplate rt = new RepTemplate();
@@ -238,14 +238,14 @@ public class WebReportController extends Controller {
 	
 	public Response actionSaveEditTemplate(){
 	
-          String id_ = Core.getParam("p_id");
-          String code_ = Core.getParam("p_code");
-          String title_ = Core.getParam("p_title_report");
-          if(Core.isNotNull(id_)){
+          String id = Core.getParam("p_id");
+          String code = Core.getParam("p_code");
+          String title = Core.getParam("p_title_report");
+          if(Core.isNotNullMultiple(id,code,title)){
               RepTemplate rt = new RepTemplate();
-              rt = rt.findOne(Integer.parseInt(id_));
-              rt.setCode(code_);
-              rt.setName(title_);
+              rt = rt.findOne(Integer.parseInt(id));
+              rt.setCode(code);
+              rt.setName(title);
               rt.setDt_updated(new Date(System.currentTimeMillis()));
               rt = rt.update();
               if(rt!=null){

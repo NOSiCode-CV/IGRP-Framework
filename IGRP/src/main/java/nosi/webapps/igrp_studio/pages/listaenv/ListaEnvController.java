@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listaenv;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -10,13 +8,9 @@ import nosi.core.webapp.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Action;
-import nosi.core.webapp.export.app.ExportAppJava;
-import nosi.core.webapp.helpers.DateHelper;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +37,6 @@ public class ListaEnvController extends Controller {
 		Application app = new Application();		
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		String dad = Core.getCurrentDad();
 		if (Core.getCurrentUser().getUser_name().compareTo("igrpweb@nosi.cv")==0) {
 			apps = app.find()
 					// .andWhere("dad", "like", app.getDad())
@@ -209,7 +202,7 @@ public class ListaEnvController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-	private Response exportApp(Application app) {
+//	private Response exportApp(Application app) {
 //		
 //		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
 //			iea.putFilesPageConfig(a);
@@ -257,8 +250,8 @@ public class ListaEnvController extends Controller {
 //	//	System.out.println(pathJar); 
 //		
 //		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
-		return this.xSend(new ExportAppJava(app.getId()).export(),app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
-	}
+//		return this.xSend(new ExportAppJava(app.getId()).export(),app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
+//	}
 
 	public Response actionChangeStatus()
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {

@@ -1,9 +1,6 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-
 import java.io.File;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -259,8 +256,6 @@ public class ConfigDatabaseController extends Controller {
 	public Response actionChangeStatus() {
 		this.format = Response.FORMAT_JSON;
         String id = Core.getParam("p_id");
-        int status = Core.getParamInt("p_status");
-        
         boolean response = false;
         
         if(id != null) {
