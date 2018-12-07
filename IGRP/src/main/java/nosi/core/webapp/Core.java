@@ -2081,6 +2081,18 @@ public final class Core { // Not inherit
 		return new QuerySelect().validateQuery(config_env, query);
 	}
 	
+	/**
+	 * Return the link to use in IGRP
+	 * 
+	 * @param app
+	 * @param page
+	 * @param action
+	 * @return
+	 */
+	public static String getIGRPLink(String app,String page,String action) {
+		return new Config().getResolveUrl(app,page,action);
+	}
+	
 	private Core() {
 	} // Not instantiate
 
