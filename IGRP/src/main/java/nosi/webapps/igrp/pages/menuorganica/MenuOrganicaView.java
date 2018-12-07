@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class MenuOrganicaView extends View {
 
@@ -57,7 +58,7 @@ public class MenuOrganicaView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
-		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar","submit","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar","submit_ajax","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		btn_novo = new IGRPButton("Novo","igrp","MenuOrganica","novo","modal|refresh","success|fa-plus-square-o","","");

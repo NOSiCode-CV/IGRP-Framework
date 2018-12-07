@@ -14,11 +14,10 @@ import java.util.HashMap;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
+public class NovoMenuController extends Controller {
 
-public class NovoMenuController extends Controller {		
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		NovoMenu model = new NovoMenu();
 		model.load();
 		NovoMenuView view = new NovoMenuView();
@@ -36,9 +35,9 @@ public class NovoMenuController extends Controller {
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
-			
+
 		if (Core.isNotNullOrZero(id)) {
-          // If its a update it will enter here and the value p_id is from the GET url
+			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
 			if (null != menu.getMenu())
 				model.setSelf_id(menu.getMenu().getId());
@@ -50,25 +49,25 @@ public class NovoMenuController extends Controller {
 			model.setTitulo(menu.getDescr());
 			if (Core.isNotNull(Core.getParam("ichange"))) {
 				model.setEnv_fk(model.getEnv_fk());
-              if(Core.isNotNull(model.getAction_fk()))                
-                 model.setTitulo(getPageTituleByID(model));
+				if (Core.isNotNull(model.getAction_fk()))
+					model.setTitulo(getPageTituleByID(model));
 			} else {
 				model.setEnv_fk(menu.getApplication().getId());
 				if (menu.getAction() != null)
-                  	model.setAction_fk(menu.getAction().getId());          
-             
+					model.setAction_fk(menu.getAction().getId());
+
 			}
 		} else {
 			int app = Core.getParamInt("app");
-			if(app != 0)
+			if (app != 0)
 				model.setEnv_fk(app);
 			// New menu by default opens in the same window
 			model.setTarget("_self");
 			model.setOrderby(99);
 			model.setStatus(1);
-          if (Core.isNotNull(Core.getParam("ichange")) && Core.isNotNullOrZero(model.getAction_fk())) {	
-                 model.setTitulo(getPageTituleByID(model));
-			} 
+			if (Core.isNotNull(Core.getParam("ichange")) && Core.isNotNullOrZero(model.getAction_fk())) {
+				model.setTitulo(getPageTituleByID(model));
+			}
 		}
 
 		HashMap<String, String> targets = new HashMap<>();
@@ -88,18 +87,18 @@ public class NovoMenuController extends Controller {
 		view.link.setVisible(false);
 
 		if (Core.isNotNullOrZero(id)) {
-			//view.btn_gravar.setLink("gravar&p_id=" + id);
+			// view.btn_gravar.setLink("gravar&p_id=" + id);
 			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
 		} else
 			view.status.setValue(1);
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		NovoMenu model = new NovoMenu();
 		model.load();
 		/*----#gen-example
@@ -112,19 +111,19 @@ public class NovoMenuController extends Controller {
 		----#gen-example */
 		/*----#start-code(gravar)----*/
 		int id = model.getId();
-		Menu menu;		
+		Menu menu;
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			
+
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
-				menu = new Menu().findOne(id);			
+				menu = new Menu().findOne(id);
 			} else {
 				// NEW menu will enter here
 				menu = new Menu();
-			}			
+			}
 
 			menu.setDescr(model.getTitulo());
-			menu.setApplication(new Application().findOne(model.getEnv_fk()));
+			menu.setApplication(Core.findApplicationById(model.getEnv_fk()));
 			menu.setFlg_base(model.getFlg_base());
 			menu.setOrderby(model.getOrderby());
 			menu.setStatus(model.getStatus());
@@ -137,53 +136,66 @@ public class NovoMenuController extends Controller {
 				menu.setAction(new Action().findOne(model.getAction_fk()));
 				menu.setMenu(menu);
 			}
-				
+
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
 				if (menu != null)
 					Core.setMessageSuccess("Menu atualizado com sucesso.");
 				else {
-					Core.setMessageError("Erro ao atualizar menu.");					
+					Core.setMessageError("Erro ao atualizar menu.");
 				}
 			} else {
-				if(Core.isNotNull(menu.getAction()) &&
-						Core.isNotNull(new Menu().find().andWhere("action","=", menu.getAction().getId()).andWhere("descr", "=", menu.getDescr()).one())) {
-					Core.setMessageWarning("NMMSG1");
-					return this.forward("igrp", "NovoMenu", "index"); 
-				}else {
-					// NEW menu will enter here
-					menu = menu.insert();
-					if (menu != null) {
-						Core.setMessageSuccess();
-					} else {
-						Core.setMessageError();
+				// NEW menu will enter here
+				if (Core.isNotNull(menu.getAction())) {
+					if (Core.isNotNull(new Menu().find().andWhere("application.id", "=", menu.getApplication().getId())
+							.andWhere("action", "=", menu.getAction().getId()).andWhere("descr", "=", menu.getDescr())
+							.one())) {
+						Core.setMessageWarning("NMMSG1");
+						return this.forward("igrp", "NovoMenu", "index");
 					}
+
+				} else {
+					//Menu is Parent
+					if (Core.isNotNull(new Menu().find().andWhere("application.id", "=", menu.getApplication().getId())
+							.andWhere("descr", "=", menu.getDescr()).one())) {
+						Core.setMessageWarning("NMMSG1");
+						return this.forward("igrp", "NovoMenu", "index");
+					}
+
+				}
+			// New can be add if reach here
+				menu = menu.insert();
+				if (menu != null) {
+					Core.setMessageSuccess();
+				} else {
+					Core.setMessageError();
 				}
 			}
+
 		}
-		if (Core.isNotNullOrZero(id)) {					
-			return this.forward("igrp", "NovoMenu", "index"); //redirect para não trans
-		}else if(Core.isNotNullOrZero(model.getEnv_fk())) {
+		if (Core.isNotNullOrZero(id))
+
+		{
+			return this.forward("igrp", "NovoMenu", "index"); // redirect para não trans
+		} else if (Core.isNotNullOrZero(model.getEnv_fk())) {
 			this.addQueryString("app", model.getEnv_fk());
-			return this.redirect("igrp","NovoMenu","index", this.queryString());
+			return this.redirect("igrp", "NovoMenu", "index", this.queryString());
 		}
-			
-		
 
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
+		return this.redirect("igrp", "PesquisarMenu", "index", this.queryString());
 	}
-	
+
 	/*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
-		//System.out.println(model.getAction_fk());
-		if(Core.isNotNull(model.getAction_fk())) {
-			final Action actionOne = new Action().find().andWhere("id","=",model.getAction_fk()).one();
-			if(Core.isNotNull(actionOne))
+		// System.out.println(model.getAction_fk());
+		if (Core.isNotNull(model.getAction_fk())) {
+			final Action actionOne = new Action().find().andWhere("id", "=", model.getAction_fk()).one();
+			if (Core.isNotNull(actionOne))
 				return actionOne.getPage_descr();
-		}		
+		}
 		return "";
 	}
 	/*----#end-code----*/
-	}
+}

@@ -43,7 +43,7 @@
                 <app>igrp</app>
                 <page>MenuOrganica</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>submit_ajax</target>
                 <img>primary|fa-save</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
             </item>
@@ -63,31 +63,31 @@
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Deserunt laudantium accusantiu</descricao>
+                        <descricao name="p_descricao">Magna sed iste magna doloremqu</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Totam sit iste sit aliqua</descricao>
+                        <descricao name="p_descricao">Aperiam ipsum anim amet laudan</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Stract consectetur amet accusa</descricao>
+                        <descricao name="p_descricao">Dolor amet laudantium ipsum is</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Voluptatem natus totam adipisc</descricao>
+                        <descricao name="p_descricao">Aperiam mollit rem sit ipsum</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Voluptatem elit amet sit molli</descricao>
+                        <descricao name="p_descricao">Accusantium sed consectetur de</descricao>
                         <app name="p_app" tag="app">1</app>
                     </row>
                 </value>

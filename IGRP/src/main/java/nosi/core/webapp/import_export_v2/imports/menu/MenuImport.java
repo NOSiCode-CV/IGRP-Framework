@@ -43,10 +43,14 @@ public class MenuImport implements IImport{
 							.one();
 					this.insertMenu(m.getMenu(),action);
 				}else {
-					action = action.find()
-							.andWhere("application.dad", "=",m.getDad_page())
+					//Is Parent
+					if(Core.isNotNull(m.getDad_page()))
+						action = action.find()
+							.andWhere("application.dad", "=", m.getDad_page())
 							.andWhere("page", "=",m.getPage_name())
 							.one();
+					else
+						action=null;
 					this.insertMenu(m,action);
 				}
 			});
@@ -62,8 +66,26 @@ public class MenuImport implements IImport{
 				new_menu.setApplication(new Application().findByDad(m.getDad_menu()));
 			}
 			new_menu.setAction(action);
-			new_menu = new_menu.insert();
-			this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
+			if (Core.isNotNull(new_menu.getAction())) {
+				if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
+						.andWhere("action", "=", new_menu.getAction().getId()).andWhere("descr", "=", new_menu.getDescr())
+						.one())) {
+					new_menu = new_menu.insert();
+					this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
+				}
+
+			} else {
+				//Menu is Parent
+				if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
+						.andWhere("descr", "=", new_menu.getDescr()).one())) {
+					new_menu = new_menu.insert();
+					this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
+				}
+
+			}
+	
+			
+			
 	}
 
 	@Override

@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ConfigDatabaseView extends View {
 
@@ -125,7 +128,7 @@ public class ConfigDatabaseView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_gravar = new IGRPButton("Testar conexão e gravar ","igrp","ConfigDatabase","gravar","submit","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Testar conexão e gravar","igrp","ConfigDatabase","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		btn_edit = new IGRPButton("Edit","igrp","ConfigDatabase","edit","submit","warning|fa-pencil","","");

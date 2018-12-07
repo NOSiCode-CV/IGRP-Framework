@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -24,7 +26,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Perspiciatis amet unde rem ist' as descricao,'1' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Totam mollit ut rem elit' as descricao,'1' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
     
@@ -105,7 +107,7 @@ public class MenuOrganicaController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","MenuOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") ) {
@@ -129,7 +131,7 @@ public class MenuOrganicaController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(novo)----*/
 		int env_fk = Core.getParamInt("env_fk");
 		this.addQueryString("app",env_fk); //to send a query string in the URL

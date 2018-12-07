@@ -701,9 +701,10 @@
 	 			
  				<xsl:value-of select="concat('model.','set', $instance_name,'_url(','Core.getIGRPLink(',$double_quotes,'your app',$double_quotes,',your page',$double_quotes,',',$double_quotes,'your action',$double_quotes,');')"/>
 				<xsl:call-template name="newlineTab2"/>
-	 			<xsl:value-of select="concat('model.','set', $instance_name,'_val(',$double_quotes, ./fields/*[contains(@name, '_val')]/value, $double_quotes,');')"/> 					
+	 			<xsl:value-of select="concat('model.','set', $instance_name,'_val(',$double_quotes, ./fields/*[contains(@name, '_val')]/value, $double_quotes,');')"/> 		
+	 			<xsl:call-template name="newlineTab2"/>			
 	 	</xsl:for-each>
-	 	<xsl:call-template name="newlineTab2"/>
+	
  	</xsl:template>
  	
  	

@@ -648,10 +648,11 @@ max-height: 34px;
 .gen-field-edt-options{
 	position: absolute;
     top: 5px;
-    right: -1px;
+    right: 0px;
     z-index: 5;
     opacity: 0;
     background: rgba(253, 253, 253, 0.76);
+    box-shadow: 0 0px 6px rgba(0, 0, 0, 0.3);
     transition: opacity .5s;
     width: 68px;
 }

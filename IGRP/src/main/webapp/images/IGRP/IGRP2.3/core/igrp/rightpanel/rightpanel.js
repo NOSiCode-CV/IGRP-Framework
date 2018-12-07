@@ -28,9 +28,12 @@
 
 				contents.ready(function(){
 					
-					if($('body',contents)[0])
-
+					if($('body',contents)[0]){
+						$('.iframe-nav-close',$(window.parent.document)).addClass('hidden');
 						modal.removeClass('loading');
+					}
+
+						
 	
 				});
 
@@ -51,11 +54,13 @@
       			
   			var iframe = $('iframe',modal);
 
-			iframe.attr('src','');
+			//iframe.attr('src','');
 
 			if (modal.attr('close') && modal.attr('close') == 'refresh')
 
 				$.IGRP.targets.closerefresh.action();
+			
+			$('.iframe-nav-close',$(window.parent.document)).removeClass('hidden');
 
 		},
 

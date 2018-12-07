@@ -670,7 +670,7 @@ body.sidebar-off .navbar-brand {
 /*modals*/
 .modal-content{
   border-radius: 0;
-  border: 0
+  border: 0; 
 }
 .modal-body:after{
   content:"";
@@ -759,11 +759,11 @@ body.sidebar-off .navbar-brand {
 
 #igrp-iframe-nav .modal-dialog{
   position: absolute;
-  width: 85%;
-  height: 85%;
-  margin: 0;
-  left: 7.5%;
-  top: 7.5%;
+    width: 93%;
+    height: 93%;
+    margin: 0;
+    left: 3.5%;
+    top: 3.5%;
   -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
   box-shadow: 0 5px 15px rgba(0,0,0,.5);
   background: transparent;
@@ -778,17 +778,22 @@ body.sidebar-off .navbar-brand {
   outline: 1px solid whitesmoke
 }
 
-#igrp-iframe-nav .iframe-nav-close:hover{
-  color: #fff;
+#igrp-iframe-nav .iframe-nav-close:hover {
+    color: #333333a1;
+    background: #eee;
 }
-
+ .iframe-nav-close{
+   z-index: 1;
+   }
 #igrp-iframe-nav .iframe-nav-close{
-  color: #fff;
+  color: #8e8d8df0;
   position: absolute;
-  right: 7.5%;
+  right: 3.5%;
+  padding: 0px 8px;
   font-size: 24px;
-  top: 7.5%;
-  margin-right: -30px;
+  top: 3.5%;
+
+  margin-right: 6px;
   cursor: pointer;
   /*text-shadow: 0 5px 15px rgba(0,0,0,.5);*/
 }
@@ -872,7 +877,7 @@ body.sidebar-off .navbar-brand {
 /*GLOBAL*/
 
 body[has-menu="false"] .container-fluid{
-  padding:25px 0
+  padding:15px 0
 }
 
 body[has-menu="false"] #igrp-contents{
@@ -1116,7 +1121,7 @@ body[has-menu="true"] .content>.row:first-child{
   margin-top: 0
 }*/
 .gen-container-item{
-  margin-bottom:30px;
+  margin-bottom:20px;
   clear: both;
 }
 

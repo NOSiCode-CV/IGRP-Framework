@@ -43,15 +43,18 @@
    background: #f5f5f5
 }
 
-.igrp-right-panel-close{
+.igrp-right-panel-close {
     position: absolute;
     z-index: 10;
-    color: white;
-    left: -30px;
+    color: #909090;
+    left: 6px;
     font-size: 24px;
     font-weight: 300;
-    top: 8px;
-    cursor: pointer;
-   
+    top: 0px;
+    cursor: pointer;   
+}
+#igrp-right-panel .igrp-right-panel-close :hover {
+    color: #333333a1;
+    background: #eee;
 }
 

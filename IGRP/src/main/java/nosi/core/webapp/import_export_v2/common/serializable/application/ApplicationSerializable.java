@@ -17,6 +17,7 @@ public class ApplicationSerializable implements Serializable {
 	private String name;
 	private String img_src;
 	private String description;
+	private String version;
 	private int status;
 	private String template;
 	private int externo;
@@ -75,5 +76,17 @@ public class ApplicationSerializable implements Serializable {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
 	}
 }

@@ -1,5 +1,6 @@
 package nosi.core.webapp.import_export_v2.exports.application;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.serializable.application.ApplicationSerializable;
@@ -41,6 +42,7 @@ public class ApplicationExport implements IExport{
 	@Override
 	public void add(String id) {
 		Core.mapper(this.application, this.applicationSerializable);
+		this.applicationSerializable.setVersion(new Config().VERSION);
 	}
 
 }

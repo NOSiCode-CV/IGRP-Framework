@@ -1,7 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
-import java.io.File;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -16,7 +17,7 @@ import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
+import java.io.File;
 import org.json.JSONObject;
 
 import nosi.core.igrp.mingrations.MigrationIGRP;
@@ -32,7 +33,7 @@ public class ConfigDatabaseController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Iste rem labore natus rem' as nome_de_conexao_tabela,'Consectetur amet rem consectet' as user_name_tabela,'Anim perspiciatis magna accusa' as tipo_de_base_de_dados_tabela,'Aperiam natus lorem perspiciat' as t_url_connection,'Accusantium anim elit magna un' as t_driver_connection,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Sit ipsum doloremque dolor sit' as nome_de_conexao_tabela,'Rem labore amet lorem amet' as user_name_tabela,'Dolor laudantium elit unde per' as tipo_de_base_de_dados_tabela,'Mollit amet unde doloremque lo' as t_url_connection,'Mollit anim ut amet adipiscing' as t_driver_connection,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -102,8 +103,12 @@ public class ConfigDatabaseController extends Controller {
 				}
 				
 			} else
-			if(Core.isNotNull(model.getTipo_base_dados())) {
-				model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));
+				if(Core.isNotNull(model.getTipo_base_dados())) {
+					if(Core.isNotNull(model.getUrl_connection())){
+						if(!model.getUrl_connection().contains(model.getTipo_base_dados()))
+							model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));
+					}else
+						model.setUrl_connection(DatabaseConfigHelper.getUrlConnections(model.getTipo_base_dados()));	
 				model.setDriver_connection(DatabaseConfigHelper.getDatabaseDriversExamples(model.getTipo_base_dados()));
 				Integer idApp = Core.toInt(model.getAplicacao());
 				Application app = new Application().findOne(idApp);
@@ -133,7 +138,7 @@ public class ConfigDatabaseController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		
       if (Igrp.getMethod().equalsIgnoreCase("post")) {		
@@ -188,7 +193,7 @@ public class ConfigDatabaseController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(edit)----*/
 		this.addQueryString("isEdit", true);
         this.addQueryString("p_id_connection", Core.getParam("p_id"));
@@ -205,7 +210,7 @@ public class ConfigDatabaseController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","ConfigDatabase","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(delete)----*/
 		Config_env obj = new Config_env().findOne(Core.getParamInt("p_id"));
 		
