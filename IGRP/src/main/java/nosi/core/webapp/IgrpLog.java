@@ -31,13 +31,26 @@ public final class IgrpLog implements Component { // Not inherited
 		Set<String> paramNames = Igrp.getInstance().getRequest().getParameterMap().keySet();
 		Map<String, String[]> params =  Igrp.getInstance().getRequest().getParameterMap();
 		Iterator<String> i = paramNames.iterator();
+		
+		String qs = Igrp.getInstance().getRequest().getQueryString();
+		
 		while(i.hasNext()) {
 			String key = i.next();
 			String values = "";
-			String []aux = params.get(key);
-			for(int y = 0; y < aux.length; y++)
-				values += aux[y];
-			this.msgLog.add(key + " = " + values + " ");
+		/*	String []result = Igrp.getInstance().getRequest().getParameterValues(key);
+			if(result != null && result.length > 1) {
+				values += "[";
+				for(int j = 0; j < result.length; j++) {
+					values += result[j];
+					if(j < result.length - 1)
+						values += ",";
+				}		
+				values += "]";
+			}else*/
+				values = Igrp.getInstance().getRequest().getParameter(key);
+				
+			//if(!this.msgLog.contains(key + " = " + values + " "))
+				this.msgLog.add(key + " = " + values + " ");
 		}
 	}
 
@@ -47,7 +60,6 @@ public final class IgrpLog implements Component { // Not inherited
 	@Override
 	public void init(HttpServletRequest request) {
 		this.msgLog = new ArrayList<String>();
-		//this.func1();
 	}
 	
 }

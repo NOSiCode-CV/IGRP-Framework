@@ -70,6 +70,14 @@ public class IGRPMessage {
 			this.result.endElement();
 		}
 		
+		// Debug 
+		for(String msg : flashMessage.getMessages(FlashMessage.DEBUG)){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", "debug");
+			this.result.text(msg);
+			this.result.endElement();
+		}
+		
 		this.result.endElement();
 	}
 	
