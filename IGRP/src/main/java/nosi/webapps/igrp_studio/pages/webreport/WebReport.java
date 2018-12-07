@@ -1,9 +1,12 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp_studio.pages.webreport;
-import nosi.core.config.Config;
+
+
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.SeparatorList;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +20,13 @@ public class WebReport extends Model{
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
 	@RParam(rParamName = "p_datasorce_app")
-	private String datasorce_app;
+	private String[] datasorce_app;
 	@RParam(rParamName = "p_report_editor")
 	private String report_editor;
 	@RParam(rParamName = "p_link_add_source")
-	private String link_add_source;
+	private IGRPLink link_add_source;
+	@RParam(rParamName = "p_link_add_source_desc")
+	private String link_add_source_desc;
 	@RParam(rParamName = "p_dialog_titulo_report")
 	private String dialog_titulo_report;
 	@RParam(rParamName = "p_dialog_keys_report")
@@ -31,28 +36,38 @@ public class WebReport extends Model{
 	@RParam(rParamName = "p_title_report")
 	private String title_report;
 	@RParam(rParamName = "p_link_source")
-	private String p_link_source;
+	private String link_source;
 	@RParam(rParamName = "p_edit_name_report")
-	private String p_edit_name_report;
+	private String edit_name_report;
 	@RParam(rParamName = "p_link_config")
-	private String p_link_config;
-
-	@SeparatorList(name = Gen_table.class)
-	private List<Gen_table> gen_table = new ArrayList<>();
+	private String link_config;
+	@RParam(rParamName = "p_link_upload_img")
+	private String link_upload_img;
+	
+	private List<Gen_table> gen_table = new ArrayList<>();	
 	public void setGen_table(List<Gen_table> gen_table){
 		this.gen_table = gen_table;
 	}
-	public List<Gen_table> getgen_table(){
+	public List<Gen_table> getGen_table(){
 		return this.gen_table;
 	}
-
-	@SeparatorList(name = Chart_1.class)
-	private List<Chart_1> chart_1 = new ArrayList<>();
-	public void setChart_1(List<Chart_1> chart_1){
-		this.chart_1 = chart_1;
+	@RParam(rParamName = "p_gen_table_id")
+	private String[] p_gen_table_id;
+	@RParam(rParamName = "p_gen_table_del")
+	private String[] p_gen_table_del;
+	
+	public void setP_gen_table_id(String[] p_gen_table_id){
+		this.p_gen_table_id = p_gen_table_id;
 	}
-	public List<Chart_1> getchart_1(){
-		return this.chart_1;
+	public String[] getP_gen_table_id(){
+		return this.p_gen_table_id;
+	}
+	
+	public void setP_gen_table_del(String[] p_gen_table_del){
+		this.p_gen_table_del = p_gen_table_del;
+	}
+	public String[] getP_gen_table_del(){
+		return this.p_gen_table_del;
 	}
 	
 	public void setPage_title_text(String page_title_text){
@@ -83,10 +98,10 @@ public class WebReport extends Model{
 		return this.env_fk;
 	}
 	
-	public void setDatasorce_app(String datasorce_app){
+	public void setDatasorce_app(String[] datasorce_app){
 		this.datasorce_app = datasorce_app;
 	}
-	public String getDatasorce_app(){
+	public String[] getDatasorce_app(){
 		return this.datasorce_app;
 	}
 	
@@ -97,10 +112,25 @@ public class WebReport extends Model{
 		return this.report_editor;
 	}
 	
-	public void setLink_add_source(String app,String page,String action){
-		this.link_add_source = new Config().getResolveUrl(app, page, action);
+	public IGRPLink setLink_add_source(String app,String page,String action){
+		this.link_add_source = new IGRPLink(app,page,action);
+		return this.link_add_source;
 	}
-	public String getLink_add_source(){
+	public IGRPLink getLink_add_source(){
+		return this.link_add_source;
+	}
+	public void setLink_add_source_desc(String link_add_source_desc){
+		this.link_add_source_desc = link_add_source_desc;
+	}
+	public String getLink_add_source_desc(){
+		return this.link_add_source_desc;
+	}
+	public IGRPLink setLink_add_source(String link){
+		this.link_add_source = new IGRPLink(link);
+		return this.link_add_source;
+	}
+	public IGRPLink setLink_add_source(Report link){
+		this.link_add_source = new IGRPLink(link);
 		return this.link_add_source;
 	}
 	
@@ -132,34 +162,41 @@ public class WebReport extends Model{
 		return this.title_report;
 	}
 	
-	public void setP_link_source(String p_link_source){
-		this.p_link_source = p_link_source;
+	public void setLink_source(String link_source){
+		this.link_source = link_source;
 	}
-	public String getP_link_source(){
-		return this.p_link_source;
-	}
-	
-	public void setP_edit_name_report(String p_edit_name_report){
-		this.p_edit_name_report = p_edit_name_report;
-	}
-	public String getP_edit_name_report(){
-		return this.p_edit_name_report;
+	public String getLink_source(){
+		return this.link_source;
 	}
 	
-	public void setP_link_config(String p_link_config){
-		this.p_link_config = p_link_config;
+	public void setEdit_name_report(String edit_name_report){
+		this.edit_name_report = edit_name_report;
 	}
-	public String getP_link_config(){
-		return this.p_link_config;
+	public String getEdit_name_report(){
+		return this.edit_name_report;
+	}
+	
+	public void setLink_config(String link_config){
+		this.link_config = link_config;
+	}
+	public String getLink_config(){
+		return this.link_config;
+	}
+	
+	public void setLink_upload_img(String link_upload_img){
+		this.link_upload_img = link_upload_img;
+	}
+	public String getLink_upload_img(){
+		return this.link_upload_img;
 	}
 
 
-	public static class Gen_table{
+	public static class Gen_table extends IGRPTable.Table{
 		private String title;
-		private String link;
+		private IGRPLink link;
 		private String link_desc;
 		private String descricao;
-		private Integer id;
+		private int id;
 		public void setTitle(String title){
 			this.title = title;
 		}
@@ -167,10 +204,11 @@ public class WebReport extends Model{
 			return this.title;
 		}
 
-		public void setLink(String app,String page,String action){
-			this.link = new Config().getResolveUrl(app, page, action);
+		public IGRPLink setLink(String app,String page,String action){
+			this.link = new IGRPLink(app,page,action);
+			return this.link;
 		}
-		public String getLink(){
+		public IGRPLink getLink(){
 			return this.link;
 		}
 		public void setLink_desc(String link_desc){
@@ -179,6 +217,14 @@ public class WebReport extends Model{
 		public String getLink_desc(){
 			return this.link_desc;
 		}
+	public IGRPLink setLink(String link){
+		this.link = new IGRPLink(link);
+		return this.link;
+	}
+	public IGRPLink setLink(Report link){
+		this.link = new IGRPLink(link);
+		return this.link;
+	}
 
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
@@ -187,55 +233,17 @@ public class WebReport extends Model{
 			return this.descricao;
 		}
 
-		public void setId(Integer id){
+		public void setId(int id){
 			this.id = id;
 		}
-		public Integer getId(){
+		public int getId(){
 			return this.id;
 		}
 
 	}
-	public static class Chart_1{
-		private String Ano;
-		private String X1;
-		private String X2;
-		private String X3;
-		private String X4;
-		public void setAno(String Ano){
-			this.Ano = Ano;
-		}
-		public String getAno(){
-			return this.Ano;
-		}
 
-		public void setX1(String X1){
-			this.X1 = X1;
-		}
-		public String getX1(){
-			return this.X1;
-		}
-
-		public void setX2(String X2){
-			this.X2 = X2;
-		}
-		public String getX2(){
-			return this.X2;
-		}
-
-		public void setX3(String X3){
-			this.X3 = X3;
-		}
-		public String getX3(){
-			return this.X3;
-		}
-
-		public void setX4(String X4){
-			this.X4 = X4;
-		}
-		public String getX4(){
-			return this.X4;
-		}
-
+	public void loadGen_table(BaseQueryInterface query) {
+		this.setGen_table(this.loadTable(query,Gen_table.class));
 	}
+
 }
-/*-------------------------*/

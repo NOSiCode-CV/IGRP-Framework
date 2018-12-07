@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -11,7 +9,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import nosi.core.webapp.databse.helpers.QueryHelper;
@@ -20,7 +17,6 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Share;
 import java.util.Properties;
-import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -29,8 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-import nosi.core.cversion.Svn;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -242,105 +236,105 @@ public class PageController extends Controller {
 
 	}
 
-	private void createSvnRepo(Action page) {
-		Svn svnapi = new Svn();
-		String env = "";
-		env = Igrp.getInstance().getServlet().getInitParameter("env");
-		switch (env) {
-		case "dev":
-			svnapi.setWorkFolder(
-					"dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
-			break;
-		case "prod":
-			svnapi.setWorkFolder(
-					"prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
-			break;
-		case "sta":
-			svnapi.setWorkFolder(
-					"sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
-			break;
-		}
-		svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/pages/"
-				+ page.getPage().toLowerCase());
-		boolean flag = false;
-		try {
-			flag = svnapi.mkdir();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		// System.out.println("Criar Pasta " + flag);
-		// System.out.println(svnapi.getCmd());
-		// System.out.println(svnapi.getCmdResult());
-	}
+//	private void createSvnRepo(Action page) {
+//		Svn svnapi = new Svn();
+//		String env = "";
+//		env = Igrp.getInstance().getServlet().getInitParameter("env");
+//		switch (env) {
+//		case "dev":
+//			svnapi.setWorkFolder(
+//					"dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+//			break;
+//		case "prod":
+//			svnapi.setWorkFolder(
+//					"prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+//			break;
+//		case "sta":
+//			svnapi.setWorkFolder(
+//					"sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+//			break;
+//		}
+//		svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/pages/"
+//				+ page.getPage().toLowerCase());
+//		boolean flag = false;
+//		try {
+//			flag = svnapi.mkdir();
+//		} catch (IOException | InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		// System.out.println("Criar Pasta " + flag);
+//		// System.out.println(svnapi.getCmd());
+//		// System.out.println(svnapi.getCmdResult());
+//	}
 
-	private void addFilesToSvnRepo(String pathClass, Action page) {
-		Svn svnapi = new Svn();
-
-		final String env = Igrp.getInstance().getServlet().getInitParameter("env");
-		/*
-		 * try { svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+
-		 * "webapps"+"/"+page.getApplication().getDad().toLowerCase()+"/"+"pages");
-		 * svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/");
-		 * svnapi.setSvnUrl(svnapi.getSvnUrl() + env + "/" +
-		 * page.getApplication().getDad().toLowerCase() + "/pages");
-		 * svnapi.setWorkFolder(""); svnapi.co(); } catch (IOException |
-		 * InterruptedException e) { e.printStackTrace(); }
-		 * 
-		 * System.out.println(svnapi.getCmd());
-		 * System.out.println(svnapi.getCmdResult());
-		 * 
-		 */
-
-		switch (env) {
-		case "dev":
-			svnapi.setWorkFolder(
-					"dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
-			break;
-		case "prod":
-			svnapi.setWorkFolder(
-					"prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
-			break;
-		case "sta":
-			svnapi.setWorkFolder(
-					"sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
-			break;
-		}
-		// svnapi.setMessage("Create Repo. for Application/Page - " +
-		// page.getApplication().getDad() + "/" + page.getPage());
-
-		List<File> files = Arrays.asList(new File(pathClass).listFiles());
-
-		files = files.stream().filter(f -> f.getName().contains(".java")).collect(Collectors.toList());
-
-		files.forEach(f -> {
-			svnapi.setLocalUriPath(pathClass);
-			svnapi.setWorkFolder(File.separator + f.getName());
-
-			boolean flag = svnapi.add();
-			System.out.println("Adicionar Pasta " + flag);
-			System.out.println(svnapi.getCmd());
-			System.out.println(svnapi.getCmdResult());
-
-			Core.setMessageInfo("Adicionar Pasta " + flag);
-			Core.setMessageInfo(svnapi.getCmd());
-			Core.setMessageInfo(svnapi.getCmdResult());
-
-			svnapi.setMessage("Testing send files ...");
-
-			flag = svnapi.commit();
-			System.out.println("Commit " + flag);
-			System.out.println(svnapi.getCmd());
-			System.out.println(svnapi.getCmdResult());
-
-			Core.setMessageInfo("Adicionar Pasta " + flag);
-			Core.setMessageInfo(svnapi.getCmd());
-			Core.setMessageInfo(svnapi.getCmdResult());
-		});
-
-		// System.out.println("Criar Pasta " + flag);
-		// System.out.println(svnapi.getCmd());
-		// System.out.println(svnapi.getCmdResult());
-	}
+//	private void addFilesToSvnRepo(String pathClass, Action page) {
+//		Svn svnapi = new Svn();
+//
+//		final String env = Igrp.getInstance().getServlet().getInitParameter("env");
+//		/*
+//		 * try { svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+
+//		 * "webapps"+"/"+page.getApplication().getDad().toLowerCase()+"/"+"pages");
+//		 * svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/");
+//		 * svnapi.setSvnUrl(svnapi.getSvnUrl() + env + "/" +
+//		 * page.getApplication().getDad().toLowerCase() + "/pages");
+//		 * svnapi.setWorkFolder(""); svnapi.co(); } catch (IOException |
+//		 * InterruptedException e) { e.printStackTrace(); }
+//		 * 
+//		 * System.out.println(svnapi.getCmd());
+//		 * System.out.println(svnapi.getCmdResult());
+//		 * 
+//		 */
+//
+//		switch (env) {
+//		case "dev":
+//			svnapi.setWorkFolder(
+//					"dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+//			break;
+//		case "prod":
+//			svnapi.setWorkFolder(
+//					"prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+//			break;
+//		case "sta":
+//			svnapi.setWorkFolder(
+//					"sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+//			break;
+//		}
+//		// svnapi.setMessage("Create Repo. for Application/Page - " +
+//		// page.getApplication().getDad() + "/" + page.getPage());
+//
+//		List<File> files = Arrays.asList(new File(pathClass).listFiles());
+//
+//		files = files.stream().filter(f -> f.getName().contains(".java")).collect(Collectors.toList());
+//
+//		files.forEach(f -> {
+//			svnapi.setLocalUriPath(pathClass);
+//			svnapi.setWorkFolder(File.separator + f.getName());
+//
+//			boolean flag = svnapi.add();
+//			System.out.println("Adicionar Pasta " + flag);
+//			System.out.println(svnapi.getCmd());
+//			System.out.println(svnapi.getCmdResult());
+//
+//			Core.setMessageInfo("Adicionar Pasta " + flag);
+//			Core.setMessageInfo(svnapi.getCmd());
+//			Core.setMessageInfo(svnapi.getCmdResult());
+//
+//			svnapi.setMessage("Testing send files ...");
+//
+//			flag = svnapi.commit();
+//			System.out.println("Commit " + flag);
+//			System.out.println(svnapi.getCmd());
+//			System.out.println(svnapi.getCmdResult());
+//
+//			Core.setMessageInfo("Adicionar Pasta " + flag);
+//			Core.setMessageInfo(svnapi.getCmd());
+//			Core.setMessageInfo(svnapi.getCmdResult());
+//		});
+//
+//		// System.out.println("Criar Pasta " + flag);
+//		// System.out.println(svnapi.getCmd());
+//		// System.out.println(svnapi.getCmdResult());
+//	}
 
 	// Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException {
@@ -664,21 +658,21 @@ public class PageController extends Controller {
 		return this.renderView(new Gson().toJson(metodos));
 	}
 
-	public void actionNewDomain() {
-
-		String dname = Core.getParam("domain_name");
-		// String [] dval = Core.getParamArray("domain_item_value");
-		// String [] ddesc = Core.getParamArray("p_domain_item_info");
-
-		// System.out.println("ok");
-		// System.out.println(dval);
-		System.out.println(Core.getParameters());
-
-		// Domain domain = new Domain(dominio,valor,description,"ATIVE",0);
-
-		// domain.insert();
-
-	}
+//	public void actionNewDomain() {
+//
+//		String dname = Core.getParam("domain_name");
+//		// String [] dval = Core.getParamArray("domain_item_value");
+//		// String [] ddesc = Core.getParamArray("p_domain_item_info");
+//
+//		// System.out.println("ok");
+//		// System.out.println(dval);
+//		System.out.println(Core.getParameters());
+//
+//		// Domain domain = new Domain(dominio,valor,description,"ATIVE",0);
+//
+//		// domain.insert();
+//
+//	}
 
 	public Response actionListDomains() throws IOException {
 		List<String> domains = new ArrayList<>();

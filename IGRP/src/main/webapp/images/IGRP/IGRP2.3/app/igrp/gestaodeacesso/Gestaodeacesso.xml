@@ -87,16 +87,16 @@
         </form_1>
         <org_table type="table" xml-type="table" title="Organizações" gen-type="container" gen-group="true">
             <fields>
-                <estado name="p_estado" type="checkbox" maxlength="10" align="center" lookup_parser="true" iskey="true" switch="true" check="true" desc="true">
+                <estado name="p_estado" type="checkbox" maxlength="10" align="center" lookup_parser="true" iskey="true" switch="true" java-type="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="center" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </org_nome>
-                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="PesquisarPerfil" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" desc="true">
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="PesquisarPerfil" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="center" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
-                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -107,7 +107,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Ipsum stract totam adipiscing</org_nome>
+                        <org_nome name="p_org_nome">Elit deserunt adipiscing aliqu</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -119,7 +119,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Amet ipsum sed voluptatem lore</org_nome>
+                        <org_nome name="p_org_nome">Ipsum laudantium stract rem st</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -131,7 +131,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Aperiam adipiscing sit rem ame</org_nome>
+                        <org_nome name="p_org_nome">Laudantium natus ipsum rem lor</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -143,7 +143,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Unde laudantium ipsum natus de</org_nome>
+                        <org_nome name="p_org_nome">Laudantium dolor deserunt omni</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -155,7 +155,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Magna natus ipsum anim laudant</org_nome>
+                        <org_nome name="p_org_nome">Ut mollit anim lorem adipiscin</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>

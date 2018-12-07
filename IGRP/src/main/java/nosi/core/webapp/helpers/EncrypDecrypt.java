@@ -36,6 +36,7 @@ public class EncrypDecrypt {
 				!content.equals("igrp/ErrorPage/exception") && 
 				!content.equals("igrp/error-page/exception") && 
 				!content.equals("igrp/login/logout") && 
+				!content.equals("igrp_studio/WebReport/get-image") && 
 				!content.contains("igrp/page") && 	
 				!content.contains("changeStatus") && (Core.isNotNull(qs)?
 				!(qs.contains("target=_blank") && qs.contains("isPublic=1")):true); // Para paginas totalmente publicas 

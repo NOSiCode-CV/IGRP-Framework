@@ -123,9 +123,6 @@ public class NovoMenuController extends Controller {
 				menu = new Menu();
 			}			
 
-			if (model.getAction_fk() != 0) {
-				menu.setAction(new Action().findOne(model.getAction_fk()));
-			}
 			menu.setDescr(model.getTitulo());
 			menu.setApplication(new Application().findOne(model.getEnv_fk()));
 			menu.setFlg_base(model.getFlg_base());
@@ -136,8 +133,11 @@ public class NovoMenuController extends Controller {
 				menu.setMenu(new Menu().findOne(model.getSelf_id()));
 				// else if for the case the son has no parent, to set the parent itself. A son
 				// has a page/action
-			} else if (model.getAction_fk() != 0)
+			} else if (model.getAction_fk() != 0) {
+				menu.setAction(new Action().findOne(model.getAction_fk()));
 				menu.setMenu(menu);
+			}
+				
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
@@ -147,18 +147,22 @@ public class NovoMenuController extends Controller {
 					Core.setMessageError("Erro ao atualizar menu.");					
 				}
 			} else {
-				// NEW menu will enter here
-				menu = menu.insert();
-				if (menu != null) {
-					Core.setMessageSuccess();
-				} else {
-					Core.setMessageError();
+				if(Core.isNotNull(menu.getAction()) &&
+						Core.isNotNull(new Menu().find().andWhere("action","=", menu.getAction().getId()).andWhere("descr", "=", menu.getDescr()).one())) {
+					Core.setMessageWarning("NMMSG1");
+					return this.forward("igrp", "NovoMenu", "index"); 
+				}else {
+					// NEW menu will enter here
+					menu = menu.insert();
+					if (menu != null) {
+						Core.setMessageSuccess();
+					} else {
+						Core.setMessageError();
+					}
 				}
 			}
-
 		}
-		if (Core.isNotNullOrZero(id)) {		
-			
+		if (Core.isNotNullOrZero(id)) {					
 			return this.forward("igrp", "NovoMenu", "index"); //redirect para não trans
 		}else if(Core.isNotNullOrZero(model.getEnv_fk())) {
 			this.addQueryString("app", model.getEnv_fk());

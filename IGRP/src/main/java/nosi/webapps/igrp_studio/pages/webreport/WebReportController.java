@@ -1,17 +1,14 @@
-/*-------------------------*/
-
-/*Create Controller*/
 package nosi.webapps.igrp_studio.pages.webreport;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.gui.page.Page;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.FlashMessage;
 import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
+import nosi.core.gui.page.Page;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -35,16 +33,27 @@ import nosi.webapps.igrp.pages.datasource.DataSourceController;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 import nosi.core.webapp.datasource.helpers.DataSourceParam;
 import nosi.core.webapp.datasource.helpers.Parameters;
-/*----#END-PRESERVED-AREA----*/
-
-public class WebReportController extends Controller {		
-
-
+/*----#end-code----*/
+		
+public class WebReportController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
 		WebReport model = new WebReport();
-		WebReportView view = new WebReportView(model);
-		model.load();	
+		model.load();
+		model.setLink_add_source("igrp_studio","WebReport","index");
+		WebReportView view = new WebReportView();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadGen_table(Core.query(null,"SELECT 'Dolor ipsum adipiscing omnis o' as title,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/webreport/WebReport.xml' as link,'Amet anim sed labore officia' as descricao,'4' as id "));
+		view.chart_1.loadQuery(Core.query(null,"SELECT 'X1' as EixoX, 'Y1' as EixoY, 15 as valor"
+                                      +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 10 as valor"
+                                      +" UNION SELECT 'X2' as EixoX, 'Y2' as EixoY, 23 as valor"
+                                      +" UNION SELECT 'X3' as EixoX, 'Y3' as EixoY, 40 as valor"));
+		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.datasorce_app.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
+		/*----#start-code(index)----*/
+
 		if(Core.isNotNull(model.getEnv_fk())){
 			int env_fk = Integer.parseInt(model.getEnv_fk());
 			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));
@@ -74,27 +83,34 @@ public class WebReportController extends Controller {
 			view.gen_table.addData(data);
 		}
 		view.env_fk.setValue(new Application().getListApps());
-		view.link_add_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&target=_blank&id_env="+model.getEnv_fk()));
-		view.p_link_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&dad=igrp&target=_blank"));
-		view.p_edit_name_report.setValue(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		model.setLink_add_source(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&target=_blank&id_env="+model.getEnv_fk()));
+		model.setLink_source(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&dad=igrp&target=_blank"));
+		model.setEdit_name_report(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
+		model.setLink_upload_img(this.getConfig().getResolveUrl("igrp_studio","web-report","save-image&dad=igrp"));
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-
 	
-	public Response actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_xslreport");
-			Part fileTxt = Igrp.getInstance().getRequest().getPart("p_textreport");
-			String title = Igrp.getInstance().getRequest().getParameter("p_title");
-			String code = Igrp.getInstance().getRequest().getParameter("p_code");
-			String env_fk = Igrp.getInstance().getRequest().getParameter("p_env_fk");
-			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
-			String [] data_sources = Igrp.getInstance().getRequest().getParameterValues("p_datasorce_app");
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		WebReport model = new WebReport();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","WebReport","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(gravar)----*/
+		try{
+			Part fileXsl = Core.getFile("p_xslreport");
+			Part fileTxt = Core.getFile("p_textreport");
+			String title = Core.getParam("p_title_report");
+			String code = Core.getParam("p_code");
+			String env_fk = Core.getParam("p_env_fk");
+			String id = Core.getParam("p_id");			
+			String [] data_sources = Core.getParamArray("p_datasorce_app");
 			//String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
-			if(fileTxt!=null && fileXsl!=null && Core.isNotNull(env_fk)){
+			if(fileTxt!=null && fileXsl!=null && Core.isNotNullMultiple(env_fk,title,code)){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
 				RepTemplate rt = new RepTemplate();
@@ -116,7 +132,7 @@ public class WebReportController extends Controller {
 					rt.setDt_created(new Date(System.currentTimeMillis()));
 					rt.setDt_updated(new Date(System.currentTimeMillis()));
 					User user = new User();
-					user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+					user = user.findOne(Core.getCurrentUser().getId());
 					rt.setUser_created(user);
 					rt.setUser_updated(user);
 					rt.setStatus(1);
@@ -170,22 +186,31 @@ public class WebReportController extends Controller {
 				xml.endElement();
 				return this.renderView(xml.toString());
 			}
-		}	
+		}catch(ServletException e){
+          
+        }	
 		return this.renderView(FlashMessage.MSG_ERROR);
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+			
 	}
 	
-	//Faz previsualizacao de report sem usar contra senha
-	public Response actionPreview() throws IOException{
-		/*----#START-PRESERVED-AREA(PREVIEW)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_rep_id");
-		String type = Igrp.getInstance().getRequest().getParameter("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
+	public Response actionPreview() throws IOException, IllegalArgumentException, IllegalAccessException{
+		WebReport model = new WebReport();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","WebReport","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(preview)----*/
+		String id = Core.getParam("p_rep_id");
+		String type = Core.getParam("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
 		String xml = "";
 		if(Core.isNotNull(id)){
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne(Integer.parseInt(id));
-			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
-			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
+			String []name_array = Core.getParamArray("name_array");
+			String []value_array = Core.getParamArray("value_array");
 			//Iterate data source per template
 			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
 				xml += this.getData(rep,name_array,value_array);
@@ -195,12 +220,13 @@ public class WebReportController extends Controller {
 			return this.renderView(xml);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+			
 	}
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/	
+	
+/*----#start-code(custom_actions)----*/	
 	public Response actionGetContraprova() throws IOException{
-		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
+		String contraprova = Core.getParam("p_contraprova");
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
 		String content = "";
 		if(ri!=null){
@@ -211,28 +237,27 @@ public class WebReportController extends Controller {
 	}
 	
 	public Response actionSaveEditTemplate(){
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
-			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
-			String title_ = Igrp.getInstance().getRequest().getParameter("p_title");
-			if(Core.isNotNull(id_)){
-				RepTemplate rt = new RepTemplate();
-				rt = rt.findOne(Integer.parseInt(id_));
-				rt.setCode(code_);
-				rt.setName(title_);
-				rt.setDt_updated(new Date(System.currentTimeMillis()));
-				rt = rt.update();
-				if(rt!=null){
-					return this.renderView(FlashMessage.MSG_SUCCESS);
-				}
-			}
-		}
+	
+          String id = Core.getParam("p_id");
+          String code = Core.getParam("p_code");
+          String title = Core.getParam("p_title_report");
+          if(Core.isNotNullMultiple(id,code,title)){
+              RepTemplate rt = new RepTemplate();
+              rt = rt.findOne(Integer.parseInt(id));
+              rt.setCode(code);
+              rt.setName(title);
+              rt.setDt_updated(new Date(System.currentTimeMillis()));
+              rt = rt.update();
+              if(rt!=null){
+                  return this.renderView(FlashMessage.MSG_SUCCESS);
+              }
+          }
 		return this.renderView(FlashMessage.MSG_ERROR);
 	}
 		
 	//Get xsl content of report
 	public Response actionGetXsl() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String id = Core.getParam("p_id");
 		String xsl = "";
 		if(Core.isNotNull(id)){
 			CLob c = new CLob();
@@ -246,9 +271,9 @@ public class WebReportController extends Controller {
 	
 	//Faz previsualizacao de report usando a contra senha
 	public Response actionGetLinkReport() throws IOException{
-		String p_code = Igrp.getInstance().getRequest().getParameter("p_rep_code");
-		String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
-		String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
+		String p_code = Core.getParam("p_rep_code");
+		String []name_array = Core.getParamArray("name_array");
+		String []value_array = Core.getParamArray("value_array");
 		String params = "";
 		if(name_array!=null && value_array!=null && name_array.length > 0 && value_array.length > 0){
 			for(String n:name_array)
@@ -357,7 +382,7 @@ public class WebReportController extends Controller {
 
 	//Load report, load all configuration of report
 	public Response actionLoadTemplate() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("id");
+		String id = Core.getParam("id");
 		String json = "";
 		if(id!=null && !id.equals("")){
 			RepTemplate rt = new RepTemplate().findOne(Integer.parseInt(id));
@@ -393,7 +418,7 @@ public class WebReportController extends Controller {
 	 */
 	private String genXml(String contentXml,RepTemplate rt,int type){
 		String contra_prova = GUIDGenerator.getGUIDUpperCase();
-		int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		int user_id = Core.getCurrentUser().getId();
 		User user = new User();
 		user = user.findOne(user_id);
 		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
@@ -460,8 +485,63 @@ public class WebReportController extends Controller {
 		}
 		return this.redirectError();
 	}
+	
+	/**
+	 * Upload image file into server
+	 * @return
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	public Response actionSaveImage()  throws IOException, ServletException {
+		boolean r = false;
+		String fileName="";
+		try {
+			Part file = Core.getFile("p_file_name");
+			if (file != null) {
+				fileName = file.getSubmittedFileName();
+				if(Core.isNotNull(fileName)) {
+					int index = fileName.indexOf(".");
+					if(index!=-1) {
+						String extensionName = fileName.substring(index+1);
+						String workSapce = Path.getImageWorkSpace("reports");
+						if(Core.isNotNull(workSapce))//Saving in your workspace case exists
+							r = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), file);
+						//Saving into server
+						r = FileHelper.saveImage(Path.getImageServer("reports"), fileName,extensionName.toLowerCase(), file);
+					}
+				}
+			}
+		} catch (ServletException e) {
+			r = false;
+		}
+		String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
+		String link = baseUrl.toString()+"?r=igrp_studio/WebReport/get-image&p_file_name="+fileName;
+		if(r)
+			return this.renderView("{\"type\":\"success\",\"message\":\""+FlashMessage.MESSAGE_SUCCESS+"\",\"link\":\""+link+"\"}");
+		else
+			return this.renderView("{\"type\":\"error\",\"message\":\""+FlashMessage.MESSAGE_ERROR+"\",\"link\":\"\"}");
+	}
+	
+	/**
+	 * Read and display image from server
+	 * @return
+	 * @throws IOException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	public Response actionGetImage()  throws IOException, IllegalArgumentException, IllegalAccessException {
+		Response resp = new Response();
+		String fileName = Core.getParam("p_file_name");
+		if(Core.isNotNull(fileName)) {
+			String baseUrl = Igrp.getInstance().getRequest().getRequestURL().toString();
+			return this.redirectToUrl(baseUrl.toString().replaceAll("app/webapps", "images")+"/IGRP/IGRP2.3/assets/img/reports/"+fileName);
+		}
+		resp.setContent(FlashMessage.MSG_ERROR);	
+		return resp;
+	}
+	
 	private DataSourceController ds = new DataSourceController();
 	private DataSourceHelpers dsh = new DataSourceHelpers();
 	private String params = "";
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
 }

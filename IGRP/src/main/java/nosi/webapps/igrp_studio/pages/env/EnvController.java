@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -16,9 +14,6 @@ import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.net.CookieHandler;
-import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -34,12 +29,9 @@ import java.util.stream.Collectors;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
-import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
-//import org.apache.openjpa.lib.util.Files;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-//import nosi.core.cversion.Svn;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -52,7 +44,6 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
-import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class EnvController extends Controller {
@@ -94,7 +85,8 @@ public class EnvController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","ListaPage","index", this.queryString()); //if submit, loads the values
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/ 
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -139,7 +131,7 @@ public class EnvController extends Controller {
 			
 			Application app2 = new Application().find().andWhere("dad", "=", app.getDad()).one();
 			if(app2 != null){
-				Core.setMessageError(gt("ENV1"));
+				Core.setMessageError(Core.gt("ENV1"));
 				app = null;
 			}else
 				app = app.insert();
@@ -151,7 +143,7 @@ public class EnvController extends Controller {
 				FileHelper.createDiretory(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				
 				if(autoDeploy && !appAutoDeploy(app.getDad())) 
-					Core.setMessageWarning(gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 				
+					Core.setMessageWarning(Core.gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 				
 				Core.setMessageSuccess();				
 				return this.redirect("igrp_studio", "env","index");				
 			}else{
@@ -334,7 +326,7 @@ public class EnvController extends Controller {
 			}
 		}	
 		EnvView view = new EnvView();
-		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
+		view.sectionheader_1_text.setValue(Core.gt("App builder - Atualizar"));
     	view.dad.propertie().setProperty("disabled", "true");
 		view.btn_gravar.setLink("igrp_studio", "env", "editar&p_id=" + idAplicacao);
 		view.action_fk.setValue(new Action().getListActions(idAplicacao));
@@ -442,10 +434,10 @@ public class EnvController extends Controller {
 		}
 		/** End **/
 		if(displayTitle){
-			xml_menu.setElement("title", gt("Minhas Aplicações"));
+			xml_menu.setElement("title", Core.gt("Minhas Aplicações"));
 		}
 		if(displaySubtitle){
-			xml_menu.setElement("subtitle", gt("Outras Aplicações"));
+			xml_menu.setElement("subtitle", Core.gt("Outras Aplicações"));
 		}
 		xml_menu.endElement();
 
@@ -490,9 +482,9 @@ public class EnvController extends Controller {
 						//aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 						aux = "r=" + (env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
-					if(env.getDad().compareTo("kriol_db")==0) {
-						return this.postToPgStudio(env);
-					}
+//					if(env.getDad().compareTo("kriol_db")==0) {
+//						return this.postToPgStudio(env);
+//					}
 					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
@@ -535,64 +527,66 @@ public class EnvController extends Controller {
 		return this.redirectError();
 	}
 	
-	private Response postToPgStudio(Application env) throws Exception {	
-		// make sure cookies is turn on
-		CookieHandler.setDefault(new CookieManager());
-		String urlParams = "dbURL=" + "kriolplat06.gov.cv"
-				+ "&dbPort=7716"
-				+ "&dbName=" + "kriol116"
-				+ "&username=" + "emanuel.j.pereira@nosi.cv"
-				+ "&password=" + "TMOSFRUH2";
-		String result = this.sendPost("https://kriolbd.igrp.cv/login", urlParams);
-
-		result = result.replaceAll("src=\"", "src=\"//kriolbd.igrp.cv/");
-		result = result.replaceAll("href=\"", "href=\"//kriolbd.igrp.cv/");
-		result = result.replaceAll("//kriolbd.igrp.cv/javascript:''", "javascript:''");
-		System.out.println(result);
-		Response resp = new Response();
-		resp.setContent(result);
-		resp.setType(4);
-		resp.setContentType(Response.FORMAT_HTML);
-		return resp;
-	}
+//	private Response postToPgStudio(Application env) throws Exception {	
+//		// make sure cookies is turn on
+//		CookieHandler.setDefault(new CookieManager());
+//		String urlParams = "dbURL=" + "kriolplat06.gov.cv"
+//				+ "&dbPort=7716"
+//				+ "&dbName=" + "kriol116"
+//				+ "&username=" + "emanuel.j.pereira@nosi.cv"
+//				+ "&password=" + "TMOSFRUH2";
+//		String result = this.sendPost("https://kriolbd.igrp.cv/login", urlParams);
+//
+////		result = result.replaceAll("src=\"", "src=\"//kriolbd.igrp.cv/");
+////		result = result.replaceAll("href=\"", "href=\"//kriolbd.igrp.cv/");
+////		result = result.replaceAll("//kriolbd.igrp.cv/javascript:''", "javascript:''");
+//		System.out.println(result);
+////		Response resp = new Response();
+////		resp.setContent(result);
+////		resp.setType(4);
+////		resp.setContentType(Response.FORMAT_HTML);
+//		String dbToken = "b90b578310b976db3caa4900348d57c76ec535ea30e37b5f0f5ce00febce5720a19579e28bc7fb35505c2565346fd2b50c5d04d2b5319b69121aa8f3247bb857f9e0c1e843c0896b540b508168d0f1c596aa2c39e360f6224cb51b03d293266f3cb005a65dc6c31b8beed5c40f41d165a1ed655c06fbaacb05729b7d3b3061d02d390ba2f5fb7d3522cb5421272d12ae5a07443963ebaff4";     
+//		String dbVersion = "100004";    
+//		return this.redirectToUrl("https://kriolbd.igrp.cv/login&dbToken="+dbToken);
+//	}
 
 	
 	
-	private String sendPost(String url, String postParams) throws Exception {
-		byte[] postData = postParams.getBytes();
-	 	URL obj = new URL(url);
-		HttpsURLConnection conn = (HttpsURLConnection) obj.openConnection();
-
-		conn.setUseCaches(false);
-		conn.setRequestMethod("POST");
-		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-		conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
-		conn.setRequestProperty("User-Agent", Igrp.getInstance().getRequest().getHeader("User-Agent"));
-		conn.setInstanceFollowRedirects(true);
-		conn.setDoOutput(true);
-		conn.setDoInput(true);
-		DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-		wr.write(postData);
-		wr.flush();
-		wr.close();
-
-		int responseCode = conn.getResponseCode();
-		if(responseCode == HttpURLConnection.HTTP_OK) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-	
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-			in.close();
-			return response.toString();
-		}else {
-			Core.setMessageError();
-		}
-		return "";
-		
-	}
+//	private String sendPost(String url, String postParams) throws Exception {
+//		byte[] postData = postParams.getBytes();
+//	 	URL obj = new URL(url);
+//		HttpsURLConnection conn = (HttpsURLConnection) obj.openConnection();
+//
+//		conn.setUseCaches(false);
+//		conn.setRequestMethod("POST");
+//		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//		conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
+//		conn.setRequestProperty("User-Agent", Igrp.getInstance().getRequest().getHeader("User-Agent"));
+//		conn.setInstanceFollowRedirects(true);
+//		conn.setDoOutput(true);
+//		conn.setDoInput(true);
+//		DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+//		wr.write(postData);
+//		wr.flush();
+//		wr.close();
+//
+//		int responseCode = conn.getResponseCode();
+//		if(responseCode == HttpURLConnection.HTTP_OK) {
+//			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			String inputLine;
+//			StringBuffer response = new StringBuffer();
+//	
+//			while ((inputLine = in.readLine()) != null) {
+//				response.append(inputLine);
+//			}
+//			in.close();
+//			return response.toString();
+//		}else {
+//			Core.setMessageError();
+//		}
+//		return "";
+//		
+//	}
 	
 	/** Integration with IGRP-PLSQL Apps **
 	 * */

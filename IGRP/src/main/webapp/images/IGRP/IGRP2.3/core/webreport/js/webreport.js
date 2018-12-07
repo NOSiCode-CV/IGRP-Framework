@@ -173,9 +173,13 @@ $(function ($) {
 					if($.WR.dataSource.length > 1){
 						var content = '';
 						$.WR.objDataSource.find("option:selected").each(function(i,e){
-							content += '<div class="col-md-12 form-group">'+
-								'<input name="'+name+'" type="radio" value="'+$(e).val()+'"/>'+
-								'<span>'+$(e).text()+'</span></div>';
+							content += WR.html.input({
+								name  : name,
+								size  : 12,
+								type  : 'radio',
+								value : $(e).val(),
+								label : $(e).text()
+							});
 						});
 
 						content = '<div class="row rw_datasorce_edit">'+content+'</div>';
@@ -649,11 +653,12 @@ $(function ($) {
 
 				var size  = $.WR.document.print.size.val,
 					lsize = $.WR.document.print.layout.val,
-					WRLS  = WR.document.config.pagesize[size];
+					WRLS  = WR.document.config.pagesize[size],
+					WRLH  = lsize == 'L' ? WRLS.w : WRLS.h;
 
 				size = lsize == 'L' ? size+lsize : size;
 				WRLS = lsize == 'L' ? WRLS.h+' '+WRLS.w : WRLS.w+' '+WRLS.h;
-
+				WRLH = WRLH.replace(/mm/g,'');
 				/* files save */
 
 				var files 		= {},
@@ -674,7 +679,7 @@ $(function ($) {
 
 				files.xsl  = WR.document.xsl.init+head+
 					WR.document.xsl.body.replace(/=:WRLS:=/g,WRLS)+
-					$.WR.element.filter().replace(/=:WRPS:=/g,size)+includJs+
+					$.WR.element.filter().replace(/=:WRPS:=/g,size).replace(/=:WRPH:=/g,WRLH)+includJs+
 					WR.document.xsl.endbody+includTmpl+
 					WR.document.xsl.end;
 
@@ -958,35 +963,44 @@ $(function ($) {
 				var content = '<div class="row">';
 
 				WR.listType.forEach(function(e,i){
-					content +='<div class="col-md-4"><div class="wr-listtype">'+
-						'<input type="radio" name="listtype" value="'+e.type+'" class="radio"/>'+
-						'<span><i class="fa '+e.icon+'"/></span></div></div>';
+					content += WR.html.input({
+						name  : 'listtype',
+						type  : 'radio',
+						value : e.type,
+						icon  : e.icon
+					});
 				});
 
-				content +='</div><div class="row hidden" id="table-group"><div class="col-md-12">'+
-					'<div class="box-head subtitle" text-color="1">'+
-					'<span>Agrupar por</span></div><div class="row" id="list-group">';
+				content +='</div><div class="row hidden" id="table-group">'+
+					'<div class="col-md-12">'+
+						WR.html.separator('Agrupar por')+
+						'<div class="row" id="list-group">';
 
 				WR.listGroup.forEach(function(e,i){
-					content +='<div class="col-md-4"><div class="form-group">'+
-						'<div class="radio"><label><input type="radio" value="'+e.value+'" name="grouplist" class="checkbox">'+
-						'<span>'+e.label+'</span></label></div></div></div>';
+					content += WR.html.input({
+						name  : 'grouplist',
+						type  : 'radio',
+						value : e.value,
+						label : e.label
+					});
 				});
 
-				content +='</div><div class="box-head subtitle" text-color="1">'+
-					'<span>Definir Chaves</span></div><div class="row" id="listcol">'+
-					'</div><div class="hidden" id="html-group">'+
-					'<div class="box-head subtitle" text-color="1">'+
-					'<span>Html Groupo</span></div><div class="row">';
+				content +='</div>'+WR.html.separator('Definir Chaves')+
+					'<div class="row" id="listcol"></div>'+
+					'<div class="hidden" id="html-group">'+
+						WR.html.separator('Html Groupo')+
+					'<div class="row">';
 
 				WR.listType.forEach(function(e,i){
-					content +='<div class="col-md-4"><div class="form-group">'+
-						'<div class="radio"><label>'+
-						'<input type="radio" name="reslisttype" value="'+e.type+'" class="radio"/>'+
-						'<span><i class="fa '+e.icon+'"/></span></label></div></div></div>';
+					content += WR.html.input({
+						name  : 'reslisttype',
+						type  : 'radio',
+						value : e.type,
+						icon  : e.icon
+					});
 				});
 
-				content += '</div></div></div></div>';
+				content += '</div></div></div>';
 
 				$.IGRP.components.globalModal.set({
 					size 	: 'xs',
@@ -1036,9 +1050,13 @@ $(function ($) {
 				set : function(c){
 					var col = '';
 					c.forEach(function(e,i){
-						col += '<div class="col-md-3"><div class="form-group"><div class="checkbox"><label>'+
-						'<input type="checkbox" name="colgrouplist" class="checkbox" value="'+e.tag+'"/>'+
-						'<span>'+e.label+'</span></label></div></div></div>'
+						col += WR.html.input({
+							name  : 'colgrouplist',
+							type  : 'checkbox',
+							size  : 3,
+							value : e.tag,
+							label : e.label
+						});
 					});
 					$('#listcol').html(col);
 				},
@@ -1253,7 +1271,7 @@ $(function ($) {
 
 							p.td.item.forEach(function(e,i){
 								td += '<td '+e.style+'><xsl:value-of select="'+e.value+'" disable-output-escaping="yes"/></td>'
-								th += '<th '+e.th.style+'>'+e.th.value+'</th>';
+								//th += '<th '+e.th.style+'>'+e.th.value+'</th>';
 							});
 
 							table = '<thead>'+p.thead+'</thead>'+
@@ -1265,6 +1283,9 @@ $(function ($) {
 
 						break;
 					}
+
+					if(p.tfoot != null)
+						table += p.tfoot;
 
 					return table;
 				}
@@ -1317,7 +1338,10 @@ $(function ($) {
 			    			}
 			    		},
 			    		table : function(element){
-			    			var table  		= {},
+			    			
+			    			var html 		= $(element.getHtml()),
+			    				hasTfoot 	= html.filter('tfoot'),
+			    				table  		= {},
 			    				colgroup 	= element.attributes.colgroup || element.attributes.groupcolitem;
 			    			
 			    			table.pos  		= element.attributes.pos;
@@ -1328,6 +1352,7 @@ $(function ($) {
 			    			table.cond 		= '';
 			    			table.colgroup 	= colgroup ? colgroup.split(',') : [];
 			    			table.thead 	= element.children[0].getHtml();
+			    			table.footer 	= hasTfoot[0] ? hasTfoot.html() : null;
 
 			    			if(table.no && table.no != undefined){
 			    				var th   		= [],
@@ -1340,7 +1365,9 @@ $(function ($) {
 			    				var path = 'rows/content[position()='+table.pos+']/'+table.no+'/table/value/row';
 
 			    				element.forEach(function(node){
-			    					if(node.name == 'th'){
+			    					var notTfoot = node.parent.parent.name != 'tfoot';
+
+			    					if(node.name == 'th' && notTfoot){
 
 			    						//table.th +='<th '+$.WR.element.getStyle(node)+'>'+node.getHtml().capitalizeFirstLetter()+'</th>'
 			    						th.push({
@@ -1349,7 +1376,7 @@ $(function ($) {
 			    						});
 			    					}
 
-			    					if(node.name == 'td'){
+			    					if(node.name == 'td' && notTfoot){
 			    						//table.element.value = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," ");
 			    						var tag   = node.attributes.tag || node.attributes.rel;
 
@@ -1529,12 +1556,11 @@ $(function ($) {
 					return structure;
 				},
 				html : function(){
-					console.log($.WR.document.footer.has.val);
 					var data = $.WR.editor.getData(),
-						html = '<div class="page" hasfooter="'+$.WR.document.footer.has.val+'" size="=:WRPS:="><div id="header">';
+						html = '<div class="page" hasfooter="'+$.WR.document.footer.has.val+'" size="=:WRPS:=" height="=:WRPH:=" layout="'+$.WR.document.print.layout.val+'"><div id="header">';
 
 					html += data.head+'</div>';
-					html += '<div id="content">'+data.body+'</div>';
+					html += '<div id="content"><div class="holder">'+data.body+'</div></div>';
 
 					if ($.WR.document.footer.has.val == 'Y'){
 						var footer = data.footer ? data.footer : WR.document.config.footer.custom.value;

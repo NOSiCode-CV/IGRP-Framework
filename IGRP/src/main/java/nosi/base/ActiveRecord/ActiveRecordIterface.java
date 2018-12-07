@@ -21,6 +21,8 @@ public interface ActiveRecordIterface<T> {
 	public T andWhere(String columnName,String operator,Object value);
 	public T andWhere(String columnName,String operator,java.sql.Date value);
 	public T andWhere(String columnName,String operator,Number value);
+	public T orderBy(String columnNames);
+	public T orderBy(String columnNames, String ascOrDesc);
 	public List<T> findAll();
 	public List<T> findAll(CriteriaQuery<T> criteria);
 	public CriteriaQuery<T> getCriteria();

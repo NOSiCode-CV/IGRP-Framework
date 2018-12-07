@@ -1,15 +1,12 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.google.gson.Gson;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -30,8 +27,9 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Doloremque iste natus amet str' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml' as mostrar_perfis,'1' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Magna deserunt officia sit ut' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml' as mostrar_perfis,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
@@ -75,7 +73,7 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 			return this.forward("igrp", "NovaOrganica", "editar",this.queryString());
 		/*----#end-code----*/
@@ -91,7 +89,7 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","MenuOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","MenuOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(menu)----*/
   		Organization org = new Organization().findOne(Core.getParamInt("p_id"));	
         this.addQueryString("p_type","org");   
@@ -112,7 +110,7 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","TransacaoOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","TransacaoOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(transacti_org)----*/
 	  //don't need to add p_id because its declared view.id.setParam(true);
       
@@ -131,7 +129,7 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		int p_id = Core.getParamInt("p_id");
 		if (p_id != 0) {
@@ -155,7 +153,7 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","Gestaodeacesso","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Gestaodeacesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(associar_etapa)----*/
 		this.loadQueryString().addQueryString("type", "org");
       	return this.redirect("igrp","Etapaaccess","index", this.queryString());
@@ -173,7 +171,7 @@ public class GestaodeacessoController extends Controller {
 			table.setEstado(org.getStatus());
 			table.setEstado_check(org.getStatus()== 1 ? org.getStatus() : -1);       
 			table.setMostrar_perfis("igrp", "PesquisarPerfil","index&id_app=" + org.getApplication().getId() + "&id_org=" + org.getId());
-			table.setMostrar_perfis_desc("Mostrar Perfil");
+			table.setMostrar_perfis_desc(Core.gt("Mostrar Perfil"));
 			data.add(table);
 		}
 	}

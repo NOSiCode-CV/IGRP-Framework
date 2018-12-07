@@ -1,6 +1,5 @@
 package nosi.webapps.tutorial.pages.geralapresentacao;
 
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;

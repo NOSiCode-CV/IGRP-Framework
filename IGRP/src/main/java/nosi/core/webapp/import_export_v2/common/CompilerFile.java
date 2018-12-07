@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 
 /**
@@ -40,6 +41,14 @@ public class CompilerFile {
 				files += dir+" ";
 			});
 			listFilesDirectory(this.config.getPathLib());
+			String pathTomcat = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
+			int index = pathTomcat.indexOf("webapps");
+			if(index!=-1) {
+				//Using jar files available in tomcat/lib
+				pathTomcat = pathTomcat.substring(0,index);
+				pathTomcat+="lib";
+				listFilesDirectory(pathTomcat);
+			}
 			CompilationProgress progress = null;
 			final String buildArgs = 
 					 " -encoding UTF-8 "+files
@@ -87,9 +96,11 @@ public class CompilerFile {
 
 	//Get jar files
 	public void listFilesDirectory(String path) {
-		Map<String,String> files = new FileHelper().listFilesDirectory(path);
-		for(Map.Entry<String, String> file:files.entrySet()){
-			this.jars += (file.getValue()+System.getProperty("path.separator"));
+		if(FileHelper.dirExists(path)) {
+			Map<String,String> files = new FileHelper().listFilesDirectory(path);
+			for(Map.Entry<String, String> file:files.entrySet()){
+				this.jars += (file.getValue()+System.getProperty("path.separator"));
+			}
 		}
 	}
 	

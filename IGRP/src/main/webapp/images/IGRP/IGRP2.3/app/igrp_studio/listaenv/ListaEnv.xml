@@ -68,19 +68,19 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
+                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="" check="true" desc="true">
                     <label>Ativo?</label>
                 </status>
-                <name name="p_name" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                <name name="p_name" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" desc="true">
                     <label>Name</label>
                 </name>
                 <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </dad>
-                <t_page_builder name="p_t_page_builder" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-file-code-o" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" desc="true">
+                <t_page_builder name="p_t_page_builder" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-file-code-o" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
                     <label>Page builder</label>
                 </t_page_builder>
-                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -93,7 +93,7 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Unde perspiciatis mollit persp</dad>
+                        <dad name="p_dad">Sit ut aperiam omnis laudantiu</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -107,7 +107,7 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Lorem rem totam rem aperiam</dad>
+                        <dad name="p_dad">Ipsum elit accusantium deserun</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -121,7 +121,7 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Omnis dolor consectetur volupt</dad>
+                        <dad name="p_dad">Accusantium sit iste unde anim</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -135,7 +135,7 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Magna sed unde consectetur ist</dad>
+                        <dad name="p_dad">Anim accusantium natus totam l</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -149,7 +149,7 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Deserunt mollit ut amet dolor</dad>
+                        <dad name="p_dad">Omnis accusantium perspiciatis</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
