@@ -46,7 +46,7 @@ public class Wizard_export_step_2Controller extends Controller {
         view.sectionheader_1_text.setValue(String.format("%s: %s - %s 2", Core.gt("Exportação"),nomeApp,Core.gt("Passo")));
  		view.modulo.setValue(map);
 	   	view.modulo.setVisible(map.size() > 1);
-	   	view.btn_finalizar.setTarget("confirm");
+	   	view.btn_finalizar.setTarget("alert_submit");
 	   	view.btn_voltar.addParameter("app_id", model.getApplication_id());
 		/*----#end-code----*/
 		view.setModel(model);
