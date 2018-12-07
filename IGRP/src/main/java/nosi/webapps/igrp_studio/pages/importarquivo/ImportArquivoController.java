@@ -41,6 +41,7 @@ public class ImportArquivoController extends Controller {
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_combo_img.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.list_aplicacao.setValue(new Application().getListApps());	
@@ -258,6 +259,7 @@ public class ImportArquivoController extends Controller {
 			try {
 				Collection<Part> parts = Core.getFiles();
 				boolean imported = false;
+				Application application = new Application().findOne(Integer.parseInt(model.getAplicacao_combo_img()));
 				for(Part part:parts){
 					if(part!=null) {
 						String fileName = part.getSubmittedFileName();
@@ -265,13 +267,12 @@ public class ImportArquivoController extends Controller {
 							int index = fileName.indexOf(".");
 							if(index!=-1) {
 								String extensionName = fileName.substring(index+1);
-								Application application = new Application().findOne(Integer.parseInt(model.getAplicacao_combo_img()));
-								String imgPath = application.getDad();
-								String workSapce = Path.getImageWorkSpace(imgPath);
-								if(Core.isNotNull(workSapce))//Saving in your workspace case exists
-									imported = FileHelper.saveImage(workSapce, fileName,extensionName.toLowerCase(), part);
+								String appImgPath = application.getDad();
+								String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
+								if(Core.isNotNull(imgWorkSapce))//Saving in your workspace case exists
+									imported = FileHelper.saveImage(imgWorkSapce, fileName,extensionName.toLowerCase(), part);
 								//Saving into server
-								imported = FileHelper.saveImage(Path.getImageServer(imgPath), fileName,extensionName.toLowerCase(), part);
+								imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
 							}
 						}
 					}
