@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.session;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -12,17 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import nosi.core.config.Config;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 

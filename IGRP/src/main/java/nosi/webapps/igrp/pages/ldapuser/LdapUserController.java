@@ -184,11 +184,11 @@ public class LdapUserController extends Controller {
 		return this.renderView(view);
 	}
 	
-	private boolean updateUsingIds() {
-		boolean flag = false;
-		
-		return flag;
-	}
+//	private boolean updateUsingIds() {
+//		boolean flag = false;
+//		
+//		return flag;
+//	}
 	
 	private boolean updateNUsingIds(LdapUser model, String email) {
 		boolean flag = false;

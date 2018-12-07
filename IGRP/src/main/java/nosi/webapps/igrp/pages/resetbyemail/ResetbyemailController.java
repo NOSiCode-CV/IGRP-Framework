@@ -2,8 +2,6 @@ package nosi.webapps.igrp.pages.resetbyemail;
 
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -12,26 +10,15 @@ import nosi.core.webapp.Response;
 import nosi.core.mail.EmailMessage;
 import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
-
 import nosi.core.config.Config;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-import javax.xml.ws.handler.MessageContext;
-
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
-import org.wso2.carbon.um.ws.service.UpdateCredential;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
-
 import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
