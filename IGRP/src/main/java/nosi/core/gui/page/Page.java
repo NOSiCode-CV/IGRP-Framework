@@ -102,9 +102,6 @@ public class Page{
 		xml.setElement("title", "");
 		xml.text(":_content");
 		
-		//new IGRPLogBar()
-		xml.text(":_logBar");
-		
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		if(m!=null){
@@ -118,19 +115,16 @@ public class Page{
 		if(layout){
 			// Create a standard template of IGRP 
 			this.createTemplate();
+			
 			if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
-				this.template = this.template.replace(":_logBar", new IGRPLogBar().toString());
-			else
-				this.template = this.template.replace(":_logBar", "");
+				new IGRPLogBar().displayLogs();
+			
 			return this.template.replace(":_content", this.convertContentToXml());
 		}
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		String aux = this.convertContentToXml().replace(":_message_reseved", m);
-		if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
-			aux = aux.replace(":_logBar", new IGRPLogBar().toString());
-		else
-			aux = aux.replace(":_logBar", "");
+		
 		return aux;
 	}
 	

@@ -25,6 +25,7 @@ public class FlashMessage implements Serializable{
 	public static final String INFO_LINK = "info_link";
 	public static final String ERROR = "error";
 	public static final String WARNING = "warning";
+	public static final String DEBUG = "debug";
 	public static final String INFO = "info";
 	public static final String MSG_ERROR = "<messages><message type=\"error\">Operação falhada!</message></messages>";
 	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operação efetuada com sucesso!</message></messages>";
@@ -99,6 +100,7 @@ public class FlashMessage implements Serializable{
 			this.msg.put(FlashMessage.SUCCESS, new ArrayList<String>());
 			this.msg.put(FlashMessage.INFO, new ArrayList<String>());
 			this.msg.put(FlashMessage.WARNING, new ArrayList<String>());
+			this.msg.put(FlashMessage.DEBUG, new ArrayList<String>());
 		}
 		
 		public void addMessage(String name, String msg){
