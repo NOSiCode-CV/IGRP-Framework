@@ -37,19 +37,22 @@ public final class IgrpLog implements Component { // Not inherited
 		while(i.hasNext()) {
 			String key = i.next();
 			String values = "";
-		/*	String []result = Igrp.getInstance().getRequest().getParameterValues(key);
-			if(result != null && result.length > 1) {
-				values += "[";
-				for(int j = 0; j < result.length; j++) {
-					values += result[j];
-					if(j < result.length - 1)
-						values += ",";
-				}		
-				values += "]";
-			}else*/
+			
+			if(qs.contains(key+"=")) {
 				values = Igrp.getInstance().getRequest().getParameter(key);
-				
-			//if(!this.msgLog.contains(key + " = " + values + " "))
+			}else {
+				String []result = Igrp.getInstance().getRequest().getParameterValues(key); 
+				if(result != null && result.length > 1) {
+					values += "[";
+					for(int j = 0; j < result.length; j++) {
+						values += result[j];
+						if(j < result.length - 1)
+							values += ", ";
+					}		
+					values += "]";
+				}else 
+					values = Igrp.getInstance().getRequest().getParameter(key);
+			}	
 				this.msgLog.add(key + " = " + values + " ");
 		}
 	}
