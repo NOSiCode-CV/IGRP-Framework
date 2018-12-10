@@ -23,7 +23,8 @@ public class Wizard_export_step_1Controller extends Controller {
 			String nomeApp = Core.findApplicationById(model.getApplication_id()).getName();
 //			   model.setSelecionar_opcao(Core.getParamArray("p_selecionar_opcao"));
 //		        model.setTodos_check(Core.getParamInt("p_todos")); 
-  
+		
+
       model.setFile_name(nomeApp+"_igrpweb_v."+config.VERSION);
       String sql = this.getSql();		
 		if(Core.isNotNull(sql)) {

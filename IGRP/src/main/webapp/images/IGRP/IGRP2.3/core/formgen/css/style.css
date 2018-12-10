@@ -315,7 +315,7 @@ a, button {
     position: absolute;
     z-index: 10;
     right: 0;
-    top: -24px;
+    top: -19px;
     width: 100%;
     opacity: 0;
     transition: opacity .4s;

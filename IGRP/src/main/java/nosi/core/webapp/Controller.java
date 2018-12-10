@@ -85,6 +85,15 @@ public class Controller{
 	public QueryString<String,Object> addQueryString(String name,Object value) {
 		return this.queryString().addQueryString(name, value);
 	}
+	public void addQueryStringArray(String name,String[] values) {
+		if(values!=null)
+		for(String value:values) {
+			this.queryString().addQueryString(name, value);
+		}
+		
+	}
+	
+	
 	public QueryString<String,Object> removeQueryString(String key) {
 		return this.queryString.removeQueryString(key);
 	}

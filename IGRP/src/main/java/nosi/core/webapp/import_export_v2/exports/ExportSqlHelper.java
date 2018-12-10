@@ -40,6 +40,7 @@ public class ExportSqlHelper {
 				this.loadDomainData(model);
 			}
 			else if(t==OptionsImportExport.PAGE.getValor()) {
+				view.box_paginas.setVisible(true);
 				view.table_pagina.setVisible(true);
 				this.loadPageData(model);
 			}
@@ -85,6 +86,7 @@ public class ExportSqlHelper {
 		view.table_dao.setVisible(isVisible);
 		view.table_domain.setVisible(isVisible);
 		view.table_menu.setVisible(isVisible);
+		view.box_paginas.setVisible(isVisible);
 		view.table_pagina.setVisible(isVisible);
 		view.table_report.setVisible(isVisible);
 		view.table_modulo.setVisible(isVisible);

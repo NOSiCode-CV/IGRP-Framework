@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=66</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=370</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -47,23 +47,23 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="voltar">
+            <item type="specific" code="" rel="voltar" custom_return="true">
                 <title>Voltar</title>
                 <app>igrp_studio</app>
                 <page>Wizard_export_step_1</page>
                 <link>index</link>
-                <target>_self</target>
+                <target>submit</target>
                 <img>success|fa-backward</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/wizard_export_step_1/Wizard_export_step_1.xml</preview>
             </item>
             <item type="specific" code="" rel="finalizar">
                 <title>Finalizar</title>
-                <app>igrp_studio</app>
-                <page>Wizard_export_step_2</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>primary|fa-certificate</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/wizard_export_step_2/Wizard_export_step_2.xml</preview>
+                <preview>undefined</preview>
             </item>
         </toolsbar_1>
         <box_paginas type="box" xml-type="form" title="Páginas" gen-type="container" gen-group="">
@@ -101,7 +101,7 @@
         <table_bpmn type="table" xml-type="table" title="BPMN" gen-type="container" gen-group="true">
             <fields>
                 <bpmn_ids name="p_bpmn_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
+                    <label></label>
                 </bpmn_ids>
                 <descricao_bpmn name="p_descricao_bpmn" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
@@ -112,27 +112,27 @@
                     <row>
                         <bpmn_ids name="p_bpmn_ids" check="true" desc="true">1</bpmn_ids>
                         <bpmn_ids_desc name="p_bpmn_ids_desc">1</bpmn_ids_desc>
-                        <descricao_bpmn name="p_descricao_bpmn">Natus consectetur natus labore</descricao_bpmn>
+                        <descricao_bpmn name="p_descricao_bpmn">Omnis accusantium doloremque c</descricao_bpmn>
                     </row>
                     <row>
                         <bpmn_ids name="p_bpmn_ids" check="true" desc="true">1</bpmn_ids>
                         <bpmn_ids_desc name="p_bpmn_ids_desc">1</bpmn_ids_desc>
-                        <descricao_bpmn name="p_descricao_bpmn">Unde sit sed elit stract</descricao_bpmn>
+                        <descricao_bpmn name="p_descricao_bpmn">Adipiscing lorem doloremque ip</descricao_bpmn>
                     </row>
                     <row>
                         <bpmn_ids name="p_bpmn_ids" check="true" desc="true">1</bpmn_ids>
                         <bpmn_ids_desc name="p_bpmn_ids_desc">1</bpmn_ids_desc>
-                        <descricao_bpmn name="p_descricao_bpmn">Ut officia deserunt doloremque</descricao_bpmn>
+                        <descricao_bpmn name="p_descricao_bpmn">Stract labore accusantium pers</descricao_bpmn>
                     </row>
                     <row>
                         <bpmn_ids name="p_bpmn_ids" check="true" desc="true">1</bpmn_ids>
                         <bpmn_ids_desc name="p_bpmn_ids_desc">1</bpmn_ids_desc>
-                        <descricao_bpmn name="p_descricao_bpmn">Unde sed sit sed unde</descricao_bpmn>
+                        <descricao_bpmn name="p_descricao_bpmn">Rem lorem ipsum voluptatem ut</descricao_bpmn>
                     </row>
                     <row>
                         <bpmn_ids name="p_bpmn_ids" check="true" desc="true">1</bpmn_ids>
                         <bpmn_ids_desc name="p_bpmn_ids_desc">1</bpmn_ids_desc>
-                        <descricao_bpmn name="p_descricao_bpmn">Aperiam sit laudantium accusan</descricao_bpmn>
+                        <descricao_bpmn name="p_descricao_bpmn">Adipiscing magna totam ut rem</descricao_bpmn>
                     </row>
                 </value>
             </table>
@@ -140,7 +140,7 @@
         <table_pagina type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <pagina_ids name="p_pagina_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
+                    <label></label>
                 </pagina_ids>
                 <descricao_pagina name="p_descricao_pagina" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Título (código)</label>
@@ -151,27 +151,27 @@
                     <row>
                         <pagina_ids name="p_pagina_ids" check="true" desc="true">1</pagina_ids>
                         <pagina_ids_desc name="p_pagina_ids_desc">1</pagina_ids_desc>
-                        <descricao_pagina name="p_descricao_pagina">Labore unde stract consectetur</descricao_pagina>
+                        <descricao_pagina name="p_descricao_pagina">Omnis elit doloremque voluptat</descricao_pagina>
                     </row>
                     <row>
                         <pagina_ids name="p_pagina_ids" check="true" desc="true">1</pagina_ids>
                         <pagina_ids_desc name="p_pagina_ids_desc">1</pagina_ids_desc>
-                        <descricao_pagina name="p_descricao_pagina">Officia rem ut labore omnis</descricao_pagina>
+                        <descricao_pagina name="p_descricao_pagina">Accusantium ipsum magna sed un</descricao_pagina>
                     </row>
                     <row>
                         <pagina_ids name="p_pagina_ids" check="true" desc="true">1</pagina_ids>
                         <pagina_ids_desc name="p_pagina_ids_desc">1</pagina_ids_desc>
-                        <descricao_pagina name="p_descricao_pagina">Aperiam labore ipsum natus sit</descricao_pagina>
+                        <descricao_pagina name="p_descricao_pagina">Totam amet stract voluptatem u</descricao_pagina>
                     </row>
                     <row>
                         <pagina_ids name="p_pagina_ids" check="true" desc="true">1</pagina_ids>
                         <pagina_ids_desc name="p_pagina_ids_desc">1</pagina_ids_desc>
-                        <descricao_pagina name="p_descricao_pagina">Deserunt mollit laudantium adi</descricao_pagina>
+                        <descricao_pagina name="p_descricao_pagina">Natus anim sed accusantium ame</descricao_pagina>
                     </row>
                     <row>
                         <pagina_ids name="p_pagina_ids" check="true" desc="true">1</pagina_ids>
                         <pagina_ids_desc name="p_pagina_ids_desc">1</pagina_ids_desc>
-                        <descricao_pagina name="p_descricao_pagina">Lorem totam mollit stract aper</descricao_pagina>
+                        <descricao_pagina name="p_descricao_pagina">Iste magna amet laudantium lab</descricao_pagina>
                     </row>
                 </value>
             </table>
@@ -179,7 +179,7 @@
         <table_report type="table" xml-type="table" title="Reports" gen-type="container" gen-group="true">
             <fields>
                 <report_ids name="p_report_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
+                    <label></label>
                 </report_ids>
                 <descricao_report name="p_descricao_report" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
@@ -190,230 +190,35 @@
                     <row>
                         <report_ids name="p_report_ids" check="true" desc="true">1</report_ids>
                         <report_ids_desc name="p_report_ids_desc">1</report_ids_desc>
-                        <descricao_report name="p_descricao_report">Sit adipiscing stract perspici</descricao_report>
+                        <descricao_report name="p_descricao_report">Ut labore deserunt aliqua unde</descricao_report>
                     </row>
                     <row>
                         <report_ids name="p_report_ids" check="true" desc="true">1</report_ids>
                         <report_ids_desc name="p_report_ids_desc">1</report_ids_desc>
-                        <descricao_report name="p_descricao_report">Dolor aliqua mollit sit totam</descricao_report>
+                        <descricao_report name="p_descricao_report">Totam laudantium accusantium m</descricao_report>
                     </row>
                     <row>
                         <report_ids name="p_report_ids" check="true" desc="true">1</report_ids>
                         <report_ids_desc name="p_report_ids_desc">1</report_ids_desc>
-                        <descricao_report name="p_descricao_report">Officia consectetur mollit und</descricao_report>
+                        <descricao_report name="p_descricao_report">Sed rem amet magna doloremque</descricao_report>
                     </row>
                     <row>
                         <report_ids name="p_report_ids" check="true" desc="true">1</report_ids>
                         <report_ids_desc name="p_report_ids_desc">1</report_ids_desc>
-                        <descricao_report name="p_descricao_report">Ipsum elit iste ipsum labore</descricao_report>
+                        <descricao_report name="p_descricao_report">Voluptatem magna lorem aliqua</descricao_report>
                     </row>
                     <row>
                         <report_ids name="p_report_ids" check="true" desc="true">1</report_ids>
                         <report_ids_desc name="p_report_ids_desc">1</report_ids_desc>
-                        <descricao_report name="p_descricao_report">Perspiciatis aliqua iste conse</descricao_report>
+                        <descricao_report name="p_descricao_report">Elit ut voluptatem perspiciati</descricao_report>
                     </row>
                 </value>
             </table>
         </table_report>
-        <table_dao type="table" xml-type="table" title="Classes DAO" gen-type="container" gen-group="true">
-            <fields>
-                <dao_ids name="p_dao_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
-                </dao_ids>
-                <descricao_dao name="p_descricao_dao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Descrição</label>
-                </descricao_dao>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
-                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
-                        <descricao_dao name="p_descricao_dao">Aliqua doloremque perspiciatis</descricao_dao>
-                    </row>
-                    <row>
-                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
-                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
-                        <descricao_dao name="p_descricao_dao">Natus ut rem accusantium offic</descricao_dao>
-                    </row>
-                    <row>
-                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
-                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
-                        <descricao_dao name="p_descricao_dao">Voluptatem sit amet sit laudan</descricao_dao>
-                    </row>
-                    <row>
-                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
-                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
-                        <descricao_dao name="p_descricao_dao">Laudantium adipiscing lorem re</descricao_dao>
-                    </row>
-                    <row>
-                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
-                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
-                        <descricao_dao name="p_descricao_dao">Unde mollit sit natus unde</descricao_dao>
-                    </row>
-                </value>
-            </table>
-        </table_dao>
-        <table_modulo type="table" xml-type="table" title="Módulos" gen-type="container" gen-group="true">
-            <fields>
-                <modulo_ids name="p_modulo_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
-                </modulo_ids>
-                <descricao_modulo name="p_descricao_modulo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Descricao</label>
-                </descricao_modulo>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
-                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
-                        <descricao_modulo name="p_descricao_modulo">Perspiciatis sed natus accusan</descricao_modulo>
-                    </row>
-                    <row>
-                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
-                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
-                        <descricao_modulo name="p_descricao_modulo">Anim laudantium mollit consect</descricao_modulo>
-                    </row>
-                    <row>
-                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
-                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
-                        <descricao_modulo name="p_descricao_modulo">Totam accusantium stract sed p</descricao_modulo>
-                    </row>
-                    <row>
-                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
-                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
-                        <descricao_modulo name="p_descricao_modulo">Consectetur accusantium totam</descricao_modulo>
-                    </row>
-                    <row>
-                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
-                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
-                        <descricao_modulo name="p_descricao_modulo">Unde ipsum officia totam strac</descricao_modulo>
-                    </row>
-                </value>
-            </table>
-        </table_modulo>
-        <table_domain type="table" xml-type="table" title="Domínios" gen-type="container" gen-group="true">
-            <fields>
-                <domain_ids name="p_domain_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
-                </domain_ids>
-                <descricao_domain name="p_descricao_domain" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Descrição</label>
-                </descricao_domain>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
-                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
-                        <descricao_domain name="p_descricao_domain">Sit officia iste sit adipiscin</descricao_domain>
-                    </row>
-                    <row>
-                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
-                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
-                        <descricao_domain name="p_descricao_domain">Ipsum labore aliqua elit lorem</descricao_domain>
-                    </row>
-                    <row>
-                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
-                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
-                        <descricao_domain name="p_descricao_domain">Natus adipiscing natus sit des</descricao_domain>
-                    </row>
-                    <row>
-                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
-                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
-                        <descricao_domain name="p_descricao_domain">Natus totam amet natus totam</descricao_domain>
-                    </row>
-                    <row>
-                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
-                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
-                        <descricao_domain name="p_descricao_domain">Unde consectetur iste dolor am</descricao_domain>
-                    </row>
-                </value>
-            </table>
-        </table_domain>
-        <table_connections type="table" xml-type="table" title="Conexões com Base Dados" gen-type="container" gen-group="true">
-            <fields>
-                <conexao_ids name="p_conexao_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
-                </conexao_ids>
-                <descricao_conexao name="p_descricao_conexao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Descrição</label>
-                </descricao_conexao>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
-                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
-                        <descricao_conexao name="p_descricao_conexao">Stract elit ut totam anim</descricao_conexao>
-                    </row>
-                    <row>
-                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
-                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
-                        <descricao_conexao name="p_descricao_conexao">Iste lorem aperiam totam ipsum</descricao_conexao>
-                    </row>
-                    <row>
-                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
-                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
-                        <descricao_conexao name="p_descricao_conexao">Labore dolor sit iste sed</descricao_conexao>
-                    </row>
-                    <row>
-                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
-                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
-                        <descricao_conexao name="p_descricao_conexao">Mollit elit magna aliqua offic</descricao_conexao>
-                    </row>
-                    <row>
-                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
-                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
-                        <descricao_conexao name="p_descricao_conexao">Unde officia rem adipiscing de</descricao_conexao>
-                    </row>
-                </value>
-            </table>
-        </table_connections>
-        <table_others_class type="table" xml-type="table" title="Otras classes" gen-type="container" gen-group="true">
-            <fields>
-                <others_class name="p_others_class" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" java-type="String" switch="false" check="true" desc="true">
-                    <label/>
-                </others_class>
-                <descricao_others_class name="p_descricao_others_class" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Descrição</label>
-                </descricao_others_class>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
-                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
-                        <descricao_others_class name="p_descricao_others_class">Aperiam accusantium stract con</descricao_others_class>
-                    </row>
-                    <row>
-                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
-                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
-                        <descricao_others_class name="p_descricao_others_class">Aperiam rem consectetur adipis</descricao_others_class>
-                    </row>
-                    <row>
-                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
-                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
-                        <descricao_others_class name="p_descricao_others_class">Ut mollit sit labore lorem</descricao_others_class>
-                    </row>
-                    <row>
-                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
-                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
-                        <descricao_others_class name="p_descricao_others_class">Officia aperiam ut aliqua unde</descricao_others_class>
-                    </row>
-                    <row>
-                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
-                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
-                        <descricao_others_class name="p_descricao_others_class">Mollit deserunt sed adipiscing</descricao_others_class>
-                    </row>
-                </value>
-            </table>
-        </table_others_class>
         <table_menu type="table" xml-type="table" title="Menu" gen-type="container" gen-group="true">
             <fields>
                 <menu_ids name="p_menu_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
-                    <label/>
+                    <label></label>
                 </menu_ids>
                 <descricao_menu name="p_descricao_menu" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
@@ -424,32 +229,188 @@
                     <row>
                         <menu_ids name="p_menu_ids" check="true" desc="true">1</menu_ids>
                         <menu_ids_desc name="p_menu_ids_desc">1</menu_ids_desc>
-                        <descricao_menu name="p_descricao_menu">Sed voluptatem laudantium sed</descricao_menu>
+                        <descricao_menu name="p_descricao_menu">Perspiciatis elit laudantium a</descricao_menu>
                     </row>
                     <row>
                         <menu_ids name="p_menu_ids" check="true" desc="true">1</menu_ids>
                         <menu_ids_desc name="p_menu_ids_desc">1</menu_ids_desc>
-                        <descricao_menu name="p_descricao_menu">Mollit sit laudantium aperiam</descricao_menu>
+                        <descricao_menu name="p_descricao_menu">Iste anim lorem accusantium la</descricao_menu>
                     </row>
                     <row>
                         <menu_ids name="p_menu_ids" check="true" desc="true">1</menu_ids>
                         <menu_ids_desc name="p_menu_ids_desc">1</menu_ids_desc>
-                        <descricao_menu name="p_descricao_menu">Consectetur natus mollit sed a</descricao_menu>
+                        <descricao_menu name="p_descricao_menu">Stract sed voluptatem lorem an</descricao_menu>
                     </row>
                     <row>
                         <menu_ids name="p_menu_ids" check="true" desc="true">1</menu_ids>
                         <menu_ids_desc name="p_menu_ids_desc">1</menu_ids_desc>
-                        <descricao_menu name="p_descricao_menu">Sit elit adipiscing magna aper</descricao_menu>
+                        <descricao_menu name="p_descricao_menu">Consectetur elit ut sed sit</descricao_menu>
                     </row>
                     <row>
                         <menu_ids name="p_menu_ids" check="true" desc="true">1</menu_ids>
                         <menu_ids_desc name="p_menu_ids_desc">1</menu_ids_desc>
-                        <descricao_menu name="p_descricao_menu">Sit amet unde officia voluptat</descricao_menu>
+                        <descricao_menu name="p_descricao_menu">Rem voluptatem iste omnis ipsu</descricao_menu>
                     </row>
                 </value>
             </table>
         </table_menu>
-        <tbl_transation type="table" xml-type="table" title="Transations" gen-type="container" gen-group="true">
+        <table_domain type="table" xml-type="table" title="Domínios" gen-type="container" gen-group="true">
+            <fields>
+                <domain_ids name="p_domain_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
+                    <label></label>
+                </domain_ids>
+                <descricao_domain name="p_descricao_domain" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descrição</label>
+                </descricao_domain>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
+                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
+                        <descricao_domain name="p_descricao_domain">Adipiscing laudantium mollit r</descricao_domain>
+                    </row>
+                    <row>
+                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
+                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
+                        <descricao_domain name="p_descricao_domain">Ut aperiam lorem aliqua labore</descricao_domain>
+                    </row>
+                    <row>
+                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
+                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
+                        <descricao_domain name="p_descricao_domain">Lorem mollit accusantium rem s</descricao_domain>
+                    </row>
+                    <row>
+                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
+                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
+                        <descricao_domain name="p_descricao_domain">Doloremque amet voluptatem per</descricao_domain>
+                    </row>
+                    <row>
+                        <domain_ids name="p_domain_ids" check="true" desc="true">1</domain_ids>
+                        <domain_ids_desc name="p_domain_ids_desc">1</domain_ids_desc>
+                        <descricao_domain name="p_descricao_domain">Voluptatem voluptatem elit acc</descricao_domain>
+                    </row>
+                </value>
+            </table>
+        </table_domain>
+        <table_dao type="table" xml-type="table" title="Classes DAO" gen-type="container" gen-group="true">
+            <fields>
+                <dao_ids name="p_dao_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
+                    <label></label>
+                </dao_ids>
+                <descricao_dao name="p_descricao_dao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descrição</label>
+                </descricao_dao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
+                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
+                        <descricao_dao name="p_descricao_dao">Iste ut iste consectetur ut</descricao_dao>
+                    </row>
+                    <row>
+                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
+                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
+                        <descricao_dao name="p_descricao_dao">Natus sed laudantium sit elit</descricao_dao>
+                    </row>
+                    <row>
+                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
+                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
+                        <descricao_dao name="p_descricao_dao">Lorem voluptatem consectetur s</descricao_dao>
+                    </row>
+                    <row>
+                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
+                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
+                        <descricao_dao name="p_descricao_dao">Voluptatem ut amet elit aperia</descricao_dao>
+                    </row>
+                    <row>
+                        <dao_ids name="p_dao_ids" check="true" desc="true">1</dao_ids>
+                        <dao_ids_desc name="p_dao_ids_desc">1</dao_ids_desc>
+                        <descricao_dao name="p_descricao_dao">Natus perspiciatis iste deseru</descricao_dao>
+                    </row>
+                </value>
+            </table>
+        </table_dao>
+        <table_others_class type="table" xml-type="table" title="Outras classes" gen-type="container" gen-group="true">
+            <fields>
+                <others_class name="p_others_class" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" java-type="String" switch="false" check="true" desc="true">
+                    <label></label>
+                </others_class>
+                <descricao_others_class name="p_descricao_others_class" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descrição</label>
+                </descricao_others_class>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
+                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
+                        <descricao_others_class name="p_descricao_others_class">Totam consectetur ipsum aperia</descricao_others_class>
+                    </row>
+                    <row>
+                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
+                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
+                        <descricao_others_class name="p_descricao_others_class">Laudantium sit perspiciatis lo</descricao_others_class>
+                    </row>
+                    <row>
+                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
+                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
+                        <descricao_others_class name="p_descricao_others_class">Elit laudantium mollit natus l</descricao_others_class>
+                    </row>
+                    <row>
+                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
+                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
+                        <descricao_others_class name="p_descricao_others_class">Rem sit magna rem laudantium</descricao_others_class>
+                    </row>
+                    <row>
+                        <others_class name="p_others_class" check="true" desc="true">1</others_class>
+                        <others_class_desc name="p_others_class_desc">1</others_class_desc>
+                        <descricao_others_class name="p_descricao_others_class">Ut amet aperiam iste voluptate</descricao_others_class>
+                    </row>
+                </value>
+            </table>
+        </table_others_class>
+        <table_connections type="table" xml-type="table" title="Conexões com Base Dados" gen-type="container" gen-group="true">
+            <fields>
+                <conexao_ids name="p_conexao_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
+                    <label></label>
+                </conexao_ids>
+                <descricao_conexao name="p_descricao_conexao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descrição</label>
+                </descricao_conexao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
+                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
+                        <descricao_conexao name="p_descricao_conexao">Sit sed ut laudantium sed</descricao_conexao>
+                    </row>
+                    <row>
+                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
+                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
+                        <descricao_conexao name="p_descricao_conexao">Laudantium elit adipiscing omn</descricao_conexao>
+                    </row>
+                    <row>
+                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
+                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
+                        <descricao_conexao name="p_descricao_conexao">Adipiscing omnis deserunt ut d</descricao_conexao>
+                    </row>
+                    <row>
+                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
+                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
+                        <descricao_conexao name="p_descricao_conexao">Totam magna stract labore laud</descricao_conexao>
+                    </row>
+                    <row>
+                        <conexao_ids name="p_conexao_ids" check="true" desc="true">1</conexao_ids>
+                        <conexao_ids_desc name="p_conexao_ids_desc">1</conexao_ids_desc>
+                        <descricao_conexao name="p_descricao_conexao">Laudantium ipsum totam adipisc</descricao_conexao>
+                    </row>
+                </value>
+            </table>
+        </table_connections>
+        <tbl_transation type="table" xml-type="table" title="Transactions" gen-type="container" gen-group="true">
             <fields>
                 <transation_ids name="p_transation_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" java-type="String" switch="false" check="true" desc="true">
                     <label></label>
@@ -463,30 +424,69 @@
                     <row>
                         <transation_ids name="p_transation_ids" check="true" desc="true">1</transation_ids>
                         <transation_ids_desc name="p_transation_ids_desc">1</transation_ids_desc>
-                        <descricao_transation name="p_descricao_transation">Amet sit doloremque adipiscing</descricao_transation>
+                        <descricao_transation name="p_descricao_transation">Labore aperiam unde omnis pers</descricao_transation>
                     </row>
                     <row>
                         <transation_ids name="p_transation_ids" check="true" desc="true">1</transation_ids>
                         <transation_ids_desc name="p_transation_ids_desc">1</transation_ids_desc>
-                        <descricao_transation name="p_descricao_transation">Omnis sit amet officia aliqua</descricao_transation>
+                        <descricao_transation name="p_descricao_transation">Iste sit amet voluptatem deser</descricao_transation>
                     </row>
                     <row>
                         <transation_ids name="p_transation_ids" check="true" desc="true">1</transation_ids>
                         <transation_ids_desc name="p_transation_ids_desc">1</transation_ids_desc>
-                        <descricao_transation name="p_descricao_transation">Officia aperiam officia accusa</descricao_transation>
+                        <descricao_transation name="p_descricao_transation">Omnis adipiscing deserunt volu</descricao_transation>
                     </row>
                     <row>
                         <transation_ids name="p_transation_ids" check="true" desc="true">1</transation_ids>
                         <transation_ids_desc name="p_transation_ids_desc">1</transation_ids_desc>
-                        <descricao_transation name="p_descricao_transation">Adipiscing deserunt doloremque</descricao_transation>
+                        <descricao_transation name="p_descricao_transation">Iste laudantium aliqua sit off</descricao_transation>
                     </row>
                     <row>
                         <transation_ids name="p_transation_ids" check="true" desc="true">1</transation_ids>
                         <transation_ids_desc name="p_transation_ids_desc">1</transation_ids_desc>
-                        <descricao_transation name="p_descricao_transation">Aperiam consectetur voluptatem</descricao_transation>
+                        <descricao_transation name="p_descricao_transation">Aperiam ut dolor rem anim</descricao_transation>
                     </row>
                 </value>
             </table>
         </tbl_transation>
+        <table_modulo type="table" xml-type="table" title="Módulos" gen-type="container" gen-group="true">
+            <fields>
+                <modulo_ids name="p_modulo_ids" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
+                    <label></label>
+                </modulo_ids>
+                <descricao_modulo name="p_descricao_modulo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao_modulo>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
+                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
+                        <descricao_modulo name="p_descricao_modulo">Iste mollit aperiam doloremque</descricao_modulo>
+                    </row>
+                    <row>
+                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
+                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
+                        <descricao_modulo name="p_descricao_modulo">Deserunt iste dolor amet conse</descricao_modulo>
+                    </row>
+                    <row>
+                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
+                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
+                        <descricao_modulo name="p_descricao_modulo">Adipiscing elit magna iste ut</descricao_modulo>
+                    </row>
+                    <row>
+                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
+                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
+                        <descricao_modulo name="p_descricao_modulo">Amet deserunt elit sed accusan</descricao_modulo>
+                    </row>
+                    <row>
+                        <modulo_ids name="p_modulo_ids" check="true" desc="true">1</modulo_ids>
+                        <modulo_ids_desc name="p_modulo_ids_desc">1</modulo_ids_desc>
+                        <descricao_modulo name="p_descricao_modulo">Consectetur iste perspiciatis</descricao_modulo>
+                    </row>
+                </value>
+            </table>
+        </table_modulo>
     </content>
 </rows>

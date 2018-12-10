@@ -179,7 +179,13 @@ $(function(){
 			],
 			this :[
 				"addQueryString(tag, value);","forward(app, page, action, this.queryString());","forward(app, page, action);",
-			]
+				"forward(app, page, action, model, this.queryString());","loadQueryString();","config.",
+				"restartQueryString();","removeQueryString(key);","getQueryArray();","redirect(app, page, action, model, this.queryString());",
+				"redirectError();","redirectToUrl(String url);","xSend(byte []file, String name, String contentType, boolean download);"
+				,"sendFile(File file, String name, String contentType, boolean download);",
+				"xSend(byte []file, String name, String contentType, boolean download,String url);",
+				"xSend(FileRest file, String name, String contentType, boolean download);"
+				]
 
 		};
 		

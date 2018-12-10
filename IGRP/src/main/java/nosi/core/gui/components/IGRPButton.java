@@ -12,6 +12,9 @@ import static nosi.core.i18n.Translator.gt;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
+
+
 public class IGRPButton {
 
 	private String tag = "item";
@@ -185,9 +188,15 @@ public class IGRPButton {
 	}
 	
 	public IGRPButton addParameter(String parameter,Object value) {
-		this.parameter += "&"+parameter+"="+value.toString();
+		if(value instanceof String[])
+			for(String oneVal:(String[])value) {
+				this.parameter += "&"+parameter+"="+oneVal;
+			}
+		else
+			this.parameter += "&"+parameter+"="+value.toString();
 		return this;
 	}
+	
 	
 	public FieldProperties getProperties() {
 		return this.propertie;
