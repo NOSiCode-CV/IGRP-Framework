@@ -5,15 +5,14 @@ import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.ApplicationPermition;
-
 import java.io.IOException;
 import java.util.HashMap;
 import nosi.core.webapp.Core;
 import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.helpers.ApplicationPermition;
+import nosi.core.webapp.helpers.Permission;
 /*----#END-PRESERVED-AREA----*/
 
 public class SettingsController extends Controller {		
@@ -34,6 +33,7 @@ public class SettingsController extends Controller {
 						ProfileType prof = new ProfileType().findOne(model.getPerfil());
 						ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId());
 						Igrp.getInstance().getRequest().getSession().setAttribute(appP.getDad(),appP);
+						new Permission().setCookie(appP);
 					}
 					if (Core.isNotNull(model.getIdioma())) {
 						Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
@@ -55,13 +55,8 @@ public class SettingsController extends Controller {
 				model.setIdioma(cookie.getValue());
 			}
 			if (cookie.getName().equals(Core.getCurrentDad())) {
-				try {
-					String[] aux = cookie.getValue().split("-");
-					// model.setOrganica(aux[0]);
-					model.setPerfil(aux[1]);
-				} catch (Exception e) {
-					// Do nothing
-				}
+				ApplicationPermition appP = new Permission().getApplicationPermition();
+				model.setPerfil(""+appP.getProfId());
 			}
 		}
 		if (Core.isNull(model.getPerfil()))
@@ -78,7 +73,7 @@ public class SettingsController extends Controller {
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
 		view.username.setValue(user.getUser_name());
-		view.sectionheader_1_text.setValue(gt("Área Pessoal") + ": " + user.getName());
+		view.sectionheader_1_text.setValue(Core.gt("Área Pessoal") + ": " + user.getName());
 		view.telefone.setValue(user.getPhone());
 		view.telemovel.setValue(user.getMobile());
 		view.password_expira_em.setValue(user.getValid_until());
@@ -91,11 +86,11 @@ public class SettingsController extends Controller {
 		view.perfil.setValue(profiles);
 
 		HashMap<String, String> idioma = new HashMap<String, String>();
-		idioma.put(null, gt("-- Selecionar --"));
-		idioma.put("pt_PT", gt("Português"));
-		idioma.put("en_US", gt("Inglês"));
-		idioma.put("fr_FR", gt("Francês"));
-		idioma.put("es_ES", gt("Espanhol"));
+		idioma.put(null, Core.gt("-- Selecionar --"));
+		idioma.put("pt_PT", Core.gt("Português"));
+		idioma.put("en_US", Core.gt("Inglês"));
+		idioma.put("fr_FR", Core.gt("Francês"));
+		idioma.put("es_ES", Core.gt("Espanhol"));
 		view.idioma.setValue(idioma);
 
 		return this.renderView(view);
