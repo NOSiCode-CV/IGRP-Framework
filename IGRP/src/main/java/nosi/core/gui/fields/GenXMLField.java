@@ -228,21 +228,21 @@ public class GenXMLField {
 
 	private static String[] convertToArrayString(Object value) {
 		if(value instanceof int[]) {
-			return Core.convertToArrayString((int[])value);
+			return Core.convertArrayIntToArrayString((int[])value);
 		}else if(value instanceof float[]) {
-			return Core.convertToArrayString((float[])value);
+			return Core.convertArrayFloatToArrayString((float[])value);
 		}else if(value instanceof double[]) {
-			return Core.convertToArrayString((double[])value);
+			return Core.convertArrayDoubleToArrayString((double[])value);
 		}else if(value instanceof short[]) {
-			return Core.convertToArrayString((short[])value);
+			return Core.convertArrayShortToArrayString((short[])value);
 		}else if(value instanceof Integer[]) {
-			return Core.convertToArrayString((Integer[])value);
+			return Core.convertArrayObjectToArrayString((Integer[])value);
 		}else if(value instanceof Float[]) {
-			return Core.convertToArrayString((Float[])value);
+			return Core.convertArrayObjectToArrayString((Float[])value);
 		}else if(value instanceof Double[]) {
-			return Core.convertToArrayString((Double[])value);
+			return Core.convertArrayObjectToArrayString((Double[])value);
 		}else if(value instanceof Short[]) {
-			return Core.convertToArrayString((Short[])value);
+			return Core.convertArrayObjectToArrayString((Short[])value);
 		}else if(value instanceof String[]) {
 			return (String[])value;
 		}
