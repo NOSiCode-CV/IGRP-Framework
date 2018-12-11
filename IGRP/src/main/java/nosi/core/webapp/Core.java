@@ -285,7 +285,7 @@ public final class Core { // Not inherit
 	public static nosi.webapps.igrp.dao.User findUserByEmail(String email) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 		user.setReadOnly(true);
-		return user.find().andWhere("username", "=", email).one();
+		return user.find().andWhere("email", "=", email).one();
 	}
 
 	/**

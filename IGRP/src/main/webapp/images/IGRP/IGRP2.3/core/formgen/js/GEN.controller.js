@@ -4313,144 +4313,180 @@ var GENERATOR = function(genparams){
 	}
 
 	GEN.setBtnActionAttr = function(field,p){
-		//set options value
-		//var options = [{ value:GEN.DETAILS.page, label:GEN.DETAILS.page_descr }];
-		var options = [];
-		var value   = p.value;
-		var tagName = p.tag || 'action';
-		var type    = p.type || 'text';
+        //set options value
+        //var options = [{ value:GEN.DETAILS.page, label:GEN.DETAILS.page_descr }];
+        var options = [];
+        var value   = p.value;
+        var tagName = p.tag || 'action';
+        var type    = p.type || 'text';
 
-		if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
-			
-			GEN.DETAILS.linkPageList.forEach(function(page){
-				options.push({
-					value      : page.id.toString(),
-					label      : page.description,
-					attributes : [
-						{ name:'app',value:page.app },
-						{ name:'page',value:page.page },
-						{ name:'action',value:page.action },
-						{ name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
-					]
-				});
-			});
+        if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
+               
+               GEN.DETAILS.linkPageList.forEach(function(page){
+                     options.push({
+                            value      : page.page.toString(),
+                            label      : page.description,
+                            attributes : [
+                                  { name:'app',value:page.app },
+                                  { name:'page',value:page.page },
+                                  { name:'action',value:page.action },
+                                  { name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
+                            ]
+                     });
+               });
 
-		var setBTNAction = function(id,object){
-			if(options[0])
-				for(var i = 0; i < options.length; i++){
-					var o = options[i];
-					field.action = {};
+        var setBTNAction = function(id,object){
+               if(options[0])
+                     for(var i = 0; i < options.length; i++){
+                            var o = options[i];
+                            field.action = {};
 
-					if(o.value && (id == o.value) ){
-							o.attributes.forEach(function(att){
-								field.action[att.name] = att.value
-							});
+                            if(o.value && (id == o.value) ){
+                                         o.attributes.forEach(function(att){
+                                               field.action[att.name] = att.value
+                                         });
 
-							if(p.onChange)
-								p.onChange({
-									value : id,
-									params : field.action
-								});
+                                         if(p.onChange)
+                                               p.onChange({
+                                                      value : id,
+                                                      params : field.action
+                                                });
 
-							break;
-						}
-							
+                                         break;
+                                  }
+                                         
 
 
-				}
-		}
+                     }
+        }
 
-		if(typeof p.value == 'object'){
-			for(var i=0;i<options.length;i++){
-				var o = options[i];
-				if(o.attributes && o.attributes[0].value == p.value.app && o.attributes[1].value == p.value.page && o.attributes[2].value == p.value.action){
-					value = o.value;
-					field.proprieties.action = value;
-				}
-			}
-		}
+        if(typeof p.value == 'object'){
+               for(var i=0;i<options.length;i++){
+                     var o = options[i];
+                     if(o.attributes && o.attributes[0].value == p.value.app && o.attributes[1].value == p.value.page && o.attributes[2].value == p.value.action){
+                            value = o.value;
+                            field.proprieties.action = value;
+                     }
+               }
+        }
 
-		var params = {
-			name: tagName,
-			value:{
-				value   : value ? value : GEN.DETAILS.id,
-				options : options,
-				type : type
-			},
-			
-			isField : p.isField || false,
-			valuePersist : p.valuePersist || false,
-			onChange:function(val){
-				setBTNAction(val);
-			}
-		}
-		
-		if(p.order >= 0)
-			params.order = p.order;
-		
-		if(p.xmlAttr)
-			params.xmlAttr = p.xmlAttr
+        var params = {
+               name: tagName,
+               value:{
+                     value   : value ? value : GEN.DETAILS.id,
+                     options : options,
+                     type : type
+               },
+               
+               isField : p.isField || false,
+               valuePersist : p.valuePersist || false,
+               onChange:function(val){
+            	   
+            	   var val   = field.GET[tagName](),
+                   
+                   isNum = /^\d+$/.test( val );
+            
+            if(isNum){                   
+                   for(var i = 0; i < GEN.DETAILS.linkPageList.length; i++){                                
+                         var pg = GEN.DETAILS.linkPageList[i];
+                         if(pg.id == val){                                
+                                val = pg.page;                                
+                                break;
+                         }                         
+                   }
+            	}
+            setBTNAction(val);
+               }
+        }
+        
+        if(p.order >= 0)
+               params.order = p.order;
+        
+        if(p.xmlAttr)
+               params.xmlAttr = p.xmlAttr
 
-		field.setPropriety(params);
+        field.setPropriety(params);
 
-		if(p.customAction){
+        if(p.customAction){
 
-			field.setPropriety({
-				name : 'custom_action',
-				label:'Custom Action',
-				value : '',
-				order : p.order || -1
-				//size : 12
-			});
+               field.setPropriety({
+                     name : 'custom_action',
+                     label:'Custom Action',
+                     value : '',
+                     order : p.order || -1
+                     //size : 12
+               });
 
-			field.setPropriety({
-				name : 'action_type',
-				label : 'Custom Action',
-				value : false,
-				onEditionStart : function(o){
+               field.setPropriety({
+                     name : 'action_type',
+                     label : 'Custom Action',
+                     value : false,
+                     onEditionStart : function(o){
 
-					var customHolder = $('.gen-properties-setts-holder>[rel="custom_action"]'),
+                            var customHolder = $('.gen-properties-setts-holder>[rel="custom_action"]'),
 
-						actionHolder = $('.gen-properties-setts-holder>[rel="action"]');
+                                  actionHolder = $('.gen-properties-setts-holder>[rel="action"]');
 
-					var checkTypes = function(v){
+                            var checkTypes = function(v){
 
-						if(v){
+                                  if(v){
 
-							customHolder.show();
+                                         customHolder.show();
 
-							actionHolder.hide();
-							
-							//customHolder.insertAt(  )
+                                         actionHolder.hide();
+                                         
+                                         //customHolder.insertAt(  )
 
-						}else{
+                                  }else{
 
-							customHolder.hide();
+                                         customHolder.hide();
 
-							actionHolder.show();
+                                         actionHolder.show();
 
-						}
+                                  }
 
-					};
+                            };
 
-					o.input.on('change',function(){
+                            o.input.on('change',function(){
 
-						var value = $(this).find('input').is(':checked');
+                                  var value = $(this).find('input').is(':checked');
 
-						checkTypes(value);
+                                  checkTypes(value);
 
-					});
+                            });
 
-					checkTypes(o.value);
-					
+                            checkTypes(o.value);
+                            
 
-				}
-			});
+                     }
+               });
 
-		}
+        }
+        
+        var val   = field.GET[tagName](),
+        
+               isNum = /^\d+$/.test( val );
+        
+        if(isNum){
+               
+               for(var i = 0; i < GEN.DETAILS.linkPageList.length; i++){
+                            
+                     var pg = GEN.DETAILS.linkPageList[i];
 
-		setBTNAction(field.GET[tagName]());
-	}
+                     if(pg.id == val){
+                            
+                            val = pg.page;
+                            
+                            break;
+                     }
+                     
+               }
+
+        }
+
+        setBTNAction(val);
+  }
+
 
 
 	GEN.getSrcFields = function(arr){
@@ -4910,6 +4946,7 @@ var GENERATOR = function(genparams){
 											{ value : 'BigInteger', label : 'BigInteger' },
 											{ value : 'BigDecimal', label : 'BigDecimal' },
 											{ value : 'Integer', label : 'Integer' },	
+											{ value : 'String[]', label : 'String[]' },	
 									
 										]
 							}
