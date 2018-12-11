@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -2093,7 +2094,119 @@ public final class Core { // Not inherit
 		return new Config().getResolveUrl(app,page,action);
 	}
 	
+	public static String[] convertToArrayString(int[] array) {
+		Function<int[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+	public static String[] convertToArrayString(float[] array) {
+		Function<float[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+	public static String[] convertToArrayString(double[] array) {
+		Function<double[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+	public static String[] convertToArrayString(short[] array) {
+		Function<short[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+	public static String[] convertToArrayString(boolean[] array) {
+		Function<boolean[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+	public static String[] convertToArrayString(Integer[] array) {
+		Function<Integer[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+
+	public static String[] convertToArrayString(Float[] array) {
+		Function<Float[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+
+	public static String[] convertToArrayString(Double[] array) {
+		Function<Double[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+
+	public static String[] convertToArrayString(Boolean[] array) {
+		Function<Boolean[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
 	private Core() {
 	} // Not instantiate
+
+	public static String[] convertToArrayString(Short[] array) {
+		Function<Short[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
 
 }

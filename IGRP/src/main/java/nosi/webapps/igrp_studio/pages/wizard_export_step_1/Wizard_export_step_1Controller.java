@@ -20,20 +20,14 @@ public class Wizard_export_step_1Controller extends Controller {
 		view.selecionar_opcao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/		
-			String nomeApp = Core.findApplicationById(model.getApplication_id()).getName();
-//			   model.setSelecionar_opcao(Core.getParamArray("p_selecionar_opcao"));
-//		        model.setTodos_check(Core.getParamInt("p_todos")); 
-		
+		String nomeApp = Core.findApplicationById(model.getApplication_id()).getName();
 
-      model.setFile_name(nomeApp+"_igrpweb_v."+config.VERSION);
-      String sql = this.getSql();		
+		model.setFile_name(nomeApp+"_igrpweb_v."+config.VERSION);
+      	String sql = this.getSql();		
 		if(Core.isNotNull(sql)) {
 			view.selecionar_opcao.setQuery(Core.query(null,sql));
-		}
-      
+		}      
       	view.sectionheader_1_text.setValue(String.format("%s: %s - %s 1", Core.gt("Exportação"),nomeApp,Core.gt("Passo")));
-    
-       
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	

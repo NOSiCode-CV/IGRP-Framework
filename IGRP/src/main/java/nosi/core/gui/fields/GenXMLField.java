@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import nosi.core.webapp.Core;
 import nosi.core.xml.XMLWritter;
 
 public class GenXMLField {
@@ -182,7 +183,7 @@ public class GenXMLField {
 						try {
 							Object[] o = (Object[]) field.propertie().get("value");
 							
-							List aux = Arrays.asList(o);
+							List<?> aux = Arrays.asList(o);
 							
 							if(aux.contains(obj.getKey())) 
 								xml.writeAttribute("selected", "true");
@@ -194,15 +195,15 @@ public class GenXMLField {
 						xml.writeAttribute("selected", "true");
 					}else if(field instanceof CheckBoxListField && obj.getKey() != null && field.propertie().get("value")!=null) {
 						try {
-							Object[] o = (Object[]) field.propertie().get("value");
-							
-							List aux = Arrays.asList(o);
-							
-							if(aux.contains(obj.getKey())) 
-								xml.writeAttribute("selected", "true");
-							
+							String[] x = convertToArrayString(field.propertie().get("value")); 
+							if(x!=null) {
+								List<String> aux = Arrays.asList(x);
+								if(aux.contains(obj.getKey().toString())) { 
+									xml.writeAttribute("selected", "true");
+								}
+							}
 						}catch(Exception e) {
-							//e.printStackTrace();
+							Core.setMessageError(e.getMessage());
 						}
 					}else if(field instanceof RadioListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("checked", "true");
@@ -224,5 +225,29 @@ public class GenXMLField {
 			xml.setElement("value",field.getValue()!=null?field.getValue().toString():"");
 		}
 	}
+
+	private static String[] convertToArrayString(Object value) {
+		if(value instanceof int[]) {
+			return Core.convertToArrayString((int[])value);
+		}else if(value instanceof float[]) {
+			return Core.convertToArrayString((float[])value);
+		}else if(value instanceof double[]) {
+			return Core.convertToArrayString((double[])value);
+		}else if(value instanceof short[]) {
+			return Core.convertToArrayString((short[])value);
+		}else if(value instanceof Integer[]) {
+			return Core.convertToArrayString((Integer[])value);
+		}else if(value instanceof Float[]) {
+			return Core.convertToArrayString((Float[])value);
+		}else if(value instanceof Double[]) {
+			return Core.convertToArrayString((Double[])value);
+		}else if(value instanceof Short[]) {
+			return Core.convertToArrayString((Short[])value);
+		}else if(value instanceof String[]) {
+			return (String[])value;
+		}
+		return null;
+	}
+
 
 }
