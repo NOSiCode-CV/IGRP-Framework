@@ -35,7 +35,6 @@ public class ApplicationExport implements IExport{
 
 	@Override
 	public void export(Export export, String[] ids) {
-		this.add(null);
 		export.add(this);
 	}
 

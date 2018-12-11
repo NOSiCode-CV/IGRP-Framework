@@ -37,11 +37,12 @@ public class MenuImport implements IImport{
 			this.menu.stream().forEach(m->{
 				Action action = new Action();
 				if(m.getMenu()!=null) {
+					this.insertMenu(m.getMenu(),null);
 					action = action.find()
-							.andWhere("application.dad", "=",m.getMenu().getDad_page())
-							.andWhere("page", "=",m.getMenu().getPage_name())
+							.andWhere("application.dad", "=",m.getDad_page())
+							.andWhere("page", "=",m.getPage_name())
 							.one();
-					this.insertMenu(m.getMenu(),action);
+					this.insertMenu(m,action);
 				}else {
 					//Is Parent
 					if(Core.isNotNull(m.getDad_page()))
@@ -58,34 +59,32 @@ public class MenuImport implements IImport{
 	}
 
 	private void insertMenu(MenuSerializable m,Action action) {
-			Menu new_menu = new Menu();
-			Core.mapper(m, new_menu);
-			if(this.application!=null) {
-				new_menu.setApplication(this.application);
-			}else {
-				new_menu.setApplication(new Application().findByDad(m.getDad_menu()));
+		Menu new_menu = new Menu();
+		Core.mapper(m, new_menu);
+		if(this.application!=null) {
+			new_menu.setApplication(this.application);
+		}else {
+			new_menu.setApplication(new Application().findByDad(m.getDad_menu()));
+		}
+		new_menu.setAction(action);
+		if (Core.isNotNull(new_menu.getAction())) {
+			if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
+					.andWhere("action", "=", new_menu.getAction().getId()).andWhere("descr", "=", new_menu.getDescr())
+					.one())) {
+				new_menu.setMenu(new Menu().find().andWhere("application.dad", "=", m.getMenu().getDad_menu())
+						.andWhere("action.page", "=", m.getMenu().getPage_name()).andWhere("descr", "=", m.getMenu().getDescr())
+						.one());
+				new_menu = new_menu.insert();
+				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
 			}
-			new_menu.setAction(action);
-			if (Core.isNotNull(new_menu.getAction())) {
-				if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
-						.andWhere("action", "=", new_menu.getAction().getId()).andWhere("descr", "=", new_menu.getDescr())
-						.one())) {
-					new_menu = new_menu.insert();
-					this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
-				}
-
-			} else {
-				//Menu is Parent
-				if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
-						.andWhere("descr", "=", new_menu.getDescr()).one())) {
-					new_menu = new_menu.insert();
-					this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
-				}
-
+		} else {
+			//Menu is Parent
+			if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
+					.andWhere("descr", "=", new_menu.getDescr()).one())) {
+				new_menu = new_menu.insert();
+				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
 			}
-	
-			
-			
+		}			
 	}
 
 	@Override
