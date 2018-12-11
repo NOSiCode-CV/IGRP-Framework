@@ -132,9 +132,10 @@ public class NovoMenuController extends Controller {
 				menu.setMenu(new Menu().findOne(model.getSelf_id()));
 				// else if for the case the son has no parent, to set the parent itself. A son
 				// has a page/action
-			} else if (model.getAction_fk() != 0) {
-				menu.setAction(new Action().findOne(model.getAction_fk()));
-				menu.setMenu(menu);
+			}
+			if (model.getAction_fk() != 0) {
+				Action ac = new Action().findOne(Core.toInt(""+model.getAction_fk()));
+				menu.setAction(ac);
 			}
 
 			if (Core.isNotNullOrZero(id)) {
