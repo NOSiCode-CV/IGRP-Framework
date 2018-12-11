@@ -65,8 +65,7 @@ public class ListField extends AbstractField {
 					
 				}
 			}
-			Object obj = (Object)map;
-			this.setValue(obj);
+			this.setValue(map);
 		}
 	}
 	

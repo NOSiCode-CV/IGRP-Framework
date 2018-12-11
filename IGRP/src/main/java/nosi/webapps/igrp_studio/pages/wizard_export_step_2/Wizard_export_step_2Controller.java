@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_2;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -65,8 +63,7 @@ public class Wizard_export_step_2Controller extends Controller {
 		 return this.forward("igrp_studio","Wizard_export_step_1","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(voltar)----*/
 		this.addQueryString("p_application_id", Core.getParam("app_id"));
-		this.addQueryStringArray("p_selecionar_opcao",Core.getParamArray("p_selecionar_opcao"));
-		this.addQueryStringArray("p_selecionar_opcao_check",Core.getParamArray("p_selecionar_opcao"));
+		this.addQueryString("p_selecionar_opcao",Core.getParamArray("p_selecionar_opcao"));
 		
       return this.redirect("igrp_studio","Wizard_export_step_1","index", this.queryString());
 		/*----#end-code----*/
