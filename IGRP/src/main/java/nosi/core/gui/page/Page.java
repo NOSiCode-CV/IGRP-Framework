@@ -156,11 +156,11 @@ public class Page{
 		String controllerPath = params[0];
 		String actionName = params[1];
 		try {
-			Class c = Class.forName(controllerPath);
+			Class<?> c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Igrp.getInstance().setCurrentController((Controller) controller); // store the requested contoller 
 			Method action = null;
-			ArrayList paramValues = new ArrayList();
+			ArrayList<Object> paramValues = new ArrayList<Object>();
 			for(Method aux : c.getDeclaredMethods())
 				if(aux.getName().equals(actionName))
 					action = aux;
@@ -169,7 +169,7 @@ public class Page{
 				for(Parameter parameter : action.getParameters()){
 					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
 						// Dependency Injection for models
-						Class c_ = Class.forName(parameter.getType().getName());
+						Class<?> c_ = Class.forName(parameter.getType().getName());
 						nosi.core.webapp.Model model = (Model) c_.newInstance();
 						model.load();
 						paramValues.add(model);
