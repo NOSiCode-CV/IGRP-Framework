@@ -2094,7 +2094,14 @@ public final class Core { // Not inherit
 		return new Config().getResolveUrl(app,page,action);
 	}
 	
-	public static String[] convertToArrayString(int[] array) {
+
+	/**
+	 *Convert int array to String array
+	 *Exemple: convertArrayIntToArrayString(new int[]{1,2,3}); -> String[]{"1","2","3"};
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayIntToArrayString(int[] array) {
 		Function<int[], String[]> intToString = x -> {
 			String[] a = new String[x.length];
 			for(int i=0;i<x.length;i++) {
@@ -2105,7 +2112,13 @@ public final class Core { // Not inherit
 		return intToString.apply(array);
 	}
 	
-	public static String[] convertToArrayString(float[] array) {
+	/**
+	 *Convert float array to String array
+	 *Exemple: convertArrayFloatToArrayString(new float[]{1.0,2,3}); -> String[]{"1.0","2","3"};
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayFloatToArrayString(float[] array) {
 		Function<float[], String[]> intToString = x -> {
 			String[] a = new String[x.length];
 			for(int i=0;i<x.length;i++) {
@@ -2116,7 +2129,14 @@ public final class Core { // Not inherit
 		return intToString.apply(array);
 	}
 	
-	public static String[] convertToArrayString(double[] array) {
+	
+	/**
+	 *Convert double array to String array
+	 *Exemple: convertArrayDoubleToArrayString(new double[]{1,2,3}); -> String[]{"1","2","3"};
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayDoubleToArrayString(double[] array) {
 		Function<double[], String[]> intToString = x -> {
 			String[] a = new String[x.length];
 			for(int i=0;i<x.length;i++) {
@@ -2127,7 +2147,13 @@ public final class Core { // Not inherit
 		return intToString.apply(array);
 	}
 	
-	public static String[] convertToArrayString(short[] array) {
+	/**
+	 *Convert short array to String array
+	 *Exemple: convertArrayShortToArrayString(new short[]{1,2,3}); -> String[]{"1","2","3"};
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayShortToArrayString(short[] array) {
 		Function<short[], String[]> intToString = x -> {
 			String[] a = new String[x.length];
 			for(int i=0;i<x.length;i++) {
@@ -2138,75 +2164,158 @@ public final class Core { // Not inherit
 		return intToString.apply(array);
 	}
 	
-	public static String[] convertToArrayString(boolean[] array) {
-		Function<boolean[], String[]> intToString = x -> {
+	
+	/**
+	 *Convert Object array to String array
+	 *Exemple: convertArrayObjectToArrayString(new Integer[]{1,2,3}); -> String[]{"1","2","3"};
+	 * @param array
+	 * @return
+	 */
+	public static <N> String[] convertArrayObjectToArrayString(N[] array) {
+		Function<N[], String[]> intToString = x -> {
 			String[] a = new String[x.length];
 			for(int i=0;i<x.length;i++) {
 				a[i] =""+x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+
+	/**
+	 *Convert Object array to primitive int array
+	 *Exemple: convertArrayObjectToArrayInt(new String[]{"1","2","3"}); -> int[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> int[] convertArrayObjectToArrayInt(N[] array) {
+		Function<N[], int[]> intToString = x -> {
+			int[] a = new int[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] = Core.toInt((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
 	
-	public static String[] convertToArrayString(Integer[] array) {
-		Function<Integer[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
+	/**
+	 *Convert Object array to primitive short array
+	 *Exemple: convertArrayObjectToArrayPShort(new String[]{"1","2","3"}); -> short[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> short[] convertArrayObjectToArrayPShort(N[] array) {
+		Function<N[], short[]> intToString = x -> {
+			short[] a = new short[x.length];
 			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
+				a[i] = Core.toShort((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
 	
-
-	public static String[] convertToArrayString(Float[] array) {
-		Function<Float[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
+	/**
+	 *Convert Object array to primitive float array
+	 *Exemple: convertArrayObjectToArrayPFloat(new String[]{"1","2","3"}); -> float[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> float[] convertArrayObjectToArrayPFloat(N[] array) {
+		Function<N[], float[]> intToString = x -> {
+			float[] a = new float[x.length];
 			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
+				a[i] = Core.toFloat((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
 	
-
-	public static String[] convertToArrayString(Double[] array) {
-		Function<Double[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
+	/**
+	 *Convert Object array to primitive double array
+	 * Exemple: convertArrayObjectToArrayPDouble(new String[]{"1","2","3"}); -> double[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> double[] convertArrayObjectToArrayPDouble(N[] array) {
+		Function<N[], double[]> intToString = x -> {
+			double[] a = new double[x.length];
 			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
+				a[i] = Core.toDouble((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
 	
-
-	public static String[] convertToArrayString(Boolean[] array) {
-		Function<Boolean[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
+	/**
+	 *Convert Object array to Integer array
+	 * Exemple: convertArrayObjectToArrayInteger(new String[]{"1","2","3"}); -> Integer[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> Integer[] convertArrayObjectToArrayInteger(N[] array) {
+		Function<N[], Integer[]> intToString = x -> {
+			Integer[] a = new Integer[x.length];
 			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
+				a[i] = Core.toInt((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	private Core() {
-	} // Not instantiate
-
-	public static String[] convertToArrayString(Short[] array) {
-		Function<Short[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
+	
+	/**
+	 * Convert Object array to Float array
+	 * Exemple: convertArrayObjectToArrayFloat(new String[]{"1","2","3"}); -> Float[]{1.0,2.0,3.0};
+	 * @param array
+	 * @return
+	 */
+	public static <N> Float[] convertArrayObjectToArrayFloat(N[] array) {
+		Function<N[], Float[]> intToString = x -> {
+			Float[] a = new Float[x.length];
 			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
+				a[i] = Core.toFloat((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-
+	
+	/**
+	 *Convert Object array to Double array
+	 *Exemple: convertArrayObjectToArrayDouble(new String[]{"1","2","3"}); -> Double[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> Double[] convertArrayObjectToArrayDouble(N[] array) {
+		Function<N[], Double[]> intToString = x -> {
+			Double[] a = new Double[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] = Core.toDouble((String) x[i]);
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
+	/**
+	 * Convert Object array to Short array
+	 * Exemple: convertArrayObjectToArrayShort(new String[]{"1","2","3"}); -> String[]{1,2,3};
+	 * @param array
+	 * @return
+	 */
+	public static <N> Short[] convertArrayObjectToArrayShort(N[] array) {
+		Function<N[], Short[]> intToString = x -> {
+			Short[] a = new Short[x.length];
+			for(int i=0;i<x.length;i++) {
+				a[i] = Core.toShort((String) x[i]);
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+	
 }
