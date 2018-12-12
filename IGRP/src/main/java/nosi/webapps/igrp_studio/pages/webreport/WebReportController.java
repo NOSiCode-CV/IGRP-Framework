@@ -110,12 +110,12 @@ public class WebReportController extends Controller {
 			String id = Core.getParam("p_id");			
 			String [] data_sources = Core.getParamArray("p_datasorce_app");
 			//String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
-			if(fileTxt!=null && fileXsl!=null && Core.isNotNullMultiple(env_fk,title,code)){
+			if(fileTxt!=null && fileXsl!=null){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
 				RepTemplate rt = new RepTemplate();
 				//Save report if not exist
-				if(title!=null && code!=null && (id==null || id.equals(""))){
+				if(Core.isNotNullMultiple(env_fk,title,code) && (id==null || id.equals(""))){
 					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
 					clob_xsl.setDt_created(new Date(System.currentTimeMillis()));
 					clob_xsl = clob_xsl.insert();
@@ -125,7 +125,7 @@ public class WebReportController extends Controller {
 					rt.setCode(code);
 					rt.setName(title);
 					Application app = new Application();
-					app = app.findOne(Integer.parseInt(env_fk));
+					app = app.findOne(Core.toInt(env_fk));
 					rt.setApplication(app);
 					rt.setXml_content(clob_html);
 					rt.setXsl_content(clob_xsl);
@@ -139,8 +139,8 @@ public class WebReportController extends Controller {
 					rt = rt.insert();	
 				}
 				//Update report if is exist
-				if(Core.isNotNull(id)){
-					rt = rt.findOne(Integer.parseInt(id));
+				if(Core.isNotNullMultiple(env_fk,id)){
+					rt = rt.findOne(Core.toInt(id));
 					clob_xsl = clob_xsl.findOne(rt.getXsl_content().getId());
 					clob_html = clob_html.findOne(rt.getXml_content().getId());				
 					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
@@ -158,7 +158,7 @@ public class WebReportController extends Controller {
 					}
 				}
 				String p_datasourcekeys= Core.getParam("p_datasourcekeys");
-				if(p_datasourcekeys!=null) {
+				if(Core.isNotNull(p_datasourcekeys)){
 					Gson g = new Gson();
 					@SuppressWarnings("unchecked")
 					List<DataSourceParam> datasources = (List<DataSourceParam>) g.fromJson(p_datasourcekeys, new TypeToken<List<DataSourceParam>>(){}.getType());
