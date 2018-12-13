@@ -709,18 +709,25 @@ public class PageController extends Controller {
 	}
 
 	public Response actionGetPageJson() throws IOException {
-		int p_id = Core.getParamInt("p_id");
-		String json = "";
-		if (p_id != 0) {
-			Action ac = new Action().findOne(p_id);
+		String p_id = Core.getParam("p_id");
+		String json = ""; 
+		if (p_id != null && !p_id.isEmpty()) {
+			Action ac = null;
+			if(Core.isInt(p_id)) {
+				ac = new Action().findOne(p_id);
+			}
+			else {
+				ac = new Action().andWhere("page", "=", p_id).one();
+			}
 			if (ac != null) {
 				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/",
 						ac.getPage() + ".json");
 			}
 		}
-		this.format = Response.FORMAT_JSON;
+		this.format = Response.FORMAT_JSON; 
 		return this.renderView(json);
 	}
+	
 	final String basePath = this.config.basePathServer()+"images"+File.separator+"IGRP"+File.separator+"IGRP2.3"+File.separator+"core"+File.separator
 			 +"formgen"+File.separator+"types"+File.separator;
 	
