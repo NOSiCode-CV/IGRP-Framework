@@ -97,7 +97,7 @@ $.fn.activiti2Io = function(params) {
  		.replace(/<\/conditionExpression/g,'<\/bpmn:conditionExpression')
  		.replace(/xsi:type="tFormalExpression"/g,'xsi:type="bpmn:tFormalExpression"');
 
-    console.log(xml);
+    //console.log(xml);
   //console.log($.parseXML(xml));
 
   return xml;
@@ -169,11 +169,11 @@ $.fn.io2Activiti = function(params){
    		.replace(/bpmn:tFormalExpression/g,'tFormalExpression')
    		.replace(/<dc:/g, '<omgdc:').replace(/<di:/g, '<omgdi:');
 
-   	xml 	= minify(xml);
-   	xml 	= xml.substring(xml.indexOf('<process'),xml.length);
-    xml 	= minify(starAtivitiXml+xml);
+    var index = xml.indexOf('<collaboration') ? xml.indexOf('<collaboration')-3 : xml.indexOf('<process');
 
-    console.log($.parseXML(xml));
+   	xml 	= minify(xml);
+   	xml 	= xml.substring(index,xml.length);
+    xml 	= minify(starAtivitiXml+xml);
 
 	return xml; 
 };

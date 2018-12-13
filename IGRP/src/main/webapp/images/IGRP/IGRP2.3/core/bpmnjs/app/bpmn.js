@@ -2,7 +2,7 @@
    var com,
       bpmn = {};
 
-   bpmn.id   = '';
+   bpmn.id   = null;
    bpmn.title= $('#igrp-app-title').text();
    bpmn.app  = $('#form_1_env_fk').val();
    bpmn.new  = path+'/core/bpmnjs/resources/initial.bpmn';
@@ -40,7 +40,7 @@
                } else{
                   var arrayItem = [];
 
-                  if(url.indexOf("?")>-1){
+                  if(url.indexOf("?") >-1 ){
                      var param = url.substring(url.indexOf("?")+1),
                         p      = param.split("&");
 
@@ -79,7 +79,7 @@
             if(url){
                $('#igrp-app-title').html(bpmn.title+' [ '+$(this).text()+'  ]');
 
-               bpmn.id = $(this).attr('idObj');
+               bpmn.id = $(this).attr('idObj') || null;
                
                if(!$(e.target).hasClass("btn")){
                   com.importXML(url);
@@ -89,9 +89,8 @@
       },
       appChange : function(){
          $("#form_1_env_fk").on("change",function(){
-            bpmn.app = $(this).val();
-            var name = $(this).attr('name'),
-               param = name+'='+bpmn.app;
+            bpmn.app  = $(this).val();
+            var param = $(this).attr('name')+'='+bpmn.app;
 
             if (bpmn.app != null) {
                $('.addArea').addClass('active');
@@ -105,8 +104,9 @@
                         xml       : $(data).find('rows content gen_table table').getXMLDocument(),
                         complete  : function(){
                            try{
-                              com.importXML(bpmn.new);
-                           }catch(e){null;}
+                              if(bpmn.id != null)
+                                 com.importXML(bpmn.new);
+                           }catch(e){console.log(e);null;}
 
                            com.lookupSetHref(param);
                         }
@@ -126,7 +126,7 @@
       btnAddEditClick : function(){
          $("body").on("click",".treeview .btn, .addArea",function(e){
             e.preventDefault();
-            var url       = '',
+            var url     = '',
             parent      = $(this).parents('a:first'),
             parentNode  = parent.parents('li[type="node"]:first');
 
@@ -135,9 +135,8 @@
 
                parent.hasClass('active') ? parent.addClass('active') : parent.removeClass('active');
                parentNode.hasClass('active') ? parentNode.addClass('active') : parentNode.removeClass('active');
-            }else{
+            }else
                url = $.IGRP.utils.getUrl($('#p_link_add_area').val())+'p_env_fk='+bpmn.app;
-            }
 
             if(url){
                $.IGRP.components.iframeNav.set({
@@ -188,7 +187,7 @@
                $(this).attr('href',href);
             }else{
                $.IGRP.notify({
-                  message : 'Campo id do Separador General é Obrigatorio.',
+                  message : 'Campo id do Separador General Ã© Obrigatorio.',
                   type    : 'danger'
                });
                return false;
