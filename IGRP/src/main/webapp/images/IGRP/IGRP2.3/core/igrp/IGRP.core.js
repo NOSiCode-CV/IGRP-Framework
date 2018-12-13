@@ -173,7 +173,7 @@
 					label  = null;
 
 				if (typeof $(tag) === 'object'){
-
+					
 					lookup  = $(tag).attr('lookup') ? $(tag).attr('lookup') : null;
 
 					label   = $(tag).attr('label') ? $(tag).attr('label') : null;
@@ -181,6 +181,7 @@
 					value   = $(tag).text();
 
 					tag 	= tag.tagName.toLowerCase();
+					
 				}
 
 				var formElement = $('[name="p_'+tag+'"]'),

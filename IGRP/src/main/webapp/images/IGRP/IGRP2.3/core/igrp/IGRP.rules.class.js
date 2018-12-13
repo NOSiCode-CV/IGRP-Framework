@@ -650,7 +650,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 					method 	: 'POST',
 					success : function(data){
 
-						var contents = $(data).find('>*'),
+						var contents = $(data).find('content >*'),
 							arrField = [];
 
 						$.each($(contents),function(i,item){
