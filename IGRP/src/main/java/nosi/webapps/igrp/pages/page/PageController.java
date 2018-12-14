@@ -516,7 +516,7 @@ public class PageController extends Controller {
 					aux.add(action);
 			}
 
-		List<Action> actions = new Action().find().andWhere("application.id", "=", app).andWhere("status", "=", "1")
+		List<Action> actions = new Action().find().andWhere("isComponent", "<>",2).andWhere("application.id", "=", app).andWhere("status", "=", "1")
 				.all();
 
 		if (aux != null)
