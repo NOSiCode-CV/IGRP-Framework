@@ -169,16 +169,18 @@ public class ProcessDefinitionService extends Activit{
 	}
 
 	public boolean activateProcessDefinition(String id){
-		return this.statusProcessDefinition(id,  "activate");
+		return this.statusProcessDefinition(id,  "activate",true);
 	}
+	
 	public boolean suspendProcessDefinition(String id){
-		return this.statusProcessDefinition(id,  "suspend");
+		return this.statusProcessDefinition(id,  "suspend",true);
 	}
-	private boolean statusProcessDefinition(String id,String status){
+	
+	public boolean statusProcessDefinition(String id,String action,boolean includeProcessInstances){
 		JSONObject jobj = new JSONObject();
 		try {
-			jobj.put("action" ,status);
-			jobj.put( "includeProcessInstances" , "true");
+			jobj.put("action" ,action);
+			jobj.put( "includeProcessInstances" , includeProcessInstances);
 			jobj.put( "date" , new Date(System.currentTimeMillis()));
 		} catch (JSONException e) {
 			e.printStackTrace();
