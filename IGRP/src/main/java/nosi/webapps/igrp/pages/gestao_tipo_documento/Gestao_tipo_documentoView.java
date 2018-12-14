@@ -1,14 +1,14 @@
-
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
-
 public class Gestao_tipo_documentoView extends View {
 
+	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field codigo;
 	public Field nome;
@@ -21,43 +21,49 @@ public class Gestao_tipo_documentoView extends View {
 	public Field t_descricao;
 	public Field t_estado;
 	public Field id;
-	public Field sectionheader_1_text;
+	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
-	public IGRPForm sectionheader_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_editar;
+	public IGRPButton btn_eliminar;
 
 	public Gestao_tipo_documentoView(){
 
 		this.setPageTitle("Gestao Tipo Documento");
 			
+		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		form_1 = new IGRPForm("form_1","");
 
 		table_1 = new IGRPTable("table_1","");
 
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
-
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel(gt(""));
+		sectionheader_1_text.setValue(gt("Gestão Tipo de Documento"));
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("java-type","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Codigo"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","250").add("required","true");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","true");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Descrição"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","250").add("required","false");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo?"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","250").add("required","false").add("switch","false").add("check","true");
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
 		
 		t_aplicacao = new TextField(model,"t_aplicacao");
 		t_aplicacao.setLabel(gt("Aplicação"));
@@ -81,12 +87,7 @@ public class Gestao_tipo_documentoView extends View {
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
-		
-		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("Gestão Tipo de Documento"));
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -94,12 +95,21 @@ public class Gestao_tipo_documentoView extends View {
 		btn_gravar = new IGRPButton("Gravar","igrp","Gestao_tipo_documento","gravar","submit_form","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
+		btn_editar = new IGRPButton("Editar","igrp","Gestao_tipo_documento","editar","mpsubmit|refresh","warning|fa-pencil","","");
+		btn_editar.propertie.add("type","specific").add("rel","editar");
+
+		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestao_tipo_documento","eliminar","alert_submit","danger|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
+
 		
 	}
 		
 	@Override
 	public void render(){
 		
+		sectionheader_1.addField(sectionheader_1_text);
+
+
 		form_1.addField(aplicacao);
 		form_1.addField(codigo);
 		form_1.addField(nome);
@@ -113,13 +123,12 @@ public class Gestao_tipo_documentoView extends View {
 		table_1.addField(t_estado);
 		table_1.addField(id);
 
-
-		sectionheader_1.addField(sectionheader_1_text);
-
 		toolsbar_1.addButton(btn_gravar);
+		table_1.addButton(btn_editar);
+		table_1.addButton(btn_eliminar);
+		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
-		this.addToPage(sectionheader_1);
 		this.addToPage(toolsbar_1);
 	}
 		
@@ -139,6 +148,5 @@ public class Gestao_tipo_documentoView extends View {
 		id.setValue(model);	
 
 		table_1.loadModel(((Gestao_tipo_documento) model).getTable_1());
-		
-	}
+		}
 }
