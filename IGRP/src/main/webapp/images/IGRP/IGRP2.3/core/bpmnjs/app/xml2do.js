@@ -159,21 +159,22 @@ $.fn.io2Activiti = function(params){
         ' targetNamespace="http://www.activiti.org/processdef">';
 
 
-	xml = xml2String(xml[0])
+	var xml = xml2String(xml[0])
 		.replace(/_G_/g, ':').replace(/xmlns=""/g, '')
 		.replace(/xmlns:activiti=""/g, '')
-   		.replace(/camunda:formKey=/g,'activiti:formKey=')
-   		.replace(/camunda:/g,'activiti:')
-   		.replace(/<bpmn:conditionExpression/g,'<conditionExpression')
-   		.replace(/<\/bpmn:conditionExpression/g,'<\/conditionExpression')
-   		.replace(/bpmn:tFormalExpression/g,'tFormalExpression')
-   		.replace(/<dc:/g, '<omgdc:').replace(/<di:/g, '<omgdi:');
+   	.replace(/camunda:formKey=/g,'activiti:formKey=')
+   	.replace(/camunda:/g,'activiti:')
+   	.replace(/<bpmn:conditionExpression/g,'<conditionExpression')
+   	.replace(/<\/bpmn:conditionExpression/g,'<\/conditionExpression')
+   	.replace(/bpmn:tFormalExpression/g,'tFormalExpression')
+   	.replace(/<dc:/g, '<omgdc:').replace(/<di:/g, '<omgdi:');
 
-    var index = xml.indexOf('<collaboration') ? xml.indexOf('<collaboration')-3 : xml.indexOf('<process');
+  xml   = minify(xml);
 
-   	xml 	= minify(xml);
-   	xml 	= xml.substring(index,xml.length);
-    xml 	= minify(starAtivitiXml+xml);
-
+  var index = xml.indexOf('<collaboration') != -1 ? xml.indexOf('<collaboration') : xml.indexOf('<process');
+    
+  xml 	= xml.substring(index,xml.length);
+  xml 	= minify(starAtivitiXml+xml);
+  
 	return xml; 
 };
