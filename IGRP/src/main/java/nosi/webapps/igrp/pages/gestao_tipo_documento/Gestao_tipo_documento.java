@@ -1,15 +1,16 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
+
+
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Gestao_tipo_documento extends Model{		
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 	@RParam(rParamName = "p_codigo")
@@ -22,8 +23,6 @@ public class Gestao_tipo_documento extends Model{
 	private int ativo;
 	@RParam(rParamName = "p_ativo_check")
 	private int ativo_check;
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -49,6 +48,13 @@ public class Gestao_tipo_documento extends Model{
 	}
 	public String[] getP_table_1_del(){
 		return this.p_table_1_del;
+	}
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
 	}
 	
 	public void setAplicacao(String aplicacao){
@@ -90,13 +96,6 @@ public class Gestao_tipo_documento extends Model{
 	}
 	public int getAtivo_check(){
 		return this.ativo_check;
-	}
-	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
-	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
 	}
 
 
