@@ -149,7 +149,8 @@ public class ImportJavaPage {
 		for(FileImportAppOrPage file:this.pagesToCompile){
 			String path = config.getPathServerClass(this.page.getApplication().getDad())+"pages"+File.separator+file.getFolder().toLowerCase();
 			Compiler compiler = new Compiler();
-			compiler.compile(new File[] { new File(path + File.separator+file.getNome()) });
+			compiler.addFileName(path + File.separator+file.getNome());
+			compiler.compile();
 			if (compiler.hasError()) {
 				this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
 			}

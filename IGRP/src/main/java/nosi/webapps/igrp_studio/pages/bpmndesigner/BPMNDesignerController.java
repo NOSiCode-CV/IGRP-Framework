@@ -74,13 +74,12 @@ public class BPMNDesignerController extends Controller {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
 			String content = FileHelper.convertToString(data);
 			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content,true);
-			this.files = new File[tasks.size()];
-			int i = 0;
+			this.compiler = new Compiler();
 			for(TaskService task:tasks) {
-				this.saveTaskController(task,app,i);
-				++i;
-			}			
-			erros = new Compiler().compile(this.files);
+				this.saveTaskController(task,app);
+			}	
+			this.compiler.compile();
+			erros = this.compiler.getError();
 			int index = content.indexOf("<process id=\"");
 			String fileName = data.getName();
 			if(index != -1) {
@@ -121,7 +120,7 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView(resource);
 	}
 	
-	private void saveTaskController(TaskService task,Application app,int index) {
+	private void saveTaskController(TaskService task,Application app) {
 		String taskName = StringHelper.camelCaseFirst(this.config.PREFIX_TASK_NAME+task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
@@ -150,10 +149,10 @@ public class BPMNDesignerController extends Controller {
 		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(),ac.getPage(),task.getFormKey());
 		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
-		files[index] = FileHelper.saveFilesControllerJava(classPathServer, ac.getPage(), content);
+		this.compiler.addFileName(classPathServer+File.separator+ ac.getPage()+"Controller.java");
+		FileHelper.saveFilesControllerJava(classPathServer, ac.getPage(), content);
 		FileHelper.saveFilesControllerJava(classPathWorkspace, ac.getPage(), content);
-		
 	}
-	private File[] files;
+	private Compiler compiler;
 	/*----#END-PRESERVED-AREA----*/
 }

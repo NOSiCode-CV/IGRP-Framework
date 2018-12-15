@@ -183,10 +183,12 @@ public class File_editorController extends Controller {
 			if(Core.isNotNull(fileName) && javaCode!=null) {
 				fileName = URLDecoder.decode(fileName, "UTF-8");	
 				String content = FileHelper.convertToString(javaCode);
-				File[] files = new File[]{new File(fileName)};
 				FileHelper.save(fileName, null, content);
 				if(fileName.endsWith(".java")) {
-					String erros = new Compiler().compile(files);
+					Compiler compiler = new Compiler();
+					compiler.addFileName(fileName);
+					compiler.compile();
+					String erros = compiler.getErrorToJson();
 					if(Core.isNotNull(erros)) {
 						return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml10(erros)+"</message></messages>");
 					}

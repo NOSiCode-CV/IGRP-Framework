@@ -3,7 +3,6 @@ package nosi.core.webapp.import_export_v2.imports.bpmn;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export_v2.common.CompilerFile;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.bpmn.BPMNSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
@@ -13,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
+import nosi.core.webapp.compiler.helpers.Compiler;
 
 /**
  * Emanuel
@@ -23,12 +23,12 @@ public class BpmnImport implements IImport {
 	private List<BPMNSerializable> bpmns;
 	private String error = "";
 	private Application application;	
-	private CompilerFile compiler;
+	private Compiler compiler;
 	
 	public BpmnImport(Application application) {
 		super();
 		this.application = application;
-		this.compiler = new CompilerFile();
+		this.compiler = new Compiler();
 	}
 
 	@SuppressWarnings("unchecked")
