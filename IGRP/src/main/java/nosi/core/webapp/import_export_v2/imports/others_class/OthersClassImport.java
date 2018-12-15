@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export_v2.common.CompilerFile;
+import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.dao.DAOSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
@@ -21,11 +21,11 @@ public class OthersClassImport implements IImport{
 
 	private List<DAOSerializable> others_class;
 	private String error = "";
-	private CompilerFile compiler;	
+	private Compiler compiler;	
 	
 	public OthersClassImport(Application application) {
 		this.others_class = new ArrayList<>();
-		this.compiler = new CompilerFile();
+		this.compiler = new Compiler();
 	}
 	
 	@SuppressWarnings("unchecked")

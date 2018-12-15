@@ -15,6 +15,9 @@ public class ErrorCompile  implements Serializable{
 	private long line;
 	private String fileName;
 	
+	public ErrorCompile() {
+		// TODO Auto-generated constructor stub
+	}
 	public ErrorCompile(String error, long line, String fileName) {
 		super();
 		this.error = error;

@@ -142,13 +142,14 @@ public class ImportAppJava {
 		for(FileImportAppOrPage file:this.pagesToCompile){
 			String path = config.getPathServerClass(this.app.getDad())+"pages"+File.separator+file.getFolder().toLowerCase();
 			Compiler compiler = new Compiler();
-			compiler.compile(new File[] { new File(path + File.separator+file.getNome()) });
-			compiler.hasError();
+			compiler.addFileName(path + File.separator+file.getNome());
+			compiler.compile();
 			if (compiler.hasError()) {
 				this.errors.add("Ocorreu um erro ao compilar o ficheiro "+file.getNome());
 			}
 		}
 	}
+	
 
 	private void saveReports(List<StoredReports> reports) {
 		reports.stream().forEach(report->{

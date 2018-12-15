@@ -3,12 +3,10 @@ package nosi.core.webapp.import_export_v2.imports.page;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export_v2.common.CompilerFile;
+import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.page.PageSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
@@ -23,14 +21,14 @@ public class PageImport implements IImport{
 	private String error = "";
 	protected Application application;
 	private List<PageSerializable> pages;
-	protected CompilerFile compiler;	
+	protected Compiler compiler;	
 	
 	
 	
 	public PageImport(Application application) {
 		super();
 		this.application = application;
-		this.compiler = new CompilerFile();
+		this.compiler = new Compiler();
 	}
 
 	@SuppressWarnings("unchecked")

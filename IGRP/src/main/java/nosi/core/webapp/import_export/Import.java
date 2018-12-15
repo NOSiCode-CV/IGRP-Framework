@@ -28,6 +28,7 @@ public class Import {
 	private Config config = new Config();
 	protected String encode = FileHelper.ENCODE_UTF8;
 	protected Application app;
+	protected Compiler compiler = new Compiler();
 	
 	public boolean importApp(IFImportExport ie) {
 		return ie.importApp();
@@ -46,30 +47,26 @@ public class Import {
 	}
 
 	protected boolean compileFiles(List<FileImportAppOrPage> filesToCompile, Application app) {
-		File[] files = new File[filesToCompile.size()];
-		int i = 0;
 		for(FileImportAppOrPage file:filesToCompile){
 			if(file.getNome()!=null){
 				String[] partPage = file.getNome().split("/");
 				if(partPage.length > 2 && partPage[2].equalsIgnoreCase("DefaultPage")){
-					files[i] = this.addFileDesfaultPage(file,app);				
+					this.compiler.addFileName(this.addFileDesfaultPage(file,app));				
 				}
 				if(file.getNome().startsWith("dao")){
-					files[i] = this.addFileDao(file,app);	
+					this.compiler.addFileName(this.addFileDao(file,app));	
 				}
 				if(!file.getNome().startsWith("dao") && !partPage[2].equalsIgnoreCase("DefaultPage")){
-					files[i] = this.addFileMVC(file,app);	
+					this.compiler.addFileName(this.addFileMVC(file,app));	
 				}
-				i++;
 			}
 		}
-		Compiler compiler = new Compiler();
-		compiler.compile(files);
+		compiler.compile();
 		return compiler.hasError();
 	}
 
 
-	private File addFileMVC(FileImportAppOrPage file,Application app) {
+	private String addFileMVC(FileImportAppOrPage file,Application app) {
 		String[] partPage = file.getNome().split("/");
 		Action page = new Action().find()
 				  .andWhere("application.dad", "=", app.getDad())
@@ -101,7 +98,7 @@ public class Import {
 				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad())+File.separator+"pages"+File.separator+page.getPage().toLowerCase();
 				FileHelper.save(path_class_work_space,partPage[3],content);
 			}
-			return new File(path_class+"/"+partPage[3]);
+			return path_class+"/"+partPage[3];
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +106,7 @@ public class Import {
 	}
 
 
-	private File addFileDao(FileImportAppOrPage file,Application app) {
+	private String addFileDao(FileImportAppOrPage file,Application app) {
 		String[] partPage = file.getNome().split("/");
 		String dir = this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/dao";
 		if(!FileHelper.fileExists(dir))
@@ -119,7 +116,7 @@ public class Import {
 			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/dao")){
 				FileHelper.save(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
 			}	
-			return new File(dir+"/"+ partPage[1]);
+			return dir+"/"+ partPage[1];
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -127,7 +124,7 @@ public class Import {
 	}
 
 
-	private File addFileDesfaultPage(FileImportAppOrPage file,Application app) {
+	private String addFileDesfaultPage(FileImportAppOrPage file,Application app) {
 		String dir = this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage";
 		if(!FileHelper.fileExists(dir))
 			FileHelper.createDiretory(dir);
@@ -137,7 +134,7 @@ public class Import {
 			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 				FileHelper.save(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 			}	
-			return new File(dir+"/"+ "DefaultPageController.java");
+			return dir+"/"+ "DefaultPageController.java";
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
