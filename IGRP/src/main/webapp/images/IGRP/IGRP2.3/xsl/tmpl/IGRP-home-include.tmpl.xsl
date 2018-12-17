@@ -366,7 +366,7 @@
                   </xsl:if>
                   <ul class="clear igrp-debug-list">
                       <xsl:for-each select="rows/content/messages/message[@type='debug']">
-                        <li value="{.}"><xsl:value-of select="." /></li>
+                        <li style="white-space: pre" value="{.}"><xsl:value-of select="." /></li>
                       </xsl:for-each>
                   </ul>
               </div>

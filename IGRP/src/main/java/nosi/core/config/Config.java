@@ -35,7 +35,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "181211";
+	public final String VERSION = "181216";
 
 	public Config() {
 		
@@ -83,7 +83,7 @@ public class Config {
 	
 	public String getUserName() {
 		User u = (User) Igrp.getInstance().getUser().getIdentity();
-		return (u!=null)?u.getName():"red-igrp";
+		return (u!=null)?u.getName():"DUA-hexagon";
 	}
 
 	public Properties getConfig(){

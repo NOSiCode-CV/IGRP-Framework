@@ -168,7 +168,6 @@ public class PesquisarMenuController extends Controller {
 			Core.setMessageSuccess();
 		else
 			Core.setMessageError();		
-		return this.forward("igrp", "PesquisarMenu", "index", this.queryString());
 		}
  	
 		/*----#end-code----*/

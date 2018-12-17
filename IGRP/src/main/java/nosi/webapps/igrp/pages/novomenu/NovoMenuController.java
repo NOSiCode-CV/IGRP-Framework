@@ -128,16 +128,17 @@ public class NovoMenuController extends Controller {
 			menu.setOrderby(model.getOrderby());
 			menu.setStatus(model.getStatus());
 			menu.setTarget(model.getTarget());
-			if (model.getSelf_id() != 0) {
-				menu.setMenu(new Menu().findOne(model.getSelf_id()));
-				// else if for the case the son has no parent, to set the parent itself. A son
-				// has a page/action
+			if (Core.isNotNullOrZero(model.getAction_fk())) {
+				// Is not a parent because has a action					
+				menu.setAction(new Action().findOne(model.getAction_fk()));
 			}
-			if (model.getAction_fk() != 0) {
-				Action ac = new Action().findOne(Core.toInt(""+model.getAction_fk()));
-				menu.setAction(ac);
-			}
-
+			if (Core.isNotNullOrZero(model.getSelf_id())) {		
+				// Parent id was choose in the select/combobox			
+				menu.setMenu(new Menu().findOne(model.getSelf_id()));				
+			}else if (Core.isNotNullOrZero(model.getAction_fk()))								
+				menu.setMenu(menu);
+			
+			
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = menu.update();
@@ -175,10 +176,8 @@ public class NovoMenuController extends Controller {
 			}
 
 		}
-		if (Core.isNotNullOrZero(id))
-
-		{
-			return this.forward("igrp", "NovoMenu", "index"); // redirect para não trans
+		if (Core.isNotNullOrZero(id)){
+			return this.forward("igrp", "NovoMenu", "index"); 
 		} else if (Core.isNotNullOrZero(model.getEnv_fk())) {
 			this.addQueryString("app", model.getEnv_fk());
 			return this.redirect("igrp", "NovoMenu", "index", this.queryString());

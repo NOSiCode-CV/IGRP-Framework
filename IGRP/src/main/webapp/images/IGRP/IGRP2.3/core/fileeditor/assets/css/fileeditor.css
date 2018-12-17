@@ -43,10 +43,10 @@ form .container-fluid,
 	height: 100%;
 	background: #607D8B;
 	color: white;
-	padding: 15px;
+	padding: 15px 0px 15px 15px;
 	font-size: 14px;
-	overflow: hidden;
-	width: 250px!important;
+	overflow: auto;
+	width: 350px!important;
 }
 
 .igrp-fileeditor .file.active{
@@ -216,8 +216,8 @@ form .container-fluid,
 /*main panel*/
 .igrp-fileeditor .igrp-fileeditor-main-panel {
 	position: absolute;
-	left: 250px;
-	width: calc( 100% - 250px );
+	left: 350px;
+	width: calc( 100% - 350px );
 	height: 100%;
 	padding:0;
 }

@@ -217,13 +217,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		if(row.RowList!=null) {
 				row.RowList.forEach(r->{
 				//Get Menu Pai
-//				MenuProfile mp = new MenuProfile();
-//				mp.setId(r.getInt("id"));
-//				mp.setOrder(r.getInt("orderby"));
-//				mp.setTitle(r.getString("descr_menu_pai"));
-//				mp.setTarget("#");
-//				mp.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
-				//Get subMenu
 				MenuProfile ms = new MenuProfile();
 				ms.setId(r.getInt("id"));
 				ms.setOrder(r.getInt("orderby"));

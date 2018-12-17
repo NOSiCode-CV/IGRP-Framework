@@ -10,7 +10,7 @@ var FILEFIELD = function(type,params){
 		field.setPropriety({
 			name:'accept',
 			value:{
-				value: value: params && params.properties ? params.properties.accept : '',
+				value: params && params.properties ? params.properties.accept : '',
 				options:[
 					{ value:'' , label: 'All file extension' },
 					{ value:'.docx,.doc' , label: 'Word' },
