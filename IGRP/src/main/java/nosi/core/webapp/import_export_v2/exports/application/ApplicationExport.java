@@ -30,6 +30,8 @@ public class ApplicationExport implements IExport{
 
 	@Override
 	public String serialization() {
+		Core.mapper(this.application, this.applicationSerializable);
+		this.applicationSerializable.setVersion(new Config().VERSION);
 		return Core.toJsonWithJsonBuilder(this.applicationSerializable);
 	}
 
@@ -40,8 +42,7 @@ public class ApplicationExport implements IExport{
 
 	@Override
 	public void add(String id) {
-		Core.mapper(this.application, this.applicationSerializable);
-		this.applicationSerializable.setVersion(new Config().VERSION);
+		
 	}
 
 }
