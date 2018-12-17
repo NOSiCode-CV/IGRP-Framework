@@ -322,8 +322,8 @@ var xslpath = '../../',
 				    '<!ENTITY diams    "&#9830;" >]>'+
 				    '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">'+
 				    '<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
-				    '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />'+
-				    '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />',
+				    '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" ></meta>'+
+				    '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" ></meta>',
 		    	body 	: '<style type="text/css">@page {size:=:WRLS:=;}</style></head><body>',
 		    	endbody : '</body></html></xsl:template>',
 		    	end 	: '</xsl:stylesheet>'
@@ -331,8 +331,8 @@ var xslpath = '../../',
   			includ : {
   				head : '',
   				css  : {
-  					all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"/>',
-  					chart : '<link rel="stylesheet" type="text/css" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"/>',
+  					all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"></link>',
+  					chart : '<link rel="stylesheet" type="text/css" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"></link>',
   				},
   				js   : {
   					all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+

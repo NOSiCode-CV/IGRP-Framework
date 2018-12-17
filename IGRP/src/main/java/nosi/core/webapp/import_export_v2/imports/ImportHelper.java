@@ -52,7 +52,11 @@ public class ImportHelper {
 			
 			MenuImport menu = new MenuImport(application);
 			menu.deserialization(this.getJsonContent(OptionsImportExport.MENU.getFileName()));
-			imp.add(menu);
+			imp.add(menu);			
+
+			OthersClassImport others_class = new OthersClassImport(app.getApplication());
+			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
+			imp.add(others_class);
 			
 			DaoImport dao = new DaoImport(app.getApplication());
 			dao.deserialization(this.getJsonContent(OptionsImportExport.DAO.getFileName()));
@@ -83,11 +87,7 @@ public class ImportHelper {
 			DomainImport domain = new DomainImport();
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
 			imp.add(domain);
-			
-			OthersClassImport others_class = new OthersClassImport(app.getApplication());
-			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
-			imp.add(others_class);
-			
+						
 			imp.execute();
 			this.setEerror(imp.getErrors());
 		}else {
