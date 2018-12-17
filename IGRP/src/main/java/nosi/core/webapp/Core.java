@@ -591,8 +591,8 @@ public final class Core { // Not inherit
 		}
 		String r = Core.getParam("r"); 
 		r = Core.decrypt(r); 
-		String[] r_split = r.split("/");
-		return r_split[0];
+		String[] r_split = r!=null?r.split("/"):null;
+		return r_split!=null?r_split[0]:"igrp";
 	}
 
 	/**
