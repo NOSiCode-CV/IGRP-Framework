@@ -152,7 +152,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-	private ArrayList<File> files = new ArrayList<>();
+	private Compiler compiler = new Compiler();
 	private DatabaseMetadaHelper dmh = new DatabaseMetadaHelper();
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
 		String pageNameForm = Page.resolvePageName(tableName)+"Form";
@@ -240,11 +240,8 @@ public class CRUDGeneratorController extends Controller {
 
 
 	private boolean processCompiler() {
-		Compiler compiler = new Compiler();		
-		File[] fs = new File[6];
-		this.files.toArray(fs);
-		compiler.compile(fs);
-		return !compiler.hasError();
+		this.compiler.compile();
+		return !this.compiler.hasError();
 	}
 
 	private boolean saveFiles(Action page,String fileName,String content) throws IOException {
@@ -286,9 +283,9 @@ public class CRUDGeneratorController extends Controller {
 					r = FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
 				}
 				String fileJava = path_class + File.separator + page.getPage();
-				files.add(new File(fileJava+".java"));
-				files.add(new File(fileJava+"View.java"));
-				files.add(new File(fileJava+"Controller.java"));
+				this.compiler.addFileName(fileJava+".java");
+				this.compiler.addFileName(fileJava+"View.java");
+				this.compiler.addFileName(fileJava+"Controller.java");
 				return r;
 			}
 		}

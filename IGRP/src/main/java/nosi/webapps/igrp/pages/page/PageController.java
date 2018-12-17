@@ -24,18 +24,16 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.google.gson.Gson;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
-import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 		
 public class PageController extends Controller {
@@ -363,8 +361,7 @@ public class PageController extends Controller {
 					+ File.separator + "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
 
-			 path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),
-					ac.getPage());
+				path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
 			}
 			path_class = this.getConfig().getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
@@ -374,38 +371,29 @@ public class PageController extends Controller {
 				
 				if(workspace)
 					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[] { fileXml, fileXsl, fileJson });
-				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
-								new Part[] { fileXml, fileXsl, fileJson });
+				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
 
 				if (ac.getIsComponent() == 0) {
-					r = FileHelper.saveFilesJava(path_class, ac.getPage(),
-							new Part[] { fileModel, fileView, fileController });
-					error += this.processCompile(path_class, ac.getPage());
+					r = FileHelper.saveFilesJava(path_class, ac.getPage(),new Part[] { fileModel, fileView, fileController });
+					error = this.processCompile(path_class, ac.getPage()).getErrorToJson();
 					if (r && Core.isNull(error)) {// Check if not error on the compilation class
 						if (workspace) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
-							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
-									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
-									FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 						}
 					}
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
-					error = new Gson()
-							.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? gt("CompSuc")
-									: gt("Componente registado com sucesso"), null));
-
+					error = Core.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? Core.gt("CompSuc"): Core.gt("Componente registado com sucesso"), null));
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(error)
-							+ "</message></messages>");
+					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(error)+ "</message></messages>");
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
-		return this.renderView(
-				"<messages><message type=\"error\">" + StringEscapeUtils.escapeXml11(error) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml11(error) + "</message></messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {
@@ -414,11 +402,15 @@ public class PageController extends Controller {
 		FileHelper.deletePartFile(content[2]);
 	}
 
-	private String processCompile(String path_class, String page) {
+	private Compiler processCompile(String path_class, String page) {
 		path_class = path_class + File.separator;
-		File[] files = new File[] { new File(path_class + page + ".java"), new File(path_class + page + "View.java"),
-				new File(path_class + page + "Controller.java") };
-		return new Compiler().compile(files);
+		Compiler compiler = new Compiler();
+		String fileName = path_class + page;
+		compiler.addFileName(fileName + ".java");
+		compiler.addFileName(fileName + "View.java");
+		compiler.addFileName(fileName + "Controller.java");
+		compiler.compile();
+		return compiler;
 	}
 
 	// Read json and extract transactions
@@ -655,7 +647,7 @@ public class PageController extends Controller {
 	public Response actionMetodosCore() {
 		List<Map<String, List<String>>> metodos = getMethod(Core.class, QueryHelper.class);
 		this.format = Response.FORMAT_JSON;
-		return this.renderView(new Gson().toJson(metodos));
+		return this.renderView(Core.toJson(metodos));
 	}
 
 //	public void actionNewDomain() {
@@ -685,9 +677,8 @@ public class PageController extends Controller {
 		}
 		Properties p = new Properties();
 		p.put("list", domains);
-		Gson gson = new Gson();
 		this.format = Response.FORMAT_JSON;
-		return this.renderView(gson.toJson(p));
+		return this.renderView(Core.toJson(p));
 	}
 
 	public Response actionDomainsValues() throws IOException {
@@ -703,9 +694,8 @@ public class PageController extends Controller {
 			} catch (IllegalArgumentException e) {
 			}
 		}
-		Gson gson = new Gson();
 		this.format = Response.FORMAT_JSON;
-		return this.renderView(gson.toJson(list));
+		return this.renderView(Core.toJson(list));
 	}
 
 	public Response actionGetPageJson() throws IOException {
@@ -742,7 +732,7 @@ public class PageController extends Controller {
 		 p.put("content", fileExists ? FileHelper.readFile(basePath, fileName):"");
 		 p.put("filename",fileName);
 		 this.format = Response.FORMAT_JSON;
-		 return this.renderView(new Gson().toJson(p));
+		 return this.renderView(Core.toJson(p));
 	 }
 	/*----#end-code----*/
 }
