@@ -11,10 +11,12 @@ import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
@@ -24,6 +26,8 @@ import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.core.xml.XMLTransform;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
@@ -146,13 +150,52 @@ public class BPMNDesignerController extends Controller {
 			ac.setProcessKey(task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
-		String content = this.getConfig().getGenTaskController(app.getDad(),task.getProcessDefinitionId(),ac.getPage(),task.getFormKey());
+		
 		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
+		String xml = null;
+		if(FileHelper.dirExists(classPathWorkspace)) {
+			xml = this.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathWorkspace);
+		}else {
+			xml = this.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathServer);
+		}
+		String content = "";
+		try {
+			content = this.transformXMLToController(xml);
+		} catch (TransformerConfigurationException | UnsupportedEncodingException e) {
+			Core.setMessageError(e.getMessage());
+		}
 		this.compiler.addFileName(classPathServer+File.separator+ ac.getPage()+"Controller.java");
-		FileHelper.saveFilesControllerJava(classPathServer, ac.getPage(), content);
-		FileHelper.saveFilesControllerJava(classPathWorkspace, ac.getPage(), content);
+		FileHelper.saveFilesJavaControllerAndReplace(classPathServer, ac.getPage(), content);
+		FileHelper.saveFilesJavaControllerAndReplace(classPathWorkspace, ac.getPage(), content);		
 	}
+	
+	private String transformXMLToController(String xml) throws TransformerConfigurationException, UnsupportedEncodingException {
+		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.config.getLinkXSLBpmnControllerGenerator());
+	}
+	
+	
+	private String getGenerateXML(String app,String process_key,String task_key,String form_key,String path) {
+		XMLWritter xml = new XMLWritter();
+		ReserveCodeControllerTask resevreCode = new ReserveCodeControllerTask();	
+		resevreCode.extract(FileHelper.readFile(path, task_key+"Controller.java"));
+		xml.startElement("rows");
+			xml.setElement("process_key", process_key);
+			xml.setElement("task_key", task_key);
+			xml.setElement("app", app);
+			xml.setElement("page", form_key!=null?form_key.toLowerCase():"");
+			xml.setElement("form_key", form_key);
+			xml.setElement("user_name", Core.getCurrentUser().getEmail());
+			xml.setElement("data_created", Core.getCurrentDate());
+			xml.setElement("reserve_import",resevreCode.getReserveCodeImports());
+			xml.setElement("reserve_index", resevreCode.getReserveCodeActionIndex());
+			xml.setElement("reserve_save", resevreCode.getReserveCodeActionSave());
+			xml.setElement("reserve_update", resevreCode.getReserveCodeActionUpdate());
+			xml.setElement("reserve_customs", resevreCode.getReserveCodeCustomActions());
+		xml.endElement();
+		return xml.toString();
+	}
+	
 	private Compiler compiler;
 	/*----#END-PRESERVED-AREA----*/
 }

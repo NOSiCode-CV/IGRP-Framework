@@ -1,6 +1,7 @@
 package nosi.core.xml;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.List;
 import javax.xml.transform.Transformer;
@@ -272,6 +273,25 @@ public class XMLTransform {
 		}
 		return null;
 	}
+	
+	public static String xmlTransformWithXSL(InputStream inputStream,String xslFileName) throws TransformerConfigurationException{
+		StreamSource xlsStreamSource = new StreamSource(Paths.get(xslFileName).toAbsolutePath().toFile());
+	    StreamSource xmlStreamSource = new StreamSource(inputStream);
+	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	    StreamResult result = new StreamResult(new ByteArrayOutputStream());
+	    Transformer transformer;
+		try {
+			transformer = transformerFactory.newTransformer(xlsStreamSource);
+			if(transformer!=null) {
+			    transformer.transform(xmlStreamSource, result);
+			    return result.getOutputStream().toString();
+			}
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	public static Field getField(String name,String type){
 		switch (type) {

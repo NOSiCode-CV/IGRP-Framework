@@ -31,6 +31,7 @@ public class Config {
 	private final String LINK_XSL_GENERATOR_CRUD = "images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";//Generator XSL for CRUD pages
 	private final String LINK_XSL_JSON_GENERATOR = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//Generator JSON for CRUD pages
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
+	private final String LINK_XSL_GENERATOR_CONTROLLER_BPMN = "images/IGRP/IGRP2.3/core/formgen/util/java/bpmn/XSL_CONTROLLER.xsl";
 	public final String PREFIX_TASK_NAME = "Task";
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
@@ -79,6 +80,10 @@ public class Config {
 	}
 	public String getLinkXSLJsonConvert() {
 		return this.getBasePathServerXsl().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_JSON_CONVERT;
+	}
+
+	public String getLinkXSLBpmnControllerGenerator() {
+		return this.getBasePathServerXsl().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_GENERATOR_CONTROLLER_BPMN;
 	}
 	
 	public String getUserName() {
@@ -244,77 +249,6 @@ public class Config {
 				  + "}";
 	}
 	
-	
-	public String getGenTaskController(String app,String processId,String taskId){
-		return "package nosi.webapps."+app.toLowerCase()+".process."+processId.toLowerCase()+";\n\n"
-				 + "import java.io.IOException;\n"
-				 + "import java.util.List;\n"
-				 + "import nosi.core.webapp.Response;\n"
-				 + "import javax.servlet.ServletException;\n"
-				 + "import nosi.core.webapp.Core;\n"
-				 + "import nosi.core.webapp.databse.helpers.ResultSet;\n"
-				 + "import nosi.core.webapp.databse.helpers.QueryInterface;\n"
-				 + "import nosi.webapps.igrp.dao.TipoDocumentoEtapa;\n"
-				 + "import nosi.core.webapp.bpmn.BPMNTaskController;\n\n" 
-				 + "public class "+taskId+"Controller extends BPMNTaskController {	\n\n"
-						+ "\t public Response actionIndex() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException  {\n"
-						+ "\t\t return super.index();\n"
-						+ "\t }\n\n"
-						+ "\t public Response actionSave() throws IOException, ServletException {\n"
-						+ "\t\t return super.save();\n"
-						+ "\t }\n\n"
-						+ "\t public Response actionUpdate() throws IOException, ServletException {\n"
-						+ "\t\t return super.update();\n"
-						+ "\t }\n\n"
-						+ "\t @Override\n"
-						+ "\t public List<TipoDocumentoEtapa> getInputDocumentType() {\n"
-						+ "\t\t return super.getInputDocumentType();\n"
-						+ "\t}\n\n"
-						+ "\t @Override\n"
-						+ "\t public List<TipoDocumentoEtapa> getOutputDocumentType() {\n"
-						+ "\t\t return super.getOutputDocumentType();\n"
-						+ "\t}\n\n"
-				  + "}";
-	}
-	
-	public String getGenTaskController(String app,String processId,String taskId,String formKey){
-		if(Core.isNull(formKey))
-			return this.getGenTaskController(app, processId, taskId);
-		return "package nosi.webapps."+app.toLowerCase()+".process."+processId.toLowerCase()+";\n\n"
-				 + "import java.io.IOException;\n"
-				 + "import java.util.List;\n"
-				 + "import nosi.core.webapp.Response;\n"
-				 + "import javax.servlet.ServletException;\n"
-				 + "import nosi.core.webapp.bpmn.BPMNTaskController;\n"
-				 + "import nosi.core.webapp.Core;\n"
-				 + "import nosi.core.webapp.databse.helpers.ResultSet;\n"
-				 + "import nosi.core.webapp.databse.helpers.QueryInterface;\n"
-				 + "import nosi.webapps.igrp.dao.TipoDocumentoEtapa;\n"
-				 + "import nosi.webapps."+app.toLowerCase()+".pages."+formKey.toLowerCase()+"."+formKey+";\n"
-				 + "import nosi.webapps."+app.toLowerCase()+".pages."+formKey.toLowerCase()+"."+formKey+"View;\n\n" 
-				 + "public class "+taskId+"Controller extends BPMNTaskController {	\n\n"
-						+ "\t public Response actionIndex() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException {\n"
-						+ "\t\t "+formKey+"View view = new "+formKey+"View();\n"
-						+ "\t\t "+formKey+" model = new "+formKey+"();\n"
-						+ "\t\t model.load();\n"
-						+ "\t\t return super.index(\""+app+"\", model , view,this);\n"
-						+ "\t }\n\n"
-						+ "\t public Response actionSave() throws IOException, ServletException {\n"
-						+ "\t\t return super.save();\n"
-						+ "\t }\n\n" 
-						+ "\t public Response actionUpdate() throws IOException, ServletException {\n"
-						+ "\t\t return super.update();\n"
-						+ "\t }\n\n"
-						+ "\t @Override\n"
-						+ "\t public List<TipoDocumentoEtapa> getInputDocumentType() {\n"
-						+ "\t\t return super.getInputDocumentType();\n"
-						+ "\t}\n\n"
-						+ "\t @Override\n"
-						+ "\t public List<TipoDocumentoEtapa> getOutputDocumentType() {\n"
-						+ "\t\t return super.getOutputDocumentType();\n"
-						+ "\t}\n\n"
-				+ "}";
-	}
 	public String getBasePackage(String app) {
 		if(app!=null && !app.equals(""))
 			return "nosi.webapps." + app.toLowerCase();
@@ -343,6 +277,7 @@ public class Config {
 	public String getPathServerClass(String app) {
 		return this.getBasePathClass()+"nosi"+SEPARATOR_FOR_FILESYS+"webapps"+SEPARATOR_FOR_FILESYS+app.toLowerCase()+SEPARATOR_FOR_FILESYS;
 	}
+	
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
 		if(new ConfigApp().isInstall())
@@ -446,13 +381,6 @@ public class Config {
 		return basePackage;
 	}
 		
-	public String getStartReseveCodeAction(String actionName){
-		return "/*----#START-PRESERVED-AREA("+actionName.toUpperCase()+")----*/";
-	}
-	
-	public String getEndReserveCode(){
-		return "/*----#END-PRESERVED-AREA----*/";
-	}
   
 	public String getPathWorkspaceResources() {
 		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +"src"+ SEPARATOR_FOR_FILESYS + "main" + SEPARATOR_FOR_FILESYS + "resources";
