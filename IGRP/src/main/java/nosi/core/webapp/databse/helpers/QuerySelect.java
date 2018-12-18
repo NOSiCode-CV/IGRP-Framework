@@ -256,9 +256,13 @@ public class QuerySelect extends CommonFIlter{
     		int i=1;
     		for(String[] names:orderByNames) {
     			String order = names[names.length-1];
-    			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC))
+    			String[] newNames = null;
+    			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
     				order = ORDERBY.ASC;
-    			String[] newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
+    				newNames = Arrays.copyOf(names, names.length);
+    			}else{
+    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
+    			}
     			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
     			i++;
     		}
