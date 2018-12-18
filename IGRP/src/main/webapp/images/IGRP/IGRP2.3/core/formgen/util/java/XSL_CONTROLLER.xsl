@@ -689,9 +689,7 @@
  		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']">
 	 		 	
 	 			<xsl:variable name="_url" select="./fields/*[@name = concat(@name,'_url')]/value" />
-	 			<xsl:variable name="_val" select="./fields/*[@name = concat(@name,'_val')]/value" />
-	 			
-	 			<xsl:call-template name="newlineTab2"/>
+	 			<xsl:variable name="_val" select="./fields/*[@name = concat(@name,'_val')]/value" /> 			
 	 			
 	 			<xsl:variable name="instance_name">
 	 				<xsl:call-template name="CamelCaseWord">

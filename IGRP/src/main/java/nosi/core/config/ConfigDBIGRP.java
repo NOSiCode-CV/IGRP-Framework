@@ -12,7 +12,11 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.exception.GenericJDBCException;
+import org.hibernate.service.spi.ServiceException;
+
 import nosi.base.ActiveRecord.HibernateUtils;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.helpers.FileHelper;
 
@@ -202,6 +206,8 @@ public class ConfigDBIGRP {
     		StandardServiceRegistryBuilder.destroy(registry);
 			isConnected = true;
     	}catch(Exception e){
+    		final String errormessage = ((GenericJDBCException) e.getCause()).getSQLException().getMessage();
+			Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(7, errormessage.indexOf("Location:")));
     		isConnected = false;
     	}
     	return isConnected;
