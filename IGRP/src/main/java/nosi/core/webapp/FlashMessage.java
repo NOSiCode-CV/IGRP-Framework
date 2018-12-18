@@ -43,7 +43,10 @@ public class FlashMessage implements Serializable{
 
 	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome da página é inválida";
 
-    
+	public static final String MSG_CONFIRM = "<messages><message type=\"confirm\">Deseja realmente realizar esta operação?</message></messages>";
+
+	public static final String CONFIRM = "confirm";
+
 	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class 
 		// "_flash" is the reserved name for messages in session
 		if(Igrp.getInstance().getRequest().getSession() != null) {
@@ -98,6 +101,7 @@ public class FlashMessage implements Serializable{
 			this.msg = new HashMap<String, ArrayList<String>>();
 			this.msg.put(FlashMessage.ERROR, new ArrayList<String>());
 			this.msg.put(FlashMessage.SUCCESS, new ArrayList<String>());
+			this.msg.put(FlashMessage.CONFIRM, new ArrayList<String>());
 			this.msg.put(FlashMessage.INFO, new ArrayList<String>());
 			this.msg.put(FlashMessage.WARNING, new ArrayList<String>());
 			this.msg.put(FlashMessage.DEBUG, new ArrayList<String>());
