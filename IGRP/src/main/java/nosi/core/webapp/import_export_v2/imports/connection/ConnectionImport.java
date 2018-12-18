@@ -40,7 +40,7 @@ public class ConnectionImport  implements IImport{
 				if(this.application==null) {
 					this.application = new Application().findByDad(c.getDad());
 				}
-				Config_env config = new Config_env().find().andWhere("connection_identify", "=",c.getConnection_identify()).one();
+				Config_env config = new Config_env().find().andWhere("name", "=",c.getName()).andWhere("application.dad", "=",c.getDad()).one();
 				if(config==null){
 					config = new Config_env(c.getPort(), c.getType_db(), c.getHost(), c.getName_db(), c.getUsername(), " ", c.getCharset(), c.getName(), this.application!=null?this.application:new Application().findByDad(c.getDad()));
 					config.setDriver_connection(c.getDriver_connection());
