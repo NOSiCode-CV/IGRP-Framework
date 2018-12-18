@@ -164,8 +164,8 @@ public class Page{
 			for(Method aux : c.getDeclaredMethods())
 				if(aux.getName().equals(actionName))
 					action = aux;
-			int countParameter = action.getParameterCount();
-			if(countParameter > 0){
+			if(action !=null)
+			if(action.getParameterCount() > 0){
 				for(Parameter parameter : action.getParameters()){
 					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
 						// Dependency Injection for models
@@ -193,15 +193,25 @@ public class Page{
 			}else{
 				return  action.invoke(controller);
 			}
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
-				InvocationTargetException | NullPointerException e) {
-			e.printStackTrace();			
+			
+		} catch(NullPointerException e) {
+			Core.setMessageError("Ocorreu um erro, pedimos desculpas.");
+			Core.setMessageInfo("NullPointerException");
+			
+		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
+				InvocationTargetException e) {					
 			StringWriter sw = new StringWriter();
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
 			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
-			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
+			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
+				Core.log("ERRO: "+e.getCause().getMessage());
+				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
+			}
+			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas.");
 		}
+		throw new NotFoundHttpException("Nenhum metódo "+actionName+" encontrado!");
+		
 	}
 
 }

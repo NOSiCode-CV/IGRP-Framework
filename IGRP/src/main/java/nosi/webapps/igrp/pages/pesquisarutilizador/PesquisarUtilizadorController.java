@@ -13,6 +13,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -91,8 +92,9 @@ public class PesquisarUtilizadorController extends Controller {
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 
-	
-		view.aplicacao.setValue(new Application().getListApps());
+		final Map<Object, Object> listApps = new Application().getListApps();
+		listApps.put(Core.findApplicationByDad("igrp_studio").getId(), "IGRP Studio");
+		view.aplicacao.setValue(listApps);
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp, idOrg));
 		

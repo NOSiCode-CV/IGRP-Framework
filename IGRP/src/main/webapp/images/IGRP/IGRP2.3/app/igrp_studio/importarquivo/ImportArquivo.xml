@@ -117,7 +117,7 @@
         </sectionheader_6>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="1000" required="true" disabled="false" right="false" class="primary">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" accept="application/java-archive,.jar,application/zip" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="true" disabled="false" right="false" class="primary">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -158,7 +158,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="100" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" accept="application/java-archive,.jar,application/zip" targetrend="" multiple="false" rendvalue="false" maxlength="100" required="true" disabled="false" right="false" class="primary">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -177,7 +177,7 @@
         </form_1>
         <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <jar_file name="p_jar_file" type="file" maxlength="10000" required="true" disabled="false" right="false" class="primary" accept="[object Object]" targetrend="[object Object]" multiple="false" rendvalue="false">
+                <jar_file name="p_jar_file" type="file" accept="application/java-archive,.jar" targetrend="" multiple="false" rendvalue="false" maxlength="10000" required="true" disabled="false" right="false" class="primary">
                     <label>Jar file</label>
                     <value/>
                 </jar_file>

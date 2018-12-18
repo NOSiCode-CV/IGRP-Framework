@@ -67,7 +67,9 @@ public class NovoUtilizadorController extends Controller {
 			}
 		}
 
-		view.aplicacao.setValue(new Application().getListApps());
+		final Map<Object, Object> listApps = new Application().getListApps();
+		listApps.put(Core.findApplicationByDad("igrp_studio").getId(), "IGRP Studio");
+		view.aplicacao.setValue(listApps);
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 

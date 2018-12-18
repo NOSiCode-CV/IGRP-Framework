@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ImportArquivoView extends View {
 
@@ -127,7 +130,7 @@ public class ImportArquivoView extends View {
 		
 		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
 		arquivo_aplicacao.setLabel(gt("Aplicação"));
-		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","1000").add("required","true").add("disabled","false");
+		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("accept","application/java-archive,.jar,application/zip").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","true").add("disabled","false");
 		
 		list_aplicacao = new ListField(model,"list_aplicacao");
 		list_aplicacao.setLabel(gt("Aplicação"));
@@ -135,11 +138,11 @@ public class ImportArquivoView extends View {
 		
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
 		arquivo_pagina.setLabel(gt("Página"));
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","100").add("required","true").add("disabled","false").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("accept","application/java-archive,.jar,application/zip").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","100").add("required","true").add("disabled","false");
 		
 		jar_file = new FileField(model,"jar_file");
 		jar_file.setLabel(gt("Jar file"));
-		jar_file.propertie().add("name","p_jar_file").add("type","file").add("maxlength","10000").add("required","true").add("disabled","false").add("accept","[object Object]").add("targetrend","[object Object]").add("multiple","false").add("rendvalue","false");
+		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept","application/java-archive,.jar").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","10000").add("required","true").add("disabled","false");
 		
 		aplicacao_script = new ListField(model,"aplicacao_script");
 		aplicacao_script.setLabel(gt("Aplicação"));

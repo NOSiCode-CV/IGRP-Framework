@@ -1,32 +1,51 @@
-
 package nosi.webapps.igrp.pages.errorpage;
-import static nosi.core.i18n.Translator.gt;
-import java.io.IOException;
-import javax.servlet.RequestDispatcher;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import java.io.IOException;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-/*----#END-PRESERVED-AREA----*/
-
-public class ErrorPageController extends Controller {		
-
-
+/*----#start-code(packages_import)----*/
+import nosi.core.webapp.Controller;
+import javax.servlet.RequestDispatcher;
+import nosi.core.webapp.Igrp;
+/*----#end-code----*/
+		
+public class ErrorPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
 		ErrorPage model = new ErrorPage();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-		}
-		ErrorPageView view = new ErrorPageView(model);
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		model.load();
+		ErrorPageView view = new ErrorPageView();
+		/*----#start-code(index)----*/
+	
+	
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	public Response actionVoltar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ErrorPage model = new ErrorPage();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(voltar)----*/
+		
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","Dominio","index", this.queryString());	
+	}
+	
+/*----#start-code(custom_actions)----*/
 	//private Logger logger = LogManager.getLogger(ErrorPageController.class);
-	public Response actionException() throws IOException{
+	public Response actionException() throws IOException, IllegalArgumentException, IllegalAccessException{
+      ErrorPage model = new ErrorPage();
+      model.load();
+		ErrorPageView view = new ErrorPageView();
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			
 			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
@@ -41,9 +60,8 @@ public class ErrorPageController extends Controller {
 			// dbug
 			Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error").toString());
 			
-			Igrp.getInstance().getFlashMessage().addMessage("info", gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
-			ErrorPage model = new ErrorPage();
-			ErrorPageView view = new ErrorPageView(model);
+			Igrp.getInstance().getFlashMessage().addMessage("info", Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
+			view.setModel(model);
 			return this.renderView(view);
 		}
 		else
@@ -51,5 +69,5 @@ public class ErrorPageController extends Controller {
 	}
 	
 	
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
 }

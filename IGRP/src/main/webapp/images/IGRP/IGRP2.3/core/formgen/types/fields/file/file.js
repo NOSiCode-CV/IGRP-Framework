@@ -13,17 +13,19 @@ var FILEFIELD = function(type,params){
 				value: params && params.properties ? params.properties.accept : '',
 				options:[
 					{ value:'' , label: 'All file extension' },
-					{ value:'.docx,.doc' , label: 'Word' },
-					{ value:'.xslx,.xls', label: 'Excel' },
-					{ value:'.pptx,.ppt', label: 'Power Point' },
-					{ value:'.txt', label: 'Text' },
-					{ value:'.pdf', label: 'PDF' },
-					{ value:'.jar', label: 'JAR' },
-					{ value:'.zip', label: 'ZIP' },
+					
+					{ value:'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' , label: 'Word' },
+					{ value:'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', label: 'Excel' },
+					{ value:'application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation', label: 'Power Point' },
+					{ value:'text/plain', label: 'Text' },
+					{ value:'application/pdf', label: 'PDF' },
+					{ value:'application/java-archive,.jar', label: 'JAR' },
+					{ value:'application/zip', label: 'ZIP' },					
 					{ value:'image/*', label: 'Images' },
 					{ value:'video/*', label: 'Videos' },
 					{ value:'audio/*', label: 'Audios' },
-					{ value:'text/html', label: 'HTML' }
+					{ value:'text/html', label: 'HTML' },
+					{ value:'text/csv', label: 'CSV' }
 				],
 				multiple:true
 			}

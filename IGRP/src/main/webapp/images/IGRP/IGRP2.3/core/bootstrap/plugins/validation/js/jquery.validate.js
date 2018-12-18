@@ -1110,27 +1110,34 @@ $.extend($.validator, {
 		// http://docs.jquery.com/Plugins/Validation/Methods/accept
 		accept: function(value, element, param) {
 			var accept = {
-				'application/msword' 	   		: 'word|doc|docx',
-				'application/vnd.ms-excel' 		: 'excel',
+				'application/msword' 	   		: 'word|doc',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'docx',				
+				'application/vnd.ms-excel' 		: 'excel|xls',
+				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'xslx',				
 				'application/vnd.ms-powerpoint' : 'ppt',
-				'text/plain' 					: 'text|bpmn|xml|xsl|json|js|php',
-				'application/pdf'				: 'pdf',
+				'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',				
+				'text/plain' 					: 'txt|bpmn|xml|xsl|json|js|php',
+				'application/pdf'				: 'pdf',			
+				'.jar'							: 'jar',
+				'application/zip'				: 'zip',				
 				'image/*'						: 'jpg|png|jpe?g|svg|gif|tif?f|raw|webp|ani|bmp|cal|fax|img|mac|pbm|pcd|pcx|pct|pgm|ppm|psd|ras|tga|wmf',
 				'video/*'						: '3g2|3gp|aaf|asf|avchd|avi|drc|flv|m2v|m4p|m4v|mkv|mng|mov|mp2|mp4|mpe|mpeg|mpg|mpv|mxf|nsv|ogg|ogv|qt|rm|rmvb|roq|svi|vob|webm|wmv|yuv',
 				'audio/*'						: 'pm3|m4a|aac|oga|mpa',
-				'text/html'						: 'html|htm'
+				'text/html'						: 'html|htm',
+				'text/csv'						: 'csv'
 			};
 
 			if (typeof param == "string") {
 				var xparam = param.split(','),
 					lg 	   = xparam.length;
-
+				
 				param = '';
 				xparam.forEach(function(e,i){
 					param += accept[e];
 
-					if (lg < i)
+					if (i+1 < lg)
 						param += '|';
+					
 				});
 			}
 
