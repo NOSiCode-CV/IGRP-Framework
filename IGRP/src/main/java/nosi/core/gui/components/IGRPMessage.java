@@ -78,6 +78,14 @@ public class IGRPMessage {
 			this.result.endElement();
 		}
 		
+		// Confirm 
+		for(String msg : flashMessage.getMessages(FlashMessage.CONFIRM)){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", FlashMessage.CONFIRM);
+			this.result.text(msg);
+			this.result.endElement();
+		}
+		
 		this.result.endElement();
 	}
 	

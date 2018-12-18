@@ -2,6 +2,7 @@ package nosi.core.gui.components;
 
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -187,6 +188,7 @@ public class IGRPButton {
 		this.parameter = parameter;
 	}
 	
+
 	public IGRPButton addParameter(String parameter,Object value) {
 		if(value instanceof String[])
 			for(String oneVal:(String[])value) {
@@ -203,6 +205,11 @@ public class IGRPButton {
 	}
 	
 	public String toString() {
+		if(this.target.equalsIgnoreCase("confirm")) {
+			FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
+			if(flashMessage.getMessages(FlashMessage.CONFIRM).isEmpty())
+				Core.setMessageConfirm();
+		}
 		if(this.isVisible()) {
 			//Check the transaction permission
 			if(this.getProperties().getProperty("flg_transaction")!=null && this.getProperties().getProperty("flg_transaction").equals("true")){

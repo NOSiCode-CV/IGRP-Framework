@@ -1735,6 +1735,22 @@ public final class Core { // Not inherit
 	}
 
 	/**
+	 * Shows a custom confirm flash message
+	 * 
+	 * @param msg Custom message string
+	 */
+	public static void setMessageConfirm(String msg) {
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(msg));
+	}
+	
+	/**
+	 * Shows a confirm flash message "Deseja realmente realizar esta operação?"
+	 * 
+	 */
+	public static void setMessageConfirm() {
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(FlashMessage.MSG_CONFIRM));
+	}
+	/**
 	 * Add Message Warning
 	 * 
 	 * @param msg custom message
