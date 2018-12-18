@@ -13,8 +13,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.exception.GenericJDBCException;
-import org.hibernate.service.spi.ServiceException;
-
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
