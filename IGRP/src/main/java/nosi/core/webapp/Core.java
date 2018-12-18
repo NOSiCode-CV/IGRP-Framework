@@ -1748,8 +1748,9 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static void setMessageConfirm() {
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(FlashMessage.MSG_CONFIRM));
+		Core.setMessageConfirm(FlashMessage.MSG_CONFIRM);
 	}
+	
 	/**
 	 * Add Message Warning
 	 * 
