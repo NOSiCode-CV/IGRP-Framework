@@ -45,6 +45,9 @@ public class IGRPButton {
 		this.img = img;
 		this.params = params;
 		this.parameter = parameter;
+		if(this.target.equalsIgnoreCase(FlashMessage.CONFIRM)) {
+			Core.setMessageConfirm();
+		}
 	}
 
 	public IGRPButton(String title, String app, String page, String link, String target, String img, String parameter,
@@ -205,11 +208,6 @@ public class IGRPButton {
 	}
 	
 	public String toString() {
-		if(this.target.equalsIgnoreCase("confirm")) {
-			FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
-			if(flashMessage.getMessages(FlashMessage.CONFIRM).isEmpty())
-				Core.setMessageConfirm();
-		}
 		if(this.isVisible()) {
 			//Check the transaction permission
 			if(this.getProperties().getProperty("flg_transaction")!=null && this.getProperties().getProperty("flg_transaction").equals("true")){
@@ -268,5 +266,13 @@ public class IGRPButton {
 			return paramsLookups;
 		}
 		return "";
+	}
+	
+	public void setMessage(String msg) {
+		if(this.getTarget().equalsIgnoreCase(FlashMessage.CONFIRM)) {
+			FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
+			flashMessage.removeMsg(FlashMessage.CONFIRM);
+			Core.setMessageConfirm(msg);
+		}
 	}
 }

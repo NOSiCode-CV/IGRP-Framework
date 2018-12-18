@@ -144,6 +144,14 @@ public class FlashMessage implements Serializable{
 			return result;
 		}
 		
+
+		public void removeMsg(String name) {
+			if(this.msg!=null && this.msg.containsKey(name))
+				this.msg.remove(name);
+		}
 	}
 
+	public void removeMsg(String name) {
+		this.msgs.removeMsg(name);
+	}
 }
