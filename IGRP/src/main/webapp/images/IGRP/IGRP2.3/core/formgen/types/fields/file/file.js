@@ -1,7 +1,7 @@
 var FILEFIELD = function(type,params){
 	Field.call(this,type,params);
 
-	var GEN = VARS.getGen();
+	var GEN = VARS.getGen(),
 		field 		= this,
 		proprieties = params.properties;
 
