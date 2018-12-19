@@ -50,10 +50,6 @@ public class ImportHelper {
 			modulo.deserialization(this.getJsonContent(OptionsImportExport.MODULO.getFileName()));
 			imp.add(modulo);
 			
-			MenuImport menu = new MenuImport(application);
-			menu.deserialization(this.getJsonContent(OptionsImportExport.MENU.getFileName()));
-			imp.add(menu);			
-
 			OthersClassImport others_class = new OthersClassImport(app.getApplication());
 			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
 			imp.add(others_class);
@@ -64,8 +60,11 @@ public class ImportHelper {
 			
 			PageImport page = new PageImport(application);
 			page.deserialization(this.getJsonContent(OptionsImportExport.PAGE.getFileName()));
-			imp.add(page);
-			
+			imp.add(page);			
+
+			MenuImport menu = new MenuImport(application);
+			menu.deserialization(this.getJsonContent(OptionsImportExport.MENU.getFileName()));
+			imp.add(menu);			
 
 			ImportTransation transation = new ImportTransation(application);
 			transation.deserialization(this.getJsonContent(OptionsImportExport.TRANSATION.getFileName()));

@@ -58,17 +58,20 @@ public class Path {
 		return basePath;
 	}
 	
-	public static String getPathImages(Action action) {
+	public static String getPathImagesServer(Action action) {
+		Config config = new Config();
+		return config.getCurrentBaseServerPahtXsl(action);
+	}
+	
+	public static String getPathImagesWorkSapce(Action action) {
 		Config config = new Config();
 		String basePath = config.getWorkspace();
 		
 		if (Core.isNotNull(basePath) && FileHelper.fileExists(basePath)) {
-			basePath +=  File.separator + config.getWebapp()
+			return File.separator + config.getWebapp()
 					+ File.separator + "images" + File.separator + "IGRP"+File.separator+"IGRP" + action.getVersion()
 					+ File.separator+"app"+File.separator + action.getApplication().getDad().toLowerCase() + File.separator + action.getPage().toLowerCase();
-		}else {
-			basePath = config.getCurrentBaseServerPahtXsl(action);
 		}
-		return basePath;
+		return null;
 	}
 }
