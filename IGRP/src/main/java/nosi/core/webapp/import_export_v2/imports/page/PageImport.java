@@ -65,11 +65,17 @@ public class PageImport implements IImport{
 			}
 		}
 		if(page.getPageFiles()!=null) {
-			String path = Path.getPathImages(ac);
+			String pathServer = Path.getPathImagesServer(ac);
+			String pathWorkSapce = Path.getPathImagesWorkSapce(ac);
 			try {
-				FileHelper.save(path ,ac.getPage()+".xml", page.getPageFiles().getXmlOrModel());
-				FileHelper.save(path,ac.getPage()+".json", page.getPageFiles().getJsonOrView());
-				FileHelper.save(path,ac.getPage()+".xsl", page.getPageFiles().getXslOrController());
+				FileHelper.save(pathServer ,ac.getPage()+".xml", page.getPageFiles().getXmlOrModel());
+				FileHelper.save(pathServer,ac.getPage()+".json", page.getPageFiles().getJsonOrView());
+				FileHelper.save(pathServer,ac.getPage()+".xsl", page.getPageFiles().getXslOrController());
+				if(Core.isNotNull(pathWorkSapce)) {//Save files into your workspace
+					FileHelper.save(pathWorkSapce ,ac.getPage()+".xml", page.getPageFiles().getXmlOrModel());
+					FileHelper.save(pathWorkSapce,ac.getPage()+".json", page.getPageFiles().getJsonOrView());
+					FileHelper.save(pathWorkSapce,ac.getPage()+".xsl", page.getPageFiles().getXslOrController());
+				}
 			} catch (IOException e) {
 				this.addError(e.getMessage());
 			}
