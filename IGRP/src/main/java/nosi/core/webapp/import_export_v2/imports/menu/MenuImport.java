@@ -26,7 +26,7 @@ public class MenuImport implements IImport{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deserialization(String jsonContent) {
-		System.out.println(jsonContent);
+		
 		if(Core.isNotNull(jsonContent)) {
 			this.menu = (List<MenuSerializable>) Core.fromJsonWithJsonBuilder(jsonContent, new TypeToken<List<MenuSerializable>>(){}.getType());
 		}
