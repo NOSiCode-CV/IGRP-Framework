@@ -31,4 +31,5 @@ public interface ActiveRecordIterface<T> {
 	public Object getValuePrimaryKey();
 	public String getNamePrimaryKey();
 	public Long getCount();
+	public void setSchema(String schema);
 }

@@ -31,22 +31,22 @@ public class HibernateUtils {
 
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
-			return getSessionFactory(config_env.getName(),config_env.getApplication().getDad());
-		return getSessionFactory(new ConfigApp().getBaseConnection(),Core.getCurrentDadParam());
+			return getSessionFactory(config_env.getName(),config_env.getApplication().getDad(),null);
+		return getSessionFactory(new ConfigApp().getBaseConnection(),Core.getCurrentDadParam(),null);
 	}
 
-	public static SessionFactory getSessionFactory(String connectionName) {
-		return getSessionFactory(connectionName,Core.getCurrentDadParam());
+	public static SessionFactory getSessionFactory(String connectionName,String schemaName) {
+		return getSessionFactory(connectionName,Core.getCurrentDadParam(),schemaName);
 	}
 	
-	public static SessionFactory getSessionFactory(String connectionName,String dad) {
+	public static SessionFactory getSessionFactory(String connectionName,String dad,String schemaName) {
 		if(Core.isNotNull(connectionName)) {		
 			String connectionName_ = new ConfigApp().getBaseConnection();
 			if(!connectionName.equalsIgnoreCase(new ConfigApp().getBaseConnection()) && !connectionName.equalsIgnoreCase(new ConfigApp().getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
-				registry = buildConfig(connectionName,dad);
+				registry = buildConfig(connectionName,dad,schemaName);
 				if(registry!=null) {
 					try {
 						MetadataSources sources = new MetadataSources(registry);
@@ -65,7 +65,7 @@ public class HibernateUtils {
 		return null;
 	}
 
-	private static StandardServiceRegistry buildConfig(String connectionName,String dad) {
+	private static StandardServiceRegistry buildConfig(String connectionName,String dad,String schemaName) {
 		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 		try {
 			if (new ConfigApp().getBaseConnection().equalsIgnoreCase(connectionName)) {
@@ -75,7 +75,7 @@ public class HibernateUtils {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getH2IGRPSettings(connectionName));
 			}else {
-				Map<String, Object> settings = getOthersAppSettings(connectionName,dad);
+				Map<String, Object> settings = getOthersAppSettings(connectionName,dad,schemaName);
 				if(settings!=null) {
 					registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
 					registryBuilder.applySettings(settings);
@@ -99,10 +99,10 @@ public class HibernateUtils {
 			e.printStackTrace();
 		}
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
-		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect);
+		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
 	}
 
-	private static Map<String, Object> getOthersAppSettings(String connectionName, String dad) {
+	private static Map<String, Object> getOthersAppSettings(String connectionName, String dad,String schemaName) {
 		Config_env config = new Config_env().find()
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
@@ -121,7 +121,7 @@ public class HibernateUtils {
 			String password = Core.decrypt(config.getPassword(), ed.SECRET_KEY_ENCRYPT_DB);
 			String user = Core.decrypt(config.getUsername(), ed.SECRET_KEY_ENCRYPT_DB);
 			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB));
-			return getSettings(driver, url, user, password, hibernateDialect);
+			return getSettings(driver, url, user, password, hibernateDialect,schemaName);
 		}
 		return null;
 	}
@@ -135,16 +135,28 @@ public class HibernateUtils {
 			e.printStackTrace();
 		}
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
-		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect);
+		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
 	}
 
-	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect) {
+	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect,String schemaName) {
 		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);	
 		//Hibernate config
 		settings.put(Environment.HBM2DDL_AUTO, "update");
         settings.put("hibernate.connection.isolation", "2");
         settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
         settings.put("hibernate.transaction.auto_close_session", "true");
+        if(Core.isNotNull(schemaName))
+//        	TenantContext.setTenant(schema);
+        	settings.put("hibernate.default_schema", schemaName);
+//        
+//        settings.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
+//        settings.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, MultiTenantConnectionProvider.INSTANCE);
+//        TenantContext.TenantIdentifierResolver currentTenantIdentifierResolver = new TenantIdentifierResolver();
+////        currentTenantIdentifierResolver.s
+//		settings.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver );
+//        settings.put("hibernate.multiTenancy", "SCHEMA");
+//        settings.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER,MultiTenantConnectionProvider.INSTANCE);
+        
 //        settings.put("connection.pool_size", "30");
 		// HikariCP settings (values in milliseconds)
 //		ConfigHikariCP cHCp = new ConfigHikariCP();
