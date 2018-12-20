@@ -5,7 +5,7 @@ var SELECTFIELD = function(type,params){
 
 	var GEN         = VARS.getGen();
 
-	var proprieties = params && params.properties;
+	var proprieties = params && params.properties ? params.properties : false;
 
 	field.xml.options = true;
 
@@ -45,7 +45,6 @@ var SELECTFIELD = function(type,params){
 			xslValue : 'tags="true"'
 		});
 
-		
 		GEN.setDomainAttr(field,{
 			value: proprieties && proprieties.domain ? proprieties.domain : '',
 			selected : proprieties && proprieties.domain_value ? proprieties.domain_value : false

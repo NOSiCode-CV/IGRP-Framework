@@ -4535,6 +4535,8 @@ var GENERATOR = function(genparams){
 					url : url,
 					
 					success:function(d){
+						
+						console.log(d)
 
 						GEN.domains[type] = d;
 
@@ -4613,11 +4615,24 @@ var GENERATOR = function(genparams){
 	GEN.setDomainAttr = function(f,p){
 		
 		f.setProperty({
+
 			name : 'domain_value',
+
 			editable:false,
+
 			value: p.selected || '',
+			
+			getter : function(){
+				
+				return f.proprieties.domain_value
+				
+			},
+
 			onChange:function(v){
+				
+
 				f.proprieties.domain_value = v;
+
 			}
 		});
 
@@ -4630,12 +4645,14 @@ var GENERATOR = function(genparams){
 			onChange:function(v){
 				
 				var dval = GEN.domains[v];
-
-				if(dval)
+				
+				if(dval){
+					
 					f.proprieties.domain_value = GEN.domains[v];
-				else
+				}else{
+					
 					f.proprieties.domain_value = f.proprieties.domain_value || [];
-
+				}
 
 			},
 			onEditionStart:function(o){
@@ -4645,7 +4662,7 @@ var GENERATOR = function(genparams){
 				select.on("change", function (e){ 
 
 					var value  = select.val();
-
+				
 					if(value)
 
 						GEN.getDomainValues( value );
