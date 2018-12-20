@@ -967,7 +967,7 @@ public final class Core { // Not inherit
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
-		return HibernateUtils.getSessionFactory(connectionName);
+		return HibernateUtils.getSessionFactory(connectionName,null);
 	}
 
 	/**

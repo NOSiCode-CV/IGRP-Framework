@@ -106,7 +106,7 @@ public class QuerySelect extends CommonFIlter{
 		if(this.config_env!=null) {
 			return HibernateUtils.getSessionFactory(config_env);
 		}
-		return HibernateUtils.getSessionFactory(this.getConnectionName());
+		return HibernateUtils.getSessionFactory(this.getConnectionName(),null);
 	}
 
 	@SuppressWarnings("unchecked")

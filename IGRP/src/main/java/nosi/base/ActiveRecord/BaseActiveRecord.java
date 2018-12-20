@@ -37,6 +37,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private T className;
 	private List<String> error;
 	private boolean isReadOnly = false;
+	private String schema;
 	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
@@ -48,12 +49,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		if(this.sessionFactory!=null && this.sessionFactory.isOpen()) {
 			return sessionFactory;
 		}
-		this.sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
+		this.sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
 		return sessionFactory;
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+	
+	@Override
+	public void setSchema(String schema) {
+		this.schema = schema;
 	}
 	
 	@Override
@@ -563,7 +569,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
  	
 	private Session getSession() {		
-		return HibernateUtils.getSessionFactory(this.getConnectionName()).getCurrentSession();
+		return HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema).getCurrentSession();
 	}
 
 	@Override
