@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/pesquisabi/PesquisaBI.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisabi/PesquisaBI.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,8 +31,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=39</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=38</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Pesquisar BI</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
@@ -46,11 +50,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Voluptatem totam magna sit ape</value>
+                    <value>Dolor sit anim elit anim</value>
                 </nome>
-                <bi name="p_bi" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <bi name="p_bi" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="">
                     <label>BI</label>
-                    <value>19</value>
+                    <value>17</value>
                 </bi>
             </fields>
             <tools-bar>
@@ -59,7 +63,7 @@
                     <app>igrp</app>
                     <page>PesquisaBI</page>
                     <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisabi/PesquisaBI.xsl?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisabi/PesquisaBI.xml?</parameter>
                     <target>submit</target>
                     <img>primary|fa-search</img>
                 </item>
@@ -89,44 +93,44 @@
             <table>
                 <value>
                     <row>
-                        <bi_tabela name="p_bi_tabela">Aperiam labore officia labore</bi_tabela>
-                        <nome_tabela name="p_nome_tabela">Iste doloremque magna sit stra</nome_tabela>
-                        <data_nascimento name="p_data_nascimento">Stract omnis ipsum stract omni</data_nascimento>
-                        <sexo name="p_sexo">Perspiciatis unde iste anim ac</sexo>
-                        <nome_pai name="p_nome_pai">Ut dolor aliqua accusantium is</nome_pai>
-                        <nome_mae name="p_nome_mae">Laudantium totam ipsum unde re</nome_mae>
+                        <bi_tabela name="p_bi_tabela">Magna rem perspiciatis mollit</bi_tabela>
+                        <nome_tabela name="p_nome_tabela">Officia consectetur natus sed</nome_tabela>
+                        <data_nascimento name="p_data_nascimento">Laudantium adipiscing ut persp</data_nascimento>
+                        <sexo name="p_sexo">Rem consectetur adipiscing mag</sexo>
+                        <nome_pai name="p_nome_pai">Voluptatem amet stract unde el</nome_pai>
+                        <nome_mae name="p_nome_mae">Ipsum doloremque omnis dolor d</nome_mae>
                     </row>
                     <row>
-                        <bi_tabela name="p_bi_tabela">Magna aliqua sit ipsum lorem</bi_tabela>
-                        <nome_tabela name="p_nome_tabela">Sit labore dolor aliqua unde</nome_tabela>
-                        <data_nascimento name="p_data_nascimento">Aliqua anim adipiscing consect</data_nascimento>
-                        <sexo name="p_sexo">Omnis iste labore natus sed</sexo>
-                        <nome_pai name="p_nome_pai">Iste accusantium laudantium el</nome_pai>
-                        <nome_mae name="p_nome_mae">Magna sit consectetur perspici</nome_mae>
+                        <bi_tabela name="p_bi_tabela">Anim sed perspiciatis aliqua o</bi_tabela>
+                        <nome_tabela name="p_nome_tabela">Sed voluptatem unde dolor rem</nome_tabela>
+                        <data_nascimento name="p_data_nascimento">Amet dolor aliqua consectetur</data_nascimento>
+                        <sexo name="p_sexo">Officia aliqua adipiscing lore</sexo>
+                        <nome_pai name="p_nome_pai">Ipsum perspiciatis elit laudan</nome_pai>
+                        <nome_mae name="p_nome_mae">Anim lorem magna officia magna</nome_mae>
                     </row>
                     <row>
-                        <bi_tabela name="p_bi_tabela">Laudantium officia labore adip</bi_tabela>
-                        <nome_tabela name="p_nome_tabela">Stract dolor ipsum sed volupta</nome_tabela>
-                        <data_nascimento name="p_data_nascimento">Deserunt doloremque consectetu</data_nascimento>
-                        <sexo name="p_sexo">Ipsum officia elit amet dolor</sexo>
-                        <nome_pai name="p_nome_pai">Magna adipiscing natus ipsum s</nome_pai>
-                        <nome_mae name="p_nome_mae">Totam mollit anim consectetur</nome_mae>
+                        <bi_tabela name="p_bi_tabela">Stract sit dolor unde officia</bi_tabela>
+                        <nome_tabela name="p_nome_tabela">Magna sed ipsum deserunt amet</nome_tabela>
+                        <data_nascimento name="p_data_nascimento">Mollit stract mollit stract vo</data_nascimento>
+                        <sexo name="p_sexo">Adipiscing iste amet anim aper</sexo>
+                        <nome_pai name="p_nome_pai">Dolor unde deserunt doloremque</nome_pai>
+                        <nome_mae name="p_nome_mae">Totam laudantium deserunt iste</nome_mae>
                     </row>
                     <row>
-                        <bi_tabela name="p_bi_tabela">Deserunt omnis labore officia</bi_tabela>
-                        <nome_tabela name="p_nome_tabela">Sit officia natus doloremque a</nome_tabela>
-                        <data_nascimento name="p_data_nascimento">Unde mollit labore mollit aliq</data_nascimento>
-                        <sexo name="p_sexo">Anim mollit aliqua accusantium</sexo>
-                        <nome_pai name="p_nome_pai">Stract deserunt amet consectet</nome_pai>
-                        <nome_mae name="p_nome_mae">Sed consectetur perspiciatis u</nome_mae>
+                        <bi_tabela name="p_bi_tabela">Accusantium iste perspiciatis</bi_tabela>
+                        <nome_tabela name="p_nome_tabela">Magna labore iste consectetur</nome_tabela>
+                        <data_nascimento name="p_data_nascimento">Sit ut amet deserunt officia</data_nascimento>
+                        <sexo name="p_sexo">Consectetur elit dolor stract</sexo>
+                        <nome_pai name="p_nome_pai">Ipsum accusantium magna natus</nome_pai>
+                        <nome_mae name="p_nome_mae">Totam ipsum doloremque ut labo</nome_mae>
                     </row>
                     <row>
-                        <bi_tabela name="p_bi_tabela">Magna ut mollit laudantium rem</bi_tabela>
-                        <nome_tabela name="p_nome_tabela">Rem ut consectetur amet rem</nome_tabela>
-                        <data_nascimento name="p_data_nascimento">Natus lorem sit sit stract</data_nascimento>
-                        <sexo name="p_sexo">Sit sed aperiam consectetur si</sexo>
-                        <nome_pai name="p_nome_pai">Labore sit ipsum stract labore</nome_pai>
-                        <nome_mae name="p_nome_mae">Accusantium adipiscing sed ani</nome_mae>
+                        <bi_tabela name="p_bi_tabela">Mollit rem omnis voluptatem ac</bi_tabela>
+                        <nome_tabela name="p_nome_tabela">Dolor ut adipiscing ipsum natu</nome_tabela>
+                        <data_nascimento name="p_data_nascimento">Laudantium consectetur natus d</data_nascimento>
+                        <sexo name="p_sexo">Sit rem dolor adipiscing elit</sexo>
+                        <nome_pai name="p_nome_pai">Accusantium omnis anim sit ist</nome_pai>
+                        <nome_mae name="p_nome_mae">Labore iste amet aliqua totam</nome_mae>
                     </row>
                 </value>
             </table>
