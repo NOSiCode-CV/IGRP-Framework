@@ -343,7 +343,7 @@ public class ConfigDatabaseController extends Controller {
 		String pathWS = this.getConfig().getPathWorkspaceResources();
 		String pathServer = this.getConfig().getBasePathClass();
 		FileHelper.renameFile(pathServer, oldConnName+"."+oldAppName+".cfg.xml", config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml");
-		if (FileHelper.fileExists(pathWS)) {
+		if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
 			FileHelper.renameFile(pathWS + File.separator, oldConnName+"."+oldAppName+".cfg.xml", config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml");
 		}
 	}

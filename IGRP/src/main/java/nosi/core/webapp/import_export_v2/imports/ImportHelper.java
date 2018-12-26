@@ -48,15 +48,15 @@ public class ImportHelper {
 			
 			ModuloImport modulo = new ModuloImport(application);
 			modulo.deserialization(this.getJsonContent(OptionsImportExport.MODULO.getFileName()));
-			imp.add(modulo);
-			
-			OthersClassImport others_class = new OthersClassImport(app.getApplication());
-			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
-			imp.add(others_class);
+			imp.add(modulo);		
 			
 			DaoImport dao = new DaoImport(app.getApplication());
 			dao.deserialization(this.getJsonContent(OptionsImportExport.DAO.getFileName()));
 			imp.add(dao);
+			
+			OthersClassImport others_class = new OthersClassImport(app.getApplication());
+			others_class.deserialization(this.getJsonContent(OptionsImportExport.OTHERS_CLASS.getFileName()));
+			imp.add(others_class);
 			
 			PageImport page = new PageImport(application);
 			page.deserialization(this.getJsonContent(OptionsImportExport.PAGE.getFileName()));
