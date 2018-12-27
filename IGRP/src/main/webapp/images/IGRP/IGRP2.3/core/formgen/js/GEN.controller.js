@@ -4613,7 +4613,7 @@ var GENERATOR = function(genparams){
 	};*/
 	
 	GEN.setDomainAttr = function(f,p){
-		
+
 		f.setProperty({
 
 			name : 'domain_value',

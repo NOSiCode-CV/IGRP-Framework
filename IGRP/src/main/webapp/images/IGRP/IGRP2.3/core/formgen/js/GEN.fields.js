@@ -73,8 +73,10 @@ var Field = function(type,params){
 		//console.log(field.proprieties);
 		for(var propriety in field.proprieties){
 			var name  = propriety;
+			
 			if(field.GET[propriety])
 				prop.properties[name]=field.GET[propriety]();
+			
 			//var value = field.GET[propriety]();
 			//var value = (typeof f.proprieties[propriety] == 'object') ?  f.proprieties[propriety].value : f.proprieties[propriety];
 			//prop[name]=value;
@@ -368,7 +370,7 @@ var Field = function(type,params){
 			field.xslValues[p.name] =  p.xslValue;
 
 		/* getter */
-		field.GET[p.name] = function(){
+		field.GET[p.name] = p.getter ? p.getter : function(){
 			var rtn;
 			if(typeof val == 'object')
 				rtn = field.proprieties[p.name].value;
