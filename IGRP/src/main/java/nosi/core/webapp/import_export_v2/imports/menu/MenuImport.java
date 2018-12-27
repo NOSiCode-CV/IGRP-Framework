@@ -1,5 +1,6 @@
 package nosi.core.webapp.import_export_v2.imports.menu;
 
+import java.util.HashMap;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
@@ -36,24 +37,20 @@ public class MenuImport implements IImport{
 	public void execute() {
 		if(this.menu!=null) {
 			this.menu.stream().forEach(m->{
-				Action action = new Action();
+				HashMap<Integer, String> actions = new Action().getListActions(Core.findApplicationByDad(m.getDad_menu()).getId());
 				if(m.getMenu()!=null) {
-					this.insertMenu(m.getMenu(),null);
-					action = action.find()
-							.andWhere("application.dad", "=",m.getDad_page())
-							.andWhere("page", "=",m.getPage_name())
-							.one();
-					this.insertMenu(m,action);
+					final Action action = new Action().findByPage(m.getPage_name(), m.getDad_page());
+					if(actions.containsKey(action.getId())) {
+//					The action/page is really shared with the app in the import environment
+						if(Core.isNull(m.getMenu().getDad_page())) 
+//							Son, insert the parent if not already
+							this.insertMenu(m.getMenu(),null);
+						this.insertMenu(m,action);
+						
+					}									
 				}else {
-					//Is Parent
-					if(Core.isNotNull(m.getDad_page()))
-						action = action.find()
-							.andWhere("application.dad", "=", m.getDad_page())
-							.andWhere("page", "=",m.getPage_name())
-							.one();
-					else
-						action=null;
-					this.insertMenu(m,action);
+					//Is Parent					
+					this.insertMenu(m,null);
 				}
 			});
 		}
@@ -65,16 +62,23 @@ public class MenuImport implements IImport{
 		if(this.application!=null) {
 			new_menu.setApplication(this.application);
 		}else {
-			new_menu.setApplication(new Application().findByDad(m.getDad_menu()));
+			new_menu.setApplication(Core.findApplicationByDad(m.getDad_menu()));
 		}
 		new_menu.setAction(action);
-		if (Core.isNotNull(new_menu.getAction())) {
+		if (Core.isNotNull(action)) {
+//			Menu is son or orphan
 			if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
-					.andWhere("action", "=", new_menu.getAction().getId()).andWhere("descr", "=", new_menu.getDescr())
-					.one())) {
-				new_menu.setMenu(new Menu().find().andWhere("application.dad", "=", m.getMenu().getDad_menu())
-						.andWhere("action.page", "=", m.getMenu().getPage_name()).andWhere("descr", "=", m.getMenu().getDescr())
-						.one());
+					.andWhere("action", "=", new_menu.getAction().getId())
+					.andWhere("descr", "=", new_menu.getDescr()).one())){
+//				The item is realy new, so insert it
+				if(Core.isNotNull(m.getMenu().getPage_name())){
+//					Orphan has itself parent
+					new_menu.setMenu(new_menu);
+				}else {
+//					Son with parent
+					new_menu.setMenu(new Menu().find().andWhere("application.dad", "=", m.getMenu().getDad_menu())						
+						.andWhere("descr", "=", m.getMenu().getDescr()).one()); //find and set the parent menu to the son
+				}				
 				new_menu = new_menu.insert();
 				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
 			}
@@ -82,6 +86,7 @@ public class MenuImport implements IImport{
 			//Menu is Parent
 			if (Core.isNull(new Menu().find().andWhere("application.id", "=", new_menu.getApplication().getId())
 					.andWhere("descr", "=", new_menu.getDescr()).one())) {
+//				The item parent is realy new, so insert it
 				new_menu = new_menu.insert();
 				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
 			}

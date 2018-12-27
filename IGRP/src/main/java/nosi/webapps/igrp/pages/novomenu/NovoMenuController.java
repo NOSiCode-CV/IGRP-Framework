@@ -150,9 +150,12 @@ public class NovoMenuController extends Controller {
 			} else {
 				// NEW menu will enter here
 				if (Core.isNotNull(menu.getAction())) {
+//					Menu is son or ophan
 					if (Core.isNotNull(new Menu().find().andWhere("application.id", "=", menu.getApplication().getId())
 							.andWhere("action", "=", menu.getAction().getId()).andWhere("descr", "=", menu.getDescr())
-							.one())) {
+							.one())) 
+					{
+//						Menu already exist
 						Core.setMessageWarning("NMMSG1");
 						return this.forward("igrp", "NovoMenu", "index");
 					}

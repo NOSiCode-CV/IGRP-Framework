@@ -64,7 +64,7 @@ public class MenuOrganicaController extends Controller {
 		
 					Menu aux = m.find().andWhere("id", "=", m.getId()).one();
 					if(aux.getApplication() != null && aux.getApplication().getId() != env_fk) {
-						table.setDescricao(m.getDescr() + " (" + aux.getApplication().getDad() + ")");
+						table.setDescricao(m.getDescr() + " [" + aux.getApplication().getDad() + "]");
 						table.setApp("public");
 						}
 					else {
