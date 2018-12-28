@@ -3035,7 +3035,7 @@ var GENERATOR = function(genparams){
 											
 										},notifyOptions);
 										
-										GEN.showEditorsErrors(jsonRes);
+										GEN.showEditorsErrors(jsonRes,mtype);
 									});
 									if(nomsg){
 										console.log("no msg");
@@ -3283,8 +3283,7 @@ var GENERATOR = function(genparams){
 		//GEN.configSortable($(VARS.html.containersPlaceHolder));
 	}
 
-	GEN.showEditorsErrors = function(jsonRes){
-
+	GEN.showEditorsErrors = function(jsonRes,type){
 		if(jsonRes.errors){
 											
 			for(var file in jsonRes.errors){
@@ -3304,16 +3303,17 @@ var GENERATOR = function(genparams){
 				editor.addClass('has-error');
 				
 				menu.addClass('has-error');
+				//console.log(menu);
 				
 				partErrors.forEach(function(err){
 					
-					console.log(GEN.server.activeMenu)
+					//console.log(GEN.server.activeMenu)
 					
-					GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
+					GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-'+type);
 					
 					errorsW.find('tbody').append(
 							
-						'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
+						'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err[type]+'</td></tr>'
 					);				
 					
 				});
