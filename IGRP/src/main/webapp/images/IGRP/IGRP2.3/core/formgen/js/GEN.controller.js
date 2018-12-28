@@ -3330,11 +3330,17 @@ var GENERATOR = function(genparams){
 		
 		$('.gen-editor-errors').remove();
 		
-		$('.server-editor').removeClass('has-error');
+		$('.server-editor').removeClass(function (index, css) {
+			return (css.match (/\bhas-\S+/g) || []).join(' ');
+		});
 		
-		$('.server-transform').removeClass('has-error');
+		$('.server-transform').removeClass(function (index, css) {
+			return (css.match (/\bhas-\S+/g) || []).join(' '); 
+		});
 		
-		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
+		$('.CodeMirror-gutter-wrapper').removeClass(function (index, css) {
+			return (css.match (/\bhas-\S+/g) || []).join(' ');
+		});
 		
 		if(resize)
 			
