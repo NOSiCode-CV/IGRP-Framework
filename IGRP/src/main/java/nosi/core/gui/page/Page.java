@@ -194,12 +194,14 @@ public class Page{
 				return  action.invoke(controller);
 			}
 			
-		} catch(NullPointerException e) {
-			Core.setMessageError("Ocorreu um erro, pedimos desculpas.");
-			Core.setMessageInfo("NullPointerException");
-			
 		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
-				InvocationTargetException e) {					
+				InvocationTargetException | NullPointerException e) {
+			if(e.getCause() instanceof  NullPointerException) {
+				String msg = "Erro de nullpointexception: "+Igrp.getInstance().getCurrentPageName()+"Controller.java";
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",msg);
+				Core.log("ERRO: "+msg);
+				throw new NotFoundHttpException(msg);
+			}
 			StringWriter sw = new StringWriter();
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
