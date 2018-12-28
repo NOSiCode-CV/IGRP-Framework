@@ -12,15 +12,15 @@ import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.dao.DAOSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 22 Nov 2018
  */
-public class OthersClassImport implements IImport{
+public class OthersClassImport extends AbstractImport implements IImport{
 
 	private List<DAOSerializable> others_class;
-	private String error = "";
 	private Compiler compiler;	
 	
 	public OthersClassImport(Application application) {
@@ -43,20 +43,11 @@ public class OthersClassImport implements IImport{
 				this.saveFile(fileClass);
 			});
 			this.compiler.compile();
-			this.addError(this.compiler.getError());
+			this.addError(this.compiler.getErrors());
+			this.addWarning(this.compiler.getWarnings());
 		}
 	}
 
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error+"\n";
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
-	}
 
 	private void saveFile(DAOSerializable fileClass) {
 		String basePath = Path.getRootPath();

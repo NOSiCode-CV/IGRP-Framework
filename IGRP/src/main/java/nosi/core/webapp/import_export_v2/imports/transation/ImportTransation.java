@@ -7,14 +7,14 @@ import nosi.core.webapp.import_export_v2.common.serializable.transation.Transati
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 6 Dec 2018
  */
-public class ImportTransation implements IImport{
+public class ImportTransation extends AbstractImport implements IImport{
 
-	private String error = "";
 	private List<TransationSerializable> transations;
 	private Application application;
 	
@@ -47,16 +47,4 @@ public class ImportTransation implements IImport{
 			});
 		}
 	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error;
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
-	}
-
 }

@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jdt.core.compiler.CompilationProgress;
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
@@ -25,17 +26,18 @@ import nosi.core.webapp.helpers.FileHelper;
  */
 public class Compiler {
 	private List<String> dirs;
-	private String error = "";
 	private Config config;
 	private String files = "";
 	private String jars = "";
 	private static final String ERROR_SEPARATOR="ERROR_SEPARATOR";
 	private List<ErrorCompile> errors;
-
+	private List<ErrorCompile> warnings;
+	
 	public Compiler() {
 		this.dirs = new ArrayList<>();
 		this.config = new Config();
 		this.errors = new ArrayList<>();
+		this.warnings = new ArrayList<>();
 	}
 
 	public void addFileName(String file) {
@@ -80,7 +82,6 @@ public class Compiler {
 			outSuccess.flush();
 			outSuccess.close();
 			if (Core.isNotNull(swE.toString())) {
-				this.addError(swE.toString());
 				this.extractError(swE.toString());
 			}
 		} finally {
@@ -88,7 +89,8 @@ public class Compiler {
 				swE.close();
 				swS.close();
 			} catch (IOException e) {
-				this.addError(e.getMessage());
+				ErrorCompile err = new ErrorCompile(e.getMessage(),"",1,e.getLocalizedMessage());
+				this.errors.add(err);
 			}
 		}
 
@@ -99,8 +101,14 @@ public class Compiler {
 		String[] err = error.split(ERROR_SEPARATOR);
 		if(err!=null) {
 			for(String e:err) {
-				if(Core.isNotNull(e))
-					this.errors.add(this.errorCompiler(e));
+				if(Core.isNotNull(e)) {
+					ErrorCompile errorC = this.errorCompiler(e);
+					if(errorC!=null)
+						this.errors.add(errorC);
+					errorC = this.warningCompiler(e);
+					if(errorC!=null)
+						this.warnings.add(errorC);
+				}
 			}
 		}
 	}
@@ -108,9 +116,22 @@ public class Compiler {
 	private ErrorCompile errorCompiler(String error) {
 		ErrorCompile err = new ErrorCompile();
 		err.setFileName(this.resolveFileName(error));
-		err.setError(this.resolveError(error));
+		err.setError(this.resolveError(error,"error:"));
 		err.setLine(this.resolveLine(error,err.getFileName()));
-		return err;
+		if(Core.isNotNull(err.getError()))
+			return err;
+		return null;
+	}
+	
+
+	private ErrorCompile warningCompiler(String error) {
+		ErrorCompile err = new ErrorCompile();
+		err.setFileName(this.resolveFileName(error));
+		err.setWarning(this.resolveError(error,"warning:"));
+		err.setLine(this.resolveLine(error,err.getFileName()));
+		if(Core.isNotNull(err.getWarning()))
+			return err;
+		return null;
 	}
 	
 	private long resolveLine(String error,String fileName) {
@@ -125,9 +146,9 @@ public class Compiler {
 		return 0;
 	}
 
-	private String resolveError(String error) {
-		int start = error.indexOf("error:");		
-		return start!=-1?error.substring(start):"";
+	private String resolveError(String msg,String type) {
+		int start = msg.indexOf(type);	
+		return start!=-1?msg.substring(start):"";
 	}
 
 	private String resolveFileName(String error) {
@@ -151,6 +172,16 @@ public class Compiler {
 		return "";
 	}
 
+	public String getWarningToJson() {
+		if (this.hasWarning()) {
+			Map<String, List<ErrorCompile>> er = this.getWarnings().stream().collect(Collectors.groupingBy(ErrorCompile::getFileName));
+			if(er!=null) {
+				return Core.toJson(new MapErrorCompile(Core.gt("Falha na compilação")+" - "+er.keySet().stream().findFirst().get(),er));		
+			}
+		}
+		return "";
+	}
+	
 	public List<ErrorCompile> getErrors() {
 		return this.errors;
 	}
@@ -159,6 +190,14 @@ public class Compiler {
 		return this.errors != null && !this.errors.isEmpty();
 	}
 
+	public List<ErrorCompile> getWarnings() {
+		return this.warnings;
+	}
+
+	public boolean hasWarning() {
+		return this.warnings != null && !this.warnings.isEmpty();
+	}
+	
 	// Get jar files
 	public void listFilesDirectory(String path) {
 		if (FileHelper.dirExists(path)) {
@@ -169,12 +208,23 @@ public class Compiler {
 		}
 	}
 
-	private void addError(String error) {
-		if (Core.isNotNull(error))
-			this.error += error + "\n";
+	public String getError() {	
+		return this.convertListToString(this.getErrors());
+	}
+	
+	public String getWarning() {		
+		return this.convertListToString(this.getWarnings());
+	}
+	
+	private String convertListToString(List<ErrorCompile> list) {
+		Function<List<ErrorCompile>, String> listErrorToString = e->{
+			e.stream().forEach(err->{
+				listToString+=err;
+			});
+			return listToString;
+		};
+		return listErrorToString.apply(list);
 	}
 
-	public String getError() {
-		return this.error;
-	}
+	private String listToString = "";
 }

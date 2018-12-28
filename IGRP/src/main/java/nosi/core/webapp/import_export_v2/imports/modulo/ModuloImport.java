@@ -7,13 +7,13 @@ import nosi.core.webapp.import_export_v2.common.serializable.modulo.ModuloSerial
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Modulo;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 5 Nov 2018
  */
-public class ModuloImport implements IImport {
-	private String error = "";
+public class ModuloImport extends AbstractImport implements IImport {
 	protected Application application;
 	private List<ModuloSerializable> modulos;
 	
@@ -47,19 +47,6 @@ public class ModuloImport implements IImport {
 				}
 			});			
 		}
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error+"\n";
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
-	}
-
-	
+	}	
 
 }

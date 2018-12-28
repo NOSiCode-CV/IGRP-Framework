@@ -15,14 +15,14 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.webapps.igrp.dao.User;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class ReportImport  implements IImport{
+public class ReportImport  extends AbstractImport implements IImport{
 
-	private String error = "";
 	private List<ReportSerializable> reports;
 	private Application application;
 	
@@ -127,17 +127,6 @@ public class ReportImport  implements IImport{
 			return clob;
 		}
 		return null;
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error;
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
 	}
 
 

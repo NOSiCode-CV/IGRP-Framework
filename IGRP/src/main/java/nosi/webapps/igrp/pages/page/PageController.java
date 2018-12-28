@@ -338,7 +338,7 @@ public class PageController extends Controller {
 	public Response actionSaveGenPage() throws IOException, ServletException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
-		String error = "";
+		Compiler compiler = null;
 		Boolean workspace=false;
 		if (ac != null) {
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
@@ -375,8 +375,8 @@ public class PageController extends Controller {
 
 				if (ac.getIsComponent() == 0) {
 					r = FileHelper.saveFilesJava(path_class, ac.getPage(),new Part[] { fileModel, fileView, fileController });
-					error = this.processCompile(path_class, ac.getPage()).getErrorToJson();
-					if (r && Core.isNull(error)) {// Check if not error on the compilation class
+					compiler = this.processCompile(path_class, ac.getPage());
+					if (r && !compiler.hasError()) {// Check if not error on the compilation class
 						if (workspace) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
@@ -385,15 +385,21 @@ public class PageController extends Controller {
 						}
 					}
 				}
-				if (r && Core.isNull(error)) {// Check if not error on the compilation class
-					error = Core.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? Core.gt("CompSuc"): Core.gt("Componente registado com sucesso"), null));
+				if (r && !compiler.hasError()) {// Check if not error on the compilation class
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-					return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(error)+ "</message></messages>");
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml11(error) + "</message></messages>");
+		String messages = "";
+		if(compiler!=null && compiler.hasError())
+			messages += ("<message type=\""+FlashMessage.ERROR+"\">" + StringEscapeUtils.escapeXml11(compiler.getErrorToJson()) + "</message>");
+		if(compiler!=null && compiler.hasWarning())
+			messages += ("<message type=\""+FlashMessage.WARNING+"\">" + StringEscapeUtils.escapeXml11(compiler.getWarningToJson()) + "</message>");
+		if(compiler!=null && !compiler.hasError()) {
+			messages += ("<message type=\""+FlashMessage.SUCCESS+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? Core.gt("CompSuc"): Core.gt("Componente registado com sucesso"), null)))+ "</message>");
+		}
+		return this.renderView("<messages>"+messages+"</messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {

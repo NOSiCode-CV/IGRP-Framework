@@ -4,16 +4,16 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.application.ApplicationSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 5 Nov 2018
  */
-public class ApplicationImport implements IImport{
+public class ApplicationImport extends AbstractImport implements IImport{
 
 	private ApplicationSerializable appSerializable;
 	private Application application;
-	private String error = "";
 	
 	public ApplicationImport(Application application) {
 		super();
@@ -50,16 +50,6 @@ public class ApplicationImport implements IImport{
 		}
 	}
 
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error+"\n";
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
-	}
 
 	public Application getApplication() {
 		if(this.application==null) {
