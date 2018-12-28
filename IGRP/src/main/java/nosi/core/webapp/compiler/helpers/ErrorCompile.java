@@ -12,19 +12,28 @@ public class ErrorCompile  implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String error;
+	private String warning;
 	private long line;
 	private String fileName;
 	
 	public ErrorCompile() {
-		// TODO Auto-generated constructor stub
 	}
-	public ErrorCompile(String error, long line, String fileName) {
+	
+	public ErrorCompile(String error,String warning, long line, String fileName) {
 		super();
 		this.error = error;
+		this.warning = warning;
 		this.line = line;
 		this.fileName = fileName;
 	}
 	
+	public String getWarning() {
+		return warning;
+	}
+
+	public void setWarning(String warning) {
+		this.warning = warning;
+	}
 
 	public String getError() {
 		return error;

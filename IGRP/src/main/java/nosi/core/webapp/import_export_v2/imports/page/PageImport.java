@@ -9,6 +9,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.page.PageSerializable;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -17,8 +18,7 @@ import nosi.webapps.igrp.dao.Application;
  * Emanuel
  * 2 Nov 2018
  */
-public class PageImport implements IImport{
-	private String error = "";
+public class PageImport extends AbstractImport implements IImport{
 	protected Application application;
 	private List<PageSerializable> pages;
 	protected Compiler compiler;	
@@ -46,7 +46,8 @@ public class PageImport implements IImport{
 				this.insertPgae(page);
 			});
 			this.compiler.compile();
-			this.addError(this.compiler.getError());
+			this.addError(this.compiler.getErrors());
+			this.addWarning(this.compiler.getWarnings());
 		}
 	}
 
@@ -99,17 +100,6 @@ public class PageImport implements IImport{
 		if(!ac.hasError()) {
 			this.saveFile(page,ac);
 		}
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error+"\n";
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
 	}
 
 }

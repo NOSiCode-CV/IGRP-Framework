@@ -10,14 +10,14 @@ import nosi.core.webapp.import_export_v2.common.serializable.connection.Connecti
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class ConnectionImport  implements IImport{
+public class ConnectionImport  extends AbstractImport implements IImport{
 	private Application application;
-	private String error;
 	private List<ConnectionSerializable> conns;
 
 
@@ -53,7 +53,7 @@ public class ConnectionImport  implements IImport{
 						c.setDad(this.application.getDad());
 						this.saveConnectionFile(c);
 					}
-					this.error = config.hasError()?config.getError().get(0):null;
+					this.addError(config.hasError()?config.getError().get(0):null);
 				}
 			});
 		}
@@ -68,17 +68,6 @@ public class ConnectionImport  implements IImport{
 				this.addError(e.getMessage());
 			}
 		}
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error+"\n";
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
 	}
 
 }

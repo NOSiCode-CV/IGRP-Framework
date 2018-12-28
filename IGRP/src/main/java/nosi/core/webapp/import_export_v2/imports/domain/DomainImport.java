@@ -6,14 +6,14 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.domain.DomainSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Domain;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class DomainImport  implements IImport{
+public class DomainImport extends AbstractImport implements IImport{
 
-	private String error;
 	private List<DomainSerializable> domains;
 	
 	@SuppressWarnings("unchecked")
@@ -32,21 +32,10 @@ public class DomainImport  implements IImport{
 				if(dm==null) {
 					dm = new Domain(d.getDominio(), d.getValor(), d.getDescription(), d.getStatus(), d.getOrdem());
 					dm = dm.insert();
-					this.error = dm.hasError()?dm.getError().get(0):null;
+					this.addError(dm.hasError()?dm.getError().get(0):null);
 				}
 			});
 		}
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error = error;
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
 	}
 
 }

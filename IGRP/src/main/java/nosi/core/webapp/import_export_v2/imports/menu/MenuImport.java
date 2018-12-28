@@ -9,16 +9,16 @@ import nosi.core.webapp.import_export_v2.imports.IImport;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class MenuImport implements IImport{
+public class MenuImport extends AbstractImport implements IImport{
 
 	private List<MenuSerializable> menu;
 	private Application application;
-	private String error;
 	
 	public MenuImport(Application application) {
 		this.application = application;
@@ -91,17 +91,6 @@ public class MenuImport implements IImport{
 				this.addError(new_menu.hasError()?new_menu.getError().get(0):null);
 			}
 		}			
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error = error;
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
 	}
 
 }

@@ -2,7 +2,6 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -72,12 +71,20 @@ public class ImportArquivoController extends Controller {
 					}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".app.jar")){					
 						ImportHelper importApp = new ImportHelper();
 						importApp.importFile(file);
-						if(importApp.hasError()) {
-							importApp.getErrors().stream().forEach(err->{
-								Core.setMessageError(err);
-							});
-						}else {
+						if(!importApp.hasError() && !importApp.hasWarning()) {
 							result = true;
+						}
+						else {
+							if(importApp.hasError()) {
+								importApp.getErrors().stream().forEach(e->{
+									Core.setMessageError(e);
+								});
+							}
+							if(importApp.hasWarning()) {
+								importApp.getWarnings().stream().forEach(e->{
+									Core.setMessageWarning(e);
+								});
+							}
 						}
 					}else if(file.getSubmittedFileName().endsWith(".app.jar")){//Old import (deprecated)			
 						ImportAppJava importApp = new ImportAppJava(file);
@@ -135,12 +142,21 @@ public class ImportArquivoController extends Controller {
 						}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".page.jar")){
 							ImportHelper importApp = new ImportHelper();
 							importApp.importFile(file);
-							if(importApp.hasError()) {
-								importApp.getErrors().stream().forEach(err->{
-									Core.setMessageError(err);
-								});
-							}else {
+							if(!importApp.hasError() && !importApp.hasWarning()) {
 								result = true;
+							}
+							
+							else {
+								if(importApp.hasError()) {
+									importApp.getErrors().stream().forEach(e->{
+										Core.setMessageError(e);
+									});
+								}
+								if(importApp.hasWarning()) {
+									importApp.getWarnings().stream().forEach(e->{
+										Core.setMessageWarning(e);
+									});
+								}
 							}
 						}else if(file.getSubmittedFileName().endsWith(".page.jar")){//Old import (deprecated)
 							Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));

@@ -13,15 +13,15 @@ import java.io.IOException;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class BpmnImport implements IImport {
+public class BpmnImport extends AbstractImport implements IImport {
 	
 	private List<BPMNSerializable> bpmns;
-	private String error = "";
 	private Application application;	
 	private Compiler compiler;
 	
@@ -51,7 +51,8 @@ public class BpmnImport implements IImport {
 				this.savePagesFile(bpmn);
 			});
 			this.compiler.compile();
-			this.addError(this.compiler.getError());
+			this.addError(this.compiler.getErrors());
+			this.addWarning(this.compiler.getWarnings());
 		}
 	}
 
@@ -91,17 +92,6 @@ public class BpmnImport implements IImport {
 		} catch (IOException e) {
 			this.addError(e.getMessage());
 		}
-	}
-
-	@Override
-	public void addError(String error) {
-		if(Core.isNotNull(error))
-			this.error += error+"\n";
-	}
-
-	@Override
-	public String getError() {
-		return this.error;
 	}
 
 }

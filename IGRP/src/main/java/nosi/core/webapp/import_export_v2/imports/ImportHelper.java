@@ -1,7 +1,5 @@
 package nosi.core.webapp.import_export_v2.imports;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.Part;
@@ -27,10 +25,12 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class ImportHelper {
 
-	private List<String> errors;
+
 	private Map<String,String> contentReads;
+	private Import imp;
+	
 	public ImportHelper() {
-		this.errors = new ArrayList<>();
+		this.imp = new Import();
 	}
 	
 	public void importFile(Part file) {
@@ -41,7 +41,6 @@ public class ImportHelper {
 		this.contentReads = JarUnJarFile.readJarFile(file);
 		Application application = new Application().findOne(application_id);
 		if(contentReads!=null) {
-			Import imp = new Import();
 			ApplicationImport app = new ApplicationImport(application);
 			app.deserialization(this.getJsonContent(OptionsImportExport.APP.getFileName()));
 			imp.add(app);
@@ -88,9 +87,8 @@ public class ImportHelper {
 			imp.add(domain);
 						
 			imp.execute();
-			this.setEerror(imp.getErrors());
 		}else {
-			this.setEerror(Arrays.asList(new String[] {Core.gt("Ocorreu um erro ao ler o ficheiro")}));
+			imp.addError(Core.gt("Ocorreu um erro ao ler o ficheiro"));
 		}
 	}
 	
@@ -101,14 +99,19 @@ public class ImportHelper {
 	}
 
 	public boolean hasError() {
-		return this.errors!=null && this.errors.size() > 0;
+		return this.imp.getErrors()!=null && this.imp.getErrors().size() > 0;
 	}
 	
-	public void setEerror(List<String> errors) {
-		this.errors = errors;
+	public boolean hasWarning() {
+		return this.imp.getWarnings()!=null && this.imp.getWarnings().size() > 0;
 	}
 	
 	public List<String> getErrors(){
-		return this.errors;
+		return this.imp.getErrors();
 	}
+
+	public List<String> getWarnings() {
+		return this.imp.getWarnings();
+	}
+	
 }

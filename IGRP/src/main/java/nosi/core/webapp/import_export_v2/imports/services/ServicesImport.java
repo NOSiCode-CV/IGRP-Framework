@@ -1,12 +1,12 @@
 package nosi.core.webapp.import_export_v2.imports.services;
 
 import nosi.core.webapp.import_export_v2.imports.IImport;
-
+import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class ServicesImport  implements IImport{
+public class ServicesImport extends AbstractImport implements IImport{
 
 	@Override
 	public void deserialization(String jsonContent) {
@@ -19,17 +19,4 @@ public class ServicesImport  implements IImport{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void addError(String error) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getError() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
