@@ -1463,6 +1463,10 @@ new rows / columns style
 	background:#fa0000;
 	color:white;
 }
+.CodeMirror-gutter-wrapper.has-warning .CodeMirror-linenumber{
+	background:orange;
+	color:white;
+}
 /*.CodeMirror-linenumber.has-error:after{
 	content:"";
 	position:absolute;
