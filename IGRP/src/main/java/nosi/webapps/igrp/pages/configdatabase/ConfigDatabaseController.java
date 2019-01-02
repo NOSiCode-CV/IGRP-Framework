@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -31,7 +33,7 @@ public class ConfigDatabaseController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Sit ipsum doloremque dolor sit' as nome_de_conexao_tabela,'Rem labore amet lorem amet' as user_name_tabela,'Dolor laudantium elit unde per' as tipo_de_base_de_dados_tabela,'Mollit amet unde doloremque lo' as t_url_connection,'Mollit anim ut amet adipiscing' as t_driver_connection,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Ut amet aliqua consectetur des' as nome_de_conexao_tabela,'Dolor sit elit laudantium labo' as user_name_tabela,'Aliqua stract aperiam omnis st' as tipo_de_base_de_dados_tabela,'Voluptatem laudantium lorem ut' as t_url_connection,'Rem officia anim ipsum accusan' as t_driver_connection,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */

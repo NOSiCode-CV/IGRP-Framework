@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class TransacaoOrganicaView extends View {
 
@@ -31,10 +32,10 @@ public class TransacaoOrganicaView extends View {
 
 		transacao = new CheckBoxField(model,"transacao");
 		transacao.setLabel(gt("Ativo"));
-		transacao.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		transacao.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		transacao_check = new CheckBoxField(model,"transacao_check");
-		transacao_check.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
+		transacao_check.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome (code)"));

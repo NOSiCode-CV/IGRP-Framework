@@ -1,7 +1,7 @@
 <div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" >
   <div class="form-group" #[required]#>
       <div class="checkbox form-check-offset">
-        <label class="#[switch]#">
+        <label class="container-box #[switch]#"><xsl:value-of select="#label.path#"/>
             <input type="checkbox" name="#name.attr#" value="1" class="checkbox #[change]#" #[required]# label="#label.attr#">
               <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="#path#"/>
@@ -12,7 +12,7 @@
               </xsl:if>
             </input>
             <span class="slider round"></span>
-            <span class="checkbox-label"><xsl:value-of select="#label.path#"/></span>
+            <span class="checkmark"></span>
         </label>
       </div>
     </div>

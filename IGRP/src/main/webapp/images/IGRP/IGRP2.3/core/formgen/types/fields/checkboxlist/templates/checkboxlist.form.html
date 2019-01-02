@@ -3,7 +3,7 @@
      <label><xsl:value-of select="#path#/label"/></label>
         <xsl:for-each select="#list.path#/option">
             <div class="checkbox col-md-#[child_size]#">
-                <label>
+                <label style="font-weight: normal !important;" class="container-box"><xsl:value-of select="text"/>
                     <input #[required]# type="checkbox" name="{../../@name}" value="{value}" class="checkboxlist #[change]#" label="{text}" #[disabled]#>
                         <xsl:call-template name="setAttributes">
                             <xsl:with-param name="field" select="//#path#"/>
@@ -12,7 +12,7 @@
                             <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>
                     </input>
-                    <span><xsl:value-of select="text"/></span>
+                    <span class="checkmark"></span>
                 </label>
             </div>
         </xsl:for-each>

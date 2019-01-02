@@ -1,6 +1,7 @@
 <xsl:if test="not(#tag#/@visible)">
-    <td align="#[align]#" data-row="{position()}" data-title="{../../../fields/#tag#/label}" item-name="#[tag]#">
-        <div class="form-group" item-name="#tag#" item-type="#type#">
+    <td align="#[align]#" class="bs-checkbox" data-row="{position()}" data-title="{../../../fields/#tag#/label}" item-name="#[tag]#">
+        <div class="" item-name="#tag#" item-type="#type#">
+        <label class="container-box" >      
             <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/> 
             <xsl:if test="#tag#_check != #tag# or not(#tag#_check)">
                 <input type="hidden" class="#tag#" name="p_#tag#_fk" value=""/>
@@ -14,7 +15,9 @@
                         <xsl:attribute name="checked">checked</xsl:attribute>
                     </xsl:if>
                 </input>
+                  <span class="checkmark"></span>
             </xsl:if>
+              </label>
         </div>
     </td>
 </xsl:if>

@@ -176,7 +176,7 @@ public class Compiler {
 		if (this.hasWarning()) {
 			Map<String, List<ErrorCompile>> er = this.getWarnings().stream().collect(Collectors.groupingBy(ErrorCompile::getFileName));
 			if(er!=null) {
-				return Core.toJson(new MapErrorCompile(Core.gt("Falha na compilação")+" - "+er.keySet().stream().findFirst().get(),er));		
+				return Core.toJson(new MapErrorCompile(Core.gt("Warnings")+" - "+er.keySet().stream().findFirst().get(),er));		
 			}
 		}
 		return "";

@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -33,9 +35,8 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Sit anim aperiam consectetur mollit deserunt totam sed sit omnis anim perspiciatis rem mollit stract' as t1_menu_principal,'1' as ativo,'Magna aliqua magna voluptatem aliqua ut aliqua ipsum deserunt elit mollit iste adipiscing aliqua sed' as table_titulo,'Ut totam omnis sit accusantium dolor unde aliqua mollit aliqua accusantium sit voluptatem accusantiu' as pagina,'1' as checkbox,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Iste totam lorem consectetur stract deserunt ut voluptatem officia accusantium omnis voluptatem iste' as t1_menu_principal,'1' as ativo,'Unde lorem perspiciatis dolor ipsum lorem magna ipsum aperiam totam rem sit elit omnis accusantium a' as table_titulo,'Aperiam stract mollit magna totam sit mollit anim perspiciatis aliqua mollit unde anim lorem anim mo' as pagina,'1' as checkbox,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 

@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -24,7 +26,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Totam mollit ut rem elit' as descricao,'1' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Lorem deserunt ipsum accusanti' as descricao,'1' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
     

@@ -18,12 +18,13 @@
 }
 
 label {
-	margin-bottom: 8px;
-	font-weight: 500;
+	
 }
 .form-group > label,
 .form-link {
 	display: block;
+	margin-bottom: 8px;
+	font-weight: 500;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -199,6 +200,7 @@ form [item-type="plaintext"]{
 
 .checkboxlist .checkbox, .radiolist .radio{
 	margin-top: 0;
+	margin-bottom: 4px;
 	padding: 0;
 }
 
@@ -218,7 +220,7 @@ form [item-type="plaintext"]{
     height: 24px;
     margin-bottom: 0;
     position: absolute;
-    top: 34px;
+    top: 32px;
     left: 0
 }
 

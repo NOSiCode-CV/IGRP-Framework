@@ -191,18 +191,31 @@ table td.radio{
   margin: 0;
 }
 
-table th.bs-checkbox,
-table td.bs-checkbox {
-  /*width:40px;*/
-  text-align: center;
+
+/* td.bs-checkbox { */
+/*   max-width:40px; */
+ 
+}
+th.bs-checkbox{
+		
+    padding-top: 16px !important;
+}
+
+th.bs-checkbox span{
+vertical-align:sub;
+
 }
 
 table.dataTable th.bs-checkbox{
-  padding-right: 15px;
+   padding-right: 15px; 
+/*      padding-top: 16px !important; */
 }
 
 .table>thead>tr>th{
   border-width: 1px;
+  padding-left: 8px;
+  padding-top:4px;
+  padding-bottom:4px;
   line-height: 1
 }
 .table>tbody>tr>td, 
@@ -216,7 +229,7 @@ table.dataTable th.bs-checkbox{
 }
 
 .table>thead>tr>th{
-  padding:15px;
+/*   padding:15px; */
 }
 /* inline ctx menu*/
 .igrp-table-ctx-th{
@@ -287,14 +300,18 @@ table:not(.align) .table-ctx-holder li[invisible="true"]{
   float:right;
   text-align: right!important;
 }
+div.dataTables_wrapper div.dataTables_length select {
+     width: auto; 
+     padding: 4px;
+}
 
 .dataTables_length,
 .dataTables_filter{
   width: 50%;
-  background: #fdfdfd;
+/*   background: #fdfdfd; */
   padding: 10px 15px 0;
-  margin-bottom: 1px;
-  border-bottom: 1px solid #f8f8f8;
+/*   margin-bottom: 1px; */
+/*   border-bottom: 1px solid #f8f8f8; */
 
 }
 

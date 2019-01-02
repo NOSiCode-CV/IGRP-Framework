@@ -15,7 +15,7 @@ html.ready body{
 }
 
 body{
-    font-family: Roboto,sans-serif;
+    font-family: Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
     color: #616a78;
     font-weight: 300;
     font-size: 13px;
@@ -347,7 +347,7 @@ body[screen-size="xs"] #side-bar-ctrl{
 	cursor: pointer;
 	padding: 8px 10px;
 	border-radius: 10px;
-	opacity: .5;
+	opacity: .8;
 	transition: opacity .5s;
 	width: 34px;
 	height: 34px;
@@ -1090,6 +1090,167 @@ body[has-menu="true"] .content>.row:first-child{
   margin-left:  4px;
 }
 
+
+/* CHECKBOX / RADIOBOX */
+/* Customize the label (the container) */
+.container-box {
+/*   display: block; */
+  position: relative;
+ min-height: 15.2px;
+      padding-top: 3px;
+/*   margin-bottom: 12px;  */
+   font-weight: 500 !important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.form-group label.container-box {
+    padding-left: 44px!important;
+}
+
+th.bs-checkbox label.container-box {
+    padding-left: 44px!important;
+}
+th.bs-checkbox label.container-box.checkbox-switch.switch {
+
+     padding-left: 0px!important;
+      
+}
+label.container-box.checkbox-switch.switch .checkmark {
+    display: none;
+    
+}
+
+
+/* Hide the browser's default checkbox */
+.container-box input {
+  position: absolute;
+  opacity: 0; 
+  height: 0;
+  width: 0;
+}
+
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  margin-top:2px;
+  top: 0px;
+  left: 14px;
+  height: 19px;
+  width: 19px;
+  border-radius: 2px;  
+  box-shadow: inset 0px 1px 4px 1px rgba(0,0,0,.075);
+  background-color: #eee;
+}
+
+.radiomark {
+  position: absolute;
+   margin-top:2px;
+  top: 0px;
+  left: 14px;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+   box-shadow: inset 0px 1px 4px 1px rgba(0,0,0,.075);
+}
+
+.container-box input:checked:disabled ~ .checkmark{
+  opacity:0.6;
+  cursor: not-allowed;
+}
+.container-box input:checked:disabled ~ .radiomark{
+  opacity:0.6;
+  cursor: not-allowed;
+}
+
+/* On mouse-over, add a grey background color */
+.container-box:hover input:not(:disabled):not(:checked) ~ .checkmark {	
+ 
+  background-color: #ddd;
+}
+.container-box:hover input:not(:disabled):not(:checked) ~ .radiomark {	
+ 
+  background-color: #ddd;
+}
+
+.container-box:hover input:disabled ~ .checkmark {	
+	cursor: not-allowed;
+}
+.container-box:hover input:disabled ~ .radiomark {	
+	cursor: not-allowed;
+}
+
+
+.container-box:hover input:not(:disabled):checked ~ .checkmark { 
+ opacity:0.6;
+}
+.container-box:hover input:not(:disabled):checked ~ .radiomark { 
+ opacity:0.6;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+.container-box input:checked ~ .checkmark {
+  background-color: #2196F3;
+
+}
+
+.container-box input:checked ~ .radiomark {
+  background-color: #2196F3;
+ 
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.radiomark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container-box input:checked ~ .checkmark:after {
+  display: block;
+}
+.container-box input:checked ~ .radiomark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container-box .checkmark:after {
+   left: 6px;
+    top: 0.5px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+/* Style the indicator (dot/circle) */
+.container-box .radiomark:after {
+    top: 5px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+ border-radius: 50%;
+ background: white;
+}
+
+
+
+
 /* VERTICAL MENU */
 .igrp-vertical-menu>.list-group>a{
   display: block;
@@ -1395,6 +1556,9 @@ a.btn item.fa{
     /*border-color:transparent;*/
 }
 
+.fa{
+	vertical-align: middle;
+}
 li>a>item.fa{
   position: absolute;
   top:50%;

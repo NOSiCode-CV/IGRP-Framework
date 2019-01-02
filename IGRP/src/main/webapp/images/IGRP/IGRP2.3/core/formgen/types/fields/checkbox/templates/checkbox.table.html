@@ -1,12 +1,14 @@
-<td align="" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#" data-order="{#tag#_check=#tag#}">
+<td align="#[align]#" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#" data-order="{#tag#_check=#tag#}">
     <xsl:if test="#tag# != '-0'">
-    	<label class="#[switch]#">
+    	<label class="container-box #[switch]#">
 	        <input type="checkbox" name="p_#tag#" value="{#tag#}" check-rel="#tag#">
 	            <xsl:if test="#tag#_check=#tag#">
 	                <xsl:attribute name="checked">checked</xsl:attribute>
 	            </xsl:if>
 	        </input>
 	        <span class="slider round"></span>
+	        <span class="checkmark"></span>
+	        
         </label>
     </xsl:if>
 </td>

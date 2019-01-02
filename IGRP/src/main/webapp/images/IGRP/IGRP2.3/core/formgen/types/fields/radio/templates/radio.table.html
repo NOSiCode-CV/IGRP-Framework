@@ -1,9 +1,12 @@
-<td align="" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#">
+<td align="#[align]#" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#">
 	 <xsl:if test="#tag# != '-0'">
+	 <label class="container-box">
         <input type="radio" name="p_#tag#" value="{#tag#}">
             <xsl:if test="#tag#_check=#tag#">
                 <xsl:attribute name="checked">checked</xsl:attribute>
             </xsl:if>
         </input>
+           <span class="radiomark"></span>
+           </label>
     </xsl:if>
 </td>

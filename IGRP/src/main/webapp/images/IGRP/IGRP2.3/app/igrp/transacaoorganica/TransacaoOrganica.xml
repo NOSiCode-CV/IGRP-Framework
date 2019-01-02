@@ -50,7 +50,7 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
+                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
                     <label>Ativo</label>
                 </transacao>
                 <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -62,27 +62,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Stract unde voluptatem laudant</nome>
+                        <nome name="p_nome">Voluptatem omnis officia volup</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Totam mollit laudantium consec</nome>
+                        <nome name="p_nome">Ut labore aperiam omnis deseru</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Natus ipsum labore laudantium</nome>
+                        <nome name="p_nome">Totam lorem aliqua voluptatem</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Unde perspiciatis iste stract</nome>
+                        <nome name="p_nome">Lorem omnis ipsum elit adipisc</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Magna unde officia accusantium</nome>
+                        <nome name="p_nome">Sit lorem sit consectetur pers</nome>
                     </row>
                 </value>
             </table>

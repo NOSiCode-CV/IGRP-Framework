@@ -3,7 +3,7 @@
      <label>#label.val#</label>
         <xsl:for-each select="#list.path#/option">
             <div class="radio col-md-#[child_size]#">
-                <label>
+                <label style="font-weight: normal !important;" class="container-box"> <span><xsl:value-of select="text"/></span>
                     <input #[required]# type="radio" name="{../../@name}" value="{value}" class="radiolist #[change]#" label="{text}">
                         <xsl:call-template name="setAttributes">
                             <xsl:with-param name="field" select="//#path#"/>
@@ -12,7 +12,7 @@
                             <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>
                     </input>
-                    <span><xsl:value-of select="text"/></span>
+                    <span class="radiomark"></span>
                 </label>
             </div>
         </xsl:for-each>

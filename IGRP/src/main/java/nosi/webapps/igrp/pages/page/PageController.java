@@ -188,7 +188,7 @@ public class PageController extends Controller {
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}
 					if (model.getCriar_menu() != 0 && model.getComponente() == 0) {
-						Menu pageMenu = new Menu(action.getPage_descr(), 0, 1, 0, "_self", action,
+						Menu pageMenu = new Menu(action.getPage_descr(), 39, 1, 0, "_self", action,
 								action.getApplication(), null);
 						pageMenu.setMenu(pageMenu);
 						pageMenu.insert();

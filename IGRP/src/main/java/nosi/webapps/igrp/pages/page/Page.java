@@ -1,5 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
@@ -24,6 +27,10 @@ public class Page extends Model{
 	private int publico;
 	@RParam(rParamName = "p_publico_check")
 	private int publico_check;
+	@RParam(rParamName = "p_public_link")
+	private IGRPLink public_link;
+	@RParam(rParamName = "p_public_link_desc")
+	private String public_link_desc;
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_env_fk")
@@ -139,6 +146,28 @@ public class Page extends Model{
 	}
 	public int getPublico_check(){
 		return this.publico_check;
+	}
+	
+	public IGRPLink setPublic_link(String app,String page,String action){
+		this.public_link = new IGRPLink(app,page,action);
+		return this.public_link;
+	}
+	public IGRPLink getPublic_link(){
+		return this.public_link;
+	}
+	public void setPublic_link_desc(String public_link_desc){
+		this.public_link_desc = public_link_desc;
+	}
+	public String getPublic_link_desc(){
+		return this.public_link_desc;
+	}
+	public IGRPLink setPublic_link(String link){
+		this.public_link = new IGRPLink(link);
+		return this.public_link;
+	}
+	public IGRPLink setPublic_link(Report link){
+		this.public_link = new IGRPLink(link);
+		return this.public_link;
 	}
 	
 	public void setNada(String nada){

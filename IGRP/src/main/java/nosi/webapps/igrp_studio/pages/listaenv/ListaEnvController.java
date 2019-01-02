@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.listaenv;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -28,8 +30,7 @@ public class ListaEnvController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as name,'Deserunt sit natus totam offic' as dad,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as t_page_builder,'1' as id "));
-		
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as name,'Lorem natus doloremque dolor i' as dad,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml' as t_page_builder,'1' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 

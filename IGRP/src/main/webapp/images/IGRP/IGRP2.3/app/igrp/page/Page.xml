@@ -49,36 +49,57 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>submit</target>
+                <app>igrp</app>
+                <page>Dominio</page>
+                <link>index</link>
+                <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>undefined</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Natus mollit sit mollit adipiscing</value>
+                    <value>Magna doloremque ut sit elit</value>
+                    <rules>
+                        <rule type="remote">
+                            <proc>update</proc>
+                            <requestFields>
+                                <item>p_page</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Consectetur aliqua officia lorem labore</value>
+                    <value>Magna lorem aliqua deserunt adipiscing</value>
+                    <rules>
+                        <rule type="remote">
+                            <proc>update</proc>
+                            <requestFields>
+                                <item>p_page</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </page>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </status>
-                <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" check="true">
+                <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Gen Auto Code</label>
                     <value>1</value>
                 </gen_auto_code>
-                <publico name="p_publico" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                <publico name="p_publico" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
                     <label>Publico</label>
                     <value>1</value>
+                    <rules/>
                 </publico>
+                <public_link name="p_public_link" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="true">
+                    <label>Public Link</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
+                </public_link>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
@@ -104,7 +125,7 @@
                         </option>
                     </list>
                 </env_fk>
-                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
                     <label>Componente?</label>
                     <value>1</value>
                     <rules/>
@@ -112,11 +133,11 @@
                 <extras name="p_extras" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Extras</label>
                 </extras>
-                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
                     <label>Primeira Página</label>
                     <value>1</value>
                 </primeira_pagina>
-                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" check="true">
+                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
                     <label>Criar menu?</label>
                     <value>1</value>
                     <rules/>

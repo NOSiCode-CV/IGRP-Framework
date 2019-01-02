@@ -63,7 +63,7 @@ public class NovoMenuController extends Controller {
 				model.setEnv_fk(app);
 			// New menu by default opens in the same window
 			model.setTarget("_self");
-			model.setOrderby(99);
+			model.setOrderby(39);
 			model.setStatus(1);
 			if (Core.isNotNull(Core.getParam("ichange")) && Core.isNotNullOrZero(model.getAction_fk())) {
 				model.setTitulo(getPageTituleByID(model));

@@ -568,10 +568,6 @@ max-height: 34px;
 }
 
 
-
-
-
-
 /*.gen-types-tab>li.active a{
 	background-color: #f9f9f9!important;
 	border-color: #f9f9f9!important
@@ -665,9 +661,6 @@ max-height: 34px;
 	overflow:hidden;
 }
 
-th.bs-checkbox {
-	width:55px!important;
-}
 
 th .gen-field-edt-options{
 	top:50%;

@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -30,7 +32,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Anim voluptatem labore aperiam accusantium unde vo' as nominho,'1' as range_1,'Sit sit accusantium sit voluptatem stract aliqua iste deserunt elit rem deserunt elit ipsum deserunt' as nome,'Iste officia ipsum natus labore accusantium magna sit lorem sit laudantium unde officia natus mollit' as tb_email,'Deserunt labore accusantium aliqua consectetur des' as perfile,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Laudantium totam officia natus amet accusantium ac' as nominho,'0' as range_1,'Accusantium elit lorem adipiscing sit officia elit totam labore magna elit consectetur stract accusa' as nome,'Doloremque sed omnis mollit sit unde iste rem doloremque officia sed sit omnis iste sit rem anim vol' as tb_email,'Doloremque ipsum doloremque iste elit lorem dolore' as perfile,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -119,7 +121,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(convidar)----*/
    
       // this.addQueryString("p_aplicacao",  model.getAplicacao());
@@ -148,7 +150,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","RegistarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(adicionar_utilizador)----*/
 
 		/*----#end-code----*/
@@ -165,7 +167,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 	
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
@@ -186,7 +188,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","RegistarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","RegistarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		 
       if (Core.isNotNull(Core.getParam("p_tb_email"))) {
@@ -211,7 +213,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(assiocar_menu)----*/
 		this.addQueryString("p_id",Core.getParamInt("p_id"))
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
@@ -233,7 +235,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(assiocar_transacao)----*/
 		this.addQueryString("p_id",Core.getParamInt("p_id"))
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
@@ -253,7 +255,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(assiocar_etapa)----*/
 		Profile p = new Profile().findOne(Core.getParamInt("p_id"));
       	if(p!=null)
@@ -274,7 +276,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(convidar_user)----*/
 		Integer id = Core.getParamInt("p_id");		
 		Profile p = new Profile().findOne(id);
@@ -299,7 +301,7 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_nome",Core.getParam("p_nome"));
 		 this.addQueryString("p_tb_email",Core.getParam("p_tb_email"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarUtilizador","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		if (id != null) {

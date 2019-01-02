@@ -93,7 +93,7 @@
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="center" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </org_nome>
-                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="PesquisarPerfil" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="center" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="Dominio" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
@@ -107,8 +107,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Elit deserunt adipiscing aliqu</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Deserunt stract amet dolor ips</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -119,8 +119,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Ipsum laudantium stract rem st</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Laudantium ut elit anim aperia</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -131,8 +131,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Laudantium natus ipsum rem lor</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Accusantium unde elit laudanti</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -143,8 +143,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Laudantium dolor deserunt omni</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Natus aperiam lorem adipiscing</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -155,8 +155,8 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Ut mollit anim lorem adipiscin</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</mostrar_perfis>
+                        <org_nome name="p_org_nome">Officia mollit sit elit perspi</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>

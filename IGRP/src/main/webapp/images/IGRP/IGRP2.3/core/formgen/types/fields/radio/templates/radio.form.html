@@ -1,7 +1,7 @@
 <div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#">
   <div class="form-group"  #[required]#> 
       <div class="radio form-check-offset">
-        <label>
+        <label class="container-box"> #label.val#
             <input type="radio" name="#name.attr#" value="1" class="checkbox #[change]#" label="#label.attr#">
               <xsl:call-template name="setAttributes">
                 <xsl:with-param name="field" select="#path#"/>
@@ -10,7 +10,7 @@
                   <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            #label.val#
+             <span class="radiomark"></span>
         </label>
       </div>
     </div>
