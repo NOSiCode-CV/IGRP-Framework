@@ -162,8 +162,12 @@ public final class Core { // Not inherit
 	 * @return Return the default connection name of the current application 
 	 */
 	public static String defaultConnection() {
+		return defaultConnection(Core.getCurrentDadParam());
+	}
+
+	public static String defaultConnection(String dad) {
 		String result = "";
-		Application app = new Application().find().andWhere("dad", "=", Core.getCurrentDadParam()).one();
+		Application app = new Application().find().andWhere("dad", "=", dad).one();
 		if(app != null) {
 			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", 1).andWhere("application", "=", app.getId()).one();
 			if(config_env != null)
@@ -171,7 +175,7 @@ public final class Core { // Not inherit
 		}
 		return result;
 	}
-
+	
 	public static BaseQueryInterface delete(String tableName) {
 		return new QueryDelete(Core.defaultConnection()).delete(tableName);
 	}
