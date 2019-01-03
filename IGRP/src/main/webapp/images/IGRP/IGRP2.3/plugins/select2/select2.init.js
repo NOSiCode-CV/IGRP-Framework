@@ -57,9 +57,6 @@ $(function(){
 
         formListSubmit:function(formlist){
           //multiple select submit
-          var mSelects = $(formlist).find('>tbody>tr>td select.select2');
-
-          if(mSelects[0]){
 
             var triggerEv = function(e){
       
@@ -80,11 +77,11 @@ $(function(){
               
             }
             
-            mSelects.on('change',triggerEv);
+            $(formlist).on('change', '>tbody>tr>td select.select2', triggerEv );
 
-            mSelects.on('select2:unselect',triggerEv);
+            $(formlist).on('select2:unselect', '>tbody>tr>td select.select2', triggerEv ); 
           
-          }
+          
 
         },
        
