@@ -19,7 +19,7 @@ public class EncrypDecrypt {
 	private final String SECRET_KEY_SPEC = "AES";
 	private final String SECRET_KEY_ALGO = "SHA-1";
 	public String SECRET_KEY = "igrp.encrypt";
-	public final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
+	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 	
 	public String encrypt(String content) {
 		if (getWakandaList(content)) {
