@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_2;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -20,16 +22,16 @@ public class Wizard_export_step_2Controller extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Aliqua amet lorem elit anim' as descricao_bpmn "));
-		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Laudantium rem dolor aperiam o' as descricao_pagina "));
-		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Aliqua aperiam officia labore' as descricao_report "));
-		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Lorem dolor perspiciatis dolor' as descricao_domain "));
-		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class,'Totam amet iste deserunt dolor' as descricao_others_class "));
-		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Labore unde elit accusantium s' as descricao_transation "));
-		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Voluptatem perspiciatis laudan' as descricao_modulo "));
-		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Adipiscing totam deserunt sit' as descricao_conexao "));
-		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Iste omnis accusantium sit ame' as descricao_dao "));
-		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Magna elit ipsum consectetur u' as descricao_menu "));
+		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Totam iste consectetur mollit' as descricao_bpmn "));
+		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Rem totam aperiam laudantium s' as descricao_pagina "));
+		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Sit stract consectetur unde ma' as descricao_report "));
+		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Iste consectetur laudantium of' as descricao_menu "));
+		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Iste mollit ipsum unde perspic' as descricao_domain "));
+		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Amet voluptatem aliqua adipisc' as descricao_dao "));
+		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class,'Elit rem doloremque adipiscing' as descricao_others_class "));
+		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Totam elit officia anim consec' as descricao_conexao "));
+		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Adipiscing sed magna doloremqu' as descricao_transation "));
+		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Mollit adipiscing lorem perspi' as descricao_modulo "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/

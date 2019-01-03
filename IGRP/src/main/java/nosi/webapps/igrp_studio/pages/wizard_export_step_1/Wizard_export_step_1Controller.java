@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_1;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -40,7 +42,7 @@ public class Wizard_export_step_1Controller extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Wizard_export_step_2","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","wizard_export_step_1","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(seguinte)----*/
 
        String[] p_selecionar_opcao = Core.getParamArray("p_selecionar_opcao");
@@ -57,7 +59,8 @@ public class Wizard_export_step_1Controller extends Controller {
 		}
 		
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Wizard_export_step_2","index", this.queryString());	
+		
+		return this.redirect("igrp_studio","wizard_export_step_1","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/

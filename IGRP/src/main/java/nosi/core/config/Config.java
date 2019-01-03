@@ -36,7 +36,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "190102";
+	public final String VERSION = "190103";
 
 	public Config() {
 		
@@ -170,7 +170,7 @@ public class Config {
 	}
 
 	public String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2018 - Copyright NOSi v."+VERSION;
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2019 - Copyright NOSi v."+VERSION;
 	}
 	public String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";

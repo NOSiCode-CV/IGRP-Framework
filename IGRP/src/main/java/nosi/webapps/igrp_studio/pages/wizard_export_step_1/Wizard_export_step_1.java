@@ -1,5 +1,10 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_1;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -9,7 +14,7 @@ public class Wizard_export_step_1 extends Model{
 	@RParam(rParamName = "p_file_name")
 	private String file_name;
 	@RParam(rParamName = "p_selecionar_opcao")
-	private int[] selecionar_opcao;
+	private String[] selecionar_opcao;
 	@RParam(rParamName = "p_application_id")
 	private int application_id;
 	
@@ -27,10 +32,10 @@ public class Wizard_export_step_1 extends Model{
 		return this.file_name;
 	}
 	
-	public void setSelecionar_opcao(int[] selecionar_opcao){
+	public void setSelecionar_opcao(String[] selecionar_opcao){
 		this.selecionar_opcao = selecionar_opcao;
 	}
-	public int[] getSelecionar_opcao(){
+	public String[] getSelecionar_opcao(){
 		return this.selecionar_opcao;
 	}
 	
