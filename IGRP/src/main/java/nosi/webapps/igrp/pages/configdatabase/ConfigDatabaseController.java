@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -19,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.io.File;
 import org.json.JSONObject;
-
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
@@ -45,22 +42,22 @@ public class ConfigDatabaseController extends Controller {
 		for(Config_env lista : list_app) {
 			ConfigDatabase.Table_1 tabela = new ConfigDatabase.Table_1();
           	tabela.setId(""+lista.getId());
-          	tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), this.ed.SECRET_KEY_ENCRYPT_DB));
+          	tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			tabela.setNome_de_conexao_tabela(lista.getName());
 			tabela.setT_url_connection(
 				Core.isNotNull(lista.getUrl_connection())
 				?
-					Core.decrypt(lista.getUrl_connection(), this.ed.SECRET_KEY_ENCRYPT_DB)
+					Core.decrypt(lista.getUrl_connection(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)
 				:
 					DatabaseConfigHelper.getUrl(
 						tabela.getTipo_de_base_de_dados_tabela(), 
-						Core.decrypt(lista.getHost(), this.ed.SECRET_KEY_ENCRYPT_DB), 
-						Core.decrypt(lista.getPort(),this.ed.SECRET_KEY_ENCRYPT_DB), 
-						Core.decrypt(lista.getName_db(), this.ed.SECRET_KEY_ENCRYPT_DB)
+						Core.decrypt(lista.getHost(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB), 
+						Core.decrypt(lista.getPort(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB), 
+						Core.decrypt(lista.getName_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)
 					)
 			);
-			tabela.setT_driver_connection(Core.isNotNull(lista.getDriver_connection())?Core.decrypt(lista.getDriver_connection(), this.ed.SECRET_KEY_ENCRYPT_DB):DatabaseConfigHelper.getDatabaseDriversExamples(tabela.getTipo_de_base_de_dados_tabela()));
-			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB));
+			tabela.setT_driver_connection(Core.isNotNull(lista.getDriver_connection())?Core.decrypt(lista.getDriver_connection(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB):DatabaseConfigHelper.getDatabaseDriversExamples(tabela.getTipo_de_base_de_dados_tabela()));
+			tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			
 			if(lista.getIsDefault() == 1) {
 				tabela.setDefault_(1);
@@ -83,11 +80,11 @@ public class ConfigDatabaseController extends Controller {
 				// if it didnt came from failed connection
 				if(Core.isNull(Core.getParam("failed_conn"))) {
 					model.setAplicacao(config.getApplication().getId().toString());
-					model.setTipo_base_dados(Core.decrypt(config.getType_db(),this.ed.SECRET_KEY_ENCRYPT_DB));
+					model.setTipo_base_dados(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 					model.setNome_de_conexao(config.getName());
-					model.setUrl_connection(Core.decrypt(config.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
-					model.setDriver_connection(Core.decrypt(config.getDriver_connection(), this.ed.SECRET_KEY_ENCRYPT_DB));
-					model.setUsername(Core.decrypt(config.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB));
+					model.setUrl_connection(Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+					model.setDriver_connection(Core.decrypt(config.getDriver_connection(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+					model.setUsername(Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 					model.setPassword(null);
 					view.btn_gravar.addParameter("p_id", id)
 								   .addParameter("conn_name", config.getName())
@@ -115,7 +112,7 @@ public class ConfigDatabaseController extends Controller {
 				List<Config_env> list = new Config_env()
 											.find()
 											.andWhere("application", "=",idApp)
-											.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),this.ed.SECRET_KEY_ENCRYPT_DB) )
+											.andWhere("type_db", "=",Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB) )
 											.all();
 				int size = list!=null?(list.size()+1):1;
 				model.setNome_de_conexao(app.getDad().toLowerCase()+"_"+model.getTipo_base_dados()+"_"+size);
@@ -145,11 +142,11 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setUsername(Core.encrypt(model.getUsername(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setPassword(Core.encrypt(model.getPassword(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setType_db(Core.encrypt(model.getTipo_base_dados(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
@@ -256,8 +253,7 @@ public class ConfigDatabaseController extends Controller {
 			FileHelper.save(pathWS, config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml", content);
 		}
 	}
-	private EncrypDecrypt ed = new EncrypDecrypt();
-	
+
 	public Response actionChangeStatus() {
 		this.format = Response.FORMAT_JSON;
         String id = Core.getParam("p_id");
@@ -299,11 +295,11 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env().findOne(id_conn);
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setUsername(Core.encrypt(model.getUsername(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setPassword(Core.encrypt(model.getPassword(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setType_db(Core.encrypt(model.getTipo_base_dados(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
-			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),this.ed.SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setUrl_connection(Core.encrypt(model.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			config.setDriver_connection(Core.encrypt(model.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
