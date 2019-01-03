@@ -129,7 +129,7 @@ public class NovoUtilizadorController extends Controller {
 			String email = arrayEmails[i];
 			if(Core.isNull(email) && !email.contains("@"))
 				continue;
-			email=email.toLowerCase(Locale.ROOT);
+			email=email.toLowerCase(Locale.ROOT).trim();
 			User u = new User().find().andWhere("email", "=", email.trim()).one();
 			if (Core.isNotNull(u)) {
 				Profile p = new Profile();
@@ -403,7 +403,7 @@ public class NovoUtilizadorController extends Controller {
 			String email = arrayEmails[i];
 			if(Core.isNull(email) && !email.contains("@"))
 				continue;	
-		email=email.toLowerCase(Locale.ROOT);
+		email=email.toLowerCase(Locale.ROOT).trim();
 		Properties settings = loadIdentityServerSettings();
 		User userLdap = null;
 		userLdap = invite(email,
@@ -411,7 +411,7 @@ public class NovoUtilizadorController extends Controller {
 				settings);
 
 		if (userLdap != null) {
-			User u = new User().find().andWhere("email", "=", email.trim()).one();
+			User u = new User().find().andWhere("email", "=", email).one();
 			if (u == null) {
 
 				if (settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
