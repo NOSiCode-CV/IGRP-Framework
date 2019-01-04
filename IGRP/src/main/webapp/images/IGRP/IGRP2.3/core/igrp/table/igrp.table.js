@@ -195,6 +195,19 @@
 			
 		},
 		
+		checkdControl : function(p){
+			var inp = $('input[type="hidden"].'+p.rel,p.o);
+
+			if(p.check){
+                if (inp[0])
+                    inp.remove();
+            }
+            else{
+                if (!inp[0])
+                    p.o.append('<input type="hidden" class="'+p.rel+'" name="p_'+p.rel+'_fk"/>');
+            }
+		},
+		
 		contextTHWidth : function(){
 
 			$('th.igrp-table-ctx-th').each(function(i,th){
@@ -227,9 +240,31 @@
 					checkrel = $(this).attr('check-rel'),
 					checkers = $('[check-rel="'+checkrel+'"]:not(.IGRP_checkall)',table),
 					checkAll = $(this).is(':checked');
+				
+				checkers.each(function(i,e){
+					com.checkdControl({
+						rel 	: checkrel,
+						o   	: $(e).parents('div[item-name="'+checkrel+'"]'),
+						check 	: checkAll
+					});
+				});
 
 				checkers.prop('checked',checkAll).attr('checked',checkAll);
 			});
+
+			$(document).on('change','table .checkdcontrol',function(e){
+				
+                var o   = $(this),
+                    rel = o.attr('check-rel'),
+                    obj = $('td[item-name="'+rel+'"]',o.parents('tr:first')),
+                    inp = $('input[type="hidden"].'+rel,obj);
+
+                com.checkdControl({
+                    rel     : rel,
+                    o       : obj,
+                    check   : o.is(':checked')
+                });
+            });
 			
 			$.IGRP.on('windowResize',function(){
 
