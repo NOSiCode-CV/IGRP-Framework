@@ -204,7 +204,7 @@
             }
             else{
                 if (!inp[0])
-                    p.o.append('<input type="hidden" class="'+p.rel+'" name="p_'+p.rel+'_fk"/>');
+                    p.o.append('<input type="hidden" class="'+p.rel+'" name="p_'+p.rel+'"/>');
             }
 		},
 		

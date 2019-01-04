@@ -12,7 +12,7 @@
 	        <input type="hidden" name="p_#tag#_check" value="{#tag#_check}"/>
         </label>
         <xsl:if test="#tag#_check!=#tag#">
-            <input type="hidden" name="p_#tag#" value="" class="{#tag#}"/>
+            <input type="hidden" name="p_#tag#" value="" class="#tag#"/>
         </xsl:if>
     </xsl:if>
 </td>
