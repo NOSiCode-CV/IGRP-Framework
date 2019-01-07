@@ -28,7 +28,7 @@ public class DomainImport extends AbstractImport implements IImport{
 	public void execute() {
 		if(this.domains!=null) {
 			this.domains.stream().forEach(d->{
-				Domain dm = new Domain().find().andWhere("dominio", "=",d.getDominio()).one();
+				Domain dm = new Domain().find().andWhere("dominio", "=",d.getDominio()).andWhere("valor", "=",d.getValor()).one();
 				if(dm==null) {
 					dm = new Domain(d.getDominio(), d.getValor(), d.getDescription(), d.getStatus(), d.getOrdem());
 					dm = dm.insert();
