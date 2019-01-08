@@ -39,7 +39,7 @@ public class PartilhageralController extends Controller {
 		----#gen-example */
 		/*----#start-code(index)----*/
 
-		view.aplicacao_origem.setValue(new Application().getAllApps());
+		view.aplicacao_origem.setValue(new Application().getListApps());
      		 //Hardcoded select element page for now
       	HashMap<String, String> targets = new HashMap<>(); 
 		targets.put("PAGE", "Page");	      
