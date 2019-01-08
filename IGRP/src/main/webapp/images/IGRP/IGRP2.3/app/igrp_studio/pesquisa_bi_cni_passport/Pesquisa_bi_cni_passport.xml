@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Pesquisa_bi_cni_passport</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>Pesquisa_bi_cni_passport</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=69</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Pesquisa BI-CNI-passport</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Pesquisa BI/CNI/Passaporte]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_documento name="p_tipo_documento" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Tipo documento</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_documento>
+                <numero_do_documento name="p_numero_do_documento" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Número do documento</label>
+                    <value>Iste natus ipsum deserunt elit</value>
+                </numero_do_documento>
+                <nome name="p_nome" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Adipiscing laudantium sit deserunt magna</value>
+                </nome>
+                <data_nascimento name="p_data_nascimento" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data nascimento</label>
+                    <value>05-02-2010</value>
+                </data_nascimento>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar" custom_return="true">
+                    <title>Pesquisar</title>
+                    <app>igrp_studio</app>
+                    <page>Pesquisa_bi_cni_passport</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <bi_tab name="p_bi_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Número do documento</label>
+                </bi_tab>
+                <nome_tab name="p_nome_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Nome</label>
+                </nome_tab>
+                <sexo_tab name="p_sexo_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Sexo</label>
+                </sexo_tab>
+                <data_nascimento_tab name="p_data_nascimento_tab" type="date" range="false" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Data nascimento</label>
+                </data_nascimento_tab>
+                <nome_pai_tab name="p_nome_pai_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Nome pai</label>
+                </nome_pai_tab>
+                <nome_mae_tab name="p_nome_mae_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Nome mãe</label>
+                </nome_mae_tab>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <bi_tab name="p_bi_tab">Amet dolor mollit voluptatem d</bi_tab>
+                        <nome_tab name="p_nome_tab">Anim amet totam aliqua adipisc</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Stract aliqua sed iste perspic</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">04-06-2017</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Rem lorem natus rem consectetu</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Dolor sit aliqua ipsum lorem</nome_mae_tab>
+                    </row>
+                    <row>
+                        <bi_tab name="p_bi_tab">Sit aliqua labore officia dolo</bi_tab>
+                        <nome_tab name="p_nome_tab">Accusantium rem sit anim volup</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Perspiciatis aperiam consectet</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">07-08-2017</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Lorem officia laudantium aliqu</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Ut aliqua unde deserunt volupt</nome_mae_tab>
+                    </row>
+                    <row>
+                        <bi_tab name="p_bi_tab">Sit laudantium officia laudant</bi_tab>
+                        <nome_tab name="p_nome_tab">Ut adipiscing ipsum amet strac</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Anim sit lorem doloremque dese</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">06-02-2011</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Natus rem iste accusantium des</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Lorem dolor mollit ipsum dolor</nome_mae_tab>
+                    </row>
+                    <row>
+                        <bi_tab name="p_bi_tab">Aliqua accusantium consectetur</bi_tab>
+                        <nome_tab name="p_nome_tab">Labore aperiam voluptatem ut i</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Totam labore sit amet unde</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">01-01-2017</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Adipiscing ut elit consectetur</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Elit aperiam natus mollit unde</nome_mae_tab>
+                    </row>
+                    <row>
+                        <bi_tab name="p_bi_tab">Ipsum aperiam rem deserunt nat</bi_tab>
+                        <nome_tab name="p_nome_tab">Iste elit iste elit perspiciat</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Consectetur omnis sit consecte</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">03-04-2012</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Doloremque dolor sed consectet</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Aliqua consectetur aperiam ist</nome_mae_tab>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>
