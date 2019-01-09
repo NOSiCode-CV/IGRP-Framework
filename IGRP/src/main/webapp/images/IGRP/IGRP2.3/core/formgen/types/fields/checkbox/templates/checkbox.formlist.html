@@ -3,11 +3,13 @@
         <div class="" item-name="#tag#" item-type="#type#">
         <label class="container-box" >      
             <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/> 
+            
             <xsl:if test="#tag#_check != #tag# or not(#tag#_check)">
-                <input type="hidden" class="#tag#" name="p_#tag#_fk" value=""/>
-            </xsl:if>           
+                <input type="hidden" class="#tag#" name="p_#tag#_fk" value="{#tag#}"/>
+            </xsl:if> 
+                      
             <xsl:if test="#tag# != '-0'">
-                <input type="checkbox" name="p_#tag#_fk" value="{#tag#}" class="#type#" rel="F_#parent.tag#" #[disabled]# #[readonly]# check-rel="#tag#">
+                <input type="checkbox" name="p_#tag#_fk" value="{#tag#}" class="#type#" rel="F_#parent.tag#" #[disabled]# #[readonly]# check-rel="#tag#_fk">
                     <xsl:call-template name="setAttributes">
                         <xsl:with-param name="field" select="#path#"/>
                     </xsl:call-template>
@@ -17,7 +19,14 @@
                 </input>
                   <span class="checkmark"></span>
             </xsl:if>
-              </label>
+            
+            <input type="hidden" name="p_#tag#_check_fk" class="#tag#_check">
+	         	<xsl:if test="#tag#_check=#tag#">
+	                <xsl:attribute name="value"><xsl:value-of select="#tag#"/></xsl:attribute>
+	            </xsl:if>
+	         </input>
+            
+             </label>
         </div>
     </td>
 </xsl:if>

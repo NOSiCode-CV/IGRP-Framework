@@ -196,16 +196,30 @@
 		},
 		
 		checkdControl : function(p){
-			var inp = $('input[type="hidden"].'+p.rel,p.o);
+			
+			var inp   = $('input[type="hidden"].'+p.rel,p.o),
+			
+				check   = p.o.find( '.'+p.rel+'_check' );
 
 			if(p.check){
+				
+				check.val( p.value );
+				
                 if (inp[0])
                     inp.remove();
-            }
-            else{
+                
+                
+            }else{
+            	
+            	check.val('');
+            	
                 if (!inp[0])
                     p.o.append('<input type="hidden" class="'+p.rel+'" name="p_'+p.rel+'"/>');
+                
+                
             }
+			
+			
 		},
 		
 		contextTHWidth : function(){
@@ -245,14 +259,15 @@
 					com.checkdControl({
 						rel 	: checkrel,
 						o   	: $(e).parents('div[item-name="'+checkrel+'"]'),
-						check 	: checkAll
+						check 	: checkAll,
+						value   : $(e).val()
 					});
 				});
 
 				checkers.prop('checked',checkAll).attr('checked',checkAll);
 			});
 
-			$(document).on('change','table .checkdcontrol',function(e){
+			$(document).on('change','table [item-type="checkbox"] input[type="checkbox"][name], table .checkdcontrol',function(e){
 				
                 var o   = $(this),
                     rel = o.attr('check-rel'),
@@ -262,7 +277,8 @@
                 com.checkdControl({
                     rel     : rel,
                     o       : obj,
-                    check   : o.is(':checked')
+                    check   : o.is(':checked'),
+                    value   : o.val()
                 });
             });
 			

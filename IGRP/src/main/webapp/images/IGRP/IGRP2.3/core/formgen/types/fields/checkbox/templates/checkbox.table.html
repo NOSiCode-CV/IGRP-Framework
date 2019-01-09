@@ -6,13 +6,20 @@
 	                <xsl:attribute name="checked">checked</xsl:attribute>
 	            </xsl:if>
 	        </input>
-	        
 	        <span class="slider round"></span>
 	        <span class="checkmark"></span>
-	        <input type="hidden" name="p_#tag#_check" value="{#tag#_check}"/>
+	        <input type="hidden" name="p_#tag#_check" value="{#tag#}" class="#tag#_check">
+	        	<xsl:if test="#tag#_check=#tag#">
+	                <xsl:attribute name="value"><xsl:value-of select="#tag#_check"/></xsl:attribute>
+	            </xsl:if>
+	        	
+	        </input>
         </label>
         <xsl:if test="#tag#_check!=#tag#">
             <input type="hidden" name="p_#tag#" value="" class="#tag#"/>
         </xsl:if>
+         <!--  <input type="hidden" name="p_#tag#_check" class="#tag#_check">
+         	
+         </input>-->
     </xsl:if>
 </td>
