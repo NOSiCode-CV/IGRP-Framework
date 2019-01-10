@@ -215,7 +215,7 @@
             	check.val('');
             	
                 if (!inp[0])
-                    p.o.append('<input type="hidden" class="'+p.rel+'" name="p_'+p.rel+'"/>');
+                    p.o.append('<input type="hidden" class="'+p.rel+'" name="'+p.name+'"/>');
                 
                 
             }
@@ -261,7 +261,8 @@
 						rel 	: checkrel,
 						o   	: $(e).parents('div[item-name="'+checkrel+'"]'),
 						check 	: checkAll,
-						value   : $(e).val()
+						value   : $(e).val(),
+						name    : $(e).attr('name')
 					});
 				});
 
@@ -279,7 +280,8 @@
                     rel     : rel,
                     o       : obj,
                     check   : o.is(':checked'),
-                    value   : o.val()
+                    value   : o.val(),
+                    name    : o.attr('name')
                 });
             });
 			
