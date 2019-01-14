@@ -383,7 +383,9 @@ public class Config {
 		
   
 	public String getPathWorkspaceResources() {
-		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +"src"+ SEPARATOR_FOR_FILESYS + "main" + SEPARATOR_FOR_FILESYS + "resources";
+		if(Core.isNotNull(this.getWorkspace()))
+			return this.getWorkspace() + SEPARATOR_FOR_FILESYS +"src"+ SEPARATOR_FOR_FILESYS + "main" + SEPARATOR_FOR_FILESYS + "resources";
+		return null;
 	}
   
 	public String getHeader(IHeaderConfig config) {

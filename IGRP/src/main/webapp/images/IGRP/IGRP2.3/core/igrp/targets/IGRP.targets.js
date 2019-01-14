@@ -18,7 +18,7 @@
 
 				window.location.replace(p.url);
 
-			});
+			},p);
 
 			return false;	
 		};
@@ -44,7 +44,7 @@
  			
  			setConfirmModal(function(){
 				submit(p);
-			});
+			},p);
 
 			return false;
  		};
@@ -383,7 +383,21 @@
 
 		var modalpopup = modal;
 
-		var setConfirmModal = function(onClick){
+		var setConfirmModal = function(onClick,p){
+			
+			var holder = $(p.clicked).parents('tr:first');
+
+			if(holder[0]){
+				confirmText.split(' ').forEach(function(str){
+					if(str.indexOf('{') !== -1){
+						var e = str.substring(1,(str.length - 1))
+						text  = $('td[item-name="'+e+'"] span',holder).text();
+						
+						confirmText = confirmText.replace(str,text);
+					}
+				});
+			}
+
 			$.IGRP.components.globalModal.set({
 				rel    : 'confirm-target',
 				content: confirmText,
