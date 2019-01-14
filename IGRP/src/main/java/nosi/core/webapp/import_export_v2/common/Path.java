@@ -68,7 +68,7 @@ public class Path {
 		String basePath = config.getWorkspace();
 		
 		if (Core.isNotNull(basePath) && FileHelper.fileExists(basePath)) {
-			return File.separator + config.getWebapp()
+			return config.getWorkspace()+File.separator + config.getWebapp()
 					+ File.separator + "images" + File.separator + "IGRP"+File.separator+"IGRP" + action.getVersion()
 					+ File.separator+"app"+File.separator + action.getApplication().getDad().toLowerCase() + File.separator + action.getPage().toLowerCase();
 		}
