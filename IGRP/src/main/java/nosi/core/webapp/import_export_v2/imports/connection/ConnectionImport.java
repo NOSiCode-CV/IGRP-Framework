@@ -28,7 +28,6 @@ public class ConnectionImport  extends AbstractImport implements IImport{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deserialization(String jsonContent) {
-		System.out.println(jsonContent);
 		if(Core.isNotNull(jsonContent)) {
 			this.conns = (List<ConnectionSerializable>) Core.fromJsonWithJsonBuilder(jsonContent, new TypeToken<List<ConnectionSerializable>>() {}.getType());
 		}
