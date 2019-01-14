@@ -660,6 +660,17 @@ public final class Core { // Not inherit
 		return user;
 	}
 
+	/**
+	* Find Domain by domain's name
+	* @param domainsName
+	* @return {@code Domain().find().andWhere("dominio", "=", domainsName).all()}
+	*/
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		return domain.find().andWhere("dominio", "=", domainsName).all();
+	}
+	
 	public static String getDeepPurpleColor() {
 		return "9";
 	}
