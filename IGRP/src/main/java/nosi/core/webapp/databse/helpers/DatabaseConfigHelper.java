@@ -11,27 +11,39 @@ import java.util.LinkedHashMap;
 public class DatabaseConfigHelper {
 
 
+	public static final String POSTGRESQL = "postgresql";
+	public static final String H2 = "h2";
+	public static final String MYSQL = "mysql";
+	public static final String ORACLE = "oracle";
+	public static final String MSSQL = "mssql";
+	public static final String HSQLDB = "hsqldb";
+	public static final String SYBASE = "sybase";
+	public static final String DERBY = "derby";
+	public static final String IBM = "ibm";
+	public static final String INFORMIX = "informix";
+	public static final String MONGODB = "mongodb";
+	
 	public static String getUrl(String type, String host, String port, String db_name) {
 		switch (type) {
-			case "h2":
+			case H2:
 				return host.equalsIgnoreCase("mem") ? ("jdbc:h2:" + host + ":" + db_name): ("jdbc:h2:" + host + "/" + db_name);
-			case "mysql":
+			case MYSQL:
 				return "jdbc:mysql://" + host + ":" + port + "/" + db_name;
-			case "postgresql":
+			case POSTGRESQL:
 				return "jdbc:postgresql://" + host + ":" + port + "/" + db_name;
-			case "oracle":
+			case ORACLE:
 				return "jdbc:oracle:thin:@" + host + ":" + port + "/" + db_name;
-			case "mssql":
+			case MSSQL:
 				return "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + db_name;
-			case "hsqldb":
+			case HSQLDB:
 				return "jdbc:hsqldb:" + host + ":" + db_name;
-			case "sybase":
+			case SYBASE:
 				return "jdbc:sybase:Tds:" + host + ":" + port + "/" + db_name;
-			case "derby":
+			case DERBY:
 				return "jdbc:derby:" + host + "/" + db_name + ";create=true";
-			case "ibm":
+			case IBM:
 				return "jdbc:db2://" + host + ":" + port +"/" + db_name;
-			case "informix":
+			case INFORMIX:
 				return "jdbc:informix-sqli://" + host + ":" + port + "/" + db_name;
 		}
 		return "";
@@ -39,120 +51,127 @@ public class DatabaseConfigHelper {
 
 	public static String getHibernateDialect(String type) {
 		switch (type.toLowerCase()) {
-			case "h2":
+			case H2:
 				return "org.hibernate.dialect.H2Dialect";
-			case "mysql":
+			case MYSQL:
 				return "org.hibernate.dialect.MySQL5InnoDBDialect";
-			case "postgresql":
+			case POSTGRESQL:
 				return "org.hibernate.dialect.PostgreSQLDialect";
-			case "oracle":
+			case ORACLE:
 				return "org.hibernate.dialect.Oracle10gDialect";
-			case "mssql":
+			case MSSQL:
 				return "org.hibernate.dialect.SQLServer2008Dialect";
-			case "hsqldb":
+			case HSQLDB:
 				return "org.hibernate.dialect.HSQLDialect";
-			case "sybase":
+			case SYBASE:
 				return "org.hibernate.dialect.SybaseDialect";
-			case "derby":
+			case DERBY:
 				return "org.hibernate.dialect.DerbyDialect";
-			case "ibm":
+			case IBM:
 				return "org.hibernate.dialect.DB2Dialect";
-			case "informix":
+			case INFORMIX:
 				return "org.hibernate.dialect.InformixDialect";
+			case MONGODB:
+				return "org.hibernate.ogm.datastore.mongodb.MongoDBDialect";
 		}
 		return "";
 	}
 	
 	public static String getUrlConnections(String dbType) {
 		switch (dbType.toLowerCase()) {
-			case "mysql":
+			case MYSQL:
 				return "jdbc:mysql://[machine-name/ip]:3306/[database-name]";
-			case "postgresql":
+			case POSTGRESQL:
 				return "jdbc:postgresql://[host]:5432/[database-name]";
-			case "h2":
+			case H2:
 				return "jdbc:h2:tcp:[host]:[port]/[database-name]";
-			case "oracle":
+			case ORACLE:
 				return "jdbc:oracle:thin:@[host]:1521/[service_name]";
-			case "mssql":
+			case MSSQL:
 				return "jdbc:sqlserver://[host]:1433;databaseName=[database-name]";
-			case "hsqldb":
+			case HSQLDB:
 				return "jdbc:hsqldb:[path]";
-			case "sybase":
+			case SYBASE:
 				return "jdbc:sybase:Tds:[host]:2048/[database-name]";
-			case "derby":
+			case DERBY:
 				return "jdbc:derby:[path-to-data-file]";
-			case "ibm":
+			case IBM:
 				return "jdbc:db2:[database-name]";
-			case "informix":
+			case INFORMIX:
 				return "jdbc:informix-sqli://[host]:[port]/[database-name]:INFORMIXSERVER=[server-name]";
+			case MONGODB:
+				return "mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]";
 		}
 		return "";		
 	}
 	
 	public static String getUrlConnectionsExamples(String dbType,String dbName) {
 		switch (dbType.toLowerCase()) {
-			case "mysql":
+			case MYSQL:
 				return "jdbc:mysql://localhost:3306/"+dbName;
-			case "postgresql":
+			case POSTGRESQL:
 				return "jdbc:postgresql://localhost:5432/"+dbName;
-			case "h2":
+			case H2:
 				return "jdbc:h2:tcp:men:/"+dbName;
-			case "oracle":
+			case ORACLE:
 				return "jdbc:oracle:thin:@nosidev02.gov.cv:1521/"+dbName;
-			case "mssql":
+			case MSSQL:
 				return "jdbc:sqlserver://localhost:1433;databaseName="+dbName;
-			case "hsqldb":
+			case HSQLDB:
 				return "jdbc:hsqldb:mem:"+dbName;
-			case "sybase":
+			case SYBASE:
 				return "jdbc:sybase:Tds:localhost:2048/"+dbName;
-			case "derby":
+			case DERBY:
 				return "jdbc:derby:/home/test/databases/"+dbName+";create=true";
-			case "ibm":
+			case IBM:
 				return "jdbc:db2:"+dbName;
-			case "informix":
+			case INFORMIX:
 				return "jdbc:informix-sqli://localhost/"+dbName+":INFORMIXSERVER=demo_on";
+			case MONGODB:
+				return "mongodb://localhost:27017/?gssapiServiceName=mongodb";
 		}
 		return "";		
 	}
 	public static LinkedHashMap<String,String> getDatabaseTypes() {
 		LinkedHashMap<String,String> dbTypes = new LinkedHashMap<>();
 		dbTypes.put(null, gt("-- Selecionar --"));
-		dbTypes.put("postgresql", "Postgresql");
-		dbTypes.put("oracle", "Oracle");				
-		dbTypes.put("mysql", "MySql");	
-		dbTypes.put("mssql", "Microsoft SQL Server");
-		dbTypes.put("h2", "H2");
-		dbTypes.put("hsqldb", "HSQLDB");
-		dbTypes.put("sybase", "Sybase ASE");
-		dbTypes.put("derby", "Apache Derby");
-		dbTypes.put("ibm", "IBM DB2");
-		dbTypes.put("informix", "Informix");		
-	
+		dbTypes.put(POSTGRESQL, "Postgresql");
+		dbTypes.put(ORACLE, "Oracle");				
+		dbTypes.put(MYSQL, "MySql");	
+		dbTypes.put(MSSQL, "Microsoft SQL Server");
+		dbTypes.put(H2, "H2");
+		dbTypes.put(HSQLDB, "HSQLDB");
+		dbTypes.put(SYBASE, "Sybase ASE");
+		dbTypes.put(DERBY, "Apache Derby");
+		dbTypes.put(IBM, "IBM DB2");
+		dbTypes.put(INFORMIX, "Informix");	
+//		dbTypes.put(MONGODB, "Mongo DB");		
+		
 		return dbTypes;
 	}
 
 	
 	public  static String getDatabaseDriversExamples(String dbType) {
 		switch (dbType.toLowerCase()) {
-			case "mysql":
+			case MYSQL:
 				return "com.mysql.jdbc.Driver";
-			case "postgresql":
+			case POSTGRESQL:
 				return "org.postgresql.Driver";
-			case "h2":
+			case H2:
 				return "org.h2.Driver";
-			case "oracle":
+			case ORACLE:
 				return "oracle.jdbc.driver.OracleDriver";
-			case "mssql":
+			case MSSQL:
 				return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-			case "hsqldb":
+			case HSQLDB:
 				return "org.hsqldb.jdbcDriver";
-			case "sybase":
+			case SYBASE:
 				return "com.sybase.jdbc3.jdbc.SybDriver";
-			case "derby":
+			case DERBY:
 				return "org.apache.derby.jdbc.EmbeddedDriver";
-			case "ibm":
+			case IBM:
 				return "com.ibm.db2.jcc.DB2Driver";
-			case "informix":
+			case INFORMIX:
 				return "com.informix.jdbc.IfxDriver";
 		}
 		return "";
