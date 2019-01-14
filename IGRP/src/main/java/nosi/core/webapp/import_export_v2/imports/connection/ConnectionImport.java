@@ -49,11 +49,11 @@ public class ConnectionImport  extends AbstractImport implements IImport{
 					config.setIsDefault(c.getIsdefault());
 					config.setApplication(this.application);
 					config = config.insert();
-					if(!config.hasError()) {
-						c.setDad(this.application.getDad());
-						this.saveConnectionFile(c);
-					}
 					this.addError(config.hasError()?config.getError().get(0):null);
+				}
+				if(!config.hasError()) {
+					c.setDad(this.application.getDad());
+					this.saveConnectionFile(c);
 				}
 			});
 		}
