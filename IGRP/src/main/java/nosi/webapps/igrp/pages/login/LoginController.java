@@ -12,9 +12,14 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.xml.bind.JAXB;
@@ -54,7 +59,7 @@ public class LoginController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	
-	private Properties settings = loadConfig("common", "main.xml");
+	private Properties settings = loadConfig("common", "main.xml"); 
 	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		// Go to password recover page ... 
@@ -89,7 +94,8 @@ public class LoginController extends Controller {
 			return redirect("igrp", "login", "login");
 		}
 		
-		if(!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogin") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
+		if(!Igrp.getInstance().getUser().isAuthenticated() 
+				&& settings.getProperty("igrp.env.isNhaLogni") != null && !settings.getProperty("igrp.env.isNhaLogin").equals("true") && 
 				settings.getProperty("igrp.env.nhaLogin.url") != null && !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()
 				) {
 			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
@@ -285,6 +291,11 @@ public class LoginController extends Controller {
 	           stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"), settings.getProperty("ids.wso2.admin-pwd"), 2);
 	           flag = stub.getOperations().authenticate(username, password);
 	          
+	           String v = settings.getProperty("igrp.authentication.govcv.enbaled");
+	           
+	           if(v.equalsIgnoreCase("true"))
+	        	   username = "gov.cv/" + username;
+	          
 	           // Pesquisar user from Ids 
 	           List<ClaimDTO> result = stub.getOperations().getUserClaimValues(username, "");
 	           LdapPerson ldapPerson = new LdapPerson();
@@ -462,6 +473,7 @@ public class LoginController extends Controller {
 				+ "&client_secret=" + client_secret
 				+ "&scope=openid";
 		try {
+			
 			HttpURLConnection curl = (HttpURLConnection) URI.create(endpoint).toURL().openConnection();
 			curl.setDoOutput(true);
 			curl.setDoInput(true);
@@ -489,10 +501,16 @@ public class LoginController extends Controller {
 			result = br.lines().collect(Collectors.joining());
 			
 			JSONObject jToken = new JSONObject(result);
+			
 			token = (String) jToken.get("access_token");
 			
 			dao.setValid_until(token);
 			dao = dao.update();
+			
+			
+			System.out.println("DAO getId: " + dao.getId());
+			
+			System.out.println("DAO: " + dao.getValid_until());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -500,6 +518,7 @@ public class LoginController extends Controller {
 		}
 		return true;
 	}
+	
 	private Properties loadConfig(String filePath, String fileName) {
 		String path = new Config().getBasePathConfig() + File.separator + filePath;
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
@@ -600,6 +619,115 @@ public class LoginController extends Controller {
 				return false;
 		return true;
 	}
+	
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		ClassLoader classLoader = new LoginController().getClass().getClassLoader();
+		File file = new File(classLoader.getResource("kriols_users.txt").getFile());
+		Scanner scan = new Scanner(file);
+		
+		List<String> links = new ArrayList<String>();
+		List<String> emails = new ArrayList<String>();
+		
+		while(scan.hasNextLine()) {
+			String link = scan.next();
+			String email = scan.next();
+			
+			link = link.replace("http://", "").replace("https://", "").replace(":", "0_58").replace("-", "0_45").replace("/", "0_47");
+			
+			links.add(link);
+			emails.add(email);
+			
+		}
+		
+		for(int i = 0; i < links.size(); i++) {
+			addRole(links.get(i));
+			//addRoleToUser(links.get(i), emails.get(i)); 
+		}
+	}
+	
+	
+	private static boolean addRoleToUser(String link, String email) {
+		try {
+			
+			String wsdlUrl = "https://nhais.gov.cv/services/RemoteUserStoreManagerService?wsdl";
+			String username = "admin@nosi.cv";
+			String password = "admin";
+			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+			
+			String roleName = link;
+			
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Authorization", "Basic " + credentials);
+
+			Map<String, String> namespaces = new HashMap<String, String>();
+			namespaces.put("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
+			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
+
+			Map<String, Object> bodyContent = new HashMap<String, Object>();
+			Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+			subContent.put("ser:userName", email);
+			subContent.put("ser:newRoles", roleName);
+			bodyContent.put("ser:updateRoleListOfUser", subContent);
+
+			nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers,
+					bodyContent);
+
+			if (sc.hasErrors()) { // Verifica se ocorreu algum erro ...
+				System.out.println(Arrays.toString(sc.getErrors().toArray()));
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+	
+	
+	private static boolean addRole(String link) {
+		try {
+			
+			String wsdlUrl = "https://nhais.gov.cv/services/RemoteUserStoreManagerService?wsdl";
+			String username = "admin@nosi.cv";
+			String password = "admin";
+			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+			
+			String roleName = link;
+			
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Authorization", "Basic " + credentials);
+
+			Map<String, String> namespaces = new HashMap<String, String>();
+			namespaces.put("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
+			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
+
+			Map<String, Object> bodyContent = new HashMap<String, Object>();
+			Map<String, Object> subContent = new LinkedHashMap<String, Object>();
+			subContent.put("ser:roleName", roleName);
+			subContent.put("ser:userList", "demo@nosi.cv");
+			bodyContent.put("ser:addRole", subContent);
+
+			nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers,
+					bodyContent);
+
+			if (sc.hasErrors()) { // Verifica se ocorreu algum erro ...
+				System.out.println(Arrays.toString(sc.getErrors().toArray()));
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+	
 	
 	/*----#end-code----*/
 }

@@ -168,7 +168,8 @@ public class EnvController extends Controller {
 				result += File.separator + "FrontIGRP" + File.separator + "IGRP-Template.war";
 			File file = new File(result); 	
 			
-			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase())); 			
+			File destinationFile = new File(result.replace("IGRP-Template", appDad.toLowerCase()));
+			
 			//boolean b  = Files.copy(file, destinationFile);
 			FileOutputStream fos = new FileOutputStream(destinationFile.getAbsolutePath());			
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());			
@@ -186,29 +187,7 @@ public class EnvController extends Controller {
 				jis.closeEntry();
 			}
 			jis.close();
-			 /*
-			String aux = "WEB-INF/classes/nosi/webapps/" + appDad.toLowerCase() + "/pages/defaultpage/";			
-			String string1 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.java";			
-			String string2 = this.getConfig().getBasePathClass() + "nosi" + "/" + "webapps" + "/" + appDad.toLowerCase() + "/" + "pages" + "/" + "defaultpage/DefaultPageController.class";			
-			JarEntry je1 = new JarEntry(aux + "DefaultPageController.java");
-			jos.putNextEntry(je1);
-			FileInputStream fis1 = new FileInputStream(string1);
-			for(int r = fis1.read(); r!=-1 ; r = fis1.read()){
-				jos.write(r);
-			}
-			fis1.close();			
-			jos.closeEntry(); 
 			
-			JarEntry je2 = new JarEntry(aux + "DefaultPageController.class");
-			jos.putNextEntry(je2);
-			FileInputStream fis2 = new FileInputStream(string2);
-			for(int r = fis2.read(); r!=-1 ; r = fis2.read()){
-				jos.write(r);
-			}
-			fis2.close();
-			
-			jos.closeEntry();
-			 */
 			jos.close();
 			cos.close();
 			fos.close();
