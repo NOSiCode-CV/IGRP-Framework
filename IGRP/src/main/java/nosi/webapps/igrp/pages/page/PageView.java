@@ -6,8 +6,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class PageView extends View {
 
@@ -69,11 +67,11 @@ public class PageView extends View {
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
-		page_descr.propertie().add("remote",new Config().getResolveUrl("igrp","Page","update")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
+		page_descr.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Código"));
-		page.propertie().add("remote",new Config().getResolveUrl("igrp","Page","update")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
+		page.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo"));
@@ -91,7 +89,7 @@ public class PageView extends View {
 		public_link.setLabel(gt("Public Link"));
 		public_link.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
-									public_link.propertie().add("name","p_public_link").add("type","link").add("target","_newtab").add("request_fields","").add("maxlength","250");
+									public_link.propertie().add("name","p_public_link").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));

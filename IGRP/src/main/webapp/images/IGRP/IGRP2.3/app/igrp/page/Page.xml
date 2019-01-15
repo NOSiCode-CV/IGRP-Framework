@@ -61,24 +61,26 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Magna doloremque ut sit elit</value>
+                    <value>Ut laudantium ut anim doloremque</value>
                     <rules>
                         <rule type="remote">
-                            <proc>update</proc>
+                            <proc>generate-link</proc>
                             <requestFields>
                                 <item>p_page</item>
+                                <item>p_env_fk</item>
                             </requestFields>
                         </rule>
                     </rules>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Magna lorem aliqua deserunt adipiscing</value>
+                    <value>Consectetur adipiscing officia consectetur aliqua</value>
                     <rules>
                         <rule type="remote">
-                            <proc>update</proc>
+                            <proc>generate-link</proc>
                             <requestFields>
                                 <item>p_page</item>
+                                <item>p_env_fk</item>
                             </requestFields>
                         </rule>
                     </rules>
@@ -96,7 +98,7 @@
                     <value>1</value>
                     <rules/>
                 </publico>
-                <public_link name="p_public_link" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="true">
+                <public_link name="p_public_link" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="true">
                     <label>Public Link</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </public_link>
