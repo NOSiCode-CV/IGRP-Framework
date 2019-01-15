@@ -9,6 +9,7 @@
 			<table rel="T_#tag#" id="#tag#" class="table #[ordertable]# table-striped gen-data-table">
 				<thead>
 					<tr gen-id="drop-zone" gen-field-template="th">
+						#[countHeader]#
 						<th gen-preserve="last" class="table-btn">
 							<a class="table-row-add btn-xs btn btn-primary" title="Add" data-toggle="tooltip" data-placement="left" >
                               <i class="fa fa-plus"/>
@@ -18,7 +19,9 @@
 				</thead>
 				<tbody>
 					<xsl:for-each select="#path#/table/value/row">
+						
 						<tr gen-id="drop-zone" gen-field-template="td">
+							#[countRow]#
 							<td data-row="{position()}" class="table-btn" gen-preserve="last">
 								<xsl:if test="not(@noupdate)">
 									<span class="table-row-edit btn btn-warning " rel="#tag#" title="Edit" data-toggle="tooltip" data-placement="left">

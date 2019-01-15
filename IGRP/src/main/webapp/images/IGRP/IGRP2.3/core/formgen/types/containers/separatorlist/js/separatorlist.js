@@ -102,6 +102,24 @@ var GENSEPARATORLIST = function(name,params){
 				}
 			}
 		});
+		
+		container.setPropriety({
+			name:'countRow',
+			label : 'Count Rows',
+			value:false,
+			xslValue : '<td class="IGRP-separatorlist-count-row"></td>',
+			onChange:function(v){
+				container.SET.countHeader(v);
+			}
+		});
+
+		container.setPropriety({
+			name:'countHeader',
+			value:false,
+			editable : false,
+			xslValue : '<th class="IGRP-separatorlist-count-header"></th>'
+		});
+		
 	}
 
 	container.onDrawEnd = function(){

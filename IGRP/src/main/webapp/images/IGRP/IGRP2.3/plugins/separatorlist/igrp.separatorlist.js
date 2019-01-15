@@ -92,7 +92,8 @@ $.fn.separatorList = function(o){
 				fieldsH    = isDialog ? $('.splist-form-holder',sl)[0] : sl,
 				formFields = getFormFields(fieldsH),
 				action     = sle.action,
-				edition    = action == 'edit' ? true : false;
+				edition    = action == 'edit' ? true : false,
+				counter    = $(sl).find('.IGRP-separatorlist-count-header');
 			
 			var table    	= $(sl).find('.splist-table>table');
 			var tableId     = table.attr('id');
@@ -131,9 +132,6 @@ $.fn.separatorList = function(o){
 						value:value,
 						label:text
 					}
-
-
-
 
 					if(object.table){
 						
@@ -174,6 +172,15 @@ $.fn.separatorList = function(o){
 				$('td:first',row).append(inputRowId);
 				
 				row.append(getRowOptions());
+				
+				/* append counter TD to the line if has Counter Obejct (.IGRP-separatorlist-count-header) */
+				if(counter[0]){
+
+					var counterIdx = counter.index();
+
+					row.prepend('<td class="IGRP-separatorlist-count-row"></td>')
+
+				}
 				
 				if(edition)
 					$('tbody tr',table).eq(rowIndex).replaceWith(row);

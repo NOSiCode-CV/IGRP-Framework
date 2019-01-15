@@ -99,3 +99,19 @@
 .IGRP-separatorlist[noadd="true"][nodel="true"][noedt="true"] .table-btn{
 	display: none;
 }
+
+
+.IGRP-separatorlist tr {
+    counter-increment: rowNumber;
+}
+
+.IGRP-separatorlist-count-header{
+	width: 25px;
+}
+
+
+.IGRP-separatorlist-count-row::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
