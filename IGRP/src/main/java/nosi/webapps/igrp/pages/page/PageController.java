@@ -30,6 +30,7 @@ import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -40,6 +41,7 @@ public class PageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
+		model.setPublic_link("igrp","Page","index");
 		model.setNovo_modulo("igrp","Page","index");
 		PageView view = new PageView();
 		/*----#gen-example
@@ -103,10 +105,15 @@ public class PageController extends Controller {
 	}
 	
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#start-code(gravar)----*/
 		Page model = new Page();
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			model.load();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(gravar)----*/
+
 			int idPage = Core.getParamInt("p_id");
 
 			Application app = new Application();
@@ -213,16 +220,11 @@ public class PageController extends Controller {
 					return this.forward("igrp", "page", "index");
 				}
 				// _________________________________________# END # New page
-			} else {
-				Core.setMessageWarning("Este code já existe. Por favor editar.");
-				return this.forward("igrp", "page", "index");
+
 			}
 
-		}
-
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","page","index");	
+		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
@@ -728,9 +730,7 @@ public class PageController extends Controller {
 			 +"formgen"+File.separator+"types"+File.separator;
 	
 	 public Response actionFileExists() throws IOException {	
-
 		 final String fileName = Core.getParam("uri").replaceAll("\\\\", File.separator);
-//		 final String fileName = Core.getParam("uri").replaceAll("/", "\\\\");
 		 final Properties p = new Properties();
 		 final boolean fileExists = FileHelper.fileExists(basePath+fileName);
 		 
@@ -740,5 +740,22 @@ public class PageController extends Controller {
 		 this.format = Response.FORMAT_JSON;
 		 return this.renderView(Core.toJson(p));
 	 }
+	 
+	public Response actionGenerateLink() throws IOException, IllegalArgumentException, IllegalAccessException {
+		int app_id = Core.getParamInt("p_env_fk");
+		String page = Core.getParam("p_page");	
+		String link ="";
+		Application app = Core.findApplicationById(app_id);
+		if(app!=null) {
+			link = "webapps?r="+app.getDad()+"/"+page+"/index&target=_blank&isPublic=1";
+		}
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("content");
+			xml.setElement("publico_link",link);
+			xml.setElement("public_link_desc", link);
+		xml.endElement();
+		this.format = Response.FORMAT_XML;
+		return this.renderView(xml.toString());
+	}
 	/*----#end-code----*/
 }
