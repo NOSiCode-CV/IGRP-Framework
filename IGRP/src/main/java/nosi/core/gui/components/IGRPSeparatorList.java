@@ -1,13 +1,11 @@
 package nosi.core.gui.components;
 
-import static nosi.core.i18n.Translator.gt;
 import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -48,19 +46,12 @@ public class IGRPSeparatorList extends IGRPTable {
 	public IGRPSeparatorList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "separatorlist");
-		addRowIdAsHidden();
 	}
 	
 	public IGRPSeparatorList(String tag_name) {
 		this(tag_name,"");
 	}
 	
-	private void addRowIdAsHidden() {
-		Field p_separatorlist_1_id = new HiddenField(this.tag_name + "_id");
-		p_separatorlist_1_id.setLabel(gt(""));
-		p_separatorlist_1_id.propertie().add("name","p_" + this.tag_name + "_id").add("type","hidden").add("maxlength","50").add("java-type","").add("tag","hidden_1").add("desc","true");
-		this.addField(p_separatorlist_1_id);
-	}
 	
 	protected String[] rowId;
 	

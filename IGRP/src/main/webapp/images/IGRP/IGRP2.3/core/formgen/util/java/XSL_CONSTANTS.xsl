@@ -117,7 +117,7 @@
     </xsl:variable>
     
     <xsl:variable name="import_table">
-    	<xsl:if test="count(/rows/content/*[@type='table' or @type='treemenu' or @type='carousel']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='table' or @type='treemenu' or @type='carousel' or @type='timeline']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPTable;</xsl:text>
         	<xsl:value-of select="$newline"/>        	
         </xsl:if>
