@@ -1902,7 +1902,7 @@ public final class Core { // Not inherit
 			try {
 				return new BigInteger(value.toString());
 			}catch(NumberFormatException e) {
-				
+				return defaultValue;
 			}
 		}
 		return defaultValue;
@@ -1921,11 +1921,11 @@ public final class Core { // Not inherit
 	}
 
 	public static Double toDouble(String value, double defaultValue) {
-		if (Core.isDouble(value)) {
+		if (Core.isNotNull(value)) {
 			try {
 				return Double.parseDouble(value);
 			}catch(NumberFormatException e) {
-				
+				return defaultValue;
 			}
 		}
 		return defaultValue;
@@ -1944,11 +1944,11 @@ public final class Core { // Not inherit
 	}
 	
 	public static Float toFloat(String value, float defaultValue) {
-		if (Core.isFloat(value)) {
+		if (Core.isNotNull(value)) {
 			try {
 				return Float.parseFloat(value);
 			}catch(NumberFormatException e) {
-				
+				return defaultValue;
 			}
 		}
 		return defaultValue;
@@ -1976,11 +1976,11 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Integer toInt(String value, int defaultValue) {
-		if (Core.isInt(value)) {
+		if (Core.isNotNull(value)) {
 			try{
 				return Integer.parseInt(value);
 			}catch(NumberFormatException e) {
-				
+				return defaultValue;
 			}
 		}
 		return defaultValue;
@@ -2003,11 +2003,11 @@ public final class Core { // Not inherit
 	}
 
 	public static Long toLong(String value, long defaultValue) {
-		if (Core.isInt(value)) {
+		if (Core.isNotNull(value)) {
 			try {
 				return Long.parseLong(value);
 			}catch(NumberFormatException e) {
-				
+				return defaultValue;
 			}
 		}
 		return defaultValue;

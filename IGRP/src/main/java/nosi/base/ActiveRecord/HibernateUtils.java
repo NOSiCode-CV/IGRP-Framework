@@ -78,7 +78,8 @@ public class HibernateUtils {
 				Map<String, Object> settings = getOthersAppSettings(connectionName,dad,schemaName);
 				if(settings!=null) {
 					registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
-					registryBuilder.applySettings(settings);
+					if(registryBuilder!=null)
+						registryBuilder.applySettings(settings);
 				}else {
 					return null;
 				}
@@ -108,19 +109,18 @@ public class HibernateUtils {
 				.andWhere("application.dad", "=",dad)
 				.one();
 		if (config != null) {	
-			EncrypDecrypt ed = new EncrypDecrypt();
-			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),ed.SECRET_KEY_ENCRYPT_DB):
+			String url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB):
 				DatabaseConfigHelper.getUrl(
-						Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getHost(), ed.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getPort(), ed.SECRET_KEY_ENCRYPT_DB),
-						Core.decrypt(config.getName_db(), ed.SECRET_KEY_ENCRYPT_DB)
+						Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getHost(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getPort(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
+						Core.decrypt(config.getName_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)
 					);
-			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),ed.SECRET_KEY_ENCRYPT_DB):
-				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB));
-			String password = Core.decrypt(config.getPassword(), ed.SECRET_KEY_ENCRYPT_DB);
-			String user = Core.decrypt(config.getUsername(), ed.SECRET_KEY_ENCRYPT_DB);
-			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), ed.SECRET_KEY_ENCRYPT_DB));
+			String driver = Core.isNotNull(config.getDriver_connection())? Core.decrypt(config.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB):
+				DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			String password = Core.decrypt(config.getPassword(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
+			String user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
+			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			return getSettings(driver, url, user, password, hibernateDialect,schemaName);
 		}
 		return null;
