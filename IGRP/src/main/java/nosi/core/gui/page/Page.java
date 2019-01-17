@@ -196,6 +196,7 @@ public class Page{
 			
 		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
 				InvocationTargetException | NullPointerException e) {
+			e.printStackTrace();
 			if(e.getCause() instanceof  NullPointerException) {
 				String msg = "Erro de nullpointexception: "+Igrp.getInstance().getCurrentPageName()+"Controller.java";
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",msg);
