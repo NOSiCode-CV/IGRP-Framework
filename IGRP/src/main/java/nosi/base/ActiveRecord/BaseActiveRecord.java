@@ -74,7 +74,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			session.persist(this.className);
 			transaction.commit();
 		}catch (Exception e) {
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -99,7 +99,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -128,7 +128,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -175,13 +175,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				transaction.rollback();
 			}
 			this.className = null;
-			this.setError(e.getMessage());
+			this.setError(e);
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
 			}
 			this.className = null;
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -210,7 +210,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 				transaction.rollback();
 			}
 			this.className = null;
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -250,7 +250,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -276,7 +276,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -300,7 +300,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			this.setError(e.getCause().getCause().getMessage());
+			this.setError(e);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -660,8 +660,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return error;
 	}
 
-	public void setError(String error) {
-		this.error.add(error);
+	public void setError(Exception e) {
+		if(e.getCause()!=null) {
+			if(e.getCause().getCause()!=null)
+				this.error.add(e.getCause().getCause().getMessage());
+			else
+				this.error.add(e.getCause().getMessage());
+		}else {
+			this.error.add(e.getMessage());
+		}
 	}
 	
 	public boolean hasError() {
