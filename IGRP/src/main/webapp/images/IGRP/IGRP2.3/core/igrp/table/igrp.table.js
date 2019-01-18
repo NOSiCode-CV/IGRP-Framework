@@ -212,10 +212,8 @@
                 
             }else{
             	
-            	check.val('');
-            	
                 if (!inp[0])
-                    p.o.append('<input type="hidden" class="'+p.rel+'" name="'+p.name+'"/>');
+                    p.o.append('<input type="hidden" class="'+p.rel+'" value="'+p.value+'" name="'+p.name+'"/>');
                 
                 
             }
