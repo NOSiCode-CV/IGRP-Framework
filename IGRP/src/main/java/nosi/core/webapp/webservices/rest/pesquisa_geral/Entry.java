@@ -55,10 +55,11 @@ public class Entry implements Serializable{
 	public void setNU_BI(int nU_BI) {
 		NU_BI = nU_BI;
 	}
-	@Override
-	public String toString() {
-		return "Entry [NU_NIF=" + NU_NIF + ", NM_CONTRIBUINTE=" + NM_CONTRIBUINTE + ", DT_NASC=" + DT_NASC
-				+ ", NM_PAI=" + NM_PAI + ", NM_MAE=" + NM_MAE + ", NU_BI=" + NU_BI + "]";
-	}
+	//@Override
+	//public String toString() {
+	//	return "Entry [NU_NIF=" + NU_NIF + ", NM_CONTRIBUINTE=" + NM_CONTRIBUINTE + ", DT_NASC=" + DT_NASC
+	//			+ ", NM_PAI=" + NM_PAI + ", NM_MAE=" + NM_MAE + ", NU_BI=" + NU_BI + "]";
+	//}
+
 	
 }
