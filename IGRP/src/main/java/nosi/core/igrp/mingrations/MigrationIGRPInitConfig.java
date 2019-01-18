@@ -192,6 +192,8 @@ public class MigrationIGRPInitConfig {
 			actions.add(r2);
 			
 			actions.add(new Action("Pesquisa_bi_cni_passport", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xsl", "Pesquisa BI-CNI-passport", "Pesquisa BI-CNI-passport", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));
 			
 			for(Action ac:actions){
 				ac.insert();
