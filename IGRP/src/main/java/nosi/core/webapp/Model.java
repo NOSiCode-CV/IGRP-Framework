@@ -295,7 +295,6 @@ public abstract class Model { // IGRP super model
 					}else {
 						String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
 						String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
-						
 						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
 						
@@ -323,7 +322,8 @@ public abstract class Model { // IGRP super model
 					while(row < MAX_ITERATION) {
 						
 						Object obj2 = Class.forName(c_.getName()).newInstance();
-						
+						this.validateRows(mapFk,obj2,row);
+
 						for(Field m : obj2.getClass().getDeclaredFields()){
 							
 							m.setAccessible(true);
@@ -344,7 +344,6 @@ public abstract class Model { // IGRP super model
 						row++;
 						
 					}
-				
 			} catch (ClassNotFoundException | InstantiationException e) {
 				e.printStackTrace();
 			}
@@ -353,6 +352,16 @@ public abstract class Model { // IGRP super model
 			}
 		}
 		
+	}
+
+	private boolean validateRows(Map<String, List<String>> mapFk, Object obj2, int row) {
+		List<Boolean> isLineEmpty = new ArrayList<>(); 
+		Field[] fields = obj2.getClass().getDeclaredFields();
+		for(Field m : fields ){
+			isLineEmpty.add(Core.isNull(mapFk.get(m.getName()).get(row)));
+		}
+		isLineEmpty = isLineEmpty.stream().filter(empty->empty==true).collect(Collectors.toList());
+		return isLineEmpty.size()==fields.length;
 	}	
 	
 	
