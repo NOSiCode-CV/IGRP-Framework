@@ -61,7 +61,7 @@ public class Pesquisa_nif_restView extends View {
 		
 		nif_tab = new NumberField(model,"nif_tab");
 		nif_tab.setLabel(gt("NIF"));
-		nif_tab.propertie().add("name","p_nif_tab").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","");
+		nif_tab.propertie().add("name","p_nif_tab").add("type","number").add("maxlength","30").add("total_footer","false").add("java-type","");
 		
 		nome_tab = new TextField(model,"nome_tab");
 		nome_tab.setLabel(gt("Nome"));
@@ -79,9 +79,9 @@ public class Pesquisa_nif_restView extends View {
 		nome_mae.setLabel(gt("Nome mãe"));
 		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30");
 		
-		documento_tab = new TextField(model,"documento_tab");
+		documento_tab = new NumberField(model,"documento_tab");
 		documento_tab.setLabel(gt("Documento"));
-		documento_tab.propertie().add("name","p_documento_tab").add("type","text").add("maxlength","30");
+		documento_tab.propertie().add("name","p_documento_tab").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","");
 		
 
 

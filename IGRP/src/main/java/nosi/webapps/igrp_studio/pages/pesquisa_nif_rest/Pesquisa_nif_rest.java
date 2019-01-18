@@ -92,7 +92,7 @@ public class Pesquisa_nif_rest extends Model{
 		private String dt_nascimento;
 		private String nome_pai;
 		private String nome_mae;
-		private String documento_tab;
+		private int documento_tab;
 		public void setNif_tab(int nif_tab){
 			this.nif_tab = nif_tab;
 		}
@@ -128,10 +128,10 @@ public class Pesquisa_nif_rest extends Model{
 			return this.nome_mae;
 		}
 
-		public void setDocumento_tab(String documento_tab){
+		public void setDocumento_tab(int documento_tab){
 			this.documento_tab = documento_tab;
 		}
-		public String getDocumento_tab(){
+		public int getDocumento_tab(){
 			return this.documento_tab;
 		}
 
