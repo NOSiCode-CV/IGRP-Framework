@@ -47,21 +47,21 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
+            <item type="specific" code="" rel="gravar" custom_return="true">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>Dominio</page>
+                <page>Page</page>
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Ut laudantium ut anim doloremque</value>
+                    <value>Lorem labore sed sit sit</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Consectetur adipiscing officia consectetur aliqua</value>
+                    <value>Totam stract amet stract dolor</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>

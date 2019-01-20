@@ -661,9 +661,9 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	* Find Domain by domain's name
-	* @param domainsName
-	* @return {@code Domain().find().andWhere("dominio", "=", domainsName).all()}
+	* Find Domains by domain code name
+	* @param domain code name
+	* @return {@code List< of Domains> }
 	*/
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();

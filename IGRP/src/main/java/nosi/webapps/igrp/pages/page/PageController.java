@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -111,7 +113,7 @@ public class PageController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Page","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 			int idPage = Core.getParamInt("p_id");
@@ -220,11 +222,14 @@ public class PageController extends Controller {
 					return this.forward("igrp", "page", "index");
 				}
 				// _________________________________________# END # New page
-
-			}
+			} else {
+					Core.setMessageWarning("Este code já existe. Por favor editar.");
+					return this.forward("igrp", "page", "index");
+				
+			}		
 
 		/*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+			
 	}
 	
 /*----#start-code(custom_actions)----*/
