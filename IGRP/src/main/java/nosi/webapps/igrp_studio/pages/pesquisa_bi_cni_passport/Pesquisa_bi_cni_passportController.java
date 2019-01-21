@@ -26,7 +26,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Natus unde iste amet omnis' as bi_tab,'Perspiciatis amet lorem perspi' as nome_tab,'Lorem natus sed omnis anim' as sexo_tab,'06-06-2016' as data_nascimento_tab,'Sed deserunt mollit laudantium' as nome_pai_tab,'Iste ipsum unde accusantium si' as nome_mae_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Adipiscing sed natus sit sed' as bi_tab,'Doloremque perspiciatis laudan' as nome_tab,'Doloremque ut rem consectetur' as sexo_tab,'08-07-2011' as data_nascimento_tab,'Rem consectetur dolor omnis do' as nome_pai_tab,'Voluptatem dolor amet mollit a' as nome_mae_tab,'Adipiscing deserunt lorem cons' as data_emissao_tab,'Labore unde natus ut consectet' as emissor_tab "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -34,8 +34,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		
 		String json_data = "{\"Numero_ID\" : \""+ model.getNumero_do_documento() +"\"}";
 		ConsumeJson json_obj = new ConsumeJson();
-		String json = json_obj.getObjectFromJson("http://10.4.9.4:8280/apicheckid", json_data);
-		
+		String json = json_obj.getObjectFromJson("http://stage-pdex.gov.cv:8282/apicheckid", json_data);
 		
 		PesquisaBI list_bi = new PesquisaBI();
 		PesquisaCNI list_cni = new PesquisaCNI();
@@ -55,6 +54,8 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 				tab_bi.setData_nascimento_tab(list_bi.getDT_NASC());
 				tab_bi.setNome_mae_tab(list_bi.getNOME_MAE());
 				tab_bi.setNome_pai_tab(list_bi.getNOME_PAI());
+				tab_bi.setData_emissao_tab(list_bi.getDT_EMISSAO());
+				tab_bi.setEmissor_tab(list_bi.getEMISSOR()); 
 				lista_bi.add(tab_bi);
 				model.setTable_1(lista_bi);
 				break;

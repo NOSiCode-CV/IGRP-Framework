@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=74</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=75</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -46,57 +46,103 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <geo type="treemenu" xml-type="table" gen-remote="true" gen-type="container" gen-group="true">
             <fields>
-                <pais name="p_pais" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
-                    <label>País</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </pais>
-            </fields>
-        </form_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields>
-                <table_1_text_1 name="p_table_1_text_1" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
-                    <label>Text</label>
-                </table_1_text_1>
+                <geo_link type="link" maxlength="4000" target="_self" desc="true">
+                    <label>Link</label>
+                </geo_link>
+                <geo_tmid type="number">
+                    <label>ID</label>
+                </geo_tmid>
+                <geo_parent type="number">
+                    <label>Parent ID</label>
+                </geo_parent>
+                <geo_icon type="text">
+                    <label>Icon</label>
+                </geo_icon>
+                <geo_child type="text">
+                    <label>Has child value(0/X)</label>
+                </geo_child>
+                <geo_active type="text">
+                    <label>Is Active value(true/false)</label>
+                </geo_active>
             </fields>
             <table>
                 <value>
                     <row>
-                        <table_1_text_1 name="p_table_1_text_1">Adipiscing sed mollit omnis an</table_1_text_1>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 1</geo_link_desc>
+                        <geo_tmid>1</geo_tmid>
+                        <geo_parent/>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
                     </row>
                     <row>
-                        <table_1_text_1 name="p_table_1_text_1">Accusantium totam accusantium</table_1_text_1>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 2</geo_link_desc>
+                        <geo_tmid>2</geo_tmid>
+                        <geo_parent>1</geo_parent>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
                     </row>
                     <row>
-                        <table_1_text_1 name="p_table_1_text_1">Laudantium iste amet mollit ap</table_1_text_1>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 3</geo_link_desc>
+                        <geo_tmid>3</geo_tmid>
+                        <geo_parent>1</geo_parent>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
                     </row>
                     <row>
-                        <table_1_text_1 name="p_table_1_text_1">Dolor officia aliqua voluptate</table_1_text_1>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 4</geo_link_desc>
+                        <geo_tmid>4</geo_tmid>
+                        <geo_parent>3</geo_parent>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
                     </row>
                     <row>
-                        <table_1_text_1 name="p_table_1_text_1">Dolor totam deserunt sit lorem</table_1_text_1>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 5</geo_link_desc>
+                        <geo_tmid>5</geo_tmid>
+                        <geo_parent/>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
+                    </row>
+                    <row>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 6</geo_link_desc>
+                        <geo_tmid>6</geo_tmid>
+                        <geo_parent>5</geo_parent>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
+                    </row>
+                    <row>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 7</geo_link_desc>
+                        <geo_tmid>7</geo_tmid>
+                        <geo_parent/>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
+                    </row>
+                    <row>
+                        <geo_link>#</geo_link>
+                        <geo_link_desc> Menu 8</geo_link_desc>
+                        <geo_tmid>8</geo_tmid>
+                        <geo_parent>7</geo_parent>
+                        <geo_icon/>
+                        <geo_child/>
+                        <geo_active/>
                     </row>
                 </value>
             </table>
-        </table_1>
+        </geo>
     </content>
 </rows>

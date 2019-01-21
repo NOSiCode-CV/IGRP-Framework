@@ -15,33 +15,31 @@ import java.util.List;
 public class Pesquisa_geografia extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_pais")
-	private String pais;
 	
-	private List<Table_1> table_1 = new ArrayList<>();	
-	public void setTable_1(List<Table_1> table_1){
-		this.table_1 = table_1;
+	private List<Geo> geo = new ArrayList<>();	
+	public void setGeo(List<Geo> geo){
+		this.geo = geo;
 	}
-	public List<Table_1> getTable_1(){
-		return this.table_1;
+	public List<Geo> getGeo(){
+		return this.geo;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
+	@RParam(rParamName = "p_geo_id")
+	private String[] p_geo_id;
+	@RParam(rParamName = "p_geo_del")
+	private String[] p_geo_del;
 	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
+	public void setP_geo_id(String[] p_geo_id){
+		this.p_geo_id = p_geo_id;
 	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
+	public String[] getP_geo_id(){
+		return this.p_geo_id;
 	}
 	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
+	public void setP_geo_del(String[] p_geo_del){
+		this.p_geo_del = p_geo_del;
 	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
+	public String[] getP_geo_del(){
+		return this.p_geo_del;
 	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
@@ -50,28 +48,77 @@ public class Pesquisa_geografia extends Model{
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
 	}
-	
-	public void setPais(String pais){
-		this.pais = pais;
-	}
-	public String getPais(){
-		return this.pais;
-	}
 
 
-	public static class Table_1 extends IGRPTable.Table{
-		private String table_1_text_1;
-		public void setTable_1_text_1(String table_1_text_1){
-			this.table_1_text_1 = table_1_text_1;
+	public static class Geo extends IGRPTable.Table{
+		private IGRPLink geo_link;
+		private String geo_link_desc;
+		private int geo_tmid;
+		private int geo_parent;
+		private String geo_icon;
+		private String geo_child;
+		private String geo_active;
+		public IGRPLink setGeo_link(String app,String page,String action){
+			this.geo_link = new IGRPLink(app,page,action);
+			return this.geo_link;
 		}
-		public String getTable_1_text_1(){
-			return this.table_1_text_1;
+		public IGRPLink getGeo_link(){
+			return this.geo_link;
+		}
+		public void setGeo_link_desc(String geo_link_desc){
+			this.geo_link_desc = geo_link_desc;
+		}
+		public String getGeo_link_desc(){
+			return this.geo_link_desc;
+		}
+	public IGRPLink setGeo_link(String link){
+		this.geo_link = new IGRPLink(link);
+		return this.geo_link;
+	}
+	public IGRPLink setGeo_link(Report link){
+		this.geo_link = new IGRPLink(link);
+		return this.geo_link;
+	}
+
+		public void setGeo_tmid(int geo_tmid){
+			this.geo_tmid = geo_tmid;
+		}
+		public int getGeo_tmid(){
+			return this.geo_tmid;
+		}
+
+		public void setGeo_parent(int geo_parent){
+			this.geo_parent = geo_parent;
+		}
+		public int getGeo_parent(){
+			return this.geo_parent;
+		}
+
+		public void setGeo_icon(String geo_icon){
+			this.geo_icon = geo_icon;
+		}
+		public String getGeo_icon(){
+			return this.geo_icon;
+		}
+
+		public void setGeo_child(String geo_child){
+			this.geo_child = geo_child;
+		}
+		public String getGeo_child(){
+			return this.geo_child;
+		}
+
+		public void setGeo_active(String geo_active){
+			this.geo_active = geo_active;
+		}
+		public String getGeo_active(){
+			return this.geo_active;
 		}
 
 	}
 
-	public void loadTable_1(BaseQueryInterface query) {
-		this.setTable_1(this.loadTable(query,Table_1.class));
+	public void loadGeo(BaseQueryInterface query) {
+		this.setGeo(this.loadTable(query,Geo.class));
 	}
 
 }

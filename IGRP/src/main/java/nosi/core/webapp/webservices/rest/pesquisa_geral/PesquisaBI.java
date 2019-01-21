@@ -21,6 +21,9 @@ public class PesquisaBI implements Serializable{
 	private String NOME_MAE;
 	private String NOME_PAI;
 	private String Error;
+	private String DT_EMISSAO;
+	private String EMISSOR;
+	
 	public String getNOME() {
 		return NOME;
 	}
@@ -65,6 +68,18 @@ public class PesquisaBI implements Serializable{
 		Error = error;
 	}
 	
+	public String getDT_EMISSAO() {
+		return DT_EMISSAO;
+	}
+	public void setDT_EMISSAO(String dT_EMISSAO) {
+		DT_EMISSAO = dT_EMISSAO;
+	}
+	public String getEMISSOR() {
+		return EMISSOR;
+	}
+	public void setEMISSOR(String eMISSOR) {
+		EMISSOR = eMISSOR;
+	}
 	@Override
 	public String toString() {
 		return "PesquisaBI [NOME=" + NOME + ", BI=" + BI + ", SEXO=" + SEXO + ", DT_NASC=" + DT_NASC + ", NOME_MAE="

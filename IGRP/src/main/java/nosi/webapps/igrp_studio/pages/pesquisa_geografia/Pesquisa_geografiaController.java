@@ -16,12 +16,6 @@ public class Pesquisa_geografiaController extends Controller {
 		Pesquisa_geografia model = new Pesquisa_geografia();
 		model.load();
 		Pesquisa_geografiaView view = new Pesquisa_geografiaView();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Adipiscing totam amet labore u' as table_1_text_1 "));
-		view.pais.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
 		
