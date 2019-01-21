@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 /*----#end-code----*/
 		
 public class Pesquisa_nif_restController extends Controller {
@@ -34,19 +35,18 @@ public class Pesquisa_nif_restController extends Controller {
 		if((Core.isNotNull(model.getNif()) && model.getNif() != 0) && Core.isNull(model.getNome_form())) {
 			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NU_NIF=" + model.getNif();
 		}else if(Core.isNotNull(model.getNome_form()) && (model.getNif() == 0 || Core.isNull(model.getNif()))) {
-			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form();
+			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase();
 		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
-			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form() + "&NU_NIF=" +  model.getNif();
+			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NU_NIF=" +  model.getNif();
 		}
 		
 			if((Core.isNotNull(model.getNif()) && model.getNif() != 0) || Core.isNotNull(model.getNome_form())) {
-				System.out.println(url);
-				
-				String json = json_obj.getJsonFromUrl(url);
-				
+				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"));
 				JSONObject obj = new JSONObject(json);
 				JSONObject Entries = obj.getJSONObject("Entries");
-				JSONArray Entry = Entries.getJSONArray("Entry");
+				try {
+
+					JSONArray Entry = Entries.getJSONArray("Entry");
 					List<Pesquisa_nif_rest.Table_1> list_nif = new ArrayList<>();
 						for(int i = 0; i < Entry.length(); i++) {
 							JSONObject pessoa = Entry.getJSONObject(i);
@@ -84,7 +84,9 @@ public class Pesquisa_nif_restController extends Controller {
 							list_nif.add(tab_nif);
 						model.setTable_1(list_nif);
 					}
-					
+				}catch (Exception e) {
+					Core.setMessageInfo("Nenhum registo encontrado");
+				}
 			}
 		/*----#end-code----*/
 		view.setModel(model);
