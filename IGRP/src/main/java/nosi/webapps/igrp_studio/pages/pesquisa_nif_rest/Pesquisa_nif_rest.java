@@ -87,16 +87,16 @@ public class Pesquisa_nif_rest extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private int nif_tab;
+		private String nif_tab;
 		private String nome_tab;
 		private String dt_nascimento;
 		private String nome_pai;
 		private String nome_mae;
-		private int documento_tab;
-		public void setNif_tab(int nif_tab){
+		private String documento_tab;
+		public void setNif_tab(String nif_tab){
 			this.nif_tab = nif_tab;
 		}
-		public int getNif_tab(){
+		public String getNif_tab(){
 			return this.nif_tab;
 		}
 
@@ -128,10 +128,10 @@ public class Pesquisa_nif_rest extends Model{
 			return this.nome_mae;
 		}
 
-		public void setDocumento_tab(int documento_tab){
+		public void setDocumento_tab(String documento_tab){
 			this.documento_tab = documento_tab;
 		}
-		public int getDocumento_tab(){
+		public String getDocumento_tab(){
 			return this.documento_tab;
 		}
 

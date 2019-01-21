@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=69</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=71</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -72,15 +72,15 @@
                 </tipo_documento>
                 <numero_do_documento name="p_numero_do_documento" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Número do documento</label>
-                    <value>Iste natus ipsum deserunt elit</value>
+                    <value>Anim consectetur sit lorem elit</value>
                 </numero_do_documento>
                 <nome name="p_nome" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Adipiscing laudantium sit deserunt magna</value>
+                    <value>Magna anim totam amet lorem</value>
                 </nome>
                 <data_nascimento name="p_data_nascimento" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
                     <label>Data nascimento</label>
-                    <value>05-02-2010</value>
+                    <value>01-06-2013</value>
                 </data_nascimento>
             </fields>
             <tools-bar>
@@ -115,48 +115,64 @@
                 <nome_mae_tab name="p_nome_mae_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
                     <label>Nome mãe</label>
                 </nome_mae_tab>
+                <data_emissao_tab name="p_data_emissao_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Data Emissão</label>
+                </data_emissao_tab>
+                <emissor_tab name="p_emissor_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Emissor</label>
+                </emissor_tab>
             </fields>
             <table>
                 <value>
                     <row>
-                        <bi_tab name="p_bi_tab">Amet dolor mollit voluptatem d</bi_tab>
-                        <nome_tab name="p_nome_tab">Anim amet totam aliqua adipisc</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Stract aliqua sed iste perspic</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">04-06-2017</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Rem lorem natus rem consectetu</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Dolor sit aliqua ipsum lorem</nome_mae_tab>
+                        <bi_tab name="p_bi_tab">Ut sit elit accusantium natus</bi_tab>
+                        <nome_tab name="p_nome_tab">Voluptatem unde sit perspiciat</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Ipsum deserunt perspiciatis co</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">03-07-2017</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Deserunt natus sit rem natus</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Doloremque aperiam aliqua stra</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Aperiam ut unde voluptatem nat</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Aperiam elit stract elit anim</emissor_tab>
                     </row>
                     <row>
-                        <bi_tab name="p_bi_tab">Sit aliqua labore officia dolo</bi_tab>
-                        <nome_tab name="p_nome_tab">Accusantium rem sit anim volup</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Perspiciatis aperiam consectet</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">07-08-2017</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Lorem officia laudantium aliqu</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Ut aliqua unde deserunt volupt</nome_mae_tab>
+                        <bi_tab name="p_bi_tab">Aliqua dolor ipsum lorem strac</bi_tab>
+                        <nome_tab name="p_nome_tab">Rem dolor ut mollit adipiscing</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Natus accusantium aperiam tota</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">03-04-2013</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Mollit aperiam sed rem iste</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Magna iste deserunt unde lorem</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Iste natus laudantium ipsum ac</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Magna doloremque natus stract</emissor_tab>
                     </row>
                     <row>
-                        <bi_tab name="p_bi_tab">Sit laudantium officia laudant</bi_tab>
-                        <nome_tab name="p_nome_tab">Ut adipiscing ipsum amet strac</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Anim sit lorem doloremque dese</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">06-02-2011</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Natus rem iste accusantium des</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Lorem dolor mollit ipsum dolor</nome_mae_tab>
+                        <bi_tab name="p_bi_tab">Sed labore sit iste mollit</bi_tab>
+                        <nome_tab name="p_nome_tab">Officia mollit sed elit laudan</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Magna elit sed ut sed</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">02-02-2014</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Anim consectetur amet sit laud</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Doloremque sed voluptatem laud</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Aperiam omnis voluptatem iste</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Unde iste sit perspiciatis sit</emissor_tab>
                     </row>
                     <row>
-                        <bi_tab name="p_bi_tab">Aliqua accusantium consectetur</bi_tab>
-                        <nome_tab name="p_nome_tab">Labore aperiam voluptatem ut i</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Totam labore sit amet unde</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">01-01-2017</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Adipiscing ut elit consectetur</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Elit aperiam natus mollit unde</nome_mae_tab>
+                        <bi_tab name="p_bi_tab">Doloremque consectetur laudant</bi_tab>
+                        <nome_tab name="p_nome_tab">Ipsum deserunt adipiscing labo</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Elit omnis doloremque ipsum ma</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">05-03-2012</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Officia ut iste omnis sit</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Laudantium unde laudantium lab</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Perspiciatis sit anim lorem ut</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Laudantium sit anim sed offici</emissor_tab>
                     </row>
                     <row>
-                        <bi_tab name="p_bi_tab">Ipsum aperiam rem deserunt nat</bi_tab>
-                        <nome_tab name="p_nome_tab">Iste elit iste elit perspiciat</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Consectetur omnis sit consecte</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">03-04-2012</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Doloremque dolor sed consectet</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Aliqua consectetur aperiam ist</nome_mae_tab>
+                        <bi_tab name="p_bi_tab">Sed lorem totam perspiciatis i</bi_tab>
+                        <nome_tab name="p_nome_tab">Mollit laudantium magna sit na</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Doloremque anim officia labore</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">05-07-2015</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Sit perspiciatis aliqua natus</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Magna totam ut rem perspiciati</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Ipsum labore doloremque magna</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Omnis dolor anim consectetur d</emissor_tab>
                     </row>
                 </value>
             </table>

@@ -8,8 +8,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.webservices.rest.ConsumeJson;
-import nosi.core.webapp.webservices.rest.pesquisa_geral.Entry;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -25,39 +23,69 @@ public class Pesquisa_nif_restController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '20' as nif_tab,'Iste voluptatem ut laudantium' as nome_tab,'Stract sed labore sed accusant' as dt_nascimento,'Sit laudantium mollit adipisci' as nome_pai,'Aliqua amet aperiam doloremque' as nome_mae,'22' as documento_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Rem magna deserunt omnis rem' as nif_tab,'Unde stract labore totam accus' as nome_tab,'Ipsum dolor natus rem elit' as dt_nascimento,'Aperiam mollit voluptatem elit' as nome_pai,'Labore voluptatem ipsum magna' as nome_mae,'22' as documento_tab "));
 		view.tipo_contribuinte.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.btn_pesquisar.setLink("index"); 
 		view.tipo_contribuinte.setValue(getMyContribuinte());
-		
 		ConsumeJson json_obj = new ConsumeJson();
-		String url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NU_NIF=" + model.getNif() + "&NM_CONTRIBUINTE=" + model.getNome_form();
-		String json = json_obj.getJsonFromUrl(url);
-		JSONObject obj = new JSONObject(json);
-		JSONObject Entries = obj.getJSONObject("Entries");
+		String url = "";
+		if((Core.isNotNull(model.getNif()) && model.getNif() != 0) && Core.isNull(model.getNome_form())) {
+			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NU_NIF=" + model.getNif();
+		}else if(Core.isNotNull(model.getNome_form()) && (model.getNif() == 0 || Core.isNull(model.getNif()))) {
+			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form();
+		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
+			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form() + "&NU_NIF=" +  model.getNif();
+		}
 		
-		Core.setMessageError(json);
-		Core.setMessageError(Entries+""); 
-		Core.setMessageError();
 			if((Core.isNotNull(model.getNif()) && model.getNif() != 0) || Core.isNotNull(model.getNome_form())) {
-			JSONObject Entry = Entries.getJSONObject("Entry");
-			List<Pesquisa_nif_rest.Table_1> list_nif = new ArrayList<>();
-			Pesquisa_nif_rest.Table_1 tab_nif = new Pesquisa_nif_rest.Table_1();
-			tab_nif.setDocumento_tab(Entry.getInt("NU_BI"));
-			tab_nif.setDt_nascimento(Entry.getString("DT_NASC"));
-			tab_nif.setNif_tab(Entry.getInt("NU_NIF"));
-			tab_nif.setNome_mae(Entry.getString("NM_MAE"));
-			tab_nif.setNome_pai(Entry.getString("NM_PAI"));
-			tab_nif.setNome_tab(Entry.getString("NM_CONTRIBUINTE"));
-			list_nif.add(tab_nif);
-			model.setTable_1(list_nif);
-			
+				System.out.println(url);
+				
+				String json = json_obj.getJsonFromUrl(url);
+				
+				JSONObject obj = new JSONObject(json);
+				JSONObject Entries = obj.getJSONObject("Entries");
+				JSONArray Entry = Entries.getJSONArray("Entry");
+					List<Pesquisa_nif_rest.Table_1> list_nif = new ArrayList<>();
+						for(int i = 0; i < Entry.length(); i++) {
+							JSONObject pessoa = Entry.getJSONObject(i);
+							Pesquisa_nif_rest.Table_1 tab_nif = new Pesquisa_nif_rest.Table_1();
+							try {
+								tab_nif.setDocumento_tab(pessoa.getInt("NU_BI")+"");
+							}catch (org.json.JSONException e) {
+								tab_nif.setDocumento_tab(null);
+							}
+							try {
+								tab_nif.setDt_nascimento(pessoa.getString("DT_NASC"));
+							}catch (org.json.JSONException e) {
+								tab_nif.setDt_nascimento(null);
+							}
+							try {
+								tab_nif.setNif_tab(pessoa.getInt("NU_NIF")+"");
+							}catch (org.json.JSONException e) {
+								tab_nif.setNif_tab(null);
+							}
+							try {
+								tab_nif.setNome_mae(pessoa.getString("NM_MAE"));
+							}catch (org.json.JSONException e) {
+								tab_nif.setNome_mae(null);
+							}
+							try {
+								tab_nif.setNome_pai(pessoa.getString("NM_PAI"));
+							}catch (org.json.JSONException e) {
+								tab_nif.setNome_pai(null);
+							}
+							try {
+								tab_nif.setNome_tab(pessoa.getString("NM_CONTRIBUINTE"));
+							}catch (org.json.JSONException e) {
+								tab_nif.setNome_tab(null);
+							}						
+							list_nif.add(tab_nif);
+						model.setTable_1(list_nif);
+					}
+					
 			}
-		
-		
-		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -92,5 +120,7 @@ public class Pesquisa_nif_restController extends Controller {
 		return contri;
 	}
 
+
+	
 /*----#end-code----*/
 }

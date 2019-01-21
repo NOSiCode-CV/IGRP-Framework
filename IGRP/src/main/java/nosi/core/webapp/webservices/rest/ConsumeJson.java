@@ -44,14 +44,13 @@ public class ConsumeJson {
 	}
 	
 	public String getJsonFromUrl(String url) throws IOException {
-		
 		URL    url_request          = new URL( url );
 		HttpURLConnection conn= (HttpURLConnection) url_request.openConnection();           
 		conn.setDoOutput( true );
 		conn.setInstanceFollowRedirects( false );
 		conn.setRequestProperty("Authorization", "Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f"); 
 		conn.setRequestMethod( "POST" );
-		conn.setRequestProperty( "Content-Type", "application/json"); 
+		conn.setRequestProperty( "accept", "application/json"); 
 		conn.setRequestProperty( "charset", "utf-8");
 		conn.setUseCaches( false );
 		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -60,7 +59,6 @@ public class ConsumeJson {
 		while ((inputline = in.readLine()) != null) {
 		     response.append(inputline);
 		}
-		
 		return response.toString();
 	}
 	

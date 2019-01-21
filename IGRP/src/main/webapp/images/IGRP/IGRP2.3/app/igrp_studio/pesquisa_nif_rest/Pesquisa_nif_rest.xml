@@ -72,15 +72,15 @@
                 </tipo_contribuinte>
                 <nif name="p_nif" type="number" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="">
                     <label>NIF</label>
-                    <value>186</value>
+                    <value>87</value>
                 </nif>
                 <nome_form name="p_nome_form" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Sit dolor adipiscing rem perspiciatis</value>
+                    <value>Totam aliqua aperiam adipiscing omnis</value>
                 </nome_form>
                 <n_documento_form name="p_n_documento_form" type="number" min="" max="" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="">
                     <label>Nº Documento</label>
-                    <value>247</value>
+                    <value>211</value>
                 </n_documento_form>
             </fields>
             <tools-bar>
@@ -97,7 +97,7 @@
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <nif_tab name="p_nif_tab" type="number" maxlength="30" align="left" lookup_parser="true" iskey="false" total_footer="false" java-type="">
+                <nif_tab name="p_nif_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
                     <label>NIF</label>
                 </nif_tab>
                 <nome_tab name="p_nome_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
@@ -112,51 +112,51 @@
                 <nome_mae name="p_nome_mae" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
                     <label>Nome mãe</label>
                 </nome_mae>
-                <documento_tab name="p_documento_tab" type="number" min="" max="" maxlength="30" align="left" lookup_parser="true" iskey="false" total_footer="false" java-type="">
+                <documento_tab name="p_documento_tab" type="number" min="" max="" maxlength="30" align="left" lookup_parser="true" iskey="false" total_footer="false" java-type="String">
                     <label>Documento</label>
                 </documento_tab>
             </fields>
             <table>
                 <value>
                     <row>
-                        <nif_tab name="p_nif_tab">6</nif_tab>
-                        <nome_tab name="p_nome_tab">Totam consectetur iste totam l</nome_tab>
-                        <dt_nascimento name="p_dt_nascimento">Iste amet dolor adipiscing mag</dt_nascimento>
-                        <nome_pai name="p_nome_pai">Natus totam laudantium stract</nome_pai>
-                        <nome_mae name="p_nome_mae">Lorem sed omnis sit doloremque</nome_mae>
-                        <documento_tab name="p_documento_tab">0</documento_tab>
+                        <nif_tab name="p_nif_tab">Ut mollit stract iste deserunt</nif_tab>
+                        <nome_tab name="p_nome_tab">Doloremque sed officia amet st</nome_tab>
+                        <dt_nascimento name="p_dt_nascimento">Perspiciatis doloremque laudan</dt_nascimento>
+                        <nome_pai name="p_nome_pai">Voluptatem rem dolor ut natus</nome_pai>
+                        <nome_mae name="p_nome_mae">Perspiciatis doloremque labore</nome_mae>
+                        <documento_tab name="p_documento_tab">18</documento_tab>
                     </row>
                     <row>
-                        <nif_tab name="p_nif_tab">21</nif_tab>
-                        <nome_tab name="p_nome_tab">Accusantium lorem natus dolor</nome_tab>
-                        <dt_nascimento name="p_dt_nascimento">Iste magna sit rem deserunt</dt_nascimento>
-                        <nome_pai name="p_nome_pai">Ut sit amet perspiciatis sit</nome_pai>
-                        <nome_mae name="p_nome_mae">Sed amet doloremque lorem stra</nome_mae>
-                        <documento_tab name="p_documento_tab">23</documento_tab>
-                    </row>
-                    <row>
-                        <nif_tab name="p_nif_tab">22</nif_tab>
-                        <nome_tab name="p_nome_tab">Accusantium elit ipsum rem lab</nome_tab>
-                        <dt_nascimento name="p_dt_nascimento">Dolor labore ipsum omnis labor</dt_nascimento>
-                        <nome_pai name="p_nome_pai">Mollit sed omnis sit unde</nome_pai>
-                        <nome_mae name="p_nome_mae">Natus deserunt voluptatem sed</nome_mae>
-                        <documento_tab name="p_documento_tab">3</documento_tab>
-                    </row>
-                    <row>
-                        <nif_tab name="p_nif_tab">18</nif_tab>
-                        <nome_tab name="p_nome_tab">Ipsum sed stract aperiam ipsum</nome_tab>
-                        <dt_nascimento name="p_dt_nascimento">Accusantium sit ut sed rem</dt_nascimento>
-                        <nome_pai name="p_nome_pai">Totam aperiam consectetur aper</nome_pai>
-                        <nome_mae name="p_nome_mae">Laudantium mollit accusantium</nome_mae>
+                        <nif_tab name="p_nif_tab">Labore voluptatem ipsum unde a</nif_tab>
+                        <nome_tab name="p_nome_tab">Natus magna deserunt perspicia</nome_tab>
+                        <dt_nascimento name="p_dt_nascimento">Unde perspiciatis rem officia</dt_nascimento>
+                        <nome_pai name="p_nome_pai">Iste natus rem laudantium iste</nome_pai>
+                        <nome_mae name="p_nome_mae">Mollit sit omnis sed consectet</nome_mae>
                         <documento_tab name="p_documento_tab">2</documento_tab>
                     </row>
                     <row>
-                        <nif_tab name="p_nif_tab">5</nif_tab>
-                        <nome_tab name="p_nome_tab">Dolor aperiam sit perspiciatis</nome_tab>
-                        <dt_nascimento name="p_dt_nascimento">Sit sed accusantium magna omni</dt_nascimento>
-                        <nome_pai name="p_nome_pai">Unde laudantium consectetur la</nome_pai>
-                        <nome_mae name="p_nome_mae">Officia perspiciatis sed persp</nome_mae>
-                        <documento_tab name="p_documento_tab">6</documento_tab>
+                        <nif_tab name="p_nif_tab">Natus perspiciatis omnis anim</nif_tab>
+                        <nome_tab name="p_nome_tab">Doloremque sed perspiciatis la</nome_tab>
+                        <dt_nascimento name="p_dt_nascimento">Magna elit officia laudantium</dt_nascimento>
+                        <nome_pai name="p_nome_pai">Labore mollit adipiscing magna</nome_pai>
+                        <nome_mae name="p_nome_mae">Anim natus omnis ipsum natus</nome_mae>
+                        <documento_tab name="p_documento_tab">27</documento_tab>
+                    </row>
+                    <row>
+                        <nif_tab name="p_nif_tab">Doloremque dolor perspiciatis</nif_tab>
+                        <nome_tab name="p_nome_tab">Amet elit mollit doloremque la</nome_tab>
+                        <dt_nascimento name="p_dt_nascimento">Omnis natus labore dolor iste</dt_nascimento>
+                        <nome_pai name="p_nome_pai">Ut totam consectetur mollit pe</nome_pai>
+                        <nome_mae name="p_nome_mae">Laudantium lorem stract amet s</nome_mae>
+                        <documento_tab name="p_documento_tab">4</documento_tab>
+                    </row>
+                    <row>
+                        <nif_tab name="p_nif_tab">Natus laudantium sed dolor ape</nif_tab>
+                        <nome_tab name="p_nome_tab">Aliqua doloremque aperiam volu</nome_tab>
+                        <dt_nascimento name="p_dt_nascimento">Labore dolor accusantium dolor</dt_nascimento>
+                        <nome_pai name="p_nome_pai">Doloremque stract adipiscing l</nome_pai>
+                        <nome_mae name="p_nome_mae">Laudantium iste labore ut elit</nome_mae>
+                        <documento_tab name="p_documento_tab">19</documento_tab>
                     </row>
                 </value>
             </table>

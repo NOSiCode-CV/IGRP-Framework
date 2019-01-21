@@ -22,6 +22,8 @@ public class Pesquisa_bi_cni_passportView extends View {
 	public Field data_nascimento_tab;
 	public Field nome_pai_tab;
 	public Field nome_mae_tab;
+	public Field data_emissao_tab;
+	public Field emissor_tab;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -83,6 +85,14 @@ public class Pesquisa_bi_cni_passportView extends View {
 		nome_mae_tab.setLabel(gt("Nome mãe"));
 		nome_mae_tab.propertie().add("name","p_nome_mae_tab").add("type","text").add("maxlength","30");
 		
+		data_emissao_tab = new TextField(model,"data_emissao_tab");
+		data_emissao_tab.setLabel(gt("Data Emissão"));
+		data_emissao_tab.propertie().add("name","p_data_emissao_tab").add("type","text").add("maxlength","30");
+		
+		emissor_tab = new TextField(model,"emissor_tab");
+		emissor_tab.setLabel(gt("Emissor"));
+		emissor_tab.propertie().add("name","p_emissor_tab").add("type","text").add("maxlength","30");
+		
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp_studio","Pesquisa_bi_cni_passport","pesquisar","submit","primary|fa-search","","");
@@ -107,6 +117,8 @@ public class Pesquisa_bi_cni_passportView extends View {
 		table_1.addField(data_nascimento_tab);
 		table_1.addField(nome_pai_tab);
 		table_1.addField(nome_mae_tab);
+		table_1.addField(data_emissao_tab);
+		table_1.addField(emissor_tab);
 
 		form_1.addButton(btn_pesquisar);
 		this.addToPage(sectionheader_1);
@@ -126,7 +138,9 @@ public class Pesquisa_bi_cni_passportView extends View {
 		sexo_tab.setValue(model);
 		data_nascimento_tab.setValue(model);
 		nome_pai_tab.setValue(model);
-		nome_mae_tab.setValue(model);	
+		nome_mae_tab.setValue(model);
+		data_emissao_tab.setValue(model);
+		emissor_tab.setValue(model);	
 
 		table_1.loadModel(((Pesquisa_bi_cni_passport) model).getTable_1());
 		}

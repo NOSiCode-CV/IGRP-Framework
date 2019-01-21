@@ -93,6 +93,8 @@ public class Pesquisa_bi_cni_passport extends Model{
 		private String data_nascimento_tab;
 		private String nome_pai_tab;
 		private String nome_mae_tab;
+		private String data_emissao_tab;
+		private String emissor_tab;
 		public void setBi_tab(String bi_tab){
 			this.bi_tab = bi_tab;
 		}
@@ -133,6 +135,20 @@ public class Pesquisa_bi_cni_passport extends Model{
 		}
 		public String getNome_mae_tab(){
 			return this.nome_mae_tab;
+		}
+
+		public void setData_emissao_tab(String data_emissao_tab){
+			this.data_emissao_tab = data_emissao_tab;
+		}
+		public String getData_emissao_tab(){
+			return this.data_emissao_tab;
+		}
+
+		public void setEmissor_tab(String emissor_tab){
+			this.emissor_tab = emissor_tab;
+		}
+		public String getEmissor_tab(){
+			return this.emissor_tab;
 		}
 
 	}

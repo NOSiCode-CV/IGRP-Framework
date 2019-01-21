@@ -12,11 +12,14 @@ import nosi.core.webapp.Report;
 public class Pesquisa_geografiaView extends View {
 
 	public Field sectionheader_1_text;
-	public Field pais;
-	public Field table_1_text_1;
+	public Field geo_link;
+	public Field geo_tmid;
+	public Field geo_parent;
+	public Field geo_icon;
+	public Field geo_child;
+	public Field geo_active;
 	public IGRPForm sectionheader_1;
-	public IGRPForm form_1;
-	public IGRPTable table_1;
+	public IGRPTable geo;
 
 
 	public Pesquisa_geografiaView(){
@@ -25,22 +28,36 @@ public class Pesquisa_geografiaView extends View {
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
-		form_1 = new IGRPForm("form_1","");
-
-		table_1 = new IGRPTable("table_1","");
+		geo = new IGRPTreeMenu("geo","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Pesquisa Geografia"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		pais = new ListField(model,"pais");
-		pais.setLabel(gt("País"));
-		pais.propertie().add("name","p_pais").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		geo_link = new LinkField(model,"geo_link");
+		geo_link.setLabel(gt("Link"));
+		geo_link.propertie().add("type","link").add("maxlength","4000").add("target","_self").add("desc","true");
 		
-		table_1_text_1 = new TextField(model,"table_1_text_1");
-		table_1_text_1.setLabel(gt("Text"));
-		table_1_text_1.propertie().add("name","p_table_1_text_1").add("type","text").add("maxlength","30");
+		geo_tmid = new NumberField(model,"geo_tmid");
+		geo_tmid.setLabel(gt("ID"));
+		geo_tmid.propertie().add("type","number");
+		
+		geo_parent = new NumberField(model,"geo_parent");
+		geo_parent.setLabel(gt("Parent ID"));
+		geo_parent.propertie().add("type","number");
+		
+		geo_icon = new TextField(model,"geo_icon");
+		geo_icon.setLabel(gt("Icon"));
+		geo_icon.propertie().add("type","text");
+		
+		geo_child = new TextField(model,"geo_child");
+		geo_child.setLabel(gt("Has child value(0/X)"));
+		geo_child.propertie().add("type","text");
+		
+		geo_active = new TextField(model,"geo_active");
+		geo_active.setLabel(gt("Is Active value(true/false)"));
+		geo_active.propertie().add("type","text");
 		
 
 
@@ -52,21 +69,26 @@ public class Pesquisa_geografiaView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
-		form_1.addField(pais);
-
-		table_1.addField(table_1_text_1);
+		geo.addField(geo_link);
+		geo.addField(geo_tmid);
+		geo.addField(geo_parent);
+		geo.addField(geo_icon);
+		geo.addField(geo_child);
+		geo.addField(geo_active);
 
 		this.addToPage(sectionheader_1);
-		this.addToPage(form_1);
-		this.addToPage(table_1);
+		this.addToPage(geo);
 	}
 		
 	@Override
 	public void setModel(Model model) {
 		
-		pais.setValue(model);
-		table_1_text_1.setValue(model);	
+		geo_link.setValue(model);
+		geo_tmid.setValue(model);
+		geo_parent.setValue(model);
+		geo_icon.setValue(model);
+		geo_child.setValue(model);
+		geo_active.setValue(model);	
 
-		table_1.loadModel(((Pesquisa_geografia) model).getTable_1());
 		}
 }
