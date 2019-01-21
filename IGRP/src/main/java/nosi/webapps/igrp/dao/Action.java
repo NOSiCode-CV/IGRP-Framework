@@ -253,7 +253,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 
 	public HashMap<Integer, String> getListActions(int app) {
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
-				.andWhere("status", "=", "1").all();
+				.andWhere("status", "=", 1).all();
 		List<Action> aux = new ArrayList<Action>();
 
 		if (shares == null)
@@ -267,7 +267,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		
 		HashMap<Integer, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", 1)
+		List<Action> actions = this.find().andWhere("application.id", "=",app).andWhere("status", "=", 1)
 				.andWhere("isComponent", "=", (short)0).all();
 
 		if (actions == null)
