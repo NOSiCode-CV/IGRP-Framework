@@ -459,12 +459,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	private T andWhereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
-		if(Core.isNotNull(value)) {
+//		if(Core.isNotNull(value)) {
 			paramName = recq.removeAlias(paramName);
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
 			this.addParamter(name,paramName,value,classType);
-		}
+//		}
 		return (T) this;
 	}
 	
@@ -719,7 +719,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public T one() {
 		this.limit = 1;
 		List<T> list = this.all();
-		return list!=null && !list.isEmpty()?list.get(0):(T)this;
+		return list!=null && !list.isEmpty()?list.get(0):null;
 	}
 
 	@Override
