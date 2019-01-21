@@ -56,6 +56,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	private List<Profile> profiles;
 
 	public Organization() {
+		super();
 	}
 
 	public Organization(String code, String name, int status, Application application, User user,

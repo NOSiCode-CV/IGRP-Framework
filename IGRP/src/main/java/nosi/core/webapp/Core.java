@@ -169,7 +169,7 @@ public final class Core { // Not inherit
 		String result = "";
 		Application app = new Application().find().andWhere("dad", "=", dad).one();
 		if(app != null) {
-			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", 1).andWhere("application", "=", app.getId()).one();
+			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", (short)1).andWhere("application", "=", app.getId()).one();
 			if(config_env != null)
 				result = config_env.getName();
 		}

@@ -32,7 +32,7 @@ public class LookupListPageController extends Controller {
 											   .andWhere("application", "=",Core.toInt(model.getEnv_fk()))
 											   .andWhere("page", "like", model.getPage())
 											   .andWhere("page_descr", "like",model.getPage_descr())
-											   .andWhere("isComponent", "=",0)
+											   .andWhere("isComponent", "=",(short)0)
 											   .all();
 		
 		for(Action ac : listActions){

@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -508,7 +506,7 @@ public class PageController extends Controller {
 		String json = "[";
 
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
-				.andWhere("status", "=", "1").all();
+				.andWhere("status", "=", 1).all();
 
 		List<Action> aux = new ArrayList<Action>();
 
@@ -521,7 +519,7 @@ public class PageController extends Controller {
 					aux.add(action);
 			}
 
-		List<Action> actions = new Action().find().andWhere("isComponent", "<>",2).andWhere("application.id", "=", app).andWhere("status", "=", "1")
+		List<Action> actions = new Action().find().andWhere("isComponent", "<>",(short)2).andWhere("application.id", "=", app).andWhere("status", "=", 1)
 				.all();
 
 		if (aux != null)

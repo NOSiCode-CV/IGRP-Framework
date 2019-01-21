@@ -211,8 +211,6 @@ public class ConfigDatabaseController extends Controller {
 		/*----#start-code(delete)----*/
 		Config_env obj = new Config_env().findOne(Core.getParamInt("p_id"));
 		
-		System.out.println(model.getAplicacao());
-		
 		if(obj != null && obj.getApplication() != null) {
 			if(obj.getIsDefault() == 1) {
 				java.util.List<Config_env> all = new Config_env().find().

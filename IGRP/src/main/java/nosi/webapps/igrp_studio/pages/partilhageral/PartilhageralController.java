@@ -69,7 +69,7 @@ public class PartilhageralController extends Controller {
 
 					List<Action> pages = new ArrayList<Action>();			
 					pages = new Action().find()
-								.andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("status", "=",1).andWhere("isComponent", "=", "0").all();				
+								.andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("status", "=",1).andWhere("isComponent", "=", (short)0).all();				
 
 					List<Share> shares = new ArrayList<Share>();				
 					shares = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),

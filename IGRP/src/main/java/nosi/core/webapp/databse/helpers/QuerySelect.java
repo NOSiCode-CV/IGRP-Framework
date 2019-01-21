@@ -85,7 +85,7 @@ public class QuerySelect extends CommonFIlter{
 				Query query = em.createNativeQuery(this.getSql(),Tuple.class);	
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.setParameter(query,col.getDefaultValue(),col);					
+						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
@@ -121,7 +121,7 @@ public class QuerySelect extends CommonFIlter{
 				Query query = em.createNativeQuery(this.getSql(),entity);	
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.setParameter(query,col.getDefaultValue(),col);					
+						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
@@ -201,7 +201,7 @@ public class QuerySelect extends CommonFIlter{
 				query = em.createQuery(this.getSql(), this.className);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.setParameter(query,col.getDefaultValue(),col);					
+						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
