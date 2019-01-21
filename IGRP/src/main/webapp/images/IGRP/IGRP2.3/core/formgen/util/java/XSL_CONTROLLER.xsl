@@ -527,17 +527,28 @@
 
 	<!-- add action edit calendar -->
 	<xsl:template name="actionEditCalendar">
-		<xsl:for-each select="/rows/content/*[@type ='calendar']">
-		<xsl:variable name="actionName">
-			<xsl:call-template name="CamelCaseWord">
-				<xsl:with-param name="text"><xsl:value-of select="name()"/></xsl:with-param>
-			</xsl:call-template>
-		</xsl:variable>
-		<xsl:call-template name="gen-action">
-			<xsl:with-param name="action_name_"><xsl:value-of select="concat('EditEvents',$actionName)"/></xsl:with-param>
-			<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
-			<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
-		</xsl:call-template>
+		<xsl:for-each select="/rows/content/*[@gen-remote='true']">			
+			<xsl:variable name="actionName">
+				<xsl:call-template name="CamelCaseWord">
+					<xsl:with-param name="text"><xsl:value-of select="name()"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:variable>
+			<xsl:choose>
+                <xsl:when test="@type='calendar'">
+					<xsl:call-template name="gen-action">
+						<xsl:with-param name="action_name_"><xsl:value-of select="concat('EditEvents',$actionName)"/></xsl:with-param>
+						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
+						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+                   	<xsl:call-template name="gen-action">
+						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Remote',$actionName)"/></xsl:with-param>
+						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
+						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
+					</xsl:call-template>
+                </xsl:otherwise>
+			</xsl:choose>
 		</xsl:for-each>
  	</xsl:template>
  	
