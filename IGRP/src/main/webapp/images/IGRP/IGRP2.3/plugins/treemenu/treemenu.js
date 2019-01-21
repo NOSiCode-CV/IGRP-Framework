@@ -134,13 +134,14 @@
 			com.toolTip();
 			com.onLoad();
 
-			$('body').on('click','.tree-toggler',function(){
+			$('body').on('click','.tree-toggler .icon',function(){
 				var toggle 	= $(this).parents('.box-tm:first').attr('data-toggle');
-				com.toggle[toggle]($(this));
+				com.toggle[toggle]($(this).parents('.tree-toggler:first'));
 			});
 
 			$('.box-tm').on('click','a[tree-target]',function(e){
 				e.preventDefault();
+				
 				var target 		= $(this).attr('tree-target'),
 					id 			= $(this).parents('li:first').attr('id'),
 					holderName 	= $(this).parents('.box-tm:first').attr('name'),

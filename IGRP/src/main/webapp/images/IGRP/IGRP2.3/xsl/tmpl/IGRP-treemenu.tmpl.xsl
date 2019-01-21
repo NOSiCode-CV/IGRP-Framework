@@ -4,6 +4,7 @@
     <xsl:param name="name"/>
     <xsl:param name="class" select="'tree'"/>
     <xsl:param name="tooltip" select="'false'"/>
+    <xsl:param name="parser" select="'false'"/>
 
     <xsl:template match="/" priority="0">
         <ul class="nav nav-list {$class}">
@@ -16,6 +17,7 @@
                 <xsl:with-param name="name" select="$name"/>
                 <xsl:with-param name="target" select="$target"/>
                 <xsl:with-param name="tooltip" select="$tooltip"/>
+                <xsl:with-param name="parser" select="$parser"/>
             </xsl:call-template>
         </ul>
     </xsl:template>
@@ -26,6 +28,7 @@
         <xsl:param name="toggle" select="'live'"/>
         <xsl:param name="onload" select="'false'"/>
         <xsl:param name="tooltip" select="'false'"/>
+        <xsl:param name="parser" select="'false'"/>
         <xsl:param name="package"/>
         <xsl:param name="app"/>
         <xsl:variable name="name" select="local-name(.)"/>
@@ -66,7 +69,14 @@
                                         </span>
                                         <xsl:choose>
                                             <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                <a>
+                                                    
+                                                    <xsl:call-template name="setTarget">
+                                                        <xsl:with-param name="parser" select="$parser"/>
+                                                        <xsl:with-param name="target" select="$target"/>
+                                                        <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                                    </xsl:call-template>
+                                                    
                                                     <xsl:call-template name="setTooltip">
                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -76,6 +86,10 @@
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <span class="form-link">
+                                                    <xsl:call-template name="setTarget">
+                                                        <xsl:with-param name="parser" select="$parser"/>
+                                                    </xsl:call-template>
+
                                                     <xsl:call-template name="setTooltip">
                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -108,7 +122,14 @@
                                                                     </span>
                                                                     <xsl:choose>
                                                                         <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                                            <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                                            <a>
+                                                                                
+                                                                                <xsl:call-template name="setTarget">
+                                                                                    <xsl:with-param name="parser" select="$parser"/>
+                                                                                    <xsl:with-param name="target" select="$target"/>
+                                                                                    <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                                                                </xsl:call-template>
+                                                                                
                                                                                 <xsl:call-template name="setTooltip">
                                                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -118,6 +139,11 @@
                                                                         </xsl:when>
                                                                         <xsl:otherwise>
                                                                             <span class="form-link">
+                                                                                
+                                                                                <xsl:call-template name="setTarget">
+                                                                                    <xsl:with-param name="parser" select="$parser"/>
+                                                                                </xsl:call-template>
+
                                                                                 <xsl:call-template name="setTooltip">
                                                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -138,12 +164,20 @@
                                                                             <xsl:with-param name="name" select="$name"/>
                                                                             <xsl:with-param name="target" select="$target"/>
                                                                             <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                                            <xsl:with-param name="parser" select="$parser"/>
                                                                         </xsl:call-template>
                                                                     </ul>
                                                                 </div>
                                                             </xsl:when>
                                                             <xsl:otherwise>
-                                                               <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                               <a>
+                                                                    <xsl:call-template name="setTarget">
+                                                                        <xsl:with-param name="parser" select="$parser"/>
+                                                                        <xsl:with-param name="target" select="$target"/>
+                                                                        <xsl:with-param name="class" select="'form-link holder'"/>
+                                                                        <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                                                    </xsl:call-template>
+                                                                    
                                                                     <xsl:call-template name="setTooltip">
                                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -174,7 +208,14 @@
                                                 </span>
                                                 <xsl:choose>
                                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                        <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                        <a>
+
+                                                            <xsl:call-template name="setTarget">
+                                                                <xsl:with-param name="parser" select="$parser"/>
+                                                                <xsl:with-param name="target" select="$target"/>
+                                                                <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                                            </xsl:call-template>
+
                                                             <xsl:call-template name="setTooltip">
                                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -196,7 +237,15 @@
                                             <div class="list-holder" id="list-{$id}"></div>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                            <a>
+                                               
+                                                <xsl:call-template name="setTarget">
+                                                    <xsl:with-param name="parser" select="$parser"/>
+                                                    <xsl:with-param name="target" select="$target"/>
+                                                    <xsl:with-param name="class" select="'form-link holder'"/>
+                                                    <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                                </xsl:call-template>
+
                                                 <xsl:call-template name="setTooltip">
                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -247,13 +296,55 @@
             </xsl:if>
         </xsl:if>
     </xsl:template>
+    
+    <xsl:template name="setTarget">
+        <xsl:param name="parser"  select="'false'"/>
+        <xsl:param name="target"  select="'_self'"/>
+        <xsl:param name="href"/>
+        <xsl:param name="class" select="'form-link'"/>
+        <xsl:choose>
+            <xsl:when test="$parser = 'true'">
+                <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
+                <xsl:apply-templates mode="contextparam" select="../context-menu"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute>
+                <xsl:attribute name="tree-target"><xsl:value-of select="$target"/></xsl:attribute>
+                <xsl:if test="$href != ''">
+                    <xsl:attribute name="href"><xsl:value-of select="$href"/></xsl:attribute>
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 
-   <xsl:template name="recorTreeMenu">
+    <xsl:template name="contextparam" mode="contextparam" match="context-menu">
+        <xsl:attribute name="CTX_PARAM_COUNT">
+            <xsl:value-of select="count(param)" />
+        </xsl:attribute>
+
+        <xsl:attribute name="CTX_FORM">
+            <xsl:value-of select="ctx_form" />
+        </xsl:attribute>
+
+        <xsl:attribute name="CTX_FORM_IDX">
+            <xsl:value-of select="ctx_form_idx" />
+        </xsl:attribute>
+
+        <xsl:for-each select="param">
+            <xsl:attribute name="CTX_P{position()}">
+                <xsl:value-of select="." />
+            </xsl:attribute>
+        </xsl:for-each>
+    </xsl:template>
+
+
+    <xsl:template name="recorTreeMenu">
         <xsl:param name="treeMenu"/>
         <xsl:param name="id"/>
         <xsl:param name="name"/>
         <xsl:param name="target" select="'_self'"/>
         <xsl:param name="tooltip" select="'false'"/>
+        <xsl:param name="parser" select="'false'"/>
         <xsl:variable name="parent" select="concat($name,'_parent')"/>
         <xsl:for-each select="$treeMenu/*[$parent = name()]">
        
@@ -275,7 +366,14 @@
                                 </span>
                                 <xsl:choose>
                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                        <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                        <a>
+                                            
+                                            <xsl:call-template name="setTarget">
+                                                <xsl:with-param name="parser" select="$parser"/>
+                                                <xsl:with-param name="target" select="$target"/>
+                                                <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                            </xsl:call-template>
+
                                             <xsl:call-template name="setTooltip">
                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -285,6 +383,10 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <span class="form-link">
+                                            <xsl:call-template name="setTarget">
+                                                <xsl:with-param name="parser" select="$parser"/>
+                                            </xsl:call-template>
+
                                             <xsl:call-template name="setTooltip">
                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -305,12 +407,21 @@
                                         <xsl:with-param name="name" select="$name"/>
                                         <xsl:with-param name="target" select="$target"/>
                                         <xsl:with-param name="tooltip" select="$tooltip"/>
+                                        <xsl:with-param name="parser" select="$parser"/>
                                     </xsl:call-template>
                                 </ul>
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                            <a>
+                                
+                                <xsl:call-template name="setTarget">
+                                    <xsl:with-param name="parser" select="$parser"/>
+                                    <xsl:with-param name="target" select="$target"/>
+                                    <xsl:with-param name="class" select="'form-link holder'"/>
+                                    <xsl:with-param name="href" select="../*[name() = concat($name,'_link')]"/>
+                                </xsl:call-template>
+
                                 <xsl:call-template name="setTooltip">
                                     <xsl:with-param name="tooltip" select="$tooltip"/>
                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
@@ -323,5 +434,5 @@
                 </li>
             </xsl:if>
         </xsl:for-each>
-   </xsl:template>
+    </xsl:template>
 </xsl:stylesheet>

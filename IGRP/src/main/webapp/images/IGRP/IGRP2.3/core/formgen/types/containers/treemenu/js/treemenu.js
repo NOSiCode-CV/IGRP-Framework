@@ -23,10 +23,28 @@ var TREEMENU = function(name,params){
 		js  : [ { path : '/plugins/treemenu/treemenu.js' }]
 	}
 
-	var showPackageName = function(v){
+	var arrJsIncludes = [{path : '/core/igrp/form/igrp.forms.js'}],
+
+	jsIncludes = false,
+
+	includesJs = function(arr){
+		arr.forEach(function(e){
+			for( var i = 0; i < container.includes.js.length; i++){
+				var inc = container.includes.js[i];
+				if(inc.path == e.path){
+					var index = container.includes.js.indexOf(inc);
+					if (index > -1) 
+					    container.includes.js.splice(index, 1);
+					break;
+				}
+			}
+		});
+	},
+
+	showPackageName = function(v){
 		var action  = v ? 'show' : 'hide'; 
 		$('.gen-propreties-checkers-holder div[rel="onLoad"]')[action]();
-	}
+	};
 
 	container.ready = function(){
 
@@ -101,6 +119,27 @@ var TREEMENU = function(name,params){
 					o.input.show();
 				else
 					o.input.hide();
+			}
+		});
+
+		container.setPropriety({
+			name 	: 'parser',
+			label	: 'Value Parser',
+			value 	: false,
+			xslValue: '<xsl:with-param name="parser" select="\'true\'"/>',
+			onChange:function(v){
+				if(v){
+
+					if(!jsIncludes){
+						arrJsIncludes.forEach(function(e){
+							container.includes.js.unshift(e);
+						});
+						jsIncludes = true;
+					}					
+				}else{
+					includesJs(arrJsIncludes);
+					jsIncludes = false;
+				}
 			}
 		});
 	}
