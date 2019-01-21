@@ -49,7 +49,7 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	private String taskId;
 	
 	public TaskAccess() {
-		
+		super();
 	}
 	
 	

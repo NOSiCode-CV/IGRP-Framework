@@ -267,8 +267,8 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		
 		HashMap<Integer, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", "1")
-				.andWhere("isComponent", "=", "0").all();
+		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).andWhere("status", "=", 1)
+				.andWhere("isComponent", "=", (short)0).all();
 
 		if (actions == null)
 			actions = new ArrayList<Action>();

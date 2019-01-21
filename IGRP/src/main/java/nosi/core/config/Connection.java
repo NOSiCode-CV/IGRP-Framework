@@ -15,10 +15,8 @@ import nosi.webapps.igrp.dao.Config_env;
 public class Connection {
 
 	private ConfigApp configApp;
-	private EncrypDecrypt ed;
 	public Connection() {
 		this.configApp = new ConfigApp();
-		this.ed = new EncrypDecrypt();
 	}
 	
 	
@@ -58,14 +56,14 @@ public class Connection {
 		String password = "";
 		String user = "";
 		if (config != null) {
-			url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),this.ed.SECRET_KEY_ENCRYPT_DB):
-				DatabaseConfigHelper.getUrl(Core.decrypt(config.getType_db(), this.ed.SECRET_KEY_ENCRYPT_DB),
-											Core.decrypt(config.getHost(), this.ed.SECRET_KEY_ENCRYPT_DB),
-											Core.decrypt(config.getPort(), this.ed.SECRET_KEY_ENCRYPT_DB),
-											Core.decrypt(config.getName_db(), this.ed.SECRET_KEY_ENCRYPT_DB));
+			url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB):
+				DatabaseConfigHelper.getUrl(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
+											Core.decrypt(config.getHost(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
+											Core.decrypt(config.getPort(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
+											Core.decrypt(config.getName_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			
-			password = Core.decrypt(config.getPassword(), this.ed.SECRET_KEY_ENCRYPT_DB);
-			user = Core.decrypt(config.getUsername(), this.ed.SECRET_KEY_ENCRYPT_DB);				
+			password = Core.decrypt(config.getPassword(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
+			user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);				
 		}
 		return this.getConnection(url,user,password);
 	}

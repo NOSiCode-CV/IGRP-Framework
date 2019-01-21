@@ -81,13 +81,13 @@ public class ListaPageController extends Controller {
 			for (String m : Core.getParamArray("p_modulo")) {
 				List<Action> actions_ = new Action().find().andWhere("nomeModulo", "=", m) 
 						.andWhere("application", "=", Core.toInt(model.getApplication()))
-						.andWhere("isComponent", "<>", 2).all();
+						.andWhere("isComponent", "<>",(short) 2).all();
 				if (actions_ != null)
 					actions.addAll(actions_);
 			}
 		} else {
 			actions = new Action().find().andWhere("application", "=", Core.toInt(model.getApplication()))
-					.andWhere("isComponent", "<>", 2).all();
+					.andWhere("isComponent", "<>", (short)2).all();
 		}   
 		Collections.sort(actions, new SortbyStatus());
       

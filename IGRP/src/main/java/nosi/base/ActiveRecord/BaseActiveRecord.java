@@ -1,99 +1,692 @@
 package nosi.base.ActiveRecord;
 
-/**
- * @author: Emanuel Pereira
- * 29 Jun 2017
- */
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Id;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.hibernate.AnnotationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
+import nosi.core.webapp.databse.helpers.ParametersHelper;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
 
+@SuppressWarnings("unchecked")
 public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
-	private SessionFactory sessionFactory;
+
+	protected String sql="";
+	protected String alias;
+	protected String connectionName;
+	private boolean whereIsCall = false;
+	private ResolveColumnNameQuery recq;
+	private int limit = -1;
+	private int offset = -1;	
+	private List<DatabaseMetadaHelper.Column> parametersMap;
+	private String schema = null;
+	private List<String> error;
+	private boolean isReadOnly = false;
 	private CriteriaBuilder builder = null;
 	private CriteriaQuery<T> criteria = null;
 	private Root<T> root = null;
-	private List<Predicate> predicates = null;
-	private List<Order> listOrder = null;
-	private String connectionName;
-	private T className;
-	private List<String> error;
-	private boolean isReadOnly = false;
-	private String schema;
+	private ParametersHelper paramHelper;
+	private String tableName;
+	private Class<T> className;
 	
-	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
-		this.className = (T) this;
-		this.error = new ArrayList<>();
-	}	
-	
-	private SessionFactory getSessionFactory() {
-		if(this.sessionFactory!=null && this.sessionFactory.isOpen()) {
-			return sessionFactory;
-		}
-		this.sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
-		return sessionFactory;
+		this.className = this.getClassType();
+		this.setTableName(className.getSimpleName());
+		this.setAlias(className.getSimpleName().toLowerCase());
+		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	@Override
+	public T where(String condition) {
+		if(!this.whereIsCall) {
+			this.sql += " WHERE "+condition;
+			this.whereIsCall = true;
+		}
+		return (T) this;
+	}
+	
+	protected T filterWhere(String condition) {
+		this.sql += condition;
+		return (T) this;
 	}
 	
 	@Override
-	public void setSchema(String schema) {
-		this.schema = schema;
+	public T where() {
+		return this.where("1=1");
 	}
 	
 	@Override
-	public T insert() {
-		if(this.isReadOnly())
-			return this.className;
-		Session session = null;
-		Transaction transaction = null;
-		try {			
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			session.persist(this.className);
-			transaction.commit();
-		}catch (Exception e) {
-			this.setError(e);
-		} finally {
-			if (session != null) {
-				session.close();
+	public T and() {
+		if(!this.whereIsCall)
+			this.where();
+		this.sql += " AND ";
+		return (T) this;
+	}
+	
+	@Override
+	public T or() {
+		if(!this.whereIsCall)
+			this.where();
+		this.sql += " OR ";
+		return (T) this;
+	}
+	
+	@Override
+	public T where(String name, String operator, String value) {
+		return this.whereObject(name,name, operator, value,String.class);
+	}
+
+	@Override
+	public T where(String name, String operator, String[] values) {
+		return this.whereObject(name, operator, values);
+	}
+
+	@Override
+	public T where(String name, String operator, Integer[] values) {
+		return this.whereObject(name, operator, values);
+	}
+
+	@Override
+	public T where(String name, String operator, Double[] values) {
+		return this.whereObject(name, operator, values);
+	}
+
+	@Override
+	public T where(String name, String operator, Float[] values) {
+		return this.whereObject(name, operator, values);
+	}
+
+	@Override
+	public T where(String name, String operator, Short[] values) {
+		return this.whereObject(name, operator, values);
+	}
+	
+	@Override
+	public T where(String name, String operator, Short value) {
+		return this.whereObject(name,name, operator, value,Short.class);
+	}
+	
+	@Override
+	public T where(String name, String operator, Integer value) {
+		return this.whereObject(name,name, operator, value,Integer.class);
+	}
+
+	@Override
+	public T where(String name, String operator, Float value) {
+		return this.whereObject(name,name, operator, value,Float.class);
+	}
+
+	@Override
+	public T where(String name, String operator, Double value) {
+		return this.whereObject(name,name, operator, value,Double.class);
+	}
+	
+	@Override
+	public T where(String name, String paramName, String operator, Short value) {
+		return this.whereObject(name,paramName, operator, value,Short.class);
+	}
+	
+	@Override
+	public T where(String name, String operator, Date value) {
+		return this.whereObject(name,name, operator, value,Date.class);
+	}
+
+	@Override
+	public T andWhereNotNull(String name) {
+		if(Core.isNotNull(name)) {
+			this.and();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" IS NOT NULL ");
+		}
+		return (T) this;
+	}
+	public T andWhere(String name, String operator) {
+		if(operator.toString().equalsIgnoreCase("isnull")){
+			return this.andWhereIsNull(name);
+		}else if( operator.toString().equalsIgnoreCase("notnull")) {
+			return this.andWhereNotNull(name);
+		}
+		return (T) this;
+	}
+	
+	@Override
+	public T andWhereIsNull(String name) {
+		if(Core.isNotNull(name)) {
+			this.and();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" IS NULL ");
+		}
+		return (T) this;
+	}
+
+	@Override
+	public T andWhere(String name, String operator, String value) {
+		return this.andWhereObject(name,name, operator, value, String.class);
+	}
+
+
+	@Override
+	public T andWhere(String name, String operator, Number value) {
+		return this.andWhereObject(name,name, operator, value, Number.class);
+	}
+	
+	@Override
+	public T andWhere(String name, String operator, String[] values) {
+		if(values!=null) {
+			values = this.normalizeStringVlaues(values);
+			String value = this.applyToInCondition(operator, values);
+			this.and();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+		}
+		return (T) this;
+	}
+	
+	@Override
+	public T orWhereNotNull(String name) {
+		if(Core.isNotNull(name)) {
+			this.or();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" IS NOT NULL ");
+		}
+		return (T) this;
+	}
+
+	@Override
+	public T orWhereIsNull(String name) {
+		if(Core.isNotNull(name)) {
+			this.or();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" IS NULL ");
+		}
+		return (T) this;
+	}
+	
+	@Override
+	public T andWhere(String name, String operator, Integer[] values) {
+		return this.andWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T andWhere(String name, String operator, Double[] values) {
+		return this.andWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T andWhere(String name, String operator, Float[] values) {
+		return this.andWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T andWhere(String name, String operator, Short[] values) {
+		return this.andWhereObject(name, operator, values);
+	}
+	
+	@Override
+	public T andWhere(String name, String operator, Short value) {
+		return this.andWhereObject(name,name, operator, value, Short.class);
+	}
+	
+	@Override
+	public T andWhere(String name, String paramName, String operator, Short value) {
+		return this.andWhereObject(name,paramName, operator, value, Short.class);
+	}
+	
+	@Override
+	public T andWhere(String name, String operator, Integer value) {
+		return this.andWhereObject(name,name, operator, value, Integer.class);
+	}
+
+	@Override
+	public T andWhere(String name, String operator, Float value) {
+		return this.andWhereObject(name,name, operator, value, Float.class);
+	}
+
+	@Override
+	public T andWhere(String name, String operator, Double value) {
+		return this.andWhereObject(name,name, operator, value, Double.class);
+	}
+
+	@Override
+	public T andWhere(String name, String operator, Date value) {
+		return this.andWhereObject(name,name, operator, value, Date.class);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, String value) {
+		return this.orWhereObject(name,name, operator, value, String.class);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Short value) {
+		return this.orWhereObject(name,name, operator, value, Short.class);
+	}
+
+	@Override
+	public T orWhere(String name, String paramName, String operator, Short value) {
+		return this.orWhereObject(name,paramName, operator, value, Short.class);
+	}
+	
+	@Override
+	public T orWhere(String name, String operator, String[] values) {
+		return this.orWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Integer[] values) {
+		return this.orWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Double[] values) {
+		return this.orWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Float[] values) {
+		return this.orWhereObject(name, operator, values);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Short[] values) {
+		return this.orWhereObject(name, operator, values);
+	}
+	
+	@Override
+	public T orWhere(String name, String paramName,String operator, Integer value) {
+		return this.orWhereObject(name,paramName, operator, value, Integer.class);
+	}
+	
+	@Override
+	public T orWhere(String name, String operator, Integer value) {
+		return this.orWhereObject(name,name, operator, value, Integer.class);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Float value) {
+		return this.orWhereObject(name,name, operator, value, Float.class);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Double value) {
+		return this.orWhereObject(name,name, operator, value, Double.class);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Date value) {
+		return this.orWhereObject(name,name, operator, value, Date.class);
+	}
+
+	@Override
+	public T having(String name, String operator, String value) {
+		return this.havingObject(name, operator, value, String.class);
+	}
+
+	@Override
+	public T having(String name, String operator, Integer value) {
+		return this.havingObject(name, operator, value, Integer.class);
+	}
+
+	@Override
+	public T having(String name, String operator, Double value) {
+		return this.havingObject(name, operator, value, Double.class);
+	}
+
+	@Override
+	public T having(String name, String operator, Float value) {
+		return this.havingObject(name, operator, value, Float.class);
+	}
+
+	@Override
+	public T having(String name, String operator, Short value) {
+		return this.havingObject(name, operator, value, Short.class);
+	}
+	
+	@Override
+	public T having(String name, String operator, Date value) {
+		return this.havingObject(name, operator, value, Date.class);
+	}
+	
+	public T where(RestrictionImpl restriction) {
+		this.parametersMap.addAll(restriction.getParametersMap());
+		this.sql+=" WHERE ("+restriction.getRestriction()+")";
+		return (T) this;
+	}
+	
+	public T andWhere(RestrictionImpl restriction) {
+		this.parametersMap.addAll(restriction.getParametersMap());
+		this.sql+=" AND ("+restriction.getRestriction()+")";
+		return (T) this;
+	}
+	
+	public T orWhere(RestrictionImpl restriction) {
+		this.parametersMap.addAll(restriction.getParametersMap());
+		this.sql+=" OR ("+restriction.getRestriction()+")";
+		return (T) this;
+	}
+	
+	public String getSql() {
+		return sql;
+	}
+
+	public void setSql(String sql) {
+		this.sql = sql;
+	}
+
+	protected String getAlias() {
+		return alias;
+	}
+
+	protected void setAlias(String alias) {
+		this.alias = alias;
+	}
+	
+	private void generateSql() {
+		this.sql +=" SELECT "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
+	}
+	
+	protected Class<T> getClassType(){
+		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
+		return (Class<T>) genericType.getActualTypeArguments()[0];
+	}
+	
+	protected String getTableName() {
+		return this.tableName;
+	}
+	
+	protected void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+	private void addParamter(String name,String paramName, Object value,Class<?> classType) {
+		Column c = new Column();
+		c.setColumnMap(paramName);
+		c.setName(name);
+		c.setDefaultValue(value);
+		c.setType(classType);
+		this.parametersMap.add(c);
+	}
+	
+	private String[] normalizeStringVlaues(String[] values) {
+		for(int i=0;i<values.length;i++) {
+        	values[i] = "\'"+values[i]+"\'";
+        }
+		return values;
+	}
+	
+	private String applyToInCondition(String operator,Object[] values) {
+		return String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
+	}
+
+	private T whereObject(String name, String operator, Object[] values) {
+		if(values!=null) {
+			String value = this.applyToInCondition(operator, values);
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+		}
+		return (T) this;
+	}
+	
+
+	private T whereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
+		if(Core.isNotNull(value)) {
+			this.where("");
+			paramName = recq.removeAlias(paramName);
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
+			this.addParamter(name,paramName,value,classType);
+		}
+		return (T) this;
+	}
+	
+	private T andWhereObject(String name, String operator, Object[] values) {
+		if(values!=null) {
+			String value = this.applyToInCondition(operator, values);
+			this.and();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+		}
+		return (T) this;
+	}
+	
+	private T andWhereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
+		if(Core.isNotNull(value)) {
+			paramName = recq.removeAlias(paramName);
+			this.and();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
+			this.addParamter(name,paramName,value,classType);
+		}
+		return (T) this;
+	}
+	
+	private T orWhereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
+		if(Core.isNotNull(value)) {
+			paramName = recq.removeAlias(paramName);
+			this.or();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
+			this.addParamter(name,paramName,value,classType);
+		}
+		return (T) this;
+	}
+	
+	private T orWhereObject(String name, String operator, Object[] values) {
+		if(values!=null) {
+			String value = this.applyToInCondition(operator, values);
+			this.or();
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
+		}
+		return (T) this;
+	}
+	
+	private T havingObject(String name,String operator,Object value,Class<?> classType) {
+		if(Core.isNotNull(value)) {
+			this.filterWhere(" HAVING "+recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+recq.removeAlias(name)+" ");
+			this.addParamter(name,recq.removeAlias(name), value,classType);
+		}
+		return (T) this;
+	}
+	
+	public void setConnectionName(String connectionName) {
+		this.connectionName = connectionName;
+	}
+
+	public String getConnectionName() {		
+		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
+	}
+
+	private void setParameters(TypedQuery<T> query) {
+		if(this.parametersMap!=null && !this.parametersMap.isEmpty()) {
+			this.parametersMap.stream().forEach(col->{
+				this.paramHelper.setParameter(query, col.getDefaultValue(), col);
+			});
+		}
+	}
+	
+	public T find() {
+		this.whereIsCall = false;
+		this.sql = "";
+		this.parametersMap = new ArrayList<>();
+		this.error = new ArrayList<>();
+		this.paramHelper = new ParametersHelper();
+		this.generateSql();
+		return (T) this;
+	}
+	
+	protected String getPrimaryKey() {
+		Field[] fields = this.className.getDeclaredFields();
+		for(Field field:fields) {
+			if(field.isAnnotationPresent(Id.class)) {
+				return field.getName();
 			}
 		}
-		this.closeFactory();
-		return this.className;
+		return null;
 	}
 
 	@Override
-	public T update() {
-		if(this.isReadOnly())
-			return this.className;
-		Session session = null;
+	public T where(String name, String paramName, String operator, String value) {
+		return this.whereObject(name, paramName, operator, value,String.class);
+	}
+
+	@Override
+	public T where(String name, String paramName, String operator, Integer value) {
+		return this.whereObject(name, paramName, operator, value,Integer.class);
+	}
+
+	@Override
+	public T where(String name, String paramName, String operator, Float value) {
+		return this.whereObject(name, paramName, operator, value,Float.class);
+	}
+
+	@Override
+	public T where(String name, String paramName, String operator, Double value) {
+		return this.whereObject(name, paramName, operator, value,Double.class);
+	}
+
+	@Override
+	public T where(String name, String paramName, String operator, Date value) {
+		return this.whereObject(name, paramName, operator, value,Date.class);
+	}
+
+	@Override
+	public T andWhere(String name, String paramName, String operator, String value) {
+		return this.andWhereObject(name, paramName, operator, value,String.class);
+	}
+
+	@Override
+	public T andWhere(String name, String paramName, String operator, Integer value) {
+		return this.andWhereObject(name, paramName, operator, value,Integer.class);
+	}
+
+	@Override
+	public T andWhere(String name, String paramName, String operator, Float value) {
+		return this.andWhereObject(name, paramName, operator, value,Float.class);
+	}
+
+	@Override
+	public T andWhere(String name, String paramName, String operator, Double value) {
+		return this.andWhereObject(name, paramName, operator, value,Double.class);
+	}
+
+	@Override
+	public T andWhere(String name, String paramName, String operator, Date value) {
+		return this.andWhereObject(name, paramName, operator, value,Date.class);
+	}
+
+	@Override
+	public T orWhere(String name, String paramName, String operator, String value) {
+		return this.orWhereObject(name, paramName, operator, value,String.class);
+	}
+
+	@Override
+	public T orWhere(String name, String paramName, String operator, Float value) {
+		return this.orWhereObject(name, paramName, operator, value,Float.class);
+	}
+
+	@Override
+	public T orWhere(String name, String paramName, String operator, Double value) {
+		return this.orWhereObject(name, paramName, operator, value,Double.class);
+	}
+
+	@Override
+	public T orWhere(String name, String paramName, String operator, Date value) {
+		return this.orWhereObject(name, paramName, operator, value,Date.class);
+	}
+
+	public RestrictionImpl restriction() {
+		return new RestrictionImpl(this.getClass(),this.getAlias());
+	}
+
+	@Override
+	public T orderBy(String... orderByNames) {
+		return this.orderBy(new String[][] {orderByNames});
+	}
+	
+	@Override
+	public T orderBy(String[]... orderByNames) {
+		if(orderByNames!=null) {
+			String c = " ORDER BY ";
+    		int i=1;
+    		for(String[] names:orderByNames) {
+    			String order = names[names.length-1];
+    			String[] newNames = null;
+    			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
+    				order = ORDERBY.ASC;
+    				newNames = Arrays.copyOf(names, names.length);
+    			}else{
+    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
+    			}
+    			for(int j=0;j<newNames.length;j++)
+    				newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
+    			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
+    			i++;
+    		}
+    		this.filterWhere(c);
+    	}
+		return (T) this;
+	}
+
+	@Override
+	public T groupBy(String... groupByNames) {
+		if(groupByNames!=null) {
+			this.sql+=" GROUP BY "+String.join(",", groupByNames);
+		}
+		return (T) this;
+	}
+
+	@Override
+	public T exists(String subQuery) {
+		if(Core.isNotNull(subQuery))
+			this.sql+=" EXISTS ("+subQuery+")";
+		return (T) this;
+	}
+	
+	@Override
+	public T limit(int limit) {
+		this.limit = limit;
+		return (T) this;
+	}
+
+	@Override
+	public T offset(int offset) {
+		this.offset = offset;
+		return (T) this;
+	}
+
+	@Override
+	public T any(String subQuery) {
+		if(Core.isNotNull(subQuery))
+			this.sql+=" ANY ("+subQuery+")";
+		return (T) this;
+	}
+
+	@Override
+	public T all(String subQuery) {
+		if(Core.isNotNull(subQuery))
+			this.sql+=" ALL ("+subQuery+")";
+		return (T) this;
+	}
+
+	@Override
+	public List<T> findAll(CriteriaQuery<T> criteria) {
+		EntityManager em = null;
 		Transaction transaction = null;
+		List<T> list = null;
 		try {
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			session.merge(this.className);
+			em = this.getSessionFactory().createEntityManager();
+			transaction = (Transaction) em.getTransaction();
+			transaction.begin();
+			TypedQuery<T> query = em.createQuery(criteria);
+			this.setParameters(query);
+			list = query.getResultList();
 			transaction.commit();
 		}catch (Exception e) {
 			if (transaction != null) {
@@ -101,27 +694,129 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-			if (session != null) {
-				session.close();
+			if (em != null) {
+				em.close();
 			}
 		}
-		this.closeFactory();
-		return this.className;
+		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public boolean delete(Object id) {
-		if(this.isReadOnly())
-			return false;
-		boolean deleted = false;
-		Session session = null;
+	public T findOne(CriteriaQuery<T> criteria) {
+		List<T> list = this.findAll(criteria);
+		return list!=null && !list.isEmpty()?list.get(0):(T)this;
+	}
+
+	@Override
+	public T findOne(Object value) {
+		this.find();
+		this.whereObject(this.getPrimaryKey(),this.getPrimaryKey(), "=",value,Object.class);
+		return this.one();
+	}
+	
+	@Override
+	public T one() {
+		this.limit = 1;
+		List<T> list = this.all();
+		return list!=null && !list.isEmpty()?list.get(0):(T)this;
+	}
+
+	@Override
+	public List<T> findAll() {
+		this.find();
+		return this.all();
+	}
+	
+	@Override
+	public List<T> all() {
+		EntityManager em = null;
+		Transaction transaction = null;
+		List<T> list = null;
+		try {
+			em = this.getSessionFactory().createEntityManager();
+			transaction = (Transaction) em.getTransaction();
+			transaction.begin();
+			TypedQuery<T> query = em.createQuery(this.getSql(), this.className);
+			if(this.offset > -1)
+				query.setFirstResult(offset);
+			if(this.limit > -1)
+				query.setMaxResults(limit);
+			this.setParameters(query);
+			list = query.getResultList();
+			transaction.commit();
+		}catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e);
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+		return list;
+	}
+		
+	@Override
+	public T insert() {
+		EntityManager em = null;
 		Transaction transaction = null;
 		try {
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			this.className = (T) session.find(this.className.getClass(), id);
-			session.remove(this.className);
+			em = this.getSessionFactory().createEntityManager();
+			transaction = (Transaction) em.getTransaction();
+			transaction.begin();
+			em.persist(this);
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e);
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+		return (T) this;
+	}
+
+	@Override
+	public T update() {
+		EntityManager em = null;
+		Transaction transaction = null;
+		try {
+			em = this.getSessionFactory().createEntityManager();
+			transaction = (Transaction) em.getTransaction();
+			transaction.begin();
+			em.merge(this);
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e);
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+		return (T) this;
+	}
+
+	@Override
+	public boolean delete(Object id) {
+		boolean deleted = false;
+		if(this.isReadOnly())
+			return false;
+		EntityManager em = null;
+		Transaction transaction = null;
+		try {
+			em = this.getSessionFactory().createEntityManager();
+			transaction = (Transaction) em.getTransaction();
+			transaction.begin();
+			em.remove(em.find(this.className, id));
 			transaction.commit();
 			deleted=true;
 		}catch (Exception e) {
@@ -130,456 +825,32 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-			if (session != null) {
-				session.close();
+			if (em != null) {
+				em.close();
 			}
 		}
-		this.closeFactory();
 		return deleted;
 	}
-	
 
 	@Override
 	public boolean delete() {
 		Object id =this.getValuePrimaryKey();
 		return this.delete(id);
 	}
-	
+
 	@Override
-	public T findOne(Object id) {
- 		this.startCriteria();
-		this.builder.equal(this.root.get(this.getNamePrimaryKey()),id);
-		this.criteria.where(this.builder.equal(this.root.get(this.getNamePrimaryKey()),id));
-		return this.one();
+	public Object getValuePrimaryKey() {
+		Object id = this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this);
+		return id;
 	}
+
 	@Override
-	public T one() throws javax.persistence.NoResultException {
-		Session session = null;
-		Transaction transaction = null;
-		try {
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			this.getCriteria();
-			if(this.predicates.size() > 0){
-				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
-				this.predicates = null;
-			}
-			List<T> t = session.createQuery(this.criteria).setMaxResults(1).getResultList();
-			if(t!=null && t.size() > 0)
-				this.className = t.get(0);
-			else
-				this.className = null;
-			transaction.commit();
-		}catch(AnnotationException e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.className = null;
-			this.setError(e);
-		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.className = null;
-			this.setError(e);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
+	public String getNamePrimaryKey() {
+		for(Field field:this.className.getClass().getDeclaredFields()){
+			if(field.isAnnotationPresent(Id.class))
+				return field.getName();
 		}
-		this.closeFactory();
-		return className;
-	}
-
-	@Override
-	public T findOne(CriteriaQuery<T> criteria) {
-		Session session = null;
-		Transaction transaction = null;
-		try {
-			this.startCriteria();
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			List<T> t = session.createQuery(criteria).setMaxResults(1).getResultList();
-			if(t!=null && t.size() > 0)
-				this.className = t.get(0);
-			else
-				this.className = null;
-			transaction.commit();
-		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.className = null;
-			this.setError(e);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		this.closeFactory();
-		return className;
-	}
-
-	@Override
-	public T find() {
- 		this.startCriteria();
-		return this.className;
-	}
-
-	
-	@Override
-	public List<T> all() {
-		List<T> list = null;
-		Session session = null;
-		Transaction transaction = null;
-		try{
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			this.getCriteria();
-			if(this.predicates.size() > 0){
-				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
-				this.predicates = null;
-			}
-			if(this.listOrder.size() > 0) {
-				this.getCriteria().select(this.getRoot());
-				this.getCriteria().orderBy(listOrder);
-			}
-			list = (List<T>) session.createQuery(this.criteria).getResultList();
-			transaction.commit();
-		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.setError(e);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		this.closeFactory();
-		return list;
-	}
-
-
-	@Override
-	public List<T> findAll() {
-		List<T> list = null;
-		Session session = null;
-		Transaction transaction = null;
-		try{
-			this.startCriteria();
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			list = (List<T>) session.createQuery(this.getCriteria()).getResultList();
-			transaction.commit();
-		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.setError(e);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		this.closeFactory();
-		return list;
-	}
-
-	@Override
-	public List<T> findAll(CriteriaQuery<T> criteria) {
-		List<T> list = null;
-		Session session = null;
-		Transaction transaction = null;
-		try{
-			session = this.getSession();
-			transaction = session.beginTransaction();
-			list = (List<T>) session.createQuery(criteria).getResultList();
-			transaction.commit();
-		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			this.setError(e);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		this.closeFactory();
-		return list;
-	}
- 	@Override
- 	public T andWhere(String columnName, String operator, Object value) {
- 		if(value!=null && !value.toString().equals("")){
-			Predicate e = null;
-			switch (operator.toLowerCase()) {
-			case "=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().equal(this.getRoot().join(aux[0]).get(aux[1]), value);
-				}else{
-					e = this.getBuilder().equal(this.getRoot().get(columnName), value);
-				}
-				break;
-			case "like":
-				String val = !value.toString().contains("%")?value.toString().toLowerCase().trim()+"%":value.toString().toLowerCase().trim();
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<String> x = this.getRoot().join(aux[0]).get(aux[1]);
-					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
-				}else{
-					Expression<String> x = this.getRoot().get(columnName);
-					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
-				}
-				break;
-			case "not in":
-				List<String> valuesNotIN = Arrays.asList(new String[] {value.toString()});
-				e = this.getRoot().get(columnName).in(valuesNotIN).not();
-				break;
-			case "in":
-				List<String> valuesIn = Arrays.asList(new String[] {value.toString()});
-				e = this.getRoot().get(columnName).in(valuesIn);
-				break;
-			case "<>":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().notEqual(this.getRoot().join(aux[0]).get(aux[1]), value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
-				}
-				break;
-			}
-			this.predicates.add(e);
- 		}
- 		return this.className;
- 	}
- 	
-	@Override
- 	public T andWhere(String columnName, String operator) {
- 		if((operator.toString().equalsIgnoreCase("isnull") || operator.toString().equalsIgnoreCase("notnull"))){
-			Predicate e = null;
-			switch (operator.toLowerCase()) {
-			case "isnull":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().isNull(this.getRoot().join(aux[0]).get(aux[1]));
-				}else{
-					e = this.getBuilder().isNull(this.getRoot().get(columnName));
-				}
-				break;
-			case "notnull":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().isNotNull(this.getRoot().join(aux[0]).get(aux[1]));
-				}else{
-					e = this.getBuilder().isNotNull(this.getRoot().get(columnName));
-				}
-				break;
-			}
-			this.predicates.add(e);
- 		}
- 		return this.className;
- 	}
- 	
- 	@Override
- 	public T andWhere(String columnName, String operator, Date value) {
- 		if(value!=null && !value.toString().equals("")){
-			Predicate e = null;
-			switch (operator.toLowerCase()) {
-			case "=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().equal(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().equal(this.getRoot().<Date>get(columnName),value);
-				}
-				break;
-				
-			case ">":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().greaterThan(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().greaterThan(this.getRoot().<Date>get(columnName),value);
-				}
-				break;
-
-			case ">=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().greaterThanOrEqualTo(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().greaterThanOrEqualTo(this.getRoot().<Date>get(columnName),value);
-				}
-				break;
-
-			case "<":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().lessThan(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().lessThan(this.getRoot().get(columnName),value);
-				}
-				break;
-
-			case "<=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().lessThanOrEqualTo(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().lessThanOrEqualTo(this.getRoot().get(columnName),value);
-				}
-				break;
-			case "<>":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().notEqual(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
-				}
-				break;
-			}
-			this.predicates.add(e);
- 		}
- 		return this.className;
- 	}
- 	
- 	
- 	@Override
- 	public T andWhere(String columnName, String operator, Number value) {
- 		if(value!=null && !value.toString().equals("")){
-			Predicate e = null;
-			switch (operator.toLowerCase()) {
-			case "=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().equal(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().equal(this.getRoot().get(columnName),value);
-				}
-				break;
-				
-			case ">":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().gt(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().gt(this.getRoot().get(columnName),value);
-				}
-				break;
-
-			case ">=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().ge(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().ge(this.getRoot().get(columnName),value);
-				}
-				break;
-
-			case "<":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().lt(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().lt(this.getRoot().get(columnName),value);
-				}
-				break;
-
-			case "<=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().le(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().le(this.getRoot().get(columnName),value);
-				}
-				break;
-
-			case "<>":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-					if(value!=null)
-						e = this.getBuilder().notEqual(x,value);
-				}else{
-					if(value!=null)
-						e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
-				}
-				break;
-			}
-			this.predicates.add(e);
- 		}
- 		return this.className;
- 	}
-
- 	@Override
- 	public T orderBy(String columnName){
- 		return orderBy(columnName, ORDERBY.ASC);
- 	}
- 	
- 	@Override
-	public T orderBy(String columnName, String ascOrDesc){
-		if(columnName!=null && (ascOrDesc.equals(ORDERBY.ASC) || ascOrDesc.equals(ORDERBY.DESC))) {
-			
-	 			CriteriaBuilder cb = this.getBuilder();
-	 			CriteriaQuery<T> cq = this.getCriteria();
-	 			Root<T> r = this.getRoot();
-	 			cq.select(r);
-	 			if(ascOrDesc.equals(ORDERBY.ASC))
-	 				this.listOrder.add(cb.asc(r.get(columnName)));
-	 			else
-	 				this.listOrder.add(cb.desc(r.get(columnName)));
-		}
-		return this.className;
-	}
- 	
-	private Session getSession() {		
-		return HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema).getCurrentSession();
-	}
-
-	@Override
-	public void setConnectionName(String connectionName) {
-		this.connectionName = connectionName;
-	}
-
-	@Override
-	public String getConnectionName() {		
-		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
+		return "id";//Defualt ID
 	}
 
 	@Override
@@ -587,53 +858,65 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		List<T> list = this.findAll();
 		return list!=null?(long)list.size():0;
 	}
+	
+	public boolean isReadOnly() {
+		return isReadOnly;
+	}
 
-	/*Get table name of Entity class
-	 * 
-	 */
-	public String getTable(){
-		for(Annotation a:this.getClass().getAnnotations()){
-			if(a.annotationType().getSimpleName().equalsIgnoreCase("Table")){
-				for(Method method:a.annotationType().getDeclaredMethods()){
-					try {
-						return (method.invoke(a,(Object[])null)).toString();
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						return this.getClass().getSimpleName();
-					}
-				}
-			}
+	public void setReadOnly(boolean isReadOnly) {
+		this.isReadOnly = isReadOnly;
+	}
+
+	protected Session getSession() {		
+		return HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema).getCurrentSession();
+	}
+
+	protected SessionFactory getSessionFactory() {		
+		return HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+	}
+	
+	protected void setError(Exception e) {
+		if(e.getCause()!=null) {
+			if(e.getCause().getCause()!=null)
+				this.error.add(e.getCause().getCause().getMessage());
+			else
+				this.error.add(e.getCause().getMessage());
+		}else {
+			this.error.add(e.getMessage());
 		}
-		return this.getClass().getSimpleName();
 	}
-
-
-	/*Get value of primary key of Entity class
-	 * 
-	 * @see com.hib.base.ActiveRecordIterface#getValuePrimaryKey()
-	 */
-	@Override
-	public Object getValuePrimaryKey() {		
-		Object id = this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this.className);
-		return id;
+	
+	public List<String> getError() {
+		return error;
 	}
-
-	/*Get name of primary key of Entity class
-	 * (non-Javadoc)
-	 * @see com.base.ActiveRecord.ActiveRecordIterface#getNamePrimaryKey()
-	 */
-	@Override
-	public String getNamePrimaryKey() {
-		for(Field fields:this.className.getClass().getDeclaredFields()){
-			for(Annotation a:fields.getDeclaredAnnotations())
-			if(a.annotationType().getSimpleName().equalsIgnoreCase("Id")){
-				return fields.getName();
-			}
+	
+	public boolean hasError() {
+		return this.error!=null && !this.error.isEmpty();
+	}
+	
+	public void showMessage() {
+		if(this.hasError()) {
+			this.error.stream().forEach(e->{
+				Core.setMessageError(e);
+			});
 		}
-		return "id";
 	}
 
-
-	@Override
+	private void startCriteria() {
+		if(this.builder==null) {
+			this.builder = this.getSessionFactory().getCriteriaBuilder();
+		}
+		if(this.criteria==null) {
+			this.criteria = (CriteriaQuery<T>) this.builder.createQuery(this.getClass());
+		}
+		if(this.root==null) {
+			this.root = (Root<T>) this.criteria.from(this.getClass());
+		}
+		if(this.criteria!=null && this.root!=null){
+			this.criteria.select(this.root);
+		}
+	}
+	
 	public CriteriaQuery<T> getCriteria() {
 		this.startCriteria();
 		return this.criteria;
@@ -654,69 +937,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.startCriteria();
 		return this.root;
 	}
-	
-	
-	public List<String> getError() {
-		return error;
-	}
 
-	public void setError(Exception e) {
-		if(e.getCause()!=null) {
-			if(e.getCause().getCause()!=null)
-				this.error.add(e.getCause().getCause().getMessage());
-			else
-				this.error.add(e.getCause().getMessage());
-		}else {
-			this.error.add(e.getMessage());
-		}
-	}
-	
-	public boolean hasError() {
-		return this.error!=null && !this.error.isEmpty();
-	}
-
-	public void showMessage() {
-		if(this.hasError()) {
-			this.error.stream().forEach(e->{
-				Core.setMessageError(e);
-			});
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void startCriteria() {
-		if(this.predicates==null) {
-			this.predicates = new ArrayList<>();
-		}
-		if(this.listOrder==null) {
-			this.listOrder = new ArrayList<>();
-		}
-		if(this.builder==null) {
-			this.builder = this.getSessionFactory().getCriteriaBuilder();
-		}
-		if(this.criteria==null) {
-			this.criteria = (CriteriaQuery<T>) this.builder.createQuery(this.className.getClass());
-		}
-		if(this.root==null) {
-			this.root = (Root<T>) this.criteria.from(this.className.getClass());
-		}else {
-			this.criteria.select(this.root);
-		}
-	}
-	
-	
-	
-	public boolean isReadOnly() {
-		return isReadOnly;
-	}
-
-	public void setReadOnly(boolean isReadOnly) {
-		this.isReadOnly = isReadOnly;
-	}
-
-	protected void closeFactory(){
-//		this.getSessionFactory().close();
-//		HibernateUtils.removeSessionFactory(this.getConnectionName());
-	}
 
 }

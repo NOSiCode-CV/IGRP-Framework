@@ -331,7 +331,7 @@ public class LoginController extends Controller {
 		//String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
 		String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
 		File file = new File(getClass().getClassLoader().getResource(x).getPath().replaceAll("%20", " "));
-		boolean b = file.exists();
+		//boolean b = file.exists();
 		
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
@@ -462,7 +462,7 @@ public class LoginController extends Controller {
 	}
 	
 	private boolean sso(String username, String password, User dao) {
-		boolean flag = true;
+		//boolean flag = true;
 		String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
 		String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
 		String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");

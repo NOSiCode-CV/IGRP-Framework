@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -218,7 +216,8 @@ public class PesquisarMenuController extends Controller {
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
 		List<TaskAccess> listTask = new TaskAccess().getTaskAccess();
-		boolean isStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
+		listTask = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList());
+		boolean isStartProc = listTask!=null && listTask.size() > 0;
 		boolean isTask = listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0;
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");		
 		String dad = Core.getParam("dad");

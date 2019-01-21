@@ -14,14 +14,11 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
-import nosi.core.webapp.helpers.DateHelper;
 import nosi.webapps.igrp.dao.Config_env;
 
 
@@ -41,6 +38,8 @@ public abstract class QueryHelper implements QueryInterface{
 	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
 	protected nosi.core.config.Connection connection;
+	protected ParametersHelper paramHelper;
+	
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
@@ -48,6 +47,7 @@ public abstract class QueryHelper implements QueryInterface{
 		this.columnsValue = new ArrayList<>();
 		this.connection = new nosi.core.config.Connection();
 		this.connectionName = this.getMyConnectionName(connectionName);
+		this.paramHelper = new ParametersHelper();
 	}	
 
 	private String getMyConnectionName(Object connectionName) {
@@ -301,60 +301,7 @@ public abstract class QueryHelper implements QueryInterface{
 		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
 		return "DELETE FROM "+tableName;
 	}
-	
-	
-	public void setParameter(Query query, Object value, Column col) {
-		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setParameter(col.getName(),Integer.parseInt(value.toString()));
-		}else if(col.getType().equals(java.lang.Double.class)){
-			query.setParameter(col.getName(), Double.parseDouble(value.toString()));
-		}else if(col.getType().equals(java.lang.Float.class)){
-			query.setParameter(col.getName(), Float.parseFloat(value.toString()));
-		}else if(col.getType().equals(java.lang.Character.class)){
-			query.setParameter(col.getName(), (Character)value);
-		}else if(col.getType().equals(java.lang.Long.class)){
-			query.setParameter(col.getName(), (Long)value);
-		}else if(col.getType().equals(java.lang.Short.class)){
-			query.setParameter(col.getName(), (Short)value);
-		}else if(col.getType().equals(java.sql.Date.class)){
-			if((value instanceof String) && Core.isNotNull(value))
-				query.setParameter(col.getName(),Core.ToDate(value.toString(), col.getFormat()));
-			else
-				query.setParameter(col.getName(),value);
-		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
-			query.setParameter(col.getName(),value.toString());
-		}else {
-			query.setParameter(col.getName(),value);
-		}
-	}
 
-	public void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
-		if(value!=null) {
-			if(col.getType().equals(java.lang.Integer.class)) {
-				query.setInt(col.getName(),Integer.parseInt(value.toString()));
-			}else if(col.getType().equals(java.lang.Double.class)){
-				query.setDouble(col.getName(), Double.parseDouble(value.toString()));
-			}else if(col.getType().equals(java.lang.Float.class)){
-				query.setFloat(col.getName(),Float.parseFloat(value.toString()));
-			}else if(col.getType().equals(java.lang.Long.class)){
-				query.setLong(col.getName(), Core.toLong(value.toString()));
-			}else if(col.getType().equals(java.lang.Short.class)){
-				query.setShort(col.getName(), Core.toShort(value.toString()));
-			}else if(col.getType().equals(java.lang.Boolean.class)){
-				query.setBoolean(col.getName(), (Boolean)value);
-			}else if(col.getType().equals(java.lang.Byte.class)){
-				query.setByte(col.getName(), (Byte)value);
-			}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
-				query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
-			}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
-				query.setString(col.getName(),value.toString());
-			}else {
-				query.setObject(col.getName(), value);
-			}
-		}else {
-			query.setObject(col.getName(), null);
-		}
-	}
 
 	@Override
 	public ResultSet execute() {
@@ -455,7 +402,7 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	private void setParameters(NamedParameterStatement q) throws SQLException {
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
-			 this.setParameter(q,col.getDefaultValue(),col);
+			 this.paramHelper.setParameter(q,col.getDefaultValue(),col);
 		}
 	}
 
