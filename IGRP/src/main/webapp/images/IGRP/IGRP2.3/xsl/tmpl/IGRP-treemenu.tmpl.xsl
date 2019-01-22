@@ -31,6 +31,7 @@
         <xsl:param name="parser" select="'false'"/>
         <xsl:param name="package"/>
         <xsl:param name="app"/>
+        <xsl:param name="gentype"/>
         <xsl:variable name="name" select="local-name(.)"/>
         <xsl:variable name="parentId" select="concat($name,'_parent')"/>
         <xsl:variable name="vapp">
@@ -39,7 +40,7 @@
                 <xsl:otherwise><xsl:value-of select="//rows/app"/></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <div class="box-tm box-body" app="{$vapp}" package-db="{$package}" themes="{$style}" data-toggle="{$toggle}" name="{$name}" id="tm_{$name}">
+        <div class="box-tm box-body" app="{$vapp}" package-db="{$package}" gentype="{$gentype}" themes="{$style}" data-toggle="{$toggle}" name="{$name}" id="tm_{$name}">
             <xsl:if test="$tooltip = 'true'">
                 <xsl:attribute name="tooltip"><xsl:value-of select="$tooltip"/></xsl:attribute>
             </xsl:if>
