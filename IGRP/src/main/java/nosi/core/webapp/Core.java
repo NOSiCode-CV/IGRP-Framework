@@ -94,13 +94,22 @@ public final class Core { // Not inherit
 	}
 	public static final String NO_PERMITION_MSG = "No permision";
 
-	
+	/**
+	 Add Hidden field to form
+	 @param	name parameter name
+	 @param value value of parameter
+	 */
 	public static void addHiddenField(String name, Object value) {
 		Field f = new HiddenField(name, value != null ? value.toString() : "");
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
 	}
-
+	/**
+	 Add variable of type long to the process task
+	 @param	taskDefinitionKey identification of task
+	 @param variableName name of parameter
+	 @param value value of parameter
+	 */
 	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		if (Core.isNotNull(taskId)) {
@@ -152,7 +161,11 @@ public final class Core { // Not inherit
 	public static String decrypt(String content) {
 		return new EncrypDecrypt().decrypt(content);
 	}
-
+	/**
+	 Decrypt string based on secret key
+	 @param	content content of string to decrypt
+	 @param secretKey secret key used to decrypt
+	 */
 	public static String decrypt(String content, String secretKey) {
 		return new EncrypDecrypt().decrypt(content, secretKey);
 	}
