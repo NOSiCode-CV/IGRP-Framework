@@ -52,6 +52,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.setTableName(className.getSimpleName());
 		this.setAlias("obj_"+className.getSimpleName().toLowerCase());
 		this.recq = new ResolveColumnNameQuery(this.getClass());
+		this.error = new ArrayList<>();
 	}
 
 	@Override
@@ -820,6 +821,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction.commit();
 			deleted=true;
 		}catch (Exception e) {
+			e.printStackTrace();
 			if (transaction != null) {
 				transaction.rollback();
 			}
