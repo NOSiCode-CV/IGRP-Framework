@@ -23,26 +23,26 @@ public class ParametersHelper {
 	
 	private void setParameter(Query query,String columnName,Object value,Column col) {
 		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setParameter(columnName,Core.toInt(value.toString()));
+			query.setParameter(columnName,value!=null?Core.toInt(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Double.class)){
-			query.setParameter(columnName, Core.toDouble(value.toString()));
+			query.setParameter(columnName, value!=null?Core.toDouble(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Float.class)){
-			query.setParameter(columnName, Core.toFloat(value.toString()));
+			query.setParameter(columnName, value!=null?Core.toFloat(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Long.class)){
-			query.setParameter(columnName, Core.toLong(value.toString()));
+			query.setParameter(columnName, value!=null?Core.toLong(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Short.class)){
-			query.setParameter(columnName, Core.toShort(value.toString()));
+			query.setParameter(columnName, value!=null?Core.toShort(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Boolean.class)){
 			query.setParameter(columnName, (Boolean)value);
 		}else if(col.getType().equals(java.lang.Byte.class)){
 			query.setParameter(columnName, (Byte)value);
 		}else if(col.getType().equals(java.sql.Date.class)){
 			if((value instanceof String) && Core.isNotNull(value))
-				query.setParameter(columnName,Core.ToDate(value.toString(), col.getFormat()));
+				query.setParameter(columnName,value!=null?Core.ToDate(value.toString(), col.getFormat()):null);
 			else
 				query.setParameter(columnName,value);
 		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
-			query.setParameter(columnName,value.toString());
+			query.setParameter(columnName,value!=null?value.toString():null);
 		}else {
 			query.setParameter(columnName,value);
 		}
