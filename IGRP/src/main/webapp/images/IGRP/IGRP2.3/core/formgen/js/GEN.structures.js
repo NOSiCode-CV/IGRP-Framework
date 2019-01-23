@@ -431,7 +431,8 @@ var GENSTRUCTURES = function(GEN){
 
 				else if(item.GET.closerefresh && item.GET.closerefresh())
 					target += '|refresh';
-
+				
+				console.log(item)
 
 				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+'>'+
 	                    '<title>'+item.GET.label()+'</title>'+
@@ -441,6 +442,7 @@ var GENSTRUCTURES = function(GEN){
 	                    '<parameter>'+item.action.link+'?</parameter>'+
 	                    '<target>'+target+'</target>'+
 	                    '<img>'+_class+'|'+item.GET.img()+'</img>'+
+	                    '<preview>'+item.action.link+'</preview>'+
 	                     map+
 	                 '</item>';
 			});
