@@ -718,7 +718,7 @@ public class PageController extends Controller {
 				ac = new Action().findOne(p_id);
 			}
 			else {
-				ac = new Action().andWhere("page", "=", p_id).one();
+				ac = new Action().find().andWhere("page", "=", p_id).one();
 			}
 			if (ac != null) {
 				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/",
