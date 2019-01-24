@@ -39,7 +39,7 @@ public class ImportHelper {
 	
 	public void importFile(Integer application_id,Part file) {
 		this.contentReads = JarUnJarFile.readJarFile(file);
-		Application application = new Application().findOne(application_id);
+		Application application = application_id!=null?new Application().findOne(application_id):null;
 		if(contentReads!=null) {
 			ApplicationImport app = new ApplicationImport(application);
 			app.deserialization(this.getJsonContent(OptionsImportExport.APP.getFileName()));

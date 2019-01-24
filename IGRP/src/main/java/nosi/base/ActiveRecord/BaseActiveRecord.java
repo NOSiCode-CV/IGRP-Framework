@@ -46,6 +46,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private ParametersHelper paramHelper;
 	private String tableName;
 	private Class<T> className;
+	private boolean showError = true;
+	private boolean showTracing = true;
 	
 	public BaseActiveRecord() {
 		this.className = this.getClassType();
@@ -720,7 +722,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public T one() {
 		this.limit = 1;
 		List<T> list = this.all();
-		return list!=null && !list.isEmpty()?list.get(0):null;
+		return (list!=null && !list.isEmpty() && list.size()>0)?list.get(0):null;
 	}
 
 	@Override
@@ -747,7 +749,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			list = query.getResultList();
 			transaction.commit();
 		}catch (Exception e) {
-			e.printStackTrace();
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -821,7 +822,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction.commit();
 			deleted=true;
 		}catch (Exception e) {
-			e.printStackTrace();
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -878,13 +878,20 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	protected void setError(Exception e) {
+		if(this.isShowTracing()) {
+			e.printStackTrace();
+		}
 		if(e.getCause()!=null) {
-			if(e.getCause().getCause()!=null)
+			if(e.getCause().getCause()!=null) {
 				this.error.add(e.getCause().getCause().getMessage());
-			else
+				this.showMessage(e.getCause().getCause().getMessage());
+			}else {
 				this.error.add(e.getCause().getMessage());
+				this.showMessage(e.getCause().getMessage());
+			}
 		}else {
 			this.error.add(e.getMessage());
+			this.showMessage(e.getMessage());
 		}
 	}
 	
@@ -896,12 +903,35 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return this.error!=null && !this.error.isEmpty();
 	}
 	
+	public void showMessage(String error) {
+		if(this.isShowError()) {
+			Core.setMessageError(error);
+		}
+	}
+	
 	public void showMessage() {
 		if(this.hasError()) {
 			this.error.stream().forEach(e->{
 				Core.setMessageError(e);
 			});
 		}
+	}
+
+	
+	public boolean isShowError() {
+		return showError;
+	}
+
+	public void setShowError(boolean showError) {
+		this.showError = showError;
+	}
+	
+	public boolean isShowTracing() {
+		return showTracing;
+	}
+
+	public void setShowTracing(boolean showTracing) {
+		this.showTracing = showTracing;
 	}
 
 	private void startCriteria() {
