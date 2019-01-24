@@ -12,9 +12,9 @@
 			name		= parent.attr('name'),
 			gentype		= parent.attr('gentype') ? parent.attr('gentype') : 'plsql',
 			separator   = gentype == 'java' ? '/' : '.',
-			package 	= parent.attr('package-db') ? parent.attr('package-db').toUpperCase() : null,
-			app	 		= parent.attr('app') ? parent.attr('app').toUpperCase() : '',
-			url 		= package ? app+separator+package+separator+'REMOTE_'+name.toUpperCase() : $.IGRP.utils.getPageUrl(),
+			package 	= parent.attr('package-db') ? parent.attr('package-db') : null,
+			app	 		= parent.attr('app') ? parent.attr('app') : '',
+			url 		= package ? app+separator+package+separator+'remote'+name : $.IGRP.utils.getPageUrl(),
 			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name;
 
 			xslParams.name 		= name;
