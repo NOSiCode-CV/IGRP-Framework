@@ -37,20 +37,23 @@ public class MenuImport extends AbstractImport implements IImport{
 	public void execute() {
 		if(this.menu!=null) {
 			this.menu.stream().forEach(m->{
-				HashMap<Integer, String> actions = new Action().getListActions(Core.findApplicationByDad(m.getDad_menu()).getId());
-				if(m.getMenu()!=null) {
-					final Action action = new Action().findByPage(m.getPage_name(), m.getDad_page());
-					if(actions.containsKey(action.getId())) {
-//					The action/page is really shared with the app in the import environment
-						if(Core.isNull(m.getMenu().getDad_page())) 
-//							Son, insert the parent if not already
-							this.insertMenu(m.getMenu(),null);
-						this.insertMenu(m,action);
-						
-					}									
-				}else {
-					//Is Parent					
-					this.insertMenu(m,null);
+				Application app = Core.findApplicationByDad(m.getDad_menu());
+				if(app!=null) {
+					HashMap<Integer, String> actions = new Action().getListActions(app.getId());
+					if(m.getMenu()!=null) {
+						final Action action = new Action().findByPage(m.getPage_name(), m.getDad_page());
+						if(actions.containsKey(action.getId())) {
+	//					The action/page is really shared with the app in the import environment
+							if(Core.isNull(m.getMenu().getDad_page())) 
+	//							Son, insert the parent if not already
+								this.insertMenu(m.getMenu(),null);
+							this.insertMenu(m,action);
+							
+						}									
+					}else {
+						//Is Parent					
+						this.insertMenu(m,null);
+					}
 				}
 			});
 		}
