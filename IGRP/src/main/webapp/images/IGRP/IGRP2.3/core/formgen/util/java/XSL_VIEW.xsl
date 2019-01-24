@@ -42,7 +42,7 @@
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$newline"/>			
 		<xsl:value-of select="$tab2"/>	
-		<xsl:for-each select="//rows/content/*[@type='table' or @type='formlist' or @type='separatorlist' or @type='timeline' or @type='carousel']">			
+		<xsl:for-each select="//rows/content/*[@xml-type='table' or @xml-type='formlist' or @xml-type='separatorlist' or @xml-type='timeline' or @xml-type='carousel']">			
 			<xsl:variable name="upperTag">
 				<xsl:call-template name="gen-className">
 						<xsl:with-param name="className" select="name()"/>
@@ -162,6 +162,12 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($instance_name,'.addField(',name(),'_check);')"/>
+					</xsl:when>
+					<xsl:when test="@type='link' or @desc='true'">
+						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($instance_name,'.addField(',name(),'_desc);')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>

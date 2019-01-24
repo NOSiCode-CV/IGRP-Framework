@@ -541,12 +541,15 @@
 						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:otherwise>
-                   	<xsl:call-template name="gen-action">
-						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Remote',$actionName)"/></xsl:with-param>
+				<xsl:when test="@type='treemenu'">
+					<xsl:call-template name="gen-action">
+						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Remote_',$actionName)"/></xsl:with-param>
 						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
 						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
 					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+                   	
                 </xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>

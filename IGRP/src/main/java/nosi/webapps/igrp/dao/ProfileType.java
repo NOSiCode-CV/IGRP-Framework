@@ -154,7 +154,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	public HashMap<String, String> getListProfiles(int app, int organic) {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(ProfileType p: this.find().andWhere("application.id", "=", "" + app).andWhere("organization.id", "=", "" + organic).all()){
+		for(ProfileType p: this.find().andWhere("application.id", "=",app).andWhere("organization.id", "=",organic).all()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
@@ -175,7 +175,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	public HashMap<String,String> getListProfiles(Integer app) {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(ProfileType p: this.find().andWhere("application.id", "=", "" + app).all()){
+		for(ProfileType p: this.find().andWhere("application.id", "=",app).all()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;

@@ -234,7 +234,7 @@ public class IGRPButton {
 		xml.setElement("title",this.getTitle());
 		xml.setElement("app",this.getApp());
 		xml.setElement("page",this.getPage());
-		xml.setElement("link",this.getPrefix()+this.getLink()+this.getParameter()+"&dad="+Core.getCurrentDad()+this.getLookupParams());
+		xml.setElement("link",this.getPrefix()+this.getLink()+this.getParameter()+"&dad="+Core.getCurrentDad());//+this.getLookupParams());
 		xml.setElement("target",this.getTarget());
 		xml.setElement("img", this.getImg());
 		if(Core.isNotNull(this.getParams())){

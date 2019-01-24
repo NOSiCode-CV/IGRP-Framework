@@ -50,8 +50,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public BaseActiveRecord() {
 		this.className = this.getClassType();
 		this.setTableName(className.getSimpleName());
-		this.setAlias(className.getSimpleName().toLowerCase());
+		this.setAlias("obj_"+className.getSimpleName().toLowerCase());
 		this.recq = new ResolveColumnNameQuery(this.getClass());
+		this.error = new ArrayList<>();
 	}
 
 	@Override
@@ -459,12 +460,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	private T andWhereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
-//		if(Core.isNotNull(value)) {
+		if(Core.isNotNull(value)) {
 			paramName = recq.removeAlias(paramName);
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
 			this.addParamter(name,paramName,value,classType);
-//		}
+		}
 		return (T) this;
 	}
 	
@@ -820,6 +821,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction.commit();
 			deleted=true;
 		}catch (Exception e) {
+			e.printStackTrace();
 			if (transaction != null) {
 				transaction.rollback();
 			}

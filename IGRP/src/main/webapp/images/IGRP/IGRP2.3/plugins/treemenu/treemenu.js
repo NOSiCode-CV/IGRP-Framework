@@ -10,9 +10,11 @@
 			var parent  = p.holder,
 			xslParams 	= {},
 			name		= parent.attr('name'),
+			gentype		= parent.attr('gentype') ? parent.attr('gentype') : 'plsql',
+			separator   = gentype == 'java' ? '/' : '.',
 			package 	= parent.attr('package-db') ? parent.attr('package-db').toUpperCase() : null,
 			app	 		= parent.attr('app') ? parent.attr('app').toUpperCase() : '',
-			url 		= package ? app+'.'+package+'.REMOTE_'+name.toUpperCase() : $.IGRP.utils.getPageUrl(),
+			url 		= package ? app+separator+package+separator+'REMOTE_'+name.toUpperCase() : $.IGRP.utils.getPageUrl(),
 			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name;
 
 			xslParams.name 		= name;
@@ -35,6 +37,9 @@
 			$.ajax({
 				url : $.IGRP.utils.getUrl(url)+params,
 				dataType:'xml',
+				headers : {
+		        	'X-IGRP-REMOTE' : 1
+		    	},
 				error : function(e,status,ex){
 					p.error();
 					$.IGRP.notify({

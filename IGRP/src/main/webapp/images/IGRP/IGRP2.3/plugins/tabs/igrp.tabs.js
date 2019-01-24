@@ -274,9 +274,9 @@
 
 			$('body').on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
 
-				var target     = $( e.target ).attr("href");/*,
+				var target     = $( e.target ).attr("href"),
 
-			 		item       = $( e.target ).parent(),
+			 		item       = $( e.target ).parent();/*,
 
 			 		name       = item.attr('item-name'),
 
@@ -297,7 +297,11 @@
 			 		});
 
 			 	}*/
-
+				if(item.parents('.gen-tab-holder:first').hasClass('setpagetitle')){
+					if($('.content-header h2')[0]){
+						$('.content-header:first h2').text(item.text());
+					}
+				}
 			 	com.events.execute( 'tabActive',target );
 
 			});

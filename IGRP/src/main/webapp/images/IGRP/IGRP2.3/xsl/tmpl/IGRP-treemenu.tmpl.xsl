@@ -31,6 +31,7 @@
         <xsl:param name="parser" select="'false'"/>
         <xsl:param name="package"/>
         <xsl:param name="app"/>
+        <xsl:param name="gentype"/>
         <xsl:variable name="name" select="local-name(.)"/>
         <xsl:variable name="parentId" select="concat($name,'_parent')"/>
         <xsl:variable name="vapp">
@@ -39,7 +40,7 @@
                 <xsl:otherwise><xsl:value-of select="//rows/app"/></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <div class="box-tm box-body" app="{$vapp}" package-db="{$package}" themes="{$style}" data-toggle="{$toggle}" name="{$name}" id="tm_{$name}">
+        <div class="box-tm box-body" app="{$vapp}" package-db="{$package}" gentype="{$gentype}" themes="{$style}" data-toggle="{$toggle}" name="{$name}" id="tm_{$name}">
             <xsl:if test="$tooltip = 'true'">
                 <xsl:attribute name="tooltip"><xsl:value-of select="$tooltip"/></xsl:attribute>
             </xsl:if>
@@ -56,7 +57,7 @@
                         <li id="{$id}">
                             <i class="fa fa-check-square-o activeicon" aria-hidden="true"></i>
                             <xsl:choose>
-                                <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = $id or ../*[name() = concat($name,'_child')] &gt; 0">
+                                <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = 0 or //./table/value/row/*[$parentId = name()]/text() = $id or ../*[name() = concat($name,'_child')] &gt; 0">
                                     <div class="tree-toggler nav-header" rel="list-{$id}">
                                         <xsl:call-template name="isActive">
                                             <xsl:with-param name="text" select="../*[name() = concat($name,'_active')]"/>
@@ -109,7 +110,7 @@
                                                     <xsl:variable name="vid" select="../*[name() = concat($name,'_tmid')]"/>
                                                     <li id="{$vid}">
                                                         <xsl:choose>
-                                                            <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = $vid or ../*[name() = concat($name,'_child')] &gt; 0">
+                                                            <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = 0 or //./table/value/row/*[$parentId = name()]/text() = $vid or ../*[name() = concat($name,'_child')] &gt; 0">
                                                                 <div class="tree-toggler nav-header" rel="list-{$vid}">
                                                                     <xsl:call-template name="isActive">
                                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_active')]"/>
@@ -353,7 +354,7 @@
                 <li id="{$parentId}">
                     <i class="fa fa-check-square-o activeicon" aria-hidden="true"></i>
                     <xsl:choose>
-                        <xsl:when test="$treeMenu/*[$parent = name()]/text() = $parentId  or ../*[name() = concat($name,'_child')] &gt; 0">
+                        <xsl:when test="$treeMenu/*[$parent = name()]/text() = 0  or $treeMenu/*[$parent = name()]/text() = $parentId  or ../*[name() = concat($name,'_child')] &gt; 0">
                             <div class="tree-toggler nav-header" rel="list-{$parentId}">
                                 <xsl:call-template name="isActive">
                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_active')]"/>
