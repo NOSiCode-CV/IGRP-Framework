@@ -548,10 +548,10 @@ var GENSTRUCTURES = function(GEN){
 		var rtn = '',
 			row = '',
 			tag = container.GET.tag();
-
+		
 		rtn += '<fields><'+tag+'_link type="link" maxlength="4000" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
-		rtn += '<'+tag+'_tmid type="number"><label>ID</label></'+tag+'_tmid>';
-		rtn += '<'+tag+'_parent type="number"><label>Parent ID</label></'+tag+'_parent>';
+		rtn += '<'+tag+'_tmid type="number" java-type="Integer"><label>ID</label></'+tag+'_tmid>';
+		rtn += '<'+tag+'_parent type="number" java-type="Integer"><label>Parent ID</label></'+tag+'_parent>';
 		rtn += '<'+tag+'_icon type="text"><label>Icon</label></'+tag+'_icon>';
 		rtn += '<'+tag+'_child type="text"><label>Has child value(0/X)</label></'+tag+'_child>';
 		rtn += '<'+tag+'_active type="text"><label>Is Active value(true/false)</label></'+tag+'_active>';

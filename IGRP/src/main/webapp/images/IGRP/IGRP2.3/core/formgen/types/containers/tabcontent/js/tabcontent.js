@@ -89,6 +89,14 @@ var GENTABCONTENT = function(name,tparams){
 			value    : false,
 			xslValue : 'auto-control'
 		});
+		
+		container.setProperty({
+			name     : 'setpagetitle',
+			label    : 'Set Page Title',
+			value    : false,
+			xslValue : 'setpagetitle'
+		});
+
 
 	}
 

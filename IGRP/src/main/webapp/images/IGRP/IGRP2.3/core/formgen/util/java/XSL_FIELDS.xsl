@@ -17,7 +17,17 @@
 	-->
      <xsl:template name="gen-field-view">
 		<xsl:param name="type" /> 
-        <xsl:for-each select="//rows/content/*/fields/*">
+        <xsl:for-each select="//rows/content/*/fields/*">        		
+			<xsl:variable name="tag_name">
+				<xsl:choose>
+					<xsl:when test="@type='hidden'">
+						<xsl:value-of select="@tag"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="name()"/>
+					</xsl:otherwise>
+				</xsl:choose>
+		 	</xsl:variable>
             <!--<xsl:if test="not(@name=preceding::node()/@name)"> -->
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
@@ -32,6 +42,12 @@
 								<xsl:value-of select="$tab"/>
 								<xsl:value-of select="concat('public Field ',name(),'_check',';')"/>
 							</xsl:when>
+							<xsl:when test="@type='link' or @desc='true'">
+								<xsl:value-of select="concat('public Field ',name(),';')"/>
+								<xsl:value-of select="$newline"/>
+								<xsl:value-of select="$tab"/>
+								<xsl:value-of select="concat('public Field ',name(),'_desc',';')"/>
+							</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
 							</xsl:otherwise>
@@ -40,16 +56,6 @@
 					</xsl:when>
 					<xsl:when test="$type='instance'">
 						<xsl:value-of select="$tab2"/>
-						<xsl:variable name="tag_name">
-							<xsl:choose>
-								<xsl:when test="@type='hidden'">
-									<xsl:value-of select="@tag"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="name()"/>
-								</xsl:otherwise>
-							</xsl:choose>
-					 	</xsl:variable>
 						
 						<xsl:value-of select="concat($tag_name,' = new ')"/>
 						<xsl:call-template name="typeFieldClass">
@@ -137,6 +143,19 @@
 							
 						</xsl:if>
 			
+						 <xsl:if test="@type='link' or @desc='true'">
+							<xsl:value-of select="concat($tag_name,'_desc',' = new ')"/>
+							<xsl:call-template name="typeFieldClass">
+					    		<xsl:with-param name="type" select="@type" />
+					    	</xsl:call-template>
+							<xsl:value-of select="concat('(','model',',',$double_quotes,$tag_name,'_desc',$double_quotes,');')"/>
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
+							<xsl:value-of select="concat($tag_name,'_desc','.setLabel(gt(',$double_quotes,./label,$double_quotes,'));')"/>
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
+						</xsl:if>
+		
 						<!-- 
 							add recursive properies
 							date_1.propertie().add("name","p_date_1").add("type","date");
@@ -210,19 +229,15 @@
 						<xsl:if test="$isPersist = 'false' ">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
-							<xsl:variable name="tag_name">
-								<xsl:choose>
-									<xsl:when test="@type='hidden'">
-										<xsl:value-of select="@tag"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="name()"/>
-									</xsl:otherwise>
-								</xsl:choose>
-						 	</xsl:variable>
 						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
 							
 					 	</xsl:if>
+					 	<xsl:if test="@type = 'link' or @desc='true'">
+							<xsl:value-of select="$newline"/>
+					  	    <xsl:value-of select="$tab2"/>
+					 		<xsl:value-of select="concat($tag_name,'_desc','.setValue(model);')"/>
+					 	</xsl:if>
+					 	
 					</xsl:when>
 				</xsl:choose>				
 				<!-- <xsl:value-of select="$newline"/> -->
