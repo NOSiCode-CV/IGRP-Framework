@@ -177,7 +177,10 @@ public final class Core { // Not inherit
 	public static String defaultConnection() {
 		return defaultConnection(Core.getCurrentDadParam());
 	}
-
+	/**
+	 * Return default connection string related to dad
+	 * @param dad application code
+	 */
 	public static String defaultConnection(String dad) {
 		String result = "";
 		Application app = new Application().find().andWhere("dad", "=", dad).one();
@@ -188,23 +191,45 @@ public final class Core { // Not inherit
 		}
 		return result;
 	}
-	
+	/**
+	 * Return Query of type BaseQueryInterface
+	 * @param  tableName
+	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 * */
 	public static BaseQueryInterface delete(String tableName) {
 		return new QueryDelete(Core.defaultConnection()).delete(tableName);
 	}
-
+	/**
+	 * Return Query of type BaseQueryInterface from a specific connection
+	 * @param  connectionName connection name
+	 * @param  tableName table name
+	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 * */
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
 		return new QueryDelete(connectionName).delete(tableName);
 	}
-
+	/**
+	 * Return Query of type BaseQueryInterface from a specific connection and schema
+	 * @param  connectionName connection name
+	 * @param  schemaName schema name
+	 * @param  tableName table name
+	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 * */
 	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName) {
 		return new QueryDelete(connectionName).delete(schemaName, tableName);
 	}
-
+	/**
+	 * Encrypt a string
+	 * @param content
+	 * */
 	public static String encrypt(String content) {
 		return new EncrypDecrypt().encrypt(content);
 	}
-
+	/**
+	 * Encrypt a string with a secret key
+	 * @param content string content
+	 * @param secretKey string secret key
+	 * */
 	public static String encrypt(String content, String secretKey) {
 		return new EncrypDecrypt().encrypt(content, secretKey);
 	}
