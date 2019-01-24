@@ -102,7 +102,7 @@ var TREEMENU = function(name,params){
 			editable:false,
 			xslValue:function(){
 				var app     = GEN.SETTINGS.table ? GEN.SETTINGS.table.split('.')[0] : GEN.DETAILS.app,
-	            	package = GEN.SETTINGS.package;
+	            	package = GEN.SETTINGS.gentype == 'java' ? GEN.DETAILS.page : GEN.SETTINGS.package;
 
 	            	app = GEN.SETTINGS.gentype == 'java' ? 'webapps?r='+app : app;
 				
