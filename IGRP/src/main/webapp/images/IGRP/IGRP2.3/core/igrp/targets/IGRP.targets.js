@@ -390,7 +390,7 @@
 			if(holder[0]){
 				confirmText.split(' ').forEach(function(str){
 					if(str.indexOf('{') !== -1){
-						var e = str.substring(1,(str.length - 1))
+						var e = str.substring(1,(str.length - 1)),
 						text  = $('td[item-name="'+e+'"] span',holder).text();
 						
 						confirmText = confirmText.replace(str,text);
