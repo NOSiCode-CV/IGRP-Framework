@@ -147,6 +147,8 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 
 	public T exists(String subQuery);	
 	
+	public T notExists(String subQuery);	
+	
 	public T limit(int limit);
 	
 	public T offset(int offset);

@@ -46,10 +46,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private ParametersHelper paramHelper;
 	private String tableName;
 	private Class<T> className;
+	private T classNameCriteria;
 	private boolean showError = true;
 	private boolean showTracing = true;
 	
 	public BaseActiveRecord() {
+		this.classNameCriteria = (T) this;
 		this.className = this.getClassType();
 		this.setTableName(className.getSimpleName());
 		this.setAlias("obj_"+className.getSimpleName().toLowerCase());
@@ -653,6 +655,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Override
+	public T notExists(String subQuery) {
+		if(Core.isNotNull(subQuery))
+			this.sql+=" NOT EXISTS ("+subQuery+")";
+		return (T) this;
+	}
+	
+	@Override
 	public T limit(int limit) {
 		this.limit = limit;
 		return (T) this;
@@ -708,7 +717,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@Override
 	public T findOne(CriteriaQuery<T> criteria) {
 		List<T> list = this.findAll(criteria);
-		return list!=null && !list.isEmpty()?list.get(0):(T)this;
+		return list!=null && !list.isEmpty()?list.get(0):null;
 	}
 
 	@Override
@@ -857,8 +866,29 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	public Long getCount() {
-		List<T> list = this.findAll();
-		return list!=null?(long)list.size():0;
+		Long count = (long) 0;
+		EntityManager em = null;
+		Transaction transaction = null;
+		try {
+			em = this.getSessionFactory().createEntityManager();
+			transaction = (Transaction) em.getTransaction();
+			transaction.begin();
+			TypedQuery<T> query = (TypedQuery<T>) em.createQuery(this.getSql(),Long.class);
+			this.setParameters(query);
+			count = (Long)query.getSingleResult();
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e);
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+		
+		return count;
 	}
 	
 	public boolean isReadOnly() {
@@ -939,10 +969,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			this.builder = this.getSessionFactory().getCriteriaBuilder();
 		}
 		if(this.criteria==null) {
-			this.criteria = (CriteriaQuery<T>) this.builder.createQuery(this.getClass());
+			this.criteria = (CriteriaQuery<T>) this.builder.createQuery(this.classNameCriteria.getClass());
 		}
 		if(this.root==null) {
-			this.root = (Root<T>) this.criteria.from(this.getClass());
+			this.root = (Root<T>) this.criteria.from(this.classNameCriteria.getClass());
 		}
 		if(this.criteria!=null && this.root!=null){
 			this.criteria.select(this.root);
