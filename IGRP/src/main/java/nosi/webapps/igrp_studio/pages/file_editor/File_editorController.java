@@ -20,6 +20,7 @@ import nosi.core.webapp.compiler.helpers.Compiler;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -146,6 +147,7 @@ public class File_editorController extends Controller {
 				}
 			}
 		}
+		Collections.sort(files,FileEditor.ORDER_BY_NAME);
 		Map<String, Object> result = new HashMap<>();
 		result.put("dir_name", dir.getName());
 		result.put("dir_path", URLEncoder.encode(dir.getPath(),"UTF-8"));

@@ -1,16 +1,19 @@
 package nosi.webapps.igrp_studio.pages.file_editor;
 
+import java.util.Comparator;
+
 /**
  * Emanuel
  * 12 Jun 2018
  */
-public class FileEditor {
+public class FileEditor{
 	
 	private Integer id;
 	private String name;
 	private String path;	
 	private String fileName;
 	private String dir_path;
+	public static final Comparator<FileEditor> ORDER_BY_NAME = new OrderByName();
 	
 	public Integer getId() {
 		return id;
@@ -42,4 +45,10 @@ public class FileEditor {
 	public void setDir_path(String dir_path) {
 		this.dir_path = dir_path;
 	}
+	
+	private static class OrderByName implements Comparator<FileEditor> {
+        public int compare(FileEditor v, FileEditor w){
+           return v.name.compareTo(w.name);
+        }
+     }
 }
