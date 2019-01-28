@@ -399,8 +399,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.alias = alias;
 	}
 	
-	private void generateSql() {
-		this.sql +=" SELECT "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
+	private String generateSql() {
+		return " SELECT "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
+	}
+	
+	private String generateSqlCount() {
+		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
 	protected Class<T> getClassType(){
@@ -522,7 +526,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.parametersMap = new ArrayList<>();
 		this.error = new ArrayList<>();
 		this.paramHelper = new ParametersHelper();
-		this.generateSql();
 		return (T) this;
 	}
 	
@@ -742,6 +745,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	
 	@Override
 	public List<T> all() {
+		this.sql =  this.generateSql()+this.sql;
 		EntityManager em = null;
 		Transaction transaction = null;
 		List<T> list = null;
@@ -866,6 +870,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	public Long getCount() {
+		this.sql = this.generateSqlCount()+this.sql;
 		Long count = (long) 0;
 		EntityManager em = null;
 		Transaction transaction = null;
