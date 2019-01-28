@@ -208,7 +208,7 @@ public class ConfigDBIGRP {
 	    		final String errormessage = ((GenericJDBCException) e.getCause()).getSQLException().getMessage();
 				Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(7, errormessage.indexOf("Location:")));
 			}catch(Exception e1) {
-				Core.setMessageError("SqlExceptionHelper - "+e.getCause().getCause().getMessage());
+				Core.setMessageError("SqlExceptionHelper - "+e1.getCause().getCause().getMessage());
     		}
     		isConnected = false;
     	}
