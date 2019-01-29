@@ -19,6 +19,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
 /**
@@ -472,8 +473,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		if(Core.isNotNull(value)) {
 			paramName = recq.removeAlias(paramName);
 			this.and();
-			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
-			this.addParamter(name,paramName,value,classType);
+			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
+				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+":"+paramName+" ");
+				this.addParamter(name,paramName,value.toString().toUpperCase(),classType);				
+			}else {
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
+				this.addParamter(name,paramName,value,classType);
+			}
 		}
 		return (T) this;
 	}
