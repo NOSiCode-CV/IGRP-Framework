@@ -388,6 +388,7 @@
 			var holder = $(p.clicked).parents('tr:first');
 
 			if(holder[0]){
+				confirmText = $('#confirm-text').text();
 				confirmText.split(' ').forEach(function(str){
 					if(str.indexOf('{') !== -1){
 						var e = str.substring(1,(str.length - 1)),
