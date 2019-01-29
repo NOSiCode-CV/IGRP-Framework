@@ -11,7 +11,7 @@
 	<entry key="igrp.authentication_type">db</entry>
 	
 	<!--  -->
-	<entry key="ids.wso2.enabled">true</entry>
+	<entry key="ids.wso2.enabled">false</entry>
 	<entry key="ids.wso2.RemoteUserStoreManagerService-wsdl-url">https://nhais1.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
 	<entry key="ids.wso2.admin-usn">admin@nosi.cv@carbon.super</entry>
 	<entry key="ids.wso2.admin-pwd">admin</entry> 
@@ -57,5 +57,9 @@
 	<entry key="ldap.ad.base"></entry>
 	<entry key="ldap.ad.authentication_filter"></entry>
 	<entry key="ldap.ad.entryDN"></entry>
+	
+	<entry key="link.rest.stage">http://stage-pdex.gov.cv:8282/apicheckid</entry>
+	<entry key="link.rest.prod"></entry>
+	<entry key="link.rest.dev"></entry>
 	
 </properties>

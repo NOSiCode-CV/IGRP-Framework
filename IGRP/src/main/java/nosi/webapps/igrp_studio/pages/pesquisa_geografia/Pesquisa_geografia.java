@@ -16,30 +16,30 @@ public class Pesquisa_geografia extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	
-	private List<Geo> geo = new ArrayList<>();	
-	public void setGeo(List<Geo> geo){
-		this.geo = geo;
+	private List<Treemenu_1> treemenu_1 = new ArrayList<>();	
+	public void setTreemenu_1(List<Treemenu_1> treemenu_1){
+		this.treemenu_1 = treemenu_1;
 	}
-	public List<Geo> getGeo(){
-		return this.geo;
+	public List<Treemenu_1> getTreemenu_1(){
+		return this.treemenu_1;
 	}
-	@RParam(rParamName = "p_geo_id")
-	private String[] p_geo_id;
-	@RParam(rParamName = "p_geo_del")
-	private String[] p_geo_del;
+	@RParam(rParamName = "p_treemenu_1_id")
+	private String[] p_treemenu_1_id;
+	@RParam(rParamName = "p_treemenu_1_del")
+	private String[] p_treemenu_1_del;
 	
-	public void setP_geo_id(String[] p_geo_id){
-		this.p_geo_id = p_geo_id;
+	public void setP_treemenu_1_id(String[] p_treemenu_1_id){
+		this.p_treemenu_1_id = p_treemenu_1_id;
 	}
-	public String[] getP_geo_id(){
-		return this.p_geo_id;
+	public String[] getP_treemenu_1_id(){
+		return this.p_treemenu_1_id;
 	}
 	
-	public void setP_geo_del(String[] p_geo_del){
-		this.p_geo_del = p_geo_del;
+	public void setP_treemenu_1_del(String[] p_treemenu_1_del){
+		this.p_treemenu_1_del = p_treemenu_1_del;
 	}
-	public String[] getP_geo_del(){
-		return this.p_geo_del;
+	public String[] getP_treemenu_1_del(){
+		return this.p_treemenu_1_del;
 	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
@@ -50,75 +50,75 @@ public class Pesquisa_geografia extends Model{
 	}
 
 
-	public static class Geo extends IGRPTable.Table{
-		private IGRPLink geo_link;
-		private String geo_link_desc;
-		private int geo_tmid;
-		private int geo_parent;
-		private String geo_icon;
-		private String geo_child;
-		private String geo_active;
-		public IGRPLink setGeo_link(String app,String page,String action){
-			this.geo_link = new IGRPLink(app,page,action);
-			return this.geo_link;
+	public static class Treemenu_1 extends IGRPTable.Table{
+		private IGRPLink treemenu_1_link;
+		private String treemenu_1_link_desc;
+		private String treemenu_1_tmid;
+		private String treemenu_1_parent;
+		private String treemenu_1_icon;
+		private String treemenu_1_child;
+		private String treemenu_1_active;
+		public IGRPLink setTreemenu_1_link(String app,String page,String action){
+			this.treemenu_1_link = new IGRPLink(app,page,action);
+			return this.treemenu_1_link;
 		}
-		public IGRPLink getGeo_link(){
-			return this.geo_link;
+		public IGRPLink getTreemenu_1_link(){
+			return this.treemenu_1_link;
 		}
-		public void setGeo_link_desc(String geo_link_desc){
-			this.geo_link_desc = geo_link_desc;
+		public void setTreemenu_1_link_desc(String treemenu_1_link_desc){
+			this.treemenu_1_link_desc = treemenu_1_link_desc;
 		}
-		public String getGeo_link_desc(){
-			return this.geo_link_desc;
+		public String getTreemenu_1_link_desc(){
+			return this.treemenu_1_link_desc;
 		}
-	public IGRPLink setGeo_link(String link){
-		this.geo_link = new IGRPLink(link);
-		return this.geo_link;
+	public IGRPLink setTreemenu_1_link(String link){
+		this.treemenu_1_link = new IGRPLink(link);
+		return this.treemenu_1_link;
 	}
-	public IGRPLink setGeo_link(Report link){
-		this.geo_link = new IGRPLink(link);
-		return this.geo_link;
-	}
-
-		public void setGeo_tmid(int geo_tmid){
-			this.geo_tmid = geo_tmid;
-		}
-		public int getGeo_tmid(){
-			return this.geo_tmid;
-		}
-
-		public void setGeo_parent(int geo_parent){
-			this.geo_parent = geo_parent;
-		}
-		public int getGeo_parent(){
-			return this.geo_parent;
-		}
-
-		public void setGeo_icon(String geo_icon){
-			this.geo_icon = geo_icon;
-		}
-		public String getGeo_icon(){
-			return this.geo_icon;
-		}
-
-		public void setGeo_child(String geo_child){
-			this.geo_child = geo_child;
-		}
-		public String getGeo_child(){
-			return this.geo_child;
-		}
-
-		public void setGeo_active(String geo_active){
-			this.geo_active = geo_active;
-		}
-		public String getGeo_active(){
-			return this.geo_active;
-		}
-
+	public IGRPLink setTreemenu_1_link(Report link){
+		this.treemenu_1_link = new IGRPLink(link);
+		return this.treemenu_1_link;
 	}
 
-	public void loadGeo(BaseQueryInterface query) {
-		this.setGeo(this.loadTable(query,Geo.class));
+		public void setTreemenu_1_tmid(String treemenu_1_tmid){
+			this.treemenu_1_tmid = treemenu_1_tmid;
+		}
+		public String getTreemenu_1_tmid(){
+			return this.treemenu_1_tmid;
+		}
+
+		public void setTreemenu_1_parent(String treemenu_1_parent){
+			this.treemenu_1_parent = treemenu_1_parent;
+		}
+		public String getTreemenu_1_parent(){
+			return this.treemenu_1_parent;
+		}
+
+		public void setTreemenu_1_icon(String treemenu_1_icon){
+			this.treemenu_1_icon = treemenu_1_icon;
+		}
+		public String getTreemenu_1_icon(){
+			return this.treemenu_1_icon;
+		}
+
+		public void setTreemenu_1_child(String treemenu_1_child){
+			this.treemenu_1_child = treemenu_1_child;
+		}
+		public String getTreemenu_1_child(){
+			return this.treemenu_1_child;
+		}
+
+		public void setTreemenu_1_active(String treemenu_1_active){
+			this.treemenu_1_active = treemenu_1_active;
+		}
+		public String getTreemenu_1_active(){
+			return this.treemenu_1_active;
+		}
+
+	}
+
+	public void loadTreemenu_1(BaseQueryInterface query) {
+		this.setTreemenu_1(this.loadTable(query,Treemenu_1.class));
 	}
 
 }

@@ -1,8 +1,13 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -15,9 +20,9 @@ import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaPassport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 /*----#end-code----*/
-		
 public class Pesquisa_bi_cni_passportController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Pesquisa_bi_cni_passport model = new Pesquisa_bi_cni_passport();
@@ -34,57 +39,62 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		
 		String json_data = "{\"Numero_ID\" : \""+ model.getNumero_do_documento() +"\"}";
 		ConsumeJson json_obj = new ConsumeJson();
-		String json = json_obj.getObjectFromJson("http://stage-pdex.gov.cv:8282/apicheckid", json_data);
-		
-		PesquisaBI list_bi = new PesquisaBI();
-		PesquisaCNI list_cni = new PesquisaCNI();
-		PesquisaPassport list_pass = new PesquisaPassport();
-		list_bi = list_bi.getListBI(json);
-		list_cni = list_cni.getListCNI(json);
-		list_pass = list_pass.getListPassport(json);
-		
-		if(list_bi.getError() == null ) {
-			switch(model.getTipo_documento()) {
-			case "bi":
-				List<Pesquisa_bi_cni_passport.Table_1> lista_bi = new ArrayList<>();
-				Pesquisa_bi_cni_passport.Table_1 tab_bi = new Pesquisa_bi_cni_passport.Table_1();
-				tab_bi.setBi_tab(""+list_bi.getBI());
-				tab_bi.setNome_tab(list_bi.getNOME());
-				tab_bi.setSexo_tab(list_bi.getSEXO());
-				tab_bi.setData_nascimento_tab(list_bi.getDT_NASC());
-				tab_bi.setNome_mae_tab(list_bi.getNOME_MAE());
-				tab_bi.setNome_pai_tab(list_bi.getNOME_PAI());
-				tab_bi.setData_emissao_tab(list_bi.getDT_EMISSAO());
-				tab_bi.setEmissor_tab(list_bi.getEMISSOR()); 
-				lista_bi.add(tab_bi);
-				model.setTable_1(lista_bi);
-				break;
-			case "cni":
-				List<Pesquisa_bi_cni_passport.Table_1> lista_cni = new ArrayList<>();
-				Pesquisa_bi_cni_passport.Table_1 tab_cni = new Pesquisa_bi_cni_passport.Table_1();
-				tab_cni.setNome_tab(list_cni.getNOME_COMPLETO());
-				tab_cni.setSexo_tab(list_cni.getSEXO());
-				tab_cni.setData_nascimento_tab(list_cni.getDATA_NASC());
-				tab_cni.setBi_tab(list_cni.getNUM_DOCUMENTO());
-				lista_cni.add(tab_cni);
-				model.setTable_1(lista_cni);
-				break;
-			case "pass":
-				List<Pesquisa_bi_cni_passport.Table_1> lista_pass = new ArrayList<>();
-				Pesquisa_bi_cni_passport.Table_1 tab_pass = new Pesquisa_bi_cni_passport.Table_1();
-				tab_pass.setNome_tab(list_pass.getNOME_COMPLETO());
-				tab_pass.setSexo_tab(list_pass.getSEXO());
-				tab_pass.setData_nascimento_tab(list_pass.getDATA_NASC());
-				tab_pass.setBi_tab(list_pass.getNUM_DOCUMENTO());
-				lista_pass.add(tab_pass);
-				model.setTable_1(lista_pass);
-				break;
-			default:
-				model.setTable_1(null);
-				break;
-			}
-		}
+		Properties setting = loadConfig("common", "main.xml");
+		String json="";
+		try {
+			json = json_obj.getObjectFromJson(setting.getProperty("link.rest.stage"), json_data);
 
+			PesquisaBI list_bi = new PesquisaBI();
+			PesquisaCNI list_cni = new PesquisaCNI();
+			PesquisaPassport list_pass = new PesquisaPassport();
+			list_bi = list_bi.getListBI(json);
+			list_cni = list_cni.getListCNI(json);
+			list_pass = list_pass.getListPassport(json);
+			
+			if(list_bi.getError() == null ) {
+				switch(model.getTipo_documento()) {
+				case "bi":
+					List<Pesquisa_bi_cni_passport.Table_1> lista_bi = new ArrayList<>();
+					Pesquisa_bi_cni_passport.Table_1 tab_bi = new Pesquisa_bi_cni_passport.Table_1();
+					tab_bi.setBi_tab(""+list_bi.getBI());
+					tab_bi.setNome_tab(list_bi.getNOME());
+					tab_bi.setSexo_tab(list_bi.getSEXO());
+					tab_bi.setData_nascimento_tab(list_bi.getDT_NASC());
+					tab_bi.setNome_mae_tab(list_bi.getNOME_MAE());
+					tab_bi.setNome_pai_tab(list_bi.getNOME_PAI());
+					tab_bi.setData_emissao_tab(list_bi.getDT_EMISSAO());
+					tab_bi.setEmissor_tab(list_bi.getEMISSOR()); 
+					lista_bi.add(tab_bi);
+					model.setTable_1(lista_bi);
+					break;
+				case "cni":
+					List<Pesquisa_bi_cni_passport.Table_1> lista_cni = new ArrayList<>();
+					Pesquisa_bi_cni_passport.Table_1 tab_cni = new Pesquisa_bi_cni_passport.Table_1();
+					tab_cni.setNome_tab(list_cni.getNOME_COMPLETO());
+					tab_cni.setSexo_tab(list_cni.getSEXO());
+					tab_cni.setData_nascimento_tab(list_cni.getDATA_NASC());
+					tab_cni.setBi_tab(list_cni.getNUM_DOCUMENTO());
+					lista_cni.add(tab_cni);
+					model.setTable_1(lista_cni);
+					break;
+				case "pass":
+					List<Pesquisa_bi_cni_passport.Table_1> lista_pass = new ArrayList<>();
+					Pesquisa_bi_cni_passport.Table_1 tab_pass = new Pesquisa_bi_cni_passport.Table_1();
+					tab_pass.setNome_tab(list_pass.getNOME_COMPLETO());
+					tab_pass.setSexo_tab(list_pass.getSEXO());
+					tab_pass.setData_nascimento_tab(list_pass.getDATA_NASC());
+					tab_pass.setBi_tab(list_pass.getNUM_DOCUMENTO());
+					lista_pass.add(tab_pass);
+					model.setTable_1(lista_pass);
+					break;
+				default:
+					model.setTable_1(null);
+					break;
+				}
+			}
+			}catch (Exception e) {
+				Core.setMessageError("Serviço indisponivel!!");
+		}
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -107,14 +117,37 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-public HashMap<String, String> getTipoDoc() {
-	HashMap<String, String> tipo_doc = new HashMap<>();
-	tipo_doc.put(null, "-- Escolhe o tipo do documento --");
-	tipo_doc.put("bi", "BI");
-	tipo_doc.put("cni", "CNI");
-	tipo_doc.put("pass", "Passaporte");
-	return tipo_doc;
-}
-
+	public HashMap<String, String> getTipoDoc() {
+		HashMap<String, String> tipo_doc = new HashMap<>();
+		tipo_doc.put(null, "-- Escolhe o tipo do documento --");
+		tipo_doc.put("bi", "BI");
+		tipo_doc.put("cni", "CNI");
+		tipo_doc.put("pass", "Passaporte");
+		return tipo_doc;
+	}
+	
+	private Properties loadConfig(String filePath, String fileName) {
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return props;
+	}
 /*----#end-code----*/
 }

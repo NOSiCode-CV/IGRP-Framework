@@ -32,6 +32,7 @@ public class Pesquisa_nif_restController extends Controller {
 		view.tipo_contribuinte.setValue(getMyContribuinte());
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = "";
+		String authorization = "Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f";
 		if((Core.isNotNull(model.getNif()) && model.getNif() != 0) && Core.isNull(model.getNome_form())) {
 			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NU_NIF=" + model.getNif();
 		}else if(Core.isNotNull(model.getNome_form()) && (model.getNif() == 0 || Core.isNull(model.getNif()))) {
@@ -41,7 +42,7 @@ public class Pesquisa_nif_restController extends Controller {
 		}
 		
 			if((Core.isNotNull(model.getNif()) && model.getNif() != 0) || Core.isNotNull(model.getNome_form())) {
-				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"));
+				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), authorization);
 				JSONObject obj = new JSONObject(json);
 				JSONObject Entries = obj.getJSONObject("Entries");
 				try {
@@ -116,7 +117,7 @@ public class Pesquisa_nif_restController extends Controller {
 		contri.put("colet", "Colectiva(empresa)");
 		contri.put("ente_est", "Entidade estrangeira");
 		contri.put("ente_nac", "Entidade Nacional");
-		contri.put("her", "HeranÃ§a");
+		contri.put("her", "Herança");
 		contri.put("out_ent", "Outras Entidades");
 		contri.put("sing", "Singular");
 		return contri;
