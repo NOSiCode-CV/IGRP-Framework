@@ -30,9 +30,9 @@
     <script src="{$path}/core/bootstrap/plugins/toolkit/bootstrap-toolkit.min.js"></script>  
         									 <!-- VERIFIED /NOT ASYNC JS-->  
  	<script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js" ></script>    
-    <script src="{$path}/core/moment/moment.min.js"  async="async"></script>  
+    <script src="{$path}/core/moment/moment.min.js" ></script>  
     
-    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" async="async"></script>    
+    <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js" ></script>    
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css" media="none" onload="if(media!='all')media='all'" />	  
 	
 
@@ -75,7 +75,7 @@
     <!-- IGRP searchlist controller -->
     <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js"  charset="UTF-8"></script>
     <!-- IGRP rightpanel controller -->
-    <script src="{$path}/core/igrp/rightpanel/rightpanel.js" async="async"></script>
+    <script src="{$path}/core/igrp/rightpanel/rightpanel.js" ></script>
     <!-- IGRP themes controller -->
     <script src="{$path}/core/igrp/themes/IGRP.themes.js?v={$version}" ></script>
     <!-- IGRP scroll to top controller -->
