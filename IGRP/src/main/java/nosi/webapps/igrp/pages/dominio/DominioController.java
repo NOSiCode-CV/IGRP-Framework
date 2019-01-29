@@ -35,6 +35,8 @@ public class DominioController extends Controller {
       model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),
 					"SELECT id as formlist_1_id,description,valor as key,status as estado,ordem FROM tbl_domain")
     		  .where("dominio=:dominio")
+    		  .andWhere("description","!=","")
+    		  .andWhere("valor","!=","")
     		  .addString("dominio", model.getLst_dominio()));
 		/*----#end-code----*/
 		view.setModel(model);
@@ -50,51 +52,60 @@ public class DominioController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(guardar)----*/
-
          if(Core.isNotNull(model.getLst_dominio())){
-      List<Formlist_1> formlistTud = new ArrayList<Formlist_1>();
-      String[] formlistDel = model.getP_formlist_1_del();
-		boolean error=false;		 		
-		formlistTud = model.getFormlist_1();
-	  //	this.addQueryString("save",model.getLst_dominio());
-      if(Core.isNotNull(formlistDel))
-	  	for (int i = 0; i < formlistDel.length; i++) {		  		
-	         Domain del = new Domain();	
-	          if(!del.delete(Core.toInt(formlistDel[i]))){
-	            Core.setMessageError("Delete error id="+formlistDel[i]);		
-			}	
-	     }
-		for (int i = 0; i < formlistTud.size(); i++) {		
-			Formlist_1 formlist = formlistTud.get(i);
-       
-			Domain d = new Domain(model.getLst_dominio(), formlist.getKey().getKey(),formlist.getDescription().getKey(), formlist.getEstado().getKey(),
-					Core.toInt(formlist.getOrdem().getKey()));			
-			if (Core.isNull(formlist.getFormlist_1_id().getKey())) {
-				if (d.insert() == null) {
-					Core.setMessageError();
-					error=true;		
-					break;
-				}	
-			}else {				
-				d = d.findOne(formlist.getFormlist_1_id().getKey());					
-				//d.setId(Core.toInt(formlist.getId().getKey()));	
-				d.setDescription(formlist.getDescription().getKey());
-				d.setStatus(formlist.getEstado().getKey());
-				d.setValor( formlist.getKey().getKey());
-				d.setordem(Core.toInt(formlist.getOrdem().getKey()));
-				if(d.update() == null) {
-					Core.setMessageError();
-					error=true;		
-					break;
+			List<Formlist_1> formlistTud = new ArrayList<Formlist_1>();
+			String[] formlistDel = model.getP_formlist_1_del();
+			boolean error = false;
+			formlistTud = model.getFormlist_1();
+			// this.addQueryString("save",model.getLst_dominio());
+			if (Core.isNotNull(formlistDel)) {
+				for (int i = 0; i < formlistDel.length; i++) {
+					Domain del = new Domain();
+					if (!del.delete(Core.toInt(formlistDel[i]))) {
+						Core.setMessageError("Delete error id=" + formlistDel[i]);
 					}
-				}				
-		}
-		if(!error)
-			Core.setMessageSuccess();
+				}
+			}
+			
+			for (int i = 0; i < formlistTud.size(); i++) {
+				Formlist_1 formlist = formlistTud.get(i);
+				if(this.validateDomains(formlist)) {
+					Domain d = new Domain().find()
+							   .andWhere("dominio","=",model.getLst_dominio())
+							   .andWhere("valor","=",formlist.getKey().getKey())
+							   .one();
+					if(d!=null) {
+						d.setDescription(formlist.getDescription().getKey());
+						d.setStatus(formlist.getEstado().getKey());
+						d.setValor(formlist.getKey().getKey());
+						d.setordem(Core.toInt(formlist.getOrdem().getKey()));
+						d = d.update();
+						if (d.hasError()) {
+							d.showMessage();
+							error = true;
+							break;
+						}
+					}else {
+						d = new Domain(model.getLst_dominio(), formlist.getKey().getKey(),
+							formlist.getDescription().getKey(), formlist.getEstado().getKey(),
+							Core.toInt(formlist.getOrdem().getKey()));
+						d = d.insert();
+						if (d.hasError()) {
+							d.showMessage();
+							error = true;
+							break;
+						}
+					}
+				}
+			
+			}
+			if (!error)
+				Core.setMessageSuccess();
 		}else
             Core.setMessageWarning("DOMW1");
-      
-      return this.forward("igrp","Dominio","index", this.queryString());
+      this.restartQueryString();
+      this.addQueryString("p_lst_dominio", model.getLst_dominio());
+      return this.redirect("igrp","Dominio","index", this.queryString());
 		/*----#end-code----*/
 			
 	}
@@ -122,6 +133,9 @@ public class DominioController extends Controller {
 	
 /*----#start-code(custom_actions)----*/
 		
+	private boolean validateDomains(Formlist_1 formlist) {
+		return Core.isNotNullMultiple(formlist.getKey().getKey(), formlist.getDescription().getKey(),formlist.getDescription().getKey());
+	}
 		
 		/*----#end-code----*/
 }
