@@ -16,7 +16,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, String value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addString(name, value);
 		}
 		return this;
@@ -40,7 +40,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Integer value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addInt(name, value);
 		}
 		return this;
@@ -48,7 +48,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Float value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addFloat(name, value);
 		}
 		return this;
@@ -56,7 +56,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface andWhere(String name, String operator, Double value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addDouble(name, value);
 		}
 		return this;
@@ -64,7 +64,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, String value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addString(name, value);
 		}
 		return this;
@@ -81,7 +81,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Integer value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addInt(name, value);
 		}
 		return this;
@@ -89,7 +89,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Float value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addFloat(name, value);
 		}
 		return this;
@@ -97,7 +97,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface orWhere(String name, String operator, Double value) {
-		if(Core.isNotNull(value)) {
+		if(value!=null) {
 			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addDouble(name, value);
 		}
 		return this;
