@@ -36,7 +36,7 @@
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Gestão de Dominio</title>
+        <title>Gestão de Domínios</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -81,6 +81,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                     <target>submit</target>
                     <img>warning|fa-pencil</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                 </item>
             </tools-bar>
         </form_1>
@@ -119,50 +120,50 @@
             <table>
                 <value>
                     <row>
-                        <description name="p_description" desc="true">Lorem ipsum sit magna omnis</description>
-                        <description_desc name="p_description_desc">Lorem ipsum sit magna omnis</description_desc>
-                        <key name="p_key" desc="true">Adipiscing aperiam totam laudantium adipiscing</key>
-                        <key_desc name="p_key_desc">Adipiscing aperiam totam laudantium adipiscing</key_desc>
+                        <description name="p_description" desc="true">Stract sed labore perspiciatis mollit</description>
+                        <description_desc name="p_description_desc">Stract sed labore perspiciatis mollit</description_desc>
+                        <key name="p_key" desc="true">Dolor mollit sit sed magna</key>
+                        <key_desc name="p_key_desc">Dolor mollit sit sed magna</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Consectetur aliqua totam sit stract</description>
-                        <description_desc name="p_description_desc">Consectetur aliqua totam sit stract</description_desc>
-                        <key name="p_key" desc="true">Officia aliqua deserunt rem doloremque</key>
-                        <key_desc name="p_key_desc">Officia aliqua deserunt rem doloremque</key_desc>
+                        <description name="p_description" desc="true">Mollit deserunt rem iste labore</description>
+                        <description_desc name="p_description_desc">Mollit deserunt rem iste labore</description_desc>
+                        <key name="p_key" desc="true">Sed amet rem ipsum laudantium</key>
+                        <key_desc name="p_key_desc">Sed amet rem ipsum laudantium</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Laudantium mollit accusantium sed perspiciatis</description>
-                        <description_desc name="p_description_desc">Laudantium mollit accusantium sed perspiciatis</description_desc>
-                        <key name="p_key" desc="true">Laudantium aperiam consectetur omnis elit</key>
-                        <key_desc name="p_key_desc">Laudantium aperiam consectetur omnis elit</key_desc>
+                        <description name="p_description" desc="true">Amet lorem accusantium unde omnis</description>
+                        <description_desc name="p_description_desc">Amet lorem accusantium unde omnis</description_desc>
+                        <key name="p_key" desc="true">Ut omnis accusantium stract accusantium</key>
+                        <key_desc name="p_key_desc">Ut omnis accusantium stract accusantium</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Mollit ut ipsum mollit laudantium</description>
-                        <description_desc name="p_description_desc">Mollit ut ipsum mollit laudantium</description_desc>
-                        <key name="p_key" desc="true">Elit stract ipsum sed ipsum</key>
-                        <key_desc name="p_key_desc">Elit stract ipsum sed ipsum</key_desc>
+                        <description name="p_description" desc="true">Omnis consectetur sed iste anim</description>
+                        <description_desc name="p_description_desc">Omnis consectetur sed iste anim</description_desc>
+                        <key name="p_key" desc="true">Iste adipiscing laudantium lorem stract</key>
+                        <key_desc name="p_key_desc">Iste adipiscing laudantium lorem stract</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Mollit totam aperiam stract omnis</description>
-                        <description_desc name="p_description_desc">Mollit totam aperiam stract omnis</description_desc>
-                        <key name="p_key" desc="true">Voluptatem perspiciatis totam adipiscing laudantium</key>
-                        <key_desc name="p_key_desc">Voluptatem perspiciatis totam adipiscing laudantium</key_desc>
+                        <description name="p_description" desc="true">Perspiciatis iste perspiciatis sit voluptatem</description>
+                        <description_desc name="p_description_desc">Perspiciatis iste perspiciatis sit voluptatem</description_desc>
+                        <key name="p_key" desc="true">Magna deserunt perspiciatis accusantium aperiam</key>
+                        <key_desc name="p_key_desc">Magna deserunt perspiciatis accusantium aperiam</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
@@ -175,7 +176,7 @@
             <fields>
                 <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Ex: yes_no, ID_TYPE..." right="false">
                     <label>Novo domínio</label>
-                    <value>Officia doloremque perspiciatis laudantium omnis</value>
+                    <value>Laudantium sit sit dolor accusantium</value>
                 </novo_dominio>
             </fields>
             <tools-bar>
@@ -187,6 +188,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                     <target>submit_form|refresh</target>
                     <img>success|fa-plus</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                 </item>
             </tools-bar>
         </form_2>

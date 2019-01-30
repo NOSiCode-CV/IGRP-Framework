@@ -64,6 +64,8 @@ public interface QueryInterface extends BaseQueryInterface{
 	public QueryInterface notBetween(String name,Object value1,Object value2);
 	
 	public QueryInterface exists(String value);	
+	
+	public QueryInterface notExists(String value);	
 
 	public QueryInterface innerJoin(String table2,String key1,String key2);
 	

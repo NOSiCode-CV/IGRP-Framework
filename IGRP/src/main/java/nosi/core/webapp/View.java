@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.components.IGRPComponent;
+import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 /**
@@ -55,8 +56,14 @@ public abstract class View  implements IHeaderConfig{
 	
 	protected void addToPage(Object obj){
 		if(obj instanceof IGRPComponent) {
+			if(obj instanceof IGRPForm) {
+				IGRPForm.hiddenFields.stream().forEach(f->{
+					((IGRPForm) obj).addField(f);
+				});
+				IGRPForm.resetHiddenField();
+			}
 			if(((IGRPComponent) obj).isVisible())
-				this.page.addContent(obj);
+				this.page.addContent(obj);			
 		}else if(obj instanceof IGRPToolsBar) {
 			if(((IGRPToolsBar) obj).isVisible())
 				this.page.addContent(obj);
