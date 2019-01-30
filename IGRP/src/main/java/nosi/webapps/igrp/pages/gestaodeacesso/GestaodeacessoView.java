@@ -20,6 +20,7 @@ public class GestaodeacessoView extends View {
 	public Field estado_check;
 	public Field org_nome;
 	public Field mostrar_perfis;
+	public Field mostrar_perfis_desc;
 	public Field id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
@@ -83,7 +84,9 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		mostrar_perfis.setValue(new Config().getResolveUrl("igrp","Dominio","index"));
 
-									mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
+									mostrar_perfis_desc = new LinkField(model,"mostrar_perfis_desc");
+		mostrar_perfis_desc.setLabel(gt("Mostrar perfis"));
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -123,6 +126,7 @@ public class GestaodeacessoView extends View {
 		org_table.addField(estado_check);
 		org_table.addField(org_nome);
 		org_table.addField(mostrar_perfis);
+		org_table.addField(mostrar_perfis_desc);
 		org_table.addField(id);
 
 		org_table.addButton(btn_editar);
@@ -145,6 +149,7 @@ public class GestaodeacessoView extends View {
 		estado.setValue(model);
 		org_nome.setValue(model);
 		mostrar_perfis.setValue(model);
+		mostrar_perfis_desc.setValue(model);
 		id.setValue(model);	
 
 		org_table.loadModel(((Gestaodeacesso) model).getOrg_table());

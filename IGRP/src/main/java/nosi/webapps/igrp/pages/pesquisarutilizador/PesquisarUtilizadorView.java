@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PesquisarUtilizadorView extends View {
 
@@ -135,7 +138,7 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","right_panel|refresh","warning|fa-send","","");
 		btn_convidar_user.propertie.add("type","specific").add("rel","convidar_user");
 
-		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","danger|fa-trash","","");
+		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","alert_submit","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
 
 		
