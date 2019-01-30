@@ -29,7 +29,7 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Voluptatem officia elit sed si' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'1' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Totam sed unde voluptatem amet' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -38,7 +38,7 @@ public class GestaodeacessoController extends Controller {
 		String ichange = Core.getParam("ichange");
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-			model.setAplicacao("" + (new Application().find().andWhere("dad", "=", dad).one()).getId());
+			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
 			setTable(model, data);
 		}
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
@@ -46,10 +46,8 @@ public class GestaodeacessoController extends Controller {
 				setTable(model, data);
 			} else
 				model.setAdicionar_organica("igrp", "NovaOrganica", "index");
-		}	
-		model.setGestao_de_menu("igrp","PesquisarMenu","index");
-		model.setAdicionar_organica("igrp","NovaOrganica","index");
-		model.setGestao_de_utilizadores("igrp","PesquisarUtilizador","index");
+		}		
+		
 		if(Core.isNotNull(model.getAplicacao())) {
 			 model.getGestao_de_menu().addParam("id_app",model.getAplicacao());
 			 model.getAdicionar_organica().addParam("id_app",model.getAplicacao());
@@ -57,7 +55,6 @@ public class GestaodeacessoController extends Controller {
 		}
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);	
-		
 		
 		view.btn_eliminar.setVisible(false);
 		/*----#end-code----*/
@@ -90,16 +87,16 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","MenuOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(menu)----*/
   		Organization org = new Organization().findOne(Core.getParamInt("p_id"));	
         this.addQueryString("p_type","org");   
       	if (org != null){
           	this.addQueryString("env_fk",org.getApplication().getId());  
-          	return this.forward("igrp", "MenuOrganica","index",this.queryString());
-        }
+       }
+      return this.forward("igrp", "MenuOrganica","index",this.queryString());
 		/*----#end-code----*/
-		return this.redirect("igrp","MenuOrganica","index", this.queryString());	
+			
 	}
 	
 	public Response actionTransacti_org() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -130,7 +127,7 @@ public class GestaodeacessoController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_estado",Core.getParam("p_estado"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
-		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Gestaodeacesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		int p_id = Core.getParamInt("p_id");
 		if (p_id != 0) {
@@ -140,9 +137,10 @@ public class GestaodeacessoController extends Controller {
 				Core.setMessageError();
 		}else
 			Core.setMessageError();
+		 return this.forward("igrp","Gestaodeacesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 	
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
+			
 	}
 	
 	public Response actionAssociar_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
