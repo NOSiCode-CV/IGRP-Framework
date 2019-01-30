@@ -1,4 +1,10 @@
 package nosi.webapps.igrp.pages.settings;
+
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -30,7 +36,7 @@ public class Settings extends Model{
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
 	@RParam(rParamName = "p_organica")
-	private String p_organica;
+	private String organica;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -123,12 +129,13 @@ public class Settings extends Model{
 		return this.perfil;
 	}
 	
-	public void setP_organica(String p_organica){
-		this.p_organica = p_organica;
+	public void setOrganica(String organica){
+		this.organica = organica;
 	}
-	public String getP_organica(){
-		return this.p_organica;
+	public String getOrganica(){
+		return this.organica;
 	}
+
 
 
 }

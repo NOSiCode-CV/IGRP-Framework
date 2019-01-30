@@ -163,7 +163,7 @@
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($instance_name,'.addField(',name(),'_check);')"/>
 					</xsl:when>
-					<xsl:when test="@type='link' or @desc='true'">
+					<xsl:when test="@type='link' and @desc='true'">
 						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>

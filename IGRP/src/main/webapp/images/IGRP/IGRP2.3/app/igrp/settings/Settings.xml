@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,12 +33,16 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=14</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Área pessoal</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Área pessoal</value>
+                    <value>
+                        <![CDATA[Área pessoal]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -45,38 +50,38 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100">
                     <label>Nome</label>
-                    <value>Natus ipsum perspiciatis sit adipiscing</value>
+                    <value>Voluptatem aperiam aliqua totam amet</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100">
                     <label>Email</label>
-                    <value>Doloremque voluptatem adipiscing stract natus</value>
+                    <value>Elit dolor natus sit laudantium</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30">
                     <label>Username</label>
-                    <value>Rem officia voluptatem amet co</value>
+                    <value>Amet laudantium rem aperiam ma</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30">
                     <label>Telefone</label>
-                    <value>Lorem laudantium rem sit adipi</value>
+                    <value>Sit aperiam unde ut labore</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30">
                     <label>Telemóvel</label>
-                    <value>Unde ipsum ut perspiciatis str</value>
+                    <value>Aliqua omnis ut sit natus</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Amet rem amet ipsum omnis</value>
+                    <value>Aperiam aliqua amet sit deseru</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Unde rem elit labore deserunt</value>
+                    <value>Magna omnis mollit stract lore</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
                     <label>Password Expira em</label>
-                    <value>Adipiscing mollit anim adipisc</value>
+                    <value>Aliqua consectetur aperiam tot</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
-                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
                 </view_1_img>
             </fields>
         </view_1>
@@ -84,16 +89,16 @@
             <item type="specific" code="" rel="alterar_senha">
                 <title>Alterar senha</title>
                 <app>igrp</app>
-                <page>_CONS_PROC</page>
+                <page>ChangePassword</page>
                 <link>index</link>
                 <target>right_panel</target>
                 <img>info|fa-lock</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xml</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label> Idioma</label>
                     <list>
                         <option/>
@@ -118,7 +123,7 @@
                 <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Acesso</label>
                 </separator_1>
-                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Perfil</label>
                     <list>
                         <option/>

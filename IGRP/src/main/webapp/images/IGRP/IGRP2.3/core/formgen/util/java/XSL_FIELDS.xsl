@@ -50,7 +50,7 @@
 								<xsl:value-of select="$tab"/>
 								<xsl:value-of select="concat('public Field ',name(),'_check',';')"/>
 							</xsl:when>
-							<xsl:when test="@type='link' or @desc='true'">
+							<xsl:when test="@type='link' and @desc='true'">
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
 								<xsl:value-of select="$newline"/>
 								<xsl:value-of select="$tab"/>
@@ -149,7 +149,7 @@
 							
 						</xsl:if>
 			
-						 <xsl:if test="@type='link' or @desc='true'">
+						 <xsl:if test="@type='link' and @desc='true'">
 							<xsl:value-of select="concat($tag_name,'_desc',' = new ')"/>
 							<xsl:call-template name="typeFieldClass">
 					    		<xsl:with-param name="type" select="@type" />
@@ -238,7 +238,7 @@
 						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
 							
 					 	</xsl:if>
-					 	<xsl:if test="@type = 'link' or @desc='true'">
+					 	<xsl:if test="@type = 'link' and @desc='true'">
 							<xsl:value-of select="$newline"/>
 					  	    <xsl:value-of select="$tab2"/>
 					 		<xsl:value-of select="concat($tag_name,'_desc','.setValue(model);')"/>
