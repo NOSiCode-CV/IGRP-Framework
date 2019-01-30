@@ -9,7 +9,6 @@ import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.webapp.helpers.IgrpHelper;
-
 /**
  * @author: Emanuel Pereira
  * 
@@ -72,7 +71,7 @@ public class IGRPSeparatorList extends IGRPTable {
 	@Override
 	protected void genRows() {
 		
-		int rowIndex = 1; 
+		int rowIndex = 1;
 		
 		this.data = this.modelList;
 		
@@ -97,6 +96,8 @@ public class IGRPSeparatorList extends IGRPTable {
 				for(Field field : this.fields){
 					
 					String val = IgrpHelper.getValue(obj, field.getName());
+					
+					System.out.println(field.getName() + " : " + val);
 					
 					if(field.getName().equals(this.tag_name + "_id")) {
 						
