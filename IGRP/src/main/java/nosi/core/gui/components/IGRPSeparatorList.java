@@ -46,7 +46,6 @@ public class IGRPSeparatorList extends IGRPTable {
 	public IGRPSeparatorList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "separatorlist");
-		
 		this.addFormlist_1_id();
 	}
 	
@@ -72,7 +71,10 @@ public class IGRPSeparatorList extends IGRPTable {
 	}
 	
 	private void addFormlist_1_id() {
-		Field formlist_1_id = new HiddenField("formlist_1_id");
+		Field formlist_1_id = new HiddenField(this.tag_name + "_id");
+		formlist_1_id.setLabel("");
+		formlist_1_id.propertie().add("name","p_" + this.tag_name + "_id").add("type","hidden").add("maxlength","50").add("java-type","").add("tag","hidden_1").add("desc","true");
+		
 		this.addField(formlist_1_id);
 	}
 	
