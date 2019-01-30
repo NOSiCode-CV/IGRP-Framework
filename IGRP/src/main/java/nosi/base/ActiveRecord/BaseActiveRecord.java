@@ -19,6 +19,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
 /**
@@ -49,6 +50,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private T classNameCriteria;
 	private boolean showError = true;
 	private boolean showTracing = true;
+	private String columnsSelect = "";
 	
 	public BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
@@ -400,7 +402,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	private String generateSql() {
-		return " SELECT "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
+		return " SELECT "+this.columnsSelect+" "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
 	private String generateSqlCount() {
@@ -471,8 +473,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		if(Core.isNotNull(value)) {
 			paramName = recq.removeAlias(paramName);
 			this.and();
-			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
-			this.addParamter(name,paramName,value,classType);
+			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
+				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+":"+paramName+" ");
+				this.addParamter(name,paramName,value.toString().toUpperCase(),classType);				
+			}else {
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
+				this.addParamter(name,paramName,value,classType);
+			}
 		}
 		return (T) this;
 	}
@@ -563,7 +570,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public T where(String name, String paramName, String operator, Date value) {
 		return this.whereObject(name, paramName, operator, value,Date.class);
 	}
-
+	
 	@Override
 	public T andWhere(String name, String paramName, String operator, String value) {
 		return this.andWhereObject(name, paramName, operator, value,String.class);
@@ -1005,5 +1012,120 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return this.root;
 	}
 
+	private Field getKeyFieldOfEntity(Object value) {
+		if(value instanceof BaseActiveRecord) {
+			Field[] fields = value.getClass().getDeclaredFields();
+			for(Field field:fields) {
+				if(field.isAnnotationPresent(Id.class)) {
+					return field;
+				}
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public T andWhere(String name,String operator,Object value) {
+		return this.andWhere(name,name,operator,value);
+	}
+	
+	@Override
+	public T andWhere(String name, String paramName, String operator, Object value) {
+		Field pk = this.getKeyFieldOfEntity(value);
+		if(pk!=null) {
+			pk.setAccessible(true);
+			Object v = null;
+			try {
+				v = pk.get(value);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			pk.setAccessible(false);
+			return this.andWhereObject(name, name, operator, v,pk.getType());
+		}
+		return this.andWhereObject(name, name, operator, value,Object.class);
+	}
 
+	@Override
+	public T where(String name, String operator, Object value) {
+		return this.where(name,name,operator,value);
+	}
+
+	@Override
+	public T where(String name, String paramName, String operator, Object value) {
+		Field pk = this.getKeyFieldOfEntity(value);
+		if(pk!=null) {
+			pk.setAccessible(true);
+			Object v = null;
+			try {
+				v = pk.get(value);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			pk.setAccessible(false);
+			return this.whereObject(name, name, operator, v,pk.getType());
+		}
+		return this.whereObject(name, name, operator, value,Object.class);
+	}
+
+	@Override
+	public T orWhere(String name, String operator, Object value) {
+		return this.orWhere(name,name,operator,value);
+	}
+
+	@Override
+	public T orWhere(String name, String paramName, String operator, Object value) {
+		Field pk = this.getKeyFieldOfEntity(value);
+		if(pk!=null) {
+			pk.setAccessible(true);
+			Object v = null;
+			try {
+				v = pk.get(value);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			pk.setAccessible(false);
+			return this.orWhereObject(name, name, operator, v,pk.getType());
+		}
+		return this.orWhereObject(name, name, operator, value,Object.class);
+	}
+
+	/*
+	@Override
+	public T sum(String name) {
+		this.columnsSelect+=" SUM("+recq.resolveColumnName(this.getAlias(),name)+"), ";
+		return (T) this;
+	}
+
+	@Override
+	public T avg(String name) {
+		this.columnsSelect+=" AVG("+recq.resolveColumnName(this.getAlias(),name)+"), ";
+		return (T) this;
+	}
+
+	@Override
+	public T min(String name) {
+		this.columnsSelect+=" MIN("+recq.resolveColumnName(this.getAlias(),name)+"), ";
+		return (T) this;
+	}
+
+	@Override
+	public T max(String name) {
+		this.columnsSelect+=" MAX("+recq.resolveColumnName(this.getAlias(),name)+"), ";
+		return (T) this;
+	}
+
+	@Override
+	public T count(String name) {
+		this.columnsSelect+=" COUNT("+recq.resolveColumnName(this.getAlias(),name)+"), ";
+		return (T) this;
+	}
+
+	*/
 }

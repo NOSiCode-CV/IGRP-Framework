@@ -715,7 +715,7 @@ public class PageController extends Controller {
 		if (p_id != null && !p_id.isEmpty()) {
 			Action ac = null;
 			if(Core.isInt(p_id)) {
-				ac = new Action().findOne(p_id);
+				ac = new Action().findOne(Core.toInt(p_id));
 			}
 			else {
 				ac = new Action().find().andWhere("page", "=", p_id).one();

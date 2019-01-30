@@ -28,12 +28,20 @@
 					</xsl:otherwise>
 				</xsl:choose>
 		 	</xsl:variable>
+	 		<xsl:variable name="container_type">
+		 		<xsl:value-of select="../../@type"/>
+		 	</xsl:variable>
             <!--<xsl:if test="not(@name=preceding::node()/@name)"> -->
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
 						<xsl:value-of select="$tab"/> 
 						<xsl:choose>
 							<xsl:when test="@type='hidden'">
+								<xsl:if test="$container_type='formlist'">
+									<xsl:value-of select="concat('public Field ',@tag,'_desc;')"/>
+									<xsl:value-of select="$newline"/>
+									<xsl:value-of select="$tab"/>
+								</xsl:if>
 								<xsl:value-of select="concat('public Field ',@tag,';')"/>
 							</xsl:when>
 							<xsl:when test="@type='checkbox' or @type='radio'">
@@ -42,7 +50,7 @@
 								<xsl:value-of select="$tab"/>
 								<xsl:value-of select="concat('public Field ',name(),'_check',';')"/>
 							</xsl:when>
-							<xsl:when test="@type='link' or @desc='true'">
+							<xsl:when test="@type='link' and @desc='true'">
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
 								<xsl:value-of select="$newline"/>
 								<xsl:value-of select="$tab"/>
@@ -68,9 +76,7 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						
-						<xsl:variable name="container_type">
-					 		<xsl:value-of select="../../@type"/>
-					 	</xsl:variable>
+					
 					 	
 					 	<xsl:if test="@persist='true' ">
 					 		<xsl:variable name="p_value">
@@ -143,7 +149,7 @@
 							
 						</xsl:if>
 			
-						 <xsl:if test="@type='link' or @desc='true'">
+						 <xsl:if test="@type='link' and @desc='true'">
 							<xsl:value-of select="concat($tag_name,'_desc',' = new ')"/>
 							<xsl:call-template name="typeFieldClass">
 					    		<xsl:with-param name="type" select="@type" />
@@ -232,7 +238,7 @@
 						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
 							
 					 	</xsl:if>
-					 	<xsl:if test="@type = 'link' or @desc='true'">
+					 	<xsl:if test="@type = 'link' and @desc='true'">
 							<xsl:value-of select="$newline"/>
 					  	    <xsl:value-of select="$tab2"/>
 					 		<xsl:value-of select="concat($tag_name,'_desc','.setValue(model);')"/>

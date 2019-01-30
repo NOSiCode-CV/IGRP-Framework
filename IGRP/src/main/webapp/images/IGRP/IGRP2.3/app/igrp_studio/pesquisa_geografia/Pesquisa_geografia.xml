@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=75</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=71</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -46,103 +46,103 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <geo type="treemenu" xml-type="table" gen-remote="true" gen-type="container" gen-group="true">
+        <treemenu_1 type="treemenu" xml-type="table" gen-remote="true" gen-type="container" gen-group="true">
             <fields>
-                <geo_link type="link" maxlength="4000" target="_self" desc="true">
+                <treemenu_1_link type="link" maxlength="4000" target="_self" desc="true">
                     <label>Link</label>
-                </geo_link>
-                <geo_tmid type="number">
+                </treemenu_1_link>
+                <treemenu_1_tmid type="number" java-type="Integer">
                     <label>ID</label>
-                </geo_tmid>
-                <geo_parent type="number">
+                </treemenu_1_tmid>
+                <treemenu_1_parent type="number" java-type="Integer">
                     <label>Parent ID</label>
-                </geo_parent>
-                <geo_icon type="text">
+                </treemenu_1_parent>
+                <treemenu_1_icon type="text">
                     <label>Icon</label>
-                </geo_icon>
-                <geo_child type="text">
+                </treemenu_1_icon>
+                <treemenu_1_child type="text">
                     <label>Has child value(0/X)</label>
-                </geo_child>
-                <geo_active type="text">
+                </treemenu_1_child>
+                <treemenu_1_active type="text">
                     <label>Is Active value(true/false)</label>
-                </geo_active>
+                </treemenu_1_active>
             </fields>
             <table>
                 <value>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 1</geo_link_desc>
-                        <geo_tmid>1</geo_tmid>
-                        <geo_parent/>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 1</treemenu_1_link_desc>
+                        <treemenu_1_tmid>1</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 2</geo_link_desc>
-                        <geo_tmid>2</geo_tmid>
-                        <geo_parent>1</geo_parent>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 2</treemenu_1_link_desc>
+                        <treemenu_1_tmid>2</treemenu_1_tmid>
+                        <treemenu_1_parent>1</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 3</geo_link_desc>
-                        <geo_tmid>3</geo_tmid>
-                        <geo_parent>1</geo_parent>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 3</treemenu_1_link_desc>
+                        <treemenu_1_tmid>3</treemenu_1_tmid>
+                        <treemenu_1_parent>1</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 4</geo_link_desc>
-                        <geo_tmid>4</geo_tmid>
-                        <geo_parent>3</geo_parent>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 4</treemenu_1_link_desc>
+                        <treemenu_1_tmid>4</treemenu_1_tmid>
+                        <treemenu_1_parent>3</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 5</geo_link_desc>
-                        <geo_tmid>5</geo_tmid>
-                        <geo_parent/>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 5</treemenu_1_link_desc>
+                        <treemenu_1_tmid>5</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 6</geo_link_desc>
-                        <geo_tmid>6</geo_tmid>
-                        <geo_parent>5</geo_parent>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 6</treemenu_1_link_desc>
+                        <treemenu_1_tmid>6</treemenu_1_tmid>
+                        <treemenu_1_parent>5</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 7</geo_link_desc>
-                        <geo_tmid>7</geo_tmid>
-                        <geo_parent/>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 7</treemenu_1_link_desc>
+                        <treemenu_1_tmid>7</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <geo_link>#</geo_link>
-                        <geo_link_desc> Menu 8</geo_link_desc>
-                        <geo_tmid>8</geo_tmid>
-                        <geo_parent>7</geo_parent>
-                        <geo_icon/>
-                        <geo_child/>
-                        <geo_active/>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 8</treemenu_1_link_desc>
+                        <treemenu_1_tmid>8</treemenu_1_tmid>
+                        <treemenu_1_parent>7</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                 </value>
             </table>
-        </geo>
+        </treemenu_1>
     </content>
 </rows>

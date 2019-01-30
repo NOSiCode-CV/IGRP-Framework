@@ -322,7 +322,7 @@ public abstract class Model { // IGRP super model
 					while(row < MAX_ITERATION) {
 						
 						Object obj2 = Class.forName(c_.getName()).newInstance();
-						this.validateRows(mapFk,obj2,row);
+						//this.validateRows(mapFk,obj2,row);
 
 						for(Field m : obj2.getClass().getDeclaredFields()){
 							
@@ -354,15 +354,15 @@ public abstract class Model { // IGRP super model
 		
 	}
 
-	private boolean validateRows(Map<String, List<String>> mapFk, Object obj2, int row) {
-		List<Boolean> isLineEmpty = new ArrayList<>(); 
-		Field[] fields = obj2.getClass().getDeclaredFields();
-		for(Field m : fields ){
-			isLineEmpty.add(Core.isNull(mapFk.get(m.getName()).get(row)));
-		}
-		isLineEmpty = isLineEmpty.stream().filter(empty->empty==true).collect(Collectors.toList());
-		return isLineEmpty.size()==fields.length;
-	}	
+//	private boolean validateRows(Map<String, List<String>> mapFk, Object obj2, int row) {
+//		List<Boolean> isLineEmpty = new ArrayList<>(); 
+//		Field[] fields = obj2.getClass().getDeclaredFields();
+//		for(Field m : fields ){
+//			isLineEmpty.add(Core.isNull(mapFk.get(m.getName()).get(row)));
+//		}
+//		isLineEmpty = isLineEmpty.stream().filter(empty->empty==true).collect(Collectors.toList());
+//		return isLineEmpty.size()==fields.length;
+//	}	
 	
 	
 	/*

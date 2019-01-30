@@ -1,14 +1,16 @@
-
 package nosi.webapps.igrp.pages.settings;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class SettingsView extends View {
-	
-	
+
 	public Field sectionheader_1_text;
 	public Field nome;
 	public Field email;
@@ -22,20 +24,24 @@ public class SettingsView extends View {
 	public Field idioma;
 	public Field separator_1;
 	public Field perfil;
-	public Field p_organica;
+	public Field organica;
 	public IGRPForm sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_alterar_senha;
-	public SettingsView(Settings model){
+
+	public SettingsView(){
 
 		this.setPageTitle("Área pessoal");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
+
 		view_1 = new IGRPView("view_1","");
+
 		form_1 = new IGRPForm("form_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Área pessoal"));
@@ -79,7 +85,7 @@ public class SettingsView extends View {
 		
 		idioma = new ListField(model,"idioma");
 		idioma.setLabel(gt(" Idioma"));
-		idioma.propertie().add("name","p_idioma").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		idioma.propertie().add("name","p_idioma").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		separator_1 = new SeparatorField(model,"separator_1");
 		separator_1.setLabel(gt("Acesso"));
@@ -87,17 +93,18 @@ public class SettingsView extends View {
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
-		p_organica = new HiddenField(model,"p_organica");
-		p_organica.setLabel(gt(""));
-		p_organica.propertie().add("name","p_organica").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","organica");
+		organica = new HiddenField(model,"organica");
+		organica.setLabel(gt(""));
+		organica.propertie().add("name","p_organica").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","organica");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_alterar_senha = new IGRPButton("Alterar senha","igrp","Settings","alterar_senha","right_panel","info|fa-lock","","");
 		btn_alterar_senha.propertie.add("type","specific").add("rel","alterar_senha");
+
 		
 	}
 		
@@ -120,7 +127,7 @@ public class SettingsView extends View {
 		form_1.addField(idioma);
 		form_1.addField(separator_1);
 		form_1.addField(perfil);
-		form_1.addField(p_organica);
+		form_1.addField(organica);
 
 		toolsbar_1.addButton(btn_alterar_senha);
 		this.addToPage(sectionheader_1);
@@ -132,18 +139,19 @@ public class SettingsView extends View {
 	@Override
 	public void setModel(Model model) {
 		
+		nome.setValue(model);
+		email.setValue(model);
+		username.setValue(model);
+		telefone.setValue(model);
+		telemovel.setValue(model);
+		ultimo_acesso_igrp.setValue(model);
+		ultimo_acesso_rede_estado.setValue(model);
+		password_expira_em.setValue(model);
+		view_1_img.setValue(model);
+		idioma.setValue(model);
+		separator_1.setValue(model);
+		perfil.setValue(model);
+		organica.setValue(model);	
 
-
-
-
-
-
-
-
-
-
-
-
-
-	}
+		}
 }

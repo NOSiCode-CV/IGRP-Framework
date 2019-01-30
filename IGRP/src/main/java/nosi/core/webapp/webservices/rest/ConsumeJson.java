@@ -43,12 +43,12 @@ public class ConsumeJson {
 		return response.toString();
 	}
 	
-	public String getJsonFromUrl(String url) throws IOException {
+	public String getJsonFromUrl(String url, String authorization) throws IOException {
 		URL    url_request          = new URL( url );
 		HttpURLConnection conn= (HttpURLConnection) url_request.openConnection();           
 		conn.setDoOutput( true );
 		conn.setInstanceFollowRedirects( false );
-		conn.setRequestProperty("Authorization", "Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f"); 
+		conn.setRequestProperty("Authorization", authorization); 
 		conn.setRequestMethod( "POST" );
 		conn.setRequestProperty( "accept", "application/json"); 
 		conn.setRequestProperty( "charset", "utf-8");

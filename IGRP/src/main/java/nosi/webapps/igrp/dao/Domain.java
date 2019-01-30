@@ -85,5 +85,11 @@ public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable
 	public void setordem(int ordem) {
 		this.ordem = ordem;
 	}
+
+	@Override
+	public String toString() {
+		return "Domain [id=" + id + ", dominio=" + dominio + ", valor=" + valor + ", description=" + description
+				+ ", status=" + status + ", ordem=" + ordem + "]";
+	}
 		
 }

@@ -6,6 +6,7 @@ import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.RadioField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -45,12 +46,18 @@ public class IGRPSeparatorList extends IGRPTable {
 	public IGRPSeparatorList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "separatorlist");
+		this.addFormlist_1_id();
 	}
 	
 	public IGRPSeparatorList(String tag_name) {
 		this(tag_name,"");
 	}
+
 	
+	public IGRPSeparatorList(String tag_name, Object model, String name) {
+		this(tag_name,"");
+		//
+	}
 	
 	protected String[] rowId;
 	
@@ -63,9 +70,9 @@ public class IGRPSeparatorList extends IGRPTable {
 		this.rowId = args;
 	}
 	
-	public IGRPSeparatorList(String tag_name, Object model, String name) {
-		this(tag_name,"");
-		//
+	private void addFormlist_1_id() {
+		Field formlist_1_id = new HiddenField("formlist_1_id");
+		this.addField(formlist_1_id);
 	}
 	
 	@Override

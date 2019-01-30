@@ -100,7 +100,8 @@ public final class Core { // Not inherit
 	 @param value value of parameter
 	 */
 	public static void addHiddenField(String name, Object value) {
-		Field f = new HiddenField(name, value != null ? value.toString() : "");
+		Field f = new HiddenField(null,name);
+		f.propertie().add("value", value).add("name","p_"+name).add("type","hidden").add("maxlength","250").add("java-type","").add("tag",name);
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
 	}

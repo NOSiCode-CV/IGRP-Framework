@@ -45,6 +45,10 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public T andWhere(String name,String operator,String value);
 	
+	public T andWhere(String name,String operator,Object value);
+	
+	public T andWhere(String name,String paramName,String operator,Object value);
+	
 	public T andWhere(String name,String operator,String[] values);
 	
 	public T andWhere(String name,String operator,Integer[] values);
@@ -64,6 +68,10 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	public T andWhere(String name,String operator,Date value);
 	
 	public T andWhere(String name,String operator,Short value);
+
+	public T where(String name,String operator,Object value);
+	
+	public T where(String name,String paramName,String operator,Object value);
 	
     public T where(String name,String paramName,String operator,String value);
 	
@@ -89,10 +97,16 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public T andWhere(String name,String paramName,String operator,Short value);
 	
+	public T andWhere(String name, String operator, Number value);
+	
 	public T orWhereNotNull(String name);
 	
 	public T orWhereIsNull(String name);
 
+	public T orWhere(String name,String operator,Object value);
+	
+	public T orWhere(String name,String paramName,String operator,Object value);
+	
 	public T orWhere(String name,String operator,String value);
 	
 	public T orWhere(String name,String operator,String[] values);
@@ -195,6 +209,16 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public Long getCount();
 
-	public T andWhere(String name, String operator, Number value);
+	/*
+	public T sum(String name);
 
+	public T avg(String name);
+	
+	public T min(String name);
+	
+	public T max(String name);
+	
+	public T count(String name);
+	
+	*/
 }

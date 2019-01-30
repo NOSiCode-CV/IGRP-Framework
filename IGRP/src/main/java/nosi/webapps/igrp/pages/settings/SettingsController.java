@@ -1,6 +1,12 @@
-
 package nosi.webapps.igrp.pages.settings;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -13,17 +19,25 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.Permission;
-/*----#END-PRESERVED-AREA----*/
-
-public class SettingsController extends Controller {		
-
-
+/*----#end-code----*/
+		
+public class SettingsController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
+		model.load();
+		model.setView_1_img("/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg");
+		SettingsView view = new SettingsView();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		view.idioma.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		  ----#gen-example */
+		/*----#start-code(index)----*/
+		
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
 		// String ichange = Core.getParam("ichange");
-		model.load();
+	
 		
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			boolean success = true;
@@ -66,7 +80,7 @@ public class SettingsController extends Controller {
 
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
 
-		SettingsView view = new SettingsView(model);
+		
 
 		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
 
@@ -93,22 +107,27 @@ public class SettingsController extends Controller {
 		idioma.put("es_ES", Core.gt("Espanhol"));
 		view.idioma.setValue(idioma);
 
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
-	}
-
-
-	public Response actionAlterar_senha() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ALTERAR_SENHA)----*/
-		Settings model = new Settings();
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-			model.load();
-		}
-		return this.redirect("igrp", "ChangePassword", "index");
-		/*----#END-PRESERVED-AREA----*/
+	
+		/*----#end-code----*/
+		view.setModel(model);
+		return this.renderView(view);	
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	public Response actionAlterar_senha() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Settings model = new Settings();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","ChangePassword","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(alterar_senha)----*/
+		
+		/*----#end-code----*/
+		return this.redirect("igrp","ChangePassword","index", this.queryString());	
+	}
+	
+/*----#start-code(custom_actions)----*/
 
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
 }

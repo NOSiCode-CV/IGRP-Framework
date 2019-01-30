@@ -19,6 +19,7 @@ import javax.persistence.TypedQuery;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.webapps.igrp.dao.Config_env;
 
 
@@ -505,6 +506,11 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	@Override
+	public QueryInterface notExists(String value) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public QueryInterface innerJoin(String table2, String key1, String key2) {
 		throw new UnsupportedOperationException();
 	}
@@ -672,28 +678,32 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface where(String name, String operator, String value) {
-		this.sql += " WHERE "+name+" =:"+name;
+		if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
+			this.sql += " WHERE UPPER("+name+") "+operator+":"+name.toUpperCase();
+		}else {
+			this.sql += " WHERE "+name+" "+operator+":"+name;
+		}
 		this.addString(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Integer value) {
-		this.sql += " WHERE "+name+" =:"+name;
+		this.sql += " WHERE "+name+" "+operator+":"+name;
 		this.addInt(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Float value) {
-		this.sql += " WHERE "+name+" =:"+name;
+		this.sql += " WHERE "+name+" "+operator+":"+name;
 		this.addFloat(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Double value) {
-		this.sql += " WHERE "+name+" =:"+name;
+		this.sql += " WHERE "+name+" "+operator+":"+name;
 		this.addDouble(name, value);
 		return this;
 	}
