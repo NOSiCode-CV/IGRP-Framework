@@ -3,6 +3,7 @@ package nosi.core.webapp.databse.helpers;
 import java.util.Arrays;
 
 import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.StringHelper;
 
 /**
  * Emanuel
@@ -17,7 +18,11 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, String value) {
 		if(value!=null) {
-			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addString(name, value);
+			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
+				this.filterWhere(" AND UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
+			}else {
+				this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addString(name, value);
+			}
 		}
 		return this;
 	}
@@ -65,7 +70,11 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, String value) {
 		if(value!=null) {
-			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addString(name, value);
+			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
+				this.filterWhere(" OR UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
+			}else {
+				this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addString(name, value);
+			}
 		}
 		return this;
 	}
@@ -121,6 +130,14 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface exists(String value) {
+		if(Core.isNotNull(value)) {
+			this.filterWhere(" EXISTS ("+value+") ");
+		}
+		return this;
+	}
+
+	@Override
+	public QueryInterface notExists(String value) {
 		if(Core.isNotNull(value)) {
 			this.filterWhere(" EXISTS ("+value+") ");
 		}
