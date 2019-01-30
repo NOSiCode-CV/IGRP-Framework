@@ -47,6 +47,7 @@ public class IGRPSeparatorList extends IGRPTable {
 	public IGRPSeparatorList(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties.put("type", "separatorlist");
+		
 		this.addFormlist_1_id();
 	}
 	
