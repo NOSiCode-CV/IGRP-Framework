@@ -130,6 +130,8 @@ public class Controller{
 		this.view = view;
 		view.setContext(this); // associa controller ao view
 		this.view.render();
+		if(!isRenderPartial)
+			this.view.addToPage(this.view.addFieldToFormHidden());
 		String result = this.view.getPage().renderContent(!isRenderPartial);
 		resp.setType(1);
 		resp.setCharacterEncoding(Response.CHARSET_UTF_8);

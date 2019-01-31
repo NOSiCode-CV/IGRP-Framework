@@ -19,12 +19,9 @@ package nosi.core.gui.components;
  */
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.config.Config;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.HiddenField;
-import nosi.core.webapp.Igrp;
 
 public class IGRPForm extends IGRPComponent{
 	protected List<Field> fields;
@@ -49,16 +46,7 @@ public class IGRPForm extends IGRPComponent{
 		this.properties.put("xml-group", "");
 		this.toolsbar = new IGRPToolsBar("tools-bar");
 		this.toolsbar.setClassName(this);
-		this.addUrl();
 	}	
-
-	private void addUrl() {
-		Field field = new HiddenField("env_frm_url");
-		String value = new Config().getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index");
-		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
-		field.setValue(value);
-		this.addField(field);
-	}
 
 	public IGRPForm(String tag_name) {
 		this(tag_name,"");
