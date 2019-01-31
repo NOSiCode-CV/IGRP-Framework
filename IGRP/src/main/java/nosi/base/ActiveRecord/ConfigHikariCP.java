@@ -16,7 +16,7 @@ public class ConfigHikariCP {
 	private String maxLifetime;
 	private String leakDetectionThreshold;
 	private String provider_class;
-	private String useConnectionPool;
+	private String useConnectionPool="";
 	
 	public ConfigHikariCP() {
 		try {
