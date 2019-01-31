@@ -11,11 +11,12 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.BootstrapServiceRegistry;
+import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import org.hibernate.service.ServiceRegistry;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.exception.PermissionException;
@@ -26,7 +27,7 @@ import nosi.webapps.igrp.dao.Config_env;
 
 public class HibernateUtils {
 
-	private static StandardServiceRegistry registry= null;
+	private static ServiceRegistry registry= null;
 	private static final Map<String,SessionFactory> sessionFactory = new HashMap<>();
 
 	public static SessionFactory getSessionFactory(Config_env config_env) {
@@ -41,21 +42,30 @@ public class HibernateUtils {
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad,String schemaName) {
 		if(Core.isNotNull(connectionName)) {		
+			
 			String connectionName_ = new ConfigApp().getBaseConnection();
 			if(!connectionName.equalsIgnoreCase(new ConfigApp().getBaseConnection()) && !connectionName.equalsIgnoreCase(new ConfigApp().getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
 				registry = buildConfig(connectionName,dad,schemaName);
+				MetadataSources metadataSources = new MetadataSources(registry);;
 				if(registry!=null) {
 					try {
-						MetadataSources sources = new MetadataSources(registry);
-						Metadata metadata = sources.getMetadataBuilder().build();
-						sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
+//						sessionFactory = metadataSources.buildMetadata().getSessionFactoryBuilder().build();
+						sessionFactory.put(connectionName_,metadataSources.buildMetadata().getSessionFactoryBuilder().build());
+//						MetadataSources sources = new MetadataSources(registry);
+//						Metadata metadata = sources.getMetadataBuilder().build();
+//						sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
 					} catch (Exception e) {
 						e.printStackTrace();
 						destroy();
-					}
+					}finally {
+				        ServiceRegistry metaServiceRegistry = metadataSources.getServiceRegistry();
+				        if(metaServiceRegistry instanceof BootstrapServiceRegistry ) {
+				            BootstrapServiceRegistryBuilder.destroy( metaServiceRegistry );
+				        }
+				    }
 				}else {
 					throw new PermissionException("Acesso nao permitido");
 				}
@@ -65,7 +75,7 @@ public class HibernateUtils {
 		return null;
 	}
 
-	private static StandardServiceRegistry buildConfig(String connectionName,String dad,String schemaName) {
+	private static ServiceRegistry buildConfig(String connectionName,String dad,String schemaName) {
 		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 		try {
 			if (new ConfigApp().getBaseConnection().equalsIgnoreCase(connectionName)) {
@@ -140,58 +150,31 @@ public class HibernateUtils {
 
 	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect,String schemaName) {
 		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);	
+
+		ConfigHikariCP cHCp = new ConfigHikariCP();
+		
 		//Hibernate config
 		settings.put(Environment.HBM2DDL_AUTO, "update");
         settings.put("hibernate.connection.isolation", "2");
         settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
         settings.put("hibernate.transaction.auto_close_session", "true");
-        if(Core.isNotNull(schemaName))
-//        	TenantContext.setTenant(schema);
-        	settings.put("hibernate.default_schema", schemaName);
-//        
-//        settings.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
-//        settings.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, MultiTenantConnectionProvider.INSTANCE);
-//        TenantContext.TenantIdentifierResolver currentTenantIdentifierResolver = new TenantIdentifierResolver();
-////        currentTenantIdentifierResolver.s
-//		settings.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver );
-//        settings.put("hibernate.multiTenancy", "SCHEMA");
-//        settings.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER,MultiTenantConnectionProvider.INSTANCE);
         
-//        settings.put("connection.pool_size", "30");
-		// HikariCP settings (values in milliseconds)
-//		ConfigHikariCP cHCp = new ConfigHikariCP();
-//		
-        //c3p0 config
-//		settings.put("hibernate.c3p0.min_size",cHCp.getMinimumIdle());
-//    	settings.put("hibernate.c3p0.max_size",cHCp.getMaximumPoolSize()); 	
-//    	settings.put("hibernate.c3p0.timeout",cHCp.getConnectionTimeout());
-//    	settings.put("hibernate.c3p0.max_statements","50");
-//    	settings.put("hibernate.connection.provider_class","org.hibernate.connection.C3P0ConnectionProvider");
-//    	settings.put("hibernate.c3p0.idle_test_period","10"); // 10s 	
-//    	settings.put("hibernate.c3p0.acquire_increment", "2");//    	
-//    	// Ensure that all idle connections are closed in 25s 
-//    	settings.put("hibernate.c3p0.maxIdleTime",cHCp.getIdleTimeout()); // 25s to close all unused connection 
-//    	settings.put("hibernate.c3p0.maxIdleTimeExcessConnections","20"); // aggressively ... close all unused connection 20s //    	
-//    	// Go to http://www.mchange.com/projects/c3p0/#configuring_to_debug_and_workaround_broken_clients 
-//    	// For memory leak prevention and bad clients ... 
-//    	settings.put("hibernate.c3p0.unreturnedConnectionTimeout","1000"); // ... increase the timeout ... 
-//    	settings.put("hibernate.c3p0.debugUnreturnedConnectionStackTraces","true"); 
-//    	settings.put("hibernate.c3p0.contextClassLoaderSource","library"); 
-//    	settings.put("hibernate.c3p0.privilegeSpawnedThreads","true"); 
-    	
        //hickaricp config
 
-//        settings.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
-//		//Maximum waiting time for a connection from the pool. 
-//		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
-//		//Maximum time that a connection is allowed to sit ideal in the pool
-//		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
-//		//Minimum number of ideal connections in the pool
-//		settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
-//		//Maximum number of actual connection in the pool
-//		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
-//		//Maximum lifetime of a connection in the pool
-//		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
+        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());
+        
+		//Maximum waiting time for a connection from the pool. 
+		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
+		//Maximum time that a connection is allowed to sit ideal in the pool
+		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
+		//Minimum number of ideal connections in the pool
+		settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
+		//Maximum number of actual connection in the pool
+		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
+		//Maximum lifetime of a connection in the pool
+		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
+		//Detected leak
+		settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
 		return settings;
 	}
 
@@ -228,13 +211,13 @@ public class HibernateUtils {
 	}
 
 	public static void closeAllConnection() {
-		sessionFactory.entrySet().stream().forEach(s->{
-			s.getValue().close();
-		});
+//		sessionFactory.entrySet().stream().forEach(s->{
+//			s.getValue().close();
+//		});
 	}
 
 	public static void removeSessionFactory(String connectionName) {
-		sessionFactory.remove(connectionName);
+//		sessionFactory.remove(connectionName);
 	}
 
 }
