@@ -669,14 +669,8 @@
  	
  	<!-- statbox, smallbox, circlestatbox  -->
  	<xsl:template name="setBoxUrl">
- 		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']">
-	 		 	
-	 			<xsl:variable name="_url" select="./fields/*[@name = concat(@name,'_url')]/value" />
-	 			<xsl:variable name="_title" select="./fields/*[@name = concat(@name,'_title')]/value" />
-	 			<xsl:variable name="_bg" select="./fields/*[@name = concat(@name,'_bg')]/value" />
-	 			<xsl:variable name="_icn" select="./fields/*[@name = concat(@name,'_icn')]/value" />
-	 			<xsl:variable name="_txt" select="./fields/*[@name = concat(@name,'_txt')]/value" />
-	 			
+ 		<xsl:for-each select="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox']/fields/*">
+	 		 
 	 			<xsl:call-template name="newlineTab2"/>
 	 			
 	 			<xsl:variable name="instance_name">
@@ -685,16 +679,8 @@
 	 				</xsl:call-template>
 	 			</xsl:variable>
 	 			
- 				<xsl:value-of select="concat('model.','set', $instance_name,'_url(',$double_quotes, ./fields/*[contains(@name, '_url')]/value, $double_quotes,');')"/> 
- 				<xsl:call-template name="newlineTab2"/>
-	 			<xsl:value-of select="concat('model.','set', $instance_name,'_title(',$double_quotes, ./fields/*[contains(@name, '_title')]/value, $double_quotes,');')"/> 
-				<xsl:call-template name="newlineTab2"/>
-	 			<xsl:value-of select="concat('model.','set', $instance_name,'_bg(',$double_quotes, ./fields/*[contains(@name, '_bg')]/value, $double_quotes,');')"/> 
-				<xsl:call-template name="newlineTab2"/>
-	 			<xsl:value-of select="concat('model.','set', $instance_name,'_icn(',$double_quotes, ./fields/*[contains(@name, '_icn')]/value, $double_quotes,');')"/> 
-				<xsl:call-template name="newlineTab2"/>
-	 			<xsl:value-of select="concat('model.','set', $instance_name,'_txt(',$double_quotes, ./fields/*[contains(@name, '_txt')]/value, $double_quotes,');')"/> 
-					
+ 				<xsl:value-of select="concat('model.','set', $instance_name,'(',$double_quotes, ./value, $double_quotes,');')"/> 
+
 	 	</xsl:for-each>
 	 	<xsl:call-template name="newlineTab2"/>
  	</xsl:template>
