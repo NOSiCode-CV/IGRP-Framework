@@ -159,22 +159,24 @@ public class HibernateUtils {
         settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
         settings.put("hibernate.transaction.auto_close_session", "true");
         
-       //hickaricp config
-
-        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());
-        
-		//Maximum waiting time for a connection from the pool. 
-		settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
-		//Maximum time that a connection is allowed to sit ideal in the pool
-		settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
-		//Minimum number of ideal connections in the pool
-		settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
-		//Maximum number of actual connection in the pool
-		settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
-		//Maximum lifetime of a connection in the pool
-		settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
-		//Detected leak
-		settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
+        if(cHCp.getUseConnectionPool().compareTo("true")==0) {
+	       //hickaricp config
+	        
+	        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());
+	        
+			//Maximum waiting time for a connection from the pool. 
+			settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
+			//Maximum time that a connection is allowed to sit ideal in the pool
+			settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
+			//Minimum number of ideal connections in the pool
+			settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
+			//Maximum number of actual connection in the pool
+			settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
+			//Maximum lifetime of a connection in the pool
+			settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
+			//Detected leak
+			settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
+        }
 		return settings;
 	}
 
