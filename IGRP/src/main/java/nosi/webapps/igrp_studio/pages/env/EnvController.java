@@ -583,8 +583,6 @@ public class EnvController extends Controller {
 			
 			try {
 				
-				Core.setMessageWarning("Entrado link plsql ... ");
-				
 				String sessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
 				
 				List<Session> list = new Session().find().andWhere("sessionId", "=", sessionId).all();
@@ -593,11 +591,6 @@ public class EnvController extends Controller {
 					Session session = list.get(0);
 					endpoint += "/" + session.getId() + ":" + session.getSessionId() + "/" + session.getIpAddress();
 				}
-				
-				
-				Core.setMessageWarning("PLSQL endpoint: " + endpoint);
-				System.out.println("PLSQL endpoint: " + endpoint); 
-				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
