@@ -16,6 +16,7 @@ public class ConfigHikariCP {
 	private String maxLifetime;
 	private String leakDetectionThreshold;
 	private String provider_class;
+	private String useConnectionPool;
 	
 	public ConfigHikariCP() {
 		try {
@@ -81,6 +82,14 @@ public class ConfigHikariCP {
 		this.provider_class = provider_class;
 	}
 	
+	public String getUseConnectionPool() {
+		return useConnectionPool;
+	}
+
+	public void setUseConnectionPool(String useConnectionPool) {
+		this.useConnectionPool = useConnectionPool;
+	}
+
 	public void load() throws Exception{
 		Properties p = new ConfigApp().loadProperties("/config/db/hikaricp.properties");
 		if(p!=null){
@@ -91,6 +100,7 @@ public class ConfigHikariCP {
 			this.minimumIdle = p.getProperty("minimumIdle");
 			this.provider_class = p.getProperty("provider_class");
 			this.leakDetectionThreshold = p.getProperty("leakDetectionThreshold");
+			this.useConnectionPool = p.getProperty("useConnectionPool");
 		}
 	}
 }
