@@ -2,10 +2,15 @@ package nosi.core.webapp;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.components.IGRPComponent;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPToolsBar;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.page.Page;
 /**
  * You can set/get the page title, addToPage...
@@ -31,6 +36,44 @@ public abstract class View  implements IHeaderConfig{
 		this.page.setView(this);
 	}
 
+	protected IGRPForm addFieldToFormHidden() {
+		IGRPForm formHidden = new IGRPForm("hidden_form_igrp");	
+		//Add hidden field env_frm_url to persistence index url of page
+		HiddenField field = new HiddenField("env_frm_url");
+		String value = new Config().getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index");
+		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
+		field.setValue(value);
+		formHidden.addField(field);
+		//Persiste the fields of lookup parameters map
+		String isLookup = Core.getParam("forLookup");
+		if(Core.isNotNull(isLookup)){
+			Map<String,String[]> paramsName = Core.getParameters();
+			for(Entry<String,String[]> p:paramsName.entrySet()) {
+				String param = p.getKey();
+				if(
+					   !param.equalsIgnoreCase("dad") 
+					&& !param.equalsIgnoreCase("target") 
+					&& !param.equalsIgnoreCase("r") 
+					&& !param.equalsIgnoreCase("p_fwl_search")
+					&& !param.equalsIgnoreCase("prm_page")
+					&& !param.equalsIgnoreCase("prm_app")
+				) {
+					HiddenField f = new HiddenField(null,param);
+					f.propertie.add("value", p.getValue()[0]).add("tag", param).add("name",param);
+					f.setValue(p.getValue()[0]);
+					formHidden.addField(f);
+				}
+			}
+		}
+		if(IGRPForm.hiddenFields.size() >0) {
+			for(Field f:IGRPForm.hiddenFields) {
+				formHidden.addField(f);
+			}
+			IGRPForm.resetHiddenField();
+		}
+		return formHidden;
+	}
+	
 	@Override
 	public String getTitle() {
 		return title;
@@ -56,12 +99,6 @@ public abstract class View  implements IHeaderConfig{
 	
 	protected void addToPage(Object obj){
 		if(obj instanceof IGRPComponent) {
-			if(obj instanceof IGRPForm) {
-				IGRPForm.hiddenFields.stream().forEach(f->{
-					((IGRPForm) obj).addField(f);
-				});
-				IGRPForm.resetHiddenField();
-			}
 			if(((IGRPComponent) obj).isVisible())
 				this.page.addContent(obj);			
 		}else if(obj instanceof IGRPToolsBar) {

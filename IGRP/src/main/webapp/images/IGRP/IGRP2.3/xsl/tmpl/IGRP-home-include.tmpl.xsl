@@ -251,6 +251,9 @@
   </xsl:template>
   <!-- BOTTOM -->
   <xsl:template name="IGRP-bottom">
+  
+  <xsl:apply-templates mode="form-hidden-fields" select="rows/content/hidden_form_igrp/fields"/>
+  
     <!-- GLOBAL MODAL -->
     <div id="igrp-global-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
       <div class="modal-dialog">

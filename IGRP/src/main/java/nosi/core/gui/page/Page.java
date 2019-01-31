@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
 import nosi.core.exception.NotFoundHttpException;
-import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
-import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -52,14 +50,7 @@ public class Page{
 			xml += obj.toString();
 		}
 		this.gui = null;
-		if(IGRPForm.hiddenFields.size() >0) {
-			IGRPForm formHidden = new IGRPForm("form_hidden");
-			for(Field f:IGRPForm.hiddenFields) {
-				formHidden.addField(f);
-			}
-			xml+=formHidden.toString();
-		}
-	 return xml;
+		return xml;
 	}
 	
 	public String getLinkXsl() {

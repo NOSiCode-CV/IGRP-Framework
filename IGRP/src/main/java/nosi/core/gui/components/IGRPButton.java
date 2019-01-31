@@ -10,7 +10,6 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import static nosi.core.i18n.Translator.gt;
-import java.util.Map;
 import java.util.Map.Entry;
 
 
@@ -234,7 +233,7 @@ public class IGRPButton {
 		xml.setElement("title",this.getTitle());
 		xml.setElement("app",this.getApp());
 		xml.setElement("page",this.getPage());
-		xml.setElement("link",this.getPrefix()+this.getLink()+this.getParameter()+"&dad="+Core.getCurrentDad()+this.getLookupParams());
+		xml.setElement("link",this.getPrefix()+this.getLink()+this.getParameter()+"&dad="+Core.getCurrentDad());
 		xml.setElement("target",this.getTarget());
 		xml.setElement("img", this.getImg());
 		if(Core.isNotNull(this.getParams())){
@@ -245,27 +244,6 @@ public class IGRPButton {
 		}
 		xml.endElement();
 		return xml.toString();
-	}
-
-	private String getLookupParams() {
-		String isLookup = Core.getParam("forLookup");
-		if(Core.isNotNull(isLookup)){
-			String paramsLookups = "";
-			Map<String,String[]> paramsName = Core.getParameters();
-			for(Entry<String,String[]> p:paramsName.entrySet()) {
-				String param = p.getKey();
-				if(
-					   !param.equalsIgnoreCase("dad") 
-					&& !param.equalsIgnoreCase("target") 
-					&& !param.equalsIgnoreCase("r") 
-//					&& !param.equalsIgnoreCase("forLookup") 
-				) {
-					paramsLookups+="&"+param+"="+p.getValue()[0];
-				}
-			}
-			return paramsLookups;
-		}
-		return "";
 	}
 	
 	public void setMessage(String msg) {
