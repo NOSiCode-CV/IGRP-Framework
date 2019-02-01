@@ -150,14 +150,14 @@ public class HibernateUtils {
 		ConfigHikariCP cHCp = ConfigHikariCP.getInstance();
 		
 		//Hibernate config
-		if(Core.isNotNull(cHCp.getHbm2ddlAuto())){
+		if(cHCp.getHbm2ddlAuto().isPresent()){
 			//not recommended in production environment
-			settings.put(Environment.HBM2DDL_AUTO, "update");
+			settings.put(Environment.HBM2DDL_AUTO,cHCp.getHbm2ddlAuto().get().toString());
 		}
-        settings.put("hibernate.connection.isolation", Core.isNotNull(cHCp.getConnectionIsolation())?cHCp.getConnectionIsolation():"2");
-        settings.put("hibernate.current_session_context_class",Core.isNotNull(cHCp.getCurrentSessionContextClass())?cHCp.getCurrentSessionContextClass():"org.hibernate.context.internal.ThreadLocalSessionContext");
-        settings.put("hibernate.transaction.auto_close_session",Core.isNotNull(cHCp.getAutCloseSession())?cHCp.getAutCloseSession():"true");
-        settings.put("hibernate.connection.autocommit",Core.isNotNull(cHCp.getAutocommit())?cHCp.getAutocommit():"false");
+        settings.put("hibernate.connection.isolation",cHCp.getConnectionIsolation().orElse("2"));
+        settings.put("hibernate.current_session_context_class",cHCp.getCurrentSessionContextClass().orElse("org.hibernate.context.internal.ThreadLocalSessionContext"));
+        settings.put("hibernate.transaction.auto_close_session",cHCp.getAutCloseSession().orElse("true"));
+        settings.put("hibernate.connection.autocommit",cHCp.getAutocommit().orElse("false"));
         
         if(cHCp.getUseConnectionPool().compareTo("true")==0) {
 	       //hickaricp config
