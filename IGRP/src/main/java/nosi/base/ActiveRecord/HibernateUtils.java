@@ -150,10 +150,14 @@ public class HibernateUtils {
 		ConfigHikariCP cHCp = ConfigHikariCP.getInstance();
 		
 		//Hibernate config
-		settings.put(Environment.HBM2DDL_AUTO, "update");
-        settings.put("hibernate.connection.isolation", "2");
-        settings.put("hibernate.current_session_context_class","org.hibernate.context.internal.ThreadLocalSessionContext");
-        settings.put("hibernate.transaction.auto_close_session", "true");
+		if(Core.isNotNull(cHCp.getHbm2ddlAuto())){
+			//not recommended in production environment
+			settings.put(Environment.HBM2DDL_AUTO, "update");
+		}
+        settings.put("hibernate.connection.isolation", Core.isNotNull(cHCp.getConnectionIsolation())?cHCp.getConnectionIsolation():"2");
+        settings.put("hibernate.current_session_context_class",Core.isNotNull(cHCp.getCurrentSessionContextClass())?cHCp.getCurrentSessionContextClass():"org.hibernate.context.internal.ThreadLocalSessionContext");
+        settings.put("hibernate.transaction.auto_close_session",Core.isNotNull(cHCp.getAutCloseSession())?cHCp.getAutCloseSession():"true");
+        settings.put("hibernate.connection.autocommit",Core.isNotNull(cHCp.getAutocommit())?cHCp.getAutocommit():"false");
         
         if(cHCp.getUseConnectionPool().compareTo("true")==0) {
 	       //hickaricp config

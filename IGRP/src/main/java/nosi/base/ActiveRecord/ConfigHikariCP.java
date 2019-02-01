@@ -19,6 +19,11 @@ public class ConfigHikariCP {
 	private String useConnectionPool="";
 	private String allowPoolSuspension;
 	private static ConfigHikariCP instance;
+	private String hbm2ddlAuto;
+	private String connectionIsolation;
+	private String currentSessionContextClass;
+	private String autCloseSession;
+	private String autocommit;
 	
 	private ConfigHikariCP() {
 		try {
@@ -105,6 +110,47 @@ public class ConfigHikariCP {
 	public void setAllowPoolSuspension(String allowPoolSuspension) {
 		this.allowPoolSuspension = allowPoolSuspension;
 	}
+	
+	public String getHbm2ddlAuto() {
+		return hbm2ddlAuto;
+	}
+
+	public void setHbm2ddlAuto(String hbm2ddlAuto) {
+		this.hbm2ddlAuto = hbm2ddlAuto;
+	}
+
+	public String getConnectionIsolation() {
+		return connectionIsolation;
+	}
+
+	public void setConnectionIsolation(String connectionIsolation) {
+		this.connectionIsolation = connectionIsolation;
+	}
+
+	public String getCurrentSessionContextClass() {
+		return currentSessionContextClass;
+	}
+
+	public void setCurrentSessionContextClass(String currentSessionContextClass) {
+		this.currentSessionContextClass = currentSessionContextClass;
+	}
+
+	public String getAutCloseSession() {
+		return autCloseSession;
+	}
+
+	public void setAutCloseSession(String autCloseSession) {
+		this.autCloseSession = autCloseSession;
+	}
+
+	public String getAutocommit() {
+		return autocommit;
+	}
+
+	public void setAutocommit(String autocommit) {
+		this.autocommit = autocommit;
+	}
+
 
 	@Override
 	public String toString() {
@@ -112,7 +158,9 @@ public class ConfigHikariCP {
 				+ ", minimumIdle=" + minimumIdle + ", maximumPoolSize=" + maximumPoolSize + ", maxLifetime="
 				+ maxLifetime + ", leakDetectionThreshold=" + leakDetectionThreshold + ", provider_class="
 				+ provider_class + ", useConnectionPool=" + useConnectionPool + ", allowPoolSuspension="
-				+ allowPoolSuspension + "]";
+				+ allowPoolSuspension + ", hbm2ddlAuto=" + hbm2ddlAuto + ", connectionIsolation=" + connectionIsolation
+				+ ", currentSessionContextClass=" + currentSessionContextClass + ", autCloseSession=" + autCloseSession
+				+ ", autocommit=" + autocommit + "]";
 	}
 
 	public void load() throws Exception{
@@ -127,6 +175,11 @@ public class ConfigHikariCP {
 			this.leakDetectionThreshold = p.getProperty("leakDetectionThreshold");
 			this.useConnectionPool = p.getProperty("useConnectionPool");
 			this.allowPoolSuspension = p.getProperty("allowPoolSuspension");
+			this.autCloseSession = p.getProperty("autCloseSession");
+			this.connectionIsolation = p.getProperty("connectionIsolation");
+			this.hbm2ddlAuto = p.getProperty("hbm2ddlAuto");
+			this.currentSessionContextClass = p.getProperty("currentSessionContextClass");
+			this.autocommit = p.getProperty("autocommit");
 		}
 	}
 }
