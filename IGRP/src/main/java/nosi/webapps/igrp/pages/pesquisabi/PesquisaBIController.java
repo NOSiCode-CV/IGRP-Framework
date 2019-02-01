@@ -1,18 +1,12 @@
 package nosi.webapps.igrp.pages.pesquisabi;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.Response;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI.RowList;
 import nosi.core.webapp.Igrp;
 

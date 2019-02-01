@@ -1,19 +1,13 @@
 package nosi.webapps.igrp.pages.settings;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.i18n.I18nManager;
-import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-import java.io.IOException;
 import java.util.HashMap;
-import nosi.core.webapp.Core;
 import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
