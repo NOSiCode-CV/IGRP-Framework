@@ -173,7 +173,7 @@ public class HibernateUtils {
 			//Detected leak
 			settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
 			//suspense pool
-			settings.put("allowPoolSuspension", "true");
+			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
         }
 		return settings;
 	}
