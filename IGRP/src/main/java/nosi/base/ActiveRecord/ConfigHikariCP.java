@@ -17,13 +17,21 @@ public class ConfigHikariCP {
 	private String leakDetectionThreshold;
 	private String provider_class;
 	private String useConnectionPool="";
+	private String allowPoolSuspension;
+	private static ConfigHikariCP instance;
 	
-	public ConfigHikariCP() {
+	private ConfigHikariCP() {
 		try {
 			this.load();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static ConfigHikariCP getInstance() {
+		if(instance==null)
+			instance = new ConfigHikariCP();
+		return instance;
 	}
 	
 	public String getConnectionTimeout() {
@@ -90,6 +98,23 @@ public class ConfigHikariCP {
 		this.useConnectionPool = useConnectionPool;
 	}
 
+	public String getAllowPoolSuspension() {
+		return allowPoolSuspension;
+	}
+
+	public void setAllowPoolSuspension(String allowPoolSuspension) {
+		this.allowPoolSuspension = allowPoolSuspension;
+	}
+
+	@Override
+	public String toString() {
+		return "ConfigHikariCP [connectionTimeout=" + connectionTimeout + ", idleTimeout=" + idleTimeout
+				+ ", minimumIdle=" + minimumIdle + ", maximumPoolSize=" + maximumPoolSize + ", maxLifetime="
+				+ maxLifetime + ", leakDetectionThreshold=" + leakDetectionThreshold + ", provider_class="
+				+ provider_class + ", useConnectionPool=" + useConnectionPool + ", allowPoolSuspension="
+				+ allowPoolSuspension + "]";
+	}
+
 	public void load() throws Exception{
 		Properties p = new ConfigApp().loadProperties("/config/db/hikaricp.properties");
 		if(p!=null){
@@ -101,6 +126,7 @@ public class ConfigHikariCP {
 			this.provider_class = p.getProperty("provider_class");
 			this.leakDetectionThreshold = p.getProperty("leakDetectionThreshold");
 			this.useConnectionPool = p.getProperty("useConnectionPool");
+			this.allowPoolSuspension = p.getProperty("allowPoolSuspension");
 		}
 	}
 }
