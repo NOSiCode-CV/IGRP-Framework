@@ -698,11 +698,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	public List<T> findAll(CriteriaQuery<T> criteria) {
-//		EntityManager em = null;
 		Transaction transaction = null;
 		List<T> list = null;
 		try {
-//			em = this.getSession().getTransaction();
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			TypedQuery<T> query = this.getSession().createQuery(criteria);
@@ -715,7 +713,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-			this.getSession().close();
+			this.closeSession();
 		}
 		return list;
 	}
@@ -750,11 +748,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@Override
 	public List<T> all() {
 		this.sql =  this.generateSql()+this.sql;
-//		EntityManager em = null;
 		Transaction transaction = null;
 		List<T> list = null;
 		try {
-//			em = this.getSessionFactory().createEntityManager();
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			TypedQuery<T> query = this.getSession().createQuery(this.getSql(), this.className);
@@ -771,21 +767,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-//			if (em != null) {
-//				em.close();
-//			}
-//			this.closeSession();
-			this.getSession().close();
+			this.closeSession();
 		}
 		return list;
 	}
 		
 	@Override
 	public T insert() {
-//		EntityManager em = null;
 		Transaction transaction = null;
 		try {
-//			em = this.getSessionFactory().createEntityManager();
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			this.getSession().persist(this);
@@ -796,21 +786,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-//			if (em != null) {
-//				em.close();
-//			}
-//			this.closeSession();
-			this.getSession().close();
+			this.closeSession();
 		}
 		return (T) this;
 	}
 
 	@Override
 	public T update() {
-//		EntityManager em = null;
 		Transaction transaction = null;
 		try {
-//			em = this.getSessionFactory().createEntityManager();
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			this.getSession().merge(this);
@@ -821,11 +805,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-//			if (em != null) {
-//				em.close();
-//			}
-//			this.closeSession();
-			this.getSession().close();
+			this.closeSession();
 		}
 		return (T) this;
 	}
@@ -835,10 +815,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		boolean deleted = false;
 		if(this.isReadOnly())
 			return false;
-//		EntityManager em = null;
 		Transaction transaction = null;
 		try {
-//			em = this.getSessionFactory().createEntityManager();
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			this.getSession().remove(this.getSession().find(this.className, id));
@@ -850,11 +828,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-//			if (em != null) {
-//				em.close();
-//			}
-//			this.closeSession();
-			this.getSession().close();
+			this.closeSession();
 		}
 		return deleted;
 	}
@@ -884,10 +858,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
 		Long count = (long) 0;
-//		EntityManager em = null;
 		Transaction transaction = null;
 		try {
-//			em = this.getSessionFactory().createEntityManager();
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
@@ -900,11 +872,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			}
 			this.setError(e);
 		} finally {
-//			if (em != null) {
-//				em.close();
-//			}
-//			this.closeSession();
-			this.getSession().close();
+			this.closeSession();
 		}
 		
 		return count;
@@ -927,7 +895,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	protected void closeSession() {
-		if(this.getSessionFactory()!=null && this.getSessionFactory().isOpen()) {
+		if(this.getSession()!=null && this.getSession().isOpen()) {
 			this.getSession().close();
 		}
 	}
@@ -963,6 +931,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		if(this.isShowError()) {
 			Core.setMessageError(error);
 		}
+		Core.log(error);
 	}
 	
 	public void showMessage() {
