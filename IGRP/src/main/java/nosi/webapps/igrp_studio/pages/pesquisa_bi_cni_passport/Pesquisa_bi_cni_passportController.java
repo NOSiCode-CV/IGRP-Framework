@@ -39,10 +39,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		
 		String json_data = "{\"Numero_ID\" : \""+ model.getNumero_do_documento() +"\"}";
 		ConsumeJson json_obj = new ConsumeJson();
-		Properties setting = loadConfig("common", "main.xml");
+		Properties setting = this.loadConfig("common", "main.xml");
 		String json="";
 		try {
-			json = json_obj.getObjectFromJson(setting.getProperty("link.rest.stage"), json_data);
+			json = json_obj.getObjectFromJson(setting.getProperty("link.rest.pesquisa_bi_cni_pass"), json_data);
 
 			PesquisaBI list_bi = new PesquisaBI();
 			PesquisaCNI list_cni = new PesquisaCNI();

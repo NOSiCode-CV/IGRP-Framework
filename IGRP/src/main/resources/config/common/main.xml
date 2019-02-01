@@ -28,7 +28,7 @@
 	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
 	
 	<!--  -->
-	<entry key="igrp.plsql.url">https://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/</entry>
+	<entry key="igrp.plsql.url"></entry>
 	
 	<!--  -->
 	<entry key="igrp.authentication.govcv.enbaled">false</entry>
@@ -58,8 +58,14 @@
 	<entry key="ldap.ad.authentication_filter"></entry>
 	<entry key="ldap.ad.entryDN"></entry>
 	
-	<entry key="link.rest.stage">http://stage-pdex.gov.cv:8282/apicheckid</entry>
-	<entry key="link.rest.prod"></entry>
-	<entry key="link.rest.dev"></entry>
+	<!-- links rest pesquisas gerais -->
+	<entry key="link.rest.pesquisa_bi_cni_pass">http://stage-pdex.gov.cv:8282/apicheckid</entry>
+	<entry key="link.rest.pesquisa_nif">https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif</entry>
+	<entry key="link.rest.pesquisa_geografia">https://stage-pdex.gov.cv:8243/geografia/1.0.0/select_geo_by_id</entry>
+	
+	<!-- authorization rest pesquisas gerais -->
+	<entry key="authorization.link.rest.pesquisa_bi_cni_pass"></entry>
+	<entry key="authorization.rest.pesquisa_nif">Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f</entry>
+	<entry key="authorization.rest.pesquisa_geografia">Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f</entry>
 	
 </properties>

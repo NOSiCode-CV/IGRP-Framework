@@ -1,8 +1,13 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 /*----#end-code----*/
 		
@@ -32,13 +38,14 @@ public class Pesquisa_nif_restController extends Controller {
 		view.tipo_contribuinte.setValue(getMyContribuinte());
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = "";
-		String authorization = "Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f";
+		Properties setting = this.loadConfig("common", "main.xml");
+		String authorization = setting.getProperty("authorization.rest.pesquisa_nif");
 		if((Core.isNotNull(model.getNif()) && model.getNif() != 0) && Core.isNull(model.getNome_form())) {
-			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NU_NIF=" + model.getNif();
+			url = setting.getProperty("link.rest.pesquisa_nif")+"?NU_NIF=" + model.getNif();
 		}else if(Core.isNotNull(model.getNome_form()) && (model.getNif() == 0 || Core.isNull(model.getNif()))) {
-			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase();
+			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase();
 		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
-			url = "https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NU_NIF=" +  model.getNif();
+			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NU_NIF=" +  model.getNif();
 		}
 		
 			if((Core.isNotNull(model.getNif()) && model.getNif() != 0) || Core.isNotNull(model.getNome_form())) {
@@ -123,6 +130,29 @@ public class Pesquisa_nif_restController extends Controller {
 		return contri;
 	}
 
+	private Properties loadConfig(String filePath, String fileName) {
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return props;
+	}
 
 	
 /*----#end-code----*/
