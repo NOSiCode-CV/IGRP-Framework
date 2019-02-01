@@ -1,5 +1,6 @@
 package nosi.base.ActiveRecord;
 
+import java.util.Optional;
 import java.util.Properties;
 import nosi.core.config.ConfigApp;
 
@@ -111,40 +112,40 @@ public class ConfigHikariCP {
 		this.allowPoolSuspension = allowPoolSuspension;
 	}
 	
-	public String getHbm2ddlAuto() {
-		return hbm2ddlAuto;
+	public Optional<String> getHbm2ddlAuto() {
+		return Optional.ofNullable(hbm2ddlAuto);
 	}
 
 	public void setHbm2ddlAuto(String hbm2ddlAuto) {
 		this.hbm2ddlAuto = hbm2ddlAuto;
 	}
 
-	public String getConnectionIsolation() {
-		return connectionIsolation;
+	public Optional<String> getConnectionIsolation() {
+		return Optional.ofNullable(connectionIsolation);
 	}
 
 	public void setConnectionIsolation(String connectionIsolation) {
 		this.connectionIsolation = connectionIsolation;
 	}
 
-	public String getCurrentSessionContextClass() {
-		return currentSessionContextClass;
+	public Optional<String> getCurrentSessionContextClass() {
+		return Optional.ofNullable(currentSessionContextClass);
 	}
 
 	public void setCurrentSessionContextClass(String currentSessionContextClass) {
 		this.currentSessionContextClass = currentSessionContextClass;
 	}
 
-	public String getAutCloseSession() {
-		return autCloseSession;
+	public Optional<String> getAutCloseSession() {
+		return Optional.ofNullable(autCloseSession);
 	}
 
 	public void setAutCloseSession(String autCloseSession) {
 		this.autCloseSession = autCloseSession;
 	}
 
-	public String getAutocommit() {
-		return autocommit;
+	public Optional<String> getAutocommit() {
+		return Optional.ofNullable(autocommit);
 	}
 
 	public void setAutocommit(String autocommit) {
