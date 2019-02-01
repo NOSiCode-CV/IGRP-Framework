@@ -331,6 +331,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	@Override
 	public Application insert() {
+		this.setStatus(1);
 		Application app = super.insert();
 		if (app != null) {
 			User user = new User();
