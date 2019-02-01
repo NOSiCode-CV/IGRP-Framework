@@ -1,13 +1,10 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -68,7 +65,7 @@ public class PesquisarUtilizadorController extends Controller {
 		for (Profile p : profiles) {
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
 			
-			int status = p.getUser().getStatus();
+			int status = p.getUser()!=null?p.getUser().getStatus():0;
 			if(status == 0) {
 				table1.setAtivo(1);
 				table1.setAtivo_check(0);

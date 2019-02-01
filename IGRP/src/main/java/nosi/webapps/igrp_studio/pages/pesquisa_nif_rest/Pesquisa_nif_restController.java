@@ -1,17 +1,14 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
+import nosi.core.config.Config;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
