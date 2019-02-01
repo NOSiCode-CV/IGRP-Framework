@@ -52,11 +52,7 @@ public class HibernateUtils {
 				MetadataSources metadataSources = new MetadataSources(registry);;
 				if(registry!=null) {
 					try {
-//						sessionFactory = metadataSources.buildMetadata().getSessionFactoryBuilder().build();
 						sessionFactory.put(connectionName_,metadataSources.buildMetadata().getSessionFactoryBuilder().build());
-//						MetadataSources sources = new MetadataSources(registry);
-//						Metadata metadata = sources.getMetadataBuilder().build();
-//						sessionFactory.put(connectionName_,metadata.getSessionFactoryBuilder().build());
 					} catch (Exception e) {
 						e.printStackTrace();
 						destroy();
@@ -151,7 +147,7 @@ public class HibernateUtils {
 	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect,String schemaName) {
 		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);	
 
-		ConfigHikariCP cHCp = new ConfigHikariCP();
+		ConfigHikariCP cHCp = ConfigHikariCP.getInstance();
 		
 		//Hibernate config
 		settings.put(Environment.HBM2DDL_AUTO, "update");
@@ -176,6 +172,8 @@ public class HibernateUtils {
 			settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
 			//Detected leak
 			settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
+			//suspense pool
+			settings.put("allowPoolSuspension", "true");
         }
 		return settings;
 	}
