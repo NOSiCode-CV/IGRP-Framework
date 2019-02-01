@@ -60,10 +60,19 @@ var LOOKUPFIELD = function(type,params){
 							var fields = [];
 							
 							if(containers){
+								
 								containers.forEach(function(c){
+									
+									if(GEN.lookupMaps && GEN.lookupMaps.containers[c.proprieties.type]){
+										
+										var _f = GEN.lookupMaps.containers[c.proprieties.type].getFields( c );
+										
+										fields = fields.concat(_f);
+										
+									}
 									if(c.fields && c.fields[0]){
 										c.fields.forEach(function(f){
-											console.log(f);
+										
 											var tag   = f.properties.tag,
 												label = tag;
 											

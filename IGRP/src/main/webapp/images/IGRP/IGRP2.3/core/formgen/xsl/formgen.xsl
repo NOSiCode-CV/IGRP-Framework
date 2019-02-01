@@ -648,7 +648,7 @@
           <script src="{$path}/core/formgen/js/GEN.server.js"></script>
 			<script src="{$path}/core/formgen/js/GEN.controller.js"></script>
           <script src="{$path}/core/formgen/js/GEN.structures.js"></script>
-
+		
           <script src="{$path}/core/formgen/js/GEN.xsl.templates.utils.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.subversion.js"></script>
@@ -709,6 +709,8 @@
           <script src="{$path}/core/formgen/js/GEN.importTemplates.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.includeFiles.js"></script>
+          
+          <script src="{$path}/core/formgen/js/GEN.lookupMap.js"></script>
           
 
 
