@@ -234,7 +234,7 @@ public class PageController extends Controller {
 
 	private boolean checkifexists(Page model) {
 		// TODO Auto-generated method stub
-		return Core.isNull(new Action().find().andWhere("application.id", "=", model.getEnv_fk())
+		return Core.isNull(new Action().find().andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
 				.andWhere("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).one());
 
 	}
