@@ -197,11 +197,14 @@
 		
 		checkdControl : function(p){
 			
-			var inp   = $('input[type="hidden"].'+p.rel,p.o),
+			var inp   = $('input[type="hidden"].'+p.rel, p.o),
 			
 				check   = p.o.find( '.'+p.rel+'_check' );
-			
 
+			console.log(check);
+			
+			console.log(inp)
+			
 			if(p.check){
 				
 				check.val( p.value );
@@ -255,11 +258,13 @@
 					checkrel = $(this).attr('check-rel'),
 					checkers = $('[check-rel="'+checkrel+'"]:not(.IGRP_checkall)',table),
 					checkAll = $(this).is(':checked');
+					
 				
 				checkers.each(function(i,e){
+					var parent 	 = $(e).parents('div[item-name="'+checkrel+'"]')[0] ? $(e).parents('div[item-name="'+checkrel+'"]') : $(e).parents('td');
 					com.checkdControl({
 						rel 	: checkrel,
-						o   	: $(e).parents('div[item-name="'+checkrel+'"]'),
+						o   	: parent,
 						check 	: checkAll,
 						value   : $(e).val(),
 						name    : $(e).attr('name')
