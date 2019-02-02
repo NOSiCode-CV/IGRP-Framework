@@ -419,13 +419,13 @@ public class NovoUtilizadorController extends Controller {
 					&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")), settings);
 
 			if (userLdap != null) {
-				User u = new User().find().andWhere("email", "=", email).one();
+				User u = new User().find().andWhere("email", "=",  email.trim()).one();
 				if (u == null) {
 
 					if (settings.getProperty("ids.wso2.enabled") != null
 							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
 							&& !addRoleToUser(settings, userLdap)) {
-						Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email);
+						Core.setMessageError("Ocorreu um erro ao adicionar role ao " +  email.trim());
 						ok = false;
 						continue;
 
