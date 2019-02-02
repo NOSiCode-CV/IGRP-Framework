@@ -61,7 +61,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Lorem labore sed sit sit</value>
+                    <value>Dolor perspiciatis sed consectetur elit</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Totam stract amet stract dolor</value>
+                    <value>Aperiam ipsum amet officia sit</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -138,6 +138,7 @@
                 <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
                     <label>Primeira Página</label>
                     <value>1</value>
+                    <rules/>
                 </primeira_pagina>
                 <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
                     <label>Criar menu?</label>

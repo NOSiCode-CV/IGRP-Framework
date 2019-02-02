@@ -44,7 +44,7 @@ public class IGRPButton {
 		this.img = img;
 		this.params = params;
 		this.parameter = parameter;
-		if(this.target.equalsIgnoreCase(FlashMessage.CONFIRM)) {
+		if(this.target.equalsIgnoreCase(FlashMessage.CONFIRM) || this.target.equalsIgnoreCase("alert_submit")) {
 			Core.setMessageConfirm();
 		}
 	}
@@ -247,7 +247,7 @@ public class IGRPButton {
 	}
 	
 	public void setMessage(String msg) {
-		if(this.getTarget().equalsIgnoreCase(FlashMessage.CONFIRM)) {
+		if(this.getTarget().equalsIgnoreCase(FlashMessage.CONFIRM) || this.target.equalsIgnoreCase("alert_submit")) {
 			FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
 			flashMessage.removeMsg(FlashMessage.CONFIRM);
 			Core.setMessageConfirm(msg);

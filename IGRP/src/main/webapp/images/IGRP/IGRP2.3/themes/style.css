@@ -672,6 +672,12 @@ body.sidebar-off .navbar-brand {
   border-radius: 0;
   border: 0; 
 }
+
+
+.modal-body {
+/*     font-weight: bolder; */
+    font-size: x-large;
+}
 .modal-body:after{
   content:"";
   display: block;
@@ -731,6 +737,7 @@ body.sidebar-off .navbar-brand {
 .modal.right.fade.in .modal-dialog {
     right: 0;
 }
+
 
 /*igrp-global-modal*/
 #igrp-global-modal .modal-footer button i{

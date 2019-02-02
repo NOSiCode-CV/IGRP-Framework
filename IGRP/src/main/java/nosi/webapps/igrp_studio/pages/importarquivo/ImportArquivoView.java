@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ImportArquivoView extends View {
 
@@ -97,12 +100,12 @@ public class ImportArquivoView extends View {
 		importar_sql_script.propertie().add("name","p_importar_sql_script").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_imagem = new TextField(model,"importar_imagem");
-		importar_imagem.setLabel(gt("Importar Imagem"));
+		importar_imagem.setLabel(gt("Importar Imagens"));
 		importar_imagem.propertie().add("name","p_importar_imagem").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel(gt(""));
-		sectionheader_2_text.setValue(gt("Importar aplicação (.app.jar/.zip)"));
+		sectionheader_2_text.setValue(gt("Importar aplicação (.jar/.zip)"));
 		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("maxlength","4000");
 		
 		sectionheader_3_text = new TextField(model,"sectionheader_3_text");
@@ -112,7 +115,7 @@ public class ImportArquivoView extends View {
 		
 		sectionheader_4_text = new TextField(model,"sectionheader_4_text");
 		sectionheader_4_text.setLabel(gt(""));
-		sectionheader_4_text.setValue(gt("Importar jar File (.jar)"));
+		sectionheader_4_text.setValue(gt("Importar third-party jar file (.jar)"));
 		sectionheader_4_text.propertie().add("type","text").add("name","p_sectionheader_4_text").add("maxlength","4000");
 		
 		sectionheader_5_text = new TextField(model,"sectionheader_5_text");

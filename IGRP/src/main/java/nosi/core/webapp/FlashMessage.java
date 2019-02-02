@@ -43,7 +43,7 @@ public class FlashMessage implements Serializable{
 
 	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome da página é inválida";
 
-	public static final String MSG_CONFIRM = "<messages><message type=\"confirm\">Deseja realmente realizar esta operação?</message></messages>";
+	public static final String MSG_CONFIRM = "Deseja realmente realizar esta operação?";
 
 	public static final String CONFIRM = "confirm";
 

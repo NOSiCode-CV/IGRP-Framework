@@ -65,7 +65,7 @@
                     <value/>
                 </importar_sql_script>
                 <importar_imagem name="p_importar_imagem" type="button" request_fields="" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-cloud-upload" maxlength="50">
-                    <label>Importar Imagem</label>
+                    <label>Importar Imagens</label>
                     <value/>
                 </importar_imagem>
             </fields>
@@ -74,7 +74,7 @@
             <fields>
                 <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Importar aplicação (.app.jar/.zip)]]>
+                        <![CDATA[Importar aplicação (.jar/.zip)]]>
                     </value>
                 </sectionheader_2_text>
             </fields>
@@ -92,7 +92,7 @@
             <fields>
                 <sectionheader_4_text type="text" name="p_sectionheader_4_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Importar jar File (.jar)]]>
+                        <![CDATA[Importar third-party jar file (.jar)]]>
                     </value>
                 </sectionheader_4_text>
             </fields>
@@ -131,6 +131,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_2>
@@ -172,6 +173,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_1>
@@ -191,6 +193,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_3>
@@ -254,6 +257,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_4>
@@ -295,6 +299,7 @@
                     <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-upload</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</preview>
                 </item>
             </tools-bar>
         </form_5>

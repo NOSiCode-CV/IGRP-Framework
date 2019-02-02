@@ -2,6 +2,7 @@ package nosi.webapps.igrp_studio.pages.importarquivo;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -42,6 +43,7 @@ public class ImportArquivoController extends Controller {
 		view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
 		view.aplicacao_combo_img.setValue(new Application().getListApps());
+      	view.importar_pagina.setVisible(false);
 		if(Core.isNotNull(model.getAplicacao_script())) {
 			view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao_script())));
 		}

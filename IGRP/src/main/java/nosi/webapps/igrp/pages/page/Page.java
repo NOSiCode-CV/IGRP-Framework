@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
-
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
