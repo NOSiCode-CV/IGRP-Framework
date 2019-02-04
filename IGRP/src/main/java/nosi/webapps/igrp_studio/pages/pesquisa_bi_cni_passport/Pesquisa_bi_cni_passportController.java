@@ -32,7 +32,8 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.tipo_documento.setValue(getTipoDoc());
-		
+		view.data_nascimento.setVisible(false);
+		view.nome.setVisible(false);
 		String json_data = "{\"Numero_ID\" : \""+ model.getNumero_do_documento() +"\"}";
 		ConsumeJson json_obj = new ConsumeJson();
 		Properties setting = this.loadConfig("common", "main.xml");

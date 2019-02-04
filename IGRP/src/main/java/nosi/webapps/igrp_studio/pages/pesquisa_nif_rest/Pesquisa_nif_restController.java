@@ -32,6 +32,7 @@ public class Pesquisa_nif_restController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.btn_pesquisar.setLink("index"); 
+		view.n_documento_form.setVisible(false);
 		view.tipo_contribuinte.setValue(getMyContribuinte());
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = "";

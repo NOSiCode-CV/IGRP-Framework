@@ -81,7 +81,7 @@
 }
 
 .activeicon{
-	display: none;
+	display: none !important;
 	position: absolute;
 	right: 5px;
 	top: 50%;
