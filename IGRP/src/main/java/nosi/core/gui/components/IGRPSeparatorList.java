@@ -73,8 +73,7 @@ public class IGRPSeparatorList extends IGRPTable {
 	private void addFormlist_1_id() {
 		Field formlist_1_id = new HiddenField(this.tag_name + "_id");
 		formlist_1_id.setLabel("");
-		formlist_1_id.propertie().add("name","p_" + this.tag_name + "_id").add("type","hidden").add("maxlength","50").add("java-type","").add("tag","hidden_1").add("desc","true");
-		
+		formlist_1_id.propertie().add("name","p_" + this.tag_name + "_id").add("type","hidden").add("maxlength","50").add("java-type","").add("tag",this.tag_name + "_id").add("desc","true");
 		this.addField(formlist_1_id);
 	}
 	
@@ -106,9 +105,7 @@ public class IGRPSeparatorList extends IGRPTable {
 				for(Field field : this.fields){
 					
 					String val = IgrpHelper.getValue(obj, field.getName());
-					
-					System.out.println(field.getName() + " : " + val);
-					
+				
 					if(field.getName().equals(this.tag_name + "_id")) {
 						
 						if(val != null && !val.isEmpty()) {

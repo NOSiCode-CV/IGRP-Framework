@@ -402,11 +402,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.alias = alias;
 	}
 	
-	private String generateSql() {
+	protected String generateSql() {
 		return " SELECT "+this.columnsSelect+" "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
-	private String generateSqlCount() {
+	protected String generateSqlCount() {
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
@@ -422,6 +422,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	protected void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
+	
 	private void addParamter(String name,String paramName, Object value,Class<?> classType) {
 		Column c = new Column();
 		c.setColumnMap(paramName);
@@ -520,7 +521,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
 	}
 
-	private void setParameters(TypedQuery<T> query) {
+	protected void setParameters(TypedQuery<T> query) {
 		if(this.parametersMap!=null && !this.parametersMap.isEmpty()) {
 			this.parametersMap.stream().forEach(col->{
 				this.paramHelper.setParameter(query, col.getDefaultValue(), col);
