@@ -32,7 +32,7 @@ public class GenXMLField {
 				for(Field field:fields){
 					if(field.isVisible()){
 						if(field instanceof HiddenField){
-							xml.startElement(field.propertie().getProperty("tag")!=null?field.propertie().getProperty("tag"):"hidden");
+							xml.startElement(field.propertie().getProperty("hidden_formlist")!=null?field.propertie().getProperty("tag"):"hidden");
 							field.propertie().remove("maxlength");
 						}else{
 							xml.startElement(field.getTagName());
