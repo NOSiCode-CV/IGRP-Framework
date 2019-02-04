@@ -40,7 +40,8 @@ public abstract class View  implements IHeaderConfig{
 		IGRPForm formHidden = new IGRPForm("hidden_form_igrp");	
 		//Add hidden field env_frm_url to persistence index url of page
 		HiddenField field = new HiddenField("env_frm_url");
-		String value = new Config().getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index");
+		String target = Core.getParam("target");
+		String value = new Config().getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index&"+(Core.isNotNull(target)?("target="+target):""));
 		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
 		field.setValue(value);
 		formHidden.addField(field);
