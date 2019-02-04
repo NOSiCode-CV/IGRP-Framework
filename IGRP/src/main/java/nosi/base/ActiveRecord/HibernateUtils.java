@@ -41,8 +41,7 @@ public class HibernateUtils {
 	}
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad,String schemaName) {
-		if(Core.isNotNull(connectionName)) {		
-			
+		if(Core.isNotNull(connectionName)) {	
 			String connectionName_ = new ConfigApp().getBaseConnection();
 			if(!connectionName.equalsIgnoreCase(new ConfigApp().getBaseConnection()) && !connectionName.equalsIgnoreCase(new ConfigApp().getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;

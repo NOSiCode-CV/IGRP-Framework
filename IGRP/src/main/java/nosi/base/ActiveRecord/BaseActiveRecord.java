@@ -11,6 +11,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -886,8 +888,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.isReadOnly = isReadOnly;
 	}
 
-	protected Session getSession() {		
-		return HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema).getCurrentSession();
+	protected Session getSession() {	
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+		if(sessionFactory!=null)
+			return sessionFactory.getCurrentSession();
+		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
 	protected SessionFactory getSessionFactory() {		
