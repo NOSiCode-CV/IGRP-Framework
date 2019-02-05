@@ -34,8 +34,10 @@ public class ExportTransation implements IExport{
 	@Override
 	public void export(Export export, String[] ids) {
 		if(ids!=null) {
-			for(String id:ids)
-				this.add(id);
+			for(String id:ids) {
+				if(Core.isNotNull(id))
+					this.add(id);
+			}
 			export.add(this);
 		}
 	}

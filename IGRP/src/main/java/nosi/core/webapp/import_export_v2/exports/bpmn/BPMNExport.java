@@ -95,7 +95,8 @@ public class BPMNExport implements IExport{
 	public void export(Export export, String[] ids) {
 		if(ids!=null) {
 			for(String id:ids) {
-				this.add(id);
+				if(Core.isNotNull(id))
+					this.add(id);
 			}
 			export.add(this);	
 		}

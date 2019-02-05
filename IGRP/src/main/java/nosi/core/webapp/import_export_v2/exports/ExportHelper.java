@@ -22,16 +22,16 @@ public class ExportHelper {
 	
 	public byte[] export(Wizard_export_step_2 model) {
 
-		String[] report_ids = Core.getParamArray("p_report_ids");
-		String[] bpm_ids = Core.getParamArray("p_bpmn_ids");
-		String[] domain_ids = Core.getParamArray("p_domain_ids");
-		String[] page_ids = Core.getParamArray("p_pagina_ids");
-		String[] conexao_ids = Core.getParamArray("p_conexao_ids");
-		String[] menu_ids = Core.getParamArray("p_menu_ids");
-		String[] dao_ids = Core.getParamArray("p_dao_ids");
-		String[] modulo_ids = Core.getParamArray("p_modulo_ids");
-		String[] others_class_ids = Core.getParamArray("p_others_class");
-		String[] transation_ids = Core.getParamArray("p_transation_ids");
+		String[] report_ids = Core.getParamArray("p_report_ids_check");
+		String[] bpm_ids = Core.getParamArray("p_bpmn_ids_check");
+		String[] domain_ids = Core.getParamArray("p_domain_ids_check");
+		String[] page_ids = Core.getParamArray("p_pagina_ids_check");
+		String[] conexao_ids = Core.getParamArray("p_conexao_ids_check");
+		String[] menu_ids = Core.getParamArray("p_menu_ids_check");
+		String[] dao_ids = Core.getParamArray("p_dao_ids_check");
+		String[] modulo_ids = Core.getParamArray("p_modulo_ids_check");
+		String[] others_class_ids = Core.getParamArray("p_others_class_check");
+		String[] transation_ids = Core.getParamArray("p_transation_ids_check");
 		if(others_class_ids==null && transation_ids==null && dao_ids==null && report_ids==null && domain_ids==null && page_ids==null && conexao_ids==null && menu_ids==null && bpm_ids==null && modulo_ids==null) {
 			Core.setMessageError(Core.gt("Por favor selecione os dados a serem exportados"));
 			return null;
