@@ -4,6 +4,7 @@ import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.ResultSet;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Menu;
@@ -13,7 +14,9 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Comparator;
+import nosi.core.webapp.helpers.CheckBoxHelper;
 /*----#end-code----*/
 		
 public class MenuOrganicaController extends Controller {
@@ -24,7 +27,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Lorem deserunt ipsum accusanti' as descricao,'1' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Iste voluptatem deserunt dolor' as descricao,'1' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
     
@@ -109,8 +112,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#start-code(gravar)----*/
 
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") ) {
-			this.deleteOldMenu(model);			
-			this.assocNewsMenu(model);
+			this.saveMenu(model);
 		}
 		this.addQueryString("env_fk", Core.getParam("env_fk"));		
 		if(model.getType().equals("user"))	
@@ -121,7 +123,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#end-code----*/
 			
 	}
-	
+
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		MenuOrganica model = new MenuOrganica();
 		model.load();
@@ -143,109 +145,118 @@ public class MenuOrganicaController extends Controller {
 	private User userAdmin = new User().getUserAdmin();
 	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
 	
-	class SortbyStatus implements Comparator<MenuOrganica.Table_1> {   
-		public int compare(MenuOrganica.Table_1 a, MenuOrganica.Table_1  b) {       
-			return b.getMenu() - a.getMenu();      
-			}
+	class SortbyStatus implements Comparator<MenuOrganica.Table_1> {
+		public int compare(MenuOrganica.Table_1 a, MenuOrganica.Table_1 b) {
+			return b.getMenu() - a.getMenu();
+		}
 
-		}
-	
-	private void deleteOldMenu(MenuOrganica model) {
-		List<ProfileType> list = null;
-		Organization organization1 = new Organization();
-		Profile profD = new Profile();
-		if (model.getType().equals("org")) {
-			organization1 = new Organization().findOne(model.getId());
-			profD.setOrganization(organization1);
-			profD.setType("MEN");
-			profD.setProfileType(profAdmin);
-			profD.setUser(userAdmin);
-			profD.deleteAllProfile();
-		
-			list = new ProfileType().find().andWhere("organization.id", "=", organization1.getId()).all();
-			if (list != null && list.size() > 0) {
-				list.sort((o1, o2) -> {
-					if (o1.getId() > o2.getId())
-						return 1;
-					else if (o1.getId() < o2.getId())
-						return -1;
-					return 0;
-				});
-				ProfileType pAux = list.get(0);
-				Profile pAux2 = new Profile();
-				pAux2.setOrganization(organization1);
-				pAux2.setType("MEN");
-				pAux2.setUser(userAdmin);
-				pAux2.setProfileType(pAux);
-				pAux2.deleteAllProfile();
-			}
-			
-		} else if (model.getType().equals("perfil")) {
-			ProfileType pt = new ProfileType().findOne(model.getId());
-			profD.setOrganization(pt.getOrganization());
-			profD.setType("MEN");
-			profD.setUser(userAdmin);
-			profD.setProfileType(pt);
-			profD.deleteAllProfile();
-		} else if (model.getType().equals("user")) {
-			profD.setOrganization(new Organization().findOne(Core.getParamInt("org_id")));
-			profD.setType("MEN_USER");
-			profD.setUser(new User().findOne(Core.getParamInt("user_id")));
-			profD.setProfileType(new ProfileType().findOne(Core.getParamInt("prof_id")));
-			profD.deleteAllProfile();
-		}
 	}
+
 	
-	private void assocNewsMenu(MenuOrganica model) {
-		//TODO: mudar para Core.getParamArray()		
-		String[] mens = Core.getParamArray("p_menu");		
-		if (mens != null && mens.length > 0) {
-			List<ProfileType> list = null;
-			for (String x : mens) {
-				Profile prof = new Profile();
-				prof.setUser(userAdmin);
-				prof.setType("MEN");
-				prof.setType_fk(Integer.parseInt(x.toString()));
-				if (model.getType().equals("org")) {
-					Organization aux = new Organization().findOne(model.getId());
-					prof.setOrganization(aux);
-					prof.setProfileType(profAdmin);
+	private void saveMenu(MenuOrganica model) {
+		String[] p_menu = Core.getParamArray("p_menu");
+		String[] p_menu_check = Core.getParamArray("p_menu_check");
+		CheckBoxHelper cb = Core.extractCheckBox(p_menu, p_menu_check);
+		this.removeMenu(model,cb.getUncheckedIds());		
+		this.insetMenu(model,this.filterIds(model,cb.getChekedIds()));
+	}
 
-					/**  **/
-					list = new ProfileType().find().andWhere("organization.id", "=", aux.getId()).all();
-					if (list != null && list.size() > 0) {
-						list.sort((o1, o2) -> {
-							if (o1.getId() > o2.getId())
-								return 1;
-							else if (o1.getId() < o2.getId())
-								return -1;
-							return 0;
-						});
-						ProfileType pAux = list.get(0);
-						Profile pAux2 = new Profile();
-						pAux2.setUser(userAdmin);
-						pAux2.setType("MEN");
-						pAux2.setType_fk(Integer.parseInt(x.toString()));
-						pAux2.setOrganization(aux);
-						pAux2.setProfileType(pAux);
-						pAux2.insert();
-					}
-					/**  **/
-
-				} else if (model.getType().equals("perfil")) {
-					ProfileType p = new ProfileType().findOne(model.getId());
-					prof.setOrganization(p.getOrganization());
-					prof.setProfileType(new ProfileType().findOne(model.getId()));
-				}else if (model.getType().equals("user")) {
-					prof.setType("MEN_USER");
-					prof.setOrganization(Core.findOrganizationById((Core.getParamInt("org_id"))));
-					prof.setUser(Core.findUserById((Core.getParamInt("user_id"))));
-					prof.setProfileType(Core.findProfileById((Core.getParamInt("prof_id"))));
+	private void removeMenu(MenuOrganica model, List<String> uncheckedIds) {
+			if (model.getType().equals("org")) {
+				this.deleteMenu(uncheckedIds, "MEN",model.getId(),this.profAdmin.getId(),this.userAdmin.getId());
+				List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).all();
+				for(ProfileType p:profilesOfOrg) {
+					this.deleteMenu(uncheckedIds, "MEN",p.getOrganization().getId(),p.getId(),this.userAdmin.getId());
 				}
-				prof = prof.insert();
+			}else if (model.getType().equals("perfil")) {				
+				ProfileType pt = new ProfileType().findOne(model.getId());
+				this.deleteMenu(uncheckedIds, "MEN",pt.getOrganization().getId(),pt.getId(),this.userAdmin.getId());
+			} else if (model.getType().equals("user")) {
+				this.deleteMenu(uncheckedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
+			}	
+	}
+
+	private void deleteMenu(List<String> uncheckedIds,String type,int org_id,int prof_id,int user_id) {
+		for(String m:uncheckedIds) {
+			ResultSet r = Core.delete("tbl_profile")
+					.where()
+					.andWhere("type", "=", type)
+					.andWhere("type_fk", "=", Core.toInt(m))
+					.andWhere("prof_type_fk", "=",prof_id)
+					.andWhere("user_fk", "=",user_id)
+					.andWhere("org_fk", "=", org_id)
+					.execute();	
+			if(r!=null && r.hasError()) {
+				Core.setMessageError(r.getError());
+				break;
 			}
 		}
-		Core.setMessageSuccess();
 	}
+	
+	private void insetMenu(MenuOrganica model, List<String> chekedIds) {
+		if (model.getType().equals("org")) {
+			boolean success =this.insertMenu(chekedIds, "MEN", model.getId(),this.profAdmin.getId(),this.userAdmin.getId());
+			List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).all();
+			for(ProfileType p:profilesOfOrg) {
+				success = this.insertMenu(chekedIds, "MEN",p.getOrganization().getId(),p.getId(),this.userAdmin.getId());
+			}
+			if(success)
+				Core.setMessageSuccess();
+		}else if (model.getType().equals("perfil")) {				
+			ProfileType pt = new ProfileType().findOne(model.getId());
+			this.insertMenu(chekedIds, "MEN",pt.getOrganization().getId(),pt.getId(),this.userAdmin.getId());
+		} else if (model.getType().equals("user")) {
+			this.insertMenu(chekedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
+		}	
+	}
+	
+	private List<String> filterIds(MenuOrganica model,List<String> chekedIds){
+		List<Profile> profiles = null;
+		if (model.getType().equals("org")) {
+			profiles = new Profile().find()
+				  .andWhere("organization", "=",model.getId())
+				  .andWhere("profileType","=",this.profAdmin.getId())
+				  .andWhere("type","=","MEN")
+				  .andWhere("user","=",this.userAdmin.getId())
+				  .all();
+		}else if (model.getType().equals("perfil")) {	
+			ProfileType pt = new ProfileType().findOne(model.getId());	
+			profiles = new Profile().find()
+					  .andWhere("organization", "=",pt.getOrganization().getId())
+					  .andWhere("profileType","=",pt.getId())
+					  .andWhere("type","=","MEN")
+					  .andWhere("user","=",this.userAdmin.getId())
+					  .all();
+		} else if (model.getType().equals("user")) {
+			profiles = new Profile().find()
+					  .andWhere("organization", "=",Core.getParamInt("org_id"))
+					  .andWhere("profileType","=",Core.getParamInt("prof_id"))
+					  .andWhere("type","=","MEN_USER")
+					  .andWhere("user","=",Core.getParamInt("user_id"))
+					  .all();
+		}
+		List<Integer> ids = profiles!=null?profiles.stream().map(Profile::getType_fk).collect(Collectors.toList()):null;
+		return chekedIds.stream().filter(m->ids!=null && !ids.contains(Core.toInt(m))).collect(Collectors.toList());
+	}
+	
+	private boolean insertMenu(List<String> chekedIds,String type,int org_id,int prof_id,int user_id) {
+		boolean success = true;
+		for(String m:chekedIds) {
+			ResultSet r = Core.insert("tbl_profile")
+					.addString("type", type)
+					.addInt("type_fk", Core.toInt(m))
+					.addInt("prof_type_fk", prof_id)
+					.addInt("user_fk", user_id)
+					.addInt("org_fk", org_id)
+					.execute();	
+			if(r!=null && r.hasError()) {
+				Core.setMessageError(r.getError());
+				success = false;
+				break;
+			}
+		}
+		return success;
+	}
+	
 	/*----#end-code----*/
 }
