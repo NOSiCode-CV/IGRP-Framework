@@ -56,6 +56,7 @@ import nosi.core.webapp.databse.helpers.QueryInsert;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.databse.helpers.QuerySelect;
 import nosi.core.webapp.databse.helpers.QueryUpdate;
+import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.GUIDGenerator;
@@ -2389,4 +2390,15 @@ public final class Core { // Not inherit
 		return intToString.apply(array);
 	}
 	
+	public static boolean isArraySameSize(Object[]array1,Object[]array2) {
+		boolean r = false;
+		if(Core.isNotNullMultiple(array1,array2)) {
+			r = array1.length==array2.length;
+		}
+		return r;
+	}
+	
+	public static CheckBoxHelper extractCheckBox(String[] array_unchecked,String[] array_checked) {
+		return new CheckBoxHelper(array_unchecked, array_checked);
+	}
 }
