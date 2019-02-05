@@ -3,7 +3,6 @@ package nosi.core.webapp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.components.IGRPComponent;
@@ -66,6 +65,17 @@ public abstract class View  implements IHeaderConfig{
 				}
 			}
 		}
+		Map<String,String[]> paramsName = Core.getParameters();
+		paramsName.entrySet().stream()
+				  .filter(param->param.getKey().startsWith("p_fwl_"))
+				  .filter(param->!param.getKey().equalsIgnoreCase("p_fwl_search"))
+				  .forEach(param->{
+					  	HiddenField f = new HiddenField(null,param.getKey());
+						f.propertie.add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
+						f.setValue(param.getValue()[0]);
+						formHidden.addField(f);
+				  });
+		
 		if(IGRPForm.hiddenFields.size() >0) {
 			for(Field f:IGRPForm.hiddenFields) {
 				formHidden.addField(f);
