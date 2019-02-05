@@ -49,7 +49,7 @@
       </xsl:choose>
     </xsl:variable>
 
-    <a target="{$target}" use-fa="{$use-fa}" position="{$position}">
+    <a target="{$target}" use-fa="{$use-fa}" position="{./@rel}">
       
       <xsl:variable name="outlineClss">
         <xsl:if test="$outline = 'true'"><xsl:value-of select="' btn-outline'"/></xsl:if>

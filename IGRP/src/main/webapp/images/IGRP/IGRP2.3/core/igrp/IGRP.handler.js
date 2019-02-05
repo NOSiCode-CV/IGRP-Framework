@@ -143,7 +143,7 @@
 			
 			var lastTarget = $.IGRP.store.get('target-clicked');
 
-			$('.toolsbar-holder>.btns-holder>a[target="_self"]').on('click',function(){
+			$('.toolsbar-holder>.btns-holder>a').on('click',function(){
 				
 				var name  = $($(this).parents('.toolsbar-holder')[0]).attr('item-name'),
 
@@ -166,6 +166,7 @@
 					value:$(this).attr('position'),//value.replace(/"/g, "'"),
 					class:'submittable menuCtrl'
 				});
+				
 
 			});
 
