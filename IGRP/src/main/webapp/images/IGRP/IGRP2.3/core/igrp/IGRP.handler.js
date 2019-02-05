@@ -193,9 +193,10 @@
 						iBtn.addClass('active');
 
 				}else{
-					if (currentStrPos) {
+					if (currentStrPos) 
 						$('.toolsbar-holder[item-name="'+name+'"] .btns-holder>a[position="'+currentStrPos+'"]').addClass('active');
-					}
+					else
+						$('.toolsbar-holder[item-name="'+name+'"] .btns-holder>a:first').addClass('active');
 				}
 
 				//if( lastTarget != 'lookup_value' && lastTarget != 'submit_form' && lastTarget != 'submit' && lastTarget != 'alert_submit' && lastTarget != '_self')
