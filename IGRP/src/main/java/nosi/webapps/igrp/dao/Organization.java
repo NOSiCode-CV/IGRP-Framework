@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,7 +55,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "organization",fetch=FetchType.EAGER)
 	private List<ProfileType> profilesType;
 	@OneToMany(mappedBy = "organization",fetch=FetchType.EAGER)
-	private List<Profile> profiles;
+	private Set<Profile> profiles;
 
 	public Organization() {
 		super();
@@ -134,11 +136,11 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		this.profilesType = profilesType;
 	}
 
-	public List<Profile> getProfiles() {
+	public Set<Profile> getProfiles() {
 		return profiles;
 	}
 
-	public void setProfiles(List<Profile> profiles) {
+	public void setProfiles(Set<Profile> profiles) {
 		this.profiles = profiles;
 	}
 
