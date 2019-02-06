@@ -204,11 +204,13 @@ public class ConfigDBIGRP {
     		StandardServiceRegistryBuilder.destroy(registry);
 			isConnected = true;
     	}catch(Exception e){
+    		e.printStackTrace();
     		try {
 	    		final String errormessage = ((GenericJDBCException) e.getCause()).getSQLException().getMessage();
 				Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(7, errormessage.indexOf("Location:")));
 			}catch(Exception e1) {
-				Core.setMessageError("SqlExceptionHelper - "+e1.getCause().getCause().getMessage());
+				e1.printStackTrace();
+				Core.setMessageError("SqlExceptionHelper - "+(e1.getCause()!=null && e1.getCause().getCause()!= null?e1.getCause().getCause().getMessage():""));
     		}
     		isConnected = false;
     	}
