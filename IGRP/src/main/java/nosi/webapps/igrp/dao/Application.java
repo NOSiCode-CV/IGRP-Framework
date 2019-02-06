@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,23 +52,23 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	@JoinColumn(name = "action_fk", foreignKey = @ForeignKey(name = "ENV_ACTION_FK"))
 	private Action action;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<Action> actions;
+	private Set<Action> actions;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<Config_env> configs;
+	private Set<Config_env> configs;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<Menu> menus;
+	private Set<Menu> menus;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<ProfileType> profilesType;
+	private Set<ProfileType> profilesType;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<Organization> organizations;
+	private Set<Organization> organizations;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<RepSource> repsources;
+	private Set<RepSource> repsources;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<RepTemplate> repTemplates;
+	private Set<RepTemplate> repTemplates;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<Transaction> transactions;
+	private Set<Transaction> transactions;
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
-	private List<RepInstance> repinstances;
+	private Set<RepInstance> repinstances;
 
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "application")
 	private List<Modulo> modulo;
@@ -172,75 +173,75 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		this.template = template;
 	}
 
-	public List<Action> getActions() {
+	public Set<Action> getActions() {
 		return actions;
 	}
 
-	public void setActions(List<Action> actions) {
+	public void setActions(Set<Action> actions) {
 		this.actions = actions;
 	}
 
-	public List<Config_env> getConfigs() {
+	public Set<Config_env> getConfigs() {
 		return configs;
 	}
 
-	public void setConfigs(List<Config_env> configs) {
+	public void setConfigs(Set<Config_env> configs) {
 		this.configs = configs;
 	}
 
-	public List<Menu> getMenus() {
+	public Set<Menu> getMenus() {
 		return menus;
 	}
 
-	public void setMenus(List<Menu> menus) {
+	public void setMenus(Set<Menu> menus) {
 		this.menus = menus;
 	}
 
-	public List<ProfileType> getProfilesType() {
+	public Set<ProfileType> getProfilesType() {
 		return profilesType;
 	}
 
-	public void setProfilesType(List<ProfileType> profilesType) {
+	public void setProfilesType(Set<ProfileType> profilesType) {
 		this.profilesType = profilesType;
 	}
 
-	public List<Organization> getOrganizations() {
+	public Set<Organization> getOrganizations() {
 		return organizations;
 	}
 
-	public void setOrganizations(List<Organization> organizations) {
+	public void setOrganizations(Set<Organization> organizations) {
 		this.organizations = organizations;
 	}
 
-	public List<RepSource> getRepsources() {
+	public Set<RepSource> getRepsources() {
 		return repsources;
 	}
 
-	public void setRepsources(List<RepSource> repsources) {
+	public void setRepsources(Set<RepSource> repsources) {
 		this.repsources = repsources;
 	}
 
-	public List<RepTemplate> getRepTemplates() {
+	public Set<RepTemplate> getRepTemplates() {
 		return repTemplates;
 	}
 
-	public void setRepTemplates(List<RepTemplate> repTemplates) {
+	public void setRepTemplates(Set<RepTemplate> repTemplates) {
 		this.repTemplates = repTemplates;
 	}
 
-	public List<Transaction> getTransactions() {
+	public Set<Transaction> getTransactions() {
 		return transactions;
 	}
 
-	public void setTransactions(List<Transaction> transactions) {
+	public void setTransactions(Set<Transaction> transactions) {
 		this.transactions = transactions;
 	}
 
-	public List<RepInstance> getRepinstances() {
+	public Set<RepInstance> getRepinstances() {
 		return repinstances;
 	}
 
-	public void setRepinstances(List<RepInstance> repinstances) {
+	public void setRepinstances(Set<RepInstance> repinstances) {
 		this.repinstances = repinstances;
 	}
 
