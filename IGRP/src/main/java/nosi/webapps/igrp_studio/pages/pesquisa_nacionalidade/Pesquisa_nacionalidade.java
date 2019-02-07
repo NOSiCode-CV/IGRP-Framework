@@ -1,4 +1,4 @@
-package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
+package nosi.webapps.igrp_studio.pages.pesquisa_nacionalidade;
 
 import java.math.BigInteger;
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pesquisa_geografia extends Model{		
+public class Pesquisa_nacionalidade extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	
