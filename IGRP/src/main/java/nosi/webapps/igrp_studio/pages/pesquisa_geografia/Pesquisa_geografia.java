@@ -1,5 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
@@ -12,6 +15,8 @@ import java.util.List;
 public class Pesquisa_geografia extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+	@RParam(rParamName = "p_sectionheader_2_text")
+	private String sectionheader_2_text;
 	
 	private List<Treemenu_1> treemenu_1 = new ArrayList<>();	
 	public void setTreemenu_1(List<Treemenu_1> treemenu_1){
@@ -39,11 +44,44 @@ public class Pesquisa_geografia extends Model{
 		return this.p_treemenu_1_del;
 	}
 	
+	private List<Treemenu_2> treemenu_2 = new ArrayList<>();	
+	public void setTreemenu_2(List<Treemenu_2> treemenu_2){
+		this.treemenu_2 = treemenu_2;
+	}
+	public List<Treemenu_2> getTreemenu_2(){
+		return this.treemenu_2;
+	}
+	@RParam(rParamName = "p_treemenu_2_id")
+	private String[] p_treemenu_2_id;
+	@RParam(rParamName = "p_treemenu_2_del")
+	private String[] p_treemenu_2_del;
+	
+	public void setP_treemenu_2_id(String[] p_treemenu_2_id){
+		this.p_treemenu_2_id = p_treemenu_2_id;
+	}
+	public String[] getP_treemenu_2_id(){
+		return this.p_treemenu_2_id;
+	}
+	
+	public void setP_treemenu_2_del(String[] p_treemenu_2_del){
+		this.p_treemenu_2_del = p_treemenu_2_del;
+	}
+	public String[] getP_treemenu_2_del(){
+		return this.p_treemenu_2_del;
+	}
+	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public void setSectionheader_2_text(String sectionheader_2_text){
+		this.sectionheader_2_text = sectionheader_2_text;
+	}
+	public String getSectionheader_2_text(){
+		return this.sectionheader_2_text;
 	}
 
 
@@ -51,7 +89,7 @@ public class Pesquisa_geografia extends Model{
 		private IGRPLink treemenu_1_link;
 		private String treemenu_1_link_desc;
 		private String treemenu_1_tmid;
-		private String treemenu_1_parent;
+		private Integer treemenu_1_parent;
 		private String treemenu_1_icon;
 		private String treemenu_1_child;
 		private String treemenu_1_active;
@@ -84,10 +122,10 @@ public class Pesquisa_geografia extends Model{
 			return this.treemenu_1_tmid;
 		}
 
-		public void setTreemenu_1_parent(String treemenu_1_parent){
+		public void setTreemenu_1_parent(Integer treemenu_1_parent){
 			this.treemenu_1_parent = treemenu_1_parent;
 		}
-		public String getTreemenu_1_parent(){
+		public Integer getTreemenu_1_parent(){
 			return this.treemenu_1_parent;
 		}
 
@@ -113,9 +151,79 @@ public class Pesquisa_geografia extends Model{
 		}
 
 	}
+	public static class Treemenu_2 extends IGRPTable.Table{
+		private IGRPLink treemenu_2_link;
+		private String treemenu_2_link_desc;
+		private String treemenu_2_tmid;
+		private Integer treemenu_2_parent;
+		private String treemenu_2_icon;
+		private String treemenu_2_child;
+		private String treemenu_2_active;
+		public IGRPLink setTreemenu_2_link(String app,String page,String action){
+			this.treemenu_2_link = new IGRPLink(app,page,action);
+			return this.treemenu_2_link;
+		}
+		public IGRPLink getTreemenu_2_link(){
+			return this.treemenu_2_link;
+		}
+		public void setTreemenu_2_link_desc(String treemenu_2_link_desc){
+			this.treemenu_2_link_desc = treemenu_2_link_desc;
+		}
+		public String getTreemenu_2_link_desc(){
+			return this.treemenu_2_link_desc;
+		}
+	public IGRPLink setTreemenu_2_link(String link){
+		this.treemenu_2_link = new IGRPLink(link);
+		return this.treemenu_2_link;
+	}
+	public IGRPLink setTreemenu_2_link(Report link){
+		this.treemenu_2_link = new IGRPLink(link);
+		return this.treemenu_2_link;
+	}
+
+		public void setTreemenu_2_tmid(String treemenu_2_tmid){
+			this.treemenu_2_tmid = treemenu_2_tmid;
+		}
+		public String getTreemenu_2_tmid(){
+			return this.treemenu_2_tmid;
+		}
+
+		public void setTreemenu_2_parent(Integer treemenu_2_parent){
+			this.treemenu_2_parent = treemenu_2_parent;
+		}
+		public Integer getTreemenu_2_parent(){
+			return this.treemenu_2_parent;
+		}
+
+		public void setTreemenu_2_icon(String treemenu_2_icon){
+			this.treemenu_2_icon = treemenu_2_icon;
+		}
+		public String getTreemenu_2_icon(){
+			return this.treemenu_2_icon;
+		}
+
+		public void setTreemenu_2_child(String treemenu_2_child){
+			this.treemenu_2_child = treemenu_2_child;
+		}
+		public String getTreemenu_2_child(){
+			return this.treemenu_2_child;
+		}
+
+		public void setTreemenu_2_active(String treemenu_2_active){
+			this.treemenu_2_active = treemenu_2_active;
+		}
+		public String getTreemenu_2_active(){
+			return this.treemenu_2_active;
+		}
+
+	}
 
 	public void loadTreemenu_1(BaseQueryInterface query) {
 		this.setTreemenu_1(this.loadTable(query,Treemenu_1.class));
+	}
+
+	public void loadTreemenu_2(BaseQueryInterface query) {
+		this.setTreemenu_2(this.loadTable(query,Treemenu_2.class));
 	}
 
 }

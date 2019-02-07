@@ -50,6 +50,9 @@
             <xsl:if test="$onload = 'true'">
                 <xsl:attribute name="onload"><xsl:value-of select="$onload"/></xsl:attribute>
             </xsl:if>
+            <xsl:if test="$parser = 'true'">
+                <xsl:attribute name="parser"><xsl:value-of select="$parser"/></xsl:attribute>
+            </xsl:if>
             <ul class="nav nav-list">
                 <xsl:for-each select="./table/value/row/*[name() = $parentId]">
                     <xsl:variable name="id" select="../*[name() = concat($name,'_tmid')]"/>
