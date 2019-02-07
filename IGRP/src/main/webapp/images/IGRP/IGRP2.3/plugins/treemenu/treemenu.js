@@ -19,6 +19,7 @@
 
 			xslParams.name 		= name;
 			xslParams.target  	= parent.attr('target');
+			xslParams.parser  	= parent.attr('parser') && parent.attr('parser') == 'true' ? true : false;
 
 			if (parent.attr('tooltip') && parent.attr('tooltip') != undefined)
 				xslParams.tooltip = parent.attr('tooltip');
