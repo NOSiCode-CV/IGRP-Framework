@@ -1627,6 +1627,7 @@ public final class Core { // Not inherit
 			// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
 			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 			try {
+				conn.setAutoCommit(false);
 				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
 						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
 				ps.setBinaryStream(1, new FileInputStream(file));
