@@ -153,13 +153,13 @@
 
 					index = $(this).index();
 
-				$.IGRP.store.set({
+				/*$.IGRP.store.set({
 
 					name  : 'TB_CTRL:'+pageInfo+name,
 
 					value : JSON.stringify({ title:title,href:href,index:index }) 
 
-				});
+				});*/
 
 				$.IGRP.utils.createHidden({
 					name :'p_fwl_'+name,
