@@ -1,4 +1,4 @@
-package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
+package nosi.webapps.igrp_studio.pages.pesquisa_nacionalidade;
 
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
@@ -9,7 +9,7 @@ import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 
-public class Pesquisa_geografiaView extends View {
+public class Pesquisa_nacionalidadeView extends View {
 
 	public Field sectionheader_1_text;
 	public Field treemenu_1_link;
@@ -23,9 +23,9 @@ public class Pesquisa_geografiaView extends View {
 	public IGRPTable treemenu_1;
 
 
-	public Pesquisa_geografiaView(){
+	public Pesquisa_nacionalidadeView(){
 
-		this.setPageTitle("Pesquisa Geografia");
+		this.setPageTitle("Pesquisa nacionalidade");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
@@ -33,7 +33,7 @@ public class Pesquisa_geografiaView extends View {
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("Pesquisa Geografia"));
+		sectionheader_1_text.setValue(gt("Pesquisa Nacionalidade"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		treemenu_1_link = new LinkField(model,"treemenu_1_link");
@@ -95,6 +95,6 @@ public class Pesquisa_geografiaView extends View {
 		treemenu_1_child.setValue(model);
 		treemenu_1_active.setValue(model);	
 
-		treemenu_1.loadModel(((Pesquisa_geografia) model).getTreemenu_1());
+		treemenu_1.loadModel(((Pesquisa_nacionalidade) model).getTreemenu_1());
 		}
 }

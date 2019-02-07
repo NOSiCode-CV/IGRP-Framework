@@ -28,7 +28,6 @@ public class Pesquisa_geografiaController extends Controller {
 		Pesquisa_geografiaView view = new Pesquisa_geografiaView();
 		/*----#start-code(index)----*/
 		model.setTreemenu_1(this.chamarServico("0"));
-		model.setTreemenu_2(this.chamarServico_2("0"));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -90,38 +89,6 @@ public class Pesquisa_geografiaController extends Controller {
 		 list_geo.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_1::getTreemenu_1_link_desc));
 		return list_geo;
 	}
-	
-	
-	public List<Pesquisa_geografia.Treemenu_2>  chamarServico_2(String id) throws IOException {
-		Properties setting = this.loadConfig("common", "main.xml");
-		String url = setting.getProperty("link.rest.pesquisa_geografia")+"?id="+id;
-		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
-		ConsumeJson json_obj = new ConsumeJson();
-		String json  = json_obj.getJsonFromUrl(url, authorization);
-		List<Pesquisa_geografia.Treemenu_2> list_nac = new ArrayList<>();
-		JSONObject obj = new JSONObject(json);
-		JSONObject Entries = obj.getJSONObject("Entries");
-		try {
-			JSONArray Entry = Entries.getJSONArray("Entry");
-			for(int i = 0; i < Entry.length(); i++) {
-				JSONObject local = Entry.getJSONObject(i);
-				Pesquisa_geografia.Treemenu_2 tab_nac = new Pesquisa_geografia.Treemenu_2();
-				tab_nac.setTreemenu_2_tmid(local.getString("id"));
-				tab_nac.setTreemenu_2_child("1");
-				try{
-					tab_nac.setTreemenu_2_link_desc(local.getString("nacionalidade"));
-					list_nac.add(tab_nac);
-					}catch (Exception e) {
-						tab_nac.setTreemenu_2_link_desc("");
-					};
-			}
-		}catch (Exception e) {
-			
-		}
-		list_nac.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_2::getTreemenu_2_link_desc));
-		return list_nac;
-	}
-	
 	
 	private Properties loadConfig(String filePath, String fileName) {
 		String path = new Config().getBasePathConfig() + File.separator + filePath;
