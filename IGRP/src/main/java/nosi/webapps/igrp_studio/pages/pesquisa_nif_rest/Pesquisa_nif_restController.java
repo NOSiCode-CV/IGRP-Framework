@@ -31,9 +31,12 @@ public class Pesquisa_nif_restController extends Controller {
 		view.tipo_contribuinte.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+			
 		view.btn_pesquisar.setLink("index"); 
 		view.n_documento_form.setVisible(false);
 		view.tipo_contribuinte.setValue(getMyContribuinte());
+		if(Core.isNull(model.getTipo_contribuinte()))
+			model.setTipo_contribuinte("sing");	
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = "";
 		Properties setting = this.loadConfig("common", "main.xml");
