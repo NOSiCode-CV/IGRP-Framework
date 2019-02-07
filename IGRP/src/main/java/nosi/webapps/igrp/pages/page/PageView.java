@@ -87,11 +87,9 @@ public class PageView extends View {
 		publico.setLabel(gt("Publico"));
 		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
 		
-		public_link = new LinkField(model,"public_link");
+		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
-		public_link.setValue(new Config().getResolveUrl("igrp","Page","index"));
-
-									public_link.propertie().add("name","p_public_link").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
+		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));

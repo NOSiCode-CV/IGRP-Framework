@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -41,7 +43,6 @@ public class PageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
-		model.setPublic_link("igrp","Page","index");
 		model.setNovo_modulo("igrp","Page","index");
 		PageView view = new PageView();
 		/*----#gen-example
@@ -748,13 +749,15 @@ public class PageController extends Controller {
 		int app_id = Core.getParamInt("p_env_fk");
 		String page = Core.getParam("p_page");	
 		String link ="";
+     
 		Application app = Core.findApplicationById(app_id);
 		if(app!=null) {
-			link = "webapps?r="+app.getDad()+"/"+page+"/index&target=_blank&isPublic=1";
+         
+			link = "<hostname/dad>/app/webapps?r="+app.getDad()+"/"+page+"/index&target=_blank&isPublic=1";
 		}
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-			xml.setElement("publico_link",link);
+			xml.setElement("public_link",link);
 			xml.setElement("public_link_desc", link);
 		xml.endElement();
 		this.format = Response.FORMAT_XML;

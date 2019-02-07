@@ -415,11 +415,11 @@ public class NovoUtilizadorController extends Controller {
 			email = email.toLowerCase(Locale.ROOT).trim();
 			Properties settings = loadIdentityServerSettings();
 			User userLdap = null;
-			userLdap = invite(email, (settings.getProperty("ids.wso2.enabled") != null
+			userLdap = invite(email.trim(), (settings.getProperty("ids.wso2.enabled") != null
 					&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")), settings);
 
 			if (userLdap != null) {
-				User u = new User().find().andWhere("email", "=",  email.trim()).one();
+				User u = Core.findUserByEmail(email.trim());
 				if (u == null) {
 
 					if (settings.getProperty("ids.wso2.enabled") != null
@@ -438,7 +438,7 @@ public class NovoUtilizadorController extends Controller {
 					role.setUser(u);
 					role = role.insert();
 
-					if (u != null)
+					if (u != null && !u.hasError())
 						sendEmailToInvitedUser(u, model);
 				}
 				p.setUser(u);

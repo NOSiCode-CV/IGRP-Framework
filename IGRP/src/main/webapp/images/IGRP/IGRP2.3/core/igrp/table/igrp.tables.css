@@ -373,7 +373,7 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 
 /* checkbox slider style */
-.checkbox-switch.switch {
+td.bs-checkbox .checkbox-switch.switch {
   position: relative;
   display: inline-block;
   width: 40px;

@@ -676,7 +676,7 @@ body.sidebar-off .navbar-brand {
 
 .modal-body {
      font-weight: bolder; 
-    font-size: large;
+    font-size: larger;
 }
 .modal-body:after{
   content:"";

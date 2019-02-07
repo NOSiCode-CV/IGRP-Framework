@@ -61,7 +61,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Dolor perspiciatis sed consectetur elit</value>
+                    <value>Anim iste aliqua iste ut</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Aperiam ipsum amet officia sit</value>
+                    <value>Totam perspiciatis sit lorem labore</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -98,9 +98,9 @@
                     <value>1</value>
                     <rules/>
                 </publico>
-                <public_link name="p_public_link" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="250" placeholder="" right="true">
+                <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="true">
                     <label>Public Link</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
+                    <value>Aperiam sit mollit anim natus</value>
                 </public_link>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>

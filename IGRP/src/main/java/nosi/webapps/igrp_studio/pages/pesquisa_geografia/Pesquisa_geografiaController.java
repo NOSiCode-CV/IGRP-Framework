@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import org.json.JSONArray;
@@ -80,6 +81,7 @@ public class Pesquisa_geografiaController extends Controller {
 			}
 		}catch (Exception e) {
 		}
+		 list_geo.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_1::getTreemenu_1_link_desc));
 		return list_geo;
 	}
 	

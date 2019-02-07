@@ -104,11 +104,11 @@ public class Page{
 	
 	public String renderContent(boolean layout){
 		if(layout){
-			// Create a standard template of IGRP 
-			this.createTemplate();
 			
 			if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
 				new IGRPLogBar().displayLogs();
+			// Create a standard template of IGRP 
+			this.createTemplate();	
 			
 			return this.template.replace(":_content", this.convertContentToXml());
 		}
