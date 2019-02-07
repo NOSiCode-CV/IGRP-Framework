@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -206,8 +208,10 @@ public class ConfigDBIGRP {
     	}catch(Exception e){
     		e.printStackTrace();
     		try {
-	    		final String errormessage = ((GenericJDBCException) e.getCause()).getSQLException().getMessage();
-				Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(7, errormessage.indexOf("Location:")));
+	    		final String errormessage = ((HibernateException) e.getCause()).getLocalizedMessage();
+				Core.setMessageError(errormessage.substring(errormessage.indexOf(":")+1));
+			
+//				Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(1, errormessage.indexOf("Location:")));
 			}catch(Exception e1) {
 				e1.printStackTrace();
 				Core.setMessageError("SqlExceptionHelper - "+(e1.getCause()!=null && e1.getCause().getCause()!= null?e1.getCause().getCause().getMessage():""));
