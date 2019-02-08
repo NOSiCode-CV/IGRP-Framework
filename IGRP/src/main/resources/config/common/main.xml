@@ -60,7 +60,7 @@
 	
 	<!-- links rest pesquisas gerais -->
 	<entry key="link.rest.pesquisa_bi_cni_pass">http://stage-pdex.gov.cv:8282/apicheckid</entry>
-	<entry key="link.rest.pesquisa_nif">https://stage-pdex.gov.cv:8243/nifigrp/1.0.0/nif</entry>
+	<entry key="link.rest.pesquisa_nif">https://stage-pdex.gov.cv:8243/api_nif/1.0.0/nif</entry>
 	<entry key="link.rest.pesquisa_geografia">https://stage-pdex.gov.cv:8243/geografia/1.0.0/select_geo_by_id</entry>
 	
 	<!-- authorization rest pesquisas gerais -->

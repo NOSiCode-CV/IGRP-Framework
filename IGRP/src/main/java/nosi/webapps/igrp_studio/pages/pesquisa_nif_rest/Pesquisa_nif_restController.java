@@ -42,11 +42,11 @@ public class Pesquisa_nif_restController extends Controller {
 		Properties setting = this.loadConfig("common", "main.xml");
 		String authorization = setting.getProperty("authorization.rest.pesquisa_nif");
 		if((Core.isNotNull(model.getNif()) && model.getNif() != 0) && Core.isNull(model.getNome_form())) {
-			url = setting.getProperty("link.rest.pesquisa_nif")+"?NU_NIF=" + model.getNif();
+			url = setting.getProperty("link.rest.pesquisa_nif")+"?NUM_NIF=" + model.getNif();
 		}else if(Core.isNotNull(model.getNome_form()) && (model.getNif() == 0 || Core.isNull(model.getNif()))) {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase();
 		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
-			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NU_NIF=" +  model.getNif();
+			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NUM_NIF=" +  model.getNif();
 		}
 		
 			if((Core.isNotNull(model.getNif()) && model.getNif() != 0) || Core.isNotNull(model.getNome_form())) {
