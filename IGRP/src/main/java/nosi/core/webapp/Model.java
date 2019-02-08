@@ -318,11 +318,9 @@ public abstract class Model { // IGRP super model
 						if(MAX_ITERATION < list.size())
 							MAX_ITERATION = list.size(); 
 					}
-					
 					while(row < MAX_ITERATION) {
 						
 						Object obj2 = Class.forName(c_.getName()).newInstance();
-						this.removeEmptyRows(mapFk,obj2,row);
 
 						for(Field m : obj2.getClass().getDeclaredFields()){
 							
@@ -353,14 +351,6 @@ public abstract class Model { // IGRP super model
 		}
 		
 	}
-
-	private void removeEmptyRows(Map<String, List<String>> mapFk, Object obj2, int row) {
-		Field[] fields = obj2.getClass().getDeclaredFields();
-		for(Field m : fields ){
-			Core.isNull(mapFk.get(m.getName()).get(row));
-		}
-	}	
-	
 	
 	/*
 	 * Load/auto-populate (end)
