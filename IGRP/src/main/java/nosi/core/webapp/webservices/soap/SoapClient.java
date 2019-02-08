@@ -22,6 +22,7 @@ import javax.xml.soap.SOAPPart;
 
 import cjm.component.cb.map.ToMap;
 import cjm.component.cb.xml.ToXML;
+import nosi.core.webapp.Core;
 
 /**
  * Iekiny Marcel
@@ -34,8 +35,10 @@ public class SoapClient {
 	private SOAPMessage request;
 	
 	private SOAPMessage response;
-	
+	private boolean printInConsole = true;
 	private List<String> errors;
+	private String soapEnvelopeName;
+	private String soapNamespaceEnvelope;
 	
 	public SoapClient() {
 		errors = new ArrayList<String>();
@@ -56,7 +59,9 @@ public class SoapClient {
 			SOAPConnectionFactory sfc = SOAPConnectionFactory.newInstance();
 		    SOAPConnection connection = sfc.createConnection();
 		    URL url = new URL(this.wsdl);
-		    this.request.writeTo(System.out);
+		    if(this.isPrintInConsole()) {
+		    	this.request.writeTo(System.out);
+		    }
 		    this.response = connection.call(this.request, url);
 		    try {
 		    	 if(this.response.getSOAPBody().hasFault()) {
@@ -72,6 +77,20 @@ public class SoapClient {
 			e.printStackTrace();
 		}
 	}
+	
+	public String getContentResponseBody() {
+		String result = null;
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			response.writeTo(out);
+			result = new String(out.toByteArray());
+		}catch(Exception e) {
+			errors.add(e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	
 	public Map<String, Object> getResponseBody(String nsName) {
 		Map<String, Object> result = null;
@@ -126,7 +145,14 @@ public class SoapClient {
 			    		h.addHeader(k, v);
 			    	});
 			 }
-			this.request = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage(h, is);	
+			 if(Core.isNotNullMultiple(this.getSoapEnvelopeName(),this.getSoapNamespaceEnvelope())) {
+				h.addHeader(this.getSoapEnvelopeName(), this.getSoapNamespaceEnvelope());
+				this.request = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL).createMessage(h, is);
+				this.request.getSOAPBody().setPrefix(this.getSoapEnvelopeName());
+				this.request.getSOAPHeader().setPrefix(this.getSoapEnvelopeName());
+			 }else {
+				 this.request = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createMessage(h, is);
+			 }
 		} catch (IOException | SOAPException e) {
 			e.printStackTrace();
 		}finally {
@@ -204,4 +230,30 @@ public class SoapClient {
 	public boolean hasErrors() {
 		return !errors.isEmpty();
 	}
+
+	public String getSoapEnvelopeName() {
+		return soapEnvelopeName;
+	}
+
+	public void setSoapEnvelopeName(String soapEnvelopeName) {
+		this.soapEnvelopeName = soapEnvelopeName;
+	}
+
+	public String getSoapNamespaceEnvelope() {
+		return soapNamespaceEnvelope;
+	}
+
+	public void setSoapNamespaceEnvelope(String soapNamespaceEnvelope) {
+		this.soapNamespaceEnvelope = soapNamespaceEnvelope;
+	}
+
+	public boolean isPrintInConsole() {
+		return printInConsole;
+	}
+
+	public void setPrintInConsole(boolean printInConsole) {
+		this.printInConsole = printInConsole;
+	}
+	
+	
 }
