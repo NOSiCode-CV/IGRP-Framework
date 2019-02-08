@@ -282,7 +282,7 @@ public class Controller{
 	private void modelToQueryString(Model model, QueryString<String, Object> queryString) {
 		if(model!=null) {
 			for(Field field:model.getClass().getDeclaredFields()) {
-				if(field.isAnnotationPresent(RParam.class)) {
+				if(field.isAnnotationPresent(RParam.class) && !field.getType().isArray()) {
 					field.setAccessible(true);
 					String param = field.getAnnotation(RParam.class).rParamName();
 					try {
