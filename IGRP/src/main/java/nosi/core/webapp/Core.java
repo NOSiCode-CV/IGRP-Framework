@@ -94,6 +94,8 @@ public final class Core { // Not inherit
 		
 	}
 	public static final String NO_PERMITION_MSG = "No permision";
+	public static final String DD_MM_YYYY = "dd-MM-yyyy";
+	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
 	/**
 	 Add Hidden field to form
@@ -1866,6 +1868,27 @@ public final class Core { // Not inherit
 	}
 
 	/**
+	 * @param soapEnvelopeName The custom soap tag name envelope
+	 * @param soapNamespaceEnvelope custom namespace for custom tag name envelope
+	 * @param wsdlUrl     The webservice description language url
+	 * @param namespaces  A Map of all required namespaces
+	 * @param headers     A Map of soap request headers
+	 * @param bodyContent A Map of request content that will be converted to xml
+	 * @return SoapClient object
+	 */
+	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
+			Map<String, Object> bodyContent,String soapEnvelopeName,String soapNamespaceEnvelope) {
+		SoapClient sc = new SoapClient(wsdlUrl);
+		sc.setPrintInConsole(false);
+		sc.setHeaders(headers);
+		sc.setSoapEnvelopeName(soapEnvelopeName);
+		sc.setSoapNamespaceEnvelope(soapNamespaceEnvelope);
+		sc.doRequest(namespaces, bodyContent);
+		sc.call();
+		return sc;
+	}
+	
+	/**
 	 * @param wsdlUrl     The webservice description language url
 	 * @param headers     A Map of soap request headers
 	 * @param bodyContent String of raw request envelope
@@ -1902,7 +1925,9 @@ public final class Core { // Not inherit
 		return DateHelper.formatDate(date, formatIn, formatOut);
 	}
 
-
+	public static String convertTimeStampToDate(String date,String format) {
+		return DateHelper.convertTimeStampToDate(date, format);
+	}
 	/**
 	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse of it,
 	 * else returns 0

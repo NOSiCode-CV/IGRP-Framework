@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import nosi.core.webapp.Core;
 
 /**
@@ -78,5 +77,12 @@ public class DateHelper {
 	
 	public static java.sql.Date convertStringToDate(String date,String format) {
 		return formatDate(date,"dd-mm-yyyy",format);
+	}
+	
+	public static String convertTimeStampToDate(String date,String format) {
+		if(Core.isNotNull(date)) {
+			return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", format);
+		}
+		return date;
 	}
 }
