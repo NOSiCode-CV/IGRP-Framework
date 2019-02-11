@@ -29,6 +29,7 @@
         <xsl:param name="onload" select="'false'"/>
         <xsl:param name="tooltip" select="'false'"/>
         <xsl:param name="parser" select="'false'"/>
+        <xsl:param name="search" select="'false'"/>
         <xsl:param name="package"/>
         <xsl:param name="app"/>
         <xsl:param name="gentype"/>
@@ -40,6 +41,24 @@
                 <xsl:otherwise><xsl:value-of select="//rows/app"/></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
+        <xsl:if test="$search = 'true'">
+            <div class="treemenu-search">
+                <div class="side-bar-ctrl visible-xs clearfix" >
+                  <i class="fa fa-navicon pull-right"></i>
+                </div>
+                
+                <div class="igrp-sidebar-menu-search-wrapper">
+                  <input 
+                    type="text" 
+                    class="form-control igrp-search-list" 
+                    placeholder="Pesquisar ..." 
+                    search-list="#tm_{$name} ul.nav-list li .nav-header a"
+                    search-attr="text"
+                    search-item-parent=".nav-header"
+                    search-item-wrapper=".box-tm" />
+                </div>
+            </div>
+        </xsl:if>
         <div class="box-tm box-body" app="{$vapp}" package-db="{$package}" gentype="{$gentype}" themes="{$style}" data-toggle="{$toggle}" name="{$name}" id="tm_{$name}">
             <xsl:if test="$tooltip = 'true'">
                 <xsl:attribute name="tooltip"><xsl:value-of select="$tooltip"/></xsl:attribute>
@@ -53,6 +72,7 @@
             <xsl:if test="$parser = 'true'">
                 <xsl:attribute name="parser"><xsl:value-of select="$parser"/></xsl:attribute>
             </xsl:if>
+
             <ul class="nav nav-list">
                 <xsl:for-each select="./table/value/row/*[name() = $parentId]">
                     <xsl:variable name="id" select="../*[name() = concat($name,'_tmid')]"/>
@@ -60,7 +80,7 @@
                         <li id="{$id}">
                             <i class="fa fa-check-square-o activeicon" aria-hidden="true"></i>
                             <xsl:choose>
-                                <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = 0 or //./table/value/row/*[$parentId = name()]/text() = $id or ../*[name() = concat($name,'_child')] &gt; 0">
+                                <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = $id or ../*[name() = concat($name,'_child')] &gt; 0">
                                     <div class="tree-toggler nav-header" rel="list-{$id}">
                                         <xsl:call-template name="isActive">
                                             <xsl:with-param name="text" select="../*[name() = concat($name,'_active')]"/>
@@ -73,8 +93,7 @@
                                         </span>
                                         <xsl:choose>
                                             <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                <a>
-                                                    
+                                                <a text="{../*[name() = concat($name,'_link_desc')]}">
                                                     <xsl:call-template name="setTarget">
                                                         <xsl:with-param name="parser" select="$parser"/>
                                                         <xsl:with-param name="target" select="$target"/>
@@ -89,7 +108,7 @@
                                                 </a>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                                <span class="form-link">
+                                                <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
                                                     <xsl:call-template name="setTarget">
                                                         <xsl:with-param name="parser" select="$parser"/>
                                                     </xsl:call-template>
@@ -99,7 +118,7 @@
                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                     </xsl:call-template>
                                                     <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
-                                                </span> 
+                                                </a> 
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </div>
@@ -111,9 +130,9 @@
                                             <xsl:for-each select="//./table/value/row/*[($parentId = name())]">
                                                 <xsl:if test="text() = $id">
                                                     <xsl:variable name="vid" select="../*[name() = concat($name,'_tmid')]"/>
-                                                    <li id="{$vid}">
+                                                    <li id="{$vid}" text="{../*[name() = concat($name,'_link_desc')]}">
                                                         <xsl:choose>
-                                                            <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = 0 or //./table/value/row/*[$parentId = name()]/text() = $vid or ../*[name() = concat($name,'_child')] &gt; 0">
+                                                            <xsl:when test="//./table/value/row/*[$parentId = name()]/text() = $vid or ../*[name() = concat($name,'_child')] &gt; 0">
                                                                 <div class="tree-toggler nav-header" rel="list-{$vid}">
                                                                     <xsl:call-template name="isActive">
                                                                         <xsl:with-param name="text" select="../*[name() = concat($name,'_active')]"/>
@@ -126,8 +145,7 @@
                                                                     </span>
                                                                     <xsl:choose>
                                                                         <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                                            <a>
-                                                                                
+                                                                            <a text="{../*[name() = concat($name,'_link_desc')]}">
                                                                                 <xsl:call-template name="setTarget">
                                                                                     <xsl:with-param name="parser" select="$parser"/>
                                                                                     <xsl:with-param name="target" select="$target"/>
@@ -142,7 +160,7 @@
                                                                             </a>
                                                                         </xsl:when>
                                                                         <xsl:otherwise>
-                                                                            <span class="form-link">
+                                                                            <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
                                                                                 
                                                                                 <xsl:call-template name="setTarget">
                                                                                     <xsl:with-param name="parser" select="$parser"/>
@@ -153,7 +171,7 @@
                                                                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                                                 </xsl:call-template>
                                                                                 <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
-                                                                            </span> 
+                                                                            </a> 
                                                                         </xsl:otherwise>
                                                                     </xsl:choose>
                                                                 </div>
@@ -174,7 +192,7 @@
                                                                 </div>
                                                             </xsl:when>
                                                             <xsl:otherwise>
-                                                               <a>
+                                                               <a text="{../*[name() = concat($name,'_link_desc')]}">
                                                                     <xsl:call-template name="setTarget">
                                                                         <xsl:with-param name="parser" select="$parser"/>
                                                                         <xsl:with-param name="target" select="$target"/>
@@ -212,8 +230,7 @@
                                                 </span>
                                                 <xsl:choose>
                                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                        <a>
-
+                                                        <a text="{../*[name() = concat($name,'_link_desc')]}">
                                                             <xsl:call-template name="setTarget">
                                                                 <xsl:with-param name="parser" select="$parser"/>
                                                                 <xsl:with-param name="target" select="$target"/>
@@ -228,21 +245,20 @@
                                                         </a>
                                                     </xsl:when>
                                                     <xsl:otherwise>
-                                                        <span class="form-link">
+                                                        <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
                                                             <xsl:call-template name="setTooltip">
                                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                                             </xsl:call-template>
                                                             <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
-                                                        </span> 
+                                                        </a> 
                                                     </xsl:otherwise>
                                                 </xsl:choose>
                                             </div>
                                             <div class="list-holder" id="list-{$id}"></div>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <a>
-                                               
+                                            <a text="{../*[name() = concat($name,'_link_desc')]}">
                                                 <xsl:call-template name="setTarget">
                                                     <xsl:with-param name="parser" select="$parser"/>
                                                     <xsl:with-param name="target" select="$target"/>
@@ -354,10 +370,10 @@
        
             <xsl:if test="text() = $id">
                 <xsl:variable name="parentId" select="../*[name() = concat($name,'_tmid')]"/>
-                <li id="{$parentId}">
+                <li id="{$parentId}" text="{../*[name() = concat($name,'_link_desc')]}">
                     <i class="fa fa-check-square-o activeicon" aria-hidden="true"></i>
                     <xsl:choose>
-                        <xsl:when test="$treeMenu/*[$parent = name()]/text() = 0  or $treeMenu/*[$parent = name()]/text() = $parentId  or ../*[name() = concat($name,'_child')] &gt; 0">
+                        <xsl:when test="$treeMenu/*[$parent = name()]/text() = $parentId  or ../*[name() = concat($name,'_child')] &gt; 0">
                             <div class="tree-toggler nav-header" rel="list-{$parentId}">
                                 <xsl:call-template name="isActive">
                                     <xsl:with-param name="text" select="../*[name() = concat($name,'_active')]"/>
@@ -371,7 +387,6 @@
                                 <xsl:choose>
                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
                                         <a>
-                                            
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                                 <xsl:with-param name="target" select="$target"/>
@@ -386,7 +401,7 @@
                                         </a>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <span class="form-link">
+                                        <a class="form-link">
                                             <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                             </xsl:call-template>
@@ -396,7 +411,7 @@
                                                 <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
                                             </xsl:call-template>
                                             <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
-                                        </span> 
+                                        </a> 
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </div>
@@ -418,7 +433,6 @@
                         </xsl:when>
                         <xsl:otherwise>
                             <a>
-                                
                                 <xsl:call-template name="setTarget">
                                     <xsl:with-param name="parser" select="$parser"/>
                                     <xsl:with-param name="target" select="$target"/>

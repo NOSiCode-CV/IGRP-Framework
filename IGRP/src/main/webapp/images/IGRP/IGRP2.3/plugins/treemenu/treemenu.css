@@ -1,6 +1,7 @@
 .box-tm{
 	position: relative;
 	overflow: hidden;
+	display: block !important;
 }
 
 .box-tm.box-body{
@@ -167,4 +168,26 @@
 
 .lookup-parser{
 	cursor: pointer;
+}
+
+.treemenu-search{
+	position: relative;
+	display: block;
+	background: #fff;
+	border-bottom: 1px solid #eaeaea;
+	height: 34px;
+}
+
+.treemenu .box-header+.treemenu-search{
+	border-top: 1px solid #eaeaea;
+}
+
+.treemenu-search .igrp-sidebar-menu-search-wrapper input{
+	height: 34px;
+	border-bottom: 0 !important;
+	color: #666;
+}
+
+.treemenu-search .igrp-sidebar-menu-search-wrapper input::placeholder{
+	color: #666;
 }

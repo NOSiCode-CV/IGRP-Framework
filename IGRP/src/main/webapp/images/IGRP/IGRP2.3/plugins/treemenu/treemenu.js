@@ -14,7 +14,7 @@
 			separator   = gentype == 'java' ? '/' : '.',
 			package 	= parent.attr('package-db') ? parent.attr('package-db') : null,
 			app	 		= parent.attr('app') ? parent.attr('app') : '',
-			url 		= package ? app+separator+package+separator+'remote'+name : $.IGRP.utils.getPageUrl(),
+			url 		= package ? app+separator+package+separator+'remote_'+name : $.IGRP.utils.getPageUrl(),
 			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name;
 
 			xslParams.name 		= name;
