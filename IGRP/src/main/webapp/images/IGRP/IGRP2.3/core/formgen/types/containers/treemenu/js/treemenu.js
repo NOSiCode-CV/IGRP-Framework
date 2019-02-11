@@ -145,6 +145,13 @@ var TREEMENU = function(name,params){
 				}
 			}
 		});
+
+		container.setPropriety({
+			name 	: 'search',
+			label	: 'Search',
+			value 	: false,
+			xslValue: '<xsl:with-param name="search" select="\'true\'"/>'
+		});
 	}
 };
 
