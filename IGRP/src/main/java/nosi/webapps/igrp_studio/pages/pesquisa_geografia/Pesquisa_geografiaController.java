@@ -33,7 +33,7 @@ public class Pesquisa_geografiaController extends Controller {
 		return this.renderView(view);	
 	}
 	
-	public Response actionRemotetreemenu_1(String p_id) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionRemote_treemenu_1(String p_id) throws IOException, IllegalArgumentException, IllegalAccessException{
 		String id = Core.getParam("p_id");
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
 		+ " <treemenu_1> "
