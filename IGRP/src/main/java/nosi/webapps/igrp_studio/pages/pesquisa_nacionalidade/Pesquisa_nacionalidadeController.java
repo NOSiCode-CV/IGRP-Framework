@@ -1,24 +1,23 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nacionalidade;
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.core.webapp.databse.helpers.QueryInterface;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Properties;
+import nosi.core.webapp.webservices.rest.ConsumeJson;
+import nosi.core.config.Config;
 /*----#end-code----*/
 		
 public class Pesquisa_nacionalidadeController extends Controller {
