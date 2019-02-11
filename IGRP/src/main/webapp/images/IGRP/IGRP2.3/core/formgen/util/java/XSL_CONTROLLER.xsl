@@ -165,6 +165,8 @@
 		<xsl:param name="app_" select="''"/>
 		<xsl:param name="link_" select="''"/>
 		<xsl:param name="type_render_"/>
+		<xsl:param name="extra" select="''"/>
+		
 		<xsl:variable name="model">
    			<xsl:value-of select="$page_"></xsl:value-of>
 		</xsl:variable>
@@ -237,7 +239,7 @@
      	<!--         Actions modified by programmer -->     	
      	
      	<!-- <xsl:value-of select="$begin_reserve_code_controller_on_action"></xsl:value-of> -->		
-
+		
      	<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_on_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
      	</xsl:variable>	   	
@@ -246,6 +248,8 @@
      		<xsl:with-param name="type" select="$action"/>
      		<xsl:with-param name="url" select="$url"/>
      	</xsl:call-template>
+     	
+     	<xsl:value-of select="$extra"/>
      	
 		<xsl:variable name="your_code">
 			
@@ -542,10 +546,19 @@
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="@type='treemenu'">
+					<xsl:variable name="params">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat('String p_id = Core.getParam(',$double_quotes,'p_id',$double_quotes,');')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat('String p_active = Core.getParam(',$double_quotes,'p_active',$double_quotes,');')"/>
+					</xsl:variable>
 					<xsl:call-template name="gen-action">
 						<xsl:with-param name="action_name_"><xsl:value-of select="concat('Remote_',$actionName)"/></xsl:with-param>
 						<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
 						<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
+						<xsl:with-param name="extra" select="$params"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
