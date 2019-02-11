@@ -10,6 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -273,7 +275,7 @@ public class Controller{
 	return resp;
 	}
 	
-	protected final Response redirect(String app, String page, String action,Model model,QueryString<String,Object> queryString) throws IOException{
+	protected final Response redirect(String app, String page, String action,Model model,QueryString<String,Object> queryString) throws IOException{		
 		this.modelToQueryString(model,queryString);
 		return this.redirect(app,page,action,queryString);
 	}
@@ -301,6 +303,13 @@ public class Controller{
 		if(queryString.getValues("dad")==null && !action.contains("dad"))
 			queryString.addQueryString("dad", Core.getParam("dad"));
 		this.setQueryString(queryString);
+		Map<String,String[]> paramsName = Core.getParameters();
+		paramsName.entrySet().stream()
+				  .filter(param->param.getKey().startsWith("p_fwl_"))
+				  .filter(param->!param.getKey().equalsIgnoreCase("p_fwl_search"))
+				  .forEach(param->{
+					  qs+="&"+param.getKey()+"="+param.getValue()[0];
+				  });
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
 	
