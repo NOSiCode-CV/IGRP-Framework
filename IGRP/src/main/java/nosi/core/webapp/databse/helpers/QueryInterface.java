@@ -92,4 +92,18 @@ public interface QueryInterface extends BaseQueryInterface{
 	public QueryInterface unionAll();
 //	@Deprecated
 	public QueryInterface returning(String...retuerningKeys);
+	
+	public QueryInterface and();
+	
+	public QueryInterface or();
+	
+	public QueryInterface limit(int limit);
+	
+	public QueryInterface offset(int offset);
+	
+	public QueryInterface any(String subQuery);
+	
+	public void setShowError(boolean showError);
+
+	public void setShowTracing(boolean showTracing);
 }

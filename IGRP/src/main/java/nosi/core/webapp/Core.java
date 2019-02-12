@@ -222,6 +222,40 @@ public final class Core { // Not inherit
 	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName) {
 		return new QueryDelete(connectionName).delete(schemaName, tableName);
 	}
+	
+	/**
+	 * Return Query of type BaseQueryInterface
+	 * @param  tableName
+	 * @param displayError display error if true
+	 * @param tracingError tracing error if true
+	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 * */
+	public static BaseQueryInterface delete(String tableName,boolean displayError,boolean tracingError) {
+		return new QueryDelete(Core.defaultConnection(),displayError,tracingError).delete(tableName);
+	}
+	/**
+	 * Return Query of type BaseQueryInterface from a specific connection
+	 * @param  connectionName connection name
+	 * @param  tableName table name
+	 * @param displayError display error if true
+	 * @param tracingError tracing error if true
+	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 * */
+	public static BaseQueryInterface delete(String connectionName, String tableName,boolean displayError,boolean tracingError) {
+		return new QueryDelete(connectionName,displayError,tracingError).delete(tableName);
+	}
+	/**
+	 * Return Query of type BaseQueryInterface from a specific connection and schema
+	 * @param  connectionName connection name
+	 * @param  schemaName schema name
+	 * @param  tableName table name
+	 * @param displayError display error if true
+	 * @param tracingError tracing error if true
+	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 * */
+	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName,boolean displayError,boolean tracingError) {
+		return new QueryDelete(connectionName,displayError,tracingError).delete(schemaName, tableName);
+	}
 	/**
 	 * Encrypt a string
 	 * @param content
@@ -1289,6 +1323,25 @@ public final class Core { // Not inherit
 		return new QueryInsert(connectionName).insert(schemaName, tableName);
 	}
 
+	public static BaseQueryInterface insert(String tableName,boolean displayError,boolean tracingError ) {
+		return new QueryInsert(Core.defaultConnection(),displayError,tracingError).insert(tableName);
+	}
+
+	/**
+	 * Queey insert
+	 * 
+	 * @param connectionName
+	 * @param tableName
+	 * @return {@code new QueryInsert(connectionName).insert(tableName);}
+	 */
+	public static BaseQueryInterface insert(String connectionName, String tableName,boolean displayError,boolean tracingError) {
+		return new QueryInsert(connectionName,displayError,tracingError).insert(tableName);
+	}
+
+	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName,boolean displayError,boolean tracingError) {
+		return new QueryInsert(connectionName,displayError,tracingError).insert(schemaName, tableName);
+	}
+	
 	public static boolean isDouble(Object value) {
 		if (isNotNull(value)) {
 			try {
@@ -1503,6 +1556,22 @@ public final class Core { // Not inherit
 
 	public static QueryInterface query(String connectionName, String sql, Class<?> className) {
 		return new QuerySelect(connectionName).select(sql, className);
+	}
+
+	public static QueryInterface query(String sql,boolean displayError,boolean tracingError) {		
+		return new QuerySelect(Core.defaultConnection(),displayError,tracingError).select(sql);
+	}
+	
+	public static QueryInterface query(String sql, Config_env config_env,boolean displayError,boolean tracingError) {
+		return new QuerySelect(config_env,displayError,tracingError).select(sql);
+	}
+	
+	public static QueryInterface query(String connectionName, String sql,boolean displayError,boolean tracingError) {
+		return new QuerySelect(connectionName,displayError,tracingError).select(sql);
+	}
+	
+	public static QueryInterface query(String connectionName, String sql, Class<?> className,boolean displayError,boolean tracingError) {
+		return new QuerySelect(connectionName,displayError,tracingError).select(sql, className);
 	}
 
 	/**
@@ -2142,6 +2211,18 @@ public final class Core { // Not inherit
 
 	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName) {
 		return new QueryUpdate(connectionName).update(schemaName, tableName);
+	}
+	
+	public static BaseQueryInterface update(String tableName,boolean displayError,boolean tracingError) {
+		return new QueryUpdate(Core.defaultConnection(),displayError,tracingError).update(tableName);
+	}
+
+	public static BaseQueryInterface update(String connectionName, String tableName,boolean displayError,boolean tracingError) {
+		return new QueryUpdate(connectionName,displayError,tracingError).update(tableName);
+	}
+
+	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName,boolean displayError,boolean tracingError) {
+		return new QueryUpdate(connectionName,displayError,tracingError).update(schemaName, tableName);
 	}
 	
 	/**

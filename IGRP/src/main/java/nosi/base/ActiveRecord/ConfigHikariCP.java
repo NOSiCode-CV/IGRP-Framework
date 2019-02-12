@@ -25,7 +25,9 @@ public class ConfigHikariCP {
 	private String currentSessionContextClass;
 	private String autCloseSession;
 	private String autocommit;
+	private String release_mode;
 	
+
 	private ConfigHikariCP() {
 		try {
 			this.load();
@@ -152,6 +154,13 @@ public class ConfigHikariCP {
 		this.autocommit = autocommit;
 	}
 
+	public String getRelease_mode() {
+		return release_mode;
+	}
+
+	public void setRelease_mode(String release_mode) {
+		this.release_mode = release_mode;
+	}
 
 	@Override
 	public String toString() {
@@ -181,6 +190,7 @@ public class ConfigHikariCP {
 			this.hbm2ddlAuto = p.getProperty("hbm2ddlAuto");
 			this.currentSessionContextClass = p.getProperty("currentSessionContextClass");
 			this.autocommit = p.getProperty("autocommit");
+			this.release_mode = p.getProperty("releaseMode");
 		}
 	}
 }

@@ -34,12 +34,15 @@ public abstract class QueryHelper implements QueryInterface{
 	protected String tableName;
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
 	protected String connectionName;
-	protected boolean isWhere = false;
+	protected boolean whereIsCall = false;
 	protected Config_env config_env;
 	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
 	protected nosi.core.config.Connection connection;
 	protected ParametersHelper paramHelper;
+	private boolean showError = true;
+	private boolean showTracing = true;
+	
 	
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
@@ -56,16 +59,28 @@ public abstract class QueryHelper implements QueryInterface{
 			return connectionName.toString();
 		return this.connection.getConfigApp().getH2IGRPBaseConnection();
 	}
-//	
-//	private String getMyConnectionName() {		
-//		final Config_env firstConnectionNameOfTheApp = new Config_env().find().andWhere("application.dad", "=",Core.getCurrentDadParam()).one();
-//		if(firstConnectionNameOfTheApp!=null)
-//			return firstConnectionNameOfTheApp.getName();
-//		return Config.getH2IGRPBaseConnection();
-//	}
-	
+
+	public boolean isShowError() {
+		return showError;
+	}
+
+	public void setShowError(boolean showError) {
+		this.showError = showError;
+	}
+
+	public boolean isShowTracing() {
+		return showTracing;
+	}
+
+	public void setShowTracing(boolean showTracing) {
+		this.showTracing = showTracing;
+	}
+
 	public QueryInterface where(String condition) {
-		this.sql += " WHERE "+condition;
+		if(!this.whereIsCall) {
+			this.sql += " WHERE "+condition;
+			this.whereIsCall = true;
+		}
 		return this;
 	}
 	
@@ -75,8 +90,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	public QueryInterface where() {
-		this.sql += " WHERE 1=1 ";
-		return this;
+		return this.where("1=1");
 	}
 	
 	public QueryInterface addLong(String columnName,Long value) {
@@ -215,7 +229,7 @@ public abstract class QueryHelper implements QueryInterface{
 		c.setDefaultValue(value);
 		c.setType(type);
 		c.setFormat(format);
-		c.setAfterWhere(isWhere);
+		c.setAfterWhere(whereIsCall);
 		this.columnsValue.add(c);
 	}
 	
@@ -312,7 +326,7 @@ public abstract class QueryHelper implements QueryInterface{
 			try {
 				conn.setAutoCommit(this.isAutoCommit);
 			} catch (SQLException e1) {
-				r.setError(e1.getMessage());
+				this.setError(null, e1);
 			}
 			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
@@ -327,8 +341,7 @@ public abstract class QueryHelper implements QueryInterface{
 					r.setSql(q.getSql());
 					r.setKeyValue(q.executeInsert(this.tableName));
 				} catch (SQLException e) {
-					r.setError(e.getMessage());
-					Core.log(e.getMessage());
+					this.setError(r,e);
 				}
 			}else {
 				try {
@@ -338,15 +351,14 @@ public abstract class QueryHelper implements QueryInterface{
 					Core.log("SQL:"+q.getSql());
 					r.setKeyValue( q.executeUpdate());
 				} catch (SQLException e) {
-					r.setError(e.getMessage());
-					Core.log(e.getMessage());
+					this.setError(r,e);
 				}
 			}
 			try {
 				if(!this.isAutoCommit)
 					conn.commit();
 			} catch (SQLException e) {
-				r.setError(e.getMessage());
+				this.setError(r,e);
 			}finally {
 				try {
 					if(q!=null)
@@ -354,13 +366,14 @@ public abstract class QueryHelper implements QueryInterface{
 					if(conn!=null) 
 						conn.close();
 				} catch (SQLException e) {
-					r.setError(e.getMessage());
+					this.setError(r, e);
 				}
 			}
 		}
 		return r;
 	}
 	
+
 	@Override
 	public String getSqlWithData() {
 		Connection conn = this.connection.getConnection(this.getConnectionName());
@@ -377,7 +390,7 @@ public abstract class QueryHelper implements QueryInterface{
 					this.setParameters(q);	
 					this.sql = q.getSql();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					this.setError(null, e);
 				}
 			}else {
 				try {
@@ -385,7 +398,7 @@ public abstract class QueryHelper implements QueryInterface{
 					this.setParameters(q);
 					this.sql = q.getSql();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					this.setError(null, e);
 				}
 			}
 			try {
@@ -394,8 +407,7 @@ public abstract class QueryHelper implements QueryInterface{
 				if(conn!=null) 
 					conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.setError(null, e);
 			}
 		}
 		return this.sql;
@@ -406,8 +418,6 @@ public abstract class QueryHelper implements QueryInterface{
 			 this.paramHelper.setParameter(q,col.getDefaultValue(),col);
 		}
 	}
-
-
 
 	public List<Tuple> getResultList() {
 		throw new UnsupportedOperationException();
@@ -666,22 +676,30 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	@Override
 	public QueryInterface whereNotNull(String name) {
-		this.sql += " WHERE "+name+" IS NOT NULL ";
+		if(Core.isNotNull(name)) {
+			this.where();
+			this.sql += name+" IS NOT NULL ";
+		}
 		return this;
 	}
 
 	@Override
 	public QueryInterface whereIsNull(String name) {
-		this.sql += " WHERE "+name+" IS NULL ";
+		if(Core.isNotNull(name)) {
+			this.where();
+			this.sql += name+" IS NULL ";
+		}
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, String value) {
 		if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
-			this.sql += " WHERE UPPER("+name+") "+operator+":"+name.toUpperCase();
+			this.where("");
+			this.sql += " UPPER("+name+") "+operator+":"+name.toUpperCase();
 		}else {
-			this.sql += " WHERE "+name+" "+operator+":"+name;
+			this.where("");
+			this.sql += name+" "+operator+":"+name;
 		}
 		this.addString(name, value);
 		return this;
@@ -689,21 +707,24 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public QueryInterface where(String name, String operator, Integer value) {
-		this.sql += " WHERE "+name+" "+operator+":"+name;
+		this.where("");
+		this.sql += name+" "+operator+":"+name;
 		this.addInt(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Float value) {
-		this.sql += " WHERE "+name+" "+operator+":"+name;
+		this.where("");
+		this.sql += name+" "+operator+":"+name;
 		this.addFloat(name, value);
 		return this;
 	}
 
 	@Override
 	public QueryInterface where(String name, String operator, Double value) {
-		this.sql += " WHERE "+name+" "+operator+":"+name;
+		this.where("");
+		this.sql += name+" "+operator+":"+name;
 		this.addDouble(name, value);
 		return this;
 	}
@@ -720,4 +741,45 @@ public abstract class QueryHelper implements QueryInterface{
 		return this;
 	}
 
+	@Override
+	public QueryInterface and() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface or() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface limit(int limit) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface offset(int offset) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface any(String subQuery) {
+		throw new UnsupportedOperationException();
+	}
+
+	protected void setError(ResultSet r, Exception e) {
+		if(this.isShowError()) {
+			if(e!=null) {
+				if(r!=null) {
+					r.setError(e.getMessage());
+				}
+				Core.setMessageError(e.getMessage());
+				Core.log(e.getMessage());
+			}
+		}
+		if(this.isShowTracing()) {
+			if(e!=null)
+				e.printStackTrace();
+		}
+		
+	}
 }

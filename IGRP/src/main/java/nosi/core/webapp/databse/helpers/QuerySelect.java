@@ -27,6 +27,11 @@ public class QuerySelect extends CommonFIlter{
 	public QuerySelect(Object connectionName) {
 		super(connectionName);
 	}
+	public QuerySelect(Object connectionName,boolean displayError,boolean tracingError) {
+		this(connectionName);
+		this.setShowError(displayError);
+		this.setShowTracing(tracingError);
+	}
 	
 	public QuerySelect() {				
 		this(null);			
@@ -47,7 +52,7 @@ public class QuerySelect extends CommonFIlter{
 				isValid = true;
 			}catch(Exception e) {
 				isValid = false;
-				Core.log(e.getMessage());
+				this.setError(null, e);
 			}finally {
 				if(em!=null)
 					em.close();
@@ -92,7 +97,7 @@ public class QuerySelect extends CommonFIlter{
 				}	
 				list = query.getResultList();
 			}catch(Exception e) {
-				Core.log(e.getMessage());
+				this.setError(null, e);
 			}finally {
 				if(em!=null) {
 					em.close();
@@ -128,7 +133,7 @@ public class QuerySelect extends CommonFIlter{
 				}		
 				list = query.getResultList();
 			}catch(Exception e) {
-				Core.log(e.getMessage());
+				this.setError(null, e);
 			}finally {
 				if(em!=null)
 					em.close();
@@ -207,7 +212,7 @@ public class QuerySelect extends CommonFIlter{
 					 }
 				}				
 			}catch(Exception e) {
-				Core.log(e.getMessage());
+				this.setError(null, e);
 			}finally {
 				if(em!=null)
 					em.close();
@@ -403,8 +408,7 @@ public class QuerySelect extends CommonFIlter{
 				r.setSql(this.getSql());
 				Core.log("SQL:"+this.getSql());
 			} catch (SQLException e) {
-				r.setError(e.getMessage());
-				Core.log(e.getMessage());
+				this.setError(r, e);
 			}
 			try {
 				conn.commit();
@@ -412,8 +416,7 @@ public class QuerySelect extends CommonFIlter{
 				try {
 					conn.rollback();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					this.setError(r, e1);
 				}
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -422,15 +425,13 @@ public class QuerySelect extends CommonFIlter{
 					if(ps!=null)
 						ps.close();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					this.setError(r, e1);
 				}
 				if(conn!=null) {
 					try {
 						conn.close();
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						this.setError(r, e);
 					}
 				}
 			}		
