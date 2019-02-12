@@ -136,7 +136,6 @@ public class HibernateUtils {
 		try {
 			config.load();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
@@ -159,10 +158,8 @@ public class HibernateUtils {
         settings.put("hibernate.connection.autocommit",cHCp.getAutocommit().orElse("false"));
         
         if(cHCp.getUseConnectionPool().compareTo("true")==0) {
-	       //hickaricp config
-	        
-	        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());
-	        
+	       //hickaricp config	        
+	        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());	        
 			//Maximum waiting time for a connection from the pool. 
 			settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
 			//Maximum time that a connection is allowed to sit ideal in the pool
@@ -177,6 +174,9 @@ public class HibernateUtils {
 			settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
 			//suspense pool
 			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
+			//It releases the connection after org.hibernate.Transaction commit or rollback.
+			if(Core.isNotNull(cHCp.getRelease_mode()))
+				settings.put("hibernate.connection.release_mode", cHCp.getRelease_mode());
         }
 		return settings;
 	}

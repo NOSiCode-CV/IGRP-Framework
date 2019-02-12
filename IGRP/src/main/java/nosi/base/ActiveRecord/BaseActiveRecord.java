@@ -165,6 +165,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}
 		return (T) this;
 	}
+	
 	public T andWhere(String name, String operator) {
 		if(operator.toString().equalsIgnoreCase("isnull")){
 			return this.andWhereIsNull(name);
@@ -775,6 +776,35 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return list;
 	}
 		
+	public List<T> query(String querySql,Class<T> className) {
+		return this.query(querySql, className,-1,-1);
+	}
+	
+	public List<T> query(String querySql,Class<T> className,int limit,int offset) {
+		Transaction transaction = null;
+		List<T> list = null;
+		try {
+			transaction = (Transaction) this.getSession().getTransaction();
+			transaction.begin();
+			TypedQuery<T> query = this.getSession().createQuery(querySql, className);
+			if(this.offset > -1)
+				query.setFirstResult(offset);
+			if(this.limit > -1)
+				query.setMaxResults(limit);
+			this.setParameters(query);
+			list = query.getResultList();
+			transaction.commit();
+		}catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			this.setError(e);
+		} finally {
+			this.closeSession();
+		}
+		return list;
+	}
+	
 	@Override
 	public T insert() {
 		Transaction transaction = null;

@@ -18,10 +18,11 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, String value) {
 		if(value!=null) {
+			this.and();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere(" AND UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
 			}else {
-				this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addString(name, value);
+				this.filterWhere(name+" "+operator+" :"+name+" ").addString(name, value);
 			}
 		}
 		return this;
@@ -46,7 +47,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Integer value) {
 		if(value!=null) {
-			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addInt(name, value);
+			this.and();
+			this.filterWhere(name+" "+operator+" :"+name+" ").addInt(name, value);
 		}
 		return this;
 	}
@@ -54,7 +56,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Float value) {
 		if(value!=null) {
-			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addFloat(name, value);
+			this.and();
+			this.filterWhere(name+" "+operator+" :"+name+" ").addFloat(name, value);
 		}
 		return this;
 	}
@@ -62,7 +65,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Double value) {
 		if(value!=null) {
-			this.filterWhere(" AND "+name+" "+operator+" :"+name+" ").addDouble(name, value);
+			this.and();
+			this.filterWhere(name+" "+operator+" :"+name+" ").addDouble(name, value);
 		}
 		return this;
 	}
@@ -70,10 +74,11 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, String value) {
 		if(value!=null) {
+			this.or();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere(" OR UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
 			}else {
-				this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addString(name, value);
+				this.filterWhere(name+" "+operator+" :"+name+" ").addString(name, value);
 			}
 		}
 		return this;
@@ -91,7 +96,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Integer value) {
 		if(value!=null) {
-			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addInt(name, value);
+			this.or();
+			this.filterWhere(name+" "+operator+" :"+name+" ").addInt(name, value);
 		}
 		return this;
 	}
@@ -99,7 +105,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Float value) {
 		if(value!=null) {
-			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addFloat(name, value);
+			this.or();
+			this.filterWhere(name+" "+operator+" :"+name+" ").addFloat(name, value);
 		}
 		return this;
 	}
@@ -107,7 +114,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Double value) {
 		if(value!=null) {
-			this.filterWhere(" OR "+name+" "+operator+" :"+name+" ").addDouble(name, value);
+			this.or();
+			this.filterWhere(name+" "+operator+" :"+name+" ").addDouble(name, value);
 		}
 		return this;
 	}
@@ -129,17 +137,17 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	}
 
 	@Override
-	public QueryInterface exists(String value) {
-		if(Core.isNotNull(value)) {
-			this.filterWhere(" EXISTS ("+value+") ");
+	public QueryInterface exists(String subQuery) {
+		if(Core.isNotNull(subQuery)) {
+			this.filterWhere(" EXISTS ("+subQuery+") ");
 		}
 		return this;
 	}
 
 	@Override
-	public QueryInterface notExists(String value) {
-		if(Core.isNotNull(value)) {
-			this.filterWhere(" EXISTS ("+value+") ");
+	public QueryInterface notExists(String subQuery) {
+		if(Core.isNotNull(subQuery)) {
+			this.filterWhere(" NOT EXISTS ("+subQuery+") ");
 		}
 		return this;
 	}
@@ -147,7 +155,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhereNotNull(String name) {
 		if(Core.isNotNull(name)) {
-			this.filterWhere(" AND "+name+" IS NOT NULL ");
+			this.and();
+			this.filterWhere(name+" IS NOT NULL ");
 		}
 		return this;
 	}
@@ -155,7 +164,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhereIsNull(String name) {
 		if(Core.isNotNull(name)) {
-			this.filterWhere(" AND "+name+" IS NULL ");
+			this.and();
+			this.filterWhere(name+" IS NULL ");
 		}
 		return this;
 	}
@@ -163,7 +173,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhereNotNull(String name) {
 		if(Core.isNotNull(name)) {
-			this.filterWhere(" OR "+name+" IS NOT NULL ");
+			this.or();
+			this.filterWhere(name+" IS NOT NULL ");
 		}
 		return this;
 	}
@@ -171,7 +182,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhereIsNull(String name) {
 		if(Core.isNotNull(name)) {
-			this.filterWhere(" OR "+name+" IS NULL ");
+			this.or();
+			this.filterWhere(name+" IS NULL ");
 		}
 		return this;
 	}
@@ -224,8 +236,45 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 		return this;
 	}
 	private void applyToInCondition(String name,String operator,Object[] values) {
-		String value = String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
-		this.filterWhere(" AND "+name+" "+operator+" "+value+" ");
+		String value = String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");
+		this.and();			
+		this.filterWhere(name+" "+operator+" "+value+" ");
 	}
 
+	@Override
+	public QueryInterface and() {
+		if(!this.whereIsCall)
+			this.where();
+		this.sql += " AND ";
+		return this;
+	}
+
+	@Override
+	public QueryInterface or() {
+		if(!this.whereIsCall)
+			this.where();
+		this.sql += " OR ";
+		return this;
+	}
+
+	@Override
+	public QueryInterface limit(int limit) {
+		if(limit > 0)
+			this.sql+=" LIMIT "+limit;
+		return this;
+	}
+
+	@Override
+	public QueryInterface offset(int offset) {
+		if(offset > 0)
+			this.sql+=" OFFSET "+offset;
+		return this;
+	}
+
+	@Override
+	public QueryInterface any(String subQuery) {
+		if(Core.isNotNull(subQuery))
+			this.sql+=" ANY ("+subQuery+")";
+		return this;
+	}
 }

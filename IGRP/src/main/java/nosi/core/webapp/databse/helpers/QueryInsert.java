@@ -12,6 +12,12 @@ public class QueryInsert extends QueryHelper {
 	public QueryInsert(String connectionName) {
 		super(connectionName);
 	}
+	
+	public QueryInsert(String connectionName,boolean displayError,boolean tracingError) {
+		this(connectionName);
+		this.setShowError(displayError);
+		this.setShowTracing(tracingError);
+	}
 
 	public QueryInsert() {
 		this(Core.defaultConnection());

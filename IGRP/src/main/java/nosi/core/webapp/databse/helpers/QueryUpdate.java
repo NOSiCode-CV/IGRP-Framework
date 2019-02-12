@@ -11,7 +11,12 @@ public class QueryUpdate extends CommonFIlter {
 	public QueryUpdate(String connectionName) {
 		super(connectionName);
 	}
-
+	public QueryUpdate(String connectionName,boolean displayError,boolean tracingError) {
+		this(connectionName);
+		this.setShowError(displayError);
+		this.setShowTracing(tracingError);
+	}
+	
 	public QueryUpdate() {
 		this(Core.defaultConnection());
 	}
@@ -29,13 +34,13 @@ public class QueryUpdate extends CommonFIlter {
 	
 	public QueryInterface where(String condition) {
 		this.sql += " WHERE "+condition;
-		this.isWhere = true;
+		this.whereIsCall = true;
 		return this;
 	}
 	
 	protected QueryInterface filterWhere(String condition) {
 		this.sql += condition;
-		this.isWhere = true;
+		this.whereIsCall = true;
 		return this;
 	}
 }
