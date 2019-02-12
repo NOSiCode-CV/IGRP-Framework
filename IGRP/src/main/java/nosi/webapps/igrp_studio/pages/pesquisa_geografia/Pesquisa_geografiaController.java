@@ -33,23 +33,29 @@ public class Pesquisa_geografiaController extends Controller {
 		return this.renderView(view);	
 	}
 	
-	public Response actionRemote_Treemenu_1() throws IOException, IllegalArgumentException, IllegalAccessException{
-		String p_id = Core.getParam("p_id");
-		String p_active = Core.getParam("p_active");
-		Pesquisa_geografia model = new Pesquisa_geografia();
-		//programming your save edit calendar
-		Response response = new Response();
-		response.setContentType(Response.FORMAT_XML);
-		response.setContent("your message");
-		return response;
-		
+	public Response actionRemote_treemenu_1(String p_id) throws IOException, IllegalArgumentException, IllegalAccessException{
+		String id = Core.getParam("p_id");
+		String[] par = Core.getParam("p_ctx_param").split(",");
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
+		+ " <treemenu_1> "
+				+ "<table>"
+				+ "<value>";
+		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id);
+		for(Pesquisa_geografia.Treemenu_1 li : lista) {
+			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),par[2]);
+		}
+		xml +=  "</value>"
+				+ "</table>"
+				+ "</treemenu_1>";
+		return this.renderView(xml);
 	}
 	
 /*----#start-code(custom_actions)----*/
-	public String getXml(String id,String desc_menu, String id_par, String child) {
+	public String getXml(String id,String desc_menu, String id_par, String child, String tab) {
+		
 		String xml =	"<row>" + 
 						"<context-menu>"+
-						"<param>p_geografia="+ desc_menu +"</param>"
+						"<param>"+tab+"="+ desc_menu +"</param>"
 						+ "</context-menu>"+
 							"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
 							"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +

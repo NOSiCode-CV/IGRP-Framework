@@ -15,11 +15,12 @@
 			package 	= parent.attr('package-db') ? parent.attr('package-db') : null,
 			app	 		= parent.attr('app') ? parent.attr('app') : '',
 			url 		= package ? app+separator+package+separator+'remote_'+name : $.IGRP.utils.getPageUrl(),
-			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name;
+			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name,
+			parser		= parent.attr('parser') && parent.attr('parser') == 'true' ? true : false;
 
 			xslParams.name 		= name;
 			xslParams.target  	= parent.attr('target');
-			xslParams.parser  	= parent.attr('parser') && parent.attr('parser') == 'true' ? true : false;
+			xslParams.parser  	= parser;
 
 			if (parent.attr('tooltip') && parent.attr('tooltip') != undefined)
 				xslParams.tooltip = parent.attr('tooltip');
@@ -34,6 +35,23 @@
 
 			if (active)
 				params += '&p_active='+active;
+			
+			if(parser){
+				var lookup = $('.lookup-parser:first',parent);
+				if(lookup[0]){
+					var cont  = lookup.attr('ctx_param_count')*1,
+						ctx_param = '';
+
+					for (var i = 1; i <= cont; i++) {
+						ctx_param += lookup.attr('ctx_p'+i).split('=')[0];
+						
+						if(i < cont)
+							ctx_param +=',';
+					}
+					params += '&p_ctx_param='+ctx_param;
+				}
+			 }
+
 			
 			$.ajax({
 				url : $.IGRP.utils.getUrl(url)+params,
