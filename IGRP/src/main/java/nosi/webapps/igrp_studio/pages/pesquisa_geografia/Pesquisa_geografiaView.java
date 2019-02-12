@@ -42,9 +42,9 @@ public class Pesquisa_geografiaView extends View {
 		treemenu_1_link_desc.setLabel(gt("Link"));
 		treemenu_1_link.propertie().add("type","link").add("maxlength","4000").add("target","_self").add("desc","true");
 		
-		treemenu_1_tmid = new NumberField(model,"treemenu_1_tmid");
+		treemenu_1_tmid = new TextField(model,"treemenu_1_tmid");
 		treemenu_1_tmid.setLabel(gt("ID"));
-		treemenu_1_tmid.propertie().add("type","number").add("java-type","Integer");
+		treemenu_1_tmid.propertie().add("type","text");
 		
 		treemenu_1_parent = new NumberField(model,"treemenu_1_parent");
 		treemenu_1_parent.setLabel(gt("Parent ID"));

@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=71</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=490</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -51,7 +51,7 @@
                 <treemenu_1_link type="link" maxlength="4000" target="_self" desc="true">
                     <label>Link</label>
                 </treemenu_1_link>
-                <treemenu_1_tmid type="number" java-type="Integer">
+                <treemenu_1_tmid type="text">
                     <label>ID</label>
                 </treemenu_1_tmid>
                 <treemenu_1_parent type="number" java-type="Integer">
