@@ -42,7 +42,11 @@ public class Pesquisa_geografiaController extends Controller {
 				+ "<value>";
 		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id);
 		for(Pesquisa_geografia.Treemenu_1 li : lista) {
-			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),par[2]);
+			String tab = null;
+			try {
+				tab = par[2];
+				}catch (Exception e) {}
+			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),tab);
 		}
 		xml +=  "</value>"
 				+ "</table>"
