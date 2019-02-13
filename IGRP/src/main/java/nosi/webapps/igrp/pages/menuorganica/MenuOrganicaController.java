@@ -194,20 +194,25 @@ public class MenuOrganicaController extends Controller {
 	}
 	
 	private void insetMenu(MenuOrganica model, List<String> chekedIds) {
+		boolean success=false;
 		if (model.getType().equals("org")) {
-			boolean success =this.insertMenu(chekedIds, "MEN", model.getId(),this.profAdmin.getId(),this.userAdmin.getId());
+			 success =this.insertMenu(chekedIds, "MEN", model.getId(),this.profAdmin.getId(),this.userAdmin.getId());
 			List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).all();
 			for(ProfileType p:profilesOfOrg) {
 				success = this.insertMenu(chekedIds, "MEN",p.getOrganization().getId(),p.getId(),this.userAdmin.getId());
 			}
-			if(success)
-				Core.setMessageSuccess();
+			
 		}else if (model.getType().equals("perfil")) {				
 			ProfileType pt = new ProfileType().findOne(model.getId());
-			this.insertMenu(chekedIds, "MEN",pt.getOrganization().getId(),pt.getId(),this.userAdmin.getId());
+			success = this.insertMenu(chekedIds, "MEN",pt.getOrganization().getId(),pt.getId(),this.userAdmin.getId());
+				
 		} else if (model.getType().equals("user")) {
-			this.insertMenu(chekedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
+			success = this.insertMenu(chekedIds, "MEN_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
 		}	
+		if(success)
+			Core.setMessageSuccess();
+		else
+			Core.setMessageError();
 	}
 	
 	private List<String> filterIds(MenuOrganica model,List<String> chekedIds){

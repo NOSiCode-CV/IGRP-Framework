@@ -49,7 +49,7 @@
         <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" maxlength="50">
-                    <label>Importar Aplicação</label>
+                    <label>Importar IGRP</label>
                     <value/>
                 </importar_aplicacao>
                 <importar_pagina name="p_importar_pagina" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" maxlength="50">
@@ -57,7 +57,7 @@
                     <value/>
                 </importar_pagina>
                 <importar_jar_file name="p_importar_jar_file" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-upload" custom_return="false" request_fields="" maxlength="50">
-                    <label>Importar Jar File</label>
+                    <label>Importar extra lib.</label>
                     <value/>
                 </importar_jar_file>
                 <importar_sql_script name="p_importar_sql_script" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-cloud-upload" request_fields="" maxlength="50">
@@ -118,7 +118,7 @@
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" accept="application/java-archive,.jar,application/zip" targetrend="" multiple="false" rendvalue="false" maxlength="1000" required="true" disabled="false" right="false" class="primary">
-                    <label>Aplicação</label>
+                    <label>IGRP compress file</label>
                     <value/>
                 </arquivo_aplicacao>
             </fields>

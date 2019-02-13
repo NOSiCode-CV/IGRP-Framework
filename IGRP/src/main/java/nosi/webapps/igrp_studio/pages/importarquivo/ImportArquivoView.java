@@ -84,7 +84,7 @@ public class ImportArquivoView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
-		importar_aplicacao.setLabel(gt("Importar Aplicação"));
+		importar_aplicacao.setLabel(gt("Importar IGRP"));
 		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_pagina = new TextField(model,"importar_pagina");
@@ -92,7 +92,7 @@ public class ImportArquivoView extends View {
 		importar_pagina.propertie().add("name","p_importar_pagina").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_jar_file = new TextField(model,"importar_jar_file");
-		importar_jar_file.setLabel(gt("Importar Jar File"));
+		importar_jar_file.setLabel(gt("Importar extra lib."));
 		importar_jar_file.propertie().add("name","p_importar_jar_file").add("type","button").add("request_fields","").add("maxlength","50");
 		
 		importar_sql_script = new TextField(model,"importar_sql_script");
@@ -129,7 +129,7 @@ public class ImportArquivoView extends View {
 		sectionheader_6_text.propertie().add("type","text").add("name","p_sectionheader_6_text").add("maxlength","4000");
 		
 		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
-		arquivo_aplicacao.setLabel(gt("Aplicação"));
+		arquivo_aplicacao.setLabel(gt("IGRP compress file"));
 		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("accept","application/java-archive,.jar,application/zip").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","1000").add("required","true").add("disabled","false");
 		
 		list_aplicacao = new ListField(model,"list_aplicacao");
