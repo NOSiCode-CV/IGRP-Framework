@@ -256,17 +256,22 @@ public class QuerySelect extends CommonFIlter{
 
 	@Override
 	public QueryInterface orderBy(String[]... orderByNames) {
+		return this.orderBy(orderByNames,ORDERBY.ASC);
+	}
+	
+	private QueryInterface orderBy(String[][] orderByNames, String order) {
 		if(orderByNames!=null) {
 			String c = " ORDER BY ";
     		int i=1;
     		for(String[] names:orderByNames) {
-    			String order = names[names.length-1];
+    			order = Core.isNotNull(order)?order:names[names.length-1];
     			String[] newNames = null;
     			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
     				order = ORDERBY.ASC;
     				newNames = Arrays.copyOf(names, names.length);
     			}else{
-    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
+    				int start = Core.isNotNull(order)?names.length:names.length-1;
+    				newNames = Arrays.copyOf(names, start>=1?start:names.length);
     			}
     			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
     			i++;
@@ -274,6 +279,15 @@ public class QuerySelect extends CommonFIlter{
     		this.filterWhere(c);
     	}
 		return this;
+	}
+	@Override
+	public QueryInterface orderByAsc(String... columns) {
+		return this.orderBy(new String[][] {columns},ORDERBY.ASC);
+	}
+
+	@Override
+	public QueryInterface orderByDesc(String... columns) {
+		return this.orderBy(new String[][] {columns},ORDERBY.DESC);
 	}
 
 	@Override

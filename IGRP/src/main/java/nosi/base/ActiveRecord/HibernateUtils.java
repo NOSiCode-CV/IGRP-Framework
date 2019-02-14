@@ -176,7 +176,7 @@ public class HibernateUtils {
 			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
 			//It releases the connection after org.hibernate.Transaction commit or rollback.
 			if(Core.isNotNull(cHCp.getRelease_mode()))
-				settings.put("hibernate.connection.release_mode", cHCp.getRelease_mode());
+				settings.put("hibernate.connection.handling_mode", cHCp.getRelease_mode());
         }
 		return settings;
 	}

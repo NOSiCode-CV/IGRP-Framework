@@ -57,6 +57,10 @@ public interface QueryInterface extends BaseQueryInterface{
 	
 	public QueryInterface orderBy(String[] ...orderByNames);
 	
+	public QueryInterface orderByAsc(String...columns);
+	
+	public QueryInterface orderByDesc(String...columns);
+	
 	public QueryInterface groupBy(String ...groupByNames);
 	
 	public QueryInterface between(String name,Object value1,Object value2);
