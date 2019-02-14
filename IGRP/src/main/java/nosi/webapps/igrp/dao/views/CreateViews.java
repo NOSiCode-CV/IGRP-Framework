@@ -20,7 +20,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ "a.ORDERBY"
 			+ " FROM  tbl_menu A,"
 			+ "tbl_menu b"
-			+ " WHERE  b.id = a.self_fk AND a.self_fk IS NOT NULL");
+			+ " WHERE  b.id = a.self_fk AND a.self_fk IS NOT NULL;");
 		
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_MV_MENU (ID,DESCR,SELF_FK,ENV_FK,ACTION_FK,ORDERBY,STATUS,FLG_BASE,TARGET) AS SELECT "
 			+ "ID,"
@@ -32,7 +32,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ "STATUS,"
 			+ "FLG_BASE,"
 			+ "TARGET"
-			+ " FROM tbl_menu");
+			+ " FROM tbl_menu;");
 		
 		VIEWS.add(
 			"CREATE OR REPLACE  VIEW GLB_V_MENU (ID, DESCR, DESCR_MENU,SELF_FK, ENV_FK,ACTION_FK, ORDERBY) AS SELECT "
@@ -46,7 +46,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ " FROM glb_mv_menu a,"
 			+ "glb_mv_menu b"
 			+ " WHERE b.id     = a.self_fk"
-			+ " AND a.self_fk IS NOT NULL");
+			+ " AND a.self_fk IS NOT NULL;");
 	
 		VIEWS.add("CREATE OR REPLACE VIEW GLB_V_ORG_MENU (ID, DESCR, ORDERBY, ENV_FK, SELF_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK, FLG_BASE) AS SELECT "
 			+ "a.id,"
@@ -67,7 +67,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ " AND a.self_fk IS NOT NULL"
 			+ " AND a.id= b.type_fk"
 			+ " AND b.TYPE         = 'MEN'"
-			+ " AND b.prof_type_fk = 0");
+			+ " AND b.prof_type_fk = 0;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_MV_PROFILE (PROF_TYPE_FK, USER_FK, TYPE, TYPE_FK, ORG_FK) AS SELECT "
 			+ "PROF_TYPE_FK,"
@@ -75,7 +75,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ "TYPE,"
 			+ "TYPE_FK,"
 			+ "ORG_FK "
-			+ " FROM tbl_profile");
+			+ " FROM tbl_profile;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_MV_PROFILE_TYPE (ID, DESCR, CODE, ENV_FK, SELF_FK, STATUS, ORG_FK) AS SELECT "
 			+ "ID,"
@@ -85,7 +85,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ "SELF_FK,"
 			+ "STATUS,"
 			+ "ORG_FK "
-			+ " FROM tbl_profile_type");
+			+ " FROM tbl_profile_type;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROFILE(ORG_FK, PROF_TYPE_FK, USER_FK, TYPE, TYPE_FK, PROF_CODE, PROF_NAME, PROF_NAME_DESC, ENV_FK, SELF_FK) AS "+
 			" SELECT "
@@ -101,7 +101,7 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 		    + "d.self_fk"
 		    + " FROM   glb_mv_profile b,"
 		    + "glb_mv_profile_type d "
-		    + " WHERE   d.id = b.prof_type_fk");
+		    + " WHERE   d.id = b.prof_type_fk;");
 		
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROFILE_MENU (ID, DESCR, DESCR_MENU, ORDERBY, ENV_FK, SELF_FK, ACTION_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK,STATUS,TARGET,ENV_FK_PROF_TYPE,FLG_BASE) AS "+ 
 			" SELECT a.id,"
@@ -128,12 +128,12 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 			+ " AND a.self_fk IS NOT NULL"
 			+ " AND a.id       = b.type_fk"
 			+ " AND b.TYPE     = 'MEN'"
-			+ " AND d.id       = b.prof_type_fk");
+			+ " AND d.id       = b.prof_type_fk;");
 	
 		VIEWS.add(" CREATE OR REPLACE  VIEW GLB_V_USER_MENU (ID, DESCR, ORDERBY, ENV_FK, SELF_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK) AS SELECT "
 			+ " ID,DESCR,ORDERBY,ENV_FK,SELF_FK,PROF_TYPE_FK,USER_FK,PROF_CODE,PROF_NAME,ORG_FK"
 			+ " FROM GLB_V_PROFILE_MENU "
-			+ " WHERE USER_FK<>0");
+			+ " WHERE USER_FK<>0;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROF_MENU (ID, DESCR, DESCR_MENU, ORDERBY, ENV_FK, SELF_FK, ACTION_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK,STATUS,TARGET,ENV_FK_PROF_TYPE,FLG_BASE) AS "+ 
 		 	"SELECT  ID,"
@@ -153,10 +153,10 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 		 	+ "env_fk_prof_type,"
 			+ "FLG_BASE"
 		 	+ " FROM  GLB_V_PROFILE_MENU"
-		 	+ " WHERE  PROF_TYPE_FK <> 0 AND USER_FK = 0");
+		 	+ " WHERE  PROF_TYPE_FK <> 0 AND USER_FK = 0;");
 	
 		VIEWS.add(" CREATE OR REPLACE  VIEW GLB_MV_TRANSACTION (ID, CODE, DESCR, ENV_FK, STATUS) AS "
-			+ "select ID,CODE,DESCR,ENV_FK,STATUS from tbl_transaction");
+			+ "select ID,CODE,DESCR,ENV_FK,STATUS from tbl_transaction;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROFILE_TRANS (ID, CODE, DESCR, ENV_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK) AS "+ 
 		  " SELECT   a.id,"
@@ -170,19 +170,19 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 		  + "b.org_fk"
 		  + " FROM   tbl_transaction a,"
 		  + "glb_v_profile b"
-		  + " WHERE   a.id = b.type_fk AND b.TYPE = 'TRANS'");
+		  + " WHERE   a.id = b.type_fk AND b.TYPE = 'TRANS';");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROF_TRANS(ID, CODE, DESCR, ENV_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK) AS"
 			+ " SELECT ID,CODE,DESCR,ENV_FK,PROF_TYPE_FK,USER_FK,PROF_CODE,PROF_NAME,ORG_FK "
-			+ " FROM GLB_V_PROFILE_TRANS WHERE PROF_TYPE_FK<>0 AND USER_FK=0");
+			+ " FROM GLB_V_PROFILE_TRANS WHERE PROF_TYPE_FK<>0 AND USER_FK=0;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_ORG_TRANS(ID, CODE, DESCR, ENV_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK) AS "
 			+ " SELECT ID,CODE,DESCR,ENV_FK,PROF_TYPE_FK,USER_FK,PROF_CODE,PROF_NAME,ORG_FK "
-			+ " FROM GLB_V_PROFILE_TRANS WHERE PROF_TYPE_FK=0");
+			+ " FROM GLB_V_PROFILE_TRANS WHERE PROF_TYPE_FK=0;");
 	
 		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_USER_TRANS (ID, CODE, DESCR, ENV_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK) AS "
 			+ " SELECT ID,CODE,DESCR,ENV_FK,PROF_TYPE_FK,USER_FK,PROF_CODE,PROF_NAME,ORG_FK "
-			+ " FROM GLB_V_PROFILE_TRANS WHERE USER_FK<>0");
+			+ " FROM GLB_V_PROFILE_TRANS WHERE USER_FK<>0;");
 	}
 	
 	public CreateViews(){
@@ -190,12 +190,10 @@ public class CreateViews extends IGRPBaseActiveRecord<CreateViews>{
 	}
 	
 	private void createView(){
-		QuerySelect q = new QuerySelect();
-		String sqlViews = "";
 		for(String sql:VIEWS){
-			sqlViews+=sql+"; ";
+			QuerySelect q = new QuerySelect();
+			q.setSql(sql);
+			q.executeQuery(new ConfigApp().getBaseConnection()) ;
 		}
-		q.setSql(sqlViews);
-		q.executeQuery(new ConfigApp().getBaseConnection()) ;
 	}
 }
