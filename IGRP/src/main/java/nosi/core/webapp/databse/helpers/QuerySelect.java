@@ -418,8 +418,7 @@ public class QuerySelect extends CommonFIlter{
 				} catch (SQLException e1) {
 					this.setError(r, e1);
 				}
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				this.setError(r, e);
 			}finally {
 				try {
 					if(ps!=null)
