@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -162,6 +163,16 @@ public final class Core { // Not inherit
 		return DateHelper.convertDate(date, formatIn, outputFormat);
 	}
 
+	/**
+	 * Convert string date into Timestamp
+	 * @param date
+	 * @param formatIn
+	 * @return
+	 */
+	public static Timestamp stringToTimestamp(String date,String formatIn) {
+		return DateHelper.convertStringToTimestamp(date, formatIn);
+	}
+	
 	public static String decrypt(String content) {
 		return new EncrypDecrypt().decrypt(content);
 	}
