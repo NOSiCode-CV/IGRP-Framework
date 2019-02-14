@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import nosi.core.webapp.Core;
+import java.sql.Timestamp;
 
 /**
  * @author: Emanuel Pereira
@@ -84,5 +85,19 @@ public class DateHelper {
 			return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", format);
 		}
 		return date;
+	}
+	
+	public static Timestamp convertStringToTimestamp(String str_date,String format) {
+		try {
+			DateFormat formatter;
+			formatter = new SimpleDateFormat(format);
+			Date date = (Date) formatter.parse(str_date);
+			java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
+
+			return timeStampDate;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
