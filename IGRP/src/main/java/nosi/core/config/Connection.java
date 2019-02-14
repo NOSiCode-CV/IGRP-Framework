@@ -29,6 +29,7 @@ public class Connection {
 		String url = "";
 		String password = "";
 		String user = "";
+		String dbtype ="";
 		
 		if(connectionName.equalsIgnoreCase(this.configApp.getBaseConnection()) || connectionName.equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
 			ConfigDBIGRP config = new ConfigDBIGRP();
@@ -37,6 +38,7 @@ public class Connection {
 				url = config.getUrlConnection();
 				password = config.getPassword();
 				user = config.getUsername();
+				dbtype = config.getType_db();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -48,13 +50,14 @@ public class Connection {
 					.one();
 			return this.getConnectionWithConfig(config);
 		}
-		return this.getConnection(url,user,password);
+		return this.getConnection(dbtype,url,user,password);
 	}
 	
 	private java.sql.Connection getConnectionWithConfig(Config_env config) {
 		String url = "";
 		String password = "";
 		String user = "";
+		String dbtype ="";
 		if (config != null) {
 			url = Core.isNotNull(config.getUrl_connection())? Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB):
 				DatabaseConfigHelper.getUrl(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB),
@@ -63,20 +66,22 @@ public class Connection {
 											Core.decrypt(config.getName_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			
 			password = Core.decrypt(config.getPassword(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
-			user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);				
+			user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);	
+			dbtype = Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 		}
-		return this.getConnection(url,user,password);
+		return this.getConnection(dbtype,url,user,password);
 	}
 
-	private java.sql.Connection getConnection(String url, String user, String password) {
+	private java.sql.Connection getConnection(String dbType,String url, String user, String password) {
 		java.sql.Connection conn = null;
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", user);
 	    connectionProps.put("password", password);
 	    boolean isConnect = true;
 	    try {
+	    	Class.forName(DatabaseConfigHelper.getDatabaseDriversExamples(dbType)); 
 			conn = DriverManager.getConnection(url,connectionProps);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			isConnect = false;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
