@@ -630,17 +630,22 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	
 	@Override
 	public T orderBy(String[]... orderByNames) {
+		return this.orderBy(orderByNames,null);
+	}
+
+	private T orderBy(String[][] orderByNames, String order) {
 		if(orderByNames!=null) {
 			String c = " ORDER BY ";
     		int i=1;
     		for(String[] names:orderByNames) {
-    			String order = names[names.length-1];
+    			order = Core.isNotNull(order)?order:names[names.length-1];
     			String[] newNames = null;
     			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
     				order = ORDERBY.ASC;
     				newNames = Arrays.copyOf(names, names.length);
     			}else{
-    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
+    				int start = Core.isNotNull(order)?names.length:names.length-1;
+    				newNames = Arrays.copyOf(names, start>=1?start:names.length);
     			}
     			for(int j=0;j<newNames.length;j++)
     				newNames[j] = recq.resolveColumnName(this.getAlias(),newNames[j]);
@@ -651,7 +656,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
     	}
 		return (T) this;
 	}
-
+	
 	@Override
 	public T groupBy(String... groupByNames) {
 		if(groupByNames!=null) {
@@ -1113,6 +1118,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			return this.orWhereObject(name, name, operator, v,pk.getType());
 		}
 		return this.orWhereObject(name, name, operator, value,Object.class);
+	}
+
+	@Override
+	public T orderByAsc(String... columns) {
+		return this.orderBy(new String[][] {columns},ORDERBY.ASC);
+	}
+
+	@Override
+	public T orderByDesc(String... columns) {
+		return this.orderBy(new String[][] {columns},ORDERBY.DESC);
 	}
 
 	/*

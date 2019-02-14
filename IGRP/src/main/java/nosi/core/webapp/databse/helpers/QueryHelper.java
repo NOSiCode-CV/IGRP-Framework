@@ -782,4 +782,14 @@ public abstract class QueryHelper implements QueryInterface{
 		}
 		
 	}
+
+	@Override
+	public QueryInterface orderByAsc(String... columns) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface orderByDesc(String... columns) {
+		throw new UnsupportedOperationException();
+	}
 }

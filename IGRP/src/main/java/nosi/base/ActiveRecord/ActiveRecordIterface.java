@@ -209,6 +209,10 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public Long getCount();
 
+	public T orderByAsc(String...columns);
+	
+	public T orderByDesc(String...columns);
+	
 	/*
 	public T sum(String name);
 
