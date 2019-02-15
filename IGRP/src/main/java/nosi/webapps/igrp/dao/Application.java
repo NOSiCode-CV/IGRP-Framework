@@ -284,12 +284,11 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.andWhere("type", "=", "ENV")					
 					.all();
 		}else {
-			list = new Profile().find()
+			Profile p = new Profile();
+			list = p.find()
 					.andWhere("type", "=", "ENV")
 					.andWhere("user", "=", idUser)
-					.andWhere("type_fk", "<>", 1)//Oculta IGRP Core 
-					.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial 
-					.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio 
+					.andWhere("type_fk", ">", 3)//Oculta IGRP Core,IGRP Tutorial,Oculta IGRP Studio 
 					.all();
 		}		
 		if(!list.isEmpty()){
