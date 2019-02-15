@@ -28,7 +28,7 @@ public class Report extends Controller{
 			});
 			rep.getParams().entrySet().stream().filter(p->p.getValue() instanceof List).forEach(p->{
 				((List<Object>) p.getValue()).stream().forEach(v->{
-					qs+=("&"+p.getKey()+"="+v.toString());
+					qs += ("&name_array="+p.getKey() + "&value_array="+v.toString());
 				});
 			});
 		}
