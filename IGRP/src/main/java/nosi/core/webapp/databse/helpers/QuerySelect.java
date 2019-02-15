@@ -259,19 +259,18 @@ public class QuerySelect extends CommonFIlter{
 		return this.orderBy(orderByNames,ORDERBY.ASC);
 	}
 	
-	private QueryInterface orderBy(String[][] orderByNames, String order) {
+	private QueryInterface orderBy(String[][] orderByNames, String defaultOrder) {
 		if(orderByNames!=null) {
 			String c = " ORDER BY ";
     		int i=1;
     		for(String[] names:orderByNames) {
-    			order = Core.isNotNull(order)?order:names[names.length-1];
+    			String order = names[names.length-1];
     			String[] newNames = null;
     			if(!order.equalsIgnoreCase(ORDERBY.ASC) && !order.equalsIgnoreCase(ORDERBY.DESC)) {
-    				order = ORDERBY.ASC;
+    				order = Core.isNotNull(defaultOrder)?defaultOrder:ORDERBY.ASC;
     				newNames = Arrays.copyOf(names, names.length);
     			}else{
-    				int start = Core.isNotNull(order)?names.length:names.length-1;
-    				newNames = Arrays.copyOf(names, start>=1?start:names.length);
+    				newNames = Arrays.copyOf(names, names.length-1>=1?names.length-1:names.length);
     			}
     			c+= (Arrays.toString(newNames).replaceAll("\\[", "").replaceAll("\\]", "")+" "+order+(i==orderByNames.length?" ":", "));
     			i++;
