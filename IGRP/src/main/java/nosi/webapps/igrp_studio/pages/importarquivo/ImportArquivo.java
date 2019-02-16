@@ -13,8 +13,6 @@ public class ImportArquivo extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_importar_aplicacao")
 	private String importar_aplicacao;
-	@RParam(rParamName = "p_importar_pagina")
-	private String importar_pagina;
 	@RParam(rParamName = "p_importar_jar_file")
 	private String importar_jar_file;
 	@RParam(rParamName = "p_importar_sql_script")
@@ -23,8 +21,6 @@ public class ImportArquivo extends Model{
 	private String importar_imagem;
 	@RParam(rParamName = "p_sectionheader_2_text")
 	private String sectionheader_2_text;
-	@RParam(rParamName = "p_sectionheader_3_text")
-	private String sectionheader_3_text;
 	@RParam(rParamName = "p_sectionheader_4_text")
 	private String sectionheader_4_text;
 	@RParam(rParamName = "p_sectionheader_5_text")
@@ -33,10 +29,6 @@ public class ImportArquivo extends Model{
 	private String sectionheader_6_text;
 	@RParam(rParamName = "p_arquivo_aplicacao")
 	private String arquivo_aplicacao;
-	@RParam(rParamName = "p_list_aplicacao")
-	private String list_aplicacao;
-	@RParam(rParamName = "p_arquivo_pagina")
-	private String arquivo_pagina;
 	@RParam(rParamName = "p_jar_file")
 	private String jar_file;
 	@RParam(rParamName = "p_aplicacao_script")
@@ -49,6 +41,12 @@ public class ImportArquivo extends Model{
 	private String aplicacao_combo_img;
 	@RParam(rParamName = "p_imagens")
 	private String imagens;
+	@RParam(rParamName = "p_sectionheader_3_text")
+	private String sectionheader_3_text;
+	@RParam(rParamName = "p_list_aplicacao")
+	private String list_aplicacao;
+	@RParam(rParamName = "p_arquivo_pagina")
+	private String arquivo_pagina;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -62,13 +60,6 @@ public class ImportArquivo extends Model{
 	}
 	public String getImportar_aplicacao(){
 		return this.importar_aplicacao;
-	}
-	
-	public void setImportar_pagina(String importar_pagina){
-		this.importar_pagina = importar_pagina;
-	}
-	public String getImportar_pagina(){
-		return this.importar_pagina;
 	}
 	
 	public void setImportar_jar_file(String importar_jar_file){
@@ -99,13 +90,6 @@ public class ImportArquivo extends Model{
 		return this.sectionheader_2_text;
 	}
 	
-	public void setSectionheader_3_text(String sectionheader_3_text){
-		this.sectionheader_3_text = sectionheader_3_text;
-	}
-	public String getSectionheader_3_text(){
-		return this.sectionheader_3_text;
-	}
-	
 	public void setSectionheader_4_text(String sectionheader_4_text){
 		this.sectionheader_4_text = sectionheader_4_text;
 	}
@@ -132,20 +116,6 @@ public class ImportArquivo extends Model{
 	}
 	public String getArquivo_aplicacao(){
 		return this.arquivo_aplicacao;
-	}
-	
-	public void setList_aplicacao(String list_aplicacao){
-		this.list_aplicacao = list_aplicacao;
-	}
-	public String getList_aplicacao(){
-		return this.list_aplicacao;
-	}
-	
-	public void setArquivo_pagina(String arquivo_pagina){
-		this.arquivo_pagina = arquivo_pagina;
-	}
-	public String getArquivo_pagina(){
-		return this.arquivo_pagina;
 	}
 	
 	public void setJar_file(String jar_file){
@@ -188,6 +158,27 @@ public class ImportArquivo extends Model{
 	}
 	public String getImagens(){
 		return this.imagens;
+	}
+	
+	public void setSectionheader_3_text(String sectionheader_3_text){
+		this.sectionheader_3_text = sectionheader_3_text;
+	}
+	public String getSectionheader_3_text(){
+		return this.sectionheader_3_text;
+	}
+	
+	public void setList_aplicacao(String list_aplicacao){
+		this.list_aplicacao = list_aplicacao;
+	}
+	public String getList_aplicacao(){
+		return this.list_aplicacao;
+	}
+	
+	public void setArquivo_pagina(String arquivo_pagina){
+		this.arquivo_pagina = arquivo_pagina;
+	}
+	public String getArquivo_pagina(){
+		return this.arquivo_pagina;
 	}
 
 

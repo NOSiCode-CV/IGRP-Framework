@@ -8,6 +8,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -34,18 +35,22 @@ public class ImportArquivoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_script.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_combo_img.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.list_aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.list_aplicacao.setValue(new Application().getListApps());	
 		view.aplicacao_script.setValue(new Application().getListApps());
 		view.aplicacao_combo_img.setValue(new Application().getListApps());
-      	view.importar_pagina.setVisible(false);
-		if(Core.isNotNull(model.getAplicacao_script())) {
-			view.data_source.setValue(new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao_script())));
+      
+		if(Core.isNotNull(model.getAplicacao_script())) {			
+			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Core.toInt(model.getAplicacao_script()));
+			if(listDSbyEnv.size() == 2){
+				model.setData_source(listDSbyEnv.keySet().toArray()[1].toString());
+			}
+			view.data_source.setValue(listDSbyEnv);
 		}
 		/*----#end-code----*/
 		view.setModel(model);
@@ -114,82 +119,6 @@ public class ImportArquivoController extends Controller {
 				ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
 				ie_dao = ie_dao.insert();
 				Core.setMessageSuccess();
-			}
-		}
-		/*----#end-code----*/
-		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
-	}
-	
-	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException{
-		ImportArquivo model = new ImportArquivo();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
-		/*----#start-code(btm_importar_page)----*/
-		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			boolean result = false;
-			String descricao = "";
-			model.load();
-			if(model.getList_aplicacao() != null){
-				try {
-					Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_pagina");
-					descricao += file.getSubmittedFileName().replace(".page.jar", "").replace(".zip", "");
-					if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".page.jar")) {
-						if(file.getSubmittedFileName().endsWith(".zip")){
-							result = new Import().importPage(new ImportAppZip(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
-						}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".page.jar")){
-							ImportHelper importApp = new ImportHelper();
-							importApp.importFile(file);
-							if(!importApp.hasError() && !importApp.hasWarning()) {
-								result = true;
-							}
-							
-							else {
-								if(importApp.hasError()) {
-									importApp.getErrors().stream().forEach(e->{
-										Core.setMessageError(e);
-									});
-								}
-								if(importApp.hasWarning()) {
-									importApp.getWarnings().stream().forEach(e->{
-										Core.setMessageWarning(e);
-									});
-								}
-							}
-						}else if(file.getSubmittedFileName().endsWith(".page.jar")){//Old import (deprecated)
-							Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));
-							ImportJavaPage importApp = new ImportJavaPage(file, application);
-							
-							importApp.importApp();
-							
-							if(importApp.hasError()) {
-								importApp.getErros().stream().forEach(err->{
-									Core.setMessageError(err);
-								});
-							}else {
-								result = true;
-							}
-						}else{
-							result = false;
-						}
-					}else {
-						Core.setMessageError("Extensão válido tem de ser .zip ou .page.jar... tente de novo!!");
-						
-					}
-					FileHelper.deletePartFile(file);
-				} catch (ServletException e) {
-					Core.setMessageError(e.getMessage());;
-					return this.forward("igrp_studio", "ImportArquivo", "index");
-				}
-				if(result){
-					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
-					ie_dao = ie_dao.insert();
-					Core.setMessageSuccess();
-				}
 			}
 		}
 		/*----#end-code----*/
@@ -302,6 +231,82 @@ public class ImportArquivoController extends Controller {
 			}
 		}
 		
+		/*----#end-code----*/
+		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
+	}
+	
+	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException{
+		ImportArquivo model = new ImportArquivo();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(btm_importar_page)----*/
+		
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			boolean result = false;
+			String descricao = "";		
+			if(model.getList_aplicacao() != null){
+				try {
+					Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_pagina");
+					descricao += file.getSubmittedFileName().replace(".page.jar", "").replace(".zip", "");
+					if(file.getSubmittedFileName().endsWith(".zip") || file.getSubmittedFileName().endsWith(".page.jar")) {
+						if(file.getSubmittedFileName().endsWith(".zip")){
+							result = new Import().importPage(new ImportAppZip(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
+					}else if(file.getSubmittedFileName().endsWith(".jar") && !file.getSubmittedFileName().endsWith(".page.jar")){
+							ImportHelper importApp = new ImportHelper();
+							importApp.importFile(file);
+							if(!importApp.hasError() && !importApp.hasWarning()) {
+								result = true;
+							}
+							
+							else {
+								if(importApp.hasError()) {
+									importApp.getErrors().stream().forEach(e->{
+										Core.setMessageError(e);
+									});
+								}
+								if(importApp.hasWarning()) {
+									importApp.getWarnings().stream().forEach(e->{
+										Core.setMessageWarning(e);
+									});
+								}
+							}
+						}else if(file.getSubmittedFileName().endsWith(".page.jar")){//Old import (deprecated)
+							Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));
+							ImportJavaPage importApp = new ImportJavaPage(file, application);
+							
+							importApp.importApp();
+							
+							if(importApp.hasError()) {
+								importApp.getErros().stream().forEach(err->{
+									Core.setMessageError(err);
+								});
+							}else {
+								result = true;
+							}
+						}else{
+							result = false;
+						}
+					}else {
+						Core.setMessageError("Extensão válido tem de ser .zip ou .page.jar... tente de novo!!");
+						
+					}
+					FileHelper.deletePartFile(file);
+				} catch (ServletException e) {
+					Core.setMessageError(e.getMessage());;
+					return this.forward("igrp_studio", "ImportArquivo", "index");
+				}
+				if(result){
+					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
+					ie_dao = ie_dao.insert();
+					Core.setMessageSuccess();
+				}else
+					Core.setMessageInfo("Check if the page was added!");
+			}
+		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","ImportArquivo","index", this.queryString());	
 	}
