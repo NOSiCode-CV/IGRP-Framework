@@ -51,7 +51,7 @@
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
-                    <label>Ativo</label>
+                    <label></label>
                 </transacao>
                 <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome (code)</label>
@@ -62,27 +62,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Voluptatem omnis officia volup</nome>
+                        <nome name="p_nome">Lorem doloremque adipiscing do</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Ut labore aperiam omnis deseru</nome>
+                        <nome name="p_nome">Deserunt omnis unde ut sed</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Totam lorem aliqua voluptatem</nome>
+                        <nome name="p_nome">Perspiciatis iste magna omnis</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Lorem omnis ipsum elit adipisc</nome>
+                        <nome name="p_nome">Sit doloremque labore anim vol</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Sit lorem sit consectetur pers</nome>
+                        <nome name="p_nome">Doloremque mollit amet elit ut</nome>
                     </row>
                 </value>
             </table>
@@ -93,7 +93,7 @@
                 <app>igrp</app>
                 <page>Transaccao</page>
                 <link>index</link>
-                <target>_blank</target>
+                <target>submit_popup</target>
                 <img>black|fa-exchange</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
             </item>

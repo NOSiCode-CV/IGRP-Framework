@@ -46,9 +46,9 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="true" right="false" domain="" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -70,15 +70,14 @@
                         </option>
                     </list>
                 </aplicacao>
-                <filtro_codigo name="p_filtro_codigo" type="text" maxlength="30" required="false" change="true" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Código</label>
-                    <value>Omnis sit aperiam iste labore</value>
-                </filtro_codigo>
+                <hidden name="p_filtro_codigo" type="hidden" maxlength="30" java-type="" tag="filtro_codigo">
+                    <rules/>
+                </hidden>
             </fields>
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
+                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="" check="true" desc="true">
                     <label>Estado</label>
                 </status>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -97,8 +96,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Stract lorem ipsum doloremque</descricao>
-                        <codigo name="p_codigo">Mollit iste rem stract dolorem</codigo>
+                        <descricao name="p_descricao">Consectetur officia voluptatem</descricao>
+                        <codigo name="p_codigo">Consectetur perspiciatis elit</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -107,8 +106,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Ut totam stract totam omnis</descricao>
-                        <codigo name="p_codigo">Elit ut unde elit ut</codigo>
+                        <descricao name="p_descricao">Lorem elit magna anim ut</descricao>
+                        <codigo name="p_codigo">Labore officia deserunt accusa</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -117,8 +116,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Labore ipsum sit sit doloremqu</descricao>
-                        <codigo name="p_codigo">Amet voluptatem deserunt lauda</codigo>
+                        <descricao name="p_descricao">Sit sed adipiscing dolor sit</descricao>
+                        <codigo name="p_codigo">Elit voluptatem omnis doloremq</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -127,8 +126,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Deserunt elit officia lorem la</descricao>
-                        <codigo name="p_codigo">Adipiscing consectetur ut sed</codigo>
+                        <descricao name="p_descricao">Rem mollit elit magna sit</descricao>
+                        <codigo name="p_codigo">Anim voluptatem iste elit pers</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -137,8 +136,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Aliqua rem omnis dolor ut</descricao>
-                        <codigo name="p_codigo">Doloremque labore doloremque o</codigo>
+                        <descricao name="p_descricao">Unde aperiam perspiciatis moll</descricao>
+                        <codigo name="p_codigo">Officia natus ut officia labor</codigo>
                     </row>
                 </value>
                 <context-menu>
@@ -150,6 +149,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xml?</parameter>
                         <target>right_panel|refresh</target>
                         <img>warning|fa-pencil</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
@@ -159,6 +159,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
                     </item>
                 </context-menu>
             </table>

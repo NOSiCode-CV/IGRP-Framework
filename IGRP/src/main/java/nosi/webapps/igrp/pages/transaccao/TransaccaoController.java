@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.transaccao;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -23,16 +25,16 @@ public class TransaccaoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'status' as status,'descricao' as descricao,'codigo' as codigo "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'Dolor labore amet sed totam' as descricao,'Mollit labore magna deserunt n' as codigo "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		
+		view.aplicacao.propertie().add("readonly","true");
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
 		Transaction trans = new Transaction();				
-	
+		if(Core.isNotNull(model.getAplicacao())) {
 		List<Transaction> list =trans.find()
-				.andWhere("application", "=", Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):null)
+				.andWhere("application", "=", Integer.parseInt(model.getAplicacao()))
 				.andWhere("code", "=", Core.isNotNull(model.getFiltro_codigo())?model.getFiltro_codigo():null)
 				.all();
 		for(Transaction t:list){
@@ -44,7 +46,7 @@ public class TransaccaoController extends Controller {
           	table.setStatus_check(check);
 			table_1.add(table);
 		}		
-		
+		}
 		//view.btn_eliminar.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
 //		view.organica.setValue(new Organization().getListMyOrganizations());
@@ -63,7 +65,7 @@ public class TransaccaoController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_codigo",Core.getParam("p_codigo"));
-		 return this.forward("igrp","EditarTransacao","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","EditarTransacao","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
     String codigo = Core.getParam("p_codigo");
       if(Core.isNotNull(codigo))
@@ -82,7 +84,7 @@ public class TransaccaoController extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_codigo",Core.getParam("p_codigo"));
-		 return this.forward("igrp","Transaccao","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Transaccao","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		 this.addQueryString("p_codigo",Core.getParam("p_codigo"));
 	

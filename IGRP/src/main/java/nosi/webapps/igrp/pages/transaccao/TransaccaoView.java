@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class TransaccaoView extends View {
 
@@ -28,7 +31,7 @@ public class TransaccaoView extends View {
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
-		form_1 = new IGRPForm("form_1","Filtro");
+		form_1 = new IGRPForm("form_1","");
 
 		table_1 = new IGRPTable("table_1","");
 
@@ -39,18 +42,18 @@ public class TransaccaoView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","true").add("domain","").add("java-type","").add("tags","false");
 		
-		filtro_codigo = new TextField(model,"filtro_codigo");
-		filtro_codigo.setLabel(gt("Código"));
-		filtro_codigo.propertie().add("name","p_filtro_codigo").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
+		filtro_codigo = new HiddenField(model,"filtro_codigo");
+		filtro_codigo.setLabel(gt(""));
+		filtro_codigo.propertie().add("name","p_filtro_codigo").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","filtro_codigo");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Estado"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		status_check = new CheckBoxField(model,"status_check");
-		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("check","true").add("desc","true");
+		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));

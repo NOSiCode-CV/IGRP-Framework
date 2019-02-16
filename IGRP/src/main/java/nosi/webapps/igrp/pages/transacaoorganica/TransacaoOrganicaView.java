@@ -5,7 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.config.Config;
 
 public class TransacaoOrganicaView extends View {
 
@@ -31,7 +31,7 @@ public class TransacaoOrganicaView extends View {
 		form_1 = new IGRPForm("form_1","");
 
 		transacao = new CheckBoxField(model,"transacao");
-		transacao.setLabel(gt("Ativo"));
+		transacao.setLabel(gt(" "));
 		transacao.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		transacao_check = new CheckBoxField(model,"transacao_check");
@@ -56,7 +56,7 @@ public class TransacaoOrganicaView extends View {
 		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
-		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","_blank","black|fa-exchange","","");
+		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","submit_popup","black|fa-exchange","","");
 		btn_gestao_de_transacoes.propertie.add("type","specific").add("rel","gestao_de_transacoes");
 
 		
