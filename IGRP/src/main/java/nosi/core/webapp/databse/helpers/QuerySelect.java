@@ -1,6 +1,7 @@
 package nosi.core.webapp.databse.helpers;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -225,7 +226,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, String value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+name+" ").addString(name, value);
+			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addString(name, value);
 		}
 		return this;
 	}
@@ -233,7 +234,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Integer value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+name+" ").addInt(name, value);
+			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addInt(name, value);
 		}
 		return this;
 	}
@@ -241,7 +242,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Double value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+name+" ").addDouble(name, value);
+			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addDouble(name, value);
 		}
 		return this;
 	}
@@ -249,11 +250,25 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Float value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+name+" ").addFloat(name, value);
+			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addFloat(name, value);
 		}
 		return this;
 	}
 
+	@Override
+	public QueryInterface having(String name, String operator, Date value) {
+		if(Core.isNotNull(value)) {
+			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addDate(name, value);
+		}
+		return this;
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, String value, String format) {
+		return this.having(name, operator, Core.ToDate(value, format));
+	}
+
+	
 	@Override
 	public QueryInterface orderBy(String[]... orderByNames) {
 		return this.orderBy(orderByNames,ORDERBY.ASC);

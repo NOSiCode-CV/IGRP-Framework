@@ -1,11 +1,11 @@
 package nosi.core.webapp.databse.helpers;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
-import nosi.core.webapp.helpers.DateHelper;
 
 /**
  * Emanuel
@@ -65,7 +65,7 @@ public class ParametersHelper {
 			}else if(col.getType().equals(java.lang.Byte.class)){
 				query.setByte(col.getName(), (Byte)value);
 			}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
-				query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
+				query.setDate(col.getName(),(Date) value);
 			}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
 				query.setString(col.getName(),value.toString());
 			}else {

@@ -8,6 +8,7 @@ import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
@@ -16,10 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
+
+import nosi.base.ActiveRecord.ResolveColumnNameQuery;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
-import nosi.core.webapp.helpers.StringHelper;
 import nosi.webapps.igrp.dao.Config_env;
 
 
@@ -42,6 +44,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected ParametersHelper paramHelper;
 	private boolean showError = true;
 	private boolean showTracing = true;
+	protected ResolveColumnNameQuery recq;
 	
 	
 	public QueryHelper(Object connectionName) {
@@ -52,6 +55,7 @@ public abstract class QueryHelper implements QueryInterface{
 		this.connection = new nosi.core.config.Connection();
 		this.connectionName = this.getMyConnectionName(connectionName);
 		this.paramHelper = new ParametersHelper();
+		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}	
 
 	private String getMyConnectionName(Object connectionName) {
@@ -224,6 +228,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	protected void addColumn(String name,Object value,Object type,String format) {
+		name = this.recq.removeAlias(name);
 		Column c = new Column();
 		c.setName(name);
 		c.setDefaultValue(value);
@@ -676,59 +681,16 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	@Override
 	public QueryInterface whereNotNull(String name) {
-		if(Core.isNotNull(name)) {
-			this.where();
-			this.sql += name+" IS NOT NULL ";
-		}
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public QueryInterface whereIsNull(String name) {
-		if(Core.isNotNull(name)) {
-			this.where();
-			this.sql += name+" IS NULL ";
-		}
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public QueryInterface where(String name, String operator, String value) {
-		if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
-			this.where("");
-			this.sql += " UPPER("+name+") "+operator+":"+name.toUpperCase();
-		}else {
-			this.where("");
-			this.sql += name+" "+operator+":"+name;
-		}
-		this.addString(name, value);
-		return this;
-	}
 
-	@Override
-	public QueryInterface where(String name, String operator, Integer value) {
-		this.where("");
-		this.sql += name+" "+operator+":"+name;
-		this.addInt(name, value);
-		return this;
-	}
-
-	@Override
-	public QueryInterface where(String name, String operator, Float value) {
-		this.where("");
-		this.sql += name+" "+operator+":"+name;
-		this.addFloat(name, value);
-		return this;
-	}
-
-	@Override
-	public QueryInterface where(String name, String operator, Double value) {
-		this.where("");
-		this.sql += name+" "+operator+":"+name;
-		this.addDouble(name, value);
-		return this;
-	}
-
+	
 	@Override
 	public QueryInterface returning(String... retuerningKeys) {
 		this.retuerningKeys = retuerningKeys;
@@ -791,5 +753,70 @@ public abstract class QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orderByDesc(String... columns) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, String value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, Integer value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, Float value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, Double value) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public QueryInterface where(String name, String operator, Date value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface where(String name, String operator, String value, String format) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, Date value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface andWhere(String name, String operator, String value, String format) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, Date value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface orWhere(String name, String operator, String value, String format) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, Date value) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface having(String name, String operator, String value, String format) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public List<Column> getParametersMap() {
+		return this.columnsValue;
 	}
 }

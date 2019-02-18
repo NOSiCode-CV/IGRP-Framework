@@ -21,9 +21,11 @@ import nosi.webapps.igrp.dao.Config_env;
 public class DatabaseMetadaHelper {
 
 	private Connection connection;
+	private ParametersHelper paramHelper;
 	
 	public DatabaseMetadaHelper() {
 		this.connection = new Connection();
+		this.paramHelper = new ParametersHelper();
 	}
 	
 	
@@ -172,6 +174,48 @@ public class DatabaseMetadaHelper {
 		return list;
 	}
 	
+
+	private void setParameters(NamedParameterStatement q,List<Column> parametersMap) throws SQLException {
+		for(DatabaseMetadaHelper.Column col:parametersMap) {	
+			 this.paramHelper.setParameter(q,col.getDefaultValue(),col);
+		}
+	}
+
+	public List<Column> getCollumns(String connectionName, List<Column> parametersMap, String sql) {
+			java.sql.Connection con = this.connection.getConnection(connectionName);
+			List<Column> list = new ArrayList<>();
+			if(con!=null && sql!=null) {
+				PreparedStatement st = null;
+				ResultSet rs = null;
+				try {
+					NamedParameterStatement q = new NamedParameterStatement(con ,sql);
+					this.setParameters(q,parametersMap);
+				    st = con.prepareStatement(sql);
+				    rs = q.executeQuery();
+				    ResultSetMetaData metaData = rs.getMetaData();
+				    int columnsCount = metaData.getColumnCount();
+				    for(int i=1;i<=columnsCount;i++) {
+				    	Column col = new Column();
+				    	col.setName(metaData.getColumnName(i));
+				    	list.add(col);
+				    }
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					try {
+						if(st!=null)
+				    		st.close();
+				    	if(rs!=null)
+				    		rs.close();
+						if(con!=null)
+							con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}		
+			return list;
+	}
 	
 	//Get collumns name of table
 	public List<Column> getCollumns(Config_env config,String schema,String tableName) {
