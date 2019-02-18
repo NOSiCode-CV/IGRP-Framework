@@ -41,10 +41,15 @@ public class Pesquisa_geografiaController extends Controller {
 				+ "<table>"
 				+ "<value>";
 		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id);
-		for(Pesquisa_geografia.Treemenu_1 li : lista) {			
-			String tab = par.length > 1 ? par[2]:"p_geografia";
-			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),tab);				
-	}
+		for(Pesquisa_geografia.Treemenu_1 li : lista) {
+			String des_geo = null;
+			String id_geo = null;
+			try {
+				des_geo = par[2];
+				id_geo = par[3];
+				}catch (Exception e) {}
+			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),des_geo,id_geo);
+		}
 		xml +=  "</value>"
 				+ "</table>"
 				+ "</treemenu_1>";
@@ -52,11 +57,12 @@ public class Pesquisa_geografiaController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-	public String getXml(String id,String desc_menu, String id_par, String child, String tab) {
+	public String getXml(String id,String desc_menu, String id_par, String child, String des_geo,String id_geo) {
 		
 		String xml =	"<row>" + 
 						"<context-menu>"+
-						"<param>"+tab+"="+ desc_menu +"</param>"
+						"<param>"+des_geo+"="+ desc_menu +"</param>"+
+						"<param>"+id_geo+"="+ id +"</param>"
 						+ "</context-menu>"+
 							"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
 							"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +
