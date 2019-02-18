@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -1524,6 +1525,16 @@ public final class Core { // Not inherit
 		ModelMapper mapper = new ModelMapper();
 		mapper.map(source, destination);
 	}
+	/**
+	 * Example input = "Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ" will return This is a funky String
+	 * 
+	 * @param input
+	 * @return a normalize text
+	 */
+	public static String normalizeText(String input) {
+		return Normalizer .normalize(input, Normalizer.Form.NFD) .replaceAll("[^\\p{ASCII}]", "");
+	}
+	
 
 	private static ServiceSerach processRequestBiztalkClientService(GenericServiceResponse response,
 			ServiceSerach service) {
