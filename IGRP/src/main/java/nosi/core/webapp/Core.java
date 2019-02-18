@@ -1356,7 +1356,7 @@ public final class Core { // Not inherit
 	public static boolean isDouble(Object value) {
 		if (isNotNull(value)) {
 			try {
-				double v = Double.parseDouble(value.toString());
+				double v = Double.parseDouble(String.valueOf(value));
 				return !((v == Math.floor(v)) && !Double.isInfinite(v));
 			} catch (NumberFormatException e) {
 				return false;
@@ -1368,7 +1368,7 @@ public final class Core { // Not inherit
 	public static boolean isFloat(Object value) {
 		if (isNotNull(value)) {
 			try {
-				float v = Float.parseFloat(value.toString());
+				float v = Float.parseFloat(String.valueOf(value));
 				return !((v == Math.floor(v)) && !Float.isInfinite(v));
 			} catch (NumberFormatException e) {
 				return false;
@@ -1388,7 +1388,7 @@ public final class Core { // Not inherit
 	public static boolean isInt(Object value) {
 		if (isNotNull(value)) {
 			try {
-				double v = Integer.parseInt(value.toString());
+				double v = Integer.parseInt(String.valueOf(value));
 				return ((v == Math.floor(v)) && !Double.isInfinite(v));
 			} catch (NumberFormatException e) {
 				return false;
@@ -1404,9 +1404,7 @@ public final class Core { // Not inherit
 	 * @return {@code value!=null && !value.equals("");}
 	 */
 	public static boolean isNotNull(Object value) {
-		if (value instanceof String)
-			return value != null && !value.equals("");
-		return value != null;
+		return (value instanceof String) ? value != null && !value.equals("") : value != null;
 	}
 
 	/**
@@ -1436,10 +1434,7 @@ public final class Core { // Not inherit
 		if (!(value instanceof Number)) {
 			return Core.isNotNull(value);
 		}
-		if (Core.isNotNull(value)) {
-			return new Integer(value.toString()) != 0;
-		}
-		return false;
+		return (Core.isNotNull(value)) ? new Integer(String.valueOf(value)) != 0 : false;
 	}
 
 	/**
@@ -1449,9 +1444,7 @@ public final class Core { // Not inherit
 	 * @return {@code value==null || value.equals("");}
 	 */
 	public static boolean isNull(Object value) {
-		if (value instanceof String)
-			return value == null || value.equals("");
-		return value == null;
+		return (value instanceof String) ? value == null || value.equals("") : value == null;
 	}
 
 	/**
@@ -1461,9 +1454,8 @@ public final class Core { // Not inherit
 	 * @return {@code if(value instanceof Number) return value ==null || new Integer(value.toString()) ==0;}
 	 */
 	public static boolean isNullOrZero(Object value) {
-		if (value instanceof Number)
-			return value == null || new Integer(value.toString()) == 0;
-		return value == null || value.equals("");
+		return (value instanceof Number) ? value == null || new Integer(String.valueOf(value)) == 0
+				: value == null || value.equals("");
 	}
 	
 	/**
