@@ -42,12 +42,8 @@ public class Pesquisa_geografiaController extends Controller {
 				+ "<value>";
 		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id);
 		for(Pesquisa_geografia.Treemenu_1 li : lista) {
-			String des_geo = null;
-			String id_geo = null;
-			try {
-				des_geo = par[2];
-				id_geo = par[3];
-				}catch (Exception e) {}
+			String des_geo = par.length > 1 ? par[2]:"p_geografia_des";
+			String id_geo = par.length > 1 ? par[3]:"p_geografia_id";
 			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),des_geo,id_geo);
 		}
 		xml +=  "</value>"
