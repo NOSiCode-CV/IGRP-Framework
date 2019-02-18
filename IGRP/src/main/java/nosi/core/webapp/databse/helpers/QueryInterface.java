@@ -5,6 +5,10 @@ package nosi.core.webapp.databse.helpers;
  */
 public interface QueryInterface extends BaseQueryInterface{
 
+	public QueryInterface where(String name,String operator,java.sql.Date value); 
+
+	public QueryInterface where(String name,String operator,String value,String format);
+	
 	public QueryInterface andWhereNotNull(String name);
 	
 	public QueryInterface andWhereIsNull(String name);
@@ -24,6 +28,10 @@ public interface QueryInterface extends BaseQueryInterface{
 	public QueryInterface andWhere(String name,String operator,Float value);
 	
 	public QueryInterface andWhere(String name,String operator,Double value);
+
+	public QueryInterface andWhere(String name,String operator,java.sql.Date value); 
+
+	public QueryInterface andWhere(String name,String operator,String value,String format);
 	
 	public QueryInterface orWhereNotNull(String name);
 	
@@ -44,7 +52,10 @@ public interface QueryInterface extends BaseQueryInterface{
 	public QueryInterface orWhere(String name,String operator,Float value);
 	
 	public QueryInterface orWhere(String name,String operator,Double value);
-	
+
+	public QueryInterface orWhere(String name,String operator,java.sql.Date value); 
+
+	public QueryInterface orWhere(String name,String operator,String value,String format);
 
 	public QueryInterface having(String name,String operator,String value);
 	
@@ -53,7 +64,10 @@ public interface QueryInterface extends BaseQueryInterface{
 	public QueryInterface having(String name,String operator,Double value);
 	
 	public QueryInterface having(String name,String operator,Float value);
-	
+
+	public QueryInterface having(String name,String operator,java.sql.Date value); 
+
+	public QueryInterface having(String name,String operator,String value,String format);
 	
 	public QueryInterface orderBy(String[] ...orderByNames);
 	

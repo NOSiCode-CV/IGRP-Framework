@@ -119,4 +119,6 @@ public interface BaseQueryInterface {
     public QueryInterface addBigDecimal(String columnName,BigDecimal value);
     
     public QueryInterface addTime(String columnName,Time value);
+    
+    public List<Column> getParametersMap();
 }
