@@ -1,5 +1,10 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -90,6 +95,10 @@ public class Pesquisa_bi_cni_passport extends Model{
 		private String nome_mae_tab;
 		private String data_emissao_tab;
 		private String emissor_tab;
+		private String estado_civil;
+		private String nat_conselho;
+		private String residencia;
+		private String dt_validade;
 		public void setBi_tab(String bi_tab){
 			this.bi_tab = bi_tab;
 		}
@@ -144,6 +153,34 @@ public class Pesquisa_bi_cni_passport extends Model{
 		}
 		public String getEmissor_tab(){
 			return this.emissor_tab;
+		}
+
+		public void setEstado_civil(String estado_civil){
+			this.estado_civil = estado_civil;
+		}
+		public String getEstado_civil(){
+			return this.estado_civil;
+		}
+
+		public void setNat_conselho(String nat_conselho){
+			this.nat_conselho = nat_conselho;
+		}
+		public String getNat_conselho(){
+			return this.nat_conselho;
+		}
+
+		public void setResidencia(String residencia){
+			this.residencia = residencia;
+		}
+		public String getResidencia(){
+			return this.residencia;
+		}
+
+		public void setDt_validade(String dt_validade){
+			this.dt_validade = dt_validade;
+		}
+		public String getDt_validade(){
+			return this.dt_validade;
 		}
 
 	}
