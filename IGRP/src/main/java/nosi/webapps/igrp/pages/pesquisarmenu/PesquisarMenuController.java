@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -33,30 +35,34 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Iste totam lorem consectetur stract deserunt ut voluptatem officia accusantium omnis voluptatem iste' as t1_menu_principal,'1' as ativo,'Unde lorem perspiciatis dolor ipsum lorem magna ipsum aperiam totam rem sit elit omnis accusantium a' as table_titulo,'Aperiam stract mollit magna totam sit mollit anim perspiciatis aliqua mollit unde anim lorem anim mo' as pagina,'1' as checkbox,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Doloremque elit lorem doloremque aperiam dolor officia adipiscing stract sed stract sit doloremque n' as t1_menu_principal,'1' as ativo,'Aperiam anim iste aliqua lorem aliqua perspiciatis iste dolor officia omnis natus lorem magna sed to' as table_titulo,'Rem labore natus sit deserunt natus unde labore ut natus sit perspiciatis officia deserunt adipiscin' as pagina,'1' as checkbox,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
-		int idApp = Core.getParamInt("id_app");
+		int idApp = Core.getParamInt("p_id_app");
 		int idOrg = 0;
 		// int idMen = 0;
 
 		if (idApp != 0 && Core.isNull(Core.getParam("ichange"))) {			
 			model.setAplicacao("" + idApp);
+          
+			view.btn_btn_novo.addParameter("p_aplicacao",idApp);
 		}		
 
 		// If in a app, choose automatically the app in the combobox
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();			
+			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
+          view.aplicacao.propertie().add("disabled","true");
 		}	
-
+	
 		// When onChange, it's always a post
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			idApp = Core.toInt(model.getAplicacao());
 		}
+     	model.setId_app(idApp);
 		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 		List<Menu> menus = null;
 
@@ -103,10 +109,6 @@ public class PesquisarMenuController extends Controller {
 				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 			view.table_1.addData(lista);
 		} 
-//		else {
-//			menus = menu.searchMen();
-//		}
-	
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.id.setParam(true);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
@@ -123,9 +125,9 @@ public class PesquisarMenuController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
-		this.addQueryString("app",model.getAplicacao());
+		this.addQueryString("app",Core.getParam("p_aplicacao"));
       return this.forward("igrp","NovoMenu","index", this.queryString());
 				/*----#end-code----*/
 			
@@ -138,7 +140,7 @@ public class PesquisarMenuController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -147,7 +149,7 @@ public class PesquisarMenuController extends Controller {
 		}
  	
 		/*----#end-code----*/
-		return this.redirect("igrp","NovoMenu","index", this.queryString());	
+		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
 	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -159,18 +161,17 @@ public class PesquisarMenuController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
-		String id = Core.getParam("p_id");
-		this.addQueryString("id_app",model.getAplicacao());
+		int id = Core.getParamInt("p_id");     
 		Menu menu_db = new Menu();
-		if (Core.isNotNull(id)) {
-		if (menu_db.delete(Integer.parseInt(id)))
+		if (Core.isNotNullOrZero(id)) {
+		if (menu_db.delete(id))
 			Core.setMessageSuccess();
 		else
 			Core.setMessageError();		
 		}
- 	
+ 	return this.redirect("igrp","PesquisarMenu","index", model, this.queryString()); 
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
+			
 	}
 	
 /*----#start-code(custom_actions)----*/

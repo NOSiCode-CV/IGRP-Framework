@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -41,9 +43,9 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
+		
 public class NovoUtilizadorController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		NovoUtilizadorView view = new NovoUtilizadorView();
@@ -81,18 +83,17 @@ public class NovoUtilizadorController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoUtilizador","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
@@ -116,10 +117,10 @@ public class NovoUtilizadorController extends Controller {
 			throw new ServerErrorHttpException("Unsuported operation ...");
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "NovoUtilizador", "index", this.queryString());
+		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+/*----#start-code(custom_actions)----*/
 
 	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 

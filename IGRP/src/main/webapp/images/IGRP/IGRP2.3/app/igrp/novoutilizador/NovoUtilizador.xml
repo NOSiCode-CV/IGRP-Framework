@@ -61,12 +61,12 @@
             <fields>
                 <email name="p_email" type="textarea" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ..." right="false">
                     <label>E-mail(s)</label>
-                    <value>Anim stract anim laudantium lorem sit laudantium accusantium mollit ut natus deserunt rem voluptatem</value>
+                    <value>Perspiciatis aperiam omnis mollit officia deserunt perspiciatis sit mollit deserunt rem labore natus</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -87,8 +87,16 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Organização</label>
                     <list>
                         <option/>
@@ -109,6 +117,15 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_organica</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </organica>
                 <perfil name="p_perfil" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Perfil</label>

@@ -53,7 +53,7 @@ public class TransacaoOrganicaView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
 
-		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar","submit","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar","submit_ajax","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","submit_popup","black|fa-exchange","","");

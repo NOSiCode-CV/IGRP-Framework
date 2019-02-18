@@ -41,11 +41,11 @@
             <item type="specific" code="" rel="gravar" custom_return="true">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>TransacaoOrganica</page>
+                <page>Dominio</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
@@ -62,27 +62,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Lorem doloremque adipiscing do</nome>
+                        <nome name="p_nome">Dolor laudantium unde sed unde</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Deserunt omnis unde ut sed</nome>
+                        <nome name="p_nome">Sit voluptatem aperiam adipisc</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Perspiciatis iste magna omnis</nome>
+                        <nome name="p_nome">Natus voluptatem officia aperi</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Sit doloremque labore anim vol</nome>
+                        <nome name="p_nome">Labore stract magna iste adipi</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Doloremque mollit amet elit ut</nome>
+                        <nome name="p_nome">Aliqua aperiam lorem sit totam</nome>
                     </row>
                 </value>
             </table>

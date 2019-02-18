@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -27,7 +29,7 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Totam sed unde voluptatem amet' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'1' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Adipiscing ut omnis ut labore' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -37,19 +39,21 @@ public class GestaodeacessoController extends Controller {
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
-			setTable(model, data);
+          view.aplicacao.propertie().add("disabled","true");
+			//setTable(model, data);
 		}
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
 			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) {
 				setTable(model, data);
-			} else
-				model.setAdicionar_organica("igrp", "NovaOrganica", "index");
+			}
 		}		
 		
 		if(Core.isNotNull(model.getAplicacao())) {
-			 model.getGestao_de_menu().addParam("id_app",model.getAplicacao());
-			 model.getAdicionar_organica().addParam("id_app",model.getAplicacao());
+         
+			 model.getGestao_de_menu().addParam("p_id_app",model.getAplicacao());
+			 model.setAdicionar_organica("igrp", "NovaOrganica", "index").addParam("id_app",model.getAplicacao());
 			 model.getGestao_de_utilizadores().addParam("p_aplicacao",model.getAplicacao());
+           setTable(model, data);
 		}
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);	

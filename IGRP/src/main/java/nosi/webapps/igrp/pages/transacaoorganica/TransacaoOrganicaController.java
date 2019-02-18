@@ -14,6 +14,7 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.Comparator;
+import nosi.core.webapp.helpers.CheckBoxHelper;
 import java.util.List;
 /*----#end-code----*/
 		
@@ -25,7 +26,7 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Ipsum deserunt adipiscing volu' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Sed laudantium mollit anim lau' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();
@@ -87,7 +88,7 @@ public class TransacaoOrganicaController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","TransacaoOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){
 			this.deleteOldTransactions(model);
@@ -167,11 +168,12 @@ public class TransacaoOrganicaController extends Controller {
 	
 
 	private void assocNewsTransactios(TransacaoOrganica model) {
-		String [] trans = Core.getParamArray("p_transacao");
-		if(trans!=null  && trans.length>0){
+			
+		CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_transacao"), Core.getParamArray("p_transacao_check"));
+		if(cb.getChekedIds().size()>0){
 			List<ProfileType> list = null;
             boolean sucess=true;
-			for(String x:trans){
+			for(String x:cb.getChekedIds()){
 				Profile prof = new Profile();
 				prof.setUser(userAdmin);
 				prof.setType("TRANS");

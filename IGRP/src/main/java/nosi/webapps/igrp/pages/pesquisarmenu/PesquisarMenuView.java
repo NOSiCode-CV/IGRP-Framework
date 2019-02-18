@@ -5,11 +5,15 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PesquisarMenuView extends View {
 
 	public Field sectionheader_1_text;
 	public Field aplicacao;
+	public Field id_app;
 	public Field t1_menu_principal;
 	public Field ativo;
 	public Field ativo_check;
@@ -45,6 +49,10 @@ public class PesquisarMenuView extends View {
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		
+		id_app = new HiddenField(model,"id_app");
+		id_app.setLabel(gt(""));
+		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_app");
 		
 		t1_menu_principal = new PlainTextField(model,"t1_menu_principal");
 		t1_menu_principal.setLabel(gt("Menu pai"));
@@ -97,6 +105,7 @@ public class PesquisarMenuView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);
+		form_1.addField(id_app);
 
 
 		table_1.addField(t1_menu_principal);
@@ -121,6 +130,7 @@ public class PesquisarMenuView extends View {
 	public void setModel(Model model) {
 		
 		aplicacao.setValue(model);
+		id_app.setValue(model);
 		t1_menu_principal.setValue(model);
 		ativo.setValue(model);
 		table_titulo.setValue(model);

@@ -1,5 +1,10 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -12,6 +17,8 @@ public class PesquisarMenu extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+	@RParam(rParamName = "p_id_app")
+	private int id_app;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -51,6 +58,13 @@ public class PesquisarMenu extends Model{
 	}
 	public String getAplicacao(){
 		return this.aplicacao;
+	}
+	
+	public void setId_app(int id_app){
+		this.id_app = id_app;
+	}
+	public int getId_app(){
+		return this.id_app;
 	}
 
 

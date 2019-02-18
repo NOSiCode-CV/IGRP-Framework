@@ -1,9 +1,13 @@
-
 package nosi.webapps.igrp.pages.novomenu;
+
+import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class NovoMenuView extends View {
 
@@ -45,11 +49,11 @@ public class NovoMenuView extends View {
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","int");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		action_fk = new ListField(model,"action_fk");
 		action_fk.setLabel(gt("Página"));
-		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","int");
+		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		detalhes = new SeparatorField(model,"detalhes");
 		detalhes.setLabel(gt("Detalhes"));
@@ -57,11 +61,11 @@ public class NovoMenuView extends View {
 		
 		titulo = new TextField(model,"titulo");
 		titulo.setLabel(gt("Título"));
-		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","80").add("required","true");
+		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","80").add("required","true").add("readonly","false").add("disabled","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
 		
 		extra = new SeparatorField(model,"extra");
 		extra.setLabel(gt("Extra"));
@@ -69,23 +73,23 @@ public class NovoMenuView extends View {
 		
 		self_id = new ListField(model,"self_id");
 		self_id.setLabel(gt("Menu pai"));
-		self_id.propertie().add("name","p_self_id").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","int");
+		self_id.propertie().add("name","p_self_id").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		orderby = new NumberField(model,"orderby");
 		orderby.setLabel(gt("Posição"));
-		orderby.propertie().add("name","p_orderby").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("java-type","int");
+		orderby.propertie().add("name","p_orderby").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int");
 		
 		target = new ListField(model,"target");
 		target.setLabel(gt("Target"));
-		target.propertie().add("name","p_target").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
+		target.propertie().add("name","p_target").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		link = new TextField(model,"link");
 		link.setLabel(gt("Link (Procedure)"));
-		link.propertie().add("name","p_link").add("type","text").add("maxlength","30").add("required","false");
+		link.propertie().add("name","p_link").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false");
 		
 		flg_base = new CheckBoxField(model,"flg_base");
 		flg_base.setLabel(gt("Público?"));
-		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("switch","true").add("check","true");
+		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
 		
 		area = new HiddenField(model,"area");
 		area.setLabel(gt(""));
@@ -102,7 +106,7 @@ public class NovoMenuView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_gravar = new IGRPButton("Gravar","igrp","NovoMenu","gravar","submit","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","NovoMenu","gravar","submit_ajax","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		
@@ -135,7 +139,8 @@ public class NovoMenuView extends View {
 		this.addToPage(toolsbar_1);
 	}
 		
-	public void setModel(NovoMenu model) {
+	@Override
+	public void setModel(Model model) {
 		
 		env_fk.setValue(model);
 		action_fk.setValue(model);
@@ -152,6 +157,5 @@ public class NovoMenuView extends View {
 		img_src.setValue(model);
 		id.setValue(model);	
 
-		
-	}
+		}
 }

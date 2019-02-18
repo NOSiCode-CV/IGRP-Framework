@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.novomenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -13,25 +14,20 @@ import nosi.webapps.igrp.dao.Menu;
 import java.util.HashMap;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
+		
 public class NovoMenuController extends Controller {
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
 		NovoMenuView view = new NovoMenuView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.self_id.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.target.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
@@ -47,16 +43,15 @@ public class NovoMenuController extends Controller {
 			model.setTarget(menu.getTarget());
 			model.setOrderby(menu.getOrderby());
 			model.setTitulo(menu.getDescr());
-			if (Core.isNotNull(Core.getParam("ichange"))) {
-				model.setEnv_fk(model.getEnv_fk());
-				if (Core.isNotNull(model.getAction_fk()))
-					model.setTitulo(getPageTituleByID(model));
-			} else {
-				model.setEnv_fk(menu.getApplication().getId());
-				if (menu.getAction() != null)
-					model.setAction_fk(menu.getAction().getId());
+			if (Core.isNotNullOrZero(model.getAction_fk()) && menu.getAction().getId()!=model.getAction_fk()) {
+				model.setTitulo(getPageTituleByID(model));
+				
+			}else
+              model.setAction_fk(menu.getAction().getId());
+			
+			model.setEnv_fk(menu.getApplication().getId());
 
-			}
+			
 		} else {
 			int app = Core.getParamInt("app");
 			if (app != 0)
@@ -65,7 +60,7 @@ public class NovoMenuController extends Controller {
 			model.setTarget("_self");
 			model.setOrderby(39);
 			model.setStatus(1);
-			if (Core.isNotNull(Core.getParam("ichange")) && Core.isNotNullOrZero(model.getAction_fk())) {
+			if (Core.isNotNullOrZero(model.getAction_fk())) {
 				model.setTitulo(getPageTituleByID(model));
 			}
 		}
@@ -94,21 +89,17 @@ public class NovoMenuController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","PesquisarMenu","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		int id = model.getId();
 		Menu menu;
@@ -187,10 +178,10 @@ public class NovoMenuController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "PesquisarMenu", "index", this.queryString());
+		return this.redirect("igrp","NovoMenu","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+/*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		// System.out.println(model.getAction_fk());
 		if (Core.isNotNull(model.getAction_fk())) {

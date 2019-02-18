@@ -1,10 +1,11 @@
 package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.ResultSet;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Menu;
@@ -27,7 +28,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Iste voluptatem deserunt dolor' as descricao,'1' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Unde magna dolor totam dolor' as descricao,'1' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
     
@@ -123,7 +124,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#end-code----*/
 			
 	}
-
+	
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		MenuOrganica model = new MenuOrganica();
 		model.load();

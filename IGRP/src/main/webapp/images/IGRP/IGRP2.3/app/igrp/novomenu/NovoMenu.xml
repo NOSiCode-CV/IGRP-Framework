@@ -2,9 +2,10 @@
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2017 - Copyright NOSI</footer_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -32,12 +33,16 @@
         <package_copy_html />
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=8</preserve_url>
     </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Registar Menu</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Gestão Menu - Novo</value>
+                    <value>
+                        <![CDATA[Gestão Menu - Novo]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -45,16 +50,16 @@
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>PesquisarMenu</page>
+                <page>NovoMenu</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -76,7 +81,7 @@
                         </option>
                     </list>
                 </env_fk>
-                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="int">
+                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Página</label>
                     <list>
                         <option/>
@@ -97,22 +102,23 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </action_fk>
                 <detalhes name="p_detalhes" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Detalhes</label>
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Aliqua dolor amet officia aperiam</value>
+                    <value>Rem ut dolor adipiscing aliqua</value>
                 </titulo>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
                 <extra name="p_extra" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Extra</label>
                 </extra>
-                <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
+                <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Menu pai</label>
                     <list>
                         <option/>
@@ -136,9 +142,9 @@
                 </self_id>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Posição</label>
-                    <value>10</value>
+                    <value>4</value>
                 </orderby>
-                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Target</label>
                     <list>
                         <option/>
@@ -162,9 +168,9 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Magna stract mollit amet dolor</value>
+                    <value>Elit ipsum anim ut labore</value>
                 </link>
-                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
                     <label>Público?</label>
                     <value>1</value>
                 </flg_base>
