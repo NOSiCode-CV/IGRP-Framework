@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -18,7 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /*----#end-code----*/
+		
 public class Pesquisa_bi_cni_passportController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Pesquisa_bi_cni_passport model = new Pesquisa_bi_cni_passport();
@@ -27,70 +33,97 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Adipiscing sed natus sit sed' as bi_tab,'Doloremque perspiciatis laudan' as nome_tab,'Doloremque ut rem consectetur' as sexo_tab,'08-07-2011' as data_nascimento_tab,'Rem consectetur dolor omnis do' as nome_pai_tab,'Voluptatem dolor amet mollit a' as nome_mae_tab,'Adipiscing deserunt lorem cons' as data_emissao_tab,'Labore unde natus ut consectet' as emissor_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Ipsum anim magna sit ut' as bi_tab,'Voluptatem aliqua iste ipsum t' as nome_tab,'Adipiscing unde elit voluptate' as sexo_tab,'03-03-2017' as data_nascimento_tab,'Sit voluptatem iste ipsum anim' as nome_pai_tab,'Stract aliqua officia omnis si' as nome_mae_tab,'Iste unde deserunt stract omni' as data_emissao_tab,'Rem voluptatem iste ipsum amet' as emissor_tab,'1' as estado_civil,'1' as nat_conselho,'1' as residencia,'1' as dt_validade "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.tipo_documento.setValue(getTipoDoc());
 		view.data_nascimento.setVisible(false);
 		view.nome.setVisible(false);
-		String json_data = "{\"Numero_ID\" : \""+ model.getNumero_do_documento() +"\"}";
+		view.tipo_documento.setVisible(false);
 		ConsumeJson json_obj = new ConsumeJson();
 		Properties setting = this.loadConfig("common", "main.xml");
 		String json="";
+		String url = setting.getProperty("link.rest.pesquisa_bi_cni_pass")+"?p_num_bi=";
+		String authorization = setting.getProperty("authorization.link.rest.pesquisa_bi_cni_pass");
+		
 		try {
-			json = json_obj.getObjectFromJson(setting.getProperty("link.rest.pesquisa_bi_cni_pass"), json_data);
-
-			PesquisaBI list_bi = new PesquisaBI();
-			PesquisaCNI list_cni = new PesquisaCNI();
-			PesquisaPassport list_pass = new PesquisaPassport();
-			list_bi = list_bi.getListBI(json);
-			list_cni = list_cni.getListCNI(json);
-			list_pass = list_pass.getListPassport(json);
-			
-			if(list_bi.getError() == null ) {
-				switch(model.getTipo_documento()) {
-				case "bi":
-					List<Pesquisa_bi_cni_passport.Table_1> lista_bi = new ArrayList<>();
-					Pesquisa_bi_cni_passport.Table_1 tab_bi = new Pesquisa_bi_cni_passport.Table_1();
-					tab_bi.setBi_tab(""+list_bi.getBI());
-					tab_bi.setNome_tab(list_bi.getNOME());
-					tab_bi.setSexo_tab(list_bi.getSEXO());
-					tab_bi.setData_nascimento_tab(list_bi.getDT_NASC());
-					tab_bi.setNome_mae_tab(list_bi.getNOME_MAE());
-					tab_bi.setNome_pai_tab(list_bi.getNOME_PAI());
-					tab_bi.setData_emissao_tab(list_bi.getDT_EMISSAO());
-					tab_bi.setEmissor_tab(list_bi.getEMISSOR()); 
-					lista_bi.add(tab_bi);
-					model.setTable_1(lista_bi);
-					break;
-				case "cni":
-					List<Pesquisa_bi_cni_passport.Table_1> lista_cni = new ArrayList<>();
-					Pesquisa_bi_cni_passport.Table_1 tab_cni = new Pesquisa_bi_cni_passport.Table_1();
-					tab_cni.setNome_tab(list_cni.getNOME_COMPLETO());
-					tab_cni.setSexo_tab(list_cni.getSEXO());
-					tab_cni.setData_nascimento_tab(list_cni.getDATA_NASC());
-					tab_cni.setBi_tab(list_cni.getNUM_DOCUMENTO());
-					lista_cni.add(tab_cni);
-					model.setTable_1(lista_cni);
-					break;
-				case "pass":
-					List<Pesquisa_bi_cni_passport.Table_1> lista_pass = new ArrayList<>();
-					Pesquisa_bi_cni_passport.Table_1 tab_pass = new Pesquisa_bi_cni_passport.Table_1();
-					tab_pass.setNome_tab(list_pass.getNOME_COMPLETO());
-					tab_pass.setSexo_tab(list_pass.getSEXO());
-					tab_pass.setData_nascimento_tab(list_pass.getDATA_NASC());
-					tab_pass.setBi_tab(list_pass.getNUM_DOCUMENTO());
-					lista_pass.add(tab_pass);
-					model.setTable_1(lista_pass);
-					break;
-				default:
-					model.setTable_1(null);
-					break;
+			if(Core.isNotNull(model.getNumero_do_documento())) {
+				json = json_obj.getJsonFromUrl(url+model.getNumero_do_documento().replaceAll(" ", "%20"), authorization);
+				JSONObject obj = new JSONObject(json);
+				JSONObject Entries = obj.getJSONObject("Entries");
+				JSONArray Entry = Entries.getJSONArray("Entry");
+				
+				List<Pesquisa_bi_cni_passport.Table_1> lista = new ArrayList<>();
+				for(int i=0 ; i<Entries.length() ; i++) {
+					Pesquisa_bi_cni_passport.Table_1 tab_geral = new Pesquisa_bi_cni_passport.Table_1();
+					JSONObject pessoa = Entry.getJSONObject(i);
+					try {
+						tab_geral.setBi_tab(pessoa.getString("BI"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setBi_tab(null);
+					}
+					try {
+						tab_geral.setData_emissao_tab(pessoa.getString("DT_EMISSAO"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setData_emissao_tab(null);
+					}
+					try {
+						tab_geral.setData_nascimento_tab(pessoa.getString("DT_NASC"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setData_nascimento_tab(null);
+					}
+					try {
+						tab_geral.setEmissor_tab(pessoa.getString("EMISSOR"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setEmissor_tab(null);
+					}
+					try {
+						tab_geral.setNome_mae_tab(pessoa.getString("NOME_MAE"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setNome_mae_tab(null);
+					}
+					try {
+						tab_geral.setNome_pai_tab(pessoa.getString("NOME_PAI"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setNome_pai_tab(null);
+					}
+					try {
+						tab_geral.setNome_tab(pessoa.getString("NOME"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setNome_tab(null);
+					}
+					try {
+						tab_geral.setSexo_tab(pessoa.getString("SEXO"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setSexo_tab(null);
+					}
+					try {
+						tab_geral.setNat_conselho(pessoa.getString("NAT_CONSELHO"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setNat_conselho(null);
+					}
+					try {
+						tab_geral.setDt_validade(pessoa.getString("DT_VALIDADE"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setDt_validade(null);
+					}
+					try {
+						tab_geral.setResidencia(pessoa.getString("RESIDENCIA"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setResidencia(null);
+					}
+					try {
+						tab_geral.setEstado_civil(pessoa.getString("ESTADO_CIVIL"));
+					}catch (org.json.JSONException e) {
+						tab_geral.setEstado_civil(null);
+					}
+					lista.add(tab_geral);
 				}
+				model.setTable_1(lista);
 			}
 			}catch (Exception e) {
-				Core.setMessageError("Serviço indisponivel!!");
+				Core.setMessageInfo("Nenhum registo encontrado!!");
 		}
 		
 		/*----#end-code----*/
