@@ -211,7 +211,11 @@
 							});
 					}
 				});
-			}
+			}else{
+				$.IGRP.components.tabcontent.hasFieldsError();
+
+				$.IGRP.scrollTo($(':input[required].error:first'));
+				}
 		};
 		//filter
 		var filter       = function(p){

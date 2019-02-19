@@ -257,8 +257,8 @@
 		},
 
 		hasFieldsError : function(){
-			if($(':input[required="required"].error')[0]){
-				var tab = $(':input[required="required"].error:first').parents('.tab-pane');
+			if($(':input[required].error')[0]){
+				var tab = $(':input[required].error:first').parents('.tab-pane');
 				if(tab[0])
 					$('li[rel="'+tab.attr('id')+'"] a').click();
 			}
