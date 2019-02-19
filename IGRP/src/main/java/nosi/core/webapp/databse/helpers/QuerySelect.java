@@ -115,7 +115,38 @@ public class QuerySelect extends CommonFIlter{
 		return HibernateUtils.getSessionFactory(this.getConnectionName(),null);
 	}
 
+	
 	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getSingleResult(Class<T> entity) {
+		T find = null;
+		SessionFactory session =  this.getSessionFactory();
+		if(session!=null) {
+			EntityManager em = null;
+			try {
+				Core.log("SQL Query:"+this.getSql());
+				em = session.createEntityManager();
+				Query query = em.createQuery(this.getSql(),entity);	
+				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+					 if(col.getDefaultValue()!=null) {
+						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
+					 }else {
+						 query.setParameter(col.getName(), null);
+					 }
+				}		
+				find = (T) query.getSingleResult();
+			}catch(Exception e) {
+				this.setError(null, e);
+			}finally {
+				if(em!=null)
+					em.close();
+			}
+		}
+		return find;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public <T> List<T> getResultList(Class<T> entity){	
 		List<T> list = null;
 		SessionFactory session =  this.getSessionFactory();
