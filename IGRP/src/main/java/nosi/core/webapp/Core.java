@@ -33,6 +33,9 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.xml.bind.JAXB;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
@@ -2521,5 +2524,17 @@ public final class Core { // Not inherit
 	
 	public static CheckBoxHelper extractCheckBox(String[] array_unchecked,String[] array_checked) {
 		return new CheckBoxHelper(array_unchecked, array_checked);
+	}
+	
+	/**
+	 * Get Session to programming custom CRUD
+	 * @param connectionName
+	 * @return
+	 */
+	public static Session getSession(String connectionName) {	
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName,null);
+		if(sessionFactory!=null)
+			return sessionFactory.getCurrentSession();
+		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 }

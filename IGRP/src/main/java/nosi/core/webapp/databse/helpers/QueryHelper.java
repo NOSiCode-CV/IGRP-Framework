@@ -819,4 +819,9 @@ public abstract class QueryHelper implements QueryInterface{
 	public List<Column> getParametersMap() {
 		return this.columnsValue;
 	}
+
+	@Override
+	public <T> T getSingleResult(Class<T> entity) {
+		throw new UnsupportedOperationException();
+	}
 }

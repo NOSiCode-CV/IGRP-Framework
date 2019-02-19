@@ -791,9 +791,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
 			TypedQuery<T> query = this.getSession().createQuery(querySql, className);
-			if(this.offset > -1)
+			if(offset > -1)
 				query.setFirstResult(offset);
-			if(this.limit > -1)
+			if(limit > -1)
 				query.setMaxResults(limit);
 			this.setParameters(query);
 			list = query.getResultList();

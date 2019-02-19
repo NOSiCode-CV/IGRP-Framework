@@ -38,7 +38,9 @@ public interface BaseQueryInterface {
 	
 	public TypedQuery<?> getTypedQuery();
 	
-	public <T> List<T> getResultList(Class<T> type);
+	public <T> List<T> getResultList(Class<T> entity);
+	
+	public <T> T getSingleResult(Class<T> entity);
 	
 	public String getConnectionName();
 	
