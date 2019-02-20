@@ -84,11 +84,10 @@ public class QuerySelect extends CommonFIlter{
 		List<Tuple> list = null;
 		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
-			EntityManager em = null;
 			try {
 				Core.log("SQL Query:"+this.getSql());
-				em = session .createEntityManager();
-				Query query = em.createNativeQuery(this.getSql(),Tuple.class);	
+				this.em = session .createEntityManager();
+				Query query = this.em.createNativeQuery(this.getSql(),Tuple.class);	
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -100,19 +99,10 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				if(em!=null) {
-					em.close();
-				}
+				this.close();
 			}
 		}
 		return list;
-	}
-
-	private SessionFactory getSessionFactory() {
-		if(this.config_env!=null) {
-			return HibernateUtils.getSessionFactory(config_env);
-		}
-		return HibernateUtils.getSessionFactory(this.getConnectionName(),null);
 	}
 
 	
@@ -122,11 +112,10 @@ public class QuerySelect extends CommonFIlter{
 		T find = null;
 		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
-			EntityManager em = null;
 			try {
 				Core.log("SQL Query:"+this.getSql());
-				em = session.createEntityManager();
-				Query query = em.createQuery(this.getSql(),entity);	
+				this.em = session.createEntityManager();
+				Query query = this.em.createQuery(this.getSql(),entity);	
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -138,8 +127,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				if(em!=null)
-					em.close();
+				this.close();
 			}
 		}
 		return find;
@@ -151,11 +139,10 @@ public class QuerySelect extends CommonFIlter{
 		List<T> list = null;
 		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
-			EntityManager em = null;
 			try {
 				Core.log("SQL Query:"+this.getSql());
-				em = session.createEntityManager();
-				Query query = em.createNativeQuery(this.getSql(),entity);	
+				this.em = session.createEntityManager();
+				Query query = this.em.createQuery(this.getSql(),entity);	
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -167,8 +154,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				if(em!=null)
-					em.close();
+				this.close();
 			}
 		}
 		return list;
@@ -231,11 +217,10 @@ public class QuerySelect extends CommonFIlter{
 		TypedQuery<?> query = null;
 		SessionFactory session =  this.getSessionFactory();
 		if(session!=null) {
-			EntityManager em = null;
 			try {
 				Core.log("SQL Query:"+this.getSql());
-				em = session.createEntityManager();
-				query = em.createQuery(this.getSql(), this.className);
+				this.em = session.createEntityManager();
+				query = this.em.createQuery(this.getSql(), this.className);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -246,8 +231,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				if(em!=null)
-					em.close();
+				this.close();
 			}
 		}
 		return query;
