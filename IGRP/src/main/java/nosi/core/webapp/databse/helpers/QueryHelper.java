@@ -15,9 +15,14 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.SessionFactory;
+
+import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.base.ActiveRecord.ResolveColumnNameQuery;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
@@ -45,7 +50,8 @@ public abstract class QueryHelper implements QueryInterface{
 	private boolean showError = true;
 	private boolean showTracing = true;
 	protected ResolveColumnNameQuery recq;
-	
+	protected boolean keepConnection = false;
+	protected EntityManager em = null;
 	
 	public QueryHelper(Object connectionName) {
 		if(connectionName instanceof Config_env) {
@@ -64,6 +70,14 @@ public abstract class QueryHelper implements QueryInterface{
 		return this.connection.getConfigApp().getH2IGRPBaseConnection();
 	}
 
+
+	protected SessionFactory getSessionFactory() {
+		if(this.config_env!=null) {
+			return HibernateUtils.getSessionFactory(config_env);
+		}
+		return HibernateUtils.getSessionFactory(this.getConnectionName(),null);
+	}
+	
 	public boolean isShowError() {
 		return showError;
 	}
@@ -823,5 +837,25 @@ public abstract class QueryHelper implements QueryInterface{
 	@Override
 	public <T> T getSingleResult(Class<T> entity) {
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public QueryInterface keepConnection() {
+		this.keepConnection = true;
+		return this;
+	}
+	
+	
+	protected void close() {
+		if(!this.keepConnection && this.em!=null) {
+			em.close();
+			this.getSessionFactory().getCurrentSession().close();
+		}
+	}
+	
+	@Override
+	public void closeConnection() {
+		this.keepConnection = false;
+		this.close();
 	}
 }

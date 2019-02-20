@@ -123,4 +123,8 @@ public interface BaseQueryInterface {
     public QueryInterface addTime(String columnName,Time value);
     
     public List<Column> getParametersMap();
+    
+    public QueryInterface keepConnection();
+    
+    public void closeConnection();
 }
