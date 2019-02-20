@@ -219,9 +219,11 @@ public class IGRPTable extends IGRPComponent{
 			}
 			if(l instanceof IGRPTable.Table && ((IGRPTable.Table)l).getHiddenButtons()!=null) {
 				this.xml.startElement("param");
+				String text= "ctx_hidden=";
 				for(IGRPButton button:((IGRPTable.Table)l).getHiddenButtons()) {
-					this.xml.text("ctx_hidden="+button.getProperties().getProperty("rel")+",");
-				}			
+					text+=button.getProperties().getProperty("rel")+",";
+				}		
+				this.xml.text(text);				
 				this.xml.endElement();		
 			}
 			this.xml.endElement();			
@@ -257,9 +259,11 @@ public class IGRPTable extends IGRPComponent{
 				}
 				if(obj instanceof IGRPTable.Table && ((IGRPTable.Table)obj).getHiddenButtons()!=null) {
 					this.xml.startElement("param");
+					String text= "ctx_hidden=";
 					for(IGRPButton button:((IGRPTable.Table)obj).getHiddenButtons()) {
-						this.xml.text("ctx_hidden="+button.getProperties().getProperty("rel")+",");
-					}			
+						text+=button.getProperties().getProperty("rel")+",";
+					}		
+					this.xml.text(text);
 					this.xml.endElement();		
 				}
 				this.xml.endElement();
