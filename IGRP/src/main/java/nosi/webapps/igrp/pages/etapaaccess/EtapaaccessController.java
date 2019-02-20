@@ -107,7 +107,19 @@ public class EtapaaccessController extends Controller {
 					task.setTaskDescription(taskProcess[2]);
 					if("org".compareTo(type)==0) {
 						task.setOrganization(org);
-						r = task.insert()!=null;	
+						r = task.insert()!=null;
+						//Chain the all profile child
+						if(r) {
+							org.getProfilesType().forEach(proftype->{
+								TaskAccess taskP = new TaskAccess();
+								taskP.setProcessName(taskProcess[1]);
+								taskP.setTaskName(taskProcess[0]);
+								taskP.setTaskDescription(taskProcess[2]);
+								taskP.setOrganization(proftype.getOrganization());
+								taskP.setProfileType(proftype);
+								taskP.insert();
+							});
+						}
 					}
 					if("prof".compareTo(type)==0) {
 						task.setOrganization(prof.getOrganization());
