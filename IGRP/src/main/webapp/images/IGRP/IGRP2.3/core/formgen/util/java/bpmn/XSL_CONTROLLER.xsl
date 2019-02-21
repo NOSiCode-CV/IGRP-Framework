@@ -108,7 +108,7 @@
 		<xsl:value-of select="concat($tab,'public Response actionSave() throws IOException, ServletException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:call-template name="start-code-comment">
-			<xsl:with-param name="name_" select="'index'"/>
+			<xsl:with-param name="name_" select="'save'"/>
 			<xsl:with-param name="tab_" select="$tab2"/>
 		</xsl:call-template>
 		<xsl:value-of select="//reserve_save"/>
@@ -126,7 +126,7 @@
 		<xsl:value-of select="concat($tab,'public Response actionUpdate() throws IOException, ServletException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:call-template name="start-code-comment">
-			<xsl:with-param name="name_" select="'index'"/>
+			<xsl:with-param name="name_" select="'update'"/>
 			<xsl:with-param name="tab_" select="$tab2"/>
 		</xsl:call-template>
 		<xsl:value-of select="//reserve_update"/>

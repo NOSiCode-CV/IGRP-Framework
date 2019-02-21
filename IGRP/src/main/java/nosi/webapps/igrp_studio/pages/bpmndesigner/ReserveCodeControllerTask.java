@@ -28,15 +28,15 @@ public class ReserveCodeControllerTask {
  			this.setReserveCodeCustomActions(r!=null?r.getContent():"");
  			r = ExtractReserveCode.extract(code, "actionIndex", "index");
  			this.setReserveCodeActionIndex(r!=null?r.getContent():"");
- 			r = ExtractReserveCode.extract(code, "actionSave", "index");
+ 			r = ExtractReserveCode.extract(code, "actionSave", "save");
  			this.setReserveCodeActionSave(r!=null?r.getContent():"");
- 			r = ExtractReserveCode.extract(code, "actionUpdate", "index");
+ 			r = ExtractReserveCode.extract(code, "actionUpdate", "update");
  			this.setReserveCodeActionUpdate(r!=null?r.getContent():""); 			
  		}
 	}
 	
 	public String getReserveCodeImports() {
-		return reserveCodeImports;
+		return reserveCodeImports.trim();
 	}
 
 	public void setReserveCodeImports(String reserveCodeImports) {
@@ -44,7 +44,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeCustomActions() {
-		return reserveCodeCustomActions;
+		return reserveCodeCustomActions.trim();
 	}
 
 	public void setReserveCodeCustomActions(String reserveCodeCustomActions) {
@@ -52,7 +52,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeActionIndex() {
-		return reserveCodeActionIndex;
+		return reserveCodeActionIndex.trim();
 	}
 
 	public void setReserveCodeActionIndex(String reserveCodeActionIndex) {
@@ -60,7 +60,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeActionSave() {
-		return reserveCodeActionSave;
+		return reserveCodeActionSave.trim();
 	}
 
 	public void setReserveCodeActionSave(String reserveCodeActionSave) {
@@ -68,7 +68,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeActionUpdate() {
-		return reserveCodeActionUpdate;
+		return reserveCodeActionUpdate.trim();
 	}
 
 	public void setReserveCodeActionUpdate(String reserveCodeActionUpdate) {
