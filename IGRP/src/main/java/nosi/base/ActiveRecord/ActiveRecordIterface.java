@@ -213,6 +213,7 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public T orderByDesc(String...columns);
 	
+	//public T keepConnection();
 	/*
 	public T sum(String name);
 

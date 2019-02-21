@@ -48,8 +48,8 @@ public class HibernateUtils {
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
 				registry = buildConfig(connectionName,dad,schemaName);
-				MetadataSources metadataSources = new MetadataSources(registry);;
 				if(registry!=null) {
+					MetadataSources metadataSources = new MetadataSources(registry);
 					try {
 						sessionFactory.put(connectionName_,metadataSources.buildMetadata().getSessionFactoryBuilder().build());
 					} catch (Exception e) {
@@ -62,7 +62,7 @@ public class HibernateUtils {
 				        }
 				    }
 				}else {
-					throw new PermissionException("Acesso nao permitido");
+					return null;
 				}
 			}
 			return sessionFactory.get(connectionName_);
@@ -91,7 +91,7 @@ public class HibernateUtils {
 			}
 		}catch(org.hibernate.internal.util.config.ConfigurationException e) {
 			Core.setMessageError(e.getMessage());
-			throw new PermissionException("Acesso nao permitido");
+			throw new PermissionException(e.getMessage());
 		}
 		return  registryBuilder.build();
 	}
@@ -175,8 +175,8 @@ public class HibernateUtils {
 			//suspense pool
 			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
 			//It releases the connection after org.hibernate.Transaction commit or rollback.
-			if(Core.isNotNull(cHCp.getRelease_mode()))
-				settings.put("hibernate.connection.handling_mode", cHCp.getRelease_mode());
+//			if(Core.isNotNull(cHCp.getRelease_mode()))
+//				settings.put("hibernate.connection.handling_mode", cHCp.getRelease_mode());
         }
 		return settings;
 	}
