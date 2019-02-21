@@ -211,7 +211,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Mollit perspiciatis voluptatem</descricao_page>
+                        <descricao_page name="p_descricao_page">Lorem ipsum iste laudantium si</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -222,7 +222,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Amet labore perspiciatis adipi</descricao_page>
+                        <descricao_page name="p_descricao_page">Lorem perspiciatis aliqua volu</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -233,7 +233,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Elit labore laudantium elit ip</descricao_page>
+                        <descricao_page name="p_descricao_page">Ut lorem officia dolor ipsum</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -244,7 +244,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ut aliqua adipiscing natus ali</descricao_page>
+                        <descricao_page name="p_descricao_page">Mollit aliqua natus adipiscing</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -255,7 +255,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Mollit accusantium deserunt st</descricao_page>
+                        <descricao_page name="p_descricao_page">Amet sit voluptatem stract con</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -263,12 +263,13 @@
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
-                        <app>igrp_studio</app>
-                        <page>ListaPage</page>
+                        <app>igrp</app>
+                        <page>Page</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</preview>
                     </item>
                     <item type="specific" code="" class="primary" rel="visualizar">
                         <title>Visualizar</title>
@@ -278,6 +279,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
                         <target>_blank</target>
                         <img>primary|fa-eye</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
@@ -287,6 +289,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
                     </item>
                     <item type="specific" code="" class="info" rel="gerar_codigo">
                         <title>Gerar Código</title>
@@ -296,6 +299,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml?</parameter>
                         <target>_blank</target>
                         <img>info|fa-gears</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
                     </item>
                     <item type="specific" code="" class="grey" rel="download">
                         <title>Download</title>
@@ -303,8 +307,9 @@
                         <page>ListaPage</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml?</parameter>
-                        <target>confirm</target>
+                        <target>alert_submit</target>
                         <img>grey|fa-download</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
                     </item>
                 </context-menu>
             </table>
@@ -392,6 +397,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/file_editor/File_editor.xml?</parameter>
                         <target>_blank</target>
                         <img>info|fa-file-code-o</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/file_editor/File_editor.xml</preview>
                     </item>
                 </context-menu>
             </table>

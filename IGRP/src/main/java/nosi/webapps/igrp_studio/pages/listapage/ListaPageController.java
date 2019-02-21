@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -38,7 +40,7 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Consectetur natus ut consectet' as descricao_page,'1' as id_page,'1' as nome_page "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Perspiciatis ut omnis totam ip' as descricao_page,'1' as id_page,'1' as nome_page "));
 		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'1' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -175,7 +177,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Page","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -183,7 +185,7 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","ListaPage","index", this.queryString());	
+		return this.redirect("igrp","Page","index", this.queryString());	
 	}
 	
 	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -263,7 +265,7 @@ public class ListaPageController extends Controller {
 			Wizard_export_step_2 model_w = new Wizard_export_step_2();
 			model_w.setApplication_id(page.getApplication().getId());
 			model_w.setFile_name(page.getApplication().getName()+"-"+page.getPage_descr()+"("+page.getPage()+")_igrpweb_v."+config.VERSION);
-			Core.setAttribute("p_pagina_ids",new String[] {""+id});
+			Core.setAttribute("p_pagina_ids_check",new String[] {""+id});
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),DateHelper.getCurrentDataTime(), "Export");
 			ie_dao = ie_dao.insert();

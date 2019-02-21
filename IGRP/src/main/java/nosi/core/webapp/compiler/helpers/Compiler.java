@@ -55,9 +55,11 @@ public class Compiler {
 			int index = pathTomcat.indexOf("webapps");
 			if (index != -1) {
 				// Using jar files available in tomcat/lib
-				pathTomcat = pathTomcat.substring(0, index);
-				pathTomcat += "lib";
-				listFilesDirectory(pathTomcat);
+//				pathTomcat = pathTomcat.substring(0, index);
+//				pathTomcat += "lib";
+				listFilesDirectory(pathTomcat.substring(0, index)+"lib");
+				listFilesDirectory(pathTomcat.substring(0, index)+"igrplib");
+				
 			}
 			CompilationProgress progress = null;
 			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + System.getProperty("path.separator") + jars

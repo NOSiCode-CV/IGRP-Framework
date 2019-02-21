@@ -6,6 +6,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ListaPageView extends View {
 
@@ -37,6 +39,7 @@ public class ListaPageView extends View {
 	public Field nome_page;
 	public Field my_app_img;
 	public Field my_aplicacao;
+	public Field my_aplicacao_desc;
 	public Field env_fk;
 	public IGRPForm infopanel_1;
 	public IGRPForm infopanel_2;
@@ -209,7 +212,9 @@ public class ListaPageView extends View {
 		my_aplicacao.setLabel(gt("Aplicação"));
 		my_aplicacao.setValue(new Config().getResolveUrl("igrp_studio","ListaPage","index"));
 
-									my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("desc","true");
+									my_aplicacao_desc = new LinkField(model,"my_aplicacao_desc");
+		my_aplicacao_desc.setLabel(gt("Aplicação"));
+		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("desc","true");
 		
 		env_fk = new HiddenField(model,"env_fk");
 		env_fk.setLabel(gt(""));
@@ -233,7 +238,7 @@ public class ListaPageView extends View {
 		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_blank","info|fa-gears","","");
 		btn_gerar_codigo.propertie.add("type","specific").add("rel","gerar_codigo");
 
-		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","confirm","grey|fa-download","","");
+		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","alert_submit","grey|fa-download","","");
 		btn_download.propertie.add("type","specific").add("rel","download");
 
 		btn_file_editor = new IGRPButton("File Editor","igrp_studio","ListaPage","file_editor","_blank","info|fa-file-code-o","","");
@@ -281,6 +286,7 @@ public class ListaPageView extends View {
 
 		table_2.addField(my_app_img);
 		table_2.addField(my_aplicacao);
+		table_2.addField(my_aplicacao_desc);
 		table_2.addField(env_fk);
 
 		toolsbar_2.addButton(btn_nova_aplicacao);
@@ -315,6 +321,7 @@ public class ListaPageView extends View {
 		id_page.setValue(model);
 		nome_page.setValue(model);
 		my_aplicacao.setValue(model);
+		my_aplicacao_desc.setValue(model);
 		env_fk.setValue(model);	
 
 		table_1.loadModel(((ListaPage) model).getTable_1());

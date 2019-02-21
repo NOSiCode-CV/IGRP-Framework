@@ -49,7 +49,7 @@ public class GestaodeacessoController extends Controller {
 		}		
 		
 		if(Core.isNotNull(model.getAplicacao())) {
-         
+			Core.setAttribute("p_aplicacao",model.getAplicacao());
 			 model.getGestao_de_menu().addParam("p_id_app",model.getAplicacao());
 			 model.setAdicionar_organica("igrp", "NovaOrganica", "index").addParam("id_app",model.getAplicacao());
 			 model.getGestao_de_utilizadores().addParam("p_aplicacao",model.getAplicacao());

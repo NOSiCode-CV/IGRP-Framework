@@ -44,8 +44,7 @@ public class PesquisarMenuController extends Controller {
 		// int idMen = 0;
 
 		if (idApp != 0 && Core.isNull(Core.getParam("ichange"))) {			
-			model.setAplicacao("" + idApp);
-          
+			model.setAplicacao("" + idApp);          
 			view.btn_btn_novo.addParameter("p_aplicacao",idApp);
 		}		
 
@@ -54,10 +53,8 @@ public class PesquisarMenuController extends Controller {
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
           view.aplicacao.propertie().add("disabled","true");
-		}	
-	
-		// When onChange, it's always a post
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+		}else if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+			// When onChange, it's always a post
 			idApp = Core.toInt(model.getAplicacao());
 		}
      	model.setId_app(idApp);
