@@ -112,18 +112,7 @@ var TREEMENU = function(name,params){
 			}
 		});
 
-		container.setPropriety({
-			name 	: 'onLoad',
-			label	: 'Call onLoad',
-			value 	: false,
-			xslValue: '<xsl:with-param name="onload" select="\'true\'"/>',
-			onEditionStart : function(o){
-				if(container.GET.remote && container.GET.remote())
-					o.input.show();
-				else
-					o.input.hide();
-			}
-		});
+		
 
 		container.setPropriety({
 			name 	: 'parser',
@@ -151,6 +140,19 @@ var TREEMENU = function(name,params){
 			label	: 'Search',
 			value 	: false,
 			xslValue: '<xsl:with-param name="search" select="\'true\'"/>'
+		});
+		
+		container.setPropriety({
+			name 	: 'onLoad',
+			label	: 'Call onLoad',
+			value 	: false,
+			xslValue: '<xsl:with-param name="onload" select="\'true\'"/>',
+			onEditionStart : function(o){
+				if(container.GET.remote && container.GET.remote())
+					o.input.show();
+				else
+					o.input.hide();
+			}
 		});
 	}
 };
