@@ -761,6 +761,18 @@ public final class Core { // Not inherit
 		domain.setReadOnly(true);
 		return domain.find().andWhere("dominio", "=", domainsName).all();
 	}
+	/**
+	 * Find the Value/Decription ok a domay key
+	 * @param domain code name
+	 * @param key
+	 * @return value/description
+	 */
+	public static String findDomainDescByKey(String domainsName, String key) {
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		return domain.find().andWhere("dominio", "=", domainsName).andWhere("valor", "=", key).one().getDescription();
+	}
+
 	
 	public static String getDeepPurpleColor() {
 		return "9";
