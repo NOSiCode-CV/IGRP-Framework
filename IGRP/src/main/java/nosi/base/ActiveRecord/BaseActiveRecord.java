@@ -52,6 +52,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private boolean showError = true;
 	private boolean showTracing = true;
 	private String columnsSelect = "";
+	private boolean keepConnection = false;
 	
 	public BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
@@ -872,13 +873,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	public boolean delete() {
-		Object id =this.getValuePrimaryKey();
-		return this.delete(id);
+		Object id = this.getValuePrimaryKey();
+		if(id!=null)
+			return this.delete(id);
+		return false;
 	}
 
 	@Override
 	public Object getValuePrimaryKey() {
-		Object id = this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this);
+		Object id = this.getSessionFactory()!=null?this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this):null;
 		return id;
 	}
 
@@ -931,15 +934,22 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	protected SessionFactory getSessionFactory() {		
-		return HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+		if(sessionFactory!=null)
+			return sessionFactory;
+		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 	
 	protected void closeSession() {
-		if(this.getSession()!=null && this.getSession().isOpen()) {
+		if(!this.keepConnection && this.getSession()!=null && this.getSession().isOpen()) {
 			this.getSession().close();
 		}
 	}
 
+	public void closeConnection() {
+		this.keepConnection = false;
+		this.closeSession();
+	}
 	
 	protected void setError(Exception e) {
 		if(this.isShowTracing()) {
@@ -1000,13 +1010,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	private void startCriteria() {
-		if(this.builder==null) {
+		if(this.builder==null && this.getSessionFactory()!=null) {
 			this.builder = this.getSessionFactory().getCriteriaBuilder();
 		}
-		if(this.criteria==null) {
+		if(this.criteria==null && this.builder!=null) {
 			this.criteria = (CriteriaQuery<T>) this.builder.createQuery(this.classNameCriteria.getClass());
 		}
-		if(this.root==null) {
+		if(this.root==null && this.builder!=null) {
 			this.root = (Root<T>) this.criteria.from(this.classNameCriteria.getClass());
 		}
 		if(this.criteria!=null && this.root!=null){
@@ -1129,6 +1139,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return this.orderBy(new String[][] {columns},ORDERBY.DESC);
 	}
 
+//	@Override
+//	public T keepConnection() {
+//		this.keepConnection = true;
+//		return (T) this;
+//	}
 	/*
 	@Override
 	public T sum(String name) {
