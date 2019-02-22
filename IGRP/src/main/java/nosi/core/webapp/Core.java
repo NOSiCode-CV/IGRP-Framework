@@ -1659,6 +1659,17 @@ public final class Core { // Not inherit
 		return lastInsertedId;
 	}
 
+	public static int saveFile(String parameterName) throws Exception {
+		if(Core.isNotNull(parameterName))
+			return saveFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+	
+	public static int saveFile(String parameterName,String description) throws Exception {
+		if(Core.isNotNull(parameterName))
+			return saveFile(Core.getFile(parameterName), description);
+		throw new Exception(gt("Parâmetro invalido"));
+	}
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
