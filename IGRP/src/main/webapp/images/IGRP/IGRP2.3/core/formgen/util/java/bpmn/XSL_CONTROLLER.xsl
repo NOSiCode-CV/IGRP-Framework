@@ -105,7 +105,7 @@
 		<xsl:value-of select="$newline"/>
 			
 		<!-- Action Save -->
-		<xsl:value-of select="concat($tab,'public Response actionSave() throws IOException, ServletException {')"/>
+		<xsl:value-of select="concat($tab,'public Response actionSave() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:call-template name="start-code-comment">
 			<xsl:with-param name="name_" select="'save'"/>
@@ -123,7 +123,7 @@
 		<xsl:value-of select="$newline"/>
 
 		<!-- Action Update -->
-		<xsl:value-of select="concat($tab,'public Response actionUpdate() throws IOException, ServletException {')"/>
+		<xsl:value-of select="concat($tab,'public Response actionUpdate() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException {')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:call-template name="start-code-comment">
 			<xsl:with-param name="name_" select="'update'"/>

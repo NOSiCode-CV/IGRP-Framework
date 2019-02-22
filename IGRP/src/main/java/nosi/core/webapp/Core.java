@@ -33,7 +33,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.xml.bind.JAXB;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -891,7 +890,10 @@ public final class Core { // Not inherit
 	public static String getLinkFile(String p_id) {
 		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
-
+	
+	public static String getLinkFile(int p_id) {
+		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+	}
 	/**
 	 * This method you can invoking using Link or Button.
 	 * 
@@ -1119,113 +1121,7 @@ public final class Core { // Not inherit
 		return null;
 	}
 
-	public static String getTaskVariable(String variableName) {
-		if (Core.isNull(variableName))
-			return "";
-		String id = getParamTaskId();
-		TaskService task = new TaskService().getTask(id);
-		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
-	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
-	public static Boolean getTaskVariableBoolean(String variableName) {
-		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? true : false;
-	}
-
-	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? true : false;
-	}
-
-	public static Double getTaskVariableDouble(String variableName) {
-		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : 0;
-	}
-
-	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : 0;
-	}
-
-	public static Float getTaskVariableFloat(String variableName) {
-		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toFloat(v) : 0;
-	}
-
-	public static Float getTaskVariableFloat(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toFloat(v) : 0;
-	}
-
-	public static String getTaskVariableId(String taskDefinitionKey) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
-	public static Integer getTaskVariableInt(String variableName) {
-		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toInt(v) : 0;
-	}
-
-	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toInt(v) : 0;
-	}
-
-	public static Long getTaskVariableLong(String variableName) {
-		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toLong(v) : 0;
-	}
-
-	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toLong(v) : 0;
-	}
-
-	public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {
-		String id = Core.getExecutionId();
-		if (Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey, id);
-			if (task1 != null && task1.size() > 0) {
-				return task1.get(task1.size() - 1).getVariables();
-			}
-		}
-		return null;
-	}
-
-	public static Short getTaskVariableShort(String variableName) {
-		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toShort(v) : 0;
-	}
-
-	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toShort(v) : 0;
-	}
+	
 
 	/**
 	 * Get UUID
@@ -1780,6 +1676,7 @@ public final class Core { // Not inherit
 			// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
 			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 			try {
+				conn.setAutoCommit(false);
 				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
 						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
 				ps.setBinaryStream(1, file.getInputStream());
@@ -1917,25 +1814,74 @@ public final class Core { // Not inherit
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
 	}
 
-	public static void setTaskVariable(String variableName, Object value) {
-		String taskId = Core.getParamTaskId();
-		TaskService task = new TaskService().getTask(taskId);
-		if (task != null) {
-			task.deleteVariable(variableName);
-			task.addVariable(variableName, "global", "string", value.toString());
-			task.submitVariables();
-		}
+	public static void setTaskVariableString(String variableName, String value) {
+		setTaskVariable(variableName,"global","string", value);
+	}
+	public static void setTaskVariableInt(String variableName, Integer value) {
+		setTaskVariable(variableName,"global","integer", value);
+	}
+	
+	public static void setTaskVariableShort(String variableName, Short value) {
+		setTaskVariable(variableName,"global","short", value);
+	}
+	
+	public static void setTaskVariableLong(String variableName, Long value) {
+		setTaskVariable(variableName,"global","long", value);
+	}
+	
+	public static void setTaskVariableDouble(String variableName, Double value) {
+		setTaskVariable(variableName,"global","double", value);
+	}
+	
+	public static void setTaskVariableBoolean(String variableName, boolean value) {
+		setTaskVariable(variableName,"global","boolean", value);
+	}
+	
+	public static void setTaskVariableDate(String variableName, java.util.Date value) {
+		setTaskVariable(variableName,"global","date", value);
 	}
 
-	public static void setTaskVariable(String variableName, String scope, Object value) {
-		String taskId = Core.getParamTaskId();
-		TaskService task = new TaskService().getTask(taskId);
-		if (task != null) {
-			if (scope.equalsIgnoreCase("global"))
-				task.deleteVariable(variableName);
-			task.addVariable(variableName, scope, "string", value.toString());
-			task.submitVariables();
-		}
+	public static void setTaskVariableBinary(String variableName, Byte[] value) {
+		setTaskVariable(variableName,"global","binary", value);
+	}
+	
+	public static void setTaskVariableSerializable(String variableName, Object value) {
+		setTaskVariable(variableName,"global","serializable", value);
+	}
+	
+	public static void setTaskVariableString(String variableName,String scope, String value) {
+		setTaskVariable(variableName,"global",scope, value);
+	}
+	public static void setTaskVariableInt(String variableName, String scope, Integer value) {
+		setTaskVariable(variableName,scope,"integer", value);
+	}
+	
+	public static void setTaskVariableShort(String variableName, String scope, Short value) {
+		setTaskVariable(variableName,scope,"short", value);
+	}
+	
+	public static void setTaskVariableLong(String variableName, String scope, Long value) {
+		setTaskVariable(variableName,scope,"long", value);
+	}
+	
+	public static void setTaskVariableDouble(String variableName, String scope, Double value) {
+		setTaskVariable(variableName,scope,"double", value);
+	}
+	
+	public static void setTaskVariableBoolean(String variableName, String scope, boolean value) {
+		setTaskVariable(variableName,scope,"boolean", value);
+	}
+	
+	public static void setTaskVariableDate(String variableName, String scope, java.util.Date value) {
+		setTaskVariable(variableName,scope,"date", value);
+	}
+
+	public static void setTaskVariableBinary(String variableName, String scope, Byte[] value) {
+		setTaskVariable(variableName,scope,"binary", value);
+	}
+	
+	public static void setTaskVariableSerializable(String variableName, String scope, Object value) {
+		setTaskVariable(variableName,scope,"serializable", value);
 	}
 
 	public static void setTaskVariable(String variableName, String scope, String type, Object value) {
@@ -1944,11 +1890,167 @@ public final class Core { // Not inherit
 		if (task != null) {
 			if (scope.equalsIgnoreCase("global"))
 				task.deleteVariable(variableName);
-			task.addVariable(variableName, scope, type, value.toString());
+			task.addVariable(variableName, scope, type, value);
 			task.submitVariables();
 		}
 	}
 
+	public static String getTaskVariable(String variableName) {
+		if (Core.isNull(variableName))
+			return "";
+		String id = getParamTaskId();
+		TaskService task = new TaskService().getTask(id);
+		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
+
+	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
+		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
+	
+	public static String getTaskVariableString(String variableName) {
+		return Core.getTaskVariable(variableName);
+	}
+	
+	public static String getTaskVariableString(String taskDefinitionKey,String variableName) {
+		return Core.getTaskVariable(taskDefinitionKey,variableName);
+	}
+	
+	public static Boolean getTaskVariableBoolean(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v) ? true : false;
+	}
+
+	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? true : false;
+	}
+
+	public static Double getTaskVariableDouble(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v) ? Core.toDouble(v) : 0;
+	}
+
+	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? Core.toDouble(v) : 0;
+	}
+
+	public static Integer getTaskVariableInt(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v) ? Core.toInt(v) : 0;
+	}
+
+	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? Core.toInt(v) : 0;
+	}
+	
+	public static Short getTaskVariableShort(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v) ? Core.toShort(v) : 0;
+	}
+
+	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? Core.toShort(v) : 0;
+	}
+	public static Long getTaskVariableLong(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.isNotNull(v) ? Core.toLong(v) : 0;
+	}
+
+	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.isNotNull(v) ? Core.toLong(v) : 0;
+	}
+
+	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.ToDate(v, "yyyy-mm-dd");
+	}
+
+	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName,String format) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
+		return Core.ToDate(v, format);
+	}
+	
+	public static java.util.Date getTaskVariableDate(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return Core.ToDate(v, "yyyy-mm-dd");
+	}
+	
+	public static byte[] getTaskVariableByte(String variableName) {
+		String v = Core.getTaskVariable(variableName);
+		return v.getBytes();
+	}
+	
+	public static byte[] getTaskVariableByte(String taskDefinitionKey,String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey,variableName);
+		return v.getBytes();
+	}
+
+	public static Object getTaskVariableSerializable(String variableName) {
+		if (Core.isNull(variableName))
+			return null;
+		String id = getParamTaskId();
+		TaskService task = new TaskService().getTask(id);
+		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : null;
+		}
+		return null;
+	}
+	
+	public static Object getTaskVariableSerializable(String taskDefinitionKey,String variableName) {
+		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : null;
+		}
+		return null;
+	}
+	
+	public static String getTaskVariableId(String taskDefinitionKey) {
+		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + "p_task_id"))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
+	public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {
+		String id = Core.getExecutionId();
+		if (Core.isNotNull(id)) {
+			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey, id);
+			if (task1 != null && task1.size() > 0) {
+				return task1.get(task1.size() - 1).getVariables();
+			}
+		}
+		return null;
+	}
+
+	
 	/**
 	 * @param wsdlUrl     The webservice description language url
 	 * @param namespaces  A Map of all required namespaces
