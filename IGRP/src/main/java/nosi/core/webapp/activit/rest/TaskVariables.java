@@ -1,4 +1,8 @@
 package nosi.core.webapp.activit.rest;
+
+
+import nosi.core.webapp.Core;
+
 /**
  * @author: Emanuel Pereira
  * 27 Sep 2017
@@ -19,6 +23,7 @@ public class TaskVariables {
 		this.value = value;
 		this.valueUrl = valueUrl;
 	}
+	
 	public TaskVariables() {
 	}
 	public String getName() {
@@ -40,6 +45,20 @@ public class TaskVariables {
 		this.type = type;
 	}
 	public Object getValue() {
+		if(type.equals("integer") && value!=null)
+			return Core.toInt(value.toString());
+		if(type.equals("short") && value!=null)
+			return Core.toShort(value.toString());
+		if(type.equals("long") && value!=null)
+			return Core.toLong(value.toString());
+		if(type.equals("double") && value!=null)
+			return Core.toDouble(value.toString());
+		if(type.equals("boolean") && value!=null)
+			return (boolean) value;
+		if(type.equals("date") && value!=null)
+			return (java.util.Date) value;
+		if(type.equals("binary"))
+			return (byte[]) value;
 		return value;
 	}
 	public void setValue(Object value) {
@@ -52,6 +71,7 @@ public class TaskVariables {
 	public void setValueUrl(String valueUrl) {
 		this.valueUrl = valueUrl;
 	}
+	
 	@Override
 	public String toString() {
 		return "TaskVariables [name=" + name + ", scope=" + scope + ", type=" + type + ", value=" + value

@@ -278,15 +278,18 @@ public class TaskService extends Activit{
 
 	//Adiciona variaveis para completar tarefa
 	public void addVariable(String name, String scope, String type, Object value, String valueUrl){
-		this.variables.add(new TaskVariables(name, scope, type, value, valueUrl));
+		this.variables.add(new TaskVariables(name, scope, type, value, null));
 	}
 
 	public void addVariable(String name, String scope, String type, Object value){
-		this.variables.add(new TaskVariables(name, scope, type, value, ""));
+		if(type.equals("integer") && value!=null)
+			this.variables.add(new TaskVariables(name, scope, type, Core.toInt(value.toString()), null));
+		else
+			this.variables.add(new TaskVariables(name, scope, type, value, null));
 	}
 
 	public void addVariable(String name, String type, Object value){
-		this.variables.add(new TaskVariables(name, "local", type, value, ""));
+		this.variables.add(new TaskVariables(name, "local", type, value, null));
 	}
 	
 	public boolean deleteVariable(String variableName) {
