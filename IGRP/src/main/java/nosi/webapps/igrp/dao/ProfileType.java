@@ -162,7 +162,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 
 	//Verifica se é perfil pai
 	public static boolean isPerfilPai(){
-		String sql = "SELECT count(self_fk) as total FROM public.tbl_profile_type";
+		String sql = "SELECT count(self_fk) as total FROM tbl_profile_type";
 		nosi.core.webapp.databse.helpers.ResultSet.Record r = Core.query(null, sql).where("self_fk", "=",Core.getCurrentProfile()).getSingleRecord();
 		return r.getInt("total") > 0;
 	}
