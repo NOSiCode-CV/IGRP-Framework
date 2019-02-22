@@ -174,7 +174,7 @@ public class EtapaaccessController extends Controller {
 			for(String id:p_id) {
 				String[] taskProcess = id.split(separator);
 				if("org".compareTo(type)==0) {	
-					ResultSet.Record r = Core.query(this.configApp.getBaseConnection(),"SELECT prof_fk,org_fk,processname,taskname FROM public.tbl_task_access")
+					ResultSet.Record r = Core.query(this.configApp.getBaseConnection(),"SELECT prof_fk,org_fk,processname,taskname FROM tbl_task_access")
 						 .where("org_fk=:org_fk AND processname=:processname AND taskname=:taskname AND prof_fk is not null")
 						 .addInt("org_fk", orgProfUserId)
 						 .addString("processname", taskProcess[1])
