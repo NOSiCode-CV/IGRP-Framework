@@ -36,7 +36,7 @@ public class ReserveCodeControllerTask {
 	}
 	
 	public String getReserveCodeImports() {
-		return reserveCodeImports.trim();
+		return reserveCodeImports!=null?reserveCodeImports.trim():"";
 	}
 
 	public void setReserveCodeImports(String reserveCodeImports) {
@@ -44,7 +44,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeCustomActions() {
-		return reserveCodeCustomActions.trim();
+		return reserveCodeCustomActions!=null?reserveCodeCustomActions.trim():"";
 	}
 
 	public void setReserveCodeCustomActions(String reserveCodeCustomActions) {
@@ -52,7 +52,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeActionIndex() {
-		return reserveCodeActionIndex.trim();
+		return reserveCodeActionIndex!=null?reserveCodeActionIndex.trim():"";
 	}
 
 	public void setReserveCodeActionIndex(String reserveCodeActionIndex) {
@@ -60,7 +60,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeActionSave() {
-		return reserveCodeActionSave.trim();
+		return reserveCodeActionSave!=null?reserveCodeActionSave.trim():"";
 	}
 
 	public void setReserveCodeActionSave(String reserveCodeActionSave) {
@@ -68,7 +68,7 @@ public class ReserveCodeControllerTask {
 	}
 
 	public String getReserveCodeActionUpdate() {
-		return reserveCodeActionUpdate.trim();
+		return reserveCodeActionUpdate!=null?reserveCodeActionUpdate.trim():"";
 	}
 
 	public void setReserveCodeActionUpdate(String reserveCodeActionUpdate) {

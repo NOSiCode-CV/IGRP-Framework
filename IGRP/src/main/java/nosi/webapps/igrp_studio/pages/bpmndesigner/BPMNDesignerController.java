@@ -23,11 +23,11 @@ import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
-import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
@@ -155,9 +155,9 @@ public class BPMNDesignerController extends Controller {
 		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
 		String xml = null;
 		if(FileHelper.dirExists(classPathWorkspace)) {
-			xml = this.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathWorkspace);
+			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathWorkspace);
 		}else {
-			xml = this.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathServer);
+			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathServer);
 		}
 		String content = "";
 		try {
@@ -175,26 +175,7 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	
-	private String getGenerateXML(String app,String process_key,String task_key,String form_key,String path) {
-		XMLWritter xml = new XMLWritter();
-		ReserveCodeControllerTask resevreCode = new ReserveCodeControllerTask();	
-		resevreCode.extract(FileHelper.readFile(path, task_key+"Controller.java"));
-		xml.startElement("rows");
-			xml.setElement("process_key", process_key);
-			xml.setElement("task_key", task_key);
-			xml.setElement("app", app);
-			xml.setElement("page", form_key!=null?form_key.toLowerCase():"");
-			xml.setElement("form_key", form_key);
-			xml.setElement("user_name", Core.getCurrentUser().getEmail());
-			xml.setElement("data_created", Core.getCurrentDate());
-			xml.setElement("reserve_import",resevreCode.getReserveCodeImports());
-			xml.setElement("reserve_index", resevreCode.getReserveCodeActionIndex());
-			xml.setElement("reserve_save", resevreCode.getReserveCodeActionSave());
-			xml.setElement("reserve_update", resevreCode.getReserveCodeActionUpdate());
-			xml.setElement("reserve_customs", resevreCode.getReserveCodeCustomActions());
-		xml.endElement();
-		return xml.toString();
-	}
+	
 	
 	private Compiler compiler;
 	/*----#END-PRESERVED-AREA----*/
