@@ -40,7 +40,7 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Perspiciatis ut omnis totam ip' as descricao_page,'1' as id_page,'1' as nome_page "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Stract ut amet elit sit' as descricao_page,'1' as id_page,'1' as nome_page "));
 		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'1' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));

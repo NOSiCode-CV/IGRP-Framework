@@ -28,7 +28,7 @@ public class ListaPageView extends View {
 	public Field infopanel_3_icn;
 	public Field application;
 	public Field modulo;
-	public Field form_1_separator_1;
+	public Field nada;
 	public Field link_btn_nova_pagina;
 	public Field crud_generator;
 	public Field btn_import;
@@ -162,9 +162,9 @@ public class ListaPageView extends View {
 		modulo.setLabel(gt("Módulo"));
 		modulo.propertie().add("name","p_modulo").add("type","select").add("multiple","true").add("domain","").add("maxlength","50").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
-		form_1_separator_1 = new SeparatorField(model,"form_1_separator_1");
-		form_1_separator_1.setLabel(gt(" "));
-		form_1_separator_1.propertie().add("name","p_form_1_separator_1").add("type","separator").add("maxlength","250");
+		nada = new SeparatorField(model,"nada");
+		nada.setLabel(gt("  "));
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
@@ -271,7 +271,7 @@ public class ListaPageView extends View {
 
 		form_1.addField(application);
 		form_1.addField(modulo);
-		form_1.addField(form_1_separator_1);
+		form_1.addField(nada);
 		form_1.addField(link_btn_nova_pagina);
 		form_1.addField(crud_generator);
 		form_1.addField(btn_import);
@@ -312,7 +312,7 @@ public class ListaPageView extends View {
 		
 		application.setValue(model);
 		modulo.setValue(model);
-		form_1_separator_1.setValue(model);
+		nada.setValue(model);
 		link_btn_nova_pagina.setValue(model);
 		crud_generator.setValue(model);
 		btn_import.setValue(model);
