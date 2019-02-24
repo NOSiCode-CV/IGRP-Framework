@@ -525,7 +525,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Transient
 	@XmlTransient
-	public String getConnectionName() {		
+	public String getConnectionName() {	
+		if(Core.isNotNullOrZero(this.applicationName) && Core.isNull(this.connectionName))
+			return Core.defaultConnection(this.applicationName);
 		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
 	}
 
@@ -742,9 +744,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	public T findOne(Object value) {
-		this.find();
-		this.whereObject(this.getPrimaryKey(),this.getPrimaryKey(), "=",value,Object.class);
-		return this.one();
+		if(value!=null) {
+			this.find();
+			this.whereObject(this.getPrimaryKey(),this.getPrimaryKey(), "=",value,Object.class);
+			return this.one();
+		}
+		return null;
 	}
 	
 	@Override
@@ -954,12 +959,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	protected SessionFactory getSessionFactory() {		
-		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+		SessionFactory sessionFactory = null;
+		if(Core.isNotNull(this.applicationName)) {
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName,this.schema);
+		}else {
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+		}
 		if(sessionFactory!=null) {
-			System.out.println(this.className.getSimpleName()+" Conectado");
 			return sessionFactory;
 		}
-		System.out.println(this.className.getSimpleName()+" Nao Conectado");
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 	
@@ -1178,6 +1186,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public void setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
 	}
+	
+	
 
 //	@Override
 //	public T keepConnection() {

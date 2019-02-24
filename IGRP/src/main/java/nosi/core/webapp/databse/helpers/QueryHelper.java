@@ -858,4 +858,34 @@ public abstract class QueryHelper implements QueryInterface{
 		this.keepConnection = false;
 		this.close();
 	}
+
+	@Override
+	public void beegin() throws SQLException{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void commit() throws SQLException{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void roolback() throws SQLException{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface insert(String tableName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface update(String tableName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public QueryInterface delete(String tableName) {
+		throw new UnsupportedOperationException();
+	}
 }
