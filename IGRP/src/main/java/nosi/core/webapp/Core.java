@@ -450,7 +450,7 @@ public final class Core { // Not inherit
 	}
 
 	public static String getAttribute(String name, boolean isRemoved) {
-		if (Igrp.getInstance().getRequest().getAttribute(name) != null) {
+		if (Igrp.getInstance()!=null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
@@ -684,8 +684,8 @@ public final class Core { // Not inherit
 			return current_app_conn;
 		}
 		String r = Core.getParam("r"); 
-		r = Core.decrypt(r); 
-		String[] r_split = r!=null?r.split("/"):null;
+		r = r!=null?Core.decrypt(r):null;
+		String[] r_split = Core.isNotNull(r)?r.split("/"):null;
 		return r_split!=null?r_split[0]:"igrp";
 	}
 
@@ -935,7 +935,7 @@ public final class Core { // Not inherit
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
-		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		Object v = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameter(name):null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return v != null ? v.toString() : "";
@@ -949,7 +949,7 @@ public final class Core { // Not inherit
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
-		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		Object v = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameter(name):null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
 		return v != null ? v.toString() : "";
@@ -962,7 +962,7 @@ public final class Core { // Not inherit
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
-		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
+		String[] value =  Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameterValues(name):null;
 		if (value == null) {
 			value = Core.getAttributeArray(name);
 		}
@@ -1231,6 +1231,11 @@ public final class Core { // Not inherit
 		return new QueryInsert(Core.defaultConnection()).insert(tableName);
 	}
 
+	public static QueryInterface transaction(String tableName) {
+		return new nosi.core.webapp.databse.helpers.Transaction(Core.defaultConnection());
+	}
+
+	
 	/**
 	 * Queey insert
 	 * 
@@ -1610,52 +1615,53 @@ public final class Core { // Not inherit
 	 * @return int ID
 	 */
 	public static int saveFile(File file, String name, String mime_type) {
-		String igrpCoreConnection = new ConfigApp().getBaseConnection();
-		java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
-		file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
-		if (conn != null) {
-			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
-			FileNameMap fileNameMap = URLConnection.getFileNameMap();
-			mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath())
-					: mime_type);
-			// String sysdate = LocalDate.parse(LocalDate.now().toString(),
-			// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
-			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
-			try {
-				conn.setAutoCommit(false);
-				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
-						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setBinaryStream(1, new FileInputStream(file));
-				// ps.setString(2, sysdate);
-				ps.setDate(2, new Date(System.currentTimeMillis()));
-				ps.setString(3, mime_type);
-				ps.setString(4, name);
-				if (ps.executeUpdate() > 0) {
-					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
-						if (rs.next()) {
-							lastInsertedId = rs.getInt(1);
-						}
-					}
-					ps.close();
-				}
-				conn.commit();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
+		if(file!=null) {
+			String igrpCoreConnection = new ConfigApp().getBaseConnection();
+			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
+			file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
+			if (conn != null) {
+				name = (name == null || name.trim().isEmpty() ? file.getName() : name);
+				FileNameMap fileNameMap = URLConnection.getFileNameMap();
+				mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath())
+						: mime_type);
+				// String sysdate = LocalDate.parse(LocalDate.now().toString(),
+				// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+				String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 				try {
-					conn.close();
+					conn.setAutoCommit(false);
+					java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
+							java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setBinaryStream(1, new FileInputStream(file));
+					// ps.setString(2, sysdate);
+					ps.setDate(2, new Date(System.currentTimeMillis()));
+					ps.setString(3, mime_type);
+					ps.setString(4, name);
+					if (ps.executeUpdate() > 0) {
+						try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+							if (rs.next()) {
+								lastInsertedId = rs.getInt(1);
+							}
+						}
+						ps.close();
+					}
+					conn.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
+				} finally {
+					try {
+						conn.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
+			try {
+				file.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		try {
-			file.delete();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return lastInsertedId;
 	}
 
@@ -1678,48 +1684,49 @@ public final class Core { // Not inherit
 	 * @return in ID
 	 */
 	public static int saveFile(Part file, String name) {
-		String igrpCoreConnection = new ConfigApp().getBaseConnection();
-		java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 		int lastInsertedId = 0;
-		if (conn != null) {
-			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
-			// String sysdate = LocalDate.parse(LocalDate.now().toString(),
-			// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
-			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
-			try {
-				conn.setAutoCommit(false);
-				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
-						java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
-				ps.setBinaryStream(1, file.getInputStream());
-				// ps.setString(2, sysdate);
-				ps.setDate(2, new Date(System.currentTimeMillis()));
-				ps.setString(3, file.getContentType());
-				ps.setString(4, name);
-				if (ps.executeUpdate() > 0) {
-					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
-						if (rs.next()) {
-							lastInsertedId = rs.getInt(1);
-						}
-					}
-					ps.close();
-				}
-				conn.commit();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
+		if(file!=null) {
+			String igrpCoreConnection = new ConfigApp().getBaseConnection();
+			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
+			if (conn != null) {
+				name = (name == null || name.trim().isEmpty() ? file.getName() : name);
+				// String sysdate = LocalDate.parse(LocalDate.now().toString(),
+				// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+				String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
 				try {
-					conn.close();
+					conn.setAutoCommit(false);
+					java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
+							java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setBinaryStream(1, file.getInputStream());
+					// ps.setString(2, sysdate);
+					ps.setDate(2, new Date(System.currentTimeMillis()));
+					ps.setString(3, file.getContentType());
+					ps.setString(4, name);
+					if (ps.executeUpdate() > 0) {
+						try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+							if (rs.next()) {
+								lastInsertedId = rs.getInt(1);
+							}
+						}
+						ps.close();
+					}
+					conn.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
+				} finally {
+					try {
+						conn.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
+			try {
+				file.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		try {
-			file.delete();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return lastInsertedId;
 	}
 

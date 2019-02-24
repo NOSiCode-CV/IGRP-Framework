@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,6 +54,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	private boolean showTracing = true;
 	private String columnsSelect = "";
 	private boolean keepConnection = false;
+	private String applicationName;
 	
 	public BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
@@ -388,6 +390,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return (T) this;
 	}
 	
+	@Transient
+	@XmlTransient
 	public String getSql() {
 		return sql;
 	}
@@ -519,6 +523,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.connectionName = connectionName;
 	}
 
+	@Transient
+	@XmlTransient
 	public String getConnectionName() {		
 		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
 	}
@@ -880,12 +886,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Override
+	@Transient
+	@XmlTransient
 	public Object getValuePrimaryKey() {
 		Object id = this.getSessionFactory()!=null?this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this):null;
 		return id;
 	}
 
 	@Override
+	@Transient
+	@XmlTransient
 	public String getNamePrimaryKey() {
 		for(Field field:this.className.getClass().getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class))
@@ -895,6 +905,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Override
+	@Transient
+	@XmlTransient
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
 		Long count = (long) 0;
@@ -918,6 +930,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return count;
 	}
 	
+	@Transient
+	@XmlTransient
 	public boolean isReadOnly() {
 		return isReadOnly;
 	}
@@ -927,16 +941,25 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	protected Session getSession() {	
-		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
-		if(sessionFactory!=null)
+		SessionFactory sessionFactory = null;
+		if(Core.isNotNull(this.applicationName)) {
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName,this.schema);
+		}else {
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+		}
+		if(sessionFactory!=null) {
 			return sessionFactory.getCurrentSession();
+		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
 	protected SessionFactory getSessionFactory() {		
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
-		if(sessionFactory!=null)
+		if(sessionFactory!=null) {
+			System.out.println(this.className.getSimpleName()+" Conectado");
 			return sessionFactory;
+		}
+		System.out.println(this.className.getSimpleName()+" Nao Conectado");
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 	
@@ -969,10 +992,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}
 	}
 	
+	@Transient
+	@XmlTransient
 	public List<String> getError() {
 		return error;
 	}
 	
+	@Transient
+	@XmlTransient
 	public boolean hasError() {
 		return this.error!=null && !this.error.isEmpty();
 	}
@@ -992,7 +1019,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}
 	}
 
-	
+	@Transient
+	@XmlTransient
 	public boolean isShowError() {
 		return showError;
 	}
@@ -1001,6 +1029,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.showError = showError;
 	}
 	
+	@Transient
+	@XmlTransient
 	public boolean isShowTracing() {
 		return showTracing;
 	}
@@ -1024,6 +1054,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}
 	}
 	
+	@Transient
+	@XmlTransient
 	public CriteriaQuery<T> getCriteria() {
 		this.startCriteria();
 		return this.criteria;
@@ -1032,6 +1064,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	/**
 	 * @return the builder
 	 */
+	@Transient
+	@XmlTransient
 	public CriteriaBuilder getBuilder() {
 		this.startCriteria();
 		return this.builder;
@@ -1040,6 +1074,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	/**
 	 * @return the root
 	 */
+	@Transient
+	@XmlTransient
 	public Root<T> getRoot() {
 		this.startCriteria();
 		return this.root;
@@ -1137,6 +1173,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	@Override
 	public T orderByDesc(String... columns) {
 		return this.orderBy(new String[][] {columns},ORDERBY.DESC);
+	}
+	
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
 	}
 
 //	@Override

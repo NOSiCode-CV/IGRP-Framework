@@ -42,12 +42,13 @@ public class HibernateUtils {
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad,String schemaName) {
 		if(Core.isNotNull(connectionName)) {	
-			String connectionName_ = new ConfigApp().getBaseConnection();
-			if(!connectionName.equalsIgnoreCase(new ConfigApp().getBaseConnection()) && !connectionName.equalsIgnoreCase(new ConfigApp().getH2IGRPBaseConnection())) {
+			ConfigApp config = new ConfigApp();
+			String connectionName_ = config.getBaseConnection();
+			if(!connectionName.equalsIgnoreCase(config.getBaseConnection()) && !connectionName.equalsIgnoreCase(config.getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
-				registry = buildConfig(connectionName,dad,schemaName);
+				registry = buildConfig(config,connectionName,dad,schemaName);
 				if(registry!=null) {
 					MetadataSources metadataSources = new MetadataSources(registry);
 					try {
@@ -70,13 +71,13 @@ public class HibernateUtils {
 		return null;
 	}
 
-	private static ServiceRegistry buildConfig(String connectionName,String dad,String schemaName) {
+	private static ServiceRegistry buildConfig(ConfigApp config,String connectionName,String dad,String schemaName) {
 		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
 		try {
-			if (new ConfigApp().getBaseConnection().equalsIgnoreCase(connectionName)) {
+			if (config.getBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getIGRPSettings(connectionName));
-			}else if (new ConfigApp().getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
+			}else if (config.getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
 				registryBuilder.applySettings(getH2IGRPSettings(connectionName));
 			}else {
