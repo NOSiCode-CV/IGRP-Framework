@@ -109,9 +109,9 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Labore doloremque ut omnis magna</value>
+                    <value>Labore ipsum consectetur officia deserunt</value>
                 </titulo>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
@@ -142,7 +142,7 @@
                 </self_id>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Posição</label>
-                    <value>22</value>
+                    <value>8</value>
                 </orderby>
                 <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Target</label>
@@ -168,15 +168,16 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Dolor ipsum ut officia elit</value>
+                    <value>Aliqua ut labore deserunt unde</value>
                 </link>
-                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
+                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Público?</label>
                     <value>1</value>
                 </flg_base>
                 <hidden name="p_area" type="hidden" maxlength="30" java-type="" tag="area"/>
                 <hidden name="p_img_src" type="hidden" maxlength="30" java-type="" tag="img_src"/>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
+                <hidden name="p_app" type="hidden" maxlength="250" java-type="int" tag="app"/>
             </fields>
         </form_1>
     </content>

@@ -44,7 +44,7 @@ public class ListaEnvController extends Controller {
 			apps = apps.stream()
 		     .distinct().collect(Collectors.toList());
 		} else {
-			apps = app.getListMyApp(user.getId());
+			apps = app.getListMyApp(user.getId(),true);
 		}
 		Collections.sort(apps, new SortbyStatus());
 		for (Application a : apps) {

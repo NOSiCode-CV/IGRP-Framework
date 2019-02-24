@@ -16,6 +16,7 @@ public class GestaodeacessoView extends View {
 	public Field adicionar_organica;
 	public Field gestao_de_utilizadores;
 	public Field gestao_de_menu;
+	public Field id_app;
 	public Field estado;
 	public Field estado_check;
 	public Field org_nome;
@@ -55,19 +56,23 @@ public class GestaodeacessoView extends View {
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
 
-									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","");
+									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel_submit").add("maxlength","30").add("request_fields","");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));
 		gestao_de_utilizadores.setValue(new Config().getResolveUrl("igrp","PesquisarUtilizador","index"));
 
-									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
+									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","");
 		
 		gestao_de_menu = new LinkField(model,"gestao_de_menu");
 		gestao_de_menu.setLabel(gt("Gestão de menu"));
 		gestao_de_menu.setValue(new Config().getResolveUrl("igrp","PesquisarMenu","index"));
 
-									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
+									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","");
+		
+		id_app = new HiddenField(model,"id_app");
+		id_app.setLabel(gt(""));
+		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_app");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
@@ -121,6 +126,7 @@ public class GestaodeacessoView extends View {
 		form_1.addField(adicionar_organica);
 		form_1.addField(gestao_de_utilizadores);
 		form_1.addField(gestao_de_menu);
+		form_1.addField(id_app);
 
 		org_table.addField(estado);
 		org_table.addField(estado_check);
@@ -146,6 +152,7 @@ public class GestaodeacessoView extends View {
 		adicionar_organica.setValue(model);
 		gestao_de_utilizadores.setValue(model);
 		gestao_de_menu.setValue(model);
+		id_app.setValue(model);
 		estado.setValue(model);
 		org_nome.setValue(model);
 		mostrar_perfis.setValue(model);

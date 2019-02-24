@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -33,30 +35,32 @@ public class PesquisarMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Doloremque elit lorem doloremque aperiam dolor officia adipiscing stract sed stract sit doloremque n' as t1_menu_principal,'1' as ativo,'Aperiam anim iste aliqua lorem aliqua perspiciatis iste dolor officia omnis natus lorem magna sed to' as table_titulo,'Rem labore natus sit deserunt natus unde labore ut natus sit perspiciatis officia deserunt adipiscin' as pagina,'1' as checkbox,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Perspiciatis aperiam officia sed dolor unde iste deserunt perspiciatis sed sit aliqua iste ut accusa' as t1_menu_principal,'1' as ativo,'Unde laudantium amet stract labore consectetur adipiscing rem aperiam mollit laudantium adipiscing c' as table_titulo,'Consectetur aperiam voluptatem elit voluptatem laudantium magna sed laudantium adipiscing deserunt u' as pagina,'1' as checkbox,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
-		int idApp = Core.getParamInt("p_id_app");
+		int idApp =Core.getParamInt("p_id_app");
 		int idOrg = 0;
 		// int idMen = 0;
-
-		if (idApp != 0 && Core.isNull(Core.getParam("ichange"))) {			
-			model.setAplicacao("" + idApp);          
-			view.btn_btn_novo.addParameter("p_aplicacao",idApp);
-		}		
-
 		// If in a app, choose automatically the app in the combobox
 		String dad = Core.getCurrentDad();
+       
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
           view.aplicacao.propertie().add("disabled","true");
-		}else if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			// When onChange, it's always a post
-			idApp = Core.toInt(model.getAplicacao());
+		}else  {				
+				idApp = Core.toInt(model.getAplicacao());              
 		}
+      
+		if (idApp != 0) {			
+			model.setAplicacao("" + idApp);      
+			Core.setAttribute("p_aplicacao",""+idApp);
+			view.btn_btn_novo.addParameter("p_aplicacao",idApp);
+		}
+	
+		
      	model.setId_app(idApp);
 		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 		List<Menu> menus = null;
@@ -87,7 +91,10 @@ public class PesquisarMenuController extends Controller {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				if (menu_db1.getAction() != null) {
-					table1.setPagina(gt(menu_db1.getAction().getPage_descr())+" ("+menu_db1.getAction().getPage()+")");
+					String mdad = "";
+					if(menu_db1.getAction().getApplication().getId()!=idApp)
+						mdad=" «« ["+menu_db1.getAction().getApplication().getDad()+"]";
+					table1.setPagina(gt(menu_db1.getAction().getPage_descr())+" ("+menu_db1.getAction().getPage()+")"+mdad);
 					table1.setTable_titulo(gt(menu_db1.getDescr()));
 				}
 

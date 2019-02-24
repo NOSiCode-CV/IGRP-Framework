@@ -268,8 +268,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return Core.toMap(this.findAll(), "id", "name", gt("-- Selecionar --"));
 	}
 
-	public Map<Object, Object> getAllAppsByFilterId(int appId) {
-		return Core.toMap(this.find().andWhere("id", "<>", appId).all(), "id", "name", gt("-- Selecionar --"));
+	public Map<Object, Object> getAllAppsActiveByFilterId(int appId) {
+		return Core.toMap(this.find().andWhere("id", "<>", appId).andWhere("status", "=", 1).all(), "id", "name", gt("-- Selecionar --"));
 	}
 
 	public List<Application> getListMyApp(int idUser) {
@@ -281,7 +281,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		List<Profile> list = new ArrayList<>();
 		if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
 			list = new Profile().find()
-					.andWhere("type", "=", "ENV")					
+					.andWhere("type", "=", "ENV")
+					//.groupBy("type_fk")					
 					.all();
 		}else {
 			Profile p = new Profile();
@@ -324,7 +325,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	}
 
 	public List<Application> getOtherApp() {
-		List<Application> list = this.find().andWhere("id", "<>", 1).all();
+		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 
 		return list;
 	}

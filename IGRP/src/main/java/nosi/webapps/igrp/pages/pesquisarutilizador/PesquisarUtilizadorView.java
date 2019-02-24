@@ -5,7 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PesquisarUtilizadorView extends View {
 
@@ -68,11 +70,11 @@ public class PesquisarUtilizadorView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("remote",new Config().getResolveUrl("igrp","PesquisarUtilizador","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
+		organica.propertie().add("remote",new Config().getResolveUrl("igrp","PesquisarUtilizador","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("disabled","false").add("domain","").add("java-type","").add("tags","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));

@@ -187,19 +187,26 @@ public class Page{
 			
 		}catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
 				InvocationTargetException | NullPointerException e) {
-			e.printStackTrace();
-			if(e.getCause() instanceof  NullPointerException) {
-				String msg = "Erro de nullpointexception: "+Igrp.getInstance().getCurrentPageName()+"Controller.java";
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",msg);
-				Core.log("ERRO: "+msg);
-				throw new NotFoundHttpException(msg);
-			}
+			
 			StringWriter sw = new StringWriter();
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
+
+			if(e.getCause() instanceof  NullPointerException) {
+				String msg = "Error NullPointerException - "+Igrp.getInstance().getCurrentPageName()+"Controller.java";
+				String env = "";
+				env = Igrp.getInstance().getServlet().getInitParameter("env");
+				if(env.equals("dev") && env.equals("sta")) {
+					msg+=" \nCheck debugger at the bottom of the page.";
+				}
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
+
+				throw new NotFoundHttpException(msg);
+			}
+			
 			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error", sw.toString());
 			if(Core.isNotNull(e.getCause()) && Core.isNotNull(e.getCause().getMessage())) {
-				Core.log("ERRO: "+e.getCause().getMessage());
+				Core.log("ERRO: "+e.getCause().getMessage()); //dosen't work because error page is not the original
 				throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas. +INFO: \n\n\n\n"+e.getCause().getMessage());
 			}
 			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas.");

@@ -752,7 +752,7 @@ public final class Core { // Not inherit
 
 	/**
 	* Find Domains by domain code name
-	* @param domain code name
+	* @param domainsName domain code name
 	* @return {@code List< of Domains> }
 	*/
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
@@ -762,7 +762,7 @@ public final class Core { // Not inherit
 	}
 	/**
 	 * Find the Value/Decription ok a domay key
-	 * @param domain code name
+	 * @param domainsName domain code name
 	 * @param key
 	 * @return value/description
 	 */
@@ -1431,8 +1431,8 @@ public final class Core { // Not inherit
 
 	/**
 	 * Maps source to destination - 
-	 * {@link http://modelmapper.org/getting-started/}
-	 * Example here: {@link http://modelmapper.org/examples/flattening/}
+	 *  http://modelmapper.org/getting-started/
+	 * Example here: http://modelmapper.org/examples/flattening/
 	 * 
 	 * @param source
 	 * @param destination
@@ -2109,7 +2109,7 @@ public final class Core { // Not inherit
 	/**
 	 * @param wsdlUrl     The webservice description language url
 	 * @param headers     A Map of soap request headers
-	 * @param bodyContent String of raw request envelope
+	 * @param rawEnvelope String of raw request envelope
 	 * 
 	 * @return SoapClient object
 	 */
@@ -2305,7 +2305,7 @@ public final class Core { // Not inherit
 	 * @param values
 	 * @param keyField
 	 * @param valueField
-	 * @return Map<?, ?>
+	 * @return {@code Map<?, ?>}
 	 */
 	public static Map<?, ?> toMap(List<?> values, String keyField, String valueField) {
 		return IgrpHelper.toMap(values, keyField, valueField);
@@ -2320,7 +2320,7 @@ public final class Core { // Not inherit
 	 * @param keyField
 	 * @param valueField
 	 * @param prompt     - use -- Selecionar --
-	 * @return Map<Object, Object>
+	 * @return {@code Map<Object, Object>}
 	 */
 	public static Map<Object, Object> toMap(List<?> values, String keyField, String valueField, String prompt) {
 		return IgrpHelper.toMap(values, keyField, valueField, prompt);
@@ -2425,7 +2425,7 @@ public final class Core { // Not inherit
 
 	/**
 	 *Convert int array to String array
-	 *Exemple: convertArrayIntToArrayString(new int[]{1,2,3}); -> String[]{"1","2","3"};
+	 *Example: {@code convertArrayIntToArrayString(new int[]{1,2,3}); -> String[]{"1","2","3"};}
 	 * @param array
 	 * @return
 	 */
@@ -2442,7 +2442,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert float array to String array
-	 *Exemple: convertArrayFloatToArrayString(new float[]{1.0,2,3}); -> String[]{"1.0","2","3"};
+	 *Example: {@code convertArrayFloatToArrayString(new float[]{1.0,2,3}); -> String[]{"1.0","2","3"};}
 	 * @param array
 	 * @return
 	 */
@@ -2460,7 +2460,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert double array to String array
-	 *Exemple: convertArrayDoubleToArrayString(new double[]{1,2,3}); -> String[]{"1","2","3"};
+	 *Example: {@code convertArrayDoubleToArrayString(new double[]{1,2,3}); -> String[]{"1","2","3"};}
 	 * @param array
 	 * @return
 	 */
@@ -2477,7 +2477,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert short array to String array
-	 *Exemple: convertArrayShortToArrayString(new short[]{1,2,3}); -> String[]{"1","2","3"};
+	 *Example: {@code convertArrayShortToArrayString(new short[]{1,2,3}); -> String[]{"1","2","3"};}
 	 * @param array
 	 * @return
 	 */
@@ -2495,7 +2495,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert Object array to String array
-	 *Exemple: convertArrayObjectToArrayString(new Integer[]{1,2,3}); -> String[]{"1","2","3"};
+	 *Example: {@code convertArrayObjectToArrayString(new Integer[]{1,2,3}); -> String[]{"1","2","3"};}
 	 * @param array
 	 * @return
 	 */
@@ -2512,7 +2512,7 @@ public final class Core { // Not inherit
 
 	/**
 	 *Convert Object array to primitive int array
-	 *Exemple: convertArrayObjectToArrayInt(new String[]{"1","2","3"}); -> int[]{1,2,3};
+	 *Example: {@code convertArrayObjectToArrayInt(new String[]{"1","2","3"}); -> int[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */
@@ -2529,7 +2529,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert Object array to primitive short array
-	 *Exemple: convertArrayObjectToArrayPShort(new String[]{"1","2","3"}); -> short[]{1,2,3};
+	 *Example: {@code convertArrayObjectToArrayPShort(new String[]{"1","2","3"}); -> short[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */
@@ -2546,7 +2546,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert Object array to primitive float array
-	 *Exemple: convertArrayObjectToArrayPFloat(new String[]{"1","2","3"}); -> float[]{1,2,3};
+	 *Example: {@code convertArrayObjectToArrayPFloat(new String[]{"1","2","3"}); -> float[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */
@@ -2563,7 +2563,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert Object array to primitive double array
-	 * Exemple: convertArrayObjectToArrayPDouble(new String[]{"1","2","3"}); -> double[]{1,2,3};
+	 * Example: {@code convertArrayObjectToArrayPDouble(new String[]{"1","2","3"}); -> double[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */
@@ -2580,7 +2580,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert Object array to Integer array
-	 * Exemple: convertArrayObjectToArrayInteger(new String[]{"1","2","3"}); -> Integer[]{1,2,3};
+	 * Example: {@code convertArrayObjectToArrayInteger(new String[]{"1","2","3"}); -> Integer[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */
@@ -2597,7 +2597,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 * Convert Object array to Float array
-	 * Exemple: convertArrayObjectToArrayFloat(new String[]{"1","2","3"}); -> Float[]{1.0,2.0,3.0};
+	 * Example: {@code convertArrayObjectToArrayFloat(new String[]{"1","2","3"}); -> Float[]{1.0,2.0,3.0};}
 	 * @param array
 	 * @return
 	 */
@@ -2614,7 +2614,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 *Convert Object array to Double array
-	 *Exemple: convertArrayObjectToArrayDouble(new String[]{"1","2","3"}); -> Double[]{1,2,3};
+	 *Example: {@code convertArrayObjectToArrayDouble(new String[]{"1","2","3"}); -> Double[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */
@@ -2631,7 +2631,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 * Convert Object array to Short array
-	 * Exemple: convertArrayObjectToArrayShort(new String[]{"1","2","3"}); -> String[]{1,2,3};
+	 * Example: {@code convertArrayObjectToArrayShort(new String[]{"1","2","3"}); -> String[]{1,2,3};}
 	 * @param array
 	 * @return
 	 */

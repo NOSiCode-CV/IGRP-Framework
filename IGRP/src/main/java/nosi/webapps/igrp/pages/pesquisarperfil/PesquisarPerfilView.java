@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PesquisarPerfilView extends View {
 
@@ -46,10 +49,10 @@ public class PesquisarPerfilView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));

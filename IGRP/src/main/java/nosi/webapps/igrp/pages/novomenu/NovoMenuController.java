@@ -53,9 +53,18 @@ public class NovoMenuController extends Controller {
 
 			
 		} else {
-			int app = Core.getParamInt("app");
-			if (app != 0)
-				model.setEnv_fk(app);
+			int app = Core.getParamInt("app");	
+          
+            String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			app = (new Application().find().andWhere("dad", "=", dad).one()).getId();	
+        	view.env_fk.propertie().add("disabled","true");    
+         	
+ 
+		}
+        model.setApp(app);
+          if (model.getApp() != 0)   
+            model.setEnv_fk(model.getApp());
 			// New menu by default opens in the same window
 			model.setTarget("_self");
 			model.setOrderby(39);
@@ -102,19 +111,20 @@ public class NovoMenuController extends Controller {
 		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		int id = model.getId();
+     
 		Menu menu;
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-
+			
 			if (Core.isNotNullOrZero(id)) {
 				// UPDATE menu will enter here
 				menu = new Menu().findOne(id);
 			} else {
 				// NEW menu will enter here
-				menu = new Menu();
+				menu = new Menu();              
 			}
-
+			int app= Core.isNotNullOrZero(model.getEnv_fk())?model.getEnv_fk():Core.getParamInt("p_app");
 			menu.setDescr(model.getTitulo());
-			menu.setApplication(Core.findApplicationById(model.getEnv_fk()));
+			menu.setApplication(Core.findApplicationById(app));
 			menu.setFlg_base(model.getFlg_base());
 			menu.setOrderby(model.getOrderby());
 			menu.setStatus(model.getStatus());

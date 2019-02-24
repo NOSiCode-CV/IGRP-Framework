@@ -17,7 +17,7 @@ public class Transaction extends QueryHelper{
 	}
 	
 	@Override
-	public void beegin() throws SQLException {
+	public void begin() throws SQLException {
 		this.conn = this.connection.getConnection(this.getConnectionName());
 		if(this.conn!=null) {
 			this.conn.setAutoCommit(false);
@@ -68,8 +68,8 @@ public class Transaction extends QueryHelper{
 			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
 				try {
-					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+					if(this.returningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.returningKeys);
 					}else {
 						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					}

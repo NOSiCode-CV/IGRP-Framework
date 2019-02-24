@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class NovoPerfilView extends View {
 
@@ -48,7 +51,7 @@ public class NovoPerfilView extends View {
 		
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));
-		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("check","true");
+		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
@@ -56,11 +59,11 @@ public class NovoPerfilView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","true").add("domain","").add("java-type","int").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		organica.propertie().add("remote",new Config().getResolveUrl("igrp","NovoPerfil","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		perfil_pai = new ListField(model,"perfil_pai");
 		perfil_pai.setLabel(gt("Perfil pai"));

@@ -28,6 +28,7 @@ public class NovoMenuView extends View {
 	public Field area;
 	public Field img_src;
 	public Field id;
+	public Field app;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 
@@ -65,7 +66,7 @@ public class NovoMenuView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
 		
 		extra = new SeparatorField(model,"extra");
 		extra.setLabel(gt("Extra"));
@@ -89,7 +90,7 @@ public class NovoMenuView extends View {
 		
 		flg_base = new CheckBoxField(model,"flg_base");
 		flg_base.setLabel(gt("Público?"));
-		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		flg_base.propertie().add("name","p_flg_base").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
 		
 		area = new HiddenField(model,"area");
 		area.setLabel(gt(""));
@@ -102,6 +103,10 @@ public class NovoMenuView extends View {
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id");
+		
+		app = new HiddenField(model,"app");
+		app.setLabel(gt(""));
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","app");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -132,6 +137,7 @@ public class NovoMenuView extends View {
 		form_1.addField(area);
 		form_1.addField(img_src);
 		form_1.addField(id);
+		form_1.addField(app);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
@@ -155,7 +161,8 @@ public class NovoMenuView extends View {
 		flg_base.setValue(model);
 		area.setValue(model);
 		img_src.setValue(model);
-		id.setValue(model);	
+		id.setValue(model);
+		app.setValue(model);	
 
 		}
 }

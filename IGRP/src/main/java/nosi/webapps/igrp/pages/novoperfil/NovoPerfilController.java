@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.novoperfil;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -37,6 +39,7 @@ public class NovoPerfilController extends Controller {
 		// Perfil pai/Parent profile ocult (not in use)
 		view.perfil_pai.setVisible(false);
 		view.btn_gravar.setTitle("Adicionar");
+		view.btn_gravar.addParameter("p_aplicacao",model.getAplicacao());
 		
 		if(Core.isNotNullOrZero(model.getAplicacao()))
 			view.primeira_pagina.setValue(new Action().getListActions(model.getAplicacao()));
@@ -53,7 +56,7 @@ public class NovoPerfilController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoPerfil","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovoPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 	   		ProfileType pt = new ProfileType();  
 	   		pt.setCode(model.getCodigo()+"."+Core.findApplicationById(model.getAplicacao()).getDad());			

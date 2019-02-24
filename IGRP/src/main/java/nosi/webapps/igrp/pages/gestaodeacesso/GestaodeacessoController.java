@@ -29,13 +29,15 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Adipiscing ut omnis ut labore' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'1' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Totam natus consectetur rem am' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
 		String ichange = Core.getParam("ichange");
+      	int idApp = Core.getParamInt("p_id_app");      
+      view.id_app.setParam(true);
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
@@ -50,7 +52,9 @@ public class GestaodeacessoController extends Controller {
 		
 		if(Core.isNotNull(model.getAplicacao())) {
 			Core.setAttribute("p_aplicacao",model.getAplicacao());
-			 model.getGestao_de_menu().addParam("p_id_app",model.getAplicacao());
+         
+          	model.setId_app(Core.toInt(model.getAplicacao()));
+			 model.getGestao_de_menu().addParam("p_id_app",Core.getParam("p_aplicacao")).addParam("p_aplicacao",Core.getParam("p_aplicacao"));
 			 model.setAdicionar_organica("igrp", "NovaOrganica", "index").addParam("id_app",model.getAplicacao());
 			 model.getGestao_de_utilizadores().addParam("p_aplicacao",model.getAplicacao());
            setTable(model, data);

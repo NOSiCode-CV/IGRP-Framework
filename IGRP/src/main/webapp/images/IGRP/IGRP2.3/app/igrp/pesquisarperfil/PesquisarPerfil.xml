@@ -62,7 +62,7 @@
                 <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Organização</label>
                 </organica>
-                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="" check="true" desc="true">
+                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -80,11 +80,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Totam aliqua sit deserunt ut</organica>
+                        <organica name="p_organica">Aliqua unde aperiam sit labore</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Amet laudantium omnis stract p</descricao>
-                        <codigo name="p_codigo">Doloremque accusantium officia</codigo>
+                        <descricao name="p_descricao">Labore omnis sed natus mollit</descricao>
+                        <codigo name="p_codigo">Accusantium amet unde officia</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -92,11 +92,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Ut perspiciatis labore consect</organica>
+                        <organica name="p_organica">Sed deserunt ut perspiciatis d</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Adipiscing deserunt amet offic</descricao>
-                        <codigo name="p_codigo">Aperiam unde natus adipiscing</codigo>
+                        <descricao name="p_descricao">Adipiscing mollit stract iste</descricao>
+                        <codigo name="p_codigo">Laudantium labore iste sed ani</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -104,11 +104,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Perspiciatis ipsum aliqua dolo</organica>
+                        <organica name="p_organica">Ipsum stract sit officia unde</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Adipiscing magna accusantium l</descricao>
-                        <codigo name="p_codigo">Omnis elit sed lorem dolor</codigo>
+                        <descricao name="p_descricao">Laudantium aperiam adipiscing</descricao>
+                        <codigo name="p_codigo">Unde sit aperiam voluptatem mo</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -116,11 +116,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sit mollit iste magna voluptat</organica>
+                        <organica name="p_organica">Aperiam omnis officia accusant</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Perspiciatis ipsum voluptatem</descricao>
-                        <codigo name="p_codigo">Anim elit dolor amet sit</codigo>
+                        <descricao name="p_descricao">Deserunt accusantium adipiscin</descricao>
+                        <codigo name="p_codigo">Stract rem dolor stract ut</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -128,11 +128,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Ipsum officia dolor totam aper</organica>
+                        <organica name="p_organica">Adipiscing aperiam laudantium</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Totam elit aperiam totam accus</descricao>
-                        <codigo name="p_codigo">Doloremque aperiam mollit omni</codigo>
+                        <descricao name="p_descricao">Accusantium dolor natus amet u</descricao>
+                        <codigo name="p_codigo">Sit stract omnis sed elit</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -145,6 +145,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml?</parameter>
                         <target>right_panel|refresh</target>
                         <img>warning|fa-pencil</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
                     </item>
                     <item type="specific" code="" class="info" rel="menu" custom_return="true">
                         <title>Menu</title>
@@ -154,6 +155,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml?</parameter>
                         <target>right_panel</target>
                         <img>info|fa-bars</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
                     </item>
                     <item type="specific" code="" class="black" rel="transacao" custom_return="true">
                         <title>Transacao</title>
@@ -163,6 +165,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml?</parameter>
                         <target>right_panel</target>
                         <img>black|fa-exchange</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xml</preview>
                     </item>
                     <item type="specific" code="" class="primary" rel="associar_etapa" custom_return="true">
                         <title>Associar Etapa</title>
@@ -172,6 +175,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
                         <target>right_panel</target>
                         <img>primary|fa-sitemap</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</preview>
                     </item>
                     <item type="specific" code="" class="warning" rel="convidar" custom_return="true">
                         <title>Convidar</title>
@@ -181,6 +185,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
                         <target>right_panel</target>
                         <img>warning|fa-send</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
@@ -190,6 +195,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
                         <target>alert_submit</target>
                         <img>danger|fa-trash</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml</preview>
                     </item>
                 </context-menu>
             </table>

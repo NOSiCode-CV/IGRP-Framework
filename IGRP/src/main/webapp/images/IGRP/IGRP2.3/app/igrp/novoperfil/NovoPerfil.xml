@@ -61,20 +61,20 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Laudantium natus amet sit iste</value>
+                    <value>Voluptatem magna rem magna sit</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Stract rem adipiscing accusant</value>
+                    <value>Rem magna sit doloremque elit</value>
                 </codigo>
-                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </activo>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="true" right="false" domain="" java-type="int" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -96,7 +96,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Organização</label>
                     <list>
                         <option/>
@@ -117,6 +117,16 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_organica</item>
+                                <item>p_perfil_pai</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </organica>
                 <perfil_pai name="p_perfil_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Perfil pai</label>

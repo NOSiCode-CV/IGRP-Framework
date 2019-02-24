@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -29,7 +31,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Doloremque accusantium stract doloremque ipsum lau' as nominho,'7' as range_1,'Officia dolor aperiam sit elit doloremque voluptatem omnis labore anim mollit sit labore magna rem l' as nome,'Accusantium perspiciatis aperiam ipsum anim rem aliqua aperiam natus unde aperiam anim doloremque na' as tb_email,'Ut sed consectetur laudantium amet stract sit tota' as perfile,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Accusantium sit omnis aperiam omnis accusantium st' as nominho,'6' as range_1,'Accusantium mollit stract aliqua mollit consectetur iste aperiam anim perspiciatis iste unde rem ame' as nome,'Sit amet deserunt voluptatem accusantium adipiscing anim deserunt sit unde totam accusantium anim re' as tb_email,'Doloremque anim labore voluptatem unde totam dolor' as perfile,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -44,7 +46,13 @@ public class PesquisarUtilizadorController extends Controller {
 
 		Profile prof = new Profile();
 		List<Profile> profiles = null;
-
+		String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
+          model.setAplicacao(""+idApp);
+          view.aplicacao.propertie().add("disabled","true");
+          Core.setAttribute("p_aplicacao",idApp);
+		}
 		ProfileType pp = Core.findProfileById(Core.getCurrentProfile());
 		if (pp != null && pp.getCode().equalsIgnoreCase("ADMIN")) {
 			profiles = prof.find().andWhere("type", "=", "PROF").andWhere("user.user_name", "=", model.getUsername())

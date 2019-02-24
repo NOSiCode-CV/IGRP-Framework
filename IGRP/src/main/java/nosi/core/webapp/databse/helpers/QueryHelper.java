@@ -43,7 +43,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected String connectionName;
 	protected boolean whereIsCall = false;
 	protected Config_env config_env;
-	protected String[] retuerningKeys;
+	protected String[] returningKeys;
 	protected boolean isAutoCommit = false;
 	protected nosi.core.config.Connection connection;
 	protected ParametersHelper paramHelper;
@@ -350,8 +350,8 @@ public abstract class QueryHelper implements QueryInterface{
 			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
 				try {
-					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+					if(this.returningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.returningKeys);
 					}else {
 						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					}
@@ -401,8 +401,8 @@ public abstract class QueryHelper implements QueryInterface{
 			if(this instanceof QueryInsert) {
 				try {
 					
-					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+					if(this.returningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.returningKeys);
 					}else {
 						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					}
@@ -706,8 +706,8 @@ public abstract class QueryHelper implements QueryInterface{
 
 	
 	@Override
-	public QueryInterface returning(String... retuerningKeys) {
-		this.retuerningKeys = retuerningKeys;
+	public QueryInterface returning(String... returningKeys) {
+		this.returningKeys = returningKeys;
 		return this;
 	}
 
@@ -860,7 +860,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	@Override
-	public void beegin() throws SQLException{
+	public void begin() throws SQLException{
 		throw new UnsupportedOperationException();
 	}
 

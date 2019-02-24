@@ -60,12 +60,20 @@ public class NovoUtilizadorController extends Controller {
 
 		Integer id_prof = Core.getParamInt("p_id");
 		String id = Core.getParam("id");
+     	String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+		Integer	idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
+          model.setAplicacao(idApp);
+          view.aplicacao.propertie().add("disabled","true");
+          
+		}
 		if (id_prof != 0) {
 			ProfileType prof = Core.findProfileById(id_prof);
 			if (prof != null) {
 				model.setAplicacao(prof.getApplication().getId());
 				model.setOrganica(prof.getOrganization().getId());
 				model.setPerfil(prof.getId());
+				
 			}
 		}
 

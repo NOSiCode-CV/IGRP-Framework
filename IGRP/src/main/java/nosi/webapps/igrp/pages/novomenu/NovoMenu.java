@@ -43,6 +43,8 @@ public class NovoMenu extends Model{
 	private String img_src;
 	@RParam(rParamName = "p_id")
 	private int id;
+	@RParam(rParamName = "p_app")
+	private int app;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -159,6 +161,13 @@ public class NovoMenu extends Model{
 	}
 	public int getId(){
 		return this.id;
+	}
+	
+	public void setApp(int app){
+		this.app = app;
+	}
+	public int getApp(){
+		return this.app;
 	}
 
 

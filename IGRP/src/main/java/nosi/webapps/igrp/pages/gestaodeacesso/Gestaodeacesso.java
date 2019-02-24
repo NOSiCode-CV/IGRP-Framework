@@ -29,6 +29,8 @@ public class Gestaodeacesso extends Model{
 	private IGRPLink gestao_de_menu;
 	@RParam(rParamName = "p_gestao_de_menu_desc")
 	private String gestao_de_menu_desc;
+	@RParam(rParamName = "p_id_app")
+	private int id_app;
 	
 	private List<Org_table> org_table = new ArrayList<>();	
 	public void setOrg_table(List<Org_table> org_table){
@@ -134,6 +136,13 @@ public class Gestaodeacesso extends Model{
 	public IGRPLink setGestao_de_menu(Report link){
 		this.gestao_de_menu = new IGRPLink(link);
 		return this.gestao_de_menu;
+	}
+	
+	public void setId_app(int id_app){
+		this.id_app = id_app;
+	}
+	public int getId_app(){
+		return this.id_app;
 	}
 
 

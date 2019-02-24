@@ -50,16 +50,16 @@
             <fields>
                 <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Lorem iste sed doloremque unde</value>
+                    <value>Sit doloremque perspiciatis omnis anim</value>
                 </username>
                 <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>icvem@example.com</value>
+                    <value>ehku@example.com</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="50" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -80,8 +80,16 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Orgânica</label>
                     <list>
                         <option/>
@@ -102,6 +110,15 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_organica</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </organica>
                 <perfil name="p_perfil" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Perfil</label>
@@ -124,6 +141,7 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </perfil>
             </fields>
             <tools-bar>
@@ -190,11 +208,11 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Ut natus adipiscing rem stract consectetur perspic</nominho>
+                        <nominho name="p_nominho">Deserunt adipiscing totam sed mollit elit aperiam</nominho>
                         <range_1 name="p_range_1">3</range_1>
-                        <nome name="p_nome">Magna sit doloremque stract sit voluptatem anim magna adipiscing aperiam deserunt omnis accusantium</nome>
-                        <tb_email name="p_tb_email">Deserunt lorem perspiciatis voluptatem stract sit labore consectetur natus perspiciatis ipsum perspi</tb_email>
-                        <perfile name="p_perfile">Voluptatem omnis accusantium voluptatem magna tota</perfile>
+                        <nome name="p_nome">Sit labore natus totam ipsum omnis lorem aliqua mollit stract mollit lorem labore perspiciatis anim</nome>
+                        <tb_email name="p_tb_email">Elit sit labore ut rem mollit stract deserunt elit rem dolor magna sit adipiscing ipsum voluptatem a</tb_email>
+                        <perfile name="p_perfile">Aperiam lorem elit adipiscing mollit iste unde lor</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -204,11 +222,11 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Consectetur accusantium voluptatem perspiciatis om</nominho>
-                        <range_1 name="p_range_1">4</range_1>
-                        <nome name="p_nome">Lorem doloremque rem ut iste sed natus rem elit laudantium natus magna aperiam amet stract lorem und</nome>
-                        <tb_email name="p_tb_email">Ut adipiscing lorem amet doloremque amet perspiciatis voluptatem anim stract dolor ipsum ut accusant</tb_email>
-                        <perfile name="p_perfile">Totam omnis iste magna officia magna rem magna eli</perfile>
+                        <nominho name="p_nominho">Lorem anim consectetur accusantium mollit officia</nominho>
+                        <range_1 name="p_range_1">2</range_1>
+                        <nome name="p_nome">Unde labore dolor laudantium dolor accusantium labore sit anim voluptatem accusantium stract ut dese</nome>
+                        <tb_email name="p_tb_email">Lorem elit adipiscing ut consectetur iste elit doloremque ut unde mollit aperiam labore officia dolo</tb_email>
+                        <perfile name="p_perfile">Consectetur iste totam magna dolor aperiam rem lab</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -218,11 +236,11 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Laudantium aperiam adipiscing perspiciatis natus d</nominho>
+                        <nominho name="p_nominho">Aliqua perspiciatis totam doloremque aliqua laudan</nominho>
                         <range_1 name="p_range_1">1</range_1>
-                        <nome name="p_nome">Sed anim sed mollit deserunt natus omnis ipsum adipiscing totam rem labore laudantium rem amet iste</nome>
-                        <tb_email name="p_tb_email">Officia lorem omnis aperiam unde magna aliqua iste natus laudantium natus officia lorem elit sed tot</tb_email>
-                        <perfile name="p_perfile">Ipsum anim consectetur adipiscing amet sit officia</perfile>
+                        <nome name="p_nome">Voluptatem totam omnis labore rem ut unde sit accusantium ut labore deserunt perspiciatis lorem anim</nome>
+                        <tb_email name="p_tb_email">Labore rem mollit totam sed rem anim aperiam ut officia ut aperiam lorem aliqua totam unde omnis vol</tb_email>
+                        <perfile name="p_perfile">Sed rem unde amet sit sed stract doloremque aperia</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -232,11 +250,11 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Laudantium sed unde sed labore laudantium stract e</nominho>
-                        <range_1 name="p_range_1">9</range_1>
-                        <nome name="p_nome">Stract dolor officia adipiscing totam doloremque sit voluptatem doloremque accusantium lorem volupta</nome>
-                        <tb_email name="p_tb_email">Officia sit rem mollit perspiciatis lorem doloremque consectetur magna voluptatem natus lorem omnis</tb_email>
-                        <perfile name="p_perfile">Deserunt ipsum ut elit labore aperiam anim mollit</perfile>
+                        <nominho name="p_nominho">Doloremque perspiciatis mollit doloremque ut volup</nominho>
+                        <range_1 name="p_range_1">1</range_1>
+                        <nome name="p_nome">Labore deserunt laudantium mollit officia mollit officia doloremque stract sit sit anim sit stract a</nome>
+                        <tb_email name="p_tb_email">Mollit unde sed mollit anim labore laudantium elit totam voluptatem perspiciatis rem laudantium moll</tb_email>
+                        <perfile name="p_perfile">Adipiscing laudantium perspiciatis natus omnis con</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -246,11 +264,11 @@
                         </context-menu>
                         <ativo name="p_ativo" check="true" desc="true">1</ativo>
                         <ativo_desc name="p_ativo_desc">1</ativo_desc>
-                        <nominho name="p_nominho">Totam consectetur aliqua mollit totam voluptatem u</nominho>
+                        <nominho name="p_nominho">Rem sed labore aperiam magna ut voluptatem iste ac</nominho>
                         <range_1 name="p_range_1">3</range_1>
-                        <nome name="p_nome">Adipiscing labore mollit aliqua perspiciatis magna ipsum totam accusantium voluptatem magna labore s</nome>
-                        <tb_email name="p_tb_email">Officia adipiscing omnis amet natus accusantium lorem stract mollit perspiciatis consectetur aliqua</tb_email>
-                        <perfile name="p_perfile">Sit ut officia anim elit deserunt officia natus am</perfile>
+                        <nome name="p_nome">Consectetur mollit elit natus labore deserunt stract adipiscing unde dolor unde consectetur stract i</nome>
+                        <tb_email name="p_tb_email">Amet deserunt iste stract ipsum aliqua sed voluptatem ipsum consectetur deserunt sed perspiciatis ma</tb_email>
+                        <perfile name="p_perfile">Omnis mollit consectetur accusantium labore stract</perfile>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

@@ -127,7 +127,7 @@ public interface BaseQueryInterface {
     
     public QueryInterface keepConnection();
     
-    public void beegin() throws SQLException;
+    public void begin() throws SQLException;
     
     public void commit() throws SQLException;
     
