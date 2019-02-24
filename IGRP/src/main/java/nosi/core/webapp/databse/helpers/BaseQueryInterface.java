@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -125,6 +126,18 @@ public interface BaseQueryInterface {
     public List<Column> getParametersMap();
     
     public QueryInterface keepConnection();
+    
+    public void beegin() throws SQLException;
+    
+    public void commit() throws SQLException;
+    
+    public void roolback() throws SQLException;
+    
+    public QueryInterface insert(String tableName);
+    
+    public QueryInterface update(String tableName);
+
+    public QueryInterface delete(String tableName);
     
     public void closeConnection();
 }
