@@ -29,8 +29,8 @@ public class EncrypDecrypt {
 	}
 
 	public boolean getWakandaList(String content) {
-		String qs = Igrp.getInstance().getRequest().getQueryString();
-		return	
+		String qs = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getQueryString():null;
+		return	qs!=null &&
 				!content.equals("igrp/login/login")	&& 
 				!content.equals("igrp/home/index")	&& 
 				!content.equals("igrp/ErrorPage/exception") && 
@@ -43,7 +43,7 @@ public class EncrypDecrypt {
 	}
 	
 	public String decrypt(String content) {
-		String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE");
+		String customHeader = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE"):null;
 		if(customHeader != null && customHeader.equals("1")) return content;
 		
 		if (getWakandaList(content) ) { 

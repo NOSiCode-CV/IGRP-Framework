@@ -450,7 +450,7 @@ public final class Core { // Not inherit
 	}
 
 	public static String getAttribute(String name, boolean isRemoved) {
-		if (Igrp.getInstance().getRequest().getAttribute(name) != null) {
+		if (Igrp.getInstance()!=null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
@@ -684,8 +684,8 @@ public final class Core { // Not inherit
 			return current_app_conn;
 		}
 		String r = Core.getParam("r"); 
-		r = Core.decrypt(r); 
-		String[] r_split = r!=null?r.split("/"):null;
+		r = r!=null?Core.decrypt(r):null;
+		String[] r_split = Core.isNotNull(r)?r.split("/"):null;
 		return r_split!=null?r_split[0]:"igrp";
 	}
 
@@ -935,7 +935,7 @@ public final class Core { // Not inherit
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
-		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		Object v = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameter(name):null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return v != null ? v.toString() : "";
@@ -949,7 +949,7 @@ public final class Core { // Not inherit
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
-		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		Object v = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameter(name):null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
 		return v != null ? v.toString() : "";
@@ -962,7 +962,7 @@ public final class Core { // Not inherit
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
-		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
+		String[] value =  Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameterValues(name):null;
 		if (value == null) {
 			value = Core.getAttributeArray(name);
 		}
@@ -1231,6 +1231,11 @@ public final class Core { // Not inherit
 		return new QueryInsert(Core.defaultConnection()).insert(tableName);
 	}
 
+	public static QueryInterface transaction(String tableName) {
+		return new nosi.core.webapp.databse.helpers.Transaction(Core.defaultConnection());
+	}
+
+	
 	/**
 	 * Queey insert
 	 * 
