@@ -174,18 +174,18 @@
                 <nada name="p_nada" type="separator" maxlength="250" placeholder="" right="false">
                     <label></label>
                 </nada>
-                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
-                    <label>Nova página</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
-                </link_btn_nova_pagina>
-                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
-                    <label>CRUD generator</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
-                </crud_generator>
-                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ImportArquivo" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
+                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ImportArquivo" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="">
                     <label>Importar</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</value>
                 </btn_import>
+                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="">
+                    <label>CRUD generator</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
+                </crud_generator>
+                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="">
+                    <label>Nova página</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
+                </link_btn_nova_pagina>
             </fields>
         </form_1>
         <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
@@ -211,7 +211,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Accusantium natus doloremque a</descricao_page>
+                        <descricao_page name="p_descricao_page">Aperiam totam stract doloremqu</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -222,7 +222,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ut consectetur rem laudantium</descricao_page>
+                        <descricao_page name="p_descricao_page">Omnis anim omnis sit totam</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -233,7 +233,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Totam labore doloremque lorem</descricao_page>
+                        <descricao_page name="p_descricao_page">Doloremque accusantium stract</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -244,7 +244,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Unde sit ipsum dolor amet</descricao_page>
+                        <descricao_page name="p_descricao_page">Sit iste labore voluptatem ist</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>
@@ -255,7 +255,7 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Natus ipsum amet ut sit</descricao_page>
+                        <descricao_page name="p_descricao_page">Iste consectetur doloremque do</descricao_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                         <nome_page name="p_nome_page" tag="nome_page">1</nome_page>
                     </row>

@@ -76,10 +76,10 @@ public class GestaodeacessoView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","false").add("java-type","").add("check","true").add("desc","true");
 		
 		org_nome = new TextField(model,"org_nome");
 		org_nome.setLabel(gt("Nome"));

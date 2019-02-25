@@ -96,7 +96,7 @@
         </form_1>
         <org_table type="table" xml-type="table" title="Organizações" gen-type="container" gen-group="true">
             <fields>
-                <estado name="p_estado" type="checkbox" maxlength="10" align="center" lookup_parser="true" iskey="true" switch="true" java-type="" check="true" desc="true">
+                <estado name="p_estado" type="checkbox" maxlength="10" align="center" lookup_parser="true" iskey="true" switch="false" java-type="" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -116,7 +116,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Amet perspiciatis consectetur</org_nome>
+                        <org_nome name="p_org_nome">Consectetur adipiscing natus l</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -128,7 +128,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Elit dolor sed deserunt adipis</org_nome>
+                        <org_nome name="p_org_nome">Magna rem lorem iste deserunt</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -140,7 +140,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Totam adipiscing labore omnis</org_nome>
+                        <org_nome name="p_org_nome">Omnis ipsum laudantium elit vo</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -152,7 +152,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Elit anim consectetur totam am</org_nome>
+                        <org_nome name="p_org_nome">Labore magna voluptatem ut vol</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -164,7 +164,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Adipiscing laudantium lorem na</org_nome>
+                        <org_nome name="p_org_nome">Adipiscing accusantium omnis e</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>

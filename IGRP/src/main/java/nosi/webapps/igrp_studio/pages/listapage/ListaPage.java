@@ -49,18 +49,18 @@ public class ListaPage extends Model{
 	private String[] modulo;
 	@RParam(rParamName = "p_nada")
 	private String nada;
-	@RParam(rParamName = "p_link_btn_nova_pagina")
-	private IGRPLink link_btn_nova_pagina;
-	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
-	private String link_btn_nova_pagina_desc;
-	@RParam(rParamName = "p_crud_generator")
-	private IGRPLink crud_generator;
-	@RParam(rParamName = "p_crud_generator_desc")
-	private String crud_generator_desc;
 	@RParam(rParamName = "p_btn_import")
 	private IGRPLink btn_import;
 	@RParam(rParamName = "p_btn_import_desc")
 	private String btn_import_desc;
+	@RParam(rParamName = "p_crud_generator")
+	private IGRPLink crud_generator;
+	@RParam(rParamName = "p_crud_generator_desc")
+	private String crud_generator_desc;
+	@RParam(rParamName = "p_link_btn_nova_pagina")
+	private IGRPLink link_btn_nova_pagina;
+	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
+	private String link_btn_nova_pagina_desc;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -240,26 +240,26 @@ public class ListaPage extends Model{
 		return this.nada;
 	}
 	
-	public IGRPLink setLink_btn_nova_pagina(String app,String page,String action){
-		this.link_btn_nova_pagina = new IGRPLink(app,page,action);
-		return this.link_btn_nova_pagina;
+	public IGRPLink setBtn_import(String app,String page,String action){
+		this.btn_import = new IGRPLink(app,page,action);
+		return this.btn_import;
 	}
-	public IGRPLink getLink_btn_nova_pagina(){
-		return this.link_btn_nova_pagina;
+	public IGRPLink getBtn_import(){
+		return this.btn_import;
 	}
-	public void setLink_btn_nova_pagina_desc(String link_btn_nova_pagina_desc){
-		this.link_btn_nova_pagina_desc = link_btn_nova_pagina_desc;
+	public void setBtn_import_desc(String btn_import_desc){
+		this.btn_import_desc = btn_import_desc;
 	}
-	public String getLink_btn_nova_pagina_desc(){
-		return this.link_btn_nova_pagina_desc;
+	public String getBtn_import_desc(){
+		return this.btn_import_desc;
 	}
-	public IGRPLink setLink_btn_nova_pagina(String link){
-		this.link_btn_nova_pagina = new IGRPLink(link);
-		return this.link_btn_nova_pagina;
+	public IGRPLink setBtn_import(String link){
+		this.btn_import = new IGRPLink(link);
+		return this.btn_import;
 	}
-	public IGRPLink setLink_btn_nova_pagina(Report link){
-		this.link_btn_nova_pagina = new IGRPLink(link);
-		return this.link_btn_nova_pagina;
+	public IGRPLink setBtn_import(Report link){
+		this.btn_import = new IGRPLink(link);
+		return this.btn_import;
 	}
 	
 	public IGRPLink setCrud_generator(String app,String page,String action){
@@ -284,26 +284,26 @@ public class ListaPage extends Model{
 		return this.crud_generator;
 	}
 	
-	public IGRPLink setBtn_import(String app,String page,String action){
-		this.btn_import = new IGRPLink(app,page,action);
-		return this.btn_import;
+	public IGRPLink setLink_btn_nova_pagina(String app,String page,String action){
+		this.link_btn_nova_pagina = new IGRPLink(app,page,action);
+		return this.link_btn_nova_pagina;
 	}
-	public IGRPLink getBtn_import(){
-		return this.btn_import;
+	public IGRPLink getLink_btn_nova_pagina(){
+		return this.link_btn_nova_pagina;
 	}
-	public void setBtn_import_desc(String btn_import_desc){
-		this.btn_import_desc = btn_import_desc;
+	public void setLink_btn_nova_pagina_desc(String link_btn_nova_pagina_desc){
+		this.link_btn_nova_pagina_desc = link_btn_nova_pagina_desc;
 	}
-	public String getBtn_import_desc(){
-		return this.btn_import_desc;
+	public String getLink_btn_nova_pagina_desc(){
+		return this.link_btn_nova_pagina_desc;
 	}
-	public IGRPLink setBtn_import(String link){
-		this.btn_import = new IGRPLink(link);
-		return this.btn_import;
+	public IGRPLink setLink_btn_nova_pagina(String link){
+		this.link_btn_nova_pagina = new IGRPLink(link);
+		return this.link_btn_nova_pagina;
 	}
-	public IGRPLink setBtn_import(Report link){
-		this.btn_import = new IGRPLink(link);
-		return this.btn_import;
+	public IGRPLink setLink_btn_nova_pagina(Report link){
+		this.link_btn_nova_pagina = new IGRPLink(link);
+		return this.link_btn_nova_pagina;
 	}
 
 
