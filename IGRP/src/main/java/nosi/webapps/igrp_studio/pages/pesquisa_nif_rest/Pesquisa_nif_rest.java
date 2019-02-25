@@ -1,5 +1,10 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -13,7 +18,7 @@ public class Pesquisa_nif_rest extends Model{
 	@RParam(rParamName = "p_tipo_contribuinte")
 	private String tipo_contribuinte;
 	@RParam(rParamName = "p_nif")
-	private int nif;
+	private Integer nif;
 	@RParam(rParamName = "p_nome_form")
 	private String nome_form;
 	@RParam(rParamName = "p_n_documento_form")
@@ -59,10 +64,10 @@ public class Pesquisa_nif_rest extends Model{
 		return this.tipo_contribuinte;
 	}
 	
-	public void setNif(int nif){
+	public void setNif(Integer nif){
 		this.nif = nif;
 	}
-	public int getNif(){
+	public Integer getNif(){
 		return this.nif;
 	}
 	
@@ -84,10 +89,10 @@ public class Pesquisa_nif_rest extends Model{
 	public static class Table_1 extends IGRPTable.Table{
 		private String nif_tab;
 		private String nome_tab;
+		private String documento_tab;
 		private String dt_nascimento;
 		private String nome_pai;
 		private String nome_mae;
-		private String documento_tab;
 		public void setNif_tab(String nif_tab){
 			this.nif_tab = nif_tab;
 		}
@@ -100,6 +105,13 @@ public class Pesquisa_nif_rest extends Model{
 		}
 		public String getNome_tab(){
 			return this.nome_tab;
+		}
+
+		public void setDocumento_tab(String documento_tab){
+			this.documento_tab = documento_tab;
+		}
+		public String getDocumento_tab(){
+			return this.documento_tab;
 		}
 
 		public void setDt_nascimento(String dt_nascimento){
@@ -121,13 +133,6 @@ public class Pesquisa_nif_rest extends Model{
 		}
 		public String getNome_mae(){
 			return this.nome_mae;
-		}
-
-		public void setDocumento_tab(String documento_tab){
-			this.documento_tab = documento_tab;
-		}
-		public String getDocumento_tab(){
-			return this.documento_tab;
 		}
 
 	}

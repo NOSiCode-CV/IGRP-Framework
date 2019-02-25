@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -27,11 +29,14 @@ public class Pesquisa_nif_restController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Rem magna deserunt omnis rem' as nif_tab,'Unde stract labore totam accus' as nome_tab,'Ipsum dolor natus rem elit' as dt_nascimento,'Aperiam mollit voluptatem elit' as nome_pai,'Labore voluptatem ipsum magna' as nome_mae,'22' as documento_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Totam doloremque stract accusa' as nif_tab,'Ut omnis natus consectetur off' as nome_tab,'8' as documento_tab,'Stract aliqua amet consectetur' as dt_nascimento,'Omnis dolor consectetur ipsum' as nome_pai,'Natus consectetur magna elit u' as nome_mae "));
 		view.tipo_contribuinte.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-			
+		if(Core.isNullOrZero(model.getNif())){         
+          model.setNif(null);
+        }
+    	  	
 		view.btn_pesquisar.setLink("index"); 
 		view.n_documento_form.setVisible(false);
 		view.tipo_contribuinte.setValue(getMyContribuinte());
@@ -41,15 +46,16 @@ public class Pesquisa_nif_restController extends Controller {
 		String url = "";
 		Properties setting = this.loadConfig("common", "main.xml");
 		String authorization = setting.getProperty("authorization.rest.pesquisa_nif");
-		if((Core.isNotNull(model.getNif()) && model.getNif() != 0) && Core.isNull(model.getNome_form())) {
+		if(Core.isNotNullOrZero(model.getNif())) {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NUM_NIF=" + model.getNif();
-		}else if(Core.isNotNull(model.getNome_form()) && (model.getNif() == 0 || Core.isNull(model.getNif()))) {
+		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNullOrZero(model.getNif()))) {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase();
-		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
-			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NUM_NIF=" +  model.getNif();
 		}
+      //else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
+		//	url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NUM_NIF=" +  model.getNif();
+		//}
 		
-			if((Core.isNotNull(model.getNif()) && model.getNif() != 0) || Core.isNotNull(model.getNome_form())) {
+			if(Core.isNotNullOrZero(model.getNif()) || Core.isNotNull(model.getNome_form())) {
 				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), authorization);
 				JSONObject obj = new JSONObject(json);
 				JSONObject Entries = obj.getJSONObject("Entries");

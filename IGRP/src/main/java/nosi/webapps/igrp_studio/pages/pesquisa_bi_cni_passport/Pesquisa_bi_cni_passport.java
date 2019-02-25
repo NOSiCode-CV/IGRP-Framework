@@ -87,7 +87,8 @@ public class Pesquisa_bi_cni_passport extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private String bi_tab;
+		private String tbl_tipo_documento;
+		private String n_doc;
 		private String nome_tab;
 		private String sexo_tab;
 		private String data_nascimento_tab;
@@ -99,11 +100,19 @@ public class Pesquisa_bi_cni_passport extends Model{
 		private String nat_conselho;
 		private String residencia;
 		private String dt_validade;
-		public void setBi_tab(String bi_tab){
-			this.bi_tab = bi_tab;
+		private String n_bi;
+		public void setTbl_tipo_documento(String tbl_tipo_documento){
+			this.tbl_tipo_documento = tbl_tipo_documento;
 		}
-		public String getBi_tab(){
-			return this.bi_tab;
+		public String getTbl_tipo_documento(){
+			return this.tbl_tipo_documento;
+		}
+
+		public void setN_doc(String n_doc){
+			this.n_doc = n_doc;
+		}
+		public String getN_doc(){
+			return this.n_doc;
 		}
 
 		public void setNome_tab(String nome_tab){
@@ -181,6 +190,13 @@ public class Pesquisa_bi_cni_passport extends Model{
 		}
 		public String getDt_validade(){
 			return this.dt_validade;
+		}
+
+		public void setN_bi(String n_bi){
+			this.n_bi = n_bi;
+		}
+		public String getN_bi(){
+			return this.n_bi;
 		}
 
 	}

@@ -16,7 +16,8 @@ public class Pesquisa_bi_cni_passportView extends View {
 	public Field numero_do_documento;
 	public Field nome;
 	public Field data_nascimento;
-	public Field bi_tab;
+	public Field tbl_tipo_documento;
+	public Field n_doc;
 	public Field nome_tab;
 	public Field sexo_tab;
 	public Field data_nascimento_tab;
@@ -28,6 +29,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 	public Field nat_conselho;
 	public Field residencia;
 	public Field dt_validade;
+	public Field n_bi;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -65,9 +67,13 @@ public class Pesquisa_bi_cni_passportView extends View {
 		data_nascimento.setLabel(gt("Data nascimento"));
 		data_nascimento.propertie().add("name","p_data_nascimento").add("type","date").add("range","false").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
 		
-		bi_tab = new TextField(model,"bi_tab");
-		bi_tab.setLabel(gt("Número do documento"));
-		bi_tab.propertie().add("name","p_bi_tab").add("type","text").add("maxlength","30");
+		tbl_tipo_documento = new TextField(model,"tbl_tipo_documento");
+		tbl_tipo_documento.setLabel(gt("Doc."));
+		tbl_tipo_documento.propertie().add("name","p_tbl_tipo_documento").add("type","text").add("maxlength","30");
+		
+		n_doc = new TextField(model,"n_doc");
+		n_doc.setLabel(gt("N# do documento"));
+		n_doc.propertie().add("name","p_n_doc").add("type","text").add("maxlength","30");
 		
 		nome_tab = new TextField(model,"nome_tab");
 		nome_tab.setLabel(gt("Nome"));
@@ -113,6 +119,10 @@ public class Pesquisa_bi_cni_passportView extends View {
 		dt_validade.setLabel(gt(""));
 		dt_validade.propertie().add("name","p_dt_validade").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","dt_validade");
 		
+		n_bi = new HiddenField(model,"n_bi");
+		n_bi.setLabel(gt(""));
+		n_bi.propertie().add("name","p_n_bi").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","n_bi");
+		
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp_studio","Pesquisa_bi_cni_passport","pesquisar","submit","primary|fa-search","","");
@@ -131,7 +141,8 @@ public class Pesquisa_bi_cni_passportView extends View {
 		form_1.addField(nome);
 		form_1.addField(data_nascimento);
 
-		table_1.addField(bi_tab);
+		table_1.addField(tbl_tipo_documento);
+		table_1.addField(n_doc);
 		table_1.addField(nome_tab);
 		table_1.addField(sexo_tab);
 		table_1.addField(data_nascimento_tab);
@@ -143,6 +154,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 		table_1.addField(nat_conselho);
 		table_1.addField(residencia);
 		table_1.addField(dt_validade);
+		table_1.addField(n_bi);
 
 		form_1.addButton(btn_pesquisar);
 		this.addToPage(sectionheader_1);
@@ -157,7 +169,8 @@ public class Pesquisa_bi_cni_passportView extends View {
 		numero_do_documento.setValue(model);
 		nome.setValue(model);
 		data_nascimento.setValue(model);
-		bi_tab.setValue(model);
+		tbl_tipo_documento.setValue(model);
+		n_doc.setValue(model);
 		nome_tab.setValue(model);
 		sexo_tab.setValue(model);
 		data_nascimento_tab.setValue(model);
@@ -168,7 +181,8 @@ public class Pesquisa_bi_cni_passportView extends View {
 		estado_civil.setValue(model);
 		nat_conselho.setValue(model);
 		residencia.setValue(model);
-		dt_validade.setValue(model);	
+		dt_validade.setValue(model);
+		n_bi.setValue(model);	
 
 		table_1.loadModel(((Pesquisa_bi_cni_passport) model).getTable_1());
 		}

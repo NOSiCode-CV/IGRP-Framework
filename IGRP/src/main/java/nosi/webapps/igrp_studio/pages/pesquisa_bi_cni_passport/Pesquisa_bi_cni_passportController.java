@@ -33,14 +33,15 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Ipsum anim magna sit ut' as bi_tab,'Voluptatem aliqua iste ipsum t' as nome_tab,'Adipiscing unde elit voluptate' as sexo_tab,'03-03-2017' as data_nascimento_tab,'Sit voluptatem iste ipsum anim' as nome_pai_tab,'Stract aliqua officia omnis si' as nome_mae_tab,'Iste unde deserunt stract omni' as data_emissao_tab,'Rem voluptatem iste ipsum amet' as emissor_tab,'1' as estado_civil,'1' as nat_conselho,'1' as residencia,'1' as dt_validade "));
+		model.loadTable_1(Core.query(null,"SELECT 'Iste mollit unde lorem totam' as tbl_tipo_documento,'Labore ut elit sed sit' as n_doc,'Consectetur voluptatem natus l' as nome_tab,'Sed doloremque anim accusantiu' as sexo_tab,'05-07-2014' as data_nascimento_tab,'Ut mollit deserunt aliqua omni' as nome_pai_tab,'Laudantium totam officia iste' as nome_mae_tab,'Unde sed iste unde aperiam' as data_emissao_tab,'Consectetur elit laudantium al' as emissor_tab,'1' as estado_civil,'1' as nat_conselho,'1' as residencia,'1' as dt_validade,'1' as n_bi "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.tipo_documento.setValue(getTipoDoc());
+   		view.tipo_documento.setVisible(false);
 		view.data_nascimento.setVisible(false);
 		view.nome.setVisible(false);
-		view.tipo_documento.setVisible(false);
+		
 		ConsumeJson json_obj = new ConsumeJson();
 		Properties setting = this.loadConfig("common", "main.xml");
 		String json="";
@@ -59,9 +60,12 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 					Pesquisa_bi_cni_passport.Table_1 tab_geral = new Pesquisa_bi_cni_passport.Table_1();
 					JSONObject pessoa = Entry.getJSONObject(i);
 					try {
-						tab_geral.setBi_tab(pessoa.getString("BI"));
+                    	tab_geral.setTbl_tipo_documento("BI");
+						tab_geral.setN_doc(pessoa.getString("BI"));
+                    	tab_geral.setN_bi(pessoa.getString("BI"));
 					}catch (org.json.JSONException e) {
-						tab_geral.setBi_tab(null);
+						tab_geral.setN_doc(null);
+                     	tab_geral.setN_bi(null);
 					}
 					try {
 						tab_geral.setData_emissao_tab(pessoa.getString("DT_EMISSAO"));
