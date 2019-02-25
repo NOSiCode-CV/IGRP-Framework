@@ -391,7 +391,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public String getSql() {
 		return sql;
 	}
@@ -400,6 +400,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.sql = sql;
 	}
 
+	@Transient
+	@XmlTransient
 	protected String getAlias() {
 		return alias;
 	}
@@ -408,19 +410,27 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.alias = alias;
 	}
 	
+	@Transient
+	@XmlTransient 
 	protected String generateSql() {
 		return " SELECT "+this.columnsSelect+" "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
+	@Transient
+	@XmlTransient 
 	protected String generateSqlCount() {
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
+	@Transient
+	@XmlTransient 
 	protected Class<T> getClassType(){
 		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
 		return (Class<T>) genericType.getActualTypeArguments()[0];
 	}
 	
+	@Transient
+	@XmlTransient 
 	protected String getTableName() {
 		return this.tableName;
 	}
@@ -524,7 +534,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public String getConnectionName() {	
 		if(Core.isNotNullOrZero(this.applicationName) && Core.isNull(this.connectionName))
 			return Core.defaultConnection(this.applicationName);
@@ -548,6 +558,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return (T) this;
 	}
 	
+	@Transient
+	@XmlTransient 
 	protected String getPrimaryKey() {
 		Field[] fields = this.className.getDeclaredFields();
 		for(Field field:fields) {
@@ -883,6 +895,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Override
+	@Transient
+	@XmlTransient 
 	public boolean delete() {
 		Object id = this.getValuePrimaryKey();
 		if(id!=null)
@@ -892,7 +906,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public Object getValuePrimaryKey() {
 		Object id = this.getSessionFactory()!=null?this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this):null;
 		return id;
@@ -900,7 +914,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public String getNamePrimaryKey() {
 		for(Field field:this.className.getClass().getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class))
@@ -911,7 +925,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
 		Long count = (long) 0;
@@ -936,7 +950,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public boolean isReadOnly() {
 		return isReadOnly;
 	}
@@ -944,7 +958,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	public void setReadOnly(boolean isReadOnly) {
 		this.isReadOnly = isReadOnly;
 	}
-
+	
+	@Transient
+	@XmlTransient 
 	protected Session getSession() {	
 		SessionFactory sessionFactory = null;
 		if(Core.isNotNull(this.applicationName)) {
@@ -958,6 +974,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
+	@Transient
+	@XmlTransient 
 	protected SessionFactory getSessionFactory() {		
 		SessionFactory sessionFactory = null;
 		if(Core.isNotNull(this.applicationName)) {
@@ -1001,13 +1019,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public List<String> getError() {
 		return error;
 	}
 	
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public boolean hasError() {
 		return this.error!=null && !this.error.isEmpty();
 	}
@@ -1028,7 +1046,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public boolean isShowError() {
 		return showError;
 	}
@@ -1038,7 +1056,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public boolean isShowTracing() {
 		return showTracing;
 	}
@@ -1047,6 +1065,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.showTracing = showTracing;
 	}
 
+	@Transient
+	@XmlTransient 
 	private void startCriteria() {
 		if(this.builder==null && this.getSessionFactory()!=null) {
 			this.builder = this.getSessionFactory().getCriteriaBuilder();
@@ -1063,7 +1083,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public CriteriaQuery<T> getCriteria() {
 		this.startCriteria();
 		return this.criteria;
@@ -1073,7 +1093,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	 * @return the builder
 	 */
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public CriteriaBuilder getBuilder() {
 		this.startCriteria();
 		return this.builder;
@@ -1083,7 +1103,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	 * @return the root
 	 */
 	@Transient
-	@XmlTransient
+	@XmlTransient 
 	public Root<T> getRoot() {
 		this.startCriteria();
 		return this.root;
@@ -1111,16 +1131,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Field pk = this.getKeyFieldOfEntity(value);
 		if(pk!=null) {
 			pk.setAccessible(true);
-			Object v = null;
 			try {
-				v = pk.get(value);
+				Object v = pk.get(value);
+				pk.setAccessible(false);
+				return this.andWhereObject(name, name, operator, v,pk.getType());
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			pk.setAccessible(false);
-			return this.andWhereObject(name, name, operator, v,pk.getType());
 		}
 		return this.andWhereObject(name, name, operator, value,Object.class);
 	}
@@ -1135,16 +1154,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Field pk = this.getKeyFieldOfEntity(value);
 		if(pk!=null) {
 			pk.setAccessible(true);
-			Object v = null;
 			try {
-				v = pk.get(value);
+				Object v = pk.get(value);
+				pk.setAccessible(false);
+				return this.whereObject(name, name, operator, v,pk.getType());
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			pk.setAccessible(false);
-			return this.whereObject(name, name, operator, v,pk.getType());
 		}
 		return this.whereObject(name, name, operator, value,Object.class);
 	}
@@ -1159,16 +1177,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		Field pk = this.getKeyFieldOfEntity(value);
 		if(pk!=null) {
 			pk.setAccessible(true);
-			Object v = null;
 			try {
-				v = pk.get(value);
+				Object v = pk.get(value);
+				pk.setAccessible(false);
+				return this.orWhereObject(name, name, operator, v,pk.getType());
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			pk.setAccessible(false);
-			return this.orWhereObject(name, name, operator, v,pk.getType());
 		}
 		return this.orWhereObject(name, name, operator, value,Object.class);
 	}

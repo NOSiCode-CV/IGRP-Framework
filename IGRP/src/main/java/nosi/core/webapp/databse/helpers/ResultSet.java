@@ -108,7 +108,7 @@ public class ResultSet {
 		
 		public Boolean getBoolean(String name) {
 			Object v = this.getObject(name);
-			return v!=null?(boolean)v:null;
+			return v!=null?(boolean)v:false;
 		}
 		
 		public Integer getInt(String name) {

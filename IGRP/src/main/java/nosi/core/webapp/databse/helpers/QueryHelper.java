@@ -43,7 +43,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected String connectionName;
 	protected boolean whereIsCall = false;
 	protected Config_env config_env;
-	protected String[] returningKeys;
+	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
 	protected nosi.core.config.Connection connection;
 	protected ParametersHelper paramHelper;
@@ -54,7 +54,7 @@ public abstract class QueryHelper implements QueryInterface{
 	protected EntityManager em = null;
 	
 	public QueryHelper(Object connectionName) {
-		if(connectionName instanceof Config_env) {
+		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
 		}
 		this.columnsValue = new ArrayList<>();
@@ -64,6 +64,9 @@ public abstract class QueryHelper implements QueryInterface{
 		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}	
 
+	public QueryHelper() {
+		
+	}
 	private String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();
@@ -252,15 +255,17 @@ public abstract class QueryHelper implements QueryInterface{
 		this.columnsValue.add(c);
 	}
 	
+
+	protected OperationType operationType;
 	
 	public String getSql() {
-		if(this instanceof QueryInsert) {
+		if(this instanceof QueryInsert || (this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0)) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
-		else if(this instanceof QueryUpdate) {
+		else if(this instanceof QueryUpdate || (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) {
 			this.sql = this.getSqlUpdate(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
-		else if(this instanceof QueryDelete) {
+		else if(this instanceof QueryDelete || (this.operationType!=null && this.operationType.compareTo(OperationType.DELETE)==0)) {
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName()) + this.sql;
 		}
 		return sql;
@@ -350,8 +355,8 @@ public abstract class QueryHelper implements QueryInterface{
 			NamedParameterStatement q = null;
 			if(this instanceof QueryInsert) {
 				try {
-					if(this.returningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.returningKeys);
+					if(this.retuerningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
 					}else {
 						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					}
@@ -401,8 +406,8 @@ public abstract class QueryHelper implements QueryInterface{
 			if(this instanceof QueryInsert) {
 				try {
 					
-					if(this.returningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.returningKeys);
+					if(this.retuerningKeys!=null) {
+						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
 					}else {
 						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					}
@@ -432,7 +437,7 @@ public abstract class QueryHelper implements QueryInterface{
 		return this.sql;
 	}
 	
-	private void setParameters(NamedParameterStatement q) throws SQLException {
+	protected void setParameters(NamedParameterStatement q) throws SQLException {
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
 			 this.paramHelper.setParameter(q,col.getDefaultValue(),col);
 		}
@@ -706,8 +711,8 @@ public abstract class QueryHelper implements QueryInterface{
 
 	
 	@Override
-	public QueryInterface returning(String... returningKeys) {
-		this.returningKeys = returningKeys;
+	public QueryInterface returning(String... retuerningKeys) {
+		this.retuerningKeys = retuerningKeys;
 		return this;
 	}
 
@@ -854,7 +859,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	@Override
-	public void closeConnection() {
+	public void closeConnection() throws SQLException {
 		this.keepConnection = false;
 		this.close();
 	}

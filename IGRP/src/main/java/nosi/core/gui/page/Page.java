@@ -139,7 +139,6 @@ public class Page{
 		for(String aux : page.split("-")){
 			page_name += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 		}
-		page.replaceAll(".", "_");
 		return page_name;
 	}
 	

@@ -139,5 +139,5 @@ public interface BaseQueryInterface {
 
     public QueryInterface delete(String tableName);
     
-    public void closeConnection();
+    public void closeConnection() throws SQLException;
 }

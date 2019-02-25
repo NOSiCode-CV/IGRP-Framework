@@ -469,26 +469,27 @@ public class DatabaseMetadaHelper {
 		List<Column> list = new ArrayList<>();
 		if(config_env!=null && sql!=null) {
 			java.sql.Connection con = this.connection.getConnection(config_env);
-			PreparedStatement st = null;
-			ResultSet rs = null;
-		    st = con.prepareStatement(sql);
-		    rs = st.executeQuery();
-		    ResultSetMetaData metaData = rs.getMetaData();
-		    int columnsCount = metaData.getColumnCount();
-		    for(int i=1;i<=columnsCount;i++) {
-		    	Column col = new Column();
-		    	col.setName(metaData.getColumnName(i));
-		    	list.add(col);
-		    }
-			try {
-				if(st!=null)
-		    		st.close();
-		    	if(rs!=null)
-		    		rs.close();
-				if(con!=null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if(con!=null) {
+				PreparedStatement st = null;
+			    st = con.prepareStatement(sql);
+			    ResultSet rs = st.executeQuery();
+			    ResultSetMetaData metaData = rs.getMetaData();
+			    int columnsCount = metaData.getColumnCount();
+			    for(int i=1;i<=columnsCount;i++) {
+			    	Column col = new Column();
+			    	col.setName(metaData.getColumnName(i));
+			    	list.add(col);
+			    }
+				try {
+					if(st!=null)
+			    		st.close();
+			    	if(rs!=null)
+			    		rs.close();
+					if(con!=null)
+						con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}		
 		return list;
