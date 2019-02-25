@@ -1231,10 +1231,13 @@ public final class Core { // Not inherit
 		return new QueryInsert(Core.defaultConnection()).insert(tableName);
 	}
 
-	public static QueryInterface transaction(String tableName) {
-		return new nosi.core.webapp.databse.helpers.Transaction(Core.defaultConnection());
+	public static QueryInterface transaction(String connectionName) {
+		return new nosi.core.webapp.databse.helpers.Transaction(connectionName);
 	}
 
+	public static QueryInterface transaction() {
+		return new nosi.core.webapp.databse.helpers.Transaction(Core.defaultConnection());
+	}
 	
 	/**
 	 * Queey insert
