@@ -35,7 +35,7 @@ public class QuerySelect extends CommonFIlter{
 	}
 	
 	public QuerySelect() {				
-		this(null);			
+				
 	}
 
 	//Validate sql query

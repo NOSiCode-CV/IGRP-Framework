@@ -15,6 +15,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 		super(connectionName);
 	}
 
+	public CommonFIlter() {
+		
+	}
+	
 	@Override
 	public QueryInterface whereNotNull(String name) {
 		if(Core.isNotNull(name)) {

@@ -3,7 +3,7 @@ package nosi.core.webapp.databse.helpers;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
 import nosi.core.webapp.Core;
 
 /**
@@ -12,6 +12,7 @@ import nosi.core.webapp.Core;
  */
 public class Transaction extends QueryHelper{
 	private Connection conn;
+	
 	public Transaction(String connectionName) {
 		super(connectionName);
 	}
@@ -37,41 +38,46 @@ public class Transaction extends QueryHelper{
 			this.conn.rollback();
 		}
 	}
-
+	
+	@Override
+	public void closeConnection() throws SQLException {
+		if(this.conn!=null) {
+			this.conn.close();
+		}
+	}
+	
 	@Override
 	public QueryInterface insert(String tableName) {
+		this.operationType = OperationType.INSERT;
+		this.tableName = tableName;
 		return this;
 	}
 
 	@Override
 	public QueryInterface update(String tableName) {
+		this.operationType = OperationType.UPDATE;
+		this.tableName = tableName;
 		return this;
 	}
 
 	@Override
 	public QueryInterface delete(String tableName) {
+		this.operationType = OperationType.DELETE;
+		this.tableName = tableName;
 		return this;
 	}
 
 	@Override
 	public ResultSet execute() {
-		System.out.println("OK");
-		return null;
-		/*ResultSet r = new ResultSet();
-		Connection conn = this.connection.getConnection(this.getConnectionName());
-		if(conn!=null) {
-			try {
-				conn.setAutoCommit(this.isAutoCommit);
-			} catch (SQLException e1) {
-				this.setError(null, e1);
-			}
+		ResultSet r = new ResultSet();
+		if(this.conn!=null) {
 			NamedParameterStatement q = null;
-			if(this instanceof QueryInsert) {
+			if(this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0) {
 				try {
-					if(this.returningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.returningKeys);
+					if(this.retuerningKeys!=null) {
+						q = new NamedParameterStatement(this.conn ,this.getSql(),this.retuerningKeys);
 					}else {
-						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+						q = new NamedParameterStatement(this.conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
 					}
 					this.setParameters(q);	
 					Core.log("SQL:"+q.getSql());
@@ -82,7 +88,7 @@ public class Transaction extends QueryHelper{
 				}
 			}else {
 				try {
-					q = new NamedParameterStatement(conn, this.getSql());
+					q = new NamedParameterStatement(this.conn, this.getSql());
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
@@ -91,22 +97,9 @@ public class Transaction extends QueryHelper{
 					this.setError(r,e);
 				}
 			}
-			try {
-				if(!this.isAutoCommit)
-					conn.commit();
-			} catch (SQLException e) {
-				this.setError(r,e);
-			}finally {
-				try {
-					if(q!=null)
-						q.close();
-					if(conn!=null) 
-						conn.close();
-				} catch (SQLException e) {
-					this.setError(r, e);
-				}
-			}
 		}
-		return r;*/
+		this.columnsValue = new ArrayList<>();//restart mapped columns
+		this.sql = "";
+		return r;
 	}
 }
