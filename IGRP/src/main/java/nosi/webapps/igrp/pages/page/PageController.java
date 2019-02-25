@@ -712,6 +712,7 @@ public class PageController extends Controller {
 
 	public Response actionGetPageJson() throws IOException {
 		String p_id = Core.getParam("p_id");
+		String p_app = Core.getParam("p_app");
 		String json = ""; 
 		if (p_id != null && !p_id.isEmpty()) {
 			Action ac = null;
@@ -719,7 +720,7 @@ public class PageController extends Controller {
 				ac = new Action().findOne(Core.toInt(p_id));
 			}
 			else {
-				ac = new Action().find().andWhere("page", "=", p_id).one();
+				ac = new Action().find().andWhere("page", "=", p_id).andWhere("application.id", "=", p_app).one();
 			}
 			if (ac != null) {
 				json = FileHelper.readFile(this.getConfig().getCurrentBaseServerPahtXsl(ac) + "/",

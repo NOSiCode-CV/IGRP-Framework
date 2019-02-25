@@ -2649,6 +2649,16 @@ public final class Core { // Not inherit
 		return intToString.apply(array);
 	}
 	
+	/**
+	 * Compare 2 arrays if there are the same size
+	 * 
+	 * @param array1
+	 * @param array2
+	 * @return {@code
+	 *  if(Core.isNotNullMultiple(array1,array2))
+			r = array1.length==array2.length;
+		 return r;}
+	 */
 	public static boolean isArraySameSize(Object[]array1,Object[]array2) {
 		boolean r = false;
 		if(Core.isNotNullMultiple(array1,array2)) {
@@ -2656,9 +2666,21 @@ public final class Core { // Not inherit
 		}
 		return r;
 	}
-	
-	public static CheckBoxHelper extractCheckBox(String[] array_unchecked,String[] array_checked) {
-		return new CheckBoxHelper(array_unchecked, array_checked);
+	/**
+	 * Extracts from a list of checkboxs, the checked and unchecked
+	 * 
+	 * Example import nosi.core.webapp.helpers.CheckBoxHelper; 
+	 * {@code CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_menu"), Core.getParamArray("p_menu_check"));
+	 * cb.getUncheckedIds();
+	 * cb.getChekedIds()
+	 * 
+	 * }
+	 * @param array_checks - list of the id of the checkbox
+	 * @param array_checked - list of the checked checkbox
+	 * @return
+	 */
+	public static CheckBoxHelper extractCheckBox(String[] array_checks,String[] array__checks_checked) {
+		return new CheckBoxHelper(array_checks, array__checks_checked);
 	}
 	
 	/**

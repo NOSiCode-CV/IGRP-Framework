@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp_studio.pages.partilhageral;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -11,34 +12,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
+import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.Igrp;
 import java.util.HashMap;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Share;
 /*----#end-code----*/
-
-
-public class PartilhageralController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class PartilhageralController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Partilhageral model = new Partilhageral();
 		model.load();
 		PartilhageralView view = new PartilhageralView();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
-		model.loadTable_1(Core.query(null,"SELECT 'estado' as estado,'nome' as nome "));
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Unde adipiscing officia sit natus aliqua lorem sed adipiscing accusantium aliqua amet magna consecte' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		
-		----#gen-example */
+		  ----#gen-example */
 		/*----#start-code(index)----*/
-
+		String dad = Core.getCurrentDad();
+      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			model.setAplicacao_origem("" + (Core.findApplicationByDad(dad)).getId());
+       		model.setApp_or(model.getAplicacao_origem());        
+          	view.aplicacao_origem.propertie().add("disabled","true");			
+		}
 		view.aplicacao_origem.setValue(new Application().getListApps());
      		 //Hardcoded select element page for now
       	HashMap<String, String> targets = new HashMap<>(); 
@@ -56,7 +57,7 @@ public class PartilhageralController extends Controller {
 
 		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {	
 			
-		view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Core.toInt(v)));	
+		view.aplicacao_destino.setValue(new Application().getAllAppsActiveByFilterId(Core.toInt(v)));	
 		
 		});
 
@@ -104,28 +105,26 @@ public class PartilhageralController extends Controller {
 	}
 	
 	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		Partilhageral model = new Partilhageral();
 		model.load();
 		/*----#gen-example
-		  This is an example of how you can implement your code:
-		  In a .query(null,... change 'null' to your db connection name added in application builder.
-		
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Partilhageral","index", this.queryString()); //if submit, loads the values
-		
-		----#gen-example */
+		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(partilhar)----*/
 
-		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {			
+		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {	
+         	 if(Core.isNotNull(model.getApp_or()))
+           		 model.setAplicacao_origem(model.getApp_or());
 			sharePage(model); 
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Partilhageral","index", this.queryString());	
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 
 	private void sharePage(Partilhageral model) {
 		List<Share> shares = new ArrayList<Share>();
@@ -135,6 +134,9 @@ public class PartilhageralController extends Controller {
 					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem()))
 					.andWhere("type", "=", "PAGE").all();
 
+			
+			CheckBoxHelper cp = Core.extractCheckBox(Core.getParamArray("p_estado"), Core.getParamArray("p_estado_check"));
+			
 			List<Share> sharesRemoved = new ArrayList<Share>();
 			
 			sharesRemoved = new Share().find()
@@ -147,10 +149,11 @@ public class PartilhageralController extends Controller {
 				s.setStatus(0);
 				s.update();
 			}
-			String[] estados = Core.getParamArray("p_estado");
-			if (Core.isNotNull(estados) && estados.length > 0) {
+			
+			Boolean sucess=true;
+			
 				boolean flag = false;
-				for (String obj : estados) {
+				for (String obj : cp.getChekedIds()) {
 					for (Share s : shares) {
 						if (new String(s.getType_fk() + "").equals(obj)) {
 							s.setStatus(1);
@@ -175,14 +178,17 @@ public class PartilhageralController extends Controller {
 					share.setType("PAGE");
 					share.setType_fk(Core.toInt(obj));
 					share = share.insert();
-					if (share != null) {
-						Core.setMessageSuccess();
-					} else {
-						Core.setMessageError();
-					}
-
+					if (share.hasError()) {
+						sucess=false;
+					} 
 				}
+			
+			if (sucess) {
+				Core.setMessageSuccess();
+			} else {
+				Core.setMessageError();
 			}
+			
 		} else
 			Core.setMessageError();
 	}
@@ -193,4 +199,4 @@ public class PartilhageralController extends Controller {
 		}
 	}
 	/*----#end-code----*/
-	}
+}

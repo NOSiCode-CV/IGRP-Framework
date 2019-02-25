@@ -33,7 +33,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Iste mollit unde lorem totam' as tbl_tipo_documento,'Labore ut elit sed sit' as n_doc,'Consectetur voluptatem natus l' as nome_tab,'Sed doloremque anim accusantiu' as sexo_tab,'05-07-2014' as data_nascimento_tab,'Ut mollit deserunt aliqua omni' as nome_pai_tab,'Laudantium totam officia iste' as nome_mae_tab,'Unde sed iste unde aperiam' as data_emissao_tab,'Consectetur elit laudantium al' as emissor_tab,'1' as estado_civil,'1' as nat_conselho,'1' as residencia,'1' as dt_validade,'1' as n_bi "));
+		model.loadTable_1(Core.query(null,"SELECT 'Anim laudantium elit magna rem' as tipo_documento_tab,'Doloremque magna elit lorem ac' as n_doc_tab,'Totam lorem natus dolor anim' as nome_tab,'Ut natus perspiciatis anim mag' as sexo_tab,'06-03-2015' as data_nascimento_tab,'Sit adipiscing aperiam elit na' as nome_pai_tab,'Sed magna sit lorem deserunt' as nome_mae_tab,'Totam iste amet aperiam magna' as data_emissao_tab,'Sit doloremque iste totam laud' as emissor_tab,'1' as estado_civil,'1' as nat_conselho,'1' as residencia,'1' as dt_validade,'1' as bi_tab,'1' as nic_cni_tab,'1' as passaporte_tab "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -60,12 +60,12 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 					Pesquisa_bi_cni_passport.Table_1 tab_geral = new Pesquisa_bi_cni_passport.Table_1();
 					JSONObject pessoa = Entry.getJSONObject(i);
 					try {
-                    	tab_geral.setTbl_tipo_documento("BI");
-						tab_geral.setN_doc(pessoa.getString("BI"));
-                    	tab_geral.setN_bi(pessoa.getString("BI"));
+                    	tab_geral.setTipo_documento_tab("BI");
+						tab_geral.setN_doc_tab(pessoa.getString("BI"));
+                    	tab_geral.setBi_tab(pessoa.getString("BI"));
 					}catch (org.json.JSONException e) {
-						tab_geral.setN_doc(null);
-                     	tab_geral.setN_bi(null);
+						tab_geral.setN_doc_tab(null);
+                     	tab_geral.setBi_tab(null);
 					}
 					try {
 						tab_geral.setData_emissao_tab(pessoa.getString("DT_EMISSAO"));

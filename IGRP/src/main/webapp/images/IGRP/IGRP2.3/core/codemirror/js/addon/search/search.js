@@ -183,23 +183,18 @@
     if (state.annotate) { state.annotate.clear(); state.annotate = null; }
   });}
 
-  const hint= "(Ctrl-G Find next; Shift-Ctrl-G Find previous; Shift-Ctrl-F / Cmd-Option-F Replace; Shift-Ctrl-R Replace all; Alt-F Persistent; Alt-G Jump to line; (Use /re/ syntax for regexp search. )";
 
   function getQueryDialog(cm)  {
-    return '<span class="CodeMirror-search-label">' + cm.phrase("Search:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/><span style="color: #888" class="CodeMirror-search-hint">'
-    + cm.phrase(hint) + '</span>';
+    return '<span class="CodeMirror-search-label">' + cm.phrase("Search:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">' + cm.phrase("(Use /re/ syntax for regexp search)") + '</span>';
   }
   function getReplaceQueryDialog(cm) {
-    return ' <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">' +
-    cm.phrase(hint) + '</span>';
+    return ' <input type="text" style="width: 10em" class="CodeMirror-search-field"/> <span style="color: #888" class="CodeMirror-search-hint">' + cm.phrase("(Use /re/ syntax for regexp search)") + '</span>';
   }
   function getReplacementQueryDialog(cm) {
     return '<span class="CodeMirror-search-label">' + cm.phrase("With:") + '</span> <input type="text" style="width: 10em" class="CodeMirror-search-field"/>';
   }
   function getDoReplaceConfirm(cm) {
-    return '<span class="CodeMirror-search-label">' + cm.phrase("Replace?") + '</span> <button class="btn btn-warning">' + cm.phrase("Yes") 
-    + '</button> <button class="btn-normal btn btn-primary">' + cm.phrase("No") + '</button class="btn-normal btn btn-primary"> <button class="btn btn-danger">' + cm.phrase("All") + 
-    '</button> <button class="btn-normal btn btn-primary">' + cm.phrase("Stop") + '</button> ';
+    return '<span class="CodeMirror-search-label">' + cm.phrase("Replace?") + '</span> <button>' + cm.phrase("Yes") + '</button> <button>' + cm.phrase("No") + '</button> <button>' + cm.phrase("All") + '</button> <button>' + cm.phrase("Stop") + '</button> ';
   }
 
   function replaceAll(cm, query, text) {

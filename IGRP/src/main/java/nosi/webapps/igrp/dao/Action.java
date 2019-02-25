@@ -7,6 +7,7 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -265,7 +266,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 					aux.add(action);
 			}
 		
-		HashMap<Integer, String> lista = new HashMap<>();
+		LinkedHashMap<Integer, String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		List<Action> actions = this.find().andWhere("application.id", "=",app).andWhere("status", "=", 1)
 				.andWhere("isComponent", "=", (short)0).all();

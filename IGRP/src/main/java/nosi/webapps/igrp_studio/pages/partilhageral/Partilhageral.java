@@ -1,10 +1,14 @@
 package nosi.webapps.igrp_studio.pages.partilhageral;
+
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +19,8 @@ public class Partilhageral extends Model{
 	private String aplicacao_origem;
 	@RParam(rParamName = "p_elemento")
 	private String elemento;
+	@RParam(rParamName = "p_app_or")
+	private String app_or;
 	@RParam(rParamName = "p_aplicacao_destino")
 	private String aplicacao_destino;
 	
@@ -65,6 +71,13 @@ public class Partilhageral extends Model{
 		return this.elemento;
 	}
 	
+	public void setApp_or(String app_or){
+		this.app_or = app_or;
+	}
+	public String getApp_or(){
+		return this.app_or;
+	}
+	
 	public void setAplicacao_destino(String aplicacao_destino){
 		this.aplicacao_destino = aplicacao_destino;
 	}
@@ -73,7 +86,7 @@ public class Partilhageral extends Model{
 	}
 
 
-	public static class Table_1{
+	public static class Table_1 extends IGRPTable.Table{
 		private int estado;
 		private int estado_check;
 		private String nome;

@@ -72,16 +72,16 @@
                 </tipo_documento>
                 <numero_do_documento name="p_numero_do_documento" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Número do documento</label>
-                    <value>Accusantium doloremque omnis magna lorem</value>
+                    <value>Unde sed sit aliqua sed</value>
                     <rules/>
                 </numero_do_documento>
                 <nome name="p_nome" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Labore amet magna anim sit</value>
+                    <value>Deserunt ipsum sit lorem natus</value>
                 </nome>
                 <data_nascimento name="p_data_nascimento" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
                     <label>Data nascimento</label>
-                    <value>07-07-2017</value>
+                    <value>01-07-2012</value>
                 </data_nascimento>
             </fields>
             <tools-bar>
@@ -99,12 +99,12 @@
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <tbl_tipo_documento name="p_tbl_tipo_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <tipo_documento_tab name="p_tipo_documento_tab" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Doc.</label>
-                </tbl_tipo_documento>
-                <n_doc name="p_n_doc" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                </tipo_documento_tab>
+                <n_doc_tab name="p_n_doc_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
                     <label>N# do documento</label>
-                </n_doc>
+                </n_doc_tab>
                 <nome_tab name="p_nome_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
                     <label>Nome</label>
                 </nome_tab>
@@ -130,89 +130,101 @@
                 <nat_conselho name="p_nat_conselho" type="hidden" maxlength="30" iskey="false" java-type="" tag="nat_conselho"/>
                 <residencia name="p_residencia" type="hidden" maxlength="30" iskey="false" java-type="" tag="residencia"/>
                 <dt_validade name="p_dt_validade" type="hidden" maxlength="30" iskey="false" java-type="" tag="dt_validade"/>
-                <n_bi name="p_n_bi" type="hidden" maxlength="30" iskey="false" java-type="" tag="n_bi"/>
+                <bi_tab name="p_bi_tab" type="hidden" maxlength="30" iskey="false" java-type="" tag="bi_tab"/>
+                <nic_cni_tab name="p_nic_cni_tab" type="hidden" maxlength="30" iskey="false" java-type="" tag="nic_cni_tab"/>
+                <passaporte_tab name="p_passaporte_tab" type="hidden" maxlength="30" iskey="false" java-type="" tag="passaporte_tab"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <tbl_tipo_documento name="p_tbl_tipo_documento">Stract perspiciatis stract adi</tbl_tipo_documento>
-                        <n_doc name="p_n_doc">Doloremque labore natus mollit</n_doc>
-                        <nome_tab name="p_nome_tab">Deserunt dolor rem omnis strac</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Lorem dolor amet magna ut</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">02-01-2010</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Mollit sit consectetur volupta</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Mollit iste laudantium ipsum u</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Labore natus aliqua amet elit</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Accusantium ut aperiam laudant</emissor_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Aperiam labore dolor sit omnis</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Dolor stract unde deserunt ips</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Aliqua perspiciatis adipiscing</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Mollit laudantium sit mollit e</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">04-01-2016</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Deserunt labore elit magna off</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Aliqua magna unde sit perspici</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Omnis sit accusantium voluptat</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Amet laudantium dolor anim sit</emissor_tab>
                         <estado_civil name="p_estado_civil" tag="estado_civil">1</estado_civil>
                         <nat_conselho name="p_nat_conselho" tag="nat_conselho">1</nat_conselho>
                         <residencia name="p_residencia" tag="residencia">1</residencia>
                         <dt_validade name="p_dt_validade" tag="dt_validade">1</dt_validade>
-                        <n_bi name="p_n_bi" tag="n_bi">1</n_bi>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">1</bi_tab>
+                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">1</nic_cni_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">1</passaporte_tab>
                     </row>
                     <row>
-                        <tbl_tipo_documento name="p_tbl_tipo_documento">Laudantium natus dolor dolorem</tbl_tipo_documento>
-                        <n_doc name="p_n_doc">Iste magna ut accusantium dese</n_doc>
-                        <nome_tab name="p_nome_tab">Doloremque rem officia labore</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Accusantium mollit aliqua sit</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">01-01-2014</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Magna laudantium voluptatem na</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Anim labore stract anim aperia</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Unde perspiciatis stract offic</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Unde magna totam elit consecte</emissor_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Ut aperiam sit dolor stract</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Iste anim dolor adipiscing off</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Ut totam rem lorem accusantium</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Consectetur stract officia ani</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">01-03-2012</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Natus officia voluptatem iste</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Magna dolor aperiam natus stra</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Adipiscing unde officia adipis</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Anim iste aperiam sed aliqua</emissor_tab>
                         <estado_civil name="p_estado_civil" tag="estado_civil">1</estado_civil>
                         <nat_conselho name="p_nat_conselho" tag="nat_conselho">1</nat_conselho>
                         <residencia name="p_residencia" tag="residencia">1</residencia>
                         <dt_validade name="p_dt_validade" tag="dt_validade">1</dt_validade>
-                        <n_bi name="p_n_bi" tag="n_bi">1</n_bi>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">1</bi_tab>
+                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">1</nic_cni_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">1</passaporte_tab>
                     </row>
                     <row>
-                        <tbl_tipo_documento name="p_tbl_tipo_documento">Sit rem stract rem aliqua</tbl_tipo_documento>
-                        <n_doc name="p_n_doc">Aliqua lorem doloremque aliqua</n_doc>
-                        <nome_tab name="p_nome_tab">Anim unde lorem amet aliqua</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Sit unde omnis magna natus</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">02-05-2017</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Anim officia sit natus officia</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Laudantium mollit totam sed am</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Ut doloremque sit labore unde</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Mollit sed ipsum consectetur i</emissor_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Omnis aperiam ipsum doloremque</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Sit consectetur aperiam perspi</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Mollit rem sed accusantium sit</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Magna aliqua dolor totam unde</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">03-05-2010</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Lorem accusantium sed consecte</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Sed sit rem stract amet</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Ipsum aperiam consectetur sit</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Rem perspiciatis voluptatem to</emissor_tab>
                         <estado_civil name="p_estado_civil" tag="estado_civil">1</estado_civil>
                         <nat_conselho name="p_nat_conselho" tag="nat_conselho">1</nat_conselho>
                         <residencia name="p_residencia" tag="residencia">1</residencia>
                         <dt_validade name="p_dt_validade" tag="dt_validade">1</dt_validade>
-                        <n_bi name="p_n_bi" tag="n_bi">1</n_bi>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">1</bi_tab>
+                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">1</nic_cni_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">1</passaporte_tab>
                     </row>
                     <row>
-                        <tbl_tipo_documento name="p_tbl_tipo_documento">Laudantium ut deserunt accusan</tbl_tipo_documento>
-                        <n_doc name="p_n_doc">Perspiciatis labore perspiciat</n_doc>
-                        <nome_tab name="p_nome_tab">Laudantium elit anim aperiam d</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Sit doloremque officia laudant</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">04-07-2017</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Elit sit voluptatem anim sed</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Natus mollit laudantium magna</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Officia stract perspiciatis to</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Perspiciatis amet laudantium u</emissor_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Ut mollit unde officia elit</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Consectetur aliqua elit stract</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Anim accusantium labore ipsum</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Sit amet dolor sit mollit</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">06-06-2015</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Officia rem ipsum adipiscing i</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Omnis voluptatem lorem aliqua</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Rem accusantium amet perspicia</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Aperiam magna stract sit adipi</emissor_tab>
                         <estado_civil name="p_estado_civil" tag="estado_civil">1</estado_civil>
                         <nat_conselho name="p_nat_conselho" tag="nat_conselho">1</nat_conselho>
                         <residencia name="p_residencia" tag="residencia">1</residencia>
                         <dt_validade name="p_dt_validade" tag="dt_validade">1</dt_validade>
-                        <n_bi name="p_n_bi" tag="n_bi">1</n_bi>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">1</bi_tab>
+                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">1</nic_cni_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">1</passaporte_tab>
                     </row>
                     <row>
-                        <tbl_tipo_documento name="p_tbl_tipo_documento">Consectetur aliqua sed ut lore</tbl_tipo_documento>
-                        <n_doc name="p_n_doc">Amet voluptatem adipiscing ist</n_doc>
-                        <nome_tab name="p_nome_tab">Laudantium natus elit mollit d</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Laudantium aperiam sed elit vo</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">08-06-2017</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Laudantium dolor ipsum elit na</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Unde adipiscing rem lorem amet</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Laudantium perspiciatis unde n</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Amet mollit dolor stract dolor</emissor_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Deserunt elit rem ipsum adipis</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Consectetur sed perspiciatis t</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Omnis dolor mollit deserunt ap</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Magna dolor voluptatem unde ad</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">03-01-2011</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Stract sed aliqua ut deserunt</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Accusantium aperiam perspiciat</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Magna sit accusantium elit mag</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Consectetur magna mollit iste</emissor_tab>
                         <estado_civil name="p_estado_civil" tag="estado_civil">1</estado_civil>
                         <nat_conselho name="p_nat_conselho" tag="nat_conselho">1</nat_conselho>
                         <residencia name="p_residencia" tag="residencia">1</residencia>
                         <dt_validade name="p_dt_validade" tag="dt_validade">1</dt_validade>
-                        <n_bi name="p_n_bi" tag="n_bi">1</n_bi>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">1</bi_tab>
+                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">1</nic_cni_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">1</passaporte_tab>
                     </row>
                 </value>
             </table>
