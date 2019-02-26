@@ -1,5 +1,6 @@
 package nosi.base.ActiveRecord;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Date;
@@ -13,10 +14,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.xml.bind.annotation.XmlTransient;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.annotations.Expose;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
@@ -30,30 +35,57 @@ import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
  */
 
 @SuppressWarnings("unchecked")
-public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
+public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Expose(serialize = false) @JsonIgnore
 	protected String sql="";
+	@Expose(serialize = false) @JsonIgnore
 	protected String alias;
+	@Expose(serialize = false) @JsonIgnore
 	protected String connectionName;
+	@Expose(serialize = false) @JsonIgnore
 	private boolean whereIsCall = false;
+	@Expose(serialize = false) @JsonIgnore
 	private ResolveColumnNameQuery recq;
+	@Expose(serialize = false) @JsonIgnore
 	private int limit = -1;
+	@Expose(serialize = false) @JsonIgnore
 	private int offset = -1;	
+	@Expose(serialize = false) @JsonIgnore
 	private List<DatabaseMetadaHelper.Column> parametersMap;
+	@Expose(serialize = false) @JsonIgnore
 	private String schema = null;
+	@Expose(serialize = false) @JsonIgnore @JsonFormat(shape=JsonFormat.Shape.ARRAY)
 	private List<String> error;
+	@Expose(serialize = false) @JsonIgnore
 	private boolean isReadOnly = false;
+	@Expose(serialize = false) @JsonIgnore
 	private CriteriaBuilder builder = null;
+	@Expose(serialize = false) @JsonIgnore
 	private CriteriaQuery<T> criteria = null;
+	@Expose(serialize = false) @JsonIgnore
 	private Root<T> root = null;
+	@Expose(serialize = false) @JsonIgnore
 	private ParametersHelper paramHelper;
+	@Expose(serialize = false) @JsonIgnore
 	private String tableName;
+	@Expose(serialize = false) @JsonIgnore
 	private Class<T> className;
+	@Expose(serialize = false) @JsonIgnore
 	private T classNameCriteria;
+	@Expose(serialize = false) @JsonIgnore
 	private boolean showError = true;
+	@Expose(serialize = false) @JsonIgnore
 	private boolean showTracing = true;
+	@Expose(serialize = false) @JsonIgnore
 	private String columnsSelect = "";
+	@Expose(serialize = false) @JsonIgnore
 	private boolean keepConnection = false;
+	@Expose(serialize = false) @JsonIgnore
 	private String applicationName;
 	
 	public BaseActiveRecord() {
@@ -390,8 +422,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return (T) this;
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
+	@XmlTransient
 	public String getSql() {
 		return sql;
 	}
@@ -400,8 +432,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.sql = sql;
 	}
 
-	@Transient
-	@XmlTransient
+	@Transient	
 	protected String getAlias() {
 		return alias;
 	}
@@ -410,27 +441,23 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.alias = alias;
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected String generateSql() {
 		return " SELECT "+this.columnsSelect+" "+this.getAlias()+" FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected String generateSqlCount() {
 		return " SELECT count("+this.getAlias()+") FROM "+this.getTableName()+" "+this.getAlias()+" ";
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected Class<T> getClassType(){
 		ParameterizedType genericType = (ParameterizedType) this.getClass().getGenericSuperclass();
 		return (Class<T>) genericType.getActualTypeArguments()[0];
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected String getTableName() {
 		return this.tableName;
 	}
@@ -533,8 +560,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.connectionName = connectionName;
 	}
 
-	@Transient
-	@XmlTransient 
+	@Transient	
+	@XmlTransient
 	public String getConnectionName() {	
 		if(Core.isNotNullOrZero(this.applicationName) && Core.isNull(this.connectionName))
 			return Core.defaultConnection(this.applicationName);
@@ -558,8 +585,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return (T) this;
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected String getPrimaryKey() {
 		Field[] fields = this.className.getDeclaredFields();
 		for(Field field:fields) {
@@ -896,7 +922,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	@Transient
-	@XmlTransient 
+	 
 	public boolean delete() {
 		Object id = this.getValuePrimaryKey();
 		if(id!=null)
@@ -906,15 +932,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	@Transient
-	@XmlTransient 
+	@XmlTransient
 	public Object getValuePrimaryKey() {
 		Object id = this.getSessionFactory()!=null?this.getSessionFactory().getPersistenceUnitUtil().getIdentifier(this):null;
 		return id;
 	}
 
 	@Override
-	@Transient
-	@XmlTransient 
+	@Transient	 
+	@XmlTransient
 	public String getNamePrimaryKey() {
 		for(Field field:this.className.getClass().getDeclaredFields()){
 			if(field.isAnnotationPresent(Id.class))
@@ -925,7 +951,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 
 	@Override
 	@Transient
-	@XmlTransient 
+	@XmlTransient
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
 		Long count = (long) 0;
@@ -949,8 +975,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		return count;
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
+	@XmlTransient
 	public boolean isReadOnly() {
 		return isReadOnly;
 	}
@@ -959,8 +985,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.isReadOnly = isReadOnly;
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected Session getSession() {	
 		SessionFactory sessionFactory = null;
 		if(Core.isNotNull(this.applicationName)) {
@@ -974,8 +999,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	protected SessionFactory getSessionFactory() {		
 		SessionFactory sessionFactory = null;
 		if(Core.isNotNull(this.applicationName)) {
@@ -1019,13 +1043,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient 
+	@XmlTransient
 	public List<String> getError() {
 		return error;
 	}
 	
 	@Transient
-	@XmlTransient 
 	public boolean hasError() {
 		return this.error!=null && !this.error.isEmpty();
 	}
@@ -1046,7 +1069,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 
 	@Transient
-	@XmlTransient 
+	@XmlTransient
 	public boolean isShowError() {
 		return showError;
 	}
@@ -1056,7 +1079,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	}
 	
 	@Transient
-	@XmlTransient 
+	@XmlTransient
 	public boolean isShowTracing() {
 		return showTracing;
 	}
@@ -1065,8 +1088,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		this.showTracing = showTracing;
 	}
 
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	private void startCriteria() {
 		if(this.builder==null && this.getSessionFactory()!=null) {
 			this.builder = this.getSessionFactory().getCriteriaBuilder();
@@ -1082,8 +1104,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 		}
 	}
 	
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	public CriteriaQuery<T> getCriteria() {
 		this.startCriteria();
 		return this.criteria;
@@ -1092,8 +1113,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	/**
 	 * @return the builder
 	 */
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	public CriteriaBuilder getBuilder() {
 		this.startCriteria();
 		return this.builder;
@@ -1102,8 +1122,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T> {
 	/**
 	 * @return the root
 	 */
-	@Transient
-	@XmlTransient 
+	@Transient	 
 	public Root<T> getRoot() {
 		this.startCriteria();
 		return this.root;
