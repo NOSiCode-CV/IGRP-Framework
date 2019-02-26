@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -25,10 +27,15 @@ public class NovaOrganicaController extends Controller {
 		view.organizacao_pai.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-
-
-		if (!Igrp.getMethod().equalsIgnoreCase("post")) 		
-			model.setAplicacao(Core.getParam("id_app"));
+		
+      String dad = Core.getCurrentDad();
+      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());
+          view.aplicacao.propertie().add("disabled","true");
+			//setTable(model, data);
+		}
+	
+		//model.setAplicacao(Core.getParam("id_app"));
 		model.setAtivo(1);	
 		// Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());
@@ -48,7 +55,7 @@ public class NovaOrganicaController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovaOrganica","index", this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","NovaOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
@@ -59,22 +66,23 @@ public class NovaOrganicaController extends Controller {
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
 			 * Organization().findOne(model.getOrganica_pai())); }
 			 */
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			User u =  Core.getCurrentUser();              
+             
 			organization.setUser(u);
 			organization.setStatus(model.getAtivo());
 			organization.setName(model.getNome());
 			organization = organization.insert();
-			if (organization != null) {
+			if (organization != null && !organization.hasError()) {
 				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
 				// Core.setMessageInfoLink(gt("Atribuir menu para Orgânica: " +
 				// organization.getName()), "igrp",
 				// "MenuOrganica", "index&target=_blank&id=" + organization.getId() +
 				// "&type=org");
 			} else
-				Core.setMessageError(gt("Ocorreu um erro."));
+				Core.setMessageError("Ocorreu um erro.");
 			return this.forward("igrp", "NovaOrganica", "index");
 		}
-		Core.setMessageError(gt("Invalid request ..."));
+		Core.setMessageError("Invalid request ...");
 
 		/*----#end-code----*/
 		return this.redirect("igrp","NovaOrganica","index", this.queryString());	
@@ -86,7 +94,8 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganica model = new NovaOrganica();
 		NovaOrganicaView view = new NovaOrganicaView();
         model.load();
-		Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));
+     
+		Organization organization =  Core.findOrganizationById(Integer.parseInt(idOrganica));       
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());
 		model.setAplicacao("" + organization.getApplication().getId());

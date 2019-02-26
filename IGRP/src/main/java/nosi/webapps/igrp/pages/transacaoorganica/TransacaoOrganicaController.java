@@ -26,7 +26,7 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Sed laudantium mollit anim lau' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Mollit magna ipsum accusantium' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();

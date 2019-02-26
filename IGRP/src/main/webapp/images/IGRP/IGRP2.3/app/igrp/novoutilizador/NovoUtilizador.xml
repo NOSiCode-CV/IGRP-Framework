@@ -52,7 +52,7 @@
                 <app>igrp</app>
                 <page>NovoUtilizador</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>submit_ajax</target>
                 <img>primary|fa-save</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
             </item>
@@ -61,7 +61,7 @@
             <fields>
                 <email name="p_email" type="textarea" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ..." right="false">
                     <label>E-mail(s)</label>
-                    <value>Elit aliqua sed laudantium ut omnis unde anim sed accusantium officia sit stract natus stract</value>
+                    <value>Adipiscing natus aperiam magna natus doloremque voluptatem aliqua stract deserunt accusantium iste a</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>

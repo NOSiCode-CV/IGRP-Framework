@@ -59,7 +59,7 @@ public class NovoUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_gravar = new IGRPButton("Gravar","igrp","NovoUtilizador","gravar","submit","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","NovoUtilizador","gravar","submit_ajax","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		

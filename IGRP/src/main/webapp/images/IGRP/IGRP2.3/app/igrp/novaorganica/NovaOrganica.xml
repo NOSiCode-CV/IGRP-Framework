@@ -61,13 +61,13 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Accusantium mollit sit consectetur totam</value>
+                    <value>Accusantium aliqua natus aperiam mollit</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false">
                     <label>Código</label>
-                    <value>Stract laudantium stract anim labore</value>
+                    <value>Officia iste consectetur unde ipsum</value>
                 </codigo>
-                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" check="true">
+                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </ativo>
