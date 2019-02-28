@@ -783,10 +783,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			TypedQuery<T> query = this.getSession().createQuery(criteria);
-			this.setParameters(query);
-			list = query.getResultList();
-			transaction.commit();
+			if(transaction.isActive()) {
+				TypedQuery<T> query = this.getSession().createQuery(criteria);
+				this.setParameters(query);
+				list = query.getResultList();
+				transaction.commit();
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -836,14 +838,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			TypedQuery<T> query = this.getSession().createQuery(this.getSql(), this.className);
-			if(this.offset > -1)
-				query.setFirstResult(offset);
-			if(this.limit > -1)
-				query.setMaxResults(limit);
-			this.setParameters(query);
-			list = query.getResultList();
-			transaction.commit();
+			if(transaction.isActive()) {
+				TypedQuery<T> query = this.getSession().createQuery(this.getSql(), this.className);
+				if(this.offset > -1)
+					query.setFirstResult(offset);
+				if(this.limit > -1)
+					query.setMaxResults(limit);
+				this.setParameters(query);
+				list = query.getResultList();
+				transaction.commit();
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -865,14 +869,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			TypedQuery<T> query = this.getSession().createQuery(querySql, className);
-			if(offset > -1)
-				query.setFirstResult(offset);
-			if(limit > -1)
-				query.setMaxResults(limit);
-			this.setParameters(query);
-			list = query.getResultList();
-			transaction.commit();
+			if(transaction.isActive()) {
+				TypedQuery<T> query = this.getSession().createQuery(querySql, className);
+				if(offset > -1)
+					query.setFirstResult(offset);
+				if(limit > -1)
+					query.setMaxResults(limit);
+				this.setParameters(query);
+				list = query.getResultList();
+				transaction.commit();
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -890,8 +896,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			this.getSession().persist(this);
-			transaction.commit();
+			if(transaction.isActive()) {
+				this.getSession().persist(this);
+				transaction.commit();
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -909,8 +917,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			this.getSession().merge(this);
-			transaction.commit();
+			if(transaction.isActive()) {
+				this.getSession().merge(this);
+				transaction.commit();
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -931,9 +941,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			this.getSession().remove(this.getSession().find(this.className, id));
-			transaction.commit();
-			deleted=true;
+			if(transaction.isActive()) {
+				this.getSession().remove(this.getSession().find(this.className, id));
+				transaction.commit();
+				deleted=true;
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -984,10 +996,12 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
 			transaction.begin();
-			TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
-			this.setParameters(query);
-			count = (Long)query.getSingleResult();
-			transaction.commit();
+			if(transaction.isActive()) {
+				TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
+				this.setParameters(query);
+				count = (Long)query.getSingleResult();
+				transaction.commit();
+			}
 		}catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
