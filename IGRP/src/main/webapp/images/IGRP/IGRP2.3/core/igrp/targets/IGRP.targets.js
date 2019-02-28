@@ -189,6 +189,17 @@
 									'</li>';
 								}
 							});
+							var grvCntrl = $(xml).find('hidden[name="p_grv_control"]').text();
+
+							if(grvCntrl && grvCntrl*1 == 1){
+
+								if ($('img.croppie')[0])
+									$('img.croppie').attr('src','');
+	
+								$('input,select,textarea').val('');
+	
+								$('select').trigger('change');
+							}
 
 						}catch(e){
 							var str = resp.response;

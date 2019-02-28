@@ -191,7 +191,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T where(String name, String operator, Date value) {
 		return this.whereObject(name,name, operator, value,Date.class);
 	}
-
+	/**
+	 * Compares if is not null the name string, then it adds IS NOT NULL to query
+	 * if(Core.isNotNull(name))
+	 *  return ...name)+" IS NOT NULL "
+	 */
 	@Override
 	public T andWhereNotNull(String name) {
 		if(Core.isNotNull(name)) {
@@ -200,7 +204,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		return (T) this;
 	}
-	
+	/**
+	 * Depending in the operator, it call andWhereIsNull or andWhereNotNull
+	 * 
+	 * @param name
+	 * @param operator - can be "isnull" or "notnull"
+	 * @return
+	 */
 	public T andWhere(String name, String operator) {
 		if(operator.toString().equalsIgnoreCase("isnull")){
 			return this.andWhereIsNull(name);
@@ -210,6 +220,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T) this;
 	}
 	
+	/**
+	 * Compares if is not null the name string, then it adds IS NULL to query
+	 * if(Core.isNotNull(name))
+	 *  return ...name)+" IS NULL "
+	 */
 	@Override
 	public T andWhereIsNull(String name) {
 		if(Core.isNotNull(name)) {
@@ -241,6 +256,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T) this;
 	}
 	
+	/**
+	 * Compares if is not null the name string, then it adds IS NOT NULL to query
+	 * if(Core.isNotNull(name))
+	 *  return ...name)+" IS NOT NULL "
+	 */
 	@Override
 	public T orWhereNotNull(String name) {
 		if(Core.isNotNull(name)) {
@@ -250,6 +270,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T) this;
 	}
 
+	/**
+	 * Compares if is not null the name string, then it adds IS NULL to query
+	 * if(Core.isNotNull(name))
+	 *  return ...name)+" IS NULL "
+	 */
 	@Override
 	public T orWhereIsNull(String name) {
 		if(Core.isNotNull(name)) {

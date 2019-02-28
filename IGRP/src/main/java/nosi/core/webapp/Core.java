@@ -82,6 +82,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
@@ -767,9 +768,14 @@ public final class Core { // Not inherit
 	 * @return value/description
 	 */
 	public static String findDomainDescByKey(String domainsName, String key) {
-		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
-		domain.setReadOnly(true);
-		return domain.find().andWhere("dominio", "=", domainsName).andWhere("valor", "=", key).one().getDescription();
+	
+		final Domain onedom = Core.query("SELECT obj FROM Domain obj WHERE lower(obj.dominio) =:domainsname "
+				+ "AND lower(obj.valor) =:key")
+				.addString("domainsname", domainsName.toLowerCase())
+				.addString("key",key.toLowerCase())
+				.getSingleResult(Domain.class);				
+				
+		return onedom!=null?onedom.getDescription():"";
 	}
 
 	
