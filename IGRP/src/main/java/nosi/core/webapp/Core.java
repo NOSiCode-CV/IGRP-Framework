@@ -769,13 +769,21 @@ public final class Core { // Not inherit
 	 */
 	public static String findDomainDescByKey(String domainsName, String key) {
 	
-		final Domain onedom = Core.query("SELECT obj FROM Domain obj WHERE lower(obj.dominio) =:domainsname "
-				+ "AND lower(obj.valor) =:key")
-				.addString("domainsname", domainsName.toLowerCase())
-				.addString("key",key.toLowerCase())
-				.getSingleResult(Domain.class);				
-				
-		return onedom!=null?onedom.getDescription():"";
+		
+//		if(Core.isNull(domainsName) && Core.isNull(key))
+		if(!Core.isNotNullMultiple(domainsName,key))
+			return "";
+//		final Domain onedom = Core.query("SELECT obj FROM nosi.webapps.igrp.dao.Domain obj WHERE lower(obj.dominio) =:domainsname "
+//				+ "AND lower(obj.valor) =:key")
+//				.addString("domainsname",domainsName.toLowerCase())
+//				.addString("key",key.toLowerCase())
+//				.getSingleResult(Domain.class);				
+//				
+//		return onedom!=null?onedom.getDescription():"";
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		return domain.find().andWhere("dominio", "=", domainsName).andWhere("valor", "=", key).one().getDescription();
+
 	}
 
 	
@@ -1345,6 +1353,8 @@ public final class Core { // Not inherit
 		if(values!=null) {
 			for(Object value:values) {
 				r = Core.isNotNull(value);
+				if(r==false)
+					break;
 			}
 		}
 		return r;

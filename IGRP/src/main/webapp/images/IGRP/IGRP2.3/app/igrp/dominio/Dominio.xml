@@ -36,7 +36,7 @@
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Gestão de Domínios</title>
+        <title>Gestão de Dominio</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -120,50 +120,50 @@
             <table>
                 <value>
                     <row>
-                        <description name="p_description" desc="true">Stract sed labore perspiciatis mollit</description>
-                        <description_desc name="p_description_desc">Stract sed labore perspiciatis mollit</description_desc>
-                        <key name="p_key" desc="true">Dolor mollit sit sed magna</key>
-                        <key_desc name="p_key_desc">Dolor mollit sit sed magna</key_desc>
+                        <description name="p_description" desc="true">Ut sit omnis natus iste</description>
+                        <description_desc name="p_description_desc">Ut sit omnis natus iste</description_desc>
+                        <key name="p_key" desc="true">Stract sit consectetur unde officia</key>
+                        <key_desc name="p_key_desc">Stract sit consectetur unde officia</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Mollit deserunt rem iste labore</description>
-                        <description_desc name="p_description_desc">Mollit deserunt rem iste labore</description_desc>
-                        <key name="p_key" desc="true">Sed amet rem ipsum laudantium</key>
-                        <key_desc name="p_key_desc">Sed amet rem ipsum laudantium</key_desc>
+                        <description name="p_description" desc="true">Deserunt amet unde stract dolor</description>
+                        <description_desc name="p_description_desc">Deserunt amet unde stract dolor</description_desc>
+                        <key name="p_key" desc="true">Labore sed aliqua sit perspiciatis</key>
+                        <key_desc name="p_key_desc">Labore sed aliqua sit perspiciatis</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Amet lorem accusantium unde omnis</description>
-                        <description_desc name="p_description_desc">Amet lorem accusantium unde omnis</description_desc>
-                        <key name="p_key" desc="true">Ut omnis accusantium stract accusantium</key>
-                        <key_desc name="p_key_desc">Ut omnis accusantium stract accusantium</key_desc>
+                        <description name="p_description" desc="true">Amet mollit voluptatem elit consectetur</description>
+                        <description_desc name="p_description_desc">Amet mollit voluptatem elit consectetur</description_desc>
+                        <key name="p_key" desc="true">Labore lorem anim laudantium accusantium</key>
+                        <key_desc name="p_key_desc">Labore lorem anim laudantium accusantium</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Omnis consectetur sed iste anim</description>
-                        <description_desc name="p_description_desc">Omnis consectetur sed iste anim</description_desc>
-                        <key name="p_key" desc="true">Iste adipiscing laudantium lorem stract</key>
-                        <key_desc name="p_key_desc">Iste adipiscing laudantium lorem stract</key_desc>
+                        <description name="p_description" desc="true">Sed labore aliqua anim amet</description>
+                        <description_desc name="p_description_desc">Sed labore aliqua anim amet</description_desc>
+                        <key name="p_key" desc="true">Sit ipsum consectetur laudantium ipsum</key>
+                        <key_desc name="p_key_desc">Sit ipsum consectetur laudantium ipsum</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
                         <ordem_desc name="p_ordem_desc">1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Perspiciatis iste perspiciatis sit voluptatem</description>
-                        <description_desc name="p_description_desc">Perspiciatis iste perspiciatis sit voluptatem</description_desc>
-                        <key name="p_key" desc="true">Magna deserunt perspiciatis accusantium aperiam</key>
-                        <key_desc name="p_key_desc">Magna deserunt perspiciatis accusantium aperiam</key_desc>
+                        <description name="p_description" desc="true">Sit ut unde aliqua deserunt</description>
+                        <description_desc name="p_description_desc">Sit ut unde aliqua deserunt</description_desc>
+                        <key name="p_key" desc="true">Totam laudantium iste adipiscing natus</key>
+                        <key_desc name="p_key_desc">Totam laudantium iste adipiscing natus</key_desc>
                         <estado name="p_estado" desc="true">2</estado>
                         <estado_desc name="p_estado_desc">2</estado_desc>
                         <ordem name="p_ordem" tag="ordem" desc="true">1</ordem>
@@ -174,9 +174,9 @@
         </formlist_1>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Ex: yes_no, ID_TYPE..." right="false">
+                <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="Ex: RH_yes_no, SIT_id_type..." right="false">
                     <label>Novo domínio</label>
-                    <value>Laudantium sit sit dolor accusantium</value>
+                    <value>Doloremque consectetur officia sed ipsum</value>
                 </novo_dominio>
             </fields>
             <tools-bar>

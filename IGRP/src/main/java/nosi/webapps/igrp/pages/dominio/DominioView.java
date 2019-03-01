@@ -5,17 +5,17 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class DominioView extends View {
 
 	public Field sectionheader_1_text;
 	public Field lst_dominio;
 	public Field description;
-	public Field description_desc;
 	public Field key;
-	public Field key_desc;
 	public Field estado;
-	public Field estado_desc;
 	public Field ordem_desc;
 	public Field ordem;
 	public Field novo_dominio;
@@ -29,7 +29,7 @@ public class DominioView extends View {
 
 	public DominioView(){
 
-		this.setPageTitle("Gestão de Domínios");
+		this.setPageTitle("Gestão de Dominio");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
@@ -50,26 +50,18 @@ public class DominioView extends View {
 		
 		description = new TextField(model,"description");
 		description.setLabel(gt("Nome"));
-		description_desc = new TextField(model,"description_desc");
-		description_desc.setLabel(gt("Nome"));
 		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desc","true");
 		
 		key = new TextField(model,"key");
 		key.setLabel(gt("Valor"));
-		key_desc = new TextField(model,"key_desc");
-		key_desc.setLabel(gt("Valor"));
 		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desc","true");
 		
 		estado = new ListField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado_desc = new ListField(model,"estado_desc");
-		estado_desc.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("delimiter",";").add("desc","true");
 		
 		ordem = new HiddenField(model,"ordem");
 		ordem.setLabel(gt(""));
-		ordem_desc = new HiddenField(model,"ordem_desc");
-		ordem_desc.setLabel(gt(""));
 		ordem.propertie().add("name","p_ordem").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","ordem").add("desc","true");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
@@ -95,11 +87,8 @@ public class DominioView extends View {
 		form_1.addField(lst_dominio);
 
 		formlist_1.addField(description);
-		formlist_1.addField(description_desc);
 		formlist_1.addField(key);
-		formlist_1.addField(key_desc);
 		formlist_1.addField(estado);
-		formlist_1.addField(estado_desc);
 		formlist_1.addField(ordem);
 
 		form_2.addField(novo_dominio);
@@ -117,13 +106,9 @@ public class DominioView extends View {
 		
 		lst_dominio.setValue(model);
 		description.setValue(model);
-		description_desc.setValue(model);
 		key.setValue(model);
-		key_desc.setValue(model);
 		estado.setValue(model);
-		estado_desc.setValue(model);
 		ordem.setValue(model);
-		ordem_desc.setValue(model);
 		novo_dominio.setValue(model);	
 
 		formlist_1.loadModel(((Dominio) model).getFormlist_1());
