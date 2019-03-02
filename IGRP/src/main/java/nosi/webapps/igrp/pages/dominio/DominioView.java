@@ -70,7 +70,7 @@ public class DominioView extends View {
 		
 
 
-		btn_guardar = new IGRPButton("Guardar","igrp","Dominio","guardar","submit","warning|fa-pencil","","");
+		btn_guardar = new IGRPButton("Guardar","igrp","Dominio","guardar","submit_ajax","warning|fa-pencil","","");
 		btn_guardar.propertie.add("type","form").add("rel","guardar");
 
 		btn_novo = new IGRPButton("Novo","igrp","Dominio","novo","submit_form|refresh","success|fa-plus","","");

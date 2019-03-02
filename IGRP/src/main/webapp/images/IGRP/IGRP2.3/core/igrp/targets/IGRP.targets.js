@@ -7,9 +7,7 @@
 
 		var ev = $.IGRP.events;
 
-		ev.declare( ['target-click','submit-ajax'] );
-
-		$.IGRP.events.declare(['submit']);
+		ev.declare( ['target-click','submit-ajax','submit','before-change'] );
 
 		//confirm
 		var confirm = function(p){
@@ -189,16 +187,15 @@
 									'</li>';
 								}
 							});
-							var grvCntrl = $(xml).find('hidden[name="p_grv_control"]').text();
 
+							var grvCntrl = $(xml).find('hidden[name="p_grv_control"]').text();
+							
 							if(grvCntrl && grvCntrl*1 == 1){
 
 								if ($('img.croppie')[0])
 									$('img.croppie').attr('src','');
-	
-								$('input,select,textarea').val('');
-	
-								$('select').trigger('change');
+
+								$.IGRP.utils.resetFields();
 							}
 
 						}catch(e){

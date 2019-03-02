@@ -380,7 +380,7 @@ public final class Core { // Not inherit
 	public static nosi.webapps.igrp.dao.User findUserByEmail(String email) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 		user.setReadOnly(true);
-		return user.find().andWhere("email", "=", email).one();
+		return user.findIdentityByEmail(email);
 	}
 
 	/**
@@ -416,7 +416,7 @@ public final class Core { // Not inherit
 	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 		user.setReadOnly(true);
-		return user.find().andWhere("username", "=", userName).one();
+		return user.findIdentityByUsername(userName);
 	}
 
 	/**
@@ -752,14 +752,14 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	* Find Domains by domain code name
+	* Find Active Domains by domain code name
 	* @param domainsName domain code name
 	* @return {@code List< of Domains> }
 	*/
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().andWhere("dominio", "=", domainsName).all();
+		return domain.find().andWhere("dominio", "=", domainsName).andWhere("status","=","ATIVE").orderBy("ordem").all();
 	}
 	/**
 	 * Find the Value/Decription ok a domay key
