@@ -82,7 +82,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
-import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
@@ -747,7 +746,8 @@ public final class Core { // Not inherit
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser() {
 		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
-		user.setReadOnly(true);
+		if(user!=null)
+			user.setReadOnly(true);
 		return user;
 	}
 
