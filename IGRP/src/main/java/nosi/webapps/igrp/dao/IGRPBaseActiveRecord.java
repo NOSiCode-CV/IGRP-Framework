@@ -6,6 +6,11 @@ import nosi.core.webapp.Core;
 
 public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void setConnectionName(String connectionName) {
 		throw new UnsupportedOperationException();

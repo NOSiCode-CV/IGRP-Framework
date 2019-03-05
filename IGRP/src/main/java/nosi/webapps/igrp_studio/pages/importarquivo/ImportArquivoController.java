@@ -212,10 +212,14 @@ public class ImportArquivoController extends Controller {
 								String extensionName = fileName.substring(index+1);
 								String appImgPath = application.getDad();
 								String imgWorkSapce = Path.getImageWorkSpace(appImgPath);
+								String imgWorkSapce1 = Path.getImageWorkSpace("iconApp");
 								if(Core.isNotNull(imgWorkSapce))//Saving in your workspace case exists
 									imported = FileHelper.saveImage(imgWorkSapce, fileName,extensionName.toLowerCase(), part);
+								if(Core.isNotNull(imgWorkSapce1))//Saving in your workspace case exists
+									imported = FileHelper.saveImage(imgWorkSapce1, fileName,extensionName.toLowerCase(), part);
 								//Saving into server
 								imported = FileHelper.saveImage(Path.getImageServer(appImgPath), fileName,extensionName.toLowerCase(), part);
+								imported = FileHelper.saveImage(Path.getImageServer("iconApp"), fileName,extensionName.toLowerCase(), part);
 							}
 						}
 					}
