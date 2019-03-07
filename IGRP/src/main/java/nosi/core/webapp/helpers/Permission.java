@@ -66,7 +66,7 @@ public class Permission {
 	}
 
 	public  void changeOrgAndProfile(String dad){
-		Application app = new Application().find().andWhere("dad", "=", dad).one();
+		Application app = Core.findApplicationByDad(dad);
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		Profile prof = new Profile();
@@ -74,10 +74,7 @@ public class Permission {
 			int id_user = 0;
 			
 			try {// eliminar 
-				id_user = Igrp.getInstance()
-						.getUser().
-						getIdentity().
-						getIdentityId();
+				id_user = Core.getCurrentUser().getIdentityId();
 			}catch(Exception e) {
 				
 			}

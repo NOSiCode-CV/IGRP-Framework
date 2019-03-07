@@ -55,8 +55,13 @@ public class ListaPageController extends Controller {
 		String uri = Igrp.getInstance().getRequest().getRequestURI();
 		Core.log(uri);
 		if(!uri.equals("/IGRP/app/webapps"))
-			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) 
-				model.setApplication(Core.findApplicationByDad(uri.split("/")[1].toLowerCase()).getId().toString());
+			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+				final Application dad = Core.findApplicationByDad(uri.split("/")[1].toLowerCase());
+				if(dad!=null)
+					model.setApplication(dad.getId().toString());
+				
+			}
+				
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		ArrayList<ListaPage.Table_2> apps = new ArrayList<>();
 

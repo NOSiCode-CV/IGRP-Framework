@@ -40,6 +40,7 @@ package nosi.core.gui.components;
 </chart_1>
 */
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import java.util.ArrayList;
@@ -147,12 +148,12 @@ public class IGRPChart extends IGRPComponent{
 		if(columnSize >= 2 && columnSize<=3) {
 			List<Tuple> list = this.query.getResultList();	
 			Set<String> labels = new HashSet<>();
-			Map<String,Double> valuesXY = new HashMap<>();
+			Map<String,Double> valuesXY = new LinkedHashMap<>();
 			list.stream().forEach(t->{
 				try {
-					labels.add(t.get(0).toString());
-					String key = t.get(0).toString();
-					double v = Double.parseDouble(t.get(1).toString());
+					labels.add(t.get(0)!=null?t.get(0).toString():"");
+					String key = t.get(0)!=null?t.get(0).toString():"";
+					double v = Core.toDouble(t.get(1)!=null?t.get(0).toString():"0.0");
 					if(valuesXY.containsKey(key)) {
 						v+=valuesXY.get(key);
 					}
@@ -177,8 +178,8 @@ public class IGRPChart extends IGRPComponent{
 			values1.add(t.get(0).toString());
 			values2.add(t.get(1).toString());
 			Map<String, String> key = new LinkedHashMap<>();
-			key.put(t.get(0).toString(),t.get(1).toString());
-			double v = Double.parseDouble(t.get(2).toString());
+			key.put(t.get(0).toString(),t.get(1).toString());						
+			double v = Core.toDouble(t.get(2)!=null?t.get(2).toString():"0.0");
 			if(result.containsKey(key)) {
 				v+=result.get(key);
 				result.remove(key);
@@ -190,7 +191,7 @@ public class IGRPChart extends IGRPComponent{
 			this.xml.startElement("row");
 			this.xml.setElement("col", v2);
 			values1.stream().forEach(v1->{
-				Map<String,String> key = new HashMap<>();
+				Map<String,String> key = new LinkedHashMap<>();
 				key.put(v1, v2);
 				if(result.containsKey(key)) {
 					this.xml.setElement("col", result.get(key));

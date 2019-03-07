@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -26,59 +27,57 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-		
+
 public class PesquisarMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		PesquisarMenuView view = new PesquisarMenuView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Ut sed mollit dolor unde sit doloremque officia dolor sit anim accusantium rem ut natus amet elit de' as t1_menu_principal,'1' as ativo,'Mollit accusantium elit stract doloremque sed laudantium unde ipsum magna labore ut stract accusanti' as table_titulo,'Laudantium totam labore rem unde amet ipsum anim sit mollit consectetur sed totam lorem accusantium' as pagina,'1' as checkbox,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Doloremque omnis adipiscing unde anim mollit consectetur magna sit natus sit mollit deserunt aperiam' as t1_menu_principal,'1' as ativo,'11' as ordem,'Totam omnis laudantium dolor totam amet ipsum elit deserunt doloremque elit deserunt aliqua laudanti' as table_titulo,'Elit consectetur unde stract sed laudantium sit magna lorem amet iste dolor sit labore accusantium i' as pagina,'1' as checkbox,'1' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
-		int idApp =Core.getParamInt("p_id_app");
+		int idApp = Core.getParamInt("p_id_app");
 		int idOrg = 0;
 		// int idMen = 0;
 		// If in a app, choose automatically the app in the combobox
 		String dad = Core.getCurrentDad();
-       
+
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
-          view.aplicacao.propertie().add("disabled","true");
-		}else  {				
-				idApp = Core.toInt(model.getAplicacao());              
+			idApp = Core.findApplicationByDad(dad).getId();
+			view.aplicacao.propertie().add("disabled", "true");
+		} else {
+			idApp = Core.toInt(model.getAplicacao());
 		}
-      
-		if (idApp != 0) {			
-			model.setAplicacao("" + idApp);      
-			Core.setAttribute("p_aplicacao",""+idApp);
-			view.btn_btn_novo.addParameter("p_aplicacao",idApp);
+
+		if (idApp != 0) {
+			model.setAplicacao("" + idApp);
+			Core.setAttribute("p_aplicacao", "" + idApp);
+			view.btn_btn_novo.addParameter("p_aplicacao", idApp);
 		}
-	
-		
-     	model.setId_app(idApp);
+
+		model.setId_app(idApp);
 		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 		List<Menu> menus = null;
 
-		if (idOrg == 0 && idApp!=0) {
-			if(Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv")==0) {//User master
+		if (idOrg == 0 && idApp != 0) {
+			if (Core.getCurrentUser().getEmail().compareTo("igrpweb@nosi.cv") == 0) {// User master
 				menus = menu.find().andWhere("application.id", "=", idApp).all();
-			}else {
-				menus = menu.find().andWhere("application.id", "=", idApp)							
-						.andWhere("application", "<>", 1)//Oculta IGRP Core
-						.andWhere("application", "<>", 2)//Oculta IGRP Tutorial 
-						.andWhere("application", "<>", 3)//Oculta IGRP Studio
+			} else {
+				menus = menu.find().andWhere("application.id", "=", idApp).andWhere("application", "<>", 1)// Oculta
+																											// IGRP Core
+						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
+						.andWhere("application", "<>", 3)// Oculta IGRP Studio
 						.all();
-			}					
-			
-			Collections.sort(menus,new SortbyStatus());
-			
-			
+			}
+
+			Collections.sort(menus, new SortbyStatus());
+
 			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 			// Preenchendo a tabela
 			for (Menu menu_db1 : menus) {
@@ -86,18 +85,18 @@ public class PesquisarMenuController extends Controller {
 				table1.setT1_menu_principal("-");
 				if (Core.isNull(menu_db1.getMenu())) {
 					table1.setT1_menu_principal(menu_db1.getDescr());
-				} 
-				else if(menu_db1.getMenu().getId()!=menu_db1.getId()){
+				} else if (menu_db1.getMenu().getId() != menu_db1.getId()) {
 					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
 				}
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
-					if(menu_db1.getAction().getApplication().getId()!=idApp)
-						mdad=" «« ["+menu_db1.getAction().getApplication().getDad()+"]";
-					table1.setPagina(gt(menu_db1.getAction().getPage_descr())+" ("+menu_db1.getAction().getPage()+")"+mdad);
+					if (menu_db1.getAction().getApplication().getId() != idApp)
+						mdad = " «« [" + menu_db1.getAction().getApplication().getDad() + "]";
+					table1.setPagina(gt(menu_db1.getAction().getPage_descr()) + " (" + menu_db1.getAction().getPage()
+							+ ")" + mdad);
 					table1.setTable_titulo(gt(menu_db1.getDescr()));
 				}
-
+				table1.setOrdem(menu_db1.getOrderby());
 				table1.setAtivo(menu_db1.getStatus());
 				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 				table1.setCheckbox(menu_db1.getId());
@@ -107,20 +106,20 @@ public class PesquisarMenuController extends Controller {
 				}
 				lista.add(table1);
 			}
-			if(!lista.isEmpty())
+			if (!lista.isEmpty())
 				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 			view.table_1.addData(lista);
-		} 
+		}
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.id.setParam(true);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
-			/*----#end-code----*/
+		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -129,13 +128,13 @@ public class PesquisarMenuController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
-		this.addQueryString("app",Core.getParam("p_aplicacao"));
-      return this.forward("igrp","NovoMenu","index", this.queryString());
-				/*----#end-code----*/
-			
+		this.addQueryString("app", Core.getParam("p_aplicacao"));
+		return this.forward("igrp", "NovoMenu", "index", this.queryString());
+		/*----#end-code----*/
+
 	}
-	
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -149,12 +148,12 @@ public class PesquisarMenuController extends Controller {
 			this.addQueryString("p_id", id);
 			return this.forward("igrp", "NovoMenu", "index", this.queryString());
 		}
- 	
+
 		/*----#end-code----*/
-		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
+		return this.redirect("igrp", "PesquisarMenu", "index", this.queryString());
 	}
-	
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
@@ -163,20 +162,20 @@ public class PesquisarMenuController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
-		int id = Core.getParamInt("p_id");     
+		int id = Core.getParamInt("p_id");
 		Menu menu_db = new Menu();
 		if (Core.isNotNullOrZero(id)) {
-		if (menu_db.delete(id))
-			Core.setMessageSuccess();
-		else
-			Core.setMessageError();		
+			if (menu_db.delete(id))
+				Core.setMessageSuccess();
+			else
+				Core.setMessageError();
 		}
- 	return this.redirect("igrp","PesquisarMenu","index", model, this.queryString()); 
+		return this.redirect("igrp", "PesquisarMenu", "index", model, this.queryString());
 		/*----#end-code----*/
-			
+
 	}
-	
-/*----#start-code(custom_actions)----*/
+
+	/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
 	public Response actionMyMenu() throws IOException {
@@ -184,7 +183,7 @@ public class PesquisarMenuController extends Controller {
 		xml_menu.startElement("menus");
 		if (Igrp.getInstance().getUser().isAuthenticated()) {
 			Menu x = new Menu();
-			HashMap<String, List<MenuProfile>> menu = x.getMyMenu();
+			LinkedHashMap<String, List<MenuProfile>> menu = x.getMyMenu();
 			if (menu != null) {
 				for (Entry<String, List<MenuProfile>> m : menu.entrySet()) {
 					xml_menu.startElement("menu");
@@ -192,7 +191,7 @@ public class PesquisarMenuController extends Controller {
 					
 					for (MenuProfile main : m.getValue()) {
 						if (main.isSubMenuAndSuperMenu()) {
-							xml_menu.setElement("link","webapps?r=" + main.getLink());							
+							xml_menu.setElement("link", "webapps?r=" + main.getLink());
 							xml_menu.setElement("target", main.getTarget());
 						}
 						xml_menu.setElement("order", "" + main.getOrder());
@@ -219,44 +218,51 @@ public class PesquisarMenuController extends Controller {
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
 		List<TaskAccess> listTask = new TaskAccess().getTaskAccess();
-		List<TaskAccess> listStartProc = listTask.stream().filter(t->t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList());
-		boolean isStartProc = listStartProc!=null && listStartProc.size() > 0;
-		boolean isTask = listTask!=null?listTask.stream().filter(t->!t.getTaskName().equalsIgnoreCase("Start"+t.getProcessName())).collect(Collectors.toList()).size() > 0:false;
-		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");		
+		List<TaskAccess> listStartProc = listTask.stream()
+				.filter(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
+				.collect(Collectors.toList());
+		boolean isStartProc = listStartProc != null && listStartProc.size() > 0;
+		boolean isTask = listTask != null
+				? listTask.stream().filter(t -> !t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
+						.collect(Collectors.toList()).size() > 0
+				: false;
+		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
 		String dad = Core.getParam("dad");
-		if(!(dad.compareTo("igrp")==0)){
-			 Application app = Core.getCurrentApp();
-			 String page = "tutorial/DefaultPage/index&title="+app.getName();
-			 if(app.getAction()!=null) {
-				 page = app.getAction().getApplication().getDad().toLowerCase()+"/" + app.getAction().getPage()+"/"+app.getAction().getAction();
-			 }
-			 topMenu.addItem("Home", "igrp_studio","env","openApp"+"&app="+dad+"&page="+page, "_self", "home.png", "webapps?r=");
-		}else {
-			 topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
+		if (!(dad.compareTo("igrp") == 0)) {
+			Application app = Core.getCurrentApp();
+			String page = "tutorial/DefaultPage/index&title=" + app.getName();
+			if (app.getAction() != null) {
+				page = app.getAction().getApplication().getDad().toLowerCase() + "/" + app.getAction().getPage() + "/"
+						+ app.getAction().getAction();
+			}
+			topMenu.addItem("Home", "igrp_studio", "env", "openApp" + "&app=" + dad + "&page=" + page, "_self",
+					"home.png", "webapps?r=");
+		} else {
+			topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
 		}
-		String flag="english_flag.png";
+		String flag = "english_flag.png";
 		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
 			if (cookie.getName().equals("igrp_lang")) {
-				switch (cookie.getValue()){
+				switch (cookie.getValue()) {
 				case "pt_PT":
-					flag="portuguese_flag.png";
+					flag = "portuguese_flag.png";
 					break;
 				case "es_ES":
-					flag="spanish_flag.png";
+					flag = "spanish_flag.png";
 					break;
 				case "fr_FR":
-					flag="french_flag.png";
-					break;				
+					flag = "french_flag.png";
+					break;
 				}
 			}
 		}
-		
-		
+
 		topMenu.addItem("Settings", "igrp", "Settings", "index", "modal", flag, "webapps?r=");
-		if(isStartProc) {
-			topMenu.addItem("Mapa Processos", "igrp", "Dash_board_processo", "index", "_self", "process.png", "webapps?r=");
-		}	
-		if(isTask){
+		if (isStartProc) {
+			topMenu.addItem("Mapa Processos", "igrp", "Dash_board_processo", "index", "_self", "process.png",
+					"webapps?r=");
+		}
+		if (isTask) {
 			topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
 		}
 		this.format = Response.FORMAT_XML;
@@ -282,14 +288,13 @@ public class PesquisarMenuController extends Controller {
 		json.put("status", response);
 		return this.renderView(json.toString());
 	}
-	class SortbyStatus implements Comparator<Menu>
-	{
-	    // Used for sorting in ascending order of
-	    // roll number
-	    public int compare(Menu a, Menu b)
-	    {
-	        return b.getStatus() - a.getStatus();
-	    }
+
+	class SortbyStatus implements Comparator<Menu> {
+		// Used for sorting in ascending order of
+		// roll number
+		public int compare(Menu a, Menu b) {
+			return b.getStatus() - a.getStatus();
+		}
 	}
 	/*----#end-code----*/
 }

@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.persistence.Column;
 import nosi.core.webapp.Core;
@@ -196,9 +197,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	}
 	
 
-	public HashMap<String,List<MenuProfile>> getMyMenu() {
+	public LinkedHashMap<String,List<MenuProfile>> getMyMenu() {
 		
-		HashMap<String,List<MenuProfile>> list = new HashMap<>();
+		LinkedHashMap<String,List<MenuProfile>> list = new LinkedHashMap<>();
 		String currentDad = Core.getCurrentDad();
 		Record row = Core.query(this.getConnectionName(),sqlMenuByProfile)
 						 .union()
@@ -212,7 +213,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						 .addString("dad", currentDad )
 						 .addInt("status", 1)
 						 .addInt("user_fk", Core.getCurrentUser().getId())
-						 .orderBy(new String[] {"orderby","ASC"})
+						 .orderByAsc("orderby")
 						 .getRecordList();
 		if(row.RowList!=null) {
 				row.RowList.forEach(r->{
@@ -241,8 +242,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return list;
 	}
 
-	public HashMap<Integer, String> getListPrincipalMenus() {
-		HashMap<Integer,String> lista = new HashMap<>();
+	public LinkedHashMap<Integer, String> getListPrincipalMenus() {
+		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		for(Menu m:this.findAll(this.getCriteria().where(this.getBuilder().isNull(this.getRoot().get("menu"))))){
 			lista.put(m.getId(),m.getDescr());
@@ -250,8 +251,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		return lista;
 	}	
 	
-	public HashMap<Integer, String> getListPrincipalMenus(int app) {
-		HashMap<Integer,String> lista = new HashMap<>();
+	public LinkedHashMap<Integer, String> getListPrincipalMenus(int app) {
+		LinkedHashMap<Integer,String> lista = new LinkedHashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		List<Menu> aux = this.find().andWhere("application", "=",app).andWhere("menu", "isnull").all();
 		for(Menu m : aux){
