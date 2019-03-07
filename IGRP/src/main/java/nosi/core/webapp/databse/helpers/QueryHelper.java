@@ -54,19 +54,20 @@ public abstract class QueryHelper implements QueryInterface{
 	protected EntityManager em = null;
 	
 	public QueryHelper(Object connectionName) {
+		this();
 		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
 		}
-		this.columnsValue = new ArrayList<>();
-		this.connection = new nosi.core.config.Connection();
 		this.connectionName = this.getMyConnectionName(connectionName);
-		this.paramHelper = new ParametersHelper();
-		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}	
 
 	public QueryHelper() {
-		
+		this.columnsValue = new ArrayList<>();
+		this.connection = new nosi.core.config.Connection();
+		this.paramHelper = new ParametersHelper();
+		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}
+	
 	private String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();
