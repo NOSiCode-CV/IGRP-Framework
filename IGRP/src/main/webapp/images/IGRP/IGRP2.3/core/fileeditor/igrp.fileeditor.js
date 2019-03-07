@@ -456,6 +456,8 @@
 			$('.'+selectors.leftPanelClss+' li').removeAttr('style');
 
 			$('.'+selectors.leftPanelClss+' .collapse').removeAttr('style');
+
+			$('.'+selectors.searchClearClss).hide();
 			
 			if(clearText)
 
@@ -473,6 +475,8 @@
 			if(val && val.length > 1){
 
 				var items = $('.'+selectors.leftPanelClss+' [item-name*='+val+']');
+
+				$('.'+selectors.searchClearClss).show();
 
 				$('.'+selectors.leftPanelClss+' li').hide();
 
