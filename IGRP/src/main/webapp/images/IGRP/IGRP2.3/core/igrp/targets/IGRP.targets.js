@@ -575,7 +575,7 @@
 
 					});
 
-					if(target[0] && target[0]._import)
+					if(target && target[0] && target[0]._import)
 
 						target[0]._import(Arr);
 
