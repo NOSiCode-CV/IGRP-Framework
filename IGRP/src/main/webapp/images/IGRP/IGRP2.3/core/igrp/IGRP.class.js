@@ -81,15 +81,23 @@
 
 			check : function(){
 				
-				var ww = $(window).width();
+				try{
+					
+					$('body').removeAttr('screen-size');
 
-				$('body').removeAttr('screen-size');
+					if( ResponsiveBootstrapToolkit.is('sm') )
 
-				if( ResponsiveBootstrapToolkit.is('sm') )
-					$('body').attr('screen-size', 'sm')
+						$('body').attr('screen-size', 'sm');
 
-				if( ResponsiveBootstrapToolkit.is('xs') )
-					$('body').attr('screen-size', 'xs')
+					if( ResponsiveBootstrapToolkit.is('xs') )
+
+						$('body').attr('screen-size', 'xs');
+
+				}catch(e){
+
+					null;
+					
+				}
 				
 				
 			}

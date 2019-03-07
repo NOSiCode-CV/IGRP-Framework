@@ -673,11 +673,6 @@ body.sidebar-off .navbar-brand {
   border: 0; 
 }
 
-
-.modal-body {
-     font-weight: bolder; 
-    font-size: larger;
-}
 .modal-body:after{
   content:"";
   display: block;

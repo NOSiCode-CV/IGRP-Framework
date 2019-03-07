@@ -229,7 +229,7 @@ table.dataTable th.bs-checkbox{
 }
 
 .table>thead>tr>th{
-/*   padding:15px; */
+   padding:15px; 
 }
 /* inline ctx menu*/
 .igrp-table-ctx-th{

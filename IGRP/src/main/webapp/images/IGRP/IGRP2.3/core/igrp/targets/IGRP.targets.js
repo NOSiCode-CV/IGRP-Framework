@@ -510,6 +510,92 @@
 		var remoteList = function(p){
 
 		};
+
+		var formListLookup = function(p){
+
+			try{
+
+				var table = $('#igrp-contents table').first();
+
+				if(table[0]){
+
+					var selecteds = $('.checkdcontrol',table).filter(':checked'),
+
+						Arr 	  = [],
+
+						form      = null,
+
+						target    = null,
+
+						field = null;
+
+					selecteds.each(function(i, e){
+
+						var tr 			= $(e).parents('tr'),
+
+							object      = tr,
+
+							paramsCount = 1*tr.attr("CTX_PARAM_COUNT")+1,
+
+		  					formName    = tr.attr("CTX_FORM") ? tr.attr("CTX_FORM") : 'formular_default',
+
+		  					formIdx     = tr.attr("CTX_FORM_IDX") ? parseInt(tr.attr("CTX_FORM_IDX")) : 0;
+
+		  				form = window.opener ? window.opener.document.forms[formName] : window.parent.document.forms[formName];
+
+		  				if(form){
+
+		  					list  = {};
+
+		  					for(var i = 1; i < paramsCount; i++){
+
+		  						var vOp   = object.attr("CTX_P"+i).split("=");
+
+		  						if(vOp[0]){
+
+		  							var name  	   = vOp[0].replace("p_", ""),
+
+		  								value 	   = vOp[1],
+
+		  								inputField = $( '*[name="p_'+name+'_fk"]',form );
+
+		  							if(!target || !target[0])
+
+		  								target = inputField.parents('table').first();
+
+		  							list[name] = value;
+
+		  						}
+
+		  					}
+
+		  					Arr.push(list);
+
+		  				}
+
+					});
+
+					if(target[0] && target[0]._import)
+
+						target[0]._import(Arr);
+
+					if(window.parent)
+						window.parent.$.IGRP.components.iframeNav.hide();
+					
+					if(window.opener)
+						window.close();
+					
+				}
+
+			}catch(error){
+
+				console.log(error);
+			
+			}
+
+			return false;
+
+		};
 		
 		var setTargetParameter = function(url){
 			
@@ -531,6 +617,7 @@
 			
 			return symb;
 		}
+		
 		
 
 		$.IGRP.targets = {
@@ -587,6 +674,13 @@
 
 			},
 
+			formListLookup : {
+
+				label : 'Formlist Lookup',
+
+				action : formListLookup
+
+			},
 			
 			submit_popup : {
 
