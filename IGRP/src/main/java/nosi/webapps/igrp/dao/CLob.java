@@ -34,7 +34,7 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	private String name;
 	private String mime_type;
 	
-	@Column(nullable=false, columnDefinition="BLOB")
+	@Column(nullable=false)
 	@Lob
 	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] c_lob_content;
