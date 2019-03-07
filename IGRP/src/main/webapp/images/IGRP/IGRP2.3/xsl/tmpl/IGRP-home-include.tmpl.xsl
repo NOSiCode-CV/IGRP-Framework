@@ -204,7 +204,7 @@
 
         <ul class="nav nav-sidebar">
           <xsl:for-each select="$menus/menu">
-           <xsl:sort select="order"/>
+         
             <xsl:variable name="parentId" select="concat($APP,'-',position())" />
             <li parent-id="{$parentId}">
               <xsl:choose>

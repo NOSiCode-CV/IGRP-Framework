@@ -39,7 +39,7 @@ public class TransacaoOrganicaController extends Controller {
 			User user = null;
 			Profile profile = null;
 			if(type.equals("org")){
-				Organization org = new Organization().findOne(id);
+				Organization org = Core.findOrganizationById(id);
 				transactions = new Organization().getOrgTransaction(org.getApplication().getId(),org.getId());
 				view.btn_gestao_de_transacoes.addParameter("p_aplicacao", org.getApplication().getId());
 			}else if(type.equals("perfil")){

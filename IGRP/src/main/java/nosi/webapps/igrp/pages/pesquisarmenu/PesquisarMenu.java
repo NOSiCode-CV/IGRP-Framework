@@ -72,6 +72,7 @@ public class PesquisarMenu extends Model{
 		private String t1_menu_principal;
 		private int ativo;
 		private int ativo_check;
+		private int ordem;
 		private String table_titulo;
 		private String pagina;
 		private int checkbox;
@@ -95,6 +96,13 @@ public class PesquisarMenu extends Model{
 		}
 		public int getAtivo_check(){
 			return this.ativo_check;
+		}
+
+		public void setOrdem(int ordem){
+			this.ordem = ordem;
+		}
+		public int getOrdem(){
+			return this.ordem;
 		}
 
 		public void setTable_titulo(String table_titulo){
