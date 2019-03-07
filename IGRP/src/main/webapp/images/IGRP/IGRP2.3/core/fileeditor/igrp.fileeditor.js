@@ -6,7 +6,11 @@
 
 			leftPanelClss : 'igrp-fileeditor-left-panel',
 
-			saveClss 	  : 'igrp-fileeditor-save'
+			saveClss 	  : 'igrp-fileeditor-save',
+
+			searchClss    : 'fileeditor-searcher',
+
+			searchClearClss : 's-clear'
 		};
 
 	function FileEditor(dom){
@@ -447,6 +451,55 @@
 
 		};
 
+		function ClearSearch( clearText ){
+
+			$('.'+selectors.leftPanelClss+' li').removeAttr('style');
+
+			$('.'+selectors.leftPanelClss+' .collapse').removeAttr('style');
+			
+			if(clearText)
+
+				$('.'+selectors.searchClss).val('');
+
+		};
+
+
+		function Search(){
+
+			var input = $('.'+selectors.searchClss,dom),
+
+				val   = input.val();
+
+			if(val && val.length > 1){
+
+				var items = $('.'+selectors.leftPanelClss+' [item-name*='+val+']');
+
+				$('.'+selectors.leftPanelClss+' li').hide();
+
+				items.each(function(i,item){
+					
+					var holder = $(item).parents('.collapse, .collapsing'),
+
+						id 	   = holder.attr('id');
+
+					holder.show();
+
+					holder.parent().show();
+
+					holder.collapse('show');
+
+					$(item).show();
+
+				});
+
+			}else{
+
+				ClearSearch(false);
+
+			}
+
+		};
+
 		function ResizeTab(){
 
 			/*var ul   = $('ul',fileEditor.viewr),
@@ -478,6 +531,10 @@
 			//$(dom).on('keydown','.adder-input', ValidateNewItemName );
 
 			$(dom).on('click','.'+selectors.saveClss, Save);
+			
+			$(dom).on('keyup', '.'+selectors.searchClss, Search);
+
+			$(dom).on('click', '.'+selectors.searchClearClss, ClearSearch);
 
 		};
 
@@ -486,6 +543,8 @@
 			fileEditor.menu = $(fileEditor.templates.tree(dir));
 
 			$('.'+selectors.leftPanelClss,dom).html(fileEditor.menu);
+
+			$('.'+selectors.leftPanelClss,dom).prepend( fileEditor.templates.search() );
 
 			ResizeTab();
 

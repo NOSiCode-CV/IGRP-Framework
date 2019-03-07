@@ -364,3 +364,17 @@ div[item-name="igrp-fileeditor"] ul.nav li.active a:after{
 	outline: 0;
 	width: 80%;
 }
+/*search files and dirs*/
+.fileeditor-search-wrapper{
+	margin-right:15px;
+}
+
+.fileeditor-search-wrapper input,
+.fileeditor-search-wrapper span{
+	background: rgba(0,0,0,.15);
+	border: 0;
+	outline: 0;
+	border-color: rgba(0,0,0,.15);
+	height: 35px;
+	color:white
+}

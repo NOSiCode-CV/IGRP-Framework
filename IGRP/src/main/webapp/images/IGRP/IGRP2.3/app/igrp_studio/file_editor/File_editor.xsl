@@ -68,8 +68,6 @@
           <script src="{$path}/core/codemirror/js/addon/search/dialog.js"></script>
           <script src="{$path}/core/codemirror/js/addon/search/jump-to-line.js"></script>
 
-          <script src="{$path}/core/codemirror/js/clike.js"></script>
-
         <script src="{$path}/core/codemirror/js/clike.js"></script>
 
         <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js?v={$version}"/>
