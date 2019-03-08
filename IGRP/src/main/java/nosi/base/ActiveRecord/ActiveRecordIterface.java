@@ -85,6 +85,14 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	
 	public T where(String name,String paramName,String operator,Short value);
 	
+	public T whereIn(String columnName, Number... numbers);
+	
+	public T whereIn(String columnName, String... strings);
+	
+	public T whereNotIn(String columnName, String... strings);
+	
+	public T whereNotIn(String columnName, Number... numbers);
+	
 	public T andWhere(String name,String paramName,String operator,String value);
 	
 	public T andWhere(String name,String paramName,String operator,Integer value);
