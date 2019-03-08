@@ -1301,4 +1301,56 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 
 	*/
+	
+	@Override
+	public T whereNotIn(String columnName, Number... numbers) {
+		if(Core.isNotNull(columnName)&&numbers!=null&&numbers.length>0) {
+			this.where("");
+			String lista = "";
+			for(Number n : numbers) {
+				lista = lista + "," + n ;
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + lista.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	@Override
+	public T whereNotIn(String columnName, String... strings) {
+		if(Core.isNotNull(columnName)&&strings!=null&&strings.length>0) {
+			this.where("");
+			String lista = "";
+			for(String n : strings) {
+				lista = lista + ",'" + n + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " NOT IN (" + lista.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	@Override
+	public T whereIn(String columnName, Number... numbers) {
+		if(Core.isNotNull(columnName)&&numbers!=null&&numbers.length>0) {
+			this.where("");
+			String lista = "";
+			for(Number n : numbers) {
+				lista = lista + "," + n ;
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + lista.substring(1) + ") ");
+		}
+		return (T)this;
+	}
+	
+	@Override
+	public T whereIn(String columnName, String... strings) {
+		if(Core.isNotNull(columnName)&&strings!=null&&strings.length>0) {
+			this.where("");
+			String lista = "";
+			for(String n : strings) {
+				lista = lista + ",'" + n + "'";
+			}
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + lista.substring(1) + ") ");
+		}
+		return (T)this;
+	}
 }
