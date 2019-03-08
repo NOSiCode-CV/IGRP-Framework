@@ -92,6 +92,12 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	public T whereNotIn(String columnName, String... strings);
 	
 	public T whereNotIn(String columnName, Number... numbers);
+
+	public T whereBetween(String columnName, Object o1, Object o2);
+	
+	public T orWhereBetween(String columnName, Object o1, Object o2);
+	
+	public T andWhereBetween(String columnName, Object o1, Object o2);
 	
 	public T andWhere(String name,String paramName,String operator,String value);
 	
@@ -234,4 +240,5 @@ public interface ActiveRecordIterface<T> extends CommonRestriction<T>{
 	public T count(String name);
 	
 	*/
+	
 }
