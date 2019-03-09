@@ -26,6 +26,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
+import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
@@ -1302,6 +1303,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	*/
 	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereNotIn("id",{1,2,3,4}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' NOT IN (Number[]) } </p>
+	 * @param columnName - Column's name
+	 * @param numbers - Array of numbers(Integer,Float,Double,...)
+	 * 
+	 */
 	@Override
 	public T whereNotIn(String columnName, Number... numbers) {
 		if(Core.isNotNull(columnName)&&numbers!=null&&numbers.length>0) {
@@ -1315,6 +1325,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T)this;
 	}
 	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereNotIn("status",{"closed","canceled"}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' NOT IN (String[]) }</p>
+	 * @param columnName - Column's name
+	 * @param strings - Array of strings
+	 * 
+	 */
 	@Override
 	public T whereNotIn(String columnName, String... strings) {
 		if(Core.isNotNull(columnName)&&strings!=null&&strings.length>0) {
@@ -1328,6 +1347,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T)this;
 	}
 	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereIn("id",{1,2,3,4}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' IN (Number[]) }</p>
+	 * @param columnName - Column's name
+	 * @param numbers - Array of numbers(Integer,Float,Double,...)
+	 * 
+	 */
 	@Override
 	public T whereIn(String columnName, Number... numbers) {
 		if(Core.isNotNull(columnName)&&numbers!=null&&numbers.length>0) {
@@ -1341,6 +1369,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T)this;
 	}
 	
+	/**
+	 * 
+	 * <p>Extension of where clause</p>
+	 * <p>Example: find().whereIn("status",{"new","accepted"}).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' IN (String[]) }</p>
+	 * @param columnName - Column's name
+	 * @param strings - Array of strings 
+	 * 
+	 * 
+	 */
 	@Override
 	public T whereIn(String columnName, String... strings) {
 		if(Core.isNotNull(columnName)&&strings!=null&&strings.length>0) {
@@ -1352,5 +1390,68 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " IN (" + lista.substring(1) + ") ");
 		}
 		return (T)this;
+	}
+	
+	/**
+	 * 
+	 * <p>Between filter</p>
+	 * <p>Example: find().whereBetween("age",18,35).all()</p>
+	 * <p>HQL Code{@code: WHERE 'columnName' BETWEEN o1 AND o2}</p>
+	 * @param columnName - Column's name
+	 * @param o1 - min Object(Number, String, Date,...) 
+	 * @param o2 - max Object(Number, String, Date,...)
+	 * 
+	 */
+	@Override
+	public T whereBetween(String columnName, Object o1, Object o2) {
+
+		if (Core.isNotNullMultiple(columnName, o1, o2) && o1.getClass().equals(o2.getClass())) {
+			if (o1 instanceof java.util.Date) {
+				o1 = DateHelper.utilDateToSqlDate((java.util.Date) o1);
+				o2 = DateHelper.utilDateToSqlDate((java.util.Date) o2);
+			}
+			this.where("");
+			this.filterWhere(
+					recq.resolveColumnName(this.getAlias(), columnName) + " between '" + o1 + "' AND '" + o2 + "'");
+		}
+		return (T) this;
+	}
+
+	/**
+	 * 
+	 * <p>Between filter</p>
+	 * <p>Example: find().andWhere(1).orWhereBetween("name","Ana","Maria").all()</p>
+	 * <p>HQL Code{@code: OR 'columnName' BETWEEN o1 AND o2}</p>
+	 * @param columnName - Column's name
+ 	 * @param o1 - min Object(Number, String, Date,...) 
+	 * @param o2 - max Object(Number, String, Date,...)
+	 * 
+	 */
+	@Override
+	public T orWhereBetween(String columnName, Object o1, Object o2) {
+		if (Core.isNotNullMultiple(columnName, o1, o2) && o1.getClass().equals(o2.getClass())) {
+			this.or();
+			return this.whereBetween(columnName, o1, o2);
+		}
+		return (T) this;
+	}
+
+	/**
+	 * 
+	 * <p>Between filter</p>
+	 * <p>Example: find().andWhere(1).andWhereBetween("birthDate",date1,date2).all()</p>
+	 * <p>HQL Code{@code: AND 'columnName' BETWEEN o1 AND o2}</p>
+	 * @param columnName - Column's name
+ 	 * @param o1 - min Object(Number, String, Date,...) 
+	 * @param o2 - max Object(Number, String, Date,...)
+	 * 
+	 */
+	@Override
+	public T andWhereBetween(String columnName, Object o1, Object o2) {
+		if (Core.isNotNullMultiple(columnName, o1, o2) && o1.getClass().equals(o2.getClass())) {
+			this.and();
+			return this.whereBetween(columnName, o1, o2);
+		}
+		return (T) this;
 	}
 }

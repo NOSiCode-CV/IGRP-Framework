@@ -100,4 +100,8 @@ public class DateHelper {
 			return null;
 		}
 	}
+	
+	public static java.sql.Date utilDateToSqlDate(java.util.Date date) {
+		return new java.sql.Date(date.getTime());
+	}
 }
