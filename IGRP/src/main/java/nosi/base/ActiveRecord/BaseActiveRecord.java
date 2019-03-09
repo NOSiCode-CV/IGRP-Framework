@@ -28,6 +28,7 @@ import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.webapps.igrp.dao.Domain;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
 /**
@@ -647,6 +648,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return this.whereObject(name, paramName, operator, value,Date.class);
 	}
 	
+	
+	/**andWhere with paramName
+	 *  @param paramName - use it when you have a method like "lower(" . The variable cannot have "("
+	 * {@code 	dao.find().andWhere("lower(dominio)","dominio", "=", domainsName.toLowerCase())
+	 * .andWhere("lower(valor)","valor", "=", key.toLowerCase()).one();
+	}
+	 */
 	@Override
 	public T andWhere(String name, String paramName, String operator, String value) {
 		return this.andWhereObject(name, paramName, operator, value,String.class);

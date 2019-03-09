@@ -43,9 +43,9 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-		
+
 public class NovoUtilizadorController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		NovoUtilizadorView view = new NovoUtilizadorView();
@@ -60,12 +60,12 @@ public class NovoUtilizadorController extends Controller {
 
 		Integer id_prof = Core.getParamInt("p_id");
 		String id = Core.getParam("id");
-     	String dad = Core.getCurrentDad();
+		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-		Integer	idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();		
-          model.setAplicacao(idApp);
-          view.aplicacao.propertie().add("disabled","true");
-          
+			Integer idApp = Core.findApplicationByDad(dad).getId();
+			model.setAplicacao(idApp);
+			view.aplicacao.propertie().add("disabled", "true");
+
 		}
 		if (id_prof != 0) {
 			ProfileType prof = Core.findProfileById(id_prof);
@@ -73,28 +73,34 @@ public class NovoUtilizadorController extends Controller {
 				model.setAplicacao(prof.getApplication().getId());
 				model.setOrganica(prof.getOrganization().getId());
 				model.setPerfil(prof.getId());
-				
+
 			}
 		}
 
 		final Map<Object, Object> listApps = new Application().getListApps();
-		listApps.put(Core.findApplicationByDad("igrp_studio").getId(), "IGRP Studio");
+//		Adds IGRP studio to the list if user has the app to allow invites do the app
+		final Integer idSDAD = Core.findApplicationByDad("igrp_studio").getId();
+		if (new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", Core.getCurrentUser().getId())
+				.andWhere("type_fk", "=", idSDAD).one() != null)
+			listApps.put(idSDAD, "IGRP Studio");
 		view.aplicacao.setValue(listApps);
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
-
+//		If the combo app is disabled, you need to add in the button
+		view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 		if (Core.isNotNullOrZero(id) && !id.trim().isEmpty()) {
-			User u = (User) new User().findIdentityById(Integer.parseInt(id));
+//			Edit invite mode
+			User u = Core.findUserById((Integer.parseInt(id)));
 			view.email.setValue(u.getEmail());
 			view.setPageTitle("Convite - atualizar");
 		}
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);	
+		return this.renderView(view);
 	}
-	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		/*----#gen-example
@@ -125,10 +131,10 @@ public class NovoUtilizadorController extends Controller {
 			throw new ServerErrorHttpException("Unsuported operation ...");
 
 		/*----#end-code----*/
-		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
+		return this.redirect("igrp", "NovoUtilizador", "index", this.queryString());
 	}
-	
-/*----#start-code(custom_actions)----*/
+
+	/*----#start-code(custom_actions)----*/
 
 	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
@@ -139,25 +145,24 @@ public class NovoUtilizadorController extends Controller {
 			if (Core.isNull(email) && !email.contains("@"))
 				continue;
 			email = email.toLowerCase(Locale.ROOT).trim();
-			User u = new User().find().andWhere("email", "=", email.trim()).one();
+			User u = Core.findUserByEmail(email.trim());
 			if (Core.isNotNull(u)) {
-				Profile p = new Profile();
 				Boolean insert = true;
-				final Organization org = new Organization().findOne(model.getOrganica());
-				final ProfileType prof = new ProfileType().findOne(model.getPerfil());
-
-				final List<Profile> result = p.find().andWhere("type", "=", "INATIVE_PROF")
+				final Organization org = Core.findOrganizationById(model.getOrganica());
+				final ProfileType prof = Core.findProfileById(model.getPerfil());
+//			List of INACTIVE profiles
+				final List<Profile> result = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
 						.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
 						.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
 				for (Iterator<Profile> iterator = result.iterator(); iterator.hasNext();) {
 					Profile profile = (Profile) iterator.next();
-					// The profile was deleted before
+//				The profile was deleted before
 					profile.setType("PROF");
 					profile = profile.update();
-					// No need to insert
+//				 No need to insert
 					insert = false;
-					if (profile != null) {
-
+					if (!profile.hasError()) {
+//					List of invites to the app with this profile associated
 						final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
 								.andWhere("type_fk", "=", model.getAplicacao())
 								.andWhere("organization.id", "=", org.getId())
@@ -165,15 +170,9 @@ public class NovoUtilizadorController extends Controller {
 								.one();
 
 						if (Core.isNull(result2)) {
-//								Insert Env if was deleted before
-							profile = new Profile();
-							profile.setType("ENV");
-							profile.setType_fk(model.getAplicacao());
-							profile.setOrganization(org);
-							profile.setProfileType(prof);
-							profile.setUser(u);
-							profile = profile.insert();
-							if (profile == null) {
+//						Insert Env if was deleted before
+							profile = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+							if (profile.hasError()) {
 								Core.setMessageError();
 								ok = false;
 							}
@@ -181,66 +180,41 @@ public class NovoUtilizadorController extends Controller {
 						Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
 					} else
 						ok = false;
-
 				}
-//				If already invited
-				if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
-						.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-						.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
-					Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
-					ok = false;
-				} else if (insert) {
-//					Will insert profile
-					p.setType("PROF");
-					p.setType_fk(model.getPerfil());
-					p.setOrganization(org);
-					p.setProfileType(prof);
-					p.setUser(u);
-					p = p.insert();
-					if (p != null) {
-//						Check if exists already a ENV
-						final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
-								.andWhere("type_fk", "=", model.getAplicacao())
-								.andWhere("organization.id", "=", org.getId())
-								.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
-								.one();
 
-						if (Core.isNull(result2)) {
-//							No ENV added so must be inserted de application~
-							p = new Profile();
-							p.setType("ENV");
-							p.setOrganization(org);
-							p.setProfileType(prof);
-							p.setUser(u);
-							p.setType_fk(model.getAplicacao());
-							p = p.insert();
-							if (p != null) {
-								/*
-								 * //Associa utilizador a grupo no Activiti UserService userActiviti0 = new
-								 * UserService(); userActiviti0.setId(u.getUser_name());
-								 * userActiviti0.setPassword("password.igrp");
-								 * userActiviti0.setFirstName(u.getName()); userActiviti0.setLastName("");
-								 * userActiviti0.setEmail(u.getEmail()); userActiviti0.create(userActiviti0);
-								 * new
-								 * GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().
-								 * getCode(),userActiviti0.getId());
-								 */
-
-							} else {
-								Core.setMessageError();
-								ok = false;
-							}
-						}
-						if (ok)
-							Core.setMessageSuccess(email + " invited!");
-					} else {
+				if (insert) {
+					if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
+							.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
+							.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
+//					 Already invited
 						Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
 						ok = false;
+					} else {
+//					Will insert profile
+						Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org).insert();
+						if (!p.hasError()) {
+//						Check if exists already a ENV						
+							if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
+									.andWhere("type_fk", "=", model.getAplicacao())
+									.andWhere("organization.id", "=", org.getId())
+									.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+									.one())) {
+//							ENV not added, so must be inserted the application
+								p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+								if (p.hasError()) {
+									Core.setMessageError();
+									ok = false;
+								}
+							}
+							if (ok)
+								Core.setMessageSuccess(email + " invited!");
+						} else {
+							Core.setMessageError(u.getUser_name() + " está convidado para este perfil.");
+							ok = false;
+						}
 					}
 				}
-			}
-
-			else {
+			} else {
 				Core.setMessageError("E-mail: " + email + " não está adicionado. 1º (+) adicionar este utilizador.");
 				ok = false;
 			}
@@ -250,13 +224,14 @@ public class NovoUtilizadorController extends Controller {
 		return ok;
 	}
 
-	private User invite(String email, boolean viaIds, Object... obj) {
+	private User checkGetUserLdap(String email, boolean viaIds, Object... obj) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null;
 
 		Properties settings = (Properties) obj[0];
 
 		if (viaIds) {
+//			Will use ws02 configured in the main.xml file
 			try {
 				URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 				WSO2UserStub.disableSSL();
@@ -293,6 +268,7 @@ public class NovoUtilizadorController extends Controller {
 				e.printStackTrace();
 			}
 		} else {
+//			LDAP configureted in the ldap.xml will be used
 			File file = new File(getClass().getClassLoader()
 					.getResource(
 							new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml")
@@ -335,6 +311,7 @@ public class NovoUtilizadorController extends Controller {
 							gt("Something is wrong from LDAP server side."));
 				}
 				userLdap.setEmail(person.getMail().trim().toLowerCase());
+//			The user is not activated because the email send is to activate/confirm the account
 				userLdap.setStatus(0);
 				userLdap.setCreated_at(System.currentTimeMillis());
 				userLdap.setUpdated_at(System.currentTimeMillis());
@@ -411,10 +388,6 @@ public class NovoUtilizadorController extends Controller {
 
 	private Boolean ldap(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
-		Profile p = new Profile();
-		p.setOrganization(new Organization().findOne(model.getOrganica()));
-		p.setProfileType(new ProfileType().findOne(model.getPerfil()));
-		p.setType("PROF");
 		Boolean ok = true;
 		String[] arrayEmails = model.getEmail().split(";");
 		for (int i = 0; i < arrayEmails.length; i++) {
@@ -423,75 +396,136 @@ public class NovoUtilizadorController extends Controller {
 				continue;
 			email = email.toLowerCase(Locale.ROOT).trim();
 			Properties settings = loadIdentityServerSettings();
-			User userLdap = null;
-			userLdap = invite(email.trim(), (settings.getProperty("ids.wso2.enabled") != null
+//		check & Get User from Ldap
+			User userLdap = checkGetUserLdap(email.trim(), (settings.getProperty("ids.wso2.enabled") != null
 					&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")), settings);
 
 			if (userLdap != null) {
+//			Find user in the IGRP db too
 				User u = Core.findUserByEmail(email.trim());
 				if (u == null) {
-
+//				If LDAP is ws02, the role is added to the server
 					if (settings.getProperty("ids.wso2.enabled") != null
 							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
 							&& !addRoleToUser(settings, userLdap)) {
-						Core.setMessageError("Ocorreu um erro ao adicionar role ao " +  email.trim());
+						Core.setMessageError("Ocorreu um erro ao adicionar role ao " + email.trim());
 						ok = false;
 						continue;
-
 					}
-
+//				Insert the user in the user table
 					u = userLdap.insert();
-					UserRole role = new UserRole();
-					String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
-					role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
-					role.setUser(u);
-					role = role.insert();
-
-					if (u != null && !u.hasError())
+					if(u != null && !u.hasError()) {
+						u = Core.findUserByEmail(email.trim());									
 						sendEmailToInvitedUser(u, model);
-				}
-				p.setUser(u);
-				p.setType_fk(model.getPerfil());
-				p = p.insert();
-				if (p != null) {
-					p = new Profile();
-					p.setUser(u);
-					p.setOrganization(new Organization().findOne(model.getOrganica()));
-					p.setProfileType(new ProfileType().findOne(model.getPerfil()));
-					p.setType("ENV");
-					p.setType_fk(model.getAplicacao());
-					p = p.insert();
-					if (p != null) {
-						// Associa utilizador a grupo no Activiti
-						UserService userActiviti0 = new UserService();
-						userActiviti0.setId(u.getUser_name());
-						userActiviti0.setPassword("password.igrp");
-						userActiviti0.setFirstName(u.getName());
-						userActiviti0.setLastName("");
-						userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
-						userActiviti0.create(userActiviti0);
-						new GroupService().addUser(p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
-								userActiviti0.getId());
-						Core.setMessageSuccess(email);
-						continue;
-					} else {
-						Core.setMessageError();
+						
+					}else {
 						ok = false;
 						continue;
-					}
-				} else {
-					Core.setMessageError();
-					ok = false;
-					continue;
+					}				
+					
 				}
+//			Checks if the u is not null and in the case if the user was recently added so NOT to use else
+				if (Core.isNotNull(u)) {
+					Boolean insert = true;					
+					final Organization org = Core.findOrganizationById(model.getOrganica());
+					final ProfileType prof = Core.findProfileById(model.getPerfil());
+//					List of INACTIVE profiles
+					final List<Profile> listInactiveProf = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
+							.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
+							.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
+					for (Iterator<Profile> iterator = listInactiveProf.iterator(); iterator.hasNext();) {
+						Profile profile = (Profile) iterator.next();
+//					The profile was deleted before
+						profile.setType("PROF");
+						profile = profile.update();
+//					 No need to insert
+						insert = false;
+						if (!profile.hasError()) {
+//						List of invites to the app with this profile associated
+							final Profile result2 = new Profile().find().andWhere("type", "=", "ENV")
+									.andWhere("type_fk", "=", model.getAplicacao())
+									.andWhere("organization.id", "=", org.getId())
+									.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+									.one();
+
+							if (Core.isNull(result2)) {
+//							Insert Env if was deleted before
+								profile = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+								if (profile.hasError()) {
+									Core.setMessageError();
+									ok = false;
+								}else {
+									// Associa utilizador a grupo no Activiti
+									UserService userActiviti0 = new UserService();
+									userActiviti0.setId(u.getUser_name());
+									userActiviti0.setPassword("password.igrp");
+									userActiviti0.setFirstName(u.getName());
+									userActiviti0.setLastName("");
+									userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
+									userActiviti0.create(userActiviti0);
+									new GroupService().addUser(
+											profile.getOrganization().getCode() + "." + profile.getProfileType().getCode(),
+											userActiviti0.getId());									
+								}
+							}
+							Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
+						} else
+							ok = false;
+					}
+
+					if (insert) {
+						if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
+								.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
+								.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
+//						 Already invited
+							Core.setMessageError(u.getUser_name() + gt(" está convidado para este perfil."));
+							ok = false;
+						} else {
+//						Will insert profile
+							Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org)
+									.insert();
+							if (!p.hasError()) {
+//							Check if exists already a ENV						
+								if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
+										.andWhere("type_fk", "=", model.getAplicacao())
+										.andWhere("organization.id", "=", org.getId())
+										.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+										.one())) {
+//								ENV not added, so must be inserted the application
+									p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
+									if (p.hasError()) {
+										Core.setMessageError();
+										ok = false;
+									}else {
+										// Associa utilizador a grupo no Activiti
+										UserService userActiviti0 = new UserService();
+										userActiviti0.setId(u.getUser_name());
+										userActiviti0.setPassword("password.igrp");
+										userActiviti0.setFirstName(u.getName());
+										userActiviti0.setLastName("");
+										userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
+										userActiviti0.create(userActiviti0);
+										new GroupService().addUser(
+												p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
+												userActiviti0.getId());										
+									}
+								}
+								if (ok)
+									Core.setMessageSuccess(email + " invited!");
+							} else {
+								Core.setMessageError(u.getUser_name() + gt(" está convidado para este perfil."));
+								ok = false;
+							}
+						}
+					}
+						
 			} else {
 				Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
-				ok = false;
-				continue;
+				ok = false;				
 			}
 		}
-		return ok;
-
+		}
+			return ok;
 	}
 
 	private Properties loadIdentityServerSettings() {

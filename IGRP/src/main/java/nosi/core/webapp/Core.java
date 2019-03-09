@@ -82,6 +82,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
@@ -782,7 +783,8 @@ public final class Core { // Not inherit
 //		return onedom!=null?onedom.getDescription():"";
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().andWhere("dominio", "=", domainsName).andWhere("valor", "=", key).one().getDescription();
+		final Domain oneDomain = domain.find().andWhere("lower(dominio)","dominio", "=", domainsName.toLowerCase()).andWhere("lower(valor)","valor", "=", key.toLowerCase()).one();
+		return oneDomain!=null?oneDomain.getDescription():"";
 
 	}
 

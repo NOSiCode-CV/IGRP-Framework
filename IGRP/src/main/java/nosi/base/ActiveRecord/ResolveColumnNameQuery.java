@@ -22,10 +22,15 @@ public class ResolveColumnNameQuery {
 
 
 	public String resolveColumnName(String alias,String columnName) {
+		String before=""; 	
+		if(columnName.contains("(")) {
+			before=columnName.substring(0,columnName.indexOf("(")+1);
+			columnName=columnName.substring(columnName.indexOf("(")+1,columnName.indexOf(")"));
+		}
 		columnName = this.resoveName(columnName);
 		if(columnName.contains("."))
-			return columnName;
-		return alias+"."+columnName;
+			return before+columnName+(before.equals("")?"":")");
+		return before+alias+"."+columnName+(before.equals("")?"":")");
 	}
 	
 

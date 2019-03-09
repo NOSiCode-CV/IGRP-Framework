@@ -221,10 +221,11 @@ public class PesquisarUtilizadorController extends Controller {
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","PesquisarUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(assiocar_menu)----*/
-		this.addQueryString("p_id",Core.getParamInt("p_id"))
+		int id=Core.getParamInt("p_id");
+		this.addQueryString("p_id",id)
 			.addQueryString("userEmail", Core.getParam("p_tb_email"))
 			.addQueryString("p_type", "user")
-			.addQueryString("env_fk",model.getAplicacao());  ;
+			.addQueryString("env_fk",new Profile().findOne(id).getOrganization().getApplication().getId());  ;
 	   	return this.redirect("igrp","MenuOrganica","index", this.queryString());
 		
 		/*----#end-code----*/
@@ -312,15 +313,25 @@ public class PesquisarUtilizadorController extends Controller {
 		String id = Core.getParam("p_id");
 		if (id != null) {
 			Profile p = new Profile().findOne(id);
+			this.addQueryString("p_aplicacao",model.getAplicacao());
+			Profile delEnv = new Profile().find()
+					.andWhere("type", "=", "ENV")
+					.andWhere("type_fk", "=", p.getOrganization().getApplication().getId())
+					.andWhere("organization.id", "=", p.getOrganization().getId())
+					.andWhere("profileType.id", "=", p.getProfileType().getId())
+					.andWhere("user.id", "=", p.getUser().getId())
+					.one(); 								
+			if(delEnv!= null)
+				delEnv.delete();
 			p.setType("INATIVE_" + p.getType());
 			p = p.update();
-			if (p != null) {
+			if (!p.hasError()) {
 				Core.setMessageSuccess();	
-				return this.forward("igrp", "PesquisarUtilizador", "index");
+				return this.redirect("igrp", "PesquisarUtilizador", "index", this.queryString());
 			}
 		}      
 		Core.setMessageError();     
-		return this.forward("igrp", "PesquisarUtilizador", "index");
+		return this.redirect("igrp", "PesquisarUtilizador", "index", this.queryString());
 		/*----#end-code----*/
 			
 	}
@@ -427,11 +438,11 @@ public class PesquisarUtilizadorController extends Controller {
       boolean response = false;
       try {
           if(id != null) {
-              User u = new User().find().andWhere("user_name", "=", id).one();
+              User u =Core.findUserByUsername(id);
               if(u != null) {
                   u.setStatus(Core.toInt(status));
                   u = u.update();
-                  if(u != null)
+                  if(!u.hasError())
                       response = true;
               }
           }

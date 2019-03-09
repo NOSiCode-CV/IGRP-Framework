@@ -41,13 +41,13 @@ public class Profile extends IGRPBaseActiveRecord<Profile> implements Serializab
 	private Integer type_fk;
 	@Column(nullable=false)
 	private String type;
-	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@ManyToOne( fetch = FetchType.EAGER)
 	@JoinColumn(name="prof_type_fk",foreignKey=@ForeignKey(name="PROFILE_PROF_TYPE_FK"),nullable=false)
 	private ProfileType profileType;
-	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_fk",foreignKey=@ForeignKey(name="PROFILE_USER_FK"),nullable=true)
 	private User user;
-	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="PROFILE_ORGANIZATION_FK"),nullable=false)
 	private Organization organization;
 	
