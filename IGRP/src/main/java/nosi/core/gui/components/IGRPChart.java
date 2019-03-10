@@ -175,10 +175,10 @@ public class IGRPChart extends IGRPComponent{
 		Map<Map<String,String>,Double> result = new LinkedHashMap<>();
 		Set<String> values1 = new HashSet<>(),values2 = new HashSet<>();
 		list.stream().forEach(t->{
-			values1.add(t.get(0).toString());
-			values2.add(t.get(1).toString());
+			values1.add(t.get(0)!=null?t.get(0).toString():"");
+			values2.add(t.get(1)!=null?t.get(1).toString():"");
 			Map<String, String> key = new LinkedHashMap<>();
-			key.put(t.get(0).toString(),t.get(1).toString());						
+			key.put(t.get(0)!=null?t.get(0).toString():"",t.get(1)!=null?t.get(1).toString():"");						
 			double v = Core.toDouble(t.get(2)!=null?t.get(2).toString():"0.0");
 			if(result.containsKey(key)) {
 				v+=result.get(key);

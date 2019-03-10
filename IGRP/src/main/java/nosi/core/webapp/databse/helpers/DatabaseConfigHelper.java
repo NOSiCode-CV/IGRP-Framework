@@ -160,7 +160,7 @@ public class DatabaseConfigHelper {
 			case H2:
 				return "org.h2.Driver";
 			case ORACLE:
-				return "oracle.jdbc.driver.OracleDriver";
+				return "oracle.jdbc.OracleDriver";
 			case MSSQL:
 				return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			case HSQLDB:

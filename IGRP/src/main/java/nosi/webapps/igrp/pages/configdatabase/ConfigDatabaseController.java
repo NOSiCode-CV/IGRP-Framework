@@ -170,7 +170,8 @@ public class ConfigDatabaseController extends Controller {
 					this.saveConfigHibernateFile(config);
 					Core.setMessageSuccess();
                     Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
-					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
+                    this.addQueryString("p_aplicacao",model.getAplicacao()); 
+					return this.redirect("igrp", "ConfigDatabase", "index", this.queryString());
 				}
 			} else {
               Core.setMessageWarning(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+" "+gt("INV"));
@@ -291,7 +292,7 @@ public class ConfigDatabaseController extends Controller {
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
 			Integer id_conn = Core.getParamInt("p_id");
 			Config_env config = new Config_env().findOne(id_conn);
-			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
+			config.setApplication(Core.findApplicationById(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
 			config.setUsername(Core.encrypt(model.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 			config.setPassword(Core.encrypt(model.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
@@ -322,7 +323,8 @@ public class ConfigDatabaseController extends Controller {
 					this.editConfigHibernateFile(config);
 					Core.setMessageSuccess();
                     Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
-					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
+                    this.addQueryString("p_aplicacao",model.getAplicacao()); 
+					return this.redirect("igrp", "ConfigDatabase", "index", this.queryString());
 				}
 			} else {
               Core.setMessageWarning(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+" "+gt("INV"));

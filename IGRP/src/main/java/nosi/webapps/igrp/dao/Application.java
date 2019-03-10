@@ -10,6 +10,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -293,6 +296,10 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 					.all();
 		}		
 		if(!list.isEmpty()){
+			list=list.stream() 
+					.filter(distinctByKey(p -> p.getType_fk())) 
+					.collect(Collectors.toList());
+				list.sort(Comparator.comparing(Profile::getType_fk));
 			if(allInative) {
 			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
 			.collect(Collectors.toList());
@@ -301,6 +308,8 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			.peek(e->listApp.add(e.getProfileType().getApplication()))
 			.collect(Collectors.toList());
 			}
+			
+			
 			listApp.sort(Comparator.comparing(Application::getId));
 		}
 		
@@ -318,12 +327,22 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public List<Profile> getMyApp() {
 		User u = (User) Core.getCurrentUser();
-		List<Profile> list = new Profile().find().andWhere("type", "=", "ENV").andWhere("user", "=", u.getId())
-				.andWhere("type_fk", "<>", 1).all();
+		List<Profile> list = new Profile().find()
+				.andWhere("type", "=", "ENV")
+				.andWhere("user", "=", u.getId())
+				.andWhere("type_fk", ">", 1).all();
+		list=list.stream() 
+			.filter(distinctByKey(p -> p.getType_fk())) 
+			.collect(Collectors.toList());
 		list.sort(Comparator.comparing(Profile::getType_fk));
+	
 		return list;
 	}
-
+	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
+	{
+	    Map<Object, Boolean> map = new ConcurrentHashMap<>();
+	    return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+	}
 	public List<Application> getOtherApp() {
 		List<Application> list = this.find().andWhere("id", "<>", 1).andWhere("status", "=", 1).all();
 

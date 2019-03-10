@@ -36,16 +36,16 @@ public class ListaEnvController extends Controller {
 		Application app = new Application();		
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		if (Core.getCurrentUser().getUser_name().compareTo("igrpweb@nosi.cv")==0) {
-			apps = app.find()
-					// .andWhere("dad", "like", app.getDad())
-					// .andWhere("name", "like", app.getName())
-					.all();
-			apps = apps.stream()
-		     .distinct().collect(Collectors.toList());
-		} else {
+//		if (Core.getCurrentUser().getUser_name().compareTo("igrpweb@nosi.cv")==0) {
+//			apps = app.find()
+//					// .andWhere("dad", "like", app.getDad())
+//					// .andWhere("name", "like", app.getName())
+//					.all();
+//			apps = apps.stream()
+//		     .distinct().collect(Collectors.toList());
+//		} else {
 			apps = app.getListMyApp(user.getId(),true);
-		}
+//		}
 		Collections.sort(apps, new SortbyStatus());
 		for (Application a : apps) {
 			//Don't list app IGRP
