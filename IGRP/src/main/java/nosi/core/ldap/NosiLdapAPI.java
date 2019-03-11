@@ -346,7 +346,7 @@ public class NosiLdapAPI {
 		String user = this.getDistinguishedName(pUsername, ldapPersons);
 		InitialDirContext context;
 		boolean validate = false;
-		if (user != "") {
+		if (!user.equals("")) {
 			try {
 				context = this.ldapContext(user, pPassword);
 				validate = true;
