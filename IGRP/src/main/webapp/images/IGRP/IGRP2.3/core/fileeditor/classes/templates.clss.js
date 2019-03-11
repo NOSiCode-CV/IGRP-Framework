@@ -19,8 +19,6 @@
 		folderFiles : function(files, ulID){
 
 			var r = '';
-
-			//r+='<ul>';
 			
 			files.forEach(function(f){
 				
@@ -28,15 +26,13 @@
 
 					fileName = f.fileName || '';
 
-				r+='<li id="'+id+'" class="file" file-name="'+fileName+'" file-path="'+f.path+'"  title="'+f.name+'">'+
+				r+='<li id="'+id+'" class="file" file-name="'+fileName+'" file-path="'+f.path+'" item-name="'+f.name.toLowerCase()+'" title="'+f.name+'">'+
 					
 						'<span class="txt-ellipsis">'+f.name+'</span>'+
 					
 				 	'</li>';
 
 			});
-
-			//r+='</ul>';
 
 			return r;
 
@@ -56,7 +52,7 @@
 
 				files      = i.dir_files && i.dir_files[0] ? templates.folderFiles( i.dir_files, id ) : '',
 
-				item 	   = '<li id="'+uniq+'" class="folder" dir-path="'+i.dir_path+'">'+
+				item 	   = '<li id="'+uniq+'" class="folder" dir-path="'+i.dir_path+'" item-name="'+i.dir_name.toLowerCase()+'">'+
 								'<span class="" '+toggleAttr+'>'+i.dir_name+templates.folderOptions()+'</span>'+
 								'<div id="'+id+'" class="collapse"><ul>'+
 									dirs+files+
@@ -64,6 +60,15 @@
 							 '</li>';
 
 		    return item;
+		},
+
+		search : function(){
+
+			var html = '<div class="fileeditor-search-wrapper input-group"><input class="form-control fileeditor-searcher" /><span class="input-group-addon s-clear" style="display:none"><i class="fa fa-times"></i></span><span class="input-group-addon"><i class="fa fa-search"></i></span></div>';
+
+			return html;
+
+
 		},
 
 		tree : function(data, id, clss, ul){
