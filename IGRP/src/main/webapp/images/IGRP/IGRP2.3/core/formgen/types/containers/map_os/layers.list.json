@@ -1,0 +1,29 @@
+[
+	{
+        "id": 1,
+        "name": "Foco Mosquito",
+        "options": {
+            "layers": "INSP_GIS:insp_foco_mosquito"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS/wms"
+    },
+	{
+        "id": 2,
+        "name": "Divisão Administrativa",
+        "options": {
+            "typeName": "Divisao_Administrativa:divisao_admin"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+	{
+        "id": 3,
+        "name": "Central Park",
+        "options": {
+            "layers": "tiger:poly_landmarks"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/tiger/wms"
+    }
+]

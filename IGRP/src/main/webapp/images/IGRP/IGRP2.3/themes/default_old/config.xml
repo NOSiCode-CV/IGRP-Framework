@@ -1,0 +1,21 @@
+<style>
+
+	<logo>img/logo2.svg</logo>
+
+	<colors>
+		
+		<color name="primary">#337ab7</color>
+
+		<color name="secondary" text-hover="white" bg-hover="#173c5d">#2a699e</color>
+
+	</colors> 
+
+	<css default="">
+		<file>css/header.css</file>
+		<!-- <file>css/modern/globals.css</file> -->
+		<!-- <file>css/default.style.css</file> -->
+	</css>
+
+	<logo>img/logo.png</logo>
+
+</style>

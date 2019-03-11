@@ -1,0 +1,308 @@
+
+[gen-field-type="map_layer"] .gen-field-edt-options{
+	z-index: 100;
+    right: 50px;
+    top: 10px;
+}
+
+.p-0{
+  padding: 0!important;
+}
+
+.gis-full-screen{
+  position: fixed;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: 500
+}
+.gis-full-screen .gis-map-view,
+.gis-full-screen .igrp-map-os-wrapper{
+  height: 100%;
+}
+
+.leaflet-control-attribution.leaflet-control{
+	display: none;
+}
+
+.igrp-map-os-wrapper{
+	min-height: 300px;
+	position: relative;
+	background:#f5f5f5;
+	overflow: hidden;
+}
+
+/*Layers Control*/
+.layers-data a{
+    text-decoration: none!important;
+    cursor: pointer;
+}
+
+.layer-group{
+	position: relative;
+}
+
+.layer-group>a{
+	display: block;
+	padding: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.layer-group>ul{
+	margin:  0;
+	padding:  0 0 0 10px;
+	background: white;
+}
+
+.layer-group>ul>li {
+	padding: 8px 15px;
+    position: relative;
+}
+
+.layer-group .gis-group-visibility{
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	z-index: 10
+}
+.layer-group .gis-group-visibility input{
+	margin: 0;
+}
+
+/* layers visibility */
+.material-switch > input[type="checkbox"] {
+    display: none;   
+}
+
+/* PANELS */
+
+.gis-panel{
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 450;
+  padding: 10px;
+}
+
+.gis-panel.open .gis-panel-inner{
+  margin-left:  260px;
+}
+
+.gis-panel.left{
+  left: 0;
+}
+.gis-panel.right{
+  right: 0
+}
+.gis-panel .gis-panel-inner{
+  display: block;
+  margin-bottom: 10px;
+  position: static;
+}
+
+.gis-panel .gis-panel-menu-content{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 10px;
+  width: 250px;
+  z-index: 10;
+  display: none;
+  box-shadow: 2px 0px 20px 0px rgba(0, 0, 0, 0.3);
+}
+
+.gis-panel.open .gis-panel-menu-content{
+  display: block;
+}
+.gis-panel .gis-panel-menu-content.h-100{
+  height: calc(100% - 20px)
+}
+
+.gis-panel >.gis-panel-inner>.btn{
+  border-radius: 0!important;
+  padding: 5px 8px;
+  margin: 1px!important;
+  border: 0!important;
+  border-radius: 0!important
+}
+
+
+.gis-panel  >.gis-panel-inner>.btn-default.active,
+.gis-panel .btn-default.active:focus{
+  background:white;
+}
+
+.gis-panel  >.gis-panel-inner>.btn,
+.gis-panel.open .gis-panel-menu-content{
+   background:rgba(255,255,255,.9);
+}
+
+.gis-panel .nav-tabs>li>a{
+  color: #ccc;
+  border:0!important;
+  background: transparent!important;
+  position: relative;
+}
+.gis-panel .nav-tabs>li>a:hover{
+  color:#adadad;
+  background: transparent;
+  border-left: 0;
+  border-right: 0
+}
+
+.gis-panel .nav-tabs>li.active>a:after{
+  content:"";
+  width: 100%;
+  border-bottom: 1.5px solid;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+/* BaseMaps */
+.gis-basemap-item{
+  padding: 30px 10px;
+  margin: 10px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #bebebe;
+}
+
+.gis-basemap-item.active:after{
+  content:"\f00c";
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  z-index: 10;
+  bottom: 7px;
+  right: 7px;
+  color: white;
+}
+
+.gis-basemap-item span{
+  font-weight: 400;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 80px;
+    padding: 5px;
+    background: rgba(0,0,0,.3);
+    color: white;
+    display: block;
+    left: 0;
+    transition: background .4s
+
+}
+
+.gis-basemap-item:hover span{
+  background: rgba(0,0,0,.5);
+}
+
+
+/* Widgets */
+.gis-widgets-controller >.gen-ctx-menu-holder{
+  position: relative;
+}
+
+
+/* Switch  */
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 34px;  
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 34px;
+}
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 10px;
+}
+
+/* loading spinner */
+.igrp-map-os-wrapper.loading .gis-loading{
+    opacity:  1;
+}
+
+.gis-loading{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 415;
+    opacity:  0;
+    transition: opacity 1.5s;
+}
+.gis-spinner {
+  margin: 0;
+  text-align: center;
+}
+
+.gis-spinner > div {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.gis-spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.gis-spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}

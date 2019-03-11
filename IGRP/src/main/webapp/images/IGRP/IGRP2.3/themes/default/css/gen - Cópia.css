@@ -1,0 +1,39 @@
+/* GEN */
+#gen-views-ctrl ul li{
+	
+}
+
+#igrp-form-gen #igrp-sidebar.sidebar{
+	/*background: white;*/
+}
+
+/*#igrp-form-gen .treeview-menu>li>a{
+	color: #337ab7
+}*/
+
+#igrp-form-gen .treeview-menu>li>a,
+#gen-views-ctrl ul li.active{
+	color: #337ab7
+    
+}
+
+/*.gen-row .row-options,
+.gen-column .col-options{
+	background: rgb(253, 253, 253)!important;
+	border: 0!important;
+}
+#gen-design .gen-row,
+.row .gen-column-inner{
+	border: 0!important
+}
+.gen-column .col-options:before{
+	background: transparent!important;
+	border: 0!important
+}*/
+.row .row-options .row-class-setter{
+	font-size: 9px;
+}
+
+.gen-viewers-toolbar{
+   
+}
