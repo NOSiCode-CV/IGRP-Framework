@@ -116,6 +116,7 @@ var GENSTRUCTURES = function(GEN){
 					}
 
 					if(container.xml.type == 'text' || container.xml.type == 'texteditor'){
+						
 						var value   = container.GET.text ? container.GET.text() : '',
 								
 							mxLength = container.GET.maxlength ? container.GET.maxlength() : '';

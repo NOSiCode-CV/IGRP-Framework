@@ -473,6 +473,8 @@
 				val   = input.val();
 
 			if(val && val.length > 1){
+				
+				val = val.toLowerCase();
 
 				var items = $('.'+selectors.leftPanelClss+' [item-name*='+val+']');
 

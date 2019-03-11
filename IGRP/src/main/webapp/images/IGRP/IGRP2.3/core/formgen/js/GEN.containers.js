@@ -2188,7 +2188,7 @@ var CONTAINER = function(name,params){
 
 			if(container.contextMenu) SETUPCONTEXTMENU();
 
-			if(container.xml.type == 'text'){
+			if(container.xml.type == 'text' || container.xml.type == 'texteditor'){
 
 				container.setPropriety({
 					name:'text',
