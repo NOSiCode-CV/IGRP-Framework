@@ -89,7 +89,7 @@ public class ExtractReserveCode {
 		      
 		        code = (start != -1 && end != -1)?code.substring(start + content.length(),end):"";
 
-		        code = code != "" && isGlobalReserve ? code : code;   
+		        code = !code.equals("") && isGlobalReserve ? code : code;   
 
 		        ReserveCode rc = new ReserveCode();
 		       

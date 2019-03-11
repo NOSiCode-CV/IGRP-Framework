@@ -371,8 +371,8 @@ public class PageController extends Controller {
 			}
 			path_class = this.getConfig().getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
-					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
-					&& path_class != "") {
+					&& fileController != null && path_xsl != null && !path_xsl.equals("") && path_class != null
+					&& !path_class.equals("")) {
 				this.processJson(fileJson, ac);
 				
 				if(workspace)
