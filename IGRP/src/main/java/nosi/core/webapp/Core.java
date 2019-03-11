@@ -2694,7 +2694,7 @@ public final class Core { // Not inherit
 	 * 
 	 * }
 	 * @param array_checks - list of the id of the checkbox
-	 * @param array_checked - list of the checked checkbox
+	 * @param array__checks_checked - list of the checked checkbox
 	 * @return
 	 */
 	public static CheckBoxHelper extractCheckBox(String[] array_checks,String[] array__checks_checked) {

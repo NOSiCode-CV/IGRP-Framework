@@ -649,7 +649,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	}
 	
 	
-	/**andWhere with paramName
+	/**This andWhere has paramName to change if not equal to the column name
 	 *  @param paramName - use it when you have a method like "lower(" . The variable cannot have "("
 	 * {@code 	dao.find().andWhere("lower(dominio)","dominio", "=", domainsName.toLowerCase())
 	 * .andWhere("lower(valor)","valor", "=", key.toLowerCase()).one();
