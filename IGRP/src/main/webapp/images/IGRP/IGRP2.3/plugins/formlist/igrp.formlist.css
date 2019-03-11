@@ -26,7 +26,8 @@
 	display: none;
 }
 /*checkbox*/
-.IGRP_formlist td input.checkbox{
+.IGRP_formlist td input.checkbox,
+.IGRP_formlist td input.radio{
 	margin: 0 auto;
 }
 

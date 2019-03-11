@@ -296,6 +296,7 @@
 		
 		//self
 		var _self        = function(p){
+
 			$.IGRP.utils.loading.show();
 
 			var url 	= p.url,
@@ -305,6 +306,7 @@
 				url = $.IGRP.utils.getUrl(url)+input.attr('name')+'='+input.val();
 
 			window.location.href = url;
+			
 			return false;
 		};
 		//self
@@ -716,7 +718,9 @@
 
 				label : 'Link',
 
-				action : _link
+				action : _link,
+
+				selectable : false
 
 			},		
 
@@ -725,7 +729,9 @@
 
 				label : 'Filter',
 
-				action : filter
+				action : filter,
+
+				selectable : false
 
 			},
 
@@ -741,7 +747,9 @@
 
 				label : 'Specific',
 
-				action : specific
+				action : specific,
+
+				selectable : false
 
 			},
 
@@ -753,17 +761,13 @@
 
 			},
 
-			
-
-			exportall    : {
+			/*exportall    : {
 
 				label : 'Export All',
 
 				action : exportAll
 
-			},
-
-			
+			},*/
 
 			
 			_close       : {
@@ -879,7 +883,7 @@
 			});
 
 			//set targets on IGRP defaults
-			var r = [];
+			/*var r = [];
 
 			for(var t in $.IGRP.targets){
 
@@ -890,7 +894,7 @@
 				
 			}
 
-			$.IGRP.defaults.buttons.targets = r;
+			$.IGRP.defaults.buttons.targets = r;*/
 
 			setTimeout(function(){
 				

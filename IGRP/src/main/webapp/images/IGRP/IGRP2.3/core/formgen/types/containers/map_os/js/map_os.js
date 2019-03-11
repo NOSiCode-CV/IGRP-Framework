@@ -1,79 +1,333 @@
-var GENMAPOS = function(name,params){
-	
-	CONTAINER.call(this,name,params);
-	
-	var container    = this;
+(function(){
 
-	container.xml.structure = 'form';
+	var GEN = VARS.getGen(),
 
-	container.includes = {
+		layersList,
 
-		css : [
-			{ path : '/plugins/gis/styles/igrp.gis.css' }
-		],
+		layersOptions;
 
-		js :  [
+	GEN.Request.get( path+'/core/formgen/types/containers/map_os/layers.list.json',{
 
-			{ path : "/plugins/gis/app/app.js" }
+		then : function(list){
+			
+			if(typeof list === 'string')
+				
+				list = JSON.parse(list);
+			
+			console.log(list)
+			
+			layersList = list;
 
-		],
+			layersOptions = $.map( layersList, function (obj) {
+				
+				console.log(obj)
 
-		xsl:  [ 'gis.map' ]
+				var r = {};
+			  	
+			  	r.text = obj.name;
 
-	};
+			  	r.value = obj.id;
 
+			  	return r;
 
-	container.onDrawEnd = function(){
+			});
 
-		GIS.init();
+		}
 
-	}
+	});
 
-	container.ready = function(){
+	GEN.declareContainer({
 
-		container.setProperty({
+		name	  : 'map_os',
 
-			name: 'map_type',
+		container : function(name, params){
+			
+			var container = this;
 
-			label : 'Map Type',
+			CONTAINER.call(container,name,params);
 
-			value : {
+			container.contextMenu = {
 
-				value : 'leaflet',
+				type   : 'map_widget',
 
-				options : [
+				holder : '.gis-widgets-controller',
 
-					{
-						value : 'openlayers',
+				menu   : {
 
-						label : 'Open Layers'
+					selector: '>*'
+
+				}
+			};
+
+			container.includes = {
+
+				css : [ 
+					{ path : '/plugins/leaflet/library/css/leaflet.css' },
+					{ path : '/plugins/gis/styles/igrp.gis.css' } 
+				],
+				
+				js  : [ 
+					{ path : '/plugins/leaflet/library/js/leaflet.js' },
+					{ path : '/plugins/leaflet/library/plugins/basemap-provider/leaflet-providers.js' },
+					{ path : '/plugins/leaflet/library/plugins/ajax/leaflet.ajax.min.js' },
+					{ path : '/plugins/gis/v2/gis.js' },
+					
+					{ path : '/plugins/gis/v2/modules/gis.templates.js' },
+					{ path : '/plugins/gis/v2/modules/gis.map.js' },
+					{ path : '/plugins/gis/v2/modules/gis.basemaps.js' },
+					{ path : '/plugins/gis/v2/modules/gis.layers.js' },
+					{ path : '/plugins/gis/v2/modules/gis.layer.js' },
+					{ path : '/plugins/gis/v2/modules/gis.widgets.js' },
+					{ path : '/plugins/gis/v2/modules/gis.widget.js' },
+					{ path : '/plugins/gis/v2/modules/gis.panels.js' }
+
+				],
+				xsl : [ 'gis.map' ]
+			};
+
+			function GetMapData(){
+
+				var json = {
+
+						groupLayers : [],
+
+						baseMaps    : [],
+
+						widgets     : []
+
 					},
 
-					{
-						value : 'leaflet',
+					groups   = container.GET.fieldsByType( 'map_layer' ),
 
-						label : 'Leaflet'
-					}
+					basemaps = container.GET.basemaps(),
 
-				]
+					widgets  = container.GET.contextMenuFields();
 
+				groups.forEach(function(g){
+
+					var layers = g.GET.layers(),
+
+						group  = {
+
+							title : g.GET.label(),
+
+							visible : g.GET.visible(),
+
+							layers : []
+
+						};
+
+					layers.forEach(function(l){
+
+						var layer = $.grep( layersList, function (obj) {
+
+							return obj.id == l.layer;
+
+						})[0];
+
+						if(layer){
+
+							layer.visible = l.visible;
+
+							group.layers.push(layer);
+
+						}
+
+					});
+
+					json.groupLayers.push( group );
+
+				});
+
+				basemaps.forEach(function(b){
+
+					json.baseMaps.push({
+
+						name : b.basemap,
+
+						default : b.default
+
+					})
+
+				});
+
+				widgets.forEach(function(w){
+
+					json.widgets.push({
+						name  : w.GET.tag(),
+						title : w.GET.label(),
+						icon  : w.GET.icon()
+					})
+
+				});
+
+				return json;
+
+			};
+
+			container.xml.getStructure = function(o){
+
+				var xml    = '',
+
+					data   = JSON.stringify(GetMapData());
+
+				xml+='<fields>'+
+
+						'<'+container.GET.tag()+'_data type="text" name="p_'+container.GET.tag()+'_data" maxlength="8000" persist="true">'+
+							'<label>Map Data</label>'+
+							'<value>'+data.replace(/"/g, '\\"')+'</value>'+
+						'</'+container.GET.tag()+'_data>'+
+
+					 '</fields>'
+
+				return xml;
+			};
+
+			container.onMap_layerFieldSet = function(f){
+
+				f.setPropriety({
+
+					name  :'layers',
+
+					label : '	',
+
+					type  : 'formlist',
+
+					fields : {
+
+						layer : {
+
+							type : 'select',
+
+							options : layersOptions
+
+						},
+
+						visible : {
+
+							type : 'checkbox',
+
+							checked : true
+
+						}
+
+					},
+
+					sortable : true,
+
+					value : {
+
+						value : f.proprieties && f.proprieties.layers || []
+
+					},
+
+					size : 12
+
+				});
+
+				f.setPropriety({
+					name : 'visible',
+					value : true
+				})
+
+			};
+
+			container.onContextMenuSet = function(f){
+
+				GEN.setImgAttr(f,{
+					name : 'icon',
+					value : 'fa-dot-circle-o'
+				});
+				
 			}
 
-		});
+			container.ready = function(){
 
-		container.setProperty({
-			
-			name : 'heigth',
+				container.setPropriety({
 
-			value : 450
-		
-		});
+					name : 'basemaps',
 
-	}
+					label : 'Basemap',
 
-}
+					type : 'formlist',
 
-this[VARS.name].declareContainer({
-	name:'map_os',
-	container:GENMAPOS
-});
+					size: 12,
+
+					sortable : true,
+
+					fields : {
+
+						basemap : {
+
+							type : 'select',
+
+							options : function(){
+
+								var arr = [
+
+									{ text : 'Black And White (OSM)', value : 'OpenStreetMap.BlackAndWhite' },
+
+									{ text : 'CartoDB', value : 'CartoDB' },
+
+									{ text : 'Esri World Imagery', value:'Esri.WorldImagery' },
+
+									{ text : 'Open Street Map', value : 'OpenStreetMap' },
+
+									{ text : 'Open Topo Map', value : 'OpenTopoMap' },
+
+									{ text : 'Wikimedia', value : 'Wikimedia' },
+
+									{ text : 'Google Street', value : 'GoogleStreet' },
+
+									{ text : 'Google Hybrid', value : 'GoogleHybrid' },
+
+									{ text : 'Google Satellite', value : 'GoogleSatellite' },
+
+									{ text : 'Google Terrain', value : 'GoogleTerrain' }
+
+								]
+								
+								return arr.sort();
+
+							}
+
+						},
+
+						default : {
+
+							type : 'radio',
+
+							checked : false
+
+						}
+
+					},
+
+					value : {
+
+						value : container.proprieties && container.proprieties.basemaps || [{"basemap":"Wikimedia","default":true,"gen-map_os_1_basemaps_id":""},{"basemap":"OpenStreetMap","default":false,"gen-map_os_1_basemaps_id":""},{"basemap":"GoogleSatellite","default":false,"gen-map_os_1_basemaps_id":""},{"basemap":"Esri.WorldImagery","default":false,"gen-map_os_1_basemaps_id":""}]
+
+					}
+
+				});
+
+			};
+
+			container.onDrawEnd = function(){
+				
+				GIS.init( $('.igrp-map-os-wrapper', container.holder) )
+
+			};
+
+			GEN.on('save', function(){
+
+
+				console.log(container);
+
+			})
+
+		}
+
+	});
+
+})();

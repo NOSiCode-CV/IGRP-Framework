@@ -1116,9 +1116,7 @@ th.bs-checkbox label.container-box {
     padding-left: 44px!important;
 }
 th.bs-checkbox label.container-box.checkbox-switch.switch {
-
      padding-left: 0px!important;
-      
 }
 label.container-box.checkbox-switch.switch .checkmark {
     display: none;

@@ -280,7 +280,7 @@ $(function(){
 		server.hints = hints;
 		server.hints.Core = Core;
 		
-		console.log(server.hints);
+		//console.log(server.hints);
 		
 	};
 	

@@ -1024,13 +1024,12 @@ var GENERATOR = function(genparams){
 		if(type == 'checkbox')
 			size = '3';
 
-
-
 		var _class    = object.proprieties[p.propriety].class ? object.proprieties[p.propriety].class : '';
 
 		var holder    = $('<div '+attrsStr+' rel="'+propriety+'" item-name="edit-'+propriety+'" class="form-group col-md-'+size+' '+_class+' col-xs-12"></div>');
 		var label     = $('<label>'+pLabel+'</label>');
 		var value     = object.GET[propriety] ? object.GET[propriety]() : '';
+		
 		
 		switch(type){
 			//OPTIONS / comboboxx
@@ -1149,6 +1148,57 @@ var GENERATOR = function(genparams){
 				*/
 
 			break;
+			
+			//formlist attribute
+			
+			case 'formlist':
+
+				holder.append(label);
+				
+				console.log(holder);
+				
+				try{
+
+					var objectName = object.GET.tag(),
+
+						attName    = p.propriety,
+
+						flist 	   = $('<div class="box clean box-table-contents gen-container-item gen-formlist-attr-holder" gen-class="" item-name="gen-'+objectName+'_'+attName+'"><div class="box-body table-box"><table id="gen-'+objectName+'_'+attName+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen-'+objectName+'_'+attName+'" data-control="data-gen-'+objectName+'_'+attName+'"><thead></thead><tbody><tr row="0"><input type="hidden" name="p_gen-'+objectName+'_'+attName+'_id" value="" /></tr></tbody></table></div></div>'),
+
+						fields 	   =  objectProperties.fields || false;
+
+					flist.addClass(setterClass).attr('rel',p.propriety).attr('type','formlist');
+
+					//console.log( object.GET[p.propriety]() )
+
+					$('.IGRP_formlist',flist).IGRP_formlist({
+
+						fields : fields,
+
+						data : object.GET[p.propriety]()
+
+					});
+
+					if(objectProperties.sortable)
+
+						flist.find('tbody').sortable({
+							
+							items: 'tr'
+
+						}).disableSelection();
+
+
+					holder.append( flist )
+
+				}catch(err){
+
+					console.log(err)
+
+				}	
+				
+
+			break;
+			
 			// CUSTOM SETTER / returns the setter $('<div/>')
 			case 'custom':
 				holder.append(label);
@@ -1239,9 +1289,13 @@ var GENERATOR = function(genparams){
 					case 'boolean':
 						inputType = 'checkbox';
 					break;
-
+	
 					case 'object':
-						if(object.proprieties[p].options)
+	
+						if(objectProperties && objectProperties.type && objectProperties.type == 'formlist')
+							inputType = 'formlist';
+						
+						else if(object.proprieties[p].options)
 							inputType = 'select';
 						else if(object.proprieties[p].list)
 							inputType = 'list';
@@ -4685,12 +4739,12 @@ var GENERATOR = function(genparams){
 	var targetRulesSet = false;
 
 	GEN.setTargetAttr = function(field,p){
-		
+
 		field.setPropriety({
 			name: 'target',
 			value:{
 				value:p.value ? p.value : '_blank',
-				options: $.IGRP.defaults.buttons.targets
+				options: $.IGRP.defaults.buttons.targets()
 			},
 			//help : GEN.Helpers.attr.target
 		});

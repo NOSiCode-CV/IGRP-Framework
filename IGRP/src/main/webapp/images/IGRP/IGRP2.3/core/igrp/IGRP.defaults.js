@@ -99,22 +99,32 @@
 
 				targets : function(){
 					
-					$.IGRP.on('init',function(){
+					//$.IGRP.on('init',function(){
 					
 						var r = [];
 						
 						for(var t in $.IGRP.targets){
 
-							r.push({
-								value : t,
-								label : $.IGRP.targets[t]
-							});
+							var targ = $.IGRP.targets[t];
+							
+							if(targ.selectable != false){
+
+								r.push({
+									value : t,
+									label : targ.label
+								});
+
+							}
+							
 						}
+
+						//$.IGRP.defaults.buttons.targets = r;
 						
-						$.IGRP.defaults.buttons.targets = r;
-					});
+						return r;
+						
+					//});
 					
-				}()
+				}
 				
 			}
 		}

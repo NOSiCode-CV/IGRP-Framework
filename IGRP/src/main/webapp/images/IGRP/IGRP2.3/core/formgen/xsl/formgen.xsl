@@ -712,7 +712,8 @@
           
           <script src="{$path}/core/formgen/js/GEN.lookupMap.js"></script>
           
-
+          <script src="{$path}/core/formgen/js/classes/Requests.js"></script>
+          
 
           <xsl:for-each select="$gen/containers/item">
               <xsl:if test="not(@js) or @js!='false'">
@@ -1223,7 +1224,7 @@
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/formlist/igrp.formlist.css?v={$version}"/>
         <script type="text/javascript" src="{$path}/plugins/colorpicker/js/bootstrap-colorpicker.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/plugins/colorpicker/colorpicker.init.js?v={$version}"/>
-        <script type="text/javascript" src="{$path}/plugins/formlist/igrp.formlist.js?v={$version}"/>
+       
 
 		
         <style id="custom-css"></style>
