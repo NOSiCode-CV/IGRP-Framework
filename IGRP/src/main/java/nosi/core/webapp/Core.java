@@ -79,6 +79,7 @@ import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
@@ -2711,5 +2712,20 @@ public final class Core { // Not inherit
 		if(sessionFactory!=null)
 			return sessionFactory.getCurrentSession();
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
+	}
+	
+	public static void lockProccess(String codeOrg,String codeProf,String userName,String procId,String taskId) {
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
+		Organization org = new Organization().findByCode(codeOrg);
+		ProfileType prof = new ProfileType().findByCode(codeProf);
+		ActivityExecute a = new ActivityExecute(Core.toInt(procId), Core.toInt(taskId), org, prof, user);
+		a.insert();
+	}
+	
+	public static void lockProccess(String codeOrg,String codeProf,String procId,String taskId) {
+		Organization org = new Organization().findByCode(codeOrg);
+		ProfileType prof = new ProfileType().findByCode(codeProf);
+		ActivityExecute a = new ActivityExecute(Core.toInt(procId), Core.toInt(taskId), org, prof, null);
+		a.insert();
 	}
 }
