@@ -276,7 +276,6 @@ public class TesteSso extends HttpServlet {
 			}
 			rs.close();
 			ps.close();
-			conn.close();
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
@@ -288,6 +287,12 @@ public class TesteSso extends HttpServlet {
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 			flag = false;
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return flag;

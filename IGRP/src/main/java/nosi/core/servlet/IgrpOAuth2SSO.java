@@ -241,6 +241,13 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						e.printStackTrace();
 						response.sendError(500, "Database driver not found ... so we block the request !");
 						return;
+					}finally {
+						try {
+							if(!conn.isClosed())
+								conn.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}
 					
 					try {
