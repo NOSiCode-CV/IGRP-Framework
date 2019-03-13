@@ -64,8 +64,8 @@
 	<entry key="link.rest.pesquisa_geografia">https://stage-pdex.gov.cv:8243/geografia/1.0.0/select_geo_by_id</entry>
 	
 	<!-- authorization rest pesquisas gerais -->
-	<entry key="authorization.link.rest.pesquisa_bi_cni_pass">Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f</entry>
-	<entry key="authorization.rest.pesquisa_nif">Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f</entry>
-	<entry key="authorization.rest.pesquisa_geografia">Bearer 18dacc19-f73b-3600-ab37-9fac8eb4f60f</entry>
+	<entry key="authorization.link.rest.pesquisa_bi_cni_pass">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry>
+	<entry key="authorization.rest.pesquisa_nif">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry>
+	<entry key="authorization.rest.pesquisa_geografia">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry>
 	
 </properties>
