@@ -623,6 +623,16 @@
 		
 
 		$.IGRP.targets = {
+				
+			void  : {
+				
+				label : 'Void',
+				
+				action : function(){
+					return false;
+				}
+				
+			},
 			
 			confirm      : {
 

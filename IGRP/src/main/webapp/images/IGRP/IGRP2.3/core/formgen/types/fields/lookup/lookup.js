@@ -28,7 +28,9 @@ var LOOKUPFIELD = function(type,params){
 			order : 3,
 			size : 12,
 			value : {
+				
 				value : proprieties && proprieties.lookupParams || [],
+				
 				setter:function(){
 					
 					var actionID = field.GET.action();
@@ -47,8 +49,6 @@ var LOOKUPFIELD = function(type,params){
 									label : f.GET.tag()
 								});
 						});
-						
-						console.log(rtn);
 						
 						return rtn;
 					}
@@ -104,9 +104,11 @@ var LOOKUPFIELD = function(type,params){
 										options : fields
 									}
 								},
-								data : field.GET.lookupParams()
-							});
 								
+								data : field.GET.lookupParams()
+								
+							});
+							
 							holder.append(flist);
 							
 						});

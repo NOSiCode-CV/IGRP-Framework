@@ -722,7 +722,9 @@ var GENSTRUCTURES = function(GEN){
 		
 		rtn+='<lookupParams>';
 		
-		f.GET.lookupParams().forEach(function(lp){
+		console.log(f.GET.lookupParams())
+		
+		/*f.GET.lookupParams().forEach(function(lp){
 			
 			var target = lp.name || lp.target_field,
 				value = lp.value || lp.value_field;
@@ -731,7 +733,7 @@ var GENSTRUCTURES = function(GEN){
 				
 					rtn+='<param field-target="'+target+'">'+value+'</param>';
 			
-		});
+		});*/
 		
 		rtn+='</lookupParams>';
 		

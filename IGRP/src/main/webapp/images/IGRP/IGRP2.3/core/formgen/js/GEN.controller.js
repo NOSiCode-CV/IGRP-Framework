@@ -1155,40 +1155,51 @@ var GENERATOR = function(genparams){
 
 				holder.append(label);
 				
-				console.log(holder);
-				
 				try{
-
-					var objectName = object.GET.tag(),
-
-						attName    = p.propriety,
-
-						flist 	   = $('<div class="box clean box-table-contents gen-container-item gen-formlist-attr-holder" gen-class="" item-name="gen-'+objectName+'_'+attName+'"><div class="box-body table-box"><table id="gen-'+objectName+'_'+attName+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen-'+objectName+'_'+attName+'" data-control="data-gen-'+objectName+'_'+attName+'"><thead></thead><tbody><tr row="0"><input type="hidden" name="p_gen-'+objectName+'_'+attName+'_id" value="" /></tr></tbody></table></div></div>'),
-
-						fields 	   =  objectProperties.fields || false;
-
-					flist.addClass(setterClass).attr('rel',p.propriety).attr('type','formlist');
-
-					//console.log( object.GET[p.propriety]() )
-
-					$('.IGRP_formlist',flist).IGRP_formlist({
-
-						fields : fields,
-
-						data : object.GET[p.propriety]()
-
-					});
-
-					if(objectProperties.sortable)
-
-						flist.find('tbody').sortable({
+				
+					if(objectProperties.value && objectProperties.value.setter){
+						
+						var setter            = object.proprieties[propriety].setter().addClass(setterClass).attr('rel',p.propriety);
+						
+						if(objectProperties.type)
 							
-							items: 'tr'
+							setter.attr('type',objectProperties.type || 'custom');
+						
+						holder.append(setter);
+						
+					}else{
+						
+						var objectName = object.GET.tag(),
 
-						}).disableSelection();
-
-
-					holder.append( flist )
+							attName    = p.propriety,
+	
+							flist 	   = $('<div class="box clean box-table-contents gen-container-item gen-formlist-attr-holder" gen-class="" item-name="gen-'+objectName+'_'+attName+'"><div class="box-body table-box"><table id="gen-'+objectName+'_'+attName+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen-'+objectName+'_'+attName+'" data-control="data-gen-'+objectName+'_'+attName+'"><thead></thead><tbody><tr row="0"><input type="hidden" name="p_gen-'+objectName+'_'+attName+'_id" value="" /></tr></tbody></table></div></div>'),
+	
+							fields 	   =  objectProperties.fields || false;
+	
+						flist.addClass(setterClass).attr('rel',p.propriety).attr('type','formlist');
+	
+						$('.IGRP_formlist',flist).IGRP_formlist({
+	
+							fields : fields,
+	
+							data : object.GET[p.propriety]()
+	
+						});
+	
+						if(objectProperties.sortable)
+	
+							flist.find('tbody').sortable({
+								
+								items: 'tr'
+	
+							}).disableSelection();
+	
+	
+						holder.append( flist )
+						
+					}
+					
 
 				}catch(err){
 

@@ -30,9 +30,9 @@
 
 		var toolTip = function(){
 			
-			$('body').tooltip({
+			/*$(document).tooltip({
 			    selector: '[data-toggle="tooltip"]'
-			});			
+			});		*/	
 		};
 
 		/* DEBUG */

@@ -168,18 +168,35 @@
 
             var properties = p.properties || {
                 allowClear : true,
-                placeholder: {
+                /*placeholder: {
                     id : "",
                     placeholder: ""
-                }
+                }*/
             };
-
+            
             if(p.field.is('[multiple]'))
                 $('option[value=""]:first',p.field).remove();
 
-            if (p.field.is('[tags]'))
+            if (p.field.is('[tags="true"]')){
+            	
+            	properties.tags = true;
 
-                properties.tags = true;
+            	p.field.on('select2:select', function(e,d){
+            		
+            		if(e.params && e.params.data && !e.params.data.element){
+            			
+            			var o = new Option(e.params.data.id, e.params.data.text, true, true );
+            			
+            			p.field.find('option[value="'+e.params.data.id+'"]').remove();
+            			
+            			p.field.append(o).trigger('change');
+            			
+            		}
+            		
+            	});
+            	
+            }
+
 
             p.field.select2(properties);
 

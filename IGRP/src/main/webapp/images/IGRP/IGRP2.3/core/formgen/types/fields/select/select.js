@@ -37,6 +37,7 @@ var SELECTFIELD = function(type,params){
 				}
 			}
 		});
+		
 
 		field.setPropriety({
 			label:'Dynamic option',
