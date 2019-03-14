@@ -77,7 +77,7 @@ public class DateHelper {
 	}
 	
 	public static java.sql.Date convertStringToDate(String date,String format) {
-		return formatDate(date,"dd-mm-yyyy",format);
+		return formatDate(date,format);
 	}
 	
 	public static String convertTimeStampToDate(String date,String format) {

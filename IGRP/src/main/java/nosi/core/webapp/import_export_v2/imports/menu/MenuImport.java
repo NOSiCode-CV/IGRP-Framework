@@ -42,7 +42,7 @@ public class MenuImport extends AbstractImport implements IImport{
 					HashMap<Integer, String> actions = new Action().getListActions(app.getId());
 					if(m.getMenu()!=null) {
 						final Action action = new Action().findByPage(m.getPage_name(), m.getDad_page());
-						if(actions.containsKey(action.getId())) {
+						if(Core.isNotNullMultiple(action,actions) && actions.containsKey(action.getId())) {
 	//					The action/page is really shared with the app in the import environment
 							if(Core.isNull(m.getMenu().getDad_page())) 
 	//							Son, insert the parent if not already

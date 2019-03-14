@@ -192,14 +192,14 @@ public class Page{
 		    e.printStackTrace(pw);
 
 			if(e.getCause() instanceof  NullPointerException) {
-				String msg = "Error NullPointerException - "+Igrp.getInstance().getCurrentPageName()+"Controller.java";
+				String msg = "Error NullPointerException - "+Igrp.getInstance().getCurrentPageName()+"Controller.java!";
 				String env = "";
 				env = Igrp.getInstance().getServlet().getInitParameter("env");
-				if(env.equals("dev") && env.equals("sta")) {
+				if(env.equals("dev") || env.equals("sta")) {
 					msg+=" \nCheck debugger at the bottom of the page.";
 				}
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.error",sw.toString());
-
+				System.out.println(sw.toString());
 				throw new NotFoundHttpException(msg);
 			}
 			
@@ -210,7 +210,7 @@ public class Page{
 			}
 			throw new NotFoundHttpException("Ocorreu um erro, pedimos desculpas.");
 		}
-		throw new NotFoundHttpException("Nenhum metódo "+actionName+" encontrado!");
+		throw new NotFoundHttpException("Nenhum metodo "+actionName+" encontrado!");
 		
 	}
 
