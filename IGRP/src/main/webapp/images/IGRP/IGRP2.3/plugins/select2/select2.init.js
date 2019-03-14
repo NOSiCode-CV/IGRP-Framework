@@ -167,7 +167,7 @@
         select2Init : function(p){
 
             var properties = p.properties || {
-                allowClear : true,
+                //allowClear : true,
                 /*placeholder: {
                     id : "",
                     placeholder: ""

@@ -72,6 +72,26 @@
 				
 				operation : 'appendTo',
 				
+				buttons : [
+					{
+						class : 'primary',
+						
+						icon : 'check',
+						
+						text : 'Concluir',
+						
+						onClick:function(){
+							
+							$.IGRP.components.globalModal.hide();
+							
+							currentRow = null;
+							
+							return false;
+							
+						}
+					}
+				],
+				
 				beforeHide : function(){
 					
 					aform.hide().appendTo( associationFormParent );

@@ -720,7 +720,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		remote_list:{
 			do : function(p){
-				var actionURL	 = $.IGRP.utils.getPageUrl(),
+				var actionURL	 = p.procedure || $.IGRP.utils.getPageUrl(),
 					form		 = $.IGRP.utils.getForm();
 				
 				$.each( p.targetFields ,function(i,f){
@@ -734,8 +734,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 						data  : form.serialize(),
 
 						success:function(c){
+							
+							console.log( f )
 
 							if($.IGRP.components.contextMenu)
+								
 								$.IGRP.components.contextMenu.set( $('.gen-container-item[item-name="'+tableName+'"]') );
 
 						},
