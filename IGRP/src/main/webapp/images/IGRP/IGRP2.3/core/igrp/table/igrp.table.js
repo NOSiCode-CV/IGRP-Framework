@@ -70,16 +70,17 @@
 			}
 		},
 
-		dataTable : function(options){
+		dataTable : function(op){
 
 			var o = $.extend({
 
 				selector 		: '.igrp-data-table',
-				language 		: getCookie("igrp_lang")
+				language 		: getCookie("igrp_lang"),
+				parent          : 'body'
 
-			}, options);
+			}, op);
 
-			var tables = $(o.selector);
+			var tables = $(o.selector,o.parent);
 
 			if(tables[0] && $.fn.DataTable){
 

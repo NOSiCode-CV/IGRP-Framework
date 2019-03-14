@@ -735,7 +735,15 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						success:function(c){
 							
-							console.log( f )
+							var table = c.itemHTML.find('table').first();
+							
+							if(table.hasClass('igrp-data-table')){
+								
+								$.IGRP.components.tableCtrl.dataTable({
+									parent : c.itemHTML
+								})
+								
+							}
 
 							if($.IGRP.components.contextMenu)
 								
