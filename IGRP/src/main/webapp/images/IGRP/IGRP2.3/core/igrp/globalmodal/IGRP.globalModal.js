@@ -8,7 +8,9 @@
 			beforeHide:null,
 
 			get:function(){
+				
 				return $($.IGRP.components.globalModal.modalid);
+			
 			},
 
 			set:function(o){
@@ -38,7 +40,9 @@
 				if(o.size)
 					$('.modal-dialog',modal).addClass('modal-'+o.size);
 				
-				if(o.beforeHide) $.IGRP.components.globalModal.beforeHide = o.beforeHide;
+				if(o.beforeHide) 
+					
+					$.IGRP.components.globalModal.beforeHide = o.beforeHide;
 				
 				if(o.rel) modal.attr('parent-rel',o.rel);
 				

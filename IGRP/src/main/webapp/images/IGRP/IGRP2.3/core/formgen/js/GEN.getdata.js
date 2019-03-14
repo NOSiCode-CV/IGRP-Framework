@@ -158,7 +158,7 @@ var DATA = {
 			break;
 
 			case 'hidden':
-				rtn = 1;
+				rtn = 'hidden-'+$.IGRP.utils.unique();
 			break;
 
 			default:

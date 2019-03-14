@@ -66,6 +66,12 @@
                 },20);
 
                 TABLE[0].events.execute('row-reset',row);
+                
+                TABLE.trigger('formlist:row-reset', [{
+
+                    row : row
+
+                }]);
             }
 
             function hideShowItem(){
@@ -104,11 +110,18 @@
                     $("form").append('<input type="hidden" name="p_'+pObj.pRel+'_del" value="'+vVal+'"/>');
                   
                 if(_this.getLength() > 1 && settings.btnDelete){
+                	
+                	TABLE.trigger('formlist:row-remove', [{
+
+                        row : $(pObj.pObjt)
+
+                    }]);
 
                     $(pObj.pObjt).remove();
 
                     TABLE[0].events.execute("row-remove",pObj.pObjt);
                      //_this.events.execute('row-remove',$(pObj.pObjt,"table[rel='T_"+pObj.pRel+"']"));
+  
                 }
                 else{
           
@@ -329,6 +342,8 @@
                     DrawFields( settings.fields, e );
 
                 e.events.execute('ready');
+                
+                e.addRow = addRowForm;
 
                 e.DeleteRow = function(row){
 
