@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -37,6 +38,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
+import com.google.common.io.ByteSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
@@ -1573,6 +1575,96 @@ public final class Core { // Not inherit
 	}
 
 	/**
+	 * update a file to the Igrp core DataBase and return true or false
+	 * 
+	 * @param content   byte[]
+	 * @param name
+	 * @param mime_type
+	 * @return true/false
+	 */
+	public static boolean updateFile(byte[] content, String name, String mime_type,int id) {
+		try {
+			String aux[] = name.trim().split("\\.");
+			String extension = aux[aux.length - 1];
+			return updateFile(content, name, "." + extension, mime_type,id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private static boolean updateFile(byte[] content, String name, String extension, String mime_type,int id) {
+		try {
+			if (!extension.startsWith("."))
+				throw new IllegalArgumentException("Extension of file is invalid.");
+			File file = File.createTempFile(name, extension);
+			FileOutputStream out = new FileOutputStream(file);
+			out.write(content);
+			out.flush();
+			out.close();
+			return updateFile(ByteSource.wrap(content).openStream(), name, mime_type,id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static boolean updateFile(Part file,String name,int id) {
+		boolean r = false;
+		try {
+			r = updateFile(file.getInputStream(), name, file.getContentType(), id);
+		} catch (IOException e) {
+			r = false;
+			e.printStackTrace();
+		}finally {
+			try {
+				if(file!=null)
+					file.delete();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return r;
+	}
+	
+	private static boolean updateFile(InputStream stream, String name, String mime_type,int id) {
+		boolean updated = false;
+		if(stream!=null) {
+			String igrpCoreConnection = new ConfigApp().getBaseConnection();
+			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
+			if (conn != null) {
+				String standardSql = "update tbl_clob set c_lob_content=?, dt_created=?, mime_type=?, name=? where id=?";
+				try {
+					conn.setAutoCommit(false);
+					java.sql.PreparedStatement ps = conn.prepareStatement(standardSql);
+					ps.setBinaryStream(1, stream);
+					ps.setDate(2, new Date(System.currentTimeMillis()));
+					ps.setString(3, mime_type);
+					ps.setString(4, name);
+					ps.setInt(5, id);
+					if (ps.executeUpdate() > 0) {
+						ps.close();
+					}
+					conn.commit();
+					updated = true;
+				} catch (Exception e) {
+					updated = false;
+					e.printStackTrace();
+				} finally {
+					try {
+						conn.close();
+						stream.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return updated;
+	}
+	
+	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
 	 * @param content   byte[]
@@ -1686,6 +1778,7 @@ public final class Core { // Not inherit
 		}
 		return lastInsertedId;
 	}
+
 
 	public static int saveFile(String parameterName) throws Exception {
 		if(Core.isNotNull(parameterName))
