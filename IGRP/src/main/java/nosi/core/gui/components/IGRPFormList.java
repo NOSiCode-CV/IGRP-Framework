@@ -88,7 +88,8 @@ public class IGRPFormList extends IGRPSeparatorList {
 				this.xml.endElement();
 			}
 		}else if(this.data==null || this.data.size() == 0 && this.startRow){
-			this.xml.startElement("row"); 
+			this.xml.startElement("row");
+			this.xml.writeAttribute("type", "start");
 			for(Field field:this.fields){	
 				this.genFields(null,field);		
 			}
