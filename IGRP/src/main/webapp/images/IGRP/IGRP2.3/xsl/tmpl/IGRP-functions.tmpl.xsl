@@ -71,7 +71,7 @@
           <xsl:otherwise>
               <xsl:if test="$list != ''">
                 <xsl:choose>
-                  <xsl:when test="$list = 'refresh'">
+                  <xsl:when test="$list = 'refresh' or $list = 'refresh_submit'">
                     <xsl:attribute name="close">
                       <xsl:value-of select="$list"/>
                     </xsl:attribute>
