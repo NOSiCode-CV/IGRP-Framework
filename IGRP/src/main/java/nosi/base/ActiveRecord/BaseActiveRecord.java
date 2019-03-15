@@ -14,7 +14,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.xml.bind.annotation.XmlTransient;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,7 +27,6 @@ import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.StringHelper;
-import nosi.webapps.igrp.dao.Domain;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
 /**
