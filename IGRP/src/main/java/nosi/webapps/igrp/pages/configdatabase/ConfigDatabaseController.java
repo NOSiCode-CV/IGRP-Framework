@@ -242,7 +242,7 @@ public class ConfigDatabaseController extends Controller {
 		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				+ "<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
 				"\"-//Hibernate/Hibernate Configuration DTD 3.0//EN\"\r\n" + 
-				"\"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd\">\n"
+				"\"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd\">\n"
 				+ "<hibernate-configuration>\n" + "		<session-factory>\n"
 				+ "				<!-- Mapping your class here... \n" + "					Ex: <mapping class=\""
 				+ package_ + ".Employee\"/>\n" + "				-->\n" + "		</session-factory>\n"
