@@ -76,14 +76,14 @@ public class HibernateUtils {
 		try {
 			if (config.getBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
-				registryBuilder.applySettings(getIGRPSettings(connectionName));
+				registryBuilder.applySettings(getIGRPSettings(registryBuilder,connectionName));
 			}else if (config.getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
 				registryBuilder.configure("/" + connectionName + ".cfg.xml");
-				registryBuilder.applySettings(getH2IGRPSettings(connectionName));
+				registryBuilder.applySettings(getH2IGRPSettings(registryBuilder,connectionName));
 			}else {
-				Map<String, Object> settings = getOthersAppSettings(connectionName,dad,schemaName);
+				registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
+				Map<String, Object> settings = getOthersAppSettings(registryBuilder,connectionName,dad,schemaName);
 				if(settings!=null) {
-					registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
 					if(registryBuilder!=null)
 						registryBuilder.applySettings(settings);
 				}else {
@@ -97,7 +97,7 @@ public class HibernateUtils {
 		return  registryBuilder.build();
 	}
 
-	private static Map<String, Object> getH2IGRPSettings(String connectionName) {
+	private static Map<String, Object> getH2IGRPSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName) {
 		ConfigDBIGRP config = new ConfigDBIGRP();
 		try {
 			config.load("db_igrp_config_h2.xml");
@@ -106,10 +106,10 @@ public class HibernateUtils {
 			e.printStackTrace();
 		}
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
-		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
+		return getSettings(registryBuilder,config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
 	}
 
-	private static Map<String, Object> getOthersAppSettings(String connectionName, String dad,String schemaName) {
+	private static Map<String, Object> getOthersAppSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName, String dad,String schemaName) {
 		Config_env config = new Config_env().find()
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
@@ -127,12 +127,12 @@ public class HibernateUtils {
 			String password = Core.decrypt(config.getPassword(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 			String user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			return getSettings(driver, url, user, password, hibernateDialect,schemaName);
+			return getSettings(registryBuilder,driver, url, user, password, hibernateDialect,schemaName);
 		}
 		return null;
 	}
 
-	private static Map<String, Object> getIGRPSettings(String connectionName) {
+	private static Map<String, Object> getIGRPSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName) {
 		ConfigDBIGRP config = new ConfigDBIGRP();
 		try {
 			config.load();
@@ -140,12 +140,11 @@ public class HibernateUtils {
 			e.printStackTrace();
 		}
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
-		return getSettings(config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
+		return getSettings(registryBuilder,config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
 	}
 
-	private static Map<String, Object> getSettings(String driver,String url,String user,String password,String hibernateDialect,String schemaName) {
+	private static Map<String, Object> getSettings(StandardServiceRegistryBuilder registryBuilder,String driver,String url,String user,String password,String hibernateDialect,String schemaName) {
 		Map<String, Object> settings = getBaseSettings(driver, url, user, password, hibernateDialect);	
-
 		ConfigHikariCP cHCp = ConfigHikariCP.getInstance();
 		
 		//Hibernate config
@@ -175,10 +174,22 @@ public class HibernateUtils {
 			settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
 			//suspense pool
 			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
+			
+			settings.put("hibernate.hbm2ddl.jdbc_metadata_extraction_strategy","individually");
 			//It releases the connection after org.hibernate.Transaction commit or rollback.
 //			if(Core.isNotNull(cHCp.getRelease_mode()))
 //				settings.put("hibernate.connection.handling_mode", cHCp.getRelease_mode());
         }
+        /**
+         * Load and use custom configuration
+         */
+		@SuppressWarnings("unchecked")
+		Map<String,Object> customSettings = registryBuilder.getAggregatedCfgXml().getConfigurationValues();
+		if(customSettings!=null) {
+			customSettings.entrySet().forEach(v->{
+				settings.put(v.getKey(), v.getValue());
+			});
+		}
 		return settings;
 	}
 

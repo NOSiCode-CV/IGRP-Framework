@@ -7,14 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
-
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.exception.GenericJDBCException;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
