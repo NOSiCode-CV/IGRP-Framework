@@ -4841,6 +4841,40 @@ var GENERATOR = function(genparams){
 			}
 
 		});
+		
+		field.setPropriety({
+			name    :'refresh_submit',
+			label   :'Submit',
+			value   :false,
+			xslValue:'refresh-submit="true"',
+			onEditionStart : function(o){
+				
+				setTimeout(function(){
+					
+					var ctrlSelector = '.propriety-setter.checker[rel="closerefresh"]';
+					
+					var checkVisibility = function(){
+						
+						var closeref = $(ctrlSelector),
+						
+							action = closeref.is(':checked') ? 'show' : 'hide';
+						
+						console.log(action);
+
+						o.input[action]();
+						
+					};
+					
+					$('#gen-edition-modal').on('change', ctrlSelector, checkVisibility);
+					
+					checkVisibility();
+					
+				},250);
+				
+
+			}
+
+		});
 
 		if(!targetRulesSet){
 			$.IGRP.rules.set({"edit-target":[

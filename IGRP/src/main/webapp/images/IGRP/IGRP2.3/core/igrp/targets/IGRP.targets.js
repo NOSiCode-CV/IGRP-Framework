@@ -48,22 +48,25 @@
  		};
  		//submit page
  		var submit = function(p){
+ 		
+ 			p = p || {};
  			
  			$.IGRP.utils.clearSubmittables();
-
- 			var sform     = $.IGRP.utils.getForm(),
-
- 				fields    = $.IGRP.utils.getFieldsValidate(sform),//$('input[required],select[required],textarea[required]',form).not('.no-validation'),
- 				
- 				validate  = p.validate === false ? false : true,
- 				
- 				action    = $.IGRP.utils.getSubmitParams(p.url,p.form,p.scrollTo);
-
- 			fields.addClass('submittable');
  			
  			try{
 
+	 			var sform     = $.IGRP.utils.getForm(),
+	
+	 				fields    = $.IGRP.utils.getFieldsValidate(sform),//$('input[required],select[required],textarea[required]',form).not('.no-validation'),
+	 				
+	 				validate  = p.validate === false ? false : true,
+	 				
+	 				action    = $.IGRP.utils.getSubmitParams(p.url,p.form,p.scrollTo);
+	 			
+	 			fields.addClass('submittable');
+ 			
  				if(p.clicked && p.clicked.parents('li.operationTable')[0])
+ 					
  					validate = false;
 
  				form.attr('validateCtrl',validate);
@@ -343,7 +346,7 @@
 		
 		var modal       = function(p){
 			
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 				
 				mWindow = window;
 		
@@ -358,7 +361,8 @@
 
 		var right_panel       = function(p){
 
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
+				
 				mWindow = window;
 			
 			p.url = setTargetParameter(p.url);
@@ -370,7 +374,7 @@
 		
 		var right_panel_submit       = function(p){
 
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 				mWindow = window;
 			
 			p.url = setTargetParameter($.IGRP.utils.getUrl(p.url)+form.serialize());
@@ -384,7 +388,7 @@
 			
 			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize();
 			
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')				
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
 				mWindow = window;
 			
 			$.IGRP.components.iframeNav.set({
@@ -468,6 +472,11 @@
 		};
 
 		var closerefresh = function(p){
+			
+			var params 	   = $.extend({},p),
+			
+				reloadType = params.type || 'refresh';
+			
 			try{
 
 				var popup 	= window.opener || false,
@@ -485,11 +494,19 @@
 				if(popup)
 				
 					close();
-					
-				_window.location.reload();
 				
-
-
+				if(reloadType == 'refresh')
+					
+					_window.location.reload();
+				
+				if(reloadType == 'refresh_submit')
+					
+					submit({
+						
+						url : $.IGRP.utils.getPageUrl()
+						
+					});
+					
 			}catch(e){null;}
 		};
 
@@ -577,9 +594,13 @@
 
 					});
 
-					if(target && target[0] && target[0]._import)
+					if(target && target[0] && target[0]._import){
+						
+						target[0]._import(Arr, true);
+						
+					}
 
-						target[0]._import(Arr);
+						
 
 					if(window.parent)
 						window.parent.$.IGRP.components.iframeNav.hide();

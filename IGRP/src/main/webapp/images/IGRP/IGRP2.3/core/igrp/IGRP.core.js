@@ -317,6 +317,41 @@
 				
 				return vUrl;
 			},
+			
+			refreshComponents : function(options){
+				
+				options = options || {};
+				
+				if(options.wrapper){
+					
+					/* select2 */
+					
+					if(options.wrapper.find('.form-control.select2'))
+						
+						$.IGRP.components.select2.init( options.wrapper );
+					
+					/*table ( data table, formlist )*/
+					
+					var table = options.wrapper.find('table').first();
+					
+					if(table.hasClass('igrp-data-table'))
+						
+						$.IGRP.components.tableCtrl.dataTable({
+							parent : options.wrapper
+						})
+						
+					if(table.hasClass('IGRP_formlist'))
+						
+						table.IGRP_formlist();
+
+					if($.IGRP.components.contextMenu)
+						
+						$.IGRP.components.contextMenu.set( $('.gen-container-item[item-name="'+options.itemName+'"]') );
+					
+				}
+				
+			},
+			
 			sanitize:function(pOp){
 				var vTexto = pOp;
 				try{

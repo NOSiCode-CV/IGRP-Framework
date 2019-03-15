@@ -433,8 +433,16 @@ var GENSTRUCTURES = function(GEN){
 				if(item.GET.target_fields && item.GET.target_fields())
 					target += '|'+item.GET.target_fields();
 
-				else if(item.GET.closerefresh && item.GET.closerefresh())
+				else if(item.GET.closerefresh && item.GET.closerefresh()){
+					
 					target += '|refresh';
+					
+					if( item.GET.refresh_submit &&  item.GET.refresh_submit())
+						
+						target += '_submit';
+					
+				}
+					
 				
 				console.log(item)
 

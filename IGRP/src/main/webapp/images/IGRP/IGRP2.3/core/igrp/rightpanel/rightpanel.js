@@ -12,11 +12,11 @@
 
 				n_iframe = iframe.clone(),
 
-				refParent = p.clicked.attr('close') == 'refresh';
+				refParent = p.clicked.attr('close').indexOf('refresh') >= 0;
 
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 
-				modal.attr('close','refresh');
+				modal.attr('close', p.clicked.attr('close'));
 
 			modal.addClass('loading');
 
@@ -56,10 +56,14 @@
 
 			//iframe.attr('src','');
 
-			if (modal.attr('close') && modal.attr('close') == 'refresh')
+			if (modal.attr('close') && modal.attr('close').indexOf('refresh') >= 0)
 
-				$.IGRP.targets.closerefresh.action();
-			
+				$.IGRP.targets.closerefresh.action({
+					
+					type : modal.attr('close')
+				
+				})
+
 			$('.iframe-nav-close',$(window.parent.document)).removeClass('hidden');
 
 		},
