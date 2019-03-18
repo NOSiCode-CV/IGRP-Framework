@@ -335,13 +335,34 @@
 
             this.each(function(i,e){
 
-                e.events    = new $.EVENTS(["ready","row-add","row-remove","row-reset","row-clone","fields-draw"]);
+                e.events    = new $.EVENTS(["ready","row-add","row-remove","row-reset","row-clone","fields-draw"]);            
 
                 if(settings.fields)
 
                     DrawFields( settings.fields, e );
 
                 e.events.execute('ready');
+                
+                e.removeClonableRow = function(){
+                	
+                	 if( $(e).find('tbody tr').length == 1 ){
+                     	
+                     	var hasVal = false;
+                     	
+                     	$(e).find('tbody tr td :input').each(function(){
+                     		
+                     		if($(this).val())
+                     			
+                     			hasVal = true;
+                     			
+                     	});
+
+                     	if(!hasVal)
+                     	
+                     		$(e).find('tbody tr').remove();
+                     		
+                     }
+                };
                 
                 e.addRow = addRowForm;
 
@@ -463,7 +484,9 @@
                     });
 
                     if( merge ){
-
+                    	
+                    	e.removeClonableRow();
+  
                          $('tbody',e).append(rows);
 
                     }else{
@@ -518,7 +541,7 @@
 
 
             });
-
+            
             return _this;
         }
 		

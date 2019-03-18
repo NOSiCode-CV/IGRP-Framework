@@ -596,11 +596,12 @@
 
 					if(target && target[0] && target[0]._import){
 						
-						target[0]._import(Arr, true);
+						var merge = target.parents('.box').first().hasClass('merge-import-data');
+
+						target[0]._import(Arr, merge);
 						
 					}
 
-						
 
 					if(window.parent)
 						window.parent.$.IGRP.components.iframeNav.hide();
@@ -709,7 +710,7 @@
 
 			formListLookup : {
 
-				label : 'Formlist Lookup',
+				label : 'Set FormList Values',
 
 				action : formListLookup
 

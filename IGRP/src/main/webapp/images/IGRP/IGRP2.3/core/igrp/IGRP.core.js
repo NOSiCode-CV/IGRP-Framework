@@ -853,6 +853,7 @@
 			var options = $.extend(true, {
 				nodes :[],
 				url   :null,
+				headers: {},
 				data  : null
 			}, params);
 
@@ -863,6 +864,8 @@
 				data : options.data,
 
 				method:'POST',
+				
+				headers : options.headers,
 
 				success:function(xml,e,r){
 					

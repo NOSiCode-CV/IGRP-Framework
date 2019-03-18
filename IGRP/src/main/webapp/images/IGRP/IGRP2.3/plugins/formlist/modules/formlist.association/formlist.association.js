@@ -10,15 +10,16 @@
 
 		associationBtnClss  : 'formlist-a-btn', //btn class for open association
 
-		associationFormClss : 'formlist-a-details' //formlist for association class
-
+		associationFormClss : 'formlist-a-details', //formlist for association class
+		
+		mergeImportsClss    : 'merge-import-data'
+		
 	};
 	
 	function FormlistAssociation( associationForm ){
 		
 		var parentFormListName, parentFormList, currentRow, associationFormParent, associationFormList;
-		
-		
+
 		function FilterAssociationRows(id){
 			
 			var aform = $(associationForm);
@@ -118,7 +119,7 @@
 	
 		function SetEvents(){
 			
-			parentFormList.on('click', '.'+selectors.associationBtnClss+'> a', ShowAssociationForm);
+			$('body').on('click', '.'+selectors.associationBtnClss+'> a', ShowAssociationForm);
 
 			parentFormList.on('formlist:add-row', function(e,r){
 				

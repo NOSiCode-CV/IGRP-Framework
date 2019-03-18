@@ -732,6 +732,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 						url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
 
 						data  : form.serialize(),
+						
+						headers : {
+					       	'X-IGRP-REMOTE' : 1
+					   	},
 
 						success:function(c){
 							
