@@ -141,7 +141,7 @@
 									<xsl:value-of select="concat($double_quotes,@field-target,$double_quotes,',',$double_quotes,.,$double_quotes)"/>
 								</xsl:variable>
 				
-								<xsl:value-of select="$lookupName"/><xsl:text>.addParam(</xsl:text><xsl:value-of select="$lookupParam"/><xsl:text>);</xsl:text>
+								<xsl:value-of select="$lookupName"/><xsl:text>.addLookupParam(</xsl:text><xsl:value-of select="$lookupParam"/><xsl:text>);</xsl:text>
 								
 								<xsl:value-of select="concat($newline,$tab2)"/>
 								
