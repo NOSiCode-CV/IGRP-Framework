@@ -1271,11 +1271,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	
 
-//	@Override
-//	public T keepConnection() {
-//		this.keepConnection = true;
-//		return (T) this;
-//	}
+	@Override
+	public T keepConnection() {
+		this.keepConnection = true;
+		return (T) this;
+	}
 	/*
 	@Override
 	public T sum(String name) {
@@ -1460,4 +1460,5 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		return (T) this;
 	}
+	
 }
