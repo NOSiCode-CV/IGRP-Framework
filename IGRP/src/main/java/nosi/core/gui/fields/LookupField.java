@@ -13,6 +13,7 @@ public class LookupField extends TextField {
 
 	private Map<String,Object> params;
 	private Map<String,Object> lookupParams;
+	private int versionLookup = 1;
 	
 	public LookupField(Object model,String name) {
 		super(model,name);
@@ -26,8 +27,10 @@ public class LookupField extends TextField {
 		this.params.put(key, value);
 	}
 	
+	@Override
 	public void addLookupParam(String key,String value) {
 		this.lookupParams.put(key, value);
+		this.versionLookup = 2;
 	}
 	
 	public Map<String,Object> getParams(){
@@ -36,5 +39,9 @@ public class LookupField extends TextField {
 	
 	public Map<String,Object> getLookupParams(){
 		return this.lookupParams;
+	}
+	
+	public int vertionLookup() {
+		return this.versionLookup;
 	}
 }
