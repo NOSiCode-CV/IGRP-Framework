@@ -97,22 +97,31 @@ public class IGRPTable extends IGRPComponent{
 			while(params.hasMoreElements()){
 				String param=params.nextElement();
 				if(!this.scapeParam.contains(param) && !param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
-					String name = Igrp.getInstance().getRequest().getParameter(param);
-					if(name!=null && !name.equals("")){
-						Field f = new HiddenField(this,param);
-						f.setName(param);
-						f.setValue(name);
-						f.setParam(true);
-						f.propertie().add("isLookup", "true");
-						f.setVisible(false);
-						this.fields.add(f);
-						
-					}
+					this.addLookupField(param,Igrp.getInstance().getRequest().getParameter(param));
 				}
+			}
+		}else {
+			String jsonLookup = Core.getParam("jsonLookup");
+			if(Core.isNotNull(jsonLookup)) {
+				Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
+				params.entrySet().forEach(p1->{
+					this.addLookupField(p1.getKey().toString(),p1.getValue().toString());
+				});
 			}
 		}
 	}
 
+	private void addLookupField(String param,String value) {
+		if(Core.isNotNullMultiple(param,value)){
+			Field f = new HiddenField(this,param);
+			f.setName(param);
+			f.setValue(value);
+			f.setParam(true);
+			f.propertie().add("isLookup", "true");
+			f.setVisible(false);
+			this.fields.add(f);
+		}
+	}
 	
 	public IGRPTable(String tag_name){
 		this(tag_name,"");
