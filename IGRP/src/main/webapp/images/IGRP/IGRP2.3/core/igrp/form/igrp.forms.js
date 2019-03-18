@@ -194,8 +194,6 @@
   					url 	 = $.IGRP.utils.getPageUrl(),
 
   					form    = $.IGRP.utils.getForm();
-  				
-  				console.log(url);
 
   				if(type == 'js'){
 

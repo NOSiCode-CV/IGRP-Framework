@@ -83,6 +83,8 @@
 			var tables = $(o.selector,o.parent);
 
 			if(tables[0] && $.fn.DataTable){
+				
+				var PageInfo = $.IGRP.info;
 
 				tables.each(function(i,t){
 					
@@ -91,6 +93,12 @@
 						tableTitle 	   = $(t).parents('.box').first().find('.box-title').text() || $('#gen-page-title').text(),
 
 						exprts 		   = $(t).attr('exports'),
+						
+						getInfo        = function(instance){
+							
+							return 'IGRP-datatable-'+instance+'-'+PageInfo.app+'-'+PageInfo.page;
+						
+						},
 
 						options 	   = {
 
@@ -102,6 +110,17 @@
 
 					        },
 					        stateSave   : true,
+					        
+					        stateSaveCallback: function(settings,data) {
+					        	
+					            localStorage.setItem( getInfo( settings.sInstance ) , JSON.stringify(data) )
+					            
+					        },
+					        stateLoadCallback: function(settings) {
+					        	
+					          return JSON.parse( localStorage.getItem( getInfo( settings.sInstance ) ) )
+					          
+					        },
 
 					        order  		: [],
 
