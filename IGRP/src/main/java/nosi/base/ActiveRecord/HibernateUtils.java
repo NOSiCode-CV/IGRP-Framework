@@ -156,22 +156,29 @@ public class HibernateUtils {
         settings.put("hibernate.current_session_context_class",cHCp.getCurrentSessionContextClass().orElse("org.hibernate.context.internal.ThreadLocalSessionContext"));
         settings.put("hibernate.transaction.auto_close_session",cHCp.getAutCloseSession().orElse("true"));
         settings.put("hibernate.connection.autocommit",cHCp.getAutocommit().orElse("false"));
-        
+      
         if(cHCp.getUseConnectionPool().compareTo("true")==0) {
-	       //hickaricp config	        
-	        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());	        
-			//Maximum waiting time for a connection from the pool. 
-			settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
-			//Maximum time that a connection is allowed to sit ideal in the pool
-			settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
-			//Minimum number of ideal connections in the pool
-			settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
-			//Maximum number of actual connection in the pool
-			settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
-			//Maximum lifetime of a connection in the pool
-			settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
-			//Detected leak
-			settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
+        	if(cHCp.getProvider_class().equals("org.hibernate.hikaricp.internal.HikariCPConnectionProvider")) {
+		       //hickaricp config	        
+		        settings.put("hibernate.connection.provider_class", cHCp.getProvider_class());	        
+				//Maximum waiting time for a connection from the pool. 
+				settings.put("hibernate.hikari.connectionTimeout",cHCp.getConnectionTimeout());
+				//Maximum time that a connection is allowed to sit ideal in the pool
+				settings.put("hibernate.hikari.idleTimeout", cHCp.getIdleTimeout());	
+				//Minimum number of ideal connections in the pool
+				settings.put("hibernate.hikari.minimumIdle",cHCp.getMinimumIdle());
+				//Maximum number of actual connection in the pool
+				settings.put("hibernate.hikari.maximumPoolSize", cHCp.getMaximumPoolSize());
+				//Maximum lifetime of a connection in the pool
+				settings.put("hibernate.hikari.maxLifetime", cHCp.getMaxLifetime());
+				//Detected leak
+				settings.put("hibernate.hikari.leakDetectionThreshold", cHCp.getLeakDetectionThreshold());
+        	}else if(cHCp.getProvider_class().equals("org.hibernate.connection.C3P0ConnectionProvider")) {
+                settings.put("hibernate.c3p0.timeout",cHCp.getConnectionTimeout());
+                settings.put("hibernate.c3p0.min_size",cHCp.getMinimumPoolSize());
+                settings.put("hibernate.c3p0.max_size",cHCp.getMaximumPoolSize());
+                settings.put("hibernate.c3p0.acquire_increment",cHCp.getIncrement());
+        	}
 			//suspense pool
 			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
 			
