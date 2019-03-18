@@ -44,4 +44,5 @@ public interface Field {
 	public Map<?,?> getListOptions();
 	default void loadDomain(String domain, String string) {}
 	default void loadDomain(String domain) {}
+	default void addLookupParam(String key,String value) {}
 }

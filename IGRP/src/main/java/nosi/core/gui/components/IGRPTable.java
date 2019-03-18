@@ -44,6 +44,7 @@ package nosi.core.gui.components;
 </table_1>
  */
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +74,9 @@ public class IGRPTable extends IGRPComponent{
 	protected List<?> modelList;
 	private List<Properties> legend_color = new ArrayList<>();
 	private Map<Object,Map <String, String> > legend_colors = new HashMap<>();
+	private final List<String> scapeParam = new ArrayList<>(
+				Arrays.asList(new String[] {"p_prm_app","p_prm_page","p_target","p_dad","p_env_frm_url"})
+				);
 	
 	public IGRPTable(String tag_name,String title) {
 		super(tag_name,title);
@@ -92,7 +96,7 @@ public class IGRPTable extends IGRPComponent{
 			Enumeration<String> params = Igrp.getInstance().getRequest().getParameterNames();
 			while(params.hasMoreElements()){
 				String param=params.nextElement();
-				if(!param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
+				if(!this.scapeParam.contains(param) && !param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
 					String name = Igrp.getInstance().getRequest().getParameter(param);
 					if(name!=null && !name.equals("")){
 						Field f = new HiddenField(this,param);
