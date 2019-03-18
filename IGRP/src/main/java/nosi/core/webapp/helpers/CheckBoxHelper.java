@@ -14,11 +14,11 @@ public class CheckBoxHelper {
 	
 	private final List<String> uncheckedIds;
 	
-	public CheckBoxHelper(String[] array_unchecked,String[] array_checked) {
+	public CheckBoxHelper(String[] array_check,String[] array_check_checked) {
 		this.chekedIds = new ArrayList<>();
 		this.uncheckedIds = new ArrayList<>();
 		try {
-			this.extract(array_unchecked,array_checked);
+			this.extract(array_check,array_check_checked);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,13 +33,13 @@ public class CheckBoxHelper {
 		return uncheckedIds;
 	}
 	
-	private void extract(String[] array_unchecked,String[] array_checked) throws Exception {
-		if(Core.isArraySameSize(array_unchecked, array_unchecked)) {
-			for(int i=0;i<array_unchecked.length;i++) {
-				if(array_unchecked[i].compareTo(array_checked[i])==0) {
-					this.chekedIds.add(array_unchecked[i]);
+	private void extract(String[] array_check,String[] array_check_checked) throws Exception {
+		if(Core.isArraySameSize(array_check, array_check_checked)) {
+			for(int i=0;i<array_check.length;i++) {
+				if(array_check[i].compareTo(array_check_checked[i])==0) {
+					this.chekedIds.add(array_check[i]);
 				}else {
-					this.uncheckedIds.add(array_unchecked[i]);
+					this.uncheckedIds.add(array_check[i]);
 				}
 			}
 		}else {
