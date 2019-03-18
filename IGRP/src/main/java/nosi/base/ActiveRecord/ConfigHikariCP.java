@@ -14,6 +14,8 @@ public class ConfigHikariCP {
 	private String	idleTimeout;
 	private String minimumIdle;
 	private String maximumPoolSize;
+	private String mminimumPoolSize;
+	private String incrementPool;
 	private String maxLifetime;
 	private String leakDetectionThreshold;
 	private String provider_class;
@@ -178,7 +180,7 @@ public class ConfigHikariCP {
 		if(p!=null){
 			this.connectionTimeout = p.getProperty("connectionTimeout");
 			this.idleTimeout = p.getProperty("idleTimeout");
-			this.maximumPoolSize = p.getProperty("maximumPoolSize");
+			this.maximumPoolSize = p.getProperty("maximumPoolSize","10");
 			this.maxLifetime = p.getProperty("maxLifetime");
 			this.minimumIdle = p.getProperty("minimumIdle");
 			this.provider_class = p.getProperty("provider_class");
@@ -189,8 +191,18 @@ public class ConfigHikariCP {
 			this.connectionIsolation = p.getProperty("connectionIsolation");
 			this.hbm2ddlAuto = p.getProperty("hbm2ddlAuto");
 			this.currentSessionContextClass = p.getProperty("currentSessionContextClass");
-			this.autocommit = p.getProperty("autocommit");
+			this.autocommit = p.getProperty("autocommit","false");
 			this.release_mode = p.getProperty("releaseMode");
+			this.mminimumPoolSize = p.getProperty("mminimumPoolSize", "5");
+			this.incrementPool = p.getProperty("incrementPool","5");
 		}
+	}
+
+	public String getMinimumPoolSize() {
+		return this.mminimumPoolSize;
+	}
+
+	public String getIncrement() {
+		return this.incrementPool;
 	}
 }
