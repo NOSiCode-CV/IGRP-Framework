@@ -7,11 +7,17 @@ package nosi.core.webapp.helpers;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.Cookie;
+
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.pages.settings.Settings;
+import nosi.webapps.igrp.pages.settings.SettingsController;
 import nosi.core.exception.NotFoundHttpException;
+import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -36,12 +42,10 @@ public class EncrypDecrypt {
 		return qs != null && !content.equals("igrp/login/login") && !content.equals("igrp/home/index")
 				&& !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception")
 				&& !content.equals("igrp/login/logout") && !content.equals("igrp_studio/WebReport/get-image")
-				&& !content.contains("igrp/page") && !content.contains("changeStatus")
-				&& (Core.isNotNull(qs)
-						? !(((qs.contains("target=_blank") && qs.contains("isPublic=1")) // Para paginas totalmente publicas
-								? checkPublic(content)
-								: false))
-						: true); 
+				&& !content.contains("igrp/page") && !content.contains("changeStatus") && (Core.isNotNull(
+						qs) ? !(((qs.contains("target=_blank") && qs.contains("isPublic=1")) // Para paginas totalmente publicas
+								? checkPublicLang(content, qs)
+								: false)) : true);
 	}
 
 	public String decrypt(String content) {
@@ -113,13 +117,25 @@ public class EncrypDecrypt {
 		return null;
 	}
 
-	private boolean checkPublic(String content) {
+	private boolean checkPublicLang(String content, String qs) {
 		String[] c = content.split("/", 2);
-
-		final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
-		if(!isPublicPage)
-			throw new NotFoundHttpException();
-		return isPublicPage;
+	//	final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
+//		if (!isPublicPage)
+//			throw new NotFoundHttpException();
+//		
+		if (qs.contains("lang=")) {
+			String idioma = qs.substring(qs.indexOf("lang=")+5);
+//			System.out.println(""+idioma);
+//			Core.setMessageInfo(idioma);
+			if (new SettingsController().getIdiomaMap().containsKey(idioma)) {
+			
+				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(idioma);				
+				Cookie cookie = new Cookie("igrp_lang", idioma);
+				cookie.setMaxAge(I18nManager.cookieExpire);			
+				Igrp.getInstance().getResponse().addCookie(cookie);		
+			}
+		}
+		return true;
 	}
 
 }

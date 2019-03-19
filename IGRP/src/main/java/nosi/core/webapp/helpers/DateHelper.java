@@ -71,20 +71,27 @@ public class DateHelper {
 	}
 	
 
-	public static String convertDateToString(java.sql.Date date,String format) {
-		DateFormat dateFormat = new SimpleDateFormat(format); 
+	public static String convertDateToString(java.sql.Date date,String outputFormat) {
+		DateFormat dateFormat = new SimpleDateFormat(outputFormat); 
 		return dateFormat.format(date);
 	}
 	
-	public static java.sql.Date convertStringToDate(String date,String format) {
-		return formatDate(date,format);
+	public static java.sql.Date convertStringToDate(String date,String outputFormat) {
+		return formatDate(date,outputFormat);
 	}
 	
-	public static String convertTimeStampToDate(String date,String format) {
-		if(Core.isNotNull(date)) {
-			return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", format);
+	public static String convertTimeStampToDateString(String timeStampDate,String outputFormat) {
+		if(Core.isNotNull(timeStampDate)) {
+			return convertDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", outputFormat);
 		}
-		return date;
+		return null;
+	}
+	
+	public static java.sql.Date convertTimeStampToDate(String timeStampDate,String outputFormat) {
+		if(Core.isNotNull(timeStampDate)) {
+			return formatDate(timeStampDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", outputFormat);
+		}
+		return null;
 	}
 	
 	public static Timestamp convertStringToTimestamp(String str_date,String format) {

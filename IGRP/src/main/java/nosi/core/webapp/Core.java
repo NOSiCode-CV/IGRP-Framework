@@ -16,7 +16,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -91,36 +94,57 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
 
 /**
- * The core of the IGRP, here you can find all the main functions and helper function useful like toInt, parceInt, isNotNull...
+ * The core of the IGRP, here you can find all the main functions and helper
+ * function useful like toInt, parceInt, isNotNull...
  * 
  * @author: Emanuel Pereira 13 Nov 2017
  */
 public final class Core { // Not inherit
 
-	//TODO: ver javadoc de nao incluir no javadoc
-	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType{
-		
+	// TODO: ver javadoc de nao incluir no javadoc
+	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType {
+
 	}
+
+	public enum Cons {
+
+		DATE_SEPARATOR(" / "), DATE_FORMAT("dd-MM-yyyy");
+
+		private final String value;
+
+		private Cons(String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
+
 	public static final String NO_PERMITION_MSG = "No permision";
 	public static final String DD_MM_YYYY = "dd-MM-yyyy";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
 	/**
-	 Add Hidden field to form
-	 @param	name parameter name
-	 @param value value of parameter
+	 * Add Hidden field to form
+	 * 
+	 * @param name  parameter name
+	 * @param value value of parameter
 	 */
 	public static void addHiddenField(String name, Object value) {
-		Field f = new HiddenField(null,name);
-		f.propertie().add("value", value).add("name","p_"+name).add("type","hidden").add("maxlength","250").add("java-type","").add("tag",name);
+		Field f = new HiddenField(null, name);
+		f.propertie().add("value", value).add("name", "p_" + name).add("type", "hidden").add("maxlength", "250")
+				.add("java-type", "").add("tag", name);
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
 	}
+
 	/**
-	 Add variable of type long to the process task
-	 @param	taskDefinitionKey identification of task
-	 @param variableName name of parameter
-	 @param value value of parameter
+	 * Add variable of type long to the process task
+	 * 
+	 * @param taskDefinitionKey identification of task
+	 * @param variableName      name of parameter
+	 * @param value             value of parameter
 	 */
 	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
@@ -172,120 +196,142 @@ public final class Core { // Not inherit
 
 	/**
 	 * Convert string date into Timestamp
+	 * 
 	 * @param date
 	 * @param formatIn
 	 * @return
 	 */
-	public static Timestamp stringToTimestamp(String date,String formatIn) {
+	public static Timestamp stringToTimestamp(String date, String formatIn) {
 		return DateHelper.convertStringToTimestamp(date, formatIn);
 	}
-	
+
 	public static String decrypt(String content) {
 		return new EncrypDecrypt().decrypt(content);
 	}
+
 	/**
-	 Decrypt string based on secret key
-	 @param	content content of string to decrypt
-	 @param secretKey secret key used to decrypt
+	 * Decrypt string based on secret key
+	 * 
+	 * @param content   content of string to decrypt
+	 * @param secretKey secret key used to decrypt
 	 */
 	public static String decrypt(String content, String secretKey) {
 		return new EncrypDecrypt().decrypt(content, secretKey);
 	}
-	
-	
+
 	/**
-	 * @return Return the default connection name of the current application 
+	 * @return Return the default connection name of the current application
 	 */
 	public static String defaultConnection() {
 		return defaultConnection(Core.getCurrentDadParam());
 	}
+
 	/**
 	 * Return default connection string related to dad
+	 * 
 	 * @param dad application code
 	 */
 	public static String defaultConnection(String dad) {
 		String result = "";
 		Application app = new Application().find().andWhere("dad", "=", dad).one();
-		if(app != null) {
-			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", (short)1).andWhere("application", "=", app.getId()).one();
-			if(config_env != null)
+		if (app != null) {
+			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", (short) 1)
+					.andWhere("application", "=", app.getId()).one();
+			if (config_env != null)
 				result = config_env.getName();
 		}
 		return result;
 	}
+
 	/**
 	 * Return Query of type BaseQueryInterface
-	 * @param  tableName
-	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
-	 * */
+	 * 
+	 * @param tableName
+	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 */
 	public static BaseQueryInterface delete(String tableName) {
 		return new QueryDelete(Core.defaultConnection()).delete(tableName);
 	}
+
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection
-	 * @param  connectionName connection name
-	 * @param  tableName table name
-	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
-	 * */
+	 * 
+	 * @param connectionName connection name
+	 * @param tableName      table name
+	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 */
 	public static BaseQueryInterface delete(String connectionName, String tableName) {
 		return new QueryDelete(connectionName).delete(tableName);
 	}
+
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection and schema
-	 * @param  connectionName connection name
-	 * @param  schemaName schema name
-	 * @param  tableName table name
-	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
-	 * */
+	 * 
+	 * @param connectionName connection name
+	 * @param schemaName     schema name
+	 * @param tableName      table name
+	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 */
 	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName) {
 		return new QueryDelete(connectionName).delete(schemaName, tableName);
 	}
-	
+
 	/**
 	 * Return Query of type BaseQueryInterface
-	 * @param  tableName
+	 * 
+	 * @param tableName
 	 * @param displayError display error if true
 	 * @param tracingError tracing error if true
-	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
-	 * */
-	public static BaseQueryInterface delete(String tableName,boolean displayError,boolean tracingError) {
-		return new QueryDelete(Core.defaultConnection(),displayError,tracingError).delete(tableName);
+	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 */
+	public static BaseQueryInterface delete(String tableName, boolean displayError, boolean tracingError) {
+		return new QueryDelete(Core.defaultConnection(), displayError, tracingError).delete(tableName);
 	}
+
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection
-	 * @param  connectionName connection name
-	 * @param  tableName table name
-	 * @param displayError display error if true
-	 * @param tracingError tracing error if true
-	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
-	 * */
-	public static BaseQueryInterface delete(String connectionName, String tableName,boolean displayError,boolean tracingError) {
-		return new QueryDelete(connectionName,displayError,tracingError).delete(tableName);
+	 * 
+	 * @param connectionName connection name
+	 * @param tableName      table name
+	 * @param displayError   display error if true
+	 * @param tracingError   tracing error if true
+	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 */
+	public static BaseQueryInterface delete(String connectionName, String tableName, boolean displayError,
+			boolean tracingError) {
+		return new QueryDelete(connectionName, displayError, tracingError).delete(tableName);
 	}
+
 	/**
 	 * Return Query of type BaseQueryInterface from a specific connection and schema
-	 * @param  connectionName connection name
-	 * @param  schemaName schema name
-	 * @param  tableName table name
-	 * @param displayError display error if true
-	 * @param tracingError tracing error if true
-	 * @return  BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
-	 * */
-	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName,boolean displayError,boolean tracingError) {
-		return new QueryDelete(connectionName,displayError,tracingError).delete(schemaName, tableName);
+	 * 
+	 * @param connectionName connection name
+	 * @param schemaName     schema name
+	 * @param tableName      table name
+	 * @param displayError   display error if true
+	 * @param tracingError   tracing error if true
+	 * @return BaseQueryInterface nosi.core.webapp.databse.helpers.QueryDelete
+	 */
+	public static BaseQueryInterface delete(String connectionName, String schemaName, String tableName,
+			boolean displayError, boolean tracingError) {
+		return new QueryDelete(connectionName, displayError, tracingError).delete(schemaName, tableName);
 	}
+
 	/**
 	 * Encrypt a string
+	 * 
 	 * @param content
-	 * */
+	 */
 	public static String encrypt(String content) {
 		return new EncrypDecrypt().encrypt(content);
 	}
+
 	/**
 	 * Encrypt a string with a secret key
-	 * @param content string content
+	 * 
+	 * @param content   string content
 	 * @param secretKey string secret key
-	 * */
+	 */
 	public static String encrypt(String content, String secretKey) {
 		return new EncrypDecrypt().encrypt(content, secretKey);
 	}
@@ -397,7 +443,7 @@ public final class Core { // Not inherit
 		user.setReadOnly(true);
 		return user.findOne(id);
 	}
-	
+
 	/**
 	 * Find User by ID
 	 * 
@@ -433,19 +479,19 @@ public final class Core { // Not inherit
 	public static java.sql.Date formatDate(String data, String inputFormat, String outputFormat) {
 		return DateHelper.formatDate(data, inputFormat, outputFormat);
 	}
-/**
- * 
- * @return {@code return new Gson().fromJson(json, type);}
- */
+
+	/**
+	 * 
+	 * @return {@code return new Gson().fromJson(json, type);}
+	 */
 	public static Object fromJson(String json, Type type) {
 		return new Gson().fromJson(json, type);
 	}
 
-	
 	/**
 	 * @return {@code return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);}
 	 */
-	public static Object  fromJsonWithJsonBuilder(String json, Type type) {
+	public static Object fromJsonWithJsonBuilder(String json, Type type) {
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, type);
 	}
 
@@ -454,7 +500,7 @@ public final class Core { // Not inherit
 	}
 
 	public static String getAttribute(String name, boolean isRemoved) {
-		if (Igrp.getInstance()!=null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
+		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
 			if (Igrp.getInstance().getRequest().getAttribute(name) instanceof Object[])
 				v = ((Object[]) Igrp.getInstance().getRequest().getAttribute(name))[0].toString();
@@ -485,7 +531,7 @@ public final class Core { // Not inherit
 			Igrp.getInstance().getRequest().removeAttribute(name);
 		return v;
 	}
-	
+
 	public static GenericServiceResponse getBizTalkClient(String clientId, String transaction, String service,
 			String args) {
 		GenericService_DevProxy proxy = new GenericService_DevProxy();
@@ -574,7 +620,7 @@ public final class Core { // Not inherit
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa) {
 		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa), pesquisa);
 	}
-	
+
 	/**
 	 * Pesquia Nascimento via Biztalk
 	 * 
@@ -683,14 +729,14 @@ public final class Core { // Not inherit
 	 * @return {@code new Permission().getCurrentEnv();}
 	 */
 	public static String getCurrentDadParam() {
-		String current_app_conn = Core.getParam("current_app_conn",false);
-		if(Core.isNotNull(current_app_conn)) {
+		String current_app_conn = Core.getParam("current_app_conn", false);
+		if (Core.isNotNull(current_app_conn)) {
 			return current_app_conn;
 		}
-		String r = Core.getParam("r"); 
-		r = r!=null?Core.decrypt(r):null;
-		String[] r_split = Core.isNotNull(r)?r.split("/"):null;
-		return r_split!=null?r_split[0]:"igrp";
+		String r = Core.getParam("r");
+		r = r != null ? Core.decrypt(r) : null;
+		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
+		return r_split != null ? r_split[0] : "igrp";
 	}
 
 	/**
@@ -744,38 +790,41 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Get current user and than use then .getName()  or getEmail or getUser_name;
-	 *  
+	 * Get current user and than use then .getName() or getEmail or getUser_name;
+	 * 
 	 * @return {@code (User) Igrp.getInstance().getUser().getIdentity();}
 	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser() {
 		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
-		if(user!=null)
+		if (user != null)
 			user.setReadOnly(true);
 		return user;
 	}
 
 	/**
-	* Find Active Domains by domain code name
-	* @param domainsName domain code name
-	* @return {@code List< of Domains> }
-	*/
+	 * Find Active Domains by domain code name
+	 * 
+	 * @param domainsName domain code name
+	 * @return {@code List< of Domains> }
+	 */
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().andWhere("dominio", "=", domainsName).andWhere("status","=","ATIVE").orderBy("ordem").all();
+		return domain.find().andWhere("dominio", "=", domainsName).andWhere("status", "=", "ATIVE").orderBy("ordem")
+				.all();
 	}
+
 	/**
 	 * Find the Value/Decription ok a domay key
+	 * 
 	 * @param domainsName domain code name
 	 * @param key
 	 * @return value/description
 	 */
 	public static String findDomainDescByKey(String domainsName, String key) {
-	
-		
+
 //		if(Core.isNull(domainsName) && Core.isNull(key))
-		if(!Core.isNotNullMultiple(domainsName,key))
+		if (!Core.isNotNullMultiple(domainsName, key))
 			return "";
 //		final Domain onedom = Core.query("SELECT obj FROM nosi.webapps.igrp.dao.Domain obj WHERE lower(obj.dominio) =:domainsname "
 //				+ "AND lower(obj.valor) =:key")
@@ -786,12 +835,12 @@ public final class Core { // Not inherit
 //		return onedom!=null?onedom.getDescription():"";
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		final Domain oneDomain = domain.find().andWhere("lower(dominio)","dominio", "=", domainsName.toLowerCase()).andWhere("lower(valor)","valor", "=", key.toLowerCase()).one();
-		return oneDomain!=null?oneDomain.getDescription():"";
+		final Domain oneDomain = domain.find().andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
+				.andWhere("lower(valor)", "valor", "=", key.toLowerCase()).one();
+		return oneDomain != null ? oneDomain.getDescription() : "";
 
 	}
 
-	
 	public static String getDeepPurpleColor() {
 		return "9";
 	}
@@ -842,7 +891,6 @@ public final class Core { // Not inherit
 		return cLob;
 	}
 
-	
 	public static Part getFile(String name) throws IOException, ServletException {
 		Part part = Igrp.getInstance().getRequest().getPart(name);
 		if (part != null) {
@@ -909,10 +957,11 @@ public final class Core { // Not inherit
 	public static String getLinkFile(String p_id) {
 		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
-	
+
 	public static String getLinkFile(int p_id) {
 		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
+
 	/**
 	 * This method you can invoking using Link or Button.
 	 * 
@@ -954,7 +1003,7 @@ public final class Core { // Not inherit
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name) {
-		Object v = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameter(name):null;
+		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
 		return v != null ? v.toString() : "";
@@ -968,7 +1017,7 @@ public final class Core { // Not inherit
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
-		Object v = Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameter(name):null;
+		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, isRemoved);
 		return v != null ? v.toString() : "";
@@ -981,7 +1030,7 @@ public final class Core { // Not inherit
 	 * @return value
 	 */
 	public static String[] getParamArray(String name) {
-		String[] value =  Igrp.getInstance()!=null?Igrp.getInstance().getRequest().getParameterValues(name):null;
+		String[] value = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameterValues(name) : null;
 		if (value == null) {
 			value = Core.getAttributeArray(name);
 		}
@@ -1106,7 +1155,7 @@ public final class Core { // Not inherit
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName) {
-		return HibernateUtils.getSessionFactory(connectionName,null);
+		return HibernateUtils.getSessionFactory(connectionName, null);
 	}
 
 	/**
@@ -1140,10 +1189,9 @@ public final class Core { // Not inherit
 		return null;
 	}
 
-	
-
 	/**
 	 * Get UUID
+	 * 
 	 * @return
 	 */
 	public static String getUUID() {
@@ -1257,7 +1305,7 @@ public final class Core { // Not inherit
 	public static QueryInterface transaction() {
 		return new nosi.core.webapp.databse.helpers.Transaction(Core.defaultConnection());
 	}
-	
+
 	/**
 	 * Queey insert
 	 * 
@@ -1273,8 +1321,8 @@ public final class Core { // Not inherit
 		return new QueryInsert(connectionName).insert(schemaName, tableName);
 	}
 
-	public static BaseQueryInterface insert(String tableName,boolean displayError,boolean tracingError ) {
-		return new QueryInsert(Core.defaultConnection(),displayError,tracingError).insert(tableName);
+	public static BaseQueryInterface insert(String tableName, boolean displayError, boolean tracingError) {
+		return new QueryInsert(Core.defaultConnection(), displayError, tracingError).insert(tableName);
 	}
 
 	/**
@@ -1284,14 +1332,16 @@ public final class Core { // Not inherit
 	 * @param tableName
 	 * @return {@code new QueryInsert(connectionName).insert(tableName);}
 	 */
-	public static BaseQueryInterface insert(String connectionName, String tableName,boolean displayError,boolean tracingError) {
-		return new QueryInsert(connectionName,displayError,tracingError).insert(tableName);
+	public static BaseQueryInterface insert(String connectionName, String tableName, boolean displayError,
+			boolean tracingError) {
+		return new QueryInsert(connectionName, displayError, tracingError).insert(tableName);
 	}
 
-	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName,boolean displayError,boolean tracingError) {
-		return new QueryInsert(connectionName,displayError,tracingError).insert(schemaName, tableName);
+	public static BaseQueryInterface insert(String connectionName, String schemaName, String tableName,
+			boolean displayError, boolean tracingError) {
+		return new QueryInsert(connectionName, displayError, tracingError).insert(schemaName, tableName);
 	}
-	
+
 	public static boolean isDouble(Object value) {
 		if (isNotNull(value)) {
 			try {
@@ -1303,7 +1353,7 @@ public final class Core { // Not inherit
 		}
 		return false;
 	}
-	
+
 	public static boolean isFloat(Object value) {
 		if (isNotNull(value)) {
 			try {
@@ -1352,13 +1402,13 @@ public final class Core { // Not inherit
 	 * @param values
 	 * @return {@code value!=null && !value.equals("");}
 	 */
-	
+
 	public static boolean isNotNullMultiple(Object... values) {
 		boolean r = false;
-		if(values!=null) {
-			for(Object value:values) {
+		if (values != null) {
+			for (Object value : values) {
 				r = Core.isNotNull(value);
-				if(r==false)
+				if (r == false)
 					break;
 			}
 		}
@@ -1398,7 +1448,7 @@ public final class Core { // Not inherit
 		return (value instanceof Number) ? value == null || new Integer(String.valueOf(value)) == 0
 				: value == null || value.equals("");
 	}
-	
+
 	/**
 	 * This method is used to add a message log
 	 * 
@@ -1454,9 +1504,8 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Maps source to destination - 
-	 *  http://modelmapper.org/getting-started/
-	 * Example here: http://modelmapper.org/examples/flattening/
+	 * Maps source to destination - http://modelmapper.org/getting-started/ Example
+	 * here: http://modelmapper.org/examples/flattening/
 	 * 
 	 * @param source
 	 * @param destination
@@ -1465,6 +1514,7 @@ public final class Core { // Not inherit
 		ModelMapper mapper = new ModelMapper();
 		mapper.map(source, destination);
 	}
+
 	/**
 	 * Example input = "Tĥïŝ ĩš â fůňķŷ Šťŕĭńġ" will return This is a funky String
 	 * 
@@ -1472,9 +1522,8 @@ public final class Core { // Not inherit
 	 * @return a normalize text
 	 */
 	public static String normalizeText(String input) {
-		return Normalizer .normalize(input, Normalizer.Form.NFD) .replaceAll("[^\\p{ASCII}]", "");
+		return Normalizer.normalize(input, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
 	}
-	
 
 	private static ServiceSerach processRequestBiztalkClientService(GenericServiceResponse response,
 			ServiceSerach service) {
@@ -1496,8 +1545,8 @@ public final class Core { // Not inherit
 		return null;
 	}
 
-	public static QueryInterface query(String sql) {		
-			return new QuerySelect(Core.defaultConnection()).select(sql);
+	public static QueryInterface query(String sql) {
+		return new QuerySelect(Core.defaultConnection()).select(sql);
 	}
 
 	public static QueryInterface query(String sql, Config_env config_env) {
@@ -1512,20 +1561,21 @@ public final class Core { // Not inherit
 		return new QuerySelect(connectionName).select(sql, className);
 	}
 
-	public static QueryInterface query(String sql,boolean displayError,boolean tracingError) {		
-		return new QuerySelect(Core.defaultConnection(),displayError,tracingError).select(sql);
+	public static QueryInterface query(String sql, boolean displayError, boolean tracingError) {
+		return new QuerySelect(Core.defaultConnection(), displayError, tracingError).select(sql);
 	}
-	
-	public static QueryInterface query(String sql, Config_env config_env,boolean displayError,boolean tracingError) {
-		return new QuerySelect(config_env,displayError,tracingError).select(sql);
+
+	public static QueryInterface query(String sql, Config_env config_env, boolean displayError, boolean tracingError) {
+		return new QuerySelect(config_env, displayError, tracingError).select(sql);
 	}
-	
-	public static QueryInterface query(String connectionName, String sql,boolean displayError,boolean tracingError) {
-		return new QuerySelect(connectionName,displayError,tracingError).select(sql);
+
+	public static QueryInterface query(String connectionName, String sql, boolean displayError, boolean tracingError) {
+		return new QuerySelect(connectionName, displayError, tracingError).select(sql);
 	}
-	
-	public static QueryInterface query(String connectionName, String sql, Class<?> className,boolean displayError,boolean tracingError) {
-		return new QuerySelect(connectionName,displayError,tracingError).select(sql, className);
+
+	public static QueryInterface query(String connectionName, String sql, Class<?> className, boolean displayError,
+			boolean tracingError) {
+		return new QuerySelect(connectionName, displayError, tracingError).select(sql, className);
 	}
 
 	/**
@@ -1582,18 +1632,18 @@ public final class Core { // Not inherit
 	 * @param mime_type
 	 * @return true/false
 	 */
-	public static boolean updateFile(byte[] content, String name, String mime_type,int id) {
+	public static boolean updateFile(byte[] content, String name, String mime_type, int id) {
 		try {
 			String aux[] = name.trim().split("\\.");
 			String extension = aux[aux.length - 1];
-			return updateFile(content, name, "." + extension, mime_type,id);
+			return updateFile(content, name, "." + extension, mime_type, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	private static boolean updateFile(byte[] content, String name, String extension, String mime_type,int id) {
+
+	private static boolean updateFile(byte[] content, String name, String extension, String mime_type, int id) {
 		try {
 			if (!extension.startsWith("."))
 				throw new IllegalArgumentException("Extension of file is invalid.");
@@ -1602,23 +1652,23 @@ public final class Core { // Not inherit
 			out.write(content);
 			out.flush();
 			out.close();
-			return updateFile(ByteSource.wrap(content).openStream(), name, mime_type,id);
+			return updateFile(ByteSource.wrap(content).openStream(), name, mime_type, id);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	public static boolean updateFile(Part file,String name,int id) {
+
+	public static boolean updateFile(Part file, String name, int id) {
 		boolean r = false;
 		try {
 			r = updateFile(file.getInputStream(), name, file.getContentType(), id);
 		} catch (IOException e) {
 			r = false;
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
-				if(file!=null)
+				if (file != null)
 					file.delete();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -1627,10 +1677,10 @@ public final class Core { // Not inherit
 		}
 		return r;
 	}
-	
-	private static boolean updateFile(InputStream stream, String name, String mime_type,int id) {
+
+	private static boolean updateFile(InputStream stream, String name, String mime_type, int id) {
 		boolean updated = false;
-		if(stream!=null) {
+		if (stream != null) {
 			String igrpCoreConnection = new ConfigApp().getBaseConnection();
 			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 			if (conn != null) {
@@ -1663,7 +1713,7 @@ public final class Core { // Not inherit
 		}
 		return updated;
 	}
-	
+
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
@@ -1682,8 +1732,6 @@ public final class Core { // Not inherit
 		}
 		return -1;
 	}
-
-	
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
@@ -1730,14 +1778,15 @@ public final class Core { // Not inherit
 	 */
 	public static int saveFile(File file, String name, String mime_type) {
 		int lastInsertedId = 0;
-		if(file!=null) {
+		if (file != null) {
 			String igrpCoreConnection = new ConfigApp().getBaseConnection();
 			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 			file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
 			if (conn != null) {
 				name = (name == null || name.trim().isEmpty() ? file.getName() : name);
 				FileNameMap fileNameMap = URLConnection.getFileNameMap();
-				mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath())
+				mime_type = (mime_type == null || mime_type.trim().isEmpty()
+						? fileNameMap.getContentTypeFor(file.getPath())
 						: mime_type);
 				// String sysdate = LocalDate.parse(LocalDate.now().toString(),
 				// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
@@ -1779,18 +1828,18 @@ public final class Core { // Not inherit
 		return lastInsertedId;
 	}
 
-
 	public static int saveFile(String parameterName) throws Exception {
-		if(Core.isNotNull(parameterName))
+		if (Core.isNotNull(parameterName))
 			return saveFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
 		throw new Exception(gt("Parâmetro invalido"));
 	}
-	
-	public static int saveFile(String parameterName,String description) throws Exception {
-		if(Core.isNotNull(parameterName))
+
+	public static int saveFile(String parameterName, String description) throws Exception {
+		if (Core.isNotNull(parameterName))
 			return saveFile(Core.getFile(parameterName), description);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
+
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
@@ -1800,7 +1849,7 @@ public final class Core { // Not inherit
 	 */
 	public static int saveFile(Part file, String name) {
 		int lastInsertedId = 0;
-		if(file!=null) {
+		if (file != null) {
 			String igrpCoreConnection = new ConfigApp().getBaseConnection();
 			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
 			if (conn != null) {
@@ -1928,7 +1977,7 @@ public final class Core { // Not inherit
 	public static void setMessageConfirm(String msg) {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.CONFIRM, gt(msg));
 	}
-	
+
 	/**
 	 * Shows a confirm flash message "Deseja realmente realizar esta operação?"
 	 * 
@@ -1936,7 +1985,7 @@ public final class Core { // Not inherit
 	public static void setMessageConfirm() {
 		Core.setMessageConfirm(FlashMessage.MSG_CONFIRM);
 	}
-	
+
 	/**
 	 * Add Message Warning
 	 * 
@@ -1948,73 +1997,75 @@ public final class Core { // Not inherit
 	}
 
 	public static void setTaskVariableString(String variableName, String value) {
-		setTaskVariable(variableName,"global","string", value);
+		setTaskVariable(variableName, "global", "string", value);
 	}
+
 	public static void setTaskVariableInt(String variableName, Integer value) {
-		setTaskVariable(variableName,"global","integer", value);
+		setTaskVariable(variableName, "global", "integer", value);
 	}
-	
+
 	public static void setTaskVariableShort(String variableName, Short value) {
-		setTaskVariable(variableName,"global","short", value);
+		setTaskVariable(variableName, "global", "short", value);
 	}
-	
+
 	public static void setTaskVariableLong(String variableName, Long value) {
-		setTaskVariable(variableName,"global","long", value);
+		setTaskVariable(variableName, "global", "long", value);
 	}
-	
+
 	public static void setTaskVariableDouble(String variableName, Double value) {
-		setTaskVariable(variableName,"global","double", value);
+		setTaskVariable(variableName, "global", "double", value);
 	}
-	
+
 	public static void setTaskVariableBoolean(String variableName, boolean value) {
-		setTaskVariable(variableName,"global","boolean", value);
+		setTaskVariable(variableName, "global", "boolean", value);
 	}
-	
+
 	public static void setTaskVariableDate(String variableName, java.util.Date value) {
-		setTaskVariable(variableName,"global","date", value);
+		setTaskVariable(variableName, "global", "date", value);
 	}
 
 	public static void setTaskVariableBinary(String variableName, Byte[] value) {
-		setTaskVariable(variableName,"global","binary", value);
+		setTaskVariable(variableName, "global", "binary", value);
 	}
-	
+
 	public static void setTaskVariableSerializable(String variableName, Object value) {
-		setTaskVariable(variableName,"global","serializable", value);
+		setTaskVariable(variableName, "global", "serializable", value);
 	}
-	
-	public static void setTaskVariableString(String variableName,String scope, String value) {
-		setTaskVariable(variableName,"global",scope, value);
+
+	public static void setTaskVariableString(String variableName, String scope, String value) {
+		setTaskVariable(variableName, "global", scope, value);
 	}
+
 	public static void setTaskVariableInt(String variableName, String scope, Integer value) {
-		setTaskVariable(variableName,scope,"integer", value);
+		setTaskVariable(variableName, scope, "integer", value);
 	}
-	
+
 	public static void setTaskVariableShort(String variableName, String scope, Short value) {
-		setTaskVariable(variableName,scope,"short", value);
+		setTaskVariable(variableName, scope, "short", value);
 	}
-	
+
 	public static void setTaskVariableLong(String variableName, String scope, Long value) {
-		setTaskVariable(variableName,scope,"long", value);
+		setTaskVariable(variableName, scope, "long", value);
 	}
-	
+
 	public static void setTaskVariableDouble(String variableName, String scope, Double value) {
-		setTaskVariable(variableName,scope,"double", value);
+		setTaskVariable(variableName, scope, "double", value);
 	}
-	
+
 	public static void setTaskVariableBoolean(String variableName, String scope, boolean value) {
-		setTaskVariable(variableName,scope,"boolean", value);
+		setTaskVariable(variableName, scope, "boolean", value);
 	}
-	
+
 	public static void setTaskVariableDate(String variableName, String scope, java.util.Date value) {
-		setTaskVariable(variableName,scope,"date", value);
+		setTaskVariable(variableName, scope, "date", value);
 	}
 
 	public static void setTaskVariableBinary(String variableName, String scope, Byte[] value) {
-		setTaskVariable(variableName,scope,"binary", value);
+		setTaskVariable(variableName, scope, "binary", value);
 	}
-	
+
 	public static void setTaskVariableSerializable(String variableName, String scope, Object value) {
-		setTaskVariable(variableName,scope,"serializable", value);
+		setTaskVariable(variableName, scope, "serializable", value);
 	}
 
 	public static void setTaskVariable(String variableName, String scope, String type, Object value) {
@@ -2053,15 +2104,15 @@ public final class Core { // Not inherit
 		}
 		return "";
 	}
-	
+
 	public static String getTaskVariableString(String variableName) {
 		return Core.getTaskVariable(variableName);
 	}
-	
-	public static String getTaskVariableString(String taskDefinitionKey,String variableName) {
-		return Core.getTaskVariable(taskDefinitionKey,variableName);
+
+	public static String getTaskVariableString(String taskDefinitionKey, String variableName) {
+		return Core.getTaskVariable(taskDefinitionKey, variableName);
 	}
-	
+
 	public static Boolean getTaskVariableBoolean(String variableName) {
 		String v = Core.getTaskVariable(variableName);
 		return Core.isNotNull(v) ? true : false;
@@ -2091,7 +2142,7 @@ public final class Core { // Not inherit
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toInt(v) : 0;
 	}
-	
+
 	public static Short getTaskVariableShort(String variableName) {
 		String v = Core.getTaskVariable(variableName);
 		return Core.isNotNull(v) ? Core.toShort(v) : 0;
@@ -2101,6 +2152,7 @@ public final class Core { // Not inherit
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v) ? Core.toShort(v) : 0;
 	}
+
 	public static Long getTaskVariableLong(String variableName) {
 		String v = Core.getTaskVariable(variableName);
 		return Core.isNotNull(v) ? Core.toLong(v) : 0;
@@ -2116,23 +2168,23 @@ public final class Core { // Not inherit
 		return Core.ToDate(v, "yyyy-mm-dd");
 	}
 
-	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName,String format) {
+	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName, String format) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.ToDate(v, format);
 	}
-	
+
 	public static java.util.Date getTaskVariableDate(String variableName) {
 		String v = Core.getTaskVariable(variableName);
 		return Core.ToDate(v, "yyyy-mm-dd");
 	}
-	
+
 	public static byte[] getTaskVariableByte(String variableName) {
 		String v = Core.getTaskVariable(variableName);
 		return v.getBytes();
 	}
-	
-	public static byte[] getTaskVariableByte(String taskDefinitionKey,String variableName) {
-		String v = Core.getTaskVariable(taskDefinitionKey,variableName);
+
+	public static byte[] getTaskVariableByte(String taskDefinitionKey, String variableName) {
+		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return v.getBytes();
 	}
 
@@ -2150,8 +2202,8 @@ public final class Core { // Not inherit
 		}
 		return null;
 	}
-	
-	public static Object getTaskVariableSerializable(String taskDefinitionKey,String variableName) {
+
+	public static Object getTaskVariableSerializable(String taskDefinitionKey, String variableName) {
 		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
 		if (vars != null) {
 			List<TaskVariables> var = vars.stream()
@@ -2161,7 +2213,7 @@ public final class Core { // Not inherit
 		}
 		return null;
 	}
-	
+
 	public static String getTaskVariableId(String taskDefinitionKey) {
 		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
 		if (vars != null) {
@@ -2172,6 +2224,7 @@ public final class Core { // Not inherit
 		}
 		return "";
 	}
+
 	public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
@@ -2183,7 +2236,6 @@ public final class Core { // Not inherit
 		return null;
 	}
 
-	
 	/**
 	 * @param wsdlUrl     The webservice description language url
 	 * @param namespaces  A Map of all required namespaces
@@ -2201,16 +2253,17 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * @param soapEnvelopeName The custom soap tag name envelope
+	 * @param soapEnvelopeName      The custom soap tag name envelope
 	 * @param soapNamespaceEnvelope custom namespace for custom tag name envelope
-	 * @param wsdlUrl     The webservice description language url
-	 * @param namespaces  A Map of all required namespaces
-	 * @param headers     A Map of soap request headers
-	 * @param bodyContent A Map of request content that will be converted to xml
+	 * @param wsdlUrl               The webservice description language url
+	 * @param namespaces            A Map of all required namespaces
+	 * @param headers               A Map of soap request headers
+	 * @param bodyContent           A Map of request content that will be converted
+	 *                              to xml
 	 * @return SoapClient object
 	 */
 	public static SoapClient soapClient(String wsdlUrl, Map<String, String> namespaces, Map<String, String> headers,
-			Map<String, Object> bodyContent,String soapEnvelopeName,String soapNamespaceEnvelope) {
+			Map<String, Object> bodyContent, String soapEnvelopeName, String soapNamespaceEnvelope) {
 		SoapClient sc = new SoapClient(wsdlUrl);
 		sc.setPrintInConsole(false);
 		sc.setHeaders(headers);
@@ -2220,7 +2273,7 @@ public final class Core { // Not inherit
 		sc.call();
 		return sc;
 	}
-	
+
 	/**
 	 * @param wsdlUrl     The webservice description language url
 	 * @param headers     A Map of soap request headers
@@ -2236,77 +2289,355 @@ public final class Core { // Not inherit
 		return sc;
 	}
 
+	/**
+	 * use dateToString
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @return
+	 */
+	@Deprecated
 	public static String ToChar(java.sql.Date date, String formatIn) {
 		return DateHelper.convertDateToString(date, formatIn);
 	}
 
+	/**
+	 * Please use dateToString
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @return
+	 */
+	@Deprecated
+	public static String ToChar(java.util.Date date, String formatIn) {
+		return dateToString(date, formatIn);
+	}
+	/** Please use dateToString
+	 * 
+	 * @param date
+	 * @param formatOut
+	 * @return
+	 */
+	@Deprecated
 	public static String ToChar(String date, String formatOut) {
 		return DateHelper.convertDate(date, "yyyy-MM-dd", formatOut);
 	}
 
-	
-
+	/**
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @param formatOut
+	 * @return DateHelper.convertDate
+	 */
 	public static String ToChar(String date, String formatIn, String formatOut) {
 		return DateHelper.convertDate(date, formatIn, formatOut);
 	}
 
+	/**
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @return DateHelper.convertStringToDate
+	 */
 	public static java.sql.Date ToDate(String date, String formatIn) {
 		return DateHelper.convertStringToDate(date, formatIn);
 	}
 
+	/**
+	 * FormatIn is dd-MM-yyyy
+	 * 
+	 * @param date
+	 * 
+	 * @return DateHelper.convertStringToDate
+	 */
+	public static java.sql.Date ToDate(String date) {
+		return DateHelper.convertStringToDate(date, Core.DD_MM_YYYY);
+	}
+
+	/**
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @param formatOut
+	 * @return DateHelper.formatDate
+	 */
 	public static java.sql.Date ToDate(String date, String formatIn, String formatOut) {
 		return DateHelper.formatDate(date, formatIn, formatOut);
 	}
 
-	public static String convertTimeStampToDate(String date,String format) {
-		return DateHelper.convertTimeStampToDate(date, format);
-	}
 	/**
-	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse of it,
-	 * else returns 0
+	 * 
+	 * @param date
+	 * @param formatOut
+	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
+	 */
+	public static String convertTimeStampToDateString(String timeStampDate, String formatOut) {
+		return DateHelper.convertTimeStampToDateString(timeStampDate, formatOut);
+	}
+
+	/**
+	 * Deprecated use convertTimeStampToDateString
+	 * 
+	 * @param date
+	 * @param formatOut
+	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
+	 */
+	@Deprecated
+	public static String convertTimeStampToDate(String timeStampDate, String formatOut) {
+		return DateHelper.convertTimeStampToDateString(timeStampDate, formatOut);
+	}
+
+	/**
+	 * 
+	 * @param date
+	 * @param formatOut
+	 * @return return formattDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
+	 */
+	public static java.sql.Date convertTimeStampToDateSQL(String timeStampDate, String formatOut) {
+		return DateHelper.convertTimeStampToDate(timeStampDate, formatOut);
+	}
+
+//	DATES Functions by Ivone Tavares:
+//	_____________________________________________________________________
+	/**
+	 * Receives java.sql.Date and returns it as utilDate
+	 * 
+	 * @param sqlDate
+	 * @return a java.util.Date
+	 */
+	public static java.util.Date sqlDateToUtilDate(java.sql.Date sqlDate) {
+
+		return new java.util.Date(sqlDate.getTime());
+
+	}
+
+	/**
+	 * Receives java.util.Date and returns it as sqlDate
+	 * 
+	 * @param utilDate
+	 * @return a java.sql.Date
+	 */
+	public static java.sql.Date utilDateToSqlDate(java.util.Date utilDate) {
+		return new java.sql.Date(utilDate.getTime());
+	}
+
+	/**
+	 * Receives java.util.Date and returns it as string
+	 * 
+	 * @param date
+	 * @return strDate with a format declared in the class Cons
+	 */
+	public static String dateToString(java.sql.Date date) {
+		return DateHelper.convertDateToString(date, Cons.DATE_FORMAT.getValue());
+	}
+
+	/**
+	 * Receives a java.util.Date with a sent format
+	 *
+	 * @param date
+	 * @param format
+	 * @return a strDate with a specified format
+	 */
+	public static String dateToString(java.util.Date date, String format) {
+		DateFormat df = new SimpleDateFormat(format);
+		return df.format(date);
+	}
+
+	/**
+	 * Receives a date in a default string format and converts it to java.util.Date
+	 *
+	 * @param strDate
+	 * @return a java.util.Date with a format declared in the class Cons
+	 */
+	public static java.util.Date ToUtilDate(String strDate) {
+		return ToUtilDate(strDate, Cons.DATE_FORMAT.getValue());
+	}
+
+	/**
+	 * Receives a date in a default string with a sent format
+	 * 
+	 * @param strDate
+	 * @param format
+	 * @return a java.util.Date with a specified format
+	 */
+	public static java.util.Date ToUtilDate(String strDate, String format) {
+		java.util.Date date;
+		DateFormat df = new SimpleDateFormat(format);
+		try {
+			date = df.parse(strDate);
+		} catch (ParseException e) {
+			date = null;
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	/**
+	 * Receives two java.util.Date and returns them as a concatenated string whit
+	 * the default separator
+	 * 
+	 * @param beginDate
+	 * @param endDate
+	 * @return two strDates separated by a separator and each one in a format
+	 *         declared in the class Cons
+	 */
+	public static String getFromToDateStr(java.util.Date beginDate, java.util.Date endDate) {
+		return getFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
+				dateToString(endDate, Cons.DATE_FORMAT.getValue()), Cons.DATE_SEPARATOR.getValue());
+	}
+
+	/**
+	 * Receives two java.util.Date with a sent separator and returns them as a
+	 * concatenated string
+	 *
+	 * @param beginDate
+	 * @param endDate
+	 * @param separator
+	 * @return two strDates separated by a specified separator and each one in a
+	 *         format declared in the class Cons
+	 */
+	public static String getFromToDateStr(java.util.Date beginDate, java.util.Date endDate, String separator) {
+		return getFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
+				dateToString(endDate, Cons.DATE_FORMAT.getValue()), separator);
+	}
+
+	/**
+	 * Receives two dates in a default string format with a specified separator
+	 * 
+	 * @param beginDateStr
+	 * @param endDateStr
+	 * @param separator
+	 * @return two string dates concatenated and separated by a specified separator
+	 */
+	public static String getFromToDateStr(String beginDateStr, String endDateStr, String separator) {
+		return beginDateStr + separator + endDateStr;
+	}
+
+	/**
+	 * Receives a date in a default string format and converts it to java.util.Date
+	 *
+	 * @param dateFromToStr
+	 * @return a java.util.Date with a format declared in the class Cons
+	 */
+	public static java.util.Date getBeginDate(String dateFromToStr) {
+		return ToUtilDate(getBeginDateStr(dateFromToStr));
+	}
+
+	/**
+	 * Receives a date from/to in a default string format
+	 *
+	 * @param dateStr
+	 * @return the substring or the first date of the date from/to
+	 */
+	public static String getBeginDateStr(String dateStr) {
+		return getBeginDateStr(dateStr, Cons.DATE_SEPARATOR.getValue());
+	}
+
+	/**
+	 * Receives a date from/to in a default string format with a separator
+	 * 
+	 * @param dateStr
+	 * @param separator
+	 * @return the substring or the first date of the date from/to
+	 */
+	public static String getBeginDateStr(String dateStr, String separator) {
+		return dateStr.substring(0, dateStr.indexOf(separator));
+	}
+
+	/**
+	 * Receives a date in a default string format and converts it to java.util.Date
+	 *
+	 * @param dateFromToStr
+	 * @return a java.util.Date with a format declared in the class Cons
+	 */
+	public static java.util.Date endUtilDate(String dateFromToStr) {
+		return ToUtilDate(endDateStr(dateFromToStr));
+	}
+
+	/**
+	 * Receives a date from/to in a default string format separated whit the default
+	 * separator
+	 * 
+	 * @param dateFromToStr
+	 * @return the substring or the end date of the date from/to
+	 */
+	public static String endDateStr(String dateFromToStr) {
+		return getEndDateStr(dateFromToStr, Cons.DATE_SEPARATOR.getValue());
+	}
+
+	/**
+	 * Receives a date from/to in a default string format with a separator
+	 *
+	 * @param dateStr
+	 * @param separator
+	 * @return the substring or the end date of the date from/to
+	 */
+	public static String getEndDateStr(String dateStr, String separator) {
+		if (isNotNullMultiple(dateStr, separator))
+			return dateStr.substring(dateStr.indexOf(separator) + separator.length(), dateStr.length());
+		else
+			return "";
+	}
+
+	/**
+	 * Receives a String with special characters and returns it as a normalized
+	 * string
+	 *{@code Core.normalizeText(string).replaceAll("[^-a-zA-Z0-9\\s]", "")}
+	 * @param string
+	 * @return normalizedString
+	 */
+	public static String normalizeName(String string) {
+		return (Core.normalizeText(string).replaceAll("[^-a-zA-Z0-9\\s]", ""));
+	}
+//	END### DATES Funciotn by Ivone Tavares:
+
+	/**
+	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse
+	 * of it, else returns 0
 	 * 
 	 * @param value
 	 * @return new BigDecimal(value) or 0
 	 * 
 	 */
 	public static BigDecimal toBigDecimal(String value) {
-		return toBigDecimal(value,new BigDecimal(0.0));
+		return toBigDecimal(value, new BigDecimal(0.0));
 	}
-	
-	public static BigDecimal toBigDecimal(String value,BigDecimal defaultValue) {
+
+	public static BigDecimal toBigDecimal(String value, BigDecimal defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
 				return new BigDecimal(value.toString());
-			}catch(NumberFormatException e) {
-				
+			} catch (NumberFormatException e) {
+
 			}
 		}
 		return defaultValue;
 	}
-	
+
 	/**
-	 * Verifies if the Core.isBigInteger and if true, than returns BigInteger parse of it,
-	 * else returns 0
+	 * Verifies if the Core.isBigInteger and if true, than returns BigInteger parse
+	 * of it, else returns 0
 	 * 
 	 * @param value
 	 * @return new BigInteger(value) or 0
 	 * 
 	 */
 	public static BigInteger toBigInteger(String value) {
-		return toBigInteger(value,new BigInteger("0"));
+		return toBigInteger(value, new BigInteger("0"));
 	}
-	
-	public static BigInteger toBigInteger(String value,BigInteger defaultValue) {
+
+	public static BigInteger toBigInteger(String value, BigInteger defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
 				return new BigInteger(value.toString());
-			}catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
 		}
 		return defaultValue;
 	}
-	
+
 	/**
 	 * Verifies if the Core.isDouble and if true, than returns double parse of it,
 	 * else returns 0
@@ -2323,7 +2654,7 @@ public final class Core { // Not inherit
 		if (Core.isNotNull(value)) {
 			try {
 				return Double.parseDouble(value);
-			}catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
 		}
@@ -2339,14 +2670,14 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Float toFloat(String value) {
-		return toFloat(value,0);
+		return toFloat(value, 0);
 	}
-	
+
 	public static Float toFloat(String value, float defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
 				return Float.parseFloat(value);
-			}catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
 		}
@@ -2362,7 +2693,7 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static Integer toInt(String value) {
-		return toInt(value,0);
+		return toInt(value, 0);
 	}
 
 	/**
@@ -2376,36 +2707,36 @@ public final class Core { // Not inherit
 	 */
 	public static Integer toInt(String value, int defaultValue) {
 		if (Core.isNotNull(value)) {
-			try{
+			try {
 				return Integer.parseInt(value);
-			}catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
 		}
 		return defaultValue;
 	}
-	
+
 	public static String toJson(Object appP) {
-		if(appP!=null)
+		if (appP != null)
 			return new Gson().toJson(appP);
 		return "";
 	}
 
 	public static String toJsonWithJsonBuilder(Object appP) {
-		if(appP!=null)
+		if (appP != null)
 			return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(appP);
 		return "";
 	}
 
 	public static Long toLong(String value) {
-		return toLong(value,0);
+		return toLong(value, 0);
 	}
 
 	public static Long toLong(String value, long defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
 				return Long.parseLong(value);
-			}catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				return defaultValue;
 			}
 		}
@@ -2464,7 +2795,7 @@ public final class Core { // Not inherit
 		}
 		return (Object) obj;
 	}
-	
+
 	public static BaseQueryInterface update(String tableName) {
 		return new QueryUpdate(Core.defaultConnection()).update(tableName);
 	}
@@ -2476,19 +2807,21 @@ public final class Core { // Not inherit
 	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName) {
 		return new QueryUpdate(connectionName).update(schemaName, tableName);
 	}
-	
-	public static BaseQueryInterface update(String tableName,boolean displayError,boolean tracingError) {
-		return new QueryUpdate(Core.defaultConnection(),displayError,tracingError).update(tableName);
+
+	public static BaseQueryInterface update(String tableName, boolean displayError, boolean tracingError) {
+		return new QueryUpdate(Core.defaultConnection(), displayError, tracingError).update(tableName);
 	}
 
-	public static BaseQueryInterface update(String connectionName, String tableName,boolean displayError,boolean tracingError) {
-		return new QueryUpdate(connectionName,displayError,tracingError).update(tableName);
+	public static BaseQueryInterface update(String connectionName, String tableName, boolean displayError,
+			boolean tracingError) {
+		return new QueryUpdate(connectionName, displayError, tracingError).update(tableName);
 	}
 
-	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName,boolean displayError,boolean tracingError) {
-		return new QueryUpdate(connectionName,displayError,tracingError).update(schemaName, tableName);
+	public static BaseQueryInterface update(String connectionName, String schemaName, String tableName,
+			boolean displayError, boolean tracingError) {
+		return new QueryUpdate(connectionName, displayError, tracingError).update(schemaName, tableName);
 	}
-	
+
 	/**
 	 * Upload a file from a upload field with the tag given
 	 * 
@@ -2499,7 +2832,7 @@ public final class Core { // Not inherit
 		UploadedFile uF = UploadedFile.getInstance(tag);
 		return uF;
 	}
-	
+
 	/**
 	 * Upload all files from a all the upload field
 	 * 
@@ -2521,10 +2854,11 @@ public final class Core { // Not inherit
 		List<UploadedFile> uF = UploadedFile.getInstances(tag);
 		return uF;
 	}
+
 	public static boolean validateQuery(Config_env config_env, String query) {
 		return new QuerySelect().validateQuery(config_env, query);
 	}
-	
+
 	/**
 	 * Return the link to use in IGRP
 	 * 
@@ -2533,92 +2867,23 @@ public final class Core { // Not inherit
 	 * @param action
 	 * @return
 	 */
-	public static String getIGRPLink(String app,String page,String action) {
-		return new Config().getResolveUrl(app,page,action);
+	public static String getIGRPLink(String app, String page, String action) {
+		return new Config().getResolveUrl(app, page, action);
 	}
-	
 
 	/**
-	 *Convert int array to String array
-	 *Example: {@code convertArrayIntToArrayString(new int[]{1,2,3}); -> String[]{"1","2","3"};}
+	 * Convert int array to String array Example:
+	 * {@code convertArrayIntToArrayString(new int[]{1,2,3}); ->
+	 * String[]{"1","2","3"};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static String[] convertArrayIntToArrayString(int[] array) {
 		Function<int[], String[]> intToString = x -> {
 			String[] a = new String[x.length];
-			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
-			}
-			return a;
-		};
-		return intToString.apply(array);
-	}
-	
-	/**
-	 *Convert float array to String array
-	 *Example: {@code convertArrayFloatToArrayString(new float[]{1.0,2,3}); -> String[]{"1.0","2","3"};}
-	 * @param array
-	 * @return
-	 */
-	public static String[] convertArrayFloatToArrayString(float[] array) {
-		Function<float[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
-			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
-			}
-			return a;
-		};
-		return intToString.apply(array);
-	}
-	
-	
-	/**
-	 *Convert double array to String array
-	 *Example: {@code convertArrayDoubleToArrayString(new double[]{1,2,3}); -> String[]{"1","2","3"};}
-	 * @param array
-	 * @return
-	 */
-	public static String[] convertArrayDoubleToArrayString(double[] array) {
-		Function<double[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
-			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
-			}
-			return a;
-		};
-		return intToString.apply(array);
-	}
-	
-	/**
-	 *Convert short array to String array
-	 *Example: {@code convertArrayShortToArrayString(new short[]{1,2,3}); -> String[]{"1","2","3"};}
-	 * @param array
-	 * @return
-	 */
-	public static String[] convertArrayShortToArrayString(short[] array) {
-		Function<short[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
-			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
-			}
-			return a;
-		};
-		return intToString.apply(array);
-	}
-	
-	
-	/**
-	 *Convert Object array to String array
-	 *Example: {@code convertArrayObjectToArrayString(new Integer[]{1,2,3}); -> String[]{"1","2","3"};}
-	 * @param array
-	 * @return
-	 */
-	public static <N> String[] convertArrayObjectToArrayString(N[] array) {
-		Function<N[], String[]> intToString = x -> {
-			String[] a = new String[x.length];
-			for(int i=0;i<x.length;i++) {
-				a[i] =""+x[i];
+			for (int i = 0; i < x.length; i++) {
+				a[i] = "" + x[i];
 			}
 			return a;
 		};
@@ -2626,141 +2891,233 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 *Convert Object array to primitive int array
-	 *Example: {@code convertArrayObjectToArrayInt(new String[]{"1","2","3"}); -> int[]{1,2,3};}
+	 * Convert float array to String array Example:
+	 * {@code convertArrayFloatToArrayString(new float[]{1.0,2,3}); ->
+	 * String[]{"1.0","2","3"};}
+	 * 
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayFloatToArrayString(float[] array) {
+		Function<float[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for (int i = 0; i < x.length; i++) {
+				a[i] = "" + x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+
+	/**
+	 * Convert double array to String array Example:
+	 * {@code convertArrayDoubleToArrayString(new double[]{1,2,3}); ->
+	 * String[]{"1","2","3"};}
+	 * 
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayDoubleToArrayString(double[] array) {
+		Function<double[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for (int i = 0; i < x.length; i++) {
+				a[i] = "" + x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+
+	/**
+	 * Convert short array to String array Example:
+	 * {@code convertArrayShortToArrayString(new short[]{1,2,3}); ->
+	 * String[]{"1","2","3"};}
+	 * 
+	 * @param array
+	 * @return
+	 */
+	public static String[] convertArrayShortToArrayString(short[] array) {
+		Function<short[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for (int i = 0; i < x.length; i++) {
+				a[i] = "" + x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+
+	/**
+	 * Convert Object array to String array Example:
+	 * {@code convertArrayObjectToArrayString(new Integer[]{1,2,3}); ->
+	 * String[]{"1","2","3"};}
+	 * 
+	 * @param array
+	 * @return
+	 */
+	public static <N> String[] convertArrayObjectToArrayString(N[] array) {
+		Function<N[], String[]> intToString = x -> {
+			String[] a = new String[x.length];
+			for (int i = 0; i < x.length; i++) {
+				a[i] = "" + x[i];
+			}
+			return a;
+		};
+		return intToString.apply(array);
+	}
+
+	/**
+	 * Convert Object array to primitive int array Example:
+	 * {@code convertArrayObjectToArrayInt(new String[]{"1","2","3"}); ->
+	 * int[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> int[] convertArrayObjectToArrayInt(N[] array) {
 		Function<N[], int[]> intToString = x -> {
 			int[] a = new int[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toInt((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 *Convert Object array to primitive short array
-	 *Example: {@code convertArrayObjectToArrayPShort(new String[]{"1","2","3"}); -> short[]{1,2,3};}
+	 * Convert Object array to primitive short array Example:
+	 * {@code convertArrayObjectToArrayPShort(new String[]{"1","2","3"}); ->
+	 * short[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> short[] convertArrayObjectToArrayPShort(N[] array) {
 		Function<N[], short[]> intToString = x -> {
 			short[] a = new short[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toShort((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 *Convert Object array to primitive float array
-	 *Example: {@code convertArrayObjectToArrayPFloat(new String[]{"1","2","3"}); -> float[]{1,2,3};}
+	 * Convert Object array to primitive float array Example:
+	 * {@code convertArrayObjectToArrayPFloat(new String[]{"1","2","3"}); ->
+	 * float[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> float[] convertArrayObjectToArrayPFloat(N[] array) {
 		Function<N[], float[]> intToString = x -> {
 			float[] a = new float[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toFloat((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 *Convert Object array to primitive double array
-	 * Example: {@code convertArrayObjectToArrayPDouble(new String[]{"1","2","3"}); -> double[]{1,2,3};}
+	 * Convert Object array to primitive double array Example:
+	 * {@code convertArrayObjectToArrayPDouble(new String[]{"1","2","3"}); ->
+	 * double[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> double[] convertArrayObjectToArrayPDouble(N[] array) {
 		Function<N[], double[]> intToString = x -> {
 			double[] a = new double[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toDouble((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 *Convert Object array to Integer array
-	 * Example: {@code convertArrayObjectToArrayInteger(new String[]{"1","2","3"}); -> Integer[]{1,2,3};}
+	 * Convert Object array to Integer array Example:
+	 * {@code convertArrayObjectToArrayInteger(new String[]{"1","2","3"}); ->
+	 * Integer[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> Integer[] convertArrayObjectToArrayInteger(N[] array) {
 		Function<N[], Integer[]> intToString = x -> {
 			Integer[] a = new Integer[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toInt((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 * Convert Object array to Float array
-	 * Example: {@code convertArrayObjectToArrayFloat(new String[]{"1","2","3"}); -> Float[]{1.0,2.0,3.0};}
+	 * Convert Object array to Float array Example:
+	 * {@code convertArrayObjectToArrayFloat(new String[]{"1","2","3"}); ->
+	 * Float[]{1.0,2.0,3.0};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> Float[] convertArrayObjectToArrayFloat(N[] array) {
 		Function<N[], Float[]> intToString = x -> {
 			Float[] a = new Float[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toFloat((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 *Convert Object array to Double array
-	 *Example: {@code convertArrayObjectToArrayDouble(new String[]{"1","2","3"}); -> Double[]{1,2,3};}
+	 * Convert Object array to Double array Example:
+	 * {@code convertArrayObjectToArrayDouble(new String[]{"1","2","3"}); ->
+	 * Double[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> Double[] convertArrayObjectToArrayDouble(N[] array) {
 		Function<N[], Double[]> intToString = x -> {
 			Double[] a = new Double[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toDouble((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
-	 * Convert Object array to Short array
-	 * Example: {@code convertArrayObjectToArrayShort(new String[]{"1","2","3"}); -> String[]{1,2,3};}
+	 * Convert Object array to Short array Example:
+	 * {@code convertArrayObjectToArrayShort(new String[]{"1","2","3"}); ->
+	 * String[]{1,2,3};}
+	 * 
 	 * @param array
 	 * @return
 	 */
 	public static <N> Short[] convertArrayObjectToArrayShort(N[] array) {
 		Function<N[], Short[]> intToString = x -> {
 			Short[] a = new Short[x.length];
-			for(int i=0;i<x.length;i++) {
+			for (int i = 0; i < x.length; i++) {
 				a[i] = Core.toShort((String) x[i]);
 			}
 			return a;
 		};
 		return intToString.apply(array);
 	}
-	
+
 	/**
 	 * Compare 2 arrays if there are the same size
 	 * 
@@ -2771,51 +3128,54 @@ public final class Core { // Not inherit
 			r = array1.length==array2.length;
 		 return r;}
 	 */
-	public static boolean isArraySameSize(Object[]array1,Object[]array2) {
+	public static boolean isArraySameSize(Object[] array1, Object[] array2) {
 		boolean r = false;
-		if(Core.isNotNullMultiple(array1,array2)) {
-			r = array1.length==array2.length;
+		if (Core.isNotNullMultiple(array1, array2)) {
+			r = array1.length == array2.length;
 		}
 		return r;
 	}
+
 	/**
 	 * Extracts from a list of checkboxs, the checked and unchecked
 	 * 
-	 * Example import nosi.core.webapp.helpers.CheckBoxHelper; 
+	 * Example import nosi.core.webapp.helpers.CheckBoxHelper;
 	 * {@code CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_menu"), Core.getParamArray("p_menu_check"));
 	 * cb.getUncheckedIds();
 	 * cb.getChekedIds()
 	 * 
 	 * }
-	 * @param array_checks - list of the id of the checkbox
+	 * 
+	 * @param array_checks          - list of the id of the checkbox
 	 * @param array__checks_checked - list of the checked checkbox
 	 * @return
 	 */
-	public static CheckBoxHelper extractCheckBox(String[] array_checks,String[] array__checks_checked) {
+	public static CheckBoxHelper extractCheckBox(String[] array_checks, String[] array__checks_checked) {
 		return new CheckBoxHelper(array_checks, array__checks_checked);
 	}
-	
+
 	/**
 	 * Get Session to programming custom CRUD
+	 * 
 	 * @param connectionName
 	 * @return
 	 */
-	public static Session getSession(String connectionName) {	
-		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName,null);
-		if(sessionFactory!=null)
+	public static Session getSession(String connectionName) {
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName, null);
+		if (sessionFactory != null)
 			return sessionFactory.getCurrentSession();
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
-	
-	public static void lockProccess(String codeOrg,String codeProf,String userName,String procId,String taskId) {
+
+	public static void lockProccess(String codeOrg, String codeProf, String userName, String procId, String taskId) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
 		ActivityExecute a = new ActivityExecute(Core.toInt(procId), Core.toInt(taskId), org, prof, user);
 		a.insert();
 	}
-	
-	public static void lockProccess(String codeOrg,String codeProf,String procId,String taskId) {
+
+	public static void lockProccess(String codeOrg, String codeProf, String procId, String taskId) {
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
 		ActivityExecute a = new ActivityExecute(Core.toInt(procId), Core.toInt(taskId), org, prof, null);

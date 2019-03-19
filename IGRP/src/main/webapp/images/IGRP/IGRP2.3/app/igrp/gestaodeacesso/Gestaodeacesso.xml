@@ -79,15 +79,15 @@
                         </rule>
                     </rules>
                 </aplicacao>
-                <adicionar_organica name="p_adicionar_organica" type="link" target="right_panel_submit" target_fields="" closerefresh="true" action="index" page="NovaOrganica" app="igrp" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
+                <adicionar_organica name="p_adicionar_organica" type="link" target="right_panel_submit" target_fields="" closerefresh="true" action="index" page="NovaOrganica" app="igrp" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="" refresh_submit="true">
                     <label>Adicionar Organização</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xml</value>
                 </adicionar_organica>
-                <gestao_de_utilizadores name="p_gestao_de_utilizadores" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="PesquisarUtilizador" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-users" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="">
+                <gestao_de_utilizadores name="p_gestao_de_utilizadores" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="PesquisarUtilizador" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-users" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="" refresh_submit="false">
                     <label>Gestão de utilizadores</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xml</value>
                 </gestao_de_utilizadores>
-                <gestao_de_menu name="p_gestao_de_menu" type="link" target="mpsubmit" target_fields="" closerefresh="true" action="index" page="PesquisarMenu" app="igrp" custom_action="" action_type="false" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-bars" maxlength="30" placeholder="" right="true" request_fields="">
+                <gestao_de_menu name="p_gestao_de_menu" type="link" target="mpsubmit" target_fields="" closerefresh="true" action="index" page="PesquisarMenu" app="igrp" custom_action="" action_type="false" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-bars" maxlength="30" placeholder="" right="true" request_fields="" refresh_submit="true">
                     <label>Gestão de menu</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</value>
                 </gestao_de_menu>
@@ -102,7 +102,7 @@
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </org_nome>
-                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="Dominio" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="mpsubmit" target_fields="" closerefresh="false" action="index" page="Dominio" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" refresh_submit="false" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
@@ -116,10 +116,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Consectetur adipiscing natus l</org_nome>
+                        <org_nome name="p_org_nome">Rem sit magna mollit lorem</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <id name="p_id" tag="id">hidden-d872_5d23</id>
                     </row>
                     <row>
                         <context-menu>
@@ -128,10 +128,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Magna rem lorem iste deserunt</org_nome>
+                        <org_nome name="p_org_nome">Sed ut lorem rem aliqua</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <id name="p_id" tag="id">hidden-1948_1c83</id>
                     </row>
                     <row>
                         <context-menu>
@@ -140,10 +140,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Omnis ipsum laudantium elit vo</org_nome>
+                        <org_nome name="p_org_nome">Omnis mollit deserunt stract l</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <id name="p_id" tag="id">hidden-07e0_f1c1</id>
                     </row>
                     <row>
                         <context-menu>
@@ -152,10 +152,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Labore magna voluptatem ut vol</org_nome>
+                        <org_nome name="p_org_nome">Mollit sit laudantium sit iste</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <id name="p_id" tag="id">hidden-5e45_c4c7</id>
                     </row>
                     <row>
                         <context-menu>
@@ -164,22 +164,22 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Adipiscing accusantium omnis e</org_nome>
+                        <org_nome name="p_org_nome">Sit officia accusantium iste m</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <id name="p_id" tag="id">hidden-b404_4a6e</id>
                     </row>
                 </value>
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar" custom_return="true">
                         <title>Editar</title>
                         <app>igrp</app>
-                        <page>PesquisarMenu</page>
+                        <page>Dominio</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml?</parameter>
-                        <target>right_panel|refresh</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                        <target>right_panel|refresh_submit</target>
                         <img>warning|fa-pencil</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xml</preview>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>
                     <item type="specific" code="" class="info" rel="menu" custom_return="true">
                         <title>Menu</title>
@@ -187,7 +187,7 @@
                         <page>Dominio</page>
                         <link>index</link>
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
-                        <target>right_panel|refresh</target>
+                        <target>right_panel|refresh_submit</target>
                         <img>info|fa-bars</img>
                         <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
                     </item>

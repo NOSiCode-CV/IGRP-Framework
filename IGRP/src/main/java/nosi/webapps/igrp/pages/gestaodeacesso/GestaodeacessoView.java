@@ -56,19 +56,19 @@ public class GestaodeacessoView extends View {
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
 
-									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel_submit").add("maxlength","30").add("request_fields","");
+									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel_submit").add("maxlength","30").add("request_fields","").add("refresh_submit","true");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));
 		gestao_de_utilizadores.setValue(new Config().getResolveUrl("igrp","PesquisarUtilizador","index"));
 
-									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","");
+									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("refresh_submit","false");
 		
 		gestao_de_menu = new LinkField(model,"gestao_de_menu");
 		gestao_de_menu.setLabel(gt("Gestão de menu"));
 		gestao_de_menu.setValue(new Config().getResolveUrl("igrp","PesquisarMenu","index"));
 
-									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","");
+									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("refresh_submit","true");
 		
 		id_app = new HiddenField(model,"id_app");
 		id_app.setLabel(gt(""));
@@ -91,7 +91,7 @@ public class GestaodeacessoView extends View {
 
 									mostrar_perfis_desc = new LinkField(model,"mostrar_perfis_desc");
 		mostrar_perfis_desc.setLabel(gt("Mostrar perfis"));
-		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("desc","true");
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("refresh_submit","false").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -99,10 +99,10 @@ public class GestaodeacessoView extends View {
 		
 
 
-		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","right_panel|refresh","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","right_panel|refresh_submit","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
 
-		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","right_panel|refresh","info|fa-bars","","");
+		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","right_panel|refresh_submit","info|fa-bars","","");
 		btn_menu.propertie.add("type","specific").add("rel","menu");
 
 		btn_transacti_org = new IGRPButton("Transaction","igrp","Gestaodeacesso","transacti_org","right_panel","black|fa-exchange","","");

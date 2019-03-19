@@ -93,19 +93,16 @@ public class SettingsController extends Controller {
 		HashMap<String, String> profiles = new ProfileType().getListMyProfiles();
 		view.perfil.setValue(profiles);
 
-		HashMap<String, String> idioma = new HashMap<String, String>();
-		idioma.put(null, Core.gt("-- Selecionar --"));
-		idioma.put("pt_PT", Core.gt("Português"));
-		idioma.put("en_US", Core.gt("Inglês"));
-		idioma.put("fr_FR", Core.gt("Francês"));
-		idioma.put("es_ES", Core.gt("Espanhol"));
+		HashMap<String, String> idioma = getIdiomaMap();
 		view.idioma.setValue(idioma);
-
+		
 	
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
 	}
+
+
 	
 	public Response actionAlterar_senha() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Settings model = new Settings();
@@ -122,6 +119,14 @@ public class SettingsController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
-
+	public HashMap<String, String> getIdiomaMap() {
+		HashMap<String, String> idioma = new HashMap<String, String>();
+		idioma.put(null, Core.gt("-- Selecionar --"));
+		idioma.put("pt_PT", Core.gt("Português"));
+		idioma.put("en_US", Core.gt("Inglês"));
+		idioma.put("fr_FR", Core.gt("Francês"));
+		idioma.put("es_ES", Core.gt("Espanhol"));
+		return idioma;
+	}
 	/*----#end-code----*/
 }

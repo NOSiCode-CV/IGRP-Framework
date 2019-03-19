@@ -21,7 +21,8 @@ public class EncodingFilter implements Filter{
 	private HttpServletRequest req;
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		this.encoding = Core.isNotNull(filterConfig.getInitParameter("encoding"))?filterConfig.getInitParameter("encoding"):this.encoding;
+		if(Core.isNotNull(filterConfig))
+			this.encoding = Core.isNotNull(filterConfig.getInitParameter("encoding"))?filterConfig.getInitParameter("encoding"):this.encoding;
 	}
 
 	@Override
