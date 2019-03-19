@@ -11,12 +11,14 @@
 			var iframe   = $('iframe',modal),
 
 				n_iframe = iframe.clone(),
+				
+				close     = p.clicked && p.clicked.attr('close'),
 
-				refParent = p.clicked.attr('close').indexOf('refresh') >= 0;
+				refParent = close && close.indexOf('refresh') >= 0;
 
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
+			if (close && close.indexOf('refresh') >= 0)
 
-				modal.attr('close', p.clicked.attr('close'));
+				modal.attr('close', close);
 
 			modal.addClass('loading');
 
