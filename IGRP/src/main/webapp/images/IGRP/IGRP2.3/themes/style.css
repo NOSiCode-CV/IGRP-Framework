@@ -470,9 +470,23 @@ ul#list-reports {
 }
 
 #igrp-sidebar .nav-sidebar>li.active {
-	border-left: 4px solid white;
+	/*border-left: 4px solid white;
 	border-top: 4px solid transparent;
-	border-bottom: 4px solid transparent;
+	border-bottom: 4px solid transparent;*/
+	
+}
+
+#igrp-sidebar .nav-sidebar>li.active:after {
+	content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: #ffffff;
+	/*border-left: 4px solid white;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;*/
 	
 }
 
@@ -630,14 +644,14 @@ body.sidebar-off .navbar-brand {
 .treeview-menu>li>a.active,
 .treeview>a.active {
 	font-size: 15px;
-	border-right: 4px solid #fafafa;
+	/*border-right: 4px solid #fafafa;*/
 	padding-top: 8px !important; 
     padding-bottom: 8px !important;
    
 }
 .treeview>a.active {
-	border-top: 4px solid transparent;
-	border-bottom: 4px solid transparent;
+	/*border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;*/
     background: #01091112;
     opacity: 1 !important;
 }
