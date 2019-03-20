@@ -789,8 +789,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		List<T> list = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = this.getSession().createQuery(criteria);
 				this.setParameters(query);
 				list = query.getResultList();
@@ -844,8 +843,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		List<T> list = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = this.getSession().createQuery(this.getSql(), this.className);
 				if(this.offset > -1)
 					query.setFirstResult(offset);
@@ -866,6 +864,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return list;
 	}
 		
+	private boolean beginTransaction(Transaction transaction) {		
+		if(transaction!=null && !transaction.isActive()) {
+			transaction.begin();
+			return true;
+		}else if(transaction!=null && transaction.isActive()){
+			return true;
+		}
+		return false;
+	}
+
 	public List<T> query(String querySql,Class<T> className) {
 		return this.query(querySql, className,-1,-1);
 	}
@@ -875,8 +883,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		List<T> list = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = this.getSession().createQuery(querySql, className);
 				if(offset > -1)
 					query.setFirstResult(offset);
@@ -902,8 +909,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				this.getSession().persist(this);
 				transaction.commit();
 			}
@@ -923,8 +929,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				this.getSession().merge(this);
 				transaction.commit();
 			}
@@ -947,8 +952,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				this.getSession().remove(this.getSession().find(this.className, id));
 				transaction.commit();
 				deleted=true;
@@ -1002,8 +1006,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		try {
 			transaction = (Transaction) this.getSession().getTransaction();
-			transaction.begin();
-			if(transaction.isActive()) {
+			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
 				this.setParameters(query);
 				count = (Long)query.getSingleResult();
