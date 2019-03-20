@@ -91,11 +91,27 @@ public class XMLExtractComponent {
 		button.setTitle(gt("Seguinte"));
 		button.setApp(appDad);
 		button.setPage(page);
-		button.setLink(action+"&"+"taskId="+taskId+"&processDefinition="+Core.getParam("processDefinition",false)+"&taskDefinition="+Core.getParam("taskDefinition",false)+"&appId="+appId);
+		String processParams = this.getDefaultProcessParams();
+		button.setLink(action+"&"+"taskId="+taskId+"&appId="+appId+processParams);
 		button.setTarget("submit");
 		button.setImg(icon);
 		toolsbar1.addButton(button);
 		return toolsbar1;
+	}
+	
+	private String getDefaultProcessParams() {
+		String params = "&processDefinition="+Core.getParam("processDefinition",false)
+						+"&taskDefinition="+Core.getParam("taskDefinition",false)
+						+"&appDad="+Core.getParam("appDad",false)
+						+"&formKey="+Core.getParam("formKey",false)
+						+"&processDefinitionId="+Core.getParam("processDefinitionId",false)
+						+"&taskDefinition="+Core.getParam("taskDefinition",false)
+						+"&previewTask="+Core.getParam("previewTask",false)
+						+"&preiviewApp="+Core.getParam("preiviewApp",false)
+						+"&preiviewProcessDefinition="+Core.getParam("preiviewProcessDefinition",false)
+						+"&showTimeLine=true"
+						+"&previewTaskId="+Core.getParam("previewTaskId",false);
+		return params;
 	}
 	
 	public IGRPToolsBar generateBackButtonTask(String app,String page,String action, String taskId) {
