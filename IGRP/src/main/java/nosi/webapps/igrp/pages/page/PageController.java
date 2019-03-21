@@ -511,9 +511,7 @@ public class PageController extends Controller {
 
 		List<Action> aux = new ArrayList<Action>();
 
-		if (shares == null)
-			shares = new ArrayList<Share>();
-		else
+		if (shares != null)
 			for (Share share : shares) {
 				Action action = new Action().findOne(share.getType_fk());
 				if (action != null)
@@ -523,10 +521,13 @@ public class PageController extends Controller {
 		List<Action> actions = new Action().find().andWhere("isComponent", "<>",(short)2).andWhere("application.id", "=", app).andWhere("status", "=", 1)
 				.all();
 
-		if (aux != null)
-			actions.addAll(aux);
+		
 
 		if (actions != null) {
+			
+			if (aux != null)
+				actions.addAll(aux);
+			
 			for (Action ac : actions) {
 				json += "{";
 				json += "\"action\":\"" + ac.getAction() + "\",";
