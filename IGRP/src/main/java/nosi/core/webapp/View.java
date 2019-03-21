@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -7,6 +9,7 @@ import nosi.core.config.Config;
 import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.components.IGRPComponent;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
@@ -37,6 +40,20 @@ public abstract class View  implements IHeaderConfig{
 
 	protected IGRPForm addFieldToFormHidden() {
 		IGRPForm formHidden = new IGRPForm("hidden_form_igrp");	
+	
+		this.addLookupParams(formHidden);
+		this.addPersistentParams(formHidden);
+		
+		if(IGRPForm.hiddenFields.size() >0) {
+			for(Field f:IGRPForm.hiddenFields) {
+				formHidden.addField(f);
+			}
+			IGRPForm.resetHiddenField();
+		}
+		return formHidden;
+	}
+	
+	private void addPersistentParams(IGRPForm formHidden) {
 		//Add hidden field env_frm_url to persistence index url of page
 		HiddenField field = new HiddenField("env_frm_url");
 		String target = Core.getParam("target");
@@ -44,7 +61,49 @@ public abstract class View  implements IHeaderConfig{
 		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
 		field.setValue(value);
 		formHidden.addField(field);
-		//Persiste the fields of lookup parameters map
+		
+		String table_lookup_row = Core.getParam(IGRPTable.TABLE_LOOKUP_ROW);
+		if(Core.isNotNull(table_lookup_row)) {
+			//Add hidden field env_frm_url to persistence index url of page
+			HiddenField fieldtable_lookup_row = new HiddenField(IGRPTable.TABLE_LOOKUP_ROW);
+			fieldtable_lookup_row.propertie().add("value", table_lookup_row).add("name",IGRPTable.TABLE_LOOKUP_ROW).add("type","hidden").add("maxlength","250").add("java-type","").add("tag",IGRPTable.TABLE_LOOKUP_ROW);
+			fieldtable_lookup_row.setValue(table_lookup_row);
+			formHidden.addField(fieldtable_lookup_row);
+		}
+		
+		Map<String,String[]> paramsName = Core.getParameters();
+		paramsName.entrySet().stream()
+		  		  .filter(param->param.getKey().equalsIgnoreCase(IGRPTable.TABLE_LOOKUP_ROW))
+				  .filter(param->param.getKey().startsWith("p_fwl_"))
+				  .filter(param->!param.getKey().equalsIgnoreCase("p_fwl_search"))
+				  .forEach(param->{
+					  	HiddenField f = new HiddenField(null,param.getKey());
+						f.propertie.add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
+						f.setValue(param.getValue()[0]);
+						formHidden.addField(f);
+				  });		
+	}
+
+	private void addLookupParams(IGRPForm formHidden) {
+		/**
+		 * Extract parameters in json format
+		 */
+		String jsonLookup = Core.getParam("jsonLookup");
+		if(Core.isNotNull(jsonLookup)) {
+			try {
+				jsonLookup = URLEncoder.encode(jsonLookup, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			HiddenField f = new HiddenField(null,"jsonLookup");
+			f.propertie.add("value",jsonLookup).add("tag","jsonLookup").add("name","jsonLookup");
+			f.setValue(jsonLookup);
+			formHidden.addField(f);
+		}
+		
+		/**
+		 * Deprecated
+		 */
 		String isLookup = Core.getParam("forLookup");
 		if(Core.isNotNull(isLookup)){
 			Map<String,String[]> paramsName = Core.getParameters();
@@ -65,26 +124,8 @@ public abstract class View  implements IHeaderConfig{
 				}
 			}
 		}
-		Map<String,String[]> paramsName = Core.getParameters();
-		paramsName.entrySet().stream()
-				  .filter(param->param.getKey().startsWith("p_fwl_"))
-				  .filter(param->!param.getKey().equalsIgnoreCase("p_fwl_search"))
-				  .forEach(param->{
-					  	HiddenField f = new HiddenField(null,param.getKey());
-						f.propertie.add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
-						f.setValue(param.getValue()[0]);
-						formHidden.addField(f);
-				  });
-		
-		if(IGRPForm.hiddenFields.size() >0) {
-			for(Field f:IGRPForm.hiddenFields) {
-				formHidden.addField(f);
-			}
-			IGRPForm.resetHiddenField();
-		}
-		return formHidden;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return title;
