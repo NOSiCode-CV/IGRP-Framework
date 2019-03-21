@@ -138,24 +138,12 @@ public final class EmailMessage { // Not inherit
 		String path = new Config().getBasePathConfig() + File.separator + "common";
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
 		
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			fis = null;	
-		}
-		try {
+		try(FileInputStream fis = new FileInputStream(file)) {
 			this.settings = new Properties();
 			this.settings.loadFromXML(fis);
 			flag = true;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				fis.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		return flag;
 	}

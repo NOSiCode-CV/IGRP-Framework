@@ -244,7 +244,7 @@ public class ImportAppJava {
 			config = new Config_env();
 			Core.mapper(c, config);
 			config.setApplication(this.app);
-			config = config.insert();
+			config.insert();
 		}
 	}
 

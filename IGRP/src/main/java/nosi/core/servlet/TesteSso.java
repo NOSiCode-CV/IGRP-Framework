@@ -303,23 +303,11 @@ public class TesteSso extends HttpServlet {
 		String path = new Config().getBasePathConfig() + File.separator + filePath;
 		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
 		
-		FileInputStream fis = null;
 		Properties props = new Properties();
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			fis = null;	
-		}
-		try {
+		try (FileInputStream fis = new FileInputStream(file)) {
 			props.loadFromXML(fis);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				fis.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		return props;
 	}

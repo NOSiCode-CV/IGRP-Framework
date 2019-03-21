@@ -257,9 +257,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 				.andWhere("status", "=", 1).all();
 		List<Action> aux = new ArrayList<Action>();
 
-		if (shares == null)
-			shares = new ArrayList<Share>();
-		else
+		if (shares != null)
 			for (Share share : shares) {
 				Action action = new Action().findOne(share.getType_fk());
 				if (action != null)
@@ -271,9 +269,7 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		List<Action> actions = this.find().andWhere("application.id", "=",app).andWhere("status", "=", 1)
 				.andWhere("isComponent", "=", (short)0).all();
 
-		if (actions == null)
-			actions = new ArrayList<Action>();
-		else
+		if (actions != null)
 			for (Action ac : actions) {
 				if (Core.isNotNull(ac.getPage_descr()))
 					lista.put(ac.getId(), ac.getPage_descr());
