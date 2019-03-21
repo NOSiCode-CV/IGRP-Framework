@@ -12,6 +12,9 @@ $(function(){
 				var input = $('#'+rel);
 
 				var lookupTarget = input.attr('lookup-target') ? input.attr('lookup-target') : false;
+				
+				var row = $(this).parents('tr')[0] || false;
+				
 
 				var iframeUrl = $.IGRP.components.lookup.getLookupUrl({
 					url      : href,
@@ -19,6 +22,10 @@ $(function(){
 					lookUp   : $(this),
 					target   : lookupTarget
 				});
+				
+				if(row)
+					
+					iframeUrl+='&p_table_lookup_row='+$(row).index();
 
 				$.IGRP.components.iframeNav.set({
 					url       :iframeUrl,

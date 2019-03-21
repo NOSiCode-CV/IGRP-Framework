@@ -726,9 +726,11 @@ var GENSTRUCTURES = function(GEN){
 	
 	var genLookUpField = function(f){
 		
-		var rtn = '<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>';
+		var rtn = '<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>',
 		
-		rtn+='<lookupParams>';
+			isTable = f.parent.GET.type() == 'formlist' ? 'is-table="true"' : '';
+		
+		rtn+='<lookupParams '+isTable+'>';
 		
 		f.GET.lookupParams().forEach(function(lp){
 			

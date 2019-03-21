@@ -78,13 +78,28 @@
 		},
 
 		Widgets : {
+			
+			wrapper : function(w){
+				
+				var r = '<div class="gis-widget-wrapper" widget-id="'+w.id+'" widget-type="'+w.options.type+'">'+
+				
+							
+					
+						'</div>';
+					
+				
+				return r;
+				
+			},
+			
+			widget : function(id,w){
 
-			widget : function(w){
-
-				var r = '';
+				var r = '',
+				
+					target = w.target || 'void';
 
 				r+='<div class="btn-group-vertical gis-panel-inner" role="group" >'+
-		              '<button title="'+w.title+'" class="btn btn-default gis-zoom-in" text-color="primary">'+
+		              '<button gis-widget="'+w.type+'"  widget-id="'+id+'" target="'+target+'" title="'+w.title+'" class="btn btn-default gis-widget-controller" text-color="primary">'+
 		              	'<i class="fa '+w.icon+'"></i>'
 		              '</button>'+
 		            '</div>'

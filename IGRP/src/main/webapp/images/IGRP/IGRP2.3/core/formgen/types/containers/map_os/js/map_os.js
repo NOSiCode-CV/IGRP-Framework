@@ -14,13 +14,9 @@
 				
 				list = JSON.parse(list);
 			
-			console.log(list)
-			
 			layersList = list;
 
 			layersOptions = $.map( layersList, function (obj) {
-				
-				console.log(obj)
 
 				var r = {};
 			  	
@@ -70,6 +66,9 @@
 					{ path : '/plugins/leaflet/library/js/leaflet.js' },
 					{ path : '/plugins/leaflet/library/plugins/basemap-provider/leaflet-providers.js' },
 					{ path : '/plugins/leaflet/library/plugins/ajax/leaflet.ajax.min.js' },
+					
+					{ path : '/plugins/handlebars/handlebars-v4.1.1.js' },
+					
 					{ path : '/plugins/gis/v2/gis.js' },
 					
 					{ path : '/plugins/gis/v2/modules/gis.templates.js' },
@@ -152,11 +151,28 @@
 				});
 
 				widgets.forEach(function(w){
-
+					
+					var options = {}
+					
+					for(var o in w.proprieties){
+						
+						if(w.propertiesOptions[o] && w.propertiesOptions[o].widgetAttr){
+							
+							options[o] = w.GET[o]();
+							
+						}
+						
+					};
+					
 					json.widgets.push({
-						name  : w.GET.tag(),
-						title : w.GET.label(),
-						icon  : w.GET.icon()
+						name  	 : w.GET.tag(),
+						title 	 : w.GET.label(),
+						icon  	 : w.GET.icon(),
+						type  	 : w.GET.widget_type(),
+						position : w.GET.widget_position(),
+						css      : w.GET.widget_css(),
+						js		 : w.GET.widget_js(),
+						data 	 : options
 					})
 
 				});
@@ -240,6 +256,84 @@
 				});
 				
 			}
+			
+			container.getLayersComboBox = function(){
+				
+				return layersOptions
+				
+			};
+			
+			container.getLayer = function(id){
+				
+				console.log(id)
+				
+				var rtn = $.grep( layersOptions, function(n,i){
+					
+					console.log(n);
+					
+					console.log(i);
+					
+				} )
+				
+			};
+			
+			container.getActiveLayers = function(){
+				
+				var Themes = container.GET.fields(),
+				
+					Layers = [];
+				try{
+					
+					if(Themes && Themes[0])
+						
+						Themes.forEach(function(t){
+							
+							Layers = Layers.concat(t.GET.layers())
+							
+						});
+					
+					/*Layers.forEach(function(l){
+						
+						var layerID = l.layer;
+						
+						console.log(container.getLayer(layerID));
+						
+					});*/
+					
+				}catch(e){
+					console.log(e);
+				}
+				
+				
+				
+
+				return Layers;
+			};
+			
+			container.getActiveLayersCombo = function(){
+				
+				var Layers = container.getActiveLayers(),
+				
+					rtn    = [];
+				
+				Layers.forEach(function(l){
+					
+					var layerID = l.layer;
+					
+					var layer = $.grep(layersOptions, function(n,i){
+						
+						return n.value == layerID
+						
+					})[0];
+					
+					if(layer)
+						
+						rtn.push(layer);
+				});
+				
+				return rtn;
+				
+			};
 
 			container.ready = function(){
 

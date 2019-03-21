@@ -1,0 +1,23 @@
+<widgets>
+
+	<item name="search" label="Pesquisar" icon="fa-search" css="true" >
+		
+		<attributes>
+			
+			<attr name="layers" type="layers" label=" " value=""/>
+		
+		</attributes>
+	
+	</item>
+	
+	<item name="edition" label="Edição" icon="fa-edit" js="false">
+		
+		<attributes>
+			
+			<attr name="test" label="Teste" value=""/>
+		
+		</attributes>
+	
+	</item>
+
+</widgets>

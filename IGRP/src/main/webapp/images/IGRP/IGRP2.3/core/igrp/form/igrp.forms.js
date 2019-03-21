@@ -52,6 +52,8 @@
 					var forminput   = null,
 						isChange 	= false,
 						oChange 	= null; 
+					
+					console.log(form);
 
 					if(form){
 
@@ -68,7 +70,11 @@
 								forminput	= $("*[name='"+vOp[0]+"']", form);
 
 								var holder 	= $('*[item-name="'+vOp[0]+'"]',form);
-
+								
+								console.log(forminput)
+								
+								console.log(holder)
+								
 								if(forminput[0]){
 
 									$(forminput[(formIdx)]).val(vOp[1]).attr('value',vOp[1]);//.trigger('change');

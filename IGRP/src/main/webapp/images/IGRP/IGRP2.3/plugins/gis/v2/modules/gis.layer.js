@@ -17,6 +17,10 @@
 				}, data.options );
 
 			layer = L.tileLayer.wms(data.url, options);
+			
+			layer.filter = function(){
+				
+			};
 
 			return layer;
 
@@ -104,8 +108,6 @@
 
 	GIS.module('Layer',function(data, app){
 
-		console.log(data);
-
 		var layer     = Classes[data.type] ? Classes[data.type](data, app) : null,
 
 			map 	  = app.viewer(),
@@ -123,6 +125,10 @@
 		layer.visible    = data.visible;
 
 		layer.draw       = layer.draw || function(){};
+		
+		layer.filter = function(){
+			
+		};
 
 		layer.show = function(){
 
@@ -149,8 +155,6 @@
 			
 		});
 
-		console.log(layer.visible)
-					
 		layer.addTo( layer.container );
 
 		return layer;

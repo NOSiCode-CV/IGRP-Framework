@@ -1,6 +1,6 @@
 /*SIDE CTRL*/
 (function(){
-
+	
 	$.IGRP = {
 
 		_init:false,
@@ -14,6 +14,8 @@
 			params : null
 
 		},
+		
+		path : path,
 
 		events: new $.EVENTS(['windowResize','init']),
 		
@@ -217,7 +219,7 @@
 		},
 		
 		request:function(url,o){
-
+			
 			var options = $.extend(true, {
 				params   : {},
 				headers	 : {},
@@ -306,7 +308,7 @@
 			
 		},
 		
-		init:function(){
+		init:function( ){
 
 			$.IGRP._init = true;
 			
@@ -327,7 +329,8 @@
 		}
 
 	};
-
+	
 	$.IGRP.on = $.IGRP.events.on;
+	
 
 })();

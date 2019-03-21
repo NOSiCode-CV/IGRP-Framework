@@ -23,6 +23,8 @@
 			}, data );
 
 		app.dom    = dom;
+		
+		app.id     = id;
 
 		$(app.dom).attr('id' ,id);
 
@@ -32,6 +34,12 @@
 
 			$(dom)[action]('loading');
 
+		};
+		
+		app.addWidgetButton = function(btn){
+			
+			$('.gis-widgets-controller', app.dom).append(btn);
+			
 		};
 
 		if(modules.Map){
@@ -54,13 +62,17 @@
 
 				app.panels = new modules.Panels(dom);
 
-		}
+		};
 
 		return app;
 
 	};
+	
+	console.log($.IGRP.path)
 
 	window.GIS = $.IGRP.component('GIS',{
+		
+		path : $.IGRP.path+'/plugins/gis/v2',
 
 		maps : [],
 
@@ -72,6 +84,33 @@
 
 			return modules[name];
 
+		},
+		
+		widgets : {
+			
+			items : {},
+			
+			register : function(name, options){
+				
+				if(!GIS.widgets.items[name])
+					
+					GIS.widgets.items[name] =  { start : options };
+				
+			},
+			
+			get : function(name){
+				
+				return GIS.widgets.items[name];
+				
+			}
+			
+		},
+		
+		getMap : function(id){
+			
+			console.log(id);
+			console.log(maps);
+			
 		},
 
 		init : function(elements){

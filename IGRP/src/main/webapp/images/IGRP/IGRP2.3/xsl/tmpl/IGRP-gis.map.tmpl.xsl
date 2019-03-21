@@ -19,7 +19,11 @@
               <div class="bounce3"></div>
             </div>
           </div>
-
+		
+		 <div class="gis-panel widget">
+		 	
+		 </div>
+		
           <div class="gis-panel left">
             
             <div class="btn-group-vertical gis-panel-inner" role="group" >

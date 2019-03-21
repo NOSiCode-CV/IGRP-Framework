@@ -271,6 +271,8 @@ var Field = function(type,params){
 		for(var p in field.proprieties){
 			proprieties.forEach(function(prop){
 				if(prop != 'tag' && prop != 'type')
+				
+					
 					if(prop == p) delete field.proprieties[p];
 					
 					if(field.GET[prop]) delete field.GET[prop];
@@ -333,7 +335,7 @@ var Field = function(type,params){
 			notEditableAttrs[p.name] = true;
 
 		//has change event associated (blur,change,...)
-		var hasChangeEvent =  val.changeEvent ? true : false;
+		var hasChangeEvent = val && val.changeEvent ? true : false;
 		if(hasChangeEvent){
 			field.proprieties[p.name]['on'+capitalizeFirstLetter(val.changeEvent)] = function(val){
 				field.SET[p.name](val);

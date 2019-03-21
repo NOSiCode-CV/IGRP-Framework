@@ -46,7 +46,7 @@
 					
 					//$(l.getPane()).css('z-index', 400+i);
 
-					console.log( $(l.getPane()) )
+					//console.log( $(l.getPane()) )
 
 				})
 			},150)

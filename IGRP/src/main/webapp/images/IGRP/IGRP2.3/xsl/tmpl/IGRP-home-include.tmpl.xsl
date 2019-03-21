@@ -21,6 +21,11 @@
       <link rel="stylesheet" href="{$path}/themes/bs.columns.css" media="none" onload="if(media!='all')media='all'"/>
       <link rel="stylesheet" href="{$path}/themes/bs.class.css" media="none" onload="if(media!='all')media='all'"/>
     </xsl:if> 
+    
+    <script>
+   		var path = '<xsl:value-of select="$path"/>';
+    </script>
+    
     <!-- BS CSS -->    
    
    <!-- NOT ASYNC JS-->   
@@ -88,8 +93,12 @@
     <xsl:call-template name="colorpalettes-js"/>
 
     <script>
-      var path = '<xsl:value-of select="$path"/>';
-      $(document).ready( $.IGRP.init );
+      
+      $(document).ready( function(){
+      	
+      	$.IGRP.init( );
+      
+      });
     </script>
   </xsl:template>
   <!-- TOPMENU -->

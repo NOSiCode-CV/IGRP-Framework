@@ -137,8 +137,14 @@
 							
 							<xsl:for-each select="lookupParams/param">
 							
+								<xsl:variable name="lookupParamSuffix">
+									
+									<xsl:if test="../@is-table = 'true'">_fk</xsl:if>
+								
+								</xsl:variable>
+							
 								<xsl:variable name="lookupParam">
-									<xsl:value-of select="concat($double_quotes,@field-target,$double_quotes,',',$double_quotes,.,$double_quotes)"/>
+									<xsl:value-of select="concat($double_quotes,@field-target,$lookupParamSuffix,$double_quotes,',',$double_quotes,.,$double_quotes)"/>
 								</xsl:variable>
 				
 								<xsl:value-of select="$lookupName"/><xsl:text>.addLookupParam(</xsl:text><xsl:value-of select="$lookupParam"/><xsl:text>);</xsl:text>

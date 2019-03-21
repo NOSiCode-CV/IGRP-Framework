@@ -1039,9 +1039,12 @@ var GENERATOR = function(genparams){
 				var multiple = objectProperties && objectProperties.value && objectProperties.value.multiple ? 'multiple="true"' : '';
 				var select   = $('<select'+canAdd+' name="edit-'+propriety+'" '+multiple+' rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'"/>');
 				var options  = typeof object.proprieties[propriety].options === 'function' ? object.proprieties[propriety].options() : object.proprieties[propriety].options;
-
+				
 				options.forEach(function(o){
-					var opt   = $('<option value="'+o.value+'">'+o.label+'</option>'), 
+					
+					var _label = o.label || o.text || "";
+					
+					var opt   = $('<option value="'+o.value+'">'+_label+'</option>'), 
 						selected;
 					if(Array.isArray(value))
 						value.forEach(function(v){
@@ -1173,7 +1176,7 @@ var GENERATOR = function(genparams){
 
 							attName    = p.propriety,
 	
-							flist 	   = $('<div class="box clean box-table-contents gen-container-item gen-formlist-attr-holder" gen-class="" item-name="gen-'+objectName+'_'+attName+'"><div class="box-body table-box"><table id="gen-'+objectName+'_'+attName+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen-'+objectName+'_'+attName+'" data-control="data-gen-'+objectName+'_'+attName+'"><thead></thead><tbody><tr row="0"><input type="hidden" name="p_gen-'+objectName+'_'+attName+'_id" value="" /></tr></tbody></table></div></div>'),
+							flist 	   = $('<div class="box clean box-table-contents gen-formlist-attr-holder" gen-class="" item-name="gen-'+objectName+'_'+attName+'"><div class="box-body table-box"><table id="gen-'+objectName+'_'+attName+'" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen-'+objectName+'_'+attName+'" data-control="data-gen-'+objectName+'_'+attName+'"><thead></thead><tbody><tr row="0"><input type="hidden" name="p_gen-'+objectName+'_'+attName+'_id" value="" /></tr></tbody></table></div></div>'),
 	
 							fields 	   =  objectProperties.fields || false;
 	
@@ -1378,6 +1381,179 @@ var GENERATOR = function(genparams){
 		}
 		//checkers on bottom
 		formHolder.append($('<div class="gen-propreties-checkers-holder"/>').append(checkers))
+	}
+	
+	GEN.confirmEdition = function(o){
+		
+		var options = $.extend({
+			hide : true,
+			afterTransform : function(){}
+		},o);
+		
+		var setters      = $(VARS.edition.modal+' [rel="properties"] .'+VARS.edition.class.propSetter+', '+VARS.edition.modal+' .modal-footer .propriety-setter');
+		
+		var __tag        = setters.filter('[rel="tag"]');
+
+		var transformer = GEN.edit.object.genType == 'container' ? GEN.edit.object : GEN.edit.object.parent;
+		
+		$('.gen-tag-exist-err').remove();
+		
+		if(__tag.valid()){
+
+			if( GEN.tags.valid( __tag.val() , GEN.edit.object )  ){
+
+				var styleSetters = $(VARS.edition.modal+' [rel="style"] .style-setter');
+			
+				$.each(setters,function(i,setter){
+					
+					var type  = $(setter).attr('type');
+
+					var rel   = $(setter).attr('rel');
+
+					var value = null;
+
+					switch(type){
+
+						case 'checkbox':
+
+							value = $(setter).is(':checked');
+
+						break;
+
+						case 'formlist':
+
+							value = $('.IGRP_formlist',setter)[0]._export();
+
+						break;
+
+						case 'attrvalue':
+
+							value = $(setter).attr('attr-value');
+
+						break;
+						
+						case 'texteditor':
+
+							var id = $(setter).attr('id'),
+
+								val = CKEDITOR.instances[id].getData();
+
+							value = val;
+
+						break;
+
+						default: 
+
+							value = $(setter).val();
+
+
+					}					
+					
+					/*if(type == 'checkbox')
+
+						value = $(setter).is(':checked');
+					else
+						value = $(setter).val();*/
+
+					if(GEN.edit.object && GEN.edit.object.SET[rel])
+
+						GEN.edit.object.SET[rel](value);
+
+				});
+
+				if(GEN.edit.object){
+					
+					//XSL CHANGES
+					GEN.edit.checkXSLChanges();
+
+					//STYLE TAB SETTER
+					$.each(styleSetters,function(i,style){
+
+					 	if(GEN.edit.object.customStyle){
+					 		var rel   = $(style).attr('rel');
+					 		var value = $(style).val();
+
+					 		GEN.edit.object.customStyle[rel] = value;
+					 	}
+
+					});
+
+					//RULES
+					if(GEN.edit.object.formField || GEN.edit.object.type == 'hidden'){
+						
+						var slist = $('.IGRP-separatorlist',$(VARS.edition.dialog))[0];
+						// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
+						var isTable = GEN.edit.object.parent.type == 'formlist' ? true : false;
+						
+
+						var rule = slist.toJSON({
+							excludeNamePrefix:'gen_rule_',
+							params : {
+								isTable : isTable
+							}
+						});
+
+						GEN.edit.object.setRules( rule );
+						//var rulesDataArr = $('.gen-properties-setts-holder[rel="rules"] #gen-rules-table input:not(.sl-row-id)').serializeArray();
+						//GEN.edit.object.setRules(rulesDataArr);
+					}
+
+					//copy options
+					if(GEN.edit.object.genType == 'container'){
+						var pageSelect = $(VARS.html.pageCopySelecter);
+						var checked    = $('[name="gen-c-copy"]:checked');
+
+						var copyOptions = pageSelect.val() && checked[0] ? {
+											id         : pageSelect.val(),
+											container  : checked.val(),
+											description: $('option[value="'+pageSelect.val()+'"]',pageSelect).text(),
+											settings   : GEN.edit.copyProperties,
+											plsql      : GEN.edit.copyData
+										} : false;
+
+										
+						GEN.edit.object.copy(copyOptions);
+
+					}
+					//tabs and boxes - have containers inside
+					if(GEN.edit.object.contents)
+
+						setHtmlStyle(GEN.edit.object);
+
+					if(GEN.edit.object.onEditionConfirm) 
+
+						GEN.edit.object.onEditionConfirm(GEN.edit.object);
+
+				}
+				
+				
+				transformer.Transform({
+					
+					callback : options.afterTransform
+					
+				});
+
+				/*if(GEN.edit.object && ( GEN.edit.object.genType == 'container' || GEN.edit.object.genType == 'html') )
+					GEN.edit.object.Transform();
+				else
+					GEN.edit.object.parent.Transform();*/
+				
+				if(options.hide)
+					$(VARS.edition.modal).modal('hide');
+			
+			}else{
+				__tag.parent().prepend('<label for="edit-tag" generated="true" class="error form-validator-label gen-tag-exist-err">Tag existente!</label>')
+				
+				$('#gen-edition-modal').scrollTop(0);
+			}
+		}else{
+
+			$('#gen-edition-modal').scrollTop(0);
+		}
+
+		return false;
+
+		
 	}
 
 	GEN.edit = function(object,p){
@@ -2747,164 +2923,8 @@ var GENERATOR = function(genparams){
 		/*edition confirm*/
 		$('#gen-edit-confirm').on('click',function(){
 
-			var setters      = $(VARS.edition.modal+' [rel="properties"] .'+VARS.edition.class.propSetter+', '+VARS.edition.modal+' .modal-footer .propriety-setter');
+			GEN.confirmEdition();
 			
-			var __tag        = setters.filter('[rel="tag"]');
-
-			var transformer = GEN.edit.object.genType == 'container' ? GEN.edit.object : GEN.edit.object.parent;
-			
-			$('.gen-tag-exist-err').remove();
-			
-			if(__tag.valid()){
-
-				if( GEN.tags.valid( __tag.val() , GEN.edit.object )  ){
-	
-					var styleSetters = $(VARS.edition.modal+' [rel="style"] .style-setter');
-				
-					$.each(setters,function(i,setter){
-						
-						var type  = $(setter).attr('type');
-
-						var rel   = $(setter).attr('rel');
-
-						var value = null;
-
-						switch(type){
-
-							case 'checkbox':
-	
-								value = $(setter).is(':checked');
-	
-							break;
-	
-							case 'formlist':
-	
-								value = $('.IGRP_formlist',setter)[0]._export();
-	
-							break;
-	
-							case 'attrvalue':
-	
-								value = $(setter).attr('attr-value');
-	
-							break;
-							
-							case 'texteditor':
-
-								var id = $(setter).attr('id'),
-
-									val = CKEDITOR.instances[id].getData();
-
-								value = val;
-
-							break;
-	
-							default: 
-	
-								value = $(setter).val();
-	
-	
-						}					
-						
-						/*if(type == 'checkbox')
-
-							value = $(setter).is(':checked');
-						else
-							value = $(setter).val();*/
-
-						if(GEN.edit.object && GEN.edit.object.SET[rel])
-
-							GEN.edit.object.SET[rel](value);
-
-					});
-
-					if(GEN.edit.object){
-						
-						//XSL CHANGES
-						GEN.edit.checkXSLChanges();
-
-						//STYLE TAB SETTER
-						$.each(styleSetters,function(i,style){
-
-						 	if(GEN.edit.object.customStyle){
-						 		var rel   = $(style).attr('rel');
-						 		var value = $(style).val();
-
-						 		GEN.edit.object.customStyle[rel] = value;
-						 	}
-
-						});
-
-						//RULES
-						if(GEN.edit.object.formField || GEN.edit.object.type == 'hidden'){
-							
-							var slist = $('.IGRP-separatorlist',$(VARS.edition.dialog))[0];
-							// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
-							var isTable = GEN.edit.object.parent.type == 'formlist' ? true : false;
-							
-
-							var rule = slist.toJSON({
-								excludeNamePrefix:'gen_rule_',
-								params : {
-									isTable : isTable
-								}
-							});
-
-							GEN.edit.object.setRules( rule );
-							//var rulesDataArr = $('.gen-properties-setts-holder[rel="rules"] #gen-rules-table input:not(.sl-row-id)').serializeArray();
-							//GEN.edit.object.setRules(rulesDataArr);
-						}
-
-						//copy options
-						if(GEN.edit.object.genType == 'container'){
-							var pageSelect = $(VARS.html.pageCopySelecter);
-							var checked    = $('[name="gen-c-copy"]:checked');
-
-							var copyOptions = pageSelect.val() && checked[0] ? {
-												id         : pageSelect.val(),
-												container  : checked.val(),
-												description: $('option[value="'+pageSelect.val()+'"]',pageSelect).text(),
-												settings   : GEN.edit.copyProperties,
-												plsql      : GEN.edit.copyData
-											} : false;
-
-											
-							GEN.edit.object.copy(copyOptions);
-
-						}
-						//tabs and boxes - have containers inside
-						if(GEN.edit.object.contents)
-
-							setHtmlStyle(GEN.edit.object);
-
-						if(GEN.edit.object.onEditionConfirm) 
-
-							GEN.edit.object.onEditionConfirm(GEN.edit.object);
-
-					}
-
-					transformer.Transform();
-
-					/*if(GEN.edit.object && ( GEN.edit.object.genType == 'container' || GEN.edit.object.genType == 'html') )
-						GEN.edit.object.Transform();
-					else
-						GEN.edit.object.parent.Transform();*/
-					
-
-					$(VARS.edition.modal).modal('hide');
-				
-				}else{
-					__tag.parent().prepend('<label for="edit-tag" generated="true" class="error form-validator-label gen-tag-exist-err">Tag existente!</label>')
-					
-					$('#gen-edition-modal').scrollTop(0);
-				}
-			}else{
-
-				$('#gen-edition-modal').scrollTop(0);
-			}
-
-			return false;
-
 		});
 
 		$(VARS.edition.dialog).on('click','[rel="gen-edt-cancel"]',function(){
@@ -5570,7 +5590,7 @@ var GENERATOR = function(genparams){
 
 		var rtn = true;
 
-		if(type == 'button' || type =='hidden')
+		if(type == 'button' || type =='hidden' || type=='map_widget')
 			rtn = false;
 
 		return rtn;

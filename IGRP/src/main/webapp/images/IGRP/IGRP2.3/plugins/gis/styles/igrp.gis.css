@@ -79,7 +79,6 @@
 
 .gis-panel{
   position: absolute;
-  height: 100%;
   top: 0;
   z-index: 450;
   padding: 10px;
@@ -91,14 +90,32 @@
 
 .gis-panel.left{
   left: 0;
+  height:100%;
 }
 .gis-panel.right{
-  right: 0
+  right: 0;
+  
 }
+
+.gis-panel.widget{
+  right: 45px;
+}
+
+.gis-panel.widget .form-control{
+	background-color:rgba(255,255,255,.9);
+	box-shadow:0px 0px 1px 0px rgba(0,0,0,.25);
+	border:0;
+	
+}
+
 .gis-panel .gis-panel-inner{
   display: block;
   margin-bottom: 10px;
   position: static;
+}
+
+.gis-widget {
+	ba
 }
 
 .gis-panel .gis-panel-menu-content{
@@ -120,27 +137,31 @@
   height: calc(100% - 20px)
 }
 
-.gis-panel >.gis-panel-inner>.btn{
-  border-radius: 0!important;
-  padding: 5px 8px;
-  margin: 1px!important;
-  border: 0!important;
-  border-radius: 0!important
+.gis-panel .gis-panel-inner>.btn{
+  	border-radius: 0!important;
+    padding: 6px 12px;
+    margin-bottom: 5px!important;
+    border: 0!important;
+    border-radius: 0!important;
+    line-height: 22px;
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,.25)
 }
-
+.gis-panel .gis-panel-inner>.btn>i{
+	margin-top:-2px
+}
 
 .gis-panel  >.gis-panel-inner>.btn-default.active,
 .gis-panel .btn-default.active:focus{
   background:white;
 }
 
-.gis-panel  >.gis-panel-inner>.btn,
+.gis-panel  .gis-panel-inner>.btn,
 .gis-panel.open .gis-panel-menu-content{
    background:rgba(255,255,255,.9);
 }
 
 .gis-panel .nav-tabs>li>a{
-  color: #ccc;
+  color: #9c9c9c;
   border:0!important;
   background: transparent!important;
   position: relative;
