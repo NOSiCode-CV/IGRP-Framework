@@ -66,7 +66,7 @@ import java.util.Map;
  
 public class IGRPTable extends IGRPComponent{
 
-	public static final String TABLE_LOOKUP_ROW = "p_table_lookup_row";
+	public static final String TABLE_LOOKUP_ROW = "p_fwl_form_idx";
 	protected ArrayList<Field> fields;
 	private IGRPContextMenu contextmenu;
 	protected float version = (float) 2.3;
