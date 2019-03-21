@@ -23,9 +23,13 @@ $(function(){
 					target   : lookupTarget
 				});
 				
-				if(row)
-
+				if(row){
+					
 					iframeUrl+='&p_table_lookup_row='+$(row).index();
+					
+					$($.IGRP.components.iframeNav.modal).attr('formlist-lookup-row', $(row).index() );
+					
+				}
 
 				$.IGRP.components.iframeNav.set({
 					url       :iframeUrl,

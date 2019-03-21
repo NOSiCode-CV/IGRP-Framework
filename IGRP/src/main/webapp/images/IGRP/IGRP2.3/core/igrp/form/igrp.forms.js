@@ -45,6 +45,10 @@
 	  				var paramsCount = 1*object.attr("CTX_PARAM_COUNT")+1;
 	  				var formName    = object.attr("CTX_FORM") ? object.attr("CTX_FORM") : 'formular_default';
 	  				var formIdx     = object.attr("CTX_FORM_IDX") ? parseInt(object.attr("CTX_FORM_IDX")) : 0;
+	  				var parentWindow= window.opener || window.parent.document;
+	  				var parentModal = $(parentWindow).find('#igrp-iframe-nav');
+	  				var isModal 	 = parentModal.hasClass('in');
+	  				var rowIdx 		 = parentModal.attr('formlist-lookup-row')
 	  				
 	  				var form 		= window.opener ? window.opener.document.forms[formName] : window.parent.document.forms[formName];
 					var vFwlNoclose = 0;
@@ -53,7 +57,7 @@
 						isChange 	= false,
 						oChange 	= null; 
 					
-					console.log(form);
+					formIdx = formIdx || rowIdx*1 || 0;
 
 					if(form){
 
@@ -68,12 +72,9 @@
 								vFwlAdd		= (vOp[0]=="p_fwl_add")?vOp[1]*1:vFwlAdd;
 								
 								forminput	= $("*[name='"+vOp[0]+"']", form);
+								
 
 								var holder 	= $('*[item-name="'+vOp[0]+'"]',form);
-								
-								console.log(forminput)
-								
-								console.log(holder)
 								
 								if(forminput[0]){
 
@@ -151,7 +152,7 @@
 
 					if(!vFwlNoclose){
 
-						setTimeout(function(){
+						/*setTimeout(function(){
 
 							if(window.parent)
 								window.parent.$.IGRP.components.iframeNav.hide();
@@ -160,7 +161,7 @@
 							if(window.opener)
 								window.close();
 
-						},150);
+						},150);*/
 
 					}
 	  			}
