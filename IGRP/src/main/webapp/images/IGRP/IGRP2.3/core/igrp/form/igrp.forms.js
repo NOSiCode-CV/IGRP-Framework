@@ -152,7 +152,7 @@
 
 					if(!vFwlNoclose){
 
-						/*setTimeout(function(){
+						setTimeout(function(){
 
 							if(window.parent)
 								window.parent.$.IGRP.components.iframeNav.hide();
@@ -161,7 +161,7 @@
 							if(window.opener)
 								window.close();
 
-						},150);*/
+						},150);
 
 					}
 	  			}
