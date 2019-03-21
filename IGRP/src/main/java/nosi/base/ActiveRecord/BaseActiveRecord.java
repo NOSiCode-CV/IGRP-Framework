@@ -18,6 +18,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.QueryHints;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
@@ -849,6 +851,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					query.setFirstResult(offset);
 				if(this.limit > -1)
 					query.setMaxResults(limit);
+				if(this.isReadOnly)
+					query.setHint("org.hibernate.readOnly", true);
 				this.setParameters(query);
 				list = query.getResultList();
 				transaction.commit();
