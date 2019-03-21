@@ -1,4 +1,6 @@
 package nosi.core.gui.components;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 /**
  * @author: Emanuel Pereira
  * 
@@ -64,7 +66,7 @@ import java.util.Map;
  
 public class IGRPTable extends IGRPComponent{
 
-	
+	public static final String TABLE_LOOKUP_ROW = "p_table_lookup_row";
 	protected ArrayList<Field> fields;
 	private IGRPContextMenu contextmenu;
 	protected float version = (float) 2.3;
@@ -74,6 +76,7 @@ public class IGRPTable extends IGRPComponent{
 	protected List<?> modelList;
 	private List<Properties> legend_color = new ArrayList<>();
 	private Map<Object,Map <String, String> > legend_colors = new HashMap<>();
+	
 	private final List<String> scapeParam = new ArrayList<>(
 				Arrays.asList(new String[] {"p_prm_app","p_prm_page","p_target","p_dad","p_env_frm_url"})
 				);
@@ -103,6 +106,11 @@ public class IGRPTable extends IGRPComponent{
 		}else {
 			String jsonLookup = Core.getParam("jsonLookup");
 			if(Core.isNotNull(jsonLookup)) {
+				try {
+					jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 				Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
 				params.entrySet().forEach(p1->{
 					this.addLookupField(p1.getKey().toString(),p1.getValue().toString());
@@ -228,6 +236,9 @@ public class IGRPTable extends IGRPComponent{
 					if(Core.isNull(value))
 						value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());
 					this.xml.setElement("param", field.propertie().getProperty("name")+"="+ value);
+					if(Core.isNotNull(Core.getParam(TABLE_LOOKUP_ROW,false))) {
+						this.xml.setElement("param", TABLE_LOOKUP_ROW+"="+Core.getParam(TABLE_LOOKUP_ROW));
+					}
 				}
 			}
 			if(l instanceof IGRPTable.Table && ((IGRPTable.Table)l).getHiddenButtons()!=null) {
@@ -268,6 +279,9 @@ public class IGRPTable extends IGRPComponent{
 						value = (value==null||value.equals(""))?field.getValue().toString():value;
 						if(value!=null && !value.equals(""))
 							this.xml.setElement("param", field.propertie().getProperty("name")+"="+value);
+						if(Core.isNotNull(Core.getParam(TABLE_LOOKUP_ROW,false))) {
+							this.xml.setElement("param", TABLE_LOOKUP_ROW+"="+Core.getParam(TABLE_LOOKUP_ROW));
+						}
 					}
 				}
 				if(obj instanceof IGRPTable.Table && ((IGRPTable.Table)obj).getHiddenButtons()!=null) {
