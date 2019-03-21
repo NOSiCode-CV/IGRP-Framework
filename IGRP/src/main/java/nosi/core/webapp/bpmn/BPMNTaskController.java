@@ -11,6 +11,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
+import nosi.core.webapp.QueryString;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.View;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
@@ -351,5 +352,21 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
 		 String content = resp.getContent();
 		 return content;
+	}
+	
+	@Override
+	public QueryString<String,Object> loadQueryString() {
+		return 
+				this.addQueryString("processDefinition",Core.getParam("processDefinition"))
+					.addQueryString("taskDefinition",Core.getParam("taskDefinition"))
+					.addQueryString("appDad",Core.getParam("appDad"))
+					.addQueryString("formKey",Core.getParam("formKey"))
+					.addQueryString("processDefinitionId",Core.getParam("processDefinitionId"))
+					.addQueryString("taskDefinition",Core.getParam("taskDefinition"))
+					.addQueryString("previewTask",Core.getParam("previewTask"))
+					.addQueryString("preiviewApp",Core.getParam("preiviewApp"))
+					.addQueryString("preiviewProcessDefinition",Core.getParam("preiviewProcessDefinition"))
+					.addQueryString("showTimeLine","true")
+					.addQueryString("previewTaskId",Core.getParam("previewTaskId"));
 	}
 }

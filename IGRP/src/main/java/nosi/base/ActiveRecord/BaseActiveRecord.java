@@ -18,8 +18,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.QueryHints;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
@@ -29,6 +27,8 @@ import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
 /**
@@ -64,7 +64,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore @JsonFormat(shape=JsonFormat.Shape.ARRAY)
 	private List<String> error;
 	@Expose(serialize = false) @JsonIgnore
-	private boolean isReadOnly = false;
+	private boolean isReadOnly = true;
 	@Expose(serialize = false) @JsonIgnore
 	private CriteriaBuilder builder = null;
 	@Expose(serialize = false) @JsonIgnore
@@ -89,12 +89,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	private boolean keepConnection = false;
 	@Expose(serialize = false) @JsonIgnore
 	private String applicationName;
+	private boolean isShowConsoleSql=false;
 	
 	public BaseActiveRecord() {
 		this.classNameCriteria = (T) this;
 		this.className = this.getClassType();
-		this.setTableName(className.getSimpleName());
-		this.setAlias("obj_"+className.getSimpleName().toLowerCase());
+		if(this.className!=null) {
+			this.setTableName(this.className.getSimpleName());
+			this.setAlias("obj_"+this.className.getSimpleName().toLowerCase());
+		}
 		this.recq = new ResolveColumnNameQuery(this.getClass());
 		this.error = new ArrayList<>();
 	}
@@ -591,8 +594,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@XmlTransient
 	public String getConnectionName() {	
 		if(Core.isNotNullOrZero(this.applicationName) && Core.isNull(this.connectionName))
-			return Core.defaultConnection(this.applicationName);
-		return Core.isNotNull(this.connectionName) ? this.connectionName:Core.defaultConnection();
+			return this.defaultConnection(this.applicationName);
+		return Core.isNotNull(this.connectionName) ? this.connectionName:this.defaultConnection();
 	}
 
 	protected void setParameters(TypedQuery<T> query) {
@@ -787,20 +790,17 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	@Override
 	public List<T> findAll(CriteriaQuery<T> criteria) {
-		Transaction transaction = null;
 		List<T> list = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
-			if(this.beginTransaction(transaction)) {
-				TypedQuery<T> query = this.getSession().createQuery(criteria);
-				this.setParameters(query);
-				list = query.getResultList();
-				transaction.commit();
+			Session s = this.getSession();
+			if(!s.getTransaction().isActive()) {
+				s.beginTransaction();
 			}
+			TypedQuery<T> query = s.createQuery(criteria);
+			this.setParameters(query);
+			list = query.getResultList();
 		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			this.keepConnection = false;
 			this.setError(e);
 		} finally {
 			this.closeSession();
@@ -841,26 +841,27 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public List<T> all() {
 		this.sql =  this.generateSql()+this.sql;
-		Transaction transaction = null;
 		List<T> list = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
-			if(this.beginTransaction(transaction)) {
-				TypedQuery<T> query = this.getSession().createQuery(this.getSql(), this.className);
-				if(this.offset > -1)
-					query.setFirstResult(offset);
-				if(this.limit > -1)
-					query.setMaxResults(limit);
-				if(this.isReadOnly)
-					query.setHint("org.hibernate.readOnly", true);
-				this.setParameters(query);
-				list = query.getResultList();
-				transaction.commit();
+			Session s = this.getSession();
+			if(!s.getTransaction().isActive()) {
+				s.beginTransaction();
 			}
+			if(this.isShowConsoleSql) {
+				System.out.println(this.getSql());
+			}
+			TypedQuery<T> query = s.createQuery(this.getSql(), this.className);
+			if(this.offset > -1)
+				query.setFirstResult(offset);
+			if(this.limit > -1)
+				query.setMaxResults(limit);
+			if(this.isReadOnly)
+				query.setHint("org.hibernate.readOnly", true);
+			this.setParameters(query);
+			list = query.getResultList();
 		}catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			this.keepConnection = false;
+			e.printStackTrace();
 			this.setError(e);
 		} finally {
 			this.closeSession();
@@ -918,6 +919,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				transaction.commit();
 			}
 		}catch (Exception e) {
+			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -938,6 +940,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				transaction.commit();
 			}
 		}catch (Exception e) {
+			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -962,6 +965,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				deleted=true;
 			}
 		}catch (Exception e) {
+			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
 			}
@@ -1468,4 +1472,31 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return (T) this;
 	}
 	
+	
+	public T setShowConsoleSql(boolean isShowConsoleSql) {
+		this.isShowConsoleSql = isShowConsoleSql;
+		return (T) this;
+	}
+
+
+	public T setKeepConnection(boolean keepConnection) {
+		this.keepConnection = keepConnection;
+		return (T) this;
+	}
+	
+	public String defaultConnection() {
+		return this.defaultConnection(Core.getCurrentDadParam());
+	}
+	
+	public String defaultConnection(String dad) {
+		String result = "";
+		Application app = new Application().setKeepConnection(this.keepConnection).find().andWhere("dad", "=", dad).one();
+		if (app != null) {
+			Config_env config_env = new Config_env().setKeepConnection(this.keepConnection).find().andWhere("isdefault", "=", (short) 1)
+					.andWhere("application", "=", app.getId()).one();
+			if (config_env != null)
+				result = config_env.getName();
+		}
+		return result;
+	}
 }
