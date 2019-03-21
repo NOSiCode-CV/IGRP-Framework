@@ -64,7 +64,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore @JsonFormat(shape=JsonFormat.Shape.ARRAY)
 	private List<String> error;
 	@Expose(serialize = false) @JsonIgnore
-	private boolean isReadOnly = true;
+	private boolean isReadOnly = false;
 	@Expose(serialize = false) @JsonIgnore
 	private CriteriaBuilder builder = null;
 	@Expose(serialize = false) @JsonIgnore
@@ -851,12 +851,13 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				System.out.println(this.getSql());
 			}
 			TypedQuery<T> query = s.createQuery(this.getSql(), this.className);
-			if(this.offset > -1)
+			if(this.offset > -1) {
 				query.setFirstResult(offset);
-			if(this.limit > -1)
+			}
+			if(this.limit > -1) {
 				query.setMaxResults(limit);
-			if(this.isReadOnly)
-				query.setHint("org.hibernate.readOnly", true);
+			}
+			query.setHint("org.hibernate.readOnly", true);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
@@ -965,6 +966,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				deleted=true;
 			}
 		}catch (Exception e) {
+			e.printStackTrace();
 			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
