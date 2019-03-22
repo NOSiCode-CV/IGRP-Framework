@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
+import nosi.base.ActiveRecord.HibernateHintOption;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -49,6 +50,7 @@ public class QuerySelect extends CommonFIlter{
 				Core.log("SQL Query:"+sql);
 				em = session.createEntityManager();
 				Query query = em.createNativeQuery(sql,Tuple.class);
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				query.getResultList();
 				isValid = true;
 			}catch(Exception e) {
@@ -88,6 +90,7 @@ public class QuerySelect extends CommonFIlter{
 				Core.log("SQL Query:"+this.getSql());
 				this.em = session .createEntityManager();
 				Query query = this.em.createNativeQuery(this.getSql(),Tuple.class);	
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -115,7 +118,8 @@ public class QuerySelect extends CommonFIlter{
 			try {
 				Core.log("SQL Query:"+this.getSql());
 				this.em = session.createEntityManager();
-				Query query = this.em.createQuery(this.getSql(),entity);	
+				Query query = this.em.createQuery(this.getSql(),entity);
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -143,6 +147,7 @@ public class QuerySelect extends CommonFIlter{
 				Core.log("SQL Query:"+this.getSql());
 				this.em = session.createEntityManager();
 				Query query = this.em.createQuery(this.getSql(),entity);	
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
@@ -221,6 +226,7 @@ public class QuerySelect extends CommonFIlter{
 				Core.log("SQL Query:"+this.getSql());
 				this.em = session.createEntityManager();
 				query = this.em.createQuery(this.getSql(), this.className);
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
 						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
