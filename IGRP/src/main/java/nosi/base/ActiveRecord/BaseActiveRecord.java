@@ -797,6 +797,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				s.beginTransaction();
 			}
 			TypedQuery<T> query = s.createQuery(criteria);
+			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
@@ -857,7 +858,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			if(this.limit > -1) {
 				query.setMaxResults(limit);
 			}
-			query.setHint("org.hibernate.readOnly", true);
+			query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 			this.setParameters(query);
 			list = query.getResultList();
 		}catch (Exception e) {
@@ -895,6 +896,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 					query.setFirstResult(offset);
 				if(limit > -1)
 					query.setMaxResults(limit);
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				this.setParameters(query);
 				list = query.getResultList();
 				transaction.commit();
@@ -1018,6 +1020,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			transaction = (Transaction) this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
+				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				this.setParameters(query);
 				count = (Long)query.getSingleResult();
 				transaction.commit();
