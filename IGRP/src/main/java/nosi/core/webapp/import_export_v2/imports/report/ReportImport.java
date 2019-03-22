@@ -43,8 +43,8 @@ public class ReportImport  extends AbstractImport implements IImport{
 		if(this.reports!=null) {
 			this.reports.stream().forEach(report->{
 				RepTemplate repTemplate = new RepTemplate().find().andWhere("report_identify", "=",report.getReport_identify()).one();
-				CLob xml_content = this.getClob(report.getXml_content());
-				CLob xsl_content = this.getClob(report.getXsl_content());
+				CLob xml_content = this.getClob(report.getXml_content(),report.getDad());
+				CLob xsl_content = this.getClob(report.getXsl_content(),report.getDad());
 				if(repTemplate==null) {
 					repTemplate = new RepTemplate();
 					repTemplate.setCode(report.getCode());
@@ -119,9 +119,9 @@ public class ReportImport  extends AbstractImport implements IImport{
 		}
 	}
 
-	private CLob getClob(CLobSerializable report) {
+	private CLob getClob(CLobSerializable report,String dad) {
 		if(report!=null) {
-			CLob clob = new CLob(report.getName(), report.getMime_type(), report.getC_lob_content(), report.getDt_created());
+			CLob clob = new CLob(report.getName(), report.getMime_type(), report.getC_lob_content(), report.getDt_created(),new Application().findByDad(dad));
 			clob = clob.insert();
 			this.addError(clob.hasError()?clob.getError().get(0):null);
 			return clob;

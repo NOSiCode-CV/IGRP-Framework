@@ -9,10 +9,13 @@ import java.util.Arrays;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,15 +45,26 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
 	private Date dt_created;
+	@ManyToOne
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CLOB_ENV_FK"),nullable=true)
+	private Application application;
+
+	@ManyToOne
+	@JoinColumn(name="env_updated_fk",foreignKey=@ForeignKey(name="CLOB_ENV_UPDATED_FK"),nullable=true)
+	private Application application_updated;
+	
+	@Temporal(TemporalType.DATE)
+	private Date dt_updated;
 	
 	public CLob(){}
 	
-	public CLob(String name, String mime_type, byte[] c_lob_content, Date dt_created) {
+	public CLob(String name, String mime_type, byte[] c_lob_content, Date dt_created,Application application) {
 		super();
 		this.name = name;
 		this.mime_type = mime_type;
 		this.c_lob_content = c_lob_content;
 		this.dt_created = dt_created;
+		this.application = application;
 	}
 
 	public Integer getId() {
@@ -93,6 +107,31 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 		this.dt_created = dt_created;
 	}
 	
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
+	
+	public Application getApplication_updated() {
+		return application_updated;
+	}
+
+	public void setApplication_updated(Application application_updated) {
+		this.application_updated = application_updated;
+	}
+
+	public Date getDt_updated() {
+		return dt_updated;
+	}
+
+	public void setDt_updated(Date dt_updated) {
+		this.dt_updated = dt_updated;
+	}
+
 	@Override
 	public String toString() {
 		return "CLob [id=" + id + ", name=" + name + ", mime_type=" + mime_type + ", c_lob_content="

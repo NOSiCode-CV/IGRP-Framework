@@ -2,15 +2,12 @@ package nosi.core.webapp;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.FileNameMap;
-import java.net.URLConnection;
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -41,7 +38,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
-import com.google.common.io.ByteSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
@@ -68,6 +64,7 @@ import nosi.core.webapp.databse.helpers.QueryUpdate;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
@@ -1623,97 +1620,65 @@ public final class Core { // Not inherit
 	public static void removeAttribute(String name) {
 		Igrp.getInstance().getRequest().removeAttribute(name);
 	}
-
-	/**
-	 * update a file to the Igrp core DataBase and return true or false
-	 * 
-	 * @param content   byte[]
-	 * @param name
-	 * @param mime_type
-	 * @return true/false
-	 */
-	public static boolean updateFile(byte[] content, String name, String mime_type, int id) {
+	public static boolean updateFile(String fileParamName,String name, int id) {
 		try {
-			String aux[] = name.trim().split("\\.");
-			String extension = aux[aux.length - 1];
-			return updateFile(content, name, "." + extension, mime_type, id);
-		} catch (Exception e) {
+			return updateFile(Core.getFile(fileParamName), name, id);
+		} catch (IOException | ServletException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
 	}
-
-	private static boolean updateFile(byte[] content, String name, String extension, String mime_type, int id) {
+	public static boolean updateFile(String name, int id) {
 		try {
-			if (!extension.startsWith("."))
-				throw new IllegalArgumentException("Extension of file is invalid.");
-			File file = File.createTempFile(name, extension);
-			FileOutputStream out = new FileOutputStream(file);
-			out.write(content);
-			out.flush();
-			out.close();
-			return updateFile(ByteSource.wrap(content).openStream(), name, mime_type, id);
-		} catch (IOException e) {
+			return updateFile(Core.getFile(name), name, id);
+		} catch (IOException | ServletException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-
-	public static boolean updateFile(Part file, String name, int id) {
+	public static boolean updateFile(Part part, String name, int id) {
 		boolean r = false;
-		try {
-			r = updateFile(file.getInputStream(), name, file.getContentType(), id);
-		} catch (IOException e) {
-			r = false;
-			e.printStackTrace();
-		} finally {
+		if(Core.isNotNullMultiple(part,name) && id >0) {
 			try {
-				if (file != null)
-					file.delete();
+				r = updateFile(part.getInputStream(), name, part.getContentType(), id);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				r = false;
 				e.printStackTrace();
+			} finally {
+				try {
+					part.delete();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return r;
 	}
 
-	private static boolean updateFile(InputStream stream, String name, String mime_type, int id) {
-		boolean updated = false;
-		if (stream != null) {
-			String igrpCoreConnection = new ConfigApp().getBaseConnection();
-			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
-			if (conn != null) {
-				String standardSql = "update tbl_clob set c_lob_content=?, dt_created=?, mime_type=?, name=? where id=?";
-				try {
-					conn.setAutoCommit(false);
-					java.sql.PreparedStatement ps = conn.prepareStatement(standardSql);
-					ps.setBinaryStream(1, stream);
-					ps.setDate(2, new Date(System.currentTimeMillis()));
-					ps.setString(3, mime_type);
-					ps.setString(4, name);
-					ps.setInt(5, id);
-					if (ps.executeUpdate() > 0) {
-						ps.close();
-					}
-					conn.commit();
-					updated = true;
-				} catch (Exception e) {
-					updated = false;
-					e.printStackTrace();
-				} finally {
-					try {
-						conn.close();
-						stream.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
+	public static boolean updateFile(InputStream stream, String name, String mime_type, int id) {
+		try {
+			return updateFile(FileHelper.convertInputStreamToByte(stream), name, mime_type, id);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return updated;
+		return false;
 	}
 
+	public static boolean updateFile(byte[] bytes, String name, String mime_type, int id) {
+		CLob clob = new CLob().findOne(id);
+		if(Core.isNotNullMultiple(clob,bytes,name) && id>0) {
+			clob.setC_lob_content(bytes);
+			clob.setDt_updated(new Date(System.currentTimeMillis()));
+			clob.setApplication_updated(new Application().findByDad(Core.getCurrentDadParam()));
+			clob.setName(name);
+			clob.setMime_type(mime_type);
+			clob = clob.update();
+			return !clob.hasError();
+		}
+		return false;
+	}
+	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
@@ -1730,33 +1695,9 @@ public final class Core { // Not inherit
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return -1;
+		return 0;
 	}
 
-	/**
-	 * Insert a file to the Igrp core DataBase and return an Id ...
-	 * 
-	 * @param content   byte[]
-	 * @param name
-	 * @param extension - must have dot ".txt"
-	 * @param mime_type
-	 * @return in ID
-	 */
-	public static int saveFile(byte[] content, String name, String extension, String mime_type) {
-		try {
-			if (!extension.startsWith("."))
-				throw new IllegalArgumentException("Extension of file is invalid.");
-			File file = File.createTempFile(name, extension);
-			FileOutputStream out = new FileOutputStream(file);
-			out.write(content);
-			out.flush();
-			out.close();
-			return saveFile(file, name, mime_type);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
@@ -1766,66 +1707,6 @@ public final class Core { // Not inherit
 	 */
 	public static int saveFile(File file) {
 		return saveFile(file, null, null);
-	}
-
-	/**
-	 * Insert a file to the Igrp core DataBase and return an Id ...
-	 * 
-	 * @param file
-	 * @param name
-	 * @param mime_type
-	 * @return int ID
-	 */
-	public static int saveFile(File file, String name, String mime_type) {
-		int lastInsertedId = 0;
-		if (file != null) {
-			String igrpCoreConnection = new ConfigApp().getBaseConnection();
-			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
-			file.deleteOnExit(); // Throws SecurityException if dont have permission to delete
-			if (conn != null) {
-				name = (name == null || name.trim().isEmpty() ? file.getName() : name);
-				FileNameMap fileNameMap = URLConnection.getFileNameMap();
-				mime_type = (mime_type == null || mime_type.trim().isEmpty()
-						? fileNameMap.getContentTypeFor(file.getPath())
-						: mime_type);
-				// String sysdate = LocalDate.parse(LocalDate.now().toString(),
-				// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
-				String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
-				try {
-					conn.setAutoCommit(false);
-					java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
-							java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
-					ps.setBinaryStream(1, new FileInputStream(file));
-					// ps.setString(2, sysdate);
-					ps.setDate(2, new Date(System.currentTimeMillis()));
-					ps.setString(3, mime_type);
-					ps.setString(4, name);
-					if (ps.executeUpdate() > 0) {
-						try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
-							if (rs.next()) {
-								lastInsertedId = rs.getInt(1);
-							}
-						}
-						ps.close();
-					}
-					conn.commit();
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						conn.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			try {
-				file.delete();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return lastInsertedId;
 	}
 
 	public static int saveFile(String parameterName) throws Exception {
@@ -1839,6 +1720,39 @@ public final class Core { // Not inherit
 			return saveFile(Core.getFile(parameterName), description);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
+	
+	public static int saveFile(File file, String name, String mime_type) {
+		return saveFile(file, name, mime_type, Core.getCurrentDadParam());
+	}
+	
+	public static int saveFile(byte[] bytes, String name, String mime_type,String dad) {
+		Application app = new Application().findByDad(dad);
+		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
+			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
+			clob = clob.insert();
+			if(!clob.hasError())
+				return clob.getId();
+		}
+		return 0;
+	}
+	/**
+	 * Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @return int ID
+	 */
+	public static Integer saveFile(File file, String name, String mime_type,String dad) {
+		if(Core.isNotNullMultiple(file,name,dad)) {
+			try {
+				return saveFile(FileHelper.convertInputStreamToByte(new FileInputStream(file)),name,mime_type,dad);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
@@ -1847,52 +1761,25 @@ public final class Core { // Not inherit
 	 * @param name
 	 * @return in ID
 	 */
-	public static int saveFile(Part file, String name) {
-		int lastInsertedId = 0;
-		if (file != null) {
-			String igrpCoreConnection = new ConfigApp().getBaseConnection();
-			java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection);
-			if (conn != null) {
-				name = (name == null || name.trim().isEmpty() ? file.getName() : name);
-				// String sysdate = LocalDate.parse(LocalDate.now().toString(),
-				// DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
-				String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
+	public static int saveFile(Part part, String name) {
+		int result = 0;
+		if(Core.isNotNullMultiple(part,name)) {
+			try {
+				result = saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()),part.getContentType(),name);
+			} catch (IOException e) {
+				result = 0;
+				e.printStackTrace();
+			}finally {
 				try {
-					conn.setAutoCommit(false);
-					java.sql.PreparedStatement ps = conn.prepareStatement(standardSql,
-							java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
-					ps.setBinaryStream(1, file.getInputStream());
-					// ps.setString(2, sysdate);
-					ps.setDate(2, new Date(System.currentTimeMillis()));
-					ps.setString(3, file.getContentType());
-					ps.setString(4, name);
-					if (ps.executeUpdate() > 0) {
-						try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
-							if (rs.next()) {
-								lastInsertedId = rs.getInt(1);
-							}
-						}
-						ps.close();
-					}
-					conn.commit();
-				} catch (Exception e) {
+					part.delete();
+				} catch (IOException e) {
 					e.printStackTrace();
-				} finally {
-					try {
-						conn.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				}
 			}
-			try {
-				file.delete();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
-		return lastInsertedId;
+		return result;
 	}
+
 
 	public static void setAttribute(String name, Object value) {
 		Igrp.getInstance().getRequest().setAttribute(name, value);
