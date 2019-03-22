@@ -214,7 +214,7 @@ public class ExportSqlHelper {
 
 	private void loadDomainData(Wizard_export_step_2 model) {
 		String sql = "SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
-				   + "FROM tbl_domain WHERE status='ATIVE'";
+				   + "FROM tbl_domain WHERE status='ATIVE' AND env_fk="+model.getApplication_id();
 		model.loadTable_domain(Core.query(null,sql));
 	}
 

@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.domain.DomainSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
@@ -15,6 +16,11 @@ import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 public class DomainImport extends AbstractImport implements IImport{
 
 	private List<DomainSerializable> domains;
+	protected Application application;
+	
+	public DomainImport(Application application) {
+		this.application = application;
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -30,7 +36,7 @@ public class DomainImport extends AbstractImport implements IImport{
 			this.domains.stream().forEach(d->{
 				Domain dm = new Domain().find().andWhere("dominio", "=",d.getDominio()).andWhere("valor", "=",d.getValor()).one();
 				if(dm==null) {
-					dm = new Domain(d.getDominio(), d.getValor(), d.getDescription(), d.getStatus(), d.getOrdem());
+					dm = new Domain(d.getDominio(), d.getValor(), d.getDescription(), d.getStatus(), d.getOrdem(),d.getDomainType(),this.application);
 					dm = dm.insert();
 					this.addError(dm.hasError()?dm.getError().get(0):null);
 				}

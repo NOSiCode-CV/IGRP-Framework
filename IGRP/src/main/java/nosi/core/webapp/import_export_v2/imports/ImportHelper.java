@@ -82,7 +82,7 @@ public class ImportHelper {
 			imp.add(conn);
 		
 			
-			DomainImport domain = new DomainImport();
+			DomainImport domain = new DomainImport(application);
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
 			imp.add(domain);
 						

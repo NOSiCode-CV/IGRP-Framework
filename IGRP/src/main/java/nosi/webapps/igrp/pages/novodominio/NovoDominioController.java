@@ -62,7 +62,7 @@ public class NovoDominioController extends Controller {
 			Formlist_1 formlist = formlistTud.get(i);
 			Domain d = new Domain(model.getDominio(), formlist.getKey().getKey(),
 					formlist.getDescription().getKey(), formlist.getEstado().getKey(),
-					Core.toInt(formlist.getOrdem().getKey()));
+					Core.toInt(formlist.getOrdem().getKey()),null,null);
 			
 			if (Core.isNull(formlist.getId().getKey())) {
 				if (d.insert() == null) {
