@@ -2,6 +2,8 @@ package nosi.core.webapp.import_export_v2.common.serializable.domain;
 
 import java.io.Serializable;
 
+import nosi.webapps.igrp.dao.DomainType;
+
 /**
  * Emanuel
  * 30 Oct 2018
@@ -19,6 +21,8 @@ public class DomainSerializable implements Serializable{
 	private String description;
 	private String status = "ATIVE";
 	private int ordem = 0;
+	private DomainType domainType;
+	private String dad;
 	
 	public Integer getId() {
 		return id;
@@ -55,6 +59,18 @@ public class DomainSerializable implements Serializable{
 	}
 	public void setOrdem(int ordem) {
 		this.ordem = ordem;
+	}
+	public DomainType getDomainType() {
+		return domainType;
+	}
+	public void setDomainType(DomainType domainType) {
+		this.domainType = domainType;
+	}
+	public String getDad() {
+		return dad;
+	}
+	public void setDad(String dad) {
+		this.dad = dad;
 	}
 
 }

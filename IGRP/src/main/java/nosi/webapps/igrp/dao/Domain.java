@@ -3,9 +3,14 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import nosi.core.webapp.Core;
@@ -36,14 +41,22 @@ public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable
 	private String status = "ATIVE";
 	@Column(nullable=false, length=2)
 	private int ordem = 0;
-
-	public Domain(String dominio, String valor, String description, String status, int ordem) {
+	@ManyToOne
+	@JoinColumn(name = "env_fk", foreignKey = @ForeignKey(name = "DOMAIN_ENV_FK"), nullable = true)
+	private Application application;	
+	@Enumerated(EnumType.STRING)
+	@Column(name="domain_type", length=8,nullable=true)
+	private DomainType domainType;
+	
+	public Domain(String dominio, String valor, String description, String status, int ordem,DomainType domainType,Application application) {
 		super();
 		this.dominio = dominio;
 		this.valor = valor;
 		this.description = description;
 		this.status = Core.isNotNull(status)?status:"ATIVE";
 		this.ordem = ordem;
+		this.domainType = domainType;
+		this.application = application;
 	}
 
 	public Domain() {
@@ -84,6 +97,28 @@ public class Domain extends IGRPBaseActiveRecord<Domain> implements Serializable
 	}
 	public void setordem(int ordem) {
 		this.ordem = ordem;
+	}
+	
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
+	/**
+	 * Default is Public
+	 * @return
+	 */
+	public DomainType getDomainType() {
+		if(Core.isNotNull(this.domainType))
+			return domainType;
+		return DomainType.PUBLIC;
+	}
+
+	public void setDomainType(DomainType domainType) {
+		this.domainType = domainType;
 	}
 
 	@Override

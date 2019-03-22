@@ -1,10 +1,6 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -16,10 +12,16 @@ import java.util.List;
 public class Dominio extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+	@RParam(rParamName = "p_aplicacao")
+	private Integer aplicacao;
 	@RParam(rParamName = "p_lst_dominio")
 	private String lst_dominio;
 	@RParam(rParamName = "p_novo_dominio")
 	private String novo_dominio;
+	@RParam(rParamName = "p_publico")
+	private int publico;
+	@RParam(rParamName = "p_publico_check")
+	private int publico_check;
 	
 	@SeparatorList(name = Formlist_1.class)
 	private List<Formlist_1> formlist_1 = new ArrayList<>();	
@@ -55,6 +57,13 @@ public class Dominio extends Model{
 		return this.sectionheader_1_text;
 	}
 	
+	public void setAplicacao(Integer aplicacao){
+		this.aplicacao = aplicacao;
+	}
+	public Integer getAplicacao(){
+		return this.aplicacao;
+	}
+	
 	public void setLst_dominio(String lst_dominio){
 		this.lst_dominio = lst_dominio;
 	}
@@ -67,6 +76,19 @@ public class Dominio extends Model{
 	}
 	public String getNovo_dominio(){
 		return this.novo_dominio;
+	}
+	
+	public void setPublico(int publico){
+		this.publico = publico;
+	}
+	public int getPublico(){
+		return this.publico;
+	}
+	public void setPublico_check(int publico_check){
+		this.publico_check = publico_check;
+	}
+	public int getPublico_check(){
+		return this.publico_check;
 	}
 
 
