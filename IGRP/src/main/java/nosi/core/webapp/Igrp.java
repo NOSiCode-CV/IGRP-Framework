@@ -75,10 +75,6 @@ public final class Igrp{
 		// Config. of RDBMS or others DS ...
 		// PersistenceUtils.init();
 		
-		// User component (Identity)
-		this.user = new User();
-		this.user.init(request);
-		
 		// For internacionalization purpose 
 		this.i18nManager = new I18nManager();
 		this.i18nManager.init(request);
@@ -86,6 +82,12 @@ public final class Igrp{
 		// For Igrp log toolbar 
 		this.log = new IgrpLog();
 		this.log.init(request);
+		
+		// User component (Identity)
+		this.user = new User();
+		this.user.init(request);
+		
+
 		
 		return this;
 	}
@@ -196,7 +198,7 @@ public final class Igrp{
 		this.die = true;
 	}
 	
-	public I18nManager getI18nManager() {
+	public I18nManager getI18nManager() {	
 		return i18nManager;
 	}
 

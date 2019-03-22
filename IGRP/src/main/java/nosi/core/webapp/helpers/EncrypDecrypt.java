@@ -31,6 +31,7 @@ public class EncrypDecrypt {
 	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 
 	public String encrypt(String content) {
+		System.out.println("ENCRUA###########################################3encrypt");
 		if (getWakandaList(content)) {
 			content = encrypt(content, getSecretKey()).replace(" ", "+");
 		}
@@ -38,7 +39,15 @@ public class EncrypDecrypt {
 	}
 
 	public boolean getWakandaList(String content) {
+//		If content is encrypted, decrypt must try to decrytp it
+		
+	
+		if(content.chars().filter(ch -> ch == '/').count()!=2 && content.length() == 44) {			
+			return true;
+		}
+			
 		String qs = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getQueryString() : null;
+		System.out.println("		>>>"+content+" &&& "+qs);
 		return qs != null && !content.equals("igrp/login/login") && !content.equals("igrp/home/index")
 				&& !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception")
 				&& !content.equals("igrp/login/logout") && !content.equals("igrp_studio/WebReport/get-image")
@@ -49,6 +58,7 @@ public class EncrypDecrypt {
 	}
 
 	public String decrypt(String content) {
+		System.out.println("	decrypt----------------------------------decrypt");
 		String customHeader = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE")
 				: null;
 		if (customHeader != null && customHeader.equals("1"))
@@ -119,10 +129,11 @@ public class EncrypDecrypt {
 
 	private boolean checkPublicLang(String content, String qs) {
 		String[] c = content.split("/", 2);
-	//	final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
+//		final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
 //		if (!isPublicPage)
 //			throw new NotFoundHttpException();
-//		
+		System.out.println(content+" "+qs);
+		//Core.setMessageInfo(content+" "+qs);		
 		if (qs.contains("lang=")) {
 			String idioma = qs.substring(qs.indexOf("lang=")+5);
 //			System.out.println(""+idioma);
