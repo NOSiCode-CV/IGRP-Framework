@@ -430,12 +430,12 @@ public class WebReportController extends Controller {
 			ri.setReference(contra_prova);
 			ri.setTemplate(rt);
 			ri.setUser(user);
-			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created());
+			CLob xsl = new CLob(System.currentTimeMillis()+"_"+rt.getName()+".xsl", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created(),rt.getApplication());
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
 				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
-				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created());
+				CLob xml = new CLob(System.currentTimeMillis()+"_"+rt.getName()+".xml", "application/xml", content.getBytes(), ri.getDt_created(),rt.getApplication());
 				xml = xml.insert();
 				ri.setXml_content(xml);
 				ri.setXsl_content(xsl);
