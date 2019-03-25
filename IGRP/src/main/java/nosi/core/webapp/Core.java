@@ -1689,9 +1689,7 @@ public final class Core { // Not inherit
 	 */
 	public static int saveFile(byte[] content, String name, String mime_type) {
 		try {
-			String aux[] = name.trim().split("\\.");
-			String extension = aux[aux.length - 1];
-			return saveFile(content, name, "." + extension, mime_type);
+			return saveFile(content, name,mime_type, Core.getCurrentDadParam());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1730,6 +1728,7 @@ public final class Core { // Not inherit
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
 			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
 			clob = clob.insert();
+			clob.showMessage();
 			if(!clob.hasError())
 				return clob.getId();
 		}
