@@ -21,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.Type;
 
+import nosi.core.webapp.Core;
+
 
 @Entity
 @Table(name="tbl_clob")
@@ -55,6 +57,9 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	
 	@Temporal(TemporalType.DATE)
 	private Date dt_updated;
+	@ManyToOne
+	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="CLOB_USER_CREATED_FK"),nullable=true)
+	private User user = Core.getCurrentUser();
 	
 	public CLob(){}
 	
@@ -130,6 +135,15 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 
 	public void setDt_updated(Date dt_updated) {
 		this.dt_updated = dt_updated;
+	}
+
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
