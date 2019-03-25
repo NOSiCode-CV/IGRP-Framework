@@ -2184,8 +2184,8 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	@Deprecated
-	public static String ToChar(java.sql.Date date, String formatIn) {
-		return DateHelper.convertDateToString(date, formatIn);
+	public static String ToChar(java.sql.Date date, String formatOut) {
+		return DateHelper.convertDateToString(date, formatOut);
 	}
 
 	/**
@@ -2196,8 +2196,8 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	@Deprecated
-	public static String ToChar(java.util.Date date, String formatIn) {
-		return dateToString(date, formatIn);
+	public static String ToChar(java.util.Date date, String formatOut) {
+		return dateToString(date, formatOut);
 	}
 	/** Please use dateToString
 	 * 
@@ -2293,7 +2293,7 @@ public final class Core { // Not inherit
 	 * @param sqlDate
 	 * @return a java.util.Date
 	 */
-	public static java.util.Date sqlDateToUtilDate(java.sql.Date sqlDate) {
+	public static java.util.Date dateToDateUtil(java.sql.Date sqlDate) {
 
 		return new java.util.Date(sqlDate.getTime());
 
@@ -2305,7 +2305,7 @@ public final class Core { // Not inherit
 	 * @param utilDate
 	 * @return a java.sql.Date
 	 */
-	public static java.sql.Date utilDateToSqlDate(java.util.Date utilDate) {
+	public static java.sql.Date dateUtilToDate(java.util.Date utilDate) {
 		return new java.sql.Date(utilDate.getTime());
 	}
 
@@ -2323,11 +2323,11 @@ public final class Core { // Not inherit
 	 * Receives a java.util.Date with a sent format
 	 *
 	 * @param date
-	 * @param format
-	 * @return a strDate with a specified format
+	 * @param formatOut
+	 * @return a strDate with a the specified format
 	 */
-	public static String dateToString(java.util.Date date, String format) {
-		DateFormat df = new SimpleDateFormat(format);
+	public static String dateToString(java.util.Date date, String formatOut) {
+		DateFormat df = new SimpleDateFormat(formatOut);
 		return df.format(date);
 	}
 
@@ -2337,8 +2337,8 @@ public final class Core { // Not inherit
 	 * @param strDate
 	 * @return a java.util.Date with a format declared in the class Cons
 	 */
-	public static java.util.Date ToUtilDate(String strDate) {
-		return ToUtilDate(strDate, Cons.DATE_FORMAT.getValue());
+	public static java.util.Date ToDateUtil(String strDate) {
+		return ToDateUtil(strDate, Cons.DATE_FORMAT.getValue());
 	}
 
 	/**
@@ -2348,7 +2348,7 @@ public final class Core { // Not inherit
 	 * @param format
 	 * @return a java.util.Date with a specified format
 	 */
-	public static java.util.Date ToUtilDate(String strDate, String format) {
+	public static java.util.Date ToDateUtil(String strDate, String format) {
 		java.util.Date date;
 		DateFormat df = new SimpleDateFormat(format);
 		try {
@@ -2369,8 +2369,8 @@ public final class Core { // Not inherit
 	 * @return two strDates separated by a separator and each one in a format
 	 *         declared in the class Cons
 	 */
-	public static String getFromToDateStr(java.util.Date beginDate, java.util.Date endDate) {
-		return getFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
+	public static String getDateFromToDateStr(java.util.Date beginDate, java.util.Date endDate) {
+		return getDateFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
 				dateToString(endDate, Cons.DATE_FORMAT.getValue()), Cons.DATE_SEPARATOR.getValue());
 	}
 
@@ -2384,8 +2384,8 @@ public final class Core { // Not inherit
 	 * @return two strDates separated by a specified separator and each one in a
 	 *         format declared in the class Cons
 	 */
-	public static String getFromToDateStr(java.util.Date beginDate, java.util.Date endDate, String separator) {
-		return getFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
+	public static String getDateFromToDateStr(java.util.Date beginDate, java.util.Date endDate, String separator) {
+		return getDateFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
 				dateToString(endDate, Cons.DATE_FORMAT.getValue()), separator);
 	}
 
@@ -2397,7 +2397,7 @@ public final class Core { // Not inherit
 	 * @param separator
 	 * @return two string dates concatenated and separated by a specified separator
 	 */
-	public static String getFromToDateStr(String beginDateStr, String endDateStr, String separator) {
+	public static String getDateFromToDateStr(String beginDateStr, String endDateStr, String separator) {
 		return beginDateStr + separator + endDateStr;
 	}
 
@@ -2408,7 +2408,7 @@ public final class Core { // Not inherit
 	 * @return a java.util.Date with a format declared in the class Cons
 	 */
 	public static java.util.Date getBeginDate(String dateFromToStr) {
-		return ToUtilDate(getBeginDateStr(dateFromToStr));
+		return ToDateUtil(getBeginDateStr(dateFromToStr));
 	}
 
 	/**
@@ -2438,8 +2438,8 @@ public final class Core { // Not inherit
 	 * @param dateFromToStr
 	 * @return a java.util.Date with a format declared in the class Cons
 	 */
-	public static java.util.Date endUtilDate(String dateFromToStr) {
-		return ToUtilDate(endDateStr(dateFromToStr));
+	public static java.util.Date endDateUtil(String dateFromToStr) {
+		return ToDateUtil(endDateStr(dateFromToStr));
 	}
 
 	/**
