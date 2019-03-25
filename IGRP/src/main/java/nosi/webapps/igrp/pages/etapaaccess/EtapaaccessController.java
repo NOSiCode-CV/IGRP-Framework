@@ -1,7 +1,8 @@
-
 package nosi.webapps.igrp.pages.etapaaccess;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -19,14 +20,17 @@ import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.databse.helpers.ResultSet;
 /*----#end-code----*/
-
-
-public class EtapaaccessController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
+		
+public class EtapaaccessController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Etapaaccess model = new Etapaaccess();
 		model.load();
 		EtapaaccessView view = new EtapaaccessView();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT '1' as id,'Lorem mollit sed omnis iste' as descricao,'' as processid,'hidden-4256_fb3d' as task_description "));
+		  ----#gen-example */
 		/*----#start-code(index)----*/
 		String type = Core.getParam("type");
 		Integer orgProfId = Core.getParamInt("p_id");
@@ -52,11 +56,15 @@ public class EtapaaccessController extends Controller {
 		view.setModel(model);
 		return this.renderView(view);	
 	}
-
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{		
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Etapaaccess model = new Etapaaccess();
 		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","etapaaccess","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		String type = Core.getParam("type");
 		Integer orgProfId = Core.getParamInt("orgProfId");
@@ -79,10 +87,12 @@ public class EtapaaccessController extends Controller {
 			.addQueryString("p_id", orgProfId)
 			.addQueryString("userEmail", userEmail);
 		return this.forward("igrp","Etapaaccess","index", this.queryString());	
-		/*----#end-code----*/			
+		/*----#end-code----*/
+		
+			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 
 	private boolean insertNew(String[] p_id, String type, Integer orgProfId,User user) {
 		boolean r = true;
@@ -315,4 +325,4 @@ public class EtapaaccessController extends Controller {
 	private final String separator = "---IGRP---";
 	private List<ResultSet.Record> listR = new ArrayList<>();
 	/*----#end-code----*/
-	}
+}

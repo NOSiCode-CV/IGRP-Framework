@@ -71,15 +71,12 @@
                 <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="" check="true" desc="true">
                     <label>Ativo?</label>
                 </status>
-                <name name="p_name" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" desc="true">
+                <name name="p_name" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="Env" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" refresh_submit="false" desc="true">
                     <label>Name</label>
                 </name>
                 <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </dad>
-                <t_page_builder name="p_t_page_builder" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-file-code-o" maxlength="30" align="left" lookup_parser="false" iskey="false" custom_action="" action_type="false" request_fields="" show_header="true" desc="true">
-                    <label>Page builder</label>
-                </t_page_builder>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
             </fields>
             <table>
@@ -91,12 +88,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Officia totam perspiciatis tot</dad>
-                        <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
-                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <dad name="p_dad">Voluptatem mollit rem sit laud</dad>
+                        <id name="p_id" tag="id">hidden-8f75_021f</id>
                     </row>
                     <row>
                         <context-menu>
@@ -105,12 +100,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Dolor stract officia anim lore</dad>
-                        <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
-                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <dad name="p_dad">Iste lorem doloremque sit lore</dad>
+                        <id name="p_id" tag="id">hidden-a68d_2cfe</id>
                     </row>
                     <row>
                         <context-menu>
@@ -119,12 +112,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Aliqua amet aliqua ut deserunt</dad>
-                        <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
-                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <dad name="p_dad">Mollit aliqua lorem iste omnis</dad>
+                        <id name="p_id" tag="id">hidden-a74e_c454</id>
                     </row>
                     <row>
                         <context-menu>
@@ -133,12 +124,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Rem sit mollit ipsum sit</dad>
-                        <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
-                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <dad name="p_dad">Doloremque voluptatem aperiam</dad>
+                        <id name="p_id" tag="id">hidden-90da_3498</id>
                     </row>
                     <row>
                         <context-menu>
@@ -147,12 +136,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</name>
+                        <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Ut natus doloremque dolor magn</dad>
-                        <t_page_builder name="p_t_page_builder" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</t_page_builder>
-                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
-                        <id name="p_id" tag="id">1</id>
+                        <dad name="p_dad">Accusantium laudantium adipisc</dad>
+                        <id name="p_id" tag="id">hidden-1cbb_ab7b</id>
                     </row>
                 </value>
                 <context-menu>
@@ -164,6 +151,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
@@ -173,15 +161,17 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash-o</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
-                    <item type="specific" code="" class="grey" rel="configurar_base_dados" custom_return="true">
+                    <item type="specific" code="" class="black" rel="configurar_base_dados" custom_return="true">
                         <title>Configurar Base Dados</title>
                         <app>igrp_studio</app>
-                        <page>ListaEnv</page>
+                        <page>Env</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml?</parameter>
                         <target>modal</target>
-                        <img>grey|fa-database</img>
+                        <img>black|fa-database</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
                     </item>
                     <item type="specific" code="" class="default" rel="exportar">
                         <title>Export</title>
@@ -191,6 +181,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
                         <target>confirm</target>
                         <img>default|fa-download</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
                 </context-menu>
             </table>

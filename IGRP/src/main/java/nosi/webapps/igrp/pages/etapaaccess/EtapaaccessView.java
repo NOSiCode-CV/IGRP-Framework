@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class EtapaaccessView extends View {
 
@@ -35,22 +38,22 @@ public class EtapaaccessView extends View {
 		
 		id = new CheckBoxField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("type","checkbox").add("name","p_id").add("maxlength","30").add("desc","true").add("check","true").add("switch","false");
+		id.propertie().add("name","p_id").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("check","true").add("desc","true");
 		
 		id_check = new CheckBoxField(model,"id_check");
-		id_check.propertie().add("type","checkbox").add("name","p_id").add("maxlength","30").add("desc","true").add("check","true").add("switch","false");
+		id_check.propertie().add("name","p_id").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Descricao"));
-		descricao.propertie().add("type","text").add("name","p_descricao").add("maxlength","30");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
 		
 		processid = new HiddenField(model,"processid");
 		processid.setLabel(gt(""));
-		processid.propertie().add("type","hidden").add("name","p_processId").add("tag","processid").add("maxlength","30");
+		processid.propertie().add("name","p_processId").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","processid");
 		
 		task_description = new HiddenField(model,"task_description");
 		task_description.setLabel(gt(""));
-		task_description.propertie().add("type","hidden").add("name","p_task_description").add("tag","task_description").add("maxlength","30");
+		task_description.propertie().add("name","p_task_description").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","task_description");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

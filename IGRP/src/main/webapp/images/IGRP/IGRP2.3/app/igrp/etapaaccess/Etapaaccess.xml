@@ -37,71 +37,73 @@
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>EtapaAccess</title>
-        <sectionheader_1 type="sectionheader" gen-type="container" gen-group="" xml-type="form">
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" maxlength="4000" persist="true">
-                    <value>Associar Etapa a Organica/Perfil</value>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Associar Etapa a Organica/Perfil]]>
+                    </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" gen-type="menu" gen-group="" xml-type="toolsbar">
-            <item type="specific" rel="gravar" custom_return="true" code="">
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar" custom_return="true">
                 <title>Gravar</title>
-                <app />
-                <page />
-                <link />
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>primary|fa-save</img>
                 <preview>undefined</preview>
             </item>
         </toolsbar_1>
-        <table_1 type="table" gen-type="container" gen-group="true" xml-type="table">
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <id type="checkbox" align="left" name="p_id" maxlength="30" desc="true" check="true" switch="false" iskey="false" lookup_parser="false">
-                    <label />
+                <id name="p_id" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="String" check="true" desc="true">
+                    <label/>
                 </id>
-                <descricao type="text" align="left" name="p_descricao" maxlength="30" iskey="false" lookup_parser="false">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descricao</label>
                 </descricao>
-                <processid type="hidden" name="p_processId" tag="processid" maxlength="30" iskey="false" />
-                <task_description type="hidden" name="p_task_description" tag="task_description" maxlength="30" iskey="false" />
+                <processid name="p_processId" type="hidden" maxlength="30" iskey="false" java-type="" tag="processid"/>
+                <task_description name="p_task_description" type="hidden" maxlength="30" iskey="false" java-type="" tag="task_description"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <id name="p_id" desc="true" check="true">1</id>
+                        <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Aperiam sit voluptatem natus a</descricao>
-                        <processid name="p_processId" tag="processid">1</processid>
-                        <task_description name="p_task_description" tag="task_description">1</task_description>
+                        <descricao name="p_descricao">Consectetur natus omnis aperia</descricao>
+                        <processid name="p_processId" tag="processid">hidden-5d84_d131</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-8164_1f7e</task_description>
                     </row>
                     <row>
-                        <id name="p_id" desc="true" check="true">1</id>
+                        <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Sit perspiciatis ut totam laud</descricao>
-                        <processid name="p_processId" tag="processid">1</processid>
-                        <task_description name="p_task_description" tag="task_description">1</task_description>
+                        <descricao name="p_descricao">Ipsum sit amet perspiciatis si</descricao>
+                        <processid name="p_processId" tag="processid">hidden-a7b2_8469</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-43a3_333f</task_description>
                     </row>
                     <row>
-                        <id name="p_id" desc="true" check="true">1</id>
+                        <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Unde deserunt mollit stract se</descricao>
-                        <processid name="p_processId" tag="processid">1</processid>
-                        <task_description name="p_task_description" tag="task_description">1</task_description>
+                        <descricao name="p_descricao">Unde magna sed amet natus</descricao>
+                        <processid name="p_processId" tag="processid">hidden-9875_9a7d</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-3944_f443</task_description>
                     </row>
                     <row>
-                        <id name="p_id" desc="true" check="true">1</id>
+                        <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Magna amet voluptatem natus si</descricao>
-                        <processid name="p_processId" tag="processid">1</processid>
-                        <task_description name="p_task_description" tag="task_description">1</task_description>
+                        <descricao name="p_descricao">Consectetur laudantium totam d</descricao>
+                        <processid name="p_processId" tag="processid">hidden-6f6e_58a3</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-3bea_b2ff</task_description>
                     </row>
                     <row>
-                        <id name="p_id" desc="true" check="true">1</id>
+                        <id name="p_id" check="true" desc="true">1</id>
                         <id_desc name="p_id_desc">1</id_desc>
-                        <descricao name="p_descricao">Dolor aperiam mollit rem conse</descricao>
-                        <processid name="p_processId" tag="processid">1</processid>
-                        <task_description name="p_task_description" tag="task_description">1</task_description>
+                        <descricao name="p_descricao">Aperiam aliqua doloremque accu</descricao>
+                        <processid name="p_processId" tag="processid">hidden-5d5c_87a3</processid>
+                        <task_description name="p_task_description" tag="task_description">hidden-aa07_0621</task_description>
                     </row>
                 </value>
             </table>

@@ -41,11 +41,11 @@
             <item type="specific" code="" rel="gravar" custom_return="true">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>MenuOrganica</page>
+                <page>Dominio</page>
                 <link>index</link>
                 <target>submit_ajax</target>
                 <img>primary|fa-save</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Menu «--» Profile" gen-type="container" gen-group="true">
@@ -63,32 +63,32 @@
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Anim accusantium officia conse</descricao>
-                        <app name="p_app" tag="app">1</app>
+                        <descricao name="p_descricao">Ut natus amet accusantium anim</descricao>
+                        <app name="p_app" tag="app">hidden-52a0_e10e</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Omnis labore aperiam iste aliq</descricao>
-                        <app name="p_app" tag="app">1</app>
+                        <descricao name="p_descricao">Perspiciatis aperiam adipiscin</descricao>
+                        <app name="p_app" tag="app">hidden-fffc_2011</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Doloremque deserunt rem dolore</descricao>
-                        <app name="p_app" tag="app">1</app>
+                        <descricao name="p_descricao">Officia natus accusantium dolo</descricao>
+                        <app name="p_app" tag="app">hidden-3560_9e40</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Anim consectetur iste laudanti</descricao>
-                        <app name="p_app" tag="app">1</app>
+                        <descricao name="p_descricao">Voluptatem totam omnis aliqua</descricao>
+                        <app name="p_app" tag="app">hidden-a097_2f02</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Adipiscing officia mollit omni</descricao>
-                        <app name="p_app" tag="app">1</app>
+                        <descricao name="p_descricao">Labore rem labore ut sit</descricao>
+                        <app name="p_app" tag="app">hidden-19d5_fd4c</app>
                     </row>
                 </value>
             </table>

@@ -26,7 +26,7 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Mollit magna ipsum accusantium' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as transacao,'Officia adipiscing doloremque' as nome "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		int id=model.getId();
@@ -121,11 +121,11 @@ public class TransacaoOrganicaController extends Controller {
 	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
 	
 	private void deleteOldTransactions(TransacaoOrganica model) {
-		Organization organization = new Organization();
+		
 		Profile profD = new Profile();
 		List<ProfileType> list = null;
 		if(model.getType().equals("org")){
-			organization = new Organization().findOne(model.getId());
+			Organization organization = new Organization().findOne(model.getId());
 			profD.setOrganization(organization);
 			profD.setType("TRANS");
 			profD.setProfileType(profAdmin);
@@ -133,13 +133,6 @@ public class TransacaoOrganicaController extends Controller {
 			profD.deleteAllProfile();
 			list = new ProfileType().find().andWhere("organization.id", "=", organization.getId()).all();
 			if (list != null && list.size() > 0) {
-				list.sort((o1, o2) -> {
-					if (o1.getId() > o2.getId())
-						return 1;
-					else if (o1.getId() < o2.getId())
-						return -1;
-					return 0;
-				});
 				ProfileType pAux = list.get(0);
 				Profile pAux2 = new Profile();
 				pAux2.setOrganization(organization);

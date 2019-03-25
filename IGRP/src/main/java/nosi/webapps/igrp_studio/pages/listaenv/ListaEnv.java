@@ -1,5 +1,8 @@
 package nosi.webapps.igrp_studio.pages.listaenv;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
@@ -53,8 +56,6 @@ public class ListaEnv extends Model{
 		private IGRPLink name;
 		private String name_desc;
 		private String dad;
-		private IGRPLink t_page_builder;
-		private String t_page_builder_desc;
 		private String id;
 		public void setStatus(int status){
 			this.status = status;
@@ -97,28 +98,6 @@ public class ListaEnv extends Model{
 		public String getDad(){
 			return this.dad;
 		}
-
-		public IGRPLink setT_page_builder(String app,String page,String action){
-			this.t_page_builder = new IGRPLink(app,page,action);
-			return this.t_page_builder;
-		}
-		public IGRPLink getT_page_builder(){
-			return this.t_page_builder;
-		}
-		public void setT_page_builder_desc(String t_page_builder_desc){
-			this.t_page_builder_desc = t_page_builder_desc;
-		}
-		public String getT_page_builder_desc(){
-			return this.t_page_builder_desc;
-		}
-	public IGRPLink setT_page_builder(String link){
-		this.t_page_builder = new IGRPLink(link);
-		return this.t_page_builder;
-	}
-	public IGRPLink setT_page_builder(Report link){
-		this.t_page_builder = new IGRPLink(link);
-		return this.t_page_builder;
-	}
 
 		public void setId(String id){
 			this.id = id;
