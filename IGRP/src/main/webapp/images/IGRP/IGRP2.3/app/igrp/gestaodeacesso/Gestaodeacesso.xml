@@ -69,15 +69,7 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules>
-                        <rule type="remote">
-                            <proc>index</proc>
-                            <requestFields>
-                                <item>p_aplicacao</item>
-                                <item>p_id_app</item>
-                            </requestFields>
-                        </rule>
-                    </rules>
+                    <rules/>
                 </aplicacao>
                 <adicionar_organica name="p_adicionar_organica" type="link" target="right_panel_submit" target_fields="" closerefresh="true" action="index" page="NovaOrganica" app="igrp" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true" custom_action="" action_type="false" request_fields="" refresh_submit="true">
                     <label>Adicionar Organização</label>
@@ -116,10 +108,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Rem sit magna mollit lorem</org_nome>
+                        <org_nome name="p_org_nome">Natus totam elit aperiam aliqu</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-d872_5d23</id>
+                        <id name="p_id" tag="id">hidden-4348_d4c1</id>
                     </row>
                     <row>
                         <context-menu>
@@ -128,10 +120,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Sed ut lorem rem aliqua</org_nome>
+                        <org_nome name="p_org_nome">Officia deserunt voluptatem si</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-1948_1c83</id>
+                        <id name="p_id" tag="id">hidden-0f41_e75e</id>
                     </row>
                     <row>
                         <context-menu>
@@ -140,10 +132,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Omnis mollit deserunt stract l</org_nome>
+                        <org_nome name="p_org_nome">Consectetur adipiscing unde ip</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-07e0_f1c1</id>
+                        <id name="p_id" tag="id">hidden-bbe2_18b3</id>
                     </row>
                     <row>
                         <context-menu>
@@ -152,10 +144,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Mollit sit laudantium sit iste</org_nome>
+                        <org_nome name="p_org_nome">Aliqua omnis perspiciatis amet</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-5e45_c4c7</id>
+                        <id name="p_id" tag="id">hidden-22c3_e3f6</id>
                     </row>
                     <row>
                         <context-menu>
@@ -164,10 +156,10 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Sit officia accusantium iste m</org_nome>
+                        <org_nome name="p_org_nome">Lorem perspiciatis deserunt ma</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">hidden-b404_4a6e</id>
+                        <id name="p_id" tag="id">hidden-0980_f90d</id>
                     </row>
                 </value>
                 <context-menu>

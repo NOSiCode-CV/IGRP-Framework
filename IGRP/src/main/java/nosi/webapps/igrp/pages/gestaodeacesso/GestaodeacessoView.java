@@ -50,7 +50,7 @@ public class GestaodeacessoView extends View {
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote",new Config().getResolveUrl("igrp","Gestaodeacesso","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","").add("tags","false");
 		
 		adicionar_organica = new LinkField(model,"adicionar_organica");
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
