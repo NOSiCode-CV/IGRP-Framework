@@ -181,7 +181,8 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Format date and return to Type String Example use
+	 * Format a date string and return to the formatOut another date String
+	 *  Example of use
 	 * {@code Core.convertDate("11-10-2017", "dd-MM-yyyy", "dd-MM-yyyy h:mm")}
 	 * 
 	 * @param date
@@ -193,7 +194,18 @@ public final class Core { // Not inherit
 		return DateHelper.convertDate(date, formatIn, outputFormat);
 	}
 
+	
 	/**
+	 * Convert string date into Timestamp
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @return
+	 */
+	public static Timestamp ToTimestamp(String date, String formatIn) {
+		return DateHelper.convertStringToTimestamp(date, formatIn);
+	}
+	/**@deprecated Use ToTimestamp
 	 * Convert string date into Timestamp
 	 * 
 	 * @param date
@@ -741,7 +753,7 @@ public final class Core { // Not inherit
 	/**
 	 * Get Current Datetime (dd/MM/yyyy HH:mm:ss)
 	 * 
-	 * @return {@code DateHelper.getCurrentDataTime();}
+	 * @return dd/MM/yyyy HH:mm:ss
 	 */
 	public static String getCurrentDataTime() {
 		return DateHelper.getCurrentDataTime();
@@ -766,7 +778,19 @@ public final class Core { // Not inherit
 		return DateHelper.getCurrentDate(outputFormat);
 	}
 
+	@Deprecated
+	/*
+	 * @Deprecated use getCurrentDateSql
+	 */
 	public static Date getCurrentDate1() {
+		return DateHelper.getCurrentDate();
+	}
+	/**
+	 * Return the current time in java.sql.Date format
+	 * 
+	 * @return new java.sql.Date(System.currentTimeMillis())
+	 */
+	public static Date getCurrentDateSql() {
 		return DateHelper.getCurrentDate();
 	}
 
@@ -2325,7 +2349,7 @@ public final class Core { // Not inherit
 
 	/**
 	 * 
-	 * @param date
+	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
 	 */
@@ -2336,7 +2360,7 @@ public final class Core { // Not inherit
 	/**
 	 * Deprecated use convertTimeStampToDateString
 	 * 
-	 * @param date
+	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return convertDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
 	 */
@@ -2347,7 +2371,7 @@ public final class Core { // Not inherit
 
 	/**
 	 * 
-	 * @param date
+	 * @param timeStampDate
 	 * @param formatOut
 	 * @return return formattDate(date, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", formatOut);
 	 */
@@ -2355,7 +2379,7 @@ public final class Core { // Not inherit
 		return DateHelper.convertTimeStampToDate(timeStampDate, formatOut);
 	}
 
-//	DATES Functions by Ivone Tavares:
+//	DATES Functions by Ivone Tavares and Venceslau:
 //	_____________________________________________________________________
 	/**
 	 * Receives java.sql.Date and returns it as utilDate
@@ -2439,8 +2463,8 @@ public final class Core { // Not inherit
 	 * @return two strDates separated by a separator and each one in a format
 	 *         declared in the class Cons
 	 */
-	public static String getDateFromToDateStr(java.util.Date beginDate, java.util.Date endDate) {
-		return getDateFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
+	public static String dateUtilToDateFromToStr(java.util.Date beginDate, java.util.Date endDate) {
+		return dateBeginEndStrToDateFromToStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
 				dateToString(endDate, Cons.DATE_FORMAT.getValue()), Cons.DATE_SEPARATOR.getValue());
 	}
 
@@ -2454,62 +2478,73 @@ public final class Core { // Not inherit
 	 * @return two strDates separated by a specified separator and each one in a
 	 *         format declared in the class Cons
 	 */
-	public static String getDateFromToDateStr(java.util.Date beginDate, java.util.Date endDate, String separator) {
-		return getDateFromToDateStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
+	public static String dateBeginEndUtilToDateFromToStr(java.util.Date beginDate, java.util.Date endDate, String separator) {
+		return dateBeginEndStrToDateFromToStr(dateToString(beginDate, Cons.DATE_FORMAT.getValue()),
 				dateToString(endDate, Cons.DATE_FORMAT.getValue()), separator);
 	}
 
+	/**
+	 * Receives two dates in a default string format with the default separator
+	 * 
+	 * @param beginDateStr
+	 * @param endDateStr
+	 * @return a string date from/to format
+	 */
+	public static String dateBeginEndStrToDateFromToStr(String beginDateStr, String endDateStr) {
+		return dateBeginEndStrToDateFromToStr(beginDateStr, endDateStr, Cons.DATE_SEPARATOR.getValue());		
+	}	
+	
 	/**
 	 * Receives two dates in a default string format with a specified separator
 	 * 
 	 * @param beginDateStr
 	 * @param endDateStr
 	 * @param separator
-	 * @return two string dates concatenated and separated by a specified separator
+	 * @return a string date from/to format
 	 */
-	public static String getDateFromToDateStr(String beginDateStr, String endDateStr, String separator) {
+	public static String dateBeginEndStrToDateFromToStr(String beginDateStr, String endDateStr, String separator) {
 		return beginDateStr + separator + endDateStr;
 	}
 
 	/**
-	 * Receives a date in a default string format and converts it to java.util.Date
+	 * Receives a date from/to in a default string format and converts the 1º date to java.util.Date
 	 *
 	 * @param dateFromToStr
-	 * @return a java.util.Date with a format declared in the class Cons
+	 * @return a java.util.Date with a format declared in the class Cons (dd-MM-yyyy)
 	 */
-	public static java.util.Date getBeginDate(String dateFromToStr) {
-		return ToDateUtil(getBeginDateStr(dateFromToStr));
+	public static java.util.Date dateFromTo2DateBeginUtil(String dateFromToStr) {
+		return ToDateUtil(dateFromTo2DateBeginStr(dateFromToStr));
 	}
 
 	/**
-	 * Receives a date from/to in a default string format
+	 * Receives a date from/to in a default string format with separator /
 	 *
 	 * @param dateStr
 	 * @return the substring or the first date of the date from/to
 	 */
-	public static String getBeginDateStr(String dateStr) {
-		return getBeginDateStr(dateStr, Cons.DATE_SEPARATOR.getValue());
+	public static String dateFromTo2DateBeginStr(String dateFromToStr) {
+		return dateFromTo2DateBeginStr(dateFromToStr, Cons.DATE_SEPARATOR.getValue());
 	}
 
 	/**
-	 * Receives a date from/to in a default string format with a separator
+	 * Receives a date from/to in a default model string format with a separator param
 	 * 
 	 * @param dateStr
 	 * @param separator
 	 * @return the substring or the first date of the date from/to
 	 */
-	public static String getBeginDateStr(String dateStr, String separator) {
-		return dateStr.substring(0, dateStr.indexOf(separator));
+	public static String dateFromTo2DateBeginStr(String dateFromToStr, String separator) {
+		return dateFromToStr.substring(0, dateFromToStr.indexOf(separator));
 	}
 
 	/**
-	 * Receives a date in a default string format and converts it to java.util.Date
+	 * Receives a date from/to in a default model string format and converts it to java.util.Date
 	 *
 	 * @param dateFromToStr
 	 * @return a java.util.Date with a format declared in the class Cons
 	 */
-	public static java.util.Date endDateUtil(String dateFromToStr) {
-		return ToDateUtil(endDateStr(dateFromToStr));
+	public static java.util.Date dateFromTo2EndDateUtil(String dateFromToStr) {
+		return ToDateUtil(dateFromTo2EndDateStr(dateFromToStr));
 	}
 
 	/**
@@ -2519,8 +2554,8 @@ public final class Core { // Not inherit
 	 * @param dateFromToStr
 	 * @return the substring or the end date of the date from/to
 	 */
-	public static String endDateStr(String dateFromToStr) {
-		return getEndDateStr(dateFromToStr, Cons.DATE_SEPARATOR.getValue());
+	public static String dateFromTo2EndDateStr(String dateFromToStr) {
+		return dateFromTo2EndDateStr(dateFromToStr, Cons.DATE_SEPARATOR.getValue());
 	}
 
 	/**
@@ -2530,7 +2565,7 @@ public final class Core { // Not inherit
 	 * @param separator
 	 * @return the substring or the end date of the date from/to
 	 */
-	public static String getEndDateStr(String dateStr, String separator) {
+	public static String dateFromTo2EndDateStr(String dateStr, String separator) {
 		if (isNotNullMultiple(dateStr, separator))
 			return dateStr.substring(dateStr.indexOf(separator) + separator.length(), dateStr.length());
 		else
@@ -2547,7 +2582,10 @@ public final class Core { // Not inherit
 	public static String normalizeName(String string) {
 		return (Core.normalizeText(string).replaceAll("[^-a-zA-Z0-9\\s]", ""));
 	}
-//	END### DATES Funciotn by Ivone Tavares:
+	
+//	------------------------------------------------------------
+//	END### DATES Funciotn by Ivone Tavares and Venceslau:
+//	__________________________________________________-----------------
 
 	/**
 	 * Verifies if the Core.isBigDecimal and if true, than returns BigDecimal parse
