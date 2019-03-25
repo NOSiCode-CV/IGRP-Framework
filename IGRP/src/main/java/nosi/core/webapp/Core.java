@@ -2,12 +2,14 @@ package nosi.core.webapp;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -1620,52 +1622,61 @@ public final class Core { // Not inherit
 	public static void removeAttribute(String name) {
 		Igrp.getInstance().getRequest().removeAttribute(name);
 	}
-	public static boolean updateFile(String fileParamName,String name, int id) {
+	
+
+	/**
+	 * update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param content in byte
+	 * @param name
+	 * @return true|false
+	 */
+	public static boolean updateFile(byte[] content, String name, String mime_type, Integer id) {
 		try {
-			return updateFile(Core.getFile(fileParamName), name, id);
-		} catch (IOException | ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
-	public static boolean updateFile(String name, int id) {
-		try {
-			return updateFile(Core.getFile(name), name, id);
-		} catch (IOException | ServletException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	public static boolean updateFile(Part part, String name, int id) {
-		boolean r = false;
-		if(Core.isNotNullMultiple(part,name) && id >0) {
-			try {
-				r = updateFile(part.getInputStream(), name, part.getContentType(), id);
-			} catch (IOException e) {
-				r = false;
-				e.printStackTrace();
-			} finally {
-				try {
-					part.delete();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			if(Core.isNotNull(name)) {
+				String extension = name.substring(name.indexOf("."));
+				File file = File.createTempFile(name, extension);
+				FileOutputStream out = new FileOutputStream(file);
+				out.write(content);
+				out.flush();
+				out.close();
+				return updateFile(file, name,mime_type, Core.getCurrentDadParam(),id);
 			}
-		}
-		return r;
-	}
-
-	public static boolean updateFile(InputStream stream, String name, String mime_type, int id) {
-		try {
-			return updateFile(FileHelper.convertInputStreamToByte(stream), name, mime_type, id);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 
-	public static boolean updateFile(byte[] bytes, String name, String mime_type, int id) {
+
+	/**
+	 * update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @return true|false
+	 */
+	public static boolean updateFile(File file,Integer id) {
+		return updateFile(file, null, null,id);
+	}
+
+	public static boolean updateFile(String parameterName,Integer id) throws Exception {
+		if (Core.isNotNull(parameterName))
+			return updateFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName(),id);
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+
+	public static boolean updateFile(String parameterName, String description,Integer id) throws Exception {
+		if (Core.isNotNull(parameterName))
+			return updateFile(Core.getFile(parameterName), description,id);
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+	
+	public static boolean updateFile(File file, String name, String mime_type,Integer id) {
+		return updateFile(file, name, mime_type, Core.getCurrentDadParam(),id);
+	}
+	
+	public static boolean updateFile(byte[] bytes, String name, String mime_type,String dad,Integer id) {
 		CLob clob = new CLob().findOne(id);
 		if(Core.isNotNullMultiple(clob,bytes,name) && id>0) {
 			clob.setC_lob_content(bytes);
@@ -1678,6 +1689,53 @@ public final class Core { // Not inherit
 		}
 		return false;
 	}
+	/**
+	  * update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @return true|false
+	 */
+	public static boolean updateFile(File file, String name, String mime_type,String dad,Integer id) {
+		if(Core.isNotNullMultiple(file,name,dad)) {
+			FileNameMap fileNameMap = URLConnection.getFileNameMap();
+			mime_type = (mime_type == null || mime_type.trim().isEmpty()
+					? fileNameMap.getContentTypeFor(file.getPath())
+					: mime_type);
+			try {
+				return updateFile(FileHelper.convertInputStreamToByte(new FileInputStream(file)),name,mime_type,dad,id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @return true|false
+	 */
+	public static boolean updateFile(Part part, String name,Integer id) {
+		boolean result = false;
+		if(Core.isNotNullMultiple(part,name)) {
+			try {
+				result = updateFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType(),id);
+			} catch (IOException e) {
+				result = false;
+				e.printStackTrace();
+			}finally {
+				try {
+					part.delete();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
 	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
@@ -1689,7 +1747,15 @@ public final class Core { // Not inherit
 	 */
 	public static int saveFile(byte[] content, String name, String mime_type) {
 		try {
-			return saveFile(content, name,mime_type, Core.getCurrentDadParam());
+			if(Core.isNotNull(name)) {
+				String extension = name.substring(name.indexOf("."));
+				File file = File.createTempFile(name, extension);
+				FileOutputStream out = new FileOutputStream(file);
+				out.write(content);
+				out.flush();
+				out.close();
+				return saveFile(file, name,mime_type, Core.getCurrentDadParam());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1726,6 +1792,7 @@ public final class Core { // Not inherit
 	public static int saveFile(byte[] bytes, String name, String mime_type,String dad) {
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
+			
 			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
 			clob = clob.insert();
 			clob.showMessage();
@@ -1744,6 +1811,10 @@ public final class Core { // Not inherit
 	 */
 	public static Integer saveFile(File file, String name, String mime_type,String dad) {
 		if(Core.isNotNullMultiple(file,name,dad)) {
+			FileNameMap fileNameMap = URLConnection.getFileNameMap();
+			mime_type = (mime_type == null || mime_type.trim().isEmpty()
+					? fileNameMap.getContentTypeFor(file.getPath())
+					: mime_type);
 			try {
 				return saveFile(FileHelper.convertInputStreamToByte(new FileInputStream(file)),name,mime_type,dad);
 			} catch (IOException e) {
@@ -1764,7 +1835,7 @@ public final class Core { // Not inherit
 		int result = 0;
 		if(Core.isNotNullMultiple(part,name)) {
 			try {
-				result = saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()),part.getContentType(),name);
+				result = saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType());
 			} catch (IOException e) {
 				result = 0;
 				e.printStackTrace();
