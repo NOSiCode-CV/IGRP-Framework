@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -159,7 +158,6 @@ public class Controller{
 		String processDefinition = Core.getParam("processDefinition",false);
 		String saveButton = Core.getParam("saveButton");
 		String backButton = Core.getParam("backButton");
-		
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.view = v;
@@ -197,9 +195,10 @@ public class Controller{
 		if(Core.isNotNull(backButton) && Core.isNotNull(taskId)) {
 			xml.addXml(comp.generateBackButtonTask("igrp","ExecucaoTarefas","executar_button_minha_tarefas",taskId).toString());
 		}
-		xml.addXml(this.getTaskViewDetails(taskId));
+		ViewTaskDetails details = this.getTaskDetails(taskId);
+		xml.addXml(this.getTaskViewDetails(details));
 		xml.addXml(content);
-		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac));
+		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac,details.getUserName()));
 		if(m!=null){
 			xml.addXml(m);
 		}
@@ -208,28 +207,46 @@ public class Controller{
 		return resp;
 	}
 
-	private String getTaskViewDetails(String taskId) {
+	private String getTaskViewDetails(ViewTaskDetails details) {		
+		IGRPView viewTD = ViewTaskDetails.get(details);
+		return  viewTD.toString();
+	}
+
+	private ViewTaskDetails getTaskDetails(String taskId) {
+		ViewTaskDetails details = new ViewTaskDetails();
 		Object obj = Core.getAttributeObject("taskObj", true);
 		if(Core.isNotNull(obj)) {			
 			TaskServiceQuery task = (TaskServiceQuery) obj;		
 			List<TaskVariables.TaskVariableDetails> v = task.queryHistoryTaskVariables(task.getId());
-			ProfileType prof = new ProfileType().findOne(Core.toInt(v.get(1).getPropertyValue()));
-			IGRPView viewTD = ViewTaskDetails.get(task.getProcessDefinitionKey(), task.getName(),task.getProcessInstanceId(), taskId,task.getStartTime(), task.getEndTime(),prof.getOrganization().getName(),prof.getDescr(),v.get(2).getPropertyValue());
-			return  viewTD.toString();
+			String prof_id = v.stream().filter(var->var.getPropertyId().equals("profile")).findFirst().get().getPropertyValue();		
+			ProfileType prof = new ProfileType().findOne(Core.toInt(prof_id));
+			String userName = v.stream().filter(var->var.getPropertyId().equals("userName")).findFirst().get().getPropertyValue();
+			details.setnProcess(task.getProcessInstanceId());
+			details.setnTask(taskId);
+			details.setProcessName(task.getProcessDefinitionKey());
+			details.setTaskName(task.getName());			
+			details.setEndTime(task.getEndTime());
+			details.setOrg(prof.getOrganization().getName());
+			details.setProfile(prof.getDescr());
+			details.setStartTime(task.getStartTime());
+			details.setUserName(userName);	
 		}
 		TaskService task = new TaskService().getTask(taskId);
 		if(task!=null) {
-			IGRPView viewTD = ViewTaskDetails.get(task.getProcessDefinitionKey(), task.getName(),task.getProcessInstanceId(), taskId);
-			return  viewTD.toString();
+			details.setnProcess(task.getProcessInstanceId());
+			details.setnTask(taskId);
+			details.setProcessName(task.getProcessDefinitionKey());
+			details.setTaskName(task.getName());
 		}
-		return "";
+		return details;
 	}
-
-	private String getDocument(InterfaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action) {
+	
+	private String getDocument(InterfaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action,String userName) {
 		if(bpmn==null)
-			return BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null);
+			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),processDefinition,taskDefinition,null);
 		
 		DisplayDocmentType display = new DisplayDocmentType();
+		display.setUserName(userName);
 		display.setListDocmentType(bpmn.getInputDocumentType());
 		String previewTask = Core.getParam("previewTask",false);
 		String isDetails = Core.getParam("isDetails");
@@ -238,6 +255,7 @@ public class Controller{
 		
 		if(Core.isNotNull(previewTask)) {
 			try {
+				Core.setAttribute("taskDefinition", taskDefinition);
 				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();
 				Class<?> c = Class.forName(packageName+"."+this.getConfig().PREFIX_TASK_NAME+previewTask+"Controller");
 				Method method = c.getMethod("getOutputDocumentType");
@@ -245,7 +263,6 @@ public class Controller{
 				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
 				display.addListDocumentType(listDocOutput);
 			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

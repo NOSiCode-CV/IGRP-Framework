@@ -9,11 +9,12 @@
 		<xsl:param name="setLabel" select="true()"/>
 		<xsl:param name="fieldNameSuffix" select="''"/>
 		<xsl:param name="sizeClass" select="'col-sm-3'"/>
+		<xsl:param name="currentRow" select="."/>
 		<xsl:variable name="nameAttr" select="concat(@name,$fieldNameSuffix)"/>
-
+		
 		<xsl:variable name="fieldValue">
 			<xsl:choose>
-			    <xsl:when test="$isFormlist"><xsl:value-of select="../../table/value/row/*[name() = $tag]"/></xsl:when>
+			    <xsl:when test="$isFormlist"><xsl:value-of select="$currentRow/*[name() = $tag]"/></xsl:when>
 			    <xsl:otherwise><xsl:value-of select="./value"/></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
