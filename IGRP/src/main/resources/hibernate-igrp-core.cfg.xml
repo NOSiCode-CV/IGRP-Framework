@@ -40,6 +40,7 @@
 		
 		<!-- Task Access -->	
 		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned"/>
+		<mapping class="nosi.webapps.igrp.dao.TaskFile"/>
 		
 	</session-factory>
 </hibernate-configuration>

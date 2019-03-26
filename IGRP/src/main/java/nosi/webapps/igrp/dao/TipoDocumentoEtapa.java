@@ -47,6 +47,8 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 	private RepTemplate repTemplate;
 	@Transient
 	private IGRPLink link;
+	@Transient
+	private Integer fileId;
 	
 	public TipoDocumentoEtapa(String processId, String taskId,String tipo, int status, int required, TipoDocumento tipoDocumento) {
 		super();
@@ -129,9 +131,21 @@ public class TipoDocumentoEtapa extends IGRPBaseActiveRecord<TipoDocumentoEtapa>
 		this.link = link;
 	}
 
+	@Transient
+	public Integer getFileId() {
+		return fileId;
+	}
+
+	public void setFileId(Integer fileId) {
+		this.fileId = fileId;
+	}
+
 	@Override
 	public String toString() {
-		return "TipoDocumentoEtapa [id=" + id + ", processId=" + processId + ", taskId=" + taskId + ", status=" + status
-				+ ", tipoDocumento=" + tipoDocumento + "]";
+		return "TipoDocumentoEtapa [id=" + id + ", processId=" + processId + ", tipo=" + tipo + ", taskId=" + taskId
+				+ ", status=" + status + ", required=" + required + ", tipoDocumento=" + tipoDocumento
+				+ ", repTemplate=" + repTemplate + ", link=" + link + ", fileId=" + fileId + "]";
 	}
+
+
 }

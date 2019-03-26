@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.gui.components.IGRPFormList;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.gui.components.IGRPTable.Table;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.bpmn.FormlistDocument.Formlist_documento_task;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 /**
@@ -18,7 +18,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  * 17 Jun 2018
  */
 
-public class DisplayDocmentType {
+public class DisplayDocmentType{		
 
 	private boolean showInputFile = true;
 	private List<TipoDocumentoEtapa> listDocmentType;
@@ -27,7 +27,10 @@ public class DisplayDocmentType {
 	private Field formlist_documento_task_descricao;
 	private Field formlist_documento_task_obrigatoriedade;
 	private Field formlist_documento_task_documento;
+	private Field formlist_documento_user;
+	private Field formlist_documento_doc_id;
 	private Field formlist_documento_task_mostrar;
+	private String userName;
 	
 	public String display() {
 		IGRPFormList formlist_documento_task = new IGRPFormList("formlist_documento_task");
@@ -65,7 +68,7 @@ public class DisplayDocmentType {
 	private List<Formlist_documento_task> getData() {
 		List<Formlist_documento_task> data = new ArrayList<>();
 		if(this.listDocmentType!=null) {
-			this.listDocmentType.stream().forEach(td->{				
+			this.listDocmentType.stream().forEach(td->{		
 				Formlist_documento_task ft = new Formlist_documento_task();
 				String descricao="",nome = "";
 				ft.setFormlist_documento_id_tp_doc(new Pair(""+td.getId(),""+td.getId()));
@@ -85,6 +88,8 @@ public class DisplayDocmentType {
 				ft.setFormlist_documento_task_nome(new Pair(nome,nome));
 				String r = this.getObrigatoriedade(td.getRequired());
 				ft.setFormlist_documento_task_obrigatoriedade(new Pair(r,r));
+				ft.setFormlist_documento_user(new Pair(this.userName,this.userName));
+				ft.setFormlist_documento_doc_id(new Pair(""+td.getFileId(), ""+td.getFileId()));
 				data.add(ft);
 			});
 		}
@@ -115,10 +120,20 @@ public class DisplayDocmentType {
 		formlist_documento_task_mostrar.setLabel(gt("Mostrar"));					
 		formlist_documento_task_mostrar.propertie().add("name","p_formlist_documento_task_mostrar").add("type","link").add("target","_newtab").add("maxlength","10000").add("desc","true");
 		
+		formlist_documento_user = new TextField(null,"formlist_documento_user");	
+		formlist_documento_user.setLabel(gt("Utilizador"));					
+		formlist_documento_user.propertie().add("name","p_formlist_documento_user").add("type","text").add("maxlength","10000").add("desc","true");
+		
+		formlist_documento_doc_id = new HiddenField(null,"formlist_documento_doc_id");	
+		formlist_documento_doc_id.propertie().add("name","p_formlist_documento_doc_id").add("type","hidden").add("maxlength","10000").add("desc","true");
+		
+
+		formlist_documento_task.addField(formlist_documento_doc_id);
 		formlist_documento_task.addField(formlist_documento_task_nome);
 		formlist_documento_task.addField(formlist_documento_task_descricao);
 		formlist_documento_task.addField(formlist_documento_task_obrigatoriedade);
 		formlist_documento_task.addField(formlist_documento_id_tp_doc);
+		formlist_documento_task.addField(formlist_documento_user);
 		if(this.isShowInputFile())
 			formlist_documento_task.addField(formlist_documento_task_documento);
 		formlist_documento_task.addField(formlist_documento_task_mostrar);
@@ -128,60 +143,9 @@ public class DisplayDocmentType {
 		return required==1?"Sim":"Nao";
 	}
 	
-	public static class Formlist_documento_task extends Table{
-		
-		private Pair formlist_documento_id_tp_doc;
-		private Pair formlist_documento_task_nome;
-		private Pair formlist_documento_task_descricao;
-		private Pair formlist_documento_task_obrigatoriedade;
-		private Pair formlist_documento_task_documento;
-		private Pair formlist_documento_task_mostrar;		
-		
-		public Pair getFormlist_documento_id_tp_doc() {
-			return formlist_documento_id_tp_doc;
-		}
-		
-		public void setFormlist_documento_id_tp_doc(Pair formlist_documento_id_tp_doc) {
-			this.formlist_documento_id_tp_doc = formlist_documento_id_tp_doc;
-		}
-		
-		public void setFormlist_documento_task_nome(Pair formlist_documento_task_nome){
-			this.formlist_documento_task_nome = formlist_documento_task_nome;
-		}
-		
-		public Pair getFormlist_documento_task_nome(){
-			return this.formlist_documento_task_nome;
-		}
+	
 
-		public void setFormlist_documento_task_descricao(Pair formlist_documento_task_descricao){
-			this.formlist_documento_task_descricao = formlist_documento_task_descricao;
-		}
-		
-		public Pair getFormlist_documento_task_descricao(){
-			return this.formlist_documento_task_descricao;
-		}
-
-		public void setFormlist_documento_task_obrigatoriedade(Pair formlist_documento_task_obrigatoriedade){
-			this.formlist_documento_task_obrigatoriedade = formlist_documento_task_obrigatoriedade;
-		}
-		
-		public Pair getFormlist_documento_task_obrigatoriedade(){
-			return this.formlist_documento_task_obrigatoriedade;
-		}
-
-		public void setFormlist_documento_task_documento(Pair formlist_documento_task_documento){
-			this.formlist_documento_task_documento = formlist_documento_task_documento;
-		}
-		public Pair getFormlist_documento_task_documento(){
-			return this.formlist_documento_task_documento;
-		}
-
-		public void setFormlist_documento_task_mostrar(Pair formlist_documento_task_mostrar){
-			this.formlist_documento_task_mostrar = formlist_documento_task_mostrar;
-		}
-		
-		public Pair getFormlist_documento_task_mostrar(){
-			return this.formlist_documento_task_mostrar;
-		}
+	public void setUserName(String userName) {
+		this.userName= userName;
 	}
 }

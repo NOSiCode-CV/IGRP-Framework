@@ -1,6 +1,7 @@
 package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,15 +28,16 @@ public class ValidateInputDocument {
 	 * @throws ServletException
 	 */
 	public static boolean validateRequiredDocument(InterfaceBPMNTask bpm,List<Part> parts) throws IOException, ServletException {
-		List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(Core.getParam("processDefinition",false), Core.getParam("taskDefinition",false), Core.getParamInt("appId"));
+		List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(Core.getParam("appDad",false),Core.getParam("processDefinition",false), Core.getParam("taskDefinition",false));
 		Map<Integer,TipoDocumentoEtapa> listMap = list.stream().collect(Collectors.toMap(TipoDocumentoEtapa::getId,tp->tp));
 		boolean result = true;
 		if(listMap!=null) {
-			String[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");			
+			Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
+			p_ids = Arrays.asList(p_ids).stream().filter(value->Core.isNotNull(value)).toArray();
 			if(p_ids!=null && parts!=null) {
 				parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
-				for(int i=0;i<p_ids.length;i++) {				
-					TipoDocumentoEtapa tp = listMap.get(Core.toInt(p_ids[i]));
+				for(int i=0;i<p_ids.length;i++) {		
+					TipoDocumentoEtapa tp = listMap.get(Core.toInt(p_ids[i].toString()));
 					if(tp!=null && tp.getRequired()==1 && !validateRequired(tp,parts,i)){
 						result  = false;
 						Core.setMessageError("Deve fazer upload do ficheiro: "+tp.getTipoDocumento().getNome());

@@ -40,6 +40,7 @@
 					</thead>
 					<tbody>
 						<xsl:for-each select="$table/value/row">
+							<xsl:variable name="currentRow" select="."></xsl:variable>
 							<xsl:variable name="pos" select="position()"></xsl:variable>
 							<tr row="{$pos}">
 								<input type="hidden" name="p_{$tag}_id" value="{*[name() = concat($tag,'_id')]/text()}"/>
@@ -51,9 +52,9 @@
 									<xsl:variable name="descName" select="concat($fieldTag,'_desc')"/>
 									<xsl:variable name="checkName" select="concat($fieldTag,'_check')"/>
 									
-									<xsl:variable name="value" select="../../table/value/row/*[name() =$fieldTag]/text()" />
-									<xsl:variable name="value_desc" select="../../table/value/row/*[name()=$descName]/text()" />
-              						<xsl:variable name="value_check" select="../../table/value/row/*[name()=$checkName]/text()" />
+									<xsl:variable name="value" select="$currentRow/*[name() =$fieldTag]/text()" />
+									<xsl:variable name="value_desc" select="$currentRow/*[name()=$descName]/text()" />
+              						<xsl:variable name="value_check" select="$currentRow/*[name()=$checkName]/text()" />
 									<xsl:choose>
 										<xsl:when test="@type = 'hidden' or @type = 'group' or @visible">
 											<input type="hidden" name="{@name}_fk" value="{$value}" />
@@ -69,6 +70,7 @@
 					                          		<xsl:with-param name="valuecheck" select="$value_check"/>
 					                          		<xsl:with-param name="sizeClass" select="''"/>
 					                          		<xsl:with-param name="fieldNameSuffix" select="'_fk'"/>
+					                          		<xsl:with-param name="currentRow" select="$currentRow"/>
 					                          	</xsl:call-template>
 					                          	<xsl:if test="@type = 'text'">
 					                          		<input type="hidden" name="{@name}_fk" value="{$value}" />

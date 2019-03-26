@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp.pages.addfiletask;
 
 import nosi.core.webapp.Controller;
@@ -10,12 +9,9 @@ import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.activit.rest.TaskService;
 import org.apache.commons.text.StringEscapeUtils;
 /*----#end-code----*/
-
-
-public class AddfiletaskController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class AddfiletaskController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Addfiletask model = new Addfiletask();
 		model.load();
 		AddfiletaskView view = new AddfiletaskView();
@@ -34,7 +30,7 @@ public class AddfiletaskController extends Controller {
 		return this.renderView(view);	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	/*----#end-code----*/
-	}
+}

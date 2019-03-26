@@ -1,6 +1,8 @@
 package nosi.core.webapp.bpmn;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
@@ -23,12 +25,13 @@ import nosi.core.webapp.activit.rest.TaskFile;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
-import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import static nosi.core.i18n.Translator.gt;
 
@@ -38,15 +41,11 @@ import static nosi.core.i18n.Translator.gt;
  */
 
 public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
-
-	private String app;
 	private String page;
-	private Action action;
 	
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
 		view.setModel(model);
-		this.app = app;
 		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
 		return this.renderView(app,model.getClass().getSimpleName(),view);
 	}
@@ -54,7 +53,6 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	@Override
 	public Response index(String app,Model model,View view,InterfaceBPMNTask bpmnTask) throws IOException {
 		view.setModel(model);
-		this.app = app;
 		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
 		return this.renderView(app,model.getClass().getSimpleName(),view,bpmnTask);
 	}
@@ -85,7 +83,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 				xml.addXml(comp.generateButtonTask(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			xml.addXml(content);
-			xml.addXml(BPMNHelper.addFileSeparator(processDefinition,taskDefinition,action.getApplication().getId(),null));
+			xml.addXml(BPMNHelper.addFileSeparator(appDad,processDefinition,taskDefinition,null));
 			IGRPMessage msg = new IGRPMessage();
 			String m = msg.toString();
 			if(m!=null){
@@ -154,14 +152,12 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	         pi.setError(st.getError());
 	         pi.addVariable("p_process_id", "local", "string", pi.getId());
 	         pi.submitVariables();
-	 		parts = parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
-					.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
-	         new TaskFile().addFile(pi,parts);
 	      }
 	      if(Core.isNotNull(pi.getError())){
             Core.setMessageError(pi.getError().getException());
             return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
+		 this.saveFiles(parts,pi.getId());
          Core.setMessageSuccess();
          TaskService task = new TaskService();
          task.addFilter("processDefinitionId",processDefinitionId);
@@ -172,6 +168,68 @@ public abstract class BPMNTaskController extends Controller implements Interface
          }else {
             return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
+	}
+
+	private void saveFiles(List<Part> parts,String taskId) {
+		try {
+			Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
+			id_tp_doc = Arrays.asList(id_tp_doc).stream().filter(value->Core.isNotNull(value)).toArray();
+			
+			Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");	
+			doc_id = Arrays.asList(doc_id).stream().filter(value->Core.isNotNull(value)).toArray();
+
+			Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
+			input_type = Arrays.asList(input_type).stream().filter(value->Core.isNotNull(value)).toArray();
+
+			parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
+			
+			
+			this.saveFiles(parts,id_tp_doc,doc_id,input_type,taskId);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void saveFiles(List<Part> parts,Object[] id_tp_doc,Object[] doc_id,Object[] input_type,String taskId) {
+		Application app = Core.findApplicationByDad(Core.getCurrentDadParam());
+		for(int i=0;i<id_tp_doc.length;i++) {
+			Part part = parts.get(i);
+			if(Core.isNotNullMultiple(part,part.getSubmittedFileName())) {
+				try {
+					byte[] bytes = FileHelper.convertInputStreamToByte(part.getInputStream());
+					String file_id = doc_id[i].toString();
+					CLob clob = null;
+					if(Core.isNotNull(file_id) && !file_id.equals("-1")) {
+						clob = new CLob().findOne(Core.toInt(file_id));
+					}else {
+						clob = new CLob(part.getSubmittedFileName(), part.getContentType(),bytes,new Date(System.currentTimeMillis()), app );
+						clob.showMessage();
+						clob = clob.insert();
+					}
+					this.saveTaskFile(clob,id_tp_doc,i,taskId);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else if(input_type[i].toString().equals("OUT")) {
+				String file_id = doc_id[i].toString();
+				if(Core.isNotNull(file_id) && !file_id.equals("-1")) {
+					CLob clob = new CLob().findOne(Core.toInt(file_id));
+					this.saveTaskFile(clob,id_tp_doc,i,taskId);
+				}
+			}
+		}
+	}
+	
+
+	private void saveTaskFile(CLob clob,Object[] id_tp_doc,int i,String taskId) {
+		if(clob!=null && !clob.hasError()) {
+			String tp_doc_id =id_tp_doc[i].toString();
+			TipoDocumentoEtapa tpdoc = new TipoDocumentoEtapa().findOne(Core.toInt(tp_doc_id));
+			if(tpdoc!=null) {
+				nosi.webapps.igrp.dao.TaskFile taskFile = new nosi.webapps.igrp.dao.TaskFile(clob, tpdoc ,taskId);
+				taskFile.insert();
+			}
+		}
 	}
 
 	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException {
@@ -200,9 +258,6 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			p.submitVariables();
 			task.submitVariables();
 		}
-		parts = parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
-				.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
-		new TaskFile().addFile(p,parts);
 		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
 		formData.addVariable("profile", Core.getCurrentProfile());
 		formData.addVariable("organization", Core.getCurrentOrganization());
@@ -212,6 +267,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			Core.setMessageError(st.getError().getException());
 			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 		}else {
+			this.saveFiles(parts,taskId);
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
@@ -275,34 +331,29 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public List<TipoDocumentoEtapa> getOutputDocumentType() {
-		String taskDefinition = Core.getParam("previewTask");
-		String processDefinition = Core.getParam("preiviewProcessDefinition");	
-		String preiviewApp = Core.getParam("preiviewApp");	
-		this.page = this.getConfig().PREFIX_TASK_NAME+taskDefinition;
-		this.app = preiviewApp;
-		return BPMNHelper.getOutputDocumentType(processDefinition,taskDefinition,this.getAction().getApplication().getId());
+		String previewTaskDefinition = Core.getParam("previewTask");
+		String preiviewProcessDefinition = Core.getParam("preiviewProcessDefinition");	
+		String currentTaskDefinition = Core.getParam("taskDefinition");
+		String currentProcessDefinition = Core.getParam("processDefinition");	
+		String currentTaskApp = Core.getParam("appDad");
+		currentTaskApp = Core.isNotNull(currentTaskApp)?currentTaskApp:Core.getParam("preiviewApp");
+		currentTaskDefinition = Core.isNotNull(currentTaskDefinition)?currentTaskDefinition:previewTaskDefinition;
+		currentProcessDefinition = Core.isNotNull(currentProcessDefinition)?currentProcessDefinition:preiviewProcessDefinition;
+		return BPMNHelper.getOutputDocumentType(currentTaskApp,currentProcessDefinition,currentTaskDefinition,preiviewProcessDefinition,previewTaskDefinition);
 	}
 
 	@Override
 	public List<TipoDocumentoEtapa> getInputDocumentType() {
+		String appDad = Core.getParam("appDad");
 		String taskDefinition = Core.getParam("taskDefinition");
 		String processDefinition = Core.getParam("processDefinition");	
 		String isDetails = Core.getParam("isDetails",false);
-		if(Core.isNotNull(isDetails)) {
-			HistoricTaskService history = new HistoricTaskService();
-			history.setFilter("processFinished=true");	
-			List<HistoricTaskService> taskHistories = history.getHistory(Core.getParam("taskId"));			
-			return BPMNHelper.getInputDocumentTypeHistory(processDefinition, taskDefinition,taskHistories, this.getAction().getApplication().getId());
+		if(Core.isNotNull(isDetails)) {			
+			return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
 		}
-		return BPMNHelper.getInputDocumentType(processDefinition, taskDefinition, this.getAction().getApplication().getId());
+		return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
 	}
 
-	
-	private Action getAction() {
-		if(this.action!=null)
-			return this.action;
-		return new Action().find().andWhere("page", "=",this.page).andWhere("application.dad", "=",this.app).one();
-	}
 
 	@Override
 	public String details(TaskServiceQuery task) throws IOException, ServletException {
