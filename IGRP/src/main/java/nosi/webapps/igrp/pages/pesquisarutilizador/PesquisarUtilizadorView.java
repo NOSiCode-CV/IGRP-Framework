@@ -114,7 +114,7 @@ public class PesquisarUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel|refresh","warning|fa-send","","");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","right_panel_submit|refresh","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("rel","convidar");
 
 		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","right_panel_submit","success|fa-plus-square","","");

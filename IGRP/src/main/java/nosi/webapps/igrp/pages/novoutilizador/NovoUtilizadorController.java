@@ -43,9 +43,9 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
+		
 public class NovoUtilizadorController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		NovoUtilizadorView view = new NovoUtilizadorView();
@@ -87,7 +87,8 @@ public class NovoUtilizadorController extends Controller {
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 //		If the combo app is disabled, you need to add in the button
-		view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
+      	if(Core.isNotNullOrZero(model.getAplicacao()))          
+			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 		if (Core.isNotNullOrZero(id) && !id.trim().isEmpty()) {
 //			Edit invite mode
 			User u = Core.findUserById((Integer.parseInt(id)));
@@ -97,10 +98,10 @@ public class NovoUtilizadorController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		/*----#gen-example
@@ -109,7 +110,7 @@ public class NovoUtilizadorController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
-
+	
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
 			Boolean sucess;
 			switch (this.getConfig().getAutenticationType()) {
@@ -131,10 +132,10 @@ public class NovoUtilizadorController extends Controller {
 			throw new ServerErrorHttpException("Unsuported operation ...");
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "NovoUtilizador", "index", this.queryString());
+		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+/*----#start-code(custom_actions)----*/
 
 	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 

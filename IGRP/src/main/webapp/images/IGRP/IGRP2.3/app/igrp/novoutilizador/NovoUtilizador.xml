@@ -61,7 +61,7 @@
             <fields>
                 <email name="p_email" type="textarea" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ..." right="false">
                     <label>E-mail(s)</label>
-                    <value>Adipiscing natus aperiam magna natus doloremque voluptatem aliqua stract deserunt accusantium iste a</value>
+                    <value>Consectetur omnis mollit stract ipsum anim unde dolor totam ipsum magna doloremque anim labore adipi</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>

@@ -31,7 +31,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Accusantium sit omnis aperiam omnis accusantium st' as nominho,'6' as range_1,'Accusantium mollit stract aliqua mollit consectetur iste aperiam anim perspiciatis iste unde rem ame' as nome,'Sit amet deserunt voluptatem accusantium adipiscing anim deserunt sit unde totam accusantium anim re' as tb_email,'Doloremque anim labore voluptatem unde totam dolor' as perfile,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Natus lorem ipsum aperiam sit ipsum omnis totam na' as nominho,'5' as range_1,'Voluptatem lorem consectetur ut sed sit natus omnis deserunt sit laudantium consectetur sed labore u' as nome,'Aperiam aliqua unde deserunt perspiciatis labore amet perspiciatis stract amet elit sit mollit aperi' as tb_email,'Aperiam mollit deserunt ipsum mollit doloremque ad' as perfile,'hidden-a4f7_508a' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
