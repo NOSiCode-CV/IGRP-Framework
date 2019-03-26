@@ -863,7 +863,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			list = query.getResultList();
 		}catch (Exception e) {
 			this.keepConnection = false;
-			e.printStackTrace();
 			this.setError(e);
 		} finally {
 			this.closeSession();
@@ -968,7 +967,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				deleted=true;
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
 			this.keepConnection = false;
 			if (transaction != null) {
 				transaction.rollback();
