@@ -75,7 +75,7 @@
 				    }
 				});
 				
-				Map.addControl(drawControl);
+				//Map.addControl(drawControl);
 				
 				Map.on(L.Draw.Event.CREATED, function (e) {
 					
