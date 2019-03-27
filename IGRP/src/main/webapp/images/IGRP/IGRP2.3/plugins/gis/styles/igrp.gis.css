@@ -167,7 +167,7 @@
 
 
 .gis-panel-inner[gis-widget="addpoint"]{
-
+	display:none;
 }
 
 .gis-panel .nav-tabs>li>a{
