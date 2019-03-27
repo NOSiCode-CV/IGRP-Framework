@@ -34,6 +34,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
+import nosi.webapps.igrp.dao.CustomPermssionTask;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import static nosi.core.i18n.Translator.gt;
 
@@ -44,6 +45,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 	private String page;
+	private String myCustomPermission;
 	
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
@@ -156,8 +158,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
             Core.setMessageError(pi.getError().getException());
             return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
-	     ActivityExecute activityExecute = new ActivityExecute(pi.getId(), "start", Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE);
-	     activityExecute.insert();
+	     this.saveStartProcess(pi.getId());
          Core.setMessageSuccess();
          TaskService task = new TaskService();
          task.addFilter("processDefinitionId",processDefinitionId);
@@ -168,6 +169,16 @@ public abstract class BPMNTaskController extends Controller implements Interface
          }else {
             return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
+	}
+
+	private void saveStartProcess(String proc_id) {
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, "start", Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE);
+	     activityExecute.setMyCustomPermission(
+	    		 new CustomPermssionTask().find()
+	    		 	.where("user","=",Core.getCurrentUser().getId())
+	    		 	.andWhere("customPermission","=",this.myCustomPermission).one()
+	     );
+	     activityExecute.insert();
 	}
 
 	private void saveFiles(List<Part> parts,String taskId) {
@@ -419,5 +430,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 					.addQueryString("preiviewProcessDefinition",Core.getParam("preiviewProcessDefinition"))
 					.addQueryString("showTimeLine","true")
 					.addQueryString("previewTaskId",Core.getParam("previewTaskId"));
+	}
+	
+	protected void setCustomPermission(String customPermission) {
+		this.myCustomPermission = customPermission;
 	}
 }
