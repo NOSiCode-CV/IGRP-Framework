@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.transacaoorganica;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -17,6 +16,7 @@ import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import java.util.List;
 /*----#end-code----*/
+import java.util.stream.Collectors;
 		
 public class TransacaoOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -91,8 +91,9 @@ public class TransacaoOrganicaController extends Controller {
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){
-			this.deleteOldTransactions(model);
-			this.assocNewsTransactios(model);
+			CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_transacao"), Core.getParamArray("p_transacao_check"));
+			this.deleteOldTransactions(model,cb.getUncheckedIds());
+			this.assocNewsTransactios(model,this.filterIds(model,cb.getChekedIds()));
 		}
 		this.addQueryString("userEmail",Core.getParam("userEmail"));	
 	 return this.forward("igrp","TransacaoOrganica","index", this.queryString());
@@ -120,53 +121,74 @@ public class TransacaoOrganicaController extends Controller {
 	private User userAdmin = new User().getUserAdmin();
 	private ProfileType profAdmin = new ProfileType().getProfileAdmin();
 	
-	private void deleteOldTransactions(TransacaoOrganica model) {
-		
-		Profile profD = new Profile();
-		List<ProfileType> list = null;
-		if(model.getType().equals("org")){
-			Organization organization = new Organization().findOne(model.getId());
-			profD.setOrganization(organization);
-			profD.setType("TRANS");
-			profD.setProfileType(profAdmin);
-			profD.setUser(userAdmin);
-			profD.deleteAllProfile();
-			list = new ProfileType().find().andWhere("organization.id", "=", organization.getId()).all();
-			if (list != null && list.size() > 0) {
-				ProfileType pAux = list.get(0);
-				Profile pAux2 = new Profile();
-				pAux2.setOrganization(organization);
-				pAux2.setType("TRANS");
-				pAux2.setUser(userAdmin);
-				pAux2.setProfileType(pAux);
-				pAux2.deleteAllProfile();
+	private void deleteOldTransactions(TransacaoOrganica model,List<String> ids) {
+		if(ids!=null && !ids.isEmpty()) {
+			if (model.getType().equals("org")) {
+				this.deleteTransaction(ids, "TRANS",model.getId(),this.profAdmin.getId(),this.userAdmin.getId());
+				List<ProfileType> profilesOfOrg = new ProfileType().find().andWhere("organization.id", "=", model.getId()).all();
+				for(ProfileType p:profilesOfOrg) {
+					this.deleteTransaction(ids, "TRANS",p.getOrganization().getId(),p.getId(),this.userAdmin.getId());
+				}
+			}else if (model.getType().equals("perfil")) {				
+				ProfileType pt = new ProfileType().findOne(model.getId());
+				this.deleteTransaction(ids, "TRANS",pt.getOrganization().getId(),pt.getId(),this.userAdmin.getId());
+			} else if (model.getType().equals("user")) {
+				this.deleteTransaction(ids, "TRANS_USER", Core.getParamInt("org_id"), Core.getParamInt("prof_id"), Core.getParamInt("user_id"));
+			}	
+		}
+	}	
+
+	private void deleteTransaction(List<String> ids, String type,int org_id,int prof_id,int user_id) {
+		for(String id:ids) {
+			ResultSet r = Core.delete("tbl_profile")
+					.where()
+					.andWhere("type", "=", type)
+					.andWhere("type_fk", "=", Core.toInt(id))
+					.andWhere("prof_type_fk", "=",prof_id)
+					.andWhere("user_fk", "=",user_id)
+					.andWhere("org_fk", "=", org_id)
+					.execute();	
+			if(r!=null && r.hasError()) {
+				Core.setMessageError(r.getError());
+				break;
 			}
-		}else if(model.getType().equals("perfil")){
-			ProfileType pt = new ProfileType().findOne(model.getId());
-			profD.setOrganization(pt.getOrganization());
-			profD.setType("TRANS");
-			profD.setUser(userAdmin);
-			profD.setProfileType(new ProfileType().findOne(model.getId()));
-			profD.deleteAllProfile();
-		}else if (model.getType().equals("user")) {
-			profD.setOrganization(new Organization().findOne(Core.getParamInt("org_id")));
-			profD.setType("TRANS_USER");
-			profD.setUser(new User().findOne(Core.getParamInt("user_id")));
-			profD.setProfileType(new ProfileType().findOne(Core.getParamInt("prof_id")));
-			profD.deleteAllProfile();
 		}
 	}
-	
-	
-	
 
-	private void assocNewsTransactios(TransacaoOrganica model) {
-			
-		CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_transacao"), Core.getParamArray("p_transacao_check"));
-		if(cb.getChekedIds().size()>0){
+	private List<String> filterIds(TransacaoOrganica model,List<String> chekedIds){
+		List<Profile> profiles = null;
+		if (model.getType().equals("org")) {
+			profiles = new Profile().find()
+				  .andWhere("organization", "=",model.getId())
+				  .andWhere("profileType","=",this.profAdmin.getId())
+				  .andWhere("type","=","TRANS")
+				  .andWhere("user","=",this.userAdmin.getId())
+				  .all();
+		}else if (model.getType().equals("perfil")) {	
+			ProfileType pt = new ProfileType().findOne(model.getId());	
+			profiles = new Profile().find()
+					  .andWhere("organization", "=",pt.getOrganization().getId())
+					  .andWhere("profileType","=",pt.getId())
+					  .andWhere("type","=","TRANS")
+					  .andWhere("user","=",this.userAdmin.getId())
+					  .all();
+		} else if (model.getType().equals("user")) {
+			profiles = new Profile().find()
+					  .andWhere("organization", "=",Core.getParamInt("org_id"))
+					  .andWhere("profileType","=",Core.getParamInt("prof_id"))
+					  .andWhere("type","=","TRANS_USER")
+					  .andWhere("user","=",Core.getParamInt("user_id"))
+					  .all();
+		}
+		List<Integer> ids = profiles!=null?profiles.stream().map(Profile::getType_fk).collect(Collectors.toList()):null;
+		return chekedIds.stream().filter(m->ids!=null && !ids.contains(Core.toInt(m))).collect(Collectors.toList());
+	}
+	
+	private void assocNewsTransactios(TransacaoOrganica model,List<String> ids) {	
+		if(ids.size()>0){
 			List<ProfileType> list = null;
             boolean sucess=true;
-			for(String x:cb.getChekedIds()){
+			for(String x:ids){
 				Profile prof = new Profile();
 				prof.setUser(userAdmin);
 				prof.setType("TRANS");
