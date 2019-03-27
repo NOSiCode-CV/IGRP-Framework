@@ -2,6 +2,8 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -133,5 +135,10 @@ public class TaskAccess extends IGRPBaseActiveRecord<TaskAccess> implements Seri
 	public String toString() {
 		return "TaskAccess [id=" + id + ", organization=" + organization + ", profileType=" + profileType
 				+ ", taskName=" + taskName + ", processName=" + processName + "]";
+	}
+
+
+	public List<String> getMyProcessNames() {
+		return this.getTaskAccess().stream().map(TaskAccess::getProcessName).collect(Collectors.toList());
 	}
 }

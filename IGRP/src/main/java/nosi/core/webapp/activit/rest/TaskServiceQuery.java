@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,6 +88,7 @@ public class TaskServiceQuery extends TaskService {
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
 				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+				d = d.stream().filter(p->this.myproccessId.contains(p.getProcessInstanceId())).collect(Collectors.toList());			    
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}

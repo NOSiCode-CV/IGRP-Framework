@@ -1,7 +1,13 @@
 package nosi.core.webapp.activit.rest;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.gson.annotations.Expose;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+import nosi.webapps.igrp.dao.ActivityExecute;
 
 /**
  * Yma
@@ -9,10 +15,10 @@ import nosi.core.webapp.webservices.helpers.ResponseError;
  */
 public class Activit {
 
-	private String id;
-	private String category;
-	private String name;
-	private String url;
+	protected String id;
+	protected String category;
+	protected String name;
+	protected String url;
 	@Expose(serialize=false,deserialize=false)
 	private ResponseError error;
 	@Expose(serialize=false)
@@ -27,8 +33,11 @@ public class Activit {
 	private Integer size = 0;
 	@Expose(serialize=false,deserialize=false)
 	private String filter="";
+	@Expose(serialize=false,deserialize=false)
+	protected List<String> myproccessId;
 	
 	public Activit() {
+		this.myproccessId = this.getMyProccessInstances().stream().map(ActivityExecute::getProcessid).collect(Collectors.toList());
 	}
 
 	public String getId() {
@@ -117,6 +126,13 @@ public class Activit {
 
 	public void setFilter(String filter) {
 		this.filter = filter;
+	}
+
+	public List<ActivityExecute> getMyProccessInstances(){
+		return new ActivityExecute().find()
+				.where("organization","=",Core.getCurrentOrganization())
+				.andWhere("profile","=",Core.getCurrentProfile())
+				.all();
 	}
 	
 }

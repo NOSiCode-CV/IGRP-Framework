@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
@@ -36,6 +36,9 @@ public class ProcessInstancesService extends Activit{
 	@Expose(serialize=false,deserialize=false)
 	private List<TaskVariables> variables = new ArrayList<>();
 	private String tenantId;
+	
+	public ProcessInstancesService() {
+	}
 	
 	public String getBusinessKey() {
 		return businessKey;
@@ -131,13 +134,11 @@ public class ProcessInstancesService extends Activit{
 				e.printStackTrace();
 			}
 			if(Response.Status.OK.getStatusCode() == response.getStatus()){				
-				ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp, ProcessDefinitionService.class);
-				this.setTotal(dep.getTotal());
-				this.setSize(dep.getSize());
-				this.setSort(dep.getSort());
-				this.setOrder(dep.getOrder());
-				this.setStart(dep.getStart());
-				d = (ProcessInstancesService) ResponseConverter.convertJsonToDao(contentResp,ProcessInstancesService.class);
+				Integer total = this.getTotal(contentResp);
+				if(total >0) {
+					this.setTotal(total);
+					d = (ProcessInstancesService) ResponseConverter.convertJsonToDao(contentResp,ProcessInstancesService.class);
+				}
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -155,13 +156,8 @@ public class ProcessInstancesService extends Activit{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(Response.Status.OK.getStatusCode() == response.getStatus()){				
-				ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp, ProcessDefinitionService.class);
-				this.setTotal(dep.getTotal());
-				this.setSize(dep.getSize());
-				this.setSort(dep.getSort());
-				this.setOrder(dep.getOrder());
-				this.setStart(dep.getStart());
+			if(Response.Status.OK.getStatusCode() == response.getStatus()){
+				return this.getTotal(contentResp);
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -179,13 +175,8 @@ public class ProcessInstancesService extends Activit{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(Response.Status.OK.getStatusCode() == response.getStatus()){				
-				ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp, ProcessDefinitionService.class);
-				this.setTotal(dep.getTotal());
-				this.setSize(dep.getSize());
-				this.setSort(dep.getSort());
-				this.setOrder(dep.getOrder());
-				this.setStart(dep.getStart());
+			if(Response.Status.OK.getStatusCode() == response.getStatus()){	
+				return this.getTotal(contentResp);
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -193,6 +184,27 @@ public class ProcessInstancesService extends Activit{
 		return this.getTotal();
 	}
 	
+	private Integer getTotal(String contentResp) {
+		ProcessDefinitionService pd = this.getProcessDefinitionService(contentResp);
+		if(pd!=null) {
+			return pd.getTotal();
+		}
+		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	private ProcessDefinitionService getProcessDefinitionService(String contentResp) {
+		ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,ProcessDefinitionService.class);
+		List<ProcessDefinitionService> listProcessInstancesService = (List<ProcessDefinitionService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
+		listProcessInstancesService = listProcessInstancesService.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
+	    int size = listProcessInstancesService.size();
+	   	if(size >0) {
+	   		dep.setTotal(size);
+			return dep;
+		}
+	   	return null;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<ProcessInstancesService> getRuntimeProcessIntances(String processKey){
 		List<ProcessInstancesService> list = new ArrayList<>();
@@ -207,6 +219,7 @@ public class ProcessInstancesService extends Activit{
 			}
 			if(Response.Status.OK.getStatusCode() == response.getStatus()){	
 				list = (List<ProcessInstancesService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessInstancesService>>(){}.getType());
+				list = list.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
 	   		}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}

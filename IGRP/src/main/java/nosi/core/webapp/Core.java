@@ -83,6 +83,7 @@ import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
@@ -3166,14 +3167,14 @@ public final class Core { // Not inherit
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(Core.toInt(procId), Core.toInt(taskId), org, prof, user);
+		ActivityExecute a = new ActivityExecute(procId, taskId, org, prof, user,ActivityEcexuteType.LOCK);
 		a.insert();
 	}
 
 	public static void lockProccess(String codeOrg, String codeProf, String procId, String taskId) {
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(Core.toInt(procId), Core.toInt(taskId), org, prof, null);
+		ActivityExecute a = new ActivityExecute(procId, taskId, org, prof, null,ActivityEcexuteType.LOCK);
 		a.insert();
 	}
 }
