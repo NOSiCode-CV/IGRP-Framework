@@ -3,6 +3,8 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 /**
  * Emanuel
@@ -29,10 +32,10 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	private Integer id;
 	
 	@Column(nullable=false)
-	private Integer processid;
+	private String processid;
 	
 	@Column(nullable=false)
-	private Integer taskid;
+	private String taskid;
 	
 	@ManyToOne
 	@JoinColumn(name="org_fk", foreignKey=@ForeignKey(name="ORG_ACTIVITE_EXECUTE_FK"))
@@ -45,19 +48,32 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	@ManyToOne
 	@JoinColumn(name="user_fk", foreignKey=@ForeignKey(name="USER_ACTIVITE_EXECUTE_FK"))
 	private User user;
+	@Enumerated(EnumType.STRING)
+	@Column(name="execution_type",nullable=false,length=8)
+	private ActivityEcexuteType execution_type;
 	
 	public ActivityExecute() {
 		
 	}
 
-	public ActivityExecute(Integer processid, Integer taskid, Organization organization, ProfileType profile,
-			User user) {
+	public ActivityExecute(String processid, String taskid, Organization organization, ProfileType profile,
+			User user,ActivityEcexuteType execution_type) {
 		super();
 		this.processid = processid;
 		this.taskid = taskid;
 		this.organization = organization;
 		this.profile = profile;
 		this.user = user;
+		this.execution_type = execution_type;
+	}
+
+	public ActivityExecute(String processid, String taskid, Integer currentOrganization,Integer currentProfile, User currentUser,ActivityEcexuteType execution_type) {
+		this.processid = processid;
+		this.taskid = taskid;
+		this.organization = new Organization().findOne(currentOrganization);
+		this.profile = new ProfileType().findOne(currentProfile);
+		this.user = currentUser;
+		this.execution_type = execution_type;
 	}
 
 	public Integer getId() {
@@ -68,11 +84,11 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 		this.id = id;
 	}
 
-	public Integer getTaskid() {
+	public String getTaskid() {
 		return taskid;
 	}
 
-	public void setTaskid(Integer taskid) {
+	public void setTaskid(String taskid) {
 		this.taskid = taskid;
 	}
 
@@ -100,11 +116,27 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 		this.user = user;
 	}
 
-	public Integer getProcessid() {
+	public String getProcessid() {
 		return processid;
 	}
 
-	public void setProcessid(Integer processid) {
+	public void setProcessid(String processid) {
 		this.processid = processid;
 	}
+
+	public ActivityEcexuteType getExecition_type() {
+		return execution_type;
+	}
+
+	public void setExecition_type(ActivityEcexuteType execition_type) {
+		this.execution_type = execition_type;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivityExecute [id=" + id + ", processid=" + processid + ", taskid=" + taskid + ", organization="
+				+ organization + ", profile=" + profile + ", user=" + user + ", execution_type=" + execution_type + "]";
+	}
+	
+	
 }

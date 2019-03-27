@@ -41,6 +41,7 @@
 		<!-- Task Access -->	
 		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned"/>
 		<mapping class="nosi.webapps.igrp.dao.TaskFile"/>
+		<mapping class="nosi.webapps.igrp.dao.ActivityExecute"/>
 		
 	</session-factory>
 </hibernate-configuration>

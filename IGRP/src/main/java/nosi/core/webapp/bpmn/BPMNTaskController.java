@@ -29,7 +29,9 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
@@ -101,8 +103,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	public Response save() throws IOException, ServletException {
 		String processDefinitionId = Core.getParam("p_prm_definitionid");
 		String taskId = Core.getParamTaskId();
-		List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
 		if(Core.isNotNull(taskId)){
+			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
 			TaskService task = new TaskService().getTask(taskId);	
 			if(!ValidateInputDocument.validateRequiredDocument(this,parts)) {
 				this.addQueryString("taskId",taskId)
@@ -119,15 +121,12 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.saveTask(task,taskId,parts);
 		}
 		if(Core.isNotNull(processDefinitionId)){
-			if(!ValidateInputDocument.validateRequiredDocument(this,parts)) {
-				return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
-			}
-			return this.startProcess(processDefinitionId,parts);
+			return this.startProcess(processDefinitionId);
 		}		
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 
-	private Response startProcess(String processDefinitionId,List<Part> parts) throws IOException, ServletException {
+	private Response startProcess(String processDefinitionId) throws IOException, ServletException {
 		String content = Core.getJsonParams();
 		FormDataService formData = new FormDataService();
 	      FormDataService properties = null;
@@ -157,7 +156,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
             Core.setMessageError(pi.getError().getException());
             return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
-		 this.saveFiles(parts,pi.getId());
+	     ActivityExecute activityExecute = new ActivityExecute(pi.getId(), "start", Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE);
+	     activityExecute.insert();
          Core.setMessageSuccess();
          TaskService task = new TaskService();
          task.addFilter("processDefinitionId",processDefinitionId);

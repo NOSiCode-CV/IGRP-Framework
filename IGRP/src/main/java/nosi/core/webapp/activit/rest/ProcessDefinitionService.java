@@ -46,6 +46,10 @@ public class ProcessDefinitionService extends Activit{
 	private Boolean startFormDefined;
 	private String tenantId;
 	
+	public ProcessDefinitionService() {
+		super();
+	}
+	
 	@Expose(serialize=false,deserialize=false)
 	private List<TaskVariables> variables = new ArrayList<>();
 
@@ -114,6 +118,8 @@ public class ProcessDefinitionService extends Activit{
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
 				d = (List<ProcessDefinitionService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
+				List<String> myProcess = new TaskAccess().getMyProcessNames();
+				d = d.stream().filter(p->myProcess.contains(p.getKey())).collect(Collectors.toList());
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -343,14 +349,20 @@ public class ProcessDefinitionService extends Activit{
 		this.tenantId = tenantId;
 	}
 
+
+	
+
+
 	@Override
 	public String toString() {
 		return "ProcessDefinitionService [version=" + version + ", nameLike=" + nameLike + ", key=" + key
 				+ ", suspended=" + suspended + ", description=" + description + ", deploymentId=" + deploymentId
 				+ ", deploymentUrl=" + deploymentUrl + ", graphicalNotationDefined=" + graphicalNotationDefined
-				+ ", resource=" + resource + ", diagramaResource=" + diagramResource + ", startFormDefined="
-				+ startFormDefined + "]";
+				+ ", resource=" + resource + ", diagramResource=" + diagramResource + ", startFormDefined="
+				+ startFormDefined + ", tenantId=" + tenantId + ", variables=" + variables + ", id=" + id
+				+ ", category=" + category + ", name=" + name + ", url=" + url + "]";
 	}
+
 
 	public Map<String,String> mapToComboBox(String idApp) {
 		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivosToCombox(idApp);
