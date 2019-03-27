@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import java.util.Map;
@@ -19,6 +20,8 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Share;
 import java.util.Properties;
+import java.util.Set;
+
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -634,13 +637,13 @@ public class PageController extends Controller {
 
 	// For Editor
 
-	private List<Map<String, List<String>>> getMethod(Class<?>... params) {
-		List<Map<String, List<String>>> metodos = new ArrayList<>();
+	private Set<Map<String, Set<String>>> getMethod(Class<?>... params) {
+		Set<Map<String, Set<String>>> metodos = new HashSet<Map<String, Set<String>>>() ;
 		for (Class<?> c : params) {
 			for (Method method : c.getDeclaredMethods()) {
 				if (!method.getName().contains("lambda")) {
-					Map<String, List<String>> m = new HashMap<>();
-					List<String> mm = new ArrayList<>();
+					Map<String, Set<String>> m = new HashMap<>();
+					Set<String> mm = new HashSet<>();
 					for (Parameter param : method.getParameters()) {
 						int i = param.toString().lastIndexOf(".");
 						if (i != -1)
@@ -658,7 +661,7 @@ public class PageController extends Controller {
 	}
 
 	public Response actionMetodosCore() {
-		List<Map<String, List<String>>> metodos = getMethod(Core.class, QueryHelper.class);
+		Set<Map<String, Set<String>>> metodos = getMethod(Core.class, QueryHelper.class);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(metodos));
 	}

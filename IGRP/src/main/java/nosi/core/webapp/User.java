@@ -142,7 +142,8 @@ public class User implements Component{
 			String r[] = aux.split("/");
 			String appDad = r[0];
 			String pageName = r[1];
-			if(new Action().isPublicPage(appDad, pageName))
+			String qs = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getQueryString() : "";
+			if(qs.contains("target=_blank") && qs.contains("isPublic=1") && new Action().isPublicPage(appDad, pageName))
 				return; 
 		}catch(Exception e) {
 			
