@@ -77,7 +77,7 @@ public class ProcessDefinitionService extends Activit{
 	
 	public ProcessDefinitionService getLatestProcessDefinitionByKey(String processKey,String tenantId){
 		this.setFilter("?key="+processKey+"&latest=true&tenantId="+tenantId);
-		List<ProcessDefinitionService> list = this.getProcessDefinitions();		
+		List<ProcessDefinitionService> list = this.getProcessDefinitions(true);		
 		return list!=null && list.size() > 0?list.get(0):null;
 	}
 	
@@ -99,7 +99,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<ProcessDefinitionService> getProcessDefinitions(){
+	public List<ProcessDefinitionService> getProcessDefinitions(boolean filterByProfile){
 		List<ProcessDefinitionService> d = new ArrayList<>();
 		Response response = new RestRequest().get("repository/process-definitions"+this.getFilter());
 		if(response!=null){
@@ -118,8 +118,10 @@ public class ProcessDefinitionService extends Activit{
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
 				d = (List<ProcessDefinitionService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
-				List<String> myProcess = new TaskAccess().getMyProcessNames();
-				d = d.stream().filter(p->myProcess.contains(p.getKey())).collect(Collectors.toList());
+				if(filterByProfile) {
+					List<String> myProcess = new TaskAccess().getMyProcessNames();
+					d = d.stream().filter(p->myProcess.contains(p.getKey())).collect(Collectors.toList());
+				}
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -129,21 +131,21 @@ public class ProcessDefinitionService extends Activit{
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
-		List<ProcessDefinitionService> list = this.getProcessDefinitions();
+		List<ProcessDefinitionService> list = this.getProcessDefinitions(true);
 		list = list.stream().filter(p->filterAccess(p)).collect(Collectors.toList());
 		return list;
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivosToCombox(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
-		List<ProcessDefinitionService> list = this.getProcessDefinitions();
+		List<ProcessDefinitionService> list = this.getProcessDefinitions(true);
 		list = list.stream().collect(Collectors.toList());
 		return list;
 	}
 	
-	public List<ProcessDefinitionService> getProcessDefinitionsAllAtivos(String idApp){
+	public List<ProcessDefinitionService> getProcessDefinitionsForCreated(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
-		return this.getProcessDefinitions();
+		return this.getProcessDefinitions(false);
 	}
 	
 	public boolean filterAccess(ProcessDefinitionService p) {
