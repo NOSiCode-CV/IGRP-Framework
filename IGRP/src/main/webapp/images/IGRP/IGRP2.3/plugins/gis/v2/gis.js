@@ -43,6 +43,7 @@
 			$('.leaflet-top.leaflet-right', app.dom).append(btn);
 			
 			
+			
 		};
 
 		if(modules.Map){
