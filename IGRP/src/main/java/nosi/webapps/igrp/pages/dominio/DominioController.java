@@ -6,7 +6,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
-import nosi.webapps.igrp.pages.novodominio.DomainHeper;
 
 /*----#end-code----*/
 		
