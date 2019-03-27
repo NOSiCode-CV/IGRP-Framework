@@ -8,6 +8,7 @@ import com.google.gson.annotations.Expose;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.webapps.igrp.dao.ActivityExecute;
+import nosi.webapps.igrp.dao.CustomPermssionTask;
 
 /**
  * Yma
@@ -38,6 +39,10 @@ public class Activit {
 	
 	public Activit() {
 		this.myproccessId = this.getMyProccessInstances().stream().map(ActivityExecute::getProcessid).collect(Collectors.toList());
+		List<ActivityExecute>  instances = this.getMyProccessInstancesCustom();
+		if(instances!=null && !instances.isEmpty()) {
+			this.myproccessId.addAll(instances.stream().map(ActivityExecute::getProcessid).collect(Collectors.toList()));
+		}
 	}
 
 	public String getId() {
@@ -128,11 +133,35 @@ public class Activit {
 		this.filter = filter;
 	}
 
+	/**
+	 * Get proccess instance that i have access without custom permission
+	 * @return
+	 */
 	public List<ActivityExecute> getMyProccessInstances(){
 		return new ActivityExecute().find()
 				.where("organization","=",Core.getCurrentOrganization())
 				.andWhere("profile","=",Core.getCurrentProfile())
+				.andWhereIsNull("myCustomPermission")
 				.all();
 	}
 	
+	/**
+	 * Get proccess instance that i have access with custom permission
+	 * @return
+	 */
+	public List<ActivityExecute> getMyProccessInstancesCustom(){
+		List<String> customPermission = new CustomPermssionTask().find()
+				.where("user.email","=",Core.getCurrentUser().getEmail())
+				.all()
+				.stream()
+				.map(CustomPermssionTask::getCustomPermission)
+				.collect(Collectors.toList());
+		if(customPermission!=null && customPermission.isEmpty())
+			return null;
+		return new ActivityExecute().find()
+				.where("organization","=",Core.getCurrentOrganization())
+				.andWhere("profile","=",Core.getCurrentProfile())
+				.andWhere("myCustomPermission.customPermission","in",Core.convertArrayObjectToArrayString(customPermission.toArray()))
+				.all();
+	}
 }

@@ -51,6 +51,9 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	@Enumerated(EnumType.STRING)
 	@Column(name="execution_type",nullable=false,length=8)
 	private ActivityEcexuteType execution_type;
+	@ManyToOne
+	@JoinColumn(name="my_custom_permission_fk",nullable=true,foreignKey=@ForeignKey(name="MY_CUSTOM_PERMISSION_EXECUTE_FK"))
+	private CustomPermssionTask myCustomPermission;
 	
 	public ActivityExecute() {
 		
@@ -123,20 +126,28 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	public void setProcessid(String processid) {
 		this.processid = processid;
 	}
-
-	public ActivityEcexuteType getExecition_type() {
+	
+	public ActivityEcexuteType getExecution_type() {
 		return execution_type;
 	}
 
-	public void setExecition_type(ActivityEcexuteType execition_type) {
-		this.execution_type = execition_type;
+	public void setExecution_type(ActivityEcexuteType execution_type) {
+		this.execution_type = execution_type;
+	}
+
+	public CustomPermssionTask getMyCustomPermission() {
+		return myCustomPermission;
+	}
+
+	public void setMyCustomPermission(CustomPermssionTask myCustomPermission) {
+		this.myCustomPermission = myCustomPermission;
 	}
 
 	@Override
 	public String toString() {
 		return "ActivityExecute [id=" + id + ", processid=" + processid + ", taskid=" + taskid + ", organization="
-				+ organization + ", profile=" + profile + ", user=" + user + ", execution_type=" + execution_type + "]";
+				+ organization + ", profile=" + profile + ", user=" + user + ", execution_type=" + execution_type
+				+ ", myCustomPermission=" + myCustomPermission + "]";
 	}
-	
 	
 }
