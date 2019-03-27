@@ -50,7 +50,7 @@
 
 				menu   : {
 
-					selector: '>*'
+					selector: '>*' 
 
 				}
 			};
