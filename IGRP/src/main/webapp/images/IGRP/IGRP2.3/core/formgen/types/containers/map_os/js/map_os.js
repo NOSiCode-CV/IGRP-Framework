@@ -70,7 +70,7 @@
 					{ path : '/plugins/handlebars/handlebars-v4.1.1.js' },
 					
 					{ path : '/plugins/gis/v2/gis.js' },
-					
+					{ path : '/plugins/gis/v2/modules/gis.utils.js' },
 					{ path : '/plugins/gis/v2/modules/gis.templates.js' },
 					{ path : '/plugins/gis/v2/modules/gis.map.js' },
 					{ path : '/plugins/gis/v2/modules/gis.basemaps.js' },
@@ -78,7 +78,8 @@
 					{ path : '/plugins/gis/v2/modules/gis.layer.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widgets.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widget.js' },
-					{ path : '/plugins/gis/v2/modules/gis.panels.js' }
+					{ path : '/plugins/gis/v2/modules/gis.panels.js' },
+					
 
 				],
 				xsl : [ 'gis.map' ]
@@ -172,6 +173,7 @@
 						position : w.GET.widget_position(),
 						css      : w.GET.widget_css(),
 						js		 : w.GET.widget_js(),
+						html     : w.GET.widget_html(),
 						data 	 : options
 					})
 

@@ -48,8 +48,9 @@
 
 					//console.log( $(l.getPane()) )
 
-				})
-			},150)
+				});
+				
+			}, 150);
 			
 
 			return layer;

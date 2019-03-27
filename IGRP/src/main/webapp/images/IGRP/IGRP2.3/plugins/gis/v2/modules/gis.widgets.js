@@ -16,11 +16,30 @@
 				
 				var id = $(this).attr('widget-id');
 				
-				Widgets.activate(id);
+				Widgets.toggle( id );
+				
+				/*var id = $(this).attr('widget-id');
+				
+				if(!$(this).hasClass('active'))
+					
+					Widgets.activate(id);
+					
+				else
+					
+					Widgets.deactivate(id);*/
 
 			});
 			
 		};
+		
+		Widgets.toggle = function(id){
+			
+			var widget = Widgets.get( id );
+			
+			if(widget)
+				
+				widget.toggle();
+		}
 		
 		Widgets.activate = function(id){
 			

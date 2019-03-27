@@ -6,13 +6,15 @@
 			
 			Templates = GIS.module('Templates'),
 			
-			events	  = new $.EVENTS(['activate','load-html']);
+			events	  = new $.EVENTS(['activate','deactivate','load-html']);
 		
 		widget.html = "";
 		
 		widget.on = events.on;
 		
 		widget.map = app;
+		
+		widget.templates = {};
 		
 		widget.type = function(){
 			
@@ -26,36 +28,97 @@
 		
 		};
 		
-		widget.activate = function(){
+		widget.toggle = function(){
 			
-			if(!widget.html)
-		
-				GetWidgetHTML({
-					
-					success : function(source){
-						
-						var template = Handlebars.compile(source),
-							
-							html     = template(options);
-
-						widget.html = ConfigHTML(html);
-						
-						OpenWidgetPanel();
-						
-					}
-				});
+			if(widget.active)
+				
+				CloseWidgetPanel();
 				
 			else
 				
-				OpenWidgetPanel();
+				widget.activate()
+			
+		};
+		
+		widget.activate = function(){
+			
+			if(widget.options.html){
+				
+				if(!widget.html)
+					
+					GetWidgetHTML({
+						
+						success : function(source){
+							
+							var template = Handlebars.compile(source),
+								
+								html     = template(options);
+							
+							GetTemplates(source);
+
+							widget.html = ConfigHTML(html);
+							
+							OpenWidgetPanel();
+							
+						}
+					});
+					
+				else
+					
+					OpenWidgetPanel();
+				
+				
+			}else{
+				
+				widget.active = true;
+				
+				events.execute('activate');
+				
+			}
 
 		};
 		
+		function GetTemplates(tmpl){
+			
+			widget.templates.global = tmpl;
+			
+			var $tmpl = $(tmpl);
+			
+			$('[widget-template]', $tmpl).each(function(){
+				
+				var name = $(this).attr('widget-template');
+				
+				widget.templates[name] = $(this).prop("outerHTML");
+				
+			});
+
+		}
+		
 		function OpenWidgetPanel(){
 			
-			$('.gis-panel.widget').html(widget.html);
+			widget.active = true;
+			
+			if(!$('.gis-panel.widget').find(widget.html)[0])
+			
+				$('.gis-panel.widget').append(widget.html);
+			
+			else
+				
+				widget.html.show();
 			
 			events.execute('activate');
+
+		};
+		
+		function CloseWidgetPanel(){
+			
+			widget.active = false;
+			
+			if(widget.html)
+				
+				widget.html.hide();
+			
+			events.execute('deactivate');
 
 		};
 		
@@ -71,7 +134,7 @@
 		
 		function GetWidgetHTML( o ){
 			
-			var options = $.extend({
+			var _options = $.extend({
 				
 				success : function(){}
 			
@@ -79,7 +142,7 @@
 			
 			$.IGRP.request( GIS.path+'/widgets/'+widget.type()+'/'+widget.type()+'.widget.html',{
 				
-				success : options.success
+				success : _options.success
 				
 			}).then(function(d){
 				

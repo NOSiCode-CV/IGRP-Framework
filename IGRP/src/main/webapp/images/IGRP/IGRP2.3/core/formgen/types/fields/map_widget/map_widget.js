@@ -36,8 +36,6 @@
 		function SetAttributeType(name,attr, idx) {
 			
 			idx = idx || 0;
-			
-			console.log(idx)
 		
 			var value = field.GET[name] ? field.GET[name]() : attr.value,
 					
@@ -138,26 +136,24 @@
 			
 			if(widget){
 				
-				console.log(widget)
-				
 				if(widget.icon && field.SET.icon)
 					
 					field.SET.icon( widget.icon )
 					
-				if(widget.hasOwnProperty('css') && field.SET.widget_css){
+				if(widget.hasOwnProperty('css') && field.SET.widget_css)
+					
 					field.SET.widget_css( widget.css );
-					console.log(widget.css)
-				}
-				
 
-				if(widget.hasOwnProperty('js') && field.SET.widget_js){
+				if(widget.hasOwnProperty('js') && field.SET.widget_js)
+					
 					field.SET.widget_js( widget.js );
-					console.log(widget.js)
-					
 				
+				if(widget.hasOwnProperty('html') && field.SET.widget_html){
+					
+					field.SET.widget_html( widget.html );
+					
 				}
-					
-					
+
 					
 				for(var attrName in widget.attributes){
 					
@@ -176,6 +172,18 @@
 		
 		
 		field.ready = function(){
+			
+			field.setPropriety({
+				
+				name : 'widget_html',
+				
+				label : 'Load HTML',
+				
+				value : true,
+				
+				editable : false
+				
+			});
 			
 			field.setPropriety({
 				
@@ -327,7 +335,7 @@
 			if(params && params.properties && params.properties.widget_type && params.properties.widget_type.value)
 				
 				SetWidgetAttrs( Widgets[params.properties.widget_type.value] );
-			
+				
 		};
 	}
 
@@ -354,13 +362,15 @@
 			
 			var widget = {
 				
-				icon : $(item).attr('icon'),
+				icon  : $(item).attr('icon'),
 				
 				label : $(item).attr('label') || capitalizeFirstLetter(wname),
 				
 				css   : $(item).attr('css') == "true" || false,
 				
-				js   :  $(item).attr('js') == "false" ? false : true,
+				js    :  $(item).attr('js') == "false" ? false : true,
+						
+				html  : $(item).attr('html') == "false" ? false : true,
 				
 				attributes : {}
 					
@@ -391,6 +401,7 @@
 					widget.attributes[aname].type = type;
 
 			});
+		
 
 			json.widgets[ wname ] = widget;
 			

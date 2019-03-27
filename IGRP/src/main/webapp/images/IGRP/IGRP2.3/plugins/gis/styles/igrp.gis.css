@@ -103,7 +103,7 @@
 
 .gis-panel.widget .form-control{
 	background-color:rgba(255,255,255,.9);
-	box-shadow:0px 0px 1px 0px rgba(0,0,0,.25);
+	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15);
 	border:0;
 	
 }
@@ -228,10 +228,13 @@
 
 
 /* Widgets */
+.gis-widget-wrapper{
+	margin-bottom:10px;
+}
+
 .gis-widgets-controller >.gen-ctx-menu-holder{
   position: relative;
 }
-
 
 /* Switch  */
 .material-switch > label {
@@ -312,6 +315,15 @@
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
+
+
+/*  LAYERS  */
+.gis-feature-highlighted{
+	box-sizing:content-box;
+	padding:5px;
+	border-bottom: 4px solid #3f0
+}
+
 
 @-webkit-keyframes sk-bouncedelay {
   0%, 80%, 100% { -webkit-transform: scale(0) }

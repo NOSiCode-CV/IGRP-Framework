@@ -1,3 +1,40 @@
-<div  style="width:280px">
+<div style="width:280px">
+
   <input type="text" class="form-control" placeholder="Pesquisar...">
+		
+	<div class="search-widget-results" widget-template="results">
+	 	
+		<div class="search-items">
+		
+		{{#each features}}
+			<div class="search-item" layer-id="{{../layer.id}}" feature-id="{{ getFeatureData this 'id' }}" bounds="{{ getFeatureData this 'bounds' }}" >
+				{{#each ../fields}}
+				<div class="search-item-info">
+					<span class="search-item-value">{{lookup ../properties this}}</span>
+					<span class="search-item-field">({{ this }})</span>
+				</div>
+				{{/each}}
+			</div>
+		{{/each}}
+		
+		</div>
+	 </div>
+  
+	<div class="lds-css">
+		<div class="lds-spinner" >
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+  
 </div>

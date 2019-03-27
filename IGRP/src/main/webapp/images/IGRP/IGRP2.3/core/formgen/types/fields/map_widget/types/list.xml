@@ -10,13 +10,19 @@
 	
 	</item>
 	
-	<item name="edition" label="Edição" icon="fa-edit" js="false">
+	<item name="addpoint" label="Marcar Ponto" icon="fa-map-marker" html="false">
 		
 		<attributes>
 			
-			<attr name="test" label="Teste" value=""/>
+			<attr name="layers" type="layers" label=" " value=""/>
 		
 		</attributes>
+		
+		<files>
+			
+			<js></js>
+		
+		</files>
 	
 	</item>
 
