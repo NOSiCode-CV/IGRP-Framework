@@ -140,11 +140,11 @@
 .gis-panel .gis-panel-inner>.btn{
   	border-radius: 0!important;
     padding: 6px 12px;
-    margin-bottom: 5px!important;
+    /*margin-bottom: 5px!important;*/
     border: 0!important;
     border-radius: 0!important;
     line-height: 22px;
-    box-shadow: 0px 0px 1px 0px rgba(0,0,0,.25)
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,.25)
 }
 .gis-panel .gis-panel-inner>.btn>i{
 	margin-top:-2px
@@ -158,6 +158,16 @@
 .gis-panel  .gis-panel-inner>.btn,
 .gis-panel.open .gis-panel-menu-content{
    background:rgba(255,255,255,.9);
+}
+
+.gis-widget-controller.leaflet-bar{
+	width:34px;
+	padding:5px
+}
+
+
+.gis-panel-inner[gis-widget="addpoint"]{
+	display:none;
 }
 
 .gis-panel .nav-tabs>li>a{

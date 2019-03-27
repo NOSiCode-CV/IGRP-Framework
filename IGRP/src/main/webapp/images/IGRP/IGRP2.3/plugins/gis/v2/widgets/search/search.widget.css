@@ -1,6 +1,6 @@
 .gis-widget-wrapper[widget-type="search"]{
 
-	background:white
+	background: rgba(255, 255, 255, 0.9)
 }
 
 .gis-widget-wrapper[widget-type="search"] input{
@@ -39,7 +39,7 @@
 	font-weight:400
 }
 .search-items .search-item:hover{
-	background:#fbfbfba8
+	background:white
 }
 
 .search-items .search-item-field{

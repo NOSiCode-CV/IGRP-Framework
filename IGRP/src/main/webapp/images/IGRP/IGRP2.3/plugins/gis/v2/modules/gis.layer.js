@@ -341,6 +341,12 @@
 		
 		layer.find 		 = layer.find || function(){};
 		
+		layer.data = function(){
+			
+			return data;
+			
+		};
+		
 		layer.query 	 = layer.query || function(){
 			
 			var def = jQuery.Deferred();

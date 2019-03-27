@@ -98,8 +98,8 @@
 				
 					target = w.target || 'void';
 
-				r+='<div class="btn-group-vertical gis-panel-inner" role="group" >'+
-		              '<button gis-widget="'+w.type+'"  widget-id="'+id+'" target="'+target+'" title="'+w.title+'" class="btn btn-default gis-widget-controller" text-color="primary">'+
+				r+='<div class="btn-group-vertical gis-panel-inner leaflet-control" role="group" gis-widget="'+w.type+'">'+
+		              '<button gis-widget="'+w.type+'"  widget-id="'+id+'" target="'+target+'" title="'+w.title+'" class="btn btn-default gis-widget-controller leaflet-bar" text-color="">'+
 		              	'<i class="fa '+w.icon+'"></i>'
 		              '</button>'+
 		            '</div>'

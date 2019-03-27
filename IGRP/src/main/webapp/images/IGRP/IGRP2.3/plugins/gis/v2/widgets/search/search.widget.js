@@ -96,7 +96,7 @@
 					
 				});
 				
-				$.when.apply($, reqs).then(function(){
+				/*$.when.apply($, reqs).then(function(){
 					try{
 						if(arguments.length){
 							
@@ -114,7 +114,7 @@
 					}
 					
 					
-				});
+				});*/
 				
 			}else{
 				

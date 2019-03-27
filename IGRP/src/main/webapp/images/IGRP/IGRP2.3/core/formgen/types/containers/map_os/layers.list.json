@@ -1,7 +1,7 @@
 [
 	{
         "id": 1,
-        "name": "Foco Mosquito (WMS)",
+        "name": "Casa do Cidadão",
         "options": {
             "layers": "INSP_GIS:insp_foco_mosquito"
         },
@@ -10,7 +10,7 @@
     },
     {
         "id": 15,
-        "name": "Foco Mosquito (WFS)",
+        "name": "Casa do Cidadão",
         "options": {
             "typeName": "INSP_GIS:insp_foco_mosquito"
         },
@@ -45,6 +45,5 @@
         "type": "WFS",
         "url": " https://rai-tst-osg-02.gov.cv:8443/geoserver/tiger/ows"
     }
-    
-   
+
 ]

@@ -6,7 +6,7 @@
 			
 			Templates = GIS.module('Templates'),
 			
-			events	  = new $.EVENTS(['activate','deactivate','load-html']);
+			events	  = new $.EVENTS(['activate','deactivate','load-html', 'ready']);
 		
 		widget.html = "";
 		
@@ -185,10 +185,46 @@
 						
 						widget.start( widget, app );
 					
+					if(widget.dependencies)
+						
+						LoadDependencies(  );
+					
+					else
+						
+						Ready();
+					
 					
 				});
 			
 		};
+		
+		function LoadDependencies(){
+			
+			if(widget.dependencies.css && widget.dependencies.css[0])
+				
+				widget.dependencies.css.forEach(function(css){
+					
+					if( !$('head').find('link[href="'+css+'"]')[0] )
+						
+						$('head').append('<link type="text/css" rel="stylesheet" href="'+css+'"/>')
+
+				});
+			
+			if(widget.dependencies.js && widget.dependencies.js[0]){
+				
+				var jsDependenciesReq = [];
+				
+				widget.dependencies.js.forEach(function(js){
+					
+					jsDependenciesReq.push($.getScript( js ));
+					
+				});
+				
+				$.when.apply($, jsDependenciesReq).then( Ready );
+				
+			}
+				
+		}
 		
 		function GetWidgetButton(){
 			
@@ -197,6 +233,12 @@
 			widget.button = btnTemplate;
 			
 			app.addWidgetButton( btnTemplate );
+			
+		};
+		
+		function Ready(){
+			
+			events.execute('ready');
 			
 		};
 		
