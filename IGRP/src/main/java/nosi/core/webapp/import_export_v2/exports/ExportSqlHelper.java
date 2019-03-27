@@ -220,7 +220,7 @@ public class ExportSqlHelper {
 
 	private void loadBPMNData(Wizard_export_step_2 model) {
 		List<Table_bpmn> table_1 = new ArrayList<>();
-		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAllAtivos(this.application.getDad())){
+		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsForCreated(this.application.getDad())){
 			Table_bpmn t = new Table_bpmn();
 			t.setBpmn_ids(process.getId());
 			t.setBpmn_ids_check(process.getId());

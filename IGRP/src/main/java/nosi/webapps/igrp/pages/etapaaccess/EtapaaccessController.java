@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.etapaaccess;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
-import nosi.core.webapp.databse.helpers.ResultSet;
 /*----#end-code----*/
 		
 public class EtapaaccessController extends Controller {
@@ -216,7 +214,7 @@ public class EtapaaccessController extends Controller {
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
 			List<TaskAccess> listExist = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAllAtivos(org.getApplication().getDad())){
+			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsForCreated(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
 				String resource = new ResourceService().getResourceData(link);
 				list.addAll(process.extractTasks(resource,true));
