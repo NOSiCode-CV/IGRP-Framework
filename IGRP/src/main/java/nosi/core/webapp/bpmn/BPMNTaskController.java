@@ -173,12 +173,32 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	private void saveStartProcess(String proc_id) {
 		 ActivityExecute activityExecute = new ActivityExecute(proc_id, "start", Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE);
-	     activityExecute.setMyCustomPermission(
-	    		 new CustomPermssionTask().find()
-	    		 	.where("user","=",Core.getCurrentUser().getId())
-	    		 	.andWhere("customPermission","=",this.myCustomPermission).one()
-	     );
+	     activityExecute.setMyCustomPermission(this.getMyCustomPermission());
 	     activityExecute.insert();
+	}
+	
+	private void updateStartProcess(String proc_id) {
+		 ActivityExecute activityExecute = new ActivityExecute().find()
+				 .where("processid","=",proc_id)
+				 .andWhere("taskid","=","start")
+				 .andWhere("organization","=",Core.getCurrentOrganization())
+				 .one();				 
+		 activityExecute.setMyCustomPermission(this.getMyCustomPermission());
+	     activityExecute.update();
+	}
+
+	private CustomPermssionTask getMyCustomPermission() {
+		if(Core.isNotNull(this.myCustomPermission)) {
+			CustomPermssionTask cp= new CustomPermssionTask().find()
+			 	.where("user","=",Core.getCurrentUser().getId())
+			 	.andWhere("customPermission","=",this.myCustomPermission).one();
+			 if(cp==null) {
+				 cp= new CustomPermssionTask(Core.getCurrentUser(), this.myCustomPermission); 
+				 cp.insert();
+			 }
+			return cp;
+		}
+		return null;
 	}
 
 	private void saveFiles(List<Part> parts,String taskId) {
@@ -279,6 +299,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 		}else {
 			this.saveFiles(parts,taskId);
+			this.updateStartProcess(task.getProcessInstanceId());
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
@@ -291,6 +312,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			}
 		}
 	}
+
 
 	private Response renderNextTask(TaskService task,List<TaskService> tasks) throws IOException {
 		TaskService nextTask = tasks.get(tasks.size()-1);
