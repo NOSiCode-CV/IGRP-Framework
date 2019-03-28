@@ -31,8 +31,8 @@ public class ValidateInputDocument {
 		List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(Core.getParam("appDad",false),Core.getParam("processDefinition",false), Core.getParam("taskDefinition",false));
 		Map<Integer,TipoDocumentoEtapa> listMap = list.stream().collect(Collectors.toMap(TipoDocumentoEtapa::getId,tp->tp));
 		boolean result = true;
-		if(listMap!=null) {
-			Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
+		Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
+		if(listMap!=null && p_ids!=null) {
 			p_ids = Arrays.asList(p_ids).stream().filter(value->Core.isNotNull(value)).toArray();
 			if(p_ids!=null && parts!=null) {
 				parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
