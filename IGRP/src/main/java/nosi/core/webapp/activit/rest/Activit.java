@@ -1,14 +1,14 @@
 package nosi.core.webapp.activit.rest;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.google.gson.annotations.Expose;
-
 import nosi.core.webapp.Core;
+import nosi.core.webapp.bpmn.GenerateInterfacePermission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.webapps.igrp.dao.ActivityExecute;
-import nosi.webapps.igrp.dao.CustomPermssionTask;
 
 /**
  * Yma
@@ -38,13 +38,39 @@ public class Activit {
 	protected List<String> myproccessId;
 	
 	public Activit() {
-		this.myproccessId = this.getMyProccessInstances().stream().map(ActivityExecute::getProcessid).collect(Collectors.toList());
-		List<ActivityExecute>  instances = this.getMyProccessInstancesCustom();
-		if(instances!=null && !instances.isEmpty()) {
-			this.myproccessId.addAll(instances.stream().map(ActivityExecute::getProcessid).collect(Collectors.toList()));
+		this.myproccessId = this.getMyProccessAccess();
+	}
+	
+	private List<String> getMyProccessAccess() {
+		List<ActivityExecute>  myProccessAccess =  this.getMyProccessInstances();
+		List<String> proccess = new ArrayList<>();
+		if(myProccessAccess!=null) {
+			myProccessAccess = myProccessAccess.stream()
+					.filter(p->allowTask(p.getProccessKey(), p))
+					.collect(Collectors.toList());
+			proccess = myProccessAccess.stream().map(ActivityExecute::getProcessid).collect(Collectors.toList());
 		}
+		return proccess;
 	}
 
+	public boolean allowTask(String proccessKey,ActivityExecute task) {
+		boolean r = true;
+    	try {
+    		if(Core.isNotNullMultiple(task.getApplication(),task.getApplication().getDad())) {
+	    		String packageName = GenerateInterfacePermission.getProccessClassName(task.getApplication().getDad().toLowerCase(),proccessKey);
+	    		if(Core.isNotNull(packageName)) {
+					Class<?> c = Class.forName(packageName);
+					Method method = c.getMethod("allowTask",ActivityExecute.class);
+					r = (boolean) method.invoke(c.newInstance(), task);//Get custom permission
+	    		}
+    		}
+		} catch (Exception e) {
+			r = true;
+			e.printStackTrace();
+		} 
+    	return r;//allow all task by default
+	}
+	 
 	public String getId() {
 		return id;
 	}
@@ -141,27 +167,8 @@ public class Activit {
 		return new ActivityExecute().find()
 				.where("organization","=",Core.getCurrentOrganization())
 				.andWhere("profile","=",Core.getCurrentProfile())
-				.andWhereIsNull("myCustomPermission")
+				.andWhere("application.dad","=",Core.getCurrentDad() )
 				.all();
 	}
 	
-	/**
-	 * Get proccess instance that i have access with custom permission
-	 * @return
-	 */
-	public List<ActivityExecute> getMyProccessInstancesCustom(){
-		List<String> customPermission = new CustomPermssionTask().find()
-				.where("user.email","=",Core.getCurrentUser().getEmail())
-				.all()
-				.stream()
-				.map(CustomPermssionTask::getCustomPermission)
-				.collect(Collectors.toList());
-		if(customPermission!=null && customPermission.isEmpty())
-			return null;
-		return new ActivityExecute().find()
-				.where("organization","=",Core.getCurrentOrganization())
-				.andWhere("profile","=",Core.getCurrentProfile())
-				.andWhere("myCustomPermission.customPermission","in",Core.convertArrayObjectToArrayString(customPermission.toArray()))
-				.all();
-	}
 }

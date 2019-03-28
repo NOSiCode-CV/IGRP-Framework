@@ -196,11 +196,13 @@ public class ProcessInstancesService extends Activit{
 	private ProcessDefinitionService getProcessDefinitionService(String contentResp) {
 		ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,ProcessDefinitionService.class);
 		List<ProcessDefinitionService> listProcessInstancesService = (List<ProcessDefinitionService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
-		listProcessInstancesService = listProcessInstancesService.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
-	    int size = listProcessInstancesService.size();
-	   	if(size >0) {
-	   		dep.setTotal(size);
-			return dep;
+		if(listProcessInstancesService!=null) {
+			listProcessInstancesService = listProcessInstancesService.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
+		    int size = listProcessInstancesService.size();
+		   	if(size >0) {
+		   		dep.setTotal(size);
+				return dep;
+			}
 		}
 	   	return null;
 	}

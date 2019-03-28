@@ -42,7 +42,7 @@
 		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned"/>
 		<mapping class="nosi.webapps.igrp.dao.TaskFile"/>
 		<mapping class="nosi.webapps.igrp.dao.ActivityExecute"/>
-		<mapping class="nosi.webapps.igrp.dao.CustomPermssionTask"/>
+	<!-- 	<mapping class="nosi.webapps.igrp.dao.CustomPermssionTask"/> -->
 				
 	</session-factory>
 </hibernate-configuration>

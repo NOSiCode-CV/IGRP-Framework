@@ -3163,18 +3163,19 @@ public final class Core { // Not inherit
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
+
 	public static void lockProccess(String codeOrg, String codeProf, String userName, String procId, String taskId) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(procId, taskId, org, prof, user,ActivityEcexuteType.LOCK);
+		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, user,ActivityEcexuteType.LOCK);
 		a.insert();
 	}
 
 	public static void lockProccess(String codeOrg, String codeProf, String procId, String taskId) {
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(procId, taskId, org, prof, null,ActivityEcexuteType.LOCK);
+		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, null,ActivityEcexuteType.LOCK);
 		a.insert();
 	}
 }
