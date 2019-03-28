@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
@@ -47,6 +49,9 @@ public class TaskService extends Activit{
 	private String processDefinitionUrl;
 	private String processInstanceId;
 	private List<TaskVariables> variables;
+	@Expose(deserialize=false,serialize=false)
+	private String processName;
+	private String processDefinitionKey;
 	
 	public TaskService() {
 		this.variables = new ArrayList<>();
@@ -86,6 +91,7 @@ public class TaskService extends Activit{
 			}
 			if(response.getStatus()==200){
 				t = (TaskService) ResponseConverter.convertJsonToDao(contentResp,TaskService.class);
+				t.proccessDescription(t.getProcessDefinitionUrl());
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -121,7 +127,8 @@ public class TaskService extends Activit{
 	}
 	
 	
-	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTasAccess) {	
+	private boolean filterAvailableTaskAccess(TaskService t,List<TaskAccess> myTasAccess) {
+		t.proccessDescription(t.getProcessDefinitionUrl());
 		return myTasAccess
 						.stream()
 						.filter(a->a.getProcessName().compareTo(t.getProcessDefinitionKey())==0)
@@ -500,11 +507,29 @@ public class TaskService extends Activit{
 		this.setFilter(this.getFilter()+("&"+paramName+"="+value));
 	}
 
-	public String getProcessDefinitionKey() {
-		if(this.getProcessDefinitionUrl()!=null) {
+	public String getProcessDefinitionKey() {		
+		return this.processDefinitionKey;
+	}
+	
+	public void setProcessDefinifionKey(String processDefinitionKey) {
+		this.processDefinitionKey = processDefinitionKey;
+	}
+	
+	public Map<String, String> mapToComboBoxByProcessKey(String processKey,String tenantId) {
+		if(Core.isNotNull(processKey)) {
+			List<TaskService> list = new ProcessDefinitionService().getTasksByProcessKey(processKey, tenantId);
+			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());//Remove Duplicate
+			Map<String, String> map = listDistint.stream().collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName));
+			return map;
+		}
+		return null;
+	}
+
+	public void proccessDescription(String link) {
+		if(link!=null) {
 			RestRequest req = new RestRequest();
 			req.setBase_url("");
-			Response response = req.get(this.getProcessDefinitionUrl());
+			Response response = req.get(link);
 			ProcessDefinitionService process = new ProcessDefinitionService();
 			if(response!=null){
 				String contentResp = "";
@@ -520,19 +545,17 @@ public class TaskService extends Activit{
 					this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 				}
 			}
-			return process.getKey();
+			this.setProcessName(process.getName());
+			this.setProcessDefinifionKey(process.getKey());
 		}
-		return "";
+	}
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 	
-	public Map<String, String> mapToComboBoxByProcessKey(String processKey,String tenantId) {
-		if(Core.isNotNull(processKey)) {
-			List<TaskService> list = new ProcessDefinitionService().getTasksByProcessKey(processKey, tenantId);
-			Set<TaskService> listDistint = list.stream().distinct().collect(Collectors.toSet());//Remove Duplicate
-			Map<String, String> map = listDistint.stream().collect(Collectors.toMap(TaskService::getTaskDefinitionKey, TaskService::getName));
-			return map;
-		}
-		return null;
-	}
 	
 }

@@ -391,6 +391,16 @@ public class FileHelper {
 		return new File(classPath+File.separator +fileName+"Controller.java");
 	}
 	
+	public static File saveFilesJavaAndNotReplace(String classPath,String fileName,String content) {
+		try {
+			if(!fileExists(classPath+File.separator+ fileName+".java"))
+				FileHelper.save(classPath, fileName+".java", content);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new File(classPath+File.separator +fileName+".java");
+	}
+	
 	//Save MVC code java
 	public static boolean saveFilesJava(String path,String page,Part[] content) throws IOException{
 		boolean r = FileHelper.saveFile(path,page+".java",content[0]) && // Save Model;

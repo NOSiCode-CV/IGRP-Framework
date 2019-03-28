@@ -34,7 +34,6 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
-import nosi.webapps.igrp.dao.CustomPermssionTask;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import static nosi.core.i18n.Translator.gt;
 
@@ -158,7 +157,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
             Core.setMessageError(pi.getError().getException());
             return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
          }
-	     this.saveStartProcess(pi.getId());
+	     this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start");
          Core.setMessageSuccess();
          TaskService task = new TaskService();
          task.addFilter("processDefinitionId",processDefinitionId);
@@ -171,35 +170,27 @@ public abstract class BPMNTaskController extends Controller implements Interface
          }
 	}
 
-	private void saveStartProcess(String proc_id) {
-		 ActivityExecute activityExecute = new ActivityExecute(proc_id, "start", Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE);
-	     activityExecute.setMyCustomPermission(this.getMyCustomPermission());
+	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId) {
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey);
+	     activityExecute.setCustomPermission(this.myCustomPermission);
 	     activityExecute.insert();
 	}
 	
-	private void updateStartProcess(String proc_id) {
-		 ActivityExecute activityExecute = new ActivityExecute().find()
-				 .where("processid","=",proc_id)
-				 .andWhere("taskid","=","start")
-				 .andWhere("organization","=",Core.getCurrentOrganization())
-				 .one();				 
-		 activityExecute.setMyCustomPermission(this.getMyCustomPermission());
-	     activityExecute.update();
+	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey) {
+		if(Core.isNotNull(this.myCustomPermission)) { 
+			ActivityExecute activityExecute = new ActivityExecute().find()
+					 .where("processid","=",proc_id)
+					 .andWhere("proccessKey","=",proccessKey)
+					 .andWhere("taskid","=","start")
+					 .andWhere("taskKey","=","start")
+					 .andWhere("organization","=",Core.getCurrentOrganization())
+					 .one();
+			 activityExecute.setCustomPermission(this.myCustomPermission);
+		     activityExecute.update();
+		     this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
+		}
 	}
 
-	private CustomPermssionTask getMyCustomPermission() {
-		if(Core.isNotNull(this.myCustomPermission)) {
-			CustomPermssionTask cp= new CustomPermssionTask().find()
-			 	.where("user","=",Core.getCurrentUser().getId())
-			 	.andWhere("customPermission","=",this.myCustomPermission).one();
-			 if(cp==null) {
-				 cp= new CustomPermssionTask(Core.getCurrentUser(), this.myCustomPermission); 
-				 cp.insert();
-			 }
-			return cp;
-		}
-		return null;
-	}
 
 	private void saveFiles(List<Part> parts,String taskId) {
 		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
@@ -300,7 +291,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 		}else {
 			this.saveFiles(parts,taskId);
-			this.updateStartProcess(task.getProcessInstanceId());
+			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey());
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());

@@ -31,6 +31,7 @@ public class Detalhes_tarefasController extends Controller {
 		taskS.addFilter("includeProcessVariables", "true");
 		String content = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
+			task.proccessDescription(task.getProcessDefinitionUrl());
 			content = generateCustomFormTask(task);
 			break;//because for unique task
 		}

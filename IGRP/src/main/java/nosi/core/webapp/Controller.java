@@ -215,27 +215,28 @@ public class Controller{
 	private ViewTaskDetails getTaskDetails(String taskId) {
 		ViewTaskDetails details = new ViewTaskDetails();
 		Object obj = Core.getAttributeObject("taskObj", true);
-		if(Core.isNotNull(obj)) {			
-			TaskServiceQuery task = (TaskServiceQuery) obj;		
+		if(Core.isNotNull(obj)) {	
+			TaskServiceQuery task = (TaskServiceQuery) obj;	
 			List<TaskVariables.TaskVariableDetails> v = task.queryHistoryTaskVariables(task.getId());
 			String prof_id = v.stream().filter(var->var.getPropertyId().equals("profile")).findFirst().get().getPropertyValue();		
 			ProfileType prof = new ProfileType().findOne(Core.toInt(prof_id));
 			String userName = v.stream().filter(var->var.getPropertyId().equals("userName")).findFirst().get().getPropertyValue();
 			details.setnProcess(task.getProcessInstanceId());
 			details.setnTask(taskId);
-			details.setProcessName(task.getProcessDefinitionKey());
+			details.setProcessName(task.getProcessName());
 			details.setTaskName(task.getName());			
 			details.setEndTime(task.getEndTime());
 			details.setOrg(prof.getOrganization().getName());
 			details.setProfile(prof.getDescr());
 			details.setStartTime(task.getStartTime());
-			details.setUserName(userName);	
+			details.setUserName(userName);
+			return details;
 		}
 		TaskService task = new TaskService().getTask(taskId);
 		if(task!=null) {
 			details.setnProcess(task.getProcessInstanceId());
 			details.setnTask(taskId);
-			details.setProcessName(task.getProcessDefinitionKey());
+			details.setProcessName(task.getProcessName());
 			details.setTaskName(task.getName());
 		}
 		return details;

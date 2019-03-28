@@ -24,6 +24,7 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.bpmn.BPMNHelper;
+import nosi.core.webapp.bpmn.GenerateInterfacePermission;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.StringHelper;
@@ -82,6 +83,7 @@ public class BPMNDesignerController extends Controller {
 			for(TaskService task:tasks) {
 				this.saveTaskController(task,app);
 			}	
+			this.saveBPMNTaskPermission(tasks,app);
 			this.compiler.compile();
 			erros = this.compiler.getError();
 			int index = content.indexOf("<process id=\"");
@@ -99,6 +101,8 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo "+erros) + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
+
+
 
 	public Response actionPublicar() throws IOException{
 		/*----#START-PRESERVED-AREA(PUBLICAR)----*/
@@ -150,9 +154,8 @@ public class BPMNDesignerController extends Controller {
 			ac.setProcessKey(task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
-		
-		String classPathServer = (this.getConfig().getPathServerClass(app.getDad())+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
-		String classPathWorkspace = (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
+		String classPathWorkspace = this.getClassPathWorkspace(task, app);
+		String classPathServer = this.getClassPathServer(task, app);
 		String xml = null;
 		if(FileHelper.dirExists(classPathWorkspace)) {
 			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathWorkspace);
@@ -174,8 +177,28 @@ public class BPMNDesignerController extends Controller {
 		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.config.getLinkXSLBpmnControllerGenerator());
 	}
 	
+	private String getClassPathServer(TaskService task,Application app) {
+		return (this.getConfig().getPathServerClass(app.getDad())+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
+	}
 	
+	private String getClassPathWorkspace(TaskService task,Application app) {
+		return (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
+	}
 	
+	private void saveBPMNTaskPermission(List<TaskService> tasks,Application app) {
+		if(tasks!=null && !tasks.isEmpty()) {
+			String proccessKey = tasks.get(0).getProcessDefinitionId().toLowerCase();
+			String className = GenerateInterfacePermission.getGenerateClassName(proccessKey);
+			if(Core.isNotNull(className)) {
+				String classPathServer = this.getClassPathServer(tasks.get(0), app);
+				String classPathWorkspace = this.getClassPathWorkspace(tasks.get(0), app);
+				String content = GenerateInterfacePermission.getGenerateClassContent(app.getDad(), proccessKey);
+				this.compiler.addFileName(classPathServer+File.separator+ className);
+				FileHelper.saveFilesJavaAndNotReplace(classPathServer, className, content);
+				FileHelper.saveFilesJavaAndNotReplace(classPathWorkspace,className, content);
+			}
+		}
+	}
 	
 	private Compiler compiler;
 	/*----#END-PRESERVED-AREA----*/

@@ -179,4 +179,13 @@ public class TaskServiceQuery extends TaskService {
 			return "Não Iniciado";
 		return "Não Atribuido";
 	}
+
+	@Override
+	public String toString() {
+		return "TaskServiceQuery [startTime=" + startTime + ", endTime=" + endTime + ", claimTime=" + claimTime
+				+ ", paramsQuery=" + paramsQuery + ", json_Variables=" + json_Variables + ", getProcessDefinitionKey()="
+				+ getProcessDefinitionKey() + "]";
+	}
+	
+	
 }

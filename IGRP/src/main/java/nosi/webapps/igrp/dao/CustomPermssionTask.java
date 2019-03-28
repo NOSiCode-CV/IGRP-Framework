@@ -33,7 +33,7 @@ public class CustomPermssionTask extends IGRPBaseActiveRecord<CustomPermssionTas
 	@JoinColumn(name="user_fk",nullable=false,foreignKey=@ForeignKey(name="CUSTOM_PERMISSION_TASK_USER_FK"))
 	private User user;
 	
-	@Column(name="my_custom_permission",nullable=false,length=80)
+	@Column(name="my_custom_permission",nullable=false,columnDefinition = "text")
 	private String customPermission;
 
 	public CustomPermssionTask() {
