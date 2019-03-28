@@ -72,6 +72,7 @@ public class LookupListPageController extends Controller {
 					+ "code as nome,name as descricao_documento,(SELECT tipo FROM tbl_tipo_documento_etapa te WHERE te.report_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) as tipo"
 					+ ",'rep' as type_doc FROM tbl_rep_template tp")					
 					.where("tp.status=:status AND tp.env_fk=:env_fk")
+					.orderByAsc("nome","descricao_documento")
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
 					.addInt("status",1)
