@@ -202,22 +202,23 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 
 	private void saveFiles(List<Part> parts,String taskId) {
-		try {
-			Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
-			id_tp_doc = Arrays.asList(id_tp_doc).stream().filter(value->Core.isNotNull(value)).toArray();
-			
-			Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");	
-			doc_id = Arrays.asList(doc_id).stream().filter(value->Core.isNotNull(value)).toArray();
+		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
+		if(id_tp_doc!=null && parts!=null) {
+			try {
+				id_tp_doc = Arrays.asList(id_tp_doc).stream().filter(value->Core.isNotNull(value)).toArray();
+				
+				Object[] doc_id = Core.getParamArray("p_formlist_documento_doc_id_fk");	
+				doc_id = Arrays.asList(doc_id).stream().filter(value->Core.isNotNull(value)).toArray();
+	
+				Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
+				input_type = Arrays.asList(input_type).stream().filter(value->Core.isNotNull(value)).toArray();
+	
+				parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
 
-			Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
-			input_type = Arrays.asList(input_type).stream().filter(value->Core.isNotNull(value)).toArray();
-
-			parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
-			
-			
-			this.saveFiles(parts,id_tp_doc,doc_id,input_type,taskId);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+				this.saveFiles(parts,id_tp_doc,doc_id,input_type,taskId);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
