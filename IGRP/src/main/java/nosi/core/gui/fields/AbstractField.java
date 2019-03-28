@@ -37,8 +37,7 @@ public abstract class AbstractField implements Field{
 		this.propertie = new FieldProperties();
 	}
 	public String getLabel() {
-		label = !label.equals("")?label:this.propertie.get("name").toString().toUpperCase();
-		return gt(label);
+		return gt(this.label);
 	}
 	public void setLabel(String label) {
 		this.label = label;
