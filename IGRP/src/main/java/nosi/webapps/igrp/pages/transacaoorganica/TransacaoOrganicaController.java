@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import java.util.List;
-/*----#end-code----*/
 import java.util.stream.Collectors;
+
+/*----#end-code----*/
+
 		
 public class TransacaoOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

@@ -1421,7 +1421,7 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Checks if it's not null or "" for multiple values
+	 * Checks if it's not null or "" for multiple values Core.isNotNullMultiple(a,b,c,d)
 	 * 
 	 * @param values
 	 * @return {@code value!=null && !value.equals("");}

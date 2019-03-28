@@ -3,8 +3,11 @@ package nosi.webapps.igrp.pages.home;
 
 import java.io.IOException;
 
+import org.apache.xml.security.stax.ext.XMLSecurityConstants.Action;
+
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
@@ -13,6 +16,19 @@ import nosi.core.webapp.helpers.Permission;
 public class HomeController extends Controller {		
 
 	public Response actionIndex() throws IOException{
+		
+		System.out.println("dad: "+Core.getParam("dad"));
+		String dad=Core.getParam("dad");
+		if(Core.isNotNull(dad) && !dad.equals("igrp")) {
+			nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
+			String page = "tutorial/DefaultPage/index&title=";
+			page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
+			page = ac.getApplication().getDad().toLowerCase() + "/" + page;
+			this.addQueryString("app", dad);
+			this.addQueryString("page", page+"/index&title="+ac.getAction_descr());
+			return redirect("igrp_studio", "env", "openApp",this.queryString());
+		}		
+		
 		String destination = Igrp.getInstance().getRequest().getParameter("_url");
 		if(destination != null ) {
 			try {
