@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.Properties;
 import org.hibernate.HibernateException;
@@ -204,10 +206,18 @@ public class ConfigDBIGRP {
     		StandardServiceRegistryBuilder.destroy(registry);
 			isConnected = true;
     	}catch(Exception e){
-    		e.printStackTrace();
+    		StringWriter sw = new StringWriter();
+		    PrintWriter pw = new PrintWriter(sw);
+		    e.printStackTrace(pw);
+		    System.out.println(sw.toString());
+		Core.log(sw.toString());
     		try {
-	    		final String errormessage = ((HibernateException) e.getCause()).getLocalizedMessage();
-				Core.setMessageError(errormessage.substring(errormessage.indexOf(":")+1));
+    			if(e.getCause() instanceof  NullPointerException) {
+    				
+    			}
+    			final String errormessage1 = ((HibernateException) e.getCause()).getLocalizedMessage();			
+	    		final String errormessage = ((HibernateException) e.getCause()).getCause().getLocalizedMessage();
+				Core.setMessageError(errormessage1.substring(errormessage1.indexOf(":")+1)+": "+errormessage.substring(errormessage.indexOf(":")+1));
 			
 //				Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(1, errormessage.indexOf("Location:")));
 			}catch(Exception e1) {
