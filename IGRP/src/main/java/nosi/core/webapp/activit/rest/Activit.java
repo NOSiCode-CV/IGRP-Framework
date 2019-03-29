@@ -9,6 +9,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.bpmn.GenerateInterfacePermission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.webapps.igrp.dao.ActivityExecute;
+import nosi.webapps.igrp.dao.TaskAccess;
 
 /**
  * Yma
@@ -160,15 +161,31 @@ public class Activit {
 	}
 
 	/**
-	 * Get proccess instance that i have access without custom permission
+	 * Get proccess instance that i have access
 	 * @return
 	 */
 	public List<ActivityExecute> getMyProccessInstances(){
-		return new ActivityExecute().find()
+		String [] proccess = this.getMyProccessKey();
+		if(proccess!=null && proccess.length > 0)
+			return new ActivityExecute().find()
+					.where("organization","=",Core.getCurrentOrganization())
+					.andWhere("proccessKey","in",proccess)
+					.andWhere("application.dad","=",Core.getCurrentDad())
+					.setShowConsoleSql(true)
+					.all();
+		return null;
+	}
+
+	private String[] getMyProccessKey() {
+		List<TaskAccess> ta = new TaskAccess().find()
 				.where("organization","=",Core.getCurrentOrganization())
-				.andWhere("profile","=",Core.getCurrentProfile())
-				.andWhere("application.dad","=",Core.getCurrentDad() )
+				.andWhere("profileType","=",Core.getCurrentProfile())
+				.andWhere("profileType.application.dad","=",Core.getCurrentDad())
 				.all();
+		if(ta!=null) {
+			return Core.convertArrayObjectToArrayString(ta.stream().map(TaskAccess::getProcessName).collect(Collectors.toList()).toArray());
+		}
+		return null;
 	}
 	
 }
