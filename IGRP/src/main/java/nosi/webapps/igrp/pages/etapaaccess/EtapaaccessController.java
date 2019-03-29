@@ -6,6 +6,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
+import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TaskAccess;
@@ -67,15 +68,18 @@ public class EtapaaccessController extends Controller {
 		String type = Core.getParam("type");
 		Integer orgProfId = Core.getParamInt("orgProfId");
 		String userEmail = Core.getParam("userEmail");
-		String[] p_id = Core.getParamArray("p_id");
 		User user = null;
+		String[] p_id = Core.getParamArray("p_id");
+		String[] p_id_check = Core.getParamArray("p_id_check");
+		CheckBoxHelper cb = Core.extractCheckBox(p_id, p_id_check);
+		
 		if(type.compareTo("user")==0) {
 			user = new User().find().andWhere("email", "=",userEmail).one();
-			this.removeOldInserts(type,user.getId());	
+			this.removeOldInserts(type,user.getId(),cb.getUncheckedIds());	
 		}else {
-			this.removeOldInserts(type,orgProfId);	
+			this.removeOldInserts(type,orgProfId,cb.getUncheckedIds());	
 		}
-		boolean r = this.insertNew(p_id,type,orgProfId,user);		
+		boolean r = this.insertNew(cb.getChekedIds(),type,orgProfId,user);		
 		if(r) {
 			Core.setMessageSuccess();
 		}else {
@@ -89,13 +93,43 @@ public class EtapaaccessController extends Controller {
 		
 			
 	}
-	
-/*----#start-code(custom_actions)----*/
 
-	private boolean insertNew(String[] p_id, String type, Integer orgProfId,User user) {
+
+/*----#start-code(custom_actions)----*/
+	
+	/*private List<String> filterIds(Etapaaccess model, List<String> chekedIds) {
+		List<Profile> profiles = null;
+		if (model.getType().equals("org")) {
+			profiles = new Profile().find()
+				  .andWhere("organization", "=",model.getId())
+				  .andWhere("profileType","=",this.profAdmin.getId())
+				  .andWhere("type","=","MEN")
+				  .andWhere("user","=",this.userAdmin.getId())
+				  .all();
+		}else if (model.getType().equals("perfil")) {	
+			ProfileType pt = new ProfileType().findOne(model.getId());	
+			profiles = new Profile().find()
+					  .andWhere("organization", "=",pt.getOrganization().getId())
+					  .andWhere("profileType","=",pt.getId())
+					  .andWhere("type","=","MEN")
+					  .andWhere("user","=",this.userAdmin.getId())
+					  .all();
+		} else if (model.getType().equals("user")) {
+			profiles = new Profile().find()
+					  .andWhere("organization", "=",Core.getParamInt("org_id"))
+					  .andWhere("profileType","=",Core.getParamInt("prof_id"))
+					  .andWhere("type","=","MEN_USER")
+					  .andWhere("user","=",Core.getParamInt("user_id"))
+					  .all();
+		}
+		List<Integer> ids = profiles!=null?profiles.stream().map(Profile::getType_fk).collect(Collectors.toList()):null;
+		return chekedIds.stream().filter(m->ids!=null && !ids.contains(Core.toInt(m))).collect(Collectors.toList());
+	}*/
+
+	private boolean insertNew(List<String> chekedIds, String type, Integer orgProfId,User user) {
 		boolean r = true;
 		Integer orgId = Core.getParamInt("orgId");
-		if(p_id!=null) {
+		if(chekedIds!=null) {
 			Organization org = new Organization();
 			if(Core.isNotNull(orgId) && orgId!=0) {
 				org = org.findOne(orgId);
@@ -106,7 +140,7 @@ public class EtapaaccessController extends Controller {
 			if("prof".compareTo(type)==0 || "user".compareTo(type)==0) {
 				prof = new ProfileType().findOne(orgProfId);
 			}
-			for(String id:p_id) {
+			for(String id:chekedIds) {
 				String[] taskProcess = id.split(separator);
 				if(taskProcess.length > 1) {
 					TaskAccess task = new TaskAccess();
@@ -175,11 +209,10 @@ public class EtapaaccessController extends Controller {
 	/*
 	 * Remove all old associates tasks
 	 */
-	private void removeOldInserts(String type,Integer orgProfUserId) {
-		String[] p_id = Core.getParamArray("p_id");
+	private void removeOldInserts(String type,Integer orgProfUserId,List<String> uncheckedIds) {
 		Integer orgId = Core.getParamInt("orgId");
-		if(p_id!=null && p_id.length > 0 && orgId!=0) {
-			for(String id:p_id) {
+		if(uncheckedIds!=null  && orgId!=0) {
+			for(String id:uncheckedIds) {
 				String[] taskProcess = id.split(separator);
 				if("org".compareTo(type)==0) {	
 					ResultSet.Record r = Core.query(this.configApp.getBaseConnection(),"SELECT prof_fk,org_fk,processname,taskname FROM tbl_task_access")
