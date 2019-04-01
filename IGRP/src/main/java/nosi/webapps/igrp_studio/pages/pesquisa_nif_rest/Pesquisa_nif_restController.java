@@ -1,16 +1,11 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.config.Config;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,7 +39,7 @@ public class Pesquisa_nif_restController extends Controller {
 			model.setTipo_contribuinte("sing");	
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = "";
-		Properties setting = this.loadConfig("common", "main.xml");
+		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String authorization = setting.getProperty("authorization.rest.pesquisa_nif");
 		if(Core.isNotNullOrZero(model.getNif())) {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NUM_NIF=" + model.getNif();
@@ -135,19 +130,6 @@ public class Pesquisa_nif_restController extends Controller {
 		contri.put("out_ent", "Outras Entidades");
 		contri.put("sing", "Singular");
 		return contri;
-	}
-
-	private Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
 	}
 
 	

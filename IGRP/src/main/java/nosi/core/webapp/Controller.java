@@ -44,7 +44,7 @@ import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
  */
 public class Controller{
 	protected Config config = new Config();
-	protected ConfigApp configApp = new ConfigApp();
+	protected ConfigApp configApp = ConfigApp.getInstance();
 	private QueryString<String,Object> queryString = new QueryString<>();
 	private View view;
 	

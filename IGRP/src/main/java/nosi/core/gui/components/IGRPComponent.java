@@ -24,7 +24,7 @@ public abstract class IGRPComponent {
 		this.xml = new XMLWritter();
 		this.properties = new FieldProperties();
 		this.properties.put("title", gt(title));
-		this.connectionName = new ConfigApp().getBaseConnection();
+		this.connectionName = ConfigApp.getInstance().getBaseConnection();
 	}
 	public IGRPComponent(String tag_name) {
 		this(tag_name,"");

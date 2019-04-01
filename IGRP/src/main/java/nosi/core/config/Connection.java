@@ -14,16 +14,10 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class Connection {
 
-	private ConfigApp configApp;
 	public Connection() {
-		this.configApp = new ConfigApp();
+		
 	}
 	
-	
-	
-	public ConfigApp getConfigApp() {
-		return configApp;
-	}
 
 	public java.sql.Connection getConnection(String connectionName){		
 		String url = "";
@@ -31,8 +25,8 @@ public class Connection {
 		String user = "";
 		String dbtype ="";
 		
-		if(connectionName.equalsIgnoreCase(this.configApp.getBaseConnection()) || connectionName.equalsIgnoreCase(this.configApp.getH2IGRPBaseConnection())) {
-			ConfigDBIGRP config = new ConfigDBIGRP();
+		if(connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()) || connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
+			ConfigDBIGRP config =  ConfigDBIGRP.getInstance();
 			try {
 				config.load();
 				url = config.getUrlConnection();

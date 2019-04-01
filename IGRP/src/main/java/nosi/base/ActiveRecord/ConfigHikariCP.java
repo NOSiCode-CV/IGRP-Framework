@@ -176,7 +176,7 @@ public class ConfigHikariCP {
 	}
 
 	public void load() throws Exception{
-		Properties p = new ConfigApp().loadProperties("/config/db/hikaricp.properties");
+		Properties p = ConfigApp.getInstance().loadProperties("/config/db/hikaricp.properties");
 		if(p!=null){
 			this.connectionTimeout = p.getProperty("connectionTimeout");
 			this.idleTimeout = p.getProperty("idleTimeout");

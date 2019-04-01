@@ -280,7 +280,7 @@ public class Config {
 	
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
-		if(new ConfigApp().isInstall())
+		if(ConfigApp.getInstance().isInstall())
 			APP_LINK_IMAGE = this.getLinkImgBase();
 		if(APP_LINK_IMAGE!=null) {
 			APP_LINK_IMAGE = APP_LINK_IMAGE + SEPARATOR_FOR_HTTP;

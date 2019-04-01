@@ -34,9 +34,10 @@ public class ConfigDBIGRP {
 	private String name;
 	private String fileName;
 	private String path;
+	private static final ConfigDBIGRP CONFIG_DB_IGRP = new ConfigDBIGRP();
 	
 	//Default configuration for h2
-	public ConfigDBIGRP() {
+	private ConfigDBIGRP() {
 		this.driverConnection = "";
 		this.driverConnection = "";
 		this.type_db = "h2";
@@ -45,6 +46,10 @@ public class ConfigDBIGRP {
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
 		this.path = new Config().getBasePathConfig()+"/"+"db"+"/";
+	}
+	
+	public static ConfigDBIGRP getInstance() {
+		return CONFIG_DB_IGRP;
 	}
 	
 	public boolean save(){
@@ -209,7 +214,6 @@ public class ConfigDBIGRP {
     		StringWriter sw = new StringWriter();
 		    PrintWriter pw = new PrintWriter(sw);
 		    e.printStackTrace(pw);
-		    System.out.println(sw.toString());
 		Core.log(sw.toString());
     		try {
     			if(e.getCause() instanceof  NullPointerException) {

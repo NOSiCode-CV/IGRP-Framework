@@ -886,7 +886,7 @@ public final class Core { // Not inherit
 		java.sql.Connection conn = null;
 
 		try {
-			String igrpCoreConnection = new ConfigApp().getBaseConnection();
+			String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
 			conn = new Connection().getConnection(igrpCoreConnection);
 			String sql = "select * from tbl_clob where id = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);

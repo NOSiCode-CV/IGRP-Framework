@@ -2,12 +2,12 @@ package nosi.core.config;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
-
 import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Core;
 
@@ -15,15 +15,33 @@ import nosi.core.webapp.Core;
  * Emanuel
  * 17 Jul 2018
  */
-public class ConfigApp {
+public final class ConfigApp {
 
 	private String version;
 	private String data_install;
 	private String isInstallation;
 	private Config config;
-
-	public ConfigApp() {
+	private static final ConfigApp CONFIG_APP = new ConfigApp();
+	
+	private ConfigApp() {
 		this.config = new Config();
+	}
+	
+	public static ConfigApp getInstance() {
+		return CONFIG_APP;
+	}
+	
+	public Properties loadConfig(String filePath, String fileName) {
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
+		
+		Properties props = new Properties();
+		try (FileInputStream fis = new FileInputStream(file)) {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return props;
 	}
 	
 	public String getBaseConnection() {

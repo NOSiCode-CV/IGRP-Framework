@@ -93,7 +93,7 @@ public final class Igrp{
 	}
 	
 	public void run() throws IOException{ // run the web app 
-		new ConfigApp().configurationApp();
+		ConfigApp.getInstance().configurationApp();
 		this.log.run();
 		if(!this.die){
 			this.runController();

@@ -24,6 +24,7 @@ import org.hibernate.SessionFactory;
 
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.base.ActiveRecord.ResolveColumnNameQuery;
+import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -71,7 +72,7 @@ public abstract class QueryHelper implements QueryInterface{
 	private String getMyConnectionName(Object connectionName) {
 		if(Core.isNotNull(connectionName))
 			return connectionName.toString();
-		return this.connection.getConfigApp().getH2IGRPBaseConnection();
+		return ConfigApp.getInstance().getH2IGRPBaseConnection();
 	}
 
 
