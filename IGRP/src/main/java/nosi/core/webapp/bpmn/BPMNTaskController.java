@@ -107,7 +107,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		if(Core.isNotNull(taskId)){
 			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
 			TaskService task = new TaskService().getTask(taskId);	
-			if(!ValidateInputDocument.validateRequiredDocument(this,parts)) {
+			if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this,parts)) {
 				this.addQueryString("taskId",taskId)
 		            .addQueryString("appId", Core.getParam("appId"))
 		            .addQueryString("appDad",Core.getParam("appDad"))

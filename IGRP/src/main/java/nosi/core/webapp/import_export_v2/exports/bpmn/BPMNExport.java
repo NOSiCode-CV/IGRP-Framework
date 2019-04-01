@@ -62,7 +62,7 @@ public class BPMNExport implements IExport{
 	}
 
 	private void addPages(BPMNSerializable bpmn, String processKey) {	
-		List<Action> actions = new Action().find().andWhere("processKey","=",processKey.toLowerCase()).all();
+		List<Action> actions = new Action().find().where("application.dad","=",this.application.getDad()).andWhere("processKey","=",processKey.toLowerCase()).all();
 		if(actions!=null) {
 			List<BPMNPages> pages = new ArrayList<>();
 			actions.stream().forEach(ac->{

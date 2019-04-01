@@ -497,7 +497,7 @@ public class ExecucaoTarefasController extends Controller {
 	private Response startProccess(String processDefinitionId) {
 		this.addQueryString("processDefinitionId", processDefinitionId);
 		processDefinitionId = processDefinitionId.substring(0,processDefinitionId.indexOf(":"));
-		return this.call(Core.getCurrentDad(), "TaskStart"+processDefinitionId, "save", this.queryString());
+		return this.call(Core.getParam("dad"), "TaskStart"+processDefinitionId, "save", this.queryString());
 	}
 
 	/**
