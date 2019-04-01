@@ -6,7 +6,9 @@
 			
 			Templates = GIS.module('Templates'),
 			
-			events	  = new $.EVENTS(['activate','deactivate','load-html', 'ready']);
+			events	  = new $.EVENTS(['activate','deactivate','load-html', 'ready']),
+			
+			_activated = false;
 		
 		widget.html = "";
 		
@@ -15,6 +17,44 @@
 		widget.map = app;
 		
 		widget.templates = {};
+		
+		widget.actions = {};
+		
+		widget.steps = {};
+		
+		widget.events = {
+				
+			declare : function(arr){
+				
+				events.declare(arr);
+				
+			},
+			
+			trigger : events.execute
+				
+		};
+
+		widget.action = function(name, fnc){
+			
+			if(!widget.actions[name])
+				
+				widget.actions[name] = function(){
+					
+					fnc();
+					
+					events.execute('action-'+name );
+				
+				};
+			
+		};
+		
+		widget.activateStep = function(id){
+			
+			if(widget.steps[id])
+				
+				widget.steps[id].activate();
+			
+		}
 		
 		widget.type = function(){
 			
@@ -53,12 +93,20 @@
 							var template = Handlebars.compile(source),
 								
 								html     = template(options);
-							
+
 							GetTemplates(source);
 
 							widget.html = ConfigHTML(html);
 							
+							ConfigWidgetPanel()
+							
+							ConfigActions();
+							
+							ConfigSteps();
+
 							OpenWidgetPanel();
+							
+							events.execute('load-html', widget.html);
 							
 						}
 					});
@@ -78,12 +126,40 @@
 
 		};
 		
+		widget.deactivate = function(){
+			
+			CloseWidgetPanel();
+			
+		};
+		
+		widget.setMenu = function(arr){
+			
+			var menuTmpl = Templates.Widgets.menu( arr, widget )
+			
+			widget.button.addClass('widget-with-menu');
+		
+			widget.button.append( menuTmpl  );
+			
+			widget.on('activate', function(){
+				
+				menuTmpl.addClass('active')
+				
+			});
+			
+			widget.on('deactivate', function(){
+				
+				menuTmpl.removeClass('active')
+				
+			});
+			
+		};
+
 		function GetTemplates(tmpl){
 			
 			widget.templates.global = tmpl;
 			
 			var $tmpl = $(tmpl);
-			
+
 			$('[widget-template]', $tmpl).each(function(){
 				
 				var name = $(this).attr('widget-template');
@@ -132,6 +208,19 @@
 			
 		};
 		
+		function ConfigWidgetPanel(){
+			
+			var panel = widget.html.find('.gis-widget-panel');
+			
+			if(panel[0]){
+				
+				panel.append(Templates.Widgets.panelTools());
+				
+				panel.on('click','.deactivate', widget.deactivate)
+				
+			}
+		};
+		
 		function GetWidgetHTML( o ){
 			
 			var _options = $.extend({
@@ -144,9 +233,6 @@
 				
 				success : _options.success
 				
-			}).then(function(d){
-				
-				events.execute('load-html', d);
 			})
 			
 		};
@@ -163,11 +249,9 @@
 						
 						$('head').append('<style id="'+styleID+'">'+d+'</style>')
 
-					
 				});
-			
-			
-		}
+
+		};
 		
 		function GetWidgetJS(){
 			
@@ -175,34 +259,31 @@
 			
 				$.getScript( GIS.path+'/widgets/'+widget.type()+'/'+widget.type()+'.widget.js').then(function(d){
 					
-					var widgetExtension = GIS.widgets.get(widget.type());
+					var widgetExtension = GIS.widgets.get( widget.type() ),
 					
-					if(widgetExtension)
+						initWidget      = function(){
+							
+							widgetExtension.init(widget, app);
 						
-						$.extend( widget,  widgetExtension);
-					
-					if(widget.start)
+						};
+
+					if(widgetExtension.dependencies)
 						
-						widget.start( widget, app );
-					
-					if(widget.dependencies)
-						
-						LoadDependencies(  );
+						LoadDependencies( widgetExtension.dependencies,  initWidget);
 					
 					else
 						
-						Ready();
-					
+						Ready( initWidget );
 					
 				});
 			
 		};
 		
-		function LoadDependencies(){
+		function LoadDependencies(dependencies, callback){
 			
-			if(widget.dependencies.css && widget.dependencies.css[0])
+			if(dependencies.css && dependencies.css[0])
 				
-				widget.dependencies.css.forEach(function(css){
+				dependencies.css.forEach(function(css){
 					
 					if( !$('head').find('link[href="'+css+'"]')[0] )
 						
@@ -210,17 +291,21 @@
 
 				});
 			
-			if(widget.dependencies.js && widget.dependencies.js[0]){
+			if(dependencies.js && dependencies.js[0]){
 				
 				var jsDependenciesReq = [];
 				
-				widget.dependencies.js.forEach(function(js){
+				dependencies.js.forEach(function(js){
 					
 					jsDependenciesReq.push($.getScript( js ));
 					
 				});
 				
-				$.when.apply($, jsDependenciesReq).then( Ready );
+				$.when.apply($, jsDependenciesReq).then( function(){
+					
+					Ready( callback );
+					
+				} );
 				
 			}
 				
@@ -228,15 +313,192 @@
 		
 		function GetWidgetButton(){
 			
-			var btnTemplate = $( Templates.Widgets.widget(widget.id,options) );
-			
+			var control = $.extend({
+				
+				button : true
+				
+			}, widget.options.control);
+
+			var btnTemplate = $( Templates.Widgets.widget(widget.id, options) );
+				
 			widget.button = btnTemplate;
-			
+				
 			app.addWidgetButton( btnTemplate );
 			
 		};
 		
-		function Ready(){
+		function ConfigActions(){
+			
+			var $actions = widget.html.find('[widget-action]');
+			
+			$actions.each(function(i,action){
+				
+				var event 	 = $(action).attr('action-event') || 'click',
+				
+					callback = $(action).attr('widget-action');
+				
+				if(widget.actions[callback] && typeof widget.actions[callback] === 'function')
+					
+					$(action).on( event, function(){
+						
+						 widget.actions[callback]( );
+						
+					} );
+				
+				
+				events.declare(['action-'+callback]);
+				
+			});
+			
+		};
+		
+		function EvaluateStepsRules(){
+			
+			for(var name in widget.steps){
+				
+				var step = widget.steps[name];
+				
+				if(step.eval)
+					
+					step.eval();
+					
+			}
+			
+		};
+		
+		function Step(stepHTML){
+			
+			var step = this,
+			
+				html   	   = $(stepHTML),
+				
+				stepEvents = new $.EVENTS(['activate']),
+				
+				$steps 	   = widget.html.find('.widget-step'),
+				
+				trigger    = html.attr('step-trigger'),
+				
+				rule	   = html.attr('step-when')
+				
+				index      = html.attr('step') ? html.attr('step') *1 : html.index();
+			
+			step.html = html;
+			
+			step.id   = html.attr('step-id') || 'step-'+index;
+			
+			step.rule = true;
+			
+			step.on = stepEvents.on;
+			
+			step.trigger = stepEvents.execute;
+			
+			step.activate = function(){
+				
+				/*$(widget.html).find(':input[reset-on-step-activation="true"]').each(function(i, e){
+					
+					if( $(e).val() )
+						
+						$(e).val('');
+					
+				});*/
+				
+				EvaluateStepsRules();
+	
+				if(!rule){
+					
+					$steps.not('[step-when]').not(html).each(function(){
+						
+						var id = $(this).attr('step-id');
+						
+						$(this).removeClass('active');
+						
+						widget.steps[id].trigger('deactivate');
+						
+					});
+					
+					html.addClass('active');
+					
+					stepEvents.execute('activate', step);
+				}
+
+			};	
+			
+			if(trigger){
+				
+				var triggers = trigger.split(' ');
+				
+				triggers.forEach(function(triggerEvent){
+					
+					widget.on(triggerEvent, step.activate);
+					
+				});
+				
+			}else if(rule){
+				
+				step.eval = function(){
+					
+					try{
+						
+						var r = eval(rule);
+						
+						if(r){
+							
+							html.addClass('active');
+							
+							step.trigger('activate', step);
+							
+						}else{
+							
+							html.removeClass('active');
+		
+							step.trigger('deactivate', step);
+							
+						}
+
+					}catch(err){
+						
+						console.log(err);
+						
+					}
+					
+				}
+				
+			};
+
+			return step;
+			
+		};
+		
+		function ConfigSteps(){
+			
+			var $steps = widget.html.find('.widget-step');
+			
+			if( $steps[0] )
+				
+				$steps.each(function(i,step){
+					
+					var step = new Step(step);
+					
+					widget.steps[step.id] = step;
+					
+				});
+
+		}
+		
+		function CheckWidgetActive(){
+			
+			if(widget.options.active)
+				
+				widget.on('ready',widget.activate)
+
+			
+		};
+		
+		function Ready(callback){
+			
+			if(callback)
+				
+				callback();
 			
 			events.execute('ready');
 			
@@ -253,6 +515,8 @@
 			GetWidgetCSS();
 			
 			GetWidgetButton();
+			
+			CheckWidgetActive();
 			
 		}
 		

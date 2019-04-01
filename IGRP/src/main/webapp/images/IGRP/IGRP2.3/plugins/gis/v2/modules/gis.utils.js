@@ -1,6 +1,6 @@
 (function(){
 
-	GIS.module('utils', {
+	GIS.module('Utils', {
 		
 		test : 'Test',
 
@@ -81,6 +81,26 @@
 			
 		}
 		
+
+	});
+	
+	/* HandleBars Functions */
+	var utils = GIS.module('Utils');
+	
+	//get feature center helper to use inside widget html
+	Handlebars.registerHelper('GetFeatureData', function(feature, v) {
+		
+		var object = utils.feature.getData( feature );
+		
+		return object[v] || '';
+		
+	});
+	//check if index is 0 and return given class name
+	Handlebars.registerHelper('FirstTabActiveClass', function(index, clss) {
+		
+		clss = clss || 'active';
+	
+		return index == 0 ? clss : '';
 
 	});
 

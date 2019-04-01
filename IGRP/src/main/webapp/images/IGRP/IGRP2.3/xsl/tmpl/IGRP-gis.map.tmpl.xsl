@@ -58,11 +58,14 @@
                 </div>
               </div>
             </div>
+            	
+            <div class="gis-widgets-controller"></div>
+            
           </div>
 
           <div class="gis-panel right">
 
-            <div class="gis-widgets-controller"></div>
+            
             
           </div>
           

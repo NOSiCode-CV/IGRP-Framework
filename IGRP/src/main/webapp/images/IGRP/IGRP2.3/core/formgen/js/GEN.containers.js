@@ -508,14 +508,25 @@ var CONTAINER = function(name,params){
 
 				container.holder.removeClass('custom-xsl-set');
 
-				if      (container.dropZone[0])       setUpDropZone(contents);	
-				else if (container.fieldsSelector[0]) setUpFieldsHolder(contents);
-				//container has groups
-				if(container.groups) setUpGroupFields();
-				//form hidden config elements
-				if(container.contextMenu) setUpContextMenuFields();
-				//form hidden config elements
+				if(container.dropZone[0])   
+					
+					setUpDropZone(contents);
 				
+				else if (container.fieldsSelector[0]) 
+					
+					setUpFieldsHolder(contents);
+				
+				//container has groups
+				if(container.groups) 
+					
+					setUpGroupFields();
+				
+				//form hidden config elements
+				if(container.contextMenu) 
+					
+					setUpContextMenuFields();
+				
+				//form hidden config elements
 				configHiddenFields();
 
 				if(container.fields){
@@ -590,13 +601,17 @@ var CONTAINER = function(name,params){
 
 	var setUpContextMenuFields = function(){
 		
-		var ctxHolder = $(container.contextMenu.holder,container.holder);
-		
-		ctxHolder.addClass(VARS.class.ctxMenu+' active');
-		
-		var startPos;
-
 		setTimeout(function(){
+			
+			var ctxHolder = $(container.contextMenu.holder,container.holder);
+			
+			console.log(container.contextMenu.holder)
+			
+			console.log(ctxHolder)
+			
+			ctxHolder.addClass(VARS.class.ctxMenu+' active');
+			
+			var startPos;
 
 			ctxHolder.sortable({
 				placeholder:'ctx-place-holder',
@@ -630,7 +645,7 @@ var CONTAINER = function(name,params){
 
 			});	
 
-		},200)
+		},200);
 
 			
 	}

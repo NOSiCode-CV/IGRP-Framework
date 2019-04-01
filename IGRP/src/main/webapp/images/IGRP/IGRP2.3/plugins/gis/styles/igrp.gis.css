@@ -9,6 +9,14 @@
   padding: 0!important;
 }
 
+.border-0{
+	border:0!important;
+}
+
+.bg-white{
+	background:white;
+}
+
 .gis-full-screen{
   position: fixed;
   top: 0;
@@ -98,24 +106,72 @@
 }
 
 .gis-panel.widget{
-  right: 45px;
+  right: 0;
+}
+
+
+.gis-widget-panel{
+	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15);
+	padding:0;
+	background:rgba(255,255,255,.9)
+}
+
+.gis-widget-panel-title{
+	padding: 8px 12px;
+    font-weight: 400;
+    background: white;
+    border-bottom: 1px solid rgba(0,0,0,.05);
 }
 
 .gis-panel.widget .form-control{
 	background-color:rgba(255,255,255,.9);
 	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15);
-	border:0;
 	
+}
+
+.gis-widget-panel .form-control{
+	box-shadow:none!important
+}
+
+.widget-with-menu{
+	position:relative!important;
+}
+
+.gis-widget-menu{
+	position:absolute;
+	top:0;
+	left:100%;
+	background:rgba(103, 103, 103, 0.9);
+	box-shadow:0px 0px 2px 0px rgba(0,0,0,.25);
+	z-index:-1;
+	padding:0;
+	margin:0;
+	width:150px;
+	display:none;
+}
+
+.gis-widget-menu.active{
+	display:block
+}
+
+.gis-widget-menu li{
+	padding:5px 8px;
+	line-height:24px;
+	cursor:pointer;
+}
+
+.gis-widget-menu li:not(:last-child){
+	border-bottom:1px solid rgba(0,0,0,.1)
+}
+
+.gis-widget-menu li a {
+	color:white
 }
 
 .gis-panel .gis-panel-inner{
   display: block;
   margin-bottom: 10px;
   position: static;
-}
-
-.gis-widget {
-	ba
 }
 
 .gis-panel .gis-panel-menu-content{
@@ -140,7 +196,7 @@
 .gis-panel .gis-panel-inner>.btn{
   	border-radius: 0!important;
     padding: 6px 12px;
-    /*margin-bottom: 5px!important;*/
+    margin-bottom: 1px!important;
     border: 0!important;
     border-radius: 0!important;
     line-height: 22px;
@@ -165,17 +221,22 @@
 	padding:5px
 }
 
-
-.gis-panel-inner[gis-widget="addpoint"]{
-	display:none;
-}
-
 .gis-panel .nav-tabs>li>a{
   color: #9c9c9c;
-  border:0!important;
-  background: transparent!important;
+  border:0;
+  background: transparent;
   position: relative;
+  outline:0
 }
+
+.gis-panel .nav-tabs>li.active>a, 
+.gis-panel .nav-tabs>li.active>a:focus, 
+.gis-panel .nav-tabs>li.active>a:hover{
+	background: transparent;
+	border:0;
+	outline:0
+}
+
 .gis-panel .nav-tabs>li>a:hover{
   color:#adadad;
   background: transparent;
@@ -238,12 +299,38 @@
 
 
 /* Widgets */
+
+[gis-widget].no-widget-control{
+	display:none;
+}
+
+#igrp-form-gen [gis-widget].no-widget-control{
+	display:block;
+}
 .gis-widget-wrapper{
 	margin-bottom:10px;
+	max-width:310px;
 }
 
 .gis-widgets-controller >.gen-ctx-menu-holder{
   position: relative;
+}
+
+.gis-widget-panel{
+	position:relative;
+}
+
+.gis-widget-panel-tools{
+	position: absolute;
+    z-index: 10;
+    right: 8px;
+    top: 5px;
+}
+
+.gis-widget-panel-tools a{
+	font-size: 14px;
+    color: inherit;
+    margin-left: 8px;
 }
 
 /* Switch  */
@@ -286,6 +373,27 @@
 .material-switch > input[type="checkbox"]:checked + label::after {
     background: inherit;
     left: 10px;
+}
+
+/*STEPS*/
+
+.widget-step:not(.active){
+	display:none;
+}
+
+.widget-step{
+	padding:8px;
+}
+
+
+.widget-step .btn{
+	font-size:10px;
+	text-transform:uppercase;
+	padding:4px 6px
+}
+
+.widget-step .form-control+.form-control{
+	margin-top:5px;
 }
 
 /* loading spinner */

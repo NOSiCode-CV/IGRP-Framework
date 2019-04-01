@@ -25,23 +25,33 @@
 		};
 		
 		function ClearResults(){
-			
-			$('.search-widget-results').html('').hide();
-			
+
 			UnHighLightFeatures();
+			
+			$('.search-widget-no-data-msg').hide();
+			
+			$('.search-clear', widget.html).hide();
 		
-		}
+		};
 		
 		function SetResults(results){
 			
 			try{
-				
+	
 				var template 	 = Handlebars.compile(widget.templates.results),
 				
-			 	 	resultsHtml = template(results);
+			 	 	resultsHtml = template({
+			 	 		
+			 	 		total  	      : results.length,
+			 	 		
+			 	 		noResultsMessage : 'Não foram encontrados resultados.',
+			 	 		
+			 	 		searchResults : results
+			 	 		
+			 	 	});
 				
 				ClearResults();
-			 
+	 
 				$('.search-widget-results', widget.html).replaceWith( resultsHtml );
 				 
 				$('.search-widget-results', widget.html).show();
@@ -60,61 +70,55 @@
 			
 			if( val && val.length >= 1){
 				
-				Loading(true);
+				var reqs    = [],
 				
-				var reqs = [];
+					Results = [];
+				
+				//$('.search-clear', widget.html).show();
 				
 				Layers.forEach(function(l){
 					
 					var layer  = l.layer,
 					
-						fields = l.fields,
-						
-						failed = false;
-	
-					var req = layer.query({ fields : fields, value : val }).then(function(f){
-						
-						var results = {
-								
-							layer    : layer,
-							
-							total    : f.totalFeatures,
-							
-							features : f.features,
-							
-							fields   : fields
-								
-						};
-						
-						SetResults( results );
-							
-						Loading(false);
+						attributes = l.attributes,
 
+						req = layer.query({ attributes : attributes, value : val });
+					
+					req.then(function(f){
+						
+						if(f.totalFeatures){
+							
+							var results = {
+									
+								layer    : layer.data(),
+								
+								total    : f.totalFeatures,
+								
+								features : f.features,
+								
+								attributes   : attributes
+									
+							};
+							
+							Results.push(results);
+							
+						}
+						
 					});
 					
-					//reqs.push( req );
+					reqs.push( req );
 					
 				});
 				
-				/*$.when.apply($, reqs).then(function(){
-					try{
-						if(arguments.length){
-							
-							for(var i=0; i < arguments.length; i++){
-								
-								console.log(arguments[i][0])
-								
-							}
-							
-						}
-					}catch(err){
-						
-						console.log(err)
-						
-					}
+				$.when.apply(undefined,reqs).then(function(){
 					
+					SetResults( Results );
+			
+				}).always(function(v){
+
+					Loading(false);
 					
-				});*/
+				});
 				
 			}else{
 				
@@ -140,7 +144,7 @@
 					
 				}
 				
-			})
+			});
 			
 		}
 		
@@ -160,7 +164,7 @@
 								
 								layer : layer,
 								
-								fields : l.fields ? l.fields.split(' ') : []
+								attributes : l.attributes ? l.attributes.split(' ') : []
 								
 							});
 						
@@ -178,13 +182,17 @@
 			
 			widget.html.on('click', '.search-item', function(){
 				
-				var bounds  = $(this).attr('bounds'),
+				var item    = $(this),
 				
-					id 	    = $(this).attr('feature-id'),
+					bounds  = item.attr('bounds'),
+				
+					id 	    = item.attr('feature-id'),
 					
-					layerid = $(this).attr('layer-id'),
+					layerid = item.attr('layer-id'),
 					
 					layer   = app.layers.get(layerid);
+				
+				widget.html.find('.search-item').removeClass('active');
 				
 				try{
 					
@@ -198,7 +206,11 @@
 						
 						app.viewer().fitBounds( L.latLngBounds(sw,ne) );
 						
-						layer.highlight( id );
+						layer.highlight( id, function(){
+							
+							item.addClass('active');
+							
+						});
 
 					}
 					
@@ -216,7 +228,11 @@
 			    	
 				timeout = setTimeout(Search, 600 );
 				
+				Loading(true);
+				
 			});
+			
+			$('.search-clear', widget.html).on('click', ClearResults);
 			
 			/*$(document).on('mouseup',function(e) {
 			    
@@ -232,16 +248,6 @@
 		
 		(function(){
 			
-			//get feature center helper to use inside widget html
-			Handlebars.registerHelper('getFeatureData', function(feature, v) {
-				
-				var object = utils.feature.getData( feature );
-				
-				return object[v] || '';
-				
-			  
-			});
-			
 			widget.on( 'load-html', SetEvents );
 			
 			widget.on( 'deactivate', UnHighLightFeatures)
@@ -252,6 +258,10 @@
 		
 	}
 
-	GIS.widgets.register('search', SearchWidget);
+	GIS.widgets.register('search', {
+		
+		init : SearchWidget
+		
+	});
 	
 })();

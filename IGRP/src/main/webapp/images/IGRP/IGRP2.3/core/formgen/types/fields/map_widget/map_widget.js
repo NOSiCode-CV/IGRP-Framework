@@ -57,9 +57,7 @@
 				case "layers":
 					
 					var layers = field.properties && field.properties.layers ? field.properties.layers : [];
-					
-					console.log(field.parent.getActiveLayers())
-					
+
 					options.size = 12;
 					
 					options.value = {
@@ -86,9 +84,9 @@
 							}
 						},
 						
-						fields : {
+						attributes : {
 							
-							label : 'Campos',
+							label : 'Attributes',
 							
 							type : 'text'
 						},
@@ -101,11 +99,24 @@
 				break;
 				
 				default:
+				
+					options.value = function(){
+						
+						var val = value;
 					
-					options.value = value;
+						if(attr.type == 'checkbox')
+							
+							val = value == '1' || value == 'true' ? true : false;
+						
+						if(attr.type == 'number')
+							
+							val = value*1;
+
+						return val;
+						
+					}();
 
 					field.setPropriety(options);
-			
 			}
 			
 		}
@@ -136,7 +147,20 @@
 			
 			if(widget){
 				
-				if(widget.icon && field.SET.icon)
+				for(var propName in widget){
+					
+					if(propName != 'attributes'){
+						
+						var wProp = widget[propName];
+						
+						if(field.SET[propName])
+							
+							field.SET[propName]( wProp );
+					}
+					
+				}
+				
+				/*if(widget.icon && field.SET.icon)
 					
 					field.SET.icon( widget.icon )
 					
@@ -148,11 +172,9 @@
 					
 					field.SET.widget_js( widget.js );
 				
-				if(widget.hasOwnProperty('html') && field.SET.widget_html){
+				if(widget.hasOwnProperty('html') && field.SET.widget_html)
 					
-					field.SET.widget_html( widget.html );
-					
-				}
+					field.SET.widget_html( widget.html );*/
 
 					
 				for(var attrName in widget.attributes){
@@ -331,10 +353,35 @@
 				}
 				
 			});
+			
+			field.setPropriety({
+				
+				name : 'buttonControl',
+				
+				label : 'Show Control',
+				
+				value : true
 
-			if(params && params.properties && params.properties.widget_type && params.properties.widget_type.value)
+			});
+			
+			field.setPropriety({
+				
+				name : 'active',
+				
+				label : 'Active',
+				
+				value : false
+
+			});
+
+			if(params && params.properties && params.properties.widget_type && params.properties.widget_type.value){
 				
 				SetWidgetAttrs( Widgets[params.properties.widget_type.value] );
+
+				
+			}
+				
+				
 				
 		};
 	}
@@ -371,6 +418,10 @@
 				js    :  $(item).attr('js') == "false" ? false : true,
 						
 				html  : $(item).attr('html') == "false" ? false : true,
+						
+				active : $(item).attr('active') == "true" ? true : false,
+						
+				buttonControl : $(item).attr('buttonControl') == "false" ? false : true,
 				
 				attributes : {}
 					

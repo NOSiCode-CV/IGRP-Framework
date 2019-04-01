@@ -40,19 +40,6 @@
 
 			}
 
-			setTimeout(function(){
-
-				AllLayers.forEach(function(l,i){
-					
-					//$(l.getPane()).css('z-index', 400+i);
-
-					//console.log( $(l.getPane()) )
-
-				});
-				
-			}, 150);
-			
-
 			return layer;
 
 		};

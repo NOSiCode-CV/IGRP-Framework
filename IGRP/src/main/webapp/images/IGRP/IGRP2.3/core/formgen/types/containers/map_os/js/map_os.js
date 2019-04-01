@@ -74,6 +74,7 @@
 					{ path : '/plugins/gis/v2/modules/gis.templates.js' },
 					{ path : '/plugins/gis/v2/modules/gis.map.js' },
 					{ path : '/plugins/gis/v2/modules/gis.basemaps.js' },
+					{ path : '/plugins/gis/v2/modules/gis.query.js' },
 					{ path : '/plugins/gis/v2/modules/gis.layers.js' },
 					{ path : '/plugins/gis/v2/modules/gis.layer.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widgets.js' },
@@ -153,15 +154,13 @@
 
 				widgets.forEach(function(w){
 					
-					var options = {}
+					var options = {};
 					
 					for(var o in w.proprieties){
 						
-						if(w.propertiesOptions[o] && w.propertiesOptions[o].widgetAttr){
+						if(w.propertiesOptions[o] && w.propertiesOptions[o].widgetAttr)
 							
 							options[o] = w.GET[o]();
-							
-						}
 						
 					};
 					
@@ -174,6 +173,10 @@
 						css      : w.GET.widget_css(),
 						js		 : w.GET.widget_js(),
 						html     : w.GET.widget_html(),
+						active   : w.GET.active(),
+						control  : {
+							button : w.GET.buttonControl()
+						},
 						data 	 : options
 					})
 
@@ -343,7 +346,7 @@
 
 					name : 'basemaps',
 
-					label : 'Basemap',
+					label : ' ',
 
 					type : 'formlist',
 

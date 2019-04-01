@@ -1,0 +1,93 @@
+<div class="gis-widget-panel">
+
+	<div class="gis-widget-panel-title">
+		<span>{{title}}</span>
+	</div>
+	
+	<div class="gis-widget-panel-body">
+
+		<div class="widget-steps-container">
+			
+			<div class="widget-step" step-id="select" step-trigger="activate  action-confirm-delete" style="padding:0">
+				<select class="form-control border-0" widget-action="select-layer" action-event="change" >
+					<option value="">--- Escolha o Layer ---</option>
+					{{#each this.data.layers}}
+					<option value="{{@key}}">{{data.name}}</option>
+					{{/each}}
+				</select>
+			</div>
+			
+			<div class="widget-step bg-white" step-id="confirmation" step-trigger="draw-end action-confirm-edition action-cancel-edition action-cancel-deleting">
+				<div class="clearfix">
+					<a href="#" class="btn btn-grey btn-sm" widget-action="cancel">
+							<i class="fa fa-arrow-left"></i>
+						</a>
+					<a href="#" class="btn btn-default btn-sm" widget-action="save">
+						<i class="fa fa-save"></i>
+						<span>Gravar</span>
+					</a>
+					<a  widget-action="edit" class="btn btn-default btn-sm" href="#">
+						<i class="fa fa-edit"></i>
+						<span>Editar</span>
+					</a> 
+					
+					<div class="pull-right">
+						<a widget-action="delete" class="btn btn-danger btn-sm" href="#">
+							<i class="fa fa-trash-o"></i>
+							<span>Eliminar</span>
+						</a>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="widget-step bg-white clearfix" step-id="edition" step-trigger="action-edit">
+				<a widget-action="cancel-edition" class="btn btn-grey btn-sm" href="#">
+					<i class="fa fa-arrow-left"></i>
+				</a>
+				<div class="pull-right">
+					
+					<a widget-action="confirm-edition" class="btn btn-success btn-sm" href="#">
+						<i class="fa fa-check"></i>
+						<span>Confirmar Edição</span>
+					</a> 
+					
+				</div>
+			</div>
+			
+			<div class="widget-step bg-white clearfix" step-id="deleting" step-trigger="action-delete">
+				
+				<a widget-action="cancel-deleting" class="btn btn-grey btn-sm" href="#">
+					<i class="fa fa-arrow-left"></i>
+				</a>
+
+				<div class="pull-right">
+					
+					<a widget-action="confirm-delete" class="btn btn-danger btn-sm" href="#">
+					<i class="fa fa-trash-o"></i>
+					<span>Confirmar Eliminação</span>
+				</a>
+					
+				</div>
+			</div>
+			
+			<div class="widget-step clearfix" step-id="attributes" step-when="widget.addedObject" style="border-top:2px solid whitesmoke">
+				
+				<form id="addpoint-widget-attributes-form">
+					<input class="form-control" placeholder="Nome" name="categoria"/>
+				
+					<select class="form-control" name="test">
+						<option value="">Categoria</option>
+						<option value="1">Categoria 1</option>
+						<option value="2">Categoria 2</option>
+					</select>
+				</form>
+				
+			</div>
+		
+		</div>
+		
+	</div>
+	
+</div>
+

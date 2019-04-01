@@ -3,23 +3,261 @@
 	var utils = GIS.module('utils');
 	
 	function AddPointWidget( widget, app ){
-		
+
 		var data   = widget.data(), 
 			
 			Map    = app.map.view,
 		
-			Layers = [];
-		
-		widget.dependencies = {
-				
-			js : ['https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js'],
+			Layers = {},
 			
-			css : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css' ]
+			LayerController, DrawLayer, DrawControl, DrawTool, EditTool, DeleteTool, CurrentLayer;
+		
+		widget.events.declare(['draw-end']);
+		
+		widget.addedObject = null;
+		
+		widget.action('cancel', function(){
+
+			Clear();	
+			
+			widget.steps.select.activate();
+			
+		});
+		
+		widget.action('select-layer', function(){
+			
+			var val 	= LayerController.val();
+			
+			CurrentLayer = null;
+			
+			if( DrawTool && DrawTool.disable)
 				
+				DrawTool.disable();
+			
+			if(val){
+				
+				var layer = data.layers[val];
+				
+				if( layer )
+				
+					StartDrawing( layer );
+			}
+			
+		});
+		
+		widget.action('edit', function(){
+
+			EditTool.enable();
+			
+		});
+		
+		widget.action('confirm-edition', function(){
+
+			EditTool.save();
+			
+			EditTool.disable();
+			
+		});
+		
+		widget.action('cancel-edition', function(){
+
+			EditTool.revertLayers();
+			
+			EditTool.disable();
+			
+		});
+		
+		widget.action('delete', function(){
+
+			DeleteTool.enable();
+			
+			DeleteTool.removeAllLayers();
+			
+		});
+		
+		widget.action('confirm-delete', function(){
+			
+			DeleteTool.save();
+			
+			DeleteTool.disable();
+			
+			widget.addedObject = null;
+			
+		});
+		
+		widget.action('cancel-deleting', function(){
+			
+			DeleteTool.revertLayers();
+			
+			DeleteTool.disable();
+	
+		});
+		
+		widget.action('save', function(){
+			
+			if(CurrentLayer && widget.addedObject){
+				
+				var layerData = CurrentLayer.data,
+				
+					workSpaceLayer = layerData.options.typeName || layerData.options.layers || '',
+				
+					workSpace = workSpaceLayer.split(':')[0],
+					
+					linkWorkSpace = 'https:/www.nosi.cv/INSP_GIS',
+					
+					categoria 	 = 	widget.html.find('form [name="categoria"]').val(),
+					
+					layerUrl  	 = layerData.url,
+				
+					indexOfWMS   =  layerData.url.lastIndexOf('/wms'),
+					
+					postData;
+				
+				if(indexOfWMS >= 0)
+					
+					layerUrl = layerData.url.substring(0,indexOfWMS)+'/ows';
+
+				postData =
+		            '<wfs:Transaction\n'
+		            + '  service="WFS"\n'
+		            + '  version="1.0.0"\n'
+		            + '  xmlns="http://www.opengis.net/wfs"'
+		            + '  xmlns:'+workSpace+'="'+linkWorkSpace+'"\n'
+		            + '  xmlns:wfs="http://www.opengis.net/wfs"\n'
+		            + '  xmlns:gml="http://www.opengis.net/gml"\n'
+		            + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
+		            + '  xsi:schemaLocation="http://www.opengis.net/wfs\n'
+		            + '                      http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd\n'
+		            + '                      '+layerUrl+'?service=wfs&amp;request=DescribeFeatureType&amp;typeName='+workSpaceLayer+'&amp;version=1.0.0">\n'
+		            + '  <wfs:Insert>\n'
+		            + '    <gml:featureMember>'
+		            + '      <'+workSpace+':insp_foco_mosquito>'
+		            + '        <'+workSpace+':categoria>' + categoria + '</'+workSpace+':categoria>'
+		            + '        <'+workSpace+':geom>'
+		            + '          <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">'
+		            + '            <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">' + widget.addedObject.getLatLng().lng + ',' + widget.addedObject.getLatLng().lat + '</gml:coordinates>'
+		            + '          </gml:Point>'
+		            + '        </'+workSpace+':geom>'
+		            + '      </'+workSpace+':insp_foco_mosquito>'
+		            + '    </gml:featureMember>'
+		            + '  </wfs:Insert>\n'
+		            + '</wfs:Transaction>';
+				
+				$.ajax({
+			        type: "POST",
+			        url: layerUrl,
+			        dataType: "xml", 
+			        contentType: "text/xml",
+			        data: postData,
+			        success: function (xml) {
+			        	
+			        	var $xml 		  = $(xml),
+			        		
+			        		insertResults = $xml.find('wfs\\:InsertResult');
+			        	
+			        	if(insertResults[0]){
+			        		
+			        		widget.events.trigger('save-success', {
+			        			
+			        			layer : CurrentLayer,
+			        			
+			        			added : widget.addedObject
+			        			
+			        		});
+			        		
+			        		$.IGRP.notify({
+			        			
+			        			message : 'Criado com sucesso!',
+			        			
+			        			type    : 'success'
+			        			
+			        		});
+			        		
+			        		
+			        		widget.actions.cancel();
+			        		
+			        	}
+
+			        },
+			        error: function (xhr) {
+			            alert("Ocorreu um erro: " + xhr.status + " " + xhr.statusText);
+			        },
+			        complete: function (xml) {
+			            console.log("Done");
+			        }
+			    });
+				
+				
+			}
+			
+		});
+		
+		function InitDraw(){
+
+			DrawLayer   = new L.FeatureGroup();
+			
+			DrawControl = new L.Control.Draw({
+			    
+			    edit: {
+			    	
+			        featureGroup: DrawLayer
+			        
+			    }
+			    
+			});
+			
+			EditTool   = new L.EditToolbar.Edit( Map, DrawControl.options.edit);
+			
+			DeleteTool = new L.EditToolbar.Delete( Map, DrawControl.options.edit);
+
+			Map.on( L.Draw.Event.CREATED, function (e) {
+				
+				e.layer.addTo(DrawLayer);
+
+				widget.addedObject = e.layer;
+				
+				widget.events.trigger('draw-end', e);				
+				
+			});
+			
+			DrawLayer.addTo( Map );
+			
 		};
 		
-		var novoFoco;
-
+		function StartDrawing( l ){
+			
+			var type = l.layer.getGeometryType();
+			
+			if(type == 'Point')
+				
+				type = 'Marker';
+			
+			DrawTool = new L.Draw[type]( Map );
+			
+			CurrentLayer = l;
+			
+			DrawTool.enable();
+			
+		};
+		
+		function Clear(){
+			
+			if(DrawTool && DrawTool.disable)
+				
+				DrawTool.disable();
+			
+			if(EditTool && EditTool.disable)
+				
+				EditTool.disable();
+			
+			DrawLayer.clearLayers();
+			
+			widget.addedObject = null;
+			
+			CurrentLayer = null;
+			
+		};
+	
 		function GetLayers(){
 			
 			if(data){
@@ -30,17 +268,23 @@
 				
 						var layer = app.layers.get( l.layer );
 			
-						if(layer)
+						if(layer){
 							
-							Layers.push({
+							var layerData = layer.data();
+							
+							Layers[ layerData.id ] = {
 								
 								layer : layer,
 								
-								fields : l.fields ? l.fields.split(' ') : []
-								
-							});
+								data : layerData
+							}
+							
+						}
 						
 					});
+					
+	
+					data.layers = Layers;
 					
 				}
 				
@@ -48,180 +292,63 @@
 			
 		};
 		
-		(function(){
+		function SetControllers(){
+		
+			LayerController = widget.html.find('select.form-control');
+
+			widget.steps.select.on('activate', function(){
+				
+				widget.actions['select-layer']();
+				
+			});
 			
-			GetLayers();
-
-			widget.on('ready', function(){
+			
+			widget.steps.attributes.on('activate', function(step){
 				
-				var pontosMarcados = new L.FeatureGroup();
-				
-				Map.addLayer(pontosMarcados);
-				
-				var drawControl = new L.Control.Draw({
-				  
-					position: 'topright',
+				if(!step.html.find(':input').first().val())
 					
-				    draw: {
-				        marker: true,
-				        circlemarker:false,
-				        polygon: false,
-				        polyline: false,
-				        circle: false,
-				        rectangle: false
-				    },
-				    edit: {
-				        featureGroup: pontosMarcados
-				    }
-				});
-				
-				Map.addControl(drawControl);
-				
-				Map.on(L.Draw.Event.CREATED, function (e) {
-					
-					novoFoco = e.layer;
-					
-					$.IGRP.components.globalModal.set({
-						
-						title : 'Marcar Novo Ponto',
-						
-						content : function(){
-							
-							var c = '<div>';
-							
-								c+='<div class="form-group " required="true">'+
-										'<label for="name">Nome</label>'+
-										'<input id="name" name="name" type="text" required="required" class="form-control" placeholder="">'+
-									'</div>';
-							
-								c+='</div>'
-							
-							return c;
-							
-						},
-						
-						buttons : [
-							
-							{
-								class : 'primary',
-								
-								text   : 'Confirmar',
-								
-								icon   : 'check',
-								
-								attr   : {},
-								
-								onClick: function(){
-									
-									novoFoco.options.categoria = $('#igrp-global-modal [name="name"]').val() ;
-									
-									console.log(novoFoco)
-									
-									var layerData = Layers[0].layer.data();
-									
-									var geoserver = {
-											
-											workSpace : layerData.options.typeName.split(':')[0],
-											
-											workSpaceLayer : layerData.options.typeName,
-											
-											linkWorkSpace : 'https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS'
-											
-									};
-									
-									var servicos = {
-										
-										wfs : layerData.url
-										
-									}
-									
-									console.log(geoserver);
-									
-									console.log(novoFoco.options.categoria)
-									
-									 var postData =
-								            '<wfs:Transaction\n'
-								            + '  service="WFS"\n'
-								            + '  version="1.0.0"\n'
-								            + '  xmlns="http://www.opengis.net/wfs"'
-								            + '  xmlns:'+geoserver.workSpace+'="'+geoserver.linkWorkSpace+'"\n'
-								            + '  xmlns:wfs="http://www.opengis.net/wfs"\n'
-								            + '  xmlns:gml="http://www.opengis.net/gml"\n'
-								            + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
-								            + '  xsi:schemaLocation="http://www.opengis.net/wfs\n'
-								            + '                      http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd\n'
-								            + '                      '+servicos.wfs+'?service=wfs&request=DescribeFeatureType&typeName=INSP_GIS:insp_foco_mosquito&version=1.0.0">\n'
-								            + '  <wfs:Insert>\n'
-								            + '    <gml:featureMember>'
-								            + '      <'+geoserver.workSpace+':insp_foco_mosquito>'
-								            + '        <'+geoserver.workSpace+':categoria>' + novoFoco.options.categoria + '</'+geoserver.workSpace+':categoria>'
-								            + '        <'+geoserver.workSpace+':geom>'
-								            + '          <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">'
-								            + '            <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">' + novoFoco.getLatLng().lat + ',' + novoFoco.getLatLng().lng + '</gml:coordinates>'
-								            + '          </gml:Point>'
-								            + '        </'+geoserver.workSpace+':geom>'
-								            + '      </'+geoserver.workSpace+':insp_foco_mosquito>'
-								            + '    </gml:featureMember>'
-								            + '  </wfs:Insert>\n'
-								            + '</wfs:Transaction>';
-									
-									//console.log(Layers[0].layer.data())
-									 console.log(postData)
-									 $.ajax({
-									        type: "POST",
-									        url: servicos.wfs,
-									        dataType: "xml", // json xml
-									        contentType: "text/xml",
-									        data: postData,
-									        success: function (xml) {
-									        	console.log(xml)
-									        	
-									        	novoFoco.addTo(pontosMarcados);
-									        	
-									        	$.IGRP.components.globalModal.hide();
-									           /* console.log(xml);
-
-									            var objetoResposta = xmlToJson(xml);  
-									            console.log('Id: ' + objetoResposta['wfs:WFS_TransactionResponse']['wfs:InsertResult']['ogc:FeatureId']['@attributes']['fid']);
-									            
-									            console.log('categoria ins:'+novoFoco.options.categoria);
-									            novoFoco.options.pid = objetoResposta['wfs:WFS_TransactionResponse']['wfs:InsertResult']['ogc:FeatureId']['@attributes']['fid'].replace(geoserver.layerMosquito+'.', '');
-									            novoFoco.options.gid = novoFoco.options.pid;
-
-									            adicionarPopup(novoFoco);
-									            pontosMarcados.addLayer(novoFoco); */
-									        },
-									        error: function (xhr) {
-									            alert("Ocorreu um erro: " + xhr.status + " " + xhr.statusText);
-									        },
-									        complete: function (xml) {
-									            console.log("Done");
-									        }
-									    });
-									
-									return false;
-									
-								}
-								
-							}
-							
-						]
-						
-					})
-					
-					//e.layer.addTo(pontosMarcados)
-					
-				});
+					step.html.find(':input').first()[0].focus()
 
 			});
 			
-			console.log(L.Control.Draw)
+			widget.steps.attributes.on('deactivate', function(step){
+				
+				step.html.find(':input').val('');
+				
+			});
+				
+		};
+		
+		(function(){
 			
+			GetLayers();
+			
+			//SetWidgetMenu();
+			
+			InitDraw();
+			
+			widget.on('deactivate', Clear);
+			
+			//widget.on('activate', SetControllers);
+			
+			widget.on('load-html', SetControllers);
 			
 		})();
 		
-	}
+	};
 
-	GIS.widgets.register('addpoint', AddPointWidget);
+	GIS.widgets.register('addpoint', {
+		
+		dependencies : {
+				
+			js  : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js' ],
+			
+			css : [ 'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css' ]
+				
+		},
+		
+		init : AddPointWidget
+		
+	});
 	
 })();

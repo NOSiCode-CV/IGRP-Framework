@@ -1,12 +1,12 @@
 (function(){
 
-	var Tmpl = $.IGRP.components.GIS.module('Templates',{
+	var Tmpl = GIS.module('Templates',{
 
 		Layers : {
 
 			layer : function(layer){
-
-				var r = '<li layer-id="'+layer.id+'" group-id="'+layer.group.id+'" class="visibility-controller gis-layer">'+
+			
+				var r = '<li layer-type="'+layer.type+'" layer-id="'+layer.id+'" group-id="'+layer.group.id+'" class="visibility-controller gis-layer">'+
 							'<a>'+layer.name+'</a>'+
 							Tmpl.Layers.visibility( layer.id, layer.visible )+
 						'</li>';
@@ -96,16 +96,47 @@
 
 				var r = '',
 				
-					target = w.target || 'void';
-
-				r+='<div class="btn-group-vertical gis-panel-inner leaflet-control" role="group" gis-widget="'+w.type+'">'+
-		              '<button gis-widget="'+w.type+'"  widget-id="'+id+'" target="'+target+'" title="'+w.title+'" class="btn btn-default gis-widget-controller leaflet-bar" text-color="">'+
+					target = w.target || 'void',
+					
+					control = w.control && !w.control.button ? 'no-widget-control' : '';
+				
+				r+='<div class="btn-group-vertical '+control+' gis-panel-inner" role="group" gis-widget="'+w.type+'">'+
+		              '<button gis-widget="'+w.type+'"  widget-id="'+id+'" target="'+target+'" title="'+w.title+'" class="btn btn-default gis-widget-controller" text-color="primary">'+
 		              	'<i class="fa '+w.icon+'"></i>'
 		              '</button>'+
 		            '</div>'
 
 				return r;
 
+			},
+			
+			menu : function(arr, widget){
+				
+				var wrapper = $('<ul class="gis-widget-menu"/>');
+
+				arr.forEach(function(item){
+					
+					var menu = $('<li class="widget-menu-item txt-ellipsis"><a class="">'+item.title+'</a></li>');
+					
+					if(item.onClick)
+						
+						menu.on('click', item.onClick);
+					
+					wrapper.append(menu);
+					
+				});
+				
+				return wrapper;
+				
+			},
+			
+			panelTools : function(){
+				
+				return '<div class="gis-widget-panel-tools">'+
+							//'<a class="minimize" href="#" target="void"><i class="fa fa-caret-square-o-down"></i></a>'+
+							'<a class="deactivate" href="#" target="void"><i class="fa fa-minus"></i></a>'+
+					   '</div>';
+				
 			}
 
 		}

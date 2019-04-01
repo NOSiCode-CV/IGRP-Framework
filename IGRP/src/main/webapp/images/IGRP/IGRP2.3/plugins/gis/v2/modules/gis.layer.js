@@ -1,6 +1,8 @@
 (function(){
 	
-	var utils = GIS.module('utils');
+	var utils = GIS.module('Utils'),
+	
+		Query = GIS.module('Query');
 
 	var Classes = {
 
@@ -47,61 +49,6 @@
 			layer.visible   = data.visible;
 			
 			layer.highlighted = [];
-			
-			layer.query = function(o){
-
-				var def    = jQuery.Deferred(),
-				
-					fields = o.fields || [],
-					
-					value  = o.value || '',
-					
-					cql    = '';
-				
-				if(value){
-					
-					if(queryRequest && queryRequest.abort)
-						
-						queryRequest.abort();
-					
-					for(var i=0; i < fields.length; i++){
-						
-						var field 	   = fields[i],
-						
-							isNumber   = utils.feature.properties.isNumber[field],
-							
-							comparison = isNumber ? "LIKE '%"+value+"%'" : "LIKE '%"+value.toLowerCase()+"%'",
-									
-							field      = isNumber ? field : "strToLowerCase("+field+")";
-						
-						cql+= field +' '+ comparison;
-						
-						if(i < fields.length - 1)
-							
-							cql+= ' OR '
-					}
-					
-					var queryOptions = $.extend({
-						
-						cql_filter : cql
-						
-					}, options);
-					
-					delete queryOptions.maxFeatures;
-					
-					delete queryOptions.bbox;
-					
-					queryRequest = $.get( data.url, queryOptions );/*.then(function(v){
-						
-						def.resolve(v);
-						
-					});*/
-					
-				}	
-				
-				return queryRequest;
-				
-			};
 			
 			//find object in layer
 			layer.find = function(fid){
@@ -162,7 +109,7 @@
 				
 			}
 			
-			layer.highlight = function(fid){
+			layer.highlight = function(fid, callback){
 				
 				var featureLayer = layer.find( fid );
 				
@@ -186,7 +133,8 @@
 						featureLayer.bringToFront();
 					
 					}
-					//highlight points
+					
+					//highlight points (css padding, so we have to hack the margin so the point stays in right place)
 					if(featureLayer.feature.geometry.type == 'Point' ){
 						
 						var elm 	   = $(featureLayer.getElement()),
@@ -219,11 +167,15 @@
 					
 					layer.fire('feature-highlighted', { featureLayer : featureLayer  });
 					
+					if(callback)
+						
+						callback( featureLayer );
+					
 				}else{
 					
 					layer.once('data-loaded', function(t){
 						
-						layer.highlight(fid);
+						layer.highlight(fid, callback);
 
 					});
 					
@@ -246,7 +198,9 @@
 					maxFeatures : 600
 
 				}, data.options );
-
+				
+				
+				layer.requestOptions = options;
 				
 				var GetData = function(callback){
 
@@ -302,8 +256,8 @@
 				});
 
 				GetData();
-
-				layer.draw = GetData;
+				
+				layer.updateData = GetData;
 
 			};
 
@@ -319,11 +273,13 @@
 
 	GIS.module('Layer',function(data, app){
 
-		var layer     = Classes[data.type] ? Classes[data.type](data, app) : null,
+		var layer     	 = Classes[data.type] ? Classes[data.type](data, app) : null,
 
-			map 	  = app.viewer(),
+			map 	  	 = app.viewer(),
 
-			container = data.group ?  data.group : map;
+			container 	 = data.group ?  data.group : map,
+					
+			queryRequest = null;
 
 		layer.id   		 = data.id; 
 
@@ -334,24 +290,58 @@
 		layer.container  = container;
 
 		layer.visible    = data.visible;
-
-		layer.draw       = layer.draw || function(){};
+		
+		layer.Info 		 = GetLayerInfo(),
+		
+		layer.updateData       = layer.updateData || function(){};
+		
+		layer.unHighlightAll   = layer.unHighlightAll || function(){};
 		
 		layer.highlight  = layer.highlight || function(){};
 		
 		layer.find 		 = layer.find || function(){};
-		
-		layer.data = function(){
+
+		layer.data = function( name ){
 			
-			return data;
+			return name ? data[name] : data;
 			
 		};
 		
-		layer.query 	 = layer.query || function(){
+		layer.getGeometryType = function(){
 			
-			var def = jQuery.Deferred();
+			var type = "";
 			
-			return def.promise();
+			if(layer.Description.geometryType.indexOf('Polygon') >= 0 )
+				
+				type = 'Polygon';
+			
+			if(layer.Description.geometryType.indexOf('Line') >= 0 )
+				
+				type = 'Line';
+			
+			if(layer.Description.geometryType.indexOf('Point') >= 0 )
+				
+				type = 'Point';
+			
+			return type;
+			
+		};
+
+		layer.query = function(o){
+			
+			if(queryRequest)
+				
+				queryRequest.abort();
+			
+			queryRequest = new Query.cql(layer, {
+				
+				attributes : o.attributes,
+				
+				value 	   : o.value
+				
+			});
+			
+			return queryRequest;
 			
 		};
 
@@ -361,7 +351,7 @@
 
 			layer.addTo( layer.container );
 
-			layer.draw();
+			layer.updateData();
 			
 		};
 
@@ -380,6 +370,79 @@
 				layer.added = true;
 			
 		});
+		
+		function GetLayerInfo(){
+			
+			var layerData      = data,
+			
+				workSpaceLayer = layerData.options.typeName || layerData.options.layers || '',
+			
+				workSpace	   = workSpaceLayer.split(':')[0],
+				
+				indexOfWMS     =  layerData.url.lastIndexOf('/wms'),
+				
+				owsUrl 		   = layerData.url;
+			
+			if(indexOfWMS >= 0)
+				
+				owsUrl = layerData.url.substring(0,indexOfWMS)+'/ows';
+			
+			return {
+				
+				workspace 	   : workSpace,
+				
+				workspaceLayer : workSpaceLayer,
+				
+				workspaceLink  : 'https:/www.nosi.cv/INSP_GIS',
+				
+				owsURL  	   : owsUrl
+				
+			}
+			
+		}
+		
+		function GetDescribeData(){
+			
+			var geomAttrs = {
+					
+					geom : true,
+					
+					the_geom:true
+				},
+				
+				res = {
+					
+					attributes   : {},
+					
+					geometryType : ""
+					
+				};
+			
+			$.get(layer.Info.owsURL+'?service=wfs&request=DescribeFeatureType&typeName='+layer.Info.workspaceLayer+'&version=1.0.0').then(function(xml){
+				
+				var attrsElements = $(xml).find('xsd\\:sequence xsd\\:element')
+				
+				attrsElements.each(function(){
+					
+					var name = $(this).attr('name');
+					
+					if( geomAttrs[name] )
+						
+						res.geometryType = $(this).attr('type')
+						
+					else
+						
+						res.attributes[name] = $(this).attr('type').split('xsd:')[1]
+
+				});
+				
+			});
+			
+			layer.Description = res;
+			
+		};
+		
+		GetDescribeData();
 
 		layer.addTo( layer.container );
 

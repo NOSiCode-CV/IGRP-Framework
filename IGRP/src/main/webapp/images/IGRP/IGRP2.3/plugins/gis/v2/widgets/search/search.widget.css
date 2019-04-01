@@ -3,18 +3,89 @@
 	background: rgba(255, 255, 255, 0.9)
 }
 
+.search-input-wrapper{
+	position:Relative;
+}
 .gis-widget-wrapper[widget-type="search"] input{
 	position:relative;
-	z-index:1
+	z-index:1;
+	height:38px;
+	border:0
+}
+
+.gis-widget-wrapper[widget-type="search"] .input-group-addon{
+	background:transparent;
+	border:0;
+	outline:0;
+	transition:opacity .2s;
+}
+
+/* accordion */
+.gis-widget-wrapper[widget-type="search"] .panel-group,
+.gis-widget-wrapper[widget-type="search"] .panel{
+	margin:0;
+}
+.gis-widget-wrapper[widget-type="search"] .panel{
+	border:0;
+	border-radius:0;
+	background:transparent;
+	margin-bottom:1px;
+}
+
+.gis-widget-wrapper[widget-type="search"] .panel:last-child{
+	margin-bottom:0
+}
+
+.gis-widget-wrapper[widget-type="search"] .panel-heading{
+	background:#fdfdfd;
+	padding:0;
+}
+.gis-widget-wrapper[widget-type="search"] .panel-heading a{
+	display:block;
+	padding:10px 15px;
+	text-decoration:none
+}
+
+.gis-widget-wrapper[widget-type="search"] .panel-body{
+	padding:0
+}
+
+/* tab */
+.gis-widget-wrapper[widget-type="search"] .nav-tabs.nav-justified{
+	border-bottom:1px solid #eaeaea
 }
 
 .gis-widget-wrapper[widget-type="search"].loading .lds-css{
 	opacity:1;
 }
 
+.gis-widget-wrapper[widget-type="search"].loading .input-group-addon{
+	opacity:0
+}
+
 .gis-widget-wrapper[widget-type="search"] .search-widget-results{
 	display:none;
-	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15)
+	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15);
+	overflow:hidden;
+	position:relative;
+	z-index:10
+}
+.search-widget-no-data-msg{
+	padding:10px;
+	background:rgba(255,255,255,.5)
+}
+
+.gis-widget-wrapper[widget-type="search"] .search-clear{
+	padding: 10px;
+    position: Absolute;
+    z-index: 5;
+    top: -2px;
+    right: 35px;
+    cursor:pointer;
+}
+
+.gis-widget-wrapper[widget-type="search"] .search-widget-results .nav-tabs{
+	background:white;
 }
 
 .gis-widget-wrapper[widget-type="search"] .search-total{
@@ -28,18 +99,24 @@
 }
 
 .gis-widget-wrapper[widget-type="search"] .search-items{
-	max-height:322px;
+	max-height:248px;
 	overflow:auto;
 }
 
 .search-items .search-item{
-	padding:8px;
+	padding:8px 8px 8px 15px;
 	border-bottom:1px solid #f7f7f7;
 	cursor:pointer;
 	font-weight:400
 }
-.search-items .search-item:hover{
-	background:white
+
+.search-items .search-item.active{
+	background:White;
+	border-left:2px solid;
+}
+
+.search-items .search-item:not(.active):hover{
+	background:rgba(255, 255, 255, 0.7)
 }
 
 .search-items .search-item-field{
@@ -50,7 +127,7 @@
 }
 
 .lds-css{
-	transition:opacity .4s;
+	transition:opacity .2s;
 	opacity:0;
 }
 @keyframes lds-spinner {
@@ -70,11 +147,10 @@
   }
 }
 .lds-spinner {
-  	position:absolute;
-	top:6px;
-	right:6px;
-	z-index:3
-
+  	position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 3;
 }
 .lds-spinner div {
   left: 94px;

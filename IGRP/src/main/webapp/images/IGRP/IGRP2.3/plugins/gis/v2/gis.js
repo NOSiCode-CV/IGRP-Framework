@@ -40,15 +40,16 @@
 			
 			//$('.gis-widgets-controller', app.dom).append(btn);
 			
-			$('.leaflet-top.leaflet-right', app.dom).append(btn);
-			
-			
+			$('.gis-widgets-controller', app.dom).append(btn);
+
 			
 		};
 
 		if(modules.Map){
 
 			app.map = new modules.Map( app, config );
+			
+			//$('.leaflet-top.leaflet-right', app.dom).append('<div class="gis-widgets-controller"/>');
 
 			if(modules.BaseMaps)
 
@@ -65,6 +66,8 @@
 			if(modules.Panels)
 
 				app.panels = new modules.Panels(dom);
+			
+			
 
 		};
 
@@ -98,7 +101,7 @@
 				
 				if(!GIS.widgets.items[name])
 					
-					GIS.widgets.items[name] =  { start : options };
+					GIS.widgets.items[name] =  options;
 				
 			},
 			

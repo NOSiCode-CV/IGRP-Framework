@@ -26,8 +26,15 @@ $.EVENTS = function(evArr){
 	events.on = function(evs,callback,once){
 		var eventsArr    = evs.split(',');
 		eventsArr.forEach(function(ev){
+			
+			if(!get($.trim(ev)))//declare if doesnt exist
+				
+				events.declare([$.trim(ev)]);
+			
 			var eventList = get($.trim(ev));
+			
 			if(eventList && callback && typeof callback == 'function'){
+				
 				if(once){
 					if(!isDeclared(ev,callback))
 						eventList.push(callback)

@@ -645,9 +645,9 @@ body.sidebar-off .navbar-brand {
 .treeview>a.active {
 	font-size: 15px;
 	/*border-right: 4px solid #fafafa;*/
-	padding-top: 8px !important; 
+	p/*adding-top: 8px !important; 
     padding-bottom: 8px !important;
-   
+   */
 }
 .treeview>a.active {
 	/*border-top: 4px solid transparent;
