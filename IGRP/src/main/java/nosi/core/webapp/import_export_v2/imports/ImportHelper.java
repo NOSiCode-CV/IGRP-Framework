@@ -44,12 +44,11 @@ public class ImportHelper {
 		if(contentReads!=null) {
 			ApplicationImport app = new ApplicationImport(application);	
 			app.deserialization(this.getJsonContent(OptionsImportExport.APP.getFileName()));
-			
+			app.execute();
 			if(!app.allowPermissionImport()) {
 				imp.addError(Core.gt("Não tem permissão para importar a aplicação"));
 				return;
 			}
-			imp.add(app);
 			
 			ModuloImport modulo = new ModuloImport(application);
 			modulo.deserialization(this.getJsonContent(OptionsImportExport.MODULO.getFileName()));
