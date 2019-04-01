@@ -150,7 +150,7 @@ public final class EmailMessage { // Not inherit
 	
 	public boolean send() throws IOException {
 		// Get the default Session object.
-		Session session = Session.getDefaultInstance(this.settings,
+		Session session = Session.getInstance(this.settings,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(auth_username, auth_password);
