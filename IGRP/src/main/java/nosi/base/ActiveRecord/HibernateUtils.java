@@ -33,7 +33,7 @@ public class HibernateUtils {
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
 			return getSessionFactory(config_env.getName(),config_env.getApplication().getDad(),null);
-		return getSessionFactory(new ConfigApp().getBaseConnection(),Core.getCurrentDadParam(),null);
+		return getSessionFactory(ConfigApp.getInstance().getBaseConnection(),Core.getCurrentDadParam(),null);
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName,String schemaName) {
@@ -42,13 +42,12 @@ public class HibernateUtils {
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad,String schemaName) {
 		if(Core.isNotNull(connectionName)) {	
-			ConfigApp config = new ConfigApp();
-			String connectionName_ = config.getBaseConnection();
-			if(!connectionName.equalsIgnoreCase(config.getBaseConnection()) && !connectionName.equalsIgnoreCase(config.getH2IGRPBaseConnection())) {
+			String connectionName_ = ConfigApp.getInstance().getBaseConnection();
+			if(!connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()) && !connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
 				connectionName_ = connectionName+"."+dad;
 			}
 			if (!sessionFactory.containsKey(connectionName_)) {
-				registry = buildConfig(config,connectionName,dad,schemaName);
+				registry = buildConfig(ConfigApp.getInstance(),connectionName,dad,schemaName);
 				if(registry!=null) {
 					MetadataSources metadataSources = new MetadataSources(registry);
 					try {
@@ -98,7 +97,7 @@ public class HibernateUtils {
 	}
 
 	private static Map<String, Object> getH2IGRPSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName) {
-		ConfigDBIGRP config = new ConfigDBIGRP();
+		ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 		try {
 			config.load("db_igrp_config_h2.xml");
 		} catch (Exception e) {
@@ -133,7 +132,7 @@ public class HibernateUtils {
 	}
 
 	private static Map<String, Object> getIGRPSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName) {
-		ConfigDBIGRP config = new ConfigDBIGRP();
+		ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 		try {
 			config.load();
 		} catch (Exception e) {

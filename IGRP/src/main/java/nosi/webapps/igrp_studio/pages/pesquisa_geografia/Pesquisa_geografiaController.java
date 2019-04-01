@@ -1,16 +1,10 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.config.Config;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -70,7 +64,7 @@ public class Pesquisa_geografiaController extends Controller {
 		return xml;
 	}
 	public List<Pesquisa_geografia.Treemenu_1>  chamarServico(String id) throws IOException {
-		Properties setting = this.loadConfig("common", "main.xml");
+		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia")+"?id="+id;
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
 		ConsumeJson json_obj = new ConsumeJson();
@@ -94,20 +88,6 @@ public class Pesquisa_geografiaController extends Controller {
 		 list_geo.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_1::getTreemenu_1_link_desc));
 		return list_geo;
 	}
-	
-	private Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
-	
 	
 /*----#end-code----*/
 }

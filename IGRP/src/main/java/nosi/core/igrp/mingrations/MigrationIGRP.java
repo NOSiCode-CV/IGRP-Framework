@@ -51,7 +51,7 @@ public final class MigrationIGRP {
 	
 	public void start(Migrate model){
 		if(model!=null){
-			ConfigDBIGRP config = new ConfigDBIGRP();
+			ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 			config.setType_db(model.getTipo_base_dados());
 			config.setUsername(model.getUsername());
 			config.setPassword(model.getPassword());
@@ -74,7 +74,7 @@ public final class MigrationIGRP {
 	
 	public boolean validate(Migrate model){
 		if(model!=null){
-			ConfigDBIGRP config = new ConfigDBIGRP();
+			ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 			config.setType_db(model.getTipo_base_dados());
 			config.setUsername(model.getUsername());
 			config.setPassword(model.getPassword());

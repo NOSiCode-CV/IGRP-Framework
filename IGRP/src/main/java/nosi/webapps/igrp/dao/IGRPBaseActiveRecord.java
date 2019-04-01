@@ -25,6 +25,6 @@ public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
 	
 	@Override
 	public String getConnectionName() {
-		return new ConfigApp().getBaseConnection();
+		return ConfigApp.getInstance().getBaseConnection();
     }
 }

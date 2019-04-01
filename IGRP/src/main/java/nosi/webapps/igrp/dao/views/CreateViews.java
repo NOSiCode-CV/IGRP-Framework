@@ -192,7 +192,7 @@ public class CreateViews{
 		for(String sql:VIEWS){
 			QuerySelect q = new QuerySelect();
 			q.setSql(sql);
-			q.executeQuery(new ConfigApp().getBaseConnection()) ;
+			q.executeQuery(ConfigApp.getInstance().getBaseConnection()) ;
 		}
 	}
 }
