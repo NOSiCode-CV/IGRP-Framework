@@ -1,5 +1,7 @@
 package nosi.core.webapp.import_export_v2.imports.application;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.application.ApplicationSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
@@ -14,6 +16,7 @@ public class ApplicationImport extends AbstractImport implements IImport{
 
 	private ApplicationSerializable appSerializable;
 	private Application application;
+	private boolean allowPermission = false;
 	
 	public ApplicationImport(Application application) {
 		super();
@@ -33,6 +36,7 @@ public class ApplicationImport extends AbstractImport implements IImport{
 			if(this.appSerializable!=null) {
 				Application application = new Application().findByDad(this.appSerializable.getDad());
 				if(application==null) {
+					this.allowPermission = true;
 					application = new Application();
 					application.setDad(this.appSerializable.getDad());
 					application.setDescription(this.appSerializable.getDescription());
@@ -44,8 +48,10 @@ public class ApplicationImport extends AbstractImport implements IImport{
 					application.setTemplate(this.appSerializable.getTemplate());
 					application = application.insert();
 					this.addError(application.hasError()?application.getError().get(0):null);
+				}else {
+					this.allowImport(application);
+					this.application = application;
 				}
-				this.application = application;
 			}
 		}
 	}
@@ -56,5 +62,15 @@ public class ApplicationImport extends AbstractImport implements IImport{
 			this.execute();
 		}
 		return this.application;
+	}
+	
+
+	private void allowImport(Application application) {
+		List<Application> myApp = application.getListMyApp(Core.getCurrentUser().getId());
+		this.allowPermission = myApp.stream().map(Application::getDad).collect(Collectors.toList()).contains(application.getDad());
+	}
+
+	public boolean allowPermissionImport() {		
+		return allowPermission;
 	}
 }
