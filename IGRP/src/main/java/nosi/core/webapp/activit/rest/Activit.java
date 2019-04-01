@@ -61,13 +61,14 @@ public class Activit {
 	    		String packageName = GenerateInterfacePermission.getProccessClassName(task.getApplication().getDad().toLowerCase(),proccessKey);
 	    		if(Core.isNotNull(packageName)) {
 					Class<?> c = Class.forName(packageName);
-					Method method = c.getMethod("allowTask",ActivityExecute.class);
-					r = (boolean) method.invoke(c.newInstance(), task);//Get custom permission
+					if(c!=null) {
+						Method method = c.getMethod("allowTask",ActivityExecute.class);
+						r = (boolean) method.invoke(c.newInstance(), task);//Get custom permission
+					}
 	    		}
     		}
 		} catch (Exception e) {
 			r = true;
-			e.printStackTrace();
 		} 
     	return r;//allow all task by default
 	}
@@ -171,7 +172,6 @@ public class Activit {
 					.where("organization","=",Core.getCurrentOrganization())
 					.andWhere("proccessKey","in",proccess)
 					.andWhere("application.dad","=",Core.getCurrentDad())
-					.setShowConsoleSql(true)
 					.all();
 		return null;
 	}
