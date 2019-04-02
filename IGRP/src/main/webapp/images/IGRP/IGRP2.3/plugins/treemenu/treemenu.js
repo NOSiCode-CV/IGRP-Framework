@@ -52,8 +52,6 @@
 					
 					var jsonLookup = $('#jsonLookup');
 					
-					console.log(jsonLookup);
-					
 					if(jsonLookup[0])
 						params += '&jsonLookup='+jsonLookup.val();
 				}
