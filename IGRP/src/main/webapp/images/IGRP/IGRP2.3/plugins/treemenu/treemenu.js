@@ -39,7 +39,7 @@
 			if(parser){
 				var lookup = $('.lookup-parser:first',parent);
 				if(lookup[0]){
-					var cont  = lookup.attr('ctx_param_count')*1,
+					/*var cont  = lookup.attr('ctx_param_count')*1,
 						ctx_param = '';
 
 					for (var i = 1; i <= cont; i++) {
@@ -48,7 +48,14 @@
 						if(i < cont)
 							ctx_param +=',';
 					}
-					params += '&p_ctx_param='+ctx_param;
+					params += '&p_ctx_param='+ctx_param;*/
+					
+					var jsonLookup = $('#jsonLookup');
+					
+					console.log(jsonLookup);
+					
+					if(jsonLookup[0])
+						params += '&jsonLookup='+jsonLookup.val();
 				}
 			 }
 
