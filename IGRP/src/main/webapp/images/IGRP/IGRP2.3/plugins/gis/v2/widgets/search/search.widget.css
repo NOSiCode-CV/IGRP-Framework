@@ -39,11 +39,20 @@
 .gis-widget-wrapper[widget-type="search"] .panel-heading{
 	background:#fdfdfd;
 	padding:0;
+	position:relative;
 }
 .gis-widget-wrapper[widget-type="search"] .panel-heading a{
-	display:block;
-	padding:10px 15px;
-	text-decoration:none
+	display: block;
+    padding: 10px 45px 10px 15px;
+    text-decoration: none;
+    line-height: 22px;
+}
+
+.gis-widget-wrapper[widget-type="search"] .panel-heading a span{
+	position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    right: 10px;
 }
 
 .gis-widget-wrapper[widget-type="search"] .panel-body{

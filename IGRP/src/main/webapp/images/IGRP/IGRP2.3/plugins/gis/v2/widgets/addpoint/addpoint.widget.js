@@ -97,9 +97,9 @@
 			
 			if(CurrentLayer && widget.addedObject){
 				
-				console.log(CurrentLayer)
+				console.log(CurrentLayer.layer.Info)
 				
-				var layerData = CurrentLayer.data,
+				/*var layerData = CurrentLayer.data,
 				
 					workSpaceLayer = layerData.options.typeName || layerData.options.layers || '',
 				
@@ -188,7 +188,7 @@
 			        complete: function (xml) {
 			            console.log("Done");
 			        }
-			    });
+			    });*/
 				
 				
 			}
@@ -242,6 +242,18 @@
 			CurrentLayer = l;
 			
 			DrawTool.enable();
+			
+		};
+		
+		function CheckLayersOptions(){
+			
+			
+			
+		};
+		
+		function GetLayersLength(){
+			
+			return Object.keys(Layers).length;
 			
 		};
 		
@@ -328,13 +340,11 @@
 			
 			GetLayers();
 			
-			//SetWidgetMenu();
-			
 			InitDraw();
 			
-			widget.on('deactivate', Clear);
+			widget.on('activate', CheckLayersOptions);
 			
-			//widget.on('activate', SetControllers);
+			widget.on('deactivate', Clear);
 			
 			widget.on('load-html', SetControllers);
 			
