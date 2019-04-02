@@ -411,7 +411,7 @@
 				
 				workspaceLayer : workSpaceLayer,
 				
-				workspaceLink  : 'https:/www.nosi.cv/INSP_GIS',
+				workspaceLink  : 'https:/www.nosi.cv/'+workSpace,
 				
 				owsURL  	   : owsUrl
 				

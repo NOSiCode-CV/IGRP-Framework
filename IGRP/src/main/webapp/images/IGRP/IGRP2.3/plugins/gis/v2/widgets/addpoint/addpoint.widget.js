@@ -99,13 +99,13 @@
 				
 				console.log(CurrentLayer.layer.Info)
 				
-				/*var layerData = CurrentLayer.data,
+				var layerData = CurrentLayer.data,
 				
-					workSpaceLayer = layerData.options.typeName || layerData.options.layers || '',
+					workSpaceLayer = CurrentLayer.layer.Info.workspaceLayer,
 				
-					workSpace = workSpaceLayer.split(':')[0],
+					workSpace	   = CurrentLayer.layer.Info.workspace,
 					
-					linkWorkSpace = 'https:/www.nosi.cv/Divisao_Administrativa',
+					linkWorkSpace = CurrentLayer.layer.Info.workspaceLink,
 					
 					categoria 	 = 	widget.html.find('form [name="categoria"]').val(),
 					
@@ -134,7 +134,7 @@
 		            + '  <wfs:Insert>\n'
 		            + '    <gml:featureMember>'
 		            + '      <'+workSpace+':casa_cidadao_nacional>'
-		            + '        <'+workSpace+':nome>' + categoria + '</'+workSpace+':nome>'
+		            //+ '        <'+workSpace+':nome>' + categoria + '</'+workSpace+':nome>'
 		            + '        <'+workSpace+':geom>'
 		            + '          <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">'
 		            + '            <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">' + widget.addedObject.getLatLng().lng + ',' + widget.addedObject.getLatLng().lat + '</gml:coordinates>'
@@ -188,7 +188,7 @@
 			        complete: function (xml) {
 			            console.log("Done");
 			        }
-			    });*/
+			    });
 				
 				
 			}
