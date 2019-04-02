@@ -114,6 +114,7 @@
 					indexOfWMS   =  layerData.url.lastIndexOf('/wms'),
 					
 					postData;
+			
 				
 				if(indexOfWMS >= 0)
 					
@@ -133,7 +134,7 @@
 		            + '                      '+layerUrl+'?service=wfs&amp;request=DescribeFeatureType&amp;typeName='+workSpaceLayer+'&amp;version=1.0.0">\n'
 		            + '  <wfs:Insert>\n'
 		            + '    <gml:featureMember>'
-		            + '      <'+workSpace+':casa_cidadao_nacional>'
+		            + '      <'+workSpace+':'+workSpaceLayer.split(':')[1]+'>'
 		            //+ '        <'+workSpace+':nome>' + categoria + '</'+workSpace+':nome>'
 		            + '        <'+workSpace+':geom>'
 		            + '          <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">'
