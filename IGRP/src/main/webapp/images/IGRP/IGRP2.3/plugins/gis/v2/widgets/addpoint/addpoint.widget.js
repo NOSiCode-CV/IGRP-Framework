@@ -141,7 +141,7 @@
 		            + '            <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">' + widget.addedObject.getLatLng().lng + ',' + widget.addedObject.getLatLng().lat + '</gml:coordinates>'
 		            + '          </gml:Point>'
 		            + '        </'+workSpace+':geom>'
-		            + '      </'+workSpace+':casa_cidadao_nacional>'
+		            + '      </'+workSpace+':'+workSpaceLayer.split(':')[1]+'>'
 		            + '    </gml:featureMember>'
 		            + '  </wfs:Insert>\n'
 		            + '</wfs:Transaction>';
