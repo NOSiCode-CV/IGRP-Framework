@@ -73,9 +73,10 @@ public abstract class View  implements IHeaderConfig{
 		
 		Map<String,String[]> paramsName = Core.getParameters();
 		paramsName.entrySet().stream()
-		  		  .filter(param->param.getKey().equalsIgnoreCase(IGRPTable.TABLE_LOOKUP_ROW))
-				  .filter(param->param.getKey().startsWith("p_fwl_"))
-				  .filter(param->!param.getKey().equalsIgnoreCase("p_fwl_search"))
+				  .filter(param->
+				  		   (param.getKey().equalsIgnoreCase(IGRPTable.TABLE_LOOKUP_ROW) || param.getKey().startsWith("p_fwl_")) 
+				  		    && !param.getKey().equalsIgnoreCase("p_fwl_search")
+				  		)
 				  .forEach(param->{
 					  	HiddenField f = new HiddenField(null,param.getKey());
 						f.propertie.add("value", param.getValue()[0]).add("tag", param.getKey()).add("name",param.getKey());
