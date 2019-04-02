@@ -108,7 +108,8 @@
 										crop = false;
 										com.onConfirm({
 											name  : id,
-											value : resp
+											value : resp,
+											obj   : target
 										});
 										$.IGRP.components.globalModal.hide();
 									}
@@ -132,7 +133,7 @@
 			com.onload(f);
 		},
 		onConfirm : function(p){
-			var cropStore  = {
+			/*var cropStore  = {
 					name  : p.name,
 					value : p.value,
 					file  : uploadName
@@ -143,7 +144,22 @@
 			$.IGRP.store.set({
 				name : p.name,
 				value:JSON.stringify(cropStore)
-			});
+			});*/
+
+			if (p.value && p.name) {
+				var value = $.IGRP.utils.base64toBlob({
+					base64Data : p.value,
+					sliceSize  : p.obj.attr('width')*1
+				});
+
+				console.log(value);
+
+				$.IGRP.utils.createHidden({
+					name  : 'p_'+p.name,
+					value : value,
+					class : 'submittable'
+				}); 
+			}
 		},
 		onload : function(f){
 			var id 	 = 'croppie-'+f.attr('name'),
@@ -212,7 +228,7 @@
 				com.modal($(this));
 			});
 
-			$.IGRP.on('submit-ajax',function(o){
+			/*$.IGRP.on('submit-ajax',function(o){
 				
 				if($('.croppie')[0]){
 
@@ -239,7 +255,7 @@
 						});
 					});
 				}
-			});
+			});*/
 
 			com.uploadFile();
 		}
