@@ -174,9 +174,9 @@
 			
 			widget.active = true;
 			
-			if(!$('.gis-panel.widget').find(widget.html)[0])
+			if(!$('.gis-panel.widget', app.dom).find(widget.html)[0])
 			
-				$('.gis-panel.widget').append(widget.html);
+				$('.gis-panel.widget', app.dom).append(widget.html);
 			
 			else
 				

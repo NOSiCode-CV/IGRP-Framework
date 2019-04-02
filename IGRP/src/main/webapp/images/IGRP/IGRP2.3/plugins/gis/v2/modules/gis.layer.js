@@ -22,6 +22,12 @@
 				
 			layer = L.tileLayer.wms(data.url, options);
 
+			layer.updateData= function(){
+				console.log('updateee')
+				layer.setParams({}, false);
+				
+			}
+			
 			return layer;
 
 		},
@@ -29,6 +35,16 @@
 		WFS : function(data,app){
 			
 			var layer   = L.geoJSON(null,{
+				
+					style: function (feature) {
+				        
+						return {
+							weight: 1,
+							opacity : 0.5
+				        	
+				        };
+				        
+				    },
 				
 					onEachFeature : function(feature,layer){
 					
@@ -43,6 +59,8 @@
 				queryRequest = null,
 				
 				options = {};
+			
+			console.log(layer)
 
 			layer.request = null;
 
@@ -215,7 +233,7 @@
 						options.bbox = map.getBounds().toBBoxString();
 
 						layer.request = $.get( data.url, options );
-
+						
 						layer.request.then(function(geo){
 
 							layer.clear = layer.clearLayers;

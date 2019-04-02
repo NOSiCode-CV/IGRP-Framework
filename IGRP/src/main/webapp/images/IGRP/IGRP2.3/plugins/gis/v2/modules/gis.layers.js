@@ -39,7 +39,9 @@
 				console.log(layerOption);
 
 			}
-
+			
+			//console.log(layerOption);
+			
 			return layer;
 
 		};

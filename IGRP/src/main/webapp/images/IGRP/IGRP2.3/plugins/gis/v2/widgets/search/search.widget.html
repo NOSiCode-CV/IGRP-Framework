@@ -1,5 +1,4 @@
 <div>
-	
 	<div class="search-input-wrapper">
 		<div class="input-group">
 			<input type="text" class="form-control" placeholder="Pesquisar...">
@@ -17,7 +16,7 @@
  	<div class="panel-group" id="search-accordion-results" role="tablist" aria-multiselectable="true">
       {{#each this.searchResults}}
         <div class="panel panel-default">
-          <div class="panel-heading" role="tab" >
+          <div class="panel-heading txt-ellipsis" role="tab" >
             <h4 class="panel-title bg-white">
               <a role="button" data-toggle="collapse" data-parent="#search-accordion-results" href="#search-tab-{{@index}}">
                 {{ layer.name }}

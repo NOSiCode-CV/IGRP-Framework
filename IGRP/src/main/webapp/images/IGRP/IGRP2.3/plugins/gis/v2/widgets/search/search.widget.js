@@ -31,6 +31,8 @@
 			$('.search-widget-no-data-msg').hide();
 			
 			$('.search-clear', widget.html).hide();
+			
+			$('.search-widget-results',widget.html).hide();
 		
 		};
 		
@@ -56,6 +58,8 @@
 				 
 				$('.search-widget-results', widget.html).show();
 				
+				$('.search-clear', widget.html).show();
+				
 			}catch(err){
 				
 				console.log(err)
@@ -73,8 +77,6 @@
 				var reqs    = [],
 				
 					Results = [];
-				
-				//$('.search-clear', widget.html).show();
 				
 				Layers.forEach(function(l){
 					
@@ -232,7 +234,15 @@
 				
 			});
 			
-			$('.search-clear', widget.html).on('click', ClearResults);
+			$('.search-clear', widget.html).on('click', function(){
+				
+				input.val('').trigger('keyup');
+				
+				input[0].focus();
+				
+				//ClearResults();
+				
+			});
 			
 			/*$(document).on('mouseup',function(e) {
 			    

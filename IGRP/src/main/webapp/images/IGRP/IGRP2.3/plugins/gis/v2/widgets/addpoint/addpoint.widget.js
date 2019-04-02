@@ -97,13 +97,15 @@
 			
 			if(CurrentLayer && widget.addedObject){
 				
+				console.log(CurrentLayer)
+				
 				var layerData = CurrentLayer.data,
 				
 					workSpaceLayer = layerData.options.typeName || layerData.options.layers || '',
 				
 					workSpace = workSpaceLayer.split(':')[0],
 					
-					linkWorkSpace = 'https:/www.nosi.cv/INSP_GIS',
+					linkWorkSpace = 'https:/www.nosi.cv/Divisao_Administrativa',
 					
 					categoria 	 = 	widget.html.find('form [name="categoria"]').val(),
 					
@@ -131,14 +133,14 @@
 		            + '                      '+layerUrl+'?service=wfs&amp;request=DescribeFeatureType&amp;typeName='+workSpaceLayer+'&amp;version=1.0.0">\n'
 		            + '  <wfs:Insert>\n'
 		            + '    <gml:featureMember>'
-		            + '      <'+workSpace+':insp_foco_mosquito>'
-		            + '        <'+workSpace+':categoria>' + categoria + '</'+workSpace+':categoria>'
+		            + '      <'+workSpace+':casa_cidadao_nacional>'
+		            + '        <'+workSpace+':nome>' + categoria + '</'+workSpace+':nome>'
 		            + '        <'+workSpace+':geom>'
 		            + '          <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">'
 		            + '            <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">' + widget.addedObject.getLatLng().lng + ',' + widget.addedObject.getLatLng().lat + '</gml:coordinates>'
 		            + '          </gml:Point>'
 		            + '        </'+workSpace+':geom>'
-		            + '      </'+workSpace+':insp_foco_mosquito>'
+		            + '      </'+workSpace+':casa_cidadao_nacional>'
 		            + '    </gml:featureMember>'
 		            + '  </wfs:Insert>\n'
 		            + '</wfs:Transaction>';
@@ -173,6 +175,7 @@
 			        			
 			        		});
 			        		
+			        		CurrentLayer.layer.updateData();
 			        		
 			        		widget.actions.cancel();
 			        		
@@ -227,6 +230,8 @@
 		function StartDrawing( l ){
 			
 			var type = l.layer.getGeometryType();
+			
+			console.log(l.layer)
 			
 			if(type == 'Point')
 				
