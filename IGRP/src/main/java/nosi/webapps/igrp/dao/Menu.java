@@ -224,9 +224,22 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				ms.setTarget(r.getString("target"));
 				ms.setStatus(r.getShort("status"));
 				
-				ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
-				//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);	
-			
+				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
+				if(pagina != null) {
+					if(pagina.getTipo() == 1) { // If it is a public page ... 
+						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&isPublic=1&lang=pt_PT" /*+ "&target=_blank"*/);
+					}else {
+						
+						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad)) { 
+							// Codigo para paginas partilhadas ... dads diferentes ... (Link para SSO) ... 
+							// Authenticacao obrigatoria 
+							
+						}else {
+							ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+							//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);	
+						}
+					}
+				}
 				
 				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
 				
