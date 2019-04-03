@@ -505,7 +505,7 @@ public class ExecucaoTarefasController extends Controller {
 		return this.call(app.getDad().toLowerCase(), task.getTaskDefinitionKey(), "save", this.queryString());
 	}
 
-	private List<TaskService> applyFiler(ExecucaoTarefas model) {
+	private List<TaskService> applyFiler(ExecucaoTarefas model,int type) {
 		TaskService objTask = new TaskService();
 		String proc_tp = null, num_proc = null, status = null, data_inicio = null, data_fim = null, prioridade = null;
 		int btn_search = Core.getParamInt("btn_search");
@@ -560,7 +560,7 @@ public class ExecucaoTarefasController extends Controller {
 			objTask.addFilter("taskPriority", prioridade);
 		}
 		List<TaskService> tasks = null;
-		switch (btn_search) {
+		switch (type) {
 			case AVAILABLE:
 				tasks = objTask.getAvailableTasks();
 				break;
@@ -616,7 +616,7 @@ public class ExecucaoTarefasController extends Controller {
 		List<Table_gerir_tarefas> taskManage = new ArrayList<>();
 		// Verifica se é perfil pai
 		if (ProfileType.isPerfilPai()) {
-			List<TaskService> tasks = this.applyFiler(model); // apply new filter
+			List<TaskService> tasks = this.applyFiler(model,MANAGE_TASK); // apply new filter
 			for (TaskService task : tasks) {
 				ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
 				t.setAtribuido_a(task.getAssignee());
@@ -638,7 +638,7 @@ public class ExecucaoTarefasController extends Controller {
 	// Get all tasks of current user
 	private List<Table_minhas_tarefas> getMyTasks(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_minhas_tarefas> myTasks = new ArrayList<>();
-		List<TaskService> tasks = this.applyFiler(model); // apply new filter
+		List<TaskService> tasks = this.applyFiler(model,MY_TASK); // apply new filter
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
@@ -657,7 +657,7 @@ public class ExecucaoTarefasController extends Controller {
 	// Get all available task
 	private List<Table_disponiveis> getAvailableTask(ExecucaoTarefas model, ExecucaoTarefasView view) {
 		List<Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-		List<TaskService> tasks = this.applyFiler(model); // apply new filter
+		List<TaskService> tasks = this.applyFiler(model,AVAILABLE); // apply new filter
 		for (TaskService task : tasks) {
 			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 			t.setCategorias_processo_tabela_disponiveis(task.getProcessDefinitionKey());
