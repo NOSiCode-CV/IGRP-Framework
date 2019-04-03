@@ -60,6 +60,10 @@ public class DateHelper {
 	public static java.sql.Date getCurrentDate(){
 		return new java.sql.Date(System.currentTimeMillis());
 	}
+	
+	public static java.util.Date getCurrentDateUtil(){
+		return new java.util.Date(System.currentTimeMillis());
+	}
 
 	
 	public static String getCurrentDate(String outputFormat){

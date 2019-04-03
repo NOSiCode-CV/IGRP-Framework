@@ -368,25 +368,6 @@ public class NovoUtilizadorController extends Controller {
 		return true;
 	}
 
-	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
-		String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key="
-				+ u.getActivation_key();
-		// System.out.println(url_);
-		Organization orgEmail = new Organization().findOne(model.getOrganica());
-		String msg = "" + "<p><b>Aplicação:</b> " + orgEmail.getApplication().getName() + "</p>"
-				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>"
-				+ "			 <p><b>Link Activação:</b> <a href=\"" + url_ + "\">" + url_ + "</a></p>"
-				+ "			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
-		try {
-			EmailMessage.newInstance().setTo(u.getEmail()).setFrom("igrpframeworkjava@gmail.com")
-					.setSubject("IGRP - User activation").setMsg(msg, "utf-8", "html").send();
-			Core.setMessageInfo("Activation e-mail sent to: " + u.getEmail());
-		} catch (IOException e) {
-			System.out.println("Email não foi enviado ...");
-			e.printStackTrace();
-		}
-	}
-
 	private Boolean ldap(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
 
 		Boolean ok = true;
@@ -419,7 +400,7 @@ public class NovoUtilizadorController extends Controller {
 						u = Core.findUserByEmail(email.trim());									
 						sendEmailToInvitedUser(u, model);
 						
-					}else {
+					}else {						
 						ok = false;
 						continue;
 					}				
@@ -530,19 +511,23 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private Properties loadIdentityServerSettings() {
-
-		String path = new Config().getBasePathConfig() + File.separator + "common";
-		String fileName = "main.xml";
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath()
-				.replaceAll("%20", " "));
-
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
+		return this.configApp.loadConfig("common", "main.xml");
+	}
+	
+	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
+		String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key="
+				+ u.getActivation_key();
+		// System.out.println(url_);
+		Organization orgEmail = new Organization().findOne(model.getOrganica());
+		String msg = "" + "<p><b>Aplicação:</b> " + orgEmail.getApplication().getName() + "</p>"
+				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>"
+				+ "			 <p><b>Link Activação:</b> <a href=\"" + url_ + "\">" + url_ + "</a></p>"
+				+ "			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
+		if(Core.mail("no-reply@nosi.cv", u.getEmail(), "IGRP - User activation", msg, "utf-8", "html", null, ""))			
+			Core.setMessageInfo("Activation e-mail sent to: " + u.getEmail());
+		else
+			Core.setMessageError("Email not sent.");
+		
 	}
 
 	public Response actionEditar(@RParam(rParamName = "p_id") String idProfile)

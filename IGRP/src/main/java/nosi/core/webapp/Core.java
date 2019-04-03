@@ -794,6 +794,15 @@ public final class Core { // Not inherit
 	public static Date getCurrentDateSql() {
 		return DateHelper.getCurrentDate();
 	}
+	/**
+	 * Return the current time in java.util.Date format
+	 * 
+	 * @return new java.util.Date(System.currentTimeMillis())
+	 */
+	public static java.util.Date getCurrentDateUtil() {
+		return DateHelper.getCurrentDateUtil();
+	}
+	
 
 	/**
 	 * Get current Organization ID
@@ -1503,7 +1512,7 @@ public final class Core { // Not inherit
 		boolean result = false;
 		try {
 			sender.setFrom(from).setTo(to).setSubject(subject).setMsg(msg, charset, mimetype).replyTo(replyTo);
-			if (attachs != null)
+			if (Core.isNotNull(attachs))
 				for (File f : attachs)
 					sender.attach(f);
 			result = sender.send();
@@ -2395,13 +2404,13 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Receives java.util.Date and returns it as sqlDate
+	 * Receives java.util.Date and returns it as java.sql.Date
 	 * 
 	 * @param utilDate
 	 * @return a java.sql.Date
 	 */
 	public static java.sql.Date dateUtilToDate(java.util.Date utilDate) {
-		return new java.sql.Date(utilDate.getTime());
+		return DateHelper.utilDateToSqlDate(utilDate);		
 	}
 
 	/**

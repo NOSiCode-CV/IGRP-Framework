@@ -15,6 +15,7 @@ import nosi.webapps.igrp.dao.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.json.JSONObject;
 
@@ -98,6 +99,11 @@ public class PesquisarUtilizadorController extends Controller {
 		case "db":
 		default:
 			view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
+		}
+		Properties settings = this.configApp.loadConfig("common", "main.xml");
+		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");		
+		if ((aux != null && !aux.isEmpty() && aux.equals("true"))) {
+			view.btn_adicionar_utilizador.setVisible(false);	
 		}
 
 		final Map<Object, Object> listApps = new Application().getListApps();

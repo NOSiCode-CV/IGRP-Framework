@@ -2,6 +2,9 @@ package nosi.webapps.igrp_studio.pages.pesquisa_geografia;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
@@ -29,16 +32,34 @@ public class Pesquisa_geografiaController extends Controller {
 	
 	public Response actionRemote_treemenu_1(String p_id) throws IOException, IllegalArgumentException, IllegalAccessException{
 		String id = Core.getParam("p_id");
-		String[] par = Core.getParam("p_ctx_param").split(",");
+		String jsonLookup = Core.getParam("jsonLookup");
+		
+		//String[] par = Core.getParam("p_ctx_param").split(",");
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
 		+ " <treemenu_1> "
 				+ "<table>"
 				+ "<value>";
+		if(Core.isNotNull(jsonLookup)) {
+			try {
+				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);			
+		
 		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id);
-		for(Pesquisa_geografia.Treemenu_1 li : lista) {
-			String des_geo = par.length > 1 ? par[2]:"p_geografia_des";
-			String id_geo = par.length > 1 ? par[3]:"p_geografia_id";
-			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),des_geo,id_geo);
+		
+		for(Pesquisa_geografia.Treemenu_1 li : lista) {			
+			params.entrySet().forEach(p1->{
+				if(p1.getValue().equals("treemenu_1_tmid"))
+					id_geo=p1.getKey().toString();
+				else if (p1.getValue().equals("treemenu_1_link_desc"))
+					des_geo=p1.getKey().toString();
+				
+			});
+			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),des_geo,id_geo);			
+		
+		}
 		}
 		xml +=  "</value>"
 				+ "</table>"
@@ -47,6 +68,10 @@ public class Pesquisa_geografiaController extends Controller {
 	}
 	
 /*----#start-code(custom_actions)----*/
+
+ String  des_geo ="p_geografia_des";
+ String id_geo = "p_geografia_id";
+	
 	public String getXml(String id,String desc_menu, String id_par, String child, String des_geo,String id_geo) {
 		
 		String xml =	"<row>" + 

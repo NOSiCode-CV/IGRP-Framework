@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.dominio;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -17,17 +19,17 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Voluptatem elit unde aliqua totam' as description,'Mollit consectetur aliqua dolor perspiciatis' as key,'2' as estado,'hidden-50d3_ac8e' as ordem "));
-		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Magna unde sit consectetur aperiam' as description,'Stract adipiscing magna unde stract' as key,'2' as estado,'hidden-cd8f_d06b' as ordem "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.estado.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/			
 		view.aplicacao.setValue(DomainHeper.getApplications());
-		if(model.getAplicacao()!=0) {
+	
 			view.estado.setQuery(DomainHeper.getEstadoQuery());
 			view.lst_dominio.setQuery(DomainHeper.getDomainQuery(model.getAplicacao()), gt("-- Selecionar --"));	
-		}
+	
 		if(Core.isNotNull(model.getLst_dominio())) {
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio()));
 		}		
@@ -79,7 +81,7 @@ public class DominioController extends Controller {
 			
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 
 
 

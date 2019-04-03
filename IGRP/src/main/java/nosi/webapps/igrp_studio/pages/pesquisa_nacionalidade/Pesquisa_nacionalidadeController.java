@@ -19,6 +19,8 @@ public class Pesquisa_nacionalidadeController extends Controller {
 		model.load();
 		Pesquisa_nacionalidadeView view = new Pesquisa_nacionalidadeView();
 		/*----#start-code(index)----*/
+//	String level=Core.getParam para definir o nivel que se quer
+		
 		model.setTreemenu_1(this.chamarServico("0"));
 		
 		/*----#end-code----*/
