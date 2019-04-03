@@ -133,32 +133,75 @@
 			com.onload(f);
 		},
 		onConfirm : function(p){
-			/*var cropStore  = {
-					name  : p.name,
-					value : p.value,
-					file  : uploadName
-				};
+			if(!p.obj.hasClass('autoupload')){
+				var cropStore  = {
+						name  : p.name,
+						value : p.value,
+						file  : uploadName
+					};
 
-			$.IGRP.store.unset(p.name);
+				$.IGRP.store.unset(p.name);
 
-			$.IGRP.store.set({
-				name : p.name,
-				value:JSON.stringify(cropStore)
-			});*/
-
-			if (p.value && p.name) {
-				var value = $.IGRP.utils.base64toBlob({
-					base64Data : p.value,
-					sliceSize  : p.obj.attr('width')*1
+				$.IGRP.store.set({
+					name : p.name,
+					value:JSON.stringify(cropStore)
 				});
 
-				console.log(value);
+			}else{
 
-				$.IGRP.utils.createHidden({
-					name  : 'p_'+p.name,
-					value : value,
-					class : 'submittable'
-				}); 
+				if (p.value) {
+
+					uploadName = uploadName.split('.');
+
+					$.IGRP.utils.submitStringAsFile({
+                        pParam : {
+                            pArrayFiles : [
+                                {
+                                    name    : 'p_file_name',
+                                    value   : $.IGRP.utils.base64toBlob({
+                                        base64Data  : p.value,
+                                        sliceSize   : p.obj.attr('width')*1,
+                                        contentType : uploadType
+                                    }),
+                                    type    : uploadType,
+                                    filename: uploadName[0],
+                                    format  : uploadName[1]
+                                }
+                            ]
+                        },
+                        pUrl        : 'webapps?r=igrp/File/save-image',
+                        pNotify     : false,
+                        pComplete   : function(respdata){
+                            try{
+                                var resp = respdata.response ? $.parseJSON(respdata.response) : null;
+                            
+                                if(resp){
+                                	var id = resp.id * 1;
+
+                                	if(id === -1){
+                                		p.obj.attr('src','');
+
+	                                    $.IGRP.notify({
+	                                        message : $.IGRP.utils.htmlDecode(resp.msg),
+	                                        type    : 'danger'
+	                                    });
+
+                                    }else{
+                                    	$.IGRP.utils.createHidden({
+                                    		name  : 'p_'+p.name,
+											value : id,
+											class :'submittable'
+                                    	});
+                                    }
+                                }
+                            }catch(e){
+                                console.log(e);
+                                null;
+                            }
+                            
+                        }
+                    });
+				}
 			}
 		},
 		onload : function(f){
@@ -228,34 +271,37 @@
 				com.modal($(this));
 			});
 
-			/*$.IGRP.on('submit-ajax',function(o){
+			$.IGRP.on('submit-ajax',function(o){
 				
 				if($('.croppie')[0]){
 
 					$('.croppie').each(function(){
 
-						var name 	  = $(this).attr('name'),
-							cropStore = $.IGRP.store.get(name),
-							value 	  = '';
+						if(!$(this).hasClass('autoupload')){
 
-						$.IGRP.store.unset(name);
-						
-						cropStore = cropStore ? JSON.parse(cropStore) : {};
-						
-						if (cropStore.name) {
-							value = $.IGRP.utils.base64toBlob({
-								base64Data : cropStore.value,
-								sliceSize  : $(this).attr('width')*1
-							}); 
+							var name 	  = $(this).attr('name'),
+								cropStore = $.IGRP.store.get(name),
+								value 	  = '';
+
+							$.IGRP.store.unset(name);
+							
+							cropStore = cropStore ? JSON.parse(cropStore) : {};
+							
+							if (cropStore.name) {
+								value = $.IGRP.utils.base64toBlob({
+									base64Data : cropStore.value,
+									sliceSize  : $(this).attr('width')*1
+								}); 
+							}
+
+							o.pArrayItem.push({
+								name 	: 'p_'+name,
+								value 	: value
+							});
 						}
-
-						o.pArrayItem.push({
-							name 	: 'p_'+name,
-							value 	: value
-						});
 					});
 				}
-			});*/
+			});
 
 			com.uploadFile();
 		}

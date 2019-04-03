@@ -3,14 +3,12 @@ package nosi.webapps.igrp.pages.file;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-import java.util.Properties;
 
-import javax.servlet.ServletException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.CLob;
-import javax.servlet.http.Part;
+import java.util.Properties;
 /*----#end-code----*/
 
 
@@ -34,18 +32,16 @@ public class FileController extends Controller {
 		return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
 	}
 	
-	public Response actionSaveImage()  throws IOException, ServletException {		
+	public Response actionSaveImage()  throws Exception {		
 		int id = -1;
-		Part part = Core.getFile("p_file_name");
 		Properties p = new Properties();
-		if(part!=null) {
-			id = Core.saveFile(part , part.getName());	
-			if(id==0) {
-				id = -1;
-				p.put("msg", Core.gt("Error saving file"));
-			}
+		id = Core.saveFile("p_file_name");
+		if(id==0) {
+			id = -1;
+			p.put("msg", Core.gt("Error saving file"));
 		}
 		p.put("id", id);
+		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(p));
 	}
 	/*----#end-code----*/
