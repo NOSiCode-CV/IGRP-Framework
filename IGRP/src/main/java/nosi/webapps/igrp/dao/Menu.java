@@ -227,7 +227,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 				if(pagina != null) {
 					if(pagina.getTipo() == 1) { // If it is a public page ... 
-						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&isPublic=1&lang=pt_PT" /*+ "&target=_blank"*/);
+						ms.setType(1);
+						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang=pt_PT" /*+ "&target=_blank"*/);
 					}else {
 						
 						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad)) { 
@@ -291,6 +292,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private int order;
 		private boolean isSubMenuAndSuperMenu;
 		
+		private int type; // 0 - normal menu; 1 - menu para uma pagina externa publica; 2 - menu para uma pagina externa 
+		
 		public Integer getId() {
 			return id;
 		}
@@ -333,5 +336,12 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		public void setSubMenuAndSuperMenu(boolean isSubMenuAndSuperMenu) {
 			this.isSubMenuAndSuperMenu = isSubMenuAndSuperMenu;
 		}
+		public int getType() {
+			return type;
+		}
+		public void setType(int type) {
+			this.type = type;
+		}
+		
 	}
 }
