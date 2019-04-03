@@ -109,7 +109,7 @@
 										com.onConfirm({
 											name  : id,
 											value : resp,
-											obj   : target
+											obj   : $('#id-'+id)
 										});
 										$.IGRP.components.globalModal.hide();
 									}

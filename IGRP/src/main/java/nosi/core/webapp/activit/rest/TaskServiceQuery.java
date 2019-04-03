@@ -2,8 +2,13 @@ package nosi.core.webapp.activit.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
@@ -179,13 +184,68 @@ public class TaskServiceQuery extends TaskService {
 			return "Não Iniciado";
 		return "Não Atribuido";
 	}
+	
+	public int getStatusTaskValue() {
+		if(Core.isNotNull(this.getEndTime()))
+			return 1;//Terminado
+		if(Core.isNotNull(this.getAssignee()))
+			return 2;//Não iniciado
+		return 3;//"Não Atribuido"
+	}
+	
+	public Map<String,String> getStatus() {
+		Map<String,String> status = new HashMap<String,String>();
+		status.put(null, "--- Selecionar Estado ---");
+        status.put("false","Ativo");
+        status.put("true","Terminado");
+		return status;
+	}
+	
+	public boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {
+		date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
+		date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		if(Core.isNotNullMultiple(date1,date2)) {
+			LocalDate d1 = LocalDate.parse(date1, formatter );
+			LocalDate d2 = LocalDate.parse(date2, formatter );
+			return compareDate.apply(d1, d2);
+		}
+		return false;
+	}
 
+
+//	public boolean compareLessThenDate(String date1,String date2) {
+//		date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
+//		date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		if(Core.isNotNullMultiple(date1,date2)) {
+//			LocalDate d1 = LocalDate.parse(date1, formatter );
+//			LocalDate d2 = LocalDate.parse(date2, formatter );
+//			return d1.compareTo(d2) <= 0;
+//		}
+//		return false;
+//	}
+//
+//
+//	public boolean compareGreaterThenDate(String date1,String date2) {
+//		date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
+//		date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		if(Core.isNotNullMultiple(date1,date2)) {
+//			LocalDate d1 = LocalDate.parse(date1, formatter );
+//			LocalDate d2 = LocalDate.parse(date2, formatter );
+//			return d1.compareTo(d2) >= 0;
+//		}
+//		return false;
+//	}
+//	
 	@Override
 	public String toString() {
 		return "TaskServiceQuery [startTime=" + startTime + ", endTime=" + endTime + ", claimTime=" + claimTime
 				+ ", paramsQuery=" + paramsQuery + ", json_Variables=" + json_Variables + ", getProcessDefinitionKey()="
 				+ getProcessDefinitionKey() + "]";
 	}
+
 	
 	
 }
