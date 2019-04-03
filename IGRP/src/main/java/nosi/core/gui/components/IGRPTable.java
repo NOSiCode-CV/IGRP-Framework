@@ -106,17 +106,24 @@ public class IGRPTable extends IGRPComponent{
 		}else {
 			String jsonLookup = Core.getParam("jsonLookup");
 			if(Core.isNotNull(jsonLookup)) {
-				try {
-					jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
+				jsonLookup = this.decodeJson(jsonLookup);
 				Properties params = (Properties) Core.fromJson(jsonLookup,Properties.class);
 				params.entrySet().forEach(p1->{
 					this.addLookupField(p1.getKey().toString(),p1.getValue().toString());
 				});
 			}
 		}
+	}
+
+	private String decodeJson(String jsonLookup) {
+		try {
+			jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
+			if(jsonLookup.contains("%"))
+				return this.decodeJson(jsonLookup);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return jsonLookup;
 	}
 
 	private void addLookupField(String param,String value) {
