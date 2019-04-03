@@ -59,7 +59,11 @@ public class NovaOrganicaController extends Controller {
 		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
-			Organization organization = new Organization();		
+			Organization organization = new Organization();	
+			 String dad = Core.getCurrentDad();
+		      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+					model.setAplicacao("" + (Core.findApplicationByDad(dad)).getId());		  
+				}
 			organization.setCode(model.getCodigo()+"."+Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
 			/*
