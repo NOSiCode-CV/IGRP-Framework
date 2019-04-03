@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
+
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
@@ -191,14 +193,34 @@ public class PesquisarMenuController extends Controller {
 					
 					for (MenuProfile main : m.getValue()) {
 						if (main.isSubMenuAndSuperMenu()) {
-							xml_menu.setElement("link", "webapps?r=" + main.getLink());
+							
+							if(main.getType() == 1 && new Config().getEnvironment().equalsIgnoreCase("dev")) { // menu para uma pagina externa e publica 
+								String aux = buildMenuUrlByDad( main.getLink());
+								if(aux != null)
+									xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
+								else 
+									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+							}else {
+								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+							}
+							
 							xml_menu.setElement("target", main.getTarget());
 						}
 						xml_menu.setElement("order", "" + main.getOrder());
 						xml_menu.startElement("submenu");
 						xml_menu.writeAttribute("title", gt(main.getTitle()));
 						xml_menu.writeAttribute("id", "" + main.getId());
-						xml_menu.setElement("link", "webapps?r=" + main.getLink());
+						
+						if(main.getType() == 1 && new Config().getEnvironment().equalsIgnoreCase("dev")) { // menu para uma pagina externa e publica 
+							String aux = buildMenuUrlByDad(main.getLink());
+							if(aux != null)
+								xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
+							else 
+								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+						}else {
+							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+						}
+						
 						xml_menu.setElement("title", gt(main.getTitle()));
 						xml_menu.setElement("target", main.getTarget());
 						xml_menu.setElement("id", "" + main.getId());
@@ -296,5 +318,18 @@ public class PesquisarMenuController extends Controller {
 			return b.getStatus() - a.getStatus();
 		}
 	}
+	
+	private String buildMenuUrlByDad(String input) {
+		String url = null;
+		try {
+			String []aux = input.split("/");
+			String dad = aux[0];
+			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
+			url = u + "/" + dad + "/app/"; 
+		} catch (Exception e) {
+		}
+		return url;
+	}
+	
 	/*----#end-code----*/
 }
