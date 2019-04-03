@@ -45,7 +45,6 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -141,7 +140,69 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	private void genChartWithClass() {
-		
+		LinkedHashSet <String> labels = new LinkedHashSet<>();
+		for(Object o:this.data) {
+			if(o instanceof IGRPChart2D) {
+				labels.add(((IGRPChart2D) o).getEixoX());
+			}else if(o instanceof IGRPChart3D) {
+				labels.add(((IGRPChart3D) o).getEixoX());
+			}
+		}
+		this.generateLabels(labels);
+		Map<String, Double> valuesXY = new HashMap<>();
+		Map<String,Map<String,Double>> valuesXYZ = new HashMap<>();		
+		for(Object o:this.data) {
+			if(o instanceof IGRPChart2D) {
+				IGRPChart2D chart2d = (IGRPChart2D) o;
+				valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY());
+			}
+			else if(o instanceof IGRPChart3D) {
+				IGRPChart3D chart3d = (IGRPChart3D) o;
+				Map<String, Double> value = new HashMap<>();
+				value.put(chart3d.getEixoY(), chart3d.getEixoZ());
+				valuesXYZ.put(chart3d.getEixoX(), value );
+			}
+		}
+
+		if(valuesXY!=null && !valuesXY.isEmpty())
+			this.generateRowsValueXY(valuesXY);
+		else
+			this.generateRowsValueXYZ();
+	}
+	
+
+	private void generateRowsValueXYZ() {
+		LinkedHashMap<LinkedHashMap<String,String>,Double> result = new LinkedHashMap<>();
+		Set<String> values1 = new LinkedHashSet<>(),values2 = new LinkedHashSet<>();
+		this.data.stream().forEach(o->{
+			IGRPChart3D chart3d = (IGRPChart3D)o;
+			values1.add(chart3d.getEixoX()!=null?chart3d.getEixoX():"");
+			values2.add(chart3d.getEixoY()!=null?chart3d.getEixoY():"");
+			LinkedHashMap<String, String> key = new LinkedHashMap<>();
+			key.put(chart3d.getEixoX()!=null?chart3d.getEixoX():"",chart3d.getEixoY()!=null?chart3d.getEixoY():"");						
+			double v = chart3d.getEixoZ();
+			if(result.containsKey(key)) {
+				v+=result.get(key);
+				result.remove(key);
+			}
+			result.put(key ,v);
+		});
+		this.xml.startElement("value");
+		values2.stream().forEach(v2->{
+			this.xml.startElement("row");
+			this.xml.setElement("col", v2);
+			values1.stream().forEach(v1->{
+				LinkedHashMap<String,String> key = new LinkedHashMap<>();
+				key.put(v1, v2);
+				if(result.containsKey(key)) {
+					this.xml.setElement("col", result.get(key));
+				}else {
+					this.xml.setElement("col", "0");
+				}
+			});
+			this.xml.endElement();
+		});
+		this.xml.endElement();
 	}
 	
 	private void genChartWithQuery() throws Exception {
@@ -230,6 +291,10 @@ public class IGRPChart extends IGRPComponent{
 	
 	public void loadQuery(BaseQueryInterface query) {
 		this.query = query;
+	}
+	
+	public void loadModel(List<?> modelList) {
+		this.data = modelList;
 	}
 	
 }
