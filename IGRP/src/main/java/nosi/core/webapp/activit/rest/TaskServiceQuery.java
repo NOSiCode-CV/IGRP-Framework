@@ -2,15 +2,11 @@ package nosi.core.webapp.activit.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -201,44 +197,6 @@ public class TaskServiceQuery extends TaskService {
 		return status;
 	}
 	
-	public boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {
-		date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
-		date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		if(Core.isNotNullMultiple(date1,date2)) {
-			LocalDate d1 = LocalDate.parse(date1, formatter );
-			LocalDate d2 = LocalDate.parse(date2, formatter );
-			return compareDate.apply(d1, d2);
-		}
-		return false;
-	}
-
-
-//	public boolean compareLessThenDate(String date1,String date2) {
-//		date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
-//		date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		if(Core.isNotNullMultiple(date1,date2)) {
-//			LocalDate d1 = LocalDate.parse(date1, formatter );
-//			LocalDate d2 = LocalDate.parse(date2, formatter );
-//			return d1.compareTo(d2) <= 0;
-//		}
-//		return false;
-//	}
-//
-//
-//	public boolean compareGreaterThenDate(String date1,String date2) {
-//		date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
-//		date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		if(Core.isNotNullMultiple(date1,date2)) {
-//			LocalDate d1 = LocalDate.parse(date1, formatter );
-//			LocalDate d2 = LocalDate.parse(date2, formatter );
-//			return d1.compareTo(d2) >= 0;
-//		}
-//		return false;
-//	}
-//	
 	@Override
 	public String toString() {
 		return "TaskServiceQuery [startTime=" + startTime + ", endTime=" + endTime + ", claimTime=" + claimTime
