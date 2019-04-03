@@ -1,8 +1,14 @@
 package nosi.core.webapp.activit.rest;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import com.google.gson.annotations.Expose;
 import nosi.core.webapp.Core;
@@ -188,4 +194,28 @@ public class Activit {
 		return null;
 	}
 	
+	public boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {
+		if(Core.isNotNullMultiple(date1,date2)) {
+			date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
+			date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate d1 = LocalDate.parse(date1, formatter );
+			LocalDate d2 = LocalDate.parse(date2, formatter );
+			return compareDate.apply(d1, d2);
+		}
+		return false;
+	}
+
+	public boolean compareDate(Date date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {	
+		if(Core.isNotNullMultiple(date1,date2)) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String dt1 = df.format(date1);
+			date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate d1 = LocalDate.parse(dt1, formatter );
+			LocalDate d2 = LocalDate.parse(date2.toString(), formatter );
+			return compareDate.apply(d1, d2);
+		}
+		return false;
+	}
 }
