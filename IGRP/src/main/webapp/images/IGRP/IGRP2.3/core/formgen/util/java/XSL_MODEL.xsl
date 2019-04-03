@@ -125,7 +125,7 @@
 			</xsl:for-each>
     	</xsl:for-each> 
 
-    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline' or @type='carousel']">
+    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'chart' or @type = 'formlist' or @type = 'separatorlist' or @type='timeline' or @type='carousel']">
     		<xsl:value-of select="$tab"/>
 			<xsl:variable name="tableName">
     			<xsl:call-template name="gen-className">
@@ -147,35 +147,39 @@
 	    	</xsl:call-template>
 			<xsl:value-of select="$newline"/>	
 			
-			 
-			<xsl:value-of select="$tab"/> 
-			<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes, 'p_',name(),'_id',$double_quotes,')')"/>			
-			<xsl:value-of select="$newline"/>			
-			<xsl:value-of select="$tab"/> 
-			<xsl:value-of select="concat('private ','String[]',' ', 'p_',name(),'_id',';')"/>				
-			<xsl:value-of select="$newline"/>
 			
-			<xsl:value-of select="$tab"/>
-			<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes, 'p_',name(),'_del',$double_quotes,')')"/>			
-			<xsl:value-of select="$newline"/>			
-			<xsl:value-of select="$tab"/>
-			<xsl:value-of select="concat('private ','String[]',' ', 'p_',name(),'_del',';')"/>				
-			<xsl:value-of select="$newline"/>
-			 
-			<xsl:value-of select="$tab"/>
-			<xsl:call-template name="gen-method-set-get">
-	    		<xsl:with-param name="type" select="'String[]'" />
-	    		<xsl:with-param name="name" select="concat('p_',name(),'_id')" />
-	    		<xsl:with-param name="javaType" select="'String[]'"/>
-	    	</xsl:call-template>
-			<xsl:value-of select="$newline"/>
+			<xsl:if test="@type = 'formlist' or @type = 'separatorlist'">
 			
-			<xsl:value-of select="$tab"/> 
-			<xsl:call-template name="gen-method-set-get">
-	    		<xsl:with-param name="type" select="'String[]'" />
-	    		<xsl:with-param name="name" select="concat('p_',name(),'_del')" />
-	    		<xsl:with-param name="javaType" select="'String[]'"/>
-	    	</xsl:call-template>
+				<xsl:value-of select="$tab"/> 
+				<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes, 'p_',name(),'_id',$double_quotes,')')"/>			
+				<xsl:value-of select="$newline"/>			
+				<xsl:value-of select="$tab"/> 
+				<xsl:value-of select="concat('private ','String[]',' ', 'p_',name(),'_id',';')"/>				
+				<xsl:value-of select="$newline"/>
+				
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes, 'p_',name(),'_del',$double_quotes,')')"/>			
+				<xsl:value-of select="$newline"/>			
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="concat('private ','String[]',' ', 'p_',name(),'_del',';')"/>				
+				<xsl:value-of select="$newline"/>
+				 
+				<xsl:value-of select="$tab"/>
+				<xsl:call-template name="gen-method-set-get">
+		    		<xsl:with-param name="type" select="'String[]'" />
+		    		<xsl:with-param name="name" select="concat('p_',name(),'_id')" />
+		    		<xsl:with-param name="javaType" select="'String[]'"/>
+		    	</xsl:call-template>
+				<xsl:value-of select="$newline"/>
+				
+				<xsl:value-of select="$tab"/> 
+				<xsl:call-template name="gen-method-set-get">
+		    		<xsl:with-param name="type" select="'String[]'" />
+		    		<xsl:with-param name="name" select="concat('p_',name(),'_del')" />
+		    		<xsl:with-param name="javaType" select="'String[]'"/>
+		    	</xsl:call-template>
+	    	
+			</xsl:if>
 			<xsl:value-of select="$newline"/>
 			
 			
@@ -200,6 +204,8 @@
  		<xsl:value-of select="$import_date"/> 		
 		<xsl:value-of select="$import_array_list"/>
 		<xsl:value-of select="$import_list"/>	
+		<xsl:value-of select="$import_chart2d"/>	
+		<xsl:value-of select="$import_chart3d"/>	
  	</xsl:template>
 
 
@@ -226,7 +232,7 @@
 			
 			<xsl:value-of select="$newline"/>
 			
-			<xsl:for-each select="//rows/content/*[@xml-type='table' or @type='formlist' or @type='separatorlist']">
+			<xsl:for-each select="//rows/content/*[@xml-type='table' or @type='chart' or @type='formlist' or @type='separatorlist']">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab"/>
 				
@@ -345,6 +351,53 @@
 		<xsl:value-of select="'}'"/> 	
  	</xsl:template>
  	
+ 	<!-- Gen subclass chart -->
+ 	<xsl:template name="gen-chart-subclass">
+ 		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+		
+		<xsl:variable name="tableName">
+   			<xsl:call-template name="gen-className">
+   				<xsl:with-param name="className"><xsl:value-of select="name()"/> </xsl:with-param> 
+   			</xsl:call-template> 
+   		</xsl:variable>
+   		
+   		<xsl:variable name="chartType">
+   			<xsl:choose>
+   				<xsl:when test="chart_type='pie'">
+   					<xsl:value-of select="'IGRPChart2D'"/>
+   				</xsl:when>
+   				<xsl:otherwise>
+   					<xsl:value-of select="'IGRPChart3D'"/>
+   				</xsl:otherwise>
+   			</xsl:choose>
+   		</xsl:variable> 
+   		  
+ 		<xsl:value-of select="concat('public static class ',$tableName,' extends ',$chartType,'{')"/>
+	 		<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+				<xsl:choose>
+				<xsl:when test="chart_type = 'pie'">
+					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, double eixoY) {')"/>
+			 		<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab3"/>
+					<xsl:value-of select="'super(eixoX, eixoY);'"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat('public ',$tableName,'(String eixoX,String eixoY, double eixoZ) {')"/>
+			 		<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab3"/>
+					<xsl:value-of select="'super(eixoX, eixoY,eixoZ);'"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		  <xsl:value-of select="$newline"/>
+		  <xsl:value-of select="$tab2"/>
+		  <xsl:value-of select="'}'"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+		<xsl:value-of select="'}'"/>
+ 	</xsl:template>
+ 	
  	<!-- Gen attributes for subclass for separatorList and formlist-->
  	<xsl:template name="gen-ttributes-subclass-separatorList">
  		<xsl:value-of select="$newline"/>
@@ -419,6 +472,9 @@
  	<xsl:template name="gen-subclass">
  		<xsl:for-each select="/rows/content/*[@type='table' or @type='timeline' or @type='carousel']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 		</xsl:for-each> 
+ 		<xsl:for-each select="/rows/content/*[@type='chart']">
+ 			<xsl:call-template name="gen-chart-subclass"></xsl:call-template>
  		</xsl:for-each> 
  		<xsl:for-each select="/rows/content/*[@type='treemenu']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>

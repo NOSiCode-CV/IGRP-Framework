@@ -68,6 +68,20 @@
         </xsl:if>
     </xsl:variable>
     
+     <xsl:variable name="import_chart2d">   
+    	<xsl:if test="count(/rows/content/*[@type='chart']/*[name()='chart_type' and .='pie']) &gt; 0">
+        	<xsl:text>import nosi.core.gui.components.IGRPChart2D;</xsl:text>
+        	<xsl:value-of select="$newline"/>
+        </xsl:if>
+    </xsl:variable>
+    
+   <xsl:variable name="import_chart3d">   
+    	<xsl:if test="count(/rows/content/*[@type='chart']/*[name()='chart_type' and . !='pie']) &gt; 0">
+        	<xsl:text>import nosi.core.gui.components.IGRPChart3D;</xsl:text>
+        	<xsl:value-of select="$newline"/>
+        </xsl:if>
+    </xsl:variable>
+    
     <xsl:variable name="import_Map">   
     	<xsl:if test="count(/rows/content/*[@type='table']/fields/*[@type='color']) &gt; 0">
         	<xsl:text>import java.util.Map;</xsl:text>
@@ -124,14 +138,14 @@
     </xsl:variable>
     
     <xsl:variable name="import_array_list">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.ArrayList;</xsl:text> 
        		<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>
 
     <xsl:variable name="import_list"> 
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='carousel' or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import java.util.List;</xsl:text>
         	<xsl:value-of select="$newline"/>
         </xsl:if>
@@ -145,7 +159,7 @@
     </xsl:variable>
     
     <xsl:variable name="import_query_helper">
-    	<xsl:if test="count(/rows/content/*[@type='separatorlist' or @type='formlist' or @type='table' or @type='carousel'  or @type='timeline' or @type='treemenu']) &gt; 0">
+    	<xsl:if test="count(/rows/content/*[@type='chart' or @type='separatorlist' or @type='formlist' or @type='table' or @type='carousel'  or @type='timeline' or @type='treemenu']) &gt; 0">
         	<xsl:text>import nosi.core.webapp.databse.helpers.BaseQueryInterface;</xsl:text>
        		<xsl:value-of select="$newline"/>
         </xsl:if>
