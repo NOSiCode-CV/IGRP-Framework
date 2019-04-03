@@ -71,11 +71,14 @@ var IMGFIELD = function(type,params){
 					var isChecked 	 = $(this).is(':checked'),
 						action  	 = isChecked ? 'show' : 'hide',
 						holderWidth  = $('.gen-properties-setts-holder div[rel="width"]'),
-						holderHeight = $('.gen-properties-setts-holder div[rel="height"]'); 
+						holderHeight = $('.gen-properties-setts-holder div[rel="height"]'), 
+						autoupload   = $('.gen-properties-setts-holder div[rel="autoupload"]'); 
 
 					holderWidth[action]();
 					
 					holderHeight[action]();
+
+					autoupload[action]();
 
 					if (!isChecked) {
 						$('input',holderWidth).val('');
@@ -111,6 +114,19 @@ var IMGFIELD = function(type,params){
 			name :'rounded',
 			value:false,
 			xslValue:'img-rounded'
+		});
+
+		field.setPropriety({
+			name    : 'autoupload',
+			label   : 'Auto Upload',
+			value   : false,
+			xslValue: 'autoupload',
+			onEditionStart : function(o){
+				if(field.GET.croppie && field.GET.croppie())
+					o.input.show();
+				else
+					o.input.hide();
+			}
 		});
 
 	}

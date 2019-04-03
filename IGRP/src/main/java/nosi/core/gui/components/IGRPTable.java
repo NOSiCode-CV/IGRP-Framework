@@ -1,6 +1,5 @@
 package nosi.core.gui.components;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -63,6 +62,8 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
 import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
  
 public class IGRPTable extends IGRPComponent{
 
@@ -195,7 +196,6 @@ public class IGRPTable extends IGRPComponent{
 			}
 		this.xml.endElement();
 		String aux = this.xml.toString();
-		//System.out.println(aux);
 		return aux;
 	}
 
@@ -206,7 +206,6 @@ public class IGRPTable extends IGRPComponent{
 	private void genLegendColor() {
 		if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legend_colors.size() > 0){
 			this.xml.startElement("legend_color");
-			//this.xml.setElement("title", gt("Legenda"));
 			this.legend_colors.entrySet().stream().forEach(l->{
 				for(Entry<String, String> p : l.getValue().entrySet()) {
 		          this.xml.startElement("item");
@@ -218,19 +217,6 @@ public class IGRPTable extends IGRPComponent{
 			});
 			this.xml.endElement();
 		}
-		/*if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legend_color.size() > 0){
-			this.xml.startElement("legend_color");
-			//this.xml.setElement("title", gt("Legenda"));
-			this.legend_color.stream().forEach(l->{
-				for(Entry<Object, Object> p : l.entrySet()) {
-		          this.xml.startElement("item");
-		          	this.xml.setElement("label", p.getKey().toString());
-		          	this.xml.setElement("value", p.getValue().toString());
-		          this.xml.endElement();
-		        }
-			});
-			this.xml.endElement();
-		}*/
 	}
 
 	private void genRowsWithSql() {
@@ -361,7 +347,6 @@ public class IGRPTable extends IGRPComponent{
 
 	public void loadModel(List<?> modelList) {
 		this.modelList = modelList;
-		//this.data = modelList;
 	}
 	
 	
