@@ -7,9 +7,8 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.webapps.igrp.dao.Application;
@@ -37,8 +36,8 @@ public class _CONS_PROCController extends Controller {
 		/*----#start-code(index)----*/
 		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
-		if(Core.isNotNull(model.getAplicacao())){
-			TaskServiceQuery taskS = new TaskServiceQuery();
+		TaskServiceQuery taskS = new TaskServiceQuery();
+		if(Core.isNotNull(model.getAplicacao())){			
 			if(Core.isNotNull(model.getTipo_processo())){
 				taskS.addFilter("processDefinitionId", model.getTipo_processo());
 			}if(Core.isNotNull(model.getNum())){
@@ -53,16 +52,23 @@ public class _CONS_PROCController extends Controller {
 			if(Core.isNotNull(model.getAplicacao())) {
 				taskS.addFilter("tenantId", app.getDad());
 			}
-			if(Core.isNotNull(model.getDt_ini())) {
-				taskS.addFilter("taskCompletedAfter",Core.ToChar(Core.ToChar(model.getDt_ini(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+			List<TaskServiceQuery> tasks = taskS.queryHistoryTask();
+
+			if(Core.isNotNullMultiple(model.getDt_ini(),model.getDt_fim())) {
+				tasks = tasks.stream()
+							 .filter(t->t.compareDate(t.getStartTime(), model.getDt_ini(),(d1,d2)->d1.compareTo(d2)>=0))
+							 .filter(t->t.compareDate(t.getEndTime(), model.getDt_fim(),(d1,d2)->d1.compareTo(d2)<=0))
+							 .collect(Collectors.toList());
+			}else {
+				if(Core.isNotNull(model.getDt_ini())) {
+					tasks = tasks.stream().filter(t->t.compareDate(t.getStartTime(), model.getDt_ini(),(d1,d2)->d1.compareTo(d2)==0)).collect(Collectors.toList());
+				}
+				if(Core.isNotNull(model.getDt_fim())) {
+					tasks = tasks.stream().filter(t->t.compareDate(t.getEndTime(), model.getDt_fim(),(d1,d2)->d1.compareTo(d2)==0)).collect(Collectors.toList());
+				}
 			}
-			if(Core.isNotNull(model.getDt_fim())) {
-				taskS.addFilter("taskCompletedBefore",Core.ToChar(Core.ToChar(model.getDt_fim(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
-			}
-			if(Core.isNotNull(model.getDt_ini()) && !Core.isNotNull(model.getDt_fim())) {
-				taskS.addFilter("taskCompletedOn",Core.ToChar(Core.ToChar(model.getDt_ini(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
-			}
-			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
+			
+			for(TaskServiceQuery task:tasks ) {
 				task.proccessDescription(task.getProcessDefinitionUrl());
 				_CONS_PROC.Table_1 t = new _CONS_PROC.Table_1();
 				t.setNum_processo(task.getProcessInstanceId());
@@ -71,7 +77,7 @@ public class _CONS_PROCController extends Controller {
 				t.setDt_inicio_etapa(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setId_task(task.getId());
-				t.setEstado(""+this.getStatusTask(task));
+				t.setEstado(""+task.getStatusTaskValue());
 				if(!t.getEstado().equalsIgnoreCase("1")) {
 					t.hiddenButton(view.btn_ver_etapa);
 				}
@@ -87,7 +93,7 @@ public class _CONS_PROCController extends Controller {
 
 		view.requerente.setVisible(false);
 		view.cbx_utilizador.setVisible(false);
-		view.status.setValue(this.getStatus());
+		view.status.setValue(taskS.getStatus());
 		view.btn_pesquisar.setLink("index");
 		view.table_1.addData(data);
 		/*----#end-code----*/
@@ -144,20 +150,7 @@ public class _CONS_PROCController extends Controller {
 	}
 	
 	/*----#start-code(custom_actions)----*/
-	private Map<String,String> getStatus() {
-		Map<String,String> status = new HashMap<String,String>();
-		status.put(null, "--- Selecionar Estado ---");
-        status.put("false","Ativo");
-        status.put("true","Terminado");
-		return status;
-	}
-	private int getStatusTask(TaskServiceQuery task) {
-		if(Core.isNotNull(task.getEndTime()))
-			return 1;//Terminado
-		if(Core.isNotNull(task.getAssignee()))
-			return 2;//Não iniciado
-		return 3;//"Não Atribuido"
-	}
+	
 	
 	/*----#end-code----*/
 	}
