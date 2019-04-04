@@ -28,18 +28,23 @@ public class PartilhageralController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Unde adipiscing officia sit natus aliqua lorem sed adipiscing accusantium aliqua amet magna consecte' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Rem adipiscing magna dolor laudantium stract totam accusantium aliqua sit labore elit rem sed dolore' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		String dad = Core.getCurrentDad();
+      
+	
       if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao_origem("" + (Core.findApplicationByDad(dad)).getId());
        		model.setApp_or(model.getAplicacao_origem());        
-          	view.aplicacao_origem.propertie().add("disabled","true");			
-		}
+          	view.aplicacao_origem.propertie().add("disabled","true");
+          	
+		}else if(Core.isNotNull(model.getApp_or())) // para caso remote list invocar index, funcionar dentro de uma aplicacao com campo disabled
+			model.setAplicacao_origem(model.getApp_or());
+      
 		view.aplicacao_origem.setValue(new Application().getListApps());
      		 //Hardcoded select element page for now
       	HashMap<String, String> targets = new HashMap<>(); 
@@ -111,17 +116,18 @@ public class PartilhageralController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Partilhageral","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(partilhar)----*/
 
 		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {	
          	 if(Core.isNotNull(model.getApp_or()))
            		 model.setAplicacao_origem(model.getApp_or());
 			sharePage(model); 
+			this.loadQueryString();
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		return this.redirect("igrp_studio","Partilhageral","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/

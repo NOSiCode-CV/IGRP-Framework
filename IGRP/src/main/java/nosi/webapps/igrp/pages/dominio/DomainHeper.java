@@ -16,8 +16,9 @@ import nosi.webapps.igrp.pages.dominio.Dominio.Formlist_1;
 public class DomainHeper {
 
 	 private static final String SQL_SIM_NAO = "SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME ";
-	 private static final String SQL_DOMINIO = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE description is null or description='' AND domain_type='"+DomainType.PUBLIC+"' OR domain_type is null "
-	 		+ "UNION SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE description is null or description='' AND env_fk=:env_fk ";
+	 private static final String SQL_DOMINIO = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE description is null or description='' AND env_fk=:env_fk ";
+	 private static final String SQL_DOMINIO_PUB = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE description is null or description='' AND domain_type='"+DomainType.PUBLIC+"' OR domain_type is null ";
+		 		
 	 private static final String SQL_ITEM_DOMINIO = "SELECT id as formlist_1_id,description,valor as key,status as estado,ordem FROM tbl_domain WHERE description is not null AND description!='' AND dominio=:dominio";
 	
 	 public static Map<Object, Object> getApplications() {
@@ -31,8 +32,12 @@ public class DomainHeper {
 	}
 	
 	public static BaseQueryInterface getDomainQuery(Integer appId) {
+		if(appId==0)
+			return Core.query(DomainHeper.SQL_DOMINIO_PUB);
 		return Core.query(DomainHeper.SQL_DOMINIO).addInt("env_fk", appId);
 	}
+	
+	
 	
 	public static BaseQueryInterface getEstadoQuery() {
 		return Core.query(DomainHeper.SQL_SIM_NAO);

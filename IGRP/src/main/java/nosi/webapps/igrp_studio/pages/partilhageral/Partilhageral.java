@@ -31,24 +31,7 @@ public class Partilhageral extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
-	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
-	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
-	}
-	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
-	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
-	}
+
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -87,19 +70,19 @@ public class Partilhageral extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private int estado;
-		private int estado_check;
+		private Integer estado;
+		private Integer estado_check;
 		private String nome;
-		public void setEstado(int estado){
+		public void setEstado(Integer estado){
 			this.estado = estado;
 		}
-		public int getEstado(){
+		public Integer getEstado(){
 			return this.estado;
 		}
-		public void setEstado_check(int estado_check){
+		public void setEstado_check(Integer estado_check){
 			this.estado_check = estado_check;
 		}
-		public int getEstado_check(){
+		public Integer getEstado_check(){
 			return this.estado_check;
 		}
 

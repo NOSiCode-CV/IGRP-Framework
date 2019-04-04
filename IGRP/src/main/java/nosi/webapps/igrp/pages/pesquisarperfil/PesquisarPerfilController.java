@@ -30,7 +30,7 @@ public class PesquisarPerfilController extends Controller {
 		int idApp = Core.getParamInt("id_app");
 		
 		//Preenchendo a tabela
-		for(ProfileType p:profile_db.find().andWhere("application", "=",idApp!=0?idApp:-1).andWhere("organization", "=",idOrg!=0?idOrg:-1).all()){
+		for(ProfileType p:profile_db.find().andWhere("application", "=",idApp!=0?idApp:Core.getCurrentApp()).andWhere("organization", "=",idOrg!=0?idOrg:Core.getCurrentOrganization()).all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil.Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());
