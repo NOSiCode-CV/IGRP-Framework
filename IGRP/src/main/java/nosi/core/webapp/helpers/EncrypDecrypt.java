@@ -51,6 +51,7 @@ public class EncrypDecrypt {
 		return qs != null && !content.equals("igrp/login/login") && !content.equals("igrp/home/index")
 				&& !content.equals("igrp/ErrorPage/exception") && !content.equals("igrp/error-page/exception")
 				&& !content.equals("igrp/login/logout") && !content.equals("igrp_studio/WebReport/get-image")
+				&& !content.equals("igrp/File/save-image")
 				&& !content.contains("igrp/page") && !content.contains("changeStatus") && (Core.isNotNull(
 						qs) ? !((qs.contains("isPublic=1") // Para paginas totalmente publicas
 								? checkPublicLang(content, qs)

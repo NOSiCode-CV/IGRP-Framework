@@ -283,6 +283,13 @@
             <artifactId>hibernate-hikaricp</artifactId>
             <version>5.4.1.Final</version>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+<dependency>
+    <groupId>com.zaxxer</groupId>
+    <artifactId>HikariCP</artifactId>
+    <version>3.3.1</version>
+</dependency>
 
         <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 <dependency> <groupId>com.mchange</groupId> 
         <artifactId>c3p0</artifactId> <version>0.9.5.2</version> </dependency> -->
@@ -304,8 +311,7 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>6.4.0.jre8</version>
-            <scope>test</scope>
-        </dependency>
+              </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
         <dependency>

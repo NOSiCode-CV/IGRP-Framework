@@ -843,7 +843,7 @@ public final class Core { // Not inherit
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().andWhere("dominio", "=", domainsName).andWhere("status", "=", "ATIVE").orderBy("ordem")
+		return domain.find().where("valor !=''").andWhere("dominio", "=", domainsName).andWhere("status", "=", "ATIVE").orderBy("ordem")
 				.all();
 	}
 
@@ -868,7 +868,7 @@ public final class Core { // Not inherit
 //		return onedom!=null?onedom.getDescription():"";
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		final Domain oneDomain = domain.find().andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
+		final Domain oneDomain = domain.find().where("valor !=''").andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
 				.andWhere("lower(valor)", "valor", "=", key.toLowerCase()).one();
 		return oneDomain != null ? oneDomain.getDescription() : "";
 
@@ -2064,8 +2064,8 @@ public final class Core { // Not inherit
 		TaskService task = new TaskService().getTask(taskId);
 		if (task != null) {
 			if (scope.equalsIgnoreCase("global"))
-				task.deleteVariable(variableName);
-			task.addVariable(variableName, scope, type, value);
+				task.deleteVariable(task.getTaskDefinitionKey()+"_"+variableName);
+			task.addVariable(task.getTaskDefinitionKey()+"_"+variableName, scope, type, value);
 			task.submitVariables();
 		}
 	}
@@ -2080,7 +2080,7 @@ public final class Core { // Not inherit
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (var != null && var.size() > 0) ? ""+ var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -2091,7 +2091,7 @@ public final class Core { // Not inherit
 			List<TaskVariables> var = vars.stream()
 					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
 					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+			return (var != null && var.size() > 0) ? ""+var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
 	}
@@ -3167,8 +3167,12 @@ public final class Core { // Not inherit
 	 */
 	public static Session getSession(String connectionName) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName, null);
-		if (sessionFactory != null)
+		if (sessionFactory != null && sessionFactory.isOpen())
 			return sessionFactory.getCurrentSession();
+		if(sessionFactory !=null && sessionFactory.isClosed()) {
+			 HibernateUtils.removeSessionFactory(connectionName);
+			 sessionFactory = HibernateUtils.getSessionFactory(connectionName, null);
+		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
