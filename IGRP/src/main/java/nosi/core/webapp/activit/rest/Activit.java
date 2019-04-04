@@ -68,6 +68,7 @@ public class Activit {
 	    		if(Core.isNotNull(packageName)) {
 					Class<?> c = Class.forName(packageName);
 					if(c!=null) {
+						Core.setAttribute("current_app_conn", Core.getCurrentDad());
 						Method method = c.getMethod("allowTask",ActivityExecute.class);
 						r = (boolean) method.invoke(c.newInstance(), task);//Get custom permission
 					}

@@ -185,8 +185,10 @@ public abstract class BPMNTaskController extends Controller implements Interface
 					 .andWhere("taskKey","=","start")
 					 .andWhere("organization","=",Core.getCurrentOrganization())
 					 .one();
-			 activityExecute.setCustomPermission(this.myCustomPermission);
-		     activityExecute.update();
+			if(activityExecute!=null) {
+				 activityExecute.setCustomPermission(this.myCustomPermission);
+			     activityExecute.update();
+			}
 		     this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
 		}
 	}
