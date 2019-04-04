@@ -24,7 +24,9 @@ public class Pesquisa_geografiaController extends Controller {
 		model.load();
 		Pesquisa_geografiaView view = new Pesquisa_geografiaView();
 		/*----#start-code(index)----*/
-		model.setTreemenu_1(this.chamarServico("0"));
+		
+		String id = Core.getParam("p_fwl_id");
+		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id)?id:"238"));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -55,6 +57,8 @@ public class Pesquisa_geografiaController extends Controller {
 					id_geo=p1.getKey().toString();
 				else if (p1.getValue().equals("treemenu_1_link_desc"))
 					des_geo=p1.getKey().toString();
+//				else if (p1.getValue().equals("treemenu_1_link"))
+//					ds_geo=p1.getKey().toString();
 				
 			});
 			xml += getXml(li.getTreemenu_1_tmid()+"", li.getTreemenu_1_link_desc(),id, li.getTreemenu_1_child(),des_geo,id_geo);			
@@ -72,23 +76,7 @@ public class Pesquisa_geografiaController extends Controller {
  String  des_geo ="p_geografia_des";
  String id_geo = "p_geografia_id";
 	
-	public String getXml(String id,String desc_menu, String id_par, String child, String des_geo,String id_geo) {
-		
-		String xml =	"<row>" + 
-						"<context-menu>"+
-						"<param>"+des_geo+"="+ desc_menu +"</param>"+
-						"<param>"+id_geo+"="+ id +"</param>"
-						+ "</context-menu>"+
-							"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
-							"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +
-							"<treemenu_1_parent>"+ id_par +"</treemenu_1_parent>" + 
-							"<treemenu_1_icon/>" + 
-							"<treemenu_1_child>" + child +"</treemenu_1_child>" + 
-							"<treemenu_1_active/>" + 
-						"</row>";
-		return xml;
-	}
-	public List<Pesquisa_geografia.Treemenu_1>  chamarServico(String id) throws IOException {
+ public List<Pesquisa_geografia.Treemenu_1>  chamarServico(String id) throws IOException {
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia")+"?id="+id;
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
@@ -112,7 +100,25 @@ public class Pesquisa_geografiaController extends Controller {
 		}
 		 list_geo.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_1::getTreemenu_1_link_desc));
 		return list_geo;
+	}	
+ 
+ public String getXml(String id,String desc_menu, String id_par, String child, String des_geo,String id_geo) {
+		
+		String xml =	"<row>" + 
+						"<context-menu>"+
+						"<param>"+des_geo+"="+ desc_menu +"</param>"+
+						"<param>"+id_geo+"="+ id +"</param>"
+						+ "</context-menu>"+
+							"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
+							"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +
+							"<treemenu_1_parent>"+ id_par +"</treemenu_1_parent>" + 
+							"<treemenu_1_icon/>" + 
+							"<treemenu_1_child>" + child +"</treemenu_1_child>" + 
+							"<treemenu_1_active/>" + 
+						"</row>";
+		return xml;
 	}
+	
 	
 /*----#end-code----*/
 }
