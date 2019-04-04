@@ -4,13 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.persistence.Tuple;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.webapps.igrp.dao.Domain;
 
 /**
  * @author: Emanuel Pereira
@@ -82,7 +80,6 @@ public class ListField extends AbstractField {
 
 	public void loadDomain(String domains) {
 		this.loadDomain(domains, null);
-//		this.setQuery(Core.query(this.getConnectionName(),"SELECT valor as ID,description as NAME FROM tbl_domain where dominio ='"+domains+"' order by ordem"));
 	}
 
 	public void loadDomain(String domains, String prompt) {
