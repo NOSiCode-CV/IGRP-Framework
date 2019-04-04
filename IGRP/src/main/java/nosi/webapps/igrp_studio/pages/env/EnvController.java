@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -55,6 +57,7 @@ public class EnvController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		view.action_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
+		view.flg_external.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
@@ -69,10 +72,11 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
-		view.flg_external.setValue(0);
+		//view.flg_external.setValue(0);
 		view.status.setVisible(false);
-
-	
+		
+		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
+		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -100,11 +104,14 @@ public class EnvController extends Controller {
 			}
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());	
-			app.setExternal(model.getFlg_external());
+			app.setExternal(Core.toInt(model.getFlg_external()).intValue());
 			
 			boolean autoDeploy = false;
 			
-			if(app.getExternal() == 1) 
+			if(app.getExternal() == 2) 
+				app.setUrl(model.getHost().trim());
+			
+			if(app.getExternal() == 1) { 
 				if(Core.isNotNull(model.getHost()))
 					app.setUrl(model.getHost().trim());
 				else {
@@ -114,7 +121,9 @@ public class EnvController extends Controller {
 					app.setUrl(url); 				
 					*/
 					autoDeploy = true;					
-				}			
+				}	
+			}
+			
 			app.setImg_src(model.getImg_src());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
@@ -254,7 +263,7 @@ public class EnvController extends Controller {
 		model.setDad(aplica_db.getDad()); 
 		model.setName(aplica_db.getName());
 		model.setDescription(aplica_db.getDescription());
-		model.setFlg_external(aplica_db.getExternal());
+		model.setFlg_external(aplica_db.getExternal() + "");
 		model.setHost(aplica_db.getUrl());
 		if(Core.isNotNull(aplica_db.getAction())){
 			model.setAction_fk(aplica_db.getAction().getId().toString());
@@ -268,13 +277,18 @@ public class EnvController extends Controller {
 			//aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());	
-			aplica_db.setExternal(model.getFlg_external());
+			aplica_db.setExternal(Core.toInt(model.getFlg_external()).intValue());
 			
-			if(aplica_db.getExternal() == 1)
+			if(aplica_db.getExternal() == 2) {
+				aplica_db.setUrl(model.getHost().trim());
+			}
+			
+			if(aplica_db.getExternal() == 1) {
 				if(Core.isNotNull(model.getHost()))
 					aplica_db.setUrl(model.getHost().trim());
 				else
 					aplica_db.setUrl(null);
+			}
 		
 			aplica_db.setDescription(model.getDescription());
 			if(Core.isInt(model.getAction_fk())){
@@ -313,6 +327,9 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.flg_old.setVisible(false);
 		view.setModel(model);
+		
+		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
+		
 		return this.renderView(view);
 	
 	}
@@ -449,6 +466,14 @@ public class EnvController extends Controller {
 				devUrl += qs;
 			return redirectToUrl(devUrl);
 			}
+			
+			/*if(env.getExternal() == 2) {
+				String customDad = env.getUrl(); 
+				String uri = Igrp.getInstance().getRequest().getRequestURI();
+				String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+				url += "/" + customDad + "/app/webapps?r=";
+				
+			}*/
 			
 			if(env.getExternal() == 1) {
 				

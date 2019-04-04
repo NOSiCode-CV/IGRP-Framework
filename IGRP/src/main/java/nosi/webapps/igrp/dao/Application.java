@@ -7,6 +7,7 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -292,7 +293,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 			list = p.find()
 					.andWhere("type", "=", "ENV")
 					.andWhere("user", "=", idUser)
-					.andWhere("type_fk", ">", 3)//Oculta IGRP Core,IGRP Tutorial,Oculta IGRP Studio 
+					.andWhere("type_fk", ">", 3) // Oculta IGRP Core,IGRP Tutorial,Oculta IGRP Studio 
 					.all();
 		}		
 		if(!list.isEmpty()){
@@ -407,6 +408,14 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 
 	public Application findByDad(String dad) {
 		return new Application().find().andWhere("dad", "=", dad).one();
+	}
+	
+	public LinkedHashMap<String, String> getAtivesEstadoRegisto() {
+		 LinkedHashMap<String, String> m = new  LinkedHashMap<String, String>();
+		 m.put(null, "--- Selecionar ---");
+		 m.put("1", "Externo"); 
+		 m.put("2", "Custom Dad"); 
+		 return m;
 	}
 
 }
