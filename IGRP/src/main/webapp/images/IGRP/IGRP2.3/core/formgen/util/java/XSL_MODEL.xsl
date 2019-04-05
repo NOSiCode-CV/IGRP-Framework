@@ -378,13 +378,13 @@
 			<xsl:value-of select="$tab2"/>
 				<xsl:choose>
 				<xsl:when test="chart_type = 'pie'">
-					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, double eixoY) {')"/>
+					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, Object eixoY) {')"/>
 			 		<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab3"/>
 					<xsl:value-of select="'super(eixoX, eixoY);'"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="concat('public ',$tableName,'(String eixoX,String eixoY, double eixoZ) {')"/>
+					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, String eixoY, Object eixoZ) {')"/>
 			 		<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab3"/>
 					<xsl:value-of select="'super(eixoX, eixoY,eixoZ);'"/>
