@@ -114,8 +114,7 @@
 					indexOfWMS   =  layerData.url.lastIndexOf('/wms'),
 					
 					postData;
-			
-				
+
 				if(indexOfWMS >= 0)
 					
 					layerUrl = layerData.url.substring(0,indexOfWMS)+'/ows';
@@ -184,14 +183,17 @@
 
 			        },
 			        error: function (xhr) {
+			        	
 			            alert("Ocorreu um erro: " + xhr.status + " " + xhr.statusText);
+			            
 			        },
 			        complete: function (xml) {
+			        	
 			            console.log("Done");
+			            
 			        }
 			    });
-				
-				
+
 			}
 			
 		});
@@ -246,12 +248,6 @@
 			
 		};
 		
-		function CheckLayersOptions(){
-			
-			
-			
-		};
-		
 		function GetLayersLength(){
 			
 			return Object.keys(Layers).length;
@@ -301,7 +297,6 @@
 						
 					});
 					
-	
 					data.layers = Layers;
 					
 				}
@@ -319,8 +314,7 @@
 				widget.actions['select-layer']();
 				
 			});
-			
-			
+
 			widget.steps.attributes.on('activate', function(step){
 				
 				if(!step.html.find(':input').first().val())
@@ -342,8 +336,6 @@
 			GetLayers();
 			
 			InitDraw();
-			
-			widget.on('activate', CheckLayersOptions);
 			
 			widget.on('deactivate', Clear);
 			

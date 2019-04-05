@@ -6,24 +6,29 @@
 
 	var Classes = {
 
-		WMS : function(data){
+		WMS : function(data, app){
 
-			var layer   = null;
+			console.log(app.viewer())
+			
+			var layer   = null,
+			
+				map     = app.viewer(),
 
 				options = $.extend({
 
 					transparent : true,
 
 					format : 'image/png',
-
-					srs : 'EPSG:4826'
+					
+					//srs : 'EPSG:4826'
+					//crs: L.CRS.EPSG4326
 
 				}, data.options );
 				
 			layer = L.tileLayer.wms(data.url, options);
 
 			layer.updateData= function(){
-				console.log('updateee')
+			
 				layer.setParams({}, false);
 				
 			}
@@ -48,7 +53,7 @@
 				
 					onEachFeature : function(feature,layer){
 					
-				           layer.bindPopup( 'ID: '+feature.id );
+						//layer.bindPopup( 'ID: '+feature.id );
 	
 					}
 					
@@ -60,7 +65,7 @@
 				
 				options = {};
 			
-			console.log(layer)
+			//console.log(layer)
 
 			layer.request = null;
 
@@ -216,8 +221,7 @@
 					maxFeatures : 600
 
 				}, data.options );
-				
-				
+
 				layer.requestOptions = options;
 				
 				var GetData = function(callback){
@@ -230,9 +234,9 @@
 
 						app.loading(true);
 
-						options.bbox = map.getBounds().toBBoxString();
+						//options.bbox = map.getBounds().toBBoxString();
 
-						layer.request = $.get( data.url, options );
+						layer.request = $.get( data.url, $.extend({ bbox : map.getBounds().toBBoxString() }, options) );
 						
 						layer.request.then(function(geo){
 

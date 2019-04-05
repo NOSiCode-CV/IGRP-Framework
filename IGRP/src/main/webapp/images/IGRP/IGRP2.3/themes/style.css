@@ -1730,6 +1730,7 @@ ul.nav-tabs{
     height: 80px;
     margin: 5px;
     overflow: hidden;
+    border:1px solid #eee
 }
 
 #igrp-apps-1 a.igrp-app-block.not-available{

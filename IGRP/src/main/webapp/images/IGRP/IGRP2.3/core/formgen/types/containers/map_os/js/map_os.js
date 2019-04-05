@@ -9,7 +9,7 @@
 	GEN.Request.get( path+'/core/formgen/types/containers/map_os/layers.list.json',{
 
 		then : function(list){
-			
+
 			if(typeof list === 'string')
 				
 				list = JSON.parse(list);
@@ -64,8 +64,12 @@
 				
 				js  : [ 
 					{ path : '/plugins/leaflet/library/js/leaflet.js' },
+					//{ path : '/plugins/leaflet/classes/TileLayer.WMS.js' },
 					{ path : '/plugins/leaflet/library/plugins/basemap-provider/leaflet-providers.js' },
 					{ path : '/plugins/leaflet/library/plugins/ajax/leaflet.ajax.min.js' },
+					
+					{ path : '/plugins/leaflet/library/plugins/proj4leaflet/proj4.js' },
+					{ path : '/plugins/leaflet/library/plugins/proj4leaflet/proj4leaflet.js' },
 					
 					{ path : '/plugins/handlebars/handlebars-v4.1.1.js' },
 					
