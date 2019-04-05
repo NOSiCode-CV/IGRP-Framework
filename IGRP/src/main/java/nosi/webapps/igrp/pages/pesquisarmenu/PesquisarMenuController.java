@@ -324,8 +324,15 @@ public class PesquisarMenuController extends Controller {
 		try {
 			String []aux = input.split("/");
 			String dad = aux[0];
+			Application app = new Application().findByDad(dad);
 			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
-			url = u + "/" + dad + "/app/"; 
+			
+			if(app.getExternal() == 2 && app.getUrl() != null && !app.getUrl().isEmpty()) {
+				String customDad = app.getUrl();
+				url = u + "/" + customDad + "/app/"; 
+			}else
+				url = u + "/" + dad + "/app/"; 
+			
 		} catch (Exception e) {
 		}
 		return url;

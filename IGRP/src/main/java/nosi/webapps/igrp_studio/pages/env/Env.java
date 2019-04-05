@@ -1,5 +1,10 @@
 package nosi.webapps.igrp_studio.pages.env;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -33,9 +38,7 @@ public class Env extends Model{
 	@RParam(rParamName = "p_host")
 	private String host;
 	@RParam(rParamName = "p_flg_external")
-	private int flg_external;
-	@RParam(rParamName = "p_flg_external_check")
-	private int flg_external_check;
+	private String flg_external;
 	@RParam(rParamName = "p_link_menu")
 	private String link_menu;
 	@RParam(rParamName = "p_link_center")
@@ -143,17 +146,11 @@ public class Env extends Model{
 		return this.host;
 	}
 	
-	public void setFlg_external(int flg_external){
+	public void setFlg_external(String flg_external){
 		this.flg_external = flg_external;
 	}
-	public int getFlg_external(){
+	public String getFlg_external(){
 		return this.flg_external;
-	}
-	public void setFlg_external_check(int flg_external_check){
-		this.flg_external_check = flg_external_check;
-	}
-	public int getFlg_external_check(){
-		return this.flg_external_check;
 	}
 	
 	public void setLink_menu(String link_menu){
