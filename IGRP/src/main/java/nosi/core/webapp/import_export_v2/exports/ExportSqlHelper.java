@@ -218,7 +218,7 @@ public class ExportSqlHelper {
 				   + "FROM tbl_domain WHERE status='ATIVE' AND domain_type='"+DomainType.PRIVATE+"' AND (valor='' OR valor is null) AND env_fk="+model.getApplication_id();
 		sql += " UNION ";
 		sql += " SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
-				   + "FROM tbl_domain WHERE status='ATIVE'  AND (domain_type='"+DomainType.PUBLIC+"' OR domain_type is null) AND (valor='' OR valor is null)";;
+				   + "FROM tbl_domain WHERE status='ATIVE'  AND (domain_type='"+DomainType.PUBLIC+"' OR domain_type is null)";
 		model.loadTable_domain(Core.query(null,sql));
 	}
 
