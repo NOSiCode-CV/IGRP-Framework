@@ -124,6 +124,7 @@ public class IGRPChart extends IGRPComponent{
 			this.genChart();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			Core.log("ERROR:" + e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 		this.xml.endElement();
@@ -221,6 +222,7 @@ public class IGRPChart extends IGRPComponent{
 					}
 					valuesXY.put(key, v);
 				}catch(IllegalArgumentException e) {
+					Core.log("ERROR:" + e.getLocalizedMessage());
 				}
 			});	
 			this.generateLabels(labels);
@@ -229,6 +231,8 @@ public class IGRPChart extends IGRPComponent{
 			else if(columnSize==3)
 				this.generateRowsValueXYZ(list);
 		}else {
+			Core.setMessageError("Invalid Query");
+			Core.log("Invalid Query not columnSize >= 2 && columnSize<=3: "+ this.query.getSql());
 			throw new Exception("Invalid Query");
 		}
 	}

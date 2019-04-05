@@ -3543,7 +3543,7 @@ var GENERATOR = function(genparams){
 		}
 
 		$.ajax({
-			url:GEN.UTILS.link_domains,
+			url:GEN.UTILS.link_domains+GEN.DETAILS.id,
 			success:function(d){ 
 				
 				setDomains(d);
