@@ -60,7 +60,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 		if(bpmn.getPageFiles()!=null) {
 			bpmn.getPageFiles().stream().forEach(page->{
 				String basePath = Path.getPath(this.application);
-				basePath += "process" + File.separator + bpmn.getKey() + File.separator;
+				basePath += "process" + File.separator + bpmn.getKey().toLowerCase() + File.separator;
 				try {
 					FileHelper.save(basePath, page.getFileName(), page.getFileContent());
 					this.compiler.addFileName(basePath+page.getFileName());
