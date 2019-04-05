@@ -82,10 +82,12 @@ public class BPMNExport implements IExport{
 		if(files!=null) {
 			List<BPMNPageFiles> pageFiles = new ArrayList<>();
 			files.entrySet().stream().forEach(file->{
-				BPMNPageFiles p = new BPMNPageFiles();
-				p.setFileContent(FileHelper.readFile(file.getValue(),""));
-				p.setFileName(file.getKey());
-				pageFiles.add(p);
+				if(file.getValue().endsWith(".java")) {
+					BPMNPageFiles p = new BPMNPageFiles();
+					p.setFileContent(FileHelper.readFile(file.getValue(),""));
+					p.setFileName(file.getKey());
+					pageFiles.add(p);
+				}
 			});
 			bpmn.setPageFiles(pageFiles);
 		}
