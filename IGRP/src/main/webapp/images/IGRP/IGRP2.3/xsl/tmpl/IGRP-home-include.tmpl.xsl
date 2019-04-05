@@ -416,7 +416,7 @@
                 <span aria-hidden="true"><i class="fa fa-times"></i></span>
               </a>
             </xsl:if>
-            <xsl:value-of select="." disable-output-escaping="yes"/>
+            <span class="disable-output-escaping"><xsl:value-of select="." disable-output-escaping="yes"/></span>
           </div>
 
         </xsl:for-each>
