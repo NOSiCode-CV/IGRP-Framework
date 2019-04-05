@@ -5,7 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class EnvView extends View {
 
@@ -24,7 +26,6 @@ public class EnvView extends View {
 	public Field extras;
 	public Field host;
 	public Field flg_external;
-	public Field flg_external_check;
 	public Field link_menu;
 	public Field link_center;
 	public Field apache_dad;
@@ -90,12 +91,12 @@ public class EnvView extends View {
 		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30");
 		
 		host = new TextField(model,"host");
-		host.setLabel(gt("Host"));
+		host.setLabel(gt("Host / Custom dad"));
 		host.propertie().add("name","p_host").add("type","text").add("maxlength","255").add("required","false").add("readonly","false").add("disabled","false");
 		
-		flg_external = new CheckBoxField(model,"flg_external");
+		flg_external = new ListField(model,"flg_external");
 		flg_external.setLabel(gt("Externo?"));
-		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		flg_external.propertie().add("name","p_flg_external").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","30").add("required","false").add("disabled","false").add("java-type","");
 		
 		link_menu = new TextField(model,"link_menu");
 		link_menu.setLabel(gt("Link Menu (Antigo)"));

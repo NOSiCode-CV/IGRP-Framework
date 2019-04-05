@@ -231,7 +231,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang=pt_PT" /*+ "&target=_blank"*/);
 					}else {
 						
-						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad)) { 
+						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
+								&& pagina.getApplication().getExternal() != 0) { 
 							// Codigo para paginas partilhadas ... dads diferentes ... (Link para SSO) ... 
 							// Authenticacao obrigatoria 
 							
