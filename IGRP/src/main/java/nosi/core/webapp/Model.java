@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
 import com.google.gson.Gson;
+
+import nosi.core.gui.components.IGRPChart2D;
+import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
@@ -93,17 +96,25 @@ public abstract class Model { // IGRP super model
 					T t;
 					try {
 						t = className.newInstance();
-						for(Field field:className.getDeclaredFields()) {
-							try {
-								Object value = tuple.get(field.getName());
-								if(value!=null) {
-									BeanUtils.setProperty(t, field.getName(),value.toString());
-								}
-							}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-								
-							}
+						Field[] fields = null;
+						if(t instanceof IGRPChart3D || t instanceof IGRPChart2D) {
+							fields = className.getSuperclass().getDeclaredFields();
+						}else {
+							fields = className.getDeclaredFields();
 						}
-						list.add(t);
+						if(fields!=null) {
+							for(Field field:fields ) {
+								try {
+									Object value = tuple.get(field.getName());
+									if(value!=null) {
+										BeanUtils.setProperty(t, field.getName(),value.toString());
+									}
+								}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+									
+								}
+							}
+							list.add(t);
+						}
 					} catch (InstantiationException | IllegalAccessException e1) {
 						e1.printStackTrace();
 					}

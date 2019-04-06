@@ -155,7 +155,7 @@ public class IGRPChart extends IGRPComponent{
 		for(Object o:this.data) {
 			if(o instanceof IGRPChart2D) {
 				IGRPChart2D chart2d = (IGRPChart2D) o;
-				valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY().toString());
+				valuesXY.put(chart2d.getEixoX(), chart2d.getEixoY());
 			}
 			else if(o instanceof IGRPChart3D) {
 				IGRPChart3D chart3d = (IGRPChart3D) o;
@@ -276,7 +276,7 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.setElement("col"," ");
 		valuesXY.entrySet().stream().forEach(t->{
 			try {
-				this.xml.setElement("col",t.getValue().toString());
+				this.xml.setElement("col",t.getValue());
 			}catch(IllegalArgumentException e) {
 				this.xml.setElement("col","");
 			}
