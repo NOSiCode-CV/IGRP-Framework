@@ -381,7 +381,7 @@
 					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, Object eixoY) {')"/>
 			 		<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab3"/>
-					<xsl:value-of select="'super(eixoX, eixoY);'"/>
+					<xsl:value-of select="'super(eixoX, eixoY);'"/>					
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="concat('public ',$tableName,'(String eixoX, String eixoY, Object eixoZ) {')"/>
@@ -393,6 +393,15 @@
 		  <xsl:value-of select="$newline"/>
 		  <xsl:value-of select="$tab2"/>
 		  <xsl:value-of select="'}'"/>
+		  
+		  <xsl:value-of select="$newline"/>
+		  <xsl:value-of select="$tab2"/>
+		  
+			<xsl:value-of select="concat('public ',$tableName,'() {')"/>
+ 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="'}'"/>
+		
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="'}'"/>
