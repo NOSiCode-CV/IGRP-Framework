@@ -467,17 +467,9 @@ public class EnvController extends Controller {
 			return redirectToUrl(devUrl);
 			}
 			
-			/*if(env.getExternal() == 2) {
-				String customDad = env.getUrl(); 
-				String uri = Igrp.getInstance().getRequest().getRequestURI();
-				String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
-				url += "/" + customDad + "/app/webapps?r=";
+			if(env.getExternal() == 1 || env.getExternal() == 2) {
 				
-			}*/
-			
-			if(env.getExternal() == 1) {
-				
-				if(env.getUrl() != null && !env.getUrl().isEmpty()) {
+				if(env.getExternal() != 2 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 					String aux = env.getUrl();
 					Action action = env.getAction();
 					if(action != null && env.getExternal() != 1) {
@@ -491,20 +483,44 @@ public class EnvController extends Controller {
 					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
-					//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
-					String uri = Igrp.getInstance().getRequest().getRequestURI();
-					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
-					Action action = env.getAction();
+					String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 					
-					User currentUser = Core.getCurrentUser();
-					url += "/" + env.getDad().trim().toLowerCase() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+					if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
+						
+						//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+						String uri = Igrp.getInstance().getRequest().getRequestURI();
+						String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+						
+						Action action = env.getAction();
+						
+						User currentUser = Core.getCurrentUser(); 
+						
+						if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) {
+							
+							url += "/" + env.getDad() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+							
+							if(action != null) 
+								url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+							else
+								url += "&_url=tutorial/DefaultPage/index";
+							
+							return this.redirectToUrl(url);
+						}
+						
+						if(env.getExternal() == 2 && !deployedWarName.equals(env.getUrl())) { // Custom dad 
+							url += "/" + env.getUrl() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+							
+							if(action != null) 
+								url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+							else
+								url += "&_url=tutorial/DefaultPage/index";
+							
+							return this.redirectToUrl(url);
+						}
+						
+						
+					}
 					
-					if(action != null) 
-						url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
-					else
-						url += "&_url=tutorial/DefaultPage/index";
-					
-					return this.redirectToUrl(url);
 				}
 				
 			}
