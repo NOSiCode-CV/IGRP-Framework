@@ -13,6 +13,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.DomainType;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2View;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2.Table_bpmn;
@@ -214,7 +215,10 @@ public class ExportSqlHelper {
 
 	private void loadDomainData(Wizard_export_step_2 model) {
 		String sql = "SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
-				   + "FROM tbl_domain WHERE status='ATIVE' AND env_fk="+model.getApplication_id();
+				   + "FROM tbl_domain WHERE status='ATIVE' AND domain_type='"+DomainType.PRIVATE+"' AND (valor='' OR valor is null) AND env_fk="+model.getApplication_id();
+		sql += " UNION ";
+		sql += " SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
+				   + "FROM tbl_domain WHERE status='ATIVE'  AND (domain_type='"+DomainType.PUBLIC+"' OR domain_type is null)";
 		model.loadTable_domain(Core.query(null,sql));
 	}
 

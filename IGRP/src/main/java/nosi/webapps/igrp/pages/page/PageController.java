@@ -19,7 +19,6 @@ import nosi.webapps.igrp.dao.Modulo;
 import nosi.webapps.igrp.dao.Share;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -38,6 +37,7 @@ import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
+import nosi.webapps.igrp.pages.dominio.DomainHeper;
 /*----#end-code----*/
 		
 public class PageController extends Controller {
@@ -664,45 +664,35 @@ public class PageController extends Controller {
 		return this.renderView(Core.toJson(metodos));
 	}
 
-//	public void actionNewDomain() {
-//
-//		String dname = Core.getParam("domain_name");
-//		// String [] dval = Core.getParamArray("domain_item_value");
-//		// String [] ddesc = Core.getParamArray("p_domain_item_info");
-//
-//		// System.out.println("ok");
-//		// System.out.println(dval);
-//		System.out.println(Core.getParameters());
-//
-//		// Domain domain = new Domain(dominio,valor,description,"ATIVE",0);
-//
-//		// domain.insert();
-//
-//	}
-
 	public Response actionListDomains() throws IOException {
-		List<String> domains = new ArrayList<>();
-		for (Tuple t : Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT dominio FROM tbl_domain")
-				.getResultList()) {
-			try {
-				domains.add(t.get("dominio").toString());
-			} catch (IllegalArgumentException e) {
+		int p_id = Core.getParamInt("p_id");
+		Action ac = new Action().findOne(p_id);
+		if(ac!=null && ac.getApplication()!=null) {
+			List<String> domains = new ArrayList<>();
+			for (Tuple t : Core.query(this.configApp.getBaseConnection(), DomainHeper.SQL_DOMINIO_PUB+" UNION "+DomainHeper.SQL_DOMINIO_PRIVATE)
+					.addInt("env_fk", ac.getApplication().getId())
+					.getResultList()) {
+				try {
+					domains.add(t.get("dominio").toString());
+				} catch (IllegalArgumentException e) {
+				}
 			}
+			Properties p = new Properties();
+			p.put("list", domains);
+			this.format = Response.FORMAT_JSON;
+			return this.renderView(Core.toJson(p));
 		}
-		Properties p = new Properties();
-		p.put("list", domains);
-		this.format = Response.FORMAT_JSON;
-		return this.renderView(Core.toJson(p));
+		return null;
 	}
 
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
-		for (Tuple t : Core.query(this.configApp.getBaseConnection(), "SELECT DISTINCT valor,description FROM tbl_domain")
-				.where("dominio=:dominio").addString("dominio", p_id).getResultList()) {
+		for (Tuple t : Core.query(this.configApp.getBaseConnection(), DomainHeper.SQL_ITEM_DOMINIO)
+				.addString("dominio", p_id).getResultList()) {
 			try {
 				Properties domains = new Properties();
-				domains.put("value", t.get("valor").toString());
+				domains.put("value", t.get("key").toString());
 				domains.put("text", t.get("description").toString());
 				list.add(domains);
 			} catch (IllegalArgumentException e) {

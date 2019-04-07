@@ -47,11 +47,13 @@ public class OthersClassExport  implements IExport {
 	public void add(String id) {
 		if(FileHelper.fileExists(id)) {
 			File file = new File(id);
-			DAOSerializable fileClass = new DAOSerializable();
-			fileClass.setContent(FileHelper.readFile(file.getParentFile().getAbsolutePath(), file.getName()));
-			fileClass.setFileName(file.getName());
-			fileClass.setPath(this.resolvePath(file.getParentFile().getAbsolutePath()));
-			this.others_class.add(fileClass);
+			if(file.getName().endsWith(".java")) {
+				DAOSerializable fileClass = new DAOSerializable();
+				fileClass.setContent(FileHelper.readFile(file.getParentFile().getAbsolutePath(), file.getName()));
+				fileClass.setFileName(file.getName());
+				fileClass.setPath(this.resolvePath(file.getParentFile().getAbsolutePath()));
+				this.others_class.add(fileClass);
+			}
 		}
 	}
 

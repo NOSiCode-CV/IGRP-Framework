@@ -447,7 +447,7 @@
 
 					doe.each(function(i,d){
 						
-						$(d).html( doe.text() );
+						$(d).html( $(d).text() );
 
 					});
 

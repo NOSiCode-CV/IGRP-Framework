@@ -59,13 +59,15 @@ public class BpmnImport extends AbstractImport implements IImport {
 	private void savePagesFile(BPMNSerializable bpmn) {
 		if(bpmn.getPageFiles()!=null) {
 			bpmn.getPageFiles().stream().forEach(page->{
-				String basePath = Path.getPath(this.application);
-				basePath += "process" + File.separator + bpmn.getKey() + File.separator;
-				try {
-					FileHelper.save(basePath, page.getFileName(), page.getFileContent());
-					this.compiler.addFileName(basePath+page.getFileName());
-				} catch (IOException e) {
-					this.addError(e.getMessage());
+				if(page.getFileName().endsWith(".java")) {
+					String basePath = Path.getPath(this.application);
+					basePath += "process" + File.separator + bpmn.getKey().toLowerCase() + File.separator;
+					try {
+						FileHelper.save(basePath, page.getFileName(), page.getFileContent());
+						this.compiler.addFileName(basePath+page.getFileName());
+					} catch (IOException e) {
+						this.addError(e.getMessage());
+					}
 				}
 			});
 		}
