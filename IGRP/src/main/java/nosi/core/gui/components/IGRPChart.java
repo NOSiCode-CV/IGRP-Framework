@@ -160,7 +160,7 @@ public class IGRPChart extends IGRPComponent{
 			else if(o instanceof IGRPChart3D) {
 				IGRPChart3D chart3d = (IGRPChart3D) o;
 				Map<String, Object> value = new HashMap<>();
-				value.put(chart3d.getEixoY(), chart3d.getEixoZ().toString());
+				value.put(chart3d.getEixoY(), ""+chart3d.getEixoZ());
 				valuesXYZ.put(chart3d.getEixoX(), value );
 			}
 		}
