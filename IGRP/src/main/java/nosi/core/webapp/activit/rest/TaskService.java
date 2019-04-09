@@ -101,6 +101,7 @@ public class TaskService extends Activit{
 	
 	public List<TaskService> getMyTasks(){
 		this.addFilter("assignee", Core.getCurrentUser().getUser_name());
+		this.addFilter("tenantId", Core.getCurrentDad());
 		return this.getTasks();
 	}
 	
