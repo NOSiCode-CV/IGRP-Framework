@@ -1617,11 +1617,11 @@ public final class Core { // Not inherit
 	 * @param selected A list selected values
 	 * @param prompt   The comboBox prompt
 	 * @return A xml result
-	 */
-	public static String remoteComboBoxXml(BaseQueryInterface query, String[] selected, String prompt) {
+	 */ 
+	public static String remoteComboBoxXml(BaseQueryInterface query, String tag_name, String[] selected, String prompt) {
 		Map<Object, Object> map = new LinkedHashMap<>();
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		xml += "<list>";
+		xml += "<" + tag_name + ">";
 		if (prompt != null) {
 			xml += "<option><text>" + prompt + "</text><value></value></option>";
 		}
@@ -1649,7 +1649,7 @@ public final class Core { // Not inherit
 			xml += ">";
 			xml += "<text>" + v + "</text><value>" + k + "</value></option>";
 		}
-		xml += "</list>";
+		xml += "</" + tag_name + ">";
 		return xml;
 	}
 
