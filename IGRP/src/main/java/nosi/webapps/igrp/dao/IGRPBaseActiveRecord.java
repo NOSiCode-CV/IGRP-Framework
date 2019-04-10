@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 
 public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
@@ -25,6 +25,6 @@ public class IGRPBaseActiveRecord<T> extends BaseActiveRecord<T> {
 	
 	@Override
 	public String getConnectionName() {
-		return ConfigApp.getInstance().getBaseConnection();
+		return ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG;
     }
 }

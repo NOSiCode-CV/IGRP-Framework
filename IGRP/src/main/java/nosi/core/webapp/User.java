@@ -9,9 +9,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
-import nosi.core.webapp.helpers.EncrypDecrypt;
-import nosi.core.webapp.helpers.Permission;
-import nosi.webapps.igrp.dao.Action;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
+import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.webapps.igrp.pages.login.LoginController;
 /**
  * @author Marcel Iekiny
@@ -131,22 +131,14 @@ public class User implements Component{
 	public void init(HttpServletRequest request) {
 		boolean isLoginPage = false;
 		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
+		if(SecurtyCallPage.isPublic(aux)) {
+			return;
+		}
 		String loginUrl = "igrp/login/login";
-		aux = new EncrypDecrypt().decrypt(aux);
+		aux = EncrypDecrypt.decrypt(aux);
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){			
 			isLoginPage = aux.equals(loginUrl); 
-		}
-		
-		try {
-			String r[] = aux.split("/");
-			String appDad = r[0];
-			String pageName = r[1];
-			String qs = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getQueryString() : "";
-			if(qs.contains("isPublic=1") && new Action().isPublicPage(appDad, pageName))
-				return; 
-		}catch(Exception e) {
-			
 		}
 		
 		if(!this.checkSessionContext() && !isLoginPage){

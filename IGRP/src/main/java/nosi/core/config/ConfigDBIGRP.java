@@ -35,7 +35,9 @@ public class ConfigDBIGRP {
 	private String fileName;
 	private String path;
 	private static final ConfigDBIGRP CONFIG_DB_IGRP = new ConfigDBIGRP();
-	
+	private static final String FILE_NAME_IGRP_CONNECTION_CONFIG = "db_igrp_config.xml";
+	private static final String FILE_NAME_IGRP_CONNECTION_CONFIG_H2 = "db_igrp_config_h2.xml";
+	public static final String FILE_NAME_HIBERNATE_IGRP_CONFIG = "hibernate-igrp-core";
 	//Default configuration for h2
 	private ConfigDBIGRP() {
 		this.driverConnection = "";
@@ -43,8 +45,8 @@ public class ConfigDBIGRP {
 		this.type_db = "h2";
 		this.username = "root";
 		this.password = "root";
-		this.name = "hibernate-igrp-core";
-		this.fileName = "db_igrp_config.xml";
+		this.name = FILE_NAME_HIBERNATE_IGRP_CONFIG;
+		this.fileName = FILE_NAME_IGRP_CONNECTION_CONFIG;
 		this.path = new Config().getBasePathConfig()+"/"+"db"+"/";
 	}
 	
@@ -86,11 +88,15 @@ public class ConfigDBIGRP {
 		return r;
 	}
   
-	public void load() throws Exception{
-		this.load(this.fileName);
+	public void loadIGRPConnectionConfig() throws Exception{
+		this.load(FILE_NAME_IGRP_CONNECTION_CONFIG);
 	}
 	
-	public void load(String fileName) throws Exception {
+	public void loadIGRPConnectionConfigH2() throws Exception{
+		this.load(FILE_NAME_IGRP_CONNECTION_CONFIG_H2);
+	}
+	
+	private void load(String fileName) throws Exception {
 		File file = new File(getClass().getClassLoader().getResource(path+fileName).getFile().replaceAll("%20", " "));
 		FileInputStream fis = null;
 				Properties props = new Properties();
@@ -223,7 +229,6 @@ public class ConfigDBIGRP {
 	    		final String errormessage = ((HibernateException) e.getCause()).getCause().getLocalizedMessage();
 				Core.setMessageError(errormessage1.substring(errormessage1.indexOf(":")+1)+": "+errormessage.substring(errormessage.indexOf(":")+1));
 			
-//				Core.setMessageError("SqlExceptionHelper - "+errormessage.substring(1, errormessage.indexOf("Location:")));
 			}catch(Exception e1) {
 				e1.printStackTrace();
 				Core.setMessageError("SqlExceptionHelper - "+(e1.getCause()!=null && e1.getCause().getCause()!= null?e1.getCause().getCause().getMessage():""));

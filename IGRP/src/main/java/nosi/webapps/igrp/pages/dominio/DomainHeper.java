@@ -2,6 +2,8 @@ package nosi.webapps.igrp.pages.dominio;
 
 
 import java.util.Map;
+
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.webapps.igrp.dao.Application;
@@ -26,21 +28,21 @@ public class DomainHeper {
 	}
 
 	public static BaseQueryInterface getDomainItemQuery(String dominio) {
-		return Core.query(SQL_ITEM_DOMINIO)
+		return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,SQL_ITEM_DOMINIO)
 				   .addString("dominio", dominio)
 				   .orderByAsc("ordem");	
 	}
 	
 	public static BaseQueryInterface getDomainQuery(Integer appId) {
 		if(appId==0)
-			return Core.query(DomainHeper.SQL_DOMINIO_PUB);
-		return Core.query(DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", appId);
+			return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PUB);
+		return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", appId);
 	}
 	
 	
 	
 	public static BaseQueryInterface getEstadoQuery() {
-		return Core.query(DomainHeper.SQL_SIM_NAO);
+		return Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_SIM_NAO);
 	}
 
 	public static boolean saveDomain(Dominio model) {

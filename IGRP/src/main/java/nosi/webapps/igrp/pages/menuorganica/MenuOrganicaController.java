@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
+import nosi.core.config.ConfigDBIGRP;
 /*----#end-code----*/
 		
 public class MenuOrganicaController extends Controller {
@@ -178,7 +179,7 @@ public class MenuOrganicaController extends Controller {
 
 	private void deleteMenu(List<String> uncheckedIds,String type,int org_id,int prof_id,int user_id) {
 		for(String m:uncheckedIds) {
-			ResultSet r = Core.delete("tbl_profile")
+			ResultSet r = Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_profile")
 					.where()
 					.andWhere("type", "=", type)
 					.andWhere("type_fk", "=", Core.toInt(m))
@@ -249,7 +250,7 @@ public class MenuOrganicaController extends Controller {
 	private boolean insertMenu(List<String> chekedIds,String type,int org_id,int prof_id,int user_id) {
 		boolean success = true;
 		for(String m:chekedIds) {
-			ResultSet r = Core.insert("tbl_profile")
+			ResultSet r = Core.insert(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_profile")
 					.addString("type", type)
 					.addInt("type_fk", Core.toInt(m))
 					.addInt("prof_type_fk", prof_id)

@@ -6,6 +6,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -165,7 +166,7 @@ public class WebReportController extends Controller {
 					if(datasources!=null) {
 						for(DataSourceParam p:datasources) {
 							for(Parameters param:p.getParameters()) {
-								ResultSet.Record record = Core.query(this.configApp.getBaseConnection(), "SELECT id FROM tbl_rep_template_source")
+								ResultSet.Record record = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "SELECT id FROM tbl_rep_template_source")
 														.where("rep_source_fk=:rep_source_fk AND rep_template_fk=:rep_template_fk")
 														.addInt("rep_source_fk", Core.toInt(p.getId()))
 														.addInt("rep_template_fk", rt.getId())

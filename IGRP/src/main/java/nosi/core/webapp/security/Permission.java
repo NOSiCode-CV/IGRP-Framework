@@ -1,4 +1,4 @@
-package nosi.core.webapp.helpers;
+package nosi.core.webapp.security;
 /**
  * @author Emanuel Pereira
  * May 29, 2017
@@ -9,11 +9,10 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Optional;
-
 import javax.servlet.http.Cookie;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
@@ -28,22 +27,7 @@ public class Permission {
 	
 	public boolean isPermition(String app,String page,String action){//check permission on app		
 		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
-			if(!new EncrypDecrypt().getWakandaList(app+"/"+page+"/"+action) ||
-					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("home")) || 	
-					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("DefaultPage")) || 		
-					(app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("ExecucaoTarefas"))||//for all action on this controller
-					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("Dash_board_processo"))||
-					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("Dash_board_processo"))||
-					(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("ExecucaoTarefas"))||
-					(action.equalsIgnoreCase("myMenu") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("pesquisar-menu"))|| 
-					(action.equalsIgnoreCase("topMenu") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("pesquisar-menu"))|| 
-					(action.equalsIgnoreCase("myApps") && app.equalsIgnoreCase("igrp_studio") && page.equalsIgnoreCase("env")) ||				
-					(action.equalsIgnoreCase("permission") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||				
-					(action.equalsIgnoreCase("notFound") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page"))  ||
-					(action.equalsIgnoreCase("openApp") && app.equalsIgnoreCase("igrp_studio") && page.equalsIgnoreCase("env")) ||
-					(action.equalsIgnoreCase("get-image") && app.equalsIgnoreCase("igrp_studio") && page.equalsIgnoreCase("WebReport")) ||
-					(action.equalsIgnoreCase("save-image") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("File"))
-				  ){
+			if(PagesScapePermission.PAGES_SHAREDS.contains((app+"/"+page+"/"+action).toLowerCase())){
 				return true;
 			}
 			boolean x = new Application().getPermissionApp(app);

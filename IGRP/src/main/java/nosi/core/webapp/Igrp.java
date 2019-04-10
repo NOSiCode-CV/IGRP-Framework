@@ -13,7 +13,7 @@ import javax.xml.bind.DatatypeConverter;
 import nosi.core.config.ConfigApp;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
-import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.security.EncrypDecrypt;
 
 public final class Igrp{
 	
@@ -68,7 +68,7 @@ public final class Igrp{
 		this.response = response;
 		this.basePath = this.request.getContextPath();
 		this.baseRoute = this.request.getServletPath();
-		this.homeUrl = new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index");
+		this.homeUrl = EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
 		// init. of others configuration 
 		this.flashMessage = new FlashMessage(); // Flash Message instance
 		

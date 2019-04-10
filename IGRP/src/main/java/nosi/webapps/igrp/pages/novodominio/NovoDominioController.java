@@ -10,6 +10,7 @@ import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.pages.novodominio.NovoDominio.Formlist_1;
 import java.util.ArrayList;
 import java.util.List;
+import nosi.core.config.ConfigDBIGRP;
 /*----#end-code----*/
 
 
@@ -33,7 +34,7 @@ public class NovoDominioController extends Controller {
 				"SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME "));
 		String isEdit = Core.getParam("isEdit");
 		if (Core.isNotNull(isEdit)) {
-			model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),
+			model.loadFormlist_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,
 					"SELECT id,description,valor as key,status as estado,ordem FROM tbl_domain").where("dominio=:dominio").addString("dominio", model.getDominio()));
 		} 
 		/*----#end-code----*/

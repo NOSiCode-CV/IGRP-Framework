@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.helpers.FileHelper;
@@ -100,7 +101,7 @@ public class ExportSqlHelper {
 		String sql = "SELECT id as transation_ids,id as transation_ids_check, concat(code,' - ',descr) as descricao_transation "
 				   + "FROM tbl_transaction "
 				   + "WHERE status=1 AND env_fk=:application_id";
-		model.loadTbl_transation(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
+		model.loadTbl_transation(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 	private void loadOthersClassData(Wizard_export_step_2 model) {
@@ -119,7 +120,7 @@ public class ExportSqlHelper {
 				}
 			}
 			if(Core.isNotNull(sql))
-				model.loadTable_others_class(Core.query(null,sql));
+				model.loadTable_others_class(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
 		}
 	}
 	
@@ -148,14 +149,14 @@ public class ExportSqlHelper {
 		String sql = "SELECT id as menu_ids,id as menu_ids_check, descr as descricao_menu "
 				   + "FROM tbl_menu "
 				   + "WHERE env_fk=:application_id";
-		model.loadTable_menu(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
+		model.loadTable_menu(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 
 	private void loadDaoData(Wizard_export_step_2 model) {
 		String sql = this.loadDataFromFile(model,"dao");
 		if(Core.isNotNull(sql))
-			model.loadTable_dao(Core.query(null,sql));
+			model.loadTable_dao(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
 	}
 
 
@@ -183,7 +184,7 @@ public class ExportSqlHelper {
 		String sql = "SELECT id as conexao_ids,id as conexao_ids_check, name as descricao_conexao "
 				   + "FROM tbl_config_env "
 				   + "WHERE env_fk=:application_id";
-		model.loadTable_connections(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
+		model.loadTable_connections(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 
@@ -191,7 +192,7 @@ public class ExportSqlHelper {
 		String sql = "SELECT id as report_ids,id as report_ids_check, concat(code,' - ',name) as descricao_report "
 				   + "FROM tbl_rep_template "
 				   + "WHERE env_fk=:application_id AND status=1";
-		model.loadTable_report(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
+		model.loadTable_report(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 	private void loadPageData(Wizard_export_step_2 model) {
@@ -210,7 +211,7 @@ public class ExportSqlHelper {
 			}
 			sql+= ")";
 		}
-		model.loadTable_pagina(Core.query(null,sql).addInt("application_id", model.getApplication_id()));
+		model.loadTable_pagina(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 	private void loadDomainData(Wizard_export_step_2 model) {
@@ -219,7 +220,7 @@ public class ExportSqlHelper {
 		sql += " UNION ";
 		sql += " SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
 				   + "FROM tbl_domain WHERE status='ATIVE'  AND (domain_type='"+DomainType.PUBLIC+"' OR domain_type is null)";
-		model.loadTable_domain(Core.query(null,sql));
+		model.loadTable_domain(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
 	}
 
 	private void loadBPMNData(Wizard_export_step_2 model) {

@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
 	
-    	<!-- IGRP Core -->
-    	<mapping class="nosi.webapps.igrp.dao.Domain"/>
-		<mapping class="nosi.webapps.igrp.dao.Action"/>
-		<mapping class="nosi.webapps.igrp.dao.Application"/>
-		<mapping class="nosi.webapps.igrp.dao.CLob"/>
-		<mapping class="nosi.webapps.igrp.dao.Config_env"/>
-		<mapping class="nosi.webapps.igrp.dao.Config"/>
-		<mapping class="nosi.webapps.igrp.dao.Menu"/>
-		<mapping class="nosi.webapps.igrp.dao.Organization"/>
-		<mapping class="nosi.webapps.igrp.dao.Profile"/>
-		<mapping class="nosi.webapps.igrp.dao.ProfileType"/>
-		<mapping class="nosi.webapps.igrp.dao.RepInstance"/>
-		<mapping class="nosi.webapps.igrp.dao.RepSource"/>
-		<mapping class="nosi.webapps.igrp.dao.RepTemplate"/>
-		<mapping class="nosi.webapps.igrp.dao.RepTemplateParam"/>
-		<mapping class="nosi.webapps.igrp.dao.RepTemplateSource"/>
-		<mapping class="nosi.webapps.igrp.dao.RepTemplateSourceParam"/>
-		<mapping class="nosi.webapps.igrp.dao.Session"/>
-		<mapping class="nosi.webapps.igrp.dao.Transaction"/>
-		<mapping class="nosi.webapps.igrp.dao.User"/>
-		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO"/>
-		<mapping class="nosi.webapps.igrp.dao.Share"/>
-    	<mapping class="nosi.webapps.igrp.dao.TaskComponent"/>
-    	<mapping class="nosi.webapps.igrp.dao.TipoDocumento"/>
-    	<mapping class="nosi.webapps.igrp.dao.TipoDocumentoEtapa"/>
-    	<mapping class="nosi.webapps.igrp.dao.Modulo"/>
-		<mapping class="nosi.webapps.igrp.dao.TaskAccess"/>
+		<!-- IGRP Core -->
+		<mapping class="nosi.webapps.igrp.dao.Domain" />
+		<mapping class="nosi.webapps.igrp.dao.Action" />
+		<mapping class="nosi.webapps.igrp.dao.Application" />
+		<mapping class="nosi.webapps.igrp.dao.CLob" />
+		<mapping class="nosi.webapps.igrp.dao.Config_env" />
+		<mapping class="nosi.webapps.igrp.dao.Config" />
+		<mapping class="nosi.webapps.igrp.dao.Menu" />
+		<mapping class="nosi.webapps.igrp.dao.Organization" />
+		<mapping class="nosi.webapps.igrp.dao.Profile" />
+		<mapping class="nosi.webapps.igrp.dao.ProfileType" />
+		<mapping class="nosi.webapps.igrp.dao.RepInstance" />
+		<mapping class="nosi.webapps.igrp.dao.RepSource" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplate" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateParam" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateSource" />
+		<mapping class="nosi.webapps.igrp.dao.RepTemplateSourceParam" />
+		<mapping class="nosi.webapps.igrp.dao.Session" />
+		<mapping class="nosi.webapps.igrp.dao.Transaction" />
+		<mapping class="nosi.webapps.igrp.dao.User" />
+		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO" />
+		<mapping class="nosi.webapps.igrp.dao.Share" />
+		<mapping class="nosi.webapps.igrp.dao.TaskComponent" />
+		<mapping class="nosi.webapps.igrp.dao.TipoDocumento" />
+		<mapping class="nosi.webapps.igrp.dao.TipoDocumentoEtapa" />
+		<mapping class="nosi.webapps.igrp.dao.Modulo" />
+		<mapping class="nosi.webapps.igrp.dao.TaskAccess" />
 		<!-- OAuth -->
-		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken"/>
-		<mapping class="nosi.webapps.igrp.dao.OAuthClient"/>
-		<mapping class="nosi.webapps.igrp.dao.OAuthorizationCode"/>
-		<mapping class="nosi.webapps.igrp.dao.OAuthScope"/>
-		<mapping class="nosi.webapps.igrp.dao.OAuthRefreshToken"/>		
-		<mapping class="nosi.webapps.igrp.dao.UserRole"/>
-		
-		<!-- Task Access -->	
-		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned"/>
-		<mapping class="nosi.webapps.igrp.dao.TaskFile"/>
-		<mapping class="nosi.webapps.igrp.dao.ActivityExecute"/>
-	<!-- 	<mapping class="nosi.webapps.igrp.dao.CustomPermssionTask"/> -->
-				
+		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken" />
+		<mapping class="nosi.webapps.igrp.dao.OAuthClient" />
+		<mapping class="nosi.webapps.igrp.dao.OAuthorizationCode" />
+		<mapping class="nosi.webapps.igrp.dao.OAuthScope" />
+		<mapping class="nosi.webapps.igrp.dao.OAuthRefreshToken" />
+		<mapping class="nosi.webapps.igrp.dao.UserRole" />
+
+		<!-- Task Access -->
+		<mapping class="nosi.webapps.igrp.dao.TaskUnassigned" />
+		<mapping class="nosi.webapps.igrp.dao.TaskFile" />
+		<mapping class="nosi.webapps.igrp.dao.ActivityExecute" />
+		<!-- <mapping class="nosi.webapps.igrp.dao.CustomPermssionTask"/> -->
+
 	</session-factory>
 </hibernate-configuration>

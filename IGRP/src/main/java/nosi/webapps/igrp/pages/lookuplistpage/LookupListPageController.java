@@ -11,6 +11,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import java.util.ArrayList;
 import java.util.Arrays;
+import nosi.core.config.ConfigDBIGRP;
 /*----#end-code----*/
 		
 public class LookupListPageController extends Controller {
@@ -47,7 +48,7 @@ public class LookupListPageController extends Controller {
 		if(Core.isNull(model.getProcessid()) && Core.isNull(model.getTaskid())) {			
           view.associar_documentos.setVisible(false);
 		}else {
-			model.loadFormlist_1(Core.query(this.configApp.getBaseConnection(),"SELECT id as checkbox, "
+			model.loadFormlist_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as checkbox, "
 					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
 					"       THEN id " + 
 					"       ELSE 0 " + 
@@ -105,7 +106,7 @@ public class LookupListPageController extends Controller {
 			this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
 	
 			if(model.getFormlist_1() !=null) {
-				 Core.delete(this.configApp.getBaseConnection(), "tbl_tipo_documento_etapa")
+				 Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
 					.where("processid=:processid AND taskid=:taskid")
 					.addString("processid", model.getProcessid())
 					.addString("taskid", model.getTaskid())
@@ -164,7 +165,7 @@ public class LookupListPageController extends Controller {
 /*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
 		if(p_checkbox_fk!=null && Core.toInt(p_checkbox_fk,-1)!=-1) {
-			return  Core.insert(this.configApp.getBaseConnection(),"tbl_tipo_documento_etapa")
+			return  Core.insert(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_tipo_documento_etapa")
 					.addInt("status", 1)
 					.addInt(relation_type_id,Core.toInt(p_checkbox_fk))
 					.addString("processid", model.getProcessid())

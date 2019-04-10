@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisa_cae/Pesquisa_cae.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Pesquisa_cae</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Pesquisa_cae</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=77</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Pesquisa CAE</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <codigo name="p_codigo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Ut totam labore anim accusantium</value>
+                </codigo>
+                <descricao name="p_descricao" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descrição</label>
+                    <value>Adipiscing perspiciatis totam consectetur omnis</value>
+                </descricao>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar" custom_return="true">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Dominio</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-search</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <t_codigo name="p_t_codigo" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Codigo</label>
+                </t_codigo>
+                <t_descricao name="p_t_descricao" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
+                    <label>Descrição</label>
+                </t_descricao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <t_codigo name="p_t_codigo">Deserunt elit sed accusantium</t_codigo>
+                        <t_descricao name="p_t_descricao">Rem labore doloremque amet dol</t_descricao>
+                    </row>
+                    <row>
+                        <t_codigo name="p_t_codigo">Accusantium officia totam sit</t_codigo>
+                        <t_descricao name="p_t_descricao">Consectetur voluptatem labore</t_descricao>
+                    </row>
+                    <row>
+                        <t_codigo name="p_t_codigo">Aperiam elit anim magna sit</t_codigo>
+                        <t_descricao name="p_t_descricao">Rem consectetur labore amet al</t_descricao>
+                    </row>
+                    <row>
+                        <t_codigo name="p_t_codigo">Anim sit lorem sit aliqua</t_codigo>
+                        <t_descricao name="p_t_descricao">Unde officia stract sed iste</t_descricao>
+                    </row>
+                    <row>
+                        <t_codigo name="p_t_codigo">Mollit sit accusantium dolor l</t_codigo>
+                        <t_descricao name="p_t_descricao">Sit aliqua totam sit elit</t_descricao>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>
