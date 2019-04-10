@@ -193,7 +193,7 @@ public class BPMNDesignerController extends Controller {
 				String classPathServer = this.getClassPathServer(tasks.get(0), app);
 				String classPathWorkspace = this.getClassPathWorkspace(tasks.get(0), app);
 				String content = GenerateInterfacePermission.getGenerateClassContent(app.getDad(), proccessKey);
-				this.compiler.addFileName(classPathServer+File.separator+ className);
+				this.compiler.addFileName(classPathServer+File.separator+ className+".java");
 				FileHelper.saveFilesJavaAndNotReplace(classPathServer, className, content);
 				FileHelper.saveFilesJavaAndNotReplace(classPathWorkspace,className, content);
 			}

@@ -9,8 +9,8 @@ import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -191,7 +191,7 @@ public class Config {
 	public String getResolveUrl(String app,String page,String action){
 		String qs = (Route.getQueryString(action)+"&dad="+Core.getCurrentDad());//Get Query String
 		action = Route.resolveAction(action);
-		String url = "webapps?r="+new EncrypDecrypt().encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
+		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 		return url;
 	}
 	

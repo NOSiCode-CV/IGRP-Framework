@@ -23,7 +23,8 @@ import javax.persistence.Column;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
-import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.security.EncrypDecrypt;
+
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -260,11 +261,11 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								}
 								 
 							}else {
-								ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
 							}
 							
 						}else {
-							ms.setLink(new EncrypDecrypt().encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+							ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
 							//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);	
 						}
 					}

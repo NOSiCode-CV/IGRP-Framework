@@ -1,20 +1,14 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.webservices.rest.ConsumeJson;
-import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaBI;
-import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaCNI;
-import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaPassport;
 import nosi.core.config.Config;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

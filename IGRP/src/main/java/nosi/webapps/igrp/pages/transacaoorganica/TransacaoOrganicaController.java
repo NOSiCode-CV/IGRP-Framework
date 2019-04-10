@@ -16,6 +16,7 @@ import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import java.util.List;
 import java.util.stream.Collectors;
+import nosi.core.config.ConfigDBIGRP;
 
 /*----#end-code----*/
 
@@ -142,7 +143,7 @@ public class TransacaoOrganicaController extends Controller {
 
 	private void deleteTransaction(List<String> ids, String type,int org_id,int prof_id,int user_id) {
 		for(String id:ids) {
-			ResultSet r = Core.delete("tbl_profile")
+			ResultSet r = Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_profile")
 					.where()
 					.andWhere("type", "=", type)
 					.andWhere("type_fk", "=", Core.toInt(id))

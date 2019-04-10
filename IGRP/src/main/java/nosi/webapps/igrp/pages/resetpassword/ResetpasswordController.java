@@ -9,7 +9,6 @@ import nosi.core.webapp.Response;
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.List;

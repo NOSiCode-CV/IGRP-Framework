@@ -1,7 +1,7 @@
 package nosi.core.config;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.security.EncrypDecrypt;
 
 /**
  * Emanuel
@@ -10,11 +10,11 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 public interface IHeaderConfig {
 
 	default public String getLinkHome() {
-        return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"home"+"/"+"index");
+        return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"home"+"/"+"index");
 	}
 	
 	default public String getLinkMyApps() {
-        String result = "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getCurrentDad();
+        String result = "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"myApps") + "&dad="+Core.getCurrentDad();
         return result;
 	}
 	default public String getTitle() {
@@ -30,10 +30,10 @@ public interface IHeaderConfig {
         return "webapps?r=" + "igrp_studio"+"/"+"env"+"/"+"openApp"+"&dad="+Core.getCurrentDad()+"&app=";
 	}
 	default public String getLinkSileMenu(){
-		return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
+		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Core.getCurrentDad();
 	}
 	default public String getLinkTopMenu(){
-		return "webapps?r="+new EncrypDecrypt().encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu") +"&dad=" + Core.getCurrentDad() ;
+		return "webapps?r="+ EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu") +"&dad=" + Core.getCurrentDad() ;
 	}
 
 	default public String getPackageInstance(){

@@ -13,9 +13,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigDBIGRP;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
@@ -105,8 +106,8 @@ public class SessionController extends Controller {
 		
 		
 		
-		view.chart_t_sessao.loadQuery(Core.query(null, sql1));
-		view.chart_t_session_app.loadQuery(Core.query(null, sql2));
+		view.chart_t_sessao.loadQuery(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, sql1));
+		view.chart_t_session_app.loadQuery(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, sql2));
 		
 		
 

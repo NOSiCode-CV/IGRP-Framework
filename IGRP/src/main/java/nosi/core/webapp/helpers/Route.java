@@ -2,6 +2,7 @@ package nosi.core.webapp.helpers;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.security.EncrypDecrypt;
 
 /**
  * @author Marcel Iekiny Apr 18, 2017
@@ -19,7 +20,7 @@ public class Route {
 		}
 		action = resolveAction(action);
 		//String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));	
-		String aux = "?r=" + new EncrypDecrypt().encrypt(app + "/" + page + "/" + action)
+		String aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action)
 					+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
 		aux = aux.replaceAll("&&", "&");
 		//UrlHelper.urlEncoding(aux); 

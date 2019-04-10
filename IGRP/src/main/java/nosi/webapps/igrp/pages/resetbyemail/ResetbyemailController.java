@@ -13,7 +13,6 @@ import service.client.WSO2UserStub;
 import nosi.core.config.Config;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;

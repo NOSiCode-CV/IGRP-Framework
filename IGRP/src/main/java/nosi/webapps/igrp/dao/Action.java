@@ -311,13 +311,10 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	public boolean isPublicPage(String appDad, String pageId) {
 		boolean flag = false;
 		try {
-			Application app = new Application().find().andWhere("dad", "=", appDad).one();
-			if(app != null) {
-				Action action = new Action().find().andWhere("page", "=", pageId).andWhere("application.id", "=", app.getId()).one();
-				flag = action != null && action.getTipo() == 1;
-			}
+			Action action = new Action().find().where("page", "=", pageId).andWhere("application.dad", "=", appDad).one();
+			flag = action != null && action.getTipo() == 1;
 		}catch (Exception e) {
-			
+			flag = false;
 		}
 		return flag;
 	}

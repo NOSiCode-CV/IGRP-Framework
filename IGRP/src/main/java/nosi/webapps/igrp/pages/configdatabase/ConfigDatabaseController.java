@@ -6,8 +6,8 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.io.File;
 import org.json.JSONObject;
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
@@ -70,7 +71,7 @@ public class ConfigDatabaseController extends Controller {
 			lista_tabela.add(tabela);
 		}
 		if (Core.isInt(model.getAplicacao()) ) {
-			view.aplicacao.setQuery(Core.query(this.configApp.getBaseConnection(),"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
+			view.aplicacao.setQuery(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as ID, name as NAME FROM tbl_env WHERE id=" + Core.toInt(model.getAplicacao())));		 	
 			view.tipo_base_dados.setValue(DatabaseConfigHelper.getDatabaseTypes());
 			view.table_1.addData(lista_tabela);
 			//if EDIT

@@ -6,6 +6,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
+import nosi.core.config.ConfigDBIGRP;
 
 /*----#end-code----*/
 
@@ -26,7 +27,7 @@ public class Lookup_list_organicaController extends Controller {
 		
 		----#gen-example */
 		/*----#start-code(index)----*/
-		model.loadTable_1(Core.query(null, " SELECT org.id as id_org, app.name aplicacao, code as code, org.name as organica FROM tbl_organization org join tbl_env app on app.id = org.env_fk "));
+		model.loadTable_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, " SELECT org.id as id_org, app.name aplicacao, code as code, org.name as organica FROM tbl_organization org join tbl_env app on app.id = org.env_fk "));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
