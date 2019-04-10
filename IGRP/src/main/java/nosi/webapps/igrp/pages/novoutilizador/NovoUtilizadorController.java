@@ -239,6 +239,10 @@ public class NovoUtilizadorController extends Controller {
 				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 				stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 						settings.getProperty("ids.wso2.admin-pwd"), 2);
+				
+				String v = settings.getProperty("igrp.authentication.govcv.enbaled");
+				if (v.equalsIgnoreCase("true"))
+					email = "gov.cv/" + email; 
 
 				List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
 				LdapPerson ldapPerson = new LdapPerson();
