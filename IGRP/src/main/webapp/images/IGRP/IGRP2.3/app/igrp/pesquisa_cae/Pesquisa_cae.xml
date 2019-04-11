@@ -37,63 +37,103 @@
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>Pesquisa CAE</title>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <treemenu_1 type="treemenu" xml-type="table" gen-remote="true" gen-type="container" gen-group="true">
             <fields>
-                <codigo name="p_codigo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Codigo</label>
-                    <value>Ut totam labore anim accusantium</value>
-                </codigo>
-                <descricao name="p_descricao" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Descrição</label>
-                    <value>Adipiscing perspiciatis totam consectetur omnis</value>
-                </descricao>
-            </fields>
-            <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar" custom_return="true">
-                    <title>Pesquisar</title>
-                    <app>igrp</app>
-                    <page>Dominio</page>
-                    <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
-                    <target>submit_form</target>
-                    <img>primary|fa-search</img>
-                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
-                </item>
-            </tools-bar>
-        </form_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields>
-                <t_codigo name="p_t_codigo" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
-                    <label>Codigo</label>
-                </t_codigo>
-                <t_descricao name="p_t_descricao" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
-                    <label>Descrição</label>
-                </t_descricao>
+                <treemenu_1_link type="link" maxlength="4000" target="_self" desc="true">
+                    <label>Link</label>
+                </treemenu_1_link>
+                <treemenu_1_tmid type="text">
+                    <label>ID</label>
+                </treemenu_1_tmid>
+                <treemenu_1_parent type="number" java-type="Integer">
+                    <label>Parent ID</label>
+                </treemenu_1_parent>
+                <treemenu_1_icon type="text">
+                    <label>Icon</label>
+                </treemenu_1_icon>
+                <treemenu_1_child type="text">
+                    <label>Has child value(0/X)</label>
+                </treemenu_1_child>
+                <treemenu_1_active type="text">
+                    <label>Is Active value(true/false)</label>
+                </treemenu_1_active>
             </fields>
             <table>
                 <value>
                     <row>
-                        <t_codigo name="p_t_codigo">Deserunt elit sed accusantium</t_codigo>
-                        <t_descricao name="p_t_descricao">Rem labore doloremque amet dol</t_descricao>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 1</treemenu_1_link_desc>
+                        <treemenu_1_tmid>1</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <t_codigo name="p_t_codigo">Accusantium officia totam sit</t_codigo>
-                        <t_descricao name="p_t_descricao">Consectetur voluptatem labore</t_descricao>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 2</treemenu_1_link_desc>
+                        <treemenu_1_tmid>2</treemenu_1_tmid>
+                        <treemenu_1_parent>1</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <t_codigo name="p_t_codigo">Aperiam elit anim magna sit</t_codigo>
-                        <t_descricao name="p_t_descricao">Rem consectetur labore amet al</t_descricao>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 3</treemenu_1_link_desc>
+                        <treemenu_1_tmid>3</treemenu_1_tmid>
+                        <treemenu_1_parent>1</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <t_codigo name="p_t_codigo">Anim sit lorem sit aliqua</t_codigo>
-                        <t_descricao name="p_t_descricao">Unde officia stract sed iste</t_descricao>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 4</treemenu_1_link_desc>
+                        <treemenu_1_tmid>4</treemenu_1_tmid>
+                        <treemenu_1_parent>3</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                     <row>
-                        <t_codigo name="p_t_codigo">Mollit sit accusantium dolor l</t_codigo>
-                        <t_descricao name="p_t_descricao">Sit aliqua totam sit elit</t_descricao>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 5</treemenu_1_link_desc>
+                        <treemenu_1_tmid>5</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 6</treemenu_1_link_desc>
+                        <treemenu_1_tmid>6</treemenu_1_tmid>
+                        <treemenu_1_parent>5</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 7</treemenu_1_link_desc>
+                        <treemenu_1_tmid>7</treemenu_1_tmid>
+                        <treemenu_1_parent/>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
+                    </row>
+                    <row>
+                        <treemenu_1_link>#</treemenu_1_link>
+                        <treemenu_1_link_desc> Menu 8</treemenu_1_link_desc>
+                        <treemenu_1_tmid>8</treemenu_1_tmid>
+                        <treemenu_1_parent>7</treemenu_1_parent>
+                        <treemenu_1_icon/>
+                        <treemenu_1_child/>
+                        <treemenu_1_active/>
                     </row>
                 </value>
             </table>
-        </table_1>
+        </treemenu_1>
     </content>
 </rows>

@@ -8,43 +8,49 @@ import static nosi.core.i18n.Translator.gt;
 
 public class Pesquisa_caeView extends View {
 
-	public Field codigo;
-	public Field descricao;
-	public Field t_codigo;
-	public Field t_descricao;
-	public IGRPForm form_1;
-	public IGRPTable table_1;
+	public Field treemenu_1_link;
+	public Field treemenu_1_link_desc;
+	public Field treemenu_1_tmid;
+	public Field treemenu_1_parent;
+	public Field treemenu_1_icon;
+	public Field treemenu_1_child;
+	public Field treemenu_1_active;
+	public IGRPTable treemenu_1;
 
-	public IGRPButton btn_pesquisar;
 
 	public Pesquisa_caeView(){
 
 		this.setPageTitle("Pesquisa CAE");
 			
-		form_1 = new IGRPForm("form_1","");
+		treemenu_1 = new IGRPTreeMenu("treemenu_1","");
 
-		table_1 = new IGRPTable("table_1","");
+		treemenu_1_link = new LinkField(model,"treemenu_1_link");
+		treemenu_1_link.setLabel(gt("Link"));
+		treemenu_1_link_desc = new LinkField(model,"treemenu_1_link_desc");
+		treemenu_1_link_desc.setLabel(gt("Link"));
+		treemenu_1_link.propertie().add("type","link").add("maxlength","4000").add("target","_self").add("desc","true");
+		
+		treemenu_1_tmid = new TextField(model,"treemenu_1_tmid");
+		treemenu_1_tmid.setLabel(gt("ID"));
+		treemenu_1_tmid.propertie().add("type","text");
+		
+		treemenu_1_parent = new NumberField(model,"treemenu_1_parent");
+		treemenu_1_parent.setLabel(gt("Parent ID"));
+		treemenu_1_parent.propertie().add("type","number").add("java-type","Integer");
+		
+		treemenu_1_icon = new TextField(model,"treemenu_1_icon");
+		treemenu_1_icon.setLabel(gt("Icon"));
+		treemenu_1_icon.propertie().add("type","text");
+		
+		treemenu_1_child = new TextField(model,"treemenu_1_child");
+		treemenu_1_child.setLabel(gt("Has child value(0/X)"));
+		treemenu_1_child.propertie().add("type","text");
+		
+		treemenu_1_active = new TextField(model,"treemenu_1_active");
+		treemenu_1_active.setLabel(gt("Is Active value(true/false)"));
+		treemenu_1_active.propertie().add("type","text");
+		
 
-		codigo = new TextField(model,"codigo");
-		codigo.setLabel(gt("Codigo"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
-		
-		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
-		
-		t_codigo = new TextField(model,"t_codigo");
-		t_codigo.setLabel(gt("Codigo"));
-		t_codigo.propertie().add("name","p_t_codigo").add("type","text").add("maxlength","30");
-		
-		t_descricao = new TextField(model,"t_descricao");
-		t_descricao.setLabel(gt("Descrição"));
-		t_descricao.propertie().add("name","p_t_descricao").add("type","text").add("maxlength","30");
-		
-
-
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Pesquisa_cae","pesquisar","submit_form","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
 
 		
 	}
@@ -52,25 +58,28 @@ public class Pesquisa_caeView extends View {
 	@Override
 	public void render(){
 		
-		form_1.addField(codigo);
-		form_1.addField(descricao);
+		treemenu_1.addField(treemenu_1_link);
+		treemenu_1.addField(treemenu_1_link_desc);
+		treemenu_1.addField(treemenu_1_tmid);
+		treemenu_1.addField(treemenu_1_parent);
+		treemenu_1.addField(treemenu_1_icon);
+		treemenu_1.addField(treemenu_1_child);
+		treemenu_1.addField(treemenu_1_active);
 
-		table_1.addField(t_codigo);
-		table_1.addField(t_descricao);
-
-		form_1.addButton(btn_pesquisar);
-		this.addToPage(form_1);
-		this.addToPage(table_1);
+		this.addToPage(treemenu_1);
 	}
 		
 	@Override
 	public void setModel(Model model) {
 		
-		codigo.setValue(model);
-		descricao.setValue(model);
-		t_codigo.setValue(model);
-		t_descricao.setValue(model);	
+		treemenu_1_link.setValue(model);
+		treemenu_1_link_desc.setValue(model);
+		treemenu_1_tmid.setValue(model);
+		treemenu_1_parent.setValue(model);
+		treemenu_1_icon.setValue(model);
+		treemenu_1_child.setValue(model);
+		treemenu_1_active.setValue(model);	
 
-		table_1.loadModel(((Pesquisa_cae) model).getTable_1());
+		treemenu_1.loadModel(((Pesquisa_cae) model).getTreemenu_1());
 		}
 }

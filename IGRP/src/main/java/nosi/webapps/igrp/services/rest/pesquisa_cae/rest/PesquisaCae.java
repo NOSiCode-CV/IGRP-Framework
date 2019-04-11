@@ -7,7 +7,6 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import nosi.core.config.ConfigApp;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.pojo.Cae;
 
@@ -27,10 +26,10 @@ public class PesquisaCae {
 		AUTHORIZATION = SETTINGS.getProperty("authorization.rest.pesquisa_cae");
 	}
 	
-	public static List<Cae> pesquisaCae(String code,String descr) {
+	public static List<Cae> pesquisaCae(String id) {
 		List<Cae> caes = new ArrayList<>();
 		ConsumeJson json_obj = new ConsumeJson();
-		String url = resolveUrl(code,descr);
+		String url = resolveUrl(id);
 		try {
 			String json = json_obj.getJsonFromUrl(url, AUTHORIZATION);
 			JSONObject obj = new JSONObject(json);
@@ -40,9 +39,9 @@ public class PesquisaCae {
 				for(int i = 0; i < Entry.length(); i++) {
 					JSONObject local = Entry.getJSONObject(i);
 					Cae cae = new Cae();
-					cae.setCodigo(local.getString("codigo"));
-					cae.setDescricao(local.getString("descricao"));
-					cae.setId(local.getInt("id"));
+					cae.setCodigo(local.getString("codigo".toUpperCase()));
+					cae.setDescricao(local.getString("descricao".toUpperCase()));
+					cae.setId(local.getInt("id".toUpperCase()));
 					caes.add(cae );
 				}	
 			}catch (Exception e) {
@@ -55,14 +54,8 @@ public class PesquisaCae {
 		return caes;
 	}
 
-	private static String resolveUrl(String code, String descr) {
-		String url = BASE_URL+"?";
-		if(Core.isNotNull(code)) {
-			url += "p_cod="+code;
-		}
-		if(Core.isNotNull(descr)) {
-			url += "&p_des="+descr;
-		}
+	private static String resolveUrl(String id) {
+		String url = BASE_URL+"?p_cprcae="+id;
 		return url;
 	}
 	
