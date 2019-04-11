@@ -53,10 +53,12 @@ public class HibernateUtils {
 				Core.log(ex.getMessage());
 				throw new ExceptionInInitializerError(ex);
 			}finally {
-		        ServiceRegistry metaServiceRegistry = metadataSources.getServiceRegistry();
-		        if(metaServiceRegistry instanceof BootstrapServiceRegistry ) {
-		            BootstrapServiceRegistryBuilder.destroy(metaServiceRegistry );
-		        }
+				if(metadataSources!=null) {
+			        ServiceRegistry metaServiceRegistry = metadataSources.getServiceRegistry();
+			        if(metaServiceRegistry instanceof BootstrapServiceRegistry ) {
+			            BootstrapServiceRegistryBuilder.destroy(metaServiceRegistry );
+			        }
+				}
 		    }
 		}
 		return SESSION_FACTORY.get(myConnectionName);	
