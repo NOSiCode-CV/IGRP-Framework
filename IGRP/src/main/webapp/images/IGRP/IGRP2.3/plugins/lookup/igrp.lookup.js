@@ -86,8 +86,34 @@ $(function(){
 
 			return vNewLink;
 		},
+		lookupEraser : function(){
+			$('body').on('click','.lookup-eraser',function(){
+				var holder = $(this).parents('.input-group:first'),
+					href   = $('.IGRP_lookupPopup',holder).attr('href');
+				try{
+					
+					var param = $.IGRP.utils.url.getParam('jsonLookup',href);
+					
+					if(param){
+						param = JSON.parse(decodeURIComponent(param));
+						
+						for(var name in param){
+							$('[name="'+name+'"]').addClass('lookuperaser');
+						}
+
+						$.IGRP.utils.resetFieldsSelector($(".lookuperaser"));
+						
+					}
+
+				}catch(e){
+					console.log(e);
+					null;
+				}
+			});
+		},
 		init:function(){
 			$.IGRP.components.lookup.setEvents();
+			$.IGRP.components.lookup.lookupEraser();
 		}
 	}
 

@@ -127,7 +127,16 @@ var LOOKUPFIELD = function(type,params){
 					
 				}
 			}
-		})
+		});
+		
+		field.setProperty({
+			label 	: 'Clear Params',
+			name  	:'lookup_eraser',
+			value 	:false,
+			xslValue:function(){
+				return '<span class="lookup-eraser"><i class="fa fa-times"></i></span>';
+			}
+		});
 		
 		field.setProperty({
 			name:'lookup_type',

@@ -679,13 +679,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 				.done(function(list) {
 					
 					$.each( p.targetFields ,function(i,f){
-						//$(list).is(itemName)
+
 						var options  = [],
 						
 							itemName = $(f).attr('item-name'),
 							
-							wrapper  = $(list).find(itemName)[0] ? list : $(list).find('rows content '+itemName)[0];
-						
+							wrapper  = $(list).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 
 						if (wrapper) {
 							
