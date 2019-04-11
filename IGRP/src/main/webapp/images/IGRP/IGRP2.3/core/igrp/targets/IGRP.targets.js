@@ -499,7 +499,7 @@
 				
 				
 				if(reloadType == 'refresh'){
-					var href = _window.location.href,
+					var href = $('#p_env_frm_url',form).val() || _window.location.href,
 						pfwl = [];
 					
 					$('[name*="p_fwl_"]',form).each(function(i,e){
