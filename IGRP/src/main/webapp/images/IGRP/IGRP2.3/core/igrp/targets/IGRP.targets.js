@@ -483,7 +483,8 @@
 
 					_window = popup || window.parent,
 
-					_window = _window.frames['head_filho'] || _window;
+					_window = _window.frames['head_filho'] || _window,
+					form    = $(_window.document.forms[0]);
 
 				if (mWindow) {
 					_window = mWindow;
@@ -495,17 +496,34 @@
 				
 					close();
 				
-				if(reloadType == 'refresh')
-					
-					_window.location.reload();
 				
-				if(reloadType == 'refresh_submit')
+				
+				if(reloadType == 'refresh'){
+					var href = _window.location.href,
+						pfwl = [];
 					
-					submit({
+					$('[name*="p_fwl_"]',form).each(function(i,e){
 						
-						url : $.IGRP.utils.getPageUrl()
+						pfwl.push($(e).attr('name')+'='+$(e).val());
 						
 					});
+					
+					if(pfwl[0])
+						href = $.IGRP.utils.getUrl(href)+pfwl.join('&');
+					
+					//_window.location.reload();
+					
+					_window.location.href = href;
+					
+				}
+				
+				if(reloadType == 'refresh_submit'){
+					
+					_window.$.IGRP.targets.submit.action({
+						url 	 : $('#p_env_frm_url',form).val() || _window.location.href,
+						validate : false
+					});
+				}
 					
 			}catch(e){null;}
 		};

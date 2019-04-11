@@ -273,4 +273,21 @@ form [item-type="plaintext"]{
     transform: translateX(16px);
 }
 
+.lookup-eraser{
+  position: absolute;
+  right: 40px;
+  z-index: 2;
+  bottom: 11px;
+  color: #c9302c;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  display: none;
+}
+
+div[item-type*="lookup"]:hover .lookup-eraser{
+  display: block;
+}
+
 
