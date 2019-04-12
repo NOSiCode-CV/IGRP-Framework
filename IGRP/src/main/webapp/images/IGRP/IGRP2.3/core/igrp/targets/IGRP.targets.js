@@ -483,8 +483,7 @@
 
 					_window = popup || window.parent,
 
-					_window = _window.frames['head_filho'] || _window,
-					form    = $(_window.document.forms[0]);
+					_window = _window.frames['head_filho'] || _window;
 
 				if (mWindow) {
 					_window = mWindow;
@@ -496,34 +495,22 @@
 				
 					close();
 				
-				
-				
-				if(reloadType == 'refresh'){
-					var href = $('#p_env_frm_url',form).val() || _window.location.href,
-						pfwl = [];
+				/*if(reloadType == 'refresh')
+				 
+				 	_window.location.reload();
 					
-					$('[name*="p_fwl_"]',form).each(function(i,e){
-						
-						pfwl.push($(e).attr('name')+'='+$(e).val());
-						
-					});
-					
-					if(pfwl[0])
-						href = $.IGRP.utils.getUrl(href)+pfwl.join('&');
-					
-					//_window.location.reload();
-					
-					_window.location.href = href;
-					
-				}
 				
 				if(reloadType == 'refresh_submit'){
 					
-					_window.$.IGRP.targets.submit.action({
-						url 	 : $('#p_env_frm_url',form).val() || _window.location.href,
-						validate : false
+					submit({
+						url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href
 					});
-				}
+				}*/
+				
+				_window.$.IGRP.targets.submit.action({
+					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href,
+					validate : false
+				});
 					
 			}catch(e){null;}
 		};
