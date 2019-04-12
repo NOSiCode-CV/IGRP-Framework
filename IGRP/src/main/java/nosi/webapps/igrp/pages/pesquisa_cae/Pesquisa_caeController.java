@@ -9,9 +9,12 @@ import nosi.core.webapp.Response;
 import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Comparator;
+
 import nosi.webapps.igrp.pages.pesquisa_cae.Pesquisa_cae.Treemenu_1;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.pojo.Cae;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.rest.PesquisaCae;
+
 import java.net.URLDecoder;
 import java.io.UnsupportedEncodingException;
 
@@ -82,7 +85,8 @@ public class Pesquisa_caeController extends Controller {
 			t1.setTreemenu_1_link_desc(cae.getDescricao());
 			t1.setTreemenu_1_child("1");
 			treemenu_1.add(t1 );
-		}
+		} 
+		treemenu_1.sort(Comparator.comparing(Pesquisa_cae.Treemenu_1::getTreemenu_1_link_desc));
 		return treemenu_1;
 	}
 	 public String getXml(String id,String desc_menu, String id_par, String child, String des_cae,String id_cae) {

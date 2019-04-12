@@ -55,7 +55,17 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/getPageJson".toLowerCase());
 	}
 	
-	static {
+	static { 									
+
+		PAGES_SHAREDS.add("igrp_studio/WebReport/get-image".toLowerCase());
+		PAGES_SHAREDS.add("igrp_studio/env/myApps".toLowerCase());
+		PAGES_SHAREDS.add("igrp_studio/env/openApp".toLowerCase());
+		PAGES_SHAREDS.add("igrp/File/save-image".toLowerCase());
+		PAGES_SHAREDS.add("igrp/error-page/permission".toLowerCase());
+		PAGES_SHAREDS.add("igrp/pesquisar-menu/myMenu".toLowerCase());
+		PAGES_SHAREDS.add("igrp/pesquisar-menu/topMenu".toLowerCase());
+		PAGES_SHAREDS.add("igrp/error-page/permission".toLowerCase());
+		PAGES_SHAREDS.add("igrp/error-page/notFound".toLowerCase());
 		PAGES_SHAREDS.add("igrp/home/index".toLowerCase());
 		PAGES_SHAREDS.add("igrp/DefaultPage/index".toLowerCase());
 		PAGES_SHAREDS.add("igrp/ExecucaoTarefas/index".toLowerCase());
