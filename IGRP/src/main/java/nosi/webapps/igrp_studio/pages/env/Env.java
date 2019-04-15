@@ -1,10 +1,5 @@
 package nosi.webapps.igrp_studio.pages.env;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -18,13 +13,13 @@ public class Env extends Model{
 	@RParam(rParamName = "p_description")
 	private String description;
 	@RParam(rParamName = "p_status")
-	private int status;
+	private Integer status;
 	@RParam(rParamName = "p_status_check")
-	private int status_check;
+	private Integer status_check;
 	@RParam(rParamName = "p_gen_auto_code")
-	private int gen_auto_code;
+	private Integer gen_auto_code;
 	@RParam(rParamName = "p_gen_auto_code_check")
-	private int gen_auto_code_check;
+	private Integer gen_auto_code_check;
 	@RParam(rParamName = "p_personalizacoes")
 	private String personalizacoes;
 	@RParam(rParamName = "p_img_src")
@@ -46,9 +41,9 @@ public class Env extends Model{
 	@RParam(rParamName = "p_apache_dad")
 	private String apache_dad;
 	@RParam(rParamName = "p_flg_old")
-	private int flg_old;
+	private Integer flg_old;
 	@RParam(rParamName = "p_flg_old_check")
-	private int flg_old_check;
+	private Integer flg_old_check;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -78,29 +73,29 @@ public class Env extends Model{
 		return this.description;
 	}
 	
-	public void setStatus(int status){
+	public void setStatus(Integer status){
 		this.status = status;
 	}
-	public int getStatus(){
+	public Integer getStatus(){
 		return this.status;
 	}
-	public void setStatus_check(int status_check){
+	public void setStatus_check(Integer status_check){
 		this.status_check = status_check;
 	}
-	public int getStatus_check(){
+	public Integer getStatus_check(){
 		return this.status_check;
 	}
 	
-	public void setGen_auto_code(int gen_auto_code){
+	public void setGen_auto_code(Integer gen_auto_code){
 		this.gen_auto_code = gen_auto_code;
 	}
-	public int getGen_auto_code(){
+	public Integer getGen_auto_code(){
 		return this.gen_auto_code;
 	}
-	public void setGen_auto_code_check(int gen_auto_code_check){
+	public void setGen_auto_code_check(Integer gen_auto_code_check){
 		this.gen_auto_code_check = gen_auto_code_check;
 	}
-	public int getGen_auto_code_check(){
+	public Integer getGen_auto_code_check(){
 		return this.gen_auto_code_check;
 	}
 	
@@ -174,16 +169,16 @@ public class Env extends Model{
 		return this.apache_dad;
 	}
 	
-	public void setFlg_old(int flg_old){
+	public void setFlg_old(Integer flg_old){
 		this.flg_old = flg_old;
 	}
-	public int getFlg_old(){
+	public Integer getFlg_old(){
 		return this.flg_old;
 	}
-	public void setFlg_old_check(int flg_old_check){
+	public void setFlg_old_check(Integer flg_old_check){
 		this.flg_old_check = flg_old_check;
 	}
-	public int getFlg_old_check(){
+	public Integer getFlg_old_check(){
 		return this.flg_old_check;
 	}
 

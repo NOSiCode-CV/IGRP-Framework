@@ -297,11 +297,20 @@
 			 		});
 
 			 	}*/
-				if(item.parents('.gen-tab-holder:first').hasClass('setpagetitle')){
+
+
+			 	if(item.parents('.gen-tab-holder:first').hasClass('setpagetitle')){
 					if($('.content-header h2')[0]){
 						$('.content-header:first h2').text(item.text());
 					}
 				}
+
+				$.IGRP.utils.createHidden({
+					name:'p_fwl_'+item.parents('.gen-tab-holder').attr('item-name'),
+					value: item.attr('item-name') ,
+					class:'submittable'
+				});
+
 			 	com.events.execute( 'tabActive',target );
 
 			});
@@ -330,7 +339,7 @@
 
 					$.IGRP.store.unset($.IGRP.getPageInfo()+':'+parentName+':active');
 
-					$('[name="p_fwl_'+parentName+'"]').remove();
+					//$('[name="p_fwl_'+parentName+'"]').remove();
 
 				}else{
 
@@ -354,7 +363,7 @@
 		
 					com.hasFieldsError();
 
-				else{
+				/*else{
 
 					$('.gen-tab-holder:not(.auto-control)').each(function(i,t){
 
@@ -368,7 +377,7 @@
 
 					});
 
-				}
+				}*/
 		
 			});
 

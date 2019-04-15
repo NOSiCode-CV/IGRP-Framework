@@ -777,7 +777,8 @@
 				labels 		= o.attr('chart-labels') ? o.attr('chart-labels').split('|') : [],
 				categories  = o.attr('chart-categories') ? o.attr('chart-categories').split('|') : [],
 				filterType  = o.attr('filter-type') ? o.attr('filter-type').split(',') : [],
-				colors  	= o.attr('chart-colors') ? o.attr('chart-colors').split('|') : [];
+				colors  	= o.attr('chart-colors') ? o.attr('chart-colors').split('|') : [],
+				showData 	= o.attr('chart-datalabels') && o.attr('chart-datalabels') == 'true' ? true : false;
 	
 			if (data[0]) {
 
@@ -863,6 +864,23 @@
 				            }
 			            }
 			        };
+
+			        if(showData){
+
+				        chart.structure.plotOptions.series.dataLabels = {
+				        	enabled: true,
+			                align  : 'center',
+			                style  : {
+			                	color		: "contrast", 
+			                	fontSize	: "11px", 
+			                	fontWeight	: "none", 
+			                	textOutline	: "1px contrast" 
+			                },
+			                formatter : function(){
+			                	return this.y > 0 ? this.y : '';
+			                }
+				        };
+			        }
 
 			        if (type != 'TREEMAP')
 			        	chart.structure.plotOptions.series.showInLegend = true;

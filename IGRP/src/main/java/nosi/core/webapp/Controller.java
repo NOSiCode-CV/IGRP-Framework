@@ -27,9 +27,9 @@ import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
 import nosi.core.webapp.bpmn.ViewTaskDetails;
-import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
@@ -509,7 +509,7 @@ public class Controller{
 		Igrp app = Igrp.getInstance();
 		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";			
 		
-		r = new EncrypDecrypt().decrypt(r);	
+		r = SecurtyCallPage.resolvePage(r);
 		
 		if(r != null){
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;

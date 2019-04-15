@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 
@@ -163,7 +164,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	//Verifica se é perfil pai
 	public static boolean isPerfilPai(){
 		String sql = "SELECT count(self_fk) as total FROM tbl_profile_type";
-		nosi.core.webapp.databse.helpers.ResultSet.Record r = Core.query(null, sql).where("self_fk", "=",Core.getCurrentProfile()).getSingleRecord();
+		nosi.core.webapp.databse.helpers.ResultSet.Record r = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, sql).where("self_fk", "=",Core.getCurrentProfile()).getSingleRecord();
 		return r.getInt("total") > 0;
 	}
 

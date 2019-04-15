@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -11,7 +9,6 @@ import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
-import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.activit.rest.GroupService;
@@ -21,12 +18,9 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-import nosi.webapps.igrp.dao.UserRole;
 import service.client.WSO2UserStub;
 import nosi.core.config.Config;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -239,6 +233,10 @@ public class NovoUtilizadorController extends Controller {
 				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 				stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 						settings.getProperty("ids.wso2.admin-pwd"), 2);
+				
+				String v = settings.getProperty("igrp.authentication.govcv.enbaled");
+				if (v.equalsIgnoreCase("true"))
+					email = "gov.cv/" + email; 
 
 				List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
 				LdapPerson ldapPerson = new LdapPerson();

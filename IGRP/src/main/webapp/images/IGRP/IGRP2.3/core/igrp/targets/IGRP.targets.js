@@ -495,17 +495,22 @@
 				
 					close();
 				
-				if(reloadType == 'refresh')
+				/*if(reloadType == 'refresh')
+				 
+				 	_window.location.reload();
 					
-					_window.location.reload();
 				
-				if(reloadType == 'refresh_submit')
+				if(reloadType == 'refresh_submit'){
 					
 					submit({
-						
-						url : $.IGRP.utils.getPageUrl()
-						
+						url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href
 					});
+				}*/
+				
+				_window.$.IGRP.targets.submit.action({
+					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href,
+					validate : false
+				});
 					
 			}catch(e){null;}
 		};

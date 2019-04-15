@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -10,13 +8,11 @@ import nosi.core.webapp.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Igrp;
@@ -194,13 +190,17 @@ public class PesquisarMenuController extends Controller {
 					for (MenuProfile main : m.getValue()) {
 						if (main.isSubMenuAndSuperMenu()) {
 							
-							if(main.getType() == 1 && new Config().getEnvironment().equalsIgnoreCase("dev")) { // menu para uma pagina externa e publica 
+							if(main.getType() == 1) { // menu para uma pagina externa e publica 
 								String aux = buildMenuUrlByDad( main.getLink());
 								if(aux != null)
 									xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
 								else 
 									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-							}else {
+							}
+							else if(main.getType() == 2) { // Fazer sso obrigatorio 
+								xml_menu.setElement("link", main.getLink()); 
+							}
+							else {
 								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
 							}
 							
@@ -211,13 +211,17 @@ public class PesquisarMenuController extends Controller {
 						xml_menu.writeAttribute("title", gt(main.getTitle()));
 						xml_menu.writeAttribute("id", "" + main.getId());
 						
-						if(main.getType() == 1 && new Config().getEnvironment().equalsIgnoreCase("dev")) { // menu para uma pagina externa e publica 
-							String aux = buildMenuUrlByDad(main.getLink());
+						if(main.getType() == 1) { // menu para uma pagina externa e publica 
+							String aux = buildMenuUrlByDad( main.getLink());
 							if(aux != null)
 								xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
 							else 
 								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-						}else {
+						}
+						else if(main.getType() == 2) { // Fazer sso obrigatorio 
+							xml_menu.setElement("link", main.getLink()); 
+						}
+						else {
 							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
 						}
 						
@@ -327,10 +331,14 @@ public class PesquisarMenuController extends Controller {
 			Application app = new Application().findByDad(dad);
 			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
 			
-			if(app.getExternal() == 2 && app.getUrl() != null && !app.getUrl().isEmpty()) {
+			boolean isDevEnv = new Config().getEnvironment().equalsIgnoreCase("dev");
+			
+			if(isDevEnv && app.getExternal() == 2 && app.getUrl() != null && !app.getUrl().isEmpty()) {
 				String customDad = app.getUrl();
 				url = u + "/" + customDad + "/app/"; 
-			}else
+			}
+			
+			if(isDevEnv && app.getExternal() == 1)
 				url = u + "/" + dad + "/app/"; 
 			
 		} catch (Exception e) {

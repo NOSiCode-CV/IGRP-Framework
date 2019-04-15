@@ -11,10 +11,10 @@
 	<entry key="igrp.authentication_type">db</entry>
 	
 	<!--  -->
-	<entry key="ids.wso2.enabled">false</entry>
+	<entry key="ids.wso2.enabled">true</entry>
 	<entry key="ids.wso2.RemoteUserStoreManagerService-wsdl-url">https://nhais1.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
-	<entry key="ids.wso2.admin-usn">admin@nosi.cv@carbon.super</entry>
-	<entry key="ids.wso2.admin-pwd">admin</entry> 
+	<entry key="ids.wso2.admin-usn">mfadmin@nosi.cv</entry>
+	<entry key="ids.wso2.admin-pwd">Pa$$w0rd</entry> 
 	
 	<!--  -->
 	<entry key="ids.wso2.oauth2.client_id">gbgQyskjFPtacL1aa9qMwFCjMtsa</entry>
@@ -62,8 +62,10 @@
 	<entry key="link.rest.pesquisa_bi_cni_pass">https://stage-pdex.gov.cv:8243/bi/1.0.0/bi_service_op</entry>
 	<entry key="link.rest.pesquisa_nif">https://stage-pdex.gov.cv:8243/api_nif/1.0.0/nif</entry>
 	<entry key="link.rest.pesquisa_geografia">https://stage-pdex.gov.cv:8243/geografia/1.0.0/select_geo_by_id</entry>
+	<entry key="link.rest.pesquisa_cae">https://stage-pdex.gov.cv:8243/pesq_cae/1.0.0/pesquisa_cae</entry>
 	
 	<!-- authorization rest pesquisas gerais -->
 	<entry key="authorization.link.rest.pesquisa_bi_cni_pass">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry>
 	<entry key="authorization.rest.pesquisa_nif">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry>
-	<entry key="authorization.rest.pesquisa_geografia">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry></properties>
+	<entry key="authorization.rest.pesquisa_geografia">Bearer c5ada83b-1084-3594-ac9e-3e81a5ec6ccc</entry>
+	<entry key="authorization.rest.pesquisa_cae">Bearer c7dfec2b-14af-37d8-bb4c-5d968dbb9534</entry></properties>

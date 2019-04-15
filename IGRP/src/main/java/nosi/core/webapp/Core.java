@@ -65,11 +65,11 @@ import nosi.core.webapp.databse.helpers.QuerySelect;
 import nosi.core.webapp.databse.helpers.QueryUpdate;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaGeografia;
@@ -218,7 +218,7 @@ public final class Core { // Not inherit
 	}
 
 	public static String decrypt(String content) {
-		return new EncrypDecrypt().decrypt(content);
+		return EncrypDecrypt.decrypt(content);
 	}
 
 	/**
@@ -228,7 +228,7 @@ public final class Core { // Not inherit
 	 * @param secretKey secret key used to decrypt
 	 */
 	public static String decrypt(String content, String secretKey) {
-		return new EncrypDecrypt().decrypt(content, secretKey);
+		return EncrypDecrypt.decrypt(content, secretKey);
 	}
 
 	/**
@@ -335,7 +335,7 @@ public final class Core { // Not inherit
 	 * @param content
 	 */
 	public static String encrypt(String content) {
-		return new EncrypDecrypt().encrypt(content);
+		return EncrypDecrypt.encrypt(content);
 	}
 
 	/**
@@ -345,7 +345,7 @@ public final class Core { // Not inherit
 	 * @param secretKey string secret key
 	 */
 	public static String encrypt(String content, String secretKey) {
-		return new EncrypDecrypt().encrypt(content, secretKey);
+		return EncrypDecrypt.encrypt(content, secretKey);
 	}
 
 	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(Config_env env, String sql) {
@@ -1617,11 +1617,11 @@ public final class Core { // Not inherit
 	 * @param selected A list selected values
 	 * @param prompt   The comboBox prompt
 	 * @return A xml result
-	 */
-	public static String remoteComboBoxXml(BaseQueryInterface query, String[] selected, String prompt) {
+	 */ 
+	public static String remoteComboBoxXml(BaseQueryInterface query, String tag_name, String[] selected, String prompt) {
 		Map<Object, Object> map = new LinkedHashMap<>();
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		xml += "<list>";
+		xml += "<" + tag_name + ">";
 		if (prompt != null) {
 			xml += "<option><text>" + prompt + "</text><value></value></option>";
 		}
@@ -1649,7 +1649,7 @@ public final class Core { // Not inherit
 			xml += ">";
 			xml += "<text>" + v + "</text><value>" + k + "</value></option>";
 		}
-		xml += "</list>";
+		xml += "</" + tag_name + ">";
 		return xml;
 	}
 

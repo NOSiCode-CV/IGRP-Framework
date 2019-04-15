@@ -35,8 +35,8 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.security.Permission;
 import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -380,14 +380,12 @@ public class LoginController extends Controller {
 				 */
 				/** Begin create user session **/
 				success = createSessionLdapAuthentication(user);
-
 				sso(username, password, user);
 
 				/** End create user session **/
 
 			} else {
-				if ((this.getConfig().getEnvironment().equals("dev")
-						&& ldapinfo.getAuthenticationFilter().contains("SAMAccountName"))
+				if (this.getConfig().getEnvironment().equals("dev")
 						|| (settings.getProperty("igrp.env.isNhaLogin") != null
 								&& settings.getProperty("igrp.env.isNhaLogin").equals("true"))) { // Active Directory
 																									// Ldap Server ...

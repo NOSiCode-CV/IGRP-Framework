@@ -57,7 +57,14 @@ public abstract class View  implements IHeaderConfig{
 		//Add hidden field env_frm_url to persistence index url of page
 		HiddenField field = new HiddenField("env_frm_url");
 		String target = Core.getParam("target");
-		String value = new Config().getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index&"+(Core.isNotNull(target)?("target="+target):""));
+		String value = null;
+		String isPublic = Core.getParam("isPublic");
+		//No encrypt if page is public
+		if(Core.isNotNull(isPublic) && isPublic.equals("1")) {
+			value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+target+"&isPublic=1&lang="+Core.getParam("lang");
+		}else {
+			value = new Config().getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index&"+(Core.isNotNull(target)?("target="+target):""));
+		}
 		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
 		field.setValue(value);
 		formHidden.addField(field);

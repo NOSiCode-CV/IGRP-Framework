@@ -19,16 +19,15 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
-import nosi.core.exception.PermissionException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
 
 public class HibernateUtils {
 
 	private static ServiceRegistry registry= null;
-	private static final Map<String,SessionFactory> sessionFactory = new HashMap<>();
+	private static final Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();
 
 	public static SessionFactory getSessionFactory(Config_env config_env) {
 		if (config_env != null && config_env.getApplication()!=null)
@@ -41,74 +40,71 @@ public class HibernateUtils {
 	}
 	
 	public static SessionFactory getSessionFactory(String connectionName,String dad,String schemaName) {
-		if(Core.isNotNull(connectionName)) {	
-			String connectionName_ = ConfigApp.getInstance().getBaseConnection();
-			if(!connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()) && !connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
-				connectionName_ = connectionName+"."+dad;
-			}
-			if (!sessionFactory.containsKey(connectionName_)) {
-				registry = buildConfig(ConfigApp.getInstance(),connectionName,dad,schemaName);
-				if(registry!=null) {
-					MetadataSources metadataSources = new MetadataSources(registry);
-					try {
-						sessionFactory.put(connectionName_,metadataSources.buildMetadata().getSessionFactoryBuilder().build());
-					} catch (Exception e) {
-						e.printStackTrace();
-						destroy();
-					}finally {
-				        ServiceRegistry metaServiceRegistry = metadataSources.getServiceRegistry();
-				        if(metaServiceRegistry instanceof BootstrapServiceRegistry ) {
-				            BootstrapServiceRegistryBuilder.destroy( metaServiceRegistry );
-				        }
-				    }
-				}else {
-					return null;
+		String myConnectionName = resolveHibernateFileName(connectionName, dad);
+		if (!SESSION_FACTORY.containsKey(myConnectionName)) {
+			MetadataSources metadataSources = null;
+			try {
+				registry = buildConfig(connectionName,myConnectionName,dad);
+				metadataSources = new MetadataSources(registry);
+				SESSION_FACTORY.put(myConnectionName, metadataSources.buildMetadata().getSessionFactoryBuilder().build());
+			} catch (Throwable ex) {
+				SESSION_FACTORY.remove(myConnectionName);
+				System.err.println("Initial SessionFactory creation failed." + ex);
+				Core.log(ex.getMessage());
+				throw new ExceptionInInitializerError(ex);
+			}finally {
+				if(metadataSources!=null) {
+			        ServiceRegistry metaServiceRegistry = metadataSources.getServiceRegistry();
+			        if(metaServiceRegistry instanceof BootstrapServiceRegistry ) {
+			            BootstrapServiceRegistryBuilder.destroy(metaServiceRegistry );
+			        }
 				}
-			}
-			return sessionFactory.get(connectionName_);
+		    }
 		}
-		return null;
+		return SESSION_FACTORY.get(myConnectionName);	
 	}
-
-	private static ServiceRegistry buildConfig(ConfigApp config,String connectionName,String dad,String schemaName) {
+	
+	private static ServiceRegistry buildConfig(String connectionName,String myConnectionName,String dad) {
 		StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
-		try {
-			if (config.getBaseConnection().equalsIgnoreCase(connectionName)) {
-				registryBuilder.configure("/" + connectionName + ".cfg.xml");
-				registryBuilder.applySettings(getIGRPSettings(registryBuilder,connectionName));
-			}else if (config.getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
-				registryBuilder.configure("/" + connectionName + ".cfg.xml");
-				registryBuilder.applySettings(getH2IGRPSettings(registryBuilder,connectionName));
-			}else {
-				registryBuilder.configure("/" + connectionName + "." + dad + ".cfg.xml");
-				Map<String, Object> settings = getOthersAppSettings(registryBuilder,connectionName,dad,schemaName);
-				if(settings!=null) {
-					if(registryBuilder!=null)
-						registryBuilder.applySettings(settings);
-				}else {
-					return null;
-				}
-			}
+		try{
+			registryBuilder.configure(myConnectionName+".cfg.xml");
+			registryBuilder.applySettings(hibernateSettings(registryBuilder, connectionName, dad));
 		}catch(org.hibernate.internal.util.config.ConfigurationException e) {
-			Core.setMessageError(e.getMessage());
-			throw new PermissionException(e.getMessage());
+			e.printStackTrace();
 		}
 		return  registryBuilder.build();
 	}
-
-	private static Map<String, Object> getH2IGRPSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName) {
+	
+	private static String resolveHibernateFileName(String connectionName,String dad) {
+		if(!connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()) && !connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
+			connectionName = connectionName+"."+dad;
+		}
+		return connectionName;
+	}
+	
+	private static Map<String, Object> hibernateSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName,String dad){
+		ConfigApp config = ConfigApp.getInstance();
+		if (config.getBaseConnection().equalsIgnoreCase(connectionName)) {
+			return getIGRPSettings(registryBuilder,connectionName);
+		}else if (config.getH2IGRPBaseConnection().equalsIgnoreCase(connectionName)) {
+			return getH2IGRPSettings(config,registryBuilder,connectionName);
+		}else {
+			return getOthersAppSettings(registryBuilder,connectionName,dad);
+		}
+	}
+	
+	private static Map<String, Object> getH2IGRPSettings(ConfigApp configApp,StandardServiceRegistryBuilder registryBuilder,String connectionName) {
 		ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 		try {
-			config.load("db_igrp_config_h2.xml");
+			config.loadIGRPConnectionConfigH2();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
 		return getSettings(registryBuilder,config.getDriverConnection(), config.getUrlConnection(), config.getUsername(), config.getPassword(), hibernateDialect,null);
 	}
 
-	private static Map<String, Object> getOthersAppSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName, String dad,String schemaName) {
+	private static Map<String, Object> getOthersAppSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName, String dad) {
 		Config_env config = new Config_env().find()
 				.andWhere("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
@@ -126,7 +122,7 @@ public class HibernateUtils {
 			String password = Core.decrypt(config.getPassword(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 			String user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 			String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
-			return getSettings(registryBuilder,driver, url, user, password, hibernateDialect,schemaName);
+			return getSettings(registryBuilder,driver, url, user, password, hibernateDialect,null);
 		}
 		return null;
 	}
@@ -134,7 +130,7 @@ public class HibernateUtils {
 	private static Map<String, Object> getIGRPSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName) {
 		ConfigDBIGRP config = ConfigDBIGRP.getInstance();
 		try {
-			config.load();
+			config.loadIGRPConnectionConfig();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -179,12 +175,8 @@ public class HibernateUtils {
                 settings.put("hibernate.c3p0.acquire_increment",cHCp.getIncrement());
         	}
 			//suspense pool
-			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());
-			
+			settings.put("allowPoolSuspension", cHCp.getAllowPoolSuspension());			
 			settings.put("hibernate.hbm2ddl.jdbc_metadata_extraction_strategy","individually");
-			//It releases the connection after org.hibernate.Transaction commit or rollback.
-//			if(Core.isNotNull(cHCp.getRelease_mode()))
-//				settings.put("hibernate.connection.handling_mode", cHCp.getRelease_mode());
         }
         /**
          * Load and use custom configuration
@@ -210,8 +202,6 @@ public class HibernateUtils {
 	}
 
 	
-
-	
 	public synchronized static void destroy() {
 		if (registry != null) {
 			StandardServiceRegistryBuilder.destroy(registry);
@@ -232,13 +222,17 @@ public class HibernateUtils {
 	}
 
 	public static void closeAllConnection() {
-//		sessionFactory.entrySet().stream().forEach(s->{
-//			s.getValue().close();
-//		});
+		if(SESSION_FACTORY!=null) {
+			SESSION_FACTORY.entrySet().stream().forEach(s->{
+				s.getValue().close();
+			});
+		}
 	}
 
 	public static void removeSessionFactory(String connectionName) {
-//		sessionFactory.remove(connectionName);
+		if(SESSION_FACTORY!=null) {
+			SESSION_FACTORY.remove(connectionName);
+		}
 	}
 
 }

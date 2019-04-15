@@ -1,8 +1,6 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -10,7 +8,6 @@ import nosi.core.webapp.Response;
 import java.io.File;
 import nosi.core.config.Config;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
@@ -36,9 +33,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -446,7 +443,7 @@ public class EnvController extends Controller {
 	}
 	
 	private String getLinkOpenApp() {
-        String result = "webapps?r="+new EncrypDecrypt().encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app="; 
+        String result = "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app="; 
         return result;
 	}
 
@@ -467,17 +464,9 @@ public class EnvController extends Controller {
 			return redirectToUrl(devUrl);
 			}
 			
-			/*if(env.getExternal() == 2) {
-				String customDad = env.getUrl(); 
-				String uri = Igrp.getInstance().getRequest().getRequestURI();
-				String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
-				url += "/" + customDad + "/app/webapps?r=";
+			if(env.getExternal() == 1 || env.getExternal() == 2) {
 				
-			}*/
-			
-			if(env.getExternal() == 1) {
-				
-				if(env.getUrl() != null && !env.getUrl().isEmpty()) {
+				if(env.getExternal() != 2 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 					String aux = env.getUrl();
 					Action action = env.getAction();
 					if(action != null && env.getExternal() != 1) {
@@ -491,20 +480,44 @@ public class EnvController extends Controller {
 					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
-					//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
-					String uri = Igrp.getInstance().getRequest().getRequestURI();
-					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
-					Action action = env.getAction();
+					String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 					
-					User currentUser = Core.getCurrentUser();
-					url += "/" + env.getDad().trim().toLowerCase() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+					if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
+						
+						//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+						String uri = Igrp.getInstance().getRequest().getRequestURI();
+						String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+						
+						Action action = env.getAction();
+						
+						User currentUser = Core.getCurrentUser(); 
+						
+						if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) {
+							
+							url += "/" + env.getDad() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+							
+							if(action != null) 
+								url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+							else
+								url += "&_url=tutorial/DefaultPage/index";
+							
+							return this.redirectToUrl(url);
+						}
+						
+						if(env.getExternal() == 2 && !deployedWarName.equals(env.getUrl())) { // Custom dad 
+							url += "/" + env.getUrl() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
+							
+							if(action != null) 
+								url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+							else
+								url += "&_url=tutorial/DefaultPage/index";
+							
+							return this.redirectToUrl(url);
+						}
+						
+						
+					}
 					
-					if(action != null) 
-						url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
-					else
-						url += "&_url=tutorial/DefaultPage/index";
-					
-					return this.redirectToUrl(url);
 				}
 				
 			}

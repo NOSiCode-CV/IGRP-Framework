@@ -7,7 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.security.Permission;
 
 /*---- End ----*/
 public class HomeController extends Controller {		

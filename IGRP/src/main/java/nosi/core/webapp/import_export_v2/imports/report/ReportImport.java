@@ -14,7 +14,6 @@ import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.RepTemplateSourceParam;
-import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
@@ -53,8 +52,8 @@ public class ReportImport  extends AbstractImport implements IImport{
 					repTemplate.setName(report.getName());
 					repTemplate.setReport_identify(report.getReport_identify());					
 					repTemplate.setApplication(this.application!=null?this.application:new Application().findByDad(report.getDad()));
-					repTemplate.setUser_created(new User().findIdentityByUsername(report.getUsername_created()));
-					repTemplate.setUser_updated(new User().findIdentityByUsername(report.getUsername_updated()));
+					repTemplate.setUser_created(Core.getCurrentUser());
+					repTemplate.setUser_updated(Core.getCurrentUser());
 					repTemplate.setStatus(report.getStatus());
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
@@ -111,8 +110,8 @@ public class ReportImport  extends AbstractImport implements IImport{
 				repSource.setFormkey(source.getFormkey());
 				repSource.setProcessid(source.getProcessid());
 				repSource.setStatus(source.getStatus());
-				repSource.setUser_created(new User().findIdentityByUsername(source.getUsername_created()));
-				repSource.setUser_updated(new User().findIdentityByUsername(source.getUsername_updated()));
+				repSource.setUser_created(Core.getCurrentUser());
+				repSource.setUser_updated(Core.getCurrentUser());
 				repSource = repSource.insert();
 				this.addError(repSource.hasError()?repSource.getError().get(0):null);
 			});

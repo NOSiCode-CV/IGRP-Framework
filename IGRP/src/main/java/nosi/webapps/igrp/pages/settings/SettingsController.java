@@ -12,7 +12,7 @@ import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.helpers.ApplicationPermition;
-import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.security.Permission;
 /*----#end-code----*/
 		
 public class SettingsController extends Controller {

@@ -13,13 +13,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 
 /*----#end-code----*/
 		
 public class Pesquisa_geografiaController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException{
 		Pesquisa_geografia model = new Pesquisa_geografia();
 		model.load();
 		Pesquisa_geografiaView view = new Pesquisa_geografiaView();
@@ -32,7 +33,7 @@ public class Pesquisa_geografiaController extends Controller {
 		return this.renderView(view);	
 	}
 	
-	public Response actionRemote_treemenu_1(String p_id) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionRemote_treemenu_1(String p_id) throws IOException, IllegalArgumentException, IllegalAccessException, JSONException{
 		String id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
 		
@@ -76,7 +77,7 @@ public class Pesquisa_geografiaController extends Controller {
  String  des_geo ="p_geografia_des";
  String id_geo = "p_geografia_id";
 	
- public List<Pesquisa_geografia.Treemenu_1>  chamarServico(String id) throws IOException {
+ public List<Pesquisa_geografia.Treemenu_1>  chamarServico(String id) throws IOException, JSONException {
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia")+"?id="+id;
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");

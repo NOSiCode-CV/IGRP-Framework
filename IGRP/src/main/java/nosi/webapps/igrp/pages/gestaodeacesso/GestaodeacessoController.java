@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -35,8 +33,7 @@ public class GestaodeacessoController extends Controller {
 		/*----#start-code(index)----*/
 
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
-		String ichange = Core.getParam("ichange");
-      	int idApp = Core.getParamInt("p_id_app");      
+		String ichange = Core.getParam("ichange");   
       view.id_app.setParam(true);
 		String dad = Core.getCurrentDad();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {

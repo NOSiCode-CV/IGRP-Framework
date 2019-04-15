@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
-import nosi.core.webapp.helpers.EncrypDecrypt;
+import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
 
 /**
@@ -24,11 +24,15 @@ public class Connection {
 		String password = "";
 		String user = "";
 		String dbtype ="";
-		
-		if(connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection()) || connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
+		ConfigApp configApp = ConfigApp.getInstance();
+		if(connectionName.equalsIgnoreCase(configApp.getBaseConnection()) || connectionName.equalsIgnoreCase(configApp.getH2IGRPBaseConnection())) {
 			ConfigDBIGRP config =  ConfigDBIGRP.getInstance();
 			try {
-				config.load();
+				if(connectionName.equalsIgnoreCase(configApp.getBaseConnection())) {
+					config.loadIGRPConnectionConfig();
+				}else if(connectionName.equalsIgnoreCase(configApp.getH2IGRPBaseConnection())) {
+					config.loadIGRPConnectionConfigH2();
+				}
 				url = config.getUrlConnection();
 				password = config.getPassword();
 				user = config.getUsername();

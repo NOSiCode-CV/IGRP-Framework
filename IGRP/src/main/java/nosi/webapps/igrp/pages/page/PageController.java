@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -669,7 +670,7 @@ public class PageController extends Controller {
 		Action ac = new Action().findOne(p_id);
 		if(ac!=null && ac.getApplication()!=null) {
 			List<String> domains = new ArrayList<>();
-			for (Tuple t : Core.query(this.configApp.getBaseConnection(), DomainHeper.SQL_DOMINIO_PUB+" UNION "+DomainHeper.SQL_DOMINIO_PRIVATE)
+			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PUB+" UNION "+DomainHeper.SQL_DOMINIO_PRIVATE)
 					.addInt("env_fk", ac.getApplication().getId())
 					.getResultList()) {
 				try {
@@ -688,7 +689,7 @@ public class PageController extends Controller {
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
-		for (Tuple t : Core.query(this.configApp.getBaseConnection(), DomainHeper.SQL_ITEM_DOMINIO)
+		for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
 				.addString("dominio", p_id).getResultList()) {
 			try {
 				Properties domains = new Properties();

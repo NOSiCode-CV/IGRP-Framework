@@ -5,9 +5,9 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Report;
-import nosi.core.webapp.helpers.EncrypDecrypt;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import static nosi.core.i18n.Translator.gt;
 import java.util.Map.Entry;
@@ -131,7 +131,7 @@ public class IGRPButton {
 		target_ += Route.getQueryString(link);//Get Query String
 		link = Route.resolveAction(link);
 		
-		String result = !isGenReverse() ? new EncrypDecrypt().encrypt(app + "/" + page + "/" + link)+target_ : new EncrypDecrypt().encrypt(link)+target_; 
+		String result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
 		
 		return result;
 	}

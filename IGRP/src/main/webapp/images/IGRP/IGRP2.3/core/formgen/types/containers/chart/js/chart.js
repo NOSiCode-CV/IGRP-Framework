@@ -94,6 +94,15 @@ var GENCHART = function(name,params){
 					o.input.hide();
 			}
 		});
+
+		container.setPropriety({
+			name 	 :'datalabels',
+			label 	 : 'Data Labels',
+			value 	 : false,
+			xslValue : function(){
+				return '<xsl:with-param name="datalabels" select="\''+container.GET.datalabels()+'\'"/>';
+			}
+		});
 	}
 
 	container.onDrawEnd = function(){

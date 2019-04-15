@@ -7,10 +7,10 @@ public class IGRPChart3D{
 
 
 	private String eixoX;
-	private double eixoZ;
+	private Object eixoZ;
 	private String eixoY;
 	
-	public IGRPChart3D(String eixoX, String eixoY, double eixoZ) {
+	public IGRPChart3D(String eixoX, String eixoY, Object eixoZ) {
 		this.eixoX = eixoX;
 		this.eixoY = eixoY;
 		this.eixoZ = eixoZ;
@@ -29,11 +29,11 @@ public class IGRPChart3D{
 		this.eixoX = eixoX;
 	}
 
-	public double getEixoZ() {
+	public Object getEixoZ() {
 		return eixoZ;
 	}
 
-	public void setEixoZ(double eixoZ) {
+	public void setEixoZ(Object eixoZ) {
 		this.eixoZ = eixoZ;
 	}
 
