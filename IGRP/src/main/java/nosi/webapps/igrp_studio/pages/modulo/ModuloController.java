@@ -6,8 +6,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.webapp.helpers.IgrpHelper;
-import java.util.List;
 /*----#end-code----*/
 		
 public class ModuloController extends Controller {
@@ -21,8 +19,7 @@ public class ModuloController extends Controller {
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		List<Application> l = new Application().findAll();
-		view.aplicacao.setValue(IgrpHelper.toMap(l, "id", "name", "-- Selecionar --"));
+		view.aplicacao.setValue(new Application().getListApps());
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
