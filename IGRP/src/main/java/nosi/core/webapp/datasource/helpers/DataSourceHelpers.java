@@ -270,6 +270,7 @@ public class DataSourceHelpers {
 		for(Entry<Properties,String> entry:setData){
 				Field f = new TextField(null,entry.getKey().getProperty("tag"));
 				f.propertie().add("name",entry.getKey().getProperty("name"));
+				f.setLabel(entry.getKey().getProperty("name"));
 				f.setValue(entry.getValue());
 				form.addField(f);
 				table.addField(f);

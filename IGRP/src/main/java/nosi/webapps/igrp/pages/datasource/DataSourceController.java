@@ -280,6 +280,7 @@ public class DataSourceController extends Controller {
 	public List<Field> getDefaultFieldsWithProc(){
 		List<Field> list = this.getDefaultFields();
 		Field p_prm_definitionid = new TextField(null, "p_prm_definitionid");
+		p_prm_definitionid.setLabel(Core.gt("id processo"));
 		p_prm_definitionid.setValue(Core.getParam("report_p_prm_definitionid"));
 		list.add(p_prm_definitionid);
 		return list;
@@ -288,21 +289,27 @@ public class DataSourceController extends Controller {
 	public List<Field> getDefaultFields(){
 		List<Field> fields = new ArrayList<>();
 		Field data_atual = new TextField(null, "p_data_atual");
+		data_atual.setLabel(Core.gt("data atual"));
 		data_atual.setValue(Core.getCurrentDate());
 		
 		Field user_atual = new TextField(null,"p_user_atual");
+		user_atual.setLabel(Core.gt("user atual"));
 		user_atual.setValue(Core.getCurrentUser().getName());
 		
 		Field email_atual = new TextField(null,"p_email_atual");
+		email_atual.setLabel(Core.gt("email atual"));
 		email_atual.setValue(Core.getCurrentUser().getEmail());
 		
 		Field application = new TextField(null,"p_application");
+		application.setLabel(Core.gt("aplicação atual"));
 		application.setValue(Core.getCurrentApp().getName());
 
 		Field organization = new TextField(null,"p_organization");
+		organization.setLabel(Core.gt("orgânica atual"));
 		organization.setValue(new Organization().findOne(Core.getCurrentOrganization()).getName());
 
 		Field profile = new TextField(null,"p_profile");
+		profile.setLabel(Core.gt("perfil atual"));
 		profile.setValue(new ProfileType().findOne(Core.getCurrentProfile()).getDescr());
 		
 		fields.add(user_atual);
@@ -336,6 +343,7 @@ public class DataSourceController extends Controller {
 				f.propertie().add("name",p.getProperty("tag"));
 				f.propertie().add("key",p.getProperty("key"));
 				f.propertie().add("java-type", p.getProperty("type", "String"));
+				f.setLabel(p.getProperty("tag"));
 				form.addField(f);
 				table.addField(f);
 			}			
