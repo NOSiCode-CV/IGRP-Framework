@@ -289,6 +289,7 @@ public class DataSourceHelpers {
 			Map<Properties,String> mapping = new HashMap<>();
 			Record r = new Record();
 			if(data!=null) { 
+				
 				r.RowList = new ArrayList<>();
 				data.stream().forEach(l->{
 					Record rec = new Record();
