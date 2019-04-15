@@ -278,6 +278,7 @@ public class DataSourceController extends Controller {
 	}
 	
 	public List<Field> getDefaultFieldsWithProc(){
+		
 		List<Field> list = this.getDefaultFields();
 		Field p_prm_definitionid = new TextField(null, "p_prm_definitionid");
 		p_prm_definitionid.setLabel(Core.gt("id processo"));
