@@ -270,6 +270,7 @@ public class DataSourceHelpers {
 		for(Entry<Properties,String> entry:setData){
 				Field f = new TextField(null,entry.getKey().getProperty("tag"));
 				f.propertie().add("name",entry.getKey().getProperty("name"));
+				f.setLabel(entry.getKey().getProperty("name"));
 				f.setValue(entry.getValue());
 				form.addField(f);
 				table.addField(f);
@@ -288,6 +289,7 @@ public class DataSourceHelpers {
 			Map<Properties,String> mapping = new HashMap<>();
 			Record r = new Record();
 			if(data!=null) { 
+				
 				r.RowList = new ArrayList<>();
 				data.stream().forEach(l->{
 					Record rec = new Record();
