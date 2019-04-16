@@ -507,8 +507,10 @@
 					});
 				}*/
 				
+				var url = $.IGRP.utils.getSubmitParams(_window.location.href);
+				
 				_window.$.IGRP.targets.submit.action({
-					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href,
+					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
 					

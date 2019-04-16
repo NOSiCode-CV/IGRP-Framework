@@ -291,7 +291,7 @@
 					{
 						var vP1 = vP[i].split("=");
 
-						if(vP1[0].toLowerCase()!= "p_env_frm_url"){
+						if(vP1[0].toLowerCase()!= "p_env_frm_url" && vP1[0].toLowerCase()!= 'r'){
 							if(!$("input[name='"+vP1[0]+"']",vForm)[0]){
 								$.IGRP.utils.createHidden({
 									name:vP1[0],
