@@ -342,15 +342,18 @@
 		};
 
 		//blank (popup)
-		var mWindow = null;
+		var mWindow = null,
+			mUrl 	= null;
 		
 		var modal       = function(p){
 			
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 				
-				mWindow = window;
+				mWindow = mWindow ? mWindow : window;
 		
 			var url = setTargetParameter(p.url);
+			
+			mUrl = url;
 			
 			$.IGRP.components.iframeNav.set({
 				url    :url,
@@ -365,7 +368,11 @@
 				
 				mWindow = window;
 			
-			p.url = setTargetParameter(p.url);
+			var url = setTargetParameter(p.url);
+			
+			p.url = url;
+			
+			mUrl = url;
 
 			$.IGRP.components.rightPanel.set(p);
 			
@@ -483,12 +490,19 @@
 
 					_window = popup || window.parent,
 
-					_window = _window.frames['head_filho'] || _window;
+					_window = _window.frames['head_filho'] || _window,
+					url 	= null;
 
 				if (mWindow) {
 					_window = mWindow;
 					popup 	= false;
 					mWindow = null;
+					
+					if(mUrl){
+						url 	= mUrl;
+						mUrl 	= null;
+						$.IGRP.utils.getSubmitParams(url);
+					}
 				}
 				
 				if(popup)
@@ -506,8 +520,6 @@
 						url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href
 					});
 				}*/
-				
-				var url = $.IGRP.utils.getSubmitParams(_window.location.href);
 				
 				_window.$.IGRP.targets.submit.action({
 					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
