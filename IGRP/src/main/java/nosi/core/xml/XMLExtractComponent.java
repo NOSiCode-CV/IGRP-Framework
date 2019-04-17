@@ -73,7 +73,22 @@ public class XMLExtractComponent {
 		return toolsbar1;
 	}
 	
-
+	public IGRPToolsBar generateButtonBack() {
+		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar");
+		IGRPButton button = new IGRPButton();
+		button.getProperties().add("code", "back_processo");
+		button.getProperties().add("rel", "back_processo");
+		button.getProperties().add("type", "specific");
+		button.setTitle(gt("Voltar"));
+		button.setApp("igrp");
+		button.setPage("ExecucaoTarefas");
+		button.setLink("index");
+		button.setTarget("_self");
+		button.setImg("success|fa-backward");
+		toolsbar1.addButton(button);
+		return toolsbar1;
+	}
+	
 	public IGRPToolsBar generateButtonTask(String appDad,Integer appId, String page,String action, String taskId) {
 		return this.generateButtonTask(appDad,appId, page, action, "primary|fa-save", taskId);
 	}

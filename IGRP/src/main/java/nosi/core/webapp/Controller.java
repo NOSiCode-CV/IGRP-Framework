@@ -190,9 +190,11 @@ public class Controller{
 			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
 		if(Core.isNull(saveButton) && Core.isNotNull(taskId)) {
+			xml.addXml(comp.generateButtonBack().toString());
 			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		if(Core.isNotNull(backButton) && Core.isNotNull(taskId)) {
+			xml.addXml(comp.generateButtonBack().toString());
 			xml.addXml(comp.generateBackButtonTask("igrp","ExecucaoTarefas","executar_button_minha_tarefas",taskId).toString());
 		}
 		ViewTaskDetails details = this.getTaskDetails(taskId);
