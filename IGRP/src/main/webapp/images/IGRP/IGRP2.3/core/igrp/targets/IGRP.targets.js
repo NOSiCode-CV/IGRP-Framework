@@ -238,9 +238,9 @@
 					}
 				});
 			}else{
-				$.IGRP.components.tabcontent.hasFieldsError();
+					$.IGRP.components.form.hasFieldsError();
 
-				$.IGRP.scrollTo($(':input[required].error:first'));
+					$.IGRP.scrollTo($(':input[required].error:first'));
 				}
 		};
 		
@@ -285,7 +285,8 @@
 					});
 				}
 			}else{
-				$.IGRP.components.tabcontent.hasFieldsError();
+				
+				$.IGRP.components.form.hasFieldsError();
 
 				$.IGRP.scrollTo($(':input[required].error:first'));
 			}

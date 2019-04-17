@@ -255,14 +255,6 @@
 			});
 
 		},
-
-		hasFieldsError : function(){
-			if($(':input[required].error')[0]){
-				var tab = $(':input[required].error:first').parents('.tab-pane');
-				if(tab[0])
-					$('li[rel="'+tab.attr('id')+'"] a').click();
-			}
-		},
 		
 		init:function(){
 
@@ -361,7 +353,7 @@
 
 				if(!o.valid)
 		
-					com.hasFieldsError();
+					$.IGRP.components.form.hasFieldsError();
 
 				/*else{
 
