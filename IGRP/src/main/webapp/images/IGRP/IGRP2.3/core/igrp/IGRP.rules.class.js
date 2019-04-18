@@ -516,9 +516,23 @@ if($ && $.IGRP && !$.IGRP.rules){
 		showicon:{
 			do:function(p){
 				$.each(p.targetFields,function(i,t){
+					
 					$('.input-group',t).removeClass('d-block');
+					
 					$('.input-group-btn',t).removeClass('hidden');
-					$('.datepicker-clear',t).removeClass('hidden');
+					
+					if($('.gen-date-picker',t)[0]){
+						
+						$('.datepicker-clear',t).removeClass('hidden');
+						
+						$.IGRP.components.daterangepicker.init({
+	
+							selector : '.gen-date-picker',
+	
+							parent   : t
+	
+						});
+					}
 				});
 
 				p.targetFields.trigger('igrp.rules.showicon');
@@ -528,9 +542,22 @@ if($ && $.IGRP && !$.IGRP.rules){
 		hideicon:{
 			do:function(p){
 				$.each(p.targetFields,function(i,t){
+					
 					$('.input-group',t).addClass('d-block');
+					
 					$('.input-group-btn',t).addClass('hidden');
-					$('.datepicker-clear',t).addClass('hidden');
+					
+					if($('.gen-date-picker',t)[0]){
+						
+						$('.datepicker-clear',t).addClass('hidden');
+						
+						$('.gen-date-picker',t).on('show.daterangepicker',function(ev,e){
+							
+							$(e.container).remove();
+							
+						});
+					}
+						
 				});
 
 				p.targetFields.trigger('igrp.rules.hideicon');
