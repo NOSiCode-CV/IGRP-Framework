@@ -307,11 +307,15 @@ public class DataSourceController extends Controller {
 
 		Field organization = new TextField(null,"p_organization");
 		organization.setLabel(Core.gt("orgânica atual"));
-		organization.setValue(new Organization().findOne(Core.getCurrentOrganization()).getName());
+		Organization org = new Organization().findOne(Core.getCurrentOrganization());
+		if(org!=null)
+			organization.setValue(org.getName());
 
 		Field profile = new TextField(null,"p_profile");
 		profile.setLabel(Core.gt("perfil atual"));
-		profile.setValue(new ProfileType().findOne(Core.getCurrentProfile()).getDescr());
+		ProfileType prof = new ProfileType().findOne(Core.getCurrentProfile()); 
+		if(prof!=null)
+			profile.setValue(prof.getDescr());
 		
 		fields.add(user_atual);
 		fields.add(data_atual);
