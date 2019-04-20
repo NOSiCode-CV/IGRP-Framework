@@ -259,14 +259,13 @@ public class DataSourceController extends Controller {
 	}
 	
 	public String getDSPageOrTask(String type,String app,String page,String action,String title) {
-		XMLExtractComponent comp = new XMLExtractComponent();
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 		xml.setElement("title", title);
 		this.addQueryString("current_app_conn", app);
 		String content = this.call(app,page,action,this.queryString()).getContent();
 		Core.removeAttribute("current_app_conn");
-		content = comp.extractXML(content);
+		content = XMLExtractComponent.extractXML(content);
 		List<Field> list = this.getDefaultFields();
 		if(type.equalsIgnoreCase("task")) {
 			list = getDefaultFieldsWithProc();

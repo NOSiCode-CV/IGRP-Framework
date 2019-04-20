@@ -323,7 +323,7 @@ public class WebReportController extends Controller {
 			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid())
 			.addQueryString("taskId", taskId);
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
-		xml.addXml(new XMLExtractComponent().extractXML(content));
+		xml.addXml(XMLExtractComponent.extractXML(content));
 		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
 		xml.endElement();
 		return xml.toString();
