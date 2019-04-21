@@ -36,6 +36,9 @@ public class PagesScapePermission {
 	 * Page/Action calling with IGRP Javascript
 	 */
 	static {
+		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/exception".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/exception".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/notFound".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/pesquisar-menu/myMenu".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/pesquisar-menu/topMenu".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/env/myApps".toLowerCase());
