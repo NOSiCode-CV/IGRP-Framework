@@ -33,13 +33,26 @@
 		map.zoomIn = function(){
 
 			map.view.zoomIn();
+			
+			return false;
 
 		};
 
 		map.zoomOut = function(){
 
 			map.view.zoomOut();
+			
+			return false;
 
+		};
+		
+		map.expand = function(){
+			
+			$(app.dom).toggleClass('expand');
+			
+			map.view.invalidateSize();
+			
+			return false;
 		};
 
 		app.viewer = function(){
@@ -53,6 +66,12 @@
 			$('.gis-zoom-in', app.dom).on('click', map.zoomIn);
 
 			$('.gis-zoom-out', app.dom).on('click',map.zoomOut);
+			
+			$('.gis-expand', app.dom).on('click',map.expand);
+			
+			if(settings.fullscreen)
+				
+				map.expand();
 
 		};
 

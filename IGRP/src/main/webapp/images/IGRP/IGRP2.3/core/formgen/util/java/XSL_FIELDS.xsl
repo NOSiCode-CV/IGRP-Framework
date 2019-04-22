@@ -114,7 +114,7 @@
 							<xsl:value-of select="$tab2"/> 
 						</xsl:if>
 						
-						<xsl:if test="@type='lookup'">
+						<xsl:if test="@type='lookup' or @lookup='true'">
 						
 							<xsl:variable name="lookupName" select="name()"/>
 							
@@ -305,7 +305,7 @@
 	    		<xsl:when test="$type='file'">
 	    			<xsl:value-of select="'FileField'" />
 	    		</xsl:when>
-	    		<xsl:when test="$type='lookup'">
+	    		<xsl:when test="$type='lookup' or @lookup='true'">
 	    			<xsl:value-of select="'LookupField'" />
 	    		</xsl:when>
 	    		<xsl:when test="$type='plaintext'">

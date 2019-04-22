@@ -592,6 +592,87 @@
 					
 			}catch(e){null;}
 		};
+		
+		var gisGetCoords = function(p){
+			
+			console.log('asdkl')
+			
+			var url 	    = setTargetParameter(p.url),
+				
+				map		    = p.clicked.attr('map-name'),
+				
+				inputName   = p.clicked.attr('input-name'),
+				
+				latLngVal 	= $('[name="'+inputName+'"]').val(),
+				
+				latLngArr 	= latLngVal ? latLngVal.split(',') : null,
+				
+				latLng		= latLngArr ? [latLngArr[0]*1, latLngArr[1]*1 ] : null,
+				
+				mapSettings = {
+				
+					id   : map,
+					
+					fullscreen : true,
+					
+					widgets : [
+						
+						{
+							
+							type : 'getcoordinates',
+							
+							title : 'Get Coordinates',
+							
+							active : 'true',
+							
+							control : {
+								
+								button : false
+								
+							},
+							
+							html : true,
+							
+							js : true,
+							
+							position : 'top',
+							
+							data : {
+								
+								parent_field_name : inputName,
+								
+								latLng 			   : latLng
+								
+							}
+							
+						}
+						
+					]
+					
+				}
+			
+			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
+				
+				mWindow = window;
+
+			//url = url+'&gis_map_settings='+encodeURI(JSON.stringify( mapSettings ));
+
+			$.IGRP.components.iframeNav.set({
+				
+				url    :url,
+				
+				clicked:p.clicked,
+				
+				params : {
+					
+					gis_map_settings : mapSettings
+					
+				}
+				
+			});
+			
+			return false;
+		};
 
 		changesrc.showContents = function(holder){
 
@@ -848,6 +929,13 @@
 				selectable : false
 
 			},		
+			
+			'gis:getCoordinates' : {
+				
+				label : 'Get Coordinates',
+				
+				action : gisGetCoords
+			},
 
 			
 			filter       : {
@@ -949,7 +1037,7 @@
 			configTargetsEvents();
 
 			/* target clicks controller */
-			doc.on('click','a[target], button[target]',function(e){
+			doc.on('click','a[target], button[target], [href][target]',function(e){
 				
 				e.preventDefault();
 				

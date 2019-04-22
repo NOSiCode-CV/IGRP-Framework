@@ -919,17 +919,18 @@ var GENERATOR = function(genparams){
 	}
 
 	GEN.getPageJSON = function(id,callback){
-		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';		
+		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';	
+		var req  = null;
 		if(id){
 			
-			$.getJSON(link+id,function(data){
+			req = $.getJSON(link+id,function(data){
+				
 				if(data){
 					
 					var containers = GEN.layout.getAllContainers(data.rows);
 					
-								console.log()
 					
-		if(callback) 
+					if(callback) 
 						
 						callback(containers,data);
 					
@@ -948,6 +949,8 @@ var GENERATOR = function(genparams){
 			});
 
 		}	
+		
+		return req;
 	}
 	//setContainerCopyOptions
 	var setContainerCopyOptions = function(object){
@@ -1005,7 +1008,7 @@ var GENERATOR = function(genparams){
 		var type      = p.type; 
 		var propriety = p.propriety;
 		var object    = p.object;
-
+		
 		var objectProperties = object.getPropertyOptions && object.getPropertyOptions(propriety) ? object.getPropertyOptions(propriety) : null;
 		var pLabel           = object.propertiesLabels[propriety] ? object.propertiesLabels[propriety] : capitalizeFirstLetter(propriety);
 		var size             = objectProperties && objectProperties.size ? objectProperties.size : object.proprieties[p.propriety].size ? object.proprieties[p.propriety].size : '6';
@@ -1040,26 +1043,48 @@ var GENERATOR = function(genparams){
 				var select   = $('<select'+canAdd+' name="edit-'+propriety+'" '+multiple+' rel="'+propriety+'" class="form-control '+VARS.edition.class.propSetter+'"/>');
 				var options  = typeof object.proprieties[propriety].options === 'function' ? object.proprieties[propriety].options() : object.proprieties[propriety].options;
 				
-				options.forEach(function(o){
+				var drawOptions = function(ops){
 					
-					var _label = o.label || o.text || "";
-					
-					var opt   = $('<option value="'+o.value+'">'+_label+'</option>'), 
-						selected;
-					if(Array.isArray(value))
-						value.forEach(function(v){
-							if(v == o.value)
+					ops.forEach(function(o){
+						
+						var _label = o.label || o.text || "";
+						
+						var opt   = $('<option value="'+o.value+'">'+_label+'</option>'), 
+							selected;
+						if(Array.isArray(value))
+							value.forEach(function(v){
+								if(v == o.value)
+									opt.attr('selected',true);
+							});
+						else{
+							if(value == o.value)
 								opt.attr('selected',true);
-						});
-					else{
-						if(value == o.value)
-							opt.attr('selected',true);
-					}
-					
-					
-					select.append(opt)
+						}
+						
+						
+						select.append(opt)
 
-				});
+					});
+					
+				}
+				
+				if(options.then){
+					
+					options.then(function(data){
+						
+						if(options.onFinish)
+							
+							drawOptions( options.onFinish(data) );
+						
+					})
+					
+				}else{
+					
+					drawOptions( options );
+					
+				}
+				
+				/**/
 				
 				holder.append(label);
 

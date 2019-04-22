@@ -6,7 +6,7 @@
 
 		layersOptions;
 
-	GEN.Request.get( path+'/core/formgen/types/containers/map_os/layers.list.json',{
+	GEN.Request.get( path+'/core/formgen/types/containers/map_os/layers.list.json', {
 
 		then : function(list){
 
@@ -83,8 +83,7 @@
 					{ path : '/plugins/gis/v2/modules/gis.layer.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widgets.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widget.js' },
-					{ path : '/plugins/gis/v2/modules/gis.panels.js' },
-					
+					{ path : '/plugins/gis/v2/modules/gis.panels.js' }
 
 				],
 				xsl : [ 'gis.map' ]

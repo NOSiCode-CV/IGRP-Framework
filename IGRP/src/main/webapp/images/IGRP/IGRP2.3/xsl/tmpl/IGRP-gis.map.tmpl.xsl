@@ -10,19 +10,17 @@
 
       <xsl:when test="$id">
 
-        <div class="igrp-map-os-wrapper show-layers" id="{$id}">
+        <div class="igrp-map-os-wrapper" id="{$id}">
          
-          <div class="gis-loading">
+          <!--  <div class="gis-loading">
             <div class="gis-spinner">
               <div class="bounce1"></div>
               <div class="bounce2"></div>
               <div class="bounce3"></div>
             </div>
-          </div>
+          </div>-->
 		
-		 <div class="gis-panel widget">
-		 	
-		 </div>
+		 <div class="gis-panel widget"></div>
 		
           <div class="gis-panel left">
             
@@ -34,10 +32,10 @@
                 <i class="fa fa-minus"></i>
               </button>
             </div>
-
+            
             <div class="btn-group-vertical gis-panel-inner" role="group" >
-              <button type="button" class="btn btn-default" rel="layers" text-color="primary">
-                <i class="fa fa-navicon"></i>
+              <button type="button" class="btn btn-default gis-layers-controller" rel="layers" text-color="primary">
+                <i class="fa fa-list"></i>
               </button>
               <div class="gis-panel-menu-content h-100 p-0" rel="layers">
                 <ul class="nav nav-tabs">
@@ -63,10 +61,16 @@
             
           </div>
 
-          <div class="gis-panel right">
-
-            
-            
+          <div class="gis-panel right"></div>
+          
+          <div class="gis-panel bottom">
+          	
+          	<div  type="button" class="btn-group-vertical gis-panel-inner" role="group">
+              <button class="gis-expand btn btn-default"  text-color="primary">
+	          	<i class="fa fa-expand"></i>
+	          </button>
+            </div>
+          
           </div>
           
           <div id="{$id}-map" class="gis-map-view" style="min-height:650px"></div>
@@ -74,6 +78,7 @@
           <xsl:if test="$data">
             <script>$('#<xsl:value-of select="$id"/>').data('config', JSON.parse('<xsl:value-of select="$data"/>'));</script>
           </xsl:if>
+          
         </div>
 
       </xsl:when>

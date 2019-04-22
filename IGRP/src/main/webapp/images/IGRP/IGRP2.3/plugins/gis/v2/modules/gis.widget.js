@@ -8,7 +8,9 @@
 			
 			events	  = new $.EVENTS(['activate','deactivate','load-html', 'ready']),
 			
-			_activated = false;
+			_activated = false,
+			
+			_htmlRequest = false;
 		
 		widget.html = "";
 		
@@ -39,10 +41,12 @@
 			if(!widget.actions[name])
 				
 				widget.actions[name] = function(){
-					
-					fnc();
+				
+					fnc(arguments[0], arguments[1], arguments[3]);
 					
 					events.execute('action-'+name );
+					
+					EvaluateStepsRules();
 				
 				};
 			
@@ -103,10 +107,12 @@
 							ConfigActions();
 							
 							ConfigSteps();
+							
+							events.execute('load-html', widget.html);
 
 							OpenWidgetPanel();
 							
-							events.execute('load-html', widget.html);
+							
 							
 						}
 					});
@@ -216,7 +222,7 @@
 				
 				panel.append(Templates.Widgets.panelTools());
 				
-				panel.on('click','.deactivate', widget.deactivate)
+				panel.on('click','.widget-deactivate', widget.deactivate);
 				
 			}
 		};
@@ -229,12 +235,18 @@
 			
 			},o);
 			
-			$.IGRP.request( GIS.path+'/widgets/'+widget.type()+'/'+widget.type()+'.widget.html',{
+			if(!_htmlRequest){
 				
-				success : _options.success
+				_htmlRequest = true;
 				
-			})
-			
+				$.IGRP.request( GIS.path+'/widgets/'+widget.type()+'/'+widget.type()+'.widget.html',{
+					
+					success : _options.success
+					
+				});
+				
+			}
+
 		};
 		
 		function GetWidgetCSS(){
@@ -394,14 +406,6 @@
 			
 			step.activate = function(){
 				
-				/*$(widget.html).find(':input[reset-on-step-activation="true"]').each(function(i, e){
-					
-					if( $(e).val() )
-						
-						$(e).val('');
-					
-				});*/
-				
 				EvaluateStepsRules();
 	
 				if(!rule){
@@ -462,6 +466,8 @@
 					}
 					
 				}
+				
+				step.eval();
 				
 			};
 

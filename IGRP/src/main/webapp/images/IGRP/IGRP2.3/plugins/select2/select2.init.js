@@ -59,6 +59,7 @@
                     var option = new Option(op.text,op.value);
 
                     if(op.selected)
+                    	
                         option.selected = true;
 
                     select.append(option);

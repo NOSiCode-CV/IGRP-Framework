@@ -4,9 +4,11 @@ var LOOKUPFIELD = function(type,params){
 	var field = this;
 	var GEN = VARS.getGen();
 	var proprieties = params.properties;
-
+	
 	field.includes = {
+			
 		js :[{path:'/plugins/lookup/igrp.lookup.js'}]
+	
 	}
 
 	field.ready = function(){

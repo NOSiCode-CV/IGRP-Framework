@@ -16,6 +16,7 @@
 					modal.addClass('loadingmodal');
 					
 					if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+						
 						modal.attr('close','refresh');
 	
 					var n_iframe = iframe.clone();
@@ -28,11 +29,16 @@
 
 						var contents = n_iframe.contents();
 						
+						if(p.params)
+							
+							contents[0].IGRPParams = p.params;
+
 						if(p.beforeLoad)
+							
 							p.beforeLoad(contents);
 
 						if(p.complete){
-							
+
 							contents.ready(function(){ //wait till page is ready;
 								
 								if($('body',contents)[0]){//hack - page is ready now!

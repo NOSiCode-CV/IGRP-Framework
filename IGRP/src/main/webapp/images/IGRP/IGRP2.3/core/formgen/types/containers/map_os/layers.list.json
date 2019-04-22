@@ -1,49 +1,69 @@
 [
+	
 	{
-        "id": 1,
-        "name": "Casa do Cidadão",
+        "id": 1956,
+        "name": "Foco Mosquito",
         "options": {
             "layers": "INSP_GIS:insp_foco_mosquito"
         },
         "type": "WMS",
         "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS/wms"
     },
+    
     {
-        "id": 15,
-        "name": "Casa do Cidadão",
+        "id": 1505,
+        "name": "Balcão Nacional",
         "options": {
-            "typeName": "INSP_GIS:insp_foco_mosquito"
-        },
-        "type": "WFS",
-        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/INSP_GIS/ows"
-    },
-	{
-        "id": 2,
-        "name": "Divisão Administrativa",
-        "options": {
-            "typeName": "Divisao_Administrativa:divisao_admin"
+            "typeName": "Divisao_Administrativa:casa_cidadao_balcao_nacional"
         },
         "type": "WFS",
         "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
     },
-	{
-        "id": 3,
-        "name": "Central Park",
+    
+    {
+        "id": 15051,
+        "name": "Balcão Nacional WMS",
         "options": {
-            "layers": "tiger:poly_landmarks"
+            "layers": "Divisao_Administrativa:casa_cidadao_balcao_nacional"
         },
-        "type": "WMS",
-        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/tiger/wms"
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
     },
     
     {
-        "id": 7,
-        "name": "Manhattan (NY) roads",
+        "id": 5,
+        "name": "Casa Cidadão Nacional",
         "options": {
-            "typeName": "tiger:tiger_roads"
+            "typeName": "Divisao_Administrativa:casa_cidadao_nacional"
         },
         "type": "WFS",
-        "url": " https://rai-tst-osg-02.gov.cv:8443/geoserver/tiger/ows"
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+    {
+        "id": 6,
+        "name": "Casa Cidadão Diáspora ",
+        "options": {
+            "typeName": "Divisao_Administrativa:casa_cidadao_diaspora"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
+    },
+    {
+        "id": 4,
+        "name": "Divião Administrativa WMS",
+        "options": {
+            "layers": "Divisao_Administrativa:divisao_admin"
+        },
+        "type": "WMS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/wms"
+    },
+    {
+        "id": 7,
+        "name": "Divisão Administrativa de Cabo Verde WFS",
+        "options": {
+            "typeName": "Divisao_Administrativa:Limites CV"
+        },
+        "type": "WFS",
+        "url": "https://rai-tst-osg-02.gov.cv:8443/geoserver/Divisao_Administrativa/ows"
     }
-
 ]

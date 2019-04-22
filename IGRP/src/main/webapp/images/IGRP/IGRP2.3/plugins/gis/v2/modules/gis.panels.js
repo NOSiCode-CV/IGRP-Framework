@@ -32,7 +32,7 @@
 
 				active =  $.IGRP.store.get('GIS.PANELS:'+id+':'+rel) == 'true';
 
-			$(this).click();
+			//$(this).click();
 
 		});
 

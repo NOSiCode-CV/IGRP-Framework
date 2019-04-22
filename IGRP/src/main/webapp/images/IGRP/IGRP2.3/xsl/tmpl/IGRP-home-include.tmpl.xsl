@@ -95,8 +95,12 @@
     <script>
       
       $(document).ready( function(){
+      
+      	console.log('ready');
       	
       	$.IGRP.init( );
+      	
+      
       
       });
     </script>

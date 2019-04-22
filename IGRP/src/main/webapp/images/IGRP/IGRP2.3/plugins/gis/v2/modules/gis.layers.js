@@ -10,7 +10,7 @@
 
 			viewer     = app.viewer(),
 
-			Groups     = [];
+			Groups     = [],
 
 			AllLayers  = [];
 
@@ -193,6 +193,10 @@
 			if(groupLayers && groupLayers[0])
 
 				Layers.addGroups( groupLayers );
+			
+			/*else
+				
+				$('.gis-layers-controller', app.dom).hide();*/
 
 			Controllers();
 

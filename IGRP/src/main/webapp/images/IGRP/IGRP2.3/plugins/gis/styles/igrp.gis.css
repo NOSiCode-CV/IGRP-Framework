@@ -17,7 +17,11 @@
 	background:white;
 }
 
-.gis-full-screen{
+.gis-btn{
+	
+}
+
+/*.gis-full-screen{
   position: fixed;
   top: 0;
   left:0;
@@ -28,6 +32,24 @@
 }
 .gis-full-screen .gis-map-view,
 .gis-full-screen .igrp-map-os-wrapper{
+  height: 100%;
+}*/
+
+.igrp-map-os-wrapper.expand{
+  position: fixed;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  z-index: 1002
+}
+
+.igrp-map-os-wrapper.expand .gis-map-view{
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 100%;
   height: 100%;
 }
 
@@ -109,11 +131,22 @@
   right: 0;
 }
 
+.gis-panel.bottom{
+  bottom: 0;
+  right: 0;
+  top: auto;
+}
+
+.gis-panel.bottom .gis-panel-inner {
+	margin-bottom:0;
+}
 
 .gis-widget-panel{
 	box-shadow:0px 0px 5px 1px rgba(0, 0, 0, 0.15);
 	padding:0;
-	background:rgba(255,255,255,.9)
+	background:rgba(255,255,255,.9);
+	position:relative;
+	min-width:300px
 }
 
 .gis-widget-panel-title{
@@ -195,7 +228,7 @@
 
 .gis-panel .gis-panel-inner>.btn{
   	border-radius: 0!important;
-    padding: 6px 12px;
+    padding: 5px 10px;
     margin-bottom: 1px!important;
     border: 0!important;
     border-radius: 0!important;
@@ -316,10 +349,6 @@
   position: relative;
 }
 
-.gis-widget-panel{
-	position:relative;
-}
-
 .gis-widget-panel-tools{
 	position: absolute;
     z-index: 10;
@@ -331,6 +360,11 @@
 	font-size: 14px;
     color: inherit;
     margin-left: 8px;
+    color:#a6a6a6
+}
+
+.gis-widget-panel-tools a:hover{
+	color:#616a78
 }
 
 /* Switch  */

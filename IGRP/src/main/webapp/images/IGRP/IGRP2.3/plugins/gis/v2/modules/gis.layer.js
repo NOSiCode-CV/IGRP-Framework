@@ -7,8 +7,6 @@
 	var Classes = {
 
 		WMS : function(data, app){
-
-			console.log(app.viewer())
 			
 			var layer   = null,
 			

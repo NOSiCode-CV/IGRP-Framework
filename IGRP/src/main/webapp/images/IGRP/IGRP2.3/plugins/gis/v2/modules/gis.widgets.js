@@ -32,6 +32,83 @@
 			
 		};
 		
+		function CheckURLWidgets(){
+			
+			var params = $.IGRP.utils.url.getParams();
+			
+			if(params.gis_map_settings){
+				
+				try{
+					
+					var mapSettingsStr = decodeURIComponent(params.gis_map_settings),
+					
+						mapSettings    = JSON.parse(mapSettingsStr);
+				
+					console.log(mapSettings )
+					
+				}catch(err){
+					
+					console.log(err);
+					
+				}
+	
+			}
+			
+			/*if(params.gislocator == "1" && params.gislocatormap && params.gislocatormap == app.id){
+				
+				try{
+					
+					Widgets.add( {
+						
+						type : 'getcoordinates',
+						
+						title : 'Get Coordinates',
+						
+						active : 'true',
+						
+						control : {
+							
+							button : false
+							
+						},
+						
+						js : true,
+						
+						position : 'top'
+						
+					} );
+					
+				}catch(err){
+					
+					console.log(err)
+				}
+				
+				
+				
+			}/*
+			
+			//if(params.)
+			
+			/*
+			 * 
+			    
+			    active: true
+				control: {button: false}
+				css: true
+				data: {layers: Array(2)}
+				html: true
+				icon: "fa-search"
+				js: true
+				name: "pesquisar"
+				position: "top"
+				title: "Pesquisar"
+				type: "search"
+	
+			 
+			 * */
+			
+		};
+		
 		Widgets.toggle = function(id){
 			
 			var widget = Widgets.get( id );
@@ -79,7 +156,7 @@
 		};
 
 		(function(){
-		
+			
 			if(widgets && widgets[0])
 
 				Widgets.add( widgets );

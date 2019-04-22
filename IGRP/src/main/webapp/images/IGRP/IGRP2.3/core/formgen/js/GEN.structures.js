@@ -687,6 +687,7 @@ var GENSTRUCTURES = function(GEN){
 			});
 		else
 			for(var name in field.proprieties){
+				
 				if(validAttrArr(name)){
 
 					if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
@@ -720,6 +721,9 @@ var GENSTRUCTURES = function(GEN){
 
 		if(field.xml.desc)
 			arr+=' desc="true"';
+		
+		if(field.xml.lookup)
+			arr+=' lookup="true"';
 
 		return arr;
 	}
@@ -730,21 +734,25 @@ var GENSTRUCTURES = function(GEN){
 		
 			isTable = f.parent.GET.type() == 'formlist' ? 'is-table="true"' : '';
 		
-		rtn+='<lookupParams '+isTable+'>';
-		
-		f.GET.lookupParams().forEach(function(lp){
+		if(f.GET.lookupParams){
 			
-			var target = lp.name || lp.target_field,
-				value = lp.value || lp.value_field;
+			rtn+='<lookupParams '+isTable+'>';
 			
-				if( target || value )
+			f.GET.lookupParams().forEach(function(lp){
 				
-					rtn+='<param field-target="'+target+'">'+value+'</param>';
+				var target = lp.name || lp.target_field,
+					value = lp.value || lp.value_field;
+				
+					if( target || value )
+					
+						rtn+='<param field-target="'+target+'">'+value+'</param>';
+				
+			});
 			
-		});
-		
-		rtn+='</lookupParams>';
-		
+			rtn+='</lookupParams>';
+			
+		}
+
 		return rtn;
 	
 	}

@@ -28,8 +28,9 @@
       <xsl:param name="ad_hoc" select="'0'" />
       <xsl:param name="input-id" select="$name"/>
       <xsl:param name="btnClass" select="'default'"/>
+      <xsl:param name="lookupClass" select="''"/>
       
-      <span href="#" input-rel="{$input-id}" class="input-group-btn gen-date-icon IGRP_lookupPopup" ctx_param="{$name}">
+      <span href="#" input-rel="{$input-id}" class="input-group-btn gen-date-icon IGRP_lookupPopup {$lookupClass}" ctx_param="{$name}">
         <xsl:call-template name="page-nav">
            <xsl:with-param name="action" select="$action" />
            <xsl:with-param name="page" select="$page" />
@@ -40,6 +41,32 @@
             <i class="fa fa-search"></i>
           </span>
       </span>
+      
+  </xsl:template>
+  
+  <!--locator BUTTON-->
+  <xsl:template name="locator-tool">  
+      <xsl:param name="page" select="'LOOKUP'" />
+      <xsl:param name="action" select="''" />
+      <xsl:param name="name" select="''" />
+      <xsl:param name="js_lookup" select="''" />    
+      <xsl:param name="ad_hoc" select="'0'" />
+      <xsl:param name="input-id" select="$name"/>
+      <xsl:param name="btnClass" select="'default'"/>
+      <xsl:param name="mapName" select="''"/>
+      
+      <span href="#" input-rel="{$input-id}" class="gis-locator input-group-btn" input-name="{$name}" target="gis:getCoordinates" map-name="{$mapName}">
+        <xsl:call-template name="page-nav">
+           <xsl:with-param name="action" select="$action" />
+           <xsl:with-param name="page" select="$page" />
+           <xsl:with-param name="linkextra" select="$js_lookup" />
+           <xsl:with-param name="ad_hoc" select="$ad_hoc" />
+          </xsl:call-template> 
+          <span class="btn btn-{$btnClass}">
+            <i class="fa fa-search"></i>
+          </span>
+      </span>
+      
   </xsl:template>
 
   <xsl:template mode="row-hidden-fields" match="*">

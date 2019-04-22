@@ -279,7 +279,7 @@
 				if(data.layers && data.layers[0]){
 					
 					data.layers.forEach(function(l){
-				
+						
 						var layer = app.layers.get( l.layer );
 			
 						if(layer){

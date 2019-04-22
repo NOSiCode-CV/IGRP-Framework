@@ -134,7 +134,7 @@
 				
 				return '<div class="gis-widget-panel-tools">'+
 							//'<a class="minimize" href="#" target="void"><i class="fa fa-caret-square-o-down"></i></a>'+
-							'<a class="deactivate" href="#" target="void"><i class="fa fa-minus"></i></a>'+
+							'<a class="widget-deactivate" href="#" target="void"><i class="fa fa-times-circle"></i></a>'+
 					   '</div>';
 				
 			}

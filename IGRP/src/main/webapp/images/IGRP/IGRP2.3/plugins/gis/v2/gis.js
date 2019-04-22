@@ -20,7 +20,13 @@
 
 				widgets : []
 
-			}, data );
+			}, data ),
+			
+			urlMapSettings = GetURLMapSettings(id);
+			
+		if(urlMapSettings)
+			
+			config = $.extend( config, urlMapSettings );
 
 		app.dom    = dom;
 		
@@ -38,18 +44,13 @@
 		
 		app.addWidgetButton = function(btn){
 			
-			//$('.gis-widgets-controller', app.dom).append(btn);
-			
 			$('.gis-widgets-controller', app.dom).append(btn);
 
-			
 		};
 
 		if(modules.Map){
 
 			app.map = new modules.Map( app, config );
-			
-			//$('.leaflet-top.leaflet-right', app.dom).append('<div class="gis-widgets-controller"/>');
 
 			if(modules.BaseMaps)
 
@@ -66,16 +67,39 @@
 			if(modules.Panels)
 
 				app.panels = new modules.Panels(dom);
-			
-			
-
 		};
 
 		return app;
 
 	};
 	
-	console.log($.IGRP.path)
+	function GetURLMapSettings(id){
+		
+		var params = document.IGRPParams || $.IGRP.utils.url.getParams(),
+		
+			settings = null;
+
+		if(params.gis_map_settings){
+			
+			try{
+				
+				var mapSettings    = params.gis_map_settings;
+			
+				if( mapSettings && mapSettings.id == id )
+					
+					settings = mapSettings;
+
+			}catch(err){
+				
+				console.log(err);
+				
+			}
+
+		}
+		
+		return settings;
+		
+	};
 
 	window.GIS = $.IGRP.component('GIS',{
 		
@@ -121,9 +145,11 @@
 		},
 
 		init : function(elements){
-
+			
 			elements = elements || $('.igrp-map-os-wrapper');
-
+			
+			console.log(elements);
+			
 			elements.each(function(i, e){
 				
 				GIS.maps.push( new MapController(e) );
@@ -133,12 +159,17 @@
 		}
 
 	});
-
-	$.IGRP.on('init', function(){
-
-		GIS.init();
-
-	} );
+	
+	
+	$(window).load(function(){
+		
+		setTimeout(function(){
+			
+			GIS.init();
+			
+		},2);
+		
+	});
 	
 
 })();
