@@ -189,6 +189,17 @@
   				$.IGRP.utils.getForm().unbind('submit');
 
   			},
+  			
+  			hasFieldsError : function(){
+  				if($(':input[required].error')[0]){
+					var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
+					
+					if(tab[0]){
+						var pre = tab.hasClass('panel-collapse') ? 'pnl-' : '';
+						$('[rel="'+pre+tab.attr('id')+'"] a').click();
+					}
+				}
+			},
 
   			change:function(o){
   				
@@ -262,6 +273,8 @@
   			init:function(){
   				//TEXTEDITOR
 				$.IGRP.components.form.texteditor();
+				//FIELDS ERROR 
+				$.IGRP.components.form.hasFieldsError();
 				//LOOKUP
 				$.IGRP.components.form.lookup.config();
   				/*FILE INPUT*/

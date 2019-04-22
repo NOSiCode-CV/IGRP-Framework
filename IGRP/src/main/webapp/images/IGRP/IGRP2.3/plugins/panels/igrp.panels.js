@@ -54,6 +54,13 @@
 			$.IGRP.store.unset( pageInfo+'::'+panelName );
 
 		});
+		
+		$.IGRP.on('submit',function(o){
+
+			if(!o.valid)
+	
+				$.IGRP.components.form.hasFieldsError();
+		});
 
 	})
 

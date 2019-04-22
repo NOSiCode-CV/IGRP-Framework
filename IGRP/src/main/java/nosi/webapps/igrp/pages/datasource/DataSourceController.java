@@ -259,14 +259,13 @@ public class DataSourceController extends Controller {
 	}
 	
 	public String getDSPageOrTask(String type,String app,String page,String action,String title) {
-		XMLExtractComponent comp = new XMLExtractComponent();
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 		xml.setElement("title", title);
 		this.addQueryString("current_app_conn", app);
 		String content = this.call(app,page,action,this.queryString()).getContent();
 		Core.removeAttribute("current_app_conn");
-		content = comp.extractXML(content);
+		content = XMLExtractComponent.extractXML(content);
 		List<Field> list = this.getDefaultFields();
 		if(type.equalsIgnoreCase("task")) {
 			list = getDefaultFieldsWithProc();
@@ -307,11 +306,15 @@ public class DataSourceController extends Controller {
 
 		Field organization = new TextField(null,"p_organization");
 		organization.setLabel(Core.gt("orgânica atual"));
-		organization.setValue(new Organization().findOne(Core.getCurrentOrganization()).getName());
+		Organization org = new Organization().findOne(Core.getCurrentOrganization());
+		if(org!=null)
+			organization.setValue(org.getName());
 
 		Field profile = new TextField(null,"p_profile");
 		profile.setLabel(Core.gt("perfil atual"));
-		profile.setValue(new ProfileType().findOne(Core.getCurrentProfile()).getDescr());
+		ProfileType prof = new ProfileType().findOne(Core.getCurrentProfile()); 
+		if(prof!=null)
+			profile.setValue(prof.getDescr());
 		
 		fields.add(user_atual);
 		fields.add(data_atual);

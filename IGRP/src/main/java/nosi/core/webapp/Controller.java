@@ -23,6 +23,7 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.bpmn.BPMNButton;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
@@ -31,7 +32,6 @@ import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.core.webapp.webservices.helpers.FileRest;
-import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -178,22 +178,22 @@ public class Controller{
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}		
 		
-		XMLExtractComponent comp = new XMLExtractComponent();
 		String content = this.view.getPage().renderContent(false);
-		content = comp.removeXMLButton(content);
+		content = BPMNButton.removeXMLButton(content);
 		XMLWritter xml = new XMLWritter("rows",this.config.getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 //		xml.addXml(new BPMNTimeLine().get().toString());
 		if(Core.isNotNull(p_processId)) {
-			xml.addXml(comp.generateButtonProcess(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
+			xml.addXml(BPMNButton.generateButtonProcess(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 		}
 		if(Core.isNull(saveButton) && Core.isNotNull(taskId)) {
-			xml.addXml(comp.generateButtonTask(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+			xml.addXml(BPMNButton.generateButtonBack().toString());
+			xml.addXml(BPMNButton.generateButtonTask(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 		}
 		if(Core.isNotNull(backButton) && Core.isNotNull(taskId)) {
-			xml.addXml(comp.generateBackButtonTask("igrp","ExecucaoTarefas","executar_button_minha_tarefas",taskId).toString());
+			xml.addXml(BPMNButton.generateButtonBack().toString());
 		}
 		ViewTaskDetails details = this.getTaskDetails(taskId);
 		xml.addXml(this.getTaskViewDetails(details));

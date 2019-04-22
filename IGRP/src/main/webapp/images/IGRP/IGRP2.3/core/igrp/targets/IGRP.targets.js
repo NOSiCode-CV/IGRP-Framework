@@ -140,7 +140,8 @@
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo);
 				arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
-				pArrayItem  = sform.find('*').not(".notForm").serializeArray();
+				pArrayItem  = sform.find('*').not(".notForm").serializeArray(),
+				events 		= p.clicked[0].events;
 				
 			if (fields.valid()) {
 				
@@ -151,6 +152,14 @@
 					clicked    : p.clicked,
 					url  	   : action
 				});
+				
+				if(events){
+					events.execute('before-submit_ajax',{
+						pArrayItem : pArrayItem,
+						clicked    : p.clicked,
+						url  	   : action
+					});
+				}
 				
 				$.IGRP.utils.submitStringAsFile({
 					pParam 		: {
@@ -216,18 +225,74 @@
 
 						$('#igrp-debugger .igrp-debug-list').html(debug);
 
-						if(p.clicked[0].events)
-							p.clicked[0].events.execute('submit-ajax-complete',{
+						ev.execute('submit-ajax-complete',{
+							xml : xml
+						});
+
+						if(events){
+
+							events.execute('success-submit_ajax',{
 								xml : xml
 							});
+						}
 					}
 				});
 			}else{
-				$.IGRP.components.tabcontent.hasFieldsError();
+					$.IGRP.components.form.hasFieldsError();
 
-				$.IGRP.scrollTo($(':input[required].error:first'));
+					$.IGRP.scrollTo($(':input[required].error:first'));
 				}
 		};
+		
+		var submitpage2file = function(p){
+			var sform     	= $.IGRP.utils.getForm(),
+				fields    	= $.IGRP.utils.getFieldsValidate(sform),
+				events 		= p.clicked[0].events;;
+
+			if (fields.valid()) {
+				
+				$.IGRP.utils.loading.show();
+
+				if(events){
+					events.execute('before-submitpage2file',{
+						fields 	: fields,
+						clicked : p.clicked,
+						url  	: p.url
+					});
+				}
+
+				$.IGRP.utils.submitPage2File.onSubmit({
+					url 			: p.url,
+					serialize   	: sform,
+					//fileName    	: 'p_igrpfile',
+					//contentType 	: 'plain/xml',
+					//format		: 'xml',
+					//notify 		: true,
+					complete    	: function(resp){
+						if(events){
+							events.execute('success-submitpage2file',{
+								resp 	: resp
+							});
+						}
+					}
+				});
+
+				if(events){
+					events.execute('after-submitpage2file',{
+						fields 	: fields,
+						clicked : p.clicked,
+						url  	: p.url
+					});
+				}
+			}else{
+				
+				$.IGRP.components.form.hasFieldsError();
+
+				$.IGRP.scrollTo($(':input[required].error:first'));
+			}
+		};
+		
+		
 		//filter
 		var filter       = function(p){
 
@@ -342,15 +407,18 @@
 		};
 
 		//blank (popup)
-		var mWindow = null;
+		var mWindow = null,
+			mUrl 	= null;
 		
 		var modal       = function(p){
 			
 			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)
 				
-				mWindow = window;
+				mWindow = mWindow ? mWindow : window;
 		
 			var url = setTargetParameter(p.url);
+			
+			mUrl = url;
 			
 			$.IGRP.components.iframeNav.set({
 				url    :url,
@@ -365,7 +433,11 @@
 				
 				mWindow = window;
 			
-			p.url = setTargetParameter(p.url);
+			var url = setTargetParameter(p.url);
+			
+			p.url = url;
+			
+			mUrl = url;
 
 			$.IGRP.components.rightPanel.set(p);
 			
@@ -483,12 +555,18 @@
 
 					_window = popup || window.parent,
 
-					_window = _window.frames['head_filho'] || _window;
+					_window = _window.frames['head_filho'] || _window,
+					url 	= null;
 
 				if (mWindow) {
 					_window = mWindow;
 					popup 	= false;
 					mWindow = null;
+					
+					if(mUrl){
+						url 	= mUrl;
+						mUrl 	= null;
+					}
 				}
 				
 				if(popup)
@@ -508,7 +586,7 @@
 				}*/
 				
 				_window.$.IGRP.targets.submit.action({
-					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href,
+					url 	 : $('#p_env_frm_url',$(_window.document.forms[0])).val() || url,
 					validate : false
 				});
 					
@@ -528,6 +606,10 @@
 			//submit ajax
 			$.each($('a[target], button[target]'),function(i,e){
 				e.events = $.EVENTS(['submit-ajax-complete','submit-ajax-error']);
+				
+				var target = $(e).attr('target');
+				
+				e.events.declare(['before-'+target,'success-'+target,'after-'+target]);
 			});
 		};
 
@@ -742,6 +824,12 @@
 
 				action : submit_ajax
 
+			},
+			
+			submitpage2file : {
+				label : 'Submit Page to File',
+
+				action : submitpage2file
 			},
 
 			alert_submit : {

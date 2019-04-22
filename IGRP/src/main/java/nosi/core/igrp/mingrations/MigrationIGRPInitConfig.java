@@ -29,9 +29,6 @@ public class MigrationIGRPInitConfig {
 		Application app_igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "<code/> {Developers}", 1, null,"igrp_studio");
 		app_igrp_studio = app_igrp_studio.insertOnly();
 		
-		Application db_kriol = new Application("kriol_db", "KRIOL DB", "default.svg", " ", 1, null,"kriol_db");
-		db_kriol = db_kriol.insertOnly();
-		
 		if(app_igrp!=null){
 			Config config = new Config("url_ativiti_connection", "http://localhost:8080/activiti-rest/service/");
 			config.insert();

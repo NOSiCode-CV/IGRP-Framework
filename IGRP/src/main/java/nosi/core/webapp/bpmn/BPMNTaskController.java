@@ -27,7 +27,6 @@ import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
-import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.Action;
@@ -71,19 +70,18 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		String p_processId = Core.getParam("p_processId");		
 		
 		if(Core.isNotNull(appId) && Core.isNotNull(formKey)) {
-			XMLExtractComponent comp = new XMLExtractComponent();
 			Action action = new Action().find().andWhere("application", "=",Core.toInt(appId)).andWhere("page", "=",formKey).one();
 			Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
-			String content = comp.removeXMLButton(resp.getContent());
+			String content = BPMNButton.removeXMLButton(resp.getContent());
 			XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formKey+"&amp;app="+appId, "utf-8");
 			xml.addXml(this.getConfig().getHeader(null));
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
 			if(Core.isNotNull(p_processId)) {
-				xml.addXml(comp.generateButtonProcess(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
+				xml.addXml(BPMNButton.generateButtonProcess(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
 			}
 			if(Core.isNotNull(taskId)) {
-				xml.addXml(comp.generateButtonTask(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+				xml.addXml(BPMNButton.generateButtonTask(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
 			}
 			xml.addXml(content);
 			xml.addXml(BPMNHelper.addFileSeparator(appDad,processDefinition,taskDefinition,null));
