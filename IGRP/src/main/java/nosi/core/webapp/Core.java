@@ -91,6 +91,7 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.TipoDocumento;
 import nosi.webapps.igrp.dao.Transaction;
 
 /**
@@ -3190,5 +3191,13 @@ public final class Core { // Not inherit
 		ProfileType prof = new ProfileType().findByCode(codeProf);
 		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, null,ActivityEcexuteType.LOCK);
 		a.insert();
+	}
+	
+	public static List<TipoDocumento> findDocumentTypeByApp(String dad){
+		return new TipoDocumento().find().where("application.dad","=",dad).all();
+	}
+	
+	public static List<TipoDocumento> findDocumentTypeByApp(){
+		return new TipoDocumento().find().where("application.dad","=",Core.getCurrentDadParam()).all();
 	}
 }
