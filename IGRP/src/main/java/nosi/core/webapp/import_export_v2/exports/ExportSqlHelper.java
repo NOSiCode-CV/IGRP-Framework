@@ -70,10 +70,28 @@ public class ExportSqlHelper {
 				view.table_others_class.setVisible(true);
 				this.loadOthersClassData(model);
 			}
+			else if(t==OptionsImportExport.DOCUMENT_TYPE.getValor()) {
+				view.table_doc_type.setVisible(true);
+				this.loadDocTypeData(model);
+			}
 	//		else if(t==ExportTypes.SERVICE.getValor()) {
 	//			this.loadServiceData(model);
 	//		}
 		}
+	}
+
+
+
+
+
+
+
+	private void loadDocTypeData(Wizard_export_step_2 model) {
+		String sql = "SELECT id as tipo_doc_ids,id as tipo_doc_ids_check, concat(codigo,' - ',descricao) as descricao_tipo_doc "
+				   + "FROM tbl_tipo_documento "
+				   + "WHERE status=1 AND env_fk=:application_id";
+		model.loadTable_doc_type(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
+	
 	}
 
 
