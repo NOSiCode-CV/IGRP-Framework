@@ -10,6 +10,7 @@ import nosi.core.webapp.import_export_v2.imports.application.ApplicationImport;
 import nosi.core.webapp.import_export_v2.imports.bpmn.BpmnImport;
 import nosi.core.webapp.import_export_v2.imports.connection.ConnectionImport;
 import nosi.core.webapp.import_export_v2.imports.dao.DaoImport;
+import nosi.core.webapp.import_export_v2.imports.dcument_type.ImportDocumentType;
 import nosi.core.webapp.import_export_v2.imports.domain.DomainImport;
 import nosi.core.webapp.import_export_v2.imports.menu.MenuImport;
 import nosi.core.webapp.import_export_v2.imports.modulo.ModuloImport;
@@ -90,7 +91,11 @@ public class ImportHelper {
 			DomainImport domain = new DomainImport(application);
 			domain.deserialization(this.getJsonContent(OptionsImportExport.DOMAIN.getFileName()));
 			imp.add(domain);
-						
+			
+			ImportDocumentType doctype = new ImportDocumentType(application);
+			doctype.deserialization(this.getJsonContent(OptionsImportExport.DOCUMENT_TYPE.getFileName()));
+			imp.add(doctype);
+			
 			imp.execute();
 		}else {
 			imp.addError(Core.gt("Ocorreu um erro ao ler o ficheiro"));

@@ -88,7 +88,7 @@ public class Wizard_export_step_2Controller extends Controller {
 		this.addQueryString("dad", "igrp_studio");
 		this.addQueryString("p_application_id", model.getApplication_id());
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		return this.redirect("igrp_studio","Wizard_export_step_1","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
