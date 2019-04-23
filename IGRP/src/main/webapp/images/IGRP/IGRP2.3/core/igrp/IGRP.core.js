@@ -704,8 +704,7 @@
 				      	if (hasChild) {
 				        	for (var m in v) {
 				          		if (m=="name") {
-				          			var val = $('<textarea/>').html(v['value']).text();
-				            		xml += "<" + v[m] + ">" + val + "</" + v[m] + ">";
+				            		xml += "<" + v[m] + ">" + $.IGRP.utils.htmlEncode(v['value']) + "</" + v[m] + ">";
 				          		}
 				        	}
 				      	}
@@ -719,7 +718,7 @@
 			},
 			creatFiles2Submit : function(p){
 				var obj  = [],
-					xml  = p.serialize.find('*').not(p.notSerialize).serializeArray();
+					xml  = p.serialize.find('*').not(p.notSerialize).not('[name="p_env_frm_url"]').serializeArray();
 
 				xml = '<?xml version="1.0" encoding="UTF-8"?><content>'+
 					$.IGRP.utils.submitPage2File.json2xml(xml)+'</content>';

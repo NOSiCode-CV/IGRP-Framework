@@ -88,20 +88,20 @@ $(function(){
 		},
 		lookupEraser : function(){
 			$('body').on('click','.lookup-eraser',function(){
-				var holder = $(this).parents('.input-group:first'),
-					href   = $('.IGRP_lookupPopup',holder).attr('href');
+				var lookup = $('.IGRP_lookupPopup',$(this).parents('.input-group:first')),
+					lclass = 'eraser-'+lookup.attr('input-rel');
 				try{
 					
-					var param = $.IGRP.utils.url.getParam('jsonLookup',href);
+					var param = $.IGRP.utils.url.getParam('jsonLookup',lookup.attr('href'));
 					
 					if(param){
 						param = JSON.parse(decodeURIComponent(param));
 						
 						for(var name in param){
-							$('[name="'+name+'"]').addClass('lookuperaser');
+							$('[name="'+name+'"]').addClass(lclass);
 						}
 
-						$.IGRP.utils.resetFieldsSelector($(".lookuperaser"));
+						$.IGRP.utils.resetFieldsSelector($("."+lclass));
 						
 					}
 
