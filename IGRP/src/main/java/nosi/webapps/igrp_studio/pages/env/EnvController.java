@@ -615,8 +615,10 @@ public class EnvController extends Controller {
 			if(baseUrl == null || baseUrl.isEmpty())
 				throw new Exception("Invalid url ...");
 			
-			String endpoint = baseUrl + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
+			User u = Core.getCurrentUser();
+			String endpoint = baseUrl  + "?_t=" + Base64.getEncoder().encodeToString((u.getUser_name() + ":" + u.getValid_until()).getBytes());
 			
+			/*String endpoint = baseUrl + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
 			try {
 				
 				String sessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
@@ -629,7 +631,7 @@ public class EnvController extends Controller {
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
-			}
+			}*/
 			
 			URL url = new URL(endpoint);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
