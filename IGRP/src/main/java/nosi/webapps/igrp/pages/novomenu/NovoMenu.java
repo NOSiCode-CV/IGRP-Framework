@@ -1,5 +1,10 @@
 package nosi.webapps.igrp.pages.novomenu;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
@@ -15,9 +20,9 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_titulo")
 	private String titulo;
 	@RParam(rParamName = "p_status")
-	private int status;
+	private Integer status;
 	@RParam(rParamName = "p_status_check")
-	private int status_check;
+	private Integer status_check;
 	@RParam(rParamName = "p_extra")
 	private String extra;
 	@RParam(rParamName = "p_self_id")
@@ -29,9 +34,9 @@ public class NovoMenu extends Model{
 	@RParam(rParamName = "p_link")
 	private String link;
 	@RParam(rParamName = "p_flg_base")
-	private int flg_base;
+	private Integer flg_base;
 	@RParam(rParamName = "p_flg_base_check")
-	private int flg_base_check;
+	private Integer flg_base_check;
 	@RParam(rParamName = "p_area")
 	private String area;
 	@RParam(rParamName = "p_img_src")
@@ -76,16 +81,16 @@ public class NovoMenu extends Model{
 		return this.titulo;
 	}
 	
-	public void setStatus(int status){
+	public void setStatus(Integer status){
 		this.status = status;
 	}
-	public int getStatus(){
+	public Integer getStatus(){
 		return this.status;
 	}
-	public void setStatus_check(int status_check){
+	public void setStatus_check(Integer status_check){
 		this.status_check = status_check;
 	}
-	public int getStatus_check(){
+	public Integer getStatus_check(){
 		return this.status_check;
 	}
 	
@@ -124,16 +129,16 @@ public class NovoMenu extends Model{
 		return this.link;
 	}
 	
-	public void setFlg_base(int flg_base){
+	public void setFlg_base(Integer flg_base){
 		this.flg_base = flg_base;
 	}
-	public int getFlg_base(){
+	public Integer getFlg_base(){
 		return this.flg_base;
 	}
-	public void setFlg_base_check(int flg_base_check){
+	public void setFlg_base_check(Integer flg_base_check){
 		this.flg_base_check = flg_base_check;
 	}
-	public int getFlg_base_check(){
+	public Integer getFlg_base_check(){
 		return this.flg_base_check;
 	}
 	

@@ -61,7 +61,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Anim iste aliqua iste ut</value>
+                    <value>Lorem stract deserunt ut totam</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Totam perspiciatis sit lorem labore</value>
+                    <value>Sit labore amet lorem sed</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -85,7 +85,7 @@
                         </rule>
                     </rules>
                 </page>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </status>
@@ -93,14 +93,14 @@
                     <label>Gen Auto Code</label>
                     <value>1</value>
                 </gen_auto_code>
-                <publico name="p_publico" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
+                <publico name="p_publico" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="short" check="true">
                     <label>Publico</label>
                     <value>1</value>
                     <rules/>
                 </publico>
                 <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="true">
                     <label>Public Link</label>
-                    <value>Aperiam sit mollit anim natus</value>
+                    <value>Omnis magna sed perspiciatis iste</value>
                 </public_link>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
                     <label></label>
@@ -127,7 +127,7 @@
                         </option>
                     </list>
                 </env_fk>
-                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
+                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="int" check="true">
                     <label>Componente?</label>
                     <value>1</value>
                     <rules/>
@@ -167,7 +167,7 @@
                         </option>
                     </list>
                 </modulo>
-                <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="">
+                <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="" refresh_submit="false">
                     <label>Módulo</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </novo_modulo>

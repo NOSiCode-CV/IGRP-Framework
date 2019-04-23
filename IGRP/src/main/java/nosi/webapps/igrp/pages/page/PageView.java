@@ -6,6 +6,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class PageView extends View {
 
@@ -75,7 +77,7 @@ public class PageView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Gen Auto Code"));
@@ -83,7 +85,7 @@ public class PageView extends View {
 		
 		publico = new CheckBoxField(model,"publico");
 		publico.setLabel(gt("Publico"));
-		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","short").add("check","true");
 		
 		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
@@ -99,7 +101,7 @@ public class PageView extends View {
 		
 		componente = new CheckBoxField(model,"componente");
 		componente.setLabel(gt("Componente?"));
-		componente.propertie().add("name","p_componente").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		componente.propertie().add("name","p_componente").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
@@ -121,7 +123,7 @@ public class PageView extends View {
 		novo_modulo.setLabel(gt("Módulo"));
 		novo_modulo.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
-									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","");
+									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","").add("refresh_submit","false");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));

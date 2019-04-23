@@ -81,7 +81,7 @@
                         </option>
                     </list>
                 </env_fk>
-                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
+                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Página</label>
                     <list>
                         <option/>
@@ -109,7 +109,7 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Labore ipsum consectetur officia deserunt</value>
+                    <value>Iste sed mollit rem laudantium</value>
                 </titulo>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Ativo?</label>
@@ -142,7 +142,7 @@
                 </self_id>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Posição</label>
-                    <value>8</value>
+                    <value>11</value>
                 </orderby>
                 <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Target</label>
@@ -168,7 +168,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Aliqua ut labore deserunt unde</value>
+                    <value>Ut stract consectetur perspici</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Público?</label>

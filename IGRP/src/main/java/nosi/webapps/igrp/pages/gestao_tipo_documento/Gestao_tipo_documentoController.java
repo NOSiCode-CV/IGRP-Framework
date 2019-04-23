@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -20,7 +22,7 @@ public class Gestao_tipo_documentoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Magna totam ipsum ut magna' as t_aplicacao,'Magna lorem consectetur totam' as t_codigo,'Aliqua aperiam perspiciatis of' as t_nome,'Laudantium labore totam ipsum' as t_descricao,'Lorem stract iste perspiciatis' as t_estado,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '2' as t_estado,'Aperiam adipiscing totam elit' as t_aplicacao,'Laudantium amet unde doloremqu' as t_codigo,'Totam voluptatem anim rem sit' as t_nome,'Amet natus officia deserunt vo' as t_descricao,'hidden-b25b_981b' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -147,7 +149,7 @@ public class Gestao_tipo_documentoController extends Controller {
 	
 /*----#start-code(custom_actions)----*/
 	private String getStatus(int status) {
-		return status==1?"Ativo":"Inativo";
+		return status==1?"1":"2";
 	}
 	/*----#end-code----*/
 }

@@ -1,7 +1,8 @@
 package nosi.webapps.igrp.pages.page;
 
-import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -39,6 +40,9 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.pages.dominio.DomainHeper;
+import nosi.core.config.ConfigDBIGRP;
+
+
 /*----#end-code----*/
 		
 public class PageController extends Controller {

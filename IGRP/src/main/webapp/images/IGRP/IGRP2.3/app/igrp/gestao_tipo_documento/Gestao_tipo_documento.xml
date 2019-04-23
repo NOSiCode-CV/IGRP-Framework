@@ -81,26 +81,32 @@
                         </option>
                     </list>
                 </aplicacao>
-                <codigo name="p_codigo" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Codigo</label>
-                    <value>Stract elit stract anim elit</value>
-                </codigo>
-                <nome name="p_nome" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome</label>
-                    <value>Anim laudantium doloremque sit labore</value>
-                </nome>
-                <descricao name="p_descricao" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Descrição</label>
-                    <value>Officia omnis stract adipiscing omnis</value>
-                </descricao>
                 <ativo name="p_ativo" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </ativo>
+                <nada name="p_nada" type="separator" maxlength="250" placeholder="" right="false">
+                    <label></label>
+                </nada>
+                <nome name="p_nome" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Stract consectetur dolor labore unde</value>
+                </nome>
+                <codigo name="p_codigo" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Unde amet rem ut iste</value>
+                </codigo>
+                <descricao name="p_descricao" type="textarea" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descrição</label>
+                    <value>Natus dolor unde lorem iste labore voluptatem adipiscing aliqua consectetur elit omnis magna deserunt ipsum</value>
+                </descricao>
             </fields>
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
+                <t_estado name="p_t_estado" type="color" format="hex" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </t_estado>
                 <t_aplicacao name="p_t_aplicacao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Aplicação</label>
                 </t_aplicacao>
@@ -113,9 +119,6 @@
                 <t_descricao name="p_t_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
                 </t_descricao>
-                <t_estado name="p_t_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Estado</label>
-                </t_estado>
                 <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
             </fields>
             <table>
@@ -125,62 +128,74 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_aplicacao name="p_t_aplicacao">Labore rem totam officia ut</t_aplicacao>
-                        <t_codigo name="p_t_codigo">Aperiam elit accusantium sit u</t_codigo>
-                        <t_nome name="p_t_nome">Voluptatem officia deserunt la</t_nome>
-                        <t_descricao name="p_t_descricao">Laudantium stract rem anim ist</t_descricao>
-                        <t_estado name="p_t_estado">Dolor anim labore officia iste</t_estado>
-                        <id name="p_id" tag="id">1</id>
+                        <t_estado name="p_t_estado">1</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Elit mollit consectetur lorem</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Officia dolor amet omnis natus</t_codigo>
+                        <t_nome name="p_t_nome">Laudantium ipsum aperiam rem a</t_nome>
+                        <t_descricao name="p_t_descricao">Accusantium dolor natus dolor</t_descricao>
+                        <id name="p_id" tag="id">hidden-9485_5089</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_aplicacao name="p_t_aplicacao">Stract sit sed doloremque laud</t_aplicacao>
-                        <t_codigo name="p_t_codigo">Totam mollit voluptatem mollit</t_codigo>
-                        <t_nome name="p_t_nome">Magna lorem iste amet labore</t_nome>
-                        <t_descricao name="p_t_descricao">Voluptatem ut iste dolor amet</t_descricao>
-                        <t_estado name="p_t_estado">Dolor iste sit officia dolor</t_estado>
-                        <id name="p_id" tag="id">1</id>
+                        <t_estado name="p_t_estado">1</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Mollit laudantium unde lorem n</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Omnis doloremque ut ipsum magn</t_codigo>
+                        <t_nome name="p_t_nome">Officia sit consectetur anim d</t_nome>
+                        <t_descricao name="p_t_descricao">Adipiscing aperiam natus offic</t_descricao>
+                        <id name="p_id" tag="id">hidden-e186_b010</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_aplicacao name="p_t_aplicacao">Sit accusantium voluptatem ani</t_aplicacao>
-                        <t_codigo name="p_t_codigo">Anim lorem deserunt aliqua des</t_codigo>
-                        <t_nome name="p_t_nome">Natus lorem rem omnis deserunt</t_nome>
-                        <t_descricao name="p_t_descricao">Voluptatem deserunt lorem dolo</t_descricao>
-                        <t_estado name="p_t_estado">Omnis magna iste deserunt cons</t_estado>
-                        <id name="p_id" tag="id">1</id>
+                        <t_estado name="p_t_estado">1</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Anim adipiscing ipsum sit lore</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Unde doloremque rem officia re</t_codigo>
+                        <t_nome name="p_t_nome">Dolor sed mollit aperiam dolor</t_nome>
+                        <t_descricao name="p_t_descricao">Perspiciatis elit perspiciatis</t_descricao>
+                        <id name="p_id" tag="id">hidden-5c59_b7cd</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_aplicacao name="p_t_aplicacao">Elit iste consectetur unde mag</t_aplicacao>
-                        <t_codigo name="p_t_codigo">Sed dolor omnis ipsum magna</t_codigo>
-                        <t_nome name="p_t_nome">Mollit iste dolor totam consec</t_nome>
-                        <t_descricao name="p_t_descricao">Stract consectetur sed rem off</t_descricao>
-                        <t_estado name="p_t_estado">Aliqua stract mollit stract mo</t_estado>
-                        <id name="p_id" tag="id">1</id>
+                        <t_estado name="p_t_estado">1</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Sit officia elit officia amet</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Ipsum officia magna sed mollit</t_codigo>
+                        <t_nome name="p_t_nome">Unde sit anim totam sed</t_nome>
+                        <t_descricao name="p_t_descricao">Accusantium stract iste volupt</t_descricao>
+                        <id name="p_id" tag="id">hidden-0dd2_5b70</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <t_aplicacao name="p_t_aplicacao">Omnis rem unde totam sit</t_aplicacao>
-                        <t_codigo name="p_t_codigo">Ut omnis anim doloremque ipsum</t_codigo>
-                        <t_nome name="p_t_nome">Labore stract ipsum perspiciat</t_nome>
-                        <t_descricao name="p_t_descricao">Totam ipsum stract accusantium</t_descricao>
-                        <t_estado name="p_t_estado">Aperiam perspiciatis aperiam a</t_estado>
-                        <id name="p_id" tag="id">1</id>
+                        <t_estado name="p_t_estado">2</t_estado>
+                        <t_aplicacao name="p_t_aplicacao">Anim elit omnis ipsum aliqua</t_aplicacao>
+                        <t_codigo name="p_t_codigo">Adipiscing doloremque iste sit</t_codigo>
+                        <t_nome name="p_t_nome">Lorem perspiciatis dolor dolor</t_nome>
+                        <t_descricao name="p_t_descricao">Omnis rem adipiscing ut lorem</t_descricao>
+                        <id name="p_id" tag="id">hidden-abd5_a3de</id>
                     </row>
                 </value>
+                <legend_color>
+                    <item>
+                        <label>Ativo</label>
+                        <value>1</value>
+                        <color>#37dc2b</color>
+                    </item>
+                    <item>
+                        <label>Desativo</label>
+                        <value>2</value>
+                        <color>#ff0025</color>
+                    </item>
+                </legend_color>
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
@@ -190,6 +205,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>warning|fa-pencil</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml</preview>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
@@ -199,6 +215,7 @@
                         <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml?</parameter>
                         <target>alert_submit</target>
                         <img>danger|fa-trash</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/gestao_tipo_documento/Gestao_tipo_documento.xml</preview>
                     </item>
                 </context-menu>
             </table>

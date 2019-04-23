@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.gestao_tipo_documento;
 
-
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -13,16 +17,18 @@ public class Gestao_tipo_documento extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
-	@RParam(rParamName = "p_codigo")
-	private String codigo;
+	@RParam(rParamName = "p_ativo")
+	private Integer ativo;
+	@RParam(rParamName = "p_ativo_check")
+	private Integer ativo_check;
+	@RParam(rParamName = "p_nada")
+	private String nada;
 	@RParam(rParamName = "p_nome")
 	private String nome;
+	@RParam(rParamName = "p_codigo")
+	private String codigo;
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
-	@RParam(rParamName = "p_ativo")
-	private int ativo;
-	@RParam(rParamName = "p_ativo_check")
-	private int ativo_check;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -31,24 +37,7 @@ public class Gestao_tipo_documento extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
-	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
-	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
-	}
-	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
-	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
-	}
+
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -64,11 +53,24 @@ public class Gestao_tipo_documento extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setCodigo(String codigo){
-		this.codigo = codigo;
+	public void setAtivo(Integer ativo){
+		this.ativo = ativo;
 	}
-	public String getCodigo(){
-		return this.codigo;
+	public Integer getAtivo(){
+		return this.ativo;
+	}
+	public void setAtivo_check(Integer ativo_check){
+		this.ativo_check = ativo_check;
+	}
+	public Integer getAtivo_check(){
+		return this.ativo_check;
+	}
+	
+	public void setNada(String nada){
+		this.nada = nada;
+	}
+	public String getNada(){
+		return this.nada;
 	}
 	
 	public void setNome(String nome){
@@ -78,34 +80,35 @@ public class Gestao_tipo_documento extends Model{
 		return this.nome;
 	}
 	
+	public void setCodigo(String codigo){
+		this.codigo = codigo;
+	}
+	public String getCodigo(){
+		return this.codigo;
+	}
+	
 	public void setDescricao(String descricao){
 		this.descricao = descricao;
 	}
 	public String getDescricao(){
 		return this.descricao;
 	}
-	
-	public void setAtivo(int ativo){
-		this.ativo = ativo;
-	}
-	public int getAtivo(){
-		return this.ativo;
-	}
-	public void setAtivo_check(int ativo_check){
-		this.ativo_check = ativo_check;
-	}
-	public int getAtivo_check(){
-		return this.ativo_check;
-	}
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private String t_estado;
 		private String t_aplicacao;
 		private String t_codigo;
 		private String t_nome;
 		private String t_descricao;
-		private String t_estado;
 		private String id;
+		public void setT_estado(String t_estado){
+			this.t_estado = t_estado;
+		}
+		public String getT_estado(){
+			return this.t_estado;
+		}
+
 		public void setT_aplicacao(String t_aplicacao){
 			this.t_aplicacao = t_aplicacao;
 		}
@@ -132,13 +135,6 @@ public class Gestao_tipo_documento extends Model{
 		}
 		public String getT_descricao(){
 			return this.t_descricao;
-		}
-
-		public void setT_estado(String t_estado){
-			this.t_estado = t_estado;
-		}
-		public String getT_estado(){
-			return this.t_estado;
 		}
 
 		public void setId(String id){

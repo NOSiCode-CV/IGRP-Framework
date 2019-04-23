@@ -29,6 +29,13 @@ public class NovoPerfilController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
+		
+		String dad = Core.getCurrentDad();
+		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+				model.setAplicacao(Core.findApplicationByDad(dad).getId());
+	          view.aplicacao.propertie().add("disabled","true");			
+			}
+		
 		model.setActivo(1);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(Core.isNotNullOrZero(model.getAplicacao())

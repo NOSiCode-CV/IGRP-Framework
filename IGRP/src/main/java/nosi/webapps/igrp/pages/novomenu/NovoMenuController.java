@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.novomenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -12,9 +14,9 @@ import nosi.webapps.igrp.dao.Menu;
 import java.util.HashMap;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
+		
 public class NovoMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
 		NovoMenuView view = new NovoMenuView();
@@ -29,7 +31,8 @@ public class NovoMenuController extends Controller {
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
-
+		
+	
 		if (Core.isNotNullOrZero(id)) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
@@ -42,26 +45,37 @@ public class NovoMenuController extends Controller {
 			model.setTarget(menu.getTarget());
 			model.setOrderby(menu.getOrderby());
 			model.setTitulo(menu.getDescr());
-			if (Core.isNotNullOrZero(model.getAction_fk()))
-				if (menu.getAction().getId() != model.getAction_fk()) {
+            model.setEnv_fk(menu.getApplication().getId());
+			if (Core.isNotNullOrZero(model.getAction_fk())){
+				if (menu.getAction().getId() != model.getAction_fk()) 
 					model.setTitulo(getPageTituleByID(model));
-				} else
-					model.setAction_fk(menu.getAction().getId());
-
-			model.setEnv_fk(menu.getApplication().getId());
+			} else{
+             
+              	if (menu.getAction() != null){                   
+                   model.setAction_fk(menu.getAction().getId());
+                }
+                 
+            }
+        
 
 		} else {
-			int app = Core.getParamInt("app");
+			int app =model.getApp();
 
 			String dad = Core.getCurrentDad();
 			if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
-				app = (new Application().find().andWhere("dad", "=", dad).one()).getId();
+				app = Core.findApplicationByDad(dad).getId();
 				view.env_fk.propertie().add("disabled", "true");
 
 			}
-			model.setApp(app);
-			if (model.getApp() != 0)
-				model.setEnv_fk(model.getApp());
+			
+			if (Core.isNotNullOrZero(model.getApp())){              
+              model.setEnv_fk(model.getApp());
+            }else{
+               model.setApp(app);
+              model.setEnv_fk(app); 
+            }
+             
+				
 			// New menu by default opens in the same window
 			model.setTarget("_self");
 			model.setOrderby(39);
@@ -95,10 +109,10 @@ public class NovoMenuController extends Controller {
 
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		model.load();
 		/*----#gen-example
@@ -183,10 +197,10 @@ public class NovoMenuController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
+		return this.redirect("igrp","NovoMenu","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+/*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		// System.out.println(model.getAction_fk());
 		if (Core.isNotNull(model.getAction_fk())) {

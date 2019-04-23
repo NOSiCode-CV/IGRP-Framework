@@ -511,7 +511,12 @@ public final class Core { // Not inherit
 	public static String getAmberColor() {
 		return "2";
 	}
-
+	/**
+	 * 
+	 * @param name
+	 * @param isRemoved - true removesAttribute after requested
+	 * @return
+	 */
 	public static String getAttribute(String name, boolean isRemoved) {
 		if (Igrp.getInstance() != null && Igrp.getInstance().getRequest().getAttribute(name) != null) {
 			String v = null;
@@ -1047,7 +1052,7 @@ public final class Core { // Not inherit
 	 * {@code Object v = Igrp.getInstance().getRequest().getParameter(name);}
 	 * 
 	 * @param name      of the string name
-	 * @param isRemoved if you don't remove the attribute
+	 * @param isRemoved - (default) true removesAttribute after requested
 	 * @return {@code v!=null?v.toString():"";}
 	 */
 	public static String getParam(String name, boolean isRemoved) {
@@ -1070,7 +1075,19 @@ public final class Core { // Not inherit
 		}
 		return value;
 	}
-
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
+	 */
+	public static Double getParamDouble(String name, boolean isRemoved) {
+		String x = Core.getParam(name,isRemoved);
+		if (Core.isNull(x))
+			x = Core.getAttribute(name, isRemoved);
+		return Core.isNotNull(x) ? Core.toDouble(x) : 0;
+	}
 	/**
 	 * Core.getParam first
 	 * 
@@ -1078,12 +1095,12 @@ public final class Core { // Not inherit
 	 * @return {@code Core.isNotNull(x)?Core.toDouble(x):0;}
 	 */
 	public static Double getParamDouble(String name) {
-		String x = Core.getParam(name);
-		if (Core.isNull(x))
-			x = Core.getAttribute(name, true);
-		return Core.isNotNull(x) ? Core.toDouble(x) : 0;
+		return getParamDouble(name,true);
 	}
-
+		/**
+		 * 
+		 * @return {@code Map<String, String[]>} 
+		 */
 	public static Map<String, String[]> getParameters() {
 		return Igrp.getInstance().getRequest().getParameterMap();
 	}
@@ -1092,15 +1109,40 @@ public final class Core { // Not inherit
 	 * Core.getParam first
 	 * 
 	 * @param name of the string label
+	  * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
+	 */
+	public static Float getParamFloat(String name, boolean isRemoved) {
+		String x = Core.getParam(name,isRemoved);
+		if (Core.isNull(x))
+			x = Core.getAttribute(name, isRemoved);
+		return Core.isNotNull(x) ? Core.toFloat(x) : 0;
+	}
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toFloat(x):0;}
 	 */
 	public static Float getParamFloat(String name) {
-		String x = Core.getParam(name);
-		if (Core.isNull(x))
-			x = Core.getAttribute(name, true);
-		return Core.isNotNull(x) ? Core.toFloat(x) : 0;
+		return getParamFloat(name,true);
 	}
 
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
+	 */
+	public static Integer getParamInt(String name, boolean isRemoved) {
+		String x = Core.getParam(name,isRemoved);
+		if (Core.isNull(x))
+			x = Core.getAttribute(name, isRemoved);
+		return Core.isNotNull(x) ? Core.toInt(x) : 0;
+	}
+	
 	/**
 	 * Core.getParam first
 	 * 
@@ -1108,25 +1150,49 @@ public final class Core { // Not inherit
 	 * @return {@code Core.isNotNull(x)?Core.toInt(x):0;}
 	 */
 	public static Integer getParamInt(String name) {
-		String x = Core.getParam(name);
-		if (Core.isNull(x))
-			x = Core.getAttribute(name, true);
-		return Core.isNotNull(x) ? Core.toInt(x) : 0;
+		return getParamInt(name,true);
 	}
 
 	/**
 	 * Core.getParam first
 	 * 
 	 * @param name of the string label
+	 * @param isRemoved - (default) if true, removesAttribute after requested
 	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
 	 */
-	public static Long getParamLong(String name) {
-		String x = Core.getParam(name);
+	public static Long getParamLong(String name, boolean isRemoved ) {
+		String x = Core.getParam(name,isRemoved);
 		if (Core.isNull(x))
-			x = Core.getAttribute(name, true);
+			x = Core.getAttribute(name, isRemoved);
 		return Core.isNotNull(x) ? Core.toLong(x) : 0;
 	}
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code  Core.isNotNull(x)?Core.toLong(x):0;}
+	 */
+	public static Long getParamLong(String name) {		
+		return getParamLong(name,true);
+	}
 
+	/**
+	 * 
+	 * @param name of the string label
+	 * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @return {@code Core.getAttribute(name, true);}
+	 */
+	public static Object getParamObject(String name,boolean isRemoved) {
+		Object x = Core.getAttribute(name, isRemoved);
+		return x;
+	}
+	
+	/**
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.getAttribute(name, true);}
+	 */
 	public static Object getParamObject(String name) {
 		Object x = Core.getAttribute(name, true);
 		return x;
@@ -1136,13 +1202,25 @@ public final class Core { // Not inherit
 	 * Core.getParam first
 	 * 
 	 * @param name of the string label
+	  * @param isRemoved - (default) if true, removesAttribute after requested
+	 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
+	 */
+	public static Short getParamShort(String name,boolean isRemoved) {
+		String x = Core.getParam(name,isRemoved);
+		if (Core.isNull(x))
+			x = Core.getAttribute(name, isRemoved);
+		return Core.isNotNull(x) ? Core.toShort(x) : 0;
+	}
+	
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
 	 * @return {@code Core.isNotNull(x)?Core.toShort(x):0;}
 	 */
 	public static Short getParamShort(String name) {
-		String x = Core.getParam(name);
-		if (Core.isNull(x))
-			x = Core.getAttribute(name, true);
-		return Core.isNotNull(x) ? Core.toShort(x) : 0;
+		return getParamShort(name,true) ;
 	}
 
 	public static String getParamTaskId() {
@@ -1797,7 +1875,29 @@ public final class Core { // Not inherit
 		return 0;
 	}
 
-
+	
+	/**Insert a Part to the Igrp core DataBase and return an Id ...
+	 * 
+	 * {@code  	 
+				try {
+				List<Part> parts = Core.getFiles();
+				for(int i=0;i<parts.size();i++) {
+				String desription = "";
+				int fileId = Core.saveFile(parts.get(i));
+				}
+				} catch (ServletException e) {
+				e.printStackTrace();
+				}}
+	 *			
+	 * @param part
+	 * @return {@code saveFile(part,part.getSubmittedFileName());}
+	 */
+	public static int saveFile(Part part) {
+		if(part!=null)
+			return saveFile(part,part.getSubmittedFileName());
+		return 0;
+	}
+	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
@@ -1859,12 +1959,6 @@ public final class Core { // Not inherit
 		return 0;
 	}
 
-	public static int saveFile(Part part) {
-		if(part!=null)
-			return saveFile(part,part.getSubmittedFileName());
-		return 0;
-	}
-	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 

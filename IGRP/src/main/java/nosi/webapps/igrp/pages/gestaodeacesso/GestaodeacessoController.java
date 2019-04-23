@@ -97,7 +97,8 @@ public class GestaodeacessoController extends Controller {
       	if (org != null){
           	this.addQueryString("env_fk",org.getApplication().getId());  
        }
-      return this.forward("igrp", "MenuOrganica","index",this.queryString());
+      	this.loadQueryString();
+      return this.redirect("igrp", "MenuOrganica","index",this.queryString());
 		/*----#end-code----*/
 			
 	}

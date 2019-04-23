@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.transaccao;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -23,16 +25,22 @@ public class TransaccaoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status,'Dolor labore amet sed totam' as descricao,'Mollit labore magna deserunt n' as codigo "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'Sed omnis sit ut dolor' as descricao,'Aliqua labore amet aliqua accu' as codigo "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
-		view.aplicacao.propertie().add("readonly","true");
+		
+		String dad = Core.getCurrentDad();		
+		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {			
+			model.setAplicacao(""+Core.findApplicationByDad(dad).getId());
+	        view.aplicacao.propertie().add("disabled","true");			
+			}
+		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
 		Transaction trans = new Transaction();				
 		if(Core.isNotNull(model.getAplicacao())) {
 		List<Transaction> list =trans.find()
-				.andWhere("application", "=", Integer.parseInt(model.getAplicacao()))
+				.andWhere("application", "=", Core.toInt(model.getAplicacao()))
 				.andWhere("code", "=", Core.isNotNull(model.getFiltro_codigo())?model.getFiltro_codigo():null)
 				.all();
 		for(Transaction t:list){

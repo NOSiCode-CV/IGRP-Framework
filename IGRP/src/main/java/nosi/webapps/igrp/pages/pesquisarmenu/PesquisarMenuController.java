@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -25,16 +27,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
-
+		
 public class PesquisarMenuController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		PesquisarMenuView view = new PesquisarMenuView();
+		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Doloremque omnis adipiscing unde anim mollit consectetur magna sit natus sit mollit deserunt aperiam' as t1_menu_principal,'1' as ativo,'11' as ordem,'Totam omnis laudantium dolor totam amet ipsum elit deserunt doloremque elit deserunt aliqua laudanti' as table_titulo,'Elit consectetur unde stract sed laudantium sit magna lorem amet iste dolor sit labore accusantium i' as pagina,'1' as checkbox,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Sit anim consectetur sed elit doloremque accusantium doloremque stract ipsum natus accusantium strac' as t1_menu_principal,'1' as ativo,'1' as ordem,'Anim natus unde sed iste lorem omnis lorem sit ut voluptatem elit laudantium consectetur omnis rem m' as table_titulo,'Voluptatem lorem doloremque voluptatem aperiam voluptatem laudantium ut aperiam deserunt omnis volup' as pagina,'1' as checkbox,'hidden-5145_d428' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -89,9 +92,9 @@ public class PesquisarMenuController extends Controller {
 				if (menu_db1.getAction() != null) {
 					String mdad = "";
 					if (menu_db1.getAction().getApplication().getId() != idApp)
-						mdad = " «« [" + menu_db1.getAction().getApplication().getDad() + "]";
-					table1.setPagina(gt(menu_db1.getAction().getPage_descr()) + " (" + menu_db1.getAction().getPage()
-							+ ")" + mdad);
+						mdad = menu_db1.getAction().getApplication().getDad() + " / ";
+					table1.setPagina(mdad+gt(menu_db1.getAction().getPage_descr()) + " (" + menu_db1.getAction().getPage()
+							+ ")" );
 					table1.setTable_titulo(gt(menu_db1.getDescr()));
 				}
 				table1.setOrdem(menu_db1.getOrderby());
@@ -108,56 +111,58 @@ public class PesquisarMenuController extends Controller {
 				lista.sort(Comparator.comparing(PesquisarMenu.Table_1::getT1_menu_principal));
 			view.table_1.addData(lista);
 		}
-		// Para pegar os parametros que queremos enviar para poder editar o menu no view
-		view.id.setParam(true);
+		
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
 		this.addQueryString("app", Core.getParam("p_aplicacao"));
 		return this.forward("igrp", "NovoMenu", "index", this.queryString());
 		/*----#end-code----*/
-
+			
 	}
-
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
 			this.addQueryString("p_id", id);
-			return this.forward("igrp", "NovoMenu", "index", this.queryString());
+			return this.redirect("igrp", "NovoMenu", "index", this.queryString());
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp", "PesquisarMenu", "index", this.queryString());
+		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
-
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","PesquisarMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
 		int id = Core.getParamInt("p_id");
@@ -170,10 +175,10 @@ public class PesquisarMenuController extends Controller {
 		}
 		return this.redirect("igrp", "PesquisarMenu", "index", model, this.queryString());
 		/*----#end-code----*/
-
+			
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
 	public Response actionMyMenu() throws IOException {

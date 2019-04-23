@@ -5,21 +5,27 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Gestao_tipo_documentoView extends View {
 
 	public Field sectionheader_1_text;
 	public Field aplicacao;
-	public Field codigo;
-	public Field nome;
-	public Field descricao;
 	public Field ativo;
 	public Field ativo_check;
+	public Field nada;
+	public Field nome;
+	public Field codigo;
+	public Field descricao;
+	public Field t_estado;
 	public Field t_aplicacao;
 	public Field t_codigo;
 	public Field t_nome;
 	public Field t_descricao;
-	public Field t_estado;
 	public Field id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
@@ -49,21 +55,29 @@ public class Gestao_tipo_documentoView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
 		
-		codigo = new TextField(model,"codigo");
-		codigo.setLabel(gt("Codigo"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
+		ativo = new CheckBoxField(model,"ativo");
+		ativo.setLabel(gt("Ativo?"));
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
+		
+		nada = new SeparatorField(model,"nada");
+		nada.setLabel(gt(" "));
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
 		
-		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
+		codigo = new TextField(model,"codigo");
+		codigo.setLabel(gt("Codigo"));
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
 		
-		ativo = new CheckBoxField(model,"ativo");
-		ativo.setLabel(gt("Ativo?"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
+		descricao = new TextAreaField(model,"descricao");
+		descricao.setLabel(gt("Descrição"));
+		descricao.propertie().add("name","p_descricao").add("type","textarea").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
+		
+		t_estado = new ColorField(model,"t_estado");
+		t_estado.setLabel(gt("Estado"));
+		t_estado.propertie().add("name","p_t_estado").add("type","color").add("maxlength","30");
 		
 		t_aplicacao = new TextField(model,"t_aplicacao");
 		t_aplicacao.setLabel(gt("Aplicação"));
@@ -80,10 +94,6 @@ public class Gestao_tipo_documentoView extends View {
 		t_descricao = new TextField(model,"t_descricao");
 		t_descricao.setLabel(gt("Descrição"));
 		t_descricao.propertie().add("name","p_t_descricao").add("type","text").add("maxlength","30");
-		
-		t_estado = new TextField(model,"t_estado");
-		t_estado.setLabel(gt("Estado"));
-		t_estado.propertie().add("name","p_t_estado").add("type","text").add("maxlength","30");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
@@ -111,18 +121,28 @@ public class Gestao_tipo_documentoView extends View {
 
 
 		form_1.addField(aplicacao);
-		form_1.addField(codigo);
-		form_1.addField(nome);
-		form_1.addField(descricao);
 		form_1.addField(ativo);
+		form_1.addField(nada);
+		form_1.addField(nome);
+		form_1.addField(codigo);
+		form_1.addField(descricao);
 
+		table_1.addField(t_estado);
 		table_1.addField(t_aplicacao);
 		table_1.addField(t_codigo);
 		table_1.addField(t_nome);
 		table_1.addField(t_descricao);
-		table_1.addField(t_estado);
 		table_1.addField(id);
-
+		/* start table_1 legend colors*/
+		Map<Object, Map<String, String>> table_1_colors= new HashMap<>();
+		Map<String, String> color_1 = new HashMap<>();
+		color_1.put("#37dc2b","Ativo");
+		table_1_colors.put("1",color_1);
+		Map<String, String> color_2 = new HashMap<>();
+		color_2.put("#ff0025","Desativo");
+		table_1_colors.put("2",color_2);
+		this.table_1.setLegendColors(table_1_colors);
+		/* end table_1 legend colors*/
 		toolsbar_1.addButton(btn_gravar);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
@@ -136,15 +156,16 @@ public class Gestao_tipo_documentoView extends View {
 	public void setModel(Model model) {
 		
 		aplicacao.setValue(model);
-		codigo.setValue(model);
-		nome.setValue(model);
-		descricao.setValue(model);
 		ativo.setValue(model);
+		nada.setValue(model);
+		nome.setValue(model);
+		codigo.setValue(model);
+		descricao.setValue(model);
+		t_estado.setValue(model);
 		t_aplicacao.setValue(model);
 		t_codigo.setValue(model);
 		t_nome.setValue(model);
 		t_descricao.setValue(model);
-		t_estado.setValue(model);
 		id.setValue(model);	
 
 		table_1.loadModel(((Gestao_tipo_documento) model).getTable_1());
