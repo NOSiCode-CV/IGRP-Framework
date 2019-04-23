@@ -54,8 +54,9 @@
       <xsl:param name="input-id" select="$name"/>
       <xsl:param name="btnClass" select="'default'"/>
       <xsl:param name="mapName" select="''"/>
+      <xsl:param name="widgetTitle" select="''"/>
       
-      <span href="#" input-rel="{$input-id}" class="gis-locator input-group-btn" input-name="{$name}" target="gis:getCoordinates" map-name="{$mapName}">
+      <span href="#" input-rel="{$input-id}" class="gis-locator input-group-btn" input-name="{$name}" target="gis:getCoordinates" widget-title="{$widgetTitle}" map-name="{$mapName}">
         <xsl:call-template name="page-nav">
            <xsl:with-param name="action" select="$action" />
            <xsl:with-param name="page" select="$page" />

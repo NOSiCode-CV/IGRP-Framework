@@ -450,3 +450,10 @@ td.bs-checkbox .checkbox-switch.switch {
   cursor: move;
 }
 
+/*show label*/
+
+thead th[show-label="false"]>span{
+	display:none;
+}
+
+

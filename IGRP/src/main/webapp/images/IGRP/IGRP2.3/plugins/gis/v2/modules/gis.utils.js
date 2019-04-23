@@ -69,6 +69,33 @@
 
 					shape_len : true
 
+				},
+				
+				toHTML : function(props){
+					
+					var html = $('<ul class="gis-feature-properties-view" />');
+					
+					if(props){
+						
+						for(var p in props){
+							
+							var prop = props[p] || '';
+							
+							html.append(
+								'<li name="'+p+'">'+
+									'<span class="gis-feature-property-label" text-color="primary">'+p+'</span>'+
+									'<span class="gis-feature-property-value">'+prop+'</span>'+
+								'</li>'
+							);
+							
+						}
+						
+					}
+					
+					console.log(html)
+					
+					return html[0];
+					
 				}
 
 			}

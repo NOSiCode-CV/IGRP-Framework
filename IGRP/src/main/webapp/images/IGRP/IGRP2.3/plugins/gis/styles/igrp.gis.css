@@ -154,6 +154,8 @@
     font-weight: 400;
     background: white;
     border-bottom: 1px solid rgba(0,0,0,.05);
+    min-height:35px;
+    text-transform:capitalize
 }
 
 .gis-panel.widget .form-control{
@@ -474,6 +476,21 @@
 	box-sizing:content-box;
 	padding:5px;
 	border-bottom: 4px solid #3f0
+}
+
+/* FEATURE PROPERTIES */
+.gis-feature-properties-view{
+	margin:0;
+	padding:0;
+	font-size:14px;
+}
+
+.gis-feature-properties-view li{
+	padding:2px 0;
+}
+
+.gis-feature-properties-view .gis-feature-property-label{
+	margin-right:4px;
 }
 
 

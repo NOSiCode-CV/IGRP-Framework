@@ -593,9 +593,70 @@
 			}catch(e){null;}
 		};
 		
-		var gisGetCoords = function(p){
+		var gisViewCoords = function(p){
 			
-			console.log('asdkl')
+			var url 	        = setTargetParameter(p.url),
+				
+				row 		    = p.clicked.parents('tr').first(),
+			
+				map		        = p.clicked.attr('map-name'),
+				
+				propertiesNames = p.clicked.attr('properties'),
+				
+				coords  		= p.clicked.attr('coordinates'),
+				
+				properties 		= row[0] ? $.IGRP.components.tableCtrl.exportRow( row, propertiesNames ) : {},
+
+				latLngArr 		= coords ? coords.split(',') : null,
+						
+				latLng			= latLngArr ? [latLngArr[0]*1, latLngArr[1]*1 ] : null,
+	
+				mapSettings = {
+				
+					id   : map,
+					
+					fullscreen : true,
+					
+					graphics : [
+						
+						{
+							
+							infoWindow : true,
+							
+							properties : properties,
+							
+							geometry : {
+								
+								type : 'Point',
+								
+								coordinates : latLng
+								
+							}
+							
+						}
+						
+					]
+					
+				};
+				
+				$.IGRP.components.iframeNav.set({
+					
+					url    :url,
+					
+					clicked:p.clicked,
+					
+					params : {
+						
+						gis_map_settings : mapSettings
+						
+					}
+					
+				});
+			
+			return false;
+		};
+		
+		var gisGetCoords = function(p){
 			
 			var url 	    = setTargetParameter(p.url),
 				
@@ -935,6 +996,13 @@
 				label : 'Get Coordinates',
 				
 				action : gisGetCoords
+			},
+			
+			'gis:viewCoordinates' : {
+				
+				label : 'View Coordinates',
+				
+				action : gisViewCoords
 			},
 
 			

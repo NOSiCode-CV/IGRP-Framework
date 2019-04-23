@@ -1,8 +1,12 @@
 (function(){
-
+	
 	GIS.module('Map', function(app, o){
 
-		var map 	 = this,
+		var Utils    = GIS.module('Utils'),
+		
+			Graphics =  GIS.module('Graphics'),
+		
+			map 	 = this,
 
 			settings = $.extend({
 
@@ -60,6 +64,38 @@
 			return map.view;
 
 		};
+		
+		function SetGraphics(){
+			
+			if(o.graphics && o.graphics[0]){
+				
+				
+				
+				map.graphicsLayer = new L.FeatureGroup();
+				
+				o.graphics.forEach(function(g){
+					
+					if(g && g.geometry){
+						
+						var graphic = Graphics.create( g );
+						
+						if(g.infoWindow)
+			
+							graphic.bindPopup( Utils.feature.properties.toHTML( g.properties ) );
+
+						graphic.addTo(map.graphicsLayer);
+
+					}
+					
+				});
+				
+				map.graphicsLayer.addTo( map.view );
+				
+				map.view.fitBounds(  map.graphicsLayer.getBounds() )
+				
+			}
+
+		}
 
 		function SetControllers(){
 
@@ -88,6 +124,8 @@
 			
 			SetControllers();
 
+			SetGraphics();
+			
 		})();
 
 	});

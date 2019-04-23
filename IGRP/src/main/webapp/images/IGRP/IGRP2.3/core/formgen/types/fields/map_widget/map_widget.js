@@ -133,9 +133,7 @@
 					
 					$('#gen-edition-modal [rel="'+a+'"]').remove();
 					
-				}
-					
-					
+				}	
 				
 			}
 			

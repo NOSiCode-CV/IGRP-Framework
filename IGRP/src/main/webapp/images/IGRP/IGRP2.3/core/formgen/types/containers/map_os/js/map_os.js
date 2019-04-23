@@ -83,7 +83,8 @@
 					{ path : '/plugins/gis/v2/modules/gis.layer.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widgets.js' },
 					{ path : '/plugins/gis/v2/modules/gis.widget.js' },
-					{ path : '/plugins/gis/v2/modules/gis.panels.js' }
+					{ path : '/plugins/gis/v2/modules/gis.panels.js' },
+					{ path : '/plugins/gis/v2/modules/gis.graphics.js' }
 
 				],
 				xsl : [ 'gis.map' ]

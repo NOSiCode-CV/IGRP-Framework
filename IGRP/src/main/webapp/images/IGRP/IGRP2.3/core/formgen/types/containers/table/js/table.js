@@ -372,6 +372,12 @@ var GENTABLE = function(name,params){
 			value : 30
 		});
 		
+		field.setPropriety({
+			name : 'showLabel',
+			label : 'Show Label',
+			value:true
+		});
+		
 		if(!field.hidden){
 			
 			field.setPropriety({
@@ -479,6 +485,72 @@ var GENTABLE = function(name,params){
 			ctxIncludes = false;
 		}
 	}
+	
+	container.onLocatorFieldSet = function(field){
+		
+		field.setProperty({
+			
+			name : 'properties',
+			
+			value : {
+				
+				value : '',
+				
+				multiple : true,
+				
+				options : function(){
+					
+					var options = [
+						
+					];
+					
+					container.GET.fields().forEach(function(f){
+						
+						if(f.type != 'locator'){
+							
+							options.push({
+								
+								label : f.GET.label ? f.GET.label() : f.GET.tag(),
+								
+								value : f.GET.tag()
+								
+							})
+							
+						}
+						
+					});
+					
+					return options;
+					
+				}
+				
+			},
+			order: 4,
+			
+			onChange:function(v){
+				
+				console.log(v)
+				
+			}
+			
+		})
+		/*field.setProperty({
+			
+			name : 'info_window',
+			
+			label : 'Info Window',
+			
+			value : '',
+			
+			order: 4,
+			
+			inputType : 'texteditor',
+			
+			size : 12
+			
+		});*/
+		
+	};
 
 	container.onColorFieldSet = function(field){
 		//set legend xml

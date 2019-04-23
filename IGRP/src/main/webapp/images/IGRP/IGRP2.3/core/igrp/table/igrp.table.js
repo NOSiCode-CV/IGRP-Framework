@@ -265,6 +265,38 @@
 			});
 
 		},
+		
+		exportRow : function(row, attrs){
+			
+			var response = {};
+
+			if(row[0]){
+				
+				if(attrs){
+					
+					attrs = typeof attrs === 'string' ? attrs.split(',') : attrs;
+
+					if(attrs[0]){
+						
+						attrs.forEach(function(a){
+							
+							var label =  row.find('td[item-name="'+a+'"]').attr('data-title') || a,
+							
+								value = row.find('td[item-name="'+a+'"]>span').text() || row.find('input[name="p_'+a+'"]').val();
+
+							response[label] = value;
+							
+						})
+						
+					}
+					
+				}
+				
+			}
+			
+			return response;
+			
+		},
 
 		setEvents : function(){
 

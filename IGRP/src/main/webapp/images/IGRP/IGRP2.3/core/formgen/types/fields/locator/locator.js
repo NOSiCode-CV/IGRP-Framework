@@ -105,6 +105,21 @@ var LOCATORFIELD = function(type,params){
 		
 		});
 		
+		/*field.setProperty({
+		
+			name : 'widget_title',
+			
+			label : 'Widget Title',
+			
+			value : '',
+			
+			inputType : 'texteditor',
+			
+			size : 12
+			
+		});*/
+		
+		
 		GEN.setBTNClass(field);
 	}
 	

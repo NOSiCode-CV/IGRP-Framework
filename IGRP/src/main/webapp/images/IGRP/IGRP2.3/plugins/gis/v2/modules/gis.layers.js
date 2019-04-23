@@ -194,6 +194,8 @@
 
 				Layers.addGroups( groupLayers );
 			
+			//if()
+			
 			/*else
 				
 				$('.gis-layers-controller', app.dom).hide();*/

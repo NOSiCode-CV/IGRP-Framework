@@ -7,8 +7,6 @@
 		var Map = app.map.view,
 		
 			DrawLayer, DrawControl, DrawTool, EditTool;
-		
-		widget.addedMarker = null;
 
 		widget.action('activate', function(){
 			
@@ -26,7 +24,9 @@
 				
 				widget.addedMarker.addTo(DrawLayer);
 				
-				EditTool.enable();
+				if( widget.data().editable != false )
+				
+					EditTool.enable();
 				
 				widget.events.trigger('draw-end');
 				
@@ -79,12 +79,7 @@
 			widget.actions.activate();
 			
 		});
-		
-		function DrawEnd( marker ){
-			
-			
-			
-		}
+
 		
 		function Clear(){
 			
@@ -125,7 +120,6 @@
 			Map.on( L.Draw.Event.CREATED, function (e) {
 				
 				widget.actions.drawend( e.layer );
-				//DrawEnd(e.layer);
 				
 			});
 			
@@ -135,14 +129,13 @@
 				
 					latLngs 	  = [ marker.getLatLng() ],
 				 
-				 	 markerBounds = L.latLngBounds(latLngs);
+				 	markerBounds  = L.latLngBounds(latLngs);
 				 
 				 Map.fitBounds(markerBounds);
 				
 				 widget.on('load-html', function(){
 				 	
 					 widget.actions.drawend( marker );
-					 //DrawEnd( marker );
 					
 				 });
 				

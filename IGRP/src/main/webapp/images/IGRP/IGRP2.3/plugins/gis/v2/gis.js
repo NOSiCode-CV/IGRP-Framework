@@ -23,6 +23,7 @@
 			}, data ),
 			
 			urlMapSettings = GetURLMapSettings(id);
+		
 			
 		if(urlMapSettings)
 			
@@ -67,6 +68,7 @@
 			if(modules.Panels)
 
 				app.panels = new modules.Panels(dom);
+
 		};
 
 		return app;
@@ -77,13 +79,19 @@
 		
 		var params = document.IGRPParams || $.IGRP.utils.url.getParams(),
 		
+			mapsettings = params.gis_map_settings,
+		
 			settings = null;
 
-		if(params.gis_map_settings){
+		if(typeof mapsettings === 'string')
+			
+			mapsettings = JSON.parse(decodeURI(params.gis_map_settings ));
+
+		if(mapsettings){
 			
 			try{
 				
-				var mapSettings    = params.gis_map_settings;
+				var mapSettings    = mapsettings;
 			
 				if( mapSettings && mapSettings.id == id )
 					
@@ -147,8 +155,6 @@
 		init : function(elements){
 			
 			elements = elements || $('.igrp-map-os-wrapper');
-			
-			console.log(elements);
 			
 			elements.each(function(i, e){
 				

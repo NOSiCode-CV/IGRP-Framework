@@ -650,9 +650,26 @@ var GENSTRUCTURES = function(GEN){
 			var value = field.GET[name]();
 			
 			if(field.xml.attrs[name])
+				
 				arr+=' '+field.xml.attrs[name]()
-			else
-				arr+=' '+name+'="'+value+'"';
+				
+			else{
+				
+				if( field.propertiesOptions && field.propertiesOptions[name] && field.propertiesOptions[name].inputType == 'texteditor'){
+					
+					var t = (encodeURI(value) );
+					
+					arr+=' '+name+'="'+t+'"'
+					
+				}else{
+					
+					arr+=' '+name+'="'+value+'"'
+					
+				}
+
+			}
+				
+				
 
 		}
 
@@ -667,50 +684,45 @@ var GENSTRUCTURES = function(GEN){
 		
 		return rtn;
 	}
+	
+	var getAttrStr = function(field,name){
+		
+		var arr = '';
+		
+		if(validAttrArr(name)){
+			
+			if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
+				arr+='persist="true"';
+
+			if(name == 'visible'){
+
+				if(!field.GET.visible())
+					
+					arr+=' visible="false"';
+			}else
+				
+				arr+=returnAttr(field,name);
+		}
+		
+		return arr;
+		
+	}
+	
 	var getAttrsArr = function(field,which){
+		
 		var arr = "";
+		
 		if(which && which[0])
 			which.forEach(function(name){
-				if(validAttrArr(name)){
-					
-					if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
-						arr+='persist="true"';
-
-					if(name == 'visible'){
-
-						if(!field.GET.visible())
-							arr+=' visible="false"';
-					}
-					else
-						arr+=returnAttr(field,name);
-				}
+				
+				arr += getAttrStr(field,name);
+				
 			});
 		else
 			for(var name in field.proprieties){
 				
-				if(validAttrArr(name)){
+				arr += getAttrStr(field,name);
 
-					if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
-						arr+=' persist="true" ';
-					
-					if(name == 'visible'){
-
-						if(!field.GET.visible())
-							arr+=' visible="false"';
-					}
-					
-					/*else if(name == 'lookupParams'){
-						
-						console.log(field)
-						
-					}*/
-					
-					else
-						arr+=returnAttr(field,name);
-
-					
-					
-				}
 			}
 
 		if(field.type=='hidden')
