@@ -1859,6 +1859,12 @@ public final class Core { // Not inherit
 		return 0;
 	}
 
+	public static int saveFile(Part part) {
+		if(part!=null)
+			return saveFile(part,part.getSubmittedFileName());
+		return 0;
+	}
+	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
