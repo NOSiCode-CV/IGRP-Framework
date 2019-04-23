@@ -339,6 +339,22 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	
 		return list;
 	}
+	
+	public List<Profile> getMyAppByEmail(String email) {
+		List<Profile> list = new Profile().find()
+				.andWhere("type", "=", "ENV")
+				.andWhere("user.email", "=", email)
+				.andWhere("type_fk", ">", 1).all();
+		if(list!=null && !list.isEmpty()) {
+			list=list.stream() 
+				.filter(distinctByKey(p -> p.getType_fk())) 
+				.collect(Collectors.toList());
+			list.sort(Comparator.comparing(Profile::getType_fk));
+			return list;
+		}
+		return null;
+	}
+	
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
 	{
 	    Map<Object, Boolean> map = new ConcurrentHashMap<>();
