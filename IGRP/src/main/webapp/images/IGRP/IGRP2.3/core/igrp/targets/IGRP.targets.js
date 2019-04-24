@@ -627,15 +627,22 @@
 							
 							infoWindow : true,
 							
-							properties : properties,
-							
-							geometry : {
+							features : [
 								
-								type : 'Point',
-								
-								coordinates : latLng
-								
-							}
+								{
+
+									properties : properties,
+									
+									geometry : {
+										
+										type : 'Point',
+										
+										coordinates : latLng
+										
+									}
+									
+								}
+							]
 							
 						}
 						

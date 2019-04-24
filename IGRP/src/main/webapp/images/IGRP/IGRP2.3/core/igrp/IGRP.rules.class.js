@@ -913,7 +913,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 				var oactions = oppObject.conditions.actions.slice();
 
 				oactions.forEach(function(a){
-					a.action = actionsList[a.action].opposite;
+					
+					a.action = actionsList[a.action] && actionsList[a.action].opposite ? actionsList[a.action].opposite : null;
+					
 				});
 				
 				oppObject.conditions.rules[0].condition = orule;

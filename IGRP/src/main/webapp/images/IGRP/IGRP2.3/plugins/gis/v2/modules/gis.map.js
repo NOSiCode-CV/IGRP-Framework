@@ -68,23 +68,29 @@
 		function SetGraphics(){
 			
 			if(o.graphics && o.graphics[0]){
-				
-				
-				
+
 				map.graphicsLayer = new L.FeatureGroup();
 				
 				o.graphics.forEach(function(g){
 					
-					if(g && g.geometry){
+					if(g.features && g.features[0]){
 						
-						var graphic = Graphics.create( g );
+						g.features.forEach(function(feature){
+							
+							if(feature && feature.geometry){
+								
+								var graphic = Graphics.create( feature );
+								
+								if(g.infoWindow)
+					
+									graphic.bindPopup( Utils.feature.properties.toHTML( feature.properties ) );
+
+								graphic.addTo(map.graphicsLayer);
+
+							}
+							
+						});
 						
-						if(g.infoWindow)
-			
-							graphic.bindPopup( Utils.feature.properties.toHTML( g.properties ) );
-
-						graphic.addTo(map.graphicsLayer);
-
 					}
 					
 				});

@@ -4920,7 +4920,7 @@ var GENERATOR = function(genparams){
 			}
 
 		});
-
+		
 		if(!targetRulesSet){
 			$.IGRP.rules.set({"edit-target":[
 				{"name":"","event":"change","condition":"equal","value":"changesrc","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-target_fields","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},

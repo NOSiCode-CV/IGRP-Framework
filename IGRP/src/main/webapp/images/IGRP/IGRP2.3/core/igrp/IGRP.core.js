@@ -320,6 +320,48 @@
 				return vUrl;
 			},
 			
+			adjustableRows : function(){
+				
+				var rows = $('.row.adjustable-row');
+				
+				rows.each(function(i, row){
+					
+					var cols = $('>.gen-column', row);
+					
+					cols.each(function(x, col){
+						
+						var contents = $('>.gen-inner>*', col);
+						
+						if(!contents[0])
+							
+							$(col).hide();
+						
+						else
+							
+							$(col).addClass('readjust');
+						
+					});
+					
+					var rowsToAdjust = $('.readjust', row),
+					
+						totalToAdjust = rowsToAdjust.length,
+						
+						division      = 12/totalToAdjust;
+					
+					if(Number.isInteger( division ) && division <= 12){
+						
+						rowsToAdjust.alterClass('col-sm-*');
+						
+						rowsToAdjust.addClass('col-sm-'+division);
+						
+					}
+				
+					
+				});
+				
+				
+			},
+			
 			refreshComponents : function(options){
 				
 				options = options || {};
@@ -950,6 +992,8 @@
         	$.IGRP.utils.ffoxDisableOutputEscaping();
 
         	$.IGRP.utils.verticalCentralize();
+        	
+        	$.IGRP.utils.adjustableRows();
         
         };
         
