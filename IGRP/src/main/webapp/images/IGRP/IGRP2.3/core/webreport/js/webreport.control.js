@@ -65,7 +65,7 @@ var WRControl = {
 	    return el;
 	},
 	recorsiveElement : function(cobj){
-		$('>*',cobj).each(function(i,e){
+		$('>*:not(style)',cobj).each(function(i,e){
 	    	var tagName = $(e).prop('tagName');
 	        if(tagName != 'TABLE' || tagName != 'STYLE'){
 	            if (!$('>*',e)[0])
