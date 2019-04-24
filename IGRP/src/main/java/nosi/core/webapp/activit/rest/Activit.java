@@ -43,6 +43,7 @@ public class Activit {
 	private String filter="";
 	@Expose(serialize=false,deserialize=false)
 	protected List<String> myproccessId;
+	private String filter_custom;
 	
 	public Activit() {
 		this.myproccessId = this.getMyProccessAccess();
@@ -80,6 +81,15 @@ public class Activit {
     	return r;//allow all task by default
 	}
 	 
+
+	public void setFilterCustom(String filter_custom) {
+		this.filter_custom = filter_custom;
+	}
+	
+	public String getFilterCustom() {
+		return this.filter_custom;
+	}
+	
 	public String getId() {
 		return id;
 	}
