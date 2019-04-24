@@ -3,6 +3,7 @@ package nosi.core.webapp.activit.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
+import nosi.webapps.igrp.dao.ActivityExecute;
 
 /**
  * Emanuel
@@ -90,6 +92,47 @@ public class TaskServiceQuery extends TaskService {
 				this.setStart(dep.getStart());
 				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
 				d = d.stream().filter(p->this.myproccessId.contains(p.getProcessInstanceId())).collect(Collectors.toList());			    
+			}else{
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return d;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TaskServiceQuery> queryHistoryTaskWithCustomFilter(){		
+		List<TaskServiceQuery> d = new ArrayList<>();
+		
+		if(paramsQuery!=null && paramsQuery.size() > 0) {
+			try {
+				json_Variables.put("processVariables", paramsQuery);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		Response response = new RestRequest().post("query/historic-task-instances?size=100000000",json_Variables.toString());
+		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(response.getStatus()==200){
+				TaskService dep = (TaskService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
+				this.setTotal(dep.getTotal());
+				this.setSize(dep.getSize());
+				this.setSort(dep.getSort());
+				this.setOrder(dep.getOrder());
+				this.setStart(dep.getStart());
+				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+				if(Core.isNotNull(this.getFilterCustom())) {
+					ActivityExecute ae = new ActivityExecute().find().where("customPermission","=",this.getFilterCustom()).one();
+					this.myproccessId =  Arrays.asList(new String[] {ae.getProcessid()});
+				}
+				d = d.stream().filter(p->this.myproccessId.contains(p.getProcessInstanceId())).collect(Collectors.toList());	
+		    
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -196,13 +239,15 @@ public class TaskServiceQuery extends TaskService {
         status.put("true","Terminado");
 		return status;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "TaskServiceQuery [startTime=" + startTime + ", endTime=" + endTime + ", claimTime=" + claimTime
-				+ ", paramsQuery=" + paramsQuery + ", json_Variables=" + json_Variables + ", getProcessDefinitionKey()="
-				+ getProcessDefinitionKey() + "]";
+				+ ", paramsQuery=" + paramsQuery + ", json_Variables=" + json_Variables + ", id=" + id + "]";
 	}
+	
+	
+
 
 	
 	
