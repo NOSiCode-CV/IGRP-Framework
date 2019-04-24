@@ -692,7 +692,7 @@ var GENSTRUCTURES = function(GEN){
 		if(validAttrArr(name)){
 			
 			if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
-				arr+='persist="true"';
+				arr+=' persist="true" ';
 
 			if(name == 'visible'){
 
