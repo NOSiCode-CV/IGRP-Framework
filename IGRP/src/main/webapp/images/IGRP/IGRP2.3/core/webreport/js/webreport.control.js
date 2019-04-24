@@ -65,8 +65,9 @@ var WRControl = {
 	    return el;
 	},
 	recorsiveElement : function(cobj){
-	    $('>*',cobj).each(function(i,e){
-	        if($(e).prop('tagName') != 'TABLE'){
+		$('>*',cobj).each(function(i,e){
+	    	var tagName = $(e).prop('tagName');
+	        if(tagName != 'TABLE' || tagName != 'STYLE'){
 	            if (!$('>*',e)[0])
 	                $(e).html(WRControl.nl2br($(e)).html());
 	            else{
