@@ -36,6 +36,7 @@ public class PagesScapePermission {
 	 * Page/Action calling with IGRP Javascript
 	 */
 	static {
+		PAGES_SCAPE_ENCRYPT.add("igrp/login/login".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/notFound".toLowerCase());

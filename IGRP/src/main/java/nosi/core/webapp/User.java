@@ -129,13 +129,15 @@ public class User implements Component{
 
 	@Override
 	public void init(HttpServletRequest request) {
+		String loginUrl = "igrp/login/login";
 		boolean isLoginPage = false;
-		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : "igrp/login/login";
+		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : loginUrl;
 		if(SecurtyCallPage.isPublic(aux)) {
 			return;
 		}
-		String loginUrl = "igrp/login/login";
-		aux = EncrypDecrypt.decrypt(aux);
+		if(aux != null && !aux.equals(loginUrl)) {
+			aux = EncrypDecrypt.decrypt(aux);
+		}
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){			
 			isLoginPage = aux.equals(loginUrl); 
