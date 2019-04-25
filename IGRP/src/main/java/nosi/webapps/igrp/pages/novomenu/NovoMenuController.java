@@ -53,10 +53,8 @@ public class NovoMenuController extends Controller {
              
               	if (menu.getAction() != null){                   
                    model.setAction_fk(menu.getAction().getId());
-                }
-                 
-            }
-        
+                }                 
+            }        
 
 		} else {
 			int app =model.getApp();

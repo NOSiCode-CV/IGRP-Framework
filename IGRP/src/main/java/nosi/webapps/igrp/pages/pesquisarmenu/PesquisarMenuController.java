@@ -129,8 +129,8 @@ public class PesquisarMenuController extends Controller {
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(btn_novo)----*/
-		this.addQueryString("app", Core.getParam("p_aplicacao"));
-		return this.forward("igrp", "NovoMenu", "index", this.queryString());
+		this.addQueryString("p_app", Core.getParam("p_aplicacao"));
+		return this.redirect("igrp", "NovoMenu", "index", this.queryString());
 		/*----#end-code----*/
 			
 	}
