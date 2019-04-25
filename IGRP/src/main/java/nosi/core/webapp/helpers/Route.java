@@ -19,11 +19,14 @@ public class Route {
 			qs += Core.isNotNull(target) ? "&target=" + target : "";
 		}
 		action = resolveAction(action);
-		//String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));	
-		String aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action)
-					+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
+		String aux = null;
+		int isPublic = Core.getParamInt("isPublic");
+		if(isPublic==1) {
+			aux = "?r=" + (app + "/" + page + "/" + action)+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs))+"&isPublic=1";
+		}else {
+			aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action) + (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
+		}
 		aux = aux.replaceAll("&&", "&");
-		//UrlHelper.urlEncoding(aux); 
 		
 		return aux;
 	}

@@ -333,6 +333,10 @@ public class Controller{
 	
 	private void setQueryString(QueryString<String,Object> queryString) {
 		qs = "";
+		int isPublic = Core.getParamInt("isPublic");
+		if(isPublic==1) {
+			qs+="&isPublic=1";
+		}
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
 			queryString.getQueryString().entrySet().stream().forEach(q->{
 				q.getValue().stream().forEach(q1->{
