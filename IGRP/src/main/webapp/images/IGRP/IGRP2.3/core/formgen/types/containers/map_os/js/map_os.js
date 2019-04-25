@@ -174,9 +174,9 @@
 						icon  	 : w.GET.icon(),
 						type  	 : w.GET.widget_type(),
 						position : w.GET.widget_position(),
-						css      : w.GET.widget_css(),
-						js		 : w.GET.widget_js(),
-						html     : w.GET.widget_html(),
+						css      : w.GET.css(),
+						js		 : w.GET.js(),
+						html     : w.GET.html(),
 						active   : w.GET.active(),
 						control  : {
 							button : w.GET.buttonControl()

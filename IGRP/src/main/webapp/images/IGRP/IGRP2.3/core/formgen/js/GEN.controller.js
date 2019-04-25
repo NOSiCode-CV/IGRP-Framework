@@ -5096,12 +5096,12 @@ var GENERATOR = function(genparams){
 				field.type == 'radiolist' || 
 				field.type == 'radio' ||
 				field.type == 'checkbox' )
-				
+			
 				field.setPropriety({
 					name:'java-type',
 					label : 'Java Type',
 					value : {
-						value : '',
+						value : field.javaType || '',
 							options : [
 											{ value : '', label : '' },
 											{ value : 'int', label : 'int' },										

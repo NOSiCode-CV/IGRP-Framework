@@ -5,9 +5,12 @@ var CHECKBOXFIELD = function(type,params){
 	
 	field.xml.check = true;
 	
+	field.javaType = 'int';
+	
 	field.ready = function(){
 		
-		
+	
+			
 		
 	}
 	

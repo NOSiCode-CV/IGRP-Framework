@@ -144,7 +144,7 @@
 			var i = 0;
 			
 			if(widget){
-				
+			
 				for(var propName in widget){
 					
 					if(propName != 'attributes'){
@@ -158,7 +158,7 @@
 					
 				}
 				
-				/*if(widget.icon && field.SET.icon)
+				/*if(widget.hasOwnProperty('icon') && field.SET.icon)
 					
 					field.SET.icon( widget.icon )
 					
@@ -195,7 +195,7 @@
 			
 			field.setPropriety({
 				
-				name : 'widget_html',
+				name : 'html',
 				
 				label : 'Load HTML',
 				
@@ -207,7 +207,7 @@
 			
 			field.setPropriety({
 				
-				name : 'widget_css',
+				name : 'css',
 				
 				label: 'Load CSS',
 				
@@ -219,7 +219,7 @@
 			
 			field.setPropriety({
 				
-				name : 'widget_js',
+				name : 'js',
 				
 				label : 'Load JS',
 				
@@ -372,14 +372,10 @@
 
 			});
 
-			if(params && params.properties && params.properties.widget_type && params.properties.widget_type.value){
+			if(params && params.properties && params.properties.widget_type && params.properties.widget_type.value)
 				
 				SetWidgetAttrs( Widgets[params.properties.widget_type.value] );
-
-				
-			}
-				
-				
+	
 				
 		};
 	}

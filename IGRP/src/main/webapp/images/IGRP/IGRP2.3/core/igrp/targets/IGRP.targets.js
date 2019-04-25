@@ -615,7 +615,7 @@
 						
 				latLng			= latLngArr ? [latLngArr[0]*1, latLngArr[1]*1 ] : null,
 	
-				mapSettings = {
+				mapSettings 	= {
 				
 					id   : map,
 					
@@ -652,11 +652,11 @@
 				
 				$.IGRP.components.iframeNav.set({
 					
-					url    :url,
+					url     : url,
 					
-					clicked:p.clicked,
+					clicked : p.clicked,
 					
-					params : {
+					params  : {
 						
 						gis_map_settings : mapSettings
 						

@@ -6,7 +6,7 @@
 		
 		var app    = this,
 
-			data   = $(dom).data().config || {},
+			data   = JSON.parse($(dom).data().config) || {},
 
 			id     = $(dom).attr('id') || 'map-'+$.IGRP.utils.unique(),
 
@@ -22,12 +22,26 @@
 
 			}, data ),
 			
-			urlMapSettings = GetURLMapSettings(id);
-		
+			dynamicSettings = GetDynamicMapSettings(id);
 			
-		if(urlMapSettings)
 			
-			config = $.extend( config, urlMapSettings );
+		if(dynamicSettings){
+
+			for(var s in dynamicSettings){
+				
+				var settingValue = dynamicSettings[s];
+				
+				if( (s in config) && $.isArray(settingValue) )//concat array
+					
+					$.merge( config[s], settingValue );
+					
+				else
+					
+					config[s] = settingValue;
+				
+			}
+			
+		}
 
 		app.dom    = dom;
 		
@@ -75,34 +89,43 @@
 
 	};
 	
-	function GetURLMapSettings(id){
+	
+	function GetDynamicMapSettings(id){
 		
-		var params = document.IGRPParams || $.IGRP.utils.url.getParams(),
+		var settings = null;
 		
-			mapsettings = params.gis_map_settings,
-		
-			settings = null;
-
-		if(typeof mapsettings === 'string')
+		try{
 			
-			mapsettings = JSON.parse(decodeURI(params.gis_map_settings ));
-
-		if(mapsettings){
+			var params = document.IGRPParams || $.IGRP.utils.url.getParams(),
 			
-			try{
+				mapsettings = params.gis_map_settings;
+	
+			if(typeof mapsettings === 'string')
 				
-				var mapSettings    = mapsettings;
-			
-				if( mapSettings && mapSettings.id == id )
+				mapsettings = JSON.parse(decodeURI(params.gis_map_settings ));
+	
+			if(mapsettings){
+				
+				try{
 					
-					settings = mapSettings;
-
-			}catch(err){
+					var mapSettings    = mapsettings;
 				
-				console.log(err);
-				
+					if( mapSettings && mapSettings.id == id )
+						
+						settings = mapSettings;
+	
+				}catch(err){
+					
+					console.log(err);
+					
+				}
+	
 			}
-
+			
+		}catch(err){
+			
+			console.log(err);
+			
 		}
 		
 		return settings;
