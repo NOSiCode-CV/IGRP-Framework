@@ -19,15 +19,25 @@ public class Route {
 			qs += Core.isNotNull(target) ? "&target=" + target : "";
 		}
 		action = resolveAction(action);
-		String aux = Route.getResolveUrl(app, page, action)+qs;
-		if(Core.isNotNull(aux)) {
-			aux = aux.replaceAll("&&", "&");
+		String url = "";
+		if(qs.contains("dad")) {
+			url = Route.getResolveUrl(app, page, action,null)+qs;
+		}else {
+			url = Route.getResolveUrl(app, page, action)+qs;
 		}
-		return aux;
+		url = url.replaceAll("&&", "&");
+		return url;
 	}
 
 	public static String getResolveUrl(String app,String page,String action){
-		String qs = (Route.getQueryString(action)+"&dad="+Core.getCurrentDad());//Get Query String
+		return Route.getResolveUrl(app, page, action, Core.getCurrentDad());
+	}
+	
+	public static String getResolveUrl(String app,String page,String action,String dad){
+		String qs = Route.getQueryString(action);//Get Query String
+		if(Core.isNotNull(dad)) {
+			qs+="&dad="+dad;
+		}
 		action = Route.resolveAction(action);
 		String url = "";
 		int isPublic = Core.getParamInt("isPublic");
