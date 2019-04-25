@@ -43,7 +43,6 @@ import org.modelmapper.ModelMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
-import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
@@ -68,6 +67,7 @@ import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
@@ -994,11 +994,11 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static String getLinkFile(String p_id) {
-		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
 
 	public static String getLinkFile(int p_id) {
-		return new Config().getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
 
 	/**
@@ -2040,9 +2040,9 @@ public final class Core { // Not inherit
 	 */
 	public static void setMessageInfoLink(String msg, String app, String page, String action) {
 		nosi.core.servlet.IgrpServlet.LOGGER
-				.info(gt(msg) + "/#RESERVE#/" + new Config().getResolveUrl(app, page, action));
+				.info(gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK,
-				gt(msg) + "/#RESERVE#/" + new Config().getResolveUrl(app, page, action));
+				gt(msg) + "/#RESERVE#/" + Route.getResolveUrl(app, page, action));
 	}
 
 	/**
@@ -2974,7 +2974,7 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static String getIGRPLink(String app, String page, String action) {
-		return new Config().getResolveUrl(app, page, action);
+		return Route.getResolveUrl(app, page, action);
 	}
 
 	/**

@@ -19,21 +19,30 @@ public class Route {
 			qs += Core.isNotNull(target) ? "&target=" + target : "";
 		}
 		action = resolveAction(action);
-		String aux = null;
-		int isPublic = Core.getParamInt("isPublic");
-		if(isPublic==1) {
-			aux = "?r=" + (app + "/" + page + "/" + action)+ (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs))+"&isPublic=1";
-		}else {
-			aux = "?r=" + EncrypDecrypt.encrypt(app + "/" + page + "/" + action) + (qs.equals("") || qs == null ? "" : "&" + UrlHelper.urlEncoding(qs));
+		String aux = Route.getResolveUrl(app, page, action)+qs;
+		if(Core.isNotNull(aux)) {
+			aux = aux.replaceAll("&&", "&");
 		}
-		aux = aux.replaceAll("&&", "&");
-		
 		return aux;
 	}
 
+	public static String getResolveUrl(String app,String page,String action){
+		String qs = (Route.getQueryString(action)+"&dad="+Core.getCurrentDad());//Get Query String
+		action = Route.resolveAction(action);
+		String url = "";
+		int isPublic = Core.getParamInt("isPublic");
+		if(isPublic==1) {
+			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1";
+		}
+		else {
+			url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
+		}
+		return url;
+	}
+	
 	public static String getQueryString(String action) {
 		if (action.contains("&")) {
-			return action.substring(action.indexOf("&"));
+			return UrlHelper.urlEncoding(action.substring(action.indexOf("&")));
 		}
 		return "";
 	}

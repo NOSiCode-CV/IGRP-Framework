@@ -5,9 +5,9 @@ package nosi.core.gui.components;
  */
 
 
-import nosi.core.config.Config;
 import nosi.core.webapp.QueryString;
 import nosi.core.webapp.Report;
+import nosi.core.webapp.helpers.Route;
 
 public class IGRPLink {
 
@@ -28,7 +28,7 @@ public class IGRPLink {
 		this.setAction(action);
 		this.setApp(app);
 		this.setPage(page);
-		this.link = new Config().getResolveUrl(this.getApp(), this.getPage(), this.getAction());
+		this.link = Route.getResolveUrl(this.getApp(), this.getPage(), this.getAction());
 	}
 	public IGRPLink(String link) {
 		this();
