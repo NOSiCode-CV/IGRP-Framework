@@ -130,9 +130,13 @@ public class IGRPButton {
 		}
 		target_ += Route.getQueryString(link);//Get Query String
 		link = Route.resolveAction(link);
-		
-		String result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
-		
+		String result = null;
+		int isPublic = Core.getParamInt("isPublic");
+		if(isPublic==1) {
+			result = app + "/" + page + "/" + (link+target_)+"&isPublic=1";
+		}else {
+			result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
+		}
 		return result;
 	}
 
