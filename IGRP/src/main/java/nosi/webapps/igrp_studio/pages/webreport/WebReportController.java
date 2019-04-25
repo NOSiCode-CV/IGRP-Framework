@@ -29,6 +29,7 @@ import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
+import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.pages.datasource.DataSourceController;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
@@ -61,15 +62,16 @@ public class WebReportController extends Controller {
 			RepTemplate  rep = new RepTemplate();
 			List<WebReport.Gen_table> data = new ArrayList<>(); 
 			for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
+				String params = "";
 				WebReport.Gen_table t1 = new WebReport.Gen_table();
 				List<RepTemplateSource> listParams = new RepTemplateSource().find().andWhere("repTemplate", "=", r.getId()).all();
 				if(listParams.size() > 0){
 					//Get parameters
 					for(RepTemplateSource param:listParams){
 						if(param.getParameters()!=null) {
-							param.getParameters().stream().forEach(p->{
+							for(RepTemplateSourceParam p:param.getParameters()) {
 								params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
-							});
+							}
 						}
 					}
 				}
@@ -543,6 +545,5 @@ public class WebReportController extends Controller {
 	
 	private DataSourceController ds = new DataSourceController();
 	private DataSourceHelpers dsh = new DataSourceHelpers();
-	private String params = "";
 	/*----#end-code----*/
 }
