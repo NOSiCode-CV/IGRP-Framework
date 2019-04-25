@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nosi.core.webapp.helpers.Route;
+
 /**
  * 
  * Use the functions getLinkReport and other to manage and invoke reports.
@@ -42,7 +44,7 @@ public class Report extends Controller{
 	
 	public Report getLinkReport(String code_report){
 		Report rep = new Report();
-		rep.setLink(this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
+		rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
 		return rep;
 	}
 	
@@ -67,7 +69,7 @@ public class Report extends Controller{
 
 	public Report getLinkReport(String code_report, QueryString<String, Object> queryString) {
 		Report rep = new Report();
-		rep.setLink(this.config.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
+		rep.setLink(Route.getResolveUrl("igrp_studio", "web-report", "get-link-report")+"&p_rep_code="+code_report);
 		if(queryString!=null) {
 			queryString.getQueryString().entrySet().stream().forEach(q->{
 				rep.addParam(q.getKey(), q.getValue().get(0));

@@ -9,11 +9,11 @@ package nosi.core.gui.fields;
 
 import java.util.Map;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.Route;
 
 public abstract class AbstractField implements Field{
 
@@ -77,7 +77,7 @@ public abstract class AbstractField implements Field{
 		return lookup;
 	}
 	public void setLookup(String app,String page,String action) {
-		this.lookup = new Config().getResolveUrl(app, page, action).replace("webapps?", "");
+		this.lookup = Route.getResolveUrl(app, page, action).replace("webapps?", "");
 	}	
 	public boolean isVisible() {
 		return isVisible;
