@@ -690,12 +690,16 @@
 				holder.html('').append(table);
 
 				$(table).on('click','.clickable',function(){
-					$.IGRP.utils.openChartURL({
-                    	pUrl: p.url,
-                    	pX  : $(this).attr('x'),
-                    	pY  : $(this).attr('y'),
-                    	pZ  : $(this).parent('tr').attr('z')
-                  	});
+					
+					if($.IGRP.utils.url.isUrl(p.url)){
+
+						$.IGRP.utils.openChartURL({
+	                    	pUrl: p.url,
+	                    	pX  : $(this).attr('x'),
+	                    	pY  : $(this).attr('y'),
+	                    	pZ  : $(this).parent('tr').attr('z')
+	                  	});
+                  	}
 				});
 			}
 		},
