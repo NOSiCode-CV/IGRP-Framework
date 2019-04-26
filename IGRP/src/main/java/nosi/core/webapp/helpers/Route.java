@@ -18,6 +18,7 @@ public class Route {
 			}
 			qs += Core.isNotNull(target) ? "&target=" + target : "";
 		}
+		qs = UrlHelper.urlEncoding(qs);
 		action = resolveAction(action);
 		String url = "";
 		if(qs.contains("dad")) {
@@ -38,6 +39,7 @@ public class Route {
 		if(Core.isNotNull(dad)) {
 			qs+="&dad="+dad;
 		}
+		qs = UrlHelper.urlEncoding(qs);
 		action = Route.resolveAction(action);
 		String url = "";
 		int isPublic = Core.getParamInt("isPublic");

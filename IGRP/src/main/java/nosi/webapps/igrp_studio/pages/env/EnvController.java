@@ -7,6 +7,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -453,7 +454,7 @@ public class EnvController extends Controller {
 			
 			Application env = new Application().find().andWhere("dad", "=", app).one();
 			
-			Properties properties = this.load("common", "main.xml");
+			Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
 			String devUrl = properties.getProperty("igrp.env.dev.url"); 			
 			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
@@ -608,7 +609,7 @@ public class EnvController extends Controller {
 	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
 		try {
 			
-			Properties properties = this.load("common", "main.xml");
+			Properties properties =  ConfigApp.getInstance().loadConfig("common", "main.xml");
 			String baseUrl = properties.getProperty("igrp.plsql.url");
 			if(baseUrl == null || baseUrl.isEmpty())
 				throw new Exception("Invalid url ...");
@@ -712,20 +713,7 @@ public class EnvController extends Controller {
 					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
 		}
 	}
-	
-	private Properties load(String filePath, String fileName) {
-		
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
+
 
 	/*----#end-code----*/
 }
