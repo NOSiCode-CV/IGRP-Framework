@@ -921,9 +921,10 @@ var GENERATOR = function(genparams){
 	GEN.getPageJSON = function(id,callback){
 		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';	
 		var req  = null;
+		
 		if(id){
 			
-			req = $.getJSON(link+id,function(data){
+			req = $.getJSON(link+id+'&p_app='+GEN.DETAILS.app,function(data){
 				
 				if(data){
 					
