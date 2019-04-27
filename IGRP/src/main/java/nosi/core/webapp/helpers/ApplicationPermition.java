@@ -16,8 +16,8 @@ public class ApplicationPermition {
 		
 	}
 	
-	public ApplicationPermition(Integer appId, String dad, Integer profId, Integer ogrId, String code_profile,
-			String code_organization) {
+	public ApplicationPermition(Integer appId, String dad, Integer ogrId, Integer profId,
+			String code_organization, String code_profile) {
 		super();
 		this.appId = appId;
 		this.dad = dad;
@@ -72,8 +72,11 @@ public class ApplicationPermition {
 
 	@Override
 	public String toString() {
-		return "ApplicationPermition [dad=" + dad + ", profId=" + profId + ", ogrId=" + ogrId + "]";
-	}	
+		return "ApplicationPermition [appId=" + appId + ", dad=" + dad + ", profId=" + profId + ", ogrId=" + ogrId
+				+ ", code_profile=" + code_profile + ", code_organization=" + code_organization + "]";
+	}
+
+	
 	
 	
 }
