@@ -44,10 +44,10 @@ public class Route {
 		String url = "";
 		int isPublic = Core.getParamInt("isPublic");
 		if(isPublic==1) {
-			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1";
+			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
 		}
 		else {
-			url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
+			url = "?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
 		}
 		return url;
 	}

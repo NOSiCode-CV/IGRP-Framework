@@ -827,6 +827,35 @@ public final class Core { // Not inherit
 	public static Integer getCurrentProfile() {
 		return new Permission().getCurrentPerfilId();
 	}
+	
+	/**
+	 * Get current App ID
+	 * 
+	 * @return App integer ID
+	 */
+	public static Integer getCurrentAppId() {
+		return new Permission().getCurrentEnvId();
+	}
+	
+	/**
+	 * Get current Profile Code
+	 * 
+	 * @return Profile String Code
+	 */
+	
+	public static String getCurrentProfileCode() {
+		return new Permission().getCurrentPerfilCode();
+	}
+	
+	/**
+	 * Get current Organization Code
+	 * 
+	 * @return {@code Organization String Code}
+	 */
+	public static String getCurrentOrganizationCode() {
+		return new Permission().getCurrentPerfilCode();
+	}
+	
 
 	/**
 	 * Get current user and than use then .getName() or getEmail or getUser_name;
