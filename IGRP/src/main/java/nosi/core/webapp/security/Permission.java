@@ -70,8 +70,9 @@ public class Permission {
 					 org.setId(prof.getOrganization().getId());
 					 profType.setId(prof.getProfileType().getId());
 					 ApplicationPermition appP = this.getApplicationPermition(dad);
-					 if(appP==null)
-						 appP = new ApplicationPermition(app.getId(),dad, prof.getOrganization().getId(), prof.getProfileType().getId(),prof.getProfileType().getCode(),prof.getOrganization().getCode());
+					 if(appP==null) {
+						 appP = new ApplicationPermition(app.getId(),dad, prof.getOrganization().getId(), prof.getProfileType().getId(),prof.getOrganization().getCode(),prof.getProfileType().getCode());
+					}
 					try {
 						String json = Core.toJson(appP);
 						Cookie cookie = new Cookie(dad, URLEncoder.encode( json,ENCODE));
@@ -89,8 +90,9 @@ public class Permission {
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
 			ApplicationPermition appP = this.getApplicationPermition(dad);
-			if(appP==null)
-				 appP = new ApplicationPermition(app.getId(),dad, org.getId(), profType.getId(),profType.getCode(),org.getCode());
+			if(appP==null) {
+				 appP = new ApplicationPermition(app.getId(),dad, org.getId(), profType.getId(),prof.getOrganization().getCode(),prof.getProfileType().getCode());
+			}
 			this.setCookie(appP);
 		}
 	}
