@@ -71,7 +71,7 @@ public class Permission {
 					 profType.setId(prof.getProfileType().getId());
 					 ApplicationPermition appP = this.getApplicationPermition(dad);
 					 if(appP==null)
-						 appP = new ApplicationPermition(dad, prof.getOrganization().getId(), prof.getProfileType().getId());
+						 appP = new ApplicationPermition(app.getId(),dad, prof.getOrganization().getId(), prof.getProfileType().getId(),prof.getProfileType().getCode(),prof.getOrganization().getCode());
 					try {
 						String json = Core.toJson(appP);
 						Cookie cookie = new Cookie(dad, URLEncoder.encode( json,ENCODE));
@@ -90,7 +90,7 @@ public class Permission {
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
 			ApplicationPermition appP = this.getApplicationPermition(dad);
 			if(appP==null)
-				 appP = new ApplicationPermition(dad, org.getId(), profType.getId());
+				 appP = new ApplicationPermition(app.getId(),dad, org.getId(), profType.getId(),profType.getCode(),org.getCode());
 			this.setCookie(appP);
 		}
 	}
@@ -123,6 +123,25 @@ public class Permission {
 		if(appP!=null && appP.getOgrId()!=null)
 			return appP.getOgrId();
 		return -1;
+	}
+	
+	public  Integer getCurrentEnvId() {
+		ApplicationPermition appP = this.getApplicationPermition();
+		return appP!=null?appP.getAppId():-1;
+	}
+	
+	public  String getCurrentPerfilCode() {
+		ApplicationPermition appP = this.getApplicationPermition();
+		if(appP!=null)
+			return appP.getCode_profile();
+		return "";
+	}
+
+	public  String getCurrentOrganizationCode() {
+		ApplicationPermition appP = this.getApplicationPermition();
+		if(appP!=null)
+			return appP.getCode_organization();
+		return "";
 	}
 	
 	public ApplicationPermition getApplicationPermition() {

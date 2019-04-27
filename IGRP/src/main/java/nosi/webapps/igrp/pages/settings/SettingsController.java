@@ -39,7 +39,7 @@ public class SettingsController extends Controller {
 				try {
 					if(Core.isNotNull(model.getPerfil())){
 						ProfileType prof = new ProfileType().findOne(model.getPerfil());
-						ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId());
+						ApplicationPermition appP = new ApplicationPermition(prof.getOrganization().getApplication().getId(),prof.getOrganization().getApplication().getDad(), prof.getOrganization().getId(), prof.getId(),prof.getCode(),prof.getOrganization().getCode());
 						Igrp.getInstance().getRequest().getSession().setAttribute(appP.getDad(),appP);
 						new Permission().setCookie(appP);
 					}
