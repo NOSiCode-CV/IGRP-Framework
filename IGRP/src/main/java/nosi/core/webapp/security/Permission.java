@@ -91,7 +91,7 @@ public class Permission {
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
 			ApplicationPermition appP = this.getApplicationPermition(dad);
 			if(appP==null) {
-				 appP = new ApplicationPermition(app.getId(),dad, org.getId(), profType.getId(),prof.getOrganization().getCode(),prof.getProfileType().getCode());
+				 appP = new ApplicationPermition(app.getId(),dad, org.getId(), profType.getId(),prof.getOrganization()!=null?prof.getOrganization().getCode():null,prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 			}
 			this.setCookie(appP);
 		}

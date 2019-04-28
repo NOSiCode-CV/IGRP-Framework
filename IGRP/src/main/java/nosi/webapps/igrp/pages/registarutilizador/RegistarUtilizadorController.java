@@ -111,7 +111,9 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 		
 		RegistarUtilizador model = new RegistarUtilizador();	
         model.load();
-		User user = new User().findOne(Integer.parseInt(idUser));		
+		
+        
+        User user = Core.findUserById(Core.toInt(idUser));		
 		model.setNome(user.getName());
 		model.setUsername(user.getUser_name());
 		model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));

@@ -452,7 +452,7 @@ public class EnvController extends Controller {
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			
-			Application env = new Application().find().andWhere("dad", "=", app).one();
+			Application env = Core.findApplicationByDad(app);
 			
 			Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");

@@ -32,7 +32,7 @@ public class User implements Component{
 		try {
 			this.identity = identity;
 			this.expire = expire;
-			new Permission().changeOrgAndProfile("igrp");
+			new Permission().changeOrgAndProfile("tutorial");
 			// Create the session context
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());

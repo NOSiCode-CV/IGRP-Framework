@@ -1362,6 +1362,18 @@ public final class Core { // Not inherit
 		return nosi.core.i18n.Translator.gt(value);
 	}
 
+	
+	
+	/**
+	 * Consume a REST API Json using get
+	 * 
+	 * @param url	
+	 * @param result
+	 * @return {@code httpGet(url, mediaType, null, result);}
+	 */
+	public static <T> T httpGet(String url, Class<T> result) {
+		return httpGet(url, new String[] {}, null, result);
+	}
 	/**
 	 * Consume a REST API using get
 	 * 
