@@ -90,8 +90,9 @@ public class Permission {
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
 			ApplicationPermition appP = this.getApplicationPermition(dad);
+			
 			if(appP==null) {
-				 appP = new ApplicationPermition(app.getId(),dad, org.getId(), profType.getId(),prof.getOrganization()!=null?prof.getOrganization().getCode():null,prof.getProfileType()!=null?prof.getProfileType().getCode():null);
+				 appP = new ApplicationPermition(app.getId(),dad, org!=null?org.getId():null, profType!=null ? profType.getId():null,prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 			}
 			this.setCookie(appP);
 		}
