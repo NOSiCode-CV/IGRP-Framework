@@ -48,7 +48,7 @@ public class Connection {
 					.one();
 			return this.getConnectionWithConfig(config);
 		}
-		return this.getConnection(dbtype,url,user,password);
+		return this.getConnection_(dbtype,url,user,password);
 	}
 	
 	private java.sql.Connection getConnectionWithConfig(Config_env config) {
@@ -67,17 +67,22 @@ public class Connection {
 			user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);	
 			dbtype = Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);
 		}
-		return this.getConnection(dbtype,url,user,password);
+		return this.getConnection_(dbtype,url,user,password);
 	}
 
-	private java.sql.Connection getConnection(String dbType,String url, String user, String password) {
+	private java.sql.Connection getConnection_(String dbType,String url, String user, String password) {
+	    return this.getConnection(DatabaseConfigHelper.getDatabaseDriversExamples(dbType), url, user, password);
+	}
+
+	
+	public java.sql.Connection getConnection(String driver,String url, String user, String password) {
 		java.sql.Connection conn = null;
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", user);
 	    connectionProps.put("password", password);
 	    boolean isConnect = true;
 	    try {
-	    	Class.forName(DatabaseConfigHelper.getDatabaseDriversExamples(dbType)); 
+	    	Class.forName(driver); 
 			conn = DriverManager.getConnection(url,connectionProps);
 		} catch (SQLException | ClassNotFoundException e) {
 			isConnect = false;
@@ -98,7 +103,6 @@ public class Connection {
 	    }
 	    return null;
 	}
-
 	public java.sql.Connection getConnection(Config_env config_env){
 		return this.getConnectionWithConfig(config_env);
 	}

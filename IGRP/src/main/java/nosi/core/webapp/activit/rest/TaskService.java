@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
@@ -112,8 +111,8 @@ public class TaskService extends Activit{
 		List<TaskService> tasks =  this.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
-							 .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
-							 .collect(Collectors.toList());
+							  .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
+							  .collect(Collectors.toList());
 		return tasks;
 	}
 	
@@ -550,6 +549,7 @@ public class TaskService extends Activit{
 			this.setProcessDefinifionKey(process.getKey());
 		}
 	}
+	
 	public String getProcessName() {
 		return processName;
 	}

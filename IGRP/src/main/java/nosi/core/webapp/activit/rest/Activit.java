@@ -62,10 +62,10 @@ public class Activit {
 	}
 
 	public boolean allowTask(String proccessKey,ActivityExecute task) {
-		boolean r = true;
+		boolean r = true;//allow all task by default
     	try {
     		if(Core.isNotNullMultiple(task.getApplication(),task.getApplication().getDad())) {
-	    		String packageName = GenerateInterfacePermission.getProccessClassName(task.getApplication().getDad().toLowerCase(),proccessKey);
+	    		String packageName = GenerateInterfacePermission.getProccessPackageName(task.getApplication().getDad().toLowerCase(),proccessKey);
 	    		if(Core.isNotNull(packageName)) {
 					Class<?> c = Class.forName(packageName);
 					if(c!=null) {
@@ -78,9 +78,8 @@ public class Activit {
 		} catch (Exception e) {
 			r = true;
 		} 
-    	return r;//allow all task by default
-	}
-	 
+    	return r;
+	}	 
 
 	public void setFilterCustom(String filter_custom) {
 		this.filter_custom = filter_custom;

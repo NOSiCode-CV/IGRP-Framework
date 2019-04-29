@@ -65,7 +65,7 @@ public class GenerateInterfacePermission {
 	}
 
 
-	public static String getProccessClassName(String dad, String proccessKey) {
+	public static String getProccessPackageName(String dad,String proccessKey) {
 		if(Core.isNotNullMultiple(dad,proccessKey)) {
 			String packageName = "nosi.webapps."+dad.toLowerCase()+".process."+proccessKey.toLowerCase()+"."+getGenerateClassName(proccessKey);
 			return packageName;
