@@ -23,10 +23,9 @@
 	<entry key="ids.wso2.oauth2.endpoint.token">https://nhais1.gov.cv/oauth2/token</entry>
 	<entry key="ids.wso2.oauth2.endpoint.user">https://nhais1.gov.cv/oauth2/userinfo?schema=openid</entry>
 	<entry key="ids.wso2.oauth2.endpoint.authorize">https://nhais1.gov.cv/oauth2/authorize</entry>
-	<entry key="ids.wso2.oauth2.endpoint.redirect_uri">https://nhais1.gov.cv/oauth2/userinfo?schema=openid</entry>
+	<entry key="ids.wso2.oauth2.endpoint.redirect_uri">http://localhost:8080/IGRP/index.jsp</entry> 
 	
-	
-	<!--  -->
+	<!--  --> 
 	<entry key="igrp.env.dev.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
 	<entry key="igrp.env.prod.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
 	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>

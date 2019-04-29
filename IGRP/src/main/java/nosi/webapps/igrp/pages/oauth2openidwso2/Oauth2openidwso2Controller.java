@@ -25,8 +25,8 @@ public class Oauth2openidwso2Controller extends Controller {
 		Oauth2openidwso2View view = new Oauth2openidwso2View();
 		/*----#start-code(index)----*/
 		
+		//view.btn_sign_in_.addParameter("target", "_blank");
 		view.btn_sign_in_.addParameter("isPublic", "1");
-		view.btn_sign_in_.addParameter("target", "_blank");
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -43,12 +43,10 @@ public class Oauth2openidwso2Controller extends Controller {
 		 return this.forward("igrp","Oauth2openidwso2","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(sign_in_)----*/
 		
-		System.out.println("Entrado 1");
-		
 		Properties settings = loadConfig("common", "main.xml"); 
 		
 		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize");
-		String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+		String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 		String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 		
 		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;

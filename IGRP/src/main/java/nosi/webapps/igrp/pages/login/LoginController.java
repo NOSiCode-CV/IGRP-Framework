@@ -4,32 +4,25 @@ import static nosi.core.i18n.Translator.gt;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
-import javax.xml.bind.JAXB;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
-import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
-import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -37,181 +30,70 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.Permission;
-import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
-import nosi.webapps.igrp.dao.UserRole;
 import service.client.WSO2UserStub;
-
 /**
- * Marcel Iekiny Oct 4, 2017
+ * Marcel Iekiny Oct 4, 2017 
  */
 /*----#start-code(packages_import)----*/
 
 /*----#end-code----*/
+
 public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
 	private Properties settings = loadConfig("common", "main.xml");
 
-	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionLogin() throws Exception { 
 		
-		// Go to password recover page ... 
-		String p_button2 = Igrp.getInstance().getRequest().getParameter("p_button2");
-		if (p_button2 != null && p_button2.equals("p_button2")) {
-			String url = Igrp.getInstance().getRequest().getRequestURL().toString()
-					+ "?r=igrp/Resetbyemail/index&target=_blank&isPublic=1";
-			return redirectToUrl(url);
-		}
-
-		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
-		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
-		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
-		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
-		String scope = Igrp.getInstance().getRequest().getParameter("scope");
-
-		// Activation key 
-		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
-		if (activation_key != null && !activation_key.trim().isEmpty()) {
-			try {
-				User user = new User().find().andWhere("activation_key", "=", activation_key).one();
-				activation_key = new String(Base64.getUrlDecoder().decode(activation_key));
-				if (user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0
-						&& user.getStatus() == 0) {
-					user.setStatus(1);
-					user = user.update();
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
-							gt("Ativação bem sucedida. Faça o login !!!"));
-				} else {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-							gt("Ooops !!! Ocorreu um erro na activação."));
-				}
-			} catch (Exception e) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-						gt("Ooops !!! Ocorreu um erro na activação."));
-			}
-			return redirect("igrp", "login", "login");
-		}
-
-		if (!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogni") != null
-				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
-				&& settings.getProperty("igrp.env.nhaLogin.url") != null
-				&& !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()) {
-			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
-		}
-
-		// first
-		if (Igrp.getInstance().getUser().isAuthenticated()) {
-			if (oauth2 != null && oauth2.equalsIgnoreCase("1")) {
-				StringBuilder oauth2ServerUrl = new StringBuilder();
-				User user = (User) Igrp.getInstance().getUser().getIdentity();
-				if (generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope))
-					return this.redirectToUrl(oauth2ServerUrl.toString());
-				else
-					;// Go to error page
-			}
-
-			if (settings.getProperty("igrp.env.isNhaLogin") != null
-					&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
-				String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-				url = url.replace("app/webapps", "mylinks.jsp");
-				return redirectToUrl(url);
-			}
-
-			String destination = Route.previous();
-			if (destination != null) {
-				String qs = URI.create(destination).getQuery();
-				qs = qs.substring(qs.indexOf("r=") + "r=".length());
-				String param[] = qs.split("/");
-				new Permission().changeOrgAndProfile(param[0]);
-				return this.redirectToUrl(destination);
-			}
-			return this.redirect("igrp", "home", "index");
-		}
-
+		Response r = createResponseForRetrieveAccount();
+		if(r != null) return r; 
+		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
-
-		if (oauth2 != null && oauth2.equalsIgnoreCase("1")
-				&& !validateOAuth2Parameters(response_type, client_id, redirect_uri, scope)) {
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-					gt("Ocorreu um erro ... Autenticação OAuth2 falhada !"));
-
-		}
-
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-
+		
+		
+		r = createResponseIfIsAuthenticated();
+		if(r != null) return r; 
+		
+		
+		r = createResponseIfNotAuthenticated_nhaLogin();
+		if(r != null) return r; 
+		
+		
+		r = oAuth2Wso2();
+		if(r != null) return r;
+		
+		r = createResponseApplyingActivation();
+		if(r != null) return r;  
+		
+		
+		r = createResponseOauth2OpenIdWso2();
+		if(r != null) return r; 
+		
+		
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
+			
 			model.load();
-
-			if (model.getPassword() == null || model.getPassword().isEmpty()) {
-				Core.setMessageError("A sua conta ou palavra-passe está incorreta.");
-				return this.renderView(view, true);
-			}
-
-			switch (this.getConfig().getAutenticationType()) {
-			case "db":
-				if (this.loginWithDb(model.getUser(), model.getPassword())) { 
-						String destination = Route.previous(); 
-						if (destination != null) {
-							String qs = URI.create(destination).getQuery();
-							qs = qs.substring(qs.indexOf("r=") + "r=".length());
-							String param[] = qs.split("/");
-							new Permission().changeOrgAndProfile(param[0]);
-							
-							return this.redirectToUrl(destination);
-						}
-						return this.redirect("igrp", "home", "index"); // By default go to home index url 
-				}
-				break;
-
-			case "ldap": {
-				if (this.loginWithLdap(model.getUser(), model.getPassword())) {
-					if (oauth2 != null && oauth2.equalsIgnoreCase("1")) {
-						StringBuilder oauth2ServerUrl = new StringBuilder();
-						User user = (User) Igrp.getInstance().getUser().getIdentity();
-						if (generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri,
-								scope)) {
-							return this.redirectToUrl(oauth2ServerUrl.toString());
-						} else
-							;// Go to error page
-					} else {
-						if (settings.getProperty("igrp.env.isNhaLogin") != null
-								&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
-							return checkEnvironments(model.getUser());
-						}
-						// TODO by Marcos: must decrypt de URL when you do Route.remenber()
-						String destination = Route.previous();
-						if (destination != null) {
-							String qs = URI.create(destination).getQuery();
-							qs.indexOf("r=");
-							qs = qs.substring(qs.indexOf("r=") + "r=".length());
-							String param[] = qs.split("/");
-							new Permission().changeOrgAndProfile(param[0]);
-							return this.redirectToUrl(destination);
-						}
-						return this.redirect("igrp", "home", "index");
-					}
-
-				}
-			}
-				break;
-
-			default:
-				;
-			}
+			
+			r = mainAuthentication(model.getUser(), model.getPassword());
+			if(r != null) return r; 
+			
+			return redirect("igrp", "login", "login", this.queryString()); 
 		}
+		
 		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");
 		boolean isDb = this.getConfig().getAutenticationType().equals("db");
 		if ((aux != null && !aux.isEmpty() && aux.equals("true")) || isDb) {
 			view.user.setLabel("Username");
 			view.user.propertie().setProperty("type", "text");
-
 		}
-
+		
 		return this.renderView(view, true);
 	}
 
@@ -240,6 +122,12 @@ public class LoginController extends Controller {
 			c.setValue(null);
 			Igrp.getInstance().getResponse().addCookie(c);
 		}
+		
+		
+		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+		if(r != null && r.equalsIgnoreCase("true")) 
+			return redirectToUrl(createUrlForOAuth2OpenIdRequest()); 
+		
 		return this.redirect("igrp", "login", "login");
 	}
 
@@ -248,15 +136,133 @@ public class LoginController extends Controller {
 		return this.redirect("igrp", "login", "login");
 	}
 
-	/*
-	 * The following methods are all encapsulate (private) ... Those methods
-	 * encapsulate the specific IGRP login and authentication business logic ...
-	 * Your never call those methods out of this class ... Those methods are not a
-	 * action of IGRP Controller !
-	 */
+	
 
-	// Use default connectionName "db1" and default igrp user table 
-	private boolean loginWithDb(String username, String password) throws IOException { 
+	private Properties loadConfig(String filePath, String fileName) {
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath()
+				.replaceAll("%20", " "));
+
+		Properties props = new Properties();
+		try (FileInputStream fis = new FileInputStream(file)) {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return props;
+	}
+	
+	private Response createResponseIfIsAuthenticated() {
+		if (Igrp.getInstance().getUser().isAuthenticated()) {
+
+			if (settings.getProperty("igrp.env.isNhaLogin") != null
+					&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
+				String url = Igrp.getInstance().getRequest().getRequestURL().toString();
+				url = url.replace("app/webapps", "mylinks.jsp");
+				return redirectToUrl(url);
+			}
+
+			String destination = Route.previous();
+			if (destination != null) {
+				String qs = URI.create(destination).getQuery();
+				qs = qs.substring(qs.indexOf("r=") + "r=".length());
+				String param[] = qs.split("/");
+				new Permission().changeOrgAndProfile(param[0]);
+				return this.redirectToUrl(destination);
+			}
+			try {
+				return this.redirect("igrp", "home", "index");
+			}catch (Exception e) {
+			}
+		}
+		return null;
+	}
+	
+	
+	public Response createResponseApplyingActivation() {
+		// Activation key 
+		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
+		if (activation_key != null && !activation_key.trim().isEmpty()) {
+			try {
+				User user = new User().find().andWhere("activation_key", "=", activation_key).one();
+				activation_key = new String(Base64.getUrlDecoder().decode(activation_key));
+				if (user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0
+						&& user.getStatus() == 0) {
+					user.setStatus(1);
+					user = user.update();
+					Core.setMessageSuccess("Ativação bem sucedida. Faça o login !!!");
+				} else {
+					Core.setMessageError("Ooops !!! Ocorreu um erro na activação.");
+				}
+			} catch (Exception e) {
+				Core.setMessageError("Ooops !!! Ocorreu um erro na activação.");
+			}
+			try {
+				return redirect("igrp", "login", "login", this.queryString());
+			} catch (Exception e) {
+			}
+		}
+		
+		return null;
+	}
+	
+	private Response createResponseIfNotAuthenticated_nhaLogin() {
+		if (!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogni") != null
+				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
+				&& settings.getProperty("igrp.env.nhaLogin.url") != null
+				&& !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()) {
+			return redirectToUrl(settings.getProperty("igrp.env.nhaLogin.url"));
+		}
+		return null;
+	}
+	
+	private Response mainAuthentication(String username, String password) {
+		switch (this.getConfig().getAutenticationType()) {
+			case "db": 
+				if (loginWithDb(username, password)) { 
+					String destination = Route.previous(); 
+					if (destination != null) {
+						String qs = URI.create(destination).getQuery();
+						qs = qs.substring(qs.indexOf("r=") + "r=".length());
+						String param[] = qs.split("/");
+						new Permission().changeOrgAndProfile(param[0]);
+						
+						return this.redirectToUrl(destination);
+					}
+					try {
+						return this.redirect("igrp", "home", "index"); // By default go to home index url 
+					}catch (Exception e) {
+					}
+			}
+			break; 
+			case "ldap": 
+				if (this.loginWithLdap(username, password)) {
+					if (settings.getProperty("igrp.env.isNhaLogin") != null
+							&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
+						return checkEnvironments_nhaLogin(username);
+					}
+					// TODO by Marcos: must decrypt de URL when you do Route.remenber()
+					String destination = Route.previous(); 
+					if (destination != null) {
+						String qs = URI.create(destination).getQuery();
+						qs.indexOf("r=");
+						qs = qs.substring(qs.indexOf("r=") + "r=".length());
+						String param[] = qs.split("/");
+						new Permission().changeOrgAndProfile(param[0]);
+						return this.redirectToUrl(destination);
+					}
+					try {
+						return this.redirect("igrp", "home", "index"); // By default go to home index url 
+					}catch (Exception e) {
+					}
+				}
+			break; 
+		}
+		
+		return null; 
+	}
+	
+	private boolean loginWithDb(String username, String password) { 
 		boolean success = false;
 		User user = (User) new User().findIdentityByUsername(username);
 		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))) {
@@ -264,36 +270,144 @@ public class LoginController extends Controller {
 				Profile profile = new Profile().getByUser(user.getId());
 				if (profile != null && Igrp.getInstance().getUser().login(user, 60 * 60/* 1h */)) { // 3600 * 24 * 30
 					if (!Session.afterLogin(profile))
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-								gt("Ooops !!! Error no registo session ..."));
-					// String backUrl = Route.previous(); // remember the last url that was
-					// requested by the user
+						Core.setMessageError("Ooops !!! Error no registo session ...");
+					// String backUrl = Route.previous(); // remember the last url that was 
 					success = true;
 				} else
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-							gt("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido."));
+					Core.setMessageError("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido.");
 			} else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-						gt("Utilizador desativado. Por favor contacte o Administrador."));
-		} else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(
-					"A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador."));
+				Core.setMessageError("Utilizador desativado. Por favor contacte o Administrador.");
+		} else 
+			Core.setMessageError("A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
+			
 		return success;
 	}
+	
+	private Response checkEnvironments_nhaLogin(String uid) {
+		try {
+			User user = new User().find().andWhere("user_name", "=", uid).one();
+			String token = Base64.getEncoder()
+					.encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes());
+			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+			WSO2UserStub.disableSSL();
+			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
+			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
+					settings.getProperty("ids.wso2.admin-pwd"), 2);
 
-	// Use ldap protocol to make login
+			List<String> roles = stub.getOperations().getRoleListOfUser(uid);
 
-	private boolean authenticate_(String username, String password, boolean viaIds, Object... objects) {
-		ArrayList<LdapPerson> personArray = (ArrayList<LdapPerson>) objects[1];
-		if (viaIds) {
-			Properties settings = (Properties) objects[0];
-			boolean flag = false;
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("token", token);
+			JSONArray jsonArray = new JSONArray();
+			jsonObject.put("myLinks", jsonArray);
+
+			roles.forEach(obj -> {
+				jsonArray.put(obj);
+			});
+
+			Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonObject.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String url = Igrp.getInstance().getRequest().getRequestURL().toString();
+		url = url.replace("app/webapps", "mylinks.jsp");
+
+		return redirectToUrl(url);
+	}
+	
+	
+	
+	
+	private boolean loginWithLdap(String username, String password) {
+		
+		boolean success = false;
+		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+
+		if (settings.getProperty("ids.wso2.enabled") != null && settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
+			success = authenticateThroughWso2(username, password, personArray);
+		} 
+
+		if (success) {
+			// Verify if this credentials exist in DB
+			User user = (User) new User().findIdentityByUsername(username);
+			if (user != null) {
+				/*
+				 * password = nosi.core.webapp.User.encryptToHash(password, "SHA-256");
+				 * if((user.getPass_hash() == null) || (user.getPass_hash() != null &&
+				 * !user.getPass_hash().equals(password))) { user.setPass_hash(password); //
+				 * Anyway !!! update the user's password and encrypt it ... user.update(); }
+				 */
+				/** Begin create user session **/
+				
+				success = createSessionLdapAuthentication(user);
+				
+				sso(username, password, user);
+
+				/** End create user session **/
+
+			} else {
+				if (this.getConfig().getEnvironment().equals("dev")
+						|| (settings.getProperty("igrp.env.isNhaLogin") != null
+								&& settings.getProperty("igrp.env.isNhaLogin").equals("true"))) { // Active Directory
+																									// Ldap Server ...
+																									// autoinvite the
+																									// user for
+																									// IgrpStudio 
+					User newUser = new User();
+					newUser.setUser_name(username.trim().toLowerCase());
+
+					if (personArray != null && personArray.size() > 0)
+						for (int i = 0; i < personArray.size(); i++) {
+							LdapPerson p = personArray.get(i);
+
+							if (p.getName() != null && !p.getName().isEmpty())
+								newUser.setName(p.getName());
+							else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
+								newUser.setName(p.getDisplayName());
+							else
+								newUser.setName(p.getFullName());
+
+							newUser.setEmail(p.getMail().toLowerCase());
+						}
+
+					newUser.setStatus(1);
+					newUser.setCreated_at(System.currentTimeMillis());
+					newUser.setUpdated_at(System.currentTimeMillis());
+					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+					newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+
+					newUser = newUser.insert();
+
+					if (newUser != null) {
+
+						sso(username, password, newUser);
+
+						if(createPerfilWhenAutoInvite(newUser))
+							return createSessionLdapAuthentication(newUser);
+						
+					}
+
+				} else {
+					success = false;
+					Core.setMessageError(gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
+				}
+			}
+		} else 
+			Core.setMessageError(gt("A sua conta ou palavra-passe está incorreta."));
+
+		return success;
+	}
+	
+	private boolean authenticateThroughWso2(String username, String password, List<LdapPerson> personArray) {
+		boolean flag = false;
 			try {
 				URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 				WSO2UserStub.disableSSL();
 				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 				stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 						settings.getProperty("ids.wso2.admin-pwd"), 2);
+				
 				flag = stub.getOperations().authenticate(username, password);
 
 				String v = settings.getProperty("igrp.authentication.govcv.enbaled");
@@ -328,163 +442,13 @@ public class LoginController extends Controller {
 				personArray.add(ldapPerson);
 
 			} catch (Exception ex) {
-				flag = false;
 				ex.printStackTrace();
 			}
-			return flag;
-		}
-
-		NosiLdapAPI ldap = (NosiLdapAPI) objects[0];
-
-		return ldap.validateLogin(username, password, personArray);
+			
+		return flag;
 	}
-
-	private boolean loginWithLdap(String username, String password) {
-		boolean success = false;
-		// String x = new Config().getBasePathConfig() + File.separator + "ldap" +
-		// File.separator + "ldap.xml";
-		String x = new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml";
-		File file = new File(getClass().getClassLoader().getResource(x).getPath().replaceAll("%20", " "));
-		// boolean b = file.exists();
-
-		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(),
-				ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
-
-		if (settings.getProperty("ids.wso2.enabled") != null
-				&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
-			success = authenticate_(username, password, true, settings, personArray);
-		} else {
-			success = authenticate_(username, password, false, ldap, personArray);
-		}
-
-		if (success) {
-			// Verify if this credentials exist in DB
-			User user = (User) new User().findIdentityByUsername(username);
-			if (user != null) {
-				/*
-				 * password = nosi.core.webapp.User.encryptToHash(password, "SHA-256");
-				 * if((user.getPass_hash() == null) || (user.getPass_hash() != null &&
-				 * !user.getPass_hash().equals(password))) { user.setPass_hash(password); //
-				 * Anyway !!! update the user's password and encrypt it ... user.update(); }
-				 */
-				/** Begin create user session **/
-				success = createSessionLdapAuthentication(user);
-				sso(username, password, user);
-
-				/** End create user session **/
-
-			} else {
-				if (this.getConfig().getEnvironment().equals("dev")
-						|| (settings.getProperty("igrp.env.isNhaLogin") != null
-								&& settings.getProperty("igrp.env.isNhaLogin").equals("true"))) { // Active Directory
-																									// Ldap Server ...
-																									// autoinvite the
-																									// user for
-																									// IgrpStudio
-
-					User newUser = new User();
-					newUser.setUser_name(username.trim().toLowerCase());
-
-					if (personArray != null && personArray.size() > 0)
-						for (int i = 0; i < personArray.size(); i++) {
-							LdapPerson p = personArray.get(i);
-
-							if (p.getName() != null && !p.getName().isEmpty())
-								newUser.setName(p.getName());
-							else if (p.getDisplayName() != null && !p.getDisplayName().isEmpty())
-								newUser.setName(p.getDisplayName());
-							else
-								newUser.setName(p.getFullName());
-
-							newUser.setEmail(p.getMail().toLowerCase());
-						}
-
-					newUser.setStatus(1);
-					// newUser.setPass_hash(nosi.core.webapp.User.encryptToHash(password,
-					// "SHA-256"));
-					newUser.setCreated_at(System.currentTimeMillis());
-					newUser.setUpdated_at(System.currentTimeMillis());
-					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
-					newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-
-					newUser = newUser.insert();
-
-					if (newUser != null) {
-
-						sso(username, password, newUser);
-
-						Profile p1 = new Profile();
-						p1.setUser(newUser);
-						p1.setOrganization(new Organization().findOne(3));
-						p1.setProfileType(new ProfileType().findOne(4));
-						p1.setType("PROF");
-						p1.setType_fk(4);
-
-						Profile p2 = new Profile();
-						p2.setUser(newUser);
-						p2.setOrganization(new Organization().findOne(3));
-						p2.setProfileType(new ProfileType().findOne(4));
-						p2.setType("ENV");
-						p2.setType_fk(3);
-
-						Profile tutorialApp = new Profile();
-						tutorialApp.setUser(newUser);
-						tutorialApp.setOrganization(new Organization().findOne(2));
-						tutorialApp.setProfileType(new ProfileType().findOne(3));
-						tutorialApp.setType("ENV");
-						tutorialApp.setType_fk(2);
-
-						if (p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null) {
-							UserRole role = new UserRole(); // For SSO via ApacheRealm
-							String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
-							role.setRole_name(
-									role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
-							role.setUser(newUser);
-							role = role.insert();
-							return createSessionLdapAuthentication(newUser);
-						}
-
-					}
-
-				} else {
-					success = false;
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-							gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
-				}
-			}
-		} else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-					gt("A sua conta ou palavra-passe está incorreta."));
-
-		return success;
-	}
-
-	private boolean createSessionLdapAuthentication(User user) {
-		boolean result = true;
-		if (user.getStatus() == 1) {
-			Profile profile = new Profile().getByUser(user.getId());
-			if (profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)) {
-				if (!Session.afterLogin(profile)) {
-					result = false;
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-							gt("Ooops !!! Error no registo session ..."));
-					// String backUrl = Route.previous(); // remember the last url that was
-					// requested by the user
-				}
-			} else {
-				result = false;
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inválido ..."));
-			}
-		} else {
-			result = false;
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-					gt("Utilizador desativado. Por favor contacte o Administrador."));
-		}
-		return result;
-	}
-
+	
+	
 	private boolean sso(String username, String password, User dao) {
 		// boolean flag = true;
 		String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
@@ -537,206 +501,254 @@ public class LoginController extends Controller {
 		}
 		return true;
 	}
-
-	private Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath()
-				.replaceAll("%20", " "));
-
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
-
-	private Response checkEnvironments(String uid) {
-		try {
-			User user = new User().find().andWhere("user_name", "=", uid).one();
-			String token = Base64.getEncoder()
-					.encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes());
-			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
-			WSO2UserStub.disableSSL();
-			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
-					settings.getProperty("ids.wso2.admin-pwd"), 2);
-
-			List<String> roles = stub.getOperations().getRoleListOfUser(uid);
-
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("token", token);
-			JSONArray jsonArray = new JSONArray();
-			jsonObject.put("myLinks", jsonArray);
-
-			roles.forEach(obj -> {
-				jsonArray.put(obj);
-			});
-
-			Igrp.getInstance().getRequest().getSession().setAttribute("__links", jsonObject.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-		url = url.replace("app/webapps", "mylinks.jsp");
-
-		return redirectToUrl(url);
-	}
-
-	/** **/
-
-	private boolean generateOauth2Response(StringBuilder oauth2ServerUrl/* INOUT var */, User user,
-			String response_type, String client_id, String redirect_uri, String scope) {
+	
+	private boolean createSessionLdapAuthentication(User user) {
 		boolean result = true;
-
-		String url_ = Igrp.getInstance().getRequest().getRequestURL().toString()
-				.replace(Igrp.getInstance().getRequest().getRequestURI() + "", "");
-		url_ += "/igrp-rest/rs/oauth2/authorization";
-		String queryString = "?";
-		queryString += "authorize=1";
-		queryString += "&response_type=" + response_type.replaceAll(" ", "%20");
-		queryString += "&client_id=" + client_id;
-		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
-		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");
-		queryString += "&userId=" + Base64.getEncoder().encodeToString(user.getUser_name().getBytes());
-
-		oauth2ServerUrl.append(url_.concat(queryString));
-
-		return result;
-	}
-
-	private boolean validateOAuth2Parameters(String response_type, String client_id, String redirect_uri,
-			String scope) {
-		boolean result = true;
-		// Validate parameters
-		try {
-			OAuthClient client = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
-			result = !(!validateScope(scope, client)
-					|| (!client.getGrant_types().equalsIgnoreCase("authorization_code")
-							&& !client.getGrant_types().equalsIgnoreCase("implicit"))
-					|| (!response_type.equalsIgnoreCase("token") && !response_type.equalsIgnoreCase("code")));
-		} catch (Exception e) {
-			// e.printStackTrace();
+		if (user.getStatus() == 1) {
+			Profile profile = new Profile().getByUser(user.getId());
+			if (profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)) {
+				if (!Session.afterLogin(profile)) {
+					result = false;
+					Core.setMessageError(gt("Ooops !!! Error no registo session. "));
+					// String backUrl = Route.previous(); // remember the last url that was
+					// requested by the user
+				}
+			} else {
+				result = false;
+				Core.setMessageError(gt("Ooops !!! Login inválido. "));
+			}
+		} else {
 			result = false;
+			Core.setMessageError("Utilizador desativado. Por favor contacte o Administrador.");
 		}
 		return result;
 	}
-
-	private boolean validateScope(String scopes, OAuthClient client) { // Ex.: scope1,scope2,...,scopeN
-		if (scopes == null || scopes.isEmpty())
-			return true; // scopes is optional in this case
-		String[] aux = scopes.split(",");
-		for (String obj : aux)
-			if (!client.getScope().contains(obj))
-				return false;
-		return true;
-	}
-
-	public static void main(String[] args) throws FileNotFoundException {
-		ClassLoader classLoader = new LoginController().getClass().getClassLoader();
-		File file = new File(classLoader.getResource("kriols_users.txt").getFile());
-		Scanner scan = new Scanner(file);
-
-		List<String> links = new ArrayList<String>();
-		List<String> emails = new ArrayList<String>();
-
-		while (scan.hasNextLine()) {
-			String link = scan.next();
-			String email = scan.next();
-
-			link = link.replace("http://", "").replace("https://", "").replace(":", "0_58").replace("-", "0_45")
-					.replace("/", "0_47");
-
-			links.add(link);
-			emails.add(email);
-
-		}
-
-		for (int i = 0; i < links.size(); i++) {
-			addRole(links.get(i));
-			// addRoleToUser(links.get(i), emails.get(i));
-		}
-	}
-
-	private static boolean addRoleToUser(String link, String email) {
-		try {
-
-			String wsdlUrl = "https://nhais.gov.cv/services/RemoteUserStoreManagerService?wsdl";
-			String username = "admin@nosi.cv";
-			String password = "admin";
-			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-
-			String roleName = link;
-
-			Map<String, String> headers = new HashMap<String, String>();
-			headers.put("Authorization", "Basic " + credentials);
-
-			Map<String, String> namespaces = new HashMap<String, String>();
-			namespaces.put("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
-			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
-
-			Map<String, Object> bodyContent = new HashMap<String, Object>();
-			Map<String, Object> subContent = new LinkedHashMap<String, Object>();
-			subContent.put("ser:userName", email);
-			subContent.put("ser:newRoles", roleName);
-			bodyContent.put("ser:updateRoleListOfUser", subContent);
-
-			nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers,
-					bodyContent);
-
-			if (sc.hasErrors()) { // Verifica se ocorreu algum erro ...
-				System.out.println(Arrays.toString(sc.getErrors().toArray()));
-				return false;
+	
+	
+	private Response createResponseForRetrieveAccount() {
+		// Go to password recover page ... 
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
+			String p_button2 = Igrp.getInstance().getRequest().getParameter("p_button2");
+			if (p_button2 != null && p_button2.equals("p_button2")) {
+				String url = Igrp.getInstance().getRequest().getRequestURL().toString()
+						+ "?r=igrp/Resetbyemail/index&target=_blank&isPublic=1";
+				return redirectToUrl(url);
 			}
+		}
+		
+		return null;
+	}
+	
+	private String oAuth2Wso2Swap() {
+		
+		try {
+			String authCode = Core.getParam("code"); 
+			
+			if(authCode == null || authCode.isEmpty()) return null; 
+			
+			
+			System.out.println("Code: " + authCode);
+			
+			
+			String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
+			String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
+			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
+			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri");
+			
+			String postData = "grant_type=authorization_code&code=" + authCode + "&redirect_uri=" + redirect_uri;
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("Authorization", Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()));
+			
+			javax.ws.rs.core.Response r = Core.httpPost(endpoint, postData, new String[] {"application/x-www-form-urlencoded"}, map, "application/json", javax.ws.rs.core.Response.class);
+			
+			String resultPost = r.readEntity(String.class);
+			
+			System.out.println(resultPost); 
+			
+			
+			int code = r.getStatus();
+			
+			String token = null; 
+			
+			
+			if (code != 200) { 
+				System.out.println("Error: " + resultPost);
+				return null;
+			}
+
+			JSONObject jToken = new JSONObject(resultPost);
+
+			token = (String) jToken.get("access_token");
+			
+			System.out.println("Token: " + token);
+			System.out.println("jToken: " + jToken);
+			
+			return token;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
-
-		return true;
+		
+		return null;
 	}
-
-	private static boolean addRole(String link) {
+	
+	private String oAuth2Wso2GetUserInfoByToken(String token) {
+		String uid = null; 
 		try {
+			
+			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.user");
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("Authorization", "Bearer " +  token);
+			
+			javax.ws.rs.core.Response r = Core.httpGet(endpoint, new String[] {"application/x-www-form-urlencoded"}, map, javax.ws.rs.core.Response.class);
+			
+			int code = r.getStatus();
+			
+			System.out.println("Code: " + code); 
 
-			String wsdlUrl = "https://nhais.gov.cv/services/RemoteUserStoreManagerService?wsdl";
-			String username = "admin@nosi.cv";
-			String password = "admin";
-			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+			if(code != 200) return uid; 
+			
+			String result = r.readEntity(String.class);
 
-			String roleName = link;
-
-			Map<String, String> headers = new HashMap<String, String>();
-			headers.put("Authorization", "Basic " + credentials);
-
-			Map<String, String> namespaces = new HashMap<String, String>();
-			namespaces.put("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
-			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
-
-			Map<String, Object> bodyContent = new HashMap<String, Object>();
-			Map<String, Object> subContent = new LinkedHashMap<String, Object>();
-			subContent.put("ser:roleName", roleName);
-			subContent.put("ser:userList", "demo@nosi.cv");
-			bodyContent.put("ser:addRole", subContent);
-
-			nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers,
-					bodyContent);
-
-			if (sc.hasErrors()) { // Verifica se ocorreu algum erro ...
-				System.out.println(Arrays.toString(sc.getErrors().toArray()));
-				return false;
-			}
+			JSONObject jToken = new JSONObject(result); 
+			
+			System.out.println("uid: " + jToken);
+			
+			uid = jToken.getString("sub");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
 		}
-
-		return true;
+		
+		return uid;
 	}
+	
+	private Response oAuth2Wso2() {
+		
+		String error = Core.getParam("error"); 
+		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+		String authCode = Core.getParam("code"); 
+		
+		
+		if(r != null && r.equalsIgnoreCase("true")) {
+			
+			if(error != null && !error.isEmpty() && !error.equalsIgnoreCase("null")) {
+				Core.setMessageError("Ocorreu o seguinte erro: (" + error + ").");
+				return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+			}
+			
+			String token = oAuth2Wso2Swap();
+			
+			if(token != null) {
+				String uid = oAuth2Wso2GetUserInfoByToken(token);
+				if(uid != null) {
+					
+					User user = (User) new User().findIdentityByUsername(uid);
+					if (user != null) {
+						
+						if(createSessionLdapAuthentication(user)) {
+							try {
+								user.setValid_until(token);
+								user.update();
+								return redirect("igrp", "home", "index"); 
+							} catch (Exception e) {
+							}
+						}
+						
+					}else {
+						
+						// Caso o utilizador não existir na base de dados fazer auto-invite 
+						try {
+							
+							User newUser = new User();
+							newUser.setUser_name(uid);
+							newUser.setEmail(uid);
+							newUser.setName(uid);
+							newUser.setStatus(1);
+							newUser.setCreated_at(System.currentTimeMillis());
+							newUser.setUpdated_at(System.currentTimeMillis());
+							newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+							newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+		
+							newUser = newUser.insert(); 
+						
+							if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) {
+								newUser.setValid_until(token);
+								newUser.update();
+								return redirect("igrp", "home", "index"); 
+							}
+						} catch (Exception e) {
+							Core.setMessageError("Ocorreu um erro no auto-invite.");
+							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+						}
+						
+					}
+					
+				}else {
+					Core.setMessageError("Ocorreu o seguinte erro: (Uid não encontrado).");
+					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+				}
+			}else {
+					Core.setMessageError("Ocorreu o seguinte erro: (Token não encontrado).");
+					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+			}
+			
+			if(error == null && error.isEmpty() && 
+					authCode == null && authCode.isEmpty() 
+					&& r != null && r.equalsIgnoreCase("true")) {
+				return createResponseOauth2OpenIdWso2();
+			}
+			
+		}
+		
+		return null;
+	}
+	
+	private Response createResponseOauth2OpenIdWso2() {
+		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
+			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;
+		return redirectToUrl(url); 
+		}
+		return null;
+	}
+	
+	private String createUrlForOAuth2OpenIdRequest() {
+		String aux = Igrp.getInstance().getRequest().getRequestURL().toString();
+		aux += "?r=igrp/Oauth2openidwso2/index&target=_blank&isPublic=1&lang=pt_PT"; 
+		return aux; 
+	}
+	
+	private boolean createPerfilWhenAutoInvite(User user) {
+		Profile p1 = new Profile();
+		p1.setUser(user);
+		p1.setOrganization(new Organization().findOne(3));
+		p1.setProfileType(new ProfileType().findOne(4));
+		p1.setType("PROF");
+		p1.setType_fk(4);
+
+		Profile p2 = new Profile();
+		p2.setUser(user);
+		p2.setOrganization(new Organization().findOne(3));
+		p2.setProfileType(new ProfileType().findOne(4));
+		p2.setType("ENV");
+		p2.setType_fk(3);
+
+		Profile tutorialApp = new Profile();
+		tutorialApp.setUser(user);
+		tutorialApp.setOrganization(new Organization().findOne(2));
+		tutorialApp.setProfileType(new ProfileType().findOne(3));
+		tutorialApp.setType("ENV");
+		tutorialApp.setType_fk(2);
+
+		return p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null;
+	}
+	
 
 	/*----#end-code----*/
 }
