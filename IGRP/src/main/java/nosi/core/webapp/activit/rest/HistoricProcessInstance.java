@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.ws.rs.core.Response;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;

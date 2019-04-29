@@ -31,17 +31,21 @@ public final class ConfigApp {
 		return CONFIG_APP;
 	}
 	
-	public Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-		
+	public Properties loadConfig(String fileName) {
+		File file = new File(fileName);
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream(file)) {
 			props.loadFromXML(fis);
+			fis.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return props;
+	}
+	
+	public Properties loadConfig(String filePath, String fileName) {
+		String path = new Config().getBasePathConfig() + File.separator + filePath;
+		return this.loadConfig(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
 	}
 	
 	public String getBaseConnection() {

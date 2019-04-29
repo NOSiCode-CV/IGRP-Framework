@@ -174,7 +174,7 @@ public class Dash_board_processoView extends View {
 		btn_show_diagram.propertie.add("type","specific").add("rel","show_diagram");
 
 		btn_cancelar_processo = new IGRPButton("Cancelar processo","igrp","Dash_board_processo","cancelar_processo","confirm","danger|fa-times","","");
-		btn_cancelar_processo.propertie.add("type","specific").add("rel","cancelar_processo");
+		btn_cancelar_processo.propertie.add("type","specific").add("flg_transaction","true").add("rel","cancelar_processo");
 
 		
 	}

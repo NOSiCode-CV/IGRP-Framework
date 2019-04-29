@@ -28,8 +28,8 @@ import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.ActivityEcexuteType;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
@@ -128,52 +128,97 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	private Response startProcess(String processDefinitionId) throws IOException, ServletException {
 		String content = Core.getJsonParams();
 		FormDataService formData = new FormDataService();
-	      FormDataService properties = null;
-	      ProcessInstancesService pi = new ProcessInstancesService();
-	         formData.setProcessDefinitionId(processDefinitionId);
-	         properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
-	         if(formData!=null && properties!=null && properties.getFormProperties()!=null){
-	            for(FormProperties prop:properties.getFormProperties()){
-	               Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-	               if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
-	                  formData.addVariable(prop.getId(),value);
-	               }
-	            }
-	         }
-	      formData.addVariable("baseHostNameIgrp",this.getConfig().getHostName());
-	      if(Core.isNotNull(content)) {
-	         formData.addVariable("customVariableIGRP",content);         
-	      }
-	      StartProcess st = formData.submitFormByProcessDenifition();
-	      if(st!=null){
-	         pi.setId(st.getId());
-	         pi.setError(st.getError());
-	         pi.addVariable("p_process_id", "local", "string", pi.getId());
-	         pi.submitVariables();
-	      }
-	      if(Core.isNotNull(pi.getError())){
-            Core.setMessageError(pi.getError().getException());
-            return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
-         }
-	     this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start");
-         Core.setMessageSuccess();
-         TaskService task = new TaskService();
-         task.addFilter("processDefinitionId",processDefinitionId);
-         task.addFilter("processInstanceId", pi.getId());
-         List<TaskService> tasks = task.getAvailableTasks();
-         if(tasks!=null && !tasks.isEmpty()) {
-			return this.renderNextTask(task,tasks);
-         }else {
-            return this.forward("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
-         }
-	}
-
-	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId) {
-		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey);
-	     activityExecute.setCustomPermission(this.myCustomPermission);
-	     activityExecute.insert();
+		formData.setProcessDefinitionId(processDefinitionId);
+		ProcessInstancesService pi = new ProcessInstancesService();
+		FormDataService properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
+		
+		if (properties != null && properties.getFormProperties() != null) {
+			for (FormProperties prop : properties.getFormProperties()) {
+				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
+				if (!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					formData.addVariable(prop.getId(), value);
+				}
+			}
+		}
+		formData.addVariable("baseHostNameIgrp", this.getConfig().getHostName());
+		if (Core.isNotNull(content)) {
+			formData.addVariable("customVariableIGRP", content);
+		}
+		StartProcess st = formData.submitFormByProcessDenifition();
+		if (st != null) {
+			pi.setId(st.getId());
+			pi.setError(st.getError());
+			pi.addVariable("p_process_id", "local", "string", pi.getId());
+			pi.submitVariables();
+		}
+		if (Core.isNotNull(pi.getError())) {
+			Core.setMessageError(pi.getError().getException());
+			return this.redirect("igrp", "MapaProcesso", "openProcess&p_processId=" + processDefinitionId);
+		}
+		Core.setMessageSuccess();
+		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start");
+		TaskService task = new TaskService();
+		task.addFilter("processDefinitionId", processDefinitionId);
+		task.addFilter("processInstanceId", pi.getId());
+		List<TaskService> tasks = task.getAvailableTasks();
+		if (tasks != null && !tasks.isEmpty()) {
+			return this.renderNextTask(task, tasks);
+		} else {
+			return this.forward("igrp", "MapaProcesso", "openProcess&p_processId=" + processDefinitionId);
+		}
 	}
 	
+	
+	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException {
+		String content = Core.getJsonParams();
+		FormDataService formData = new FormDataService();
+		ProcessInstancesService p = new ProcessInstancesService();
+		p.setId(task.getProcessInstanceId());
+		formData.setTaskId(taskId);		
+		FormDataService properties = new FormDataService().getFormDataByTaskId(taskId);
+		if(properties!=null && properties.getFormProperties()!=null){
+			for(FormProperties prop:properties.getFormProperties()){
+				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
+				if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					formData.addVariable(prop.getId(),value);
+				}
+			}
+		}
+		if(Core.isNotNull(content)) {				
+			Core.getParameters().entrySet().stream().forEach(param-> {
+				task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
+				p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
+			});
+			task.addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
+			p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+			p.submitVariables();
+			task.submitVariables();
+		}
+		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
+		formData.addVariable("profile", Core.getCurrentProfile());
+		formData.addVariable("organization", Core.getCurrentOrganization());
+		
+		StartProcess st = formData.submitFormByTask();
+		if((st!=null && st.getError()!=null)) {
+			Core.setMessageError(st.getError().getException());
+			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
+		}else {
+			this.saveFiles(parts,taskId);
+			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey());
+			Core.removeAttribute("taskId");
+			Core.setMessageSuccess();
+			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
+			task.addFilter("processInstanceId", task.getProcessInstanceId());
+			List<TaskService> tasks = task.getAvailableTasks();
+			if(tasks!=null  && !tasks.isEmpty() && this.saveCustomPermission(task.getProcessInstanceId())) {
+				return this.renderNextTask(task,tasks);
+			}else {
+				return this.redirect("igrp","ExecucaoTarefas","index");
+			}
+		}
+	}
+	
+
 	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey) {
 		if(Core.isNotNull(this.myCustomPermission)) { 
 			ActivityExecute activityExecute = new ActivityExecute().find()
@@ -190,7 +235,19 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		     this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
 		}
 	}
-
+	
+	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId) {
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey);
+	     activityExecute.setCustomPermission(this.myCustomPermission);
+	     activityExecute.insert();
+	}
+	
+	private boolean saveCustomPermission(String processInstanceId) {
+		if(Core.isNotNullMultiple(this.myCustomPermission,processInstanceId)) {
+			return CustomPermission.setCustomPermission(processInstanceId, this.myCustomPermission);
+		}
+		return true;
+	}
 
 	private void saveFiles(List<Part> parts,String taskId) {
 		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
@@ -255,55 +312,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 	}
 
-	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException {
-		String content = Core.getJsonParams();
-		FormDataService formData = new FormDataService();
-		FormDataService properties = null;
-		ProcessInstancesService p = new ProcessInstancesService();
-		p.setId(task.getProcessInstanceId());	
-		formData.setTaskId(taskId);
-		properties = new FormDataService().getFormDataByTaskId(taskId);
-		if(formData!=null && properties!=null && properties.getFormProperties()!=null){
-			for(FormProperties prop:properties.getFormProperties()){
-				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-				if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
-					formData.addVariable(prop.getId(),value);
-				}
-			}
-		}
-		if(Core.isNotNull(content)) {				
-			Core.getParameters().entrySet().stream().forEach(param-> {
-				task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-			});
-			task.addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
-			p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
-			p.submitVariables();
-			task.submitVariables();
-		}
-		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
-		formData.addVariable("profile", Core.getCurrentProfile());
-		formData.addVariable("organization", Core.getCurrentOrganization());
-		
-		StartProcess st = formData.submitFormByTask();
-		if((st!=null && st.getError()!=null)) {
-			Core.setMessageError(st.getError().getException());
-			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
-		}else {
-			this.saveFiles(parts,taskId);
-			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey());
-			Core.removeAttribute("taskId");
-			Core.setMessageSuccess();
-			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
-			task.addFilter("processInstanceId", task.getProcessInstanceId());
-			List<TaskService> tasks = task.getAvailableTasks();
-			if(tasks!=null  && !tasks.isEmpty()) {
-				return this.renderNextTask(task,tasks);
-			}else {
-				return this.redirect("igrp","ExecucaoTarefas","index");
-			}
-		}
-	}
+	
 
 
 	private Response renderNextTask(TaskService task,List<TaskService> tasks) throws IOException {

@@ -3,6 +3,7 @@ package nosi.core.webapp;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -30,6 +31,7 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public abstract class Model { // IGRP super model
 	
+	public static final String ATTRIBUTE_NAME_REQUEST = "model";
 //	private String scenario; // For validation fields
 //	private Map<String, ArrayList<String>> errors; // to store errors for each fields
 
@@ -360,7 +362,31 @@ public abstract class Model { // IGRP super model
 				 continue; // go to next -- Separator list
 			}
 		}
-		
+		this.loadFromModelAttribute();
+	}
+
+	/**
+	 * When using this.forward("app","page","index",model, this.queryString());
+	 */
+	private void loadFromModelAttribute() {
+		if(Core.getAttributeObject("model", false)!=null) {
+			Model model = (Model) Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, true);
+			for(Method m :model.getClass().getDeclaredMethods()){
+				m.setAccessible(true);
+				for(Field f:this.getClass().getDeclaredFields()) {
+					if(m.getName().startsWith("get") && m.getName().toLowerCase().endsWith(f.getName())) {
+						f.setAccessible(true);
+						try {
+							f.set(this, m.invoke(model));
+						} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+						f.setAccessible(false);
+					}
+				}
+				m.setAccessible(false);
+			}
+		}
 	}
 	
 	/*

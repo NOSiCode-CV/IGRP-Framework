@@ -5,7 +5,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -294,28 +293,10 @@ public class Controller{
 	}
 	
 	protected final Response redirect(String app, String page, String action,Model model,QueryString<String,Object> queryString) throws IOException{		
-		this.modelToQueryString(model,queryString);
+		Core.setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
 		return this.redirect(app,page,action,queryString);
 	}
-	
-	
-	private void modelToQueryString(Model model, QueryString<String, Object> queryString) {
-		if(model!=null) {
-			for(Field field:model.getClass().getDeclaredFields()) {
-				if(field.isAnnotationPresent(RParam.class) && !field.getType().isArray()) {
-					field.setAccessible(true);
-					String param = field.getAnnotation(RParam.class).rParamName();
-					try {
-						queryString.addQueryString(param, field.get(model));
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						Core.log(e.getMessage());
-					}finally {
-						field.setAccessible(false);
-					}
-				}
-			}
-		}
-	}
+
 
 	protected final Response redirect(String app, String page, String action,QueryString<String,Object> queryString) throws IOException{
 		if(queryString.getValues("dad")==null && !action.contains("dad"))
@@ -590,7 +571,7 @@ public class Controller{
 	}
 	
 	protected Response forward(String app, String page, String action,Model model, QueryString<String,Object> queryString) {
-		this.modelToQueryString(model, queryString);
+		Core.setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
 		return this.forward(app, page, action, queryString);
 	}
 	
