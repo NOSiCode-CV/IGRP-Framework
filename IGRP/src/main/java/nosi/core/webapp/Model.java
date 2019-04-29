@@ -369,7 +369,7 @@ public abstract class Model { // IGRP super model
 	 * When using this.forward("app","page","index",model, this.queryString());
 	 */
 	private void loadFromModelAttribute() {
-		if(Core.getAttributeObject("model", false)!=null) {
+		if(Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, false)!=null) {
 			Model model = (Model) Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, true);
 			for(Method m :model.getClass().getDeclaredMethods()){
 				m.setAccessible(true);
