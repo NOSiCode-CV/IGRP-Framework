@@ -210,7 +210,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
 			task.addFilter("processInstanceId", task.getProcessInstanceId());
 			List<TaskService> tasks = task.getAvailableTasks();
-			if(tasks!=null  && !tasks.isEmpty() && this.saveCustomPermission(task.getProcessInstanceId())) {
+			if(tasks!=null  && !tasks.isEmpty()) {
 				return this.renderNextTask(task,tasks);
 			}else {
 				return this.redirect("igrp","ExecucaoTarefas","index");
@@ -241,13 +241,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	     activityExecute.setCustomPermission(this.myCustomPermission);
 	     activityExecute.insert();
 	}
-	
-	private boolean saveCustomPermission(String processInstanceId) {
-		if(Core.isNotNullMultiple(this.myCustomPermission,processInstanceId)) {
-			return CustomPermission.setCustomPermission(processInstanceId, this.myCustomPermission);
-		}
-		return true;
-	}
+
 
 	private void saveFiles(List<Part> parts,String taskId) {
 		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
