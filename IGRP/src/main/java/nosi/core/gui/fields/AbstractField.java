@@ -77,7 +77,7 @@ public abstract class AbstractField implements Field{
 		return lookup;
 	}
 	public void setLookup(String app,String page,String action) {
-		this.lookup = Route.getResolveUrl(app, page, action).replace("webapps?", "");
+		this.lookup = Route.getResolveUrl(app, page, action).replace("?", "");
 	}	
 	public boolean isVisible() {
 		return isVisible;
