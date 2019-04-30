@@ -921,10 +921,17 @@ var GENERATOR = function(genparams){
 	GEN.getPageJSON = function(id,callback){
 		var link = GEN.UTILS.link_get_page_json || 'red.form_designer_db.load_form?p_id=';	
 		var req  = null;
+		var action = $.grep(GEN.DETAILS.linkPageList,function(p,e){
+			
+			return p.page == id
+			
+		})[0];
+		
+		var app = action && action.app ? action.app : '';
 		
 		if(id){
 			
-			req = $.getJSON(link+id+'&p_app='+GEN.DETAILS.app,function(data){
+			req = $.getJSON(link+id+'&p_app='+app,function(data){
 				
 				if(data){
 					
