@@ -31,7 +31,9 @@
 
 					field.events.on('lookup-change',function(f){
 						
-						$(f).trigger('change')
+						setTimeout(function(){
+							$(f.o).trigger('change');
+						},800);
 
 					});
 
@@ -85,7 +87,9 @@
 
 
 									if( forminput[(formIdx)].events ){
-										forminput[(formIdx)].events.execute('lookup-change')
+										forminput[(formIdx)].events.execute('lookup-change',{
+											o : forminput[(formIdx)]
+										});
 									}
 
 									if($(forminput[(formIdx)]).prop('tagName').toLowerCase() == 'select'){
