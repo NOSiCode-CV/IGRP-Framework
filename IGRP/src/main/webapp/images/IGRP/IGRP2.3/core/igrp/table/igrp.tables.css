@@ -191,6 +191,10 @@ table td.radio{
   margin: 0;
 }
 
+table .date{
+  white-space: nowrap;
+}
+
 
 /* td.bs-checkbox { */
 /*   max-width:40px; */
