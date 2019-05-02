@@ -529,8 +529,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		if(Core.isNotNull(value)) {
 			this.where("");
 			paramName = recq.removeAlias(paramName);
-			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
-			this.addParamter(name,paramName,value,classType);
+			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
+				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(), name)+") "+operator+" :"+paramName+" ");
+				this.addParamter(name, paramName, value.toString().toUpperCase(), classType);
+			}
+			else {
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
+				this.addParamter(name,paramName,value,classType);
+			}
 		}
 		return (T) this;
 	}
@@ -549,7 +555,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			paramName = recq.removeAlias(paramName);
 			this.and();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+":"+paramName+" ");
+				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+" :"+paramName+" ");
 				this.addParamter(name,paramName,value.toString().toUpperCase(),classType);				
 			}else {
 				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");

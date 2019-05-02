@@ -1546,7 +1546,7 @@ public final class Core { // Not inherit
 	 * @return {@code value!=null && !value.equals("");}
 	 */
 	public static boolean isNotNull(Object value) {
-		return (value instanceof String) ? value != null && !value.equals("") : value != null;
+		return !isNull(value);
 	}
 
 	/**
@@ -1575,10 +1575,7 @@ public final class Core { // Not inherit
 	 * @return {@code new Integer(value.toString())!=0;}
 	 */
 	public static boolean isNotNullOrZero(Object value) {
-		if (!(value instanceof Number)) {
-			return Core.isNotNull(value);
-		}
-		return (Core.isNotNull(value)) ? new Integer(String.valueOf(value)) != 0 : false;
+		return !isNullOrZero(value);
 	}
 
 	/**
@@ -1588,18 +1585,19 @@ public final class Core { // Not inherit
 	 * @return {@code value==null || value.equals("");}
 	 */
 	public static boolean isNull(Object value) {
-		return (value instanceof String) ? value == null || value.equals("") : value == null;
+		return (value instanceof String) ? value.equals("") : value == null;
 	}
 
 	/**
 	 * Checks if it's null or 0
 	 * 
 	 * @param value
-	 * @return {@code if(value instanceof Number) return value ==null || new Integer(value.toString()) ==0;}
+	 * @return {@code if(value instanceof Number) return new BigDecimal(String.valueOf(value)).compareTo(BigDecimal.ZERO) == 0}<br>
+	 * 		   {@code else isNull(value)}
 	 */
 	public static boolean isNullOrZero(Object value) {
-		return (value instanceof Number) ? value == null || new Integer(String.valueOf(value)) == 0
-				: value == null || value.equals("");
+		return (value instanceof Number) ? new BigDecimal(String.valueOf(value)).compareTo(BigDecimal.ZERO) == 0
+				: isNull(value);
 	}
 
 	/**
