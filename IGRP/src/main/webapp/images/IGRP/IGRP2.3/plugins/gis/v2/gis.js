@@ -23,11 +23,12 @@
 			}, data ),
 			
 			dynamicSettings = GetDynamicMapSettings(id);
-			
-			
-		if(dynamicSettings){
 
-			for(var s in dynamicSettings){
+		if(dynamicSettings){
+			
+			config = $.extend( config, dynamicSettings );
+
+			/*for(var s in dynamicSettings){
 				
 				var settingValue = dynamicSettings[s];
 				
@@ -39,7 +40,7 @@
 					
 					config[s] = settingValue;
 				
-			}
+			}*/
 			
 		}
 

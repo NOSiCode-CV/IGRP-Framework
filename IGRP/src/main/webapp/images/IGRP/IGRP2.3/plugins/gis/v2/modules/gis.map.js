@@ -90,7 +90,6 @@
 									graphic.addTo(map.graphicsLayer);
 								}
 								
-
 							}
 							
 						});
@@ -101,7 +100,7 @@
 				
 				map.graphicsLayer.addTo( map.view );
 				
-				map.view.fitBounds(  map.graphicsLayer.getBounds() )
+				map.view.fitBounds(  map.graphicsLayer.getBounds() );
 				
 			}
 
