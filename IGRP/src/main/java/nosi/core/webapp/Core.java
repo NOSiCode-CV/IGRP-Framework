@@ -1251,6 +1251,54 @@ public final class Core { // Not inherit
 	public static Short getParamShort(String name) {
 		return getParamShort(name,true) ;
 	}
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @param isRemoved - (default) if true, removes Attribute after requested
+	 * @return {@code Core.isNotNull(x)?Core.toBigDecimal(x):BigDecimal.ZERO;}
+	 */
+	public static BigDecimal getParamBigDecimal(String name, boolean isRemoved) {
+		String x = Core.getParam(name,isRemoved);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name, isRemoved);
+		return Core.isNotNull(x) ? Core.toBigDecimal(x) : BigDecimal.ZERO;
+	}
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toBigDecimal(x):BigDecimal.ZERO;}
+	 */
+	public static BigDecimal getParamBigDecimal(String name) {
+		return getParamBigDecimal(name,true) ;
+	}
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @param isRemoved - (default) if true, removes Attribute after requested
+	 * @return {@code Core.isNotNull(x)?Core.toBigInteger(x):BigInteger.ZERO;}
+	 */
+	public static BigInteger getParamBigInteger(String name, boolean isRemoved) {
+		String x = Core.getParam(name,isRemoved);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name, isRemoved);
+		return Core.isNotNull(x) ? Core.toBigInteger(x) : BigInteger.ZERO;
+	}
+	
+	/**
+	 * Core.getParam first
+	 * 
+	 * @param name of the string label
+	 * @return {@code Core.isNotNull(x)?Core.toBigInteger(x):BigInteger.ZERO;}
+	 */
+	public static BigInteger getParamBigInteger(String name) {
+		return getParamBigInteger(name,true) ;
+	}
 
 	public static String getParamTaskId() {
 		String taskId = Core.getParam("taskId");
