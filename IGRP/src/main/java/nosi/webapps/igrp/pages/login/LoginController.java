@@ -17,6 +17,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Form;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
@@ -555,25 +561,33 @@ public class LoginController extends Controller {
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri");
 			
-			String postData = "grant_type=authorization_code&code=" + authCode + "&redirect_uri=" + redirect_uri;
+			Form postData = new Form();
+			postData.param("grant_type", "authorization_code");
+			postData.param("code", authCode);
+			postData.param("redirect_uri", redirect_uri);
 			
-			Map<String, Object> map = new HashMap<>();
-			map.put("Authorization", Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()));
+			Client curl = ClientBuilder.newClient();
+			Invocation.Builder ib = curl.target(endpoint).request("application/x-www-form-urlencoded");
+			ib.header("Accept", "application/json");
+			ib.header("Authorization",  "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()));
+			javax.ws.rs.core.Response r = ib.post(Entity.form(postData), javax.ws.rs.core.Response.class);
 			
-			javax.ws.rs.core.Response r = Core.httpPost(endpoint, postData, new String[] {"application/x-www-form-urlencoded"}, map, "application/json", javax.ws.rs.core.Response.class);
+			 
 			
 			String resultPost = r.readEntity(String.class);
 			
-			System.out.println(resultPost); 
+			curl.close();
 			
+			System.out.println("Resultado: " + resultPost); 
 			
-			int code = r.getStatus();
+			int code = r.getStatus(); 
 			
 			String token = null; 
 			
+			System.out.println("StatusCode: " + code); 
 			
 			if (code != 200) { 
-				System.out.println("Error: " + resultPost);
+				System.out.println("Error: " + resultPost); 
 				return null;
 			}
 
@@ -599,18 +613,22 @@ public class LoginController extends Controller {
 			
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.user");
 			
-			Map<String, Object> map = new HashMap<>();
-			map.put("Authorization", "Bearer " +  token);
-			
-			javax.ws.rs.core.Response r = Core.httpGet(endpoint, new String[] {"application/x-www-form-urlencoded"}, map, javax.ws.rs.core.Response.class);
+			Client curl = ClientBuilder.newClient();
+			javax.ws.rs.core.Response r = curl.target(endpoint)
+											.request()
+											.header("Accept", "application/json")
+											.header("Authorization", "Bearer " + token) 
+											.get(javax.ws.rs.core.Response.class);  
 			
 			int code = r.getStatus();
 			
-			System.out.println("Code: " + code); 
+			System.out.println("StatusCode(uid): " + code); 
 
 			if(code != 200) return uid; 
 			
-			String result = r.readEntity(String.class);
+			String result = r.readEntity(String.class); 
+			
+			curl.close();
 
 			JSONObject jToken = new JSONObject(result); 
 			
@@ -687,12 +705,16 @@ public class LoginController extends Controller {
 					}
 					
 				}else {
-					Core.setMessageError("Ocorreu o seguinte erro: (Uid não encontrado).");
-					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+						if(authCode != null && !authCode.trim().isEmpty()) {
+							Core.setMessageError("Ocorreu o seguinte erro: (Uid não encontrado).");
+						return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+					}
 				}
 			}else {
+				if(authCode != null && !authCode.trim().isEmpty()) {
 					Core.setMessageError("Ocorreu o seguinte erro: (Token não encontrado).");
 					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+				}
 			}
 			
 			if(error == null && error.isEmpty() && 
@@ -710,7 +732,7 @@ public class LoginController extends Controller {
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
 		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
 		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
-			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;
 		return redirectToUrl(url); 
