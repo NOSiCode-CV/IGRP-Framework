@@ -129,7 +129,10 @@ public class TaskServiceQuery extends TaskService {
 				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
 				if(Core.isNotNull(this.getFilterCustom())) {
 					ActivityExecute ae = new ActivityExecute().find().where("customPermission","=",this.getFilterCustom()).one();
-					this.myproccessId =  Arrays.asList(new String[] {ae.getProcessid()});
+					if(ae!=null)
+						this.myproccessId =  Arrays.asList(new String[] {ae.getProcessid()});
+					else
+						this.myproccessId = Arrays.asList(new String[] {});
 				}
 				d = d.stream().filter(p->this.myproccessId.contains(p.getProcessInstanceId())).collect(Collectors.toList());	
 		    
