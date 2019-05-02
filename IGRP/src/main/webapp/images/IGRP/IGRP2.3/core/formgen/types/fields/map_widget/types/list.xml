@@ -28,5 +28,16 @@
 	
 	
 	</item>
+	
+	<item name="infowindow" label="Info Window" icon="fa-info" html="false" active="true" buttonControl="false"  >
+		
+		<attributes>
+			
+			<attr name="layers" type="layers" label=" " value=""/>
+		
+		</attributes>
+	
+	
+	</item>
 
 </widgets>

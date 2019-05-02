@@ -8,9 +8,18 @@
 						
 			if( L[type] ){
 				
-				var graphic = new L[type]( params.geometry.coordinates );
+				try{
+					
+					var graphic = new L[type]( params.geometry.coordinates );
 			
-				return graphic;
+					return graphic;
+					
+				}catch(err){
+					
+					console.log(err);
+					
+				}
+				
 				
 			}
 			
