@@ -281,7 +281,8 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.startElement("param");
 					String text= "ctx_hidden=";
 					for(IGRPButton button:((IGRPTable.Table)obj).getHiddenButtons()) {
-						text+=button.getProperties().getProperty("rel")+",";
+						if(button!=null)
+							text+=button.getProperties().getProperty("rel")+",";
 					}		
 					this.xml.text(text);
 					this.xml.endElement();		
@@ -351,14 +352,20 @@ public class IGRPTable extends IGRPComponent{
 	
 	
 	public static class Table{
-		private IGRPButton[] buttons;
+		private List<IGRPButton> buttons;
 		
+		public Table() {
+			this.buttons = new ArrayList<>();
+		}
 		public void hiddenButton(IGRPButton...buttons) {
-			this.buttons = buttons;
+			if(buttons != null)
+				this.buttons.addAll(Arrays.asList(buttons));
 		}
 		
 		public IGRPButton[] getHiddenButtons() {
-			return this.buttons;
+			if(this.buttons != null)
+				return this.buttons.stream().toArray(IGRPButton[]::new);
+			return null;
 		}
 	}
 }
