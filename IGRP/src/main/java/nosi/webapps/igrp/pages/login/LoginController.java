@@ -110,7 +110,9 @@ public class LoginController extends Controller {
 		String oidcIdToken = user.getOidcIdToken(); 
 		String oidcState = user.getOidcState();
 		
-		if (Igrp.getInstance().getUser().logout()) {
+		user.setIsAuthenticated(0);
+		user = user.update();
+		if (Igrp.getInstance().getUser().logout() && user != null && !user.hasError()) {
 			if (!Session.afterLogout(currentSessionId))
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
 						gt("Ooops !!! Ocorreu um erro com registo session ..."));
@@ -173,6 +175,14 @@ public class LoginController extends Controller {
 	
 	private Response createResponseIfIsAuthenticated() {
 		if (Igrp.getInstance().getUser().isAuthenticated()) {
+			
+			User u = Core.getCurrentUser();
+			if(u.getIsAuthenticated() == 0) { 
+				try {
+					return redirect("igrp", "login", "logout");
+				} catch (IOException e) {
+				}
+			}
 
 			if (settings.getProperty("igrp.env.isNhaLogin") != null
 					&& settings.getProperty("igrp.env.isNhaLogin").equals("true")) {
@@ -284,7 +294,7 @@ public class LoginController extends Controller {
 	private boolean loginWithDb(String username, String password) { 
 		boolean success = false;
 		User user = (User) new User().findIdentityByUsername(username);
-		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"))) {
+		if (user != null && user.validate(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256")) && userIsAuthenticatedFlag(user)) {
 			if (user.getStatus() == 1) {
 				Profile profile = new Profile().getByUser(user.getId());
 				if (profile != null && Igrp.getInstance().getUser().login(user, 60 * 60/* 1h */)) { // 3600 * 24 * 30
@@ -359,7 +369,7 @@ public class LoginController extends Controller {
 				 */
 				/** Begin create user session **/
 				
-				success = createSessionLdapAuthentication(user);
+				success = createSessionLdapAuthentication(user) && userIsAuthenticatedFlag(user);
 				
 				sso(username, password, user);
 
@@ -395,6 +405,7 @@ public class LoginController extends Controller {
 					newUser.setUpdated_at(System.currentTimeMillis());
 					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 					newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+					newUser.setIsAuthenticated(1);
 
 					newUser = newUser.insert();
 
@@ -699,6 +710,7 @@ public class LoginController extends Controller {
 								user.setValid_until(token);
 								user.setOidcIdToken(id_token);
 								user.setOidcState(session_state);
+								user.setIsAuthenticated(1);
 								user = user.update();
 								return redirect("igrp", "home", "index"); 
 							} catch (Exception e) {
@@ -715,6 +727,7 @@ public class LoginController extends Controller {
 							newUser.setEmail(uid);
 							newUser.setName(uid);
 							newUser.setStatus(1);
+							newUser.setIsAuthenticated(1);
 							newUser.setCreated_at(System.currentTimeMillis());
 							newUser.setUpdated_at(System.currentTimeMillis());
 							newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
@@ -803,6 +816,11 @@ public class LoginController extends Controller {
 		return p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null;
 	}
 	
+	private boolean userIsAuthenticatedFlag(User u) {
+		u.setIsAuthenticated(1);
+		u = u.update();
+		return u != null && !u.hasError();
+	}
 
 	/*----#end-code----*/
 }
