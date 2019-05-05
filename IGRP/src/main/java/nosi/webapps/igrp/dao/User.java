@@ -45,6 +45,12 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	private String auth_key;
 	private long created_at;
 	private long updated_at;
+	
+	@Column(name="oidc_id_token", columnDefinition="text")
+	private String oidcIdToken; 
+	
+	@Column(name="oidc_state")
+	private String oidcState; 
 
 	@Transient
 	private ProfileType profileType;
@@ -237,13 +243,33 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	public String getAuthenticationKey() {
 		return this.auth_key;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass_hash=" + pass_hash + "," + valid_until + ", status=" + status + ", remarks=" + remarks
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass_hash=" + pass_hash + ", userProfile="
+				+ userProfile + ", valid_until=" + valid_until + ", status=" + status + ", remarks=" + remarks
 				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
 				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
-				+ ", password_reset_token=" + password_reset_token + "]";
+				+ ", password_reset_token=" + password_reset_token + ", auth_key=" + auth_key + ", created_at="
+				+ created_at + ", updated_at=" + updated_at + ", oidcIdToken=" + oidcIdToken + ", oidc_state="
+				+ oidcState + ", profileType=" + profileType + ", organica=" + organica + ", aplicacao=" + aplicacao
+				+ "]";
+	}
+
+	public String getOidcIdToken() {
+		return oidcIdToken;
+	}
+
+	public void setOidcIdToken(String oidcIdToken) {
+		this.oidcIdToken = oidcIdToken;
+	}
+
+	public String getOidcState() {
+		return oidcState;
+	}
+
+	public void setOidcState(String oidcState) {
+		this.oidcState = oidcState;
 	}
 
 	public User getUserAdmin() {
