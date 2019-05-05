@@ -103,8 +103,13 @@ public class LoginController extends Controller {
 		return this.renderView(view, true);
 	}
 
-	public Response actionLogout() throws IOException {
-		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
+	public Response actionLogout() throws IOException { 
+		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId(); 
+		
+		User user = Core.getCurrentUser(); 
+		String oidcIdToken = user.getOidcIdToken(); 
+		String oidcState = user.getOidcState();
+		
 		if (Igrp.getInstance().getUser().logout()) {
 			if (!Session.afterLogout(currentSessionId))
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
@@ -131,8 +136,16 @@ public class LoginController extends Controller {
 		
 		
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
-		if(r != null && r.equalsIgnoreCase("true")) 
+		if(r != null && r.equalsIgnoreCase("true")) {
+			String oidcLogout = settings.getProperty("ids.wso2.oauth2.endpoint.logout"); 
+			if(oidcLogout != null && !oidcLogout.isEmpty()) {
+				String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
+				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+				aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri : aux;
+				return redirectToUrl(aux); 
+			}
 			return redirectToUrl(createUrlForOAuth2OpenIdRequest()); 
+		}
 		
 		return this.redirect("igrp", "login", "login");
 	}
@@ -545,10 +558,11 @@ public class LoginController extends Controller {
 		return null;
 	}
 	
-	private String oAuth2Wso2Swap() {
+	private Map<String, String> oAuth2Wso2Swap() {
 		
 		try {
 			String authCode = Core.getParam("code"); 
+			String session_state = Core.getParam("session_state"); 
 			
 			if(authCode == null || authCode.isEmpty()) return null; 
 			
@@ -572,7 +586,6 @@ public class LoginController extends Controller {
 			ib.header("Authorization",  "Basic " + Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes()));
 			javax.ws.rs.core.Response r = ib.post(Entity.form(postData), javax.ws.rs.core.Response.class);
 			
-			 
 			
 			String resultPost = r.readEntity(String.class);
 			
@@ -582,7 +595,6 @@ public class LoginController extends Controller {
 			
 			int code = r.getStatus(); 
 			
-			String token = null; 
 			
 			System.out.println("StatusCode: " + code); 
 			
@@ -593,12 +605,18 @@ public class LoginController extends Controller {
 
 			JSONObject jToken = new JSONObject(resultPost);
 
-			token = (String) jToken.get("access_token");
+			String token = (String) jToken.get("access_token");
+			String id_token = (String) jToken.get("id_token");
+			
+			Map<String, String> m = new HashMap<String, String>(); 
+			m.put("token", token);
+			m.put("id_token", id_token);
+			m.put("session_state", session_state);
 			
 			System.out.println("Token: " + token);
 			System.out.println("jToken: " + jToken);
 			
-			return token;
+			return m;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -657,7 +675,17 @@ public class LoginController extends Controller {
 				return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 			}
 			
-			String token = oAuth2Wso2Swap();
+			String token = null;
+			String id_token = null;
+			String session_state = null;
+			
+			Map<String, String> m = oAuth2Wso2Swap();
+			if(m != null) {
+				token = m.get("token");
+				id_token = m.get("id_token");
+				session_state = m.get("session_state");
+			}
+			
 			
 			if(token != null) {
 				String uid = oAuth2Wso2GetUserInfoByToken(token);
@@ -669,7 +697,9 @@ public class LoginController extends Controller {
 						if(createSessionLdapAuthentication(user)) {
 							try {
 								user.setValid_until(token);
-								user.update();
+								user.setOidcIdToken(id_token);
+								user.setOidcState(session_state);
+								user = user.update();
 								return redirect("igrp", "home", "index"); 
 							} catch (Exception e) {
 							}
@@ -694,6 +724,8 @@ public class LoginController extends Controller {
 						
 							if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) {
 								newUser.setValid_until(token);
+								newUser.setOidcIdToken(id_token);
+								user.setOidcState(session_state);
 								newUser.update();
 								return redirect("igrp", "home", "index"); 
 							}
