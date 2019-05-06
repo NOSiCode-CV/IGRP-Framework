@@ -1,8 +1,8 @@
 package nosi.core.webapp.import_export_v2.imports;
 
+import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.compiler.helpers.ErrorCompile;
 
 /**
  * Emanuel
@@ -12,7 +12,12 @@ public abstract class AbstractImport implements IImport{
 
 	protected String error = "";
 	protected String warning = "";
-
+	protected List<String> fileName;
+	
+	public AbstractImport() {
+		this.fileName = new ArrayList<>();
+	}
+	
 	@Override
 	public String getError() {
 		return this.error;
@@ -36,21 +41,9 @@ public abstract class AbstractImport implements IImport{
 	}
 
 	@Override
-	public void addError(List<ErrorCompile> errors) {
-		if(errors!=null) {
-			errors.stream().forEach(e->{
-				 this.addError(e.getError());
-			 });
-		}
+	public List<String> getFileName(){
+		return this.fileName;
 	}
 
-	@Override
-	public void addWarning(List<ErrorCompile> warnings) {
-		if(warnings!=null) {
-			 warnings.stream().forEach(e->{
-				 this.addWarning(e.getWarning());
-			 });
-		}
-	}
 
 }

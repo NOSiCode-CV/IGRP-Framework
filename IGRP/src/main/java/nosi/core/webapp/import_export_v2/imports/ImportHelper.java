@@ -97,6 +97,7 @@ public class ImportHelper {
 			imp.add(doctype);
 			
 			imp.execute();
+			imp.compile(app.getApplication());			
 		}else {
 			imp.addError(Core.gt("Ocorreu um erro ao ler o ficheiro"));
 		}

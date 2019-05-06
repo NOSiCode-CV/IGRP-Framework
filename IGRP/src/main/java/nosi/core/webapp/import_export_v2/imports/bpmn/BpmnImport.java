@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
-import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
@@ -23,12 +22,10 @@ public class BpmnImport extends AbstractImport implements IImport {
 	
 	private List<BPMNSerializable> bpmns;
 	private Application application;	
-	private Compiler compiler;
 	
 	public BpmnImport(Application application) {
 		super();
 		this.application = application;
-		this.compiler = new Compiler();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,9 +47,6 @@ public class BpmnImport extends AbstractImport implements IImport {
 				this.savePagesBPMN(bpmn);
 				this.savePagesFile(bpmn);
 			});
-			this.compiler.compile();
-			this.addError(this.compiler.getErrors());
-			this.addWarning(this.compiler.getWarnings());
 		}
 	}
 
@@ -64,7 +58,7 @@ public class BpmnImport extends AbstractImport implements IImport {
 					basePath += "process" + File.separator + bpmn.getKey().toLowerCase() + File.separator;
 					try {
 						FileHelper.save(basePath, page.getFileName(), page.getFileContent());
-						this.compiler.addFileName(basePath+page.getFileName());
+						this.fileName.add(basePath+page.getFileName());
 					} catch (IOException e) {
 						this.addError(e.getMessage());
 					}

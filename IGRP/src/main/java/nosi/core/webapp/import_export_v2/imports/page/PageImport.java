@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.page.PageSerializable;
 import nosi.core.webapp.import_export_v2.imports.AbstractImport;
@@ -21,14 +20,12 @@ import nosi.webapps.igrp.dao.Application;
 public class PageImport extends AbstractImport implements IImport{
 	protected Application application;
 	private List<PageSerializable> pages;
-	protected Compiler compiler;	
 	
 	
 	
 	public PageImport(Application application) {
 		super();
 		this.application = application;
-		this.compiler = new Compiler();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -45,9 +42,6 @@ public class PageImport extends AbstractImport implements IImport{
 			this.pages.stream().forEach(page->{
 				this.insertPgae(page);
 			});
-			this.compiler.compile();
-			this.addError(this.compiler.getErrors());
-			this.addWarning(this.compiler.getWarnings());
 		}
 	}
 
@@ -58,9 +52,9 @@ public class PageImport extends AbstractImport implements IImport{
 				FileHelper.save(path,ac.getPage()+".java", page.getClassFiles().getXmlOrModel());
 				FileHelper.save(path,ac.getPage()+"View.java", page.getClassFiles().getJsonOrView());
 				FileHelper.save(path,ac.getPage()+"Controller.java", page.getClassFiles().getXslOrController());
-				this.compiler.addFileName(path+ac.getPage()+".java");
-				this.compiler.addFileName(path+ac.getPage()+"View.java");
-				this.compiler.addFileName(path+ac.getPage()+"Controller.java");
+				this.fileName.add(path+ac.getPage()+".java");
+				this.fileName.add(path+ac.getPage()+"View.java");
+				this.fileName.add(path+ac.getPage()+"Controller.java");
 			} catch (IOException e) {
 				this.addError(e.getMessage());
 			}
