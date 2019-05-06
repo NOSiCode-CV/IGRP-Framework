@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.dao.DAOSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
@@ -21,11 +20,9 @@ import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 public class OthersClassImport extends AbstractImport implements IImport{
 
 	private List<DAOSerializable> others_class;
-	private Compiler compiler;	
-	
+
 	public OthersClassImport(Application application) {
 		this.others_class = new ArrayList<>();
-		this.compiler = new Compiler();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -42,9 +39,6 @@ public class OthersClassImport extends AbstractImport implements IImport{
 			this.others_class.stream().forEach(fileClass->{
 				this.saveFile(fileClass);
 			});
-			this.compiler.compile();
-			this.addError(this.compiler.getErrors());
-			this.addWarning(this.compiler.getWarnings());
 		}
 	}
 
@@ -56,7 +50,7 @@ public class OthersClassImport extends AbstractImport implements IImport{
 				basePath += fileClass.getPath().replace("\\", File.separator).replace("//", File.separator);
 				try {
 					FileHelper.save(basePath, fileClass.getFileName(), fileClass.getContent());
-					this.compiler.addFileName(basePath + File.separator+fileClass.getFileName());
+					this.fileName.add(basePath + File.separator+fileClass.getFileName());
 				} catch (IOException e) {
 					this.addError(e.getMessage());
 				}

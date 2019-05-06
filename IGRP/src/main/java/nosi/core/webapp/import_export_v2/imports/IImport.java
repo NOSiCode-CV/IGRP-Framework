@@ -2,7 +2,6 @@ package nosi.core.webapp.import_export_v2.imports;
 
 import java.util.List;
 
-import nosi.core.webapp.compiler.helpers.ErrorCompile;
 
 /**
  * Emanuel
@@ -35,21 +34,12 @@ public interface IImport {
 	 * @param warning
 	 */
 	public void addWarning(String warning);
-	
+
 	/**
-	 * Set a message error
-	 * 
-	 * @param error
+	 * List of file names to process compile
+	 * @return
 	 */
-	public void addError(List<ErrorCompile> errors);
-	
-	/**
-	 * Set a message warning
-	 * 
-	 * @param warning
-	 */
-	public void addWarning(List<ErrorCompile> warnings);
-	
+	public List<String> getFileName();
 	
 	/**
 	 * Get a message error

@@ -3,6 +3,9 @@ package nosi.core.webapp.import_export_v2.imports;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.compiler.helpers.ErrorCompile;
+import nosi.webapps.igrp.dao.Application;
 
 /**
  * Emanuel
@@ -42,6 +45,34 @@ public class Import{
 		});
 	}
 
+	public void compile(Application app) {
+		Compiler compiler = new Compiler();
+		this.imports.stream().forEach(i->{
+			i.getFileName().forEach(f->{
+				compiler.addFileName(f);
+			});
+		});
+		compiler.compile();
+		this.addError(compiler.getErrors());
+		this.addWarning(compiler.getWarnings());
+	}
+	
+	public void addError(List<ErrorCompile> errors) {
+		if(errors!=null) {
+			errors.stream().forEach(e->{
+				 this.addError(e.getError());
+			 });
+		}
+	}
+
+	public void addWarning(List<ErrorCompile> warnings) {
+		if(warnings!=null) {
+			 warnings.stream().forEach(e->{
+				 this.addWarning(e.getWarning());
+			 });
+		}
+	}
+	
 	public List<String> getErrors() {
 		return this.errors;
 	}
