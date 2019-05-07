@@ -23,16 +23,33 @@ public class Path {
 		return basePath;
 	}
 	public static String getPath(Application application) {
+		if(application!=null)
+			return getPath(application.getDad());
+		return null;
+	}
+
+	
+	public static String getBasePath() {
 		Config config = new Config();
 		String basePath = config.getWorkspace();
 		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
-			basePath = config.getBasePahtClassWorkspace(application.getDad()) + File.separator; 			
+			basePath = config.getRawBasePathClassWorkspace(); 			
 		}else {
-			basePath = config.getPathServerClass(application.getDad());
+			basePath = config.getBasePathClass();
 		}
 		return basePath;
 	}
-
+	
+	public static String getPath(String dad) {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			basePath = config.getBasePahtClassWorkspace(dad) + File.separator; 			
+		}else {
+			basePath = config.getPathServerClass(dad);
+		}
+		return basePath;
+	}
 
 	public static String getImageWorkSpace(String nameApp) {
 		Config config = new Config();
