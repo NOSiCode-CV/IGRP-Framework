@@ -1,22 +1,15 @@
 package nosi.core.webapp.import_export_v2.imports.services;
 
 import nosi.core.webapp.import_export_v2.imports.IImport;
-import nosi.core.webapp.import_export_v2.imports.AbstractImport;
+import nosi.core.webapp.import_export_v2.imports.others_class.OthersClassImport;
+import nosi.webapps.igrp.dao.Application;
 /**
  * Emanuel
  * 2 Nov 2018
  */
-public class ServicesImport extends AbstractImport implements IImport{
+public class ServicesImport extends OthersClassImport implements IImport{
 
-	@Override
-	public void deserialization(String jsonContent) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		
+	public ServicesImport(Application application) {
+		super(application);
 	}
 }

@@ -17,6 +17,7 @@ import nosi.core.webapp.import_export_v2.imports.modulo.ModuloImport;
 import nosi.core.webapp.import_export_v2.imports.others_class.OthersClassImport;
 import nosi.core.webapp.import_export_v2.imports.page.PageImport;
 import nosi.core.webapp.import_export_v2.imports.report.ReportImport;
+import nosi.core.webapp.import_export_v2.imports.services.ServicesImport;
 import nosi.core.webapp.import_export_v2.imports.transation.ImportTransation;
 import nosi.webapps.igrp.dao.Application;
 
@@ -44,6 +45,9 @@ public class ImportHelper {
 
 		if(contentReads!=null) {
 			ApplicationImport app = new ApplicationImport(application);	
+			if(application==null) {
+				application = app.getApplication();
+			}
 			app.deserialization(this.getJsonContent(OptionsImportExport.APP.getFileName()));
 			app.execute();
 			if(!app.allowPermissionImport()) {
@@ -55,7 +59,7 @@ public class ImportHelper {
 			modulo.deserialization(this.getJsonContent(OptionsImportExport.MODULO.getFileName()));
 			imp.add(modulo);		
 			
-			DaoImport dao = new DaoImport(app.getApplication());
+			DaoImport dao = new DaoImport(application);
 			dao.deserialization(this.getJsonContent(OptionsImportExport.DAO.getFileName()));
 			imp.add(dao);
 			
@@ -95,6 +99,10 @@ public class ImportHelper {
 			ImportDocumentType doctype = new ImportDocumentType(application);
 			doctype.deserialization(this.getJsonContent(OptionsImportExport.DOCUMENT_TYPE.getFileName()));
 			imp.add(doctype);
+			
+			ServicesImport service = new ServicesImport(application);
+			service.deserialization(this.getJsonContent(OptionsImportExport.SERVICE.getFileName()));
+			imp.add(service);
 			
 			imp.execute();
 			imp.compile(app.getApplication());			
