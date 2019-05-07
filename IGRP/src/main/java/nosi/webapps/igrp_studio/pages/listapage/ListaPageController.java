@@ -136,7 +136,7 @@ public class ListaPageController extends Controller {
 								: "default.svg"));
 				myapps.setMy_aplicacao("igrp_studio", "env", "openApp")
 						.addParam("app", p.getOrganization().getApplication().getDad())
-						.addParam("page", page + "/index&title=\"");
+						.addParam("page", page + "/index");
 				myapps.setMy_aplicacao_desc(p.getOrganization().getApplication().getName());
 				myapps.setEnv_fk(p.getOrganization().getApplication().getId());
 				apps.add(myapps);

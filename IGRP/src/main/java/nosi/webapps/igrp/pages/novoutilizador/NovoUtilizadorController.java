@@ -324,9 +324,14 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private boolean addRoleToUser(Properties settings, User user) {
+		
+		if(settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true") 
+				|| settings.getProperty("kriol.addrole.user")!=null && settings.getProperty("kriol.addrole.user").equalsIgnoreCase("false")){
+			return true;
+		}
 		try {
 
-			String wsdlUrl = settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url");
+			String wsdlUrl = "ids.wso2.RemoteUserStoreManagerService-wsdl-url";
 			String username = settings.getProperty("ids.wso2.admin-usn");
 			String password = settings.getProperty("ids.wso2.admin-pwd");
 			String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());

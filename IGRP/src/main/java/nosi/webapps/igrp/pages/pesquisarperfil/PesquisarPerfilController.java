@@ -28,7 +28,9 @@ public class PesquisarPerfilController extends Controller {
 		int idApp = Core.getParamInt("id_app");
 		
 		//Preenchendo a tabela
-		for(ProfileType p:profile_db.find().andWhere("application", "=",idApp!=0?idApp:Core.getCurrentApp()).andWhere("organization", "=",idOrg!=0?idOrg:Core.getCurrentOrganization()).all()){
+		for(ProfileType p:profile_db.find()
+				.andWhere("application", "=",idApp!=0?idApp:Core.getCurrentApp())
+				.andWhere("organization", "=",idOrg!=0?idOrg:Core.getCurrentOrganization()).all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil.Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());
@@ -43,7 +45,8 @@ public class PesquisarPerfilController extends Controller {
 	     
 		view.table_1.addData(lista);
         view.btn_eliminar.setVisible(false);
-       view.btn_novo.setLink("igrp","NovoPerfil","index&p_aplicacao="+idApp+"&p_organica="+idOrg);
+       view.btn_novo.addParameter("p_aplicacao", idApp)
+       				.addParameter("p_organica", idOrg);
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -77,7 +80,10 @@ public class PesquisarPerfilController extends Controller {
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","NovoPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
- 			return this.forward("igrp","NovoPerfil","editar", this.queryString());
+ 			
+		 this.addQueryString("p_id",Core.getParam("p_id"));
+		
+		return this.redirect("igrp","NovoPerfil","editar", this.queryString());
 
 		/*----#end-code----*/
 			

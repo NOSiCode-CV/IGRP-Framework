@@ -462,7 +462,7 @@ public class EnvController extends Controller {
 				devUrl += qs;
 			return redirectToUrl(devUrl);
 			}
-			
+			//1 External ; 2 custom dad
 			if(env.getExternal() == 1 || env.getExternal() == 2) {
 				
 				if(env.getExternal() != 2 && env.getUrl() != null && !env.getUrl().isEmpty()) {

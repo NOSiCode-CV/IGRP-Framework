@@ -64,6 +64,7 @@ public class NovoPerfilController extends Controller {
 		 return this.forward("igrp","NovoPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 	   		ProfileType pt = new ProfileType();  
+	   		    
 	   		pt.setCode(model.getCodigo()+"."+Core.findApplicationById(model.getAplicacao()).getDad());			
 			pt.setDescr(model.getNome());
 			pt.setOrganization(new Organization().findOne(model.getOrganica()));
@@ -71,7 +72,7 @@ public class NovoPerfilController extends Controller {
 			 * if(model.getPerfil_pai()!=0){ pt.setProfiletype(new
 			 * ProfileType().findOne(model.getPerfil())); }
 			 */
-			pt.setStatus(model.getActivo());
+			pt.setStatus(model.getActivo());			
 			pt.setApplication(new Application().findOne(model.getAplicacao()));
 			pt.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
 			pt = pt.insert();
@@ -136,7 +137,9 @@ public class NovoPerfilController extends Controller {
 			model.setPrimeira_pagina(p.getFirstPage().getId());
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");
 		view.btn_gravar.setTitle("Gravar");      
-		view.btn_gravar.setLink("GravarEdicao&p_id="+idProf);
+		view.btn_gravar.setLink("GravarEdicao");
+		view.btn_gravar.addParameter("p_id", idProf)
+						.addParameter("p_aplicacao",model.getAplicacao());
 		view.aplicacao.setValue(new Application().getListApps());
 		
 		if(Core.isNotNullOrZero(model.getAplicacao()))
@@ -159,18 +162,18 @@ public class NovoPerfilController extends Controller {
       if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
 			NovoPerfil model = new NovoPerfil();
            	model.load();
-			ProfileType p = new ProfileType().findOne(Integer.parseInt(idProf));  
+			ProfileType p = Core.findProfileById(Integer.parseInt(idProf));  
 			GroupService group = new GroupService();  
 			group.delete(p.getOrganization().getCode() + "." + p.getCode());
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
-			p.setOrganization(new Organization().findOne(model.getOrganica()));
+			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
 			/*
 			 * if(model.getPerfil_pai()!=0){ p.setProfiletype(new
 			 * ProfileType().findOne(model.getPerfil())); }
 			 */
 			p.setStatus(model.getActivo());
-			p.setApplication(new Application().findOne(model.getAplicacao()));
+			p.setApplication(Core.findApplicationById(model.getAplicacao()));
 			p.setFirstPage(new Action().findOne(model.getPrimeira_pagina()));
 			p = p.update();
 			if (p != null) {

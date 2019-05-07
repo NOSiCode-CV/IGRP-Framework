@@ -236,7 +236,7 @@ public class LoginController extends Controller {
 	}
 	
 	private Response createResponseIfNotAuthenticated_nhaLogin() {
-		if (!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogni") != null
+		if (!Igrp.getInstance().getUser().isAuthenticated() && settings.getProperty("igrp.env.isNhaLogin") != null
 				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
 				&& settings.getProperty("igrp.env.nhaLogin.url") != null
 				&& !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()) {
