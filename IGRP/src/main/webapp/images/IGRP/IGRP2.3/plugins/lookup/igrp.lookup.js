@@ -101,7 +101,9 @@ $(function(){
 							$('[name="'+name+'"]').addClass(lclass);
 						}
 
-						$.IGRP.utils.resetFieldsSelector($("."+lclass));
+						$.IGRP.utils.resetFieldsSelector($("."+lclass)).each(function(){
+							$(this).trigger('change');
+						});
 						
 					}
 
