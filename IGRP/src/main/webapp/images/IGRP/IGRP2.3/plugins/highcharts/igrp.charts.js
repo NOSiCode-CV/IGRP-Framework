@@ -1107,6 +1107,13 @@
 				$.IGRP.components.tabcontent.on('tabActive',function(target){
 					com.utils.resizeAllCharts( $(target) ); 
 			});
+			
+			$.IGRP.events.on('element-transform',function(p){
+				if($('.IGRP-highcharts',p.content)[0])
+					com.renderCharts({
+						chart : $('.IGRP-highcharts',p.content)
+					});
+			});
 		}
 
 	},true);

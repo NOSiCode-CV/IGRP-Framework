@@ -446,7 +446,7 @@ $.fn.separatorList = function(o){
 							values[fname].text.push(text);
 						}
 					//HYPERLINK HANDLER
-					}else if(ftype == 'link'){
+					}else if(ftype == 'link' || ftype == 'url'){
 						val 	= field.val();
 						text 	= field.attr('label');
 						target 	= field.attr('target');
@@ -780,5 +780,10 @@ $.fn.separatorList = function(o){
 
 $.IGRP.on('init',function(){
 	$('.IGRP-separatorlist').separatorList();
+	
+	$.IGRP.events.on('element-transform',function(p){
+        if($('.IGRP-separatorlist',p.content)[0])
+            $('.IGRP-separatorlist',p.content).separatorList();
+    });
 });
 	

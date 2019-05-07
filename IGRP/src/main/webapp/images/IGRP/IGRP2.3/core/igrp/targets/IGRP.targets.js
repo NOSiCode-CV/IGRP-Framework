@@ -7,7 +7,7 @@
 
 		var ev = $.IGRP.events;
 
-		ev.declare( ['target-click','submit-ajax','submit','before-change'] );
+		ev.declare( ['target-click','submit-ajax','submit','before-change','element-transform'] );
 
 		//confirm
 		var confirm = function(p){
@@ -145,7 +145,7 @@
 				
 			if (fields.valid()) {
 				
-				$.IGRP.utils.loading.show();
+				//$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
 					pArrayItem : pArrayItem,
@@ -178,7 +178,20 @@
 							
 							alert = '',
 
-							debug = '';
+							debug = '',
+
+							nodes 	 = [];
+
+							$('.table, .IGRP-highcharts',sform).each(function(id,el){
+								
+								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+							});
+
+							$.IGRP.utils.xsl.transform({
+								xsl    : $.IGRP.utils.getXMLStylesheet(xml),
+								xml    : xml,
+								nodes  : nodes
+							});
 
 							$.each($(xml).find('messages message'),function(i,row){
 
@@ -328,27 +341,9 @@
 
 				success:function(c){
 		
-					var table = $('.gen-container-item[item-name="'+tableName+'"]'),
+					var table = $('.gen-container-item[item-name="'+tableName+'"]');
 
-						fitem = $('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table);
-						
-					fitem.addClass('active');
-					
-					if($.IGRP.components.contextMenu)
-
-						$.IGRP.components.contextMenu.set( table );
-
-					if(table.find('table').hasClass('igrp-data-table')){
-						
-						var id = table.find('table').attr('id');
-
-						$.IGRP.components.tableCtrl.dataTable({
-
-							selector : 'table#'+id+'.igrp-data-table'
-
-						});
-						
-					}
+						$('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table).addClass('active');
 						
 				},
 

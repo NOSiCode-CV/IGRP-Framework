@@ -170,6 +170,10 @@
 
 	            	});
 					
+					$.IGRP.events.on('submit-ajax',function(o){
+						datatable.destroy();
+	            	});
+					
 				});
 
 			}
@@ -343,6 +347,29 @@
             	com.contextTHWidth();
 
             });
+			
+			$.IGRP.events.on('element-transform',function(p){
+		        if($('.table:not(.IGRP_formlist)',p.content)[0]){
+		            var table = p.content.find('table'),
+						id    = table.attr('id');
+
+					if($.IGRP.components.contextMenu)
+
+						$.IGRP.components.contextMenu.set( p.content );
+
+					if(table.hasClass('igrp-data-table')){
+						
+						$.IGRP.components.tableCtrl.dataTable({
+
+							selector : 'table#'+id+'.igrp-data-table'
+
+						});
+					}
+
+					if ($.IGRP.components.tableCtrl.pagination)
+						$.IGRP.components.tableCtrl.pagination('ul[filter-name="p_'+id+'_filter"]');
+		        }
+		    });
 
 		},
 

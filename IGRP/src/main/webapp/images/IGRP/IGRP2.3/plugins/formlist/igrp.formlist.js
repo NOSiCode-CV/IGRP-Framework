@@ -551,6 +551,11 @@
 (function(){
 
     $('.IGRP_formlist').IGRP_formlist();
+    
+    $.IGRP.events.on('element-transform',function(p){
+        if($('.IGRP_formlist',p.content)[0])
+            $('.IGRP_formlist',p.content).IGRP_formlist();
+    });
 
     /*$('.IGRP_formlist [item-type="plaintext"]').each(function(){
 
