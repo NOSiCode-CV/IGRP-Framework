@@ -11,6 +11,7 @@ import nosi.core.webapp.import_export_v2.exports.menu.MenuExport;
 import nosi.core.webapp.import_export_v2.exports.others_class.OthersClassExport;
 import nosi.core.webapp.import_export_v2.exports.page.PageExport;
 import nosi.core.webapp.import_export_v2.exports.report.ReportExport;
+import nosi.core.webapp.import_export_v2.exports.services.ServicesExport;
 import nosi.core.webapp.import_export_v2.exports.transation.ExportTransation;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
@@ -34,7 +35,8 @@ public class ExportHelper {
 		String[] others_class_ids = Core.getParamArray("p_others_class_check");
 		String[] transation_ids = Core.getParamArray("p_transation_ids_check");
 		String[] doc_type_ids = Core.getParamArray("p_tipo_doc_ids_check");
-		if(doc_type_ids==null && others_class_ids==null && transation_ids==null && dao_ids==null && report_ids==null && domain_ids==null && page_ids==null && conexao_ids==null && menu_ids==null && bpm_ids==null && modulo_ids==null) {
+		String[] service_ids = Core.getParamArray("p_services_ids_check");
+		if(service_ids==null && doc_type_ids==null && others_class_ids==null && transation_ids==null && dao_ids==null && report_ids==null && domain_ids==null && page_ids==null && conexao_ids==null && menu_ids==null && bpm_ids==null && modulo_ids==null) {
 			Core.setMessageError(Core.gt("Por favor selecione os dados a serem exportados"));
 			return null;
 		}
@@ -51,7 +53,7 @@ public class ExportHelper {
 		new OthersClassExport().export(export, others_class_ids);
 		new ExportTransation().export(export, transation_ids);
 		new ExportDocumentType().export(export, doc_type_ids);
-//		new ServicesExport().export(export, ids);
+		new ServicesExport().export(export, service_ids);
 		return export.execute();
 	}
 
