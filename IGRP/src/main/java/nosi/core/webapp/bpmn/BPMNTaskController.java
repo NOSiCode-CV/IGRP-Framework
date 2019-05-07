@@ -220,20 +220,20 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	
 
 	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey) {
-		if(Core.isNotNull(this.myCustomPermission)) { 
-			ActivityExecute activityExecute = new ActivityExecute().find()
-					 .where("processid","=",proc_id)
-					 .andWhere("proccessKey","=",proccessKey)
-					 .andWhere("taskid","=","start")
-					 .andWhere("taskKey","=","start")
-					 .andWhere("organization","=",Core.getCurrentOrganization())
-					 .one();
-			if(activityExecute!=null) {
-				 activityExecute.setCustomPermission(this.myCustomPermission);
-			     activityExecute.update();
+		ActivityExecute activityExecute = new ActivityExecute().find()
+				 .where("processid","=",proc_id)
+				 .andWhere("proccessKey","=",proccessKey)
+				 .andWhere("taskid","=","start")
+				 .andWhere("taskKey","=","start")
+				 .andWhere("organization","=",Core.getCurrentOrganization())
+				 .one();
+		if(activityExecute!=null) {
+			if(Core.isNotNull(this.myCustomPermission)) { 
+			 activityExecute.setCustomPermission(this.myCustomPermission);
+		     activityExecute.update();
 			}
-		     this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
 		}
+		this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
 	}
 	
 	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId) {
