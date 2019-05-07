@@ -273,6 +273,30 @@
 				
 				return false;
   			},
+  			
+  			getHiddenFields : function(xml){
+
+  				$(xml).find('rows content >* hidden').each(function(){
+  					var name = $(this).attr('name');
+
+  					$.IGRP.utils.createHidden({
+  						name : name,
+  						id 	 : name,
+  						value: $(this).text(),
+  						class: 'submittable'
+  					});
+  				});
+  			},
+  			
+  			placeholder2desc : function(){
+  				$(':input.desclabel').each(function(){
+  					var f = $(this);
+
+  					f.parents('.gen-fields-holder').append('<span class="desc_label text-muted">'+f.attr('placeholder')+'</span>');
+  					
+  					f.removeAttr('placeholder');
+  				});
+  			},
 
   			init:function(){
   				//TEXTEDITOR
@@ -281,6 +305,9 @@
 				$.IGRP.components.form.hasFieldsError();
 				//LOOKUP
 				$.IGRP.components.form.lookup.config();
+				//DESC
+				$.IGRP.components.form.placeholder2desc();
+				
   				/*FILE INPUT*/
 				$(document).on('change', '.file-btn-holder :file', function() {
 					var input    = $(this),
@@ -306,6 +333,11 @@
 
 				/* SELECT CHANGE */
 				$(document).on('change','.IGRP_change, [change="true"]',$.IGRP.components.form.change);
+				
+				$.IGRP.events.on('element-transform',function(p){
+					if(p.index === 1)
+						$.IGRP.components.form.getHiddenFields(p.xml);
+				});
 				
   			}
   		},true);
