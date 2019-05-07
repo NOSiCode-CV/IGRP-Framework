@@ -15,14 +15,14 @@ public class WSDL2Java {
 
 	public static final String SERVICE_PACKAGE_NAME="services";
 	
-	public static void generateWsdl2Java(String urlWsdl,String dad) {
+	public static void generateWsdl2Java(String urlWsdl,String dad,String packageName) {
 		boolean r = false;
 		try {
-			String destinationPath = Path.getPath(dad)+File.separator+SERVICE_PACKAGE_NAME;
+			String destinationPath = Path.getPath(dad)+File.separator+SERVICE_PACKAGE_NAME+File.separator+packageName.replace(".", File.separator);
 			if(!FileHelper.dirExists(destinationPath)) {
 				FileHelper.createDiretory(destinationPath);
 			}
-			String packageName = new Config().getBasePackage(dad)+"."+SERVICE_PACKAGE_NAME;
+			packageName = new Config().getBasePackage(dad)+"."+SERVICE_PACKAGE_NAME+"."+packageName;
 			Runtime.getRuntime().exec("wsimport -Xnocompile -p "+packageName+ " -keep -verbose "+urlWsdl+" -d "+Path.getBasePath());
 			r = true;
 		} catch (IOException e) {

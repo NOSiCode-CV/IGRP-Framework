@@ -61,10 +61,14 @@
                         </option>
                     </list>
                 </aplicacao>
-                <url_wsdl name="p_url_wsdl" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <url_wsdl name="p_url_wsdl" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>URL WSDL</label>
-                    <value>Ut natus perspiciatis mollit anim</value>
+                    <value>Totam natus deserunt sed labore</value>
                 </url_wsdl>
+                <package_name name="p_package_name" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Package Name</label>
+                    <value>Dolor officia aperiam lorem rem</value>
+                </package_name>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="primary" rel="generate">

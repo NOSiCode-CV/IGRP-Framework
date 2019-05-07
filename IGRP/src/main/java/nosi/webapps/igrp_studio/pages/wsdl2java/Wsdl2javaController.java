@@ -37,8 +37,8 @@ public class Wsdl2javaController extends Controller {
 		 return this.forward("igrp_studio","Wsdl2java","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(generate)----*/
 		
-		if(Core.isNotNullMultiple(model.getUrl_wsdl(),model.getAplicacao())) {
-			WSDL2Java.generateWsdl2Java(model.getUrl_wsdl(), model.getAplicacao().toLowerCase());
+		if(Core.isNotNullMultiple(model.getUrl_wsdl(),model.getAplicacao(),model.getPackage_name())) {
+			WSDL2Java.generateWsdl2Java(model.getUrl_wsdl(), model.getAplicacao().toLowerCase(),model.getPackage_name());
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp_studio","Wsdl2java","index", this.queryString());	
