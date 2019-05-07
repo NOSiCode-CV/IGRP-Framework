@@ -53,7 +53,7 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	private String oidcState; 
 	
 	@Column(name="is_authenticated")
-	private int isAuthenticated; // 0 || 1 
+	private Integer isAuthenticated; // 0 || 1 
 
 	@Transient
 	private ProfileType profileType;

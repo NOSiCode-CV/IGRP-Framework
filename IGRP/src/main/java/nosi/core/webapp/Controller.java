@@ -273,6 +273,31 @@ public class Controller{
 	protected final Response renderView(View view) throws IOException{ // Overload ...
 		return this.renderView(view, false);
 	}
+	/**
+	 * Calls this.xSend
+	 * 
+	 * @param file
+	 * @param name
+	 * @param contentType
+	 * @param download
+	 * @return
+	 */
+	public final Response render(byte[] file, String name, String contentType, boolean download) {
+		return this.xSend(file, name, contentType, download);
+	}
+	/**
+	 * Calls this.xSend
+	 * @param file
+	 * @param name
+	 * @param contentType
+	 * @param download
+	 * @param url
+	 * @return
+	 */
+	Response render(byte[] file, String name, String contentType, boolean download,String url) {
+		return this.xSend(file,  name,  contentType,  download, url) ;
+		
+	}
 	
 	protected final Response renderView(String content){
 		Response resp = new Response();
