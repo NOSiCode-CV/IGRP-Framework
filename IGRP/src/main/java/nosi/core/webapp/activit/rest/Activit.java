@@ -1,5 +1,7 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -10,10 +12,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
+
+import javax.ws.rs.core.Response;
+
 import com.google.gson.annotations.Expose;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.bpmn.GenerateInterfacePermission;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+import nosi.core.webapp.webservices.helpers.RestRequest;
 import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.TaskAccess;
 
@@ -44,6 +52,8 @@ public class Activit {
 	@Expose(serialize=false,deserialize=false)
 	protected List<String> myproccessId;
 	private String filter_custom;
+	@Expose(deserialize=false,serialize=false)
+	private String processName;
 	
 	public Activit() {
 		this.myproccessId = this.getMyProccessAccess();
@@ -81,6 +91,38 @@ public class Activit {
     	return r;
 	}	 
 
+	public void proccessDescription(String link) {
+		if(link!=null) {
+			RestRequest req = new RestRequest();
+			req.setBase_url("");
+			Response response = req.get(link);
+			ProcessDefinitionService process = new ProcessDefinitionService();
+			if(response!=null){
+				String contentResp = "";
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					contentResp = FileHelper.convertToString(is);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(response.getStatus()==200){
+					process = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,ProcessDefinitionService.class);
+				}else{
+					this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				}
+			}
+			this.setProcessName(process.getName());
+		}
+	}
+	
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+	
 	public void setFilterCustom(String filter_custom) {
 		this.filter_custom = filter_custom;
 	}

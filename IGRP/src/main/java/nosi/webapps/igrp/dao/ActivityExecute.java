@@ -68,12 +68,15 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 	@Column(name="task_key",nullable=false,length=200)
 	private String taskKey;
 	
+	@Column(name="process_name", length = 250)
+	private String processName;
+	
 	public ActivityExecute() {
 		
 	}
 
 	public ActivityExecute(String processid, String taskid,Application application, Organization organization, ProfileType profile,
-			User user,ActivityEcexuteType execution_type) {
+			User user,ActivityEcexuteType execution_type,String processName) {
 		super();
 		this.processid = processid;
 		this.taskid = taskid;
@@ -82,9 +85,10 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 		this.profile = profile;
 		this.user = user;
 		this.execution_type = execution_type;
+		this.processName = processName;
 	}
 
-	public ActivityExecute(String processid, String taskid,String dad, Integer currentOrganization,Integer currentProfile, User currentUser,ActivityEcexuteType execution_type,String proccessKey,String taskKey) {
+	public ActivityExecute(String processid, String taskid,String dad, Integer currentOrganization,Integer currentProfile, User currentUser,ActivityEcexuteType execution_type,String proccessKey,String taskKey,String processName) {
 		this.processid = processid;
 		this.taskid = taskid;
 		this.application = Core.findApplicationByDad(dad);
@@ -94,6 +98,7 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 		this.execution_type = execution_type;
 		this.proccessKey = proccessKey;
 		this.taskKey = taskKey;
+		this.processName = processName;
 	}
 
 	public Integer getId() {
@@ -182,6 +187,14 @@ public class ActivityExecute extends IGRPBaseActiveRecord<ActivityExecute> imple
 
 	public void setTaskKey(String taskKey) {
 		this.taskKey = taskKey;
+	}
+	
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 
 	@Override
