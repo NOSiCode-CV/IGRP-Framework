@@ -259,11 +259,11 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 				+ organica + ", aplicacao=" + aplicacao + "]";
 	}
 	
-	public int getIsAuthenticated() {
+	public Integer getIsAuthenticated() {
 		return isAuthenticated;
 	}
 
-	public void setIsAuthenticated(int isAuthenticated) {
+	public void setIsAuthenticated(Integer isAuthenticated) {
 		this.isAuthenticated = isAuthenticated;
 	}
 

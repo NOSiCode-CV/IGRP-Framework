@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class Wsdl2javaView extends View {
 
@@ -27,10 +28,10 @@ public class Wsdl2javaView extends View {
 		
 		url_wsdl = new TextField(model,"url_wsdl");
 		url_wsdl.setLabel(gt("URL WSDL"));
-		url_wsdl.propertie().add("name","p_url_wsdl").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		url_wsdl.propertie().add("name","p_url_wsdl").add("type","url").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		package_name = new TextField(model,"package_name");
-		package_name.setLabel(gt("Package Name"));
+		package_name.setLabel(gt("Folder Name"));
 		package_name.propertie().add("name","p_package_name").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 
