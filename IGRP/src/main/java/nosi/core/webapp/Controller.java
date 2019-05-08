@@ -326,6 +326,10 @@ public class Controller{
 	protected final Response redirect(String app, String page, String action,QueryString<String,Object> queryString) throws IOException{
 		if(queryString.getValues("dad")==null && !action.contains("dad"))
 			queryString.addQueryString("dad", Core.getParam("dad"));
+		String jsonLookup = Core.getParam("jsonLookup");
+		if(Core.isNotNull(jsonLookup)) {
+			queryString.addQueryString("jsonLookup", jsonLookup);
+		}
 		this.setQueryString(queryString);
 		Map<String,String[]> paramsName = Core.getParameters();
 		paramsName.entrySet().stream()
