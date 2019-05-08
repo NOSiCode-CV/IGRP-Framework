@@ -156,7 +156,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.redirect("igrp", "MapaProcesso", "openProcess&p_processId=" + processDefinitionId);
 		}
 		Core.setMessageSuccess();
-		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start");
+		st.proccessDescription(st.getProcessDefinitionUrl());
+		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start",st.getProcessName());
 		TaskService task = new TaskService();
 		task.addFilter("processDefinitionId", processDefinitionId);
 		task.addFilter("processInstanceId", pi.getId());
@@ -204,7 +205,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 		}else {
 			this.saveFiles(parts,taskId);
-			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey());
+			task.proccessDescription(task.getProcessDefinitionUrl());
+			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey(),task.getProcessName());
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
@@ -219,7 +221,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 	
 
-	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey) {
+	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey,String processName) {
 		ActivityExecute activityExecute = new ActivityExecute().find()
 				 .where("processid","=",proc_id)
 				 .andWhere("proccessKey","=",proccessKey)
@@ -233,11 +235,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		     activityExecute.update();
 			}
 		}
-		this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
+		this.saveStartProcess(proc_id, proccessKey, taskKey, taskId,processName);
 	}
 	
-	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId) {
-		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey);
+	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId,String processName) {
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey,processName);
 	     activityExecute.setCustomPermission(this.myCustomPermission);
 	     activityExecute.insert();
 	}
