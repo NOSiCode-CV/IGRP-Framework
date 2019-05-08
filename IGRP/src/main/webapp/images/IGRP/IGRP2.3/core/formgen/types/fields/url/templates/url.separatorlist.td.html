@@ -1,0 +1,13 @@
+<td align="#[align]#" data-row="{position()}" data-title="{../../label/#tag#}" class="#type#" item-name="#[tag]#">
+<xsl:choose>
+    <xsl:when test="#tag# != ''">
+        <a href="{normalize-space(#tag#)}" class="link externalLink bClick btn-link #[btnSize]#" target="_newtab" name="#tag#">
+        	<i class="fa #[img]#"/>
+            <span><xsl:value-of select="#tag#_desc"/></span>
+        </a>
+    </xsl:when>
+    <xsl:otherwise>
+        <span class="externalLink"><xsl:value-of select="#tag#_desc"/></span>
+    </xsl:otherwise>
+</xsl:choose>
+</td>

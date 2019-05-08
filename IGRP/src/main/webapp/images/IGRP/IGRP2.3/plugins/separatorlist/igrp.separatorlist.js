@@ -584,6 +584,12 @@ $.fn.separatorList = function(o){
 			sl.events.on("link-field-add",function(o){
 				return '<a href="'+o.value+'" class="link bClick" target="'+o.target+'">'+o.text+'</a>'
 			},true);
+			
+			//URL FIELD
+			sl.events.declare(["url-field-add"]);
+			sl.events.on("url-field-add",function(o){
+				return '<a href="'+o.value+'" class="link bClick externalLink" target="_newtab">'+o.text+'</a>'
+			},true);
 
 			//FILE FIELD
 			sl.events.declare(["file-field-add"]);
@@ -780,5 +786,10 @@ $.fn.separatorList = function(o){
 
 $.IGRP.on('init',function(){
 	$('.IGRP-separatorlist').separatorList();
+	
+	$.IGRP.events.on('element-transform',function(p){
+        if($('.IGRP-separatorlist',p.content)[0])
+            $('.IGRP-separatorlist',p.content).separatorList();
+    });
 });
 	

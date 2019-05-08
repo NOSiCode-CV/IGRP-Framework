@@ -192,6 +192,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_nacionalidade", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nacionalidade/Pesquisa_nacionalidade.xsl", "Pesquisa nacionalidade", "Pesquisa nacionalidade", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("WSDL2Java", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wsdl2java/Wsdl2java.xsl", "Wsdl2java", "Wsdl2java", "2.3", 1, app_igrp_studio));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -271,6 +272,10 @@ public class MigrationIGRPInitConfig {
 			Menu GestDominio = new Menu("Gestão de Domínio", 99, 1, 1, "_self", actions.get(3), app_igrp, null);
 			GestDominio.setMenu(GestDominio);
 			menus.add(GestDominio);
+			
+			Menu wsdl2java = new Menu("WSDL2Java", 99, 1, 1, "_self", actions.get(73), app_igrp_studio, null);
+			wsdl2java.setMenu(wsdl2java);
+			menus.add(wsdl2java);
 			
 			for(Menu m:menus){
 				m.insert();

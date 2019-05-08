@@ -7,7 +7,7 @@
 
 		var ev = $.IGRP.events;
 
-		ev.declare( ['target-click','submit-ajax','submit','before-change'] );
+		ev.declare( ['target-click','submit-ajax','submit','before-change','element-transform'] );
 
 		//confirm
 		var confirm = function(p){
@@ -138,20 +138,21 @@
 		var submit_ajax = function(p){
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
-				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo);
-				arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
-				pArrayItem  = sform.find('*').not(".notForm").serializeArray(),
+				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
 				events 		= p.clicked[0].events;
 				
 			if (fields.valid()) {
 				
-				$.IGRP.utils.loading.show();
+				//$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
 					pArrayItem : pArrayItem,
 					clicked    : p.clicked,
 					url  	   : action
 				});
+				
+				var arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
+					pArrayItem  = sform.find('*').not(".notForm").serializeArray();
 				
 				if(events){
 					events.execute('before-submit_ajax',{
@@ -178,7 +179,20 @@
 							
 							alert = '',
 
-							debug = '';
+							debug = '',
+
+							nodes 	 = [];
+
+							$('.table, .IGRP-highcharts',sform).each(function(id,el){
+								
+								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+							});
+
+							$.IGRP.utils.xsl.transform({
+								xsl    : $.IGRP.utils.getXMLStylesheet(xml),
+								xml    : xml,
+								nodes  : nodes
+							});
 
 							$.each($(xml).find('messages message'),function(i,row){
 
@@ -328,27 +342,9 @@
 
 				success:function(c){
 		
-					var table = $('.gen-container-item[item-name="'+tableName+'"]'),
+					var table = $('.gen-container-item[item-name="'+tableName+'"]');
 
-						fitem = $('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table);
-						
-					fitem.addClass('active');
-					
-					if($.IGRP.components.contextMenu)
-
-						$.IGRP.components.contextMenu.set( table );
-
-					if(table.find('table').hasClass('igrp-data-table')){
-						
-						var id = table.find('table').attr('id');
-
-						$.IGRP.components.tableCtrl.dataTable({
-
-							selector : 'table#'+id+'.igrp-data-table'
-
-						});
-						
-					}
+						$('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table).addClass('active');
 						
 				},
 
@@ -404,6 +400,21 @@
 			});
 			return false;
 		};
+		
+		//_openclose (popup open and automatic close)
+		var _openclose = function(p){
+			var myWindow = $.IGRP.utils.openWin({
+				url    : p.url,
+				width  : 30,
+				height : 30,
+				win    : 'IGRP-openclose'
+			});
+
+			setTimeout(function () { myWindow.close();}, 2000);
+
+			return false;
+		};
+		
 		//export all - table
 		var exportAll       = function(p){
 			console.log('EXPORT ALL')
@@ -1053,6 +1064,14 @@
 				label : 'View Coordinates',
 				
 				action : gisViewCoords
+			},
+			
+			_openclose 	: {
+
+				label 	: 'Popup Open Close',
+
+				action : _openclose
+
 			},
 
 			

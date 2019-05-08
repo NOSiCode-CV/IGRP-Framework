@@ -869,6 +869,80 @@
 				});
 
 				return arr;
+			},
+			
+			transform : function(p){
+				$.ajax({
+
+					url : p.xsl,
+
+					success:function(pageXSL){
+						
+						var nodesArr    = [];
+
+						var includesArr = $.IGRP.utils.xsl.getIncludeNodes(pageXSL);
+
+						//get template includes
+						$.each(includesArr,function(x,i){
+
+							var href = $(i).attr('href');
+
+							$(i).attr('href',href.split('../../xsl/tmpl/').pop(''));
+
+						});
+
+						//get nodes xsl
+						if(p.nodes){
+
+							p.nodes.forEach(function(n,i){
+								
+								var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
+
+									test : 'rows/content/'+n
+
+								})[0];
+								
+								var xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement,includesArr);
+
+								var itemHTML = $('.gen-container-item[item-name="'+n+'"]');
+
+								itemHTML.XMLTransform({
+									xml     	 : p.xml,
+									xsl     	 : xslt,
+									loading      : true,
+									xslBasePath  : path+'/xsl/tmpl',
+									method 	     : 'replace',
+									complete     : function(e,c){
+										var content = $('.gen-container-item[item-name="'+n+'"]');
+										
+										$.IGRP.events.execute('element-transform',{
+											content  : content,
+											itemName : n,
+											xml 	 : p.xml,
+											xsl      : xslt,
+											index    : i+1
+										});
+
+										if(p.success)
+											p.success({
+												itemName : n,
+												xsl 	 : xslt,
+												xml 	 : p.xml,
+												itemHTML : content
+											});
+									},
+									error: function(e){
+										$.IGRP.notify({
+											message : 'Error Transforming Component',
+											type    : 'warning'
+										});
+									}
+								});
+								
+							});
+						}
+					}
+				});
 			}
 		};
 
@@ -916,62 +990,11 @@
 					
 					var xslURL = $.IGRP.utils.getXMLStylesheet(r.responseText);
 		
-					$.ajax({
-
-						url:xslURL,
-
-						success:function(pageXSL){
-							
-							var nodesArr    = [];
-
-							var includesArr = $.IGRP.utils.xsl.getIncludeNodes(pageXSL);
-
-							//get template includes
-							$.each(includesArr,function(x,i){
-
-								var href = $(i).attr('href');
-
-								$(i).attr('href',href.split('../../xsl/tmpl/').pop(''));
-
-							});
-
-							//get nodes xsl
-							if(options.nodes){
-
-								options.nodes.forEach(function(n){
-
-									var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
-										test : 'rows/content/'+n
-									})[0];
-									
-									var xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement,includesArr);
-
-									var itemHTML = $('.gen-container-item[item-name="'+n+'"]');
-
-									itemHTML.XMLTransform({
-										xml     	 : xml,
-										xsl     	 : xslt,
-										loading      : true,
-										xslBasePath  : path+'/xsl/tmpl',
-										method 	     : 'replace',
-										complete     : function(e,c){
-											if(params.success)
-												params.success({
-													itemName : n,
-													itemHTML : $('.gen-container-item[item-name="'+n+'"]')
-												});
-										},
-										error: function(e){
-											$.IGRP.notify({
-												message : 'Error Transforming Component',
-												type    : 'warning'
-											});
-										}
-									});
-									
-								});
-							}
-						}
+					$.IGRP.utils.xsl.transform({
+						xsl    : xslURL,
+						xml    : xml,
+						nodes  : options.nodes,
+						params : params.success
 					});
 				}
 			});

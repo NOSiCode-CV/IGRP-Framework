@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
+import nosi.core.webapp.webservices.wsdl2java.WSDL2Java;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.DomainType;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
@@ -74,16 +74,12 @@ public class ExportSqlHelper {
 				view.table_doc_type.setVisible(true);
 				this.loadDocTypeData(model);
 			}
-	//		else if(t==ExportTypes.SERVICE.getValor()) {
-	//			this.loadServiceData(model);
-	//		}
+			else if(t==OptionsImportExport.SERVICE.getValor()) {
+				view.table_service.setVisible(true);
+				this.loadServiceData(model);
+			}
 		}
 	}
-
-
-
-
-
 
 
 	private void loadDocTypeData(Wizard_export_step_2 model) {
@@ -93,11 +89,6 @@ public class ExportSqlHelper {
 		model.loadTable_doc_type(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	
 	}
-
-
-
-
-
 
 
 	private void showAllTable(Wizard_export_step_2View view, boolean isVisible) {
@@ -112,6 +103,8 @@ public class ExportSqlHelper {
 		view.table_modulo.setVisible(isVisible);
 		view.tbl_transation.setVisible(isVisible);
 		view.table_others_class.setVisible(isVisible);
+		view.table_doc_type.setVisible(isVisible);
+		view.table_service.setVisible(isVisible);
 	}
 
 
@@ -158,9 +151,11 @@ public class ExportSqlHelper {
 		}
 	}
 	
-//	private void loadServiceData(Wizard_export_step_2 model) {
-//		this.loadDataFromFile(model,"services");
-//	}
+	private void loadServiceData(Wizard_export_step_2 model) {
+		String sql = this.loadDataFromFile(model,WSDL2Java.SERVICE_PACKAGE_NAME);
+		if(Core.isNotNull(sql))
+			model.loadTable_service(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
+	}
 
 
 	private void loadMenuData(Wizard_export_step_2 model) {

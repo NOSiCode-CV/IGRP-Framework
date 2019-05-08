@@ -2,7 +2,7 @@
   <label for="{#path#/@name}">
   	#label.val#
   </label>
-  <input type="#type#" value="{#path#/value}" class="form-control #[change]#" id="{#path#/@name}" name="{#path#/@name}" #[readonly]# #[disabled]# #[required]# maxlength="#[maxlength]#" placeholder="#[placeholder]#" >
+  <input type="#type#" value="{#path#/value}" class="form-control #[change]# #[desclabel]#" id="{#path#/@name}" name="{#path#/@name}" #[readonly]# #[disabled]# #[required]# maxlength="#[maxlength]#" placeholder="#[placeholder]#" >
   	<xsl:call-template name="setAttributes">
 	    <xsl:with-param name="field" select="#path#"/>
 	</xsl:call-template>

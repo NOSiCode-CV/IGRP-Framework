@@ -5055,6 +5055,13 @@ var GENERATOR = function(genparams){
 						name:'placeholder',
 						value: ''
 					});
+					
+					field.setPropriety({
+						label    : 'Description Label',
+						name     : 'desclabel',
+						value 	 : false,
+						xslValue : 'desclabel'
+					});
 
 				}
 			//}
