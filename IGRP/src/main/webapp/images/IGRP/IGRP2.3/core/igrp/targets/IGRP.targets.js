@@ -138,9 +138,7 @@
 		var submit_ajax = function(p){
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
-				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo);
-				arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
-				pArrayItem  = sform.find('*').not(".notForm").serializeArray(),
+				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
 				events 		= p.clicked[0].events;
 				
 			if (fields.valid()) {
@@ -152,6 +150,9 @@
 					clicked    : p.clicked,
 					url  	   : action
 				});
+				
+				var arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
+					pArrayItem  = sform.find('*').not(".notForm").serializeArray();
 				
 				if(events){
 					events.execute('before-submit_ajax',{
@@ -399,6 +400,21 @@
 			});
 			return false;
 		};
+		
+		//_openclose (popup open and automatic close)
+		var _openclose = function(p){
+			var myWindow = $.IGRP.utils.openWin({
+				url    : p.url,
+				width  : 30,
+				height : 30,
+				win    : 'IGRP-openclose'
+			});
+
+			setTimeout(function () { myWindow.close();}, 2000);
+
+			return false;
+		};
+		
 		//export all - table
 		var exportAll       = function(p){
 			console.log('EXPORT ALL')
@@ -1048,6 +1064,14 @@
 				label : 'View Coordinates',
 				
 				action : gisViewCoords
+			},
+			
+			_openclose 	: {
+
+				label 	: 'Popup Open Close',
+
+				action : _openclose
+
 			},
 
 			
