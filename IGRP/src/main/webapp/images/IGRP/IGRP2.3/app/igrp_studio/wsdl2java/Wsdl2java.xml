@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=299</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=723</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -61,13 +61,13 @@
                         </option>
                     </list>
                 </aplicacao>
-                <url_wsdl name="p_url_wsdl" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <url_wsdl name="p_url_wsdl" type="url" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="https://....?wsdl" desclabel="false" right="false">
                     <label>URL WSDL</label>
-                    <value>Totam natus deserunt sed labore</value>
+                    <value/>
                 </url_wsdl>
-                <package_name name="p_package_name" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
-                    <label>Package Name</label>
-                    <value>Dolor officia aperiam lorem rem</value>
+                <package_name name="p_package_name" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="Subfolder inside services" desclabel="false" right="false">
+                    <label>Folder Name</label>
+                    <value>Magna dolor amet ut accusantium</value>
                 </package_name>
             </fields>
             <tools-bar>
