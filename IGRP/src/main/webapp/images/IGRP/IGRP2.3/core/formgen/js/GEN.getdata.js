@@ -64,6 +64,7 @@ var DATA = {
 			break;
 
 			case 'link':
+			case 'url':
 				rtn = chance.url();
 				//rtn = 'http://www.nosi.cv';
 			break;

@@ -446,7 +446,7 @@ $.fn.separatorList = function(o){
 							values[fname].text.push(text);
 						}
 					//HYPERLINK HANDLER
-					}else if(ftype == 'link' || ftype == 'url'){
+					}else if(ftype == 'link'){
 						val 	= field.val();
 						text 	= field.attr('label');
 						target 	= field.attr('target');
@@ -583,6 +583,12 @@ $.fn.separatorList = function(o){
 			sl.events.declare(["link-field-add"]);
 			sl.events.on("link-field-add",function(o){
 				return '<a href="'+o.value+'" class="link bClick" target="'+o.target+'">'+o.text+'</a>'
+			},true);
+			
+			//URL FIELD
+			sl.events.declare(["url-field-add"]);
+			sl.events.on("url-field-add",function(o){
+				return '<a href="'+o.value+'" class="link bClick externalLink" target="_newtab">'+o.text+'</a>'
 			},true);
 
 			//FILE FIELD
