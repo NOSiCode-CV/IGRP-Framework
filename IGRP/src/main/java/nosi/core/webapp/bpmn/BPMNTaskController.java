@@ -156,8 +156,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.redirect("igrp", "MapaProcesso", "openProcess&p_processId=" + processDefinitionId);
 		}
 		Core.setMessageSuccess();
-		st.proccessDescription(st.getProcessDefinitionUrl());
-		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start",st.getProcessName());
+		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start",pi.getProcessDefinitionId());
 		TaskService task = new TaskService();
 		task.addFilter("processDefinitionId", processDefinitionId);
 		task.addFilter("processInstanceId", pi.getId());
@@ -205,8 +204,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 		}else {
 			this.saveFiles(parts,taskId);
-			task.proccessDescription(task.getProcessDefinitionUrl());
-			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey(),task.getProcessName());
+			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey(),task.getProcessDefinitionId());
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
