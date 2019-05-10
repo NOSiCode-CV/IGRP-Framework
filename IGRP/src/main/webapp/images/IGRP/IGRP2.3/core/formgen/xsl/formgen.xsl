@@ -57,7 +57,12 @@
                       </li>  -->
                       <li rel="gen-java" xslt-path="{$path}/core/formgen/util/java" xslt-file="XSL_GENERATOR.xsl" text-color="1">
                         <span>JAVA</span>
-                    </li>
+                      </li>
+                      
+                      <!-- <li rel="gen-blocky"  active-text-color="primary">
+                        <span>BLOCKY</span>
+                      </li> -->
+                      
                   </ul>
               </div>
               <!--
@@ -265,6 +270,17 @@
                             <div class="gen-editors-wrapper"></div>
                             <!-- <div id="gen-java-view" class="gen-code-mirror col-sm-10 custom-size"></div> -->
                         </div>
+                        
+                        <div id="gen-blocky" class="gen-viewers">
+                        		<BR></BR>
+                        		<BR></BR>
+                        		
+                              <div id="gen-blocky-view">
+                              		
+                              		<xsl:call-template name="IGRP-blocky"></xsl:call-template>
+                              	
+                              </div>
+                          </div>
                           
 
                           <div class="gen-viewers-toolbar clearfix">
@@ -1232,5 +1248,7 @@
     </xsl:template>
 
     <xsl:include href="tmpl/page-properties-tab-content.xsl"/>
+    
+    <xsl:include href="tmpl/igrp.blocky.xsl"/>
 
 </xsl:stylesheet>
