@@ -146,7 +146,6 @@
 				//$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
-					pArrayItem : pArrayItem,
 					clicked    : p.clicked,
 					url  	   : action
 				});

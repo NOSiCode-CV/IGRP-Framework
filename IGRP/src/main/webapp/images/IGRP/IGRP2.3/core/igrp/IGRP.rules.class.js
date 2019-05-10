@@ -668,8 +668,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 		remote:{
 			
 			do : function(p){
-
-				$.IGRP.request( p.procedure ,{
+				var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
+				$.IGRP.request( url ,{
 					params  : getParam(p.request_fields),
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
@@ -693,9 +693,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				//var param = p.sourceName+'='+$(p.sourceField).val();
-
+				var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 				$.ajax({
-					url 	: p.procedure,
+					url 	: url,
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
 				   	},
@@ -747,7 +747,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		remote_list:{
 			do : function(p){
-				var actionURL	 = p.procedure || $.IGRP.utils.getPageUrl(),
+				var actionURL	 = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app') || $.IGRP.utils.getPageUrl(),
 					form		 = $.IGRP.utils.getForm();
 				
 				$.each( p.targetFields ,function(i,f){
