@@ -61,6 +61,22 @@ public class ReportImport  extends AbstractImport implements IImport{
 					this.addError(repTemplate.hasError()?repTemplate.getError().get(0):null);
 					this.saveDataSource(report);
 					this.saveParamDataSource(report,repTemplate);
+				}else {
+					repTemplate.setCode(report.getCode());
+					repTemplate.setDt_created(report.getDt_created());
+					repTemplate.setDt_updated(report.getDt_updated());
+					repTemplate.setName(report.getName());
+					repTemplate.setReport_identify(report.getReport_identify());					
+					repTemplate.setApplication(this.application!=null?this.application:new Application().findByDad(report.getDad()));
+					repTemplate.setUser_created(Core.getCurrentUser());
+					repTemplate.setUser_updated(Core.getCurrentUser());
+					repTemplate.setStatus(report.getStatus());
+					repTemplate.setXml_content(xml_content);
+					repTemplate.setXsl_content(xsl_content);
+					repTemplate = repTemplate.update();
+					this.addError(repTemplate.hasError()?repTemplate.getError().get(0):null);
+					this.saveDataSource(report);
+					this.saveParamDataSource(report,repTemplate);
 				}
 			});
 		}
