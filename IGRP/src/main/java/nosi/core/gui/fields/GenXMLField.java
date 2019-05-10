@@ -224,11 +224,11 @@ public class GenXMLField {
 					}else if(field instanceof RadioListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("checked", "true");
 					}
-					xml.setElement("text", obj.getValue().toString());
+					xml.setElement("text", ""+obj.getValue());
 					if(obj.getKey() == null || obj.getKey().toString().equals(""))
 						xml.emptyTag("value");
 					else
-						xml.setElement("value", obj.getKey().toString());
+						xml.setElement("value", ""+obj.getKey());
 					xml.endElement();
 				}
 			}
@@ -238,7 +238,7 @@ public class GenXMLField {
 		}else{
 			/*if(field instanceof CheckBoxField)
 				System.out.println(field.getValue());*/
-			xml.setElement("value",field.getValue()!=null?field.getValue().toString():"");
+			xml.setElement("value",field.getValue()!=null?""+field.getValue():"");
 		}
 	}
 

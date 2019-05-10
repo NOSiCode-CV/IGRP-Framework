@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -1687,7 +1688,14 @@ public final class Core { // Not inherit
 		}
 		return result;
 	}
-
+	
+	public static boolean mail(String to, String subject, String msg, String charset, String mimetype,
+			File[] attachs, String replyTo) {
+		Properties prop = ConfigApp.getInstance().loadConfig("common", "main.xml");
+		String from = prop.getProperty("mail.user");
+		return Core.mail(from, to, subject, msg, charset, mimetype, attachs, replyTo);
+	}
+	
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed()
@@ -3369,14 +3377,14 @@ public final class Core { // Not inherit
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, user,ActivityEcexuteType.LOCK);
+		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, user,ActivityEcexuteType.LOCK,null);
 		a.insert();
 	}
 
 	public static void lockProccess(String codeOrg, String codeProf, String procId, String taskId) {
 		Organization org = new Organization().findByCode(codeOrg);
 		ProfileType prof = new ProfileType().findByCode(codeProf);
-		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, null,ActivityEcexuteType.LOCK);
+		ActivityExecute a = new ActivityExecute(procId, taskId, Core.getCurrentApp(),org, prof, null,ActivityEcexuteType.LOCK,null);
 		a.insert();
 	}
 	
