@@ -20,6 +20,7 @@ import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -59,20 +60,20 @@ public abstract class Model { // IGRP super model
 	public void loadFromTask(String taskId) throws IllegalArgumentException, IllegalAccessException {
 		HistoricTaskService hts = Core.getTaskHistory(taskId);
 		if(hts!=null && hts.getVariables() !=null) {
-			List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
+			List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI+"_"+hts.getId())).collect(Collectors.toList());
 			String json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
 			if(Core.isNotNull(json)) {
 				CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
 				if(custom.getRows()!=null){
 					String overrided = Core.getParam("overrided");
 					custom.getRows().stream().forEach(v->{
-						if(!v.getName().equalsIgnoreCase("taskId") 
-								&& !v.getName().equalsIgnoreCase("processDefinition") 
-								&& !v.getName().equalsIgnoreCase("taskDefinition")
-								&& !v.getName().equalsIgnoreCase("appId")
-								&& !v.getName().equalsIgnoreCase("preiviewApp")
-								&& !v.getName().equalsIgnoreCase("previewTask")
-								&& !v.getName().equalsIgnoreCase("preiviewProcessDefinition")
+						if(!v.getName().equalsIgnoreCase(BPMNConstants.PRM_RUNTIME_TASK) 
+								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_DEFINITION) 
+								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_TASK_DEFINITION)
+								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_APP_ID)
+								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_APP)
+								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_TASK)
+								&& !v.getName().equalsIgnoreCase(BPMNConstants.PRM_PREVIEW_PROCESSDEFINITION)
 						  ) {
 							if(overrided.equalsIgnoreCase("false")) {
 								if(Core.isNull(Core.getParam(v.getName(),false))) {

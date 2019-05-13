@@ -107,6 +107,7 @@ public class TaskService extends Activit{
 		this.addFilter("unassigned", "true");
 		List<TaskService> tasks =  this.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		this.setMyProccessAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
 							  .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
 							  .collect(Collectors.toList());
@@ -117,6 +118,7 @@ public class TaskService extends Activit{
 	public List<TaskService> getMabageTasks() {
 		List<TaskService> tasks =  this.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		this.setMyProccessAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
 							 .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
 							 .collect(Collectors.toList());

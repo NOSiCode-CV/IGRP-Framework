@@ -135,7 +135,13 @@ public class ProcessDefinitionService extends Activit{
 		list = list.stream().filter(p->filterAccess(p)).collect(Collectors.toList());
 		return list;
 	}
-	
+
+	public List<ProcessDefinitionService> getMyProcessDefinitions(String dad) {
+		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+dad);
+		List<ProcessDefinitionService> list = this.getProcessDefinitions(false);
+		list = list.stream().filter(p->filterAccess(p)).collect(Collectors.toList());
+		return list;
+	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsForCreated(String idApp){
 		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);

@@ -9,15 +9,16 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.bpmn.BPMNConstants;
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, InstantiationException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		String taskId = Core.getParam("taskId");
-		String processDefinitionKey = Core.getParam("processDefinitionKey");
-		String taskDefinitionKey = Core.getParam("taskDefinitionKey");
+		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
+		String processDefinitionKey = Core.getParam(BPMNConstants.PRM_PROCESS_DEFINITION_KEY);
+		String taskDefinitionKey = Core.getParam(BPMNConstants.PRM_TASK_DEFINITION_KEY);
 		TaskServiceQuery taskS = new TaskServiceQuery();
 		if(Core.isNotNull(taskId)) {
 			taskS.addFilter("taskId", taskId);
@@ -45,7 +46,7 @@ public class Detalhes_tarefasController extends Controller {
 		String content = "";
 		try {
 			String packageName =  "nosi.webapps."+task.getTenantId().toLowerCase()+".process."+task.getProcessDefinitionKey().toLowerCase();
-			Class<?> c = Class.forName(packageName+"."+this.config.PREFIX_TASK_NAME+task.getTaskDefinitionKey()+"Controller");
+			Class<?> c = Class.forName(packageName+"."+BPMNConstants.PREFIX_TASK+task.getTaskDefinitionKey()+"Controller");
 			Method method = c.getMethod("details",TaskServiceQuery.class);
 			content = (String) method.invoke(c.newInstance(), task);
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

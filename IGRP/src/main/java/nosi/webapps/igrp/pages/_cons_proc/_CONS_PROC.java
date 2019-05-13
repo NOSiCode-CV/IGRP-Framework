@@ -4,9 +4,6 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,24 +36,7 @@ public class _CONS_PROC extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
-	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
-	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
-	}
-	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
-	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
-	}
+
 	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
@@ -135,6 +115,7 @@ public class _CONS_PROC extends Model{
 		private String eatapa;
 		private String dt_inicio_etapa;
 		private String dt_fim_etapa;
+		private String atribuido_a;
 		private String estado;
 		private String id_task;
 		public void setNum_processo(String num_processo){
@@ -170,6 +151,13 @@ public class _CONS_PROC extends Model{
 		}
 		public String getDt_fim_etapa(){
 			return this.dt_fim_etapa;
+		}
+
+		public void setAtribuido_a(String atribuido_a){
+			this.atribuido_a = atribuido_a;
+		}
+		public String getAtribuido_a(){
+			return this.atribuido_a;
 		}
 
 		public void setEstado(String estado){

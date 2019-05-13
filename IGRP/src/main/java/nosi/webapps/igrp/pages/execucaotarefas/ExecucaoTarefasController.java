@@ -6,6 +6,8 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.webapps.igrp.dao.Application;
@@ -282,7 +284,7 @@ public class ExecucaoTarefasController extends Controller {
 		/*----#start-code(detalhes_tarefa)----*/
 		String id = Core.getParam("p_p_id_g");
 		if (Core.isNotNull(id)) {
-			this.addQueryString("taskId", id).addQueryString("target", "_blank");
+			this.addQueryString(BPMNConstants.PRM_TASK_ID, id).addQueryString("target", "_blank");
 			return this.redirect("igrp", "Detalhes_tarefas", "index", this.queryString());
 		}
 		/*----#end-code----*/
@@ -303,7 +305,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","DetalhesProcesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(detalhes_processo)----*/
-		this.addQueryString("taskId", Core.getParam("p_p_id_g")).addQueryString("target", "_blank");
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_p_id_g")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}
@@ -343,36 +345,14 @@ public class ExecucaoTarefasController extends Controller {
 		/*----#start-code(executar_button_minha_tarefas)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
-			TaskService task = new TaskService().getTask(id);
-			if (task != null) {
-				List<HistoricTaskService> hts = new HistoricTaskService()
-						.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
-				hts = hts.stream().filter(h -> !h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()))
-						.collect(Collectors.toList());
-				String previewTask = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTaskDefinitionKey()
-						: "";
-				String preiviewProcessDefinition = (hts != null && hts.size() > 0)
-						? hts.get(hts.size() - 1).getProcessDefinitionId()
-						: "";
-				String preiviewApp = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTenantId() : "";
-				String previewTaskId = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getId() : "";
-				Application app = new Application().findByDad(task.getTenantId());
-				if (app != null) {
-					this.addQueryString("taskId", id).addQueryString("appId", app.getId())
-							.addQueryString("appDad", app.getDad()).addQueryString("formKey", task.getFormKey())
-							.addQueryString("processDefinition", task.getProcessDefinitionKey())
-							.addQueryString("processDefinitionId", task.getProcessDefinitionId())
-							.addQueryString("taskDefinition", task.getTaskDefinitionKey())
-							.addQueryString("previewTask", previewTask).addQueryString("preiviewApp", preiviewApp)
-							.addQueryString("preiviewProcessDefinition", preiviewProcessDefinition)
-							.addQueryString("showTimeLine", "true").addQueryString("previewTaskId", previewTaskId);
-					return this.redirect(app.getDad().toLowerCase(),
-							this.config.PREFIX_TASK_NAME + task.getTaskDefinitionKey(), "index", this.queryString());
-				}
+			RuntimeTask runtime = this.getRuntimeTask(id);
+			if(runtime != null) {
+				Core.setAttribute(BPMNConstants.PRM_TASK_ID, id);
+				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK,runtime);
+				return this.forward(runtime.getTask().getTenantId(),BPMNConstants.PREFIX_TASK + runtime.getTask().getTaskDefinitionKey(), "index", this.queryString());
 			}
 			return this.redirect("igrp", "ExecucaoTarefas", "index");
 		}
-		// return this.redirect("igrp", "ErrorPage", "exception");
 		/*----#end-code----*/
 		return this.redirect("igrp","ExecucaoTarefas","index", this.queryString());	
 	}
@@ -393,7 +373,7 @@ public class ExecucaoTarefasController extends Controller {
 		/*----#start-code(detalhes_minha_tarefa)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
-			this.addQueryString("taskId", id).addQueryString("target", "_blank");
+			this.addQueryString(BPMNConstants.PRM_TASK_ID, id).addQueryString("target", "_blank");
 			return this.redirect("igrp", "Detalhes_tarefas", "index", this.queryString());
 		}
 		/*----#end-code----*/
@@ -414,7 +394,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","DetalhesProcesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(detalhes_processos_button_minha_tarefas)----*/
-		this.addQueryString("taskId", Core.getParam("p_id")).addQueryString("target", "_blank");
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}
@@ -471,13 +451,14 @@ public class ExecucaoTarefasController extends Controller {
 /*----#start-code(custom_actions)----*/
 
 	public Response actionProcessTask() throws IOException, ServletException {
-		String taskId = Core.getParam("p_prm_taskid");
-		String processDefinitionId = Core.getParam("p_prm_definitionid");
+		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);		
+		String processKey = Core.getParam(BPMNConstants.PRM_PROCESS_KEY);
+		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);
 		if (Core.isNotNull(taskId)) {
 			return this.processTask(taskId);
 		}
-		if (Core.isNotNull(processDefinitionId)) {
-			return this.startProccess(processDefinitionId);
+		if (Core.isNotNullMultiple(processId,processKey)) {
+			return this.startProccess(processId,processKey);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
@@ -486,23 +467,27 @@ public class ExecucaoTarefasController extends Controller {
 	 * Start proccess
 	 * @param processDefinitionId
 	 * @return
+	 * @throws IOException 
 	 */
-	private Response startProccess(String processDefinitionId) {
-		this.addQueryString("processDefinitionId", processDefinitionId);
-		processDefinitionId = processDefinitionId.substring(0,processDefinitionId.indexOf(":"));
-		return this.call(Core.getParam("dad"), "TaskStart"+processDefinitionId, "save", this.queryString());
+	private Response startProccess(String processDefinitionId,String processKey) throws IOException {
+		this.addQueryString(BPMNConstants.PRM_DEFINITION_ID, processDefinitionId);
+		return this.redirect(Core.getParam("dad"), BPMNConstants.PREFIX_START_PROCESS+processKey, "save", this.queryString());
 	}
 
 	/**
 	 * Execute task
 	 * @param taskId
 	 * @return
+	 * @throws IOException 
 	 */
-	private Response processTask(String taskId) {
-		TaskService task = new TaskService().getTask(taskId);
-		this.addQueryString("taskId", taskId);
-		Application app = new Application().findByDad(task.getTenantId());
-		return this.call(app.getDad().toLowerCase(), task.getTaskDefinitionKey(), "save", this.queryString());
+	private Response processTask(String taskId) throws IOException {
+		RuntimeTask runtime = this.getRuntimeTask(taskId);
+		if (runtime != null) {
+			Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, runtime);
+			this.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
+			return this.forward(runtime.getTask().getTenantId(),BPMNConstants.PREFIX_TASK + runtime.getTask().getTaskDefinitionKey(), "save", this.queryString());
+		}
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 
 	private List<TaskService> applyFiler(ExecucaoTarefas model,int type) {
@@ -677,5 +662,29 @@ public class ExecucaoTarefasController extends Controller {
 	private static final int STATISTIC = 2;
 	private static final int MY_TASK = 3;
 	private static final int AVAILABLE = 4;
+	
+	private RuntimeTask getRuntimeTask(String taskId) {
+		TaskService task = new TaskService().getTask(taskId);
+		if (task != null) {
+			List<HistoricTaskService> hts = new HistoricTaskService()
+					.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
+			hts = hts.stream().filter(h -> !h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()))
+					.collect(Collectors.toList());
+			String previewTask = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTaskDefinitionKey()
+					: "";
+			String preiviewProcessDefinition = (hts != null && hts.size() > 0)
+					? hts.get(hts.size() - 1).getProcessDefinitionId()
+					: "";
+			String preiviewApp = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTenantId() : "";
+			String previewTaskId = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getId() : "";
+			Application app = new Application().findByDad(task.getTenantId());
+			if (app != null) {
+					RuntimeTask runtimeTask = new RuntimeTask(task,app.getId(), previewTask, preiviewApp, preiviewProcessDefinition, "true", previewTaskId);
+					runtimeTask.setSaveButton(true);
+					return runtimeTask;
+			}
+		}
+		return null;
+	}
 	/*----#end-code----*/
 }

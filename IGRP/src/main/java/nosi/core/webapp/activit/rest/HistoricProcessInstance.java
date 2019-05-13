@@ -61,7 +61,8 @@ public class HistoricProcessInstance extends Activit{
    				this.setOrder(dep.getOrder());
    				this.setStart(dep.getStart());
    				d = (List<HistoricProcessInstance>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<HistoricProcessInstance>>(){}.getType());
-				d = d.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
+				this.setMyProccessAccess();
+   				d = d.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
    			}else{
    				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
    			}

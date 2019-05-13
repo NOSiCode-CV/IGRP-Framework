@@ -17,34 +17,40 @@ public class Lista_terfa_de_processoView extends View {
 	public Field estado;
 	public IGRPTable table_1;
 
+	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_voltar;
 
 	public Lista_terfa_de_processoView(){
 
-		this.setPageTitle("Lista Terfa de Processo");
+		this.setPageTitle("Lista Tarefa de Processo");
 			
-		table_1 = new IGRPTable("table_1","");
+		table_1 = new IGRPTable("table_1","Lista de tarefas");
 
 		n_tarefa = new TextField(model,"n_tarefa");
 		n_tarefa.setLabel(gt("Nº Tarefa"));
-		n_tarefa.propertie().add("name","p_n_tarefa").add("type","text").add("maxlength","30");
+		n_tarefa.propertie().add("name","p_n_tarefa").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		descricao_tarefa = new TextField(model,"descricao_tarefa");
 		descricao_tarefa.setLabel(gt("Descricao Tarefa"));
-		descricao_tarefa.propertie().add("name","p_descricao_tarefa").add("type","text").add("maxlength","30");
+		descricao_tarefa.propertie().add("name","p_descricao_tarefa").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		data_inicio = new TextField(model,"data_inicio");
 		data_inicio.setLabel(gt("Data Inicio"));
-		data_inicio.propertie().add("name","p_data_inicio").add("type","text").add("maxlength","30");
+		data_inicio.propertie().add("name","p_data_inicio").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		data_fim = new TextField(model,"data_fim");
 		data_fim.setLabel(gt("Data Fim"));
-		data_fim.propertie().add("name","p_data_fim").add("type","text").add("maxlength","30");
+		data_fim.propertie().add("name","p_data_fim").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		estado = new ColorField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","color").add("maxlength","30");
+		estado.propertie().add("name","p_estado").add("type","color").add("maxlength","30").add("showLabel","true");
 		
 
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+
+		btn_voltar = new IGRPButton("Voltar","igrp","Lista_terfa_de_processo","voltar","_self","primary|fa-angle-double-left","","");
+		btn_voltar.propertie.add("type","specific").add("rel","voltar");
 
 		
 	}
@@ -67,7 +73,10 @@ public class Lista_terfa_de_processoView extends View {
 		table_1_colors.put("2",color_2);
 		this.table_1.setLegendColors(table_1_colors);
 		/* end table_1 legend colors*/
+
+		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(table_1);
+		this.addToPage(toolsbar_1);
 	}
 		
 	@Override
