@@ -6,6 +6,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class ListaPageView extends View {
 
@@ -43,8 +45,8 @@ public class ListaPageView extends View {
 	public IGRPForm infopanel_2;
 	public IGRPForm infopanel_3;
 	public IGRPForm box_2;
-	public IGRPForm form_1;
 	public IGRPForm box_1;
+	public IGRPForm form_1;
 	public IGRPTable table_1;
 	public IGRPTable table_2;
 
@@ -69,9 +71,9 @@ public class ListaPageView extends View {
 
 		box_2 = new IGRPForm("box_2","");
 
-		form_1 = new IGRPForm("form_1","Page builder");
-
 		box_1 = new IGRPForm("box_1","");
+
+		form_1 = new IGRPForm("form_1","Page builder");
 
 		table_1 = new IGRPTable("table_1","");
 
@@ -162,49 +164,49 @@ public class ListaPageView extends View {
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250").add("desclabel","false");
 		
 		btn_import = new LinkField(model,"btn_import");
 		btn_import.setLabel(gt("Importar"));
 		btn_import.setValue(new Config().getResolveUrl("igrp_studio","ImportArquivo","index"));
 
-									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
+									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		crud_generator = new LinkField(model,"crud_generator");
 		crud_generator.setLabel(gt("CRUD generator"));
 		crud_generator.setValue(new Config().getResolveUrl("igrp_studio","CRUDGenerator","index"));
 
-									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
+									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
 		link_btn_nova_pagina.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
-									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","");
+									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));
-		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		status_page_check = new CheckBoxField(model,"status_page_check");
-		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		descricao_page = new TextField(model,"descricao_page");
 		descricao_page.setLabel(gt("Título (código)"));
-		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30");
+		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		id_page = new HiddenField(model,"id_page");
 		id_page.setLabel(gt(""));
-		id_page.propertie().add("name","p_id_page").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id_page");
+		id_page.propertie().add("name","p_id_page").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","id_page");
 		
 		nome_page = new HiddenField(model,"nome_page");
 		nome_page.setLabel(gt(""));
-		nome_page.propertie().add("name","p_nome_page").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","nome_page");
+		nome_page.propertie().add("name","p_nome_page").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","nome_page");
 		
 		my_app_img = new TextField(model,"my_app_img");
 		my_app_img.setLabel(gt("  "));
 		my_app_img.setValue(gt(""));
-		my_app_img.propertie().add("name","p_my_app_img").add("type","img").add("width","").add("height","").add("croppie","false").add("rounded","false").add("maxlength","30");
+		my_app_img.propertie().add("name","p_my_app_img").add("type","img").add("width","").add("height","").add("croppie","false").add("rounded","false").add("maxlength","30").add("autoupload","false").add("showLabel","true");
 		
 		my_aplicacao = new LinkField(model,"my_aplicacao");
 		my_aplicacao.setLabel(gt("Aplicação"));
@@ -212,11 +214,11 @@ public class ListaPageView extends View {
 
 									my_aplicacao_desc = new LinkField(model,"my_aplicacao_desc");
 		my_aplicacao_desc.setLabel(gt("Aplicação"));
-		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("desc","true");
+		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("showLabel","true").add("desc","true");
 		
 		env_fk = new HiddenField(model,"env_fk");
 		env_fk.setLabel(gt(""));
-		env_fk.propertie().add("name","p_env_fk").add("type","hidden").add("maxlength","30").add("java-type","Integer").add("tag","env_fk");
+		env_fk.propertie().add("name","p_env_fk").add("type","hidden").add("maxlength","30").add("java-type","Integer").add("showLabel","true").add("tag","env_fk");
 		
 
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
@@ -236,7 +238,7 @@ public class ListaPageView extends View {
 		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_blank","info|fa-gears","","");
 		btn_gerar_codigo.propertie.add("type","specific").add("rel","gerar_codigo");
 
-		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","alert_submit","grey|fa-download","","");
+		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","_openclose","grey|fa-download","","");
 		btn_download.propertie.add("type","specific").add("rel","download");
 
 		btn_file_editor = new IGRPButton("File Editor","igrp_studio","ListaPage","file_editor","_blank","info|fa-file-code-o","","");
@@ -267,13 +269,13 @@ public class ListaPageView extends View {
 		infopanel_3.addField(infopanel_3_icn);
 
 
+
 		form_1.addField(application);
 		form_1.addField(modulo);
 		form_1.addField(nada);
 		form_1.addField(btn_import);
 		form_1.addField(crud_generator);
 		form_1.addField(link_btn_nova_pagina);
-
 
 		table_1.addField(status_page);
 		table_1.addField(status_page_check);
@@ -298,8 +300,8 @@ public class ListaPageView extends View {
 		this.addToPage(infopanel_2);
 		this.addToPage(infopanel_3);
 		this.addToPage(box_2);
-		this.addToPage(form_1);
 		this.addToPage(box_1);
+		this.addToPage(form_1);
 		this.addToPage(table_1);
 		this.addToPage(table_2);
 		this.addToPage(toolsbar_2);
