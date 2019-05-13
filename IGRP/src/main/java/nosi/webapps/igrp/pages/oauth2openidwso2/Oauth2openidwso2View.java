@@ -19,19 +19,19 @@ public class Oauth2openidwso2View extends View {
 
 	public Oauth2openidwso2View(){
 
-		this.setPageTitle("OAuth2OpenIdWso2");
+		this.setPageTitle("Oauth2openidwso2");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("<p>IGRP OAuth2-OpenId</p>"));
+		sectionheader_1_text.setValue(gt("<p>IGRP<strong> OpenID</strong></p>"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_sign_in_ = new IGRPButton("Sign in ","igrp","Oauth2openidwso2","sign_in_","submit","success|fa-sign-in","","");
+		btn_sign_in_ = new IGRPButton("","igrp","Oauth2openidwso2","sign_in_","submit","success|fa-sign-in","","");
 		btn_sign_in_.propertie.add("type","specific").add("rel","sign_in_");
 
 		
