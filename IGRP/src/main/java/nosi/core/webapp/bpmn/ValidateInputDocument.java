@@ -22,13 +22,14 @@ public class ValidateInputDocument {
 	 * 			 this parameter is a current controller
 	 * @param parts 
 	 * 		     files uploaded
+	 * @param runtimeTask 
 	 * @return
 	 * 			return true if file' s uploaded for required document type
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	public static boolean validateRequiredDocument(InterfaceBPMNTask bpm,List<Part> parts) throws IOException, ServletException {
-		List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(Core.getParam("appDad",false),Core.getParam("processDefinition",false), Core.getParam("taskDefinition",false));
+	public static boolean validateRequiredDocument(InterfaceBPMNTask bpm,List<Part> parts, RuntimeTask runtimeTask) throws IOException, ServletException {
+		List<TipoDocumentoEtapa> list = BPMNHelper.getInputDocumentType(runtimeTask.getTask().getTenantId(),runtimeTask.getTask().getProcessDefinitionId(),runtimeTask.getTask().getTaskDefinitionKey());
 		Map<Integer,TipoDocumentoEtapa> listMap = list.stream().collect(Collectors.toMap(TipoDocumentoEtapa::getId,tp->tp));
 		boolean result = true;
 		Object[] p_ids = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	

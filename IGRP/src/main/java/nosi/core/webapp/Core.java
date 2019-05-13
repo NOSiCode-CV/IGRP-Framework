@@ -57,6 +57,7 @@ import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.QueryDelete;
 import nosi.core.webapp.databse.helpers.QueryInsert;
@@ -916,13 +917,13 @@ public final class Core { // Not inherit
 
 	public static String getExecutionId() {
 		String taskId = Core.getParamTaskId();
-		String taskExecutionId = Core.getParam("taskExecutionId");
+		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
 		if (Core.isNull(taskExecutionId)) {
 			List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
 			taskExecutionId = (task != null && task.size() > 0) ? task.get(task.size() - 1).getExecutionId()
 					: taskExecutionId;
 		}
-		Core.setAttribute("taskExecutionId", taskExecutionId);
+		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
 		return taskExecutionId;
 	}
 
@@ -1302,8 +1303,8 @@ public final class Core { // Not inherit
 	}
 
 	public static String getParamTaskId() {
-		String taskId = Core.getParam("taskId");
-		Core.setAttribute("taskId", taskId);
+		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
+		Core.setAttribute(BPMNConstants.PRM_TASK_ID, taskId);
 		return taskId;
 	}
 

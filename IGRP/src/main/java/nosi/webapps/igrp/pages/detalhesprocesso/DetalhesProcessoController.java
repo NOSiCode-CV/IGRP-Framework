@@ -10,6 +10,7 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.ResourcesService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.bpmn.BPMNConstants;
 /*----#END-PRESERVED-AREA----*/
 
 public class DetalhesProcessoController extends Controller {		
@@ -19,10 +20,10 @@ public class DetalhesProcessoController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 	
 		DetalhesProcesso model = new DetalhesProcesso();
-		String taskId = Core.getParam("taskId");
-		String processId = Core.getParam("process_id");
-		String process_definitionId = Core.getParam("process_definitionId");
-		boolean showView = Core.isNotNull(processId) && Core.isNotNull(process_definitionId);
+		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
+		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);
+		String process_definitionId = Core.getParam(BPMNConstants.PRM_DEFINITION_ID);
+		boolean showView = Core.isNotNullMultiple(processId,process_definitionId);
 		if(Core.isNotNull(taskId)) {
 			TaskServiceQuery taskS = new TaskServiceQuery();
 			taskS.addFilter("taskId", taskId);

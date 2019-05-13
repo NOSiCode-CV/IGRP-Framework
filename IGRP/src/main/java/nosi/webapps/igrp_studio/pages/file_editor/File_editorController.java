@@ -4,7 +4,9 @@ import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+
 /*----#start-code(packages_import)----*/
+import nosi.core.webapp.bpmn.BPMNConstants;
 import java.io.UnsupportedEncodingException;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -99,7 +101,7 @@ public class File_editorController extends Controller {
 	}
 	
 	private void addDefaultFile(String task_id, Map<String, Object> dirs, Integer envId) {
-		Action ac = new Action().find().andWhere("application", "=",envId).andWhere("page", "=",this.config.PREFIX_TASK_NAME+task_id).one();
+		Action ac = new Action().find().andWhere("application", "=",envId).andWhere("page", "=",BPMNConstants.PREFIX_TASK+task_id).one();
 		FileEditor file = new FileEditor();
 		file.setName(ac.getPage()+".java");
 		try {

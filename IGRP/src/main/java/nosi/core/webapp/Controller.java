@@ -23,9 +23,11 @@ import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNButton;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.DisplayDocmentType;
 import nosi.core.webapp.bpmn.InterfaceBPMNTask;
+import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.bpmn.ViewTaskDetails;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
@@ -147,16 +149,10 @@ public class Controller{
 	}
 	
 	public Response renderView(String app, String page, View v) throws IOException {
-		return this.renderView(app, page, v,null);
+		return this.renderView(app, page, v,null,null);
 	}
 	
-	public Response renderView(String app, String page, View v,InterfaceBPMNTask bpmn) throws IOException {
-		String taskId = Core.getParam("taskId",false);
-		String p_processId = Core.getParam("p_processId");
-		String taskDefinition = Core.getParam("taskDefinition",false);
-		String processDefinition = Core.getParam("processDefinition",false);
-		String saveButton = Core.getParam("saveButton");
-		String backButton = Core.getParam("backButton");
+	public Response renderView(String app, String page, View v,InterfaceBPMNTask bpmn,RuntimeTask runtimeTask) throws IOException {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.view = v;
@@ -183,23 +179,19 @@ public class Controller{
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
-//		xml.addXml(new BPMNTimeLine().get().toString());
-		if(Core.isNotNull(p_processId)) {
-			xml.addXml(BPMNButton.generateButtonProcess(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
-		}
-		if(Core.isNull(saveButton) && Core.isNotNull(taskId)) {
-			xml.addXml(BPMNButton.generateButtonBack().toString());
-			xml.addXml(BPMNButton.generateButtonTask(app,ac.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
-		}
-		if(Core.isNotNull(backButton) && Core.isNotNull(taskId)) {
-			xml.addXml(BPMNButton.generateButtonBack().toString());
-		}
-		ViewTaskDetails details = this.getTaskDetails(taskId);
-		xml.addXml(this.getTaskViewDetails(details));
-		xml.addXml(content);
-		xml.addXml(this.getDocument(bpmn,processDefinition,taskDefinition,ac,details.getUserName()));
-		if(m!=null){
-			xml.addXml(m);
+		if(Core.isNotNull(runtimeTask)) {
+			String taskId = runtimeTask.getTask().getId();
+			if(runtimeTask.isSaveButton()) {
+				xml.addXml(BPMNButton.generateButtonBack().toString());
+				xml.addXml(BPMNButton.generateButtonTask("igrp",ac.getApplication().getId(),"ExecucaoTarefas","process-task", taskId).toString());
+			}
+			ViewTaskDetails details = this.getTaskDetails(taskId);
+			xml.addXml(this.getTaskViewDetails(details));
+			xml.addXml(content);
+			xml.addXml(this.getDocument(runtimeTask,bpmn,ac,details.getUserName()));
+			if(m!=null){
+				xml.addXml(m);
+			}
 		}
 		xml.endElement();
 		resp.setContent(xml.toString());
@@ -213,7 +205,7 @@ public class Controller{
 
 	private ViewTaskDetails getTaskDetails(String taskId) {
 		ViewTaskDetails details = new ViewTaskDetails();
-		Object obj = Core.getAttributeObject("taskObj", true);
+		Object obj = Core.getAttributeObject(BPMNConstants.PRM_TASK_OBJ, true);
 		if(Core.isNotNull(obj)) {	
 			TaskServiceQuery task = (TaskServiceQuery) obj;	
 			List<TaskVariables.TaskVariableDetails> v = task.queryHistoryTaskVariables(task.getId());
@@ -241,23 +233,23 @@ public class Controller{
 		return details;
 	}
 	
-	private String getDocument(InterfaceBPMNTask bpmn, String processDefinition, String taskDefinition, Action action,String userName) {
+	private String getDocument(RuntimeTask runtimeTak,InterfaceBPMNTask bpmn, Action action,String userName) {
 		if(bpmn==null)
-			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),processDefinition,taskDefinition,null);
+			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),runtimeTak.getTask().getProcessDefinitionKey(),runtimeTak.getTask().getTaskDefinitionKey(),null);
 		
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setUserName(userName);
 		display.setListDocmentType(bpmn.getInputDocumentType());
-		String previewTask = Core.getParam("previewTask",false);
-		String isDetails = Core.getParam("isDetails");
-		if(Core.isNotNull(isDetails))
+		String previewTask = runtimeTak.getPreviewTask();
+		boolean isDetails = runtimeTak.isDetails();
+		if(isDetails)
 			display.setShowInputFile(false);
 		
 		if(Core.isNotNull(previewTask)) {
 			try {
-				Core.setAttribute("taskDefinition", taskDefinition);
-				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+processDefinition.toLowerCase();
-				Class<?> c = Class.forName(packageName+"."+this.getConfig().PREFIX_TASK_NAME+previewTask+"Controller");
+				Core.setAttribute(BPMNConstants.PRM_TASK_DEFINITION, runtimeTak.getTask().getTaskDefinitionKey());
+				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
+				Class<?> c = Class.forName(packageName+"."+BPMNConstants.PREFIX_TASK+previewTask+"Controller");
 				Method method = c.getMethod("getOutputDocumentType");
 				@SuppressWarnings("unchecked")
 				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());

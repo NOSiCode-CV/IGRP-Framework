@@ -50,13 +50,18 @@ public class Activit {
 	@Expose(serialize=false,deserialize=false)
 	private String filter="";
 	@Expose(serialize=false,deserialize=false)
-	protected List<String> myproccessId;
+	protected List<String> myproccessId = null;
 	private String filter_custom;
 	@Expose(deserialize=false,serialize=false)
 	private String processName;
 	
 	public Activit() {
-		this.myproccessId = this.getMyProccessAccess();
+		
+	}
+	
+	protected void setMyProccessAccess() {
+		if(this.myproccessId==null)
+			this.myproccessId = this.getMyProccessAccess();
 	}
 	
 	private List<String> getMyProccessAccess() {
