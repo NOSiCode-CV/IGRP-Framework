@@ -1,8 +1,5 @@
 package nosi.webapps.igrp_studio.pages.wsdl2java;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
