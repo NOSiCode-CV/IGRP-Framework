@@ -520,11 +520,7 @@ public class LoginController extends Controller {
 
 			dao.setValid_until(token);
 			dao = dao.update();
-
-			System.out.println("DAO getId: " + dao.getId());
-
-			System.out.println("DAO: " + dao.getValid_until());
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -577,10 +573,6 @@ public class LoginController extends Controller {
 			
 			if(authCode == null || authCode.isEmpty()) return null; 
 			
-			
-			System.out.println("Code: " + authCode);
-			
-			
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
 			String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
@@ -602,17 +594,9 @@ public class LoginController extends Controller {
 			
 			curl.close();
 			
-			System.out.println("Resultado: " + resultPost); 
-			
 			int code = r.getStatus(); 
 			
-			
-			System.out.println("StatusCode: " + code); 
-			
-			if (code != 200) { 
-				System.out.println("Error: " + resultPost); 
-				return null;
-			}
+			if (code != 200) return null;
 
 			JSONObject jToken = new JSONObject(resultPost);
 
@@ -623,9 +607,6 @@ public class LoginController extends Controller {
 			m.put("token", token);
 			m.put("id_token", id_token);
 			m.put("session_state", session_state);
-			
-			System.out.println("Token: " + token);
-			System.out.println("jToken: " + jToken);
 			
 			return m;
 
@@ -651,8 +632,6 @@ public class LoginController extends Controller {
 			
 			int code = r.getStatus();
 			
-			System.out.println("StatusCode(uid): " + code); 
-
 			if(code != 200) return uid; 
 			
 			String result = r.readEntity(String.class); 
@@ -660,8 +639,6 @@ public class LoginController extends Controller {
 			curl.close();
 
 			JSONObject jToken = new JSONObject(result); 
-			
-			System.out.println("uid: " + jToken);
 			
 			uid = jToken.getString("sub");
 
@@ -719,31 +696,37 @@ public class LoginController extends Controller {
 						
 					}else {
 						
-						// Caso o utilizador não existir na base de dados fazer auto-invite 
-						try {
+						// Caso o utilizador não existir na base de dados fazer auto-invite no quando env=dev ... 
+						if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
 							
-							User newUser = new User();
-							newUser.setUser_name(uid);
-							newUser.setEmail(uid);
-							newUser.setName(uid);
-							newUser.setStatus(1);
-							newUser.setIsAuthenticated(1);
-							newUser.setCreated_at(System.currentTimeMillis());
-							newUser.setUpdated_at(System.currentTimeMillis());
-							newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
-							newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
-		
-							newUser = newUser.insert(); 
-						
-							if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) {
-								newUser.setValid_until(token);
-								newUser.setOidcIdToken(id_token);
-								user.setOidcState(session_state);
-								newUser.update();
-								return redirect("igrp", "home", "index"); 
+							try {
+								
+								User newUser = new User();
+								newUser.setUser_name(uid);
+								newUser.setEmail(uid);
+								newUser.setName(uid);
+								newUser.setStatus(1);
+								newUser.setIsAuthenticated(1);
+								newUser.setCreated_at(System.currentTimeMillis());
+								newUser.setUpdated_at(System.currentTimeMillis());
+								newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+								newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+			
+								newUser = newUser.insert(); 
+							
+								if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) {
+									newUser.setValid_until(token);
+									newUser.setOidcIdToken(id_token);
+									user.setOidcState(session_state);
+									newUser.update();
+									return redirect("igrp", "home", "index"); 
+								}
+							} catch (Exception e) {
+								Core.setMessageError("Ocorreu um erro no auto-invite.");
+								return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 							}
-						} catch (Exception e) {
-							Core.setMessageError("Ocorreu um erro no auto-invite.");
+						}else {
+							Core.setMessageWarning("Utilizador não convidado nesse ambiente."); 
 							return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 						}
 						
