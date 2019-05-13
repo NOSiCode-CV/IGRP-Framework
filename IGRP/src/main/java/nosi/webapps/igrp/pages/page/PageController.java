@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -709,7 +707,6 @@ public class PageController extends Controller {
 
 	public Response actionGetPageJson() throws IOException {
 		String p_id = Core.getParam("p_id");
-		String p_app = Core.getParam("p_app");
 		String json = ""; 
 		if (p_id != null && !p_id.isEmpty()) {
 			Action ac = null;
@@ -717,8 +714,7 @@ public class PageController extends Controller {
 				ac = new Action().findOne(Core.toInt(p_id));
 			}
 			else {
-				ac = new Action().find().andWhere("page", "=", p_id)
-//						.andWhere("application.dad", "=", p_app)
+				ac = new Action().find().where("page", "=", p_id)
 						.one();
 			}
 			if (ac != null) {

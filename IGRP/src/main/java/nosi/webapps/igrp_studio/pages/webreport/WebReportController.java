@@ -5,6 +5,7 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.bpmn.BPMNConstants;
 /*----#start-code(packages_import)----*/
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.gui.page.Page;
@@ -321,9 +322,9 @@ public class WebReportController extends Controller {
 		}
 		String taskId = this.getCurrentTaskId();
 		this.loadQueryString();
-		this.addQueryString("processDefinitionKey", processDefinitionKey)
-			.addQueryString("taskDefinitionKey", rep.getRepSource().getTaskid())
-			.addQueryString("taskId", taskId);
+		this.addQueryString(BPMNConstants.PRM_PROCESS_DEFINITION_KEY, processDefinitionKey)
+			.addQueryString(BPMNConstants.PRM_TASK_DEFINITION_KEY, rep.getRepSource().getTaskid())
+			.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
 		String content = this.call("igrp","Detalhes_tarefas","index",this.queryString()).getContent();
 		xml.addXml(XMLExtractComponent.extractXML(content));
 		xml.addXml(ds.getDefaultForm(ds.getDefaultFieldsWithProc()));
@@ -338,7 +339,7 @@ public class WebReportController extends Controller {
 		String[] valueArray = Core.getParamArray("value_array");
 		if(nameArray.length > 0 && valueArray.length > 0) {
 			for(int i=0;i<nameArray.length;i++) {
-				if(nameArray[i].equalsIgnoreCase("taskId")) {
+				if(nameArray[i].equalsIgnoreCase(BPMNConstants.PRM_TASK_ID)) {
 					return valueArray[i];
 				}
 			}

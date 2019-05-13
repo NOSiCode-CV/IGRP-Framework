@@ -104,7 +104,7 @@ public class BPMNHelper {
 						 }
 		 			 }
 		 			 if(t.getRepTemplate()!=null) {
-		 				link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam("taskId", getCurrentTaskId()));
+		 				link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
 		 			 }
 		 			 link.setLink_desc("Mostrar");
 					 t.setLink(link);
@@ -127,9 +127,9 @@ public class BPMNHelper {
 	}
 
 	private static String getCurrentTaskId() {
-		String taskId = Core.getParam("previewTaskId");
+		String taskId = RuntimeTask.getRuntimeTask().getPreviewTaskId();
 		if(Core.isNull(taskId)) {
-			taskId = Core.getParam("taskId");
+			taskId = RuntimeTask.getRuntimeTask().getTask().getId();
 		}
 		return taskId;
 	}
@@ -163,7 +163,7 @@ public class BPMNHelper {
 		tipoDocs.stream().forEach(t->{
 			 IGRPLink link = new IGRPLink();	
 			 t.setFileId(-1);
-			 String taskId = Core.getParam("previewTaskId");	
+			 String taskId = RuntimeTask.getRuntimeTask().getPreviewTaskId();	
 			 nosi.webapps.igrp.dao.TaskFile taskFile = null;
 			 if(Core.isNotNull(taskId)) {
 				 taskFile = new nosi.webapps.igrp.dao.TaskFile().find()
@@ -199,7 +199,7 @@ public class BPMNHelper {
 				.all();			
 		tipoDocs.stream().forEach(t->{
 			 t.setFileId(-1);
-			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam("taskId", getCurrentTaskId()));
+			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
  			 link.setLink_desc("Mostrar");
 			 t.setLink(link);
 		});

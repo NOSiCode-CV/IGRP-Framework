@@ -197,6 +197,7 @@ public class ProcessInstancesService extends Activit{
 		ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp,ProcessDefinitionService.class);
 		List<ProcessDefinitionService> listProcessInstancesService = (List<ProcessDefinitionService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
 		if(listProcessInstancesService!=null) {
+			this.setMyProccessAccess();
 			listProcessInstancesService = listProcessInstancesService.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
 		    int size = listProcessInstancesService.size();
 		   	if(size >0) {
@@ -219,7 +220,8 @@ public class ProcessInstancesService extends Activit{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(Response.Status.OK.getStatusCode() == response.getStatus()){	
+			if(Response.Status.OK.getStatusCode() == response.getStatus()){
+				this.setMyProccessAccess();	
 				list = (List<ProcessInstancesService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessInstancesService>>(){}.getType());
 				list = list.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
 	   		}else{

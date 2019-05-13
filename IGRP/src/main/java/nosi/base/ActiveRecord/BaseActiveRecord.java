@@ -518,6 +518,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	private T whereObject(String name, String operator, Object[] values) {
 		if(values!=null) {
+			this.where("");
 			String value = this.applyToInCondition(operator, values);
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}

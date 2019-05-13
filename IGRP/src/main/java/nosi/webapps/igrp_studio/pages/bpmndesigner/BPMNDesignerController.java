@@ -23,6 +23,7 @@ import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.GenerateInterfacePermission;
 import nosi.core.webapp.compiler.helpers.Compiler;
@@ -129,7 +130,7 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private void saveTaskController(TaskService task,Application app) {
-		String taskName = StringHelper.camelCaseFirst(this.config.PREFIX_TASK_NAME+task.getId());
+		String taskName = StringHelper.camelCaseFirst(BPMNConstants.PREFIX_TASK+task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
 				.andWhere("page", "=",taskName)
