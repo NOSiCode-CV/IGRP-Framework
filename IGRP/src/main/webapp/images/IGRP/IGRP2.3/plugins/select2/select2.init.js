@@ -224,6 +224,10 @@
               com.init( o.itemHTML );
 
             });
+            
+            $(document).on('formlist:init', function(o,e){
+                com.init( $(e) );
+            });
         }
 
     },true);
