@@ -53,6 +53,7 @@
             name   : r.name,
             events : r.event,
             isTable : r.isTable,
+            isFormlist : r.isFormlist,
             conditions : {
               
               rules : [{

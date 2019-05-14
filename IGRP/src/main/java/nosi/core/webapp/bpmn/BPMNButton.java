@@ -74,28 +74,13 @@ public class BPMNButton {
 		button.setTitle(gt(TITLE_BUTTON_NEXT));
 		button.setApp(appDad);
 		button.setPage(page);
-		String processParams = getDefaultProcessParams();
-		button.setLink(action+"&"+"taskId="+taskId+"&appId="+appId+processParams);
+		button.setLink(action+"&"+BPMNConstants.PRM_TASK_ID+"="+taskId);
 		button.setTarget(BUTTON_TARGET_SAVE_PROCESS);
 		button.setImg(icon);
 		toolsbar1.addButton(button);
 		return toolsbar1;
 	}
 	
-	private static String getDefaultProcessParams() {
-		String params = "&processDefinition="+Core.getParam("processDefinition",false)
-						+"&taskDefinition="+Core.getParam("taskDefinition",false)
-						+"&appDad="+Core.getParam("appDad",false)
-						+"&formKey="+Core.getParam("formKey",false)
-						+"&processDefinitionId="+Core.getParam("processDefinitionId",false)
-						+"&taskDefinition="+Core.getParam("taskDefinition",false)
-						+"&previewTask="+Core.getParam("previewTask",false)
-						+"&preiviewApp="+Core.getParam("preiviewApp",false)
-						+"&preiviewProcessDefinition="+Core.getParam("preiviewProcessDefinition",false)
-						+"&showTimeLine=true"
-						+"&previewTaskId="+Core.getParam("previewTaskId",false);
-		return params;
-	}
 	
 	public static String removeXMLButton(String content) {
 		int index = content.indexOf("xml-type=\"toolsbar\"");

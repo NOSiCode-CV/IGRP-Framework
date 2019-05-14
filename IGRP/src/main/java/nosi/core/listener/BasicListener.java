@@ -14,6 +14,8 @@ public class BasicListener implements ServletContextListener {
     public BasicListener() {} 
 
     public void contextDestroyed(ServletContextEvent arg0)  {
+    	System.out.println("Closig connections......");
+    	HibernateUtils.closeAllConnection();
     	HibernateUtils.destroy(); 
     	HibernateUtils.unregisterAllDrivers();
 		System.gc();

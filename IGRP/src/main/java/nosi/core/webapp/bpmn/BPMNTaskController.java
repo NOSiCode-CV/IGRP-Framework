@@ -13,7 +13,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
-import nosi.core.webapp.QueryString;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.View;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
@@ -44,47 +43,47 @@ import static nosi.core.i18n.Translator.gt;
 public abstract class BPMNTaskController extends Controller implements InterfaceBPMNTask{
 	private String page;
 	private String myCustomPermission;
+	private RuntimeTask runtimeTask;
 	
+	public BPMNTaskController() {
+		this.runtimeTask = RuntimeTask.getRuntimeTask();
+	}
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
 		view.setModel(model);
 		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
-		return this.renderView(app,model.getClass().getSimpleName(),view);
+		return this.renderView(app,model.getClass().getSimpleName(),view,this,this.runtimeTask);
 	}
 
 	@Override
 	public Response index(String app,Model model,View view,InterfaceBPMNTask bpmnTask) throws IOException {
 		view.setModel(model);
 		this.page = this.getClass().getSimpleName().replaceAll("Controller", "");
-		return this.renderView(app,model.getClass().getSimpleName(),view,bpmnTask);
+		return this.renderView(app,model.getClass().getSimpleName(),view,bpmnTask,this.runtimeTask);
 	}
 	
 	@Override
-	public Response index() throws IOException, ServletException {
-		String appId = Core.getParam("appId");
-		String formKey = Core.getParam("formKey");
-		String processDefinition = Core.getParam("processDefinition");
-		String taskDefinition = Core.getParam("taskDefinition");
-		String taskId = Core.getParamTaskId();
-		String appDad = Core.getParam("appDad");
-		String p_processId = Core.getParam("p_processId");		
-		
-		if(Core.isNotNull(appId) && Core.isNotNull(formKey)) {
-			Action action = new Action().find().andWhere("application", "=",Core.toInt(appId)).andWhere("page", "=",formKey).one();
+	public Response index() throws IOException, ServletException {	
+		if(Core.isNotNull(this.runtimeTask)) {
+			Action action = new Action().find().andWhere("application", "=",this.runtimeTask.getAppId())
+					.andWhere("page", "=",this.runtimeTask.getTask().getFormKey()).one();
 			Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index",this.queryString());
 			String content = BPMNButton.removeXMLButton(resp.getContent());
-			XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formKey+"&amp;app="+appId, "utf-8");
+			XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")
+					+"&amp;page="+this.runtimeTask.getTask().getFormKey()+"&amp;app="+this.runtimeTask.getAppId(), "utf-8");
 			xml.addXml(this.getConfig().getHeader(null));
 			xml.startElement("content");
 			xml.writeAttribute("type", "");
-			if(Core.isNotNull(p_processId)) {
-				xml.addXml(BPMNButton.generateButtonProcess(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save",p_processId).toString());
+			if(Core.isNotNull(this.runtimeTask.getTask().getProcessInstanceId())) {
+				xml.addXml(BPMNButton.generateButtonProcess(this.runtimeTask.getTask().getTenantId(),action.getApplication().getId(),
+						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(),"save",this.runtimeTask.getTask().getProcessInstanceId()).toString());
 			}
-			if(Core.isNotNull(taskId)) {
-				xml.addXml(BPMNButton.generateButtonTask(appDad,action.getApplication().getId(),this.getConfig().PREFIX_TASK_NAME+taskDefinition,"save", taskId).toString());
+			if(Core.isNotNull(this.runtimeTask.getTask().getId())) {
+				xml.addXml(BPMNButton.generateButtonTask(this.runtimeTask.getTask().getTenantId(),action.getApplication().getId(),
+						BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(),"save", this.runtimeTask.getTask().getTenantId()).toString());
 			}
 			xml.addXml(content);
-			xml.addXml(BPMNHelper.addFileSeparator(appDad,processDefinition,taskDefinition,null));
+			xml.addXml(BPMNHelper.addFileSeparator(this.runtimeTask.getTask().getTenantId(),this.runtimeTask.getTask().getProcessDefinitionId(),this.runtimeTask.getTask().getTaskDefinitionKey(),null));
 			IGRPMessage msg = new IGRPMessage();
 			String m = msg.toString();
 			if(m!=null){
@@ -100,24 +99,15 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	//Save the task
 	@Override
 	public Response save() throws IOException, ServletException {
-		String processDefinitionId = Core.getParam("p_prm_definitionid");
+		String processDefinitionId = Core.getParam(BPMNConstants.PRM_DEFINITION_ID);
 		String taskId = Core.getParamTaskId();
-		if(Core.isNotNull(taskId)){
+		if(Core.isNotNullMultiple(this.runtimeTask,taskId)){
 			List<Part> parts = (List<Part>) Igrp.getInstance().getRequest().getParts();
-			TaskService task = new TaskService().getTask(taskId);	
-			if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this,parts)) {
-				this.addQueryString("taskId",taskId)
-		            .addQueryString("appId", Core.getParam("appId"))
-		            .addQueryString("appDad",Core.getParam("appDad"))
-		            .addQueryString("formKey",Core.getParam("formKey"))
-		            .addQueryString("processDefinition", task.getProcessDefinitionKey())
-		            .addQueryString("taskDefinition", task.getTaskDefinitionKey())
-		            .addQueryString("previewTask", Core.getParam("previewTask"))
-		            .addQueryString("preiviewApp", Core.getParam("preiviewApp"))
-		            .addQueryString("preiviewProcessDefinition", Core.getParam("preiviewProcessDefinition"));
-				return this.forward(task.getTenantId(), this.getConfig().PREFIX_TASK_NAME+task.getTaskDefinitionKey(), "index",this.queryString());
+			if(parts!=null && !ValidateInputDocument.validateRequiredDocument(this,parts,this.runtimeTask)) {
+				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
+				return this.forward(this.runtimeTask.getTask().getTenantId(), BPMNConstants.PREFIX_TASK+this.runtimeTask.getTask().getTaskDefinitionKey(), "index",this.queryString());
 			}
-			return this.saveTask(task,taskId,parts);
+			return this.saveTask(this.runtimeTask.getTask(),taskId,parts);
 		}
 		if(Core.isNotNull(processDefinitionId)){
 			return this.startProcess(processDefinitionId);
@@ -130,7 +120,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		FormDataService formData = new FormDataService();
 		formData.setProcessDefinitionId(processDefinitionId);
 		ProcessInstancesService pi = new ProcessInstancesService();
-		FormDataService properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
+		FormDataService properties = formData.getFormDataByProcessDefinitionId(processDefinitionId);
 		
 		if (properties != null && properties.getFormProperties() != null) {
 			for (FormProperties prop : properties.getFormProperties()) {
@@ -142,7 +132,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 		formData.addVariable("baseHostNameIgrp", this.getConfig().getHostName());
 		if (Core.isNotNull(content)) {
-			formData.addVariable("customVariableIGRP", content);
+			formData.addVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI, content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
 		if (st != null) {
@@ -156,7 +146,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.redirect("igrp", "MapaProcesso", "openProcess&p_processId=" + processDefinitionId);
 		}
 		Core.setMessageSuccess();
-		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start");
+		this.saveStartProcess(pi.getId(),st.getProcessDefinitionKey(),"start","start",pi.getProcessDefinitionId());
 		TaskService task = new TaskService();
 		task.addFilter("processDefinitionId", processDefinitionId);
 		task.addFilter("processInstanceId", pi.getId());
@@ -190,7 +180,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 				p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 			});
 			task.addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
-			p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+			p.addVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI+"_"+task.getId(),"string",content);
 			p.submitVariables();
 			task.submitVariables();
 		}
@@ -204,7 +194,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
 		}else {
 			this.saveFiles(parts,taskId);
-			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey());
+			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey(),task.getProcessDefinitionId());
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			task.addFilter("processDefinitionId",task.getProcessDefinitionId());
@@ -219,7 +209,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 	
 
-	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey) {
+	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey,String processName) {
 		ActivityExecute activityExecute = new ActivityExecute().find()
 				 .where("processid","=",proc_id)
 				 .andWhere("proccessKey","=",proccessKey)
@@ -233,11 +223,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		     activityExecute.update();
 			}
 		}
-		this.saveStartProcess(proc_id, proccessKey, taskKey, taskId);
+		this.saveStartProcess(proc_id, proccessKey, taskKey, taskId,processName);
 	}
 	
-	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId) {
-		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey);
+	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId,String processName) {
+		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey,processName);
 	     activityExecute.setCustomPermission(this.myCustomPermission);
 	     activityExecute.insert();
 	}
@@ -313,19 +303,17 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		TaskService nextTask = tasks.get(tasks.size()-1);
 		nextTask.claimTask(nextTask.getId(), Core.getCurrentUser().getUser_name());
 		Application app = new Application().findByDad(nextTask.getTenantId());
-		this.addQueryString("taskId",nextTask.getId())
-        .addQueryString("appId", app.getId())
-        .addQueryString("appDad", app.getDad())
-        .addQueryString("formKey", nextTask.getFormKey())
-        .addQueryString("processDefinition", nextTask.getProcessDefinitionKey())
-        .addQueryString("processDefinitionId", nextTask.getProcessDefinitionId())
-        .addQueryString("taskDefinition", nextTask.getTaskDefinitionKey())
-        .addQueryString("previewTask", task.getTaskDefinitionKey())
-        .addQueryString("preiviewApp", task.getTenantId())
-        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionId())
-        .addQueryString("showTimeLine", "true")
-        .addQueryString("previewTaskId", task.getId());
-		return this.redirect(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+nextTask.getTaskDefinitionKey(), "index",this.queryString());
+		this.runtimeTask = new RuntimeTask();
+		this.runtimeTask.setTask(nextTask);
+		this.runtimeTask.setAppId(app.getId());
+		this.runtimeTask.setPreiviewApp(task.getTenantId());
+		this.runtimeTask.setPreiviewProcessDefinition(task.getProcessDefinitionId());
+		this.runtimeTask.setPreviewTask(task.getTaskDefinitionKey());
+		this.runtimeTask.setPreviewTaskId(task.getId());
+		this.runtimeTask.setShowTimeLine("true");
+		this.runtimeTask.setSaveButton(true);
+		Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
+		return this.forward(app.getDad().toLowerCase(),BPMNConstants.PREFIX_TASK+nextTask.getTaskDefinitionKey(), "index",this.queryString());
 	}
 
 	@Override
@@ -359,12 +347,12 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public List<TipoDocumentoEtapa> getOutputDocumentType() {
-		String previewTaskDefinition = Core.getParam("previewTask");
-		String preiviewProcessDefinition = Core.getParam("preiviewProcessDefinition");	
-		String currentTaskDefinition = Core.getParam("taskDefinition");
-		String currentProcessDefinition = Core.getParam("processDefinition");	
-		String currentTaskApp = Core.getParam("appDad");
-		currentTaskApp = Core.isNotNull(currentTaskApp)?currentTaskApp:Core.getParam("preiviewApp");
+		String previewTaskDefinition = this.runtimeTask.getPreviewTask();
+		String preiviewProcessDefinition = this.runtimeTask.getPreiviewProcessDefinition();
+		String currentTaskDefinition = this.runtimeTask.getTask().getTaskDefinitionKey();
+		String currentProcessDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();
+		String currentTaskApp = this.runtimeTask.getTask().getTenantId();
+		currentTaskApp = Core.isNotNull(currentTaskApp)?currentTaskApp:this.runtimeTask.getPreiviewApp();
 		currentTaskDefinition = Core.isNotNull(currentTaskDefinition)?currentTaskDefinition:previewTaskDefinition;
 		currentProcessDefinition = Core.isNotNull(currentProcessDefinition)?currentProcessDefinition:preiviewProcessDefinition;
 		return BPMNHelper.getOutputDocumentType(currentTaskApp,currentProcessDefinition,currentTaskDefinition,preiviewProcessDefinition,previewTaskDefinition);
@@ -372,11 +360,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public List<TipoDocumentoEtapa> getInputDocumentType() {
-		String appDad = Core.getParam("appDad");
-		String taskDefinition = Core.getParam("taskDefinition");
-		String processDefinition = Core.getParam("processDefinition");	
-		String isDetails = Core.getParam("isDetails",false);
-		if(Core.isNotNull(isDetails)) {			
+		String appDad = this.runtimeTask.getTask().getTenantId();
+		String taskDefinition = this.runtimeTask.getTask().getTaskDefinitionKey();
+		String processDefinition = this.runtimeTask.getTask().getProcessDefinitionKey();	
+		boolean isDetails = this.runtimeTask.isDetails();
+		if(isDetails) {			
 			return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
 		}
 		return BPMNHelper.getInputDocumentTypeHistory(appDad,processDefinition, taskDefinition);
@@ -385,7 +373,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 
 	@Override
 	public String details(TaskServiceQuery task) throws IOException, ServletException {
-		this.page = this.getConfig().PREFIX_TASK_NAME+task.getTaskDefinitionKey();
+		this.page = BPMNConstants.PREFIX_TASK+task.getTaskDefinitionKey();
 		Gson gson = new Gson();		
 		Action action = new Action().find()
 									.andWhere("page", "=",this.page)
@@ -411,42 +399,18 @@ public abstract class BPMNTaskController extends Controller implements Interface
 				}
 			}
 		}	
-		this.addQueryString("taskId",task.getId())
-			.addQueryString("isDetails", "true")
-	        .addQueryString("appId", action.getApplication().getId())
-	        .addQueryString("appDad", task.getTenantId())
-	        .addQueryString("formKey", task.getFormKey())
-	        .addQueryString("processDefinition", task.getProcessDefinitionKey())
-	        .addQueryString("taskDefinition", task.getTaskDefinitionKey())
-	        .addQueryString("report_p_prm_definitionid", task.getProcessInstanceId())
-	        //for output documents details
-	        .addQueryString("preiviewApp",task.getTenantId())
-	        .addQueryString("previewTask", task.getTaskDefinitionKey())
-	        .addQueryString("preiviewProcessDefinition", task.getProcessDefinitionKey())
-	        .addQueryString("overrided", "false")
-	        .addQueryString("backButton", Core.getParam("backButton"))
-	        .addQueryString("saveButton", "false")
+		this.runtimeTask = new RuntimeTask(task, action.getApplication().getId(), task.getTaskDefinitionKey(), task.getTenantId(),
+				task.getProcessDefinitionKey(), "false", task.getId());
+		this.runtimeTask.setSaveButton(false);
+		this.runtimeTask.setDetails(true);
+		
+		this.addQueryString("report_p_prm_definitionid", task.getProcessInstanceId())
 	        .addQueryString("current_app_conn", task.getTenantId());
-	        Core.setAttribute("taskObj", task);
+	        Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
+	        Core.setAttribute(BPMNConstants.PRM_TASK_OBJ, task);
 		 Response resp = this.call(task.getTenantId(),this.page, "index",this.queryString());
 		 String content = resp.getContent();
 		 return content;
-	}
-	
-	@Override
-	public QueryString<String,Object> loadQueryString() {
-		return 
-				this.addQueryString("processDefinition",Core.getParam("processDefinition"))
-					.addQueryString("taskDefinition",Core.getParam("taskDefinition"))
-					.addQueryString("appDad",Core.getParam("appDad"))
-					.addQueryString("formKey",Core.getParam("formKey"))
-					.addQueryString("processDefinitionId",Core.getParam("processDefinitionId"))
-					.addQueryString("taskDefinition",Core.getParam("taskDefinition"))
-					.addQueryString("previewTask",Core.getParam("previewTask"))
-					.addQueryString("preiviewApp",Core.getParam("preiviewApp"))
-					.addQueryString("preiviewProcessDefinition",Core.getParam("preiviewProcessDefinition"))
-					.addQueryString("showTimeLine","true")
-					.addQueryString("previewTaskId",Core.getParam("previewTaskId"));
 	}
 	
 	protected void setCustomPermission(String customPermission) {

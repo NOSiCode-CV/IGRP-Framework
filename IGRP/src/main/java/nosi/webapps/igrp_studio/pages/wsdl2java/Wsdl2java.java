@@ -1,6 +1,5 @@
 package nosi.webapps.igrp_studio.pages.wsdl2java;
 
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 

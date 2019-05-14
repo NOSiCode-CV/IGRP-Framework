@@ -16,6 +16,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
 
@@ -65,7 +66,7 @@ public class MapaProcessoController extends Controller{
 						.addQueryString("processDefinition", process.getKey())
 						.addQueryString("taskDefinition", taskDefinition)
 						.addQueryString("taskName","Start Process");					
-					return this.call(app.getDad().toLowerCase(),this.config.PREFIX_TASK_NAME+taskDefinition, "index",this.queryString());
+					return this.call(app.getDad().toLowerCase(),BPMNConstants.PREFIX_TASK+taskDefinition, "index",this.queryString());
 				}
 			}
 			this.addQueryString("process_id", p_processId);

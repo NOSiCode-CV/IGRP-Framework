@@ -9,6 +9,7 @@ import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
+import nosi.core.mail.EmailMessage.PdexTemplate;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.activit.rest.GroupService;
@@ -294,12 +295,17 @@ public class NovoUtilizadorController extends Controller {
 
 					if (settings.getProperty("ids.wso2.enabled") != null
 							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
-						// String aux = person.getMail().toLowerCase().split("@")[0];
-						String aux = person.getMail().toLowerCase().trim();
-						userLdap.setUser_name(aux);
+						
+						if(settings.getProperty("igrp.authentication.govcv.enbaled") != null && settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true"))
+						{
+							 String aux = person.getMail().toLowerCase().trim().split("@")[0]; 
+							 userLdap.setUser_name(aux);
+						}else {
+							String aux = person.getMail().toLowerCase().trim();
+						}
+							
 					} else {
 						String aux = person.getMail().toLowerCase().split("@")[0];
-						// String aux = person.getMail().toLowerCase().trim();
 						userLdap.setUser_name(aux);
 					}
 
@@ -520,16 +526,19 @@ public class NovoUtilizadorController extends Controller {
 	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
 		String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key="
 				+ u.getActivation_key();
-		// System.out.println(url_);
+		
 		Organization orgEmail = new Organization().findOne(model.getOrganica());
+		
 		String msg = "" + "<p><b>Aplicação:</b> " + orgEmail.getApplication().getName() + "</p>"
-				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>"
-				+ "			 <p><b>Link Activação:</b> <a href=\"" + url_ + "\">" + url_ + "</a></p>"
+				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>" 
 				+ "			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
+		
+		msg = PdexTemplate.getCorpoFormatado("Ativação IGRP-Web", "Caro utilizador, seja bem-vindo !!!", new String[] {msg}, new String[] {"Ativar"}, new String[] {url_}, "https://www.igrp.cv"); 
+		
 		if(Core.mail("no-reply@nosi.cv", u.getEmail(), "IGRP - User activation", msg, "utf-8", "html", null, ""))			
 			Core.setMessageInfo("Activation e-mail sent to: " + u.getEmail());
 		else
-			Core.setMessageError("Email not sent.");
+			Core.setMessageError("Email não enviado.");
 		
 	}
 

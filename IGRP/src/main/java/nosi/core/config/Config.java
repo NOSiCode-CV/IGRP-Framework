@@ -9,6 +9,7 @@ import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -31,11 +32,10 @@ public class Config {
 	private final String LINK_XSL_JSON_GENERATOR = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//Generator JSON for CRUD pages
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
 	private final String LINK_XSL_GENERATOR_CONTROLLER_BPMN = "images/IGRP/IGRP2.3/core/formgen/util/java/bpmn/XSL_CONTROLLER.xsl";
-	public final String PREFIX_TASK_NAME = "Task";
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "190507";
+	public final String VERSION = "190513";
 
 	public Config() {
 	
@@ -349,13 +349,13 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page)){
-			String processDefinition = Core.getParam("processDefinition",false);
+			RuntimeTask runtimeTask = RuntimeTask.getRuntimeTask();
 			Action ac = new Action();
-			if(Core.isNotNull(processDefinition))
+			if(Core.isNotNull(runtimeTask))
 				ac = ac.find()
-					   .andWhere("application.dad", "=", app.toLowerCase())
+					   .andWhere("application.dad", "=", runtimeTask.getTask().getTenantId())
 					   .andWhere("page", "=", Page.resolvePageName(page))
-					   .andWhere("processKey", "=", processDefinition.toLowerCase())
+					   .andWhere("processKey", "=", runtimeTask.getTask().getProcessDefinitionKey().toLowerCase())
 					   .one();
 			else
 				ac = ac.find()

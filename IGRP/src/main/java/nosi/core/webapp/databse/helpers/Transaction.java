@@ -10,7 +10,7 @@ import nosi.core.webapp.Core;
  * Emanuel
  * 22 Feb 2019
  */
-public class Transaction extends QueryHelper{
+public class Transaction extends CommonFIlter{
 	private Connection conn;
 	
 	public Transaction(String connectionName) {

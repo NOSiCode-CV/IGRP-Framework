@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -27,7 +29,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Anim laudantium elit magna rem' as tipo_documento_tab,'Doloremque magna elit lorem ac' as n_doc_tab,'Totam lorem natus dolor anim' as nome_tab,'Ut natus perspiciatis anim mag' as sexo_tab,'06-03-2015' as data_nascimento_tab,'Sit adipiscing aperiam elit na' as nome_pai_tab,'Sed magna sit lorem deserunt' as nome_mae_tab,'Totam iste amet aperiam magna' as data_emissao_tab,'Sit doloremque iste totam laud' as emissor_tab,'1' as estado_civil,'1' as nat_conselho,'1' as residencia,'1' as dt_validade,'1' as bi_tab,'1' as nic_cni_tab,'1' as passaporte_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Unde deserunt ut labore amet' as tipo_documento_tab,'Sit stract magna doloremque vo' as n_doc_tab,'Rem dolor aliqua rem elit' as nome_tab,'Consectetur rem aliqua anim do' as sexo_tab,'02-07-2011' as data_nascimento_tab,'Amet voluptatem sed lorem iste' as nome_pai_tab,'Elit aliqua omnis natus adipis' as nome_mae_tab,'Anim lorem sed unde anim' as data_emissao_tab,'Deserunt doloremque consectetu' as emissor_tab,'hidden-07ec_174f' as estado_civil,'hidden-feb0_8fe5' as nat_conselho,'hidden-9418_2646' as residencia,'hidden-428f_70c6' as dt_validade,'hidden-d94c_c7df' as bi_tab,'hidden-0c7c_08b3' as nic_cni_tab,'hidden-8ba1_1bda' as passaporte_tab "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/

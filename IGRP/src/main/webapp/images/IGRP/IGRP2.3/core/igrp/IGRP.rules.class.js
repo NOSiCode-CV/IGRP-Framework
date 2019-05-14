@@ -30,6 +30,20 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 			return rtn;
 		},
+		
+		getSuffix : function(r){
+			var str = null;
+
+			if(r.isTable){
+				if(r.hasOwnProperty('isFormlist')){
+					if(r.isFormlist)
+						str = '_fk';
+				}else
+					str = '_fk';
+			}
+
+			return str;
+		},
 
 		executeAction:function(p){
 			//var rule = p;
@@ -125,16 +139,35 @@ if($ && $.IGRP && !$.IGRP.rules){
 				
 				rules.forEach(function(rule){
 					
-					var events = rule.events.split(',');
+					var suffix = $.IGRP.rules.getSuffix(rule);
+					
+					if(suffix)
+						fname += suffix;
 
-					var a      = rule.conditions.actions;
+					//fname = rule.isTable ? fname+'_fk' : fname;
+					
+					var events = rule.events.split(',')
 
-					if( rule.events.indexOf('load') !== -1)
+						a      = rule.conditions.actions,
+						
+						obj    = $('[name="'+fname+'"]');
 
-						validateAndExecute($('[name="'+fname+'"]'),rule);
+					if( rule.events.indexOf('load') !== -1){
+
+						if (rule.isTable) {
+
+							$.each($('tbody tr',obj.parents('table')),function(i,tr){
+								
+								validateAndExecute($('[name="'+fname+'"]',$(tr)),rule);
+								
+							});
+
+						}else
+							validateAndExecute($('[name="'+fname+'"]'),rule);
+					}
 
 					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
-						
+						console.log(this);
 						validateAndExecute($(this),rule);
 						
 					});
@@ -168,7 +201,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			var rtn = [];
 
 			var row = p.isTable ? $(p.sourceField).parents('tr')[0] : document.body;
-
+			
 			if(targets){
 				
 				var targetNames = typeof targets == 'string' ? targets.split(',') : targets;
@@ -176,7 +209,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 				targetNames.forEach(function(t){
 					
 					var target = $('*[item-name="'+t+'"]',row).not('th,td');
-
+					
 					if(target[0]){
 						$.each(target,function(i,tr){
 							rtn.push( tr );
@@ -224,17 +257,32 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 	};
 
-	var getParam = function(fields){
-					
-		var res = {};
+	var getParam = function(p){
+			
+		var fields = p.request_fields,
+
+			res    = {};
 
 		if(fields){
-			var names = fields.split(',');
+			var names = fields.split(','),
+			
+				row   = p.isTable ? p.sourceField.parents('tr') : false;
 			
 			names.forEach(function(n){
-				res['p_'+n] = $('[name="p_'+n+'"]').val();
+				
+				var suffix = $.IGRP.rules.getSuffix(p),
+				
+					name   = n;
 
-				if (typeof res['p_'+n] === 'object') 
+				if(suffix)
+					name += suffix;
+	
+				var elmnt = row ? row.find('[name="p_'+name+'"]') : $('[name="p_'+n+'"]');
+	
+				res['p_'+n] = elmnt.val() || $('[name="p_'+n+'"]').val();
+	
+				if (res['p_'+n] && typeof res['p_'+n] === 'object') 
+	
 					res['p_'+n] = $.IGRP.utils.arrayValuesToString(res['p_'+n],';');
 				
 			});	
@@ -271,6 +319,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		checked:{
 			satisfy:function(r){
+				
 				return $(r.field).is(':checked');
 			},
 			opposite:'unchecked'
@@ -668,9 +717,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 		remote:{
 			
 			do : function(p){
-
-				$.IGRP.request( p.procedure ,{
-					params  : getParam(p.request_fields),
+				var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
+				$.IGRP.request( url ,{
+					params  : getParam(p),
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
 				   	},
@@ -693,15 +742,15 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				//var param = p.sourceName+'='+$(p.sourceField).val();
-
+				var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 				$.ajax({
-					url 	: p.procedure,
+					url 	: url,
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
 				   	},
 					method 	: 'post',
 					dataType: 'xml',
-					data 	: getParam(p.request_fields)
+					data 	: getParam(p)
 				})
 				.done(function(list) {
 					
@@ -747,7 +796,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		remote_list:{
 			do : function(p){
-				var actionURL	 = p.procedure || $.IGRP.utils.getPageUrl(),
+				var actionURL	 = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app') || $.IGRP.utils.getPageUrl(),
 					form		 = $.IGRP.utils.getForm();
 				
 				$.each( p.targetFields ,function(i,f){
@@ -898,6 +947,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 						act.sourceField = field;
 
 						act.isTable = o.isTable;
+						
+						act.isFormlist = o.isFormlist;
 
 						$.IGRP.rules.execute2(act);
 

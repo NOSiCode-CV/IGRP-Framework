@@ -146,7 +146,6 @@
 				//$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
-					pArrayItem : pArrayItem,
 					clicked    : p.clicked,
 					url  	   : action
 				});
@@ -404,13 +403,13 @@
 		//_openclose (popup open and automatic close)
 		var _openclose = function(p){
 			var myWindow = $.IGRP.utils.openWin({
-				url    : p.url,
+				url    : setTargetParameter($.IGRP.utils.getUrl(p.url))+form.serialize(),
 				width  : 30,
 				height : 30,
 				win    : 'IGRP-openclose'
 			});
 
-			setTimeout(function () { myWindow.close();}, 2000);
+			setTimeout(function () { myWindow.close();}, 6000);
 
 			return false;
 		};

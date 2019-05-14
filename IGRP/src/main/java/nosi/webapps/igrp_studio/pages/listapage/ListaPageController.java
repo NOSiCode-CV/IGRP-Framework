@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -38,8 +40,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Adipiscing omnis deserunt dolo' as descricao_page,'1' as id_page,'1' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'1' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Voluptatem anim rem aliqua adi' as descricao_page,'hidden-ef00_4576' as id_page,'hidden-ff9a_a3a4' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-e7c0_9f0b' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */

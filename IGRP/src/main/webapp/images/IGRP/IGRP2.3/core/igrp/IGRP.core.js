@@ -322,7 +322,7 @@
 			
 			adjustableRows : function(){
 				
-				var rows = $('.row.adjustable-row');
+				var rows = $('.row.adjustable-row, .row.adjust-cols');
 				
 				rows.each(function(i, row){
 					

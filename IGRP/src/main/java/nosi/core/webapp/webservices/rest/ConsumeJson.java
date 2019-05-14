@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import nosi.core.webapp.Core;
+
 /**
  * @author Isaias.Nunes
  *
@@ -44,22 +46,29 @@ public class ConsumeJson {
 	}
 	
 	public String getJsonFromUrl(String url, String authorization) throws IOException {
-		URL    url_request          = new URL( url );
-		HttpURLConnection conn= (HttpURLConnection) url_request.openConnection();           
-		conn.setDoOutput( true );
-		conn.setInstanceFollowRedirects( false );
-		conn.setRequestProperty("Authorization", authorization); 
-		conn.setRequestMethod( "POST" );
-		conn.setRequestProperty( "accept", "application/json"); 
-		conn.setRequestProperty( "charset", "utf-8");
-		conn.setUseCaches( false );
-		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-		StringBuffer response = new StringBuffer();
-		String inputline;
-		while ((inputline = in.readLine()) != null) {
-		     response.append(inputline);
+		try {
+			URL    url_request          = new URL( url );
+			HttpURLConnection conn= (HttpURLConnection) url_request.openConnection();           
+			conn.setDoOutput( true );
+			conn.setInstanceFollowRedirects( false );
+			conn.setRequestProperty("Authorization", authorization); 
+			conn.setRequestMethod( "POST" );
+			conn.setRequestProperty( "accept", "application/json"); 
+			conn.setRequestProperty( "charset", "utf-8");
+			//conn.setUseCaches( false );
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			StringBuffer response = new StringBuffer();
+			String inputline;
+			while ((inputline = in.readLine()) != null) {
+			     response.append(inputline);
+			}
+			return response.toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block			
+			Core.setMessageError("Erro: "+e.toString());
+			
+			return null;
 		}
-		return response.toString();
 	}
 	
 }

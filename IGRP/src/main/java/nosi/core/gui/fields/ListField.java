@@ -59,9 +59,9 @@ public class ListField extends AbstractField {
 		if (list != null && !list.isEmpty()) {
 			for (Tuple t : list) {
 				try {
-					map.put(t.get(0), gt(t.get(1).toString()));
+					map.put(t.get(0), gt(""+t.get(1)));
 				} catch (IllegalArgumentException e) {
-
+					Core.log("ListField.setQuery IllegalArgumentException");
 				}
 			}
 			this.setValue(map);

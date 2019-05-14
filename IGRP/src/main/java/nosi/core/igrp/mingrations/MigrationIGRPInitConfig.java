@@ -188,6 +188,10 @@ public class MigrationIGRPInitConfig {
 			actions.add(r1);
 			actions.add(r2);
 			
+			Action r3 = new Action("Oauth2openidwso2", "index", "nosi.webapps.igrp.pages", "igrp/oauth2openidwso2/Oauth2openidwso2.xsl", "Oauth2openidwso2", "Oauth2openidwso2", "2.3", 1, app_igrp);
+			r3.setTipo((short)1);
+			actions.add(r3);
+			
 			actions.add(new Action("Pesquisa_bi_cni_passport", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xsl", "Pesquisa BI-CNI-passport", "Pesquisa BI-CNI-passport", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));

@@ -91,6 +91,7 @@ public class TaskServiceQuery extends TaskService {
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
 				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+				this.setMyProccessAccess();
 				d = d.stream().filter(p->this.myproccessId.contains(p.getProcessInstanceId())).collect(Collectors.toList());			    
 			}else{
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
@@ -127,10 +128,11 @@ public class TaskServiceQuery extends TaskService {
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
 				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+				this.setMyProccessAccess();
 				if(Core.isNotNull(this.getFilterCustom())) {
-					ActivityExecute ae = new ActivityExecute().find().where("customPermission","=",this.getFilterCustom()).one();
+					List<ActivityExecute> ae = new ActivityExecute().find().where("customPermission","=",this.getFilterCustom()).all();
 					if(ae!=null)
-						this.myproccessId =  Arrays.asList(new String[] {ae.getProcessid()});
+						this.myproccessId =  ae.stream().map(e->e.getProcessid()).collect(Collectors.toList());
 					else
 						this.myproccessId = Arrays.asList(new String[] {});
 				}
@@ -231,8 +233,8 @@ public class TaskServiceQuery extends TaskService {
 		if(Core.isNotNull(this.getEndTime()))
 			return 1;//Terminado
 		if(Core.isNotNull(this.getAssignee()))
-			return 2;//Não iniciado
-		return 3;//"Não Atribuido"
+			return 3;//Não iniciado
+		return 2;//"Não Atribuido"
 	}
 	
 	public Map<String,String> getStatus() {

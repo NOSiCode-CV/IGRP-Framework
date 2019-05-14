@@ -97,7 +97,7 @@
 
                 var inputRel = $('[name="'+rel+'"]',sel.parent());
 
-                inputRel.val(valStr);
+                inputRel.val(valStr).trigger('change');
 
             }
 
@@ -223,6 +223,10 @@
             
               com.init( o.itemHTML );
 
+            });
+            
+            $(document).on('formlist:init', function(o,e){
+                com.init( $(e) );
             });
         }
 

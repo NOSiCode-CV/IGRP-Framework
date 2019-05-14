@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp.pages._cons_proc;
 
 import nosi.core.webapp.Controller;
@@ -11,23 +10,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
 
 /*----#end-code----*/
-
-
-public class _CONS_PROCController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+public class _CONS_PROCController extends Controller {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		_CONS_PROC model = new _CONS_PROC();
 		model.load();
 		_CONS_PROCView view = new _CONS_PROCView();
 		view.id_task.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
-		model.loadTable_1(Core.query(null,"SELECT 'num_processo' as num_processo,'processo' as processo,'eatapa' as eatapa,'dt_inicio_etapa' as dt_inicio_etapa,'dt_fim_etapa' as dt_fim_etapa,'estado' as estado,'id_task' as id_task "));
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		model.loadTable_1(Core.query(null,"SELECT 'Aperiam anim consectetur strac' as num_processo,'Magna voluptatem sit stract aliqua' as processo,'Sit magna voluptatem anim sit' as eatapa,'Mollit adipiscing omnis deseru' as dt_inicio_etapa,'Unde iste consectetur rem sit' as dt_fim_etapa,'Elit sed labore natus omnis' as atribuido_a,'3' as estado,'hidden-6b66_e9cc' as id_task "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_processo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.cbx_utilizador.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -78,6 +75,7 @@ public class _CONS_PROCController extends Controller {
 				t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setId_task(task.getId());
 				t.setEstado(""+task.getStatusTaskValue());
+				t.setAtribuido_a(Core.isNotNull(task.getAssignee())?task.getAssignee():"---");
 				if(!t.getEstado().equalsIgnoreCase("1")) {
 					t.hiddenButton(view.btn_ver_etapa);
 				}
@@ -102,15 +100,14 @@ public class _CONS_PROCController extends Controller {
 	}
 	
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		_CONS_PROC model = new _CONS_PROC();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","_CONS_PROC","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_task",Core.getParam("p_id_task"));
+		 return this.forward("igrp","_CONS_PROC","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 
 		/*----#end-code----*/
@@ -118,39 +115,38 @@ public class _CONS_PROCController extends Controller {
 	}
 	
 	public Response actionVer_etapa() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		_CONS_PROC model = new _CONS_PROC();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","DetalhesProcesso","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_task",Core.getParam("p_id_task"));
+		 return this.forward("igrp","Page","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(ver_etapa)----*/
-		this.addQueryString("taskId", Core.getParam("p_id_task")).addQueryString("target", "_blank");
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_task")).addQueryString("target", "_blank");
+        return this.redirect("igrp","Detalhes_tarefas","index", this.queryString());	
 		/*----#end-code----*/
-		return this.redirect("igrp","Detalhes_tarefas","index", this.queryString());	
+			
 	}
 	
 	public Response actionVer_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		_CONS_PROC model = new _CONS_PROC();
 		model.load();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name added in application builder.
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","DetalhesProcesso","index", this.queryString()); //if submit, loads the values
-		  ----#gen-example */
+		 this.addQueryString("p_id_task",Core.getParam("p_id_task"));
+		 return this.forward("igrp","DetalhesProcesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(ver_processo)----*/
-		this.addQueryString("taskId", Core.getParam("p_id_task")).addQueryString("target", "_blank");
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_task")).addQueryString("target", "_blank");
 		/*----#end-code----*/
 		return this.redirect("igrp","DetalhesProcesso","index", this.queryString());	
 	}
 	
-	/*----#start-code(custom_actions)----*/
+/*----#start-code(custom_actions)----*/
 	
 	
 	/*----#end-code----*/
-	}
+}

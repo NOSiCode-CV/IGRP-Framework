@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
@@ -48,8 +47,6 @@ public class TaskService extends Activit{
 	private String processDefinitionUrl;
 	private String processInstanceId;
 	private List<TaskVariables> variables;
-	@Expose(deserialize=false,serialize=false)
-	private String processName;
 	private String processDefinitionKey;
 	
 	public TaskService() {
@@ -110,6 +107,7 @@ public class TaskService extends Activit{
 		this.addFilter("unassigned", "true");
 		List<TaskService> tasks =  this.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		this.setMyProccessAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
 							  .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
 							  .collect(Collectors.toList());
@@ -120,6 +118,7 @@ public class TaskService extends Activit{
 	public List<TaskService> getMabageTasks() {
 		List<TaskService> tasks =  this.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
+		this.setMyProccessAccess();
 		tasks = tasks.stream().filter(t->this.filterAvailableTaskAccess(t, myTasAccess ))
 							 .filter(t->this.myproccessId.contains(t.getProcessInstanceId()))
 							 .collect(Collectors.toList());
@@ -548,14 +547,6 @@ public class TaskService extends Activit{
 			this.setProcessName(process.getName());
 			this.setProcessDefinifionKey(process.getKey());
 		}
-	}
-	
-	public String getProcessName() {
-		return processName;
-	}
-
-	public void setProcessName(String processName) {
-		this.processName = processName;
 	}
 	
 	
