@@ -97,7 +97,7 @@
 
                 var inputRel = $('[name="'+rel+'"]',sel.parent());
 
-                inputRel.val(valStr);
+                inputRel.val(valStr).trigger('change');
 
             }
 
