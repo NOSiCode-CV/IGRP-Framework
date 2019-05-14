@@ -226,7 +226,11 @@ public class LoginController extends Controller {
 			} catch (Exception e) {
 				Core.setMessageError("Ooops !!! Ocorreu um erro na activação.");
 			}
-			try {
+			try { 
+				String oidc = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+				if(oidc != null && oidc.equalsIgnoreCase("true")) 
+					return redirectToUrl(createUrlForOAuth2OpenIdRequest());
+				
 				return redirect("igrp", "login", "login", this.queryString());
 			} catch (Exception e) {
 			}
