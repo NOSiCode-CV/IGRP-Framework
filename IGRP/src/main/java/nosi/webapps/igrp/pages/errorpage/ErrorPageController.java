@@ -53,9 +53,15 @@ public class ErrorPageController extends Controller {
 			
 			//logger.error(errorMsg);
 			
-			Igrp.getInstance().getFlashMessage().addMessage("error", errorMsg );
-			// dbug
-			Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error").toString());
+			try {
+				Igrp.getInstance().getFlashMessage().addMessage("error", errorMsg );
+				// dbug
+				Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error").toString());
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				Core.log("TryCatch: "+e.toString());
+			}
 			
 			Igrp.getInstance().getFlashMessage().addMessage("info", Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
 			view.setModel(model);

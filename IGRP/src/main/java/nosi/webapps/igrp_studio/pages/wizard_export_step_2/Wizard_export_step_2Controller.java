@@ -22,18 +22,18 @@ public class Wizard_export_step_2Controller extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Mollit anim sit amet adipiscin' as descricao_bpmn "));
-		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Aperiam officia iste sit aperi' as descricao_pagina "));
-		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Natus perspiciatis ut deserunt' as descricao_report "));
-		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Sit labore aperiam iste perspi' as descricao_transation "));
-		model.loadTable_service(Core.query(null,"SELECT '1' as services_ids,'Mollit stract omnis anim accus' as descricao_services "));
-		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Sit deserunt ipsum voluptatem' as descricao_domain "));
-		model.loadTable_doc_type(Core.query(null,"SELECT '1' as tipo_doc_ids,'Natus accusantium totam ipsum' as descricao_tipo_doc "));
-		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Labore accusantium deserunt la' as descricao_dao "));
-		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class,'Omnis totam elit doloremque de' as descricao_others_class "));
-		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Sed sit aliqua sit ut' as descricao_modulo "));
-		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Mollit amet ut elit perspiciat' as descricao_menu "));
-		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Anim labore rem amet sed' as descricao_conexao "));
+		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Unde perspiciatis sit sed dese' as descricao_bpmn "));
+		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Sit aliqua dolor officia strac' as descricao_pagina "));
+		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Ipsum doloremque deserunt offi' as descricao_report "));
+		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class,'Adipiscing totam magna sed adi' as descricao_others_class "));
+		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Ut sed totam adipiscing natus' as descricao_modulo "));
+		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Ut amet aliqua omnis aliqua' as descricao_transation "));
+		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Sed omnis rem laudantium rem' as descricao_dao "));
+		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Totam amet mollit doloremque d' as descricao_menu "));
+		model.loadTable_service(Core.query(null,"SELECT '1' as services_ids,'Iste perspiciatis accusantium' as descricao_services "));
+		model.loadTable_doc_type(Core.query(null,"SELECT '1' as tipo_doc_ids,'Voluptatem deserunt sit dolore' as descricao_tipo_doc "));
+		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Accusantium stract ipsum aperi' as descricao_conexao "));
+		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Doloremque aliqua amet accusan' as descricao_domain "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -91,8 +91,9 @@ public class Wizard_export_step_2Controller extends Controller {
       	}
 		this.addQueryString("dad", "igrp_studio");
 		this.addQueryString("p_application_id", model.getApplication_id());
+       return this.forward("igrp_studio","Wizard_export_step_2","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Wizard_export_step_1","index", this.queryString());	
+			
 	}
 	
 /*----#start-code(custom_actions)----*/
