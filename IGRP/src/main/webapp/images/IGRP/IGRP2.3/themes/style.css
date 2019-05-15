@@ -1724,13 +1724,13 @@ ul.nav-tabs{
 
 
 #igrp-apps-1 a.igrp-app-block {
-    background: #fff;
+    /* background: #fff; */
     padding: 20px 10px 25px 75px;
     position: relative;
     height: 80px;
-    margin: 5px;
+    /* margin: 5px; */
     overflow: hidden;
-    border:1px solid #eee
+    /* border:1px solid #eee; */
 }
 
 #igrp-apps-1 a.igrp-app-block.not-available{

@@ -11,7 +11,9 @@ var GENERATOR = function(genparams){
 	var counter            = 0;
 	var xslEditing         = false;
 	var baseXslSet         = false;
-	var configDataSet 	   = false;
+	var configDataSet 	   = false,
+		acceptsRules 	   = ['hidden','checkbox','radio'];
+	
 	const version=(new Date()).getDate();
 
 	/*EVENTS ARRAY*/
@@ -1512,17 +1514,18 @@ var GENERATOR = function(genparams){
 					});
 
 					//RULES
-					if(GEN.edit.object.formField || GEN.edit.object.type == 'hidden'){
+					if(GEN.edit.object.formField || $.inArray(GEN.edit.object.type,acceptsRules) !== -1){
 						
 						var slist = $('.IGRP-separatorlist',$(VARS.edition.dialog))[0];
 						// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
-						var isTable = GEN.edit.object.parent.type == 'formlist' ? true : false;
+						var isTable = GEN.edit.object.parent.type == 'table' || GEN.edit.object.parent.type == 'formlist' ? true : false;
 						
 
 						var rule = slist.toJSON({
 							excludeNamePrefix:'gen_rule_',
 							params : {
-								isTable : isTable
+								isTable    : isTable,
+								isFormlist : GEN.edit.object.parent.type == 'formlist'
 							}
 						});
 
@@ -1774,7 +1777,7 @@ var GENERATOR = function(genparams){
 		})*/
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
-		if(object.formField || object.type == 'hidden')
+		if(object.formField || $.inArray(object.type,acceptsRules) !== -1)
 
 			GENRULES.setTargets(object,GEN);
 

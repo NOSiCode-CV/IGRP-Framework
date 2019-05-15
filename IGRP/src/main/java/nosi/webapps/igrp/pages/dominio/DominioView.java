@@ -5,6 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class DominioView extends View {
 
@@ -14,9 +17,11 @@ public class DominioView extends View {
 	public Field aplicacao;
 	public Field lst_dominio;
 	public Field novo_dominio;
+	public Field app;
 	public Field description;
 	public Field key;
 	public Field estado;
+	public Field estado_check;
 	public Field ordem_desc;
 	public Field ordem;
 	public IGRPForm sectionheader_1;
@@ -56,19 +61,26 @@ public class DominioView extends View {
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
-		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
+		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
+		
+		app = new HiddenField(model,"app");
+		app.setLabel(gt(""));
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","app");
 		
 		description = new TextField(model,"description");
 		description.setLabel(gt("Nome"));
-		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desc","true");
+		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false").add("desc","true");
 		
 		key = new TextField(model,"key");
 		key.setLabel(gt("Valor"));
-		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desc","true");
+		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false").add("desc","true");
 		
-		estado = new ListField(model,"estado");
+		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","").add("delimiter",";").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
+		
+		estado_check = new CheckBoxField(model,"estado_check");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		ordem = new HiddenField(model,"ordem");
 		ordem.setLabel(gt(""));
@@ -96,10 +108,12 @@ public class DominioView extends View {
 		form_1.addField(aplicacao);
 		form_1.addField(lst_dominio);
 		form_1.addField(novo_dominio);
+		form_1.addField(app);
 
 		formlist_1.addField(description);
 		formlist_1.addField(key);
 		formlist_1.addField(estado);
+		formlist_1.addField(estado_check);
 		formlist_1.addField(ordem);
 
 		toolsbar_1.addButton(btn_guardar_item_domain);
@@ -117,6 +131,7 @@ public class DominioView extends View {
 		aplicacao.setValue(model);
 		lst_dominio.setValue(model);
 		novo_dominio.setValue(model);
+		app.setValue(model);
 		description.setValue(model);
 		key.setValue(model);
 		estado.setValue(model);

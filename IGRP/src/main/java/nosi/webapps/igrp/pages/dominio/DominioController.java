@@ -1,11 +1,16 @@
 package nosi.webapps.igrp.pages.dominio;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 
 /*----#end-code----*/
 		
@@ -17,35 +22,42 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Lorem iste magna omnis rem' as description,'Perspiciatis adipiscing lorem totam amet' as key,'2' as estado,'hidden-ffa4_3431' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Lorem sed magna adipiscing anim' as description,'Accusantium consectetur omnis ut voluptatem' as key,'1' as estado,'hidden-d87c_0cf3' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
-		view.estado.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/			
 		view.aplicacao.setValue(DomainHeper.getApplications());
-		view.estado.setQuery(DomainHeper.getEstadoQuery());
-       
-        if(Core.isNullOrZero(model.getAplicacao())){
-            model.setPublico(1);         
-        }else {
-        	String dad = Core.getCurrentDad();		
-   		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {			
-   			model.setAplicacao(Core.findApplicationByDad(dad).getId());
-   	        view.aplicacao.propertie().add("disabled","true");			
-   			}
-        }
-       
-     	view.lst_dominio.setQuery(DomainHeper.getDomainQuery(model.getAplicacao()), gt("-- Selecionar --"));	
+		//view.estado.setQuery(DomainHeper.getEstadoQuery());
+		view.estado_check.setValue(1);
+		String dad = Core.getCurrentDad();		
+  		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {	
+           	model.setApp(Core.findApplicationByDad(dad).getId());
+  			model.setAplicacao(model.getApp());
+  	        view.aplicacao.propertie().add("disabled","true");			
+  		}
+  		Integer app=model.getAplicacao();
+//  		Mudar para value para mostrar escolhido logo
+     	 final BaseQueryInterface domainQuery = DomainHeper.getDomainQuery(app);
 		
+     	
+		if(domainQuery.getSingleResult()==null) {
+			LinkedHashMap<Object,Object> mapDom=new LinkedHashMap<>();
+	     	mapDom.put(null,gt("++ Adicione um domínio ++"));
+			view.lst_dominio.setValue(mapDom);
+		}else
+			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
 		if(Core.isNotNull(model.getLst_dominio())) {        
-			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio()));
+			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
 		}
       
-            view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));
-            view.btn_gravar_domain.addParameter("p_aplicacao",model.getAplicacao());
-     		 view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
-     		 view.btn_guardar_item_domain.addParameter("p_aplicacao",model.getAplicacao());
+		if(Core.isNotNullOrZero(app)) {
+			 view.btn_gravar_domain.addParameter("p_aplicacao",app);
+			 view.btn_guardar_item_domain.addParameter("p_aplicacao",app);
+		}
+        view.btn_gravar_domain.setVisible(Core.isNull(model.getLst_dominio()));           
+     	view.btn_guardar_item_domain.setVisible(Core.isNotNull(model.getLst_dominio()));
+     		 
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
@@ -60,10 +72,11 @@ public class DominioController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(guardar_item_domain)----*/
+		
 		if(DomainHeper.saveItemDomain(model)) {
 			Core.setMessageSuccess();
-			this.addQueryString("p_aplicacao", model.getAplicacao())
-				.addQueryString("p_lst_dominio", model.getLst_dominio());
+			this.addQueryString("p_aplicacao", model.getAplicacao());
+			this.addQueryString("p_lst_dominio", model.getLst_dominio());
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
 			Core.setMessageError();
@@ -82,10 +95,12 @@ public class DominioController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar_domain)----*/
+		
 		if(DomainHeper.saveDomain(model)) {
 			Core.setMessageSuccess();
-			addQueryString("p_lst_dominio", model.getNovo_dominio());
-			return this.redirect("igrp","Dominio","index", model, this.queryString());
+			this.addQueryString("p_aplicacao", model.getAplicacao());
+			this.addQueryString("p_lst_dominio", model.getNovo_dominio());
+			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
 			Core.setMessageError();
 			return this.forward("igrp","Dominio","index", model, this.queryString());

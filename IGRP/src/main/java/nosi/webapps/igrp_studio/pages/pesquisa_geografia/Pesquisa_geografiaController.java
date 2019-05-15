@@ -27,7 +27,7 @@ public class Pesquisa_geografiaController extends Controller {
 		/*----#start-code(index)----*/
 
 		String id = Core.getParam("p_fwl_id");
-		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "0"));
+		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238"));
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);

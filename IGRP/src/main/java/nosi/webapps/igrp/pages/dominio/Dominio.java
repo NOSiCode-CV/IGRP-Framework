@@ -1,5 +1,10 @@
 package nosi.webapps.igrp.pages.dominio;
 
+import java.math.BigInteger;
+import java.math.BigDecimal;
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -21,6 +26,8 @@ public class Dominio extends Model{
 	private String lst_dominio;
 	@RParam(rParamName = "p_novo_dominio")
 	private String novo_dominio;
+	@RParam(rParamName = "p_app")
+	private Integer app;
 	
 	@SeparatorList(name = Formlist_1.class)
 	private List<Formlist_1> formlist_1 = new ArrayList<>();	
@@ -89,6 +96,13 @@ public class Dominio extends Model{
 	public String getNovo_dominio(){
 		return this.novo_dominio;
 	}
+	
+	public void setApp(Integer app){
+		this.app = app;
+	}
+	public Integer getApp(){
+		return this.app;
+	}
 
 
 	public static class Formlist_1{
@@ -96,6 +110,7 @@ public class Dominio extends Model{
 		private Pair description;
 		private Pair key;
 		private Pair estado;
+		private Pair estado_check;
 		private Pair ordem;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;
@@ -122,6 +137,13 @@ public class Dominio extends Model{
 		}
 		public Pair getEstado(){
 			return this.estado;
+		}
+		
+		public void setEstado_check(Pair estado_check){
+			this.estado_check = estado_check;
+		}
+		public Pair getEstado_check(){
+			return this.estado_check;
 		}
 
 		public void setOrdem(Pair ordem){
