@@ -427,7 +427,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						fieldName = xpr.slice(xi.length, xpr.indexOf(xe) ),
 
-						field 	  = fieldName == 'this' ? $(r.field) : $('[name="'+fieldName+'"]');
+						field 	  = fieldName == 'this' ? $(r.field) : $('[name="p_'+fieldName+'"]');
 
 					replaceObj[xpr] = {
 
@@ -490,7 +490,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						fieldName = xpr.slice(xi.length, xpr.indexOf(xe) ),
 
-						field 	  = fieldName == 'this' ? $(r.field) : $('[name="'+fieldName+'"]');
+						field 	  = fieldName == 'this' ? $(r.field) : $('[name="p_'+fieldName+'"]');
 
 					replaceObj[xpr] = {
 
