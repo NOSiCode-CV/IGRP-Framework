@@ -220,65 +220,48 @@ public class NovoUtilizadorController extends Controller {
 		return ok;
 	}
 
-	private User checkGetUserLdap(String email, boolean viaIds, Object... obj) {
+	private User checkGetUserLdap(String email, Properties settings) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null;
 
-		Properties settings = (Properties) obj[0];
+		try {
+			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+			WSO2UserStub.disableSSL();
+			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
+			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
+					settings.getProperty("ids.wso2.admin-pwd"), 2);
+			
+			String v = settings.getProperty("igrp.authentication.govcv.enbaled");
+			if (v.equalsIgnoreCase("true"))
+				email = "gov.cv/" + email; 
 
-		if (viaIds) {
-//			Will use ws02 configured in the main.xml file
-			try {
-				URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
-				WSO2UserStub.disableSSL();
-				WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
-				stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
-						settings.getProperty("ids.wso2.admin-pwd"), 2);
-				
-				String v = settings.getProperty("igrp.authentication.govcv.enbaled");
-				if (v.equalsIgnoreCase("true"))
-					email = "gov.cv/" + email; 
-
-				List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
-				LdapPerson ldapPerson = new LdapPerson();
-				result.forEach(user -> {
-					switch (user.getClaimUri().getValue()) {
-					case "http://wso2.org/claims/displayName":
-						ldapPerson.setDisplayName(user.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/givenname":
-						ldapPerson.setGivenName(user.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/emailaddress":
-						ldapPerson.setUid(user.getValue().getValue());
-						ldapPerson.setMail(user.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/fullname":
-						ldapPerson.setFullName(user.getValue().getValue());
-						break;
-					case "http://wso2.org/claims/lastname":
-						ldapPerson.setLastName(user.getValue().getValue());
-						break;
-					}
-					// System.out.println(obj.getClaimUri().getValue() + " = " +
-					// obj.getValue().getValue());
-				});
-				personArray.add(ldapPerson);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-//			LDAP configureted in the ldap.xml will be used
-			File file = new File(getClass().getClassLoader()
-					.getResource(
-							new Config().getBasePathConfig() + File.separator + "ldap" + File.separator + "ldap.xml")
-					.getPath());
-			LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-			NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(),
-					ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-
-			personArray = ldap.getUser(email);
+			List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
+			LdapPerson ldapPerson = new LdapPerson();
+			result.forEach(user -> {
+				switch (user.getClaimUri().getValue()) {
+				case "http://wso2.org/claims/displayName":
+					ldapPerson.setDisplayName(user.getValue().getValue());
+					break;
+				case "http://wso2.org/claims/givenname":
+					ldapPerson.setGivenName(user.getValue().getValue());
+					break;
+				case "http://wso2.org/claims/emailaddress":
+					ldapPerson.setUid(user.getValue().getValue());
+					ldapPerson.setMail(user.getValue().getValue());
+					break;
+				case "http://wso2.org/claims/fullname":
+					ldapPerson.setFullName(user.getValue().getValue());
+					break;
+				case "http://wso2.org/claims/lastname":
+					ldapPerson.setLastName(user.getValue().getValue());
+					break;
+				}
+			});
+			personArray.add(ldapPerson);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+			
 
 		if (personArray != null && personArray.size() > 0) {
 			for (int i = 0; i < personArray.size(); i++) {
@@ -384,17 +367,17 @@ public class NovoUtilizadorController extends Controller {
 		for (int i = 0; i < arrayEmails.length; i++) {
 			String email = arrayEmails[i];
 			if (Core.isNull(email) && !email.contains("@"))
-				continue;
-			email = email.toLowerCase(Locale.ROOT).trim();
+				continue; 
+			email = email.toLowerCase(Locale.ROOT).trim(); 
 			Properties settings = loadIdentityServerSettings();
-//		check & Get User from Ldap
-			User userLdap = checkGetUserLdap(email.trim(), (settings.getProperty("ids.wso2.enabled") != null
-					&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")), settings);
+//		check & Get User from Ldap 
+			User userLdap = checkGetUserLdap(email.trim(), settings);
 
 			if (userLdap != null) {
 //			Find user in the IGRP db too
 				User u = Core.findUserByEmail(email.trim());
 				if (u == null) {
+					
 //				If LDAP is ws02, the role is added to the server
 					if (settings.getProperty("ids.wso2.enabled") != null
 							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
@@ -403,6 +386,7 @@ public class NovoUtilizadorController extends Controller {
 						ok = false;
 						continue;
 					}
+					
 //				Insert the user in the user table
 					u = userLdap.insert();
 					if(u != null && !u.hasError()) {
@@ -476,7 +460,7 @@ public class NovoUtilizadorController extends Controller {
 							Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org)
 									.insert();
 							if (!p.hasError()) {
-//							Check if exists already a ENV						
+//							Check if exists already a ENV 				
 								if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
 										.andWhere("type_fk", "=", model.getAplicacao())
 										.andWhere("organization.id", "=", org.getId())

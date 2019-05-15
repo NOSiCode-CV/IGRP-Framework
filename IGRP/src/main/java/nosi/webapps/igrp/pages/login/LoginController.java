@@ -500,10 +500,10 @@ public class LoginController extends Controller {
 			curl.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			curl.setRequestProperty("charset", "utf-8");
 			curl.setRequestProperty("Content-Length", (postData.length()) + "");
-			curl.setUseCaches(false);
+			curl.setUseCaches(false);                           
 			curl.getOutputStream().write(postData.getBytes());
 
-			curl.connect();
+			curl.connect(); 
 
 			int code = curl.getResponseCode();
 
@@ -536,11 +536,12 @@ public class LoginController extends Controller {
 		boolean result = true;
 		if (user.getStatus() == 1) {
 			Profile profile = new Profile().getByUser(user.getId());
+			
 			if (profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)) {
 				if (!Session.afterLogin(profile)) {
 					result = false;
 					Core.setMessageError(gt("Ooops !!! Error no registo session. "));
-					// String backUrl = Route.previous(); // remember the last url that was
+					// String backUrl = Route.previous(); // remember the last url that was 
 					// requested by the user
 				}
 			} else {
@@ -680,10 +681,13 @@ public class LoginController extends Controller {
 			
 			
 			if(token != null) {
+				
 				String uid = oAuth2Wso2GetUserInfoByToken(token);
+				
 				if(uid != null) {
 					
-					User user = (User) new User().findIdentityByUsername(uid);
+					User user = new User().find().where("user_name", "=", uid).orWhere("email", "=", uid).one(); 
+					
 					if (user != null) {
 						
 						if(createSessionLdapAuthentication(user)) {
@@ -707,7 +711,8 @@ public class LoginController extends Controller {
 								
 								User newUser = new User();
 								newUser.setUser_name(uid);
-								newUser.setEmail(uid);
+								if(!uid.contains("@"))
+									newUser.setEmail(uid + "@nosi.cv"); 
 								newUser.setName(uid);
 								newUser.setStatus(1);
 								newUser.setIsAuthenticated(1);
@@ -717,15 +722,20 @@ public class LoginController extends Controller {
 								newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 			
 								newUser = newUser.insert(); 
-							
-								if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) {
+								
+								boolean flag1 = createPerfilWhenAutoInvite(newUser); 
+								boolean flag2 = createSessionLdapAuthentication(newUser);
+								boolean flag3 = newUser != null;
+								
+								if(newUser != null && flag1 && flag2) { 
 									newUser.setValid_until(token);
 									newUser.setOidcIdToken(id_token);
-									user.setOidcState(session_state);
+									newUser.setOidcState(session_state);
 									newUser.update();
 									return redirect("igrp", "home", "index"); 
 								}
 							} catch (Exception e) {
+								e.printStackTrace();
 								Core.setMessageError("Ocorreu um erro no auto-invite.");
 								return redirectToUrl(createUrlForOAuth2OpenIdRequest());
 							}
