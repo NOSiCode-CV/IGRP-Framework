@@ -139,12 +139,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 				
 				rules.forEach(function(rule){
 					
-					var suffix = $.IGRP.rules.getSuffix(rule);
-					
-					if(suffix)
-						fname += suffix;
-
-					//fname = rule.isTable ? fname+'_fk' : fname;
+					fname = rule.isTable ? fname+'_fk' : fname;
 					
 					var events = rule.events.split(',')
 
@@ -270,14 +265,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			
 			names.forEach(function(n){
 				
-				var suffix = $.IGRP.rules.getSuffix(p),
-				
-					name   = n;
-
-				if(suffix)
-					name += suffix;
-	
-				var elmnt = row ? row.find('[name="p_'+name+'"]') : $('[name="p_'+n+'"]');
+				var elmnt = row ? row.find('[name="p_'+n+'_fk"]') : $('[name="p_'+n+'"]');
 	
 				res['p_'+n] = elmnt.val() || $('[name="p_'+n+'"]').val();
 	

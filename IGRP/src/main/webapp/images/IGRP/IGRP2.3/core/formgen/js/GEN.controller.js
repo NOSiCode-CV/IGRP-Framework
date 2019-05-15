@@ -1524,8 +1524,7 @@ var GENERATOR = function(genparams){
 						var rule = slist.toJSON({
 							excludeNamePrefix:'gen_rule_',
 							params : {
-								isTable    : isTable,
-								isFormlist : GEN.edit.object.parent.type == 'formlist'
+								isTable    : isTable
 							}
 						});
 
