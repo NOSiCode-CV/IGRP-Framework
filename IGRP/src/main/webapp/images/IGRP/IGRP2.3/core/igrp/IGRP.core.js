@@ -146,9 +146,13 @@
 			},
 			resetFieldsSelector : function(o){
 				o.each(function(i,e){
-                    var parents = $(e).parents('.form-group')
-                    	type 	= parents.attr('item-type');
+					
+                    var parents = $(e).parents('.form-group'),
+                    
+                    	type 	= $(e).parents('[item-type]').first().attr('item-type');
+                    
                     switch(type){
+                    
                         case'radio':
                         case 'checkbox':
 
