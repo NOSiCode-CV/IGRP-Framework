@@ -300,7 +300,7 @@
 				$.IGRP.utils.createHidden({
 					name:'p_fwl_'+item.parents('.gen-tab-holder').attr('item-name'),
 					value: item.attr('item-name') ,
-					class:'submittable'
+					class:'submittable menuCtrl'
 				});
 
 			 	com.events.execute( 'tabActive',target );
@@ -322,7 +322,6 @@
 						activeTab  = activeName ? $('[item-name="'+activeName+'"]>a',tab) : $('li:first-child>a',tab);
 
 					if(activeTab.is(':visible'))
-
 						activeTab.click();
 
 					else
