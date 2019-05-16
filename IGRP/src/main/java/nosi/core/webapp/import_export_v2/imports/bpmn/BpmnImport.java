@@ -1,7 +1,7 @@
 package nosi.core.webapp.import_export_v2.imports.bpmn;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.DeploymentService;
+//import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.bpmn.BPMNSerializable;
@@ -80,14 +80,14 @@ public class BpmnImport extends AbstractImport implements IImport {
 	}
 
 	private void saveBPMN(BPMNSerializable bpmn) {
-		DeploymentService deploy = new DeploymentService();
-		try {
-			deploy = deploy.create(FileHelper.convertStringToInputStream(bpmn.getXml()),this.application.getDad(), bpmn.getFileName(),Core.MimeType.APPLICATION_BIN);
-			if(deploy!=null && deploy.hashError())
-				this.addError(deploy.getError().getMessage());
-		} catch (IOException e) {
-			this.addError(e.getMessage());
-		}
+//		DeploymentService deploy = new DeploymentService();
+//		try {
+//			deploy = deploy.create(FileHelper.convertStringToInputStream(bpmn.getXml()),this.application.getDad(), bpmn.getFileName(),Core.MimeType.APPLICATION_BIN);
+//			if(deploy!=null && deploy.hashError())
+//				this.addError(deploy.getError().getMessage());
+//		} catch (IOException e) {
+//			this.addError(e.getMessage());
+//		}
 	}
 
 }

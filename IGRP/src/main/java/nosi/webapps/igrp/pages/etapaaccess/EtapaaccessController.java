@@ -6,6 +6,11 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.webapps.igrp.dao.Organization;
@@ -16,9 +21,6 @@ import nosi.webapps.igrp.pages.etapaaccess.Etapaaccess.Table_1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ResourceService;
-import nosi.core.webapp.activit.rest.TaskService;
 /*----#end-code----*/
 		
 public class EtapaaccessController extends Controller {
@@ -248,10 +250,12 @@ public class EtapaaccessController extends Controller {
 		if(org!=null) {
 			List<TaskService> list = new ArrayList<>();
 			List<TaskAccess> listExist = new ArrayList<>();
-			for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsForCreated(org.getApplication().getDad())){
+			ProcessDefinitionIGRP processRest = new ProcessDefinitionIGRP();
+			TaskServiceRest taskRest = new TaskServiceRest();
+			for(ProcessDefinitionService process:processRest.getProcessDefinitionsForCreated(org.getApplication().getDad())){
 				String link = process.getResource().replace("/resources/", "/resourcedata/");
-				String resource = new ResourceService().getResourceData(link);
-				list.addAll(process.extractTasks(resource,true));
+				String resource = new ResourceServiceRest().getResourceData(link);
+				list.addAll(taskRest.extractTasks(resource,true));
 				listExist.addAll(this.getTaskOrgExists(org.getId(), process.getKey()));
 			}
 			 
