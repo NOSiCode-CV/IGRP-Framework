@@ -1103,7 +1103,7 @@
 				com.utils.resizeAllCharts();
 			});
 
-			if($.IGRP.components.tabcontent)
+			if($.IGRP.components.tabcontent && $.IGRP.components.tabcontent.on)
 				$.IGRP.components.tabcontent.on('tabActive',function(target){
 					com.utils.resizeAllCharts( $(target) ); 
 			});

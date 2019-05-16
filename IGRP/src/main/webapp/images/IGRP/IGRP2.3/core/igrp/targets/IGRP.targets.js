@@ -251,7 +251,7 @@
 			}else{
 					$.IGRP.components.form.hasFieldsError();
 					
-					p.clicked.removeAttr("disabled","disabled");
+					p.clicked.removeAttr("disabled");
 				}
 		};
 		
@@ -305,7 +305,7 @@
 					});
 				}
 			}else{
-				p.clicked.removeAttr('disabled','disabled');
+				p.clicked.removeAttr('disabled');
 				
 				$.IGRP.components.form.hasFieldsError();
 			}

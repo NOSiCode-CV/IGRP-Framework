@@ -276,7 +276,7 @@
 
 		},
 
-		scrollTo:function(name){
+		scrollTo:function(o){
 			
 			var scrollto = $(o);
 
