@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ResourceService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
@@ -45,10 +45,10 @@ public class BPMNExport implements IExport{
 
 	@Override
 	public void add(String id) {
-		ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(id);
+		ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(id);
 		if(process!=null) {
 			String link = process.getResource().replace("/resources/", "/resourcedata/");
-			String xml = new ResourceService().getResourceData(link);
+			String xml = new ResourceServiceRest().getResourceData(link);
 			BPMNSerializable bpmn = new BPMNSerializable();
 			bpmn.setId(id);
 			bpmn.setXml(xml);

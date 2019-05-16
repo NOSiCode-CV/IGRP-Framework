@@ -5,11 +5,16 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import java.io.IOException;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.DeploymentService;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
-import nosi.core.webapp.activit.rest.ResourcesService;
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.DeploymentService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
+import nosi.core.webapp.activit.rest.entities.ResourcesService;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 /*----#END-PRESERVED-AREA----*/
 
@@ -25,14 +30,14 @@ public class DetalhesProcessoController extends Controller {
 		String process_definitionId = Core.getParam(BPMNConstants.PRM_DEFINITION_ID);
 		boolean showView = Core.isNotNullMultiple(processId,process_definitionId);
 		if(Core.isNotNull(taskId)) {
-			TaskServiceQuery taskS = new TaskServiceQuery();
-			taskS.addFilter("taskId", taskId);
-			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
+			TaskServiceIGRP taskQuery = new TaskServiceIGRP();
+			taskQuery.addFilterBody("taskId", taskId);
+			for(TaskServiceQuery task:taskQuery.queryHistoryTask()) {
 				model.setNumero_de_processo(task.getProcessInstanceId());
 				process_definitionId = task.getProcessDefinitionId();
-				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(task.getProcessDefinitionId());
-				ProcessInstancesService history = new ProcessInstancesService().historicProcess(task.getProcessInstanceId());
-				DeploymentService deploy = new DeploymentService().getDeployment(process.getDeploymentId());
+				ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());
+				ProcessInstancesService history = new ProcessInstanceServiceRest().historicProcess(task.getProcessInstanceId());
+				DeploymentService deploy = new DeploymentServiceRest().getDeployment(process.getDeploymentId());
 				model.setData_criacao_de_processo(Core.isNotNull(deploy.getDeploymentTime())?Core.ToChar(deploy.getDeploymentTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
 				model.setDescricao(Core.isNotNull(process.getDescription())?process.getDescription():process.getName());
 				model.setData_inicio_de_processo(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
@@ -42,18 +47,19 @@ public class DetalhesProcessoController extends Controller {
 			processId = model.getNumero_de_processo();
 		}
 		DetalhesProcessoView view = new DetalhesProcessoView(model);
-		ProcessDefinitionService p =new ProcessDefinitionService();
+		ProcessDefinitionServiceRest processDefinitionRest =new ProcessDefinitionServiceRest();
 		//Get Diagram in runtime
-		String content = p.getDiagram("runtime/process-instances/"+processId+"/diagram");
+		String content = processDefinitionRest.getProcessDiagram(processId);
 		if(content!=null) {
 			view.img_1.setValue("data:image/png;base64,"+content);
 		}else {
 			//Get Diagram on historic
-			p = p.getProcessDefinition(process_definitionId);
+			ProcessDefinitionService p = processDefinitionRest.getProcessDefinition(process_definitionId);
 			if(Core.isNotNull(p.getDiagramResource())) {
-				ResourcesService r = new ResourcesService().getResource(p.getDiagramResource());
+				ResourceServiceRest resource = new ResourceServiceRest();
+				ResourcesService r = resource.getResource(p.getDiagramResource());
 				if(Core.isNotNull(r.getContentUrl())) {
-					content = r.getResourceContent(r.getContentUrl());
+					content = resource.getResourceContent(r.getContentUrl());
 					view.img_1.setValue("data:image/png;base64,"+content);
 				}
 			}

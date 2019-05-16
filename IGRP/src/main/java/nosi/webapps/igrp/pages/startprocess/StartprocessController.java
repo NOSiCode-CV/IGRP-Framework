@@ -6,8 +6,9 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 
 /*----#end-code----*/
 
@@ -24,9 +25,9 @@ public class StartprocessController extends Controller {
 		Integer totalProcAtivos = 0,totalProcFinished = 0;
 		String p_processId = Core.getParam("process_id");
 		if(p_processId !=null){
-			process = new ProcessDefinitionService().getProcessDefinition(p_processId);
+			process = new ProcessDefinitionServiceRest().getProcessDefinition(p_processId);
 			view.header_text.setValue(process.getName());
-			ProcessInstancesService p = new ProcessInstancesService();
+			ProcessInstanceServiceRest p = new ProcessInstanceServiceRest();
 			totalProcAtivos = p.totalProccesAtivos(process.getKey());
 			totalProcFinished = p.totalProccesTerminados(process.getKey());
 		}

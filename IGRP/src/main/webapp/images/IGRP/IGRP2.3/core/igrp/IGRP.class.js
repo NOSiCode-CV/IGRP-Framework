@@ -276,9 +276,20 @@
 
 		},
 
-		scrollTo:function(name){
+		scrollTo:function(o){
 			
-			console.log(name);
+			var scrollto = $(o);
+
+			if(scrollto[0]){
+
+				scrollto = scrollto.parents('.form-group:first');
+				
+				$("html, body").animate({
+					
+			        scrollTop: scrollto.offset().top - scrollto.height()
+			    
+			    }, 1000);
+			}
 			
 		},
 

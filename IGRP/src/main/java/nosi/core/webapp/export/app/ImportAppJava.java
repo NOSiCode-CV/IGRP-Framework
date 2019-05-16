@@ -6,7 +6,8 @@ import com.google.gson.reflect.TypeToken;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.activit.rest.DeploymentService;
+import nosi.core.webapp.activit.rest.entities.DeploymentService;
+import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.JarUnJarFile;
@@ -222,9 +223,10 @@ public class ImportAppJava {
 				InputStream file;
 				try {
 					file = FileHelper.convertStringToInputStream(content);
-					DeploymentService deploy = new DeploymentService().getDeploymentByName(fileName);
+					DeploymentServiceRest deployRest = new DeploymentServiceRest();
+					DeploymentService deploy = new DeploymentServiceRest().getDeploymentByName(fileName);
 					if(Core.isNull(deploy.getName()))
-						deploy.create(file, this.app.getDad(), fileName, MediaType.APPLICATION_OCTET_STREAM);
+						deployRest.create(file, this.app.getDad(), fileName, MediaType.APPLICATION_OCTET_STREAM);
 				} catch (Exception e) {
 					this.errors.add(e.getMessage());
 				} 

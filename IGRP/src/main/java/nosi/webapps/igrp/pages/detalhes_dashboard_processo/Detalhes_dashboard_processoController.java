@@ -1,19 +1,20 @@
 package nosi.webapps.igrp.pages.detalhes_dashboard_processo;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.activit.rest.HistoricProcessInstance;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.bpmn.BPMNConstants;
-
+import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
+import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 /*----#end-code----*/
 		
 public class Detalhes_dashboard_processoController extends Controller {
@@ -34,8 +35,8 @@ public class Detalhes_dashboard_processoController extends Controller {
 		String processKey = Core.getParam(BPMNConstants.PRM_PROCESS_KEY);
 		
 		if(Core.isNotNullMultiple(processId,processKey)) {	
-			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(processId);
-			ProcessInstancesService p = new ProcessInstancesService();
+			ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(processId);
+			ProcessInstanceIGRP p = new ProcessInstanceIGRP();
 			Integer totalProcAtivos = p.totalProccesAtivos(process.getKey());
 			Integer totalProcFinished = p.totalProccesTerminados(process.getKey());
 			model.setTotal_proc_finished_val(""+totalProcFinished);
@@ -97,7 +98,7 @@ public class Detalhes_dashboard_processoController extends Controller {
 		String processKey = Core.getParam("p_process_key");
 		
 		if(Core.isNotNullMultiple(process_id)) {
-			if(new ProcessInstancesService().delete(process_id)) {
+			if(new ProcessInstanceServiceRest().delete(process_id)) {
 				Core.setMessageSuccess();
 			}else {
 				Core.setMessageError();
@@ -114,8 +115,8 @@ public class Detalhes_dashboard_processoController extends Controller {
 	private List<Detalhes_dashboard_processo.Table_1> getProcessInstances(String processId,String processKey,Detalhes_dashboard_processoView view) {
 		List<Detalhes_dashboard_processo.Table_1> listProcess = new ArrayList<>();
 			//Get process in execution
-			for(ProcessInstancesService pis:new ProcessInstancesService().getRuntimeProcessIntances(processKey)) {
-				ProcessDefinitionService pds = new ProcessDefinitionService().getProcessDefinition(pis.getProcessDefinitionId());
+			for(ProcessInstancesService pis:new ProcessInstanceIGRP().getRuntimeProcessIntances(processKey)) {
+				ProcessDefinitionService pds = new ProcessDefinitionServiceRest().getProcessDefinition(pis.getProcessDefinitionId());
 				Detalhes_dashboard_processo.Table_1 table1 = new Detalhes_dashboard_processo.Table_1();
 				table1.setDescricao(pds.getName());
 				table1.setIniciado_em("       ---");
@@ -132,8 +133,8 @@ public class Detalhes_dashboard_processoController extends Controller {
 				listProcess.add(table1);
 			}
 			//Get all terminate process
-			for(HistoricProcessInstance hpi:new HistoricProcessInstance().getHistoryOfProccessInstanceIdFinished(processKey)) {
-				ProcessDefinitionService pds = new ProcessDefinitionService().getProcessDefinition(hpi.getProcessDefinitionId());
+			for(HistoricProcessInstance hpi:new ProcessInstanceIGRP().getHistoryOfProccessInstanceIdFinished(processKey)) {
+				ProcessDefinitionService pds = new ProcessDefinitionServiceRest().getProcessDefinition(hpi.getProcessDefinitionId());
 				Detalhes_dashboard_processo.Table_1 table1 = new Detalhes_dashboard_processo.Table_1();
 				table1.setDescricao(pds.getName());
 				table1.setIniciado_em(Core.ToChar(hpi.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));

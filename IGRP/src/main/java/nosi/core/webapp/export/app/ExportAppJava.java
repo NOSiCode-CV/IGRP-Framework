@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ResourceService;
+//import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+//import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
@@ -132,14 +132,14 @@ public class ExportAppJava {
 	private String getStoredBpmns() {
 		if(this.app!=null) {
 			List<String> bpmns = new ArrayList<>();
-			List<ProcessDefinitionService> list = new ProcessDefinitionService().getProcessDefinitionsAtivos(this.app.getDad());
-			list.stream().forEach(d->{
-				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(d.getId());
-				String link = process.getResource().replace("/resources/", "/resourcedata/");
-				String resource = new ResourceService().getResourceData(link);
-				resource = resource.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version='1.0' encoding='UTF-8'?>");
-				bpmns.add(resource);
-			});
+//			List<ProcessDefinitionService> list = new ProcessDefinitionService().getProcessDefinitionsAtivos(this.app.getDad());
+//			list.stream().forEach(d->{
+//				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(d.getId());
+//				String link = process.getResource().replace("/resources/", "/resourcedata/");
+//				String resource = new ResourceService().getResourceData(link);
+//				resource = resource.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version='1.0' encoding='UTF-8'?>");
+//				bpmns.add(resource);
+//			});
 			return new Gson().toJson(bpmns);
 		}
 		return null;

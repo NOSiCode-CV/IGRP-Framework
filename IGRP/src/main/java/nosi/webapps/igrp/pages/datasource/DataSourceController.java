@@ -5,6 +5,11 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
@@ -28,8 +33,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.datasource.helpers.DataSourceHelpers;
 /*----#end-code----*/
 		
@@ -61,7 +64,7 @@ public class DataSourceController extends Controller {
 		view.pagina.setVisible(false);
 		view.objecto.setVisible(false);
 		model.setId_env(Core.isNotNull(model.getId_env())?model.getId_env():Core.getParam("id_env"));
-		
+		ProcessDefinitionIGRP processRest =new ProcessDefinitionIGRP();
 		if(Core.isNotNull(model.getId_env())) {		
 			//			If just one data source exist, will be choosed
 			final Map<Object, Object> listDSbyEnv = new Config_env().getListDSbyEnv(Integer.parseInt(model.getId_env()));
@@ -112,7 +115,7 @@ public class DataSourceController extends Controller {
 					view.processo.setVisible(true);
 					if(app!=null) {
 						//Get Process Type
-						view.processo.setValue(new ProcessDefinitionService().mapToComboBoxByKey(app.getDad()));
+						view.processo.setValue(processRest.mapToComboBoxByKey(app.getDad()));
 					}
 				}
 			}
@@ -122,7 +125,7 @@ public class DataSourceController extends Controller {
 			}
 			view.btn_fechar.setVisible(false);
 			if(Core.isNotNull(model.getProcesso())) {
-				view.etapa.setValue(new TaskService().mapToComboBoxByProcessKey(model.getProcesso(),app.getDad()));
+				view.etapa.setValue(processRest.mapToComboBoxByProcessKey(model.getProcesso(),app.getDad()));
 			}
 		}
 		
@@ -174,12 +177,12 @@ public class DataSourceController extends Controller {
 			}
 		
 			if(model.getTipo().equalsIgnoreCase("task")) {
-				ProcessDefinitionService p = new ProcessDefinitionService().getLatestProcessDefinitionByKey(model.getProcesso(),app.getDad());				
+				ProcessDefinitionService p = new ProcessDefinitionServiceRest().getLatestProcessDefinitionByKey(model.getProcesso(),app.getDad());				
 				//if(p.filterAccess(p)) {
 					rep.setProcessid(p.getKey());
 					rep.setTaskid(model.getEtapa());
 					rep.setApplication_source(new Application().findOne(Core.toInt(p.getTenantId())));
-					List<TaskService> task = p.getTasksByProcessKey(model.getProcesso(),app.getDad()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
+					List<TaskService> task = new TaskServiceRest().getTasksByProcessKey(model.getProcesso(),app.getDad()).stream().filter(n->n.getTaskDefinitionKey().equalsIgnoreCase(model.getEtapa())).collect(Collectors.toList());
 					rep.setFormkey((task!=null && !task.isEmpty())?task.get(0).getFormKey():"");
 				/*}else {
 					throw new IOException(Core.NO_PERMITION_MSG);

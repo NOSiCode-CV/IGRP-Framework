@@ -6,12 +6,13 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.activit.rest.GroupService;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.core.webapp.activit.rest.entities.GroupService;
+import nosi.core.webapp.activit.rest.services.GroupServiceRest;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
@@ -163,8 +164,9 @@ public class NovoPerfilController extends Controller {
 			NovoPerfil model = new NovoPerfil();
            	model.load();
 			ProfileType p = Core.findProfileById(Integer.parseInt(idProf));  
+			GroupServiceRest groupRest = new GroupServiceRest();
 			GroupService group = new GroupService();  
-			group.delete(p.getOrganization().getCode() + "." + p.getCode());
+			groupRest.delete(p.getOrganization().getCode() + "." + p.getCode());
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
@@ -180,7 +182,7 @@ public class NovoPerfilController extends Controller {
 				group.setId(p.getOrganization().getCode() + "." + p.getCode());
 				group.setName(p.getOrganization().getName() + " - " + p.getDescr());
 				group.setType("assignment");
-				group.create(group);		
+				groupRest.create(group);		
 				Core.setMessageSuccess("Perfil atualizado com sucesso.");              
 			} else
 				Core.setMessageError("Erro ao atualizar o perfil.");

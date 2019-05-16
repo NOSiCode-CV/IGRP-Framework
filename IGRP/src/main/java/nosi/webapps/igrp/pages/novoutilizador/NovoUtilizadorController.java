@@ -6,21 +6,19 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.exception.ServerErrorHttpException;
-import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
-import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.mail.EmailMessage.PdexTemplate;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-import nosi.core.webapp.activit.rest.GroupService;
-import nosi.core.webapp.activit.rest.UserService;
+import nosi.core.webapp.activit.rest.entities.UserService;
+import nosi.core.webapp.activit.rest.services.GroupServiceRest;
+import nosi.core.webapp.activit.rest.services.UserServiceRest;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
-import nosi.core.config.Config;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,7 +31,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import javax.xml.bind.JAXB;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import static nosi.core.i18n.Translator.gt;
@@ -408,6 +405,8 @@ public class NovoUtilizadorController extends Controller {
 					final List<Profile> listInactiveProf = new Profile().find().andWhere("type", "=", "INATIVE_PROF")
 							.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
 							.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).all();
+					UserServiceRest userRest = new UserServiceRest();
+					GroupServiceRest groupRest = new GroupServiceRest();
 					for (Iterator<Profile> iterator = listInactiveProf.iterator(); iterator.hasNext();) {
 						Profile profile = (Profile) iterator.next();
 //					The profile was deleted before
@@ -437,8 +436,8 @@ public class NovoUtilizadorController extends Controller {
 									userActiviti0.setFirstName(u.getName());
 									userActiviti0.setLastName("");
 									userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
-									userActiviti0.create(userActiviti0);
-									new GroupService().addUser(
+									userRest.create(userActiviti0);
+									groupRest.addUser(
 											profile.getOrganization().getCode() + "." + profile.getProfileType().getCode(),
 											userActiviti0.getId());									
 								}
@@ -479,8 +478,8 @@ public class NovoUtilizadorController extends Controller {
 										userActiviti0.setFirstName(u.getName());
 										userActiviti0.setLastName("");
 										userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
-										userActiviti0.create(userActiviti0);
-										new GroupService().addUser(
+										userRest.create(userActiviti0);
+										groupRest.addUser(
 												p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
 												userActiviti0.getId());										
 									}

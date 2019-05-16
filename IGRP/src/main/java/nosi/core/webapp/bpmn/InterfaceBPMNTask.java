@@ -6,7 +6,8 @@ import javax.servlet.ServletException;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.View;
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
+//import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 
 /**

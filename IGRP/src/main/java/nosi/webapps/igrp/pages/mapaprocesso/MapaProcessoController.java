@@ -14,8 +14,11 @@ import nosi.core.gui.components.IGRPMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.FormDataService;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.FormDataService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.services.FormDataServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
@@ -30,7 +33,7 @@ public class MapaProcessoController extends Controller{
 		List<IGRPMenu> listMenus = new ArrayList<>();
 		IGRPMenu menus = new IGRPMenu(gt("Lista de Processos"),"webapps?r=");
 		IGRPMenu.Menu menu = new IGRPMenu.Menu(gt("Processos Ativos"));
-		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.getCurrentApp().getDad())){
+		for(ProcessDefinitionService process:new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(Core.getCurrentApp().getDad())){
 			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), this.getConfig().getResolveUrl("igrp","MapaProcesso","openProcess")+"&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
 		}
@@ -47,9 +50,10 @@ public class MapaProcessoController extends Controller{
 		FormDataService formData = null;
 		ProcessDefinitionService process = null;
 		if(p_processId!=null){
-			process = new ProcessDefinitionService().getProcessDefinition(p_processId);
-			if(process.filterAccess(process)) {
-				formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
+			ProcessDefinitionIGRP processRest = new ProcessDefinitionIGRP();
+			process = processRest.getProcessDefinitionServiceRest().getProcessDefinition(p_processId);
+			if(processRest.filterAccess(process)) {
+				formData = new FormDataServiceRest().getFormDataByProcessDefinitionId(p_processId);
 			}else {
 				return this.redirect("igrp","ExecucaoTarefas","index");
 			}

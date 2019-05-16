@@ -5,12 +5,14 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
-import nosi.core.webapp.activit.rest.TaskService;
 import nosi.webapps.igrp.dao.User;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 /*----#end-code----*/
 		
 public class Transferir_tarefasController extends Controller {
@@ -22,10 +24,10 @@ public class Transferir_tarefasController extends Controller {
 
 		String id = Igrp.getInstance().getRequest().getParameter("p_p_id_g");
 		if(Core.isNotNull(id)){
-			TaskService task = new TaskService().getTask(id);
+			TaskService task = new TaskServiceIGRP().getTask(id);
 			if(task!=null){
-				ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(task.getProcessDefinitionId());
-				ProcessInstancesService history = new ProcessInstancesService().historicProcess(task.getProcessInstanceId());
+				ProcessDefinitionService process = new ProcessDefinitionIGRP().getProcessDefinitionServiceRest().getProcessDefinition(task.getProcessDefinitionId());
+				ProcessInstancesService history = new ProcessInstanceServiceRest().historicProcess(task.getProcessInstanceId());
 				model.setData_inicio(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
 				model.setCriado_por_(history.getStartUserId());
 				model.setId(id);
@@ -60,7 +62,7 @@ public class Transferir_tarefasController extends Controller {
 		String taskId = Core.getParam("p_id");
 		User user = new User().findIdentityByUsername(userName);
 		if(Core.isNotNullMultiple(userName,taskId) && user!=null) {
-			 if(new TaskService().claimTask(taskId,userName)){
+			 if(new TaskServiceIGRP().getTaskServiceRest().claimTask(taskId,userName)){
 				 Core.setMessageSuccess(Core.gt("Tarefa transferida para ")+user.getName()+Core.gt(" com sucesso"));
 		     }else {
 		    	 Core.setMessageError(Core.gt("Nao foi possivel transferir a tarefa para ")+user.getName());

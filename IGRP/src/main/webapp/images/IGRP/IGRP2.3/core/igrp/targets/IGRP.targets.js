@@ -136,6 +136,9 @@
 		};
 		//submit ajax
 		var submit_ajax = function(p){
+			
+			p.clicked.attr("disabled","disabled");
+			
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
@@ -143,7 +146,7 @@
 				
 			if (fields.valid()) {
 				
-				//$.IGRP.utils.loading.show();
+				$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
 					clicked    : p.clicked,
@@ -170,7 +173,7 @@
 					pNotify 	: false,
 					pComplete 	: function(resp){
 
-						$.IGRP.utils.loading.hide();
+						//$.IGRP.utils.loading.hide();
 
 						try{
 
@@ -188,9 +191,10 @@
 							});
 
 							$.IGRP.utils.xsl.transform({
-								xsl    : $.IGRP.utils.getXMLStylesheet(xml),
-								xml    : xml,
-								nodes  : nodes
+								xsl     : $.IGRP.utils.getXMLStylesheet(xml),
+								xml     : xml,
+								nodes   : nodes,
+								clicked : p.clicked
 							});
 
 							$.each($(xml).find('messages message'),function(i,row){
@@ -213,16 +217,6 @@
 								}
 							});
 
-							var grvCntrl = $(xml).find('hidden[name="p_grv_control"]').text();
-							
-							if(grvCntrl && grvCntrl*1 == 1){
-
-								if ($('img.croppie')[0])
-									$('img.croppie').attr('src','');
-
-								$.IGRP.utils.resetFields();
-							}
-
 						}catch(e){
 							var str = resp.response;
 							if(str.indexOf('<html') != -1){
@@ -232,6 +226,10 @@
 								type : 'danger',
 								text : $.IGRP.utils.htmlDecode(str)
 							});
+							
+							$.IGRP.utils.loading.hide();
+							
+							p.clicked.removeAttr("disabled");
 						}
 
 						$('.igrp-msg-wrapper').html(alert);
@@ -252,12 +250,15 @@
 				});
 			}else{
 					$.IGRP.components.form.hasFieldsError();
-
-					$.IGRP.scrollTo($(':input[required].error:first'));
+					
+					p.clicked.removeAttr("disabled");
 				}
 		};
 		
 		var submitpage2file = function(p){
+			
+			p.clicked.attr('disabled','disabled');
+			
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				events 		= p.clicked[0].events;;
@@ -291,6 +292,8 @@
 									});
 								}
 						}
+						
+						$.IGRP.utils.loading.hide();
 					}
 				});
 
@@ -302,10 +305,9 @@
 					});
 				}
 			}else{
+				p.clicked.removeAttr('disabled');
 				
 				$.IGRP.components.form.hasFieldsError();
-
-				$.IGRP.scrollTo($(':input[required].error:first'));
 			}
 		};
 		
@@ -1195,8 +1197,8 @@
 				});
 				
 				return targetAction({
-					url     :url,
-					target  :target,
+					url     : url,
+					target  : target,
 					clicked : $(this)
 				});
 
@@ -1224,7 +1226,12 @@
  				canSubmit = eventCB == false ? false : canSubmit;
 
  				if (canSubmit)
+ 					
  					$.IGRP.utils.loading.show();
+ 					
+ 				else
+ 					$.IGRP.components.form.hasFieldsError();
+ 					
 
  				//return false;
 				return canSubmit;		

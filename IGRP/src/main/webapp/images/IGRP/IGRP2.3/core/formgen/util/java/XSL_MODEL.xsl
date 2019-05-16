@@ -194,7 +194,7 @@
 		<xsl:value-of select="$newline"/>
 		 <xsl:value-of select="$newline"/>
 		 <xsl:value-of select="$import_bignumber"/>			 
- 		<xsl:value-of select="$import_config"/>	
+ 		<xsl:value-of select="$import_config_model"/>	
  		<xsl:value-of select="$import_table"/>		
  		<xsl:value-of select="$import_model"/>	
  		<xsl:value-of select="$import_annotations"/> 		

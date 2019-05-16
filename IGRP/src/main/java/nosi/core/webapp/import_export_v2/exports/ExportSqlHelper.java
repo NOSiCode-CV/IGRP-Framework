@@ -8,7 +8,8 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
@@ -238,7 +239,7 @@ public class ExportSqlHelper {
 
 	private void loadBPMNData(Wizard_export_step_2 model) {
 		List<Table_bpmn> table_1 = new ArrayList<>();
-		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsForCreated(this.application.getDad())){
+		for(ProcessDefinitionService process: new ProcessDefinitionIGRP().getProcessDefinitionsForCreated(this.application.getDad())){
 			Table_bpmn t = new Table_bpmn();
 			t.setBpmn_ids(process.getId());
 			t.setBpmn_ids_check(process.getId());

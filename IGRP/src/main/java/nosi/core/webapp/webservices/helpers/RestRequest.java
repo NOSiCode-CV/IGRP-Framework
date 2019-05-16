@@ -40,12 +40,7 @@ public class RestRequest{
 	private ConfigurationRequest config;
 	
 	public RestRequest() {
-		this.base_url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue(); 
-		this.username = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
-		this.password = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
-		this.accept_format = MediaType.APPLICATION_JSON;
-		this.content_type  = MediaType.APPLICATION_JSON;
-		this.config = new ConfigurationRequest(this);
+	
 	}	
 	
 	public  Response get(String url, Object id) {

@@ -13,13 +13,12 @@ import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
 import com.google.gson.Gson;
-
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
-import nosi.core.webapp.activit.rest.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.HistoricTaskService;
-import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
+import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
