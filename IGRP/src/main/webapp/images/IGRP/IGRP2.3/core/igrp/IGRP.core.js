@@ -938,8 +938,8 @@
 										}
 										
 										if((i+1) == p.nodes.length){
-											/*if(p.clicked)
-												p.clicked.removeAttr("disabled","disabled");*/
+											if(p.clicked)
+												p.clicked.removeAttr("disabled","disabled");
 											
 											$.IGRP.utils.loading.hide();
 										}

@@ -11,7 +11,7 @@
 }
 /*BODY*/
 html.ready body{
-  opacity: 1
+  opacity: 1;
 }
 
 body{
@@ -2017,6 +2017,11 @@ body.loading:after{
   background: rgba(255,255,255,.85);
   z-index: 999999;
   margin: 0; 
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -ms-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 
 .modal>.loader {

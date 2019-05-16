@@ -136,6 +136,9 @@
 		};
 		//submit ajax
 		var submit_ajax = function(p){
+			
+			p.clicked.attr("disabled","disabled");
+			
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
@@ -143,7 +146,7 @@
 				
 			if (fields.valid()) {
 				
-				//$.IGRP.utils.loading.show();
+				$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
 					clicked    : p.clicked,
@@ -170,7 +173,7 @@
 					pNotify 	: false,
 					pComplete 	: function(resp){
 
-						$.IGRP.utils.loading.hide();
+						//$.IGRP.utils.loading.hide();
 
 						try{
 
@@ -188,9 +191,10 @@
 							});
 
 							$.IGRP.utils.xsl.transform({
-								xsl    : $.IGRP.utils.getXMLStylesheet(xml),
-								xml    : xml,
-								nodes  : nodes
+								xsl     : $.IGRP.utils.getXMLStylesheet(xml),
+								xml     : xml,
+								nodes   : nodes,
+								clicked : p.clicked
 							});
 
 							$.each($(xml).find('messages message'),function(i,row){
@@ -213,16 +217,6 @@
 								}
 							});
 
-							var grvCntrl = $(xml).find('hidden[name="p_grv_control"]').text();
-							
-							if(grvCntrl && grvCntrl*1 == 1){
-
-								if ($('img.croppie')[0])
-									$('img.croppie').attr('src','');
-
-								$.IGRP.utils.resetFields();
-							}
-
 						}catch(e){
 							var str = resp.response;
 							if(str.indexOf('<html') != -1){
@@ -232,6 +226,10 @@
 								type : 'danger',
 								text : $.IGRP.utils.htmlDecode(str)
 							});
+							
+							$.IGRP.utils.loading.hide();
+							
+							p.clicked.removeAttr("disabled","disabled");
 						}
 
 						$('.igrp-msg-wrapper').html(alert);
@@ -254,6 +252,8 @@
 					$.IGRP.components.form.hasFieldsError();
 
 					$.IGRP.scrollTo($(':input[required].error:first'));
+					
+					p.clicked.removeAttr("disabled","disabled");
 				}
 		};
 		
@@ -1177,7 +1177,8 @@
 				
 				e.preventDefault();
 				
-				var target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
+				var clicked 	 = $(this),
+					target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
 				
 				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
 				
@@ -1195,9 +1196,9 @@
 				});
 				
 				return targetAction({
-					url     :url,
-					target  :target,
-					clicked : $(this)
+					url     : url,
+					target  : target,
+					clicked : clicked
 				});
 
 			});
@@ -1223,8 +1224,13 @@
 
  				canSubmit = eventCB == false ? false : canSubmit;
 
- 				if (canSubmit)
+ 				if (canSubmit){
+ 					
+ 					clicked.attr("disabled","disabled");
+ 					
  					$.IGRP.utils.loading.show();
+ 				}
+ 					
 
  				//return false;
 				return canSubmit;		
