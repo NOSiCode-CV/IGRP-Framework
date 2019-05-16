@@ -337,6 +337,12 @@
 				$.IGRP.events.on('element-transform',function(p){
 					if(p.index === 1)
 						$.IGRP.components.form.getHiddenFields(p.xml);
+					
+					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms'))
+						
+						if($('.form-control.select2',p.content)[0])
+							
+							$.IGRP.components.select2.init(p.content);
 				});
 				
   			}

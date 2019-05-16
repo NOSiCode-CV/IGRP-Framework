@@ -160,9 +160,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 						}else
 							validateAndExecute($('[name="'+fname+'"]'),rule);
 					}
+					
+					
 
 					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
-						console.log(this);
 						validateAndExecute($(this),rule);
 						
 					});
@@ -787,8 +788,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 				var actionURL	 = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app') || $.IGRP.utils.getPageUrl(),
 					form		 = $.IGRP.utils.getForm();
 				
+				$.IGRP.utils.loading.show();
+				
 				$.each( p.targetFields ,function(i,f){
+					
 					var tableName = $(f).attr('item-name');
+					
 					$.IGRP.utils.transformXMLNodes({
 					
 						nodes : [tableName],
@@ -801,7 +806,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 					       	'X-IGRP-REMOTE' : 1
 					   	},
 
-						success:function(c){
+						/*success:function(c){
 							
 							$.IGRP.utils.refreshComponents({
 								
@@ -811,9 +816,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 								
 							});
 
-						},
+						},*/
 
 						error:function(){
+							
+							$.IGRP.utils.loading.hide();
+							
 							console.log('dsa')
 						}
 

@@ -876,6 +876,7 @@
 			},
 			
 			transform : function(p){
+				
 				$.ajax({
 
 					url : p.xsl,
@@ -913,7 +914,7 @@
 								itemHTML.XMLTransform({
 									xml     	 : p.xml,
 									xsl     	 : xslt,
-									loading      : true,
+									loading      : false,
 									xslBasePath  : path+'/xsl/tmpl',
 									method 	     : 'replace',
 									complete     : function(e,c){
@@ -927,15 +928,25 @@
 											index    : i+1
 										});
 
-										if(p.success)
+										if(p.success){
 											p.success({
 												itemName : n,
 												xsl 	 : xslt,
 												xml 	 : p.xml,
 												itemHTML : content
 											});
+										}
+										
+										if((i+1) == p.nodes.length){
+											/*if(p.clicked)
+												p.clicked.removeAttr("disabled","disabled");*/
+											
+											$.IGRP.utils.loading.hide();
+										}
+											
 									},
 									error: function(e){
+										
 										$.IGRP.notify({
 											message : 'Error Transforming Component',
 											type    : 'warning'
@@ -979,6 +990,8 @@
 				headers: {},
 				data  : null
 			}, params);
+			
+			
 
 			$.ajax({
 
@@ -998,7 +1011,7 @@
 						xsl    : xslURL,
 						xml    : xml,
 						nodes  : options.nodes,
-						params : params.success
+						success: options.success
 					});
 				}
 			});
