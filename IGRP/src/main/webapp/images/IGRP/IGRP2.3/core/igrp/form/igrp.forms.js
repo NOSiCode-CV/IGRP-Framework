@@ -195,13 +195,15 @@
   			},
   			
   			hasFieldsError : function(){
-  				if($(':input[required].error')[0]){
+  				if($(':input.error')[0]){
 					var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
 					
 					if(tab[0]){
 						var pre = tab.hasClass('panel-collapse') ? 'pnl-' : '';
 						$('[rel="'+pre+tab.attr('id')+'"] a').click();
 					}
+					
+					$.IGRP.scrollTo($(':input.error:first'));
 				}
 			},
 

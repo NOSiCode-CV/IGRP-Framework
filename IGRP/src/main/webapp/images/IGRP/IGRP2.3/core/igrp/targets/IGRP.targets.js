@@ -250,14 +250,15 @@
 				});
 			}else{
 					$.IGRP.components.form.hasFieldsError();
-
-					$.IGRP.scrollTo($(':input[required].error:first'));
 					
 					p.clicked.removeAttr("disabled","disabled");
 				}
 		};
 		
 		var submitpage2file = function(p){
+			
+			p.clicked.attr('disabled','disabled');
+			
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				events 		= p.clicked[0].events;;
@@ -291,6 +292,8 @@
 									});
 								}
 						}
+						
+						$.IGRP.utils.loading.hide();
 					}
 				});
 
@@ -302,10 +305,9 @@
 					});
 				}
 			}else{
+				p.clicked.removeAttr('disabled','disabled');
 				
 				$.IGRP.components.form.hasFieldsError();
-
-				$.IGRP.scrollTo($(':input[required].error:first'));
 			}
 		};
 		
@@ -1229,7 +1231,9 @@
  					clicked.attr("disabled","disabled");
  					
  					$.IGRP.utils.loading.show();
- 				}
+ 					
+ 				}else
+ 					$.IGRP.components.form.hasFieldsError();
  					
 
  				//return false;
