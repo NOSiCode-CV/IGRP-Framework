@@ -117,8 +117,10 @@ public class LoginController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
 						gt("Ooops !!! Ocorreu um erro com registo session ..."));
 		} else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout."));
-
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout.")); 
+		
+		
+		
 		if (settings.getProperty("igrp.env.isNhaLogin") != null
 				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
 				&& settings.getProperty("igrp.env.nhaLogin.url") != null
@@ -127,7 +129,8 @@ public class LoginController extends Controller {
 					"igrp/login/logout");
 			return redirectToUrl(_url);
 		}
-		// Clear the cookies
+		
+		// Clear the cookies 
 		for (Cookie c : Igrp.getInstance().getRequest().getCookies()) {
 			if (c.getName().equals("igrp_lang"))
 				continue;
@@ -135,7 +138,6 @@ public class LoginController extends Controller {
 			c.setValue(null);
 			Igrp.getInstance().getResponse().addCookie(c);
 		}
-		
 		
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
 		if(r != null && r.equalsIgnoreCase("true")) {
@@ -371,13 +373,13 @@ public class LoginController extends Controller {
 				 * !user.getPass_hash().equals(password))) { user.setPass_hash(password); //
 				 * Anyway !!! update the user's password and encrypt it ... user.update(); }
 				 */
-				/** Begin create user session **/
+				/** Begin create user session **/ 
 				
-				success = createSessionLdapAuthentication(user) && userIsAuthenticatedFlag(user);
+				success = createSessionLdapAuthentication(user) && userIsAuthenticatedFlag(user); 
 				
-				sso(username, password, user);
+				sso(username, password, user); 
 
-				/** End create user session **/
+				/** End create user session **/ 
 
 			} else {
 				if (this.getConfig().getEnvironment().equals("dev")
@@ -583,10 +585,11 @@ public class LoginController extends Controller {
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri");
 			
-			Form postData = new Form();
-			postData.param("grant_type", "authorization_code");
-			postData.param("code", authCode);
-			postData.param("redirect_uri", redirect_uri);
+			Form postData = new Form(); 
+			postData.param("grant_type", "authorization_code"); 
+			postData.param("code", authCode); 
+			postData.param("redirect_uri", redirect_uri); 
+			postData.param("scope", "openid email profile");
 			
 			Client curl = ClientBuilder.newClient();
 			Invocation.Builder ib = curl.target(endpoint).request("application/x-www-form-urlencoded");
@@ -595,7 +598,9 @@ public class LoginController extends Controller {
 			javax.ws.rs.core.Response r = ib.post(Entity.form(postData), javax.ws.rs.core.Response.class);
 			
 			
-			String resultPost = r.readEntity(String.class);
+			String resultPost = r.readEntity(String.class); 
+			
+			System.out.println("resultPost: " + resultPost); 
 			
 			curl.close();
 			
@@ -622,8 +627,8 @@ public class LoginController extends Controller {
 		return null;
 	}
 	
-	private String oAuth2Wso2GetUserInfoByToken(String token) {
-		String uid = null; 
+	private Map<String, String> oAuth2Wso2GetUserInfoByToken(String token) {
+		Map<String, String> uid = null;
 		try {
 			
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.user");
@@ -637,15 +642,22 @@ public class LoginController extends Controller {
 			
 			int code = r.getStatus();
 			
+			System.out.println("statusCode uid: " + code); 
+			
 			if(code != 200) return uid; 
 			
 			String result = r.readEntity(String.class); 
 			
 			curl.close();
+			
+			System.out.println("result: " + result); 
 
 			JSONObject jToken = new JSONObject(result); 
 			
-			uid = jToken.getString("sub");
+			uid = new HashMap<String, String>();
+			
+			uid.put("sub", jToken.getString("sub")); 
+			uid.put("email", jToken.getString("email")); 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -682,11 +694,14 @@ public class LoginController extends Controller {
 			
 			if(token != null) {
 				
-				String uid = oAuth2Wso2GetUserInfoByToken(token);
+				Map<String, String> _r = oAuth2Wso2GetUserInfoByToken(token);
 				
-				if(uid != null) {
+				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
 					
-					User user = new User().find().where("user_name", "=", uid).orWhere("email", "=", uid).one(); 
+					String email = _r.get("email"); 
+					String uid = _r.get("sub"); 
+					
+					User user = new User().find().andWhere("email", "=", email).one(); 
 					
 					if (user != null) {
 						
@@ -711,8 +726,7 @@ public class LoginController extends Controller {
 								
 								User newUser = new User();
 								newUser.setUser_name(uid);
-								if(!uid.contains("@"))
-									newUser.setEmail(uid + "@nosi.cv"); 
+								newUser.setEmail(email); 
 								newUser.setName(uid);
 								newUser.setStatus(1);
 								newUser.setIsAuthenticated(1);
@@ -723,11 +737,7 @@ public class LoginController extends Controller {
 			
 								newUser = newUser.insert(); 
 								
-								boolean flag1 = createPerfilWhenAutoInvite(newUser); 
-								boolean flag2 = createSessionLdapAuthentication(newUser);
-								boolean flag3 = newUser != null;
-								
-								if(newUser != null && flag1 && flag2) { 
+								if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) { 
 									newUser.setValid_until(token);
 									newUser.setOidcIdToken(id_token);
 									newUser.setOidcState(session_state);
@@ -776,10 +786,14 @@ public class LoginController extends Controller {
 		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
-			url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;
-		return redirectToUrl(url); 
+			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
+		
+			System.out.println("Url: " + url); 
+			
+			return redirectToUrl(url); 
+			
 		}
-		return null;
+		return null; 
 	}
 	
 	private String createUrlForOAuth2OpenIdRequest() {
