@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -24,16 +26,15 @@ public class Alter_prioridade_tarefaController extends Controller {
 		listPrioridade.put("100", "Urgente");
 		listPrioridade.put("50", "Médio");
 		listPrioridade.put("0", "Normal");
-		
+		TaskServiceIGRP taskRest = new TaskServiceIGRP();
 		Alter_prioridade_tarefa model = new Alter_prioridade_tarefa();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		if(id!=null && !id.equals("")){
-			TaskService task = new TaskService().getTask(id);
+			TaskService task = taskRest.getTask(id);
 			if(task!=null){
 				model.setData_criacao_da_tarefa(task.getCreateTime().toString());
 				model.setData_inicio_da_tarefa(task.getCreateTime().toString());
-//				model.setData_fim_da_tarefa(task.getDueDate().toString());
 				model.setDescricao_da_tarefa(task.getDescription());
 				model.setPrioridade_da_tarefa(listPrioridade.get(""+task.getPriority()).toString());
 				model.setTarefa_atribuida_a(task.getAssignee());
@@ -42,7 +43,6 @@ public class Alter_prioridade_tarefaController extends Controller {
 				model.setNumero_de_processo(task.getProcessDefinitionId());
 				model.setTipo_de_processo(task.getName());
 				model.setData_criacao_do_processo(task.getCreateTime().toString());
-//				model.setData_fim_do_processo(task.getDueDate().toString());
 				model.setP_id(id);
 			}
 		}
@@ -52,17 +52,17 @@ public class Alter_prioridade_tarefaController extends Controller {
 		view.nova_prioridade.setValue(listPrioridade);
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
-			TaskService task = new TaskService().getTask(model.getP_id());
+			TaskService task = taskRest.getTask(model.getP_id());
 			if(task!=null){
 				task.setPriority(Integer.parseInt(model.getNova_prioridade()));
-				task = task.update(task);
+				task = taskRest.getTaskServiceRest().update(task);
 				if(task!=null){
 					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Prioridade da tarefa alterada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta opera��o"));				
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta opera��o"));				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 			}
 		}
 		if(type!=null && type.equalsIgnoreCase("view")){

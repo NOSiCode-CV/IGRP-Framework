@@ -19,9 +19,10 @@ import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.page.Page;
-import nosi.core.webapp.activit.rest.TaskService;
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
-import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.entities.TaskVariableDetails;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNButton;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNHelper;
@@ -180,13 +181,14 @@ public class Controller{
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		if(Core.isNotNull(runtimeTask)) {
+			TaskServiceRest taskService = new TaskServiceRest();
 			String taskId = runtimeTask.getTask().getId();
 			if(runtimeTask.isSaveButton()) {
 				xml.addXml(BPMNButton.generateButtonBack().toString());
 				xml.addXml(BPMNButton.generateButtonTask("igrp",ac.getApplication().getId(),"ExecucaoTarefas","process-task", taskId).toString());
 			}
-			ViewTaskDetails details = this.getTaskDetails(taskId);
-			xml.addXml(this.getTaskViewDetails(details));
+			ViewTaskDetails details = this.getTaskDetails(taskService,taskId);
+			xml.addXml(this.getTaskViewDetails(taskService,details));
 			xml.addXml(content);
 			xml.addXml(this.getDocument(runtimeTask,bpmn,ac,details.getUserName()));
 			if(m!=null){
@@ -198,17 +200,17 @@ public class Controller{
 		return resp;
 	}
 
-	private String getTaskViewDetails(ViewTaskDetails details) {		
+	private String getTaskViewDetails(TaskServiceRest taskService,ViewTaskDetails details) {		
 		IGRPView viewTD = ViewTaskDetails.get(details);
 		return  viewTD.toString();
 	}
 
-	private ViewTaskDetails getTaskDetails(String taskId) {
+	private ViewTaskDetails getTaskDetails(TaskServiceRest taskService,String taskId) {
 		ViewTaskDetails details = new ViewTaskDetails();
 		Object obj = Core.getAttributeObject(BPMNConstants.PRM_TASK_OBJ, true);
 		if(Core.isNotNull(obj)) {	
 			TaskServiceQuery task = (TaskServiceQuery) obj;	
-			List<TaskVariables.TaskVariableDetails> v = task.queryHistoryTaskVariables(task.getId());
+			List<TaskVariableDetails> v = taskService.queryHistoryTaskVariables(task.getId());
 			String prof_id = v.stream().filter(var->var.getPropertyId().equals("profile")).findFirst().get().getPropertyValue();		
 			ProfileType prof = new ProfileType().findOne(Core.toInt(prof_id));
 			String userName = v.stream().filter(var->var.getPropertyId().equals("userName")).findFirst().get().getPropertyValue();
@@ -223,7 +225,7 @@ public class Controller{
 			details.setUserName(userName);
 			return details;
 		}
-		TaskService task = new TaskService().getTask(taskId);
+		TaskService task = new TaskServiceRest().getTask(taskId);
 		if(task!=null) {
 			details.setnProcess(task.getProcessInstanceId());
 			details.setnTask(taskId);

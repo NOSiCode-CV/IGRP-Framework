@@ -5,8 +5,9 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.bpmn.BPMNConstants;
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.webapps.igrp.pages.dash_board_processo.Dash_board_processo.Table_2;
@@ -73,7 +74,7 @@ public class Dash_board_processoController extends Controller {
 
 	private List<Table_2> getRepositoryProcess() {
 		List<Dash_board_processo.Table_2> listProcess = new ArrayList<>();
-		for(ProcessDefinitionService process:new ProcessDefinitionService().getMyProcessDefinitions(Core.getCurrentApp().getDad())){
+		for(ProcessDefinitionService process:new ProcessDefinitionIGRP().getMyProcessDefinitions()){
 			Dash_board_processo.Table_2 t2 = new Dash_board_processo.Table_2();
 			t2.setNome_processo(process.getName());
 			t2.setProcess_id(process.getId());

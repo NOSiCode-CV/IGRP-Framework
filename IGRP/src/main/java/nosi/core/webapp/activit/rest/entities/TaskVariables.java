@@ -1,11 +1,14 @@
-package nosi.core.webapp.activit.rest;
-
+package nosi.core.webapp.activit.rest.entities;
 /**
- * @author: Emanuel Pereira
- * 27 Sep 2017
+ * Emanuel
+ * 14 May 2019
  */
-public class TaskVariables {
+public class TaskVariables  implements java.io.Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String scope;
 	private String type;
@@ -61,24 +64,5 @@ public class TaskVariables {
 	public String toString() {
 		return "TaskVariables [name=" + name + ", scope=" + scope + ", type=" + type + ", value=" + value
 				+ ", valueUrl=" + valueUrl + "]";
-	}
-
-	public static class TaskVariableDetails{
-		private String propertyId;
-        private String propertyValue;
-        
-		public String getPropertyId() {
-			return propertyId;
-		}
-		public void setPropertyId(String propertyId) {
-			this.propertyId = propertyId;
-		}
-		public String getPropertyValue() {
-			return propertyValue;
-		}
-		public void setPropertyValue(String propertyValue) {
-			this.propertyValue = propertyValue;
-		}
-        
 	}
 }

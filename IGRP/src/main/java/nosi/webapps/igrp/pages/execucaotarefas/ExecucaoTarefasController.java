@@ -5,11 +5,8 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.RuntimeTask;
-import nosi.core.webapp.activit.rest.HistoricTaskService;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.pages.execucaotarefas.ExecucaoTarefas.Table_disponiveis;
@@ -21,6 +18,11 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.helpers.DateHelper;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 /*----#end-code----*/
 		
 public class ExecucaoTarefasController extends Controller {
@@ -414,7 +416,7 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","ExecucaoTarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(leberar_tarefa_button_minha_tarefas)----*/
 		String id = Core.getParam("p_id");
-		if (Core.isNotNull(id) && new TaskService().freeTask(id)) {
+		if (Core.isNotNull(id) && taskServiceRest.freeTask(id)) {
 			Core.setMessageSuccess(Core.gt("Tarefa liberada com sucesso"));
 		} else {
 			Core.setMessageError();
@@ -439,7 +441,7 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","ExecucaoTarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(assumir_button_tabela)----*/
 		String id = Core.getParam("p_p_id_d");
-		if (Core.isNotNull(id) && new TaskService().claimTask(id, Core.getCurrentUser().getUser_name())) {
+		if (Core.isNotNull(id) && taskServiceRest.claimTask(id, Core.getCurrentUser().getUser_name())) {
 			Core.setMessageSuccess(Core.gt("Tarefa assumido com sucesso"));
 		} else {
 			Core.setMessageError();
@@ -491,7 +493,6 @@ public class ExecucaoTarefasController extends Controller {
 	}
 
 	private List<TaskService> applyFiler(ExecucaoTarefas model,int type) {
-		TaskService objTask = new TaskService();
 		String proc_tp = null, num_proc = null, status = null, data_inicio = null, data_fim = null, prioridade = null;
 		int btn_search = Core.getParamInt("btn_search");
 		switch (btn_search) {
@@ -533,30 +534,30 @@ public class ExecucaoTarefasController extends Controller {
 				break;
 		}
 		if (Core.isNotNull(proc_tp)) {
-			objTask.addFilter("processDefinitionId", proc_tp);
+			taskServiceBO.addFilterUrl("processDefinitionId", proc_tp);
 		}
 		if (Core.isNotNull(num_proc)) {
-			objTask.addFilter("processInstanceId", num_proc);
+			taskServiceBO.addFilterUrl("processInstanceId", num_proc);
 		}
 		if (Core.isNotNull(status)) {
-			objTask.addFilter("finished", status);
+			taskServiceBO.addFilterUrl("finished", status);
 		}
 		if (Core.isNotNull(prioridade)) {
-			objTask.addFilter("taskPriority", prioridade);
+			taskServiceBO.addFilterUrl("taskPriority", prioridade);
 		}
 		List<TaskService> tasks = null;
 		switch (type) {
 			case AVAILABLE:
-				tasks = objTask.getAvailableTasks();
+				tasks = taskServiceBO.getAvailableTasks();
 				break;
 			case CONTRIBUTOR:
-				tasks = objTask.getMabageTasks();
+				tasks = taskServiceBO.getMabageTasks();
 				break;
 			case MANAGE_TASK:
-				tasks = objTask.getMabageTasks();
+				tasks = taskServiceBO.getMabageTasks();
 				break;
 			case MY_TASK:
-				tasks = objTask.getMyTasks();
+				tasks = taskServiceBO.getMyTasks();
 				break;
 			case STATISTIC:
 				//por implementar
@@ -566,17 +567,17 @@ public class ExecucaoTarefasController extends Controller {
 			final String d_i = data_inicio;
 			final String d_f = data_fim;
 			tasks = tasks.stream()
-						 .filter(t->t.compareDate(t.getCreateTime(), d_i,(d1,d2)->d1.compareTo(d2)>=0))
-						 .filter(t->t.compareDate(t.getDueDate(), d_f,(d1,d2)->d1.compareTo(d2)<=0))
+						 .filter(t->DateHelper.compareDate(t.getCreateTime(), d_i,(d1,d2)->d1.compareTo(d2)>=0))
+						 .filter(t->DateHelper.compareDate(t.getDueDate(), d_f,(d1,d2)->d1.compareTo(d2)<=0))
 						 .collect(Collectors.toList());
 		}else {
 			if(Core.isNotNull(data_inicio)) {
 				final String d_i = data_inicio;
-				tasks = tasks.stream().filter(t->t.compareDate(t.getCreateTime(), d_i,(d1,d2)->d1.compareTo(d2)==0)).collect(Collectors.toList());
+				tasks = tasks.stream().filter(t->DateHelper.compareDate(t.getCreateTime(), d_i,(d1,d2)->d1.compareTo(d2)==0)).collect(Collectors.toList());
 			}
 			if(Core.isNotNull(data_fim)) {
 				final String d_f = data_fim;
-				tasks = tasks.stream().filter(t->t.compareDate(t.getDueDate(), d_f,(d1,d2)->d1.compareTo(d2)==0)).collect(Collectors.toList());
+				tasks = tasks.stream().filter(t->DateHelper.compareDate(t.getDueDate(), d_f,(d1,d2)->d1.compareTo(d2)==0)).collect(Collectors.toList());
 			}
 		}
 		return tasks ;
@@ -630,7 +631,7 @@ public class ExecucaoTarefasController extends Controller {
 			t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
 			t.setDesc_tarefa_tabela_minhas_tarefas(
 					task.getDescription() != null ? task.getDescription() : task.getName());
-			t.setTipo_tabela_minhas_tarefas(listProc.get(task.getProcessDefinitionId()));
+			t.setTipo_tabela_minhas_tarefas(task.getProcessName());
 			t.setId(task.getId());
 			t.setN_tarefa_m(task.getProcessInstanceId());
 			t.setData_fim_m(task.getDueDate() != null ? task.getDueDate().toString() : "");
@@ -656,7 +657,7 @@ public class ExecucaoTarefasController extends Controller {
 		return tasksDisponiveis;
 	}
 
-	private Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
+	private Map<String, String> listProc = new HashMap<>();//new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
 	private static final int MANAGE_TASK = 0;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;
@@ -664,10 +665,9 @@ public class ExecucaoTarefasController extends Controller {
 	private static final int AVAILABLE = 4;
 	
 	private RuntimeTask getRuntimeTask(String taskId) {
-		TaskService task = new TaskService().getTask(taskId);
+		TaskService task = taskServiceRest.getTask(taskId);
 		if (task != null) {
-			List<HistoricTaskService> hts = new HistoricTaskService()
-					.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
+			List<HistoricTaskService> hts = taskServiceRest.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
 			hts = hts.stream().filter(h -> !h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()))
 					.collect(Collectors.toList());
 			String previewTask = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTaskDefinitionKey()
@@ -686,5 +686,7 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		return null;
 	}
+	private TaskServiceRest taskServiceRest = new TaskServiceRest();
+	private TaskServiceIGRP taskServiceBO = new TaskServiceIGRP();
 	/*----#end-code----*/
 }

@@ -3,7 +3,7 @@ package nosi.core.webapp.bpmn;
 import java.io.Serializable;
 
 import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
 
 /**
  * Emanuel
