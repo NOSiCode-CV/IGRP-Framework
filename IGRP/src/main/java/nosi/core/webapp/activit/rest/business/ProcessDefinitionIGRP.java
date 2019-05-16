@@ -22,6 +22,10 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	}
 
 	public List<ProcessDefinitionService> getMyProcessDefinitions() {
+		return this.getMyProcessDefinitions(Core.getCurrentApp().getDad());
+	}
+	
+	public List<ProcessDefinitionService> getMyProcessDefinitions(String dadApp) {
 		List<ProcessDefinitionService> list = processDefinitionServiceRest
 				.getProcessDefinitionsAtivos(Core.getCurrentApp().getDad());
 		list = list.stream().filter(p -> this.filterAccess(p)).collect(Collectors.toList());
@@ -29,7 +33,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	}
 
 	public Map<String, String> mapToComboBox(String dadApp) {
-		List<ProcessDefinitionService> list = processDefinitionServiceRest.getProcessDefinitionsAtivos(dadApp);
+		List<ProcessDefinitionService> list = this.getMyProcessDefinitions(dadApp);
 		Map<String, String> map = new HashMap<>();
 		map.put(null, "--- Selecionar Processo ----");
 		map.putAll(list.stream()
@@ -38,7 +42,7 @@ public class ProcessDefinitionIGRP extends GenericActivitiIGRP {
 	}
 
 	public Map<String, String> mapToComboBoxByKey(String dadApp) {
-		List<ProcessDefinitionService> list = processDefinitionServiceRest.getProcessDefinitionsAtivos(dadApp);
+		List<ProcessDefinitionService> list = this.getMyProcessDefinitions(dadApp);
 		Map<String, String> map = new HashMap<>();
 		map.put(null, "--- Selecionar Processo ----");
 		map.putAll(list.stream()
