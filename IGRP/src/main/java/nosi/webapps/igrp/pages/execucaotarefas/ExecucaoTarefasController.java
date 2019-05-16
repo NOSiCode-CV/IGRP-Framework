@@ -416,7 +416,7 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","ExecucaoTarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(leberar_tarefa_button_minha_tarefas)----*/
 		String id = Core.getParam("p_id");
-		if (Core.isNotNull(id) && taskServiceRest.freeTask(id)) {
+		if (Core.isNotNull(id) && new TaskServiceRest().freeTask(id)) {
 			Core.setMessageSuccess(Core.gt("Tarefa liberada com sucesso"));
 		} else {
 			Core.setMessageError();
@@ -441,7 +441,7 @@ public class ExecucaoTarefasController extends Controller {
 		 return this.forward("igrp","ExecucaoTarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(assumir_button_tabela)----*/
 		String id = Core.getParam("p_p_id_d");
-		if (Core.isNotNull(id) && taskServiceRest.claimTask(id, Core.getCurrentUser().getUser_name())) {
+		if (Core.isNotNull(id) && new TaskServiceRest().claimTask(id, Core.getCurrentUser().getUser_name())) {
 			Core.setMessageSuccess(Core.gt("Tarefa assumido com sucesso"));
 		} else {
 			Core.setMessageError();
@@ -495,6 +495,7 @@ public class ExecucaoTarefasController extends Controller {
 	private List<TaskService> applyFiler(ExecucaoTarefas model,int type) {
 		String proc_tp = null, num_proc = null, status = null, data_inicio = null, data_fim = null, prioridade = null;
 		int btn_search = Core.getParamInt("btn_search");
+		TaskServiceIGRP taskServiceBO = new TaskServiceIGRP();
 		switch (btn_search) {
 			case AVAILABLE:
 				proc_tp = model.getTipo_processo_form_disponiveis();
@@ -548,6 +549,7 @@ public class ExecucaoTarefasController extends Controller {
 		List<TaskService> tasks = null;
 		switch (type) {
 			case AVAILABLE:
+				taskServiceBO.clearFilterUrl();
 				tasks = taskServiceBO.getAvailableTasks();
 				break;
 			case CONTRIBUTOR:
@@ -585,7 +587,6 @@ public class ExecucaoTarefasController extends Controller {
 
 	private void showTabManage(ExecucaoTarefasView view, boolean isVisible) {
 		view.gerir_tarefas.setVisible(isVisible);
-		;
 		view.colaboradores.setVisible(isVisible);
 	}
 
@@ -665,9 +666,9 @@ public class ExecucaoTarefasController extends Controller {
 	private static final int AVAILABLE = 4;
 	
 	private RuntimeTask getRuntimeTask(String taskId) {
-		TaskService task = taskServiceRest.getTask(taskId);
+		TaskService task = new TaskServiceIGRP().getTask(taskId);
 		if (task != null) {
-			List<HistoricTaskService> hts = taskServiceRest.getHistoryOfProccessInstanceId(task.getProcessInstanceId());
+			List<HistoricTaskService> hts = new TaskServiceRest().getHistoryOfProccessInstanceId(task.getProcessInstanceId());
 			hts = hts.stream().filter(h -> !h.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()))
 					.collect(Collectors.toList());
 			String previewTask = (hts != null && hts.size() > 0) ? hts.get(hts.size() - 1).getTaskDefinitionKey()
@@ -686,7 +687,5 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		return null;
 	}
-	private TaskServiceRest taskServiceRest = new TaskServiceRest();
-	private TaskServiceIGRP taskServiceBO = new TaskServiceIGRP();
 	/*----#end-code----*/
 }
