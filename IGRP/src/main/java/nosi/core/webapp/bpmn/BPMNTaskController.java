@@ -150,6 +150,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		Core.setMessageSuccess();
 		this.saveStartProcess(st.getId(),st.getProcessDefinitionKey(),"start","start",st.getProcessDefinitionId());
 		TaskServiceIGRP task = new TaskServiceIGRP();
+		task.clearFilterUrl();
 		task.addFilterUrl("processDefinitionId", processDefinitionId);
 		task.addFilterUrl("processInstanceId", st.getId());
 		List<TaskService> tasks = task.getAvailableTasks();

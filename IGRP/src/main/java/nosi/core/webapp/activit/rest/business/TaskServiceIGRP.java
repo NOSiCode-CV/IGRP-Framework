@@ -43,7 +43,6 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 
 
 	public List<TaskService> getAvailableTasks() {
-		taskServiceRest.clearFilterUrl();
 		taskServiceRest.addFilterUrl("unassigned", "true");
 		List<TaskService> tasks =  taskServiceRest.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
