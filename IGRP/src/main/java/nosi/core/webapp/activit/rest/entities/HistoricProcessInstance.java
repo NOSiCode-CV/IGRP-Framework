@@ -1,23 +1,17 @@
-package nosi.core.webapp.activit.rest;
+package nosi.core.webapp.activit.rest.entities;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import javax.ws.rs.core.Response;
-import com.google.gson.reflect.TypeToken;
-import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.webservices.helpers.ResponseConverter;
-import nosi.core.webapp.webservices.helpers.ResponseError;
-import nosi.core.webapp.webservices.helpers.RestRequest;
 
 /**
  * Emanuel
  * 12 Jun 2018
  */
-public class HistoricProcessInstance extends Activit{
+public class HistoricProcessInstance extends Activiti implements java.io.Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String processDefinitionId;
 	private String processDefinitionUrl;
 	private String businessKey;
@@ -32,44 +26,6 @@ public class HistoricProcessInstance extends Activit{
     private List<TaskVariables> variables;
     private String tenantId;
            
-   	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey){
-    	return this.getHistoryOfProccessInstanceId(processDefinitionKey, false);
-   	}
-        
-   	public List<HistoricProcessInstance> getHistoryOfProccessInstanceIdFinished(String processDefinitionKey){
-    	return this.getHistoryOfProccessInstanceId(processDefinitionKey, true);
-   	}	
-
-    @SuppressWarnings("unchecked")
-   	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,boolean isFinished ){
-    	List<HistoricProcessInstance> d = new ArrayList<>();
-   		RestRequest request = new RestRequest();
-   		Response response = request.get("history/historic-process-instances?processDefinitionKey="+processDefinitionKey+"&includeProcessVariables=true"+(isFinished?"&finished=true":""));
-   		if(response!=null){
-   			String contentResp = "";
-   			InputStream is = (InputStream) response.getEntity();
-   			try {
-   				contentResp = FileHelper.convertToString(is);
-   			} catch (IOException e) {
-   				e.printStackTrace();
-   			}
-   			if(Response.Status.OK.getStatusCode() == response.getStatus()){		
-   				HistoricProcessInstance dep = (HistoricProcessInstance) ResponseConverter.convertJsonToDao(contentResp,HistoricProcessInstance.class);
-   				this.setTotal(dep.getTotal());
-   				this.setSize(dep.getSize());
-   				this.setSort(dep.getSort());
-   				this.setOrder(dep.getOrder());
-   				this.setStart(dep.getStart());
-   				d = (List<HistoricProcessInstance>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<HistoricProcessInstance>>(){}.getType());
-				this.setMyProccessAccess();
-   				d = d.stream().filter(p->this.myproccessId.contains(p.getId())).collect(Collectors.toList());
-   			}else{
-   				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-   			}
-   		}
-   		return d;
-    }
-    
     
    	public String getProcessDefinitionId() {
 		return processDefinitionId;

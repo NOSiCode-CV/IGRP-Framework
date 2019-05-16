@@ -8,7 +8,8 @@ import java.lang.reflect.Method;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 import nosi.core.webapp.bpmn.BPMNConstants;
 /*----#END-PRESERVED-AREA----*/
 
@@ -19,20 +20,20 @@ public class Detalhes_tarefasController extends Controller {
 		String taskId = Core.getParam(BPMNConstants.PRM_TASK_ID);
 		String processDefinitionKey = Core.getParam(BPMNConstants.PRM_PROCESS_DEFINITION_KEY);
 		String taskDefinitionKey = Core.getParam(BPMNConstants.PRM_TASK_DEFINITION_KEY);
-		TaskServiceQuery taskS = new TaskServiceQuery();
+
+		TaskServiceIGRP taskQuery = new TaskServiceIGRP();
 		if(Core.isNotNull(taskId)) {
-			taskS.addFilter("taskId", taskId);
+			taskQuery.addFilterBody("taskId", taskId);
 		}
 		if(Core.isNotNull(processDefinitionKey)) {
-			taskS.addFilter("processDefinitionKey", processDefinitionKey);
+			taskQuery.addFilterBody("processDefinitionKey", processDefinitionKey);
 		}
 		if(Core.isNotNull(taskDefinitionKey)) {
-			taskS.addFilter("taskDefinitionKey", taskDefinitionKey);
+			taskQuery.addFilterBody("taskDefinitionKey", taskDefinitionKey);
 		}
-		taskS.addFilter("includeProcessVariables", "true");
+		taskQuery.addFilterBody("includeProcessVariables", "true");
 		String content = "";
-		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
-			task.proccessDescription(task.getProcessDefinitionUrl());
+		for(TaskServiceQuery task:taskQuery.queryHistoryTask()) {
 			content = generateCustomFormTask(task);
 			break;//because for unique task
 		}

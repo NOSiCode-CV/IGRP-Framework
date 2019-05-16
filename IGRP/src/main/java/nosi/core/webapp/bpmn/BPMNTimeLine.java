@@ -14,10 +14,12 @@ import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ResourceService;
-import nosi.core.webapp.activit.rest.TaskService;
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 
 public class BPMNTimeLine {
 	private int countTask=0;
@@ -62,15 +64,15 @@ public class BPMNTimeLine {
 		this.url = new Config().getResolveUrl("igrp", "Detalhes_tarefas", "index");
 		String processDefinition = Core.getParam("processDefinitionId");
 		String taskId = Core.getParam("taskId");
-		TaskService taskS = new TaskService().getTask(taskId);		
-		ProcessDefinitionService p = new ProcessDefinitionService().getProcessDefinition(processDefinition);
+		TaskService taskS = new TaskServiceIGRP().getTask(taskId);		
+		ProcessDefinitionService p = new ProcessDefinitionServiceRest().getProcessDefinition(processDefinition);
 		String link = p.getResource().replace("/resources/", "/resourcedata/");
-		String resource = new ResourceService().getResourceData(link);
-		TaskServiceQuery taskSQ = new TaskServiceQuery();
-		taskSQ.addFilter("finished", "true");
-		taskSQ.addFilter("processDefinitionId", processDefinition);
+		String resource = new ResourceServiceRest().getResourceData(link);
+		TaskServiceRest taskSQ = new TaskServiceRest();
+		taskSQ.addFilterBody("finished", "true");
+		taskSQ.addFilterBody("processDefinitionId", processDefinition);
 		if(taskS != null)
-			taskSQ.addFilter("executionId", taskS.getExecutionId());
+			taskSQ.addFilterBody("executionId", taskS.getExecutionId());
 		try {
 		taskSQ.queryHistoryTask()
 					    .stream()
@@ -87,7 +89,7 @@ public class BPMNTimeLine {
 			e.printStackTrace();
 		}
 		System.out.println(resource);
-		List<TaskService> tasks = p.extractTasks(resource,false);
+		List<TaskService> tasks = taskSQ.extractTasks(resource,false);
 		List<TaskTimeLine> list = new ArrayList<>();
 		tasks.stream().forEach(task->{
 			TaskTimeLine t = new TaskTimeLine();

@@ -50,13 +50,15 @@ import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.mail.EmailMessage;
-import nosi.core.webapp.activit.rest.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.HistoricProcessInstance;
-import nosi.core.webapp.activit.rest.HistoricTaskService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
-import nosi.core.webapp.activit.rest.Rows;
-import nosi.core.webapp.activit.rest.TaskService;
-import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
+import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
+import nosi.core.webapp.activit.rest.entities.Rows;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.entities.TaskVariables;
+import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.databse.helpers.QueryDelete;
@@ -142,26 +144,6 @@ public final class Core { // Not inherit
 		IGRPForm.hiddenFields.add(f);
 	}
 
-	/**
-	 * Add variable of type long to the process task
-	 * 
-	 * @param taskDefinitionKey identification of task
-	 * @param variableName      name of parameter
-	 * @param value             value of parameter
-	 */
-	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-		if (Core.isNotNull(taskId)) {
-			TaskService task = new TaskService().getTask(taskId);
-			task.setId(taskId);
-			task.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
-			task.submitVariables();
-			ProcessInstancesService p = new ProcessInstancesService();
-			p.setId(task.getProcessInstanceId());
-			p.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
-			p.submitVariables();
-		}
-	}
 
 	/**
 	 * set attibute in session
@@ -915,17 +897,7 @@ public final class Core { // Not inherit
 		return "9";
 	}
 
-	public static String getExecutionId() {
-		String taskId = Core.getParamTaskId();
-		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
-		if (Core.isNull(taskExecutionId)) {
-			List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
-			taskExecutionId = (task != null && task.size() > 0) ? task.get(task.size() - 1).getExecutionId()
-					: taskExecutionId;
-		}
-		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
-		return taskExecutionId;
-	}
+
 
 	public static CLob getFile(int fileId) {
 		CLob cLob = null;
@@ -1001,21 +973,6 @@ public final class Core { // Not inherit
 		return "4";
 	}
 
-	public static String getJsonParams() {
-		Map<String, String[]> params = Igrp.getInstance().getRequest().getParameterMap();
-		CustomVariableIGRP customV = new CustomVariableIGRP();
-		Gson gson = new Gson();
-		params.entrySet().stream().filter(p -> !p.getKey().equalsIgnoreCase("r"))
-				.filter(p -> !p.getKey().equalsIgnoreCase("prm_app"))
-				.filter(p -> !p.getKey().equalsIgnoreCase("prm_page")).forEach(p -> {
-					Rows row = new Rows();
-					row.setName(p.getKey());
-					row.setValue((Object[]) p.getValue());
-					customV.add(row);
-				});
-		String json = gson.toJson(customV);
-		return json;
-	}
 
 	/**
 	 * Link for get file
@@ -1311,35 +1268,7 @@ public final class Core { // Not inherit
 	public static String getPinkColor() {
 		return "1";
 	}
-
-	public static String getProcessVariable(String processDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
-	public static String getProcessVariableId(String processDefinitionKey) {
-		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase("p_process_id"))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
-	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
-		List<HistoricProcessInstance> task1 = new HistoricProcessInstance()
-				.getHistoryOfProccessInstanceId(processDefinitionKey);
-		if (task1 != null && task1.size() > 0) {
-			return task1.get(task1.size() - 1).getVariables();
-		}
-		return null;
-	}
+	
 
 	public static String getPurpleColor() {
 		return "6";
@@ -1368,18 +1297,7 @@ public final class Core { // Not inherit
 		}
 		return "";
 	}
-
-	public static HistoricTaskService getTaskHistory(String taskDefinitionKey) {
-		String id = Core.getExecutionId();
-		if (Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey, id);
-			if (task1 != null && task1.size() > 0) {
-				return task1.get(task1.size() - 1);
-			}
-		}
-		return null;
-	}
-
+	
 	/**
 	 * Get UUID
 	 * 
@@ -2183,6 +2101,127 @@ public final class Core { // Not inherit
 		nosi.core.servlet.IgrpServlet.LOGGER.warn(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));
 	}
+	/**
+	 * For activiti integration
+	 *
+	 */
+	public static String getExecutionId() {
+		String taskId = Core.getParamTaskId();
+		String taskExecutionId = Core.getParam(BPMNConstants.PRM_TASK_EXECUTION_ID);
+		if (Core.isNull(taskExecutionId)) {
+			List<HistoricTaskService> task = new TaskServiceIGRP().getTaskServiceRest().getHistory(taskId);
+			taskExecutionId = (task != null && task.size() > 0) ? task.get(task.size() - 1).getExecutionId()
+					: taskExecutionId;
+		}
+		Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, taskExecutionId);
+		return taskExecutionId;
+	}
+	
+	public static String getJsonParams() {
+		Map<String, String[]> params = Igrp.getInstance().getRequest().getParameterMap();
+		CustomVariableIGRP customV = new CustomVariableIGRP();
+		Gson gson = new Gson();
+		params.entrySet().stream().filter(p -> !p.getKey().equalsIgnoreCase("r"))
+				.filter(p -> !p.getKey().equalsIgnoreCase("prm_app"))
+				.filter(p -> !p.getKey().equalsIgnoreCase("prm_page")).forEach(p -> {
+					Rows row = new Rows();
+					row.setName(p.getKey());
+					row.setValue((Object[]) p.getValue());
+					customV.add(row);
+				});
+		String json = gson.toJson(customV);
+		return json;
+	}
+	
+	public static String getProcessVariable(String processDefinitionKey, String variableName) {
+		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
+
+	public static String getProcessVariableId(String processDefinitionKey) {
+		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase("p_process_id"))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
+
+	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
+		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
+				.getHistoryOfProccessInstanceId(processDefinitionKey);
+		if (task1 != null && task1.size() > 0) {
+			return task1.get(task1.size() - 1).getVariables();
+		}
+		return null;
+	}
+
+	public static HistoricTaskService getTaskHistory(String taskDefinitionKey) {
+		String id = Core.getExecutionId();
+		if (Core.isNotNull(id)) {
+			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
+			if (task1 != null && task1.size() > 0) {
+				return task1.get(task1.size() - 1);
+			}
+		}
+		return null;
+	}
+
+	public static Object unnserializeFromTask(Object obj, String json)
+			throws IllegalArgumentException, IllegalAccessException {
+		CustomVariableIGRP rows = new Gson().fromJson(json, CustomVariableIGRP.class);
+		for (java.lang.reflect.Field f : obj.getClass().getDeclaredFields()) {
+			f.setAccessible(true);
+			rows.getRows().stream().filter(r -> r.getName().equalsIgnoreCase("p_" + f.getName())).forEach(r -> {
+				IgrpHelper.setField(obj, f, r.getValue());
+			});
+		}
+		return (Object) obj;
+	}
+
+	public static void setTaskVariable(String variableName, String scope, String type, Object value) {
+		String taskId = Core.getParamTaskId();
+		TaskServiceRest taskRest = new TaskServiceRest();
+		TaskService task = taskRest.getTask(taskId);
+		if (task != null) {
+			if (scope.equalsIgnoreCase("global"))
+				new ProcessInstanceServiceRest().deleteVariable(task.getProcessInstanceId(),task.getTaskDefinitionKey()+"_"+variableName);
+			taskRest.addVariable(task.getTaskDefinitionKey()+"_"+variableName, scope, type, value);
+			taskRest.submitVariables(taskId);
+		}
+	}
+
+	public static String getTaskVariable(String variableName) {
+		if (Core.isNull(variableName))
+			return "";
+		String id = getParamTaskId();
+		TaskService task = new TaskServiceRest().getTask(id);
+		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? ""+ var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
+
+	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
+		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
+		if (vars != null) {
+			List<TaskVariables> var = vars.stream()
+					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
+					.collect(Collectors.toList());
+			return (var != null && var.size() > 0) ? ""+var.get(var.size() - 1).getValue() : "";
+		}
+		return "";
+	}
 
 	public static void setTaskVariableString(String variableName, String value) {
 		setTaskVariable(variableName, "global", "string", value);
@@ -2255,44 +2294,7 @@ public final class Core { // Not inherit
 	public static void setTaskVariableSerializable(String variableName, String scope, Object value) {
 		setTaskVariable(variableName, scope, "serializable", value);
 	}
-
-	public static void setTaskVariable(String variableName, String scope, String type, Object value) {
-		String taskId = Core.getParamTaskId();
-		TaskService task = new TaskService().getTask(taskId);
-		if (task != null) {
-			if (scope.equalsIgnoreCase("global"))
-				task.deleteVariable(task.getTaskDefinitionKey()+"_"+variableName);
-			task.addVariable(task.getTaskDefinitionKey()+"_"+variableName, scope, type, value);
-			task.submitVariables();
-		}
-	}
-
-	public static String getTaskVariable(String variableName) {
-		if (Core.isNull(variableName))
-			return "";
-		String id = getParamTaskId();
-		TaskService task = new TaskService().getTask(id);
-		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(task.getTaskDefinitionKey() + "_" + variableName))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? ""+ var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
-	public static String getTaskVariable(String taskDefinitionKey, String variableName) {
-		List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
-		if (vars != null) {
-			List<TaskVariables> var = vars.stream()
-					.filter(v -> v.getName().equalsIgnoreCase(taskDefinitionKey + "_" + variableName))
-					.collect(Collectors.toList());
-			return (var != null && var.size() > 0) ? ""+var.get(var.size() - 1).getValue() : "";
-		}
-		return "";
-	}
-
+	
 	public static String getTaskVariableString(String variableName) {
 		return Core.getTaskVariable(variableName);
 	}
@@ -2380,7 +2382,7 @@ public final class Core { // Not inherit
 		if (Core.isNull(variableName))
 			return null;
 		String id = getParamTaskId();
-		TaskService task = new TaskService().getTask(id);
+		TaskService task = new TaskServiceRest().getTask(id);
 		List<TaskVariables> vars = Core.getTaskVariables(task.getTaskDefinitionKey());
 		if (vars != null) {
 			List<TaskVariables> var = vars.stream()
@@ -2416,13 +2418,34 @@ public final class Core { // Not inherit
 	public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {
 		String id = Core.getExecutionId();
 		if (Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey, id);
+			List<HistoricTaskService> task1 = new TaskServiceRest().getHistory(taskDefinitionKey, id);
 			if (task1 != null && task1.size() > 0) {
 				return task1.get(task1.size() - 1).getVariables();
 			}
 		}
 		return null;
 	}
+	/**
+	 * Add variable of type long to the process task
+	 * 
+	 * @param taskDefinitionKey identification of task
+	 * @param variableName      name of parameter
+	 * @param value             value of parameter
+	 */
+	public static void addTaskVariableLong(String taskDefinitionKey, String variableName, Object value) {
+		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+		if (Core.isNotNull(taskId)) {
+			TaskServiceRest taskRest = new TaskServiceRest();
+			TaskService task = taskRest.getTask(taskId);
+			task.setId(taskId);
+			taskRest.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
+			taskRest.submitVariables(taskId);
+			ProcessInstanceServiceRest processInstance = new ProcessInstanceServiceRest();
+			processInstance.addVariable(task.getTaskDefinitionKey() + "_" + variableName, "local", "string", value.toString());
+			processInstance.submitVariables(task.getProcessInstanceId());
+		}
+	}
+
 
 	/**
 	 * @param wsdlUrl     The webservice description language url
@@ -2985,19 +3008,7 @@ public final class Core { // Not inherit
 			return Short.parseShort(value);
 		return defaultValue;
 	}
-
-	public static Object unnserializeFromTask(Object obj, String json)
-			throws IllegalArgumentException, IllegalAccessException {
-		CustomVariableIGRP rows = new Gson().fromJson(json, CustomVariableIGRP.class);
-		for (java.lang.reflect.Field f : obj.getClass().getDeclaredFields()) {
-			f.setAccessible(true);
-			rows.getRows().stream().filter(r -> r.getName().equalsIgnoreCase("p_" + f.getName())).forEach(r -> {
-				IgrpHelper.setField(obj, f, r.getValue());
-			});
-		}
-		return (Object) obj;
-	}
-
+	
 	public static BaseQueryInterface update(String tableName) {
 		return new QueryUpdate(Core.defaultConnection()).update(tableName);
 	}

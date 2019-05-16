@@ -5,10 +5,11 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
-import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import java.util.List;
 import java.util.ArrayList;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
+import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 /*----#end-code----*/
 		
 public class Lista_terfa_de_processoController extends Controller {
@@ -27,11 +28,11 @@ public class Lista_terfa_de_processoController extends Controller {
 		String processKey = Core.getParam(BPMNConstants.PRM_PROCESS_KEY);
 		String processId = Core.getParam(BPMNConstants.PRM_PROCESS_ID);
 		if(Core.isNotNull(processInstanceId)) {
-			TaskServiceQuery taskS = new TaskServiceQuery();
-			taskS.addFilter("processInstanceId",processInstanceId);
+			TaskServiceIGRP taskQuery = new TaskServiceIGRP();
+			taskQuery.addFilterBody("processInstanceId",processInstanceId);
 			List<Lista_terfa_de_processo.Table_1> listTasks = new ArrayList<>();
 			
-			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
+			for(TaskServiceQuery task:taskQuery.queryHistoryTask()) {
 				Lista_terfa_de_processo.Table_1 t = new Lista_terfa_de_processo.Table_1();
 				t.setN_tarefa(task.getId());				
 				t.setDescricao_tarefa(Core.isNotNull(task.getName())?task.getName():task.getTaskDefinitionKey());

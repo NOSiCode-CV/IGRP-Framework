@@ -19,10 +19,13 @@ import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.DeploymentService;
-import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ResourceService;
-import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.activit.rest.entities.DeploymentService;
+import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.entities.TaskService;
+import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
+import nosi.core.webapp.activit.rest.services.ProcessDefinitionServiceRest;
+import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
+import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.bpmn.BPMNHelper;
 import nosi.core.webapp.bpmn.GenerateInterfacePermission;
@@ -46,7 +49,7 @@ public class BPMNDesignerController extends Controller {
 		Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));		
 		if(app!=null) {
 			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
-			for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsForCreated(app.getDad())){
+			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad())){
 				BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
 				processo.setId(process.getId());
 				processo.setTitle(process.getName());
@@ -75,11 +78,11 @@ public class BPMNDesignerController extends Controller {
 		BPMNDesigner model = new BPMNDesigner();
 		model.load();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
-		DeploymentService deploy = new DeploymentService();
+		DeploymentServiceRest deploy = new DeploymentServiceRest();
 		if(Core.isNotNull(model.getEnv_fk())) {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
 			String content = FileHelper.convertToString(data);
-			List<TaskService> tasks = new ProcessDefinitionService().extractTasks(content,true);
+			List<TaskService> tasks = new TaskServiceRest().extractTasks(content,true);
 			this.compiler = new Compiler();
 			for(TaskService task:tasks) {
 				this.saveTaskController(task,app);
@@ -92,14 +95,14 @@ public class BPMNDesignerController extends Controller {
 			if(index != -1) {
 			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
 			}
-			deploy = deploy.create(data.getInputStream(),app.getDad(), fileName,data.getContentType());
-			if(deploy!=null && Core.isNotNull(deploy.getId()) && Core.isNull(erros)){
+			DeploymentService d = deploy.create(data.getInputStream(),app.getDad(), fileName,data.getContentType());
+			if(d!=null && Core.isNotNull(d.getId()) && Core.isNull(erros)){
 				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 			}
 		}else {
 			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo "+erros) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.getError()!=null?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo "+erros) + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 
@@ -122,9 +125,9 @@ public class BPMNDesignerController extends Controller {
 	
 	public Response actionGetBpmnDesign() {
 		String id = Core.getParam("p_id");
-		ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(id);
+		ProcessDefinitionService process = new ProcessDefinitionServiceRest().getProcessDefinition(id);
 		String link = process.getResource().replace("/resources/", "/resourcedata/");
-		String resource = new ResourceService().getResourceData(link);
+		String resource = new ResourceServiceRest().getResourceData(link);
 		resource = resource.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version='1.0' encoding='UTF-8'?>");
 		return this.renderView(resource);
 	}
