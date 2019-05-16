@@ -229,7 +229,7 @@
 							
 							$.IGRP.utils.loading.hide();
 							
-							p.clicked.removeAttr("disabled","disabled");
+							p.clicked.removeAttr("disabled");
 						}
 
 						$('.igrp-msg-wrapper').html(alert);
@@ -1179,8 +1179,7 @@
 				
 				e.preventDefault();
 				
-				var clicked 	 = $(this),
-					target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
+				var target       = $(this).attr('target')  ? $(this).attr('target'): '_blank';
 				
 				var url          = $(this).attr('fw_href') ? $(this).attr('fw_href') : $(this).attr('href');			
 				
@@ -1200,7 +1199,7 @@
 				return targetAction({
 					url     : url,
 					target  : target,
-					clicked : clicked
+					clicked : $(this)
 				});
 
 			});
@@ -1226,13 +1225,11 @@
 
  				canSubmit = eventCB == false ? false : canSubmit;
 
- 				if (canSubmit){
- 					
- 					clicked.attr("disabled","disabled");
+ 				if (canSubmit)
  					
  					$.IGRP.utils.loading.show();
  					
- 				}else
+ 				else
  					$.IGRP.components.form.hasFieldsError();
  					
 

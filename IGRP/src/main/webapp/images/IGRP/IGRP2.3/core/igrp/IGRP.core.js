@@ -939,7 +939,7 @@
 										
 										if((i+1) == p.nodes.length){
 											if(p.clicked)
-												p.clicked.removeAttr("disabled","disabled");
+												p.clicked.removeAttr("disabled");
 											
 											$.IGRP.utils.loading.hide();
 										}
