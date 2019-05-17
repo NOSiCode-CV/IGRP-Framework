@@ -4,14 +4,16 @@ import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+
 /*----#start-code(packages_import)----*/
+import nosi.core.webapp.activit.rest.business.ProcessInstanceIGRP;
+import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPTopMenu;
@@ -20,7 +22,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
-import nosi.webapps.igrp.dao.TaskAccess;
 import org.json.JSONException;
 import org.json.JSONObject;
 import static nosi.core.i18n.Translator.gt;
@@ -246,15 +247,8 @@ public class PesquisarMenuController extends Controller {
 
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
-		List<TaskAccess> listTask = new TaskAccess().getTaskAccess();
-		List<TaskAccess> listStartProc = listTask.stream()
-				.filter(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
-				.collect(Collectors.toList());
-		boolean isStartProc = listStartProc != null && listStartProc.size() > 0;
-		boolean isTask = listTask != null
-				? listTask.stream().filter(t -> !t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
-						.collect(Collectors.toList()).size() > 0
-				: false;
+		boolean isStartProc = ProcessInstanceIGRP.isStartPermission();
+		boolean isTask = TaskServiceIGRP.isTaskPermission();
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
 		String dad = Core.getParam("dad");
 		if (!(dad.compareTo("igrp") == 0)) {

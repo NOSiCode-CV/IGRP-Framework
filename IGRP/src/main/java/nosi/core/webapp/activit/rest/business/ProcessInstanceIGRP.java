@@ -3,6 +3,8 @@ package nosi.core.webapp.activit.rest.business;
 import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
+import nosi.webapps.igrp.dao.TaskAccess;
+
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -45,4 +47,20 @@ public class ProcessInstanceIGRP extends GenericActivitiIGRP {
 		return list!=null?list.size():0;
 	}
 
+	public static boolean isStartPermission() {
+		List<TaskAccess> listTask = new TaskAccess().getTaskAccess();
+		List<TaskAccess> listStartProc = listTask.stream()
+				.filter(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
+				.collect(Collectors.toList());
+		return  listStartProc != null && listStartProc.size() > 0;
+	}
+	
+
+	public static boolean isStartPermission(String processKey) {
+		List<TaskAccess> listTask = new TaskAccess().getTaskAccess(processKey);
+		List<TaskAccess> listStartProc = listTask.stream()
+				.filter(t -> t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
+				.collect(Collectors.toList());
+		return  listStartProc != null && listStartProc.size() > 0;
+	}
 }
