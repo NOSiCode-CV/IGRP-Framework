@@ -17,22 +17,15 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.View;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
-import nosi.core.webapp.activit.rest.entities.FormDataService;
-import nosi.core.webapp.activit.rest.entities.FormProperties;
-import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.Rows;
 import nosi.core.webapp.activit.rest.entities.StartProcess;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.entities.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
-import nosi.core.webapp.activit.rest.services.FormDataServiceRest;
-import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.ActivityEcexuteType;
-import nosi.webapps.igrp.dao.ActivityExecute;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
@@ -47,9 +40,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	private String page;
 	private String myCustomPermission;
 	private RuntimeTask runtimeTask;
+	private BPMNExecution bpmnExecute;
 	
 	public BPMNTaskController() {
 		this.runtimeTask = RuntimeTask.getRuntimeTask();
+		this.bpmnExecute = new BPMNExecution();
 	}
 	@Override
 	public Response index(String app,Model model,View view) throws IOException {
@@ -119,36 +114,11 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 
 	private Response startProcess(String processDefinitionId) throws IOException, ServletException {
-		String content = Core.getJsonParams();
-		FormDataServiceRest formData = new FormDataServiceRest();
-		ProcessDefinitionService processDefinition = new ProcessDefinitionService();
-		processDefinition.setId(processDefinitionId);
-		FormDataService properties = formData.getFormDataByProcessDefinitionId(processDefinitionId);
-		
-		if (properties != null && properties.getFormProperties() != null) {
-			for (FormProperties prop : properties.getFormProperties()) {
-				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-				if (!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
-					formData.addVariable(prop.getId(), value);
-				}
-			}
-		}
-		formData.addVariable("baseHostNameIgrp", this.getConfig().getHostName());
-		if (Core.isNotNull(content)) {
-			formData.addVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI, content);
-		}
-		StartProcess st = formData.submitFormByProcessDenifition(processDefinition);
-		if (st != null) {
-			ProcessInstanceServiceRest processInstanceRest = new ProcessInstanceServiceRest();
-			processInstanceRest.addVariable("p_process_id", "local", "string", st.getId());
-			processInstanceRest.submitVariables(st.getId());
-		}
-		if (Core.isNotNull(formData.getError())) {
-			Core.setMessageError(formData.getError().getException());
+		StartProcess st = bpmnExecute.executeStartProcess(processDefinitionId,this.myCustomPermission);
+		if (Core.isNull(st)) {
 			return this.redirect("igrp", "Dash_board_processo", "index");
 		}
 		Core.setMessageSuccess();
-		this.saveStartProcess(st.getId(),st.getProcessDefinitionKey(),"start","start",st.getProcessDefinitionId());
 		TaskServiceIGRP task = new TaskServiceIGRP();
 		task.clearFilterUrl();
 		task.addFilterUrl("processDefinitionId", processDefinitionId);
@@ -161,47 +131,20 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 	}
 	
+
 	
 	private Response saveTask(TaskService task,String taskId,List<Part> parts) throws IOException, ServletException {
-		FormDataServiceRest formData = new FormDataServiceRest();
-		ProcessInstanceServiceRest processServiceRest = new ProcessInstanceServiceRest();	
 		TaskServiceIGRP taskServiceRest = new TaskServiceIGRP();
-		String content = Core.getJsonParams();
-		FormDataService properties = formData.getFormDataByTaskId(taskId);
-		if(properties!=null && properties.getFormProperties()!=null){
-			for(FormProperties prop:properties.getFormProperties()){
-				Object value = BPMNHelper.getValue(prop.getType(), prop.getId());
-				if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
-					formData.addVariable(prop.getId(),value);
-				}
-			}
-		}
-		if(Core.isNotNull(content)) {				
-			Core.getParameters().entrySet().stream().forEach(param-> {
-				taskServiceRest.getTaskServiceRest().addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				processServiceRest.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-			});
-			taskServiceRest.getTaskServiceRest().addVariable(task.getTaskDefinitionKey()+"_p_task_id", "local", "string",taskId);
-			processServiceRest.addVariable(BPMNConstants.CUSTOM_VARIABLE_IGRP_ACTIVITI+"_"+task.getId(),"string",content);
-			processServiceRest.submitVariables(task.getProcessInstanceId());
-			taskServiceRest.getTaskServiceRest().submitVariables(task.getId());
-		}
-		formData.addVariable("userName", Core.getCurrentUser().getUser_name());
-		formData.addVariable("profile", Core.getCurrentProfile());
-		formData.addVariable("organization", Core.getCurrentOrganization());
-		
-		StartProcess st = formData.submitFormByTask(task);
-		if((st!=null && formData.getError()!=null)) {
-			Core.setMessageError(formData.getError().getException());
-			return this.forward("igrp","MapaProcesso", "open-process&taskId="+taskId);
+		StartProcess st = this.bpmnExecute.exeuteTask(task, parts,this.myCustomPermission);
+		if(Core.isNull(st)) {
+			return this.redirect("igrp", "ErrorPage", "exception");
 		}else {
 			this.saveFiles(parts,taskId);
-			this.saveExecuteTask(task.getProcessInstanceId(),task.getProcessDefinitionKey(),taskId,task.getTaskDefinitionKey(),task.getProcessDefinitionId());
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
 			taskServiceRest.addFilterUrl("processDefinitionId",task.getProcessDefinitionId());
 			taskServiceRest.addFilterUrl("processInstanceId", task.getProcessInstanceId());
-			List<TaskService> tasks = taskServiceRest.getTaskServiceRest().getAvailableTasks();
+			List<TaskService> tasks = taskServiceRest.getAvailableTasks();
 			if(tasks!=null  && !tasks.isEmpty()) {
 				return this.renderNextTask(task,tasks);
 			}else {
@@ -211,28 +154,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	}
 	
 
-	private void saveExecuteTask(String proc_id,String proccessKey,String taskId,String taskKey,String processName) {
-		ActivityExecute activityExecute = new ActivityExecute().find()
-				 .where("processid","=",proc_id)
-				 .andWhere("proccessKey","=",proccessKey)
-				 .andWhere("taskid","=","start")
-				 .andWhere("taskKey","=","start")
-				 .andWhere("organization","=",Core.getCurrentOrganization())
-				 .one();
-		if(activityExecute!=null) {
-			if(Core.isNotNull(this.myCustomPermission)) { 
-			 activityExecute.setCustomPermission(this.myCustomPermission);
-		     activityExecute.update();
-			}
-		}
-		this.saveStartProcess(proc_id, proccessKey, taskKey, taskId,processName);
-	}
 	
-	private void saveStartProcess(String proc_id,String proccessKey,String taskKey,String taskId,String processName) {
-		 ActivityExecute activityExecute = new ActivityExecute(proc_id, taskId,Core.getCurrentDad(), Core.getCurrentOrganization(), Core.getCurrentProfile(), Core.getCurrentUser(),ActivityEcexuteType.EXECUTE,proccessKey,taskKey,processName);
-	     activityExecute.setCustomPermission(this.myCustomPermission);
-	     activityExecute.insert();
-	}
 
 
 	private void saveFiles(List<Part> parts,String taskId) {
@@ -422,4 +344,5 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	protected void setCustomPermission(String customPermission) {
 		this.myCustomPermission = customPermission;
 	}
+
 }

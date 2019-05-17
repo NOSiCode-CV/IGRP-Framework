@@ -94,4 +94,13 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 				: false;
 		return isTask;
 	}
+
+	public static boolean isTaskPermission(String processKey) {
+		List<TaskAccess> listTask = new TaskAccess().getTaskAccess(processKey);
+		boolean isTask = listTask != null
+				? listTask.stream().filter(t -> !t.getTaskName().equalsIgnoreCase("Start" + t.getProcessName()))
+						.collect(Collectors.toList()).size() > 0
+				: false;
+		return isTask;
+	}
 }
