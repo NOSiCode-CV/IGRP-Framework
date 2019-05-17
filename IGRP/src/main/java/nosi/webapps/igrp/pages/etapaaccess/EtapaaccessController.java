@@ -2,16 +2,15 @@ package nosi.webapps.igrp.pages.etapaaccess;
 
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.services.ResourceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
-/*----#start-code(packages_import)----*/
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -99,35 +98,6 @@ public class EtapaaccessController extends Controller {
 
 
 /*----#start-code(custom_actions)----*/
-	
-	/*private List<String> filterIds(Etapaaccess model, List<String> chekedIds) {
-		List<Profile> profiles = null;
-		if (model.getType().equals("org")) {
-			profiles = new Profile().find()
-				  .andWhere("organization", "=",model.getId())
-				  .andWhere("profileType","=",this.profAdmin.getId())
-				  .andWhere("type","=","MEN")
-				  .andWhere("user","=",this.userAdmin.getId())
-				  .all();
-		}else if (model.getType().equals("perfil")) {	
-			ProfileType pt = new ProfileType().findOne(model.getId());	
-			profiles = new Profile().find()
-					  .andWhere("organization", "=",pt.getOrganization().getId())
-					  .andWhere("profileType","=",pt.getId())
-					  .andWhere("type","=","MEN")
-					  .andWhere("user","=",this.userAdmin.getId())
-					  .all();
-		} else if (model.getType().equals("user")) {
-			profiles = new Profile().find()
-					  .andWhere("organization", "=",Core.getParamInt("org_id"))
-					  .andWhere("profileType","=",Core.getParamInt("prof_id"))
-					  .andWhere("type","=","MEN_USER")
-					  .andWhere("user","=",Core.getParamInt("user_id"))
-					  .all();
-		}
-		List<Integer> ids = profiles!=null?profiles.stream().map(Profile::getType_fk).collect(Collectors.toList()):null;
-		return chekedIds.stream().filter(m->ids!=null && !ids.contains(Core.toInt(m))).collect(Collectors.toList());
-	}*/
 
 	private boolean insertNew(List<String> chekedIds, String type, Integer orgProfId,User user) {
 		boolean r = true;
@@ -184,27 +154,6 @@ public class EtapaaccessController extends Controller {
 					}	
 				}
 			}
-
-			if(this.listR!=null) {
-				this.listR.stream().forEach(rr->{
-					if(rr!=null && rr.RowList!=null) {
-						rr.RowList.forEach(rrr->{
-							Integer prof_fk = rrr.getInt("prof_fk");
-							String processname = rrr.getString("processname");
-							String taskname = rrr.getString("taskname");
-							Integer org_fk = rrr.getInt("org_fk");
-							if(Core.isNotNull(prof_fk) && Core.isNotNull(org_fk) && Core.isNotNull(processname) && Core.isNotNull(taskname)) {
-								TaskAccess task = new TaskAccess();
-								task.setOrganization(new Organization().findOne(org_fk));
-								task.setProfileType(new ProfileType().findOne(prof_fk));
-								task.setProcessName(processname);
-								task.setTaskName(taskname);
-								task.insert();
-							}
-						});
-					}
-				});					
-			}
 		}
 		return r;
 	}
@@ -215,28 +164,18 @@ public class EtapaaccessController extends Controller {
 	private void removeOldInserts(String type,Integer orgProfUserId,List<String> uncheckedIds) {
 		Integer orgId = Core.getParamInt("orgId");
 		if(uncheckedIds!=null  && orgId!=0) {
-			for(String id:uncheckedIds) {
-				String[] taskProcess = id.split(separator);
-				if("org".compareTo(type)==0) {	
-					ResultSet.Record r = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT prof_fk,org_fk,processname,taskname FROM tbl_task_access")
-						 .where("org_fk=:org_fk AND processname=:processname AND taskname=:taskname AND prof_fk is not null")
-						 .addInt("org_fk", orgProfUserId)
-						 .addString("processname", taskProcess[1])
-						 .addString("taskname", taskProcess[0])
-						 .getRecordList();
-					this.listR.add(r);			
-					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access").where("org_fk=:org_fk")
-										   .addInt("org_fk",orgProfUserId)
-										   .execute();
-				}
-				if("prof".compareTo(type)==0) {
-					Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access").where("prof_fk=:prof_fk")
-					   .addInt("prof_fk",orgProfUserId)
-					   .execute();
-				}
-				if("user".compareTo(type)==0) {
-					Core.executeQuery(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
-				}
+			if("org".compareTo(type)==0) {				
+				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access").where("org_fk=:org_fk")
+									   .addInt("org_fk",orgProfUserId)
+									   .execute();
+			}
+			if("prof".compareTo(type)==0) {
+				Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_task_access").where("prof_fk=:prof_fk")
+				   .addInt("prof_fk",orgProfUserId)
+				   .execute();
+			}
+			if("user".compareTo(type)==0) {
+				Core.executeQuery(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"UPDATE tbl_task_access SET user_fk=null WHERE user_fk="+orgProfUserId+" AND prof_fk="+Core.getParamInt("profId"));
 			}
 		}
 	}
@@ -359,6 +298,5 @@ public class EtapaaccessController extends Controller {
 		return t;
 	}
 	private final String separator = "---IGRP---";
-	private List<ResultSet.Record> listR = new ArrayList<>();
 	/*----#end-code----*/
 }
