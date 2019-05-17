@@ -369,10 +369,14 @@
 			$.IGRP.utils.loading.show();
 
 			var url 	= p.url,
-				input 	= $('input.menuCtrl');
+				param 	= '';
 
-			if (input[0]) 
-				url = $.IGRP.utils.getUrl(url)+input.attr('name')+'='+input.val();
+			if($('input.menuCtrl')[0]){
+				param = $('input.menuCtrl').serialize();
+				
+				if(param)
+					url = $.IGRP.utils.getUrl(url)+param;
+			}
 
 			window.location.href = url;
 			
