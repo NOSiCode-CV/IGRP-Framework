@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/consulta_auditoria_detalhes/Consulta_auditoria_detalhes.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Consulta_auditoria_detalhes</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Consulta_auditoria_detalhes</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=76</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Consulta Auditoria - Detalhes</title>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <coluna name="p_coluna" type="plaintext" maxlength="50" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Coluna</label>
+                </coluna>
+                <antigo name="p_antigo" type="plaintext" maxlength="255" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Antigo</label>
+                </antigo>
+                <novo name="p_novo" type="plaintext" maxlength="255" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Novo</label>
+                </novo>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <coluna name="p_coluna">Anim aperiam accusantium doloremque mollit labore</coluna>
+                        <antigo name="p_antigo">Totam sed officia elit accusantium aperiam rem ut magna mollit ipsum consectetur natus sit officia deserunt ut magna unde amet officia magna anim labore elit</antigo>
+                        <novo name="p_novo">Rem adipiscing sit amet elit totam magna aliqua totam ipsum magna natus ut elit rem rem anim totam anim laudantium doloremque sit rem elit ipsum</novo>
+                    </row>
+                    <row>
+                        <coluna name="p_coluna">Consectetur aperiam labore deserunt mollit sed vol</coluna>
+                        <antigo name="p_antigo">Omnis mollit dolor sed omnis unde lorem anim aliqua deserunt iste magna omnis adipiscing totam mollit aperiam aliqua doloremque adipiscing sed aperiam natus aliqua officia</antigo>
+                        <novo name="p_novo">Unde magna sed deserunt adipiscing laudantium accusantium perspiciatis omnis iste rem accusantium officia unde adipiscing aperiam totam voluptatem mollit amet adipiscing rem deserunt amet sit</novo>
+                    </row>
+                    <row>
+                        <coluna name="p_coluna">Officia voluptatem totam iste magna voluptatem sit</coluna>
+                        <antigo name="p_antigo">Aliqua doloremque consectetur deserunt aperiam stract doloremque perspiciatis sit unde officia ut adipiscing deserunt sed aperiam magna stract elit aperiam magna sit amet officia aperiam</antigo>
+                        <novo name="p_novo">Elit laudantium accusantium rem lorem iste consectetur perspiciatis omnis deserunt iste amet mollit totam dolor voluptatem amet accusantium natus lorem mollit stract omnis iste dolor</novo>
+                    </row>
+                    <row>
+                        <coluna name="p_coluna">Sit adipiscing rem officia rem sed perspiciatis ad</coluna>
+                        <antigo name="p_antigo">Perspiciatis ut doloremque dolor stract voluptatem magna iste voluptatem omnis consectetur laudantium iste sit anim perspiciatis magna dolor iste magna officia lorem voluptatem deserunt sit</antigo>
+                        <novo name="p_novo">Amet magna dolor officia perspiciatis natus adipiscing mollit stract unde aperiam omnis laudantium magna laudantium sit ipsum aliqua elit dolor anim sit aperiam consectetur totam</novo>
+                    </row>
+                    <row>
+                        <coluna name="p_coluna">Mollit unde natus sit officia lorem dolor doloremq</coluna>
+                        <antigo name="p_antigo">Accusantium omnis aperiam perspiciatis iste ipsum accusantium laudantium accusantium amet sit lorem labore sit ipsum sit consectetur doloremque voluptatem mollit elit ut accusantium perspiciatis aperiam</antigo>
+                        <novo name="p_novo">Doloremque elit omnis sed aperiam iste lorem iste unde ut iste natus dolor ut perspiciatis aperiam sit elit omnis officia rem labore sed doloremque stract</novo>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <utilizador name="p_utilizador" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>Utilizador</label>
+                    <value>Totam adipiscing natus perspiciatis iste</value>
+                </utilizador>
+                <tabela name="p_tabela" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>Tabela</label>
+                    <value>Elit dolor sit iste ut</value>
+                </tabela>
+                <ip name="p_ip" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>IP</label>
+                    <value>Anim unde ipsum officia unde</value>
+                </ip>
+                <data name="p_data" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>Data</label>
+                    <value>Mollit laudantium dolor sed anim</value>
+                </data>
+                <accao name="p_accao" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>Acção</label>
+                    <value>Doloremque sit elit totam sit</value>
+                </accao>
+                <contexto name="p_contexto" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="true" placeholder="" desclabel="false" right="false">
+                    <label>Contexto</label>
+                    <value>Aperiam anim iste totam magna</value>
+                </contexto>
+            </fields>
+        </form_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Consulta Auditoria - Detalhes</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+    </content>
+</rows>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/consulta_auditoria/Consulta_auditoria.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Consulta_auditoria</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Consulta_auditoria</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=75</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Consulta Auditoria</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[<p>Consulta Auditoria</p>
+]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <text_1 name="p_text_1" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Tabela</label>
+                    <value>Labore laudantium adipiscing doloremque magna</value>
+                </text_1>
+                <utilizador_form name="p_utilizador_form" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>Utilizador</label>
+                    <value>Ut doloremque officia iste sit</value>
+                </utilizador_form>
+                <accao_form name="p_accao_form" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Acção</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </accao_form>
+                <data_inicio name="p_data_inicio" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" class="primary">
+                    <label>Data início</label>
+                    <value>06-07-2016</value>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" class="primary">
+                    <label>Data fim</label>
+                    <value>03-05-2017</value>
+                </data_fim>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar" custom_return="true">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Consulta_auditoria</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/consulta_auditoria/Consulta_auditoria.xml?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-search</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/consulta_auditoria/Consulta_auditoria.xml</preview>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <data name="p_data" type="plaintext" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Data</label>
+                </data>
+                <utilizador name="p_utilizador" type="plaintext" maxlength="100" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Utilizador</label>
+                </utilizador>
+                <tabela name="p_tabela" type="plaintext" maxlength="50" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Tabela</label>
+                </tabela>
+                <accao name="p_accao" type="plaintext" maxlength="50" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Acção</label>
+                </accao>
+                <contexto name="p_contexto" type="plaintext" maxlength="50" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Contexto</label>
+                </contexto>
+                <id name="p_id" type="hidden" maxlength="30" showLabel="true" iskey="true" java-type="" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <data name="p_data">Accusantium natus unde totam l</data>
+                        <utilizador name="p_utilizador">Consectetur elit labore sit magna amet iste magna sit stract mollit magna sit omnis dolor voluptatem</utilizador>
+                        <tabela name="p_tabela">Iste ipsum adipiscing sit ipsum perspiciatis conse</tabela>
+                        <accao name="p_accao">Iste adipiscing ut magna accusantium omnis ipsum l</accao>
+                        <contexto name="p_contexto">Consectetur sit ut sed consectetur deserunt aliqua</contexto>
+                        <id name="p_id" tag="id">hidden-32fc_4b55</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <data name="p_data">Sit sit officia lorem voluptat</data>
+                        <utilizador name="p_utilizador">Unde lorem elit unde doloremque dolor aperiam elit perspiciatis sed iste unde labore lorem omnis ips</utilizador>
+                        <tabela name="p_tabela">Magna consectetur labore adipiscing laudantium ape</tabela>
+                        <accao name="p_accao">Perspiciatis dolor stract ut aperiam consectetur d</accao>
+                        <contexto name="p_contexto">Totam sed aliqua sed officia omnis doloremque aper</contexto>
+                        <id name="p_id" tag="id">hidden-80ee_deff</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <data name="p_data">Lorem anim aliqua anim aliqua</data>
+                        <utilizador name="p_utilizador">Lorem voluptatem dolor natus ut voluptatem iste dolor ut unde consectetur magna natus aliqua aperiam</utilizador>
+                        <tabela name="p_tabela">Adipiscing sed iste sit perspiciatis aperiam ut ac</tabela>
+                        <accao name="p_accao">Sit elit deserunt labore stract aliqua stract iste</accao>
+                        <contexto name="p_contexto">Labore sed mollit dolor natus dolor totam omnis lo</contexto>
+                        <id name="p_id" tag="id">hidden-c096_0d32</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <data name="p_data">Consectetur perspiciatis offic</data>
+                        <utilizador name="p_utilizador">Iste anim sit adipiscing voluptatem iste rem stract aperiam dolor natus adipiscing amet ipsum labore</utilizador>
+                        <tabela name="p_tabela">Elit sit aperiam stract aliqua unde consectetur ut</tabela>
+                        <accao name="p_accao">Doloremque laudantium iste amet totam lorem accusa</accao>
+                        <contexto name="p_contexto">Accusantium sit aperiam amet sed amet omnis offici</contexto>
+                        <id name="p_id" tag="id">hidden-6f83_1fb6</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <data name="p_data">Amet voluptatem deserunt iste</data>
+                        <utilizador name="p_utilizador">Totam sit aperiam magna dolor amet laudantium sed adipiscing stract rem doloremque lorem sed stract</utilizador>
+                        <tabela name="p_tabela">Aperiam iste deserunt adipiscing dolor anim sed am</tabela>
+                        <accao name="p_accao">Sed unde voluptatem mollit amet sit voluptatem sit</accao>
+                        <contexto name="p_contexto">Sed doloremque consectetur adipiscing laudantium v</contexto>
+                        <id name="p_id" tag="id">hidden-016b_a55a</id>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="info" rel="ver_detalhes">
+                        <title>Ver detalhes</title>
+                        <app>igrp</app>
+                        <page>Consulta_auditoria_detalhes</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/consulta_auditoria_detalhes/Consulta_auditoria_detalhes.xml?</parameter>
+                        <target>mpsubmit</target>
+                        <img>info|fa-eye</img>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/consulta_auditoria_detalhes/Consulta_auditoria_detalhes.xml</preview>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>
