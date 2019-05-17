@@ -192,9 +192,6 @@ public class MigrationIGRPInitConfig {
 			r3.setTipo((short)1);
 			actions.add(r3);
 			
-			actions.add(new Action("Consulta_auditoria_detalhes", "index", "nosi.webapps.igrp.pages", "igrp/Consulta_auditoria_detalhes/Consulta_auditoria_detalhes.xsl", "Consulta Auditoria - Detalhes", "Consulta Auditoria - Detalhes", "2.3", 1, app_igrp));
-			actions.add(new Action("Consulta_auditoria", "index", "nosi.webapps.igrp.pages", "igrp/Consulta_auditoria/Consulta_auditoria.xsl", "Consulta Auditoria", "Consulta Auditoria", "2.3", 1, app_igrp));
-			
 			actions.add(new Action("Pesquisa_bi_cni_passport", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xsl", "Pesquisa BI-CNI-passport", "Pesquisa BI-CNI-passport", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));
