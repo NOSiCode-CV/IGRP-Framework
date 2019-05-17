@@ -123,11 +123,11 @@ public class TaskServiceRest extends GenericActivitiRest {
 						}.getType());
 
 				if (d != null && !d.isEmpty()) {
-					ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
-							.getProccessDescription(d.get(0).getProcessDefinitionUrl());
-					String processName = proc.getName();
-					String processDefinitionKey = proc.getKey();
 					d.stream().forEach(t -> {
+						ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
+								.getProccessDescription(t.getProcessDefinitionUrl());
+						String processName = proc.getName();
+						String processDefinitionKey = proc.getKey();
 						t.setProcessName(processName);
 						t.setProcessDefinifionKey(processDefinitionKey);
 					});
@@ -207,11 +207,11 @@ public class TaskServiceRest extends GenericActivitiRest {
 						new TypeToken<List<TaskServiceQuery>>() {
 						}.getType());
 				if (d != null && !d.isEmpty()) {
-					ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
-							.getProccessDescription(d.get(0).getProcessDefinitionUrl());
-					String processName = proc.getName();
-					String processDefinitionKey = proc.getKey();
 					d.stream().forEach(t -> {
+						ProcessDefinitionService proc = new ProcessDefinitionServiceRest()
+							.getProccessDescription(t.getProcessDefinitionUrl());
+						String processName = proc.getName();
+						String processDefinitionKey = proc.getKey();
 						t.setProcessName(processName);
 						t.setProcessDefinifionKey(processDefinitionKey);
 					});

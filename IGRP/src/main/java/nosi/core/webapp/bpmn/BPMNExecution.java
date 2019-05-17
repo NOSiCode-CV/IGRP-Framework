@@ -127,6 +127,7 @@ public class BPMNExecution extends Controller{
 			if (runtime != null) {
 				this.restartQueryString();
 				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, runtime);
+				Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, runtime.getTask().getExecutionId());				
 				this.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
 				return this.forward(runtime.getTask().getTenantId(),
 						BPMNConstants.PREFIX_TASK + runtime.getTask().getTaskDefinitionKey(), "index",
@@ -142,6 +143,7 @@ public class BPMNExecution extends Controller{
 			if (runtime != null && runtime.getTask()!=null) {
 				this.restartQueryString();
 				Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, runtime);
+				Core.setAttribute(BPMNConstants.PRM_TASK_EXECUTION_ID, runtime.getTask().getExecutionId());	
 				this.addQueryString(BPMNConstants.PRM_TASK_ID, taskId);
 				return this.forward(runtime.getTask().getTenantId(),
 						BPMNConstants.PREFIX_TASK + runtime.getTask().getTaskDefinitionKey(), "save",

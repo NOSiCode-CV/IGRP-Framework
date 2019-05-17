@@ -203,8 +203,10 @@ public class TaskService extends Activiti implements java.io.Serializable{
 	@Override
 	public String toString() {
 		return "TaskService [taskDefinitionKey=" + taskDefinitionKey + ", tenantId=" + tenantId + ", formKey=" + formKey
-				+ ", id=" + id + "]";
+				+ ", processDefinitionKey=" + processDefinitionKey + ", id=" + id + "]";
 	}
+
+	
 
 
 
