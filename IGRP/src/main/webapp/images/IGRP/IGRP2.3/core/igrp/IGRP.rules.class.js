@@ -274,7 +274,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 	
 					res['p_'+n] = $.IGRP.utils.arrayValuesToString(res['p_'+n],';');
 				
+				if(row && row.find('[name="p_'+n+'_check_fk"]')[0]){
+					res['p_'+n+'_check'] = row.find('[name="p_'+n+'_check_fk"]').val();
+				}
+				
 			});	
+			
+			console.log(res);
 		}
 		
 		return res;
