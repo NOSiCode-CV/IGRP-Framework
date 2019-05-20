@@ -5,7 +5,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-
+import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 
 public class Pesquisa_nif_restView extends View {
 
@@ -47,43 +49,43 @@ public class Pesquisa_nif_restView extends View {
 		
 		nif = new NumberField(model,"nif");
 		nif.setLabel(gt("NIF"));
-		nif.propertie().add("name","p_nif").add("type","number").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","Integer");
+		nif.propertie().add("name","p_nif").add("type","number").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","Integer").add("desclabel","false");
 		
 		nome_form = new TextField(model,"nome_form");
 		nome_form.setLabel(gt("Nome"));
-		nome_form.propertie().add("name","p_nome_form").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
+		nome_form.propertie().add("name","p_nome_form").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		n_documento_form = new NumberField(model,"n_documento_form");
 		n_documento_form.setLabel(gt("Nº Documento"));
-		n_documento_form.propertie().add("name","p_n_documento_form").add("type","number").add("min","").add("max","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","");
+		n_documento_form.propertie().add("name","p_n_documento_form").add("type","number").add("min","").add("max","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","").add("desclabel","false");
 		
 		nif_tab = new TextField(model,"nif_tab");
 		nif_tab.setLabel(gt("NIF"));
-		nif_tab.propertie().add("name","p_nif_tab").add("type","text").add("maxlength","30");
+		nif_tab.propertie().add("name","p_nif_tab").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		nome_tab = new TextField(model,"nome_tab");
 		nome_tab.setLabel(gt("Nome"));
-		nome_tab.propertie().add("name","p_nome_tab").add("type","text").add("maxlength","30");
+		nome_tab.propertie().add("name","p_nome_tab").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		documento_tab = new NumberField(model,"documento_tab");
 		documento_tab.setLabel(gt("Documento"));
-		documento_tab.propertie().add("name","p_documento_tab").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","String");
+		documento_tab.propertie().add("name","p_documento_tab").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","String").add("showLabel","true");
 		
 		dt_nascimento = new TextField(model,"dt_nascimento");
 		dt_nascimento.setLabel(gt("Dt. Nascimento"));
-		dt_nascimento.propertie().add("name","p_dt_nascimento").add("type","text").add("maxlength","30");
+		dt_nascimento.propertie().add("name","p_dt_nascimento").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		nome_pai = new TextField(model,"nome_pai");
 		nome_pai.setLabel(gt("Nome pai"));
-		nome_pai.propertie().add("name","p_nome_pai").add("type","text").add("maxlength","30");
+		nome_pai.propertie().add("name","p_nome_pai").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		nome_mae = new TextField(model,"nome_mae");
 		nome_mae.setLabel(gt("Nome mãe"));
-		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30");
+		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 
 
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp_studio","Pesquisa_nif_rest","pesquisar","submit","primary|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp_studio","Pesquisa_nif_rest","pesquisar","submit_ajax","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
 
 		

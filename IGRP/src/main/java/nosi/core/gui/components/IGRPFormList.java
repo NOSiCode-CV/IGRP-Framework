@@ -1,8 +1,13 @@
 package nosi.core.gui.components;
 
 import java.util.List;
+
+import nosi.core.gui.fields.CheckBoxField;
+import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.gui.fields.RadioField;
+import nosi.core.gui.fields.RadioListField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
 
@@ -104,16 +109,21 @@ public class IGRPFormList extends IGRPSeparatorList {
 		this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 		this.xml.writeAttribute("type",field.propertie().getProperty("type"));
 		this.xml.writeAttribute("desc","true");
+		if(field instanceof CheckBoxListField || field instanceof CheckBoxField || field instanceof RadioListField || field instanceof RadioField) {
+			this.xml.writeAttribute("check","true");
+		}
 		String val = IgrpHelper.getValue(obj, field.getName());
 		if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
 			val = field.getValue().toString();
 		}
 		String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
 		this.xml.text((aux.length>0?aux[0]:""));
+		
 		this.xml.endElement();
 		if(!(field instanceof HiddenField)){
-			this.xml.startElement(field.getTagName() + "_desc");
-			this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
+			String sufix = "_desc";	
+			this.xml.startElement(field.getTagName() + sufix);			
+			this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);			
 			this.xml.text(aux.length > 1?aux[1]:"");
 			this.xml.endElement();
 		}

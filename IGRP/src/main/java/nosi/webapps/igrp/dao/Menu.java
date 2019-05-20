@@ -20,6 +20,9 @@ import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.persistence.Column;
+
+import nosi.core.i18n.I18n;
+import nosi.core.i18n.I18nFactory;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -60,7 +63,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	@Transient
 	private boolean isInserted;
 	@Transient
-	private final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
+	private final String sqlMenuByProfile = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -72,7 +75,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								 + " LEFT JOIN tbl_env env_prof ON env_prof.id=prof_type.env_fk "
 								 + " WHERE prof.org_fk=:org_fk AND prof.prof_type_fk=:prof_type_fk AND env_prof.dad=:dad AND m_sub.status=:status";
 	@Transient
-	private final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,prof.user_fk,m_sub.*,"
+	private final String sqlMenuByUser = " SELECT prof.org_fk,prof.prof_type_fk,m_sub.*,"
 								 + " m_super.id as id_menu_pai,m_super.descr as descr_menu_pai," 
 								 + " ac.page,ac.action,ac.versao,env_a.dad as dad_app_page,env_prof.dad as dad_app_profile, "
 								 + " case WHEN (m_super.self_fk is not null AND m_super.self_fk=m_super.id) then 1 else 0 END as isSubMenuAndSuperMenu " 
@@ -231,7 +234,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				if(pagina != null) {
 					if(pagina.getTipo() == 1) { // If it is a public page ... 
 						ms.setType(1);
-						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang=pt_PT" /*+ "&target=_blank"*/);
+						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
+						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
 					}else {
 						
 						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 

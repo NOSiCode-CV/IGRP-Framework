@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -24,7 +26,7 @@ public class Pesquisa_nif_restController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Totam doloremque stract accusa' as nif_tab,'Ut omnis natus consectetur off' as nome_tab,'8' as documento_tab,'Stract aliqua amet consectetur' as dt_nascimento,'Omnis dolor consectetur ipsum' as nome_pai,'Natus consectetur magna elit u' as nome_mae "));
+		model.loadTable_1(Core.query(null,"SELECT 'Iste sit stract unde laudantiu' as nif_tab,'Anim voluptatem ut accusantium' as nome_tab,'14' as documento_tab,'Dolor accusantium anim omnis u' as dt_nascimento,'Natus doloremque iste sit volu' as nome_pai,'Consectetur natus totam laudan' as nome_mae "));
 		view.tipo_contribuinte.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/

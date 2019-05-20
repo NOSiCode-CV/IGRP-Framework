@@ -11,7 +11,7 @@ import static nosi.core.i18n.Translator.gt;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
-
+import nosi.webapps.igrp.dao.DomainType;
 /*----#end-code----*/
 		
 public class DominioController extends Controller {
@@ -22,7 +22,7 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Lorem sed magna adipiscing anim' as description,'Accusantium consectetur omnis ut voluptatem' as key,'1' as estado,'hidden-d87c_0cf3' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Stract labore dolor aperiam magna' as description,'Unde voluptatem lorem labore lorem' as key,'1' as estado,'hidden-0a30_88d5' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -30,6 +30,8 @@ public class DominioController extends Controller {
 		view.aplicacao.setValue(DomainHeper.getApplications());
 		//view.estado.setQuery(DomainHeper.getEstadoQuery());
 		view.estado_check.setValue(1);
+		model.setPublico_check(1);
+	
 		String dad = Core.getCurrentDad();		
   		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {	
            	model.setApp(Core.findApplicationByDad(dad).getId());
@@ -49,6 +51,7 @@ public class DominioController extends Controller {
 			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
 		if(Core.isNotNull(model.getLst_dominio())) {        
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
+			model.setPublico((Core.findDomainByCode(model.getLst_dominio())).get(0).getDomainType().equals(DomainType.PUBLIC)?1:0);
 		}
       
 		if(Core.isNotNullOrZero(app)) {

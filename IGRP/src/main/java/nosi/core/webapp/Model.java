@@ -309,7 +309,9 @@ public abstract class Model { // IGRP super model
 						String []values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
 						String []values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
 						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
-						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+//						If the field is checkbox, we don't have _check_desc with value2=null so causing indexOutOfBounds here
+						List<String> list1 = values1 != null? Arrays.asList(new String[values1.length]):new ArrayList<String>();
+						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : list1);
 						
 					}
 					

@@ -32,7 +32,7 @@ public final class I18nManager implements Component{
 		Cookie cookies[] = Igrp.getInstance().getRequest().getCookies();
 		if(cookies != null)
 			for(Cookie cookie : cookies)
-				if(cookie.getName()!=null && cookie.getName().equals("igrp_lang")) {
+				if(cookies!=null && cookie.getName()!=null && cookie.getName().equals("igrp_lang")) {
 					v = cookie.getValue();
 					break;
 				}

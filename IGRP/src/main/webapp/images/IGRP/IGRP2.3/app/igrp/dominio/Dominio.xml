@@ -117,11 +117,18 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules/>
+                    <rules>
+                        <rule type="remote">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_form_1</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </lst_dominio>
                 <novo_dominio name="p_novo_dominio" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="dad_name Ex: igrp_types_doc" right="true" desclabel="false">
                     <label>Novo domínio</label>
-                    <value>Natus rem unde consectetur sit</value>
+                    <value>Officia doloremque unde adipiscing mollit</value>
                 </novo_dominio>
                 <hidden name="p_app" type="hidden" maxlength="250" java-type="Integer" tag="app"/>
             </fields>
@@ -135,61 +142,61 @@
                     <label>Valor</label>
                 </key>
                 <estado name="p_estado" type="checkbox" maxlength="2" required="false" change="false" readonly="false" disabled="false" right="false" java-type="int" check="true" desc="true">
-                    <label>Estado</label>
+                    <label>Ativo?</label>
                 </estado>
                 <ordem name="p_ordem" type="hidden" maxlength="250" java-type="" tag="ordem" desc="true"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <description name="p_description" desc="true">Aliqua iste unde mollit sit</description>
-                        <description_desc name="p_description_desc">Aliqua iste unde mollit sit</description_desc>
-                        <key name="p_key" desc="true">Perspiciatis stract deserunt laudantium mollit</key>
-                        <key_desc name="p_key_desc">Perspiciatis stract deserunt laudantium mollit</key_desc>
+                        <description name="p_description" desc="true">Consectetur deserunt aperiam deserunt unde</description>
+                        <description_desc name="p_description_desc">Consectetur deserunt aperiam deserunt unde</description_desc>
+                        <key name="p_key" desc="true">Sed voluptatem mollit magna officia</key>
+                        <key_desc name="p_key_desc">Sed voluptatem mollit magna officia</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-c734_06a6</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-c734_06a6</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-5301_f3d1</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-5301_f3d1</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Mollit ut anim magna dolor</description>
-                        <description_desc name="p_description_desc">Mollit ut anim magna dolor</description_desc>
-                        <key name="p_key" desc="true">Rem mollit doloremque laudantium perspiciatis</key>
-                        <key_desc name="p_key_desc">Rem mollit doloremque laudantium perspiciatis</key_desc>
+                        <description name="p_description" desc="true">Aliqua officia labore laudantium dolor</description>
+                        <description_desc name="p_description_desc">Aliqua officia labore laudantium dolor</description_desc>
+                        <key name="p_key" desc="true">Anim mollit consectetur officia sed</key>
+                        <key_desc name="p_key_desc">Anim mollit consectetur officia sed</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-0be0_9520</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-0be0_9520</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-5fbb_08fa</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-5fbb_08fa</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Sed sit magna consectetur magna</description>
-                        <description_desc name="p_description_desc">Sed sit magna consectetur magna</description_desc>
-                        <key name="p_key" desc="true">Elit amet aperiam officia natus</key>
-                        <key_desc name="p_key_desc">Elit amet aperiam officia natus</key_desc>
+                        <description name="p_description" desc="true">Totam sed amet unde ut</description>
+                        <description_desc name="p_description_desc">Totam sed amet unde ut</description_desc>
+                        <key name="p_key" desc="true">Perspiciatis iste totam aliqua sit</key>
+                        <key_desc name="p_key_desc">Perspiciatis iste totam aliqua sit</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-1ae8_889c</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-1ae8_889c</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-bb6e_4ae3</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-bb6e_4ae3</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Adipiscing laudantium consectetur officia sit</description>
-                        <description_desc name="p_description_desc">Adipiscing laudantium consectetur officia sit</description_desc>
-                        <key name="p_key" desc="true">Rem doloremque adipiscing anim sit</key>
-                        <key_desc name="p_key_desc">Rem doloremque adipiscing anim sit</key_desc>
+                        <description name="p_description" desc="true">Anim ipsum aperiam omnis doloremque</description>
+                        <description_desc name="p_description_desc">Anim ipsum aperiam omnis doloremque</description_desc>
+                        <key name="p_key" desc="true">Omnis laudantium lorem sit aperiam</key>
+                        <key_desc name="p_key_desc">Omnis laudantium lorem sit aperiam</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-30ae_e4fa</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-30ae_e4fa</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-edd8_0ed6</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-edd8_0ed6</ordem_desc>
                     </row>
                     <row>
-                        <description name="p_description" desc="true">Elit natus aperiam sit sit</description>
-                        <description_desc name="p_description_desc">Elit natus aperiam sit sit</description_desc>
-                        <key name="p_key" desc="true">Ut mollit lorem accusantium rem</key>
-                        <key_desc name="p_key_desc">Ut mollit lorem accusantium rem</key_desc>
+                        <description name="p_description" desc="true">Sit natus anim totam iste</description>
+                        <description_desc name="p_description_desc">Sit natus anim totam iste</description_desc>
+                        <key name="p_key" desc="true">Aliqua voluptatem sit voluptatem unde</key>
+                        <key_desc name="p_key_desc">Aliqua voluptatem sit voluptatem unde</key_desc>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-991b_fb81</ordem>
-                        <ordem_desc name="p_ordem_desc">hidden-991b_fb81</ordem_desc>
+                        <ordem name="p_ordem" tag="ordem" desc="true">hidden-7cfe_bc7c</ordem>
+                        <ordem_desc name="p_ordem_desc">hidden-7cfe_bc7c</ordem_desc>
                     </row>
                 </value>
             </table>

@@ -6,8 +6,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class DominioView extends View {
 
@@ -57,7 +55,7 @@ public class DominioView extends View {
 		
 		lst_dominio = new ListField(model,"lst_dominio");
 		lst_dominio.setLabel(gt("Editar domínio"));
-		lst_dominio.propertie().add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		lst_dominio.propertie().add("remote",new Config().getResolveUrl("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
@@ -76,7 +74,7 @@ public class DominioView extends View {
 		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false").add("desc","true");
 		
 		estado = new CheckBoxField(model,"estado");
-		estado.setLabel(gt("Estado"));
+		estado.setLabel(gt("Ativo?"));
 		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
