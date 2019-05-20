@@ -1,12 +1,17 @@
 <td align="#[align]#" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#">
-	 <xsl:if test="#tag# != '-0'">
-	 <label class="container-box">
-        <input type="radio" name="p_#tag#_fk" value="{#tag#}">
-            <xsl:if test="#tag#_check=#tag#">
-                <xsl:attribute name="checked">checked</xsl:attribute>
-            </xsl:if>
-        </input>
-           <span class="radiomark"></span>
-           </label>
-    </xsl:if>
+	 <xsl:choose>
+	 	<xsl:when test="#tag# != '-0'">
+			<label class="container-box">
+		        <input type="radio" name="p_#tag#_fk" value="{#tag#}">
+		            <xsl:if test="#tag#_check=#tag#">
+		                <xsl:attribute name="checked">checked</xsl:attribute>
+		            </xsl:if>
+		        </input>
+		        <span class="radiomark"></span>
+        	</label>
+    	</xsl:when>
+		<xsl:otherwise>
+			<input type="hidden" name="p_#tag#" value="{#tag#}"/>
+	    </xsl:otherwise>
+	 </xsl:choose>
 </td>
