@@ -6,7 +6,7 @@
 	  	<input type="hidden" name="{../../../fields/#tag#/@name}_fk" value="{#tag#}" rel="F_#parent.tag#"/>
 	  	<xsl:choose>
           <xsl:when test="#tag# != ''">
-            <a href="{#tag#}" name="p_#tag#" class="#type# #[button]# btn btn-#[class]# form-link" target-fields="#[target_fields]#" #[closerefresh]# target="#[target]#" request-fields="#[request_fields]#">
+            <a href="{#tag#}" name="p_#tag#" class="#type# #[button]# btn btn-#[class]# form-link" target-fields="#[target_fields]#" #[closerefresh]# target="#[target]#" request-fields="#[request_fields]#" list-association-src="#[list_source]#">
             	<i class="fa #[img]#"></i>
 	  			<span><xsl:value-of select="#tag#_desc"/></span>
 	  		</a>

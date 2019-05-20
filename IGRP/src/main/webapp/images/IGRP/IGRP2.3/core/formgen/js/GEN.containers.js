@@ -36,6 +36,8 @@ var CONTAINER = function(name,params){
 	container.propertiesLabels= {};
 
 	container.propertiesOptions= {};
+	
+	container.htmlAttributes = {};
 
 	container.customStyle = {
 		id    :params.style && params.style.id     ? params.style.id : '',
@@ -168,6 +170,8 @@ var CONTAINER = function(name,params){
 					if(idx > -1){
 
 						array.splice(idx,1);
+						
+						container.holder.trigger('field-remove', [field]);
 
 						container.onFieldRemove(field);
 						
@@ -1424,7 +1428,7 @@ var CONTAINER = function(name,params){
 											fieldTemplateXML = $.parseXML(fieldTemplateStr);
 
 											var fHTMLHolder = getFirstHtmlChild(fieldTemplateXML.documentElement);
-								
+											
 											//if(didx == container.dropZone.fieldsHolderIndex)
 											if(didx == fieldHolderIdx)
 
@@ -1547,6 +1551,17 @@ var CONTAINER = function(name,params){
 			mainNode.attr('item-name',container.GET.tag());
 
 			mainNode.attr('gen-item-id',container.GET.id());
+			
+			if(container.htmlAttributes){
+				
+				for(var attName in container.htmlAttributes){
+					
+					var attVal = container.htmlAttributes[attName];;
+					
+					mainNode.attr(attName,attVal);
+				}
+				
+			}
 
 			//container inline style
 			if(container.customStyle.inline){
@@ -1745,6 +1760,20 @@ var CONTAINER = function(name,params){
 		fields:function(){
 			return container.groups ? container.groups.getFieldsByGroupOrder() : FIELDS;
 		},
+		fieldByTag : function(tag){
+			var rtn = null;
+			for(var x=0;x < FIELDS.length; x++){
+				if(FIELDS[x]){
+					if(tag == FIELDS[x].GET.tag()){
+						rtn = FIELDS[x];
+						break;
+					}
+				}
+			}
+
+			return rtn;
+		},
+		
 		fieldsByType:function(type){
 			var fields = container.GET.fields();
 			var rtn = [];
@@ -1856,6 +1885,8 @@ var CONTAINER = function(name,params){
 			container.holder.find('> .container-settings > .container-settings-title').text(container.GET.tag());
 
 			container.onTagSet(container.GET.tag());
+			
+			container.holder.trigger('tag-change', [container.proprieties.tag]);
 		
 		},
 		field:function(field,callback){

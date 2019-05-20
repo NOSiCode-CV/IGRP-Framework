@@ -53,6 +53,8 @@ var GENERATOR = function(genparams){
 
 	GEN.domains 		 = {};
 	
+	GEN.dom = $('#igrp-form-gen');
+	
 	GEN.files 			 = {
 		css : [],
 		js  : [],
@@ -689,6 +691,8 @@ var GENERATOR = function(genparams){
 							clone      : dropped.clone,
 							placeholder: params.placeholder ? params.placeholder : null,
 							callback   : function(){
+
+								GEN.dom.trigger( 'container-set', [object] )
 								
 								GEN.dropContainers_ROW(containers,{
 									index:indx+1,
@@ -4812,7 +4816,14 @@ var GENERATOR = function(genparams){
 				value:p.value ? p.value : '_blank',
 				options: $.IGRP.defaults.buttons.targets()
 			},
-			//help : GEN.Helpers.attr.target
+			onChange:function(v){
+		
+				if(v != 'listAssociation')
+					
+					field.SET.list_source('');
+					
+			}
+			
 		});
 
 		field.setPropriety({
@@ -4872,6 +4883,225 @@ var GENERATOR = function(genparams){
 				
 			}
 		});
+		
+		
+		var RemoveAssociationFeatures = function(field, list){
+			
+			var targetHiddenField = field.parent.GET.fieldByTag('lst_association_id');
+			
+			if(targetHiddenField)
+
+				field.parent.removeField( targetHiddenField.id, false, false );
+			
+			field.parent.customStyle.class = field.parent.customStyle.class.replaceAll('list-association-target','');
+			
+			setTimeout(function(){
+				
+				if(list){
+					
+					var sourceHiddenField = list.GET.fieldByTag(field.parent.GET.tag()+'_lst_association_rel' );
+					
+					list.customStyle.class = list.customStyle.class.replaceAll('list-association-source','');
+					
+					if(sourceHiddenField)
+
+						list.removeField( sourceHiddenField.id, false );
+					
+					delete list.htmlAttributes['association-target-name'];
+
+				}
+				
+			}, 350);
+			
+		};
+		
+		field.setPropriety({
+			label 	 : 'List Source',
+			name     :'list_source',
+			order    : 3,
+			value    : {
+				value : '',
+				options : function(){
+					
+					var options = [{
+						
+						label : '', value : ''
+							
+					}];
+					
+					GEN.getContainers().forEach(function(c){
+
+						if(field.parent.GET.tag() != c.GET.tag() && c.xml.table)
+							
+							options.push({
+								
+								label : c.GET.tag(),
+								
+								value : c.id
+								
+							});
+						
+					});
+				
+					return options;
+					
+				}
+			},
+			
+			onEditionStart : function(e){
+				
+				var holder = e.input;
+				
+				var toggle = function(v){
+					
+					var val    = v || field.GET.target(),
+					
+						action = val == 'listAssociation' ? 'show' : 'hide';
+					
+					holder[action]();
+					
+				};
+		
+				$('.propriety-setter[rel="target"]').on('change', function(){
+					
+					toggle( $(this).val() );
+					
+				});
+				
+				toggle();
+				
+				
+			},
+			onChange:function(v,params){
+				
+				try{
+
+					if(v){
+						
+						var list 				= GEN.getContainer(v),
+						
+							setFieldCallback = function(list){
+							
+								var sourceHiddenField = list.GET.fieldByTag( field.parent.GET.tag()+'_lst_association_rel' ),
+								
+									targetHiddenField = field.parent.GET.fieldByTag('lst_association_id'),
+									
+									hiddenClass	      = GEN.getDeclaredField('hidden');
+								
+								list.htmlAttributes['association-target-name'] = field.parent.GET.tag();
+								
+								console.log(field.parent.GET.tag())
+								
+								if(!targetHiddenField){
+									
+									var targetHiddenField = new hiddenClass.field('hidden',{});
+									
+									targetHiddenField.SET.tag( 'lst_association_id' );
+									
+									field.parent.SET.fields( [targetHiddenField] );
+									
+								}
+								
+								if(!sourceHiddenField){
+									
+									var sourceHiddenField = new hiddenClass.field('hidden',{});
+									
+									sourceHiddenField.SET.tag( field.parent.GET.tag()+'_lst_association_rel' );
+									
+									list.customStyle.class = list.customStyle.class+' list-association-source';
+									
+									field.parent.customStyle.class = field.parent.customStyle.class+' list-association-target';
+									
+									list.SET.fields([sourceHiddenField]);
+									
+									field.parent.holder.on('tag-change', function(e,tag){
+									
+										sourceHiddenField.SET.tag( tag+'_lst_association_rel' );
+										
+										sourceHiddenField.parent.Transform();
+										
+									});
+									
+									
+								}
+							
+							}
+						
+						if(list)
+							
+							setFieldCallback(list);
+							
+						else
+							
+							GEN.dom.on('container-set', function(e,container){
+						
+								if(container.id == v)
+								
+									setFieldCallback(container);
+
+							});
+							
+					}else{
+						
+						var list = params.oldValue ?  GEN.getContainer(params.oldValue) : false;
+						
+						RemoveAssociationFeatures(field, list);
+						
+					}
+
+				}catch(e){
+					
+					console.log(e);
+					
+				}
+				
+			}
+			
+		});
+
+		field.parent.holder.on('field-remove', function(e,field){
+		
+			if(field.GET.list_source && field.GET.list_source()){
+				
+				var list = GEN.getContainer( field.GET.list_source() );
+
+				RemoveAssociationFeatures( field, list );
+				
+				/*var list = GEN.getContainer( field.GET.list_source() );
+				
+				var targetHiddenField = field.parent.GET.fieldByTag('lst_association_id');
+				
+				if(targetHiddenField)
+
+					field.parent.removeField( targetHiddenField.id, false, false );
+				
+				field.parent.customStyle.class = field.parent.customStyle.class.replaceAll('list-association-target','');
+				
+				if(list){
+					
+					var hiddenfield = list.GET.fieldByTag( field.parent.GET.tag()+'_lst_association_rel' );
+					
+					list.customStyle.class = list.customStyle.class.replaceAll('list-association-source','');
+					
+					if(hiddenfield)
+						
+						list.removeField( hiddenfield.id, false )
+					
+				}*/
+				
+			}
+			
+		});
+	
+		/*field.holder.on('field-remove', function(e, field){
+			
+			if(field.GET.target == 'listAssociation'){
+				
+				console.log('remove Hideen')
+				
+			}
+			
+		})*/
 
 		field.setPropriety({
 			name    :'closerefresh',

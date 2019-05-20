@@ -55,6 +55,12 @@ var GENFORM = function(name,params){
 	container.onFieldSet = function(field){
 		GEN.setFormFieldAttr(field);
 	}
+	
+	container.onDrawEnd = function(){
+		
+		//$.IGRP.components.form.placeholder2desc();
+		
+	}
 
 	// container.ready = function(){
 	// 	container.setProperty({

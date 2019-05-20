@@ -255,6 +255,37 @@
 				}
 		};
 		
+		var listAssociation = function(p){
+			
+			var parentName 	    = p.clicked.parents('.gen-container-item[item-name]').attr('item-name'),
+				
+				sourceInputName = 'p_'+parentName+'_lst_association_rel',
+				
+				sourceInput     = $('.list-association-source [name="'+sourceInputName+'"]');
+			
+			if(sourceInput[0]){
+				
+				var ListSource = sourceInput.parents('.list-association-source').first();
+				
+				$.IGRP.components.ListAssociation.set({
+					
+					source : ListSource,
+					
+					target : p.clicked.parents('.gen-container-item[item-name]'),
+					
+					row    : p.clicked.parents('tr').first(),
+					
+					clicked : p.clicked
+					
+				});
+				
+			}
+			
+			return false;
+			
+		}
+		//var associatedList
+		
 		var submitpage2file = function(p){
 			
 			p.clicked.attr('disabled','disabled');
@@ -1009,6 +1040,14 @@
 
 				action : formListLookup
 
+			},
+			
+			listAssociation : {
+				
+				label : 'List Association',
+				
+				action : listAssociation
+				
 			},
 			
 			submit_popup : {

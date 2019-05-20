@@ -172,9 +172,7 @@ var Field = function(type,params){
 
 			}		
 
-				
 
-			
 			field.SET.name('p_'+tag);
 		},
 		name :function(name){
@@ -336,16 +334,30 @@ var Field = function(type,params){
 
 		//has change event associated (blur,change,...)
 		var hasChangeEvent = val && val.changeEvent ? true : false;
+		
 		if(hasChangeEvent){
+			
 			field.proprieties[p.name]['on'+capitalizeFirstLetter(val.changeEvent)] = function(val){
+				
 				field.SET[p.name](val);
+				
 				if(p.onChange) p.onChange(val);
+				
 			}
+			
 		}
 		/* setter */
 		field.SET[p.name] = function(value,_params){
+			
+			_params = _params || {};
+			
 			var transform = p.transform || (_params && _params.transform) ? true : false;
+			
 			var _value = isInt ? parseInt(value) : value;
+			
+			var oldValue = field.GET[p.name] ? field.GET[p.name]() : false;
+			
+			_params.oldValue = oldValue;
 
 			if(typeof val == 'object')
 				field.proprieties[p.name].value = _value;
@@ -355,10 +367,15 @@ var Field = function(type,params){
 			try{
 				
 				if(!hasChangeEvent && (p.onChange || field.proprieties[p.name].onChange) ){
+					
 					if(p.onChange) 
+						
 						p.onChange(_value,_params);
+					
 					if(field.proprieties[p.name].onChange) 
+						
 						field.proprieties[p.name].onChange(_value,_params);
+					
 				}
 
 			}catch(error){}

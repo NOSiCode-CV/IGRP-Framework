@@ -165,7 +165,6 @@
 			
 			associationFormList   = $('.IGRP_formlist', associationForm);
 			
-			//set parentFormlist
 			associationForm.classList.forEach(function(c){
 				
 				if(c.indexOf(selectors.associationRel) == 0){
@@ -186,7 +185,6 @@
 			});
 			
 		};
-
 			
 		SetVariables();
 			

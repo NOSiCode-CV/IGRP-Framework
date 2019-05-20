@@ -194,6 +194,12 @@ $.fn.separatorList = function(o){
 					values:contentsObj,
 					type : edition ? 'edit' : 'add'
 				});
+				
+				$(sl).trigger('row-add', [{
+					row:row,
+					values:contentsObj,
+					type : edition ? 'edit' : 'add'
+				}])
 
 				rowEdit.reset(sl);
 
@@ -349,6 +355,12 @@ $.fn.separatorList = function(o){
 				sl.events.execute('row-remove',{
 					id:row
 				});
+				
+				$(sl).trigger('row-remove', [{
+					
+					row : row
+					
+				}]);
 			}
 		};
 
@@ -528,11 +540,14 @@ $.fn.separatorList = function(o){
 		};
 
 		var resetForm = function(fields,sl){
+			
+			fields = fields || getFormFields(sl);
 			//var sl  = fields.parents('.IGRP-separatorlist')[0];
 			var form       = fields.parents('.splist-form');
 			var isEdition  = $(sl).attr('row-action') == 'edit' ? true : false;
 			var firstInput = form.find(':first-child input[type="text"],:first-child input[type="number"],:first-child textarea');
-
+			
+			
 
 			$.each(fields,function(i,f){
 				var genType  = $(f).parents('[item-type]').attr('item-type');
@@ -577,6 +592,8 @@ $.fn.separatorList = function(o){
 
 			sl.events.execute('form-reset',fields);
 		};
+		
+		//
 
 		var customFieldsConfig = function(sl){
 			//LINK FIELD
@@ -648,6 +665,12 @@ $.fn.separatorList = function(o){
 		};
 
 		var setEvents = function(sl){
+			
+			sl.resetForm = function(){
+				
+				resetForm( getFormFields(sl), sl );
+				
+			};
 
 			if($(sl).find('.splist-form').attr('validation-class') != 'false')
 				getFormFields().addClass('no-validation');

@@ -77,6 +77,8 @@
     <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}" ></script>
     <!-- IGRP sidebar controller -->
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
+    <!-- IGRP list association controller -->
+    <script src="{$path}/core/igrp/components/list-association/igrp.list.association.js?v={$version}"></script>
     <!-- IGRP searchlist controller -->
     <script src="{$path}/core/igrp/searchlist/IGRP.searchlist.js"  charset="UTF-8"></script>
     <!-- IGRP rightpanel controller -->

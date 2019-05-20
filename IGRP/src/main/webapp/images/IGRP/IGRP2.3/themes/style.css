@@ -1895,6 +1895,17 @@ body.sidebar-off #igrp-contents.with-search .row-fluid .navbar {
   content:""
 }
 
+/* list association */
+.list-association-source{
+	display:none;
+}
+#igrp-form-gen .list-association-source{
+	display:block;
+}
+.modal-body>.list-association-source{
+	box-shadow:none!important;
+	margin:0 -10px;
+}
 
 /*TABLE*/
 table thead th {

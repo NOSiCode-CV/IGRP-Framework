@@ -353,6 +353,8 @@
 					label : ' ',
 
 					type : 'formlist',
+					
+					//value : 'OpenStreetMap',
 
 					size: 12,
 
@@ -418,7 +420,9 @@
 
 			container.onDrawEnd = function(){
 				
-				GIS.init( $('.igrp-map-os-wrapper', container.holder) )
+				GIS.init( $('.igrp-map-os-wrapper', container.holder) );
+				
+				//console.log(container.GET.basemaps())
 
 			};
 

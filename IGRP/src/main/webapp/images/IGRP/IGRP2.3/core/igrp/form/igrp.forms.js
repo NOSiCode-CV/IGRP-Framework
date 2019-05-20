@@ -291,7 +291,7 @@
   			},
   			
   			placeholder2desc : function(){
-  				$(':input.desclabel').each(function(){
+  				$(':input.desclabel[placeholder]').each(function(){
   					var f = $(this);
 
   					f.parents('.gen-fields-holder').append('<span class="desc_label text-muted">'+f.attr('placeholder')+'</span>');

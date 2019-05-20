@@ -3,7 +3,7 @@
     #label.val#
   </label>
   <div class="input-group">
-      <input type="text" value="{#path#/value}" data-range="#[range]#" class="form-control gen-date-picker #[change]#" id="#tag#" name="{#path#/@name}" #[required]# format="#[format]#" maxlength="#[maxlength]#" #[readonly]# #[disabled]#>
+      <input type="text" value="{#path#/value}" data-range="#[range]#" class="form-control gen-date-picker #[change]#" id="#tag#" name="{#path#/@name}" #[required]# format="#[format]#" maxlength="#[maxlength]#" #[readonly]# #[disabled]# placeholder="#[placeholder]#">
       	<xsl:call-template name="setAttributes">
             <xsl:with-param name="field" select="#path#"/>
         </xsl:call-template>
