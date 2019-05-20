@@ -119,13 +119,7 @@ public class GenericActivitiIGRP {
 			return true;
 		boolean x = new TaskAccess().getTaskAccess().stream().filter(a -> {
 			try {
-				return a.getProcessName().compareTo(p.getKey()) == 0;
-			} catch (Exception e) {
-				return false;
-			}
-		}).filter(a -> {
-			try {
-				return a.getTaskName().compareTo("Start" + p.getKey()) == 0;
+				return a.getProcessName().compareTo(p.getKey()) == 0 ||  a.getTaskName().compareTo("Start" + p.getKey()) == 0;
 			} catch (Exception e) {
 				return false;
 			}
