@@ -652,6 +652,8 @@ public class LoginController extends Controller {
 			
 			uid.put("sub", jToken.getString("sub")); 
 			uid.put("email", jToken.getString("email")); 
+			
+			System.out.println("jToken: " + jToken);
 
 		} catch (Exception e) {
 			e.printStackTrace();
