@@ -146,7 +146,7 @@
 				
 			if (fields.valid()) {
 				
-				$.IGRP.utils.loading.show();
+				//$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
 					clicked    : p.clicked,
@@ -227,7 +227,7 @@
 								text : $.IGRP.utils.htmlDecode(str)
 							});
 							
-							$.IGRP.utils.loading.hide();
+							//$.IGRP.utils.loading.hide();
 							
 							p.clicked.removeAttr("disabled");
 						}
