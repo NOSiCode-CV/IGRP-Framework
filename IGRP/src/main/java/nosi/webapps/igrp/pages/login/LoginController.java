@@ -83,7 +83,7 @@ public class LoginController extends Controller {
 		if(r != null) return r; 
 		
 		
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) { 
 			
 			model.load();
 			
@@ -110,7 +110,7 @@ public class LoginController extends Controller {
 		String oidcIdToken = user.getOidcIdToken(); 
 		String oidcState = user.getOidcState();
 		
-		user.setIsAuthenticated(0);
+		user.setIsAuthenticated(0); 
 		user = user.update();
 		if (Igrp.getInstance().getUser().logout() && user != null && !user.hasError()) {
 			if (!Session.afterLogout(currentSessionId))
@@ -600,8 +600,6 @@ public class LoginController extends Controller {
 			
 			String resultPost = r.readEntity(String.class); 
 			
-			System.out.println("resultPost: " + resultPost); 
-			
 			curl.close();
 			
 			int code = r.getStatus(); 
@@ -642,15 +640,11 @@ public class LoginController extends Controller {
 			
 			int code = r.getStatus();
 			
-			System.out.println("statusCode uid: " + code); 
-			
 			if(code != 200) return uid; 
 			
 			String result = r.readEntity(String.class); 
 			
 			curl.close();
-			
-			System.out.println("result: " + result); 
 
 			JSONObject jToken = new JSONObject(result); 
 			
@@ -698,7 +692,7 @@ public class LoginController extends Controller {
 				
 				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
 					
-					String email = _r.get("email"); 
+					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("email"); 
 					String uid = _r.get("sub"); 
 					
 					User user = new User().find().andWhere("email", "=", email).one(); 
@@ -787,23 +781,21 @@ public class LoginController extends Controller {
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
-		
-			System.out.println("Url: " + url); 
-			
+
 			return redirectToUrl(url); 
 			
 		}
 		return null; 
 	}
 	
-	private String createUrlForOAuth2OpenIdRequest() {
+	private String createUrlForOAuth2OpenIdRequest() { 
 		String aux = Igrp.getInstance().getRequest().getRequestURL().toString();
 		aux += "?r=igrp/Oauth2openidwso2/index&target=_blank&isPublic=1&lang=pt_PT"; 
 		return aux; 
 	}
 	
-	private boolean createPerfilWhenAutoInvite(User user) {
-		Profile p1 = new Profile();
+	private boolean createPerfilWhenAutoInvite(User user) { 
+		Profile p1 = new Profile(); 
 		p1.setUser(user);
 		p1.setOrganization(new Organization().findOne(3));
 		p1.setProfileType(new ProfileType().findOne(4));
