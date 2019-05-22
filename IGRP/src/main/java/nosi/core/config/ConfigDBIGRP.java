@@ -73,7 +73,7 @@ public class ConfigDBIGRP {
 	public boolean saveIntoWorkSpace(){
 		boolean r = true;
 		this.path = new Config().getWorkspace();
-		if(FileHelper.fileExists(this.path)){
+		if(Core.isNotNull(this.path) && FileHelper.fileExists(this.path)){
 			try {				
 				this.path +=File.separator+ new Config().getResourcesConfigDB();			
 				File file = new File(path+fileName);

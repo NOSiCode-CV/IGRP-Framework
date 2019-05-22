@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.core.xml.XMLConfigDBReader;
@@ -39,9 +41,6 @@ public class ImportAppJar extends Import implements IFImportExport{
 		List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
 		
 		for(FileImportAppOrPage file:this.un_jar_files){
-			
-			System.out.println(file.getNome());
-			
 			if(file.getNome().endsWith(".java") && this.app!=null){
 				filesToCompile.add(file);
 			}else if(file.getNome().startsWith("configApp")){
@@ -63,7 +62,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 					String[] fileName = file.getNome().split("/");
 					if(!FileHelper.fileExists(fileName[1]+".cfg.xml")){
 						result = FileHelper.save(this.getConfig().getBasePathClass(),fileName[1]+".cfg.xml", file.getConteudo());
-						if(FileHelper.fileExists(this.getConfig().getWorkspace())){
+						if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
 							result = FileHelper.save(this.getConfig().getWorkspace()+"/src",fileName[1]+".cfg.xml", file.getConteudo());
 						}
 					}

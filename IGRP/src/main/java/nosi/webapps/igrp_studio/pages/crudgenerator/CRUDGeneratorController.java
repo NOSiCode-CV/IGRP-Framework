@@ -250,7 +250,7 @@ public class CRUDGeneratorController extends Controller {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
 			String pathXsl = this.getConfig().getCurrentBaseServerPahtXsl(page);
 			r = FileHelper.save(pathXsl, fileName, content);
-			if(FileHelper.fileExists(this.getConfig().getWorkspace())){
+			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
 				r = FileHelper.save(this.getConfig().getBasePahtXslWorkspace(page), fileName, content);
 			}
 		}
@@ -267,7 +267,7 @@ public class CRUDGeneratorController extends Controller {
 				String path_class = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-				Boolean workspace= !this.getConfig().getWorkspace().equals("");
+				Boolean workspace= Core.isNotNull(this.getConfig().getWorkspace());
 				String path_class_work_space = null;
 				if(workspace)
 					path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
