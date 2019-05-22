@@ -12,3 +12,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.jqueryOverrideVal = true;
 	config.resize_minHeight = 400;
 };
+
+CKEDITOR.on( 'instanceReady', function(ev) {
+	ev.editor.on('change',function(ed){
+		ed.editor.element.setValue(ed.editor.getData());
+	});
+});
