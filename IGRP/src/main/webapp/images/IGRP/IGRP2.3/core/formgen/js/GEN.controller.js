@@ -5059,51 +5059,31 @@ var GENERATOR = function(genparams){
 			
 		});
 		
-		if( field.parent && field.parent.holder )
+		var OnParentFieldRemove = function(){
 			
 			field.parent.holder.on('field-remove', function(e,field){
-		
-			if(field.GET.list_source && field.GET.list_source()){
 				
-				var list = GEN.getContainer( field.GET.list_source() );
-
-				RemoveAssociationFeatures( field, list );
-				
-				/*var list = GEN.getContainer( field.GET.list_source() );
-				
-				var targetHiddenField = field.parent.GET.fieldByTag('lst_association_id');
-				
-				if(targetHiddenField)
-
-					field.parent.removeField( targetHiddenField.id, false, false );
-				
-				field.parent.customStyle.class = field.parent.customStyle.class.replaceAll('list-association-target','');
-				
-				if(list){
+				if(field.GET.list_source && field.GET.list_source()){
 					
-					var hiddenfield = list.GET.fieldByTag( field.parent.GET.tag()+'_lst_association_rel' );
-					
-					list.customStyle.class = list.customStyle.class.replaceAll('list-association-source','');
-					
-					if(hiddenfield)
-						
-						list.removeField( hiddenfield.id, false )
-					
-				}*/
-				
-			}
-			
-		});
+					var list = GEN.getContainer( field.GET.list_source() );
 	
-		/*field.holder.on('field-remove', function(e, field){
-			
-			if(field.GET.target == 'listAssociation'){
+					RemoveAssociationFeatures( field, list );
+				}
 				
-				console.log('remove Hideen')
-				
-			}
+			});
+		}
+		
+		if( field.parent && field.parent.holder )
 			
-		})*/
+			OnParentFieldRemove();
+		
+		else
+			
+			field.parent.on('ready', function(){
+				
+				OnParentFieldRemove();
+				
+			});
 
 		field.setPropriety({
 			name    :'closerefresh',
