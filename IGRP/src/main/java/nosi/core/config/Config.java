@@ -140,7 +140,8 @@ public class Config {
 	}
 	
 	public String getWorkspace(){
-		return Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
+		String workSpace = Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
+		return Core.isNotNull(workSpace)?workSpace:null;
 	}
 	
 	public String getEnvironment() {

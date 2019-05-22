@@ -72,7 +72,7 @@ public class BPMNDesignerController extends Controller {
 	}
 
 
-	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String erros = "";
 		BPMNDesigner model = new BPMNDesigner();
@@ -132,7 +132,7 @@ public class BPMNDesignerController extends Controller {
 		return this.renderView(resource);
 	}
 	
-	private void saveTaskController(TaskService task,Application app) {
+	private void saveTaskController(TaskService task,Application app) throws TransformerConfigurationException, UnsupportedEncodingException {
 		String taskName = StringHelper.camelCaseFirst(BPMNConstants.PREFIX_TASK+task.getId());
 		Action ac = new Action().find()
 				.andWhere("application", "=",app.getId())
@@ -158,25 +158,26 @@ public class BPMNDesignerController extends Controller {
 			ac.setProcessKey(task.getProcessDefinitionId().toLowerCase());
 			ac.update();
 		}
-		String classPathWorkspace = this.getClassPathWorkspace(task, app);
-		String classPathServer = this.getClassPathServer(task, app);
-		String xml = null;
-		if(FileHelper.dirExists(classPathWorkspace)) {
-			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathWorkspace);
-		}else {
-			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), taskName, task.getFormKey(), classPathServer);
-		}
-		String content = "";
-		try {
-			content = this.transformXMLToController(xml);
-		} catch (TransformerConfigurationException | UnsupportedEncodingException e) {
-			Core.setMessageError(e.getMessage());
-		}
-		this.compiler.addFileName(classPathServer+File.separator+ ac.getPage()+"Controller.java");
-		FileHelper.saveFilesJavaControllerAndReplace(classPathServer, ac.getPage(), content);
-		FileHelper.saveFilesJavaControllerAndReplace(classPathWorkspace, ac.getPage(), content);		
+		this.saveTaskFileController(task,app,ac);		
 	}
 	
+	private void saveTaskFileController(TaskService task, Application app, Action ac) throws TransformerConfigurationException, UnsupportedEncodingException {
+		String classPathWorkspace = this.getClassPathWorkspace(task, app);
+		String xml = null;
+		if(Core.isNotNull(classPathWorkspace) && FileHelper.dirExists(classPathWorkspace)) {
+			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathWorkspace);
+			String content = this.transformXMLToController(xml);
+			FileHelper.saveFilesJavaControllerAndReplace(classPathWorkspace, ac.getPage(), content);
+		}else {
+			String classPathServer = this.getClassPathServer(task, app);
+			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathServer);
+			String content = this.transformXMLToController(xml);
+			FileHelper.saveFilesJavaControllerAndReplace(classPathServer, ac.getPage(), content);
+			this.compiler.addFileName(classPathServer+File.separator+ ac.getPage()+"Controller.java");
+		}
+	}
+
+
 	private String transformXMLToController(String xml) throws TransformerConfigurationException, UnsupportedEncodingException {
 		return XMLTransform.xmlTransformWithXSL(FileHelper.convertStringToInputStream(xml), this.config.getLinkXSLBpmnControllerGenerator());
 	}
@@ -194,12 +195,15 @@ public class BPMNDesignerController extends Controller {
 			String proccessKey = tasks.get(0).getProcessDefinitionId().toLowerCase();
 			String className = GenerateInterfacePermission.getGenerateClassName(proccessKey);
 			if(Core.isNotNull(className)) {
-				String classPathServer = this.getClassPathServer(tasks.get(0), app);
 				String classPathWorkspace = this.getClassPathWorkspace(tasks.get(0), app);
 				String content = GenerateInterfacePermission.getGenerateClassContent(app.getDad(), proccessKey);
-				this.compiler.addFileName(classPathServer+File.separator+ className+".java");
-				FileHelper.saveFilesJavaAndNotReplace(classPathServer, className, content);
-				FileHelper.saveFilesJavaAndNotReplace(classPathWorkspace,className, content);
+				if(Core.isNotNull(classPathWorkspace) && FileHelper.dirExists(classPathWorkspace)) {
+					FileHelper.saveFilesJavaAndNotReplace(classPathWorkspace,className, content);
+				}else {
+					String classPathServer = this.getClassPathServer(tasks.get(0), app);
+					FileHelper.saveFilesJavaAndNotReplace(classPathServer, className, content);
+					this.compiler.addFileName(classPathServer+File.separator+ className+".java");
+				}
 			}
 		}
 	}

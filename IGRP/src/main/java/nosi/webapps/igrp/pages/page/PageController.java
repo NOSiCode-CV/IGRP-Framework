@@ -193,7 +193,7 @@ public class PageController extends Controller {
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
 					String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(action);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
-					if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
+					if (Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())) {
 						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp()
 								+ File.separator + "images" + File.separator + "IGRP/IGRP" + action.getVersion()
 								+ "/app/" + action.getApplication().getDad().toLowerCase() + "/"
@@ -364,7 +364,7 @@ public class PageController extends Controller {
 			String path_xsl = this.getConfig().getCurrentBaseServerPahtXsl(ac);
 			String path_xsl_work_space = null,path_class_work_space = null;
 
-			if(!this.getConfig().getWorkspace().equals("")) {
+			if(Core.isNotNull(this.getConfig().getWorkspace())) {
 				workspace=true;
 				path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp()
 					+ File.separator + "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion()
