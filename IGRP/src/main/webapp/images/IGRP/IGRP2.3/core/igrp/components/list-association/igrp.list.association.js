@@ -14,7 +14,7 @@
 					
 					options.source.find('tbody tr').hide();
 					
-					$('[name="p_'+options.target.attr('item-name')+'_lst_association_rel_fk"]', options.source).each(function(i, input){
+					$('[name="p_lst_association_rel_fk"]', options.source).each(function(i, input){
 						
 						var relID = $(input).val();
 						
@@ -70,7 +70,7 @@
 					
 					source.on('row-add', function(e, params){
 						
-						var sourceInputRel = $('[name="p_'+target.attr('item-name')+'_lst_association_rel_fk"]', params.row[0]);
+						var sourceInputRel = $('[name="p_lst_association_rel_fk"]', params.row[0]);
 						
 						sourceInputRel.val( target.data('current') );
 						
@@ -80,7 +80,7 @@
 						
 						var rowID = GetRowID(params.row),
 						
-							rowSourceAssociations = $('[name="p_'+target.attr('item-name')+'_lst_association_rel_fk"]', source);
+							rowSourceAssociations = $('[name="p_lst_association_rel_fk"]', source);
 						
 						rowSourceAssociations.each(function(i, input){
 							

@@ -4899,7 +4899,7 @@ var GENERATOR = function(genparams){
 				
 				if(list){
 					
-					var sourceHiddenField = list.GET.fieldByTag(field.parent.GET.tag()+'_lst_association_rel' );
+					var sourceHiddenField = list.GET.fieldByTag('lst_association_rel' );
 					
 					list.customStyle.class = list.customStyle.class.replaceAll('list-association-source','');
 					
@@ -4984,15 +4984,13 @@ var GENERATOR = function(genparams){
 							
 								setFieldCallback = function(list){
 								
-									var sourceHiddenField = list.GET.fieldByTag( field.parent.GET.tag()+'_lst_association_rel' ),
+									var sourceHiddenField = list.GET.fieldByTag( 'lst_association_rel' ),
 									
 										targetHiddenField = field.parent.GET.fieldByTag('lst_association_id'),
 										
 										hiddenClass	      = GEN.getDeclaredField('hidden');
 									
 									list.htmlAttributes['association-target-name'] = field.parent.GET.tag();
-									
-									console.log(field.parent.GET.tag())
 									
 									if(!targetHiddenField){
 										
@@ -5008,7 +5006,7 @@ var GENERATOR = function(genparams){
 										
 										var sourceHiddenField = new hiddenClass.field('hidden',{});
 										
-										sourceHiddenField.SET.tag( field.parent.GET.tag()+'_lst_association_rel' );
+										sourceHiddenField.SET.tag( 'lst_association_rel' );
 										
 										list.customStyle.class = list.customStyle.class+' list-association-source';
 										
@@ -5016,13 +5014,13 @@ var GENERATOR = function(genparams){
 										
 										list.SET.fields([sourceHiddenField]);
 										
-										field.parent.holder.on('tag-change', function(e,tag){
+										/*field.parent.holder.on('tag-change', function(e,tag){
 										
 											sourceHiddenField.SET.tag( tag+'_lst_association_rel' );
 											
 											sourceHiddenField.parent.Transform();
 											
-										});
+										});*/
 										
 										
 									}

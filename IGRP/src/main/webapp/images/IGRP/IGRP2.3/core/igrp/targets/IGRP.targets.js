@@ -257,11 +257,7 @@
 		
 		var listAssociation = function(p){
 			
-			var parentName 	    = p.clicked.parents('.gen-container-item[item-name]').attr('item-name'),
-				
-				sourceInputName = 'p_'+parentName+'_lst_association_rel',
-				
-				sourceInput     = $('.list-association-source [name="'+sourceInputName+'"]');
+			var sourceInput     = $('.list-association-source [name="p_lst_association_rel"]');
 			
 			if(sourceInput[0]){
 				
@@ -1264,7 +1260,7 @@
 					fields    = $.IGRP.utils.getFieldsValidate(),
 					vfields   = fields.filter('.submittable'),//form.find('.submittable'),//$.IGRP.utils.getFieldsValidate(),
 					canSubmit = true;
-
+				
 				if(validate != 'false')
  					canSubmit = vfields.valid({
  						exclude : '.no-validation, .IGRP_checkall' //hack for separator list on submit fields from form. 
@@ -1284,8 +1280,7 @@
  					
  				else
  					$.IGRP.components.form.hasFieldsError();
- 					
-
+ 				
  				//return false;
 				return canSubmit;		
 
