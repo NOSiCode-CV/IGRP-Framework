@@ -1,26 +1,23 @@
 <td align="#[align]#" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#" data-order="{#tag#_check=#tag#}">
-    <xsl:choose>
-	    <xsl:when test="#tag# != '-0'">
-	    	<label class="container-box #[switch]#">
-		        <input type="checkbox" name="p_#tag#_fk" value="{#tag#}" check-rel="#tag#" class="checkdcontrol">
-		            <xsl:if test="#tag#_check=#tag#">
-		                <xsl:attribute name="checked">checked</xsl:attribute>
-		            </xsl:if>
-		        </input>
-		        <span class="slider round"></span>
-		        <span class="checkmark"></span>
-		        <input type="hidden" name="p_#tag#_check_fk" class="#tag#_check">
-		        	<xsl:if test="#tag#_check=#tag#">
-		                <xsl:attribute name="value"><xsl:value-of select="#tag#_check"/></xsl:attribute>
-		            </xsl:if>
-		        </input>
-	        </label>
-	        <xsl:if test="#tag#_check!=#tag#">
-	            <input type="hidden" name="p_#tag#_fk" value="{#tag#}" class="#tag#"/>
-	        </xsl:if>
-        </xsl:when>
-		<xsl:otherwise>
-			<input type="hidden" name="p_#tag#" value="{#tag#}"/>
-	    </xsl:otherwise>
-	</xsl:choose>
+   <xsl:if test="#tag# != '-0'">
+   		<label class="container-box #[switch]#">
+	        <input type="checkbox" name="p_#tag#_fk" value="{#tag#}" check-rel="#tag#" class="checkdcontrol">
+	            <xsl:if test="#tag#_check=#tag#">
+	                <xsl:attribute name="checked">checked</xsl:attribute>
+	            </xsl:if>
+	        </input>
+	        <span class="slider round"></span>
+	        <span class="checkmark"></span>
+       </label>
+    </xsl:if>
+    
+    <input type="hidden" name="p_#tag#_check_fk" class="#tag#_check">
+       	<xsl:if test="#tag#_check=#tag#">
+         	<xsl:attribute name="value"><xsl:value-of select="#tag#_check"/></xsl:attribute>
+         </xsl:if>
+    </input>
+    
+    <xsl:if test="#tag#_check!=#tag#">
+        <input type="hidden" name="p_#tag#_fk" value="{#tag#}" class="#tag#"/>
+    </xsl:if>
 </td>
