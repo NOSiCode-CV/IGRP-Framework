@@ -4817,8 +4817,8 @@ var GENERATOR = function(genparams){
 				options: $.IGRP.defaults.buttons.targets()
 			},
 			onChange:function(v){
-		
-				if(v != 'listAssociation')
+				
+				if(field.SET.list_source && v != 'listAssociation')
 					
 					field.SET.list_source('');
 					
@@ -4915,175 +4915,168 @@ var GENERATOR = function(genparams){
 			
 		};
 		
-		field.setPropriety({
-			label 	 : 'List Source',
-			name     :'list_source',
-			order    : 3,
-			value    : {
-				value : '',
-				options : function(){
-					
-					var options = [{
-						
-						label : '', value : ''
-							
-					}];
-					
-					GEN.getContainers().forEach(function(c){
-
-						if(field.parent.GET.tag() != c.GET.tag() && c.xml.table)
-							
-							options.push({
-								
-								label : c.GET.tag(),
-								
-								value : c.id
-								
-							});
-						
-					});
-				
-					return options;
-					
-				}
-			},
+		if(field.parent && field.parent.xml && field.parent.xml.table ){
 			
-			onEditionStart : function(e){
-				
-				var holder = e.input;
-				
-				var toggle = function(v){
-					
-					var val    = v || field.GET.target(),
-					
-						action = val == 'listAssociation' ? 'show' : 'hide';
-					
-					holder[action]();
-					
-				};
-		
-				$('.propriety-setter[rel="target"]').on('change', function(){
-					
-					toggle( $(this).val() );
-					
-				});
-				
-				toggle();
-				
-				
-			},
-			onChange:function(v,params){
-				
-				try{
+			field.setPropriety({
+				label 	 : 'List Source',
+				name     :'list_source',
+				order    : 3,
+				value    : {
+					value : '',
+					options : function(){
+						
+						var options = [{
+							
+							label : '', value : ''
+								
+						}];
+						
+						GEN.getContainers().forEach(function(c){
 
-					if(v){
-						
-						var list 				= GEN.getContainer(v),
-						
-							setFieldCallback = function(list){
-							
-								var sourceHiddenField = list.GET.fieldByTag( field.parent.GET.tag()+'_lst_association_rel' ),
+							if(field.parent.GET.tag() != c.GET.tag() && c.xml.table)
 								
-									targetHiddenField = field.parent.GET.fieldByTag('lst_association_id'),
+								options.push({
 									
-									hiddenClass	      = GEN.getDeclaredField('hidden');
-								
-								list.htmlAttributes['association-target-name'] = field.parent.GET.tag();
-								
-								console.log(field.parent.GET.tag())
-								
-								if(!targetHiddenField){
+									label : c.GET.tag(),
 									
-									var targetHiddenField = new hiddenClass.field('hidden',{});
+									value : c.id
 									
-									targetHiddenField.SET.tag( 'lst_association_id' );
-									
-									field.parent.SET.fields( [targetHiddenField] );
-									
-								}
-								
-								if(!sourceHiddenField){
-									
-									var sourceHiddenField = new hiddenClass.field('hidden',{});
-									
-									sourceHiddenField.SET.tag( field.parent.GET.tag()+'_lst_association_rel' );
-									
-									list.customStyle.class = list.customStyle.class+' list-association-source';
-									
-									field.parent.customStyle.class = field.parent.customStyle.class+' list-association-target';
-									
-									list.SET.fields([sourceHiddenField]);
-									
-									field.parent.holder.on('tag-change', function(e,tag){
-									
-										sourceHiddenField.SET.tag( tag+'_lst_association_rel' );
-										
-										sourceHiddenField.parent.Transform();
-										
-									});
-									
-									
-								}
+								});
 							
-							}
-						
-						if(list)
-							
-							setFieldCallback(list);
-							
-						else
-							
-							GEN.dom.on('container-set', function(e,container){
-						
-								if(container.id == v)
-								
-									setFieldCallback(container);
-
-							});
-							
-					}else{
-						
-						var list = params.oldValue ?  GEN.getContainer(params.oldValue) : false;
-						
-						RemoveAssociationFeatures(field, list);
+						});
+					
+						return options;
 						
 					}
-
-				}catch(e){
+				},
+				
+				onEditionStart : function(e){
 					
-					console.log(e);
+					var holder = e.input;
+					
+					var toggle = function(v){
+						
+						var val    = v || field.GET.target(),
+						
+							action = val == 'listAssociation' ? 'show' : 'hide';
+						
+						holder[action]();
+						
+					};
+			
+					$('.propriety-setter[rel="target"]').on('change', function(){
+						
+						toggle( $(this).val() );
+						
+					});
+					
+					toggle();
+					
+					
+				},
+				onChange:function(v,params){
+					
+					try{
+
+						if(v){
+							
+							var list 				= GEN.getContainer(v),
+							
+								setFieldCallback = function(list){
+								
+									var sourceHiddenField = list.GET.fieldByTag( field.parent.GET.tag()+'_lst_association_rel' ),
+									
+										targetHiddenField = field.parent.GET.fieldByTag('lst_association_id'),
+										
+										hiddenClass	      = GEN.getDeclaredField('hidden');
+									
+									list.htmlAttributes['association-target-name'] = field.parent.GET.tag();
+									
+									console.log(field.parent.GET.tag())
+									
+									if(!targetHiddenField){
+										
+										var targetHiddenField = new hiddenClass.field('hidden',{});
+										
+										targetHiddenField.SET.tag( 'lst_association_id' );
+										
+										field.parent.SET.fields( [targetHiddenField] );
+										
+									}
+									
+									if(!sourceHiddenField){
+										
+										var sourceHiddenField = new hiddenClass.field('hidden',{});
+										
+										sourceHiddenField.SET.tag( field.parent.GET.tag()+'_lst_association_rel' );
+										
+										list.customStyle.class = list.customStyle.class+' list-association-source';
+										
+										field.parent.customStyle.class = field.parent.customStyle.class+' list-association-target';
+										
+										list.SET.fields([sourceHiddenField]);
+										
+										field.parent.holder.on('tag-change', function(e,tag){
+										
+											sourceHiddenField.SET.tag( tag+'_lst_association_rel' );
+											
+											sourceHiddenField.parent.Transform();
+											
+										});
+										
+										
+									}
+								
+								}
+							
+							if(list)
+								
+								setFieldCallback(list);
+								
+							else
+								
+								GEN.dom.on('container-set', function(e,container){
+							
+									if(container.id == v)
+									
+										setFieldCallback(container);
+
+								});
+								
+						}else{
+							
+							var list = params.oldValue ?  GEN.getContainer(params.oldValue) : false;
+							
+							RemoveAssociationFeatures(field, list);
+							
+						}
+
+					}catch(e){
+						
+						console.log(e);
+						
+					}
 					
 				}
 				
-			}
+			});
 			
-		});
-		
-		var OnParentFieldRemove = function(){
 			
 			field.parent.holder.on('field-remove', function(e,field){
 				
 				if(field.GET.list_source && field.GET.list_source()){
 					
 					var list = GEN.getContainer( field.GET.list_source() );
-	
+
 					RemoveAssociationFeatures( field, list );
 				}
 				
 			});
+			
+			
 		}
 		
-		if( field.parent && field.parent.holder )
-			
-			OnParentFieldRemove();
 		
-		else
-			
-			field.parent.on('ready', function(){
-				
-				OnParentFieldRemove();
-				
-			});
 
 		field.setPropriety({
 			name    :'closerefresh',
