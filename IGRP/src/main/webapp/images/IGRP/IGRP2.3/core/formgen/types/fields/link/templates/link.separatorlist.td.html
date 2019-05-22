@@ -1,10 +1,11 @@
 <xsl:choose>
 	<xsl:when test="not(//#path#/@visible)">
-		<td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="link" item-name="#[tag]#">
+		<td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="link" is-button="#[button]#" item-name="#[tag]#">
 			<xsl:choose>
 	          <xsl:when test="#tag# != ''">
-	            <a href="{#tag#}" class="link bClick" target-fields="#[target_fields]#" target="#[target]#" name="#tag#">
-	              <xsl:value-of select="#tag#_desc"/>
+	            <a href="{#tag#}"  class="link bClick btn btn-#[class]# #[btnSize]#" target-fields="#[target_fields]#" target="#[target]#" name="#tag#">
+	              <i class="fa #[img]#"/>
+	              <span><xsl:value-of select="#tag#_desc"/></span>
 	            </a>
 	          </xsl:when>
 	          <xsl:otherwise>

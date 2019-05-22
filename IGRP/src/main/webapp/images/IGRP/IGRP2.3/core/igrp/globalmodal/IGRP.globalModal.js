@@ -14,11 +14,9 @@
 			},
 
 			set:function(o){
-
 				/*
 					size: lg, sm, xs
 					rel : attr to control
-
 				*/
 				var modal  			 = $.IGRP.components.globalModal.get(),
 
@@ -34,15 +32,15 @@
 
 					modal.attr('tabindex','-1');
 				
+				if(o.class)
+					
+					modal.addClass( o.class );
+				
 				
 				$('.modal-dialog',modal).removeClass('modal-lg modal-sm');
 
 				if(o.size)
 					$('.modal-dialog',modal).addClass('modal-'+o.size);
-				
-				if(o.beforeHide) 
-					
-					$.IGRP.components.globalModal.beforeHide = o.beforeHide;
 				
 				if(o.rel) modal.attr('parent-rel',o.rel);
 				
@@ -72,7 +70,6 @@
 						var text   = b.text ? b.text : '';
 						var btn = $('<button class="custom btn btn-'+_class+'">'+icon+text+'</button>');
 						
-						
 
 						if(b.attr)
 							for(attr in b.attr){
@@ -91,6 +88,18 @@
 				if(o.beforeShow)
 					
 					o.beforeShow();
+				
+				$.IGRP.components.globalModal.beforeHide = function(){
+					
+					if(o.beforeHide && typeof o.beforeHide === 'function' )
+						
+						o.beforeHide();
+					
+					if(o.class)
+						
+						modal.removeClass( o.class );
+					
+				};
 
 				$.IGRP.components.globalModal.show();
 			},
@@ -105,12 +114,14 @@
 			onhide:function(){
 				var modal = $.IGRP.components.globalModal.get();
 
-				if($.IGRP.components.globalModal.beforeHide) $.IGRP.components.globalModal.beforeHide();
+				if($.IGRP.components.globalModal.beforeHide) 
+					
+					$.IGRP.components.globalModal.beforeHide();
 
 				$('.custom',modal).remove();
 				$('.modal-body',modal).html('');
 				$('.modal-header .title',modal).html('');
-				$.IGRP.components.globalModal.beforeHide =null;
+				$.IGRP.components.globalModal.beforeHide = function(){};
 			}
 		}
 

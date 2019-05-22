@@ -106,8 +106,9 @@ table td.img{
   padding: 5px 0px !important;
 }
 
-
-
+table td.min-width{
+	width:0.5%
+}
 
 /* IGRP TABLE FILTER */
 .igrp-table-filter{

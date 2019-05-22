@@ -161,20 +161,22 @@
 				
 				operation : 'appendTo',
 				
+				class : 'list-association-modal',
+				
 				buttons : [
 					{
 						class : 'grey',
 						
-						icon : 'check',
+						icon  : 'check',
 						
-						text : 'Confirmar',
+						text  : 'Confirmar',
 						
 						onClick:function(){
 							
 							$.IGRP.components.globalModal.hide();
 							
-							//currentRow = null;
-							
+							options.target.data('current', false);
+
 							return false;
 							
 						}
@@ -184,8 +186,6 @@
 				beforeHide : function(){
 					
 					options.source.hide().appendTo( sourceParent );
-					
-					console.log('reset')
 					
 					options.target.find('.IGRP-separatorlist')[0].resetForm();
 					

@@ -598,10 +598,17 @@ $.fn.separatorList = function(o){
 		var customFieldsConfig = function(sl){
 			//LINK FIELD
 			sl.events.declare(["link-field-add"]);
-			sl.events.on("link-field-add",function(o){
-				return '<a href="'+o.value+'" class="link bClick" target="'+o.target+'">'+o.text+'</a>'
-			},true);
 			
+			sl.events.on("link-field-add",function(o){
+				
+				var _class = o.field.attr('class'),
+				
+					icon   = o.field.attr('icon') || '';
+				
+				return '<a href="'+o.value+'" class="'+_class+'" target="'+o.target+'"><i class="fa '+icon+'"></i><span>'+o.text+'</span></a>'
+				
+			},true);
+
 			//URL FIELD
 			sl.events.declare(["url-field-add"]);
 			sl.events.on("url-field-add",function(o){

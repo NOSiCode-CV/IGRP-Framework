@@ -1899,12 +1899,17 @@ body.sidebar-off #igrp-contents.with-search .row-fluid .navbar {
 .list-association-source{
 	display:none;
 }
+
+.list-association-modal .modal-body{
+	padding:0;
+}
+
 #igrp-form-gen .list-association-source{
 	display:block;
 }
-.modal-body>.list-association-source{
+.list-association-modal .modal-body>.list-association-source{
 	box-shadow:none!important;
-	margin:0 -10px;
+	margin:0;
 }
 
 /*TABLE*/
