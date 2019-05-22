@@ -25,7 +25,6 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
-import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -1431,15 +1430,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	 */
 	@Override
 	public T whereBetween(String columnName, Object o1, Object o2) {
-
 		if (Core.isNotNullMultiple(columnName, o1, o2) && o1.getClass().equals(o2.getClass())) {
-			if (o1 instanceof java.util.Date) {
-				o1 = DateHelper.utilDateToSqlDate((java.util.Date) o1);
-				o2 = DateHelper.utilDateToSqlDate((java.util.Date) o2);
+			String between = "";
+			if(o1 instanceof Number && o2 instanceof Number) {
+				between = o1 + " AND " + o2;
+			}else {
+				between = "'" + o1 + "' AND '" + o2 + "'";
 			}
 			this.where("");
-			this.filterWhere(
-					recq.resolveColumnName(this.getAlias(), columnName) + " between '" + o1 + "' AND '" + o2 + "'");
+			this.filterWhere(recq.resolveColumnName(this.getAlias(), columnName) + " between "+between);
 		}
 		return (T) this;
 	}
