@@ -982,6 +982,16 @@
 				
 			},
 			
+			download  : {
+				
+				label : 'Download',
+				
+				action : function(){
+					return true;
+				}
+				
+			},
+			
 			confirm      : {
 
 				label  : 'Confirmar',

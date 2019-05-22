@@ -791,8 +791,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 				var actionURL	 = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app') || $.IGRP.utils.getPageUrl(),
 					form		 = $.IGRP.utils.getForm();
 				
-				$.IGRP.utils.loading.show();
-				
 				$.each( p.targetFields ,function(i,f){
 					
 					var tableName = $(f).attr('item-name');
