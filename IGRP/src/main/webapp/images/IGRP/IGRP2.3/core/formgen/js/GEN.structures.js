@@ -151,8 +151,8 @@ var GENSTRUCTURES = function(GEN){
 			attributesStr = getAttrsArr(field);
 
 		//ALL HIDDEN FIELDS HAVE HIDDEN TAG !!
-		if(type == 'hidden')
-			tag = 'hidden';
+		/*if(type == 'hidden')
+			tag = 'hidden';*/
 		//------------------------------------
 
 		if(tag){

@@ -5058,8 +5058,10 @@ var GENERATOR = function(genparams){
 			}
 			
 		});
-
-		field.parent.holder.on('field-remove', function(e,field){
+		
+		if( field.parent && field.parent.holder )
+			
+			field.parent.holder.on('field-remove', function(e,field){
 		
 			if(field.GET.list_source && field.GET.list_source()){
 				
