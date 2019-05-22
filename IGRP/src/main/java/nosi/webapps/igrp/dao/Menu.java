@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -258,10 +260,20 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								}
 								
 								if(pagina.getApplication().getExternal() == 2) {
-									String _u = buildMenuUrlByDad(pagina.getApplication().getUrl()); // Custom Dad 
-									_u += "?_t=" + Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes()); 
-									_u += "&_url=" + pagina.getApplication().getUrl() + "/" + r.getString("page") + "/" + r.getString("action");
-									ms.setLink(_u);
+									
+									String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+									
+									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+										
+										ms.setLink(EncrypDecrypt.encrypt(pagina.getApplication().getUrl() + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + pagina.getApplication().getUrl()); 
+										
+									}else { 
+										String _u = buildMenuUrlByDad(pagina.getApplication().getUrl()); // Custom Dad 
+										_u += "?_t=" + Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes()); 
+										_u += "&_url=" + pagina.getApplication().getUrl() + "/" + r.getString("page") + "/" + r.getString("action");
+										ms.setLink(_u);
+									}
+									
 								}
 								 
 							}else {
