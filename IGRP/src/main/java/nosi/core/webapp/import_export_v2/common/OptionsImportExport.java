@@ -5,9 +5,9 @@ package nosi.core.webapp.import_export_v2.common;
  */
 public enum OptionsImportExport {
 
-	APP(0,"APP","APP"),PAGE(1,"Páginas","Pages"),BPMN(2,"BPMN","BPMN"),REPORT(3,"Report","Reports"),DOMAIN(4,"Domínios","Domains")
-	,MENU(5,"Menús","Maims"),CONNECTION(6,"Conexões de Base Dados","Connections"),DAO(7,"Classes DAO","Daos"),MODULO(8,"Módulos","Modulos"),
-	OTHERS_CLASS(9,"Outras classes","OthersClass"),TRANSATION(10,"Transations","Transations"),DOCUMENT_TYPE(11,"Tipo Documento","DocumentType"),SERVICE(12,"Serviços","Services");
+	APP(0,"APP","app"),PAGE(1,"Páginas","pages"),BPMN(2,"BPMN","process"),REPORT(3,"Report","reports"),DOMAIN(4,"Domínios","domains")
+	,MENU(5,"Menús","maims"),CONNECTION(6,"Conexões de Base Dados","connections"),DAO(7,"Classes DAO","dao"),MODULO(8,"Módulos","modulos"),
+	OTHERS_CLASS(9,"Outras classes","others_class"),TRANSATION(10,"Transations","transations"),DOCUMENT_TYPE(11,"Tipo Documento","documentType"),SERVICE(12,"Serviços","services");
 	
 	private final int valor;
 	private final String fileName;

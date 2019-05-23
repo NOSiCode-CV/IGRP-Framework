@@ -3,9 +3,6 @@ package nosi.core.webapp.import_export_v2.exports;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
@@ -13,7 +10,6 @@ import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
-import nosi.core.webapp.webservices.wsdl2java.WSDL2Java;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.DomainType;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
@@ -28,7 +24,7 @@ public class ExportSqlHelper {
 
 	private Application application;
 	private List<File> files;
-	
+
 	public void loadDataExport(Wizard_export_step_2View view, Wizard_export_step_2 model, String[] opcoes) {
 		this.application = new Application().findOne(model.getApplication_id());
 		this.showAllTable(view,false);
@@ -116,75 +112,17 @@ public class ExportSqlHelper {
 		model.loadTbl_transation(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
-	private void loadOthersClassData(Wizard_export_step_2 model) {
+	private String loadDataFromFile(Wizard_export_step_2 model, String dir,String columnName) {
 		String sql = "";
-		String basePath = Path.getPath(this.application);		
+		String basePath = Path.getPath(this.application)+dir;		
 		this.files = new ArrayList<>();
 		this.listFilesDirectory(basePath);
 		if(this.files!=null) {
 			int size = this.files.size();
 			int count = 0;
 			for(File f:this.files) {
-				sql += "SELECT '"+f.getAbsolutePath()+"' as others_class,'"+f.getAbsolutePath()+"' as others_class_check, '"+f.getParentFile().getName()+" - "+f.getName()+"' as descricao_others_class";
-				++count;
-				if(count!=size) {
-					sql+=" UNION ";
-				}
-			}
-			if(Core.isNotNull(sql))
-				model.loadTable_others_class(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
-		}
-	}
-	
-	public void listFilesDirectory(String path) {
-		if(FileHelper.fileExists(path)){
-			File folder = new File(path);
-		    for (final File fileEntry : folder.listFiles()) {
-		        if (fileEntry.isDirectory()) {
-		        	//dao folder export in another option
-		        	if(!fileEntry.getName().equals("dao") && !fileEntry.getName().equals("process")&& !fileEntry.getName().equals("pages"))
-		        		listFilesDirectory(fileEntry.toString());
-		        } else {
-		        	if(fileEntry.getName().endsWith(".java"))
-		        		this.files.add(fileEntry);
-		        }
-		    }
-		}
-	}
-	
-	private void loadServiceData(Wizard_export_step_2 model) {
-		String sql = this.loadDataFromFile(model,WSDL2Java.SERVICE_PACKAGE_NAME);
-		if(Core.isNotNull(sql))
-			model.loadTable_service(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
-	}
-
-
-	private void loadMenuData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as menu_ids,id as menu_ids_check, descr as descricao_menu "
-				   + "FROM tbl_menu "
-				   + "WHERE env_fk=:application_id";
-		model.loadTable_menu(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
-	}
-
-
-	private void loadDaoData(Wizard_export_step_2 model) {
-		String sql = this.loadDataFromFile(model,"dao");
-		if(Core.isNotNull(sql))
-			model.loadTable_dao(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
-	}
-
-
-	private String loadDataFromFile(Wizard_export_step_2 model, String dir) {
-		String sql = "";
-		String basePath = Path.getPath(this.application);
-		basePath += dir + File.separator;
-		Map<String, String> files = new FileHelper().readAllFileDirectory(basePath);
-		if(files!=null) {
-			files = files.entrySet().stream().filter(f->f.getValue().endsWith(".java")).collect(Collectors.toMap(f->f.getKey(),f-> f.getValue()));
-			int size = files.size();
-			int count = 0;
-			for(Entry<String, String> f:files.entrySet()){
-				sql += "SELECT '"+f.getValue()+"' as "+dir+"_ids,'"+f.getValue()+"' as "+dir+"_ids_check, '"+f.getKey()+"' as descricao_"+dir;
+				sql += "SELECT '" + f.getAbsolutePath() + "' as " + columnName + "_ids,'" + f.getAbsolutePath() + "' as " + columnName
+						+ "_ids_check, '" +f.getName()+" - "+f.getParentFile().getName()+ "' as descricao_" + columnName;
 				++count;
 				if(count!=size) {
 					sql+=" UNION ";
@@ -193,6 +131,49 @@ public class ExportSqlHelper {
 		}
 		return sql;
 	}
+	
+	public void listFilesDirectory(String path) {
+		if(FileHelper.fileExists(path)){
+			File folder = new File(path);
+		    for (final File fileEntry : folder.listFiles()) {
+		        if (fileEntry.isDirectory()) {
+		        	//dao, process,services and pages folder export in another option
+		        	if(!fileEntry.getName().equals(OptionsImportExport.DAO.getFileName()) && !fileEntry.getName().equals(OptionsImportExport.BPMN.getFileName())
+		        	&& !fileEntry.getName().equals(OptionsImportExport.PAGE.getFileName()) && !fileEntry.getName().equals(OptionsImportExport.SERVICE.getFileName()))
+		        		listFilesDirectory(fileEntry.toString());
+		        } else {
+		        	if(fileEntry.getName().endsWith(".java"))
+		        		this.files.add(fileEntry);
+		        }
+		    }
+		}
+	}
+
+	private void loadOthersClassData(Wizard_export_step_2 model) {
+		String sql = this.loadDataFromFile(model,"", OptionsImportExport.OTHERS_CLASS.getFileName());
+		if(Core.isNotNull(sql))
+			model.loadTable_others_class(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
+	}
+
+	private void loadServiceData(Wizard_export_step_2 model) {
+		String sql = this.loadDataFromFile(model,OptionsImportExport.SERVICE.getFileName(),OptionsImportExport.SERVICE.getFileName());
+		if(Core.isNotNull(sql))
+			model.loadTable_service(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
+	}
+
+	private void loadDaoData(Wizard_export_step_2 model) {
+		String sql = this.loadDataFromFile(model,OptionsImportExport.DAO.getFileName(),OptionsImportExport.DAO.getFileName());
+		if(Core.isNotNull(sql))
+			model.loadTable_dao(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
+	}
+	private void loadMenuData(Wizard_export_step_2 model) {
+		String sql = "SELECT id as menu_ids,id as menu_ids_check, descr as descricao_menu "
+				   + "FROM tbl_menu "
+				   + "WHERE env_fk=:application_id";
+		model.loadTable_menu(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
+	}
+
+
 	
 	private void loadConnectionData(Wizard_export_step_2 model) {
 		String sql = "SELECT id as conexao_ids,id as conexao_ids_check, name as descricao_conexao "
