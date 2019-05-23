@@ -57,7 +57,7 @@ public class LoginController extends Controller {
 
 	public Response actionLogin() throws Exception { 
 		
-		Response r = createResponseForRetrieveAccount();
+		Response r = createResponseForRetrieveAccount(); 
 		if(r != null) return r; 
 		
 		Login model = new Login();
@@ -68,30 +68,30 @@ public class LoginController extends Controller {
 		if(r != null) return r; 
 		
 		
-		r = createResponseIfNotAuthenticated_nhaLogin();
+		r = createResponseIfNotAuthenticated_nhaLogin(); 
 		if(r != null) return r; 
 		
 		
-		r = oAuth2Wso2();
-		if(r != null) return r;
+		r = oAuth2Wso2(); 
+		if(r != null) return r; 
 		
-		r = createResponseApplyingActivation();
+		r = createResponseApplyingActivation(); 
 		if(r != null) return r;  
 		
 		
-		r = createResponseOauth2OpenIdWso2();
+		r = createResponseOauth2OpenIdWso2(); 
 		if(r != null) return r; 
 		
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) { 
 			
-			model.load();
+			model.load(); 
 			
-			r = mainAuthentication(model.getUser(), model.getPassword());
+			r = mainAuthentication(model.getUser(), model.getPassword()); 
 			if(r != null) return r; 
 			
 			return redirect("igrp", "login", "login", this.queryString()); 
-		}
+		} 
 		
 		String aux = settings.getProperty("igrp.authentication.govcv.enbaled");
 		boolean isDb = this.getConfig().getAutenticationType().equals("db");
@@ -125,8 +125,7 @@ public class LoginController extends Controller {
 				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
 				&& settings.getProperty("igrp.env.nhaLogin.url") != null
 				&& !settings.getProperty("igrp.env.nhaLogin.url").isEmpty()) {
-			String _url = settings.getProperty("igrp.env.nhaLogin.url").replace("igrp/login/login",
-					"igrp/login/logout");
+			String _url = settings.getProperty("igrp.env.nhaLogin.url").replace("igrp/login/login", "igrp/login/logout");
 			return redirectToUrl(_url);
 		}
 		
@@ -653,10 +652,10 @@ public class LoginController extends Controller {
 			uid.put("sub", jToken.getString("sub")); 
 			uid.put("email", jToken.getString("email")); 
 			
-			System.out.println("jToken: " + jToken);
+			System.out.println("jToken: " + jToken); 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		
 		return uid;
@@ -719,7 +718,6 @@ public class LoginController extends Controller {
 						if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
 							
 							try {
-								
 								User newUser = new User();
 								newUser.setUser_name(uid);
 								newUser.setEmail(email); 
@@ -765,9 +763,9 @@ public class LoginController extends Controller {
 				}
 			}
 			
-			if(error == null && error.isEmpty() && 
-					authCode == null && authCode.isEmpty() 
-					&& r != null && r.equalsIgnoreCase("true")) {
+			if((error == null || error.isEmpty()) && 
+					(authCode == null || authCode.isEmpty()) && 
+					(r != null && r.equalsIgnoreCase("true"))) {
 				return createResponseOauth2OpenIdWso2();
 			}
 			
