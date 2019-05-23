@@ -204,6 +204,9 @@ public class PesquisarMenuController extends Controller {
 							else if(main.getType() == 2) { // Fazer sso obrigatorio 
 								xml_menu.setElement("link", main.getLink()); 
 							}
+							else if(main.getType() == 3) {
+								xml_menu.setElement("link", "webapps?r=" + main.getLink());
+							}
 							else {
 								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
 							}
@@ -224,6 +227,8 @@ public class PesquisarMenuController extends Controller {
 						}
 						else if(main.getType() == 2) { // Fazer sso obrigatorio 
 							xml_menu.setElement("link", main.getLink()); 
+						} else if(main.getType() == 3) {
+							xml_menu.setElement("link", "webapps?r=" + main.getLink());
 						}
 						else {
 							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 

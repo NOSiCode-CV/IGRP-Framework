@@ -235,6 +235,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 				if(pagina != null) {
 					if(pagina.getTipo() == 1) { // If it is a public page ... 
+						
+						System.out.println("Entrado tipo = 1"); 
+						
 						ms.setType(1);
 						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
 						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
@@ -246,7 +249,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 							// Codigo para paginas partilhadas ... dads diferentes ... (Link para SSO) ... 
 							// Authenticacao obrigatoria  
 							
-							if(new nosi.core.config.Config().getEnvironment().equalsIgnoreCase("dev")) {
+							if(new nosi.core.config.Config().getEnvironment().equalsIgnoreCase("dev")) { 
 								
 								ms.setType(2);
 								
@@ -258,16 +261,19 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 									_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action") ;
 									ms.setLink(_u);
 								}
-								//Custom host folder
+								//Custom host folder 
 								if(pagina.getApplication().getExternal() == 2) {
 									
 									String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
 									
 									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
-										
+										ms.setType(3);
 										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
 										
-									}else { 
+									}else {
+										
+										System.out.println("Entrado 3 ");
+										
 										String _u = buildMenuUrlByDad(pagina.getApplication().getUrl()); // Custom Dad 
 										_u += "?_t=" + Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes()); 
 										_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")+"&dad=" + r.getString("dad_app_page") ;
@@ -347,7 +353,9 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		private int order;
 		private boolean isSubMenuAndSuperMenu;
 		
-		private int type; // 0 - normal menu; 1 - menu para uma pagina externa publica; 2 - menu para uma pagina externa 
+		// 0 - normal menu; 1 - menu para uma pagina externa publica; 2 - menu para uma pagina externa 
+		private int type; 
+		
 		
 		public Integer getId() {
 			return id;
