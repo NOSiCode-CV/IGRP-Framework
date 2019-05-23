@@ -31,7 +31,7 @@
 		<mapping class="nosi.webapps.igrp.dao.Modulo" />
 		<mapping class="nosi.webapps.igrp.dao.TaskAccess" />
 		
-		<mapping class="nosi.webapps.igrp.dao.Auditoria" /> 
+<!-- 		<mapping class="nosi.webapps.igrp.dao.Auditoria" />  -->
 		
 		<!-- OAuth -->
 		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken" />

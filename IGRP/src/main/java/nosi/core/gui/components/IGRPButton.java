@@ -187,7 +187,7 @@ public class IGRPButton {
 	}
 
 	public String getParameter() {
-		return Core.isNotNull(this.parameter)?parameter:"";
+		return Core.isNotNull(this.parameter)?this.parameter:"";
 	}
 
 	public void setParameter(String parameter) {
@@ -195,13 +195,14 @@ public class IGRPButton {
 	}
 	
 
-	public IGRPButton addParameter(String parameter,Object value) {
-		if(value instanceof String[])
-			for(String oneVal:(String[])value) {
+	public IGRPButton addParameter(String parameter,Object valor) {
+		
+		if(valor instanceof String[])
+			for(String oneVal:(String[])valor) {
 				this.parameter += "&"+parameter+"="+oneVal;
 			}
-		else
-			this.parameter += "&"+parameter+"="+value.toString();
+		else 
+			this.parameter += "&"+parameter+"="+(Core.isNotNull(valor)?valor.toString():"");
 		return this;
 	}
 	

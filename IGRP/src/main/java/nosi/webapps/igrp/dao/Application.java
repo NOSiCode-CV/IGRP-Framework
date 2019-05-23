@@ -430,7 +430,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		 LinkedHashMap<String, String> m = new  LinkedHashMap<String, String>();
 		 m.put(null, "--- Selecionar ---");
 		 m.put("1", "Externo"); 
-		 m.put("2", "Custom Dad"); 
+		 m.put("2", "Custom host folder"); 
 		 return m;
 	}
 

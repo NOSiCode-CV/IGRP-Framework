@@ -251,26 +251,26 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								ms.setType(2);
 								
 								User user = Core.getCurrentUser(); 
-								
+								//Externo
 								if(pagina.getApplication().getExternal() == 1) {
 									String _u = buildMenuUrlByDad(r.getString("dad_app_page"));
 									_u += "?_t=" + Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes()); 
-									_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action");
+									_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action") ;
 									ms.setLink(_u);
 								}
-								
+								//Custom host folder
 								if(pagina.getApplication().getExternal() == 2) {
 									
 									String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
 									
 									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
 										
-										ms.setLink(EncrypDecrypt.encrypt(pagina.getApplication().getUrl() + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + pagina.getApplication().getUrl()); 
+										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
 										
 									}else { 
 										String _u = buildMenuUrlByDad(pagina.getApplication().getUrl()); // Custom Dad 
 										_u += "?_t=" + Base64.getEncoder().encodeToString((user.getUser_name() + ":" + user.getValid_until()).getBytes()); 
-										_u += "&_url=" + pagina.getApplication().getUrl() + "/" + r.getString("page") + "/" + r.getString("action");
+										_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")+"&dad=" + r.getString("dad_app_page") ;
 										ms.setLink(_u);
 									}
 									

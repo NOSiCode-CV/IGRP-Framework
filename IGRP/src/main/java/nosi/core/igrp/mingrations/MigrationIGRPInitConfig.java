@@ -196,7 +196,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_nacionalidade", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nacionalidade/Pesquisa_nacionalidade.xsl", "Pesquisa nacionalidade", "Pesquisa nacionalidade", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("WSDL2Java", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wsdl2java/Wsdl2java.xsl", "Wsdl2java", "Wsdl2java", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Wsdl2java", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wsdl2java/Wsdl2java.xsl", "WSDL2java", "WSDL2java", "2.3", 1, app_igrp_studio));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -317,6 +317,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(4, "PROF", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));	
 			
 			//permisao de acesso ao menu
+			profiles.add(new Profile(5, "MEN",prof1_ADMIN, user0_IGRP, org_IGRP)); 
+			profiles.add(new Profile(5, "MEN",prof0_ALL, user0_IGRP, org_IGRP));
 			profiles.add(new Profile(5, "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(6, "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(7, "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
@@ -364,10 +366,10 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(Gestao_tipo_documento.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));			
 			profiles.add(new Profile(GestDominio.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
-			profiles.add(new Profile(GestDominio.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
-			
-			profiles.add(new Profile(5, "MEN",prof1_ADMIN, user0_IGRP, org_IGRP)); 
-			profiles.add(new Profile(5, "MEN",prof0_ALL, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(GestDominio.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));				
+			profiles.add(new Profile(wsdl2java.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
+			profiles.add(new Profile(wsdl2java.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+		
 			
 			for(Profile p:profiles){
 				p.insert();
