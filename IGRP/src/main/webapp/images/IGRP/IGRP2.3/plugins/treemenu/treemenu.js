@@ -47,7 +47,7 @@
 				}
 			 }
 			
-			rapams += '&dad='+$('body').attr('app');
+			params += '&dad='+$('body').attr('app');
 
 			
 			$.ajax({
