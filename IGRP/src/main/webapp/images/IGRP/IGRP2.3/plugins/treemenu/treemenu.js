@@ -39,16 +39,6 @@
 			if(parser){
 				var lookup = $('.lookup-parser:first',parent);
 				if(lookup[0]){
-					/*var cont  = lookup.attr('ctx_param_count')*1,
-						ctx_param = '';
-
-					for (var i = 1; i <= cont; i++) {
-						ctx_param += lookup.attr('ctx_p'+i).split('=')[0];
-						
-						if(i < cont)
-							ctx_param +=',';
-					}
-					params += '&p_ctx_param='+ctx_param;*/
 					
 					var jsonLookup = $('#jsonLookup');
 					
@@ -56,6 +46,8 @@
 						params += '&jsonLookup='+jsonLookup.val();
 				}
 			 }
+			
+			rapams += '&dad='+$('body').attr('app');
 
 			
 			$.ajax({
