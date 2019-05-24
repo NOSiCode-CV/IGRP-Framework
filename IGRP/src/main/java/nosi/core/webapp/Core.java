@@ -862,9 +862,49 @@ public final class Core { // Not inherit
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find().where("valor !=''").andWhere("dominio", "=", domainsName).andWhere("status", "=", "ATIVE").orderBy("ordem")
+		return domain.find()
+				.andWhere("dominio", "=", domainsName)
+				.andWhere("status", "=", "ATIVE")					
+				.orderBy("ordem")
 				.all();
 	}
+	
+	/**
+	 * Find Active Domains by domain code name and app
+	 * 
+	 * @param domainsName domain code name
+	 * @param codeApp the dad/code of the application
+	 * @return {@code List< of Domains> }
+	 */
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,String codeApp) {
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		return domain.find()
+				.andWhere("dominio", "=", domainsName)
+				.andWhere("status", "=", "ATIVE")		
+				.andWhere("application.dad", "=", codeApp)		
+				.orderBy("ordem")
+				.all();
+	}
+	
+	/**
+	 * Find Active Domains by domain code name and app id
+	 * 
+	 * @param domainsName domain code name
+	 * @param idApp the id of the application
+	 * @return {@code List< of Domains> }
+	 */
+	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,Integer idApp) {
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		return domain.find()
+				.andWhere("dominio", "=", domainsName)
+				.andWhere("status", "=", "ATIVE")		
+				.andWhere("application.id", "=", idApp)		
+				.orderBy("ordem")
+				.all();
+	}
+
 
 	/**
 	 * Find the Value/Decription ok a domay key
@@ -889,6 +929,48 @@ public final class Core { // Not inherit
 		domain.setReadOnly(true);
 		final Domain oneDomain = domain.find().where("valor !=''").andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
 				.andWhere("lower(valor)", "valor", "=", key.toLowerCase()).one();
+		return oneDomain != null ? oneDomain.getDescription() : "";
+
+	}
+	
+
+	/**
+	 * Find the Value/Decription ok a domay key
+	 * 
+	 * @param domainsName domain code name
+	 * @param key
+	 * @param codeApp the dad/code of the application
+	 * @return value/description
+	 */
+	public static String findDomainDescByKey(String domainsName, String key, String codeApp) {
+
+		if (!Core.isNotNullMultiple(domainsName, key))
+			return "";
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		final Domain oneDomain = domain.find().where("valor !=''")
+				.andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
+				.andWhere("lower(valor)", "valor", "=", key.toLowerCase())
+				.andWhere("application.dad", "=", codeApp).one();
+		return oneDomain != null ? oneDomain.getDescription() : "";
+	}
+	
+	/**
+	 * Find the Value/Decription ok a domay key
+	 * 
+	 * @param domainsName domain code name
+	 * @param key
+	 * @param idApp the id of the application
+	 * @return value/description
+	 */
+	public static String findDomainDescByKey(String domainsName, String key, Integer idApp) {
+
+		if (!Core.isNotNullMultiple(domainsName, key))
+			return "";
+		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
+		domain.setReadOnly(true);
+		final Domain oneDomain = domain.find().where("valor !=''").andWhere("lower(dominio)", "dominio", "=", domainsName.toLowerCase())
+				.andWhere("lower(valor)", "valor", "=", key.toLowerCase()).andWhere("application.id", "=", idApp).one();
 		return oneDomain != null ? oneDomain.getDescription() : "";
 
 	}

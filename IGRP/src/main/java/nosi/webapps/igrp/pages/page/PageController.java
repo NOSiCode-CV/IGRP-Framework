@@ -707,14 +707,15 @@ public class PageController extends Controller {
 
 	public Response actionGetPageJson() throws IOException {
 		String p_id = Core.getParam("p_id");
+		String p_app = Core.getParam("p_app");
 		String json = ""; 
 		if (p_id != null && !p_id.isEmpty()) {
 			Action ac = null;
 			if(Core.isInt(p_id)) {
 				ac = new Action().findOne(Core.toInt(p_id));
-			}
-			else {
+			}else {
 				ac = new Action().find().where("page", "=", p_id)
+						.andWhere("application.dad", "=", p_app)
 						.one();
 			}
 			if (ac != null) {

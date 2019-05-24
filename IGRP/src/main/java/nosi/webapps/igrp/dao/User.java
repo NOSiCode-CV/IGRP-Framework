@@ -5,6 +5,8 @@ package nosi.webapps.igrp.dao;
  */
 
 import java.io.Serializable;
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -207,11 +209,11 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 
 	@Override
 	public User findIdentityByUsername(String username) {	
-		return this.find().andWhere("user_name", "=", username).one();
+		return this.find().andWhere("user_name", "=", username.trim().toLowerCase(Locale.ROOT).trim()).one();
 	}
 	
 	public User findIdentityByEmail(String email) {	
-		return this.find().andWhere("email", "=", email).one();
+		return this.find().andWhere("email", "=", email.toLowerCase(Locale.ROOT).trim()).one();
 	}
 	
 	@Override

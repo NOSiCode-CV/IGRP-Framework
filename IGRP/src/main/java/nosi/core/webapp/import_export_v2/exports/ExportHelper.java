@@ -40,11 +40,12 @@ public class ExportHelper {
 			Core.setMessageError(Core.gt("Por favor selecione os dados a serem exportados"));
 			return null;
 		}
+
 		Export export = new Export();
-		Application application = new Application().findOne(model.getApplication_id());
+		Application application = Core.findApplicationById(model.getApplication_id());
 		new ApplicationExport(application).export(export,null);
 		new BPMNExport(application).export(export,bpm_ids);
-		new DomainExport().export(export,domain_ids);	
+		new DomainExport(model.getApplication_id()).export(export,domain_ids);	
 		new PageExport().export(export,page_ids);		
 		new ReportExport().export(export,report_ids);
 		new ConnectionExport().export(export,conexao_ids);

@@ -9,8 +9,10 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.webapps.igrp.dao.Domain;
 import nosi.webapps.igrp.dao.DomainType;
 /*----#end-code----*/
 		
@@ -51,7 +53,8 @@ public class DominioController extends Controller {
 			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
 		if(Core.isNotNull(model.getLst_dominio())) {        
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
-			model.setPublico((Core.findDomainByCode(model.getLst_dominio())).get(0).getDomainType().equals(DomainType.PUBLIC)?1:0);
+			final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
+			model.setPublico(findDomainByCode.size()>0?findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0:0);
 		}
       
 		if(Core.isNotNullOrZero(app)) {

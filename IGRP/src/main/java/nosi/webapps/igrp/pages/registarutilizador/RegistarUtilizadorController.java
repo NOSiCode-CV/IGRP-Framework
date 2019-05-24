@@ -54,17 +54,19 @@ public class RegistarUtilizadorController extends Controller {
 			if(!isError){				
 				User user = new User();
 				user.setName(model.getNome());
-				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getUsername() + "" + model.getPassword(), "SHA-256"));
-				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT));
-				user.setUser_name(model.getUsername());
+				final String username = model.getUsername().toLowerCase(Locale.ROOT).trim();
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(username+ "" + model.getPassword(), "SHA-256"));
+				user.setEmail(model.getEmail().toLowerCase(Locale.ROOT).trim());
+				
+				user.setUser_name(username);
 				user.setStatus(1);
 				user.setCreated_at(System.currentTimeMillis());
 				user.setUpdated_at(System.currentTimeMillis());
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 				//verificar se o email/username existe
-				User ur_email = new User().find().andWhere("email", "=", model.getEmail()).one();//verificar email
-				User ur_name = new User().find().andWhere("user_name", "=", model.getUsername()).one();//verificar username
+				User ur_email = new User().findIdentityByEmail(model.getEmail()).one();//verificar email
+				User ur_name = new User().findIdentityByUsername(username).one();//verificar username
 				if(ur_email != null || ur_name != null) {
 						Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
 						return this.forward("igrp","RegistarUtilizador","index", this.queryString());
@@ -115,7 +117,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
         
         User user = Core.findUserById(Core.toInt(idUser));		
 		model.setNome(user.getName());
-		model.setUsername(user.getUser_name());
+		model.setUsername(user.getUser_name().toLowerCase().trim());
 		model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
 					
@@ -133,7 +135,8 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
 				user = user.update();
 				if(user !=null){
 					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
-					return this.redirect("igrp", "RegistarUtilizador", "editar", new String[]{"p_id"}, new String[]{user.getId() + ""});
+					this.addQueryString("p_id", user.getId());
+					return this.redirect("igrp", "RegistarUtilizador", "editar", this.queryString());
 				}
 				else
 					Core.setMessageError(gt("Error ao atualizar uilizador."));

@@ -26,7 +26,7 @@ public class ExportSqlHelper {
 	private List<File> files;
 
 	public void loadDataExport(Wizard_export_step_2View view, Wizard_export_step_2 model, String[] opcoes) {
-		this.application = new Application().findOne(model.getApplication_id());
+		this.application = Core.findApplicationById(model.getApplication_id());
 		this.showAllTable(view,false);
 		for(String type:opcoes) {
 			int t = Core.toInt(type);
@@ -122,7 +122,7 @@ public class ExportSqlHelper {
 			int count = 0;
 			for(File f:this.files) {
 				sql += "SELECT '" + f.getAbsolutePath() + "' as " + columnName + "_ids,'" + f.getAbsolutePath() + "' as " + columnName
-						+ "_ids_check, '" +f.getName()+" - "+f.getParentFile().getName()+ "' as descricao_" + columnName;
+						+ "_ids_check, '" +f.getParentFile().getName()+" / "+f.getName()+"' as descricao_" + columnName;
 				++count;
 				if(count!=size) {
 					sql+=" UNION ";
@@ -210,11 +210,11 @@ public class ExportSqlHelper {
 	}
 
 	private void loadDomainData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
-				   + "FROM tbl_domain WHERE status='ATIVE' AND domain_type='"+DomainType.PRIVATE+"' AND (valor='' OR valor is null) AND env_fk="+model.getApplication_id();
-		sql += " UNION ";
-		sql += " SELECT id as domain_ids,-1 as domain_ids_check, concat(dominio,' - ',description) as descricao_domain "
-				   + "FROM tbl_domain WHERE status='ATIVE'  AND (domain_type='"+DomainType.PUBLIC+"' OR domain_type is null)";
+		String sql = "SELECT DISTINCT dominio as domain_ids,dominio as domain_ids_check, dominio as descricao_domain "
+				   + "FROM tbl_domain WHERE status='ATIVE' AND env_fk="+model.getApplication_id();
+//		sql += " UNION ";
+//		sql += " SELECT dominio as domain_ids,'-1' as domain_ids_check, dominio as descricao_domain "
+//				   + "FROM tbl_domain WHERE status='ATIVE'  AND (domain_type='"+DomainType.PUBLIC+"' OR domain_type is null)) X ORDER BY domain_ids_check ";
 		model.loadTable_domain(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql));
 	}
 
