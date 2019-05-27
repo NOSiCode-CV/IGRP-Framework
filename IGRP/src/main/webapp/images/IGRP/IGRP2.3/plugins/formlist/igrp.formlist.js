@@ -59,7 +59,9 @@
 
                         if( th.attr('checked-default') == 'true' )
 
-                            $(checker).prop( 'checked', true )
+                            $(checker).prop( 'checked', true );
+                        
+                        $(checker).trigger('change');
                             
                     });
 
