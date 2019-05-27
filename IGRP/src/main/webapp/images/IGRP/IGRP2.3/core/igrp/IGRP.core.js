@@ -898,7 +898,9 @@
 
 						//get nodes xsl
 						if(p.nodes){
-
+							
+							var id = 0;
+							
 							p.nodes.forEach(function(n,i){
 								
 								var nodeElement = $.IGRP.utils.xsl.getNode(pageXSL,'xsl:if',{
@@ -920,12 +922,14 @@
 									complete     : function(e,c){
 										var content = $('.gen-container-item[item-name="'+n+'"]');
 										
+										id += 1;
+										
 										$.IGRP.events.execute('element-transform',{
 											content  : content,
 											itemName : n,
 											xml 	 : p.xml,
 											xsl      : xslt,
-											index    : i+1
+											index    : id
 										});
 
 										if(p.success){
@@ -937,7 +941,7 @@
 											});
 										}
 										
-										if((i+1) == p.nodes.length){
+										if(id == p.nodes.length){
 											if(p.clicked)
 												p.clicked.removeAttr("disabled");
 										}
