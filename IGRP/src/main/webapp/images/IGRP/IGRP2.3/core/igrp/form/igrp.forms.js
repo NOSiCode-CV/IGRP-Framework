@@ -199,8 +199,16 @@
 					var tab = $(':input[required].error:first').parents('.panel-collapse, .tab-pane');
 					
 					if(tab[0]){
-						var pre = tab.hasClass('panel-collapse') ? 'pnl-' : '';
-						$('[rel="'+pre+tab.attr('id')+'"] a').click();
+						var pre   = tab.hasClass('panel-collapse') ? 'pnl-' : '',
+							click = true;
+
+							if(pre == 'pnl-'){
+								if(tab.hasClass('in'))
+									click = false;
+							}
+
+							if(click)
+								$('[rel="'+pre+tab.attr('id')+'"] a[data-toggle]:first').click();
 					}
 					
 					$.IGRP.scrollTo($(':input.error:first'));
