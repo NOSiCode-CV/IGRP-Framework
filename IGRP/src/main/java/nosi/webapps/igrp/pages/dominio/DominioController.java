@@ -54,7 +54,7 @@ public class DominioController extends Controller {
 		if(Core.isNotNull(model.getLst_dominio())) {        
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
 			final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
-			model.setPublico(findDomainByCode.size()>0?findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0:0);
+			model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0:0);
 		}
       
 		if(Core.isNotNullOrZero(app)) {

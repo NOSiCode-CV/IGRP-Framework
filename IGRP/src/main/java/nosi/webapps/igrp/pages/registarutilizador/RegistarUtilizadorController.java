@@ -65,8 +65,8 @@ public class RegistarUtilizadorController extends Controller {
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 				//verificar se o email/username existe
-				User ur_email = new User().findIdentityByEmail(model.getEmail()).one();//verificar email
-				User ur_name = new User().findIdentityByUsername(username).one();//verificar username
+				User ur_email = new User().findIdentityByEmail(model.getEmail());//verificar email
+				User ur_name = new User().findIdentityByUsername(username);//verificar username
 				if(ur_email != null || ur_name != null) {
 						Core.setMessageError("Email/Username já existe... por favor escolhe outro!!!");
 						return this.forward("igrp","RegistarUtilizador","index", this.queryString());
