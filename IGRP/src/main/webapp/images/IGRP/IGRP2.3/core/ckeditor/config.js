@@ -14,7 +14,24 @@ CKEDITOR.editorConfig = function( config ) {
 };
 
 CKEDITOR.on( 'instanceReady', function(ev) {
+	var element = $(ev.editor.element.$);
+
+	if(element.parents('.form-group:first').attr('required'))
+		element.addClass('required');
+
 	ev.editor.on('change',function(ed){
-		ed.editor.element.setValue(ed.editor.getData());
+		var element = ed.editor.element,
+			parents = $(element.$).parents('.form-group:first'),
+			value   = ed.editor.getData(),
+			error   = $('label.form-validator-label',parents);
+
+		element.setValue(value);
+
+		if(error[0]){
+			
+			var length = value.replace(/<[^>]*>/gi, '').trim().length ? 'hide' : 'show';
+
+			error[length]();
+		}	
 	});
 });
