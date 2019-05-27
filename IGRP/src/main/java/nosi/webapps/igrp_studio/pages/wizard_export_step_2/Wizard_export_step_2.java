@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.wizard_export_step_2;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -46,12 +48,30 @@ public class Wizard_export_step_2 extends Model{
 	}
 
 	
+	private List<Table_menu> table_menu = new ArrayList<>();	
+	public void setTable_menu(List<Table_menu> table_menu){
+		this.table_menu = table_menu;
+	}
+	public List<Table_menu> getTable_menu(){
+		return this.table_menu;
+	}
+
+	
 	private List<Table_domain> table_domain = new ArrayList<>();	
 	public void setTable_domain(List<Table_domain> table_domain){
 		this.table_domain = table_domain;
 	}
 	public List<Table_domain> getTable_domain(){
 		return this.table_domain;
+	}
+
+	
+	private List<Table_dao> table_dao = new ArrayList<>();	
+	public void setTable_dao(List<Table_dao> table_dao){
+		this.table_dao = table_dao;
+	}
+	public List<Table_dao> getTable_dao(){
+		return this.table_dao;
 	}
 
 	
@@ -64,12 +84,30 @@ public class Wizard_export_step_2 extends Model{
 	}
 
 	
+	private List<Table_service> table_service = new ArrayList<>();	
+	public void setTable_service(List<Table_service> table_service){
+		this.table_service = table_service;
+	}
+	public List<Table_service> getTable_service(){
+		return this.table_service;
+	}
+
+	
 	private List<Table_connections> table_connections = new ArrayList<>();	
 	public void setTable_connections(List<Table_connections> table_connections){
 		this.table_connections = table_connections;
 	}
 	public List<Table_connections> getTable_connections(){
 		return this.table_connections;
+	}
+
+	
+	private List<Tbl_transation> tbl_transation = new ArrayList<>();	
+	public void setTbl_transation(List<Tbl_transation> tbl_transation){
+		this.tbl_transation = tbl_transation;
+	}
+	public List<Tbl_transation> getTbl_transation(){
+		return this.tbl_transation;
 	}
 
 	
@@ -88,42 +126,6 @@ public class Wizard_export_step_2 extends Model{
 	}
 	public List<Table_doc_type> getTable_doc_type(){
 		return this.table_doc_type;
-	}
-
-	
-	private List<Tbl_transation> tbl_transation = new ArrayList<>();	
-	public void setTbl_transation(List<Tbl_transation> tbl_transation){
-		this.tbl_transation = tbl_transation;
-	}
-	public List<Tbl_transation> getTbl_transation(){
-		return this.tbl_transation;
-	}
-
-	
-	private List<Table_service> table_service = new ArrayList<>();	
-	public void setTable_service(List<Table_service> table_service){
-		this.table_service = table_service;
-	}
-	public List<Table_service> getTable_service(){
-		return this.table_service;
-	}
-
-	
-	private List<Table_dao> table_dao = new ArrayList<>();	
-	public void setTable_dao(List<Table_dao> table_dao){
-		this.table_dao = table_dao;
-	}
-	public List<Table_dao> getTable_dao(){
-		return this.table_dao;
-	}
-
-	
-	private List<Table_menu> table_menu = new ArrayList<>();	
-	public void setTable_menu(List<Table_menu> table_menu){
-		this.table_menu = table_menu;
-	}
-	public List<Table_menu> getTable_menu(){
-		return this.table_menu;
 	}
 
 	
@@ -238,6 +240,31 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
+	public static class Table_menu extends IGRPTable.Table{
+		private String menu_ids;
+		private String menu_ids_check;
+		private String descricao_menu;
+		public void setMenu_ids(String menu_ids){
+			this.menu_ids = menu_ids;
+		}
+		public String getMenu_ids(){
+			return this.menu_ids;
+		}
+		public void setMenu_ids_check(String menu_ids_check){
+			this.menu_ids_check = menu_ids_check;
+		}
+		public String getMenu_ids_check(){
+			return this.menu_ids_check;
+		}
+
+		public void setDescricao_menu(String descricao_menu){
+			this.descricao_menu = descricao_menu;
+		}
+		public String getDescricao_menu(){
+			return this.descricao_menu;
+		}
+
+	}
 	public static class Table_domain extends IGRPTable.Table{
 		private String domain_ids;
 		private String domain_ids_check;
@@ -260,6 +287,31 @@ public class Wizard_export_step_2 extends Model{
 		}
 		public String getDescricao_domain(){
 			return this.descricao_domain;
+		}
+
+	}
+	public static class Table_dao extends IGRPTable.Table{
+		private String dao_ids;
+		private String dao_ids_check;
+		private String descricao_dao;
+		public void setDao_ids(String dao_ids){
+			this.dao_ids = dao_ids;
+		}
+		public String getDao_ids(){
+			return this.dao_ids;
+		}
+		public void setDao_ids_check(String dao_ids_check){
+			this.dao_ids_check = dao_ids_check;
+		}
+		public String getDao_ids_check(){
+			return this.dao_ids_check;
+		}
+
+		public void setDescricao_dao(String descricao_dao){
+			this.descricao_dao = descricao_dao;
+		}
+		public String getDescricao_dao(){
+			return this.descricao_dao;
 		}
 
 	}
@@ -288,6 +340,31 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
+	public static class Table_service extends IGRPTable.Table{
+		private String services_ids;
+		private String services_ids_check;
+		private String descricao_services;
+		public void setServices_ids(String services_ids){
+			this.services_ids = services_ids;
+		}
+		public String getServices_ids(){
+			return this.services_ids;
+		}
+		public void setServices_ids_check(String services_ids_check){
+			this.services_ids_check = services_ids_check;
+		}
+		public String getServices_ids_check(){
+			return this.services_ids_check;
+		}
+
+		public void setDescricao_services(String descricao_services){
+			this.descricao_services = descricao_services;
+		}
+		public String getDescricao_services(){
+			return this.descricao_services;
+		}
+
+	}
 	public static class Table_connections extends IGRPTable.Table{
 		private String conexao_ids;
 		private String conexao_ids_check;
@@ -310,6 +387,31 @@ public class Wizard_export_step_2 extends Model{
 		}
 		public String getDescricao_conexao(){
 			return this.descricao_conexao;
+		}
+
+	}
+	public static class Tbl_transation extends IGRPTable.Table{
+		private String transation_ids;
+		private String transation_ids_check;
+		private String descricao_transation;
+		public void setTransation_ids(String transation_ids){
+			this.transation_ids = transation_ids;
+		}
+		public String getTransation_ids(){
+			return this.transation_ids;
+		}
+		public void setTransation_ids_check(String transation_ids_check){
+			this.transation_ids_check = transation_ids_check;
+		}
+		public String getTransation_ids_check(){
+			return this.transation_ids_check;
+		}
+
+		public void setDescricao_transation(String descricao_transation){
+			this.descricao_transation = descricao_transation;
+		}
+		public String getDescricao_transation(){
+			return this.descricao_transation;
 		}
 
 	}
@@ -363,106 +465,6 @@ public class Wizard_export_step_2 extends Model{
 		}
 
 	}
-	public static class Tbl_transation extends IGRPTable.Table{
-		private String transation_ids;
-		private String transation_ids_check;
-		private String descricao_transation;
-		public void setTransation_ids(String transation_ids){
-			this.transation_ids = transation_ids;
-		}
-		public String getTransation_ids(){
-			return this.transation_ids;
-		}
-		public void setTransation_ids_check(String transation_ids_check){
-			this.transation_ids_check = transation_ids_check;
-		}
-		public String getTransation_ids_check(){
-			return this.transation_ids_check;
-		}
-
-		public void setDescricao_transation(String descricao_transation){
-			this.descricao_transation = descricao_transation;
-		}
-		public String getDescricao_transation(){
-			return this.descricao_transation;
-		}
-
-	}
-	public static class Table_service extends IGRPTable.Table{
-		private String services_ids;
-		private String services_ids_check;
-		private String descricao_services;
-		public void setServices_ids(String services_ids){
-			this.services_ids = services_ids;
-		}
-		public String getServices_ids(){
-			return this.services_ids;
-		}
-		public void setServices_ids_check(String services_ids_check){
-			this.services_ids_check = services_ids_check;
-		}
-		public String getServices_ids_check(){
-			return this.services_ids_check;
-		}
-
-		public void setDescricao_services(String descricao_services){
-			this.descricao_services = descricao_services;
-		}
-		public String getDescricao_services(){
-			return this.descricao_services;
-		}
-
-	}
-	public static class Table_dao extends IGRPTable.Table{
-		private String dao_ids;
-		private String dao_ids_check;
-		private String descricao_dao;
-		public void setDao_ids(String dao_ids){
-			this.dao_ids = dao_ids;
-		}
-		public String getDao_ids(){
-			return this.dao_ids;
-		}
-		public void setDao_ids_check(String dao_ids_check){
-			this.dao_ids_check = dao_ids_check;
-		}
-		public String getDao_ids_check(){
-			return this.dao_ids_check;
-		}
-
-		public void setDescricao_dao(String descricao_dao){
-			this.descricao_dao = descricao_dao;
-		}
-		public String getDescricao_dao(){
-			return this.descricao_dao;
-		}
-
-	}
-	public static class Table_menu extends IGRPTable.Table{
-		private String menu_ids;
-		private String menu_ids_check;
-		private String descricao_menu;
-		public void setMenu_ids(String menu_ids){
-			this.menu_ids = menu_ids;
-		}
-		public String getMenu_ids(){
-			return this.menu_ids;
-		}
-		public void setMenu_ids_check(String menu_ids_check){
-			this.menu_ids_check = menu_ids_check;
-		}
-		public String getMenu_ids_check(){
-			return this.menu_ids_check;
-		}
-
-		public void setDescricao_menu(String descricao_menu){
-			this.descricao_menu = descricao_menu;
-		}
-		public String getDescricao_menu(){
-			return this.descricao_menu;
-		}
-
-	}
 
 	public void loadTable_bpmn(BaseQueryInterface query) {
 		this.setTable_bpmn(this.loadTable(query,Table_bpmn.class));
@@ -476,16 +478,32 @@ public class Wizard_export_step_2 extends Model{
 		this.setTable_report(this.loadTable(query,Table_report.class));
 	}
 
+	public void loadTable_menu(BaseQueryInterface query) {
+		this.setTable_menu(this.loadTable(query,Table_menu.class));
+	}
+
 	public void loadTable_domain(BaseQueryInterface query) {
 		this.setTable_domain(this.loadTable(query,Table_domain.class));
+	}
+
+	public void loadTable_dao(BaseQueryInterface query) {
+		this.setTable_dao(this.loadTable(query,Table_dao.class));
 	}
 
 	public void loadTable_others_class(BaseQueryInterface query) {
 		this.setTable_others_class(this.loadTable(query,Table_others_class.class));
 	}
 
+	public void loadTable_service(BaseQueryInterface query) {
+		this.setTable_service(this.loadTable(query,Table_service.class));
+	}
+
 	public void loadTable_connections(BaseQueryInterface query) {
 		this.setTable_connections(this.loadTable(query,Table_connections.class));
+	}
+
+	public void loadTbl_transation(BaseQueryInterface query) {
+		this.setTbl_transation(this.loadTable(query,Tbl_transation.class));
 	}
 
 	public void loadTable_modulo(BaseQueryInterface query) {
@@ -494,22 +512,6 @@ public class Wizard_export_step_2 extends Model{
 
 	public void loadTable_doc_type(BaseQueryInterface query) {
 		this.setTable_doc_type(this.loadTable(query,Table_doc_type.class));
-	}
-
-	public void loadTbl_transation(BaseQueryInterface query) {
-		this.setTbl_transation(this.loadTable(query,Tbl_transation.class));
-	}
-
-	public void loadTable_service(BaseQueryInterface query) {
-		this.setTable_service(this.loadTable(query,Table_service.class));
-	}
-
-	public void loadTable_dao(BaseQueryInterface query) {
-		this.setTable_dao(this.loadTable(query,Table_dao.class));
-	}
-
-	public void loadTable_menu(BaseQueryInterface query) {
-		this.setTable_menu(this.loadTable(query,Table_menu.class));
 	}
 
 }

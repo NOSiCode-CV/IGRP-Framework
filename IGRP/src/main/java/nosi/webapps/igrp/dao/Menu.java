@@ -235,8 +235,7 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
 				if(pagina != null) {
 					if(pagina.getTipo() == 1) { // If it is a public page ... 
-						
-						System.out.println("Entrado tipo = 1"); 
+					
 						
 						ms.setType(1);
 						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					

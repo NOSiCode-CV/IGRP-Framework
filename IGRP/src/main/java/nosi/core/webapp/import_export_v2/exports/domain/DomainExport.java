@@ -16,9 +16,10 @@ import nosi.webapps.igrp.dao.Domain;
 public class DomainExport implements IExport{
 
 	private List<DomainSerializable> domains;
-	
-	public DomainExport() {
+	Integer idApp;
+	public DomainExport(Integer idApp) {
 		this.domains = new ArrayList<>();
+		this.idApp=idApp;
 	}
 
 	@Override
@@ -32,12 +33,19 @@ public class DomainExport implements IExport{
 	}
 
 	@Override
-	public void add(String id) {
+	public void add(String domainid) {
 		DomainSerializable domainS = new DomainSerializable();
-		Domain dom = new Domain().findOne(Core.toInt(id));
-		Core.mapper(dom, domainS);
-		this.domains.add(domainS);
-	}
+		Domain domain = new Domain();
+		domain.setReadOnly(true);
+		List<Domain> listDomain= domain.find().andWhere("dominio", "=", domainid)
+											.andWhere("status", "=", "ATIVE")
+											.andWhere("application.id", "=", idApp).orderBy("ordem").all();
+		for(Domain dom:listDomain) {
+			Core.mapper(dom, domainS);
+			this.domains.add(domainS);
+		}		
+		
+	}	
 
 	@Override
 	public void export(Export export, String[] ids) {
