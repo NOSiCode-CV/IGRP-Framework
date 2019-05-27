@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Part;
 
@@ -46,7 +47,7 @@ public final class UploadedFile {
 	public static List<UploadedFile> getInstances() {
 		List<UploadedFile> files = new ArrayList<UploadedFile>();
 		try {
-			ArrayList<Part> list = new ArrayList<Part>(Igrp.getInstance().getRequest().getParts());
+			ArrayList<Part> list = new ArrayList<Part>(Igrp.getInstance().getRequest().getParts()); 
 			for(Part obj : list) {
 				UploadedFile aux = new UploadedFile();
 				aux.fileName = obj.getName();
@@ -65,8 +66,10 @@ public final class UploadedFile {
 	}
 	
 	public static List<UploadedFile> getInstances(String name) {
-		List<UploadedFile> files = getInstances();
-		files.removeIf((file) -> !file.getFileName().equalsIgnoreCase(name));
+		List<UploadedFile> files = getInstances(); 
+		files = files.stream().filter(file -> { 
+			return file.getFileName().equalsIgnoreCase(name) && file.getSubmittedFileName() != null && !file.getSubmittedFileName().isEmpty();  
+		}).collect(Collectors.toList()); 
 		return files;
 	}
 	
