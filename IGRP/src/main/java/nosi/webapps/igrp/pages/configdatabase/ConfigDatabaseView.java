@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class ConfigDatabaseView extends View {
 
@@ -61,19 +62,19 @@ public class ConfigDatabaseView extends View {
 		
 		nome_de_conexao = new TextField(model,"nome_de_conexao");
 		nome_de_conexao.setLabel(gt("Nome da conexão"));
-		nome_de_conexao.propertie().add("name","p_nome_de_conexao").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
+		nome_de_conexao.propertie().add("name","p_nome_de_conexao").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		config = new SeparatorField(model,"config");
 		config.setLabel(gt("Config"));
-		config.propertie().add("name","p_config").add("type","separator").add("maxlength","30");
+		config.propertie().add("name","p_config").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		url_connection = new TextField(model,"url_connection");
 		url_connection.setLabel(gt("Url Connection"));
-		url_connection.propertie().add("name","p_url_connection").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
+		url_connection.propertie().add("name","p_url_connection").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		driver_connection = new TextField(model,"driver_connection");
 		driver_connection.setLabel(gt("Driver Connection"));
-		driver_connection.propertie().add("name","p_driver_connection").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
+		driver_connection.propertie().add("name","p_driver_connection").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		paragraph_1 = new PlainTextField(model,"paragraph_1");
 		paragraph_1.setLabel(gt("Example"));
@@ -81,46 +82,46 @@ public class ConfigDatabaseView extends View {
 		
 		credenciais = new SeparatorField(model,"credenciais");
 		credenciais.setLabel(gt("Credenciais"));
-		credenciais.propertie().add("name","p_credenciais").add("type","separator").add("maxlength","30");
+		credenciais.propertie().add("name","p_credenciais").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","80").add("required","true").add("readonly","false").add("disabled","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","80").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		password = new PasswordField(model,"password");
 		password.setLabel(gt("Password"));
-		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false").add("readonly","false").add("disabled","false");
+		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		default_ = new RadioField(model,"default_");
 		default_.setLabel(gt("Default"));
-		default_.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("java-type","").add("check","true").add("desc","true");
+		default_.propertie().add("remote",new Config().getResolveUrl("igrp","ConfigDatabase","changeStatus")).add("name","p_default_").add("type","radio").add("maxlength","30").add("java-type","").add("showLabel","true").add("check","true").add("desc","true");
 		
 		default__check = new RadioField(model,"default__check");
-		default__check.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("java-type","").add("check","true").add("desc","true");
+		default__check.propertie().add("name","p_default_").add("type","radio").add("maxlength","30").add("java-type","").add("showLabel","true").add("check","true").add("desc","true");
 		
 		nome_de_conexao_tabela = new TextField(model,"nome_de_conexao_tabela");
 		nome_de_conexao_tabela.setLabel(gt("Nome da conexão"));
-		nome_de_conexao_tabela.propertie().add("name","p_nome_de_conexao_tabela").add("type","text").add("maxlength","30");
+		nome_de_conexao_tabela.propertie().add("name","p_nome_de_conexao_tabela").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		user_name_tabela = new TextField(model,"user_name_tabela");
 		user_name_tabela.setLabel(gt("Username"));
-		user_name_tabela.propertie().add("name","p_user_name_tabela").add("type","text").add("maxlength","30");
+		user_name_tabela.propertie().add("name","p_user_name_tabela").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		tipo_de_base_de_dados_tabela = new TextField(model,"tipo_de_base_de_dados_tabela");
 		tipo_de_base_de_dados_tabela.setLabel(gt("Tipo de base de dados"));
-		tipo_de_base_de_dados_tabela.propertie().add("name","p_tipo_de_base_de_dados_tabela").add("type","text").add("maxlength","30");
+		tipo_de_base_de_dados_tabela.propertie().add("name","p_tipo_de_base_de_dados_tabela").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		t_url_connection = new TextField(model,"t_url_connection");
 		t_url_connection.setLabel(gt("Url Connection"));
-		t_url_connection.propertie().add("name","p_t_url_connection").add("type","text").add("maxlength","30");
+		t_url_connection.propertie().add("name","p_t_url_connection").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		t_driver_connection = new TextField(model,"t_driver_connection");
 		t_driver_connection.setLabel(gt("Driver Connection"));
-		t_driver_connection.propertie().add("name","p_t_driver_connection").add("type","text").add("maxlength","30");
+		t_driver_connection.propertie().add("name","p_t_driver_connection").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

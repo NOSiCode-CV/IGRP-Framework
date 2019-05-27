@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -27,11 +29,12 @@ public class ConfigDatabaseController extends Controller {
 		ConfigDatabase model = new ConfigDatabase();
 		model.load();
 		ConfigDatabaseView view = new ConfigDatabaseView();
+		view.nome_de_conexao_tabela.setParam(true);
 		view.id.setParam(true);
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Ut amet aliqua consectetur des' as nome_de_conexao_tabela,'Dolor sit elit laudantium labo' as user_name_tabela,'Aliqua stract aperiam omnis st' as tipo_de_base_de_dados_tabela,'Voluptatem laudantium lorem ut' as t_url_connection,'Rem officia anim ipsum accusan' as t_driver_connection,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as default_,'Perspiciatis officia labore om' as nome_de_conexao_tabela,'Rem aliqua amet ut labore' as user_name_tabela,'Amet consectetur iste sed ipsu' as tipo_de_base_de_dados_tabela,'Magna stract accusantium persp' as t_url_connection,'Sit doloremque consectetur ani' as t_driver_connection,'hidden-523d_2ca7' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo_base_dados.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -135,6 +138,7 @@ public class ConfigDatabaseController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_nome_de_conexao_tabela",Core.getParam("p_nome_de_conexao_tabela"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
@@ -191,6 +195,7 @@ public class ConfigDatabaseController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_nome_de_conexao_tabela",Core.getParam("p_nome_de_conexao_tabela"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(edit)----*/
@@ -208,6 +213,7 @@ public class ConfigDatabaseController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 this.addQueryString("p_nome_de_conexao_tabela",Core.getParam("p_nome_de_conexao_tabela"));
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp","ConfigDatabase","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(delete)----*/
@@ -258,11 +264,11 @@ public class ConfigDatabaseController extends Controller {
 
 	public Response actionChangeStatus() {
 		this.format = Response.FORMAT_JSON;
-        String id = Core.getParam("p_id");
+        Integer id = Core.getParamInt("p_id");
         boolean response = false;
         
         if(id != null) {
-        	Config_env config_env = new Config_env().find().andWhere("name", "=", id).one();
+        	Config_env config_env = new Config_env().find().andWhere("id", "=", id).one();
         	if(config_env != null) {
         		java.util.List<Config_env> all = new Config_env().find().andWhere("application.id", "=", config_env.getApplication().getId()).all();
         		if(all != null) {

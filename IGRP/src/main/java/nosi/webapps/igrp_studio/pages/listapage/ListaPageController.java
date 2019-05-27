@@ -40,14 +40,14 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Voluptatem anim rem aliqua adi' as descricao_page,'hidden-ef00_4576' as id_page,'hidden-ff9a_a3a4' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-e7c0_9f0b' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Rem perspiciatis adipiscing si' as descricao_page,'hidden-206a_797e' as id_page,'hidden-3c95_ade4' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-d5d6_f5cf' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
-		view.id_page.setParam(true);
+		
 		Map<Object, Object> listApp = new Application().getListApps();
 		if(listApp!=null && listApp.size()==2) {
 			model.setApplication(listApp.keySet().stream().filter(a->a!=null).findFirst().get().toString());
@@ -171,11 +171,12 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","listapage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		
+		return this.redirect("igrp_studio","listapage","index", this.queryString());	
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -189,7 +190,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
 		 return this.forward("igrp","Page","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(editar)----*/
-		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
+		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
 			return this.forward("igrp", "Page", "index&p_id=" + p_id_page);
 		}
@@ -209,7 +210,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
 		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(visualizar)----*/
-		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
+		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
 			return this.redirect("igrp", "Page", "visualizar&p_id=" + p_id_page);
 		}
@@ -229,7 +230,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
 		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(eliminar)----*/
-		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
+		String p_id_page = Core.getParam("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
 			return this.forward("igrp", "Page", "eliminar&id=" + p_id_page);
 		}
@@ -247,7 +248,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","listapage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -255,7 +256,8 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio","Env","index", this.queryString());	
+		
+		return this.redirect("igrp_studio","listapage","index", this.queryString());	
 	}
 	
 	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -311,18 +313,19 @@ public class ListaPageController extends Controller {
 /*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus()
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
-
-		this.format = Response.FORMAT_JSON;
-		Core.log("pelo menos chama");
+		
+		this.format = Response.FORMAT_JSON;		
 		String id = Core.getParam("p_id_page");
-		String status = Core.getParam("p_status_page");
+		String status = Core.getParam("p_status_page_check");
 		boolean response = false;
 		if (Core.isNotNull(id)) {
 			Action page = new Action().findOne(Integer.parseInt(id));
-			if (page != null) {
-				page.setStatus(Integer.parseInt(status));
-				if (page.update() != null)
+			if (page != null && Core.isNotNull(status)) {
+				page.setStatus(status.equals("true")?1:0);
+				if (page.update() != null) {
+					//Core.setMessageSuccess();
 					response = true;
+				}					
 			}
 		}
 

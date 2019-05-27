@@ -6,8 +6,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class ListaPageView extends View {
 
@@ -186,10 +184,10 @@ public class ListaPageView extends View {
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));
-		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
+		status_page.propertie().add("remote",new Config().getResolveUrl("igrp_studio","ListaPage","changeStatus")).add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","Integer").add("showLabel","true").add("check","true").add("desc","true");
 		
 		status_page_check = new CheckBoxField(model,"status_page_check");
-		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
+		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","Integer").add("showLabel","true").add("check","true").add("desc","true");
 		
 		descricao_page = new TextField(model,"descricao_page");
 		descricao_page.setLabel(gt("Título (código)"));
@@ -214,7 +212,7 @@ public class ListaPageView extends View {
 
 									my_aplicacao_desc = new LinkField(model,"my_aplicacao_desc");
 		my_aplicacao_desc.setLabel(gt("Aplicação"));
-		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("showLabel","true").add("desc","true");
+		my_aplicacao.propertie().add("name","p_my_aplicacao").add("type","link").add("target","_self").add("request_fields","").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("showLabel","true").add("list_source","").add("desc","true");
 		
 		env_fk = new HiddenField(model,"env_fk");
 		env_fk.setLabel(gt(""));

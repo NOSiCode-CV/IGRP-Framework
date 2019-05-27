@@ -1,8 +1,5 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
@@ -274,21 +271,21 @@ public class ListaPage extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private int status_page;
-		private int status_page_check;
+		private Integer status_page;
+		private Integer status_page_check;
 		private String descricao_page;
 		private String id_page;
 		private String nome_page;
-		public void setStatus_page(int status_page){
+		public void setStatus_page(Integer status_page){
 			this.status_page = status_page;
 		}
-		public int getStatus_page(){
+		public Integer getStatus_page(){
 			return this.status_page;
 		}
-		public void setStatus_page_check(int status_page_check){
+		public void setStatus_page_check(Integer status_page_check){
 			this.status_page_check = status_page_check;
 		}
-		public int getStatus_page_check(){
+		public Integer getStatus_page_check(){
 			return this.status_page_check;
 		}
 
