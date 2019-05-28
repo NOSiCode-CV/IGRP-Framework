@@ -206,7 +206,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","Transferir_tarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(ver_detalhes)----*/
-		this.addQueryString("p_id", Core.getParam("p_id_g")).addQueryString("type", "view");
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_g")).addQueryString("type", "view");
 		/*----#end-code----*/
 		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
 	}
@@ -225,7 +225,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","Transferir_tarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(ver_estatistica)----*/
-		this.addQueryString("p_id", Core.getParam("p_id_c"));
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_c"));
 		/*----#end-code----*/
 		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
 	}
@@ -244,7 +244,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","Transferir_tarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(enviar_msg)----*/
-		this.addQueryString("p_id", Core.getParam("p_id_g"));
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_g"));
 		/*----#end-code----*/
 		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
 	}
@@ -263,7 +263,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","Transferir_tarefas","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(transferir_tarefa)----*/
-		this.addQueryString("p_id", Core.getParam("p_id_g"));
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_g"));
 		/*----#end-code----*/
 		return this.redirect("igrp","Transferir_tarefas","index", this.queryString());	
 	}
@@ -324,7 +324,7 @@ public class ExecucaoTarefasController extends Controller {
 		 this.addQueryString("p_p_id_d",Core.getParam("p_p_id_d"));
 		 return this.forward("igrp","Alter_prioridade_tarefa","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(alterar_prioridade_tarefa)----*/
-		this.addQueryString("p_id", Core.getParam("p_id_g"));
+		this.addQueryString(BPMNConstants.PRM_TASK_ID, Core.getParam("p_id_g"));
 		/*----#end-code----*/
 		return this.redirect("igrp","Alter_prioridade_tarefa","index", this.queryString());	
 	}
@@ -646,7 +646,7 @@ public class ExecucaoTarefasController extends Controller {
 		return tasksDisponiveis;
 	}
 
-	private Map<String, String> listProc = new HashMap<>();//new ProcessDefinitionService().mapToComboBox(Core.getCurrentDad());
+	private Map<String, String> listProc = new HashMap<>();
 	private static final int MANAGE_TASK = 0;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;

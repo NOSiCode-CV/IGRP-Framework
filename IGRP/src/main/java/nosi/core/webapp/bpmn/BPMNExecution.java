@@ -60,7 +60,7 @@ public class BPMNExecution extends Controller{
 		StartProcess st = formData.submitFormByProcessDenifition(processDefinition);
 		if (st != null) {
 			ProcessInstanceServiceRest processInstanceRest = new ProcessInstanceServiceRest();
-			processInstanceRest.addVariable("p_process_id", "local", "string", st.getId());
+			processInstanceRest.addVariable(BPMNConstants.PRM_TASK_ID, "local", "string", st.getId());
 			processInstanceRest.submitVariables(st.getId());
 		}		
 		if (Core.isNotNull(formData.getError())) {

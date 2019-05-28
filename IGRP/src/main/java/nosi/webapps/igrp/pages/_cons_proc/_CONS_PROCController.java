@@ -35,6 +35,7 @@ public class _CONS_PROCController extends Controller {
 		view.status.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
+		model.setAplicacao(""+Core.getCurrentAppId());
 		Application app = new Application().findOne(Core.toInt(model.getAplicacao()));
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
 		TaskServiceIGRP taskQuery = new TaskServiceIGRP();
@@ -87,7 +88,6 @@ public class _CONS_PROCController extends Controller {
 		}
 		
 		view.aplicacao.setValue(new Application().getListApps());	
-
 		if(app!=null) {
 			view.tipo_processo.setValue(new ProcessDefinitionIGRP().mapToComboBox(app.getDad()));
 		}
