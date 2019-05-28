@@ -240,8 +240,8 @@ public abstract class BPMNTaskController extends Controller implements Interface
 		}
 		this.runtimeTask.setShowTimeLine("true");
 		this.runtimeTask.setSaveButton(true);
-		Core.setAttribute(BPMNConstants.PRM_RUNTIME_TASK, this.runtimeTask);
-		return this.forward(app.getDad().toLowerCase(),BPMNConstants.PREFIX_TASK+nextTask.getTaskDefinitionKey(), "index",this.queryString());
+		this.addQueryString("p_id", nextTask.getId());
+		return this.redirect("igrp","ExecucaoTarefas","executar_button_minha_tarefas",this.queryString());
 	}
 
 	@Override
