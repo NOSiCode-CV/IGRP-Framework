@@ -20,24 +20,7 @@ public class Pesquisa_nacionalidade extends Model{
 	public List<Treemenu_1> getTreemenu_1(){
 		return this.treemenu_1;
 	}
-	@RParam(rParamName = "p_treemenu_1_id")
-	private String[] p_treemenu_1_id;
-	@RParam(rParamName = "p_treemenu_1_del")
-	private String[] p_treemenu_1_del;
-	
-	public void setP_treemenu_1_id(String[] p_treemenu_1_id){
-		this.p_treemenu_1_id = p_treemenu_1_id;
-	}
-	public String[] getP_treemenu_1_id(){
-		return this.p_treemenu_1_id;
-	}
-	
-	public void setP_treemenu_1_del(String[] p_treemenu_1_del){
-		this.p_treemenu_1_del = p_treemenu_1_del;
-	}
-	public String[] getP_treemenu_1_del(){
-		return this.p_treemenu_1_del;
-	}
+
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;

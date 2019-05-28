@@ -59,7 +59,7 @@ public class ListaEnvController extends Controller {
 				}				
              	table.setName("igrp_studio", "env", "openApp")
 						.addParam("app", a.getDad())
-						.addParam("page", page + "/index&title=\"");
+						.addParam("page", page + "/index");
 				table.setName_desc(a.getName());
 				table.setStatus(a.getStatus());
 				if (a.getStatus() == 1) {

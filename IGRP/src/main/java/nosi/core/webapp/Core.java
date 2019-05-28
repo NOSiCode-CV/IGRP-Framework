@@ -1417,10 +1417,11 @@ public final class Core { // Not inherit
 	/**
 	 * Consume a REST API Json using get
 	 * 
+	 * @param <T>
 	 * @param url	
 	 * @param result
 	 * @return {@code httpGet(url, mediaType, null, result);}
-	 */
+	 */	
 	public static <T> T httpGet(String url, Class<T> result) {
 		return httpGet(url, new String[] {}, null, result);
 	}
@@ -1862,7 +1863,7 @@ public final class Core { // Not inherit
 	 * update a file to the Igrp core DataBase and return true or false ...
 	 * 
 	 * @param file
-	 * @param name
+	 * @param id
 	 * @return true|false
 	 */
 	public static boolean updateFile(File file,Integer id) {
@@ -1921,9 +1922,9 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * update a file to the Igrp core DataBase and return true or false ...
+	 * update a Part of file to the Igrp core DataBase and return true or false ...
 	 * 
-	 * @param file
+	 * @param part
 	 * @param name
 	 * @return true|false
 	 */
@@ -2056,9 +2057,9 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Insert a file to the Igrp core DataBase and return an Id ...
+	 * Insert a Part file to the Igrp core DataBase and return an Id ...
 	 * 
-	 * @param file
+	 * @param part
 	 * @param name
 	 * @return in ID
 	 */
@@ -2612,7 +2613,7 @@ public final class Core { // Not inherit
 	 * use dateToString
 	 * 
 	 * @param date
-	 * @param formatIn
+	 * @param formatOut
 	 * @return
 	 */
 	@Deprecated
@@ -2624,7 +2625,7 @@ public final class Core { // Not inherit
 	 * Please use dateToString
 	 * 
 	 * @param date
-	 * @param formatIn
+	 * @param formatOut
 	 * @return
 	 */
 	@Deprecated
@@ -2857,7 +2858,7 @@ public final class Core { // Not inherit
 	/**
 	 * Receives a date from/to in a default string format with separator /
 	 *
-	 * @param dateStr
+	 * @param dateFromToStr
 	 * @return the substring or the first date of the date from/to
 	 */
 	public static String dateFromTo2DateBeginStr(String dateFromToStr) {
@@ -2867,7 +2868,7 @@ public final class Core { // Not inherit
 	/**
 	 * Receives a date from/to in a default model string format with a separator param
 	 * 
-	 * @param dateStr
+	 * @param dateFromToStr
 	 * @param separator
 	 * @return the substring or the first date of the date from/to
 	 */

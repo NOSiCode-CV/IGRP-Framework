@@ -456,7 +456,9 @@ public class EnvController extends Controller {
 			
 			Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
-			String devUrl = properties.getProperty("igrp.env.dev.url"); 			
+			String devUrl = properties.getProperty("igrp.env.dev.url"); 
+			
+//			If you try to open igrp_studio in a not igrp_studio enviroment
 			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
 				String qs = "?_t=" + Base64.getEncoder().encodeToString((Core.getCurrentUser().getUser_name() + ":" + Core.getCurrentUser().getValid_until()).getBytes());
 				devUrl += qs;
@@ -481,7 +483,7 @@ public class EnvController extends Controller {
 					
 					String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 					
-					if(new Config().getEnvironment().equalsIgnoreCase("dev")) {
+				
 						
 						//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 						String uri = Igrp.getInstance().getRequest().getRequestURI();
@@ -512,19 +514,15 @@ public class EnvController extends Controller {
 								url += "&_url=tutorial/DefaultPage/index";
 							
 							return this.redirectToUrl(url);
-						}
-						
-						
-					}
-					
-				}
+						}						
+					}				
 				
 			}
 			
 			try {
 				Integer idPerfil = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
 				if(idPerfil != null) {
-					ProfileType prof = new ProfileType().findOne(idPerfil);
+					ProfileType prof = Core.findProfileById(idPerfil);
 					if(prof != null && prof.getFirstPage() != null) {
 						Action action = prof.getFirstPage();
 						p[0] = action.getApplication().getDad();
@@ -533,6 +531,8 @@ public class EnvController extends Controller {
 					}
 				}
 			}catch (Exception e) {
+				
+				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 			
