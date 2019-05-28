@@ -81,6 +81,9 @@ public class ListField extends AbstractField {
 	public void loadDomain(String domains) {
 		this.loadDomain(domains, null);
 	}
+	public void loadDomainByApp(String domains, String codeApp) {
+		this.loadDomain(domains,codeApp, null);
+	}
 
 	public void loadDomain(String domains, String prompt) {
 		Map<Object, String> map = new LinkedHashMap<>();
@@ -88,8 +91,15 @@ public class ListField extends AbstractField {
 			map.put(null, gt(prompt));
 		map.putAll(Core.findDomainByCode(domains).stream()
 				.collect(Collectors.toMap(x -> x.getValor(), x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue,LinkedHashMap::new)));	
-
 		this.setValue(map);
-
+	}
+	
+	public void loadDomain(String domains,String codeApp, String prompt) {
+		Map<Object, String> map = new LinkedHashMap<>();
+		if (prompt != null)
+			map.put(null, gt(prompt));
+		map.putAll(Core.findDomainByCode(domains,codeApp).stream()
+				.collect(Collectors.toMap(x -> x.getValor(), x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue,LinkedHashMap::new)));	
+		this.setValue(map);
 	}
 }

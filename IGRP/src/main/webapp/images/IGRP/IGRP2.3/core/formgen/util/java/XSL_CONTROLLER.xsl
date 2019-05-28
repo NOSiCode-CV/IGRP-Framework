@@ -344,7 +344,9 @@
 						
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
-						<xsl:call-template name="setSqlCombobox_"/> 
+						<xsl:call-template name="setSqlCombobox_">						
+							<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>						
+		     	       </xsl:call-template> 
 						<xsl:if test="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox'] or //rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
@@ -661,6 +663,7 @@
  	
  	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
  	<xsl:template name="setSqlCombobox_">
+ 		<xsl:param name="app_"/>
  		<xsl:for-each select="//content/*">
 	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">	 		
 	 			<xsl:if test="@domain!=''">	
@@ -668,10 +671,10 @@
 	 				<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 					
 	 						<xsl:choose>
 	 							<xsl:when test="@type='select'">
-	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain, $double_quotes,',', $double_quotes,'-- Selecionar --' ,$double_quotes,');')"/>
+	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain, $double_quotes,',',$double_quotes,$app_name,$double_quotes,',',$double_quotes,'-- Selecionar --' ,$double_quotes,');')"/>
 	 							</xsl:when>
 	 							<xsl:otherwise>
-	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain,$double_quotes,');')"/>	
+	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomainByApp(',$double_quotes, @domain,$double_quotes,',',$double_quotes,$app_name,$double_quotes,');')"/>	
 	 							</xsl:otherwise>
 	 						</xsl:choose>
 				</xsl:if>	 			
