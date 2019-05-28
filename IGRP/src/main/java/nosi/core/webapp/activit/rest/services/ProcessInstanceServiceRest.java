@@ -9,6 +9,8 @@ import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.entities.HistoricProcessInstance;
 import nosi.core.webapp.activit.rest.entities.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.entities.ProcessInstancesService;
@@ -102,20 +104,23 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceIdFinished(String processDefinitionKey) {
-		return this.getHistoryOfProccessInstanceId(processDefinitionKey, true);
+		return this.getHistoryOfProccessInstanceId(processDefinitionKey,null, true);
 	}
 
 	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey) {
-		return this.getHistoryOfProccessInstanceId(processDefinitionKey, false);
+		return this.getHistoryOfProccessInstanceId(processDefinitionKey,null, false);
 	}
 
 
 	@SuppressWarnings("unchecked")
-	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,
+	public List<HistoricProcessInstance> getHistoryOfProccessInstanceId(String processDefinitionKey,String processInstanceId,
 			boolean isFinished) {
 		List<HistoricProcessInstance> d = new ArrayList<>();
 		this.addFilterUrl("processDefinitionKey", processDefinitionKey);
 		this.addFilterUrl("includeProcessVariables", "true");
+		if(Core.isNotNull(processInstanceId)) {
+			this.addFilterUrl("processInstanceId", processInstanceId);
+		}
 		if (isFinished) {
 			this.addFilterUrl("finished", "true");
 		}

@@ -2226,13 +2226,39 @@ public final class Core { // Not inherit
 	}
 
 	public static String getProcessVariableId(String processDefinitionKey) {
-		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey);
+		String processInstanceId = Core.getProcessInstaceByTask();
+		List<TaskVariables> vars = Core.getProcessVariables(processDefinitionKey,processInstanceId);
 		if (vars != null) {
-			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase("p_process_id"))
+			List<TaskVariables> var = vars.stream().filter(v -> v.getName().equalsIgnoreCase(BPMNConstants.PRM_PROCESS_ID))
 					.collect(Collectors.toList());
 			return (var != null && var.size() > 0) ? (String) var.get(var.size() - 1).getValue() : "";
 		}
 		return "";
+	}
+	
+	private static String getProcessInstaceByTask() {
+		return Core.getProcessInstaceByTask(Core.getParam(BPMNConstants.PRM_TASK_ID));
+	}
+	
+	private static String getProcessInstaceByTask(String taskId) {
+		TaskServiceRest taskRest = new TaskServiceRest();
+		taskRest.addFilterUrl("taskId", taskId);
+		taskRest.addFilterUrl("includeTaskLocalVariables", "true");
+		taskRest.addFilterUrl("includeProcessVariables", "true");
+		List<HistoricTaskService> taskHistory = taskRest.getHistory();
+		if(taskHistory!=null && !taskHistory.isEmpty()) {
+			return taskHistory.get(0).getProcessInstanceId();
+		}
+		return null;
+	}
+
+	private static List<TaskVariables> getProcessVariables(String processDefinitionKey,String processInstanceId) {
+		List<HistoricProcessInstance> task1 = new ProcessInstanceServiceRest()
+				.getHistoryOfProccessInstanceId(processDefinitionKey,processInstanceId,false);
+		if (task1 != null && task1.size() > 0) {
+			return task1.get(task1.size() - 1).getVariables();
+		}
+		return null;
 	}
 
 	private static List<TaskVariables> getProcessVariables(String processDefinitionKey) {
