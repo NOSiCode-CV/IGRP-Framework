@@ -261,6 +261,10 @@ public abstract class QueryHelper implements QueryInterface{
 	protected OperationType operationType;
 	
 	public String getSql() {
+		return this.sql;
+	}
+	
+	public String getSqlExecute() {
 		if(this instanceof QueryInsert || (this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0)) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName()) + this.sql;
 		}
@@ -358,9 +362,9 @@ public abstract class QueryHelper implements QueryInterface{
 			if(this instanceof QueryInsert) {
 				try {
 					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+						q = new NamedParameterStatement(conn ,this.getSqlExecute(),this.retuerningKeys);
 					}else {
-						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+						q = new NamedParameterStatement(conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
 					}
 					this.setParameters(q);	
 					Core.log("SQL:"+q.getSql());
@@ -371,7 +375,7 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}else {
 				try {
-					q = new NamedParameterStatement(conn, this.getSql());
+					q = new NamedParameterStatement(conn, this.getSqlExecute());
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
@@ -396,6 +400,9 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}
 		}
+		this.columnsValue = new ArrayList<>();//restart mapped columns
+		this.sql = "";
+		this.whereIsCall = false;
 		return r;
 	}
 	
@@ -409,9 +416,9 @@ public abstract class QueryHelper implements QueryInterface{
 				try {
 					
 					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSql(),this.retuerningKeys);
+						q = new NamedParameterStatement(conn ,this.getSqlExecute(),this.retuerningKeys);
 					}else {
-						q = new NamedParameterStatement(conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+						q = new NamedParameterStatement(conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
 					}
 					this.setParameters(q);	
 					this.sql = q.getSql();
