@@ -219,7 +219,9 @@ public class NovoUtilizadorController extends Controller {
 
 	private User checkGetUserLdap(String email, Properties settings) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
-		User userLdap = null;
+		User userLdap = null; 
+		
+		System.out.println("Password: " + settings.getProperty("ids.wso2.admin-pwd")); 
 
 		try {
 			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
@@ -228,12 +230,14 @@ public class NovoUtilizadorController extends Controller {
 			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 					settings.getProperty("ids.wso2.admin-pwd"), 2);
 			
-			String v = settings.getProperty("igrp.authentication.govcv.enbaled");
+			String v = settings.getProperty("igrp.authentication.govcv.enbaled"); 
 			if (v.equalsIgnoreCase("true"))
 				email = "gov.cv/" + email; 
 
-			List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
-			LdapPerson ldapPerson = new LdapPerson();
+			List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, ""); 
+			
+			LdapPerson ldapPerson = new LdapPerson(); 
+			
 			result.forEach(user -> {
 				switch (user.getClaimUri().getValue()) {
 				case "http://wso2.org/claims/displayName":
@@ -573,5 +577,38 @@ public class NovoUtilizadorController extends Controller {
 		}
 		return this.redirectError();
 	}
+	
+	
+	public static void main(String[] args) { 
+		
+			String wsdlUrl = "https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl";
+		
+		// An Map of Soap HTTP Headers 
+				Map<String, String> headers = new HashMap<String, String>();
+				headers.put("Content-type", "application/soap+xml;charset=UTF-8;action=\"urn:getUserClaimValues\"");
+
+		// An Map of Soap Envelope namespace 
+			Map<String, String> namespaces = new HashMap<String, String>();
+			namespaces.put("soap", "http://www.w3.org/2003/05/soap-envelope"); 
+			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org"); 
+				
+				Map<String, Object> bodyContent = new HashMap<String, Object>();
+				Map<String, Object> subContent = new HashMap<String, Object>();
+				
+				
+				subContent.put("ser:userName", "iekini.fernandes@nosi.cv");
+				
+				bodyContent.put("ser:getUserClaimValues", subContent);
+
+				nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers, bodyContent); 
+				
+				Map<String, Object> map = sc.getResponseBody("soapenv"); 
+				map = (Map<String, Object>) map.get("ns:getUserClaimValuesResponse"); 
+				
+				System.out.println("size(): " + map.size());
+				
+		
+	}
+	
 	/*----#end-code----*/
 }
