@@ -106,7 +106,7 @@ public class HibernateUtils {
 
 	private static Map<String, Object> getOthersAppSettings(StandardServiceRegistryBuilder registryBuilder,String connectionName, String dad) {
 		Config_env config = new Config_env().find()
-				.andWhere("name", "=", connectionName)
+				.where("name", "=", connectionName)
 				.andWhere("application.dad", "=",dad)
 				.one();
 		if (config != null) {	

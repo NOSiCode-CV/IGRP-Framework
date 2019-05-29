@@ -72,11 +72,12 @@ public class LoginController extends Controller {
 		if(r != null) return r; 
 		
 		
-		r = oAuth2Wso2(); 
-		if(r != null) return r; 
-		
 		r = createResponseApplyingActivation(); 
 		if(r != null) return r;  
+		
+		
+		r = oAuth2Wso2(); 
+		if(r != null) return r; 
 		
 		
 		r = createResponseOauth2OpenIdWso2(); 
