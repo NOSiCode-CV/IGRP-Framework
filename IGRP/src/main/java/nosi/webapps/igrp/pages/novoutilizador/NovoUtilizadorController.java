@@ -221,8 +221,6 @@ public class NovoUtilizadorController extends Controller {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null; 
 		
-		System.out.println("Password: " + settings.getProperty("ids.wso2.admin-pwd")); 
-
 		try {
 			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 			WSO2UserStub.disableSSL();
