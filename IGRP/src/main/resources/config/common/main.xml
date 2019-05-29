@@ -7,26 +7,25 @@
 	<!--  -->
 	<entry key="igrp.env">dev</entry>
 	
-	<!--  -->
-	<entry key="ids.wso2.enabled">false</entry>
-	<entry key="ids.wso2.RemoteUserStoreManagerService-wsdl-url">https://nhais1.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
-	<entry key="ids.wso2.admin-usn">mfadmin@nosi.cv</entry>
-	<entry key="ids.wso2.admin-pwd">Pa$$w0rd</entry> 
+	<!--  --> 
+	<entry key="ids.wso2.enabled">true</entry> 
+	<entry key="ids.wso2.RemoteUserStoreManagerService-wsdl-url">https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl</entry>
+	<entry key="ids.wso2.admin-usn">admin.igrp@nosi.cv</entry> 
+	<entry key="ids.wso2.admin-pwd">!GRP&amp;ad!m!n</entry>
 	
-	<!--  -->
-	<entry key="ids.wso2.oauth2-openid.enabled">false</entry>
+	<entry key="ids.wso2.oauth2-openid.enabled">true</entry> 
 	<entry key="ids.wso2.oauth2.client_id">gbgQyskjFPtacL1aa9qMwFCjMtsa</entry>
-	<entry key="ids.wso2.oauth2.client_secret">breLyEU4kgD66Fd7v9PfccR3cbUa</entry>
+	<entry key="ids.wso2.oauth2.client_secret">breLyEU4kgD66Fd7v9PfccR3cbUa</entry> 
 	<entry key="ids.wso2.oauth2.endpoint.token">https://nhais1.gov.cv/oauth2/token</entry>
 	<entry key="ids.wso2.oauth2.endpoint.user">https://nhais1.gov.cv/oauth2/userinfo?schema=openid</entry>
 	<entry key="ids.wso2.oauth2.endpoint.authorize">https://nhais1.gov.cv/oauth2/authorize</entry>
 	<entry key="ids.wso2.oauth2.endpoint.redirect_uri">http://localhost:8080/IGRP/index.jsp</entry> 
 	<entry key="ids.wso2.oauth2.endpoint.logout">https://nhais1.gov.cv/oidc/logout</entry>
- 	
+	
 	
 	<!-- IGRPoauth2openid --> 
 	<entry key="igrp.env.dev.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
-	<entry key="igrp.env.prod.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
+	<entry key="igrp.env.prod.url">http://localhost:8080/IGRP/igrpoauth2sso</entry> 
 	<entry key="igrp.env.stage.url">http://localhost:8080/IGRP/igrpoauth2sso</entry>
 	
 	<!-- https://nosiappsdev.gov.cv/redglobal/restapi/userapps/ -->
