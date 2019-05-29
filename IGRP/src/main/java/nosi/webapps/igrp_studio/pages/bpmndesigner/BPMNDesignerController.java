@@ -163,14 +163,16 @@ public class BPMNDesignerController extends Controller {
 	
 	private void saveTaskFileController(TaskService task, Application app, Action ac) throws TransformerConfigurationException, UnsupportedEncodingException {
 		String classPathWorkspace = this.getClassPathWorkspace(task, app);
-		String xml = null;
-		if(Core.isNotNull(classPathWorkspace) && FileHelper.dirExists(classPathWorkspace)) {
-			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathWorkspace);
+		if(Core.isNotNull(classPathWorkspace)) {
+			if(!FileHelper.dirExists(classPathWorkspace)) {
+				FileHelper.createDiretory(classPathWorkspace);
+			}
+			String xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathWorkspace);
 			String content = this.transformXMLToController(xml);
 			FileHelper.saveFilesJavaControllerAndReplace(classPathWorkspace, ac.getPage(), content);
 		}else {
 			String classPathServer = this.getClassPathServer(task, app);
-			xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathServer);
+			String xml = BPMNHelper.getGenerateXML(app.getDad(), task.getProcessDefinitionId().toLowerCase(), ac.getPage(), task.getFormKey(), classPathServer);
 			String content = this.transformXMLToController(xml);
 			FileHelper.saveFilesJavaControllerAndReplace(classPathServer, ac.getPage(), content);
 			this.compiler.addFileName(classPathServer+File.separator+ ac.getPage()+"Controller.java");
