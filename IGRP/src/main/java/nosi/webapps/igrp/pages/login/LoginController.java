@@ -29,6 +29,7 @@ import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapPerson;
+import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -120,8 +121,6 @@ public class LoginController extends Controller {
 		} else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout.")); 
 		
-		
-		
 		if (settings.getProperty("igrp.env.isNhaLogin") != null
 				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
 				&& settings.getProperty("igrp.env.nhaLogin.url") != null
@@ -176,7 +175,11 @@ public class LoginController extends Controller {
 	}
 	
 	private Response createResponseIfIsAuthenticated() {
+		
 		if (Igrp.getInstance().getUser().isAuthenticated()) {
+			
+			Response response = runCustomIgrpOauth2WhenAuthenticated();
+			if(response != null) return response;
 			
 			User u = Core.getCurrentUser();
 			if(u.getIsAuthenticated() == 0) { 
@@ -254,7 +257,12 @@ public class LoginController extends Controller {
 	private Response mainAuthentication(String username, String password) {
 		switch (this.getConfig().getAutenticationType()) {
 			case "db": 
-				if (loginWithDb(username, password)) { 
+				if (loginWithDb(username, password)) {
+					
+					
+					Response r = runCustomIgrpOauth2WhenSignInDb(); 
+					if(r != null) return r;
+					
 					String destination = Route.previous(); 
 					if (destination != null) {
 						String qs = URI.create(destination).getQuery();
@@ -720,10 +728,10 @@ public class LoginController extends Controller {
 							
 							try {
 								User newUser = new User();
-								newUser.setUser_name(uid);
+								newUser.setUser_name(email);
 								newUser.setEmail(email); 
 								newUser.setName(uid);
-								newUser.setStatus(1);
+								newUser.setStatus(1); 
 								newUser.setIsAuthenticated(1);
 								newUser.setCreated_at(System.currentTimeMillis());
 								newUser.setUpdated_at(System.currentTimeMillis());
@@ -824,6 +832,81 @@ public class LoginController extends Controller {
 		u.setIsAuthenticated(1);
 		u = u.update();
 		return u != null && !u.hasError();
+	} 
+	
+	private Map<String, String> getParamForCustomIgrpOauth2(){
+		Map<String, String> r = new HashMap<String, String>(); 
+		
+		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
+		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
+		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
+		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
+		String scope = Igrp.getInstance().getRequest().getParameter("scope");
+		
+		r.put("oauth", oauth2);
+		r.put("response_type", response_type);
+		r.put("client_id", client_id);
+		r.put("redirect_uri", redirect_uri);
+		r.put("scope", scope); 
+		
+		return r;
+	}
+	
+	private Response runCustomIgrpOauth2WhenAuthenticated() {
+		Map<String, String> r = getParamForCustomIgrpOauth2(); 
+		String oauth2 = r.get("oauth2");
+		if (oauth2 != null && oauth2.equalsIgnoreCase("1")) { 
+			StringBuilder oauth2ServerUrl = new StringBuilder();
+			User user = (User) Igrp.getInstance().getUser().getIdentity();
+			if (generateResponseForCustomIgrpOauth2(oauth2ServerUrl, user, r.get("response_type"), r.get("client_id"), r.get("redirect_uri"), r.get("scope")))
+				return this.redirectToUrl(oauth2ServerUrl.toString());
+			else
+				;// Go to error page 
+		}
+		return null;
+	}
+	
+	
+	private boolean generateResponseForCustomIgrpOauth2(StringBuilder oauth2ServerUrl, User user, String response_type, String client_id, String redirect_uri, String scope) { 
+		boolean result = true;
+
+		String url_ = Igrp.getInstance().getRequest().getRequestURL().toString()
+				.replace(Igrp.getInstance().getRequest().getRequestURI() + "", "");
+		url_ += "/igrp-rest/rs/oauth2/authorization";
+		String queryString = "?";
+		queryString += "authorize=1";
+		queryString += "&response_type=" + response_type.replaceAll(" ", "%20");
+		queryString += "&client_id=" + client_id;
+		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
+		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");
+		queryString += "&userId=" + Base64.getEncoder().encodeToString(user.getUser_name().getBytes());
+
+		oauth2ServerUrl.append(url_.concat(queryString));
+
+		return result;
+	}
+	
+	public Response runCustomIgrpOauth2WhenSignInDb() {
+		
+		Map<String, String> r = getParamForCustomIgrpOauth2(); 
+		
+		String oauth2 = r.get("oauth2"); 
+		String response_type = r.get("response_type"); 
+		String client_id = r.get("client_id"); 
+		String redirect_uri = r.get("redirect_uri"); 
+		String scope = r.get("scope"); 
+		
+		if (oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+			StringBuilder oauth2ServerUrl = new StringBuilder();
+			User user = (User) Igrp.getInstance().getUser().getIdentity();
+			if (generateResponseForCustomIgrpOauth2(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
+				return this.redirectToUrl(oauth2ServerUrl.toString());
+			} else
+				;// Go to error page
+		}
+		
+		return null;
+		
 	}
 
 	/*----#end-code----*/
