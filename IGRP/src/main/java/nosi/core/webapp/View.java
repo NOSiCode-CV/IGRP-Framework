@@ -61,9 +61,9 @@ public abstract class View  implements IHeaderConfig{
 		String isPublic = Core.getParam("isPublic");
 		//No encrypt if page is public
 		if(Core.isNotNull(isPublic) && isPublic.equals("1")) {
-			value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+target+"&isPublic=1&lang="+Core.getParam("lang");
+			value = "webapps?r="+Igrp.getInstance().getCurrentAppName()+"/"+Igrp.getInstance().getCurrentPageName()+"/index&target="+target+"&isPublic=1&lang="+Core.getParam("lang")+"&dad="+Igrp.getInstance().getCurrentAppName();
 		}else {
-			value = Route.getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index&"+(Core.isNotNull(target)?("target="+target):""));
+			value = Route.getResolveUrl(Igrp.getInstance().getCurrentAppName(),Igrp.getInstance().getCurrentPageName(), "index&"+(Core.isNotNull(target)?("target="+target):"")+"&dad="+Igrp.getInstance().getCurrentAppName());
 		}
 		field.propertie().add("value", value).add("name","p_env_frm_url").add("type","hidden").add("maxlength","250").add("java-type","").add("tag","env_frm_url");
 		field.setValue(value);
