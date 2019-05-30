@@ -269,30 +269,8 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setName(person.getDisplayName());
 				else
 					userLdap.setName(person.getFullName());
-				try {
-
-					if (settings.getProperty("ids.wso2.enabled") != null
-							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
-						
-						if(settings.getProperty("igrp.authentication.govcv.enbaled") != null && settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true"))
-						{
-							 String aux = person.getMail().toLowerCase().trim().split("@")[0]; 
-							 userLdap.setUser_name(aux);
-						}else {
-							String aux = person.getMail().toLowerCase().trim();
-						}
-							
-					} else {
-						String aux = person.getMail().toLowerCase().split("@")[0];
-						userLdap.setUser_name(aux);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					userLdap.setUser_name(person.getMail().trim().toLowerCase());
-					Igrp.getInstance().getFlashMessage().addMessage("warning",
-							gt("Something is wrong from LDAP server side."));
-				}
+				
+				userLdap.setUser_name(person.getMail().trim().toLowerCase());
 				userLdap.setEmail(person.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
 				userLdap.setStatus(0);
