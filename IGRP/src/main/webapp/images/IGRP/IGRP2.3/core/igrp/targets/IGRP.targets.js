@@ -795,6 +795,22 @@
 			
 			return false;
 		};
+		
+		var download = function(p){
+			if(!$('#iframe-download')[0]){
+				var iframe = $('<iframe>');
+
+				iframe.attr({
+					src  : p.url,
+					id   : 'iframe-download',
+					name : 'iframe-download',
+					class: 'hidden'
+				});
+
+				$('body').append(iframe);
+			}else
+				$('#iframe-download').attr('src',p.url);
+		};
 
 		changesrc.showContents = function(holder){
 
@@ -989,9 +1005,7 @@
 				
 				label : 'Download',
 				
-				action : function(){
-					return true;
-				}
+				action : download
 				
 			},
 			
