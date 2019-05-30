@@ -52,18 +52,18 @@
                 <app>igrp</app>
                 <page>NovoUtilizador</page>
                 <link>index</link>
-                <target>submit_ajax</target>
+                <target>submit</target>
                 <img>primary|fa-save</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <email name="p_email" type="textarea" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ..." right="false">
+                <email name="p_email" type="textarea" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ..." right="false" desclabel="false">
                     <label>E-mail(s)</label>
-                    <value>Consectetur omnis mollit stract ipsum anim unde dolor totam ipsum magna doloremque anim labore adipi</value>
+                    <value>Voluptatem natus ipsum perspiciatis aperiam mollit laudantium magna stract sit accusantium sed unde</value>
                 </email>
-                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
                 </nada>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="int" tags="false">

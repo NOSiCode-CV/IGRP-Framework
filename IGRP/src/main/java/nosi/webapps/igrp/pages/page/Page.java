@@ -17,9 +17,9 @@ public class Page extends Model{
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
 	@RParam(rParamName = "p_gen_auto_code")
-	private Integer gen_auto_code;
+	private int gen_auto_code;
 	@RParam(rParamName = "p_gen_auto_code_check")
-	private Integer gen_auto_code_check;
+	private int gen_auto_code_check;
 	@RParam(rParamName = "p_publico")
 	private short publico;
 	@RParam(rParamName = "p_publico_check")
@@ -37,13 +37,13 @@ public class Page extends Model{
 	@RParam(rParamName = "p_extras")
 	private String extras;
 	@RParam(rParamName = "p_primeira_pagina")
-	private Integer primeira_pagina;
+	private int primeira_pagina;
 	@RParam(rParamName = "p_primeira_pagina_check")
-	private Integer primeira_pagina_check;
+	private int primeira_pagina_check;
 	@RParam(rParamName = "p_criar_menu")
-	private Integer criar_menu;
+	private int criar_menu;
 	@RParam(rParamName = "p_criar_menu_check")
-	private Integer criar_menu_check;
+	private int criar_menu_check;
 	@RParam(rParamName = "p_modulo")
 	private String modulo;
 	@RParam(rParamName = "p_novo_modulo")
@@ -117,16 +117,16 @@ public class Page extends Model{
 		return this.status_check;
 	}
 	
-	public void setGen_auto_code(Integer gen_auto_code){
+	public void setGen_auto_code(int gen_auto_code){
 		this.gen_auto_code = gen_auto_code;
 	}
-	public Integer getGen_auto_code(){
+	public int getGen_auto_code(){
 		return this.gen_auto_code;
 	}
-	public void setGen_auto_code_check(Integer gen_auto_code_check){
+	public void setGen_auto_code_check(int gen_auto_code_check){
 		this.gen_auto_code_check = gen_auto_code_check;
 	}
-	public Integer getGen_auto_code_check(){
+	public int getGen_auto_code_check(){
 		return this.gen_auto_code_check;
 	}
 	
@@ -184,29 +184,29 @@ public class Page extends Model{
 		return this.extras;
 	}
 	
-	public void setPrimeira_pagina(Integer primeira_pagina){
+	public void setPrimeira_pagina(int primeira_pagina){
 		this.primeira_pagina = primeira_pagina;
 	}
-	public Integer getPrimeira_pagina(){
+	public int getPrimeira_pagina(){
 		return this.primeira_pagina;
 	}
-	public void setPrimeira_pagina_check(Integer primeira_pagina_check){
+	public void setPrimeira_pagina_check(int primeira_pagina_check){
 		this.primeira_pagina_check = primeira_pagina_check;
 	}
-	public Integer getPrimeira_pagina_check(){
+	public int getPrimeira_pagina_check(){
 		return this.primeira_pagina_check;
 	}
 	
-	public void setCriar_menu(Integer criar_menu){
+	public void setCriar_menu(int criar_menu){
 		this.criar_menu = criar_menu;
 	}
-	public Integer getCriar_menu(){
+	public int getCriar_menu(){
 		return this.criar_menu;
 	}
-	public void setCriar_menu_check(Integer criar_menu_check){
+	public void setCriar_menu_check(int criar_menu_check){
 		this.criar_menu_check = criar_menu_check;
 	}
-	public Integer getCriar_menu_check(){
+	public int getCriar_menu_check(){
 		return this.criar_menu_check;
 	}
 	

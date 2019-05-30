@@ -67,11 +67,11 @@ public class PageView extends View {
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
-		page_descr.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
+		page_descr.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Código"));
-		page.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false");
+		page.propertie().add("remote",new Config().getResolveUrl("igrp","Page","generate-link")).add("name","p_page").add("type","text").add("maxlength","255").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo"));
@@ -79,7 +79,7 @@ public class PageView extends View {
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Gen Auto Code"));
-		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
+		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
 		
 		publico = new CheckBoxField(model,"publico");
 		publico.setLabel(gt("Publico"));
@@ -87,11 +87,11 @@ public class PageView extends View {
 		
 		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
-		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false");
+		public_link.propertie().add("name","p_public_link").add("type","url").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","true").add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
@@ -103,15 +103,15 @@ public class PageView extends View {
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
-		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30");
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		primeira_pagina = new CheckBoxField(model,"primeira_pagina");
 		primeira_pagina.setLabel(gt("Primeira Página"));
-		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		primeira_pagina.propertie().add("name","p_primeira_pagina").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
 		
 		criar_menu = new CheckBoxField(model,"criar_menu");
 		criar_menu.setLabel(gt("Criar menu?"));
-		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		criar_menu.propertie().add("name","p_criar_menu").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
 		
 		modulo = new ListField(model,"modulo");
 		modulo.setLabel(gt("Módulo"));
@@ -121,7 +121,7 @@ public class PageView extends View {
 		novo_modulo.setLabel(gt("Módulo"));
 		novo_modulo.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
-									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","").add("refresh_submit","false");
+									novo_modulo.propertie().add("name","p_novo_modulo").add("type","link").add("target","right_panel").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
