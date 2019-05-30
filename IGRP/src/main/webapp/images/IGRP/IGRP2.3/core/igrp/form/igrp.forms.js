@@ -288,7 +288,7 @@
 
   				$(xml).find('rows content >* hidden').each(function(){
   					var name = $(this).attr('name');
-
+  					
   					$.IGRP.utils.createHidden({
   						name : name,
   						id 	 : name,
@@ -344,15 +344,18 @@
 				/* SELECT CHANGE */
 				$(document).on('change','.IGRP_change, [change="true"]',$.IGRP.components.form.change);
 				
+				$.IGRP.events.on('submit-ajax-complete',function(p){
+					$.IGRP.components.form.getHiddenFields(p.xml);
+				});
+				
 				$.IGRP.events.on('element-transform',function(p){
-					if(p.index === 1)
-						$.IGRP.components.form.getHiddenFields(p.xml);
 					
-					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms'))
+					if($('[role="form"]',p.content)[0] && p.content.hasClass('igrp-forms')){
 						
 						if($('.form-control.select2',p.content)[0])
 							
 							$.IGRP.components.select2.init(p.content);
+					}
 				});
 				
   			}

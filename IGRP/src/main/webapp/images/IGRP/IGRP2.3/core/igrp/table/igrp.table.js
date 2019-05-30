@@ -171,7 +171,9 @@
 	            	});
 					
 					$.IGRP.events.on('submit-ajax',function(o){
-						datatable.destroy();
+						
+						if(o.valid)
+							datatable.destroy();
 	            	});
 					
 				});
