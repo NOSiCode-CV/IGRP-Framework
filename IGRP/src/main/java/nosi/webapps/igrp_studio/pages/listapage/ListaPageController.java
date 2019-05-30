@@ -40,8 +40,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Rem perspiciatis adipiscing si' as descricao_page,'hidden-206a_797e' as id_page,'hidden-3c95_ade4' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-d5d6_f5cf' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Adipiscing ut lorem perspiciat' as descricao_page,'hidden-c21d_6209' as id_page,'hidden-f8a5_987f' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-0ec8_036a' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -171,12 +171,11 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","listapage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(nova_aplicacao)----*/
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp_studio","listapage","index", this.queryString());	
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
 	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -248,7 +247,7 @@ public class ListaPageController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id_page",Core.getParam("p_id_page"));
 		 this.addQueryString("p_env_fk",Core.getParam("p_env_fk"));
-		 return this.forward("igrp_studio","listapage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Core.getParam("p_id_page");
 		if (Core.isNotNull(p_id_page)) {
@@ -256,8 +255,7 @@ public class ListaPageController extends Controller {
 		}
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp_studio","listapage","index", this.queryString());	
+		return this.redirect("igrp_studio","Env","index", this.queryString());	
 	}
 	
 	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{

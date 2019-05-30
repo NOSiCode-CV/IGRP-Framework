@@ -192,7 +192,21 @@ table.clean tbody tr td{
 }
 
 
-/*.fixed{
+/*
+
+div[size="A4"]:before{
+    content: url('');
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    padding-top: 50vh;
+    opacity: 0.5;
+}
+
+.fixed{
   position: absolute;
   left: 1cm;
   right: 1cm;
@@ -246,6 +260,7 @@ p{
     background: initial;
     font-size: 12px;
     font-family:"Times New Roman";
+    page-break-after: always;
   }
 
   .page #header {
@@ -308,6 +323,11 @@ p{
   div[size="A7L"] #content .holder{
     width: 105mm\9;
   }
+  
+  p{
+  	line-height: 18px;
+  	margin:0;
+}
 
   p a {
     word-wrap: break-word;

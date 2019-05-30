@@ -75,9 +75,9 @@ public class Transaction extends CommonFIlter{
 			if(this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0) {
 				try {
 					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(this.conn ,this.getSql(),this.retuerningKeys);
+						q = new NamedParameterStatement(this.conn ,this.getSqlExecute(),this.retuerningKeys);
 					}else {
-						q = new NamedParameterStatement(this.conn ,this.getSql(),Statement.RETURN_GENERATED_KEYS);
+						q = new NamedParameterStatement(this.conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
 					}
 					this.setParameters(q);	
 					Core.log("SQL:"+q.getSql());
@@ -88,7 +88,7 @@ public class Transaction extends CommonFIlter{
 				}
 			}else {
 				try {
-					q = new NamedParameterStatement(this.conn, this.getSql());
+					q = new NamedParameterStatement(this.conn, this.getSqlExecute());
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
@@ -100,6 +100,7 @@ public class Transaction extends CommonFIlter{
 		}
 		this.columnsValue = new ArrayList<>();//restart mapped columns
 		this.sql = "";
+		this.whereIsCall = false;
 		return r;
 	}
 }

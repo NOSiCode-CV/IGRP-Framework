@@ -862,7 +862,7 @@ public final class Core { // Not inherit
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find()
+		return domain.find().where("valor !=''")
 				.andWhere("dominio", "=", domainsName)
 				.andWhere("status", "=", "ATIVE")					
 				.orderBy("ordem")
@@ -879,7 +879,7 @@ public final class Core { // Not inherit
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,String codeApp) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find()
+		return domain.find().where("valor !=''")
 				.andWhere("dominio", "=", domainsName)
 				.andWhere("status", "=", "ATIVE")		
 				.andWhere("application.dad", "=", codeApp)		
@@ -897,7 +897,7 @@ public final class Core { // Not inherit
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,Integer idApp) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
-		return domain.find()
+		return domain.find().where("valor !=''")
 				.andWhere("dominio", "=", domainsName)
 				.andWhere("status", "=", "ATIVE")		
 				.andWhere("application.id", "=", idApp)		

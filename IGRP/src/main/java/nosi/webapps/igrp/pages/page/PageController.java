@@ -691,15 +691,18 @@ public class PageController extends Controller {
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
 		List<Properties> list = new ArrayList<>();
+		try {
 		for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
 				.addString("dominio", p_id).getResultList()) {
-			try {
+		
 				Properties domains = new Properties();
 				domains.put("value", t.get("key").toString());
 				domains.put("text", t.get("description").toString());
 				list.add(domains);
-			} catch (IllegalArgumentException e) {
-			}
+			
+		}
+		
+		} catch (IllegalArgumentException e) {
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(Core.toJson(list));
