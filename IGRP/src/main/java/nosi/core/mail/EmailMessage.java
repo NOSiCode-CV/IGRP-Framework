@@ -165,7 +165,7 @@ public final class EmailMessage { // Not inherit
 				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");
 				return false;
 			}
-			// Set From: header field of the header.
+			// Set From: header field of the header. 
 			message.setFrom(new InternetAddress(this.from));
 			
 			// Set To: header field of the header. 

@@ -257,8 +257,8 @@ public class LoginController extends Controller {
 	private Response mainAuthentication(String username, String password) {
 		switch (this.getConfig().getAutenticationType()) {
 			case "db": 
+				loadQueryStringIgrCustompOauth2();
 				if (loginWithDb(username, password)) {
-					
 					
 					Response r = runCustomIgrpOauth2WhenSignInDb(); 
 					if(r != null) return r;
@@ -841,7 +841,7 @@ public class LoginController extends Controller {
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
 		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
-		String scope = Igrp.getInstance().getRequest().getParameter("scope");
+		String scope = Igrp.getInstance().getRequest().getParameter("scope"); 
 		
 		r.put("oauth", oauth2);
 		r.put("response_type", response_type);
@@ -852,9 +852,9 @@ public class LoginController extends Controller {
 		return r;
 	}
 	
-	private Response runCustomIgrpOauth2WhenAuthenticated() {
+	private Response runCustomIgrpOauth2WhenAuthenticated() { 
 		Map<String, String> r = getParamForCustomIgrpOauth2(); 
-		String oauth2 = r.get("oauth2");
+		String oauth2 = r.get("oauth");
 		if (oauth2 != null && oauth2.equalsIgnoreCase("1")) { 
 			StringBuilder oauth2ServerUrl = new StringBuilder();
 			User user = (User) Igrp.getInstance().getUser().getIdentity();
@@ -869,13 +869,13 @@ public class LoginController extends Controller {
 	
 	private boolean generateResponseForCustomIgrpOauth2(StringBuilder oauth2ServerUrl, User user, String response_type, String client_id, String redirect_uri, String scope) { 
 		boolean result = true;
-
+		
 		String url_ = Igrp.getInstance().getRequest().getRequestURL().toString()
 				.replace(Igrp.getInstance().getRequest().getRequestURI() + "", "");
 		url_ += "/igrp-rest/rs/oauth2/authorization";
 		String queryString = "?";
 		queryString += "authorize=1";
-		queryString += "&response_type=" + response_type.replaceAll(" ", "%20");
+		queryString += "&response_type=" + response_type.replaceAll(" ", "%20"); 
 		queryString += "&client_id=" + client_id;
 		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
 		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");
@@ -890,13 +890,14 @@ public class LoginController extends Controller {
 		
 		Map<String, String> r = getParamForCustomIgrpOauth2(); 
 		
-		String oauth2 = r.get("oauth2"); 
+		String oauth = r.get("oauth"); 
 		String response_type = r.get("response_type"); 
 		String client_id = r.get("client_id"); 
 		String redirect_uri = r.get("redirect_uri"); 
 		String scope = r.get("scope"); 
 		
-		if (oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+		
+		if (oauth != null && oauth.equalsIgnoreCase("1")) {
 			StringBuilder oauth2ServerUrl = new StringBuilder();
 			User user = (User) Igrp.getInstance().getUser().getIdentity();
 			if (generateResponseForCustomIgrpOauth2(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
@@ -906,6 +907,25 @@ public class LoginController extends Controller {
 		}
 		
 		return null;
+		
+	}
+	
+	private void loadQueryStringIgrCustompOauth2() {
+		Map<String, String> r = getParamForCustomIgrpOauth2(); 
+		
+		String oauth = r.get("oauth"); 
+		String response_type = r.get("response_type"); 
+		String client_id = r.get("client_id"); 
+		String redirect_uri = r.get("redirect_uri"); 
+		String scope = r.get("scope"); 
+		
+		if(oauth != null && oauth.equalsIgnoreCase("1")) {
+			this.addQueryString("oauth", oauth);
+			this.addQueryString("response_type", response_type);
+			this.addQueryString("client_id", client_id);
+			this.addQueryString("redirect_uri", redirect_uri);
+			this.addQueryString("scope", scope);
+		}
 		
 	}
 
