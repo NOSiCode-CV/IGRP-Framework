@@ -80,8 +80,6 @@ $(function ($) {
 						}
 					}else{
 						$('#wr-list-datasource').html('');
-						$('.wr-newdatasource').removeClass('active');
-						$('.wr-editdatasource').removeClass('active');
 					}
 				});
 			},

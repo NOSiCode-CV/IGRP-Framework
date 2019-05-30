@@ -93,16 +93,18 @@ var WRControl = {
 
 	    return vh;
 	},
-	setHtml : function(page,html,el){
+	setHtml : function(page,html,htrx){
 	    $('#content .holder',page).html(html);
 	    $('div[size]:last').after(page);
+	    
+	    WRControl.recorsiveHtml($('#content .holder',page),htrx);
 	},
 	recorsiveHtml : function(obj,htrx){
-	    var ch    = obj.attr('height')*1, 
+	    var ch    = obj.parents('[size]').attr('height')*1, 
 	    	cm 	  = 0.2645833333,
 	        htr   = htrx,
 	        cont  = 0;
-
+	    
 	    $('>*',obj).each(function(i,e){
 	        var el  = $(e),
 	            vcm = 0;
@@ -111,6 +113,7 @@ var WRControl = {
 	        vcm  = Math.ceil(htr * cm);
 	        
 	        if(vcm >= ch){
+	        	
 	            var page    = $('div[size]:first').clone(!0),
 	                prevAll = el.prevAll(),
 	                nextAll = el.nextAll();
@@ -118,14 +121,18 @@ var WRControl = {
 	            if (nextAll[0]) {
 
 	                var vhax = htrx;
-	                nextAll.each(function(i,el){
-	                    vhax += $(el).height();
+	                nextAll.each(function(i,elx){
+	                    vhax += WRControl.getHeight($(elx));
 	                });
 
-	                if(Math.ceil(vhax * cm) >= ch)
-	                    WRControl.setHtml(page,nextAll,el);
-	                else
-	                  el.parents('#content .holder').append(nextAll);  
+	                if(Math.ceil(vhax * cm) >= ch){
+	                    WRControl.setHtml(page,nextAll,htrx);
+	                }
+	                else{
+	                	
+	                	el.parents('#content .holder').append(nextAll);
+	                }
+	                	  
 	            }
 
 	            htr = htrx;
@@ -229,9 +236,9 @@ var WRControl = {
 		      	$('#header',e).html(head);
 		    });
 
-//		    setTimeout(function() {
-//            	WRControl.generatorPdf();
-//        	}, 10);
+		    /*setTimeout(function() {
+            	WRControl.generatorPdf();
+        	}, 10);*/
 	    }
 	},
 	qrcode : function(){
