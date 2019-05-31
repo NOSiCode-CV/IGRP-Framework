@@ -392,7 +392,6 @@ public abstract class QueryHelper implements QueryInterface{
 			}else {
 				try {
 					String sql = this.getSqlExecute();
-					System.out.println("sql="+sql);
 					q = new NamedParameterStatement(conn, sql);
 					this.setParameters(q);
 					r.setSql(q.getSql());
