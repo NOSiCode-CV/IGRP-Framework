@@ -16,9 +16,11 @@ import java.util.HashMap;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Share;
+import nosi.webapps.igrp.dao.Transaction;
 /*----#end-code----*/
 
 public class PartilhageralController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		Partilhageral model = new Partilhageral();
 		model.load();
@@ -40,23 +42,16 @@ public class PartilhageralController extends Controller {
 			view.aplicacao_origem.propertie().add("disabled", "true");
 
 		} else if (Core.isNotNull(model.getApp_or())) // para caso remote list invocar index, funcionar dentro de uma
-														// aplicacao com campo disabled
+														// aplicacao com campo disabled 
 			model.setAplicacao_origem(model.getApp_or());
 
 		view.aplicacao_origem.setValue(new Application().getListApps());
 		// Hardcoded select element page for now
 		HashMap<String, String> targets = new HashMap<>();
-		targets.put("PAGE", "Page");
+		targets.put(null, "--- Select type ---");
+		targets.put(TipoPartilha.PAGE.getCodigo(), TipoPartilha.PAGE.getDescricao());
+		targets.put(TipoPartilha.TRANSACTION.getCodigo(), TipoPartilha.TRANSACTION.getDescricao());
 		view.elemento.setValue(targets);
-
-		// + "(((SELECT '' as ID,'-- Elemento --' as NAME) union all +"
-
-		// + "union all (SELECT 'WORKFLOW' as ID,'WORKFLOW' as NAME)) "
-		// + "union all (SELECT 'SERVICE' as ID,'SERVICE' as NAME)) "
-		// + "union all (SELECT 'REPORT' as ID,'REPORT' as NAME))");
-
-		// view.aplicacao_destino.setQuery(Core.query(null,"SELECT '' as ID,'--
-		// Selecionar --' as NAME "));
 
 		Optional.of(model.getAplicacao_origem()).ifPresent(v -> {
 
@@ -64,41 +59,83 @@ public class PartilhageralController extends Controller {
 
 		});
 
-		List<Partilhageral.Table_1> t = new ArrayList<Partilhageral.Table_1>();
-
-		Optional.of(model.getElemento()).ifPresent(e -> {
-			switch (e) {
-
-			case "PAGE":
-
-				List<Action> pages = new ArrayList<Action>();
-				pages = new Action().find().andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem()))
-						.andWhere("status", "=", 1).andWhere("isComponent", "=", (short) 0).all();
-
-				List<Share> shares = new ArrayList<Share>();
-				shares = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
-						Core.toInt(model.getAplicacao_destino()), e);
-				for (Action page : pages) {
-					Partilhageral.Table_1 row = new Partilhageral.Table_1();
-					row.setEstado(page.getId());
-					row.setEstado_check(-1);
-
-					for (Share share : shares) {
-						if (share.getType_fk() == page.getId() && share.getStatus() == 1) {
+		List<Partilhageral.Table_1> t = new ArrayList<Partilhageral.Table_1>(); 
+		
+		if(model.getElemento() != null) {
+			
+			TipoPartilha tp = TipoPartilha.getByCodigo(model.getElemento());
+			
+			if(tp != null) {
+				
+				switch (tp) {
+	
+					case PAGE: 
+	
+						List<Action> pages = new ArrayList<Action>();
+						pages = new Action().find().andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem()))
+								.andWhere("status", "=", 1).andWhere("isComponent", "=", (short) 0).all();
+	
+						List<Share> shares = new ArrayList<Share>();
+						shares = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
+								Core.toInt(model.getAplicacao_destino()), tp.PAGE.getCodigo());
+						for (Action page : pages) {
+							Partilhageral.Table_1 row = new Partilhageral.Table_1();
 							row.setEstado(page.getId());
-							row.setEstado_check(page.getId());
+							row.setEstado_check(-1);
+	
+							for (Share share : shares) {
+								if (share.getType_fk() == page.getId() && share.getStatus() == 1) {
+									row.setEstado(page.getId());
+									row.setEstado_check(page.getId());
+								}
+							}
+							row.setNome(page.getPage_descr() + " (" + page.getPage() + ")");
+							t.add(row);
 						}
+						
+						break;
+						
+					case SERV:
+						break;
+					case REPORT:
+						break;
+						
+					case TRANSACTION: 
+						
+						
+						List<Transaction> transactions = new ArrayList<Transaction>();
+						transactions = new Transaction().find().andWhere("application.id", "=", Core.toInt(model.getAplicacao_origem()))
+								.andWhere("status", "=", 1).all();
+	
+						List<Share> sharesTransactions = new ArrayList<Share>();
+						sharesTransactions = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
+								Core.toInt(model.getAplicacao_destino()), TipoPartilha.TRANSACTION.getCodigo());
+						
+						for (Transaction transaction : transactions) {
+							Partilhageral.Table_1 row = new Partilhageral.Table_1();
+							row.setEstado(transaction.getId());
+							row.setEstado_check(-1); 
+							
+							for (Share share : sharesTransactions) {
+								if (share.getType_fk() == transaction.getId() && share.getStatus() == 1) {
+									row.setEstado(transaction.getId());
+									row.setEstado_check(transaction.getId());
+								}
+							}
+							
+							row.setNome(transaction.getDescr() + " (" + transaction.getCode() + ")");
+							
+							t.add(row);
+						}
+						
+					break;
+					
 					}
-					row.setNome(page.getPage_descr() + " (" + page.getPage() + ")");
-					t.add(row);
+					
 				}
-				break;
-			case "SERVICE":
-				break;
-			case "REPORT":
-				break;
-			}
-		});
+		}
+
+		
 
 		Collections.sort(t, new SortbyStatus());
 
@@ -122,7 +159,7 @@ public class PartilhageralController extends Controller {
 		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
 			if (Core.isNotNull(model.getApp_or()))
 				model.setAplicacao_origem(model.getApp_or());
-			sharePage(model);
+			share(model);
 			this.loadQueryString();
 		}
 
@@ -132,12 +169,12 @@ public class PartilhageralController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private void sharePage(Partilhageral model) {
+	private void share(Partilhageral model) {
 		List<Share> shares = new ArrayList<Share>();
 		if (Core.isInt(model.getAplicacao_origem()) && Core.isInt(model.getAplicacao_destino())) {
 
 			shares = new Share().find().andWhere("env.id", "=", Core.toInt(model.getAplicacao_destino()))
-					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", "PAGE")
+					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", model.getElemento())
 					.all();
 
 			CheckBoxHelper cp = Core.extractCheckBox(Core.getParamArray("p_estado"),
@@ -146,7 +183,7 @@ public class PartilhageralController extends Controller {
 			List<Share> sharesRemoved = new ArrayList<Share>();
 
 			sharesRemoved = new Share().find().andWhere("env.id", "=", Core.toInt(model.getAplicacao_destino()))
-					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", "PAGE")
+					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", model.getElemento())
 					.all();
 
 			for (Share s : sharesRemoved) { // remove all
@@ -179,7 +216,7 @@ public class PartilhageralController extends Controller {
 				share.setOwner(app1);
 				share.setEnv(app2);
 				share.setStatus(1);
-				share.setType("PAGE");
+				share.setType(model.getElemento());
 				share.setType_fk(Core.toInt(obj));
 				share = share.insert();
 				if (share.hasError()) {
@@ -202,5 +239,6 @@ public class PartilhageralController extends Controller {
 			return b.getEstado_check() - a.getEstado_check();
 		}
 	}
+	
 	/*----#end-code----*/
 }
