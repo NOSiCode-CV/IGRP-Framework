@@ -142,15 +142,17 @@
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
 				action    	= $.IGRP.utils.getSubmitParams(p.url,sform,p.scrollTo),
-				events 		= p.clicked[0].events;
+				events 		= p.clicked[0].events,
+				valid		= fields.valid();
 				
-			if (fields.valid()) {
+			if (valid) {
 				
 				//$.IGRP.utils.loading.show();
 				//console.log(p)
 				ev.execute('submit-ajax',{
 					clicked    : p.clicked,
-					url  	   : action
+					url  	   : action,
+					valid 	   : valid
 				});
 				
 				var arrayFiles 	= $.IGRP.utils.submitPage2File.getFiles(),
@@ -189,13 +191,18 @@
 								
 								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
 							});
-
-							$.IGRP.utils.xsl.transform({
-								xsl     : $.IGRP.utils.getXMLStylesheet(xml),
-								xml     : xml,
-								nodes   : nodes,
-								clicked : p.clicked
-							});
+							
+							
+							if(nodes[0]){
+								$.IGRP.utils.xsl.transform({
+									xsl     : $.IGRP.utils.getXMLStylesheet(xml),
+									xml     : xml,
+									nodes   : nodes,
+									clicked : p.clicked
+								});
+								
+							}else
+								p.clicked.removeAttr("disabled");
 
 							$.each($(xml).find('messages message'),function(i,row){
 
@@ -788,6 +795,22 @@
 			
 			return false;
 		};
+		
+		var download = function(p){
+			if(!$('#iframe-download')[0]){
+				var iframe = $('<iframe>');
+
+				iframe.attr({
+					src  : p.url,
+					id   : 'iframe-download',
+					name : 'iframe-download',
+					class: 'hidden'
+				});
+
+				$('body').append(iframe);
+			}else
+				$('#iframe-download').attr('src',p.url);
+		};
 
 		changesrc.showContents = function(holder){
 
@@ -982,9 +1005,7 @@
 				
 				label : 'Download',
 				
-				action : function(){
-					return true;
-				}
+				action : download
 				
 			},
 			

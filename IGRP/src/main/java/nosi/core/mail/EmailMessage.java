@@ -294,7 +294,7 @@ public final class EmailMessage { // Not inherit
 	        
 	        // Paragrafos
 	        for (String paragrafo : paragrafos) {
-	        	body += "                                 <p style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;color:#424242;margin-top:8px;\">" + paragrafo + "</p>";
+	        	body += "                                 <p style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:14px;color:#424242;margin-top:8px; margin-left: 21px;\">" + paragrafo + "</p>";
 			}
 
 	        if (textoBtnAcao != null && textoBtnAcao.length > 0 && hrefBtnAcao != null && hrefBtnAcao.length > 0 && hrefBtnAcao.length == textoBtnAcao.length) {

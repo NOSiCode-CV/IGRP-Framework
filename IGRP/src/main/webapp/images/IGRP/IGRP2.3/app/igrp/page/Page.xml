@@ -59,9 +59,9 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Lorem stract deserunt ut totam</value>
+                    <value>Consectetur omnis totam dolor totam</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -72,9 +72,9 @@
                         </rule>
                     </rules>
                 </page_descr>
-                <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Sit labore amet lorem sed</value>
+                    <value>Ut sit labore sit iste</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -89,7 +89,7 @@
                     <label>Ativo</label>
                     <value>1</value>
                 </status>
-                <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
+                <gen_auto_code name="p_gen_auto_code" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Gen Auto Code</label>
                     <value>1</value>
                 </gen_auto_code>
@@ -98,11 +98,11 @@
                     <value>1</value>
                     <rules/>
                 </publico>
-                <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="true">
+                <public_link name="p_public_link" type="url" maxlength="250" required="false" change="false" readonly="true" disabled="true" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>Omnis magna sed perspiciatis iste</value>
+                    <value>http://lirvufgeg.org/powvu</value>
                 </public_link>
-                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
                 </nada>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
@@ -132,15 +132,15 @@
                     <value>1</value>
                     <rules/>
                 </componente>
-                <extras name="p_extras" type="separator" maxlength="30" placeholder="" right="false">
+                <extras name="p_extras" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label>Extras</label>
                 </extras>
-                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
+                <primeira_pagina name="p_primeira_pagina" type="checkbox" maxlength="250" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="int" check="true">
                     <label>Primeira Página</label>
                     <value>1</value>
                     <rules/>
                 </primeira_pagina>
-                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="" check="true">
+                <criar_menu name="p_criar_menu" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="true" switch="true" java-type="int" check="true">
                     <label>Criar menu?</label>
                     <value>1</value>
                     <rules/>
@@ -167,7 +167,7 @@
                         </option>
                     </list>
                 </modulo>
-                <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="" refresh_submit="false">
+                <novo_modulo name="p_novo_modulo" type="link" target="right_panel" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" custom_action="" action_type="false" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" request_fields="" refresh_submit="false" desclabel="false">
                     <label>Módulo</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </novo_modulo>

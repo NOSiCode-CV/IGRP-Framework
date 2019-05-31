@@ -1,8 +1,5 @@
 package nosi.webapps.igrp.pages.oauth2openidwso2;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;

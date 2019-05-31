@@ -29,7 +29,7 @@ public class ResetbyemailController extends Controller {
 		
 		ResetbyemailView view = new ResetbyemailView();
 		/*----#start-code(index)----*/
-		model.setSign_in("igrp","login","login");
+		model.setSign_in("igrp","login","login&isPublic=0&target=_self");
 		view.btn_enviar.setLink("enviar&isPublic=1");
 		
 /*----#end-code----*/

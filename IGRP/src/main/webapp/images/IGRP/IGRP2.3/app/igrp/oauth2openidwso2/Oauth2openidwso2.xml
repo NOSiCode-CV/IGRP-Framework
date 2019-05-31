@@ -31,17 +31,17 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=69</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=854</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Oauth2openidwso2</title>
+        <title>OAuth2OpenIdWso2</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[<p>IGRP<strong> OpenID</strong></p>
+                        <![CDATA[<p style='text-align: center;'>igrp<strong>web</strong>&nbsp;<strong>OpenID</strong></p>
 ]]>
                     </value>
                 </sectionheader_1_text>
@@ -49,14 +49,17 @@
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="sign_in_" custom_return="true">
-                <title/>
+                <title>Login</title>
                 <app>igrp</app>
                 <page>Oauth2openidwso2</page>
                 <link>index</link>
                 <target>submit</target>
-                <img>success|fa-sign-in</img>
+                <img>primary|fa-sign-in</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauth2openidwso2/Oauth2openidwso2.xml</preview>
             </item>
         </toolsbar_1>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
     </content>
 </rows>

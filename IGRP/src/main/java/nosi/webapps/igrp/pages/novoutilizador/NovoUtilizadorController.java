@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -79,7 +81,7 @@ public class NovoUtilizadorController extends Controller {
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 //		If the combo app is disabled, you need to add in the button
-      	if(Core.isNotNullOrZero(model.getAplicacao()))          
+		if (Core.isNotNullOrZero(model.getAplicacao()))
 			view.btn_gravar.addParameter("p_aplicacao", model.getAplicacao());
 		if (Core.isNotNullOrZero(id) && !id.trim().isEmpty()) {
 //			Edit invite mode
@@ -102,7 +104,7 @@ public class NovoUtilizadorController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
-	
+
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
 			Boolean sucess;
 			switch (this.getConfig().getAutenticationType()) {
@@ -219,19 +221,19 @@ public class NovoUtilizadorController extends Controller {
 
 	private User checkGetUserLdap(String email, Properties settings) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
-		User userLdap = null; 
-		
+		User userLdap = null;
+
 		try {
 			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 			WSO2UserStub.disableSSL();
 			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 					settings.getProperty("ids.wso2.admin-pwd"), 2);
-			
-			List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, ""); 
-			
-			LdapPerson ldapPerson = new LdapPerson(); 
-			
+
+			List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
+
+			LdapPerson ldapPerson = new LdapPerson();
+
 			result.forEach(user -> {
 				switch (user.getClaimUri().getValue()) {
 				case "http://wso2.org/claims/displayName":
@@ -256,7 +258,6 @@ public class NovoUtilizadorController extends Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
 
 		if (personArray != null && personArray.size() > 0) {
 			for (int i = 0; i < personArray.size(); i++) {
@@ -269,30 +270,9 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setName(person.getDisplayName());
 				else
 					userLdap.setName(person.getFullName());
-				try {
 
-					if (settings.getProperty("ids.wso2.enabled") != null
-							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")) {
-						
-						if(settings.getProperty("igrp.authentication.govcv.enbaled") != null && settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true"))
-						{
-							 String aux = person.getMail().toLowerCase().trim().split("@")[0]; 
-							 userLdap.setUser_name(aux);
-						}else {
-							String aux = person.getMail().toLowerCase().trim();
-						}
-							
-					} else {
-						String aux = person.getMail().toLowerCase().split("@")[0];
-						userLdap.setUser_name(aux);
-					}
+				userLdap.setUser_name(person.getMail().toLowerCase().trim());
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					userLdap.setUser_name(person.getMail().trim().toLowerCase());
-					Igrp.getInstance().getFlashMessage().addMessage("warning",
-							gt("Something is wrong from LDAP server side."));
-				}
 				userLdap.setEmail(person.getMail().trim().toLowerCase());
 //			The user is not activated because the email send is to activate/confirm the account
 				userLdap.setStatus(0);
@@ -308,9 +288,10 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private boolean addRoleToUser(Properties settings, User user) {
-		
-		if(settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true") 
-				|| settings.getProperty("kriol.addrole.user")!=null && settings.getProperty("kriol.addrole.user").equalsIgnoreCase("false")){
+
+		if (settings.getProperty("igrp.authentication.govcv.enbaled").equalsIgnoreCase("true")
+				|| settings.getProperty("kriol.addrole.user") != null
+						&& settings.getProperty("kriol.addrole.user").equalsIgnoreCase("false")) {
 			return true;
 		}
 		try {
@@ -362,17 +343,22 @@ public class NovoUtilizadorController extends Controller {
 		for (int i = 0; i < arrayEmails.length; i++) {
 			String email = arrayEmails[i];
 			if (Core.isNull(email) && !email.contains("@"))
-				continue; 
-			email = email.toLowerCase(Locale.ROOT).trim(); 
+				continue;
+			email = email.toLowerCase(Locale.ROOT).trim();
 			Properties settings = loadIdentityServerSettings();
 //		check & Get User from Ldap 
-			User userLdap = checkGetUserLdap(email.trim(), settings);
-
+			User utiliz = Core.findUserByEmail(email.trim());
+			User userLdap ;
+			if(utiliz == null) 
+				userLdap = checkGetUserLdap(email.trim(), settings);
+			else 
+				userLdap=utiliz;
+			
 			if (userLdap != null) {
 //			Find user in the IGRP db too
 				User u = Core.findUserByEmail(email.trim());
 				if (u == null) {
-					
+
 //				If LDAP is ws02, the role is added to the server
 					if (settings.getProperty("ids.wso2.enabled") != null
 							&& settings.getProperty("ids.wso2.enabled").equalsIgnoreCase("true")
@@ -381,22 +367,24 @@ public class NovoUtilizadorController extends Controller {
 						ok = false;
 						continue;
 					}
-					
+
 //				Insert the user in the user table
 					u = userLdap.insert();
-					if(u != null && !u.hasError()) {
-						u = Core.findUserByEmail(email.trim());									
+					if (u != null && !u.hasError()) {
+						u = Core.findUserByEmail(email.trim());
 						sendEmailToInvitedUser(u, model);
-						
-					}else {						
+
+					} else {
 						ok = false;
 						continue;
-					}				
-					
+					}
+
 				}
+			
+			
 //			Checks if the u is not null and in the case if the user was recently added so NOT to use else
 				if (Core.isNotNull(u)) {
-					Boolean insert = true;					
+					Boolean insert = true;
 					final Organization org = Core.findOrganizationById(model.getOrganica());
 					final ProfileType prof = Core.findProfileById(model.getPerfil());
 //					List of INACTIVE profiles
@@ -426,7 +414,7 @@ public class NovoUtilizadorController extends Controller {
 								if (profile.hasError()) {
 									Core.setMessageError();
 									ok = false;
-								}else {
+								} else {
 									// Associa utilizador a grupo no Activiti
 									UserService userActiviti0 = new UserService();
 									userActiviti0.setId(u.getUser_name());
@@ -435,9 +423,8 @@ public class NovoUtilizadorController extends Controller {
 									userActiviti0.setLastName("");
 									userActiviti0.setEmail(u.getEmail().toLowerCase(Locale.ROOT));
 									userRest.create(userActiviti0);
-									groupRest.addUser(
-											profile.getOrganization().getCode() + "." + profile.getProfileType().getCode(),
-											userActiviti0.getId());									
+									groupRest.addUser(profile.getOrganization().getCode() + "."
+											+ profile.getProfileType().getCode(), userActiviti0.getId());
 								}
 							}
 							Core.setMessageSuccess(profile.getUser().getEmail() + " re-invited!");
@@ -447,28 +434,29 @@ public class NovoUtilizadorController extends Controller {
 
 					if (insert) {
 						if (Core.isNotNull(new Profile().find().andWhere("type", "=", "PROF")
-								.andWhere("type_fk", "=", model.getPerfil()).andWhere("organization.id", "=", org.getId())
-								.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId()).one())) {
+								.andWhere("type_fk", "=", model.getPerfil())
+								.andWhere("organization.id", "=", org.getId())
+								.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
+								.one())) {
 //						 Already invited
-							Core.setMessageError(u.getUser_name() + gt(" está convidado para este perfil."));
+							Core.setMessageError(u.getName() + gt(" está convidado para este perfil."));
 							ok = false;
 						} else {
 //						Will insert profile
-							Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org)
-									.insert();
+							Profile p = new Profile(model.getPerfil(), "PROF", prof, u, org).insert();
 							if (!p.hasError()) {
 //							Check if exists already a ENV 				
 								if (Core.isNull(new Profile().find().andWhere("type", "=", "ENV")
 										.andWhere("type_fk", "=", model.getAplicacao())
 										.andWhere("organization.id", "=", org.getId())
-										.andWhere("profileType.id", "=", prof.getId()).andWhere("user.id", "=", u.getId())
-										.one())) {
+										.andWhere("profileType.id", "=", prof.getId())
+										.andWhere("user.id", "=", u.getId()).one())) {
 //								ENV not added, so must be inserted the application
 									p = new Profile(model.getAplicacao(), "ENV", prof, u, org).insert();
 									if (p.hasError()) {
 										Core.setMessageError();
 										ok = false;
-									}else {
+									} else {
 										// Associa utilizador a grupo no Activiti
 										UserService userActiviti0 = new UserService();
 										userActiviti0.setId(u.getUser_name());
@@ -479,7 +467,7 @@ public class NovoUtilizadorController extends Controller {
 										userRest.create(userActiviti0);
 										groupRest.addUser(
 												p.getOrganization().getCode() + "." + p.getProfileType().getCode(),
-												userActiviti0.getId());										
+												userActiviti0.getId());
 									}
 								}
 								if (ok)
@@ -490,37 +478,38 @@ public class NovoUtilizadorController extends Controller {
 							}
 						}
 					}
-						
-			} else {
-				Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
-				ok = false;				
+
+				} else {
+					Core.setMessageError("Este utilizador não existe no LDAP para convidar.");
+					ok = false;
+				}
 			}
 		}
-		}
-			return ok;
+		return ok;
 	}
 
 	private Properties loadIdentityServerSettings() {
 		return this.configApp.loadConfig("common", "main.xml");
 	}
-	
+
 	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
 		String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key="
 				+ u.getActivation_key();
-		
+
 		Organization orgEmail = new Organization().findOne(model.getOrganica());
-		
+
 		String msg = "" + "<p><b>Aplicação:</b> " + orgEmail.getApplication().getName() + "</p>"
-				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>" 
-				+ "			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
-		
-		msg = PdexTemplate.getCorpoFormatado("Ativação IGRP-Web", "Caro utilizador, seja bem-vindo !!!", new String[] {msg}, new String[] {"Ativar"}, new String[] {url_}, "https://www.igrp.cv"); 
-		
-		if(Core.mail("no-reply@nosi.cv", u.getEmail(), "IGRP - User activation", msg, "utf-8", "html", null, ""))			
+				+ "			 <p><b>Organização:</b> " + orgEmail.getName() + "</p>" + "			 <p><b>Utilizador:</b> "
+				+ u.getEmail() + "</p>";
+
+		msg = PdexTemplate.getCorpoFormatado("Ativação igrpweb", "Caro(a) Sr(a). " + u.getName() + ", seja bem-vindo(a) !!!",
+				new String[] { msg }, new String[] { "Ativar" }, new String[] { url_ }, "https://www.igrp.cv");
+
+		if (Core.mail("no-reply@nosi.cv", u.getEmail(), "igrpweb - User activation", msg, "utf-8", "html", null, ""))
 			Core.setMessageInfo("Activation e-mail sent to: " + u.getEmail());
 		else
 			Core.setMessageError("Email não enviado.");
-		
+
 	}
 
 	public Response actionEditar(@RParam(rParamName = "p_id") String idProfile)
@@ -571,38 +560,35 @@ public class NovoUtilizadorController extends Controller {
 		}
 		return this.redirectError();
 	}
-	
-	
-	public static void main(String[] args) { 
-		
-			String wsdlUrl = "https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl";
-		
-		// An Map of Soap HTTP Headers 
-				Map<String, String> headers = new HashMap<String, String>();
-				headers.put("Content-type", "application/soap+xml;charset=UTF-8;action=\"urn:getUserClaimValues\"");
 
-		// An Map of Soap Envelope namespace 
-			Map<String, String> namespaces = new HashMap<String, String>();
-			namespaces.put("soap", "http://www.w3.org/2003/05/soap-envelope"); 
-			namespaces.put("ser", "http://service.ws.um.carbon.wso2.org"); 
-				
-				Map<String, Object> bodyContent = new HashMap<String, Object>();
-				Map<String, Object> subContent = new HashMap<String, Object>();
-				
-				
-				subContent.put("ser:userName", "iekini.fernandes@nosi.cv");
-				
-				bodyContent.put("ser:getUserClaimValues", subContent);
+	public static void main(String[] args) {
 
-				nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers, bodyContent); 
-				
-				Map<String, Object> map = sc.getResponseBody("soapenv"); 
-				map = (Map<String, Object>) map.get("ns:getUserClaimValuesResponse"); 
-				
-				System.out.println("size(): " + map.size());
-				
-		
+		String wsdlUrl = "https://autentika.gov.cv/services/RemoteUserStoreManagerService?wsdl";
+
+		// An Map of Soap HTTP Headers
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Content-type", "application/soap+xml;charset=UTF-8;action=\"urn:getUserClaimValues\"");
+
+		// An Map of Soap Envelope namespace
+		Map<String, String> namespaces = new HashMap<String, String>();
+		namespaces.put("soap", "http://www.w3.org/2003/05/soap-envelope");
+		namespaces.put("ser", "http://service.ws.um.carbon.wso2.org");
+
+		Map<String, Object> bodyContent = new HashMap<String, Object>();
+		Map<String, Object> subContent = new HashMap<String, Object>();
+
+		subContent.put("ser:userName", "iekini.fernandes@nosi.cv");
+
+		bodyContent.put("ser:getUserClaimValues", subContent);
+
+		nosi.core.webapp.webservices.soap.SoapClient sc = Core.soapClient(wsdlUrl, namespaces, headers, bodyContent);
+
+		Map<String, Object> map = sc.getResponseBody("soapenv");
+		map = (Map<String, Object>) map.get("ns:getUserClaimValuesResponse");
+
+		System.out.println("size(): " + map.size());
+
 	}
-	
+
 	/*----#end-code----*/
 }

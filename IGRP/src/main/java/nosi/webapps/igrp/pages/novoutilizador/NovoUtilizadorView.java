@@ -36,11 +36,11 @@ public class NovoUtilizadorView extends View {
 		
 		email = new TextAreaField(model,"email");
 		email.setLabel(gt("E-mail(s)"));
-		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
+		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -57,7 +57,7 @@ public class NovoUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_gravar = new IGRPButton("Gravar","igrp","NovoUtilizador","gravar","submit_ajax","primary|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","NovoUtilizador","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
 		

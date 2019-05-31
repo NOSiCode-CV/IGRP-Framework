@@ -23,7 +23,7 @@ body{
     opacity: 0.4
 }
 body.fixed-nav{
-  padding-top: 56px;
+/*   padding-top: 56px; */
 }
 body.sidebar-off .navbar-brand{
   display: none;
@@ -133,6 +133,7 @@ b{
  */
 .navbar-fixed-top {
   border: 0;
+  position: inherit;
 }
 
 .highcharts-credits{
@@ -185,9 +186,9 @@ body[screen-size="xs"] #igrp-top-nav{
 }
 .navbar-brand{
   padding:0px 10px;
-  line-height: 55px;
+  line-height: 54px;
   text-align: center;
-  height: 55px;
+/*   height: 55px; */
   background: transparent;
   color: inherit;
   width: auto!important;
@@ -255,6 +256,9 @@ body[screen-size="xs"] #side-bar-ctrl{
     margin-left: -6px;
 }
 
+body[screen-size="xs"] #igrp-app-title{
+  float:unset;
+}
 #igrp-app-title {
   float:left;
   margin-left: 10px;
@@ -270,7 +274,7 @@ body[screen-size="xs"] #side-bar-ctrl{
 
   font-weight: 300;
   color: inherit;
-  line-height: 56px
+  line-height: 54px
 }
 
 #igrp-top-menu{
@@ -312,7 +316,7 @@ body[screen-size="xs"] #side-bar-ctrl{
   border-bottom-color: transparent;
   border:0!important;
   transition: color .3s;
-  line-height: 59px;
+  line-height: 54px;
 
 
 }
@@ -332,7 +336,7 @@ body[screen-size="xs"] #side-bar-ctrl{
 }
 
 #igrp-top-menu>li>a>i{
-  line-height: 56px;
+  line-height: 54px;
 }
 
 #igrp-go-up {
@@ -1816,16 +1820,16 @@ tbody#igrp-apps-1 .app-title {
   /*display: none;*/
 }
 
-#igrp-contents.with-search .content{
- padding-top:50px;
-}
+/* #igrp-contents.with-search .content{ */
+/*  padding-top:50px; */
+/* } */
 #igrp-contents.with-search .row-fluid .container-fluid{
   padding:0 60px;
 }
 
 body.sidebar-off #igrp-contents.with-search .row-fluid .navbar {
   left:0;
-  width: 100%;
+
 }
 
 #igrp-contents.with-search .row-fluid .navbar {
@@ -1835,20 +1839,19 @@ body.sidebar-off #igrp-contents.with-search .row-fluid .navbar {
   min-height:auto;
   padding:0;
   border-bottom:0px solid #ddd;
-  position:fixed;
+  position: inherit;
   z-index:100;
-  top:55px;
+  margin: 6px;
   box-shadow: 1px 0 10px 0px #ddd;
-  width: 83.33333333%;
-  left: 16.66666667%
+
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-  #igrp-contents.with-search .row-fluid .navbar {
-    width: 75%;
-    left: 25%;
-  }
-}
+/* @media (min-width: 768px) and (max-width: 991px) { */
+/*   #igrp-contents.with-search .row-fluid .navbar { */
+/*     width: 75%; */
+/*     left: 25%; */
+/*   } */
+/* } */
 
 #igrp-contents.with-search .row-fluid .navbar .form-group{
   margin:0;

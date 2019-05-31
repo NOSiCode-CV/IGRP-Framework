@@ -212,7 +212,7 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public Record getSingleRecord() {
 		Record r = new Record();
-		r.Row = this.getSigleResult();
+		r.Row = this.getSingleResult();
 		r.setSql(this.getSql());
 		return r;
 	}
