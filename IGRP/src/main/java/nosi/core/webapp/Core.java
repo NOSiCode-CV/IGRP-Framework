@@ -733,11 +733,12 @@ public final class Core { // Not inherit
 	 */
 	public static String getCurrentDadParam() {
 		String current_app_conn = Core.getParam("current_app_conn", false);
+		Integer isPublic= Core.getParamInt("isPublic",false);
 		if (Core.isNotNull(current_app_conn)) {
 			return current_app_conn;
 		}
 		String r = Core.getParam("r");
-		r = r != null ? Core.decrypt(r) : null;
+		r = r != null ? (isPublic==1? r : Core.decrypt(r) ): null;
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
 	}

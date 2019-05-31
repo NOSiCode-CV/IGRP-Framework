@@ -126,7 +126,7 @@ public class ListaPageController extends Controller {
 					.collect(Collectors.toList());
 			for (Profile p : myApp) {
 				ListaPage.Table_2 myapps = new ListaPage.Table_2();
-				String page = p.getOrganization().getApplication().getDad().toLowerCase() + "/default-page";
+				String page = "tutorial/DefaultPage";
 				if (p.getOrganization().getApplication().getAction() != null) {
 					Action ac = p.getOrganization().getApplication().getAction();
 					page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
@@ -138,7 +138,7 @@ public class ListaPageController extends Controller {
 								: "default.svg"));
 				myapps.setMy_aplicacao("igrp_studio", "env", "openApp")
 						.addParam("app", p.getOrganization().getApplication().getDad())
-						.addParam("page", page + "/index");
+						.addParam("page", page + "/index&title="+p.getOrganization().getApplication().getName());
 				myapps.setMy_aplicacao_desc(p.getOrganization().getApplication().getName());
 				myapps.setEnv_fk(p.getOrganization().getApplication().getId());
 				apps.add(myapps);
