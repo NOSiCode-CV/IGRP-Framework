@@ -21,7 +21,7 @@ public abstract class AbstractField implements Field{
 	private String tag_name;
 	private Object value="";
 	private String label = "";
-	private String lookup = "";
+	protected String lookup = "";
 	private boolean isVisible=true;
 	private boolean isParam = false;
 	private String sql;
