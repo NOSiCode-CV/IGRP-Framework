@@ -15,6 +15,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
@@ -249,6 +250,9 @@ public abstract class QueryHelper implements QueryInterface{
 	protected void addColumn(String name,Object value,Object type,String format) {
 		name = this.recq.removeAlias(name);
 		Column c = new Column();
+		if(this instanceof QueryUpdate) {
+			name = this.resolveDuplicateParam(name);
+		}
 		c.setName(name);
 		c.setDefaultValue(value);
 		c.setType(type);
@@ -257,6 +261,18 @@ public abstract class QueryHelper implements QueryInterface{
 		this.columnsValue.add(c);
 	}
 	
+
+	protected String resolveDuplicateParam(String name) {
+		if(this instanceof QueryUpdate && this.columnsValue!=null) {
+			String n = name;
+			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).collect(Collectors.toList());
+			if(cols!=null && cols.size()>0) {
+				name = name+"_"+cols.size();
+			}
+		}
+		return name;
+	}
+
 
 	protected OperationType operationType;
 	
@@ -375,7 +391,9 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}else {
 				try {
-					q = new NamedParameterStatement(conn, this.getSqlExecute());
+					String sql = this.getSqlExecute();
+					System.out.println("sql="+sql);
+					q = new NamedParameterStatement(conn, sql);
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
