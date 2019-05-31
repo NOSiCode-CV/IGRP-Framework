@@ -22,7 +22,7 @@ public class Route {
 		action = resolveAction(action);
 		String url = "";
 		if(qs.contains("dad")) {
-			url = Route.getResolveUrl(app, page, action,null)+qs;
+			url = Route.getResolveUrl(app, page, action,null,Core.getParamInt("isPublic"))+qs;
 		}else {
 			url = Route.getResolveUrl(app, page, action)+qs;
 		}
@@ -31,10 +31,10 @@ public class Route {
 	}
 
 	public static String getResolveUrl(String app,String page,String action){
-		return Route.getResolveUrl(app, page, action, Core.getCurrentDad());
+		return Route.getResolveUrl(app, page, action, Core.getCurrentDad(),Core.getParamInt("isPublic"));
 	}
-	
-	public static String getResolveUrl(String app,String page,String action,String dad){
+
+	public static String getResolveUrl(String app,String page,String action,String dad,int isPublic){
 		String qs = Route.getQueryString(action);//Get Query String
 		if(Core.isNotNull(dad)) {
 			qs+="&dad="+dad;
@@ -42,7 +42,6 @@ public class Route {
 		qs = UrlHelper.urlEncoding(qs);
 		action = Route.resolveAction(action);
 		String url = "";
-		int isPublic = Core.getParamInt("isPublic");
 		if(isPublic==1) {
 			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
 		}

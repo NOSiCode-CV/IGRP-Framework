@@ -42,10 +42,12 @@ public interface Field {
 	public void addParam(String string, String string2);
 	public void setListOptions( Map<?,?>  map);
 	public Map<?,?> getListOptions();
-	default void loadDomain(String domain, String string) {}
-	default void loadDomain(String domain) {}
-	default void loadDomain(String domain,String codeApp, String string) {}
-	default void loadDomainByApp(String domain,String codeApp) {}
-	default void addLookupParam(String key,String value) {}
-	default int vertionLookup() { return 1;}
+	default public void loadDomain(String domain, String string) {}
+	default public void loadDomain(String domain) {}
+	default public void loadDomain(String domain,String codeApp, String string) {}
+	default public void loadDomainByApp(String domain,String codeApp) {}
+	default public void addLookupParam(String key,String value) {}
+	default public int vertionLookup() { return 1;}
+	default public boolean isEncryptLookup() {return false;}
+	default public void setEncryptLookup(boolean isEncrypt) {}
 }
