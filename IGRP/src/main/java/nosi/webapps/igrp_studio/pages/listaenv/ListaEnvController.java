@@ -50,7 +50,7 @@ public class ListaEnvController extends Controller {
 			//Don't list app IGRP
 			if (!a.getDad().toLowerCase().equals("igrp")) {
 				ListaEnv.Table_1 table = new ListaEnv.Table_1();
-          	    String page = a.getDad().toLowerCase() + "/default-page";
+          	    String page = "tutorial/DefaultPage";
 				table.setDad(a.getDad());
            		Action ac = a.getAction();
               if (ac != null) {					
