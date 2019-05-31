@@ -102,7 +102,10 @@
 			$(document).on('click',clearBtn,function(){
 				$(this).parent().find('input'+selector).val('');
 			});
-
+			
+			$(document).on('formlist:init', function(o,e){
+                com.init( {parent : $(e)} );
+            });
 		}
 
 	},true);

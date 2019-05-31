@@ -42,10 +42,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 		if(value!=null) {
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
 				this.where("");
-				this.sql += " UPPER("+name+") "+operator+":"+this.recq.removeAlias(name);
+				this.sql += " UPPER("+name+") "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
 			}else {
 				this.where("");
-				this.sql += " UPPER("+name+") "+operator+":"+this.recq.removeAlias(name);
+				this.sql += " UPPER("+name+") "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
 			}
 			this.addString(name, value.toUpperCase());
 		}
@@ -56,7 +56,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface where(String name, String operator, Integer value) {
 		if(value!=null) {
 			this.where("");
-			this.sql += name+" "+operator+":"+this.recq.removeAlias(name);
+			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.addInt(name, value);
 		}
 		return this;
@@ -66,7 +66,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface where(String name, String operator, Float value) {
 		if(value!=null) {
 			this.where("");
-			this.sql += name+" "+operator+":"+this.recq.removeAlias(name);
+			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.addFloat(name, value);
 		}
 		return this;
@@ -76,7 +76,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface where(String name, String operator, Double value) {
 		if(value!=null) {
 			this.where("");
-			this.sql += name+" "+operator+":"+this.recq.removeAlias(name);
+			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.addDouble(name, value);
 		}
 		return this;
@@ -86,7 +86,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface where(String name, String operator, Date value) {
 		if(value!=null) {
 			this.where("");
-			this.sql += name+" "+operator+":"+this.recq.removeAlias(name);
+			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.addDate(name, value);
 		}
 		return this;
@@ -103,9 +103,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 		if(value!=null) {
 			this.and();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.recq.removeAlias(name)+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name, value.toUpperCase());
 			}else {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.recq.removeAlias(name)+" ").addString(name,value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name,value.toUpperCase());
 			}
 		}
 		return this;
@@ -131,7 +131,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface andWhere(String name, String operator, Integer value) {
 		if(value!=null) {
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addInt(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addInt(name, value);
 		}
 		return this;
 	}
@@ -140,7 +140,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface andWhere(String name, String operator, Float value) {
 		if(value!=null) {
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addFloat(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addFloat(name, value);
 		}
 		return this;
 	}
@@ -149,7 +149,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface andWhere(String name, String operator, Double value) {
 		if(value!=null) {
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addDouble(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDouble(name, value);
 		}
 		return this;
 	}
@@ -158,7 +158,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface andWhere(String name, String operator, Date value) {
 		if(value!=null) {
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addDate(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDate(name, value);
 		}
 		return this;
 	}
@@ -172,7 +172,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface orWhere(String name, String operator, Date value) {
 		if(value!=null) {
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addDate(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDate(name, value);
 		}
 		return this;
 	}
@@ -187,9 +187,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 		if(value!=null) {
 			this.or();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+name+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name, value.toUpperCase());
 			}else {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.recq.removeAlias(name)+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name, value.toUpperCase());
 			}
 		}
 		return this;
@@ -208,7 +208,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface orWhere(String name, String operator, Integer value) {
 		if(value!=null) {
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addInt(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addInt(name, value);
 		}
 		return this;
 	}
@@ -217,7 +217,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface orWhere(String name, String operator, Float value) {
 		if(value!=null) {
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addFloat(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addFloat(name, value);
 		}
 		return this;
 	}
@@ -226,7 +226,7 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	public QueryInterface orWhere(String name, String operator, Double value) {
 		if(value!=null) {
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.recq.removeAlias(name)+" ").addDouble(name, value);
+			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDouble(name, value);
 		}
 		return this;
 	}
