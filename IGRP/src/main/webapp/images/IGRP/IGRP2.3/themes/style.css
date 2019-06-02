@@ -390,7 +390,7 @@ body[screen-size="xs"] #igrp-app-title{
 	left: 0;
 	top: 55px;
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: overlay;
 }
 
 #igrp-sidebar .side-bar-ctrl {
@@ -653,6 +653,15 @@ body.sidebar-off .navbar-brand {
     padding-bottom: 8px !important;
    */
 }
+#igrp-sidebar .nav-sidebar .treeview-menu>li>a.active,
+.treeview>a.active {	
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
+	border-right: 4px solid #fafafa;
+}
+
 .treeview>a.active {
 	/*border-top: 4px solid transparent;
 	border-bottom: 4px solid transparent;*/
@@ -1053,7 +1062,7 @@ html#igrp-login body{
   padding-left: 35px;
 }
 body[has-menu="true"] .content>.row:first-child{
-  margin-top: 35px;
+  margin-top: 24px;
 }
 
 .row.row-fluid {
@@ -1835,7 +1844,7 @@ body.sidebar-off #igrp-contents.with-search .row-fluid .navbar {
 #igrp-contents.with-search .row-fluid .navbar {
   border-radius:0;
   border:0;
-  background:#fdfdfd;
+  background:#fff;
   min-height:auto;
   padding:0;
   border-bottom:0px solid #ddd;

@@ -112,7 +112,7 @@ table td.min-width{
 
 /* IGRP TABLE FILTER */
 .igrp-table-filter{
-  border-bottom: 1px solid whitesmoke;
+/*   border-bottom: 1px solid whitesmoke; */
   padding: 5px 15px;
   background: #fdfdfd;
 }
@@ -311,9 +311,9 @@ div.dataTables_wrapper div.dataTables_length select {
 
 .dataTables_length,
 .dataTables_filter{
-  width: 50%;
+  width: auto;
 /*   background: #fdfdfd; */
-  padding: 10px 15px 0;
+  padding: 6px 15px 0;
 /*   margin-bottom: 1px; */
 /*   border-bottom: 1px solid #f8f8f8; */
 
@@ -325,12 +325,12 @@ div.dataTables_wrapper div.dataTables_length select {
     margin-bottom: 1px;
     text-align: right;
     border-bottom: 1px solid #f8f8f8;
-    clear: both;
+/*     clear: both; */
   /*display: none!important;
   visibility: hidden!important*/
 }
 .dataTables_wrapper .dt-buttons a:not(:last-child){
-  margin-right: 10px;
+  margin-right: 4px;
 }
 
 .table-view-blocks .view-block img{

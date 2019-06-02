@@ -230,7 +230,23 @@ public class NovoUtilizadorController extends Controller {
 			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 					settings.getProperty("ids.wso2.admin-pwd"), 2);
 
-			List<ClaimDTO> result = stub.getOperations().getUserClaimValues(email, "");
+			List<ClaimDTO> result;
+			try {
+				result = stub.getOperations().getUserClaimValues(email, "");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block				
+				if(email.endsWith("cv"))
+					try {
+						result = stub.getOperations().getUserClaimValues("gov.cv/"+email, "");
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						
+						result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
+					}
+				else
+					result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
+			}
+			
 
 			LdapPerson ldapPerson = new LdapPerson();
 

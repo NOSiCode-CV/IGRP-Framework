@@ -59,7 +59,7 @@ public class Compiler {
 //				pathTomcat += "lib";
 				listFilesDirectory(pathTomcat.substring(0, index)+"lib/");
 				listFilesDirectory(pathTomcat.substring(0, index)+"igrplib/");
-				System.out.println("igrplib: "+pathTomcat.substring(0, index)+"igrplib");
+		
 			}
 			CompilationProgress progress = null;
 			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + System.getProperty("path.separator") + jars

@@ -19,16 +19,17 @@ table td.tdcolor span.tdcolor-item {
 
 .box-table-legend{
 	position: relative;
-    border-bottom: 1px solid whitesmoke;
-    padding: 5px;
+/*     border-bottom: 1px solid whitesmoke; */
+    padding: 0px 5px;
     /*margin-bottom: 10px;*/
 }
 
 .box-table-legend .legend-holder{
-	width: 11.111%;
+/* 	width: 11.111%; */
 	float: left;
-	position: relative;
-	height: 45px;
+	padding: 4px;
+/* 	position: relative; */
+/* 	height: 45px; */
 	border-right: 1px solid #DDDDDD;
 	text-align: center;
 }
@@ -41,15 +42,17 @@ table td.tdcolor span.tdcolor-item {
 	position: relative;
 	top:55%;
 	padding: 5px 10px;
-	margin: 0 10px;
+/* 	margin: 0 10px; */
 }
 
 .box-table-legend .legend-holder .legend-lbl{
 	font-size:12px;
-	position: absolute;
+	font-weight: 400;
+	    min-width: 69px;
+	padding: 0px 2px;
+/* 	position: absolute; */
 	width: 100%;
-	text-align: center;
-	left: 0;
+	text-align: center;	
 	white-space: nowrap;
   	overflow: hidden;
   	text-overflow: ellipsis;
