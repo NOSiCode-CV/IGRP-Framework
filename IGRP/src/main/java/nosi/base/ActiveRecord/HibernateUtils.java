@@ -19,6 +19,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
@@ -90,7 +91,6 @@ public class HibernateUtils {
 			 * Check if connection configuration in hibernate file
 			 */
 			if (user == null || (user != null && user.size()<=0)) {
-				Config_env config = getConfigdatabase(connectionName, dad);
 				DefaultConfigHibernate defaultConfig = DefaultConfigHibernate.getInstance();
 				//Strategy used to access the JDBC Metadata	
 				configurationValues.put(Environment.HBM2DDL_JDBC_METADATA_EXTRACTOR_STRATEGY,defaultConfig.getAccessStrategyJDBC().orElse("individually"));
@@ -98,6 +98,26 @@ public class HibernateUtils {
 				configurationValues.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, defaultConfig.getCurrentSessionContextClass().orElse("org.hibernate.context.internal.ThreadLocalSessionContext"));
 				//Connection provider
 				configurationValues.put(Environment.CONNECTION_PROVIDER, defaultConfig.getProvider_class());
+				
+				ConfigApp configApp = ConfigApp.getInstance();
+				//Load default connection database when connection name is hibernate-core-igrp
+				if (configApp.getBaseConnection().equalsIgnoreCase(connectionName)) {
+					ConfigDBIGRP config = ConfigDBIGRP.getInstance();
+					try {
+						config.loadIGRPConnectionConfig();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
+					configurationValues.put(Environment.USER, config.getUsername());
+					configurationValues.put(Environment.URL, config.getUrlConnection());
+					configurationValues.put(Environment.PASS, config.getPassword());
+					configurationValues.put(Environment.DRIVER, config.getDriverConnection());
+					configurationValues.put(Environment.DIALECT, hibernateDialect);
+					return configurationValues;
+				}
+
+				Config_env config = getConfigdatabase(connectionName, dad);
         		if (config != null) {	
 					configurationValues.put(Environment.USER, config.getUsername());
 					configurationValues.put(Environment.URL, config.getUrl_connection());
