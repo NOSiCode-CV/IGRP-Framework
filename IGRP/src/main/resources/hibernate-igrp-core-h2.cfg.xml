@@ -13,6 +13,8 @@
 		<property name="hibernate.connection.pool_size">1</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
-		 
+		 <!-- Hikaricp configuration -->
+		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>      
+
 	</session-factory>
 </hibernate-configuration>
