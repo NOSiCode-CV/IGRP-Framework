@@ -50,7 +50,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 				url 	= remote && remote != undefined ? remote : $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 			
 			return url;
-		}
+		},
 
 		executeAction:function(p){
 			//var rule = p;
