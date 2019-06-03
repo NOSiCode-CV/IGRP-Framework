@@ -169,6 +169,12 @@
       </xsl:attribute>
     </xsl:if>
     
+     <xsl:if test="$field/@remote and $field/@remote != ''">
+      <xsl:attribute name="remote">
+        <xsl:value-of select="$field/@remote" />
+      </xsl:attribute>
+    </xsl:if>
+    
   </xsl:template>
 
 </xsl:stylesheet>
