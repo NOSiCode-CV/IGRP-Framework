@@ -76,7 +76,7 @@ public class TransacaoOrganicaController extends Controller {
 			}
 			
 			
-			sharesTransactions(data, model);
+			sharesTransactions(data, model); 
 			
 			
 			data.sort(Comparator.comparing(TransacaoOrganica.Table_1::getTransacao_check).reversed());
@@ -257,12 +257,56 @@ public class TransacaoOrganicaController extends Controller {
 	
 	
 	private void sharesTransactions(ArrayList<TransacaoOrganica.Table_1> data, TransacaoOrganica model) {
-		List<Share> sharesTransactions = new Share().find()
-				.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
-				.andWhere("status", "=", 1)
-				.andWhere("env.id", "=", Core.toInt(model.getId() + ""))
-				.all(); 
 		
+		String type = model.getType(); 
+		
+		List<Share> sharesTransactions = null;
+		
+		
+		try {
+			if(type.equals("org")){
+				
+				Organization org = Core.findOrganizationById(model.getId());
+				sharesTransactions = new Share().find()
+							.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
+							.andWhere("status", "=", 1)
+							.andWhere("env.id", "=", org.getApplication().getId())
+							.all(); 
+					
+					
+				}else if(type.equals("perfil")){
+					ProfileType p = new ProfileType().findOne(model.getId()); 
+					if( p.getApplication() != null) { 
+						sharesTransactions = new Share().find()
+								.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
+								.andWhere("status", "=", 1)
+								.andWhere("env.id", "=", p.getApplication().getId())
+								.all(); 
+					}else { 
+						sharesTransactions = new Share().find()
+								.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
+								.andWhere("status", "=", 1)
+								.andWhere("env.id", "=", 1)
+								.all(); 
+					}
+					
+					
+				}else if(type.equalsIgnoreCase("user")) {
+					Profile profile = new Profile().findOne(model.getId());
+					sharesTransactions = new Share().find()
+							.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
+							.andWhere("status", "=", 1)
+							.andWhere("env.id", "=", profile.getOrganization().getApplication().getId())
+							.all(); 
+					
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		if(sharesTransactions != null) {
+			
 			for(Share shareTransaction : sharesTransactions){
 				try {
 					TransacaoOrganica.Table_1 table = new TransacaoOrganica.Table_1();
@@ -275,9 +319,6 @@ public class TransacaoOrganicaController extends Controller {
 					table.setNome(t.getDescr() + " (" + t.getCode() + ")" + " [" + shareTransaction.getEnv().getDad()+ "]");
 					
 					
-					
-					
-					String type = model.getType();
 					if(type.equals("org")){
 						
 						Profile p_ = new Profile().find() 
@@ -352,8 +393,14 @@ public class TransacaoOrganicaController extends Controller {
 					
 				} catch (Exception e) {
 				}
-		} 
+			} 
+			
+		}
+		
 	}
+	
+	
+	
 	
 	/*----#end-code----*/
 }
