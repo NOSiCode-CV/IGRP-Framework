@@ -8,7 +8,7 @@ import nosi.core.config.ConfigApp;
  * Emanuel
  * 11 Jul 2018
  */
-public class ConfigHikariCP {
+public class DefaultConfigHibernate {
 
 	private String connectionTimeout;
 	private String	idleTimeout;
@@ -21,16 +21,17 @@ public class ConfigHikariCP {
 	private String provider_class;
 	private String useConnectionPool="";
 	private String allowPoolSuspension;
-	private static ConfigHikariCP instance;
+	private static DefaultConfigHibernate instance;
 	private String hbm2ddlAuto;
 	private String connectionIsolation;
 	private String currentSessionContextClass;
 	private String autCloseSession;
 	private String autocommit;
 	private String release_mode;
+	private String strategy_access_jdbc;
 	
 
-	private ConfigHikariCP() {
+	private DefaultConfigHibernate() {
 		try {
 			this.load();
 		} catch (Exception e) {
@@ -38,9 +39,9 @@ public class ConfigHikariCP {
 		}
 	}
 	
-	public static ConfigHikariCP getInstance() {
+	public static DefaultConfigHibernate getInstance() {
 		if(instance==null)
-			instance = new ConfigHikariCP();
+			instance = new DefaultConfigHibernate();
 		return instance;
 	}
 	
@@ -164,6 +165,19 @@ public class ConfigHikariCP {
 		this.release_mode = release_mode;
 	}
 
+	public String getMinimumPoolSize() {
+		return this.mminimumPoolSize;
+	}
+
+	public String getIncrement() {
+		return this.incrementPool;
+	}
+
+	public Optional<String> getAccessStrategyJDBC() {
+		return Optional.ofNullable(this.strategy_access_jdbc);
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "ConfigHikariCP [connectionTimeout=" + connectionTimeout + ", idleTimeout=" + idleTimeout
@@ -195,14 +209,8 @@ public class ConfigHikariCP {
 			this.release_mode = p.getProperty("releaseMode");
 			this.mminimumPoolSize = p.getProperty("mminimumPoolSize", "5");
 			this.incrementPool = p.getProperty("incrementPool","5");
+			this.strategy_access_jdbc = p.getProperty("strategy_access_jdbc");
 		}
 	}
 
-	public String getMinimumPoolSize() {
-		return this.mminimumPoolSize;
-	}
-
-	public String getIncrement() {
-		return this.incrementPool;
-	}
 }

@@ -1055,9 +1055,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	protected Session getSession() {	
 		SessionFactory sessionFactory = null;
 		if(Core.isNotNull(this.applicationName)) {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName,this.schema);
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName);
 		}else {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
 		}
 		if(sessionFactory!=null) {
 			return sessionFactory.getCurrentSession();
@@ -1069,9 +1069,9 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	protected SessionFactory getSessionFactory() {		
 		SessionFactory sessionFactory = null;
 		if(Core.isNotNull(this.applicationName)) {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName,this.schema);
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName);
 		}else {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.schema);
+			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
 		}
 		if(sessionFactory!=null) {
 			return sessionFactory;

@@ -46,7 +46,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
-import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
@@ -62,6 +61,7 @@ import nosi.core.webapp.activit.rest.services.ProcessInstanceServiceRest;
 import nosi.core.webapp.activit.rest.services.TaskServiceRest;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
+import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.QueryDelete;
 import nosi.core.webapp.databse.helpers.QueryInsert;
 import nosi.core.webapp.databse.helpers.QueryInterface;
@@ -231,13 +231,12 @@ public final class Core { // Not inherit
 	 */
 	public static String defaultConnection(String dad) {
 		String result = "";
-		Application app = new Application().find().andWhere("dad", "=", dad).one();
-		if (app != null) {
-			Config_env config_env = new Config_env().find().andWhere("isdefault", "=", (short) 1)
-					.andWhere("application", "=", app.getId()).one();
-			if (config_env != null)
-				result = config_env.getName();
-		}
+		Config_env config_env = new Config_env().find()
+				.where("isdefault", "=", (short) 1)
+				.andWhere("application.dad", "=", dad)
+				.one();
+		if (config_env != null)
+			result = config_env.getName();
 		return result;
 	}
 
@@ -1660,8 +1659,8 @@ public final class Core { // Not inherit
 	 * 
 	 */
 	public static void log(String msg) {
-
-		Igrp.getInstance().getLog().addMessage(msg);
+		if(Igrp.getInstance()!=null && Igrp.getInstance().getLog()!=null)
+			Igrp.getInstance().getLog().addMessage(msg);
 	}
 
 	/**

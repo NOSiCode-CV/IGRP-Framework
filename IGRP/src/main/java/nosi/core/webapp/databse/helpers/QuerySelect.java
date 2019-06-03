@@ -247,7 +247,8 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, String value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addString(name, value);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.filterWhere(" HAVING "+name+" "+operator+":"+name_+" ").addString(name_, value);
 		}
 		return this;
 	}
@@ -255,7 +256,8 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Integer value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addInt(name, value);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.filterWhere(" HAVING "+name+" "+operator+":"+name_+" ").addInt(name_, value);
 		}
 		return this;
 	}
@@ -263,7 +265,8 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Double value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addDouble(name, value);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.filterWhere(" HAVING "+name+" "+operator+":"+name_+" ").addDouble(name_, value);
 		}
 		return this;
 	}
@@ -271,7 +274,8 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Float value) {		 
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addFloat(name, value);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.filterWhere(" HAVING "+name+" "+operator+":"+name_+" ").addFloat(name_, value);
 		}
 		return this;
 	}
@@ -279,7 +283,8 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public QueryInterface having(String name, String operator, Date value) {
 		if(Core.isNotNull(value)) {
-			this.filterWhere(" HAVING "+name+" "+operator+":"+this.recq.removeAlias(name)+" ").addDate(name, value);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.filterWhere(" HAVING "+name+" "+operator+":"+name_+" ").addDate(name_, value);
 		}
 		return this;
 	}
