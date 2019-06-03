@@ -47,13 +47,14 @@ public abstract class QueryHelper implements QueryInterface{
 	protected Config_env config_env;
 	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
-	protected nosi.core.config.Connection connection;
+	protected nosi.core.webapp.databse.helpers.Connection connection;
 	protected ParametersHelper paramHelper;
 	private boolean showError = true;
 	private boolean showTracing = true;
 	protected ResolveColumnNameQuery recq;
 	protected boolean keepConnection = false;
 	protected EntityManager em = null;
+	protected OperationType operationType;
 	
 	public QueryHelper(Object connectionName) {
 		this();
@@ -65,7 +66,7 @@ public abstract class QueryHelper implements QueryInterface{
 
 	public QueryHelper() {
 		this.columnsValue = new ArrayList<>();
-		this.connection = new nosi.core.config.Connection();
+		this.connection = new nosi.core.webapp.databse.helpers.Connection();
 		this.paramHelper = new ParametersHelper();
 		this.recq = new ResolveColumnNameQuery(this.getClass());
 	}
@@ -81,7 +82,7 @@ public abstract class QueryHelper implements QueryInterface{
 		if(this.config_env!=null) {
 			return HibernateUtils.getSessionFactory(config_env);
 		}
-		return HibernateUtils.getSessionFactory(this.getConnectionName(),null);
+		return HibernateUtils.getSessionFactory(this.getConnectionName(),Core.getCurrentDadParam());
 	}
 	
 	public boolean isShowError() {
@@ -250,9 +251,6 @@ public abstract class QueryHelper implements QueryInterface{
 	protected void addColumn(String name,Object value,Object type,String format) {
 		name = this.recq.removeAlias(name);
 		Column c = new Column();
-		if(this instanceof QueryUpdate) {
-			name = this.resolveDuplicateParam(name);
-		}
 		c.setName(name);
 		c.setDefaultValue(value);
 		c.setType(type);
@@ -263,7 +261,11 @@ public abstract class QueryHelper implements QueryInterface{
 	
 
 	protected String resolveDuplicateParam(String name) {
-		if(this instanceof QueryUpdate && this.columnsValue!=null) {
+		/**
+		 * Remove duplicate params name for sql update
+		 * UPDATE TABLE1 SET estado=:estado,date_update=:date_update WHERE id=:id AND  UPPER(estado) = :estado 
+		 */
+		if((this instanceof QueryUpdate|| (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) && this.columnsValue!=null) {
 			String n = name;
 			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).collect(Collectors.toList());
 			if(cols!=null && cols.size()>0) {
@@ -274,7 +276,6 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 
-	protected OperationType operationType;
 	
 	public String getSql() {
 		return this.sql;

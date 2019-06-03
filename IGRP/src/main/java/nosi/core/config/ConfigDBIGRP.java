@@ -5,19 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Map;
 import java.util.Properties;
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.helpers.FileHelper;
 
 /**
@@ -195,46 +184,5 @@ public class ConfigDBIGRP {
 				+ type_db + ", username=" + username + ", password=" + password + ", name=" + name + ", fileName="
 				+ fileName + ", path=" + path + "]";
 	}
-
-	public boolean validate() {
-    	return this.validate(this.getUrlConnection(), this.getDriverConnection());
-	}
 	
-	public boolean validate(String url,String driver) {
-		String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(this.getType_db());
-    	Map<String, Object> settings = HibernateUtils.getBaseSettings(driver, url, this.getUsername(), this.getPassword(), hibernateDialect);        
-    	StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
-		registryBuilder.configure("/" + this.getName() + ".cfg.xml");
-		registryBuilder.applySettings(settings);
-		StandardServiceRegistry registry = registryBuilder.build();
-		MetadataSources sources = new MetadataSources(registry);
-		
-    	boolean isConnected = false;
-    	try{	
-    		Metadata metadata = sources.getMetadataBuilder().build();	
-    		SessionFactory sf = metadata.getSessionFactoryBuilder().build();
-    		sf.close();
-    		StandardServiceRegistryBuilder.destroy(registry);
-			isConnected = true;
-    	}catch(Exception e){
-    		StringWriter sw = new StringWriter();
-		    PrintWriter pw = new PrintWriter(sw);
-		    e.printStackTrace(pw);
-		Core.log(sw.toString());
-    		try {
-    			if(e.getCause() instanceof  NullPointerException) {
-    				
-    			}
-    			final String errormessage1 = ((HibernateException) e.getCause()).getLocalizedMessage();			
-	    		final String errormessage = ((HibernateException) e.getCause()).getCause().getLocalizedMessage();
-				Core.setMessageError(errormessage1.substring(errormessage1.indexOf(":")+1)+": "+errormessage.substring(errormessage.indexOf(":")+1));
-			
-			}catch(Exception e1) {
-				e1.printStackTrace();
-				Core.setMessageError("SqlExceptionHelper - "+(e1.getCause()!=null && e1.getCause().getCause()!= null?e1.getCause().getCause().getMessage():""));
-    		}
-    		isConnected = false;
-    	}
-    	return isConnected;
-	}
 }

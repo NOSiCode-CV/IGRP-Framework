@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -246,14 +244,7 @@ public class ConfigDatabaseController extends Controller {
 /*----#start-code(custom_actions)----*/
 	private void saveConfigHibernateFile(Config_env config) throws IOException {
 		String package_ = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
-		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-				+ "<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
-				"\"-//Hibernate/Hibernate Configuration DTD 3.0//EN\"\r\n" + 
-				"\"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd\">\n"
-				+ "<hibernate-configuration>\n" + "		<session-factory>\n"
-				+ "				<!-- Mapping your class here... \n" + "					Ex: <mapping class=\""
-				+ package_ + ".Employee\"/>\n" + "				-->\n" + "		</session-factory>\n"
-				+ "</hibernate-configuration>";
+		String content = this.getHibernateConfig(config,package_);
 		String pathWS = this.getConfig().getPathWorkspaceResources();
 		String pathServer = this.getConfig().getBasePathClass();
 		FileHelper.save(pathServer, config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml", content);
@@ -261,6 +252,7 @@ public class ConfigDatabaseController extends Controller {
 			FileHelper.save(pathWS, config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml", content);
 		}
 	}
+
 
 	public Response actionChangeStatus() {
 		this.format = Response.FORMAT_JSON;
@@ -355,5 +347,45 @@ public class ConfigDatabaseController extends Controller {
 		}
 	}
 	
+	private String getHibernateConfig(Config_env config,String package_) {
+		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+				"<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
+				"\"-//Hibernate/Hibernate Configuration DTD 3.0//EN\"\r\n" + 
+				"\"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd\">\n"+ 
+				"<hibernate-configuration>\n" + 
+				"\t<session-factory>\n" +
+				"\t\t<property name=\"hibernate.connection.driver_class\">"+Core.decrypt(config.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.url\">"+Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"/findev.gov.cv</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.username\">"+Core.decrypt(config.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.password\">"+Core.decrypt(config.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hbm2ddl.auto\">update</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.isolation\">2</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.autocommit\">false</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.pool_size\">5</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hbm2ddl.jdbc_metadata_extraction_strategy\">individually</property>\r\n" + 
+				"\t\t<property name=\"hibernate.current_session_context_class\">org.hibernate.context.internal.ThreadLocalSessionContext</property>\r\n" + 
+				"\t\t<property name=\"hibernate.transaction.auto_close_session\">DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION</property>\r\n" + 
+				"\t\t<property name=\"hibernate.dialect\">"+DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB))+"</property>\n"+
+				"\t\t<!-- Hikaricp configuration -->\r\n" + 
+				"\t\t<property name=\"hibernate.connection.provider_class\">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">60000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.idleTimeout\">10000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.minimumIdle\">0</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.maximumPoolSize\">10</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.maxLifetime\">30000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.leakDetectionThreshold\">0</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.connectionTimeout\">120000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.idleTimeout\">600000</property>\r\n" + 
+				"\t\t<property name=\"hibernate.hikari.maxLifetime\">1800000</property>\n\n\n" + 
+				"\t\t<!-- Mapping your class here... \n" + 
+				"\t\tEx: <mapping class=\""+ package_ + ".Employee\"/>" + 
+				" \t\t-->\n" + 
+				"\t</session-factory>\n"+ 
+				"</hibernate-configuration>";
+		return content;
+	}
 	/*----#end-code----*/
 }

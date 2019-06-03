@@ -1,10 +1,12 @@
-package nosi.core.config;
+package nosi.core.webapp.databse.helpers;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import nosi.core.config.ConfigApp;
+import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Config_env;
 
@@ -86,7 +88,8 @@ public class Connection {
 			conn = DriverManager.getConnection(url,connectionProps);
 		} catch (SQLException | ClassNotFoundException e) {
 			isConnect = false;
-			// TODO Auto-generated catch block
+			Core.setMessageError(e.getMessage());
+			Core.log(e.getMessage());
 			e.printStackTrace();
 		}
 	    if(isConnect)
@@ -96,13 +99,30 @@ public class Connection {
 	    		try {
 					conn.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+					Core.setMessageError(e.getMessage());
+					Core.log(e.getMessage());
 					e.printStackTrace();
 				}
 	    	}
 	    }
 	    return null;
 	}
+	
+	public boolean validate(String url,String driver,String username,String password) {
+		java.sql.Connection conn = this.getConnection(driver, url, username, password);
+		if(conn!=null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				Core.setMessageError(e.getMessage());
+				Core.log(e.getMessage());
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public java.sql.Connection getConnection(Config_env config_env){
 		return this.getConnectionWithConfig(config_env);
 	}

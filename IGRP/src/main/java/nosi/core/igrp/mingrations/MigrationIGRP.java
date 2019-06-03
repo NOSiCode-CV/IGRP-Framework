@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.databse.helpers.Connection;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
 import nosi.webapps.igrp.pages.migrate.Migrate;
@@ -74,11 +75,7 @@ public final class MigrationIGRP {
 	
 	public boolean validate(Migrate model){
 		if(model!=null){
-			ConfigDBIGRP config = ConfigDBIGRP.getInstance();
-			config.setType_db(model.getTipo_base_dados());
-			config.setUsername(model.getUsername());
-			config.setPassword(model.getPassword());
-			return config.validate(model.getUrl_connection(),model.getDriver_connection());
+			return new Connection().validate(model.getUrl_connection(),model.getDriver_connection(),model.getUsername(),model.getPassword());
 		}
 		return false;
 	}

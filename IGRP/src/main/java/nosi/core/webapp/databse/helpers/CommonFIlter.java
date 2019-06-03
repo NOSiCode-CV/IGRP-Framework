@@ -40,14 +40,15 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface where(String name, String operator, String value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equals("notlike")) {
 				this.where("");
-				this.sql += " UPPER("+name+") "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
+				this.sql += " UPPER("+name+") "+operator+":"+name_;
 			}else {
 				this.where("");
-				this.sql += " UPPER("+name+") "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
+				this.sql += " UPPER("+name+") "+operator+":"+name_;
 			}
-			this.addString(name, value.toUpperCase());
+			this.addString(name_, value.toUpperCase());
 		}
 		return this;
 	}
@@ -55,9 +56,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface where(String name, String operator, Integer value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.where("");
-			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
-			this.addInt(name, value);
+			this.sql += name+" "+operator+":"+name_;
+			this.addInt(name_, value);
 		}
 		return this;
 	}
@@ -65,9 +67,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface where(String name, String operator, Float value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.where("");
-			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
-			this.addFloat(name, value);
+			this.sql += name+" "+operator+":"+name_;
+			this.addFloat(name_, value);
 		}
 		return this;
 	}
@@ -75,9 +78,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface where(String name, String operator, Double value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.where("");
-			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
-			this.addDouble(name, value);
+			this.sql += name+" "+operator+":"+name_;
+			this.addDouble(name_, value);
 		}
 		return this;
 	}
@@ -85,9 +89,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface where(String name, String operator, Date value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.where("");
-			this.sql += name+" "+operator+":"+this.resolveDuplicateParam(this.recq.removeAlias(name));
-			this.addDate(name, value);
+			this.sql += name+" "+operator+":"+name_;
+			this.addDate(name_, value);
 		}
 		return this;
 	}
@@ -101,11 +106,12 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, String value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.and();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_+" ").addString(name_, value.toUpperCase());
 			}else {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name,value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_).addString(name_,value.toUpperCase());
 			}
 		}
 		return this;
@@ -130,8 +136,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Integer value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addInt(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addInt(name_, value);
 		}
 		return this;
 	}
@@ -139,8 +146,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Float value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addFloat(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addFloat(name_, value);
 		}
 		return this;
 	}
@@ -148,8 +156,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Double value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDouble(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addDouble(name_, value);
 		}
 		return this;
 	}
@@ -157,8 +166,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, Date value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.and();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDate(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addDate(name_, value);
 		}
 		return this;
 	}
@@ -171,8 +181,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Date value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDate(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addDate(name_, value);
 		}
 		return this;
 	}
@@ -185,11 +196,12 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, String value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.or();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_+" ").addString(name_, value.toUpperCase());
 			}else {
-				this.filterWhere(" UPPER("+name+") "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addString(name, value.toUpperCase());
+				this.filterWhere(" UPPER("+name+") "+operator+" :"+name_+" ").addString(name_, value.toUpperCase());
 			}
 		}
 		return this;
@@ -207,8 +219,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Integer value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addInt(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addInt(name_, value);
 		}
 		return this;
 	}
@@ -216,8 +229,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Float value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addFloat(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addFloat(name_, value);
 		}
 		return this;
 	}
@@ -225,8 +239,9 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, Double value) {
 		if(value!=null) {
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
 			this.or();
-			this.filterWhere(name+" "+operator+" :"+this.resolveDuplicateParam(this.recq.removeAlias(name))+" ").addDouble(name, value);
+			this.filterWhere(name+" "+operator+" :"+name_+" ").addDouble(name_, value);
 		}
 		return this;
 	}
@@ -234,7 +249,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface between(String name, Object value1, Object value2) {
 		if(Core.isNotNull(value1) && Core.isNotNull(value2)) {
-			this.where(" "+name+" BETWEEN value1=:value1 AND value2=:value2 ").addObject("value1",value1).addObject("value2", value2);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.where(" "+name+" BETWEEN value1=:"+name_+"_1+"+" AND value2=:"+name_+"_2 ")
+				.addObject(name_+"_1",value1)
+				.addObject(name_+"_2", value2);
 		}
 		return this;
 	}
@@ -242,7 +260,10 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface notBetween(String name, Object value1, Object value2) {
 		if(Core.isNotNull(value1) && Core.isNotNull(value2)) {
-			this.filterWhere(" "+name+" NOT BETWEEN value1=:value1 AND value2=:value2 ").addObject("value1",value1).addObject("value2", value2);
+			String name_ = this.resolveDuplicateParam(this.recq.removeAlias(name));
+			this.where(" "+name+" NOT BETWEEN value1=:"+name_+"_1+"+" AND value2=:"+name_+"_2 ")
+				.addObject(name_+"_1",value1)
+				.addObject(name_+"_2", value2);
 		}
 		return this;
 	}

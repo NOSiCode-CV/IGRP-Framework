@@ -66,7 +66,7 @@ public class DataSourceHelpers {
 	 */
 	public Set<Properties> getColumns(Config_env config,int template_id,String query) {
 		Set<Properties> columns = new LinkedHashSet<>();
-		Connection con = new nosi.core.config.Connection().getConnection(config);
+		Connection con = new nosi.core.webapp.databse.helpers.Connection().getConnection(config);
 		try {
 			Statement s = con.createStatement();
 			Set<String> keys = getParamsQuery(config,template_id,query);
