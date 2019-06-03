@@ -5,12 +5,16 @@ import nosi.core.webapp.databse.helpers.ResultSet;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Application;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp_studio.pages.partilhageral.TipoPartilha;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import nosi.core.webapp.helpers.CheckBoxHelper;
@@ -22,6 +26,7 @@ import nosi.core.config.ConfigDBIGRP;
 
 		
 public class TransacaoOrganicaController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
@@ -46,18 +51,19 @@ public class TransacaoOrganicaController extends Controller {
 				transactions = new Organization().getOrgTransaction(org.getApplication().getId(),org.getId());
 				view.btn_gestao_de_transacoes.addParameter("p_aplicacao", org.getApplication().getId());
 			}else if(type.equals("perfil")){
-				ProfileType p = new ProfileType().findOne(id);
+				ProfileType p = new ProfileType().findOne(id); 
 				if(p.getOrganization()!=null)
 					transactions = new Organization().getPerfilTransaction(p.getOrganization().getId(),p.getId());
 				else
-					transactions = new Organization().getPerfilTransaction(1,p.getId());
+					transactions = new Organization().getPerfilTransaction(1,p.getId()); 
 			} else if(type.equalsIgnoreCase("user")) {
 				profile = new Profile().findOne(id);
 		      	user = Core.findUserByEmail(Core.getParam("userEmail"));
 		      	if(user!=null && profile!=null)
 					transactions = new Organization().getOrgTransactionByUser(profile.getOrganization().getId(),user.getId());
-			}         
-			for(Transaction t:transactions){
+			}   
+			
+			for(Transaction t : transactions){
 				TransacaoOrganica.Table_1 table =new TransacaoOrganica.Table_1();
 				table.setTransacao(t.getId());
 				table.setNome(t.getDescr()+" ("+t.getCode()+")");
@@ -67,8 +73,13 @@ public class TransacaoOrganicaController extends Controller {
 					table.setTransacao_check(-1);
 				}
 				data.add(table);
-				data.sort(Comparator.comparing(TransacaoOrganica.Table_1::getTransacao_check).reversed());
 			}
+			
+			
+			sharesTransactions(data, model);
+			
+			
+			data.sort(Comparator.comparing(TransacaoOrganica.Table_1::getTransacao_check).reversed());
 			
 			if(model.getType().equals("user") && user!=null && profile!=null) {
 				view.btn_gravar.addParameter("user_id",  user.getId())
@@ -88,15 +99,17 @@ public class TransacaoOrganicaController extends Controller {
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
 		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		  EXAMPLES COPY/PASTE: 
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder. 
+		 this.addQueryString("p_id","12"); //to send a query string in the URL 
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if(Core.isInt(model.getId()) && Core.isNotNull(model.getType())){
+			
 			CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_transacao"), Core.getParamArray("p_transacao_check"));
 			this.deleteOldTransactions(model,cb.getUncheckedIds());
-			this.assocNewsTransactios(model,this.filterIds(model,cb.getChekedIds()));
+			this.assocNewsTransactios(model, this.filterIds(model,cb.getChekedIds())); 
+			
 		}
 		this.addQueryString("userEmail",Core.getParam("userEmail"));	
 	 return this.forward("igrp","TransacaoOrganica","index", this.queryString());
@@ -241,5 +254,106 @@ public class TransacaoOrganicaController extends Controller {
 		}		
    			
 	}
+	
+	
+	private void sharesTransactions(ArrayList<TransacaoOrganica.Table_1> data, TransacaoOrganica model) {
+		List<Share> sharesTransactions = new Share().find()
+				.andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo())
+				.andWhere("status", "=", 1)
+				.andWhere("env.id", "=", Core.toInt(model.getId() + ""))
+				.all(); 
+		
+			for(Share shareTransaction : sharesTransactions){
+				try {
+					TransacaoOrganica.Table_1 table = new TransacaoOrganica.Table_1();
+					
+					table.setTransacao(shareTransaction.getType_fk());
+					
+					Transaction t = new Transaction().findOne(Core.toInt("" + shareTransaction.getType_fk())); 
+					
+					
+					table.setNome(t.getDescr() + " (" + t.getCode() + ")" + " [" + shareTransaction.getEnv().getDad()+ "]");
+					
+					
+					
+					
+					String type = model.getType();
+					if(type.equals("org")){
+						
+						Profile p_ = new Profile().find() 
+								  .andWhere("type_fk", "=", shareTransaction.getType_fk()) 
+								  .andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo()) 
+								  .andWhere("organization.id", "=", model.getId())
+								  .one(); 
+						
+						if(p_ != null){
+							table.setTransacao_check(shareTransaction.getType_fk()); 
+						}else{
+							table.setTransacao_check(-1);
+						}
+						
+					}else if(type.equals("perfil")){
+						
+						ProfileType p = new ProfileType().findOne(model.getId()); 
+						
+						if(p.getOrganization() != null) {
+							
+							Profile p_ = new Profile().find() 
+									  .andWhere("type_fk", "=", shareTransaction.getType_fk()) 
+									  .andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo()) 
+									  .andWhere("profileType.id", "=", p.getId()) 
+									  .andWhere("organization.id", "=", p.getOrganization().getId())
+									  .one();
+							
+							if(p_ != null){
+								table.setTransacao_check(shareTransaction.getType_fk()); 
+							}else{
+								table.setTransacao_check(-1);
+							}
+							
+							
+						}else {
+							
+							Profile p_ = new Profile().find() 
+									  .andWhere("type_fk", "=", shareTransaction.getType_fk()) 
+									  .andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo()) 
+									  .andWhere("profileType.id", "=", p.getId()) 
+									  .andWhere("organization.id", "=", 1)
+									  .one();
+							
+							if(p_ != null){
+								table.setTransacao_check(shareTransaction.getType_fk()); 
+							}else{
+								table.setTransacao_check(-1); 
+							}
+							
+						}
+					} 
+					else if(type.equalsIgnoreCase("user")) {
+						
+						User user = Core.findUserByEmail(Core.getParam("userEmail"));
+						Profile profile = new Profile().findOne(model.getId());
+						
+						Profile p_ = new Profile().find() 
+								  .andWhere("type_fk", "=", shareTransaction.getType_fk()) 
+								  .andWhere("type", "=", TipoPartilha.TRANSACTION.getCodigo()) 
+								  .andWhere("user.id", "=", user.getId()) 
+								  .andWhere("organization.id", "=", profile.getOrganization().getId()).one(); 
+						
+						if(p_ != null){
+							table.setTransacao_check(shareTransaction.getType_fk()); 
+						}else{
+							table.setTransacao_check(-1);
+						}
+						
+					}
+					
+					data.add(table);
+					
+				} catch (Exception e) {
+				}
+		} 
+	}
+	
 	/*----#end-code----*/
 }
