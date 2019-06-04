@@ -1,6 +1,8 @@
 package nosi.core.webapp;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,7 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.w3c.dom.NodeList;
+
 import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
@@ -22,7 +29,9 @@ import nosi.core.webapp.activit.rest.entities.TaskVariables;
 import nosi.core.webapp.bpmn.BPMNConstants;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.DomXML;
 /**
  * We have function like loadFromlist for separatorlist and formlist, loadTable for table/list.
  * 
@@ -161,6 +170,7 @@ public abstract class Model { // IGRP super model
 	 * */
 	// this mehtod allow auto-inicialization for all sub-models
 	public void load() throws IllegalArgumentException, IllegalAccessException{
+		this.loadModelFromFile();
 		Class<? extends Model> c = this.getClass();
 		List<Field> fields = new ArrayList<Field>(); // For particular case purpose ...
 		for(Field m : c.getDeclaredFields()){
@@ -364,13 +374,35 @@ public abstract class Model { // IGRP super model
 				 continue; // go to next -- Separator list
 			}
 		}
-		this.loadFromModelAttribute();
+		this.loadModelFromAttribute();
+	}
+
+	private void loadModelFromFile() {
+		try {
+			Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
+			if(file!=null) {
+				String xml = FileHelper.convertToString(file);
+				DomXML domXml = new DomXML(xml);
+				NodeList n =domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
+				QueryString<String,Object> queryString = new QueryString<>();
+				for(int i=0;i<n.getLength();i++) {
+					queryString.addQueryString(n.item(i).getNodeName(), n.item(i).getTextContent());
+				}
+				if(queryString!=null) {
+					queryString.getQueryString().entrySet().forEach(qs->{
+						Core.setAttribute(qs.getKey(),qs.getValue().toArray());
+					});
+				}
+			}
+		} catch (ServletException | IOException e) {
+			
+		}
 	}
 
 	/**
 	 * When using this.forward("app","page","index",model, this.queryString());
 	 */
-	private void loadFromModelAttribute() {
+	private void loadModelFromAttribute() {
 		if(Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, false)!=null) {
 			Model model = (Model) Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, true);
 			for(Method m :model.getClass().getDeclaredMethods()){
