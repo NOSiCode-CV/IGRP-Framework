@@ -48,6 +48,6 @@ public interface Field {
 	default public void loadDomainByApp(String domain,String codeApp) {}
 	default public void addLookupParam(String key,String value) {}
 	default public int vertionLookup() { return 1;}
-	default public boolean isEncryptLookup() {return false;}
-	default public void setEncryptLookup(boolean isEncrypt) {}
+	default public boolean isPublic() {return false;}
+	default public void setIsPublic(boolean isEncrypt) {}
 }

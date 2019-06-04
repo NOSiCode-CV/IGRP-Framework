@@ -17,7 +17,7 @@ public class LookupField extends TextField {
 
 	private Map<String,Object> params;
 	private Map<String,Object> lookupParams;
-	private boolean isEncrypt = false;
+	private boolean isPublic = false;
 	private int versionLookup = 1;
 	private String app;
 	private String page;
@@ -53,14 +53,14 @@ public class LookupField extends TextField {
 		return this.versionLookup;
 	}
 
-	public boolean isEncryptLookup() {
-		return isEncrypt;
+	public boolean isPublic() {
+		return isPublic;
 	}
 
-	public void setEncryptLookup(boolean isEncrypt) {
-		this.isEncrypt = isEncrypt;
-		if(isEncrypt){
-			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),0).replace("?", "").replace("webapps", "");
+	public void setIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+		if(isPublic){
+			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
 		}
 	}
 	
