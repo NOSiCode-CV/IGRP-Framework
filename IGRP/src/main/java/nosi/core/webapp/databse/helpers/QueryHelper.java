@@ -82,7 +82,7 @@ public abstract class QueryHelper implements QueryInterface{
 		if(this.config_env!=null) {
 			return HibernateUtils.getSessionFactory(config_env);
 		}
-		return HibernateUtils.getSessionFactory(this.getConnectionName(),Core.getCurrentDadParam());
+		return HibernateUtils.getSessionFactory(this.getConnectionName());
 	}
 	
 	public boolean isShowError() {

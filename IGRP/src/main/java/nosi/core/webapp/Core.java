@@ -1357,9 +1357,7 @@ public final class Core { // Not inherit
 		return "6";
 	}
 
-	public static SessionFactory getSessionFactory(String connectionName) {
-		return HibernateUtils.getSessionFactory(connectionName, null);
-	}
+
 
 	/**
 	 * Receive multiple params and get one of these params that's not null
@@ -3509,17 +3507,20 @@ public final class Core { // Not inherit
 	 * @return
 	 */
 	public static Session getSession(String connectionName) {
-		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName, null);
+		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName);
 		if (sessionFactory != null && sessionFactory.isOpen())
 			return sessionFactory.getCurrentSession();
 		if(sessionFactory !=null && sessionFactory.isClosed()) {
 			 HibernateUtils.removeSessionFactory(connectionName);
-			 sessionFactory = HibernateUtils.getSessionFactory(connectionName, null);
+			 sessionFactory = HibernateUtils.getSessionFactory(connectionName);
 		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
 
-
+	public static SessionFactory getSessionFactory(String connectionName) {
+		return HibernateUtils.getSessionFactory(connectionName);
+	}
+	
 	public static void lockProccess(String codeOrg, String codeProf, String userName, String procId, String taskId) {
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User().findIdentityByUsername(userName);
 		Organization org = new Organization().findByCode(codeOrg);

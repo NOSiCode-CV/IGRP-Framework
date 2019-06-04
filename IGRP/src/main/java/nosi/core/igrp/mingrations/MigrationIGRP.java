@@ -61,7 +61,7 @@ public final class MigrationIGRP {
 			this.getData();
 			if(config.save()) {
 				HibernateUtils.removeSessionFactory(model.getNome_de_conexao());
-				HibernateUtils.getSessionFactory(model.getNome_de_conexao(),null);
+				HibernateUtils.getSessionFactory(model.getNome_de_conexao());
 			}
 			else {
 				Core.setMessageError("Não foi possivel efetuar migração do IGRP");
