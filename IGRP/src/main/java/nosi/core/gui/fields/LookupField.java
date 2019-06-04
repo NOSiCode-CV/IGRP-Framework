@@ -17,11 +17,7 @@ public class LookupField extends TextField {
 
 	private Map<String,Object> params;
 	private Map<String,Object> lookupParams;
-	private boolean isPublic = false;
 	private int versionLookup = 1;
-	private String app;
-	private String page;
-	private String action;
 	
 	public LookupField(Object model,String name) {
 		super(model,name);
@@ -52,22 +48,13 @@ public class LookupField extends TextField {
 	public int vertionLookup() {
 		return this.versionLookup;
 	}
-
-	public boolean isPublic() {
-		return isPublic;
-	}
-
-	public void setIsPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-		if(isPublic){
-			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
-		}
-	}
 	
 	public void setLookup(String app,String page,String action) {
-		this.app = app;
-		this.page = page;
-		this.action = action;
-		this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", "");
+		int isPublic = Core.getParamInt("isPublic");
+		System.out.println("isPublic="+isPublic);
+		if(isPublic==1)
+			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
+		else
+			this.lookup = Route.getResolveUrl(app, page, action).replace("?", "").replace("webapps", "");
 	}
 }
