@@ -2,17 +2,23 @@ package nosi.webapps.igrp.pages.oauth2openidwso2;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
+import java.util.List;
 import java.util.Properties;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import nosi.core.config.Config;
 
@@ -75,6 +81,56 @@ public class Oauth2openidwso2Controller extends Controller {
 			}
 			return props;
 		}
+		
+		
+	public Response actionMyApps() throws IOException, IllegalArgumentException, IllegalAccessException{
+		String p_uid =  Core.getParam("p_uid"); 
+		
+		String url = Igrp.getInstance().getRequest().getRequestURL() + "";
+		
+		url = url.replace("app/webapps", "igrpoauth2sso") + "?_t=TOKEN";  
+		
+		JSONArray allApps = new JSONArray(); 
+		
+		List<Profile> p = new Application().getMyAppByEmail(p_uid); 
+		List<Application> apps = new Application().findAll();
+		
+		int i = 0;
+		if(p != null)
+			for(Application app : apps) {
+				JSONObject jsonObject = new JSONObject(); 
+				
+				jsonObject.put("dad", app.getDad()); 
+				jsonObject.put("name", app.getName()); 
+				jsonObject.put("description", app.getDescription()); 
+				jsonObject.put("img_src", app.getImg_src()); 
+				
+				jsonObject.put("link", url);
+				
+				if(checkIfExists(app.getDad(), p))
+					jsonObject.put("available", "yes"); 
+				else
+					jsonObject.put("available", "no"); 
+				
+				allApps.put(i++, jsonObject); 
+			}
+		
+		this.format = Response.FORMAT_JSON; 
+		
+		return this.renderView(allApps.toString());
+	}
+	
+	private boolean checkIfExists(String dad, List<Profile> apps) {
+		boolean flag = false; 
+		for(Profile obj : apps) {
+			try {
+				if(obj.getOrganization().getApplication().getDad().equals(dad)) 
+					return true;
+			} catch (Exception e) {
+			}
+		}
+		return flag; 
+	}
 		
 
 /*----#end-code----*/
