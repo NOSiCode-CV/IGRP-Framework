@@ -57,9 +57,6 @@ public class Oauth2openidwso2Controller extends Controller {
 		
 		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;
 		
-		
-		System.out.println(url); 
-		
 		return redirectToUrl(url);
 		
 		/*----#end-code----*/
