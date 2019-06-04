@@ -615,14 +615,18 @@ public class LoginController extends Controller {
 			if (code != 200) return null;
 
 			JSONObject jToken = new JSONObject(resultPost);
+			
+			System.out.println("token: " + jToken); 
 
 			String token = (String) jToken.get("access_token");
 			String id_token = (String) jToken.get("id_token");
+			String refresh_token = (String) jToken.get("refresh_token");
 			
 			Map<String, String> m = new HashMap<String, String>(); 
 			m.put("token", token);
 			m.put("id_token", id_token);
 			m.put("session_state", session_state);
+			m.put("refresh_token", refresh_token);
 			
 			return m;
 
@@ -661,7 +665,7 @@ public class LoginController extends Controller {
 			uid.put("sub", jToken.getString("sub")); 
 			uid.put("email", jToken.getString("email")); 
 			
-			System.out.println("jToken: " + jToken); 
+			System.out.println("oidc: " + jToken); 
 
 		} catch (Exception e) {
 			e.printStackTrace(); 
@@ -676,7 +680,6 @@ public class LoginController extends Controller {
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
 		String authCode = Core.getParam("code"); 
 		
-		
 		if(r != null && r.equalsIgnoreCase("true")) {
 			
 			if(error != null && !error.isEmpty() && !error.equalsIgnoreCase("null")) {
@@ -687,14 +690,15 @@ public class LoginController extends Controller {
 			String token = null;
 			String id_token = null;
 			String session_state = null;
+			String refresh_token = null;
 			
 			Map<String, String> m = oAuth2Wso2Swap();
 			if(m != null) {
-				token = m.get("token");
-				id_token = m.get("id_token");
-				session_state = m.get("session_state");
+				token = m.get("token"); 
+				id_token = m.get("id_token"); 
+				session_state = m.get("session_state"); 
+				refresh_token = m.get("refresh_token"); 
 			}
-			
 			
 			if(token != null) {
 				
@@ -715,6 +719,7 @@ public class LoginController extends Controller {
 								user.setOidcIdToken(id_token);
 								user.setOidcState(session_state);
 								user.setIsAuthenticated(1);
+								user.setRefreshToken(refresh_token);
 								user = user.update();
 								return redirect("igrp", "home", "index"); 
 							} catch (Exception e) {
@@ -744,6 +749,7 @@ public class LoginController extends Controller {
 									newUser.setValid_until(token);
 									newUser.setOidcIdToken(id_token);
 									newUser.setOidcState(session_state);
+									newUser.setRefreshToken(refresh_token);
 									newUser.update();
 									return redirect("igrp", "home", "index"); 
 								}
