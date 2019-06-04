@@ -1,6 +1,8 @@
 package nosi.webapps.igrp_studio.pages.partilhageral;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -18,17 +20,16 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Share;
 import nosi.webapps.igrp.dao.Transaction;
 /*----#end-code----*/
-
+		
 public class PartilhageralController extends Controller {
-	
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Partilhageral model = new Partilhageral();
 		model.load();
 		PartilhageralView view = new PartilhageralView();
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Rem adipiscing magna dolor laudantium stract totam accusantium aliqua sit labore elit rem sed dolore' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Ut elit aperiam magna amet doloremque anim ipsum elit perspiciatis amet aliqua perspiciatis mollit u' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -143,10 +144,10 @@ public class PartilhageralController extends Controller {
 		
 		/*----#end-code----*/
 		view.setModel(model);
-		return this.renderView(view);
+		return this.renderView(view);	
 	}
-
-	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Partilhageral model = new Partilhageral();
 		model.load();
 		/*----#gen-example
@@ -164,10 +165,10 @@ public class PartilhageralController extends Controller {
 		}
 
 		/*----#end-code----*/
-		return this.redirect("igrp_studio", "Partilhageral", "index", this.queryString());
+		return this.redirect("igrp_studio","Partilhageral","index", this.queryString());	
 	}
-
-	/*----#start-code(custom_actions)----*/
+	
+/*----#start-code(custom_actions)----*/
 
 	private void share(Partilhageral model) {
 		List<Share> shares = new ArrayList<Share>();

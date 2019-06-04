@@ -720,9 +720,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 				$.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
 					params  : getParam(p),
-					/*headers : {
+					headers : {
 				       	'X-IGRP-REMOTE' : 1
-				   	},*/
+				   	},
 					method 	: 'POST',
 					success : function(data){
 
@@ -748,9 +748,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 				
 				$.ajax({
 					url 	: $.IGRP.rules.getRemoteUrl(p),
-					/*headers : {
+					headers : {
 				       	'X-IGRP-REMOTE' : 1
-				   	},*/
+				   	},
 					method 	: 'post',
 					dataType: 'xml',
 					data 	: getParam(p)
@@ -814,9 +814,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						data  : form.serialize(),
 						
-						/*headers : {
+						headers : {
 					       	'X-IGRP-REMOTE' : 1
-					   	},**/
+					   	},
 
 						/*success:function(c){
 							
