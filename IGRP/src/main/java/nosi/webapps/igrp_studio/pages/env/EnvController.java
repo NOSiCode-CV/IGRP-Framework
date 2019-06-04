@@ -615,25 +615,12 @@ public class EnvController extends Controller {
 				throw new Exception("Invalid url ...");
 			
 			User u = Core.getCurrentUser();
-			String endpoint = baseUrl  + "?_t=" + Base64.getEncoder().encodeToString((u.getUser_name() + ":" + u.getValid_until()).getBytes());
 			
-			/*String endpoint = baseUrl + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
-			try {
-				
-				String sessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
-				
-				List<Session> list = new Session().find().andWhere("sessionId", "=", sessionId).all();
-				if(list != null && list.size() > 0) {
-					list.sort(Comparator.comparing(Session::getId).reversed());
-					Session session = list.get(0);
-					endpoint += "/" + session.getId() + ":" + session.getSessionId() + "/" + session.getIpAddress();
-				}
-			}catch(Exception e) {
-				e.printStackTrace();
-			}*/
+			String endpoint = baseUrl + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
 			
 			URL url = new URL(endpoint);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(5000); // 5s 
 			conn.setDoInput(true);
 			StringBuilder result = new StringBuilder();
 			BufferedReader cin = new BufferedReader(new InputStreamReader(conn.getInputStream(),"ISO-8859-1"));
@@ -644,11 +631,21 @@ public class EnvController extends Controller {
 			cin.close();
 			conn.disconnect();
 			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
-			for(IgrpPLSQLApp obj : allApps)
-				if(obj.getAvailable().equals("yes"))
+			
+			System.out.println("TokenPLSQL: " + u.getValid_until());
+			for(IgrpPLSQLApp obj : allApps) { 
+				try {
+					String link = obj.getLink(); 
+					link = link.substring(0, link.indexOf("p=") + 2); 
+					link += Base64.getEncoder().encodeToString((u.getUser_name() + ":" + u.getValid_until()).getBytes());
+					obj.setLink(link);  
+				} catch (Exception e) {
+				}
+				if(obj.getAvailable().equals("yes")) 
 					allowApps.add(obj);
 				else
 					denyApps.add(obj);
+			}
 		}catch(Exception e) {
 			//e.printStackTrace();
 		}

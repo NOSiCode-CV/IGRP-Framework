@@ -54,6 +54,9 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 	@Column(name="oidc_state")
 	private String oidcState; 
 	
+	@Column(name="refresh_token")
+	private String refreshToken; 
+	
 	@Column(name="is_authenticated")
 	private Integer isAuthenticated; // 0 || 1 
 
@@ -275,6 +278,14 @@ public class User extends IGRPBaseActiveRecord<User> implements Serializable, Id
 
 	public void setOidcIdToken(String oidcIdToken) {
 		this.oidcIdToken = oidcIdToken;
+	}
+	
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 
 	public String getOidcState() {
