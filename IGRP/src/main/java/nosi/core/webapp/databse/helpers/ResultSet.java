@@ -141,6 +141,56 @@ public class ResultSet {
 			return v!=null? Core.toBigDecimal(v.toString()):null;
 		}
 
+		public Object getObject(int index) {
+			if(this.Row!=null) {
+				try {
+					return this.Row.get(index);
+				}catch(IllegalArgumentException e) {
+					return null;
+				}
+			}
+			return null;
+		}
+		
+		public String getString(int index) {
+			Object v = this.getObject(index);
+			return v!=null?v.toString():null;
+		}
+		
+		public Boolean getBoolean(int index) {
+			Object v = this.getObject(index);
+			return v!=null?(boolean)v:false;
+		}
+		
+		public Integer getInt(int index) {
+			Object v = this.getObject(index);
+			return v!=null? Core.toInt(v.toString()):null;
+		}
+		
+		public Float getFloat(int index) {
+			Object v = this.getObject(index);
+			return v!=null? Core.toFloat(v.toString()):null;
+		}
+		
+		public Double getDouble(int index) {
+			Object v = this.getObject(index);
+			return v!=null? Core.toDouble(v.toString()):null;
+		}
+		
+		public Short getShort(int index) {
+			Object v = this.getObject(index);
+			return v!=null? Core.toShort(v.toString()):null;
+		}
+		
+		public Long getLong(int index) {
+			Object v = this.getObject(index);
+			return v!=null? Core.toLong(v.toString()):null;
+		}	
+
+		public BigDecimal getBigDecimal(int index) {
+			Object v = this.getObject(index);
+			return v!=null? Core.toBigDecimal(v.toString()):null;
+		}
 		public void setSql(String sql) {
 			this.sql = sql;
 		}
