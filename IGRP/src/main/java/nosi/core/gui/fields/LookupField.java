@@ -51,7 +51,6 @@ public class LookupField extends TextField {
 	
 	public void setLookup(String app,String page,String action) {
 		int isPublic = Core.getParamInt("isPublic");
-		System.out.println("isPublic="+isPublic);
 		if(isPublic==1)
 			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
 		else
