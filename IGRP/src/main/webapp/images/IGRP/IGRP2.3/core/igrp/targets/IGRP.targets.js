@@ -119,21 +119,34 @@
  			
 			return false;
  		};
+ 		
+ 		var _submit_popup = function(p){
+ 			
+ 			if(p.fields.valid()){
+ 				
+ 				form.attr({'target' : 'winIGRP', 'action' : p.url});
+
+ 				$.IGRP.utils.openWin({
+ 					url    : p.url,
+	 				width  : 980,
+	 				height : 520,
+	 				win    : 'winIGRP'
+ 				});
+
+ 				form.submit().removeAttr('target action');
+ 			}
+ 		};
+ 		
  		//submit_popup
  		var submit_popup = function(p){
 
- 			var fields = $.IGRP.utils.getFieldsValidate(); //$('input,select,textarea',form).not('.no-validation');
- 	
- 			if(fields.valid())
- 				$.IGRP.utils.openWin({
- 					url    : setTargetParameter($.IGRP.utils.getUrl(p.url))+form.serialize(),
-	 				width  : 980,
-	 				height : 520,
-	 				win    : 'IGRP'
- 				});
+ 			p.fields = $.IGRP.utils.getFieldsValidate(); //$('input,select,textarea',form).not('.no-validation');
  			
+ 			_submit_popup(p);
+
 			return false;
 		};
+		
 		//submit ajax
 		var submit_ajax = function(p){
 			
@@ -286,7 +299,19 @@
 			
 			return false;
 			
-		}
+		};
+		
+		//submit not validate
+		var submit_notvalidate = function(p){
+			$.IGRP.targets.submit.action({
+				url 	 : p.url,
+				validate : false,
+				clicked  : p.clicked
+			});
+
+			return false;
+		};
+		
 		//var associatedList
 		
 		var submitpage2file = function(p){
@@ -442,12 +467,17 @@
 		
 		//_openclose (popup open and automatic close)
 		var _openclose = function(p){
+			
+			form.attr({'target' : 'IGRP-openclose', 'action' : p.url});
+			
 			var myWindow = $.IGRP.utils.openWin({
-				url    : setTargetParameter($.IGRP.utils.getUrl(p.url))+form.serialize(),
+				url    : p.url,
 				width  : 30,
 				height : 30,
 				win    : 'IGRP-openclose'
 			});
+			
+			form.submit().removeAttr('target action');
 
 			setTimeout(function () { myWindow.close();}, 6000);
 
@@ -797,7 +827,11 @@
 		};
 		
 		var download = function(p){
-			if(!$('#iframe-download')[0]){
+			form.addClass('download');
+			
+			submit_notvalidate(p);
+			
+			/*if(!$('#iframe-download')[0]){
 				var iframe = $('<iframe>');
 
 				iframe.attr({
@@ -809,7 +843,7 @@
 
 				$('body').append(iframe);
 			}else
-				$('#iframe-download').attr('src',p.url);
+				$('#iframe-download').attr('src',p.url);*/
 		};
 
 		changesrc.showContents = function(holder){
@@ -1100,6 +1134,12 @@
 
 			},
 			
+			submit_notvalidate : {
+				label : 'Submit Not Validate',
+
+				action : submit_notvalidate
+			},
+			
 			submitpage2file : {
 				label : 'Submit Page to File',
 
@@ -1295,10 +1335,12 @@
 
  				canSubmit = eventCB == false ? false : canSubmit;
 
- 				if (canSubmit)
+ 				if (canSubmit){
  					
- 					$.IGRP.utils.loading.show();
- 					
+ 					if(!form.attr('target') && !form.hasClass('download'))
+ 						
+ 						$.IGRP.utils.loading.show();
+ 				}	
  				else
  					$.IGRP.components.form.hasFieldsError();
  				
