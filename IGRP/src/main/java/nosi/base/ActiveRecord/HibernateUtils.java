@@ -62,7 +62,7 @@ public class HibernateUtils {
 			return SESSION_FACTORY_IGRP_H2;
 		}
 		String fileName = connectionName + "." + dad;
-		if (!SESSION_FACTORY.containsKey(fileName)) {
+		if (!SESSION_FACTORY.containsKey(connectionName)) {
 			SessionFactory sessionFactory = buildSessionFactory(buildConfig(connectionName, fileName, dad).build());
 			if (sessionFactory != null)
 				SESSION_FACTORY.put(connectionName, sessionFactory);
