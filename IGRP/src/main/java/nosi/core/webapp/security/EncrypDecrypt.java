@@ -38,9 +38,9 @@ public class EncrypDecrypt {
 	public static String decrypt(String content) {
 		String customHeader = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE")
 				: null;
-		if (customHeader != null && customHeader.equals("1"))
+		if (customHeader != null && customHeader.equals("1") && content.split("/").length==3)
 			return content;
-			content = decrypt(content.replace(" ", "+"), getSecretKey());
+		content = decrypt(content.replace(" ", "+"), getSecretKey());
 		return content;
 	}
 
