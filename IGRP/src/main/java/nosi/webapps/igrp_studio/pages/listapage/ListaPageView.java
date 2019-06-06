@@ -236,7 +236,7 @@ public class ListaPageView extends View {
 		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_blank","info|fa-gears","","");
 		btn_gerar_codigo.propertie.add("type","specific").add("rel","gerar_codigo");
 
-		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","_openclose","grey|fa-download","","");
+		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","download","grey|fa-download","","");
 		btn_download.propertie.add("type","specific").add("rel","download");
 
 		btn_file_editor = new IGRPButton("File Editor","igrp_studio","ListaPage","file_editor","_blank","info|fa-file-code-o","","");

@@ -22,18 +22,18 @@ public class Wizard_export_step_2Controller extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Officia sed consectetur natus' as descricao_bpmn "));
-		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Anim aliqua doloremque mollit' as descricao_pagina "));
-		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Stract amet officia natus labo' as descricao_report "));
-		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Natus labore voluptatem rem ap' as descricao_menu "));
-		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Elit lorem magna doloremque ma' as descricao_domain "));
-		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Officia unde officia lorem sit' as descricao_dao "));
-		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class_ids,'Sed iste sed sit labore' as descricao_others_class "));
-		model.loadTable_service(Core.query(null,"SELECT '1' as services_ids,'Deserunt anim labore lorem off' as descricao_services "));
-		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Totam lorem officia anim labor' as descricao_conexao "));
-		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Omnis iste sit adipiscing volu' as descricao_transation "));
-		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Labore iste totam aperiam dolo' as descricao_modulo "));
-		model.loadTable_doc_type(Core.query(null,"SELECT '1' as tipo_doc_ids,'Accusantium rem aperiam amet u' as descricao_tipo_doc "));
+		model.loadTable_bpmn(Core.query(null,"SELECT '1' as bpmn_ids,'Aperiam consectetur perspiciat' as descricao_bpmn "));
+		model.loadTable_pagina(Core.query(null,"SELECT '1' as pagina_ids,'Natus magna totam unde sed' as descricao_pagina "));
+		model.loadTable_report(Core.query(null,"SELECT '1' as report_ids,'Doloremque amet omnis magna to' as descricao_report "));
+		model.loadTable_doc_type(Core.query(null,"SELECT '1' as tipo_doc_ids,'Omnis aliqua anim magna sit' as descricao_tipo_doc "));
+		model.loadTable_menu(Core.query(null,"SELECT '1' as menu_ids,'Mollit anim totam amet omnis' as descricao_menu "));
+		model.loadTable_modulo(Core.query(null,"SELECT '1' as modulo_ids,'Elit natus voluptatem mollit v' as descricao_modulo "));
+		model.loadTable_domain(Core.query(null,"SELECT '1' as domain_ids,'Accusantium laudantium adipisc' as descricao_domain "));
+		model.loadTbl_transation(Core.query(null,"SELECT '1' as transation_ids,'Laudantium ipsum ut anim persp' as descricao_transation "));
+		model.loadTable_dao(Core.query(null,"SELECT '1' as dao_ids,'Natus consectetur ipsum accusa' as descricao_dao "));
+		model.loadTable_connections(Core.query(null,"SELECT '1' as conexao_ids,'Anim voluptatem totam laudanti' as descricao_conexao "));
+		model.loadTable_others_class(Core.query(null,"SELECT '1' as others_class_ids,'Amet sed lorem rem sit' as descricao_others_class "));
+		model.loadTable_service(Core.query(null,"SELECT '1' as services_ids,'Amet officia anim ut magna' as descricao_services "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
