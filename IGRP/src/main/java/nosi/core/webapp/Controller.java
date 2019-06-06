@@ -675,7 +675,8 @@ public class Controller{
 						}
 						break;
 					case 3: // forward 
-						String url = "app/webapps" + responseWrapper.getUrl().replaceAll("&&","&");
+						String url = responseWrapper.getUrl().replaceAll("&&","&");
+						url = url.startsWith("webapps")?("app/" + url):("app/webapps" + url);
 						try {
 							Igrp.getInstance().getRequest().getRequestDispatcher(url).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						} catch (ServletException | IOException e) {
