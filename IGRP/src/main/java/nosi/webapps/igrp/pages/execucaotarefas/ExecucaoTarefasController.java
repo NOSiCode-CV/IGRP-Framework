@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import nosi.core.webapp.activit.rest.business.ProcessDefinitionIGRP;
 import nosi.core.webapp.activit.rest.business.TaskServiceIGRP;
 import nosi.core.webapp.activit.rest.entities.TaskService;
 import nosi.core.webapp.activit.rest.helpers.DateHelper;
@@ -523,7 +525,7 @@ public class ExecucaoTarefasController extends Controller {
 				break;
 		}
 		if (Core.isNotNull(proc_tp)) {
-			taskServiceBO.addFilterUrl("processDefinitionId", proc_tp);
+			taskServiceBO.addFilterUrl("processDefinitionKey", proc_tp);
 		}
 		if (Core.isNotNull(num_proc)) {
 			taskServiceBO.addFilterUrl("processInstanceId", num_proc);
@@ -537,7 +539,6 @@ public class ExecucaoTarefasController extends Controller {
 		List<TaskService> tasks = null;
 		switch (type) {
 			case AVAILABLE:
-				taskServiceBO.clearFilterUrl();
 				tasks = taskServiceBO.getAvailableTasks();
 				break;
 			case CONTRIBUTOR:
@@ -646,7 +647,7 @@ public class ExecucaoTarefasController extends Controller {
 		return tasksDisponiveis;
 	}
 
-	private Map<String, String> listProc = new HashMap<>();
+	private Map<String, String> listProc = new ProcessDefinitionIGRP().mapToComboBoxByKey(Core.getCurrentDad());
 	private static final int MANAGE_TASK = 0;
 	private static final int CONTRIBUTOR = 1;
 	private static final int STATISTIC = 2;

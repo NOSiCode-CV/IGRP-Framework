@@ -142,6 +142,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 			this.saveFiles(parts,taskId);
 			Core.removeAttribute("taskId");
 			Core.setMessageSuccess();
+			taskServiceRest.clearFilterUrl();
 			taskServiceRest.addFilterUrl("processDefinitionId",task.getProcessDefinitionId());
 			taskServiceRest.addFilterUrl("processInstanceId", task.getProcessInstanceId());
 			List<TaskService> tasks = taskServiceRest.getAvailableTasks();

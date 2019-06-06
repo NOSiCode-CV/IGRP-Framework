@@ -41,7 +41,7 @@ public class _CONS_PROCController extends Controller {
 		TaskServiceIGRP taskQuery = new TaskServiceIGRP();
 		if(Core.isNotNull(model.getAplicacao())){			
 			if(Core.isNotNull(model.getTipo_processo())){
-				taskQuery.addFilterBody("processDefinitionId", model.getTipo_processo());
+				taskQuery.addFilterBody("processDefinitionKey", model.getTipo_processo());
 			}if(Core.isNotNull(model.getNum())){
 				taskQuery.addFilterBody("processInstanceId", model.getNum());
 			}
@@ -89,7 +89,7 @@ public class _CONS_PROCController extends Controller {
 		
 		view.aplicacao.setValue(new Application().getListApps());	
 		if(app!=null) {
-			view.tipo_processo.setValue(new ProcessDefinitionIGRP().mapToComboBox(app.getDad()));
+			view.tipo_processo.setValue(new ProcessDefinitionIGRP().mapToComboBoxByKey(app.getDad()));
 		}
 
 		view.requerente.setVisible(false);
