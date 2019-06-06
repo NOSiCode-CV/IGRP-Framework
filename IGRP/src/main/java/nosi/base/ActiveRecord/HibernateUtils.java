@@ -220,12 +220,12 @@ public class HibernateUtils {
 			StandardServiceRegistryBuilder.destroy(registry);
 			registry = null;
 		}
-		if (REGISTRY_BUILDER_IGRP != null) {
-			StandardServiceRegistryBuilder.destroy(REGISTRY_BUILDER_IGRP.build());
-		}
-		if (REGISTRY_BUILDER_IGRP_H2 != null) {
-			StandardServiceRegistryBuilder.destroy(REGISTRY_BUILDER_IGRP_H2.build());
-		}
+//		if (REGISTRY_BUILDER_IGRP != null) {
+//			StandardServiceRegistryBuilder.destroy(REGISTRY_BUILDER_IGRP.build());
+//		}
+//		if (REGISTRY_BUILDER_IGRP_H2 != null) {
+//			StandardServiceRegistryBuilder.destroy(REGISTRY_BUILDER_IGRP_H2.build());
+//		}
 	}
 
 	public synchronized static void unregisterAllDrivers() {
