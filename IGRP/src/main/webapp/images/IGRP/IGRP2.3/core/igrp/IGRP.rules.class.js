@@ -568,7 +568,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 					
 					$('.input-group',t).removeClass('d-block');
 					
-					$('.input-group-btn',t).removeClass('hidden');
+					$('.input-group-btn, .lookup-eraser',t).removeClass('hidden');
 					
 					if($('.gen-date-picker',t)[0]){
 						
@@ -594,7 +594,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 					
 					$('.input-group',t).addClass('d-block');
 					
-					$('.input-group-btn',t).addClass('hidden');
+					$('.input-group-btn, .lookup-eraser',t).addClass('hidden');
 					
 					if($('.gen-date-picker',t)[0]){
 						
