@@ -58,7 +58,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public IgrpOAuth2SSO() {
+	public IgrpOAuth2SSO() { 
         super();
     }
     
@@ -87,7 +87,8 @@ public class IgrpOAuth2SSO extends HttpServlet {
 				
 				String client_id = properties.getProperty("ids.wso2.oauth2.client_id");
 				String client_secret = properties.getProperty("ids.wso2.oauth2.client_secret");
-				String endpoint = properties.getProperty("ids.wso2.oauth2.endpoint.token");
+				String endpoint = properties.getProperty("ids.wso2.oauth2.endpoint.token"); 
+				String userEndpoint = properties.getProperty("ids.wso2.oauth2.endpoint.user"); 
 				
 				if(client_id == null || client_id.isEmpty() || client_secret == null || client_secret.isEmpty() || endpoint == null || endpoint.isEmpty()) {
 					response.sendError(500, "Bad configuration ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
@@ -99,154 +100,121 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						return;
 					}
 					
-					// disableSSL(); 
-					
-					String userEndpoint = properties.getProperty("ids.wso2.oauth2.endpoint.user");
-					HttpURLConnection curl = (HttpURLConnection) URI.create(userEndpoint).toURL().openConnection();
-					curl.setDoInput(true);
-					curl.setRequestProperty("Authorization", "Bearer " + token);
-					curl.connect();
-					BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
-					
-					String result = br.lines().collect(Collectors.joining());
-					
-					int code = curl.getResponseCode(); 
-					
-					if(code != 200) {
-						
-						if(code == 401) { // invalid_token 
-							
-							
-							
-						}
-						
-						response.sendError(500, "An error has occured while trying connect to ids !");
-						return;
-						
-					}
-					
-					String uid = "";
-					
-					try {
-						JSONObject jToken = new JSONObject(result);
-						uid = (String) jToken.get("sub");
-					} catch (JSONException e2) {
-						e2.printStackTrace();
-					}
-					
-					// if success create the cookie information 
-					int userId = -1;
-					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 					
 					Properties p = this.load("db", "db_igrp_config.xml");
-					
 					String driverName = p.getProperty("driverConnection", "");
 					String dns = p.getProperty("urlConnection", "");
 					
-					Connection conn = null; 
+					
+					Map<String, Object> map = httpRequestToUserEndpoint(client_id, client_secret, userEndpoint, token);
+					Integer code = (Integer) map.get("statusCode"); 
+					String result = (String) map.get("result"); 
+					
+					Integer userId = -1;
+					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
+					
+					
+					Connection conn = null;  
 					try {
+						
 						Class.forName(driverName);
 						conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
-						conn.setAutoCommit(false);
-						PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
-						ps.setString(1, username);
-						ResultSet rs = ps.executeQuery();
+						conn.setAutoCommit(false); 
 						
-						if(!rs.next()) { // insert the user to the current igrp database 
+						nosi.webapps.igrp.dao.User user = this.getUserById(conn, username);
+						
+						if(code == null) throw new Exception("code == null -> NullPointerException "); 
+						
+						String uid = null; 
+						
+						if(code != 200) {
 							
-							PreparedStatement ps2 = conn.prepareStatement(
-									"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name) "
-									+ "values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-							
-							authenticationKey = User.generateAuthenticationKey();
-							
-							JSONObject jsonUser = new JSONObject(result);
-							
-							try {
-								ps2.setString(8, jsonUser.getJSONObject("data").getString("name")); // name  
-								ps2.setString(4, jsonUser.getJSONObject("data").getString("email")); // email 
-							} catch (JSONException e2) {
-								e2.printStackTrace();
-								ps2.setString(4, jsonUser.getString("sub")); // email
-								ps2.setString(8, jsonUser.getString("sub")); // name  
-							}
-							
-							ps2.setString(1, User.generateActivationKey());
-							ps2.setString(2, authenticationKey);
-							ps2.setLong(3, System.currentTimeMillis());
-							//ps2.setString(5, password); // password 
-							ps2.setInt(5, 1);
-							ps2.setLong(6, System.currentTimeMillis());
-							ps2.setString(7, username); // user_name 
-							
-							int affectedRows = ps2.executeUpdate();
-							
-							conn.commit();
-							
-							if(affectedRows > 0) {
+							if(code == 401) { // invalid_token 
 								
-								int lastInsertedId = -1;	
-								
-								PreparedStatement psUser = conn.prepareStatement("select id from tbl_user where email = ? or user_name = ?"); 
-								psUser.setString(1, username);
-								psUser.setString(2, username);
-								
-								ResultSet rsUser = psUser.executeQuery();
-								
-								if(rsUser.next()) {
-									lastInsertedId = rsUser.getInt("id");
+								if(user != null) {
+									
+									Map<String, Object> _m = httpRequestForRefreshToken(client_id, client_secret, endpoint, user.getRefreshToken()); 
+									Integer code_ = (Integer) _m.get("statusCode"); 
+									String result_ = (String) _m.get("result"); 
+									
+									if(code_ == 200) {
+										
+										boolean b = this.updateUser(conn, result_, username); 
+										
+										try {
+											JSONObject jToken = new JSONObject(result_); 
+											token = (String) jToken.get("access_token"); 
+										} catch (Exception e) {
+											e.printStackTrace();
+											throw new Exception("An error has occured while trying to refresh token !");
+										}
+										
+										map = httpRequestToUserEndpoint(client_id, client_secret, userEndpoint, token);
+										code = (Integer) map.get("statusCode"); 
+										result = (String) map.get("result"); 
+										
+									}else {
+										throw new Exception("An error has occured while trying to refresh token !");
+									}
+									
 								}
 								
-								userId = lastInsertedId;
+							}else 
+								throw new Exception("An error has occured while trying connect to ids !");
+							
+						} else {
+							try {
+								JSONObject jToken = new JSONObject(result);
+								uid = (String) jToken.get("sub");
+							} catch (Exception e2) {
+								e2.printStackTrace();
+							}
+						}
+						
+						if(uid != null) {							
+							if(user != null) {
 								
-								ps2.close();
+								userId = user.getId();
+								authenticationKey = user.getAuth_key(); 
 								
-								PreparedStatement ps3 = conn.prepareStatement("insert into tbl_profile(type, type_fk, org_fk, prof_type_fk, user_fk) values(?, ?, ?, ?, ?)");
+								System.out.println("Utilizador existe ... " + authenticationKey); 
 								
-								ps3.setString(1, "PROF");
-								ps3.setInt(2, 4);
-								ps3.setInt(3, 3);
-								ps3.setInt(4, 4); // For Igrp studio 
-								ps3.setInt(5, lastInsertedId);
-								
-								ps3.addBatch();
-								
-								ps3.setString(1, "ENV");
-								ps3.setInt(2, 3);
-								ps3.setInt(3, 3);
-								ps3.setInt(4, 4); // For Igrp studio 
-								ps3.setInt(5, lastInsertedId);
-								
-								ps3.addBatch();
-								
-								int result1[] = ps3.executeBatch();
-								
-								if(result1.length == 2)
-									conn.commit();
+								boolean bool = setUserIsAuthenticated(conn, username); 
+								System.out.println("bool: " + bool);
 								
 							}else {
-								response.sendError(500, "An internal server error has occurred !");
-								return;
+								
+								System.out.println("Utilizador nao existe ... ");
+								
+								Map<String, Object> _c = new HashMap<String, Object>(); 
+								boolean b = createUserNDefaultProfile(conn, result, username, _c); 
+								
+								if(b) {
+									
+									System.out.println("Utilizador criado ... ");
+									
+									userId = (Integer) _c.get("userId");
+									authenticationKey = (String) _c.get("authenticationKey");
+								}else {
+									throw new Exception("Ocorreu um erro ao registar o utilizador.");
+								}
+								
 							}
+							
 						}else {
-							userId = rs.getInt("id");
-							authenticationKey = rs.getString("auth_key");
+							throw new Exception("An internal server error has occurred ! (uid inválido)");
 						}
-						rs.close();
-						ps.close();
-						conn.close();
-					} catch (SQLException e) {
+						
+						
+					}catch(Exception e) {
+						e.printStackTrace();
 						try {
-							conn.rollback();
-						} catch (SQLException e1) {
-							e1.printStackTrace();
+							if(!conn.isClosed())
+								conn.close();
+						} catch (SQLException e2) {
+							e2.printStackTrace();
 						}
-						e.printStackTrace();
-						response.sendError(500, "A SQLException occurred ... so we block the request !");
-						return;
-					}catch(ClassNotFoundException e) {
-						e.printStackTrace();
-						response.sendError(500, "Database driver not found ... so we block the request !");
+						response.sendError(500, "An internal server error has occurred !");
 						return;
 					}finally {
 						try {
@@ -256,6 +224,11 @@ public class IgrpOAuth2SSO extends HttpServlet {
 							e.printStackTrace();
 						}
 					}
+					
+					
+					System.out.println("Novo cookkie"); 
+					
+					System.out.println("UserId: " + userId + " - authenticatonKey: " + authenticationKey);
 					
 					try {
 						boolean generateNewCookie = false;
@@ -276,11 +249,14 @@ public class IgrpOAuth2SSO extends HttpServlet {
 							generateNewCookie = true;
 						}
 					if(generateNewCookie) {
+						
+						System.out.println("generateNewCookie entrado: " + generateNewCookie);
+						
 						JSONArray json =  new JSONArray();
 						json.put(userId);
 						json.put(authenticationKey);
 						Cookie cookie = new Cookie("_identity-igrp", Base64.getEncoder().encodeToString(json.toString().getBytes()));
-						cookie.setMaxAge(60*60); // 1h
+						cookie.setMaxAge(60*60); // 1h 
 						cookie.setHttpOnly(true);
 						response.addCookie(cookie);
 					}
@@ -364,28 +340,31 @@ public class IgrpOAuth2SSO extends HttpServlet {
 			curl.setDoInput(true);
 			curl.setRequestProperty("Authorization", "Bearer " + token);
 			curl.connect();
+			
+			int code = curl.getResponseCode(); 
+			
+			map.put("statusCode", code); 
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(curl.getInputStream(), "UTF-8"));
 			
 			String result = br.lines().collect(Collectors.joining());
 			
-			int code = curl.getResponseCode(); 
-			
-			map.put("statusCode", code);
-			map.put("result", code);
+			map.put("result", result); 
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return map; 
 	}
 	
 	
-	private Map<String, Object> httpRequestForRefreshToken(String client_id, String client_secret, String token_endpoint, String token){
+	private Map<String, Object> httpRequestForRefreshToken(String client_id, String client_secret, String token_endpoint, String refresh_token){
 		Map<String, Object> map = new HashMap<String, Object>(); 
 		
 		try {
 			
-			String postData = "grant_type=refresh_token&refresh_token=" + "&client_id=" + client_id + "&client_secret=" + client_secret;
+			String postData = "grant_type=refresh_token&refresh_token=" + refresh_token + "&client_id=" + client_id + "&client_secret=" + client_secret;
 			
 			HttpURLConnection curl = (HttpURLConnection) URI.create(token_endpoint).toURL().openConnection();
 			curl.setDoOutput(true);
@@ -406,10 +385,11 @@ public class IgrpOAuth2SSO extends HttpServlet {
 			
 			int statuCode = curl.getResponseCode(); 
 			
-			map.put("statusCode", statuCode);
+			map.put("statusCode", statuCode); 
 			map.put("result", r);
 			
 		} catch (Exception e) {
+			e.printStackTrace(); 
 		}
 		
 		return map; 
@@ -431,6 +411,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 				user.setRefreshToken(rs.getString("refresh_token")); 
 				user.setValid_until(rs.getString("valid_until")); 
 				user.setOidcState(rs.getString("oidc_state")); 
+				user.setAuth_key(rs.getString("auth_key"));
 			}
 			ps.close();
 			rs.close();
@@ -440,14 +421,16 @@ public class IgrpOAuth2SSO extends HttpServlet {
 	}
 	
 	
-	private boolean createUserNDefaultProfile(Connection conn, String result, String user_name) {  
+	private boolean createUserNDefaultProfile(Connection conn, String result, String user_name, Map<String, Object> _r) {  
 		boolean flag = true;
 		try {
 			PreparedStatement ps2 = conn.prepareStatement(
-					"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name) " 
-					+ " values(?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS);
+					"insert into tbl_user(activation_key, auth_key, created_at, email, status, updated_at, user_name, name, is_authenticated) " 
+					+ " values(?, ?, ?, ?, ?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS);
 			
 			String authenticationKey = User.generateAuthenticationKey(); 
+			
+			_r.put("authenticationKey", authenticationKey);
 			
 			JSONObject jsonUser = new JSONObject(result); 
 			
@@ -467,6 +450,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 			ps2.setInt(5, 1);
 			ps2.setLong(6, System.currentTimeMillis()); 
 			ps2.setString(7, user_name); // user_name 
+			ps2.setInt(9, 1); 
 			
 			int affectedRows = ps2.executeUpdate();
 			
@@ -478,37 +462,42 @@ public class IgrpOAuth2SSO extends HttpServlet {
 				
 				int lastInsertedId = -1;	
 				
-				if(u != null) 
-					lastInsertedId = u.getId();
+				if(u != null) {
+					lastInsertedId = u.getId(); 
+					_r.put("userId", lastInsertedId);
+				}
 				
 				ps2.close();
 				
 				PreparedStatement ps3 = conn.prepareStatement("insert into tbl_profile(type, type_fk, org_fk, prof_type_fk, user_fk) values(?, ?, ?, ?, ?)");
-				
+				/*
 				ps3.setString(1, "PROF");
 				ps3.setInt(2, 4);
 				ps3.setInt(3, 3);
 				ps3.setInt(4, 4); // For Igrp studio 
-				ps3.setInt(5, lastInsertedId);
+				ps3.setInt(5, lastInsertedId); 
 				
-				ps3.addBatch();
+				ps3.addBatch();*/
 				
 				ps3.setString(1, "ENV");
-				ps3.setInt(2, 3);
-				ps3.setInt(3, 3);
-				ps3.setInt(4, 4); // For Igrp studio 
+				ps3.setInt(2, 2);
+				ps3.setInt(3, 2);
+				ps3.setInt(4, 3); // For Igrp tutorial   
 				ps3.setInt(5, lastInsertedId);
 				
 				ps3.addBatch();
 				
-				int result1[] = ps3.executeBatch();
+				int result1[] = ps3.executeBatch(); 
 				
-				if(result1.length == 2)
-					conn.commit();
+				if(result1.length > 0 )
+					conn.commit(); 
+				
+				ps3.close();
 			
 			}
 			
-		} catch (Exception e) { 
+		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (SQLException e1) { 
@@ -545,15 +534,53 @@ public class IgrpOAuth2SSO extends HttpServlet {
 			
 			int r = ps.executeUpdate(); 
 			
-			flag = r > 0;
+			flag = r > 0; 
+			
+			conn.commit();
 			
 		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			flag = false; 
 		}
 		
 		return flag;
 	}
 	
+	private boolean setUserIsAuthenticated(Connection conn, String user_name) {
+		boolean flag = true; 
+		
+		try {
+			
+			String sql = "update tbl_user " 
+					+ "set " 
+						+ " is_authenticated = ? " 
+						+ " where user_name = ? or email = ? "; 
+			PreparedStatement ps = conn.prepareStatement(sql); 
+			ps.setInt(1, 1);
+			ps.setString(2, user_name); 
+			ps.setString(3, user_name); 
+			
+			int r = ps.executeUpdate(); 
+			
+			flag = r > 0; 
+			
+			conn.commit();
+			
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			flag = false; 
+		}
+		
+		return flag;
+	}
 	
 	
 }
