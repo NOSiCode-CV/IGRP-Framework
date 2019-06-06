@@ -1,9 +1,30 @@
 <div class="box">
 	<div class="box-body IGRP-separatorlist" tag="#tag#" dialog="#[dialog]#">
+	
+		<xsl:if test="#path#/@noedit and #path#/@noedit = 'true'">
+	      <xsl:attribute name="noedt">
+	        <xsl:value-of select="#path#/@noedit" />
+	      </xsl:attribute>
+	    </xsl:if>
+	    
+	    <xsl:if test="#path#/@noadd and #path#/@noadd = 'true'">
+	      <xsl:attribute name="noadd">
+	        <xsl:value-of select="#path#/@noadd" />
+	      </xsl:attribute>
+	    </xsl:if>
+	    
+	    <xsl:if test="#path#/@nodelete and #path#/@nodelete = 'true'">
+	      <xsl:attribute name="nodel">
+	        <xsl:value-of select="#path#/@nodelete" />
+	      </xsl:attribute>
+	    </xsl:if>
+	    
 		<div class="splist-form-holder">
-			<div class="splist-form" role="form" gen-id="drop-zone" gen-field-template="form.field">
-				<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
-			</div>
+			<xsl:if test="(not(#path#/@noadd) or #path#/@noadd != 'true')">
+				<div class="splist-form" role="form" gen-id="drop-zone" gen-field-template="form.field">
+					<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+				</div>
+			</xsl:if>
 		</div>
 		<div class="table-box box-body box-table-contents splist-table">
 			<table rel="T_#tag#" id="#tag#" class="table #[ordertable]# table-striped gen-data-table">
@@ -11,9 +32,11 @@
 					<tr gen-id="drop-zone" gen-field-template="th">
 						#[countHeader]#
 						<th gen-preserve="last" class="table-btn">
-							<a class="table-row-add btn-xs btn btn-primary" title="Add" data-toggle="tooltip" data-placement="left" >
-                              <i class="fa fa-plus"/>
-                            </a>
+							<xsl:if test="(not(#path#/@noadd) or #path#/@noadd != 'true')">
+								<a class="table-row-add btn-xs btn btn-primary" title="Add" data-toggle="tooltip" data-placement="left" >
+	                              <i class="fa fa-plus"/>
+	                            </a>
+                            </xsl:if>
 						</th>
 					</tr>
 				</thead>
@@ -23,12 +46,12 @@
 						<tr gen-id="drop-zone" gen-field-template="td">
 							#[countRow]#
 							<td data-row="{position()}" class="table-btn" gen-preserve="last">
-								<xsl:if test="not(@noupdate)">
+								<xsl:if test="not(//#path#/@noedit) or //#path#/@noedit != 'true'">
 									<span class="table-row-edit btn btn-warning " rel="#tag#" title="Edit" data-toggle="tooltip" data-placement="left">
 										<i class="fa fa-pencil"></i>
 									</span>
 								</xsl:if>
-								<xsl:if test="not(@nodelete)">
+								<xsl:if test="not(//#path#/@nodelete) or //#path#/@nodelete != 'true'">
 									<span class="table-row-remove btn btn-danger" rel="#tag#" title="Remove" data-toggle="tooltip" data-placement="right">
 										<i class="fa fa-times"></i>
 									</span>
