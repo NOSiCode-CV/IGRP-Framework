@@ -178,6 +178,15 @@ public class IGRPSeparatorList extends IGRPTable {
 		return this.xml.toString();
 	}
 	
+	public void noEdit() {
+		this.properties.add("noedit", "true");
+	}
+	public void noDelete() {
+		this.properties.add("nodelete", "true");
+	}
+	public void noAdd() {
+		this.properties.add("noadd", "true");
+	}
 	public static class Pair{
 		
 		private String key;
