@@ -555,8 +555,13 @@
     $('.IGRP_formlist').IGRP_formlist();
     
     $.IGRP.events.on('element-transform',function(p){
-        if($('.IGRP_formlist',p.content)[0])
+        if($('.IGRP_formlist',p.content)[0]){
             $('.IGRP_formlist',p.content).IGRP_formlist();
+            
+            if($('.IGRP_formlist',p.content).hasClass('ordertable'))
+            	$.IGRP.components.tableCtrl.ordertable('#'+$('.IGRP_formlist',p.content).attr('id'));
+            	
+        }
     });
 
     /*$('.IGRP_formlist [item-type="plaintext"]').each(function(){
