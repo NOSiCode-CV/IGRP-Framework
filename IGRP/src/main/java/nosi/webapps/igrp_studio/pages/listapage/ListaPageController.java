@@ -40,8 +40,8 @@ public class ListaPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Adipiscing ut lorem perspiciat' as descricao_page,'hidden-c21d_6209' as id_page,'hidden-f8a5_987f' as nome_page "));
-		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-0ec8_036a' as env_fk "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status_page,'Elit iste labore unde ut' as descricao_page,'hidden-c590_ea18' as id_page,'hidden-1ed4_74bc' as nome_page "));
+		model.loadTable_2(Core.query(null,"SELECT '/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg' as my_app_img,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml' as my_aplicacao,'hidden-884e_c48a' as env_fk "));
 		view.application.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.modulo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -275,7 +275,7 @@ public class ListaPageController extends Controller {
 			Wizard_export_step_2 model_w = new Wizard_export_step_2();
 			model_w.setApplication_id(page.getApplication().getId());
 			model_w.setFile_name(page.getApplication().getName()+"-"+page.getPage_descr()+"("+page.getPage()+")_igrpweb_v."+config.VERSION);
-			Core.setAttribute("p_pagina_ids_check",new String[] {""+id});
+			Core.setAttribute("p_pagina_ids_check_fk",new String[] {""+id});
 			// insert data on import/export table
 			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),DateHelper.getCurrentDataTime(), "Export");
 			ie_dao = ie_dao.insert();

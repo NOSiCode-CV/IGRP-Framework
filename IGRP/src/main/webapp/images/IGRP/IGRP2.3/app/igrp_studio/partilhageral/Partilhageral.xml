@@ -71,7 +71,7 @@
                     </list>
                     <rules/>
                 </aplicacao_origem>
-                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="true" java-type="" tags="false">
+                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="true" java-type="" tags="false">
                     <label>Tipo</label>
                     <list>
                         <option/>
@@ -92,16 +92,17 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </elemento>
                 <hidden name="p_app_or" type="hidden" maxlength="250" java-type="String" tag="app_or"/>
             </fields>
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
+                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" check="true" desc="true">
                     <label></label>
                 </estado>
-                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
+                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false" showLabel="true">
                     <label>Nome (code)</label>
                 </nome>
             </fields>
@@ -110,27 +111,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Sed totam deserunt sed aperiam ipsum lorem sit rem natus laudantium anim natus totam amet deserunt m</nome>
+                        <nome name="p_nome">Iste natus sit laudantium deserunt anim labore laudantium iste natus iste voluptatem labore aliqua m</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Adipiscing accusantium sit accusantium unde laudantium stract mollit aperiam anim ipsum accusantium</nome>
+                        <nome name="p_nome">Mollit sed omnis elit sit doloremque totam iste aliqua laudantium iste lorem aperiam magna amet aper</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Omnis consectetur perspiciatis ut ut iste dolor perspiciatis sed rem aperiam laudantium deserunt adi</nome>
+                        <nome name="p_nome">Perspiciatis consectetur officia aperiam ut sed mollit anim stract magna dolor iste stract iste stra</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Totam lorem doloremque iste ipsum consectetur totam voluptatem doloremque officia elit doloremque ap</nome>
+                        <nome name="p_nome">Deserunt adipiscing dolor mollit omnis aliqua laudantium lorem aperiam totam amet ipsum accusantium</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Consectetur iste voluptatem accusantium iste totam omnis doloremque rem deserunt dolor omnis adipisc</nome>
+                        <nome name="p_nome">Iste consectetur ut perspiciatis labore iste officia rem voluptatem ipsum anim elit omnis sit volupt</nome>
                     </row>
                 </value>
             </table>

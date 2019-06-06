@@ -101,6 +101,9 @@ $.fn.separatorList = function(o){
 				inputRowId 	= '<input type="hidden" class="sl-row-id" name="p_'+tableId+'_id" value="'+rowId+'"/>';
 			var contentsObj = {};
 			
+			if(rowId && rowId != undefined)
+				inputRowId += '<input type="hidden" class="sl-row-id-edit" name="p_'+tableId+'_edit" value="'+rowId+'"/>';
+			
 			var valid = sl.events.execute('valid-row-add',{
 				values : values,
 				action : action || 'add',

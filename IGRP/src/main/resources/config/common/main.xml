@@ -32,7 +32,7 @@
 	<entry key="igrp.plsql.url">https://nosiappsdev.gov.cv/redglobal/restapi/userapps/</entry>
 	
 	<!--  -->
-	<entry key="igrp.authentication.govcv.enbaled">true</entry>
+	<entry key="igrp.authentication.govcv.enbaled">false</entry>
 	
 	<!-- Decides in new user (novoutilizador) if addsRolesToUser -->
 	<entry key="kriol.addrole.user">false</entry>

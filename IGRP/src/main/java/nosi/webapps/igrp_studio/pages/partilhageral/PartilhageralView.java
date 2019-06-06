@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class PartilhageralView extends View {
 
@@ -55,14 +56,14 @@ public class PartilhageralView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt(" "));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		nome = new PlainTextField(model,"nome");
 		nome.setLabel(gt("Nome (code)"));
-		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100");
+		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("showLabel","true");
 		
 		aplicacao_destino = new ListField(model,"aplicacao_destino");
 		aplicacao_destino.setLabel(gt("Aplicação destino"));

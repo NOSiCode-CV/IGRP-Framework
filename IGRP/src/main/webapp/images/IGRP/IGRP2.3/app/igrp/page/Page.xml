@@ -61,7 +61,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Consectetur omnis totam dolor totam</value>
+                    <value>Iste voluptatem ut stract consectetur</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Ut sit labore sit iste</value>
+                    <value>Iste officia aliqua anim lorem</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -98,9 +98,9 @@
                     <value>1</value>
                     <rules/>
                 </publico>
-                <public_link name="p_public_link" type="url" maxlength="250" required="false" change="false" readonly="true" disabled="true" placeholder="" desclabel="false" right="true">
+                <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="true" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>http://lirvufgeg.org/powvu</value>
+                    <value>Totam magna unde ipsum accusantium</value>
                 </public_link>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>

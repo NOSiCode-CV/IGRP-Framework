@@ -34,7 +34,6 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 	}
 	
 	public List<TaskService> getMyTasks(){
-		taskServiceRest.clearFilterUrl();
 		taskServiceRest.addFilterUrl("assignee", Core.getCurrentUser().getUser_name());
 		taskServiceRest.addFilterUrl("tenantId", Core.getCurrentDad());
 		return taskServiceRest.getTasks();
@@ -55,7 +54,6 @@ public class TaskServiceIGRP extends GenericActivitiIGRP{
 	
 	
 	public List<TaskService> getMabageTasks() {
-		taskServiceRest.clearFilterUrl();
 		List<TaskService> tasks =  taskServiceRest.getTasks();
 		List<TaskAccess> myTasAccess = new TaskAccess().getTaskAccess();
 		this.setMyProccessAccess();

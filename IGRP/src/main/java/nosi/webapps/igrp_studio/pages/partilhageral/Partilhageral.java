@@ -1,5 +1,7 @@
 package nosi.webapps.igrp_studio.pages.partilhageral;
 
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -65,19 +67,19 @@ public class Partilhageral extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private Integer estado;
-		private Integer estado_check;
+		private int estado;
+		private int estado_check;
 		private String nome;
-		public void setEstado(Integer estado){
+		public void setEstado(int estado){
 			this.estado = estado;
 		}
-		public Integer getEstado(){
+		public int getEstado(){
 			return this.estado;
 		}
-		public void setEstado_check(Integer estado_check){
+		public void setEstado_check(int estado_check){
 			this.estado_check = estado_check;
 		}
-		public Integer getEstado_check(){
+		public int getEstado_check(){
 			return this.estado_check;
 		}
 

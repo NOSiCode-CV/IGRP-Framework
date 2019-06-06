@@ -367,6 +367,9 @@
 
 						});
 					}
+					
+					if(table.hasClass('ordertable'))
+		            	$.IGRP.components.tableCtrl.ordertable('#'+id);
 
 					if ($.IGRP.components.tableCtrl.pagination)
 						$.IGRP.components.tableCtrl.pagination('ul[filter-name="p_'+id+'_filter"]');
