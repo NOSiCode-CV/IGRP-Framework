@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
@@ -12,6 +11,7 @@ public class ResetpasswordView extends View {
 
 	public Field sectionheader_1_text;
 	public Field username;
+	public Field nafa;
 	public Field nova_senha;
 	public Field confirmar_nova_senha;
 	public Field sign_in;
@@ -23,7 +23,7 @@ public class ResetpasswordView extends View {
 
 	public ResetpasswordView(){
 
-		this.setPageTitle("resetpassword");
+		this.setPageTitle("Reset password");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
@@ -38,25 +38,29 @@ public class ResetpasswordView extends View {
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","true");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","true").add("desclabel","false");
+		
+		nafa = new SeparatorField(model,"nafa");
+		nafa.setLabel(gt(""));
+		nafa.propertie().add("name","p_nafa").add("type","separator").add("maxlength","250").add("desclabel","false");
 		
 		nova_senha = new PasswordField(model,"nova_senha");
 		nova_senha.setLabel(gt("Nova Senha"));
-		nova_senha.propertie().add("name","p_nova_senha").add("type","password").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false");
+		nova_senha.propertie().add("name","p_nova_senha").add("type","password").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		confirmar_nova_senha = new PasswordField(model,"confirmar_nova_senha");
 		confirmar_nova_senha.setLabel(gt("Confirmar Nova Senha"));
-		confirmar_nova_senha.propertie().add("name","p_confirmar_nova_senha").add("type","password").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false");
+		confirmar_nova_senha.propertie().add("name","p_confirmar_nova_senha").add("type","password").add("maxlength","50").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		sign_in = new LinkField(model,"sign_in");
 		sign_in.setLabel(gt("Sign in"));
-		sign_in.setValue(new Config().getResolveUrl("igrp","login","login"));
+		sign_in.setValue(new Config().getResolveUrl("igrp","Dominio","index"));
 
-									sign_in.propertie().add("name","p_sign_in").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
+									sign_in.propertie().add("name","p_sign_in").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250").add("refresh_submit","false").add("desclabel","false");
 		
 
 
-		btn_guardar = new IGRPButton("Guardar","igrp","Resetpassword","guardar","submit_form","success|fa-save","","");
+		btn_guardar = new IGRPButton("Guardar","igrp","Resetpassword","guardar","submit_form","primary|fa-save","","");
 		btn_guardar.propertie.add("type","form").add("rel","guardar");
 
 		
@@ -68,6 +72,7 @@ public class ResetpasswordView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(username);
+		form_1.addField(nafa);
 		form_1.addField(nova_senha);
 		form_1.addField(confirmar_nova_senha);
 
@@ -83,6 +88,7 @@ public class ResetpasswordView extends View {
 	public void setModel(Model model) {
 		
 		username.setValue(model);
+		nafa.setValue(model);
 		nova_senha.setValue(model);
 		confirmar_nova_senha.setValue(model);
 		sign_in.setValue(model);	

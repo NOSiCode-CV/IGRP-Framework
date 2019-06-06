@@ -21,6 +21,7 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/exception".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/exception".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/notFound".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/notFound".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/login/logout".toLowerCase());	
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/detailPage".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listPage".toLowerCase());
@@ -41,6 +42,7 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/notFound".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/notFound".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/pesquisar-menu/myMenu".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/pesquisar-menu/topMenu".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp_studio/env/myApps".toLowerCase());

@@ -36,18 +36,18 @@ public class MenuOrganicaView extends View {
 
 		menu = new CheckBoxField(model,"menu");
 		menu.setLabel(gt(" "));
-		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		menu_check = new CheckBoxField(model,"menu_check");
-		menu_check.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		menu_check.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		app = new HiddenField(model,"app");
 		app.setLabel(gt(""));
-		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","app");
+		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","app");
 		
 		env_fk = new HiddenField(model,"env_fk");
 		env_fk.setLabel(gt(""));

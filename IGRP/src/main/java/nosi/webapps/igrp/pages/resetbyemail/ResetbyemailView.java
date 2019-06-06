@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
@@ -21,7 +20,7 @@ public class ResetbyemailView extends View {
 
 	public ResetbyemailView(){
 
-		this.setPageTitle("Resetbyemail");
+		this.setPageTitle("Reset by email");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 
@@ -36,13 +35,13 @@ public class ResetbyemailView extends View {
 		
 		form_1_email_1 = new EmailField(model,"form_1_email_1");
 		form_1_email_1.setLabel(gt("Email"));
-		form_1_email_1.propertie().add("name","p_form_1_email_1").add("type","email").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
+		form_1_email_1.propertie().add("name","p_form_1_email_1").add("type","email").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		sign_in = new LinkField(model,"sign_in");
 		sign_in.setLabel(gt("Sign in"));
-		sign_in.setValue(new Config().getResolveUrl("igrp","login","login"));
+		sign_in.setValue(new Config().getResolveUrl("igrp","Dominio","index"));
 
-									sign_in.propertie().add("name","p_sign_in").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250");
+									sign_in.propertie().add("name","p_sign_in").add("type","link").add("target","_self").add("request_fields","").add("maxlength","250").add("refresh_submit","false").add("desclabel","false");
 		
 
 

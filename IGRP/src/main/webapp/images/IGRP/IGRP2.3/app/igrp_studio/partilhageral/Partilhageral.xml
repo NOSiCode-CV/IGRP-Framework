@@ -111,27 +111,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Iste natus sit laudantium deserunt anim labore laudantium iste natus iste voluptatem labore aliqua m</nome>
+                        <nome name="p_nome">Ipsum accusantium natus ipsum totam labore iste voluptatem rem totam aliqua iste sit adipiscing ipsu</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Mollit sed omnis elit sit doloremque totam iste aliqua laudantium iste lorem aperiam magna amet aper</nome>
+                        <nome name="p_nome">Aliqua perspiciatis unde sed natus anim laudantium ipsum sed labore omnis lorem voluptatem amet rem</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Perspiciatis consectetur officia aperiam ut sed mollit anim stract magna dolor iste stract iste stra</nome>
+                        <nome name="p_nome">Anim perspiciatis voluptatem sed unde adipiscing unde lorem sit voluptatem consectetur officia sit s</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Deserunt adipiscing dolor mollit omnis aliqua laudantium lorem aperiam totam amet ipsum accusantium</nome>
+                        <nome name="p_nome">Anim amet aperiam deserunt ut doloremque laudantium sit totam magna unde lorem rem officia mollit de</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Iste consectetur ut perspiciatis labore iste officia rem voluptatem ipsum anim elit omnis sit volupt</nome>
+                        <nome name="p_nome">Accusantium aliqua deserunt consectetur doloremque ipsum aperiam dolor aperiam dolor ipsum mollit vo</nome>
                     </row>
                 </value>
             </table>
@@ -169,7 +169,7 @@
                 <app>igrp_studio</app>
                 <page>Partilhageral</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>submit_ajax</target>
                 <img>success|fa-share-alt</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xml</preview>
             </item>

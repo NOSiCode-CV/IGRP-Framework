@@ -50,45 +50,45 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Menu «--» Profile" gen-type="container" gen-group="true">
             <fields>
-                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="" check="true" desc="true">
+                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" check="true" desc="true">
                     <label></label>
                 </menu>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true">
                     <label>Nome</label>
                 </descricao>
-                <app name="p_app" type="hidden" maxlength="30" iskey="false" java-type="" tag="app"/>
+                <app name="p_app" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="app"/>
             </fields>
             <table>
                 <value>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Dolor doloremque omnis accusan</descricao>
-                        <app name="p_app" tag="app">hidden-7db1_75bf</app>
+                        <descricao name="p_descricao">Voluptatem aperiam deserunt si</descricao>
+                        <app name="p_app" tag="app">hidden-fed5_4aff</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Deserunt adipiscing rem totam</descricao>
-                        <app name="p_app" tag="app">hidden-7adf_2778</app>
+                        <descricao name="p_descricao">Sit natus sit iste anim</descricao>
+                        <app name="p_app" tag="app">hidden-927d_5d7a</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Accusantium sit adipiscing ut</descricao>
-                        <app name="p_app" tag="app">hidden-d713_f5b1</app>
+                        <descricao name="p_descricao">Sit natus ipsum dolor doloremq</descricao>
+                        <app name="p_app" tag="app">hidden-6178_a68d</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Aperiam sit voluptatem ut natu</descricao>
-                        <app name="p_app" tag="app">hidden-248b_5f76</app>
+                        <descricao name="p_descricao">Iste natus magna perspiciatis</descricao>
+                        <app name="p_app" tag="app">hidden-f68d_f16e</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Adipiscing doloremque ut sit p</descricao>
-                        <app name="p_app" tag="app">hidden-3604_977a</app>
+                        <descricao name="p_descricao">Labore unde labore sed aliqua</descricao>
+                        <app name="p_app" tag="app">hidden-7773_e645</app>
                     </row>
                 </value>
             </table>

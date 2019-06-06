@@ -47,20 +47,20 @@ public class MenuOrganica extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
-		private Integer menu;
-		private Integer menu_check;
+		private int menu;
+		private int menu_check;
 		private String descricao;
 		private String app;
-		public void setMenu(Integer menu){
+		public void setMenu(int menu){
 			this.menu = menu;
 		}
-		public Integer getMenu(){
+		public int getMenu(){
 			return this.menu;
 		}
-		public void setMenu_check(Integer menu_check){
+		public void setMenu_check(int menu_check){
 			this.menu_check = menu_check;
 		}
-		public Integer getMenu_check(){
+		public int getMenu_check(){
 			return this.menu_check;
 		}
 

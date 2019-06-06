@@ -29,7 +29,7 @@ public class PartilhageralController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Ut elit aperiam magna amet doloremque anim ipsum elit perspiciatis amet aliqua perspiciatis mollit u' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Officia iste elit doloremque amet sed unde accusantium ut iste elit totam consectetur aliqua amet pe' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -78,7 +78,7 @@ public class PartilhageralController extends Controller {
 	
 						List<Share> shares = new ArrayList<Share>();
 						shares = new Share().getAllSharedResources(Core.toInt(model.getAplicacao_origem()),
-								Core.toInt(model.getAplicacao_destino()), tp.PAGE.getCodigo());
+								Core.toInt(model.getAplicacao_destino()), TipoPartilha.PAGE.getCodigo());
 						for (Action page : pages) {
 							Partilhageral.Table_1 row = new Partilhageral.Table_1();
 							row.setEstado(page.getId());
@@ -130,6 +130,8 @@ public class PartilhageralController extends Controller {
 						}
 						
 					break;
+				default:
+					break;
 					
 					}
 					
@@ -178,8 +180,8 @@ public class PartilhageralController extends Controller {
 					.andWhere("owner.id", "=", Core.toInt(model.getAplicacao_origem())).andWhere("type", "=", model.getElemento())
 					.all();
 
-			CheckBoxHelper cp = Core.extractCheckBox(Core.getParamArray("p_estado"),
-					Core.getParamArray("p_estado_check"));
+			CheckBoxHelper cp = Core.extractCheckBox(Core.getParamArray("p_estado_fk"),
+					Core.getParamArray("p_estado_check_fk"));
 
 			List<Share> sharesRemoved = new ArrayList<Share>();
 

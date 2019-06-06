@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.menuorganica;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -28,7 +29,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Ipsum totam deserunt natus con' as descricao,'hidden-97e6_63e3' as app "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as menu,'Stract stract adipiscing natus' as descricao,'hidden-b804_db70' as app "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 
@@ -157,8 +158,8 @@ public class MenuOrganicaController extends Controller {
 	}
 
 	private void saveMenu(MenuOrganica model) {
-		String[] p_menu = Core.getParamArray("p_menu");
-		String[] p_menu_check = Core.getParamArray("p_menu_check");
+		String[] p_menu = Core.getParamArray("p_menu_fk");
+		String[] p_menu_check = Core.getParamArray("p_menu_check_fk");
 		CheckBoxHelper cb = Core.extractCheckBox(p_menu, p_menu_check);
 		this.removeMenu(model, cb.getUncheckedIds());
 		this.insetMenu(model, this.filterIds(model, cb.getChekedIds()));

@@ -2789,7 +2789,7 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Receives a date in a default string format and converts it to java.util.Date
+	 * Receives a date in a default string format dd-MM-yyy and converts it to java.util.Date
 	 *
 	 * @param strDate
 	 * @return a java.util.Date with a format declared in the class Cons
@@ -2802,12 +2802,12 @@ public final class Core { // Not inherit
 	 * Receives a date in a default string with a sent format
 	 * 
 	 * @param strDate
-	 * @param format
+	 * @param formatIn
 	 * @return a java.util.Date with a specified format
 	 */
-	public static java.util.Date ToDateUtil(String strDate, String format) {
+	public static java.util.Date ToDateUtil(String strDate, String formatIn) {
 		java.util.Date date;
-		DateFormat df = new SimpleDateFormat(format);
+		DateFormat df = new SimpleDateFormat(formatIn);
 		try {
 			date = df.parse(strDate);
 		} catch (ParseException e) {

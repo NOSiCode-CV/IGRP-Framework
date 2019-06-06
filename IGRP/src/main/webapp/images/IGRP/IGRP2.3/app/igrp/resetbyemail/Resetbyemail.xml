@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/passwordrecovery/resetbyemail/Resetbyemail.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/resetbyemail/Resetbyemail.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <title>Dummie XML prototype</title>
@@ -17,11 +17,11 @@
         </button>
     </site>
     <page>Resetbyemail</page>
-    <app>passwordrecovery</app>
+    <app>igrp</app>
     <plsql>
         <action>index</action>
         <package_instance></package_instance>
-        <package_db>nosi.webapps.passwordrecovery.pages</package_db>
+        <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>Resetbyemail</package_html>
         <table_name></table_name>
         <with_replace>false</with_replace>
@@ -31,12 +31,12 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=65</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=907</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
-        <title>Resetbyemail</title>
+        <title>Reset by email</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -48,9 +48,9 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <form_1_email_1 name="p_form_1_email_1" type="email" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <form_1_email_1 name="p_form_1_email_1" type="email" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Email</label>
-                    <value>tuku@example.com</value>
+                    <value>ufbon@example.com</value>
                 </form_1_email_1>
             </fields>
             <tools-bar>
@@ -62,14 +62,15 @@
                     <parameter>undefined?</parameter>
                     <target>submit_form</target>
                     <img>primary|fa-send-o</img>
+                    <preview>undefined</preview>
                 </item>
             </tools-bar>
         </form_1>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <sign_in name="p_sign_in" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="Resetbyemail" app="passwordrecovery" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-sign-in" maxlength="250" placeholder="" right="false">
+                <sign_in name="p_sign_in" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="Dominio" app="igrp" custom_action="" action_type="false" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-sign-in" maxlength="250" placeholder="" right="false" refresh_submit="false" desclabel="false">
                     <label>Sign in</label>
-                    <value>/IGRP/images/IGRP/IGRP2.3/app/passwordrecovery/resetbyemail/Resetbyemail.xml</value>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</value>
                 </sign_in>
             </fields>
         </form_2>

@@ -72,7 +72,7 @@ public class PartilhageralView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_partilhar = new IGRPButton("Partilhar","igrp_studio","Partilhageral","partilhar","submit","success|fa-share-alt","","");
+		btn_partilhar = new IGRPButton("Partilhar","igrp_studio","Partilhageral","partilhar","submit_ajax","success|fa-share-alt","","");
 		btn_partilhar.propertie.add("type","specific").add("rel","partilhar");
 
 		

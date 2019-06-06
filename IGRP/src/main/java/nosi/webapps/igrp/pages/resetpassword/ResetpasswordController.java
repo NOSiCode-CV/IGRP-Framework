@@ -1,7 +1,8 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -30,6 +31,7 @@ public class ResetpasswordController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetpassword model = new Resetpassword();
 		model.load();
+		model.setSign_in("igrp","Dominio","index");
 		ResetpasswordView view = new ResetpasswordView();
 		/*----#start-code(index)----*/
 		model.setSign_in("igrp","login","login");
@@ -69,10 +71,16 @@ public class ResetpasswordController extends Controller {
 	}
 	
 	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Resetpassword model = new Resetpassword();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(guardar)----*/
 		
-      Resetpassword model = new Resetpassword();
-		model.load();
+    
       
 		String token = Core.getParam("t");
 		User user = null;
@@ -132,8 +140,7 @@ public class ResetpasswordController extends Controller {
 		this.addQueryString("isPublic", "1");
 		
 /*----#end-code----*/
-		
-		return this.redirect("igrp","Resetpassword","index", this.queryString());	
+		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/

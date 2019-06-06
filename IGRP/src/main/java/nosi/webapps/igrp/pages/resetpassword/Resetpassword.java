@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.resetpassword;
 
-
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
@@ -11,6 +10,8 @@ public class Resetpassword extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_username")
 	private String username;
+	@RParam(rParamName = "p_nafa")
+	private String nafa;
 	@RParam(rParamName = "p_nova_senha")
 	private String nova_senha;
 	@RParam(rParamName = "p_confirmar_nova_senha")
@@ -32,6 +33,13 @@ public class Resetpassword extends Model{
 	}
 	public String getUsername(){
 		return this.username;
+	}
+	
+	public void setNafa(String nafa){
+		this.nafa = nafa;
+	}
+	public String getNafa(){
+		return this.nafa;
 	}
 	
 	public void setNova_senha(String nova_senha){

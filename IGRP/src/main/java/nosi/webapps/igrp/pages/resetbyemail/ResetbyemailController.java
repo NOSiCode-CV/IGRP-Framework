@@ -1,7 +1,8 @@
 package nosi.webapps.igrp.pages.resetbyemail;
 
-
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -26,7 +27,7 @@ public class ResetbyemailController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Resetbyemail model = new Resetbyemail();
 		model.load();
-		
+		model.setSign_in("igrp","Dominio","index");
 		ResetbyemailView view = new ResetbyemailView();
 		/*----#start-code(index)----*/
 		model.setSign_in("igrp","login","login&isPublic=0&target=_self");
@@ -38,10 +39,15 @@ public class ResetbyemailController extends Controller {
 	}
 	
 	public Response actionEnviar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Resetbyemail model = new Resetbyemail();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","resetbyemail","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(enviar)----*/
 		
-      Resetbyemail model = new Resetbyemail();
-		model.load();
       
 		String token = nosi.core.webapp.User.generatePasswordResetToken();
 		
@@ -86,7 +92,7 @@ public class ResetbyemailController extends Controller {
 		
 /*----#end-code----*/
 		
-		return this.redirect("igrp","Resetbyemail","index", this.queryString());	
+		return this.redirect("igrp","resetbyemail","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
