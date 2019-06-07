@@ -83,16 +83,18 @@ public class Oauth2openidwso2Controller extends Controller {
 	public Response actionMyApps() throws IOException, IllegalArgumentException, IllegalAccessException{
 		String p_uid =  Core.getParam("p_uid"); 
 		
-		String url = Igrp.getInstance().getRequest().getRequestURL() + "";
+		String url = Igrp.getInstance().getRequest().getRequestURL() + ""; 
 		
 		url = url.replace("app/webapps", "igrpoauth2sso") + "?_t=TOKEN";  
 		
 		JSONArray allApps = new JSONArray(); 
 		
 		List<Profile> p = new Application().getMyAppByEmail(p_uid); 
-		List<Application> apps = new Application().findAll();
 		
-		int i = 0;
+		List<Application> apps = new Application().findAll(); 
+		
+		int i = 0; 
+		
 		if(p != null)
 			for(Application app : apps) {
 				JSONObject jsonObject = new JSONObject(); 

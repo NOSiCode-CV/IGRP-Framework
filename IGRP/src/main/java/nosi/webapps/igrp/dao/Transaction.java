@@ -5,6 +5,7 @@ package nosi.webapps.igrp.dao;
  */
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class Transaction extends IGRPBaseActiveRecord<Transaction> implements Se
 	@Column(nullable=false)
 	private String descr;
 	private int status;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="TRANSACTION_SOURCE_ENV_FK"),nullable=false)
 	private Application application;
 	@Transient

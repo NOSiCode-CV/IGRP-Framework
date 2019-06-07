@@ -226,7 +226,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 
 	public List<Transaction> getOrgTransaction(Integer appId,Integer orgId) {
 		List<Transaction> transactions = new ArrayList<>();
-		String sqlTransationByApp = " SELECT t.id,t.code,t.descr,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
+		String sqlTransationByApp = " SELECT t.id,t.code,t.descr, t.env_fk, (CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
 				+ " FROM tbl_transaction t"
 				+ " WHERE t.env_fk=:env_fk AND t.status=1";
 		ResultSet.Record record = Core.query(this.getConnectionName(),sqlTransationByApp)
@@ -239,13 +239,16 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 			t.setCode(row.getString("code"));
 			t.setDescr(row.getString("descr"));
 			t.setInserted(row.getInt("isInserted")==1);
+			Application app = new Application();
+			app.setId(row.getInt("env_fk"));
+			t.setApplication(app);
 			transactions.add(t );
 		});
 		return transactions ;
 	}
 
 	public List<Transaction> getPerfilTransaction(Integer orgId,Integer profId) {
-		String sqlTransationByOrg = " SELECT t.id,t.code,t.descr,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
+		String sqlTransationByOrg = " SELECT t.id,t.code,t.descr, t.env_fk, (CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS' AND org_fk=:org_fk AND prof_type_fk=:prof_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
 								+ " FROM tbl_transaction t INNER JOIN tbl_profile p ON p.type_fk=t.id AND p.type='TRANS' AND p.org_fk=:org_fk"
 								+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 								+ " WHERE t.status=1";
@@ -261,6 +264,10 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 			t.setCode(row.getString("code"));
 			t.setDescr(row.getString("descr"));
 			t.setInserted(row.getInt("isInserted")==1);
+			Application app = new Application();
+			app.setId(row.getInt("env_fk"));
+			t.setApplication(app);
+			
 			transactions.add(t );
 		});
 		return transactions;
@@ -295,7 +302,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 
 	public List<Transaction> getOrgTransactionByUser(Integer orgId, Integer userId) {
 		List<Transaction> transactions = new ArrayList<>();
-		String sqlTransationByOrg = " SELECT t.id,t.code,t.descr,(CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
+		String sqlTransationByOrg = " SELECT t.id,t.code,t.descr, t.env_fk, (CASE WHEN EXISTS (SELECT type_fk from tbl_profile where type='TRANS_USER' AND org_fk=:org_fk AND user_fk=:user_fk AND type_fk=t.id) then 1 else 0 END) as isInserted  "
 				+ " FROM tbl_transaction t INNER JOIN tbl_profile p ON p.type_fk=t.id AND p.type='TRANS' AND p.org_fk=:org_fk"
 				+ " RIGHT JOIN tbl_profile_type pt ON pt.id=p.prof_type_fk AND pt.code='ALL' AND pt.descr='ALL PROFILE' "
 				+ " WHERE t.status=1";
@@ -309,7 +316,11 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 			t.setId(row.getInt("id"));
 			t.setCode(row.getString("code"));
 			t.setDescr(row.getString("descr"));
-			t.setInserted(row.getInt("isInserted")==1);
+			t.setInserted(row.getInt("isInserted")==1); 
+			Application app = new Application();
+			app.setId(row.getInt("env_fk"));
+			t.setApplication(app);
+			
 			transactions.add(t );
 		});
 		return transactions ;

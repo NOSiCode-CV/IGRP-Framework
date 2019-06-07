@@ -46,33 +46,40 @@ public class TransacaoOrganicaController extends Controller {
 			List<Transaction> transactions = null;
 			User user = null;
 			Profile profile = null;
+			Application app = null;
+			
 			if(type.equals("org")){
 				Organization org = Core.findOrganizationById(id);
+				app = org.getApplication();
 				transactions = new Organization().getOrgTransaction(org.getApplication().getId(),org.getId());
 				view.btn_gestao_de_transacoes.addParameter("p_aplicacao", org.getApplication().getId());
 			}else if(type.equals("perfil")){
 				ProfileType p = new ProfileType().findOne(id); 
+				app = p.getApplication();
 				if(p.getOrganization()!=null)
 					transactions = new Organization().getPerfilTransaction(p.getOrganization().getId(),p.getId());
 				else
 					transactions = new Organization().getPerfilTransaction(1,p.getId()); 
 			} else if(type.equalsIgnoreCase("user")) {
 				profile = new Profile().findOne(id);
+				app = profile.getOrganization().getApplication();
 		      	user = Core.findUserByEmail(Core.getParam("userEmail"));
 		      	if(user!=null && profile!=null)
 					transactions = new Organization().getOrgTransactionByUser(profile.getOrganization().getId(),user.getId());
 			}   
 			
-			for(Transaction t : transactions){
-				TransacaoOrganica.Table_1 table =new TransacaoOrganica.Table_1();
-				table.setTransacao(t.getId());
-				table.setNome(t.getDescr()+" ("+t.getCode()+")");
-				if(t.isInserted()){
-					table.setTransacao_check(t.getId());
-				}else{
-					table.setTransacao_check(-1);
+			for(Transaction t : transactions){ 
+				if(t.getApplication().getId() == app.getId()) {
+					TransacaoOrganica.Table_1 table = new TransacaoOrganica.Table_1(); 
+					table.setTransacao(t.getId()); 
+					table.setNome(t.getDescr()+" ("+t.getCode()+")"); 
+					if(t.isInserted()){
+						table.setTransacao_check(t.getId()); 
+					}else{
+						table.setTransacao_check(-1); 
+					}
+					data.add(table);
 				}
-				data.add(table);
 			}
 			
 			
@@ -399,7 +406,11 @@ public class TransacaoOrganicaController extends Controller {
 		
 	}
 	
-	
+	private boolean isSharedTransaction(Transaction transaction) {
+		boolean flag = false;
+		
+		return flag;
+	}
 	
 	
 	/*----#end-code----*/
