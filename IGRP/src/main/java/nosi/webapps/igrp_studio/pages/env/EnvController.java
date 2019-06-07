@@ -632,7 +632,6 @@ public class EnvController extends Controller {
 			conn.disconnect();
 			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
 			
-			System.out.println("TokenPLSQL: " + u.getValid_until());
 			for(IgrpPLSQLApp obj : allApps) { 
 				try {
 					String link = obj.getLink(); 
