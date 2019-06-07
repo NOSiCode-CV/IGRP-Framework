@@ -347,7 +347,7 @@
 						<xsl:call-template name="setSqlCombobox_">						
 							<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>						
 		     	       </xsl:call-template> 
-						<xsl:if test="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox'] or //rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
+						<xsl:if test="//content/*[@type='statbox' or @type='smallbox' or @type='circlestatbox'] or //rows/content/*[@type='chart']  or //rows/content/*[@type='separatorlist'] or //rows/content/*[@type='formlist']  or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select'] or //rows/content/*/fields/*[@type='radiolist'] or //rows/content/*/fields/*[@type='checkboxlist']">
 							<xsl:call-template name="start-example"/>				    					    		
 							<xsl:call-template name="setSqlTable"/>					
 							<xsl:call-template name="setSqlChart"/>						
