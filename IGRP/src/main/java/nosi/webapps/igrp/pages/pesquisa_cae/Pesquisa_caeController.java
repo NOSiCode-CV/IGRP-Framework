@@ -82,7 +82,7 @@ public class Pesquisa_caeController extends Controller {
 		for(Cae cae:caes) {
 			Treemenu_1 t1 = new Treemenu_1();
 			t1.setTreemenu_1_tmid(""+cae.getId());
-			t1.setTreemenu_1_link_desc(cae.getDescricao());
+			t1.setTreemenu_1_link_desc(cae.getCodigo()+" - "+cae.getDescricao());
 			t1.setTreemenu_1_child("1");
 			treemenu_1.add(t1 );
 		} 
