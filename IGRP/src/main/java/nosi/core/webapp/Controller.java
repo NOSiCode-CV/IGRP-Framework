@@ -668,8 +668,9 @@ public class Controller{
 							} catch (MalformedURLException e) { // Ensure the url format is perfect ...
 								isAbsolute = false;
 							}
-							if(!Igrp.getInstance().getResponse().isCommitted())
-								Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url : "webapps" + url);
+							if(!Igrp.getInstance().getResponse().isCommitted()) {
+								Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url :(url.startsWith("webapps")?url:("webapps" + url)));
+							}
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.core.webapp.security.SecurtyCallPage;
 import nosi.webapps.igrp.pages.login.LoginController;
@@ -135,7 +136,7 @@ public class User implements Component{
 		if(SecurtyCallPage.isPublic(aux)) {
 			return;
 		}
-		if(aux != null && !aux.equals(loginUrl)) {
+		if(aux != null && !aux.equals(loginUrl) && !PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(aux)) {
 			aux = EncrypDecrypt.decrypt(aux);
 		}
 		/* test the login page (TOO_MANY_REQUEST purpose) */
