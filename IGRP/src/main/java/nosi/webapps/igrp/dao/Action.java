@@ -20,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.StringHelper;
 import static nosi.core.i18n.Translator.gt;
@@ -309,6 +311,9 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 	}
 	
 	public boolean isPublicPage(String appDad, String pageId) {
+		if(pageId.contains("-")) {
+			pageId = Page.resolvePageName(pageId);
+		}
 		boolean flag = false;
 		try {
 			Action action = new Action().find().where("page", "=", pageId).andWhere("application.dad", "=", appDad).one();

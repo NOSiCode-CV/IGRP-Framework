@@ -43,7 +43,7 @@ public class ErrorPageController extends Controller {
       ErrorPage model = new ErrorPage();
       model.load();
 		ErrorPageView view = new ErrorPageView();
-		if(Igrp.getInstance().getUser().isAuthenticated()){
+	//	if(Igrp.getInstance().getUser().isAuthenticated()){
 			
 			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 			if(e!=null)
@@ -66,9 +66,9 @@ public class ErrorPageController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("info", Core.gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
 			view.setModel(model);
 			return this.renderView(view);
-		}
-		else
-			return this.redirect("igrp", "login", "login");
+//		}
+//		else
+//			return this.redirect("igrp", "login", "login");
 	}
 	
 	
