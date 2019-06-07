@@ -355,7 +355,7 @@ public class ConfigDatabaseController extends Controller {
 				"<hibernate-configuration>\n" + 
 				"\t<session-factory>\n" +
 				"\t\t<property name=\"hibernate.connection.driver_class\">"+Core.decrypt(config.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
-				"\t\t<property name=\"hibernate.connection.url\">"+Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"/findev.gov.cv</property>\r\n" + 
+				"\t\t<property name=\"hibernate.connection.url\">"+Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.username\">"+Core.decrypt(config.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
 				"\t\t<property name=\"hibernate.connection.password\">"+Core.decrypt(config.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)+"</property>\r\n" + 
 				"\t\t<property name=\"hibernate.hbm2ddl.auto\">update</property>\r\n" + 
