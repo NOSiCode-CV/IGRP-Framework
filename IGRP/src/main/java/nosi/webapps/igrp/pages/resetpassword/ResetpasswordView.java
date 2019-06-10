@@ -37,7 +37,7 @@ public class ResetpasswordView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		username = new TextField(model,"username");
-		username.setLabel(gt("Username"));
+		username.setLabel(gt("Email / Username"));
 		username.propertie().add("name","p_username").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","true").add("desclabel","false");
 		
 		nafa = new SeparatorField(model,"nafa");

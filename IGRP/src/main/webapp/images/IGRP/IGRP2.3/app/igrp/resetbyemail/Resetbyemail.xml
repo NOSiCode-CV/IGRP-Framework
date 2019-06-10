@@ -50,19 +50,19 @@
             <fields>
                 <form_1_email_1 name="p_form_1_email_1" type="email" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Email</label>
-                    <value>ufbon@example.com</value>
+                    <value>esokeko@example.com</value>
                 </form_1_email_1>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="enviar">
+                <item type="form" code="" class="warning" rel="enviar">
                     <title>Enviar</title>
-                    <app/>
-                    <page/>
-                    <link/>
-                    <parameter>undefined?</parameter>
+                    <app>igrp</app>
+                    <page>Resetbyemail</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/resetbyemail/Resetbyemail.xml?</parameter>
                     <target>submit_form</target>
-                    <img>primary|fa-send-o</img>
-                    <preview>undefined</preview>
+                    <img>warning|fa-send-o</img>
+                    <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/resetbyemail/Resetbyemail.xml</preview>
                 </item>
             </tools-bar>
         </form_1>

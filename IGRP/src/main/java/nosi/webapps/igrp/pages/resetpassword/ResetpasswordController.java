@@ -23,6 +23,7 @@ import org.wso2.carbon.um.ws.service.UpdateCredentialByAdmin;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.webapps.igrp.dao.User;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import service.client.WSO2UserStub;
 
 /*----#end-code----*/
@@ -34,12 +35,11 @@ public class ResetpasswordController extends Controller {
 		model.setSign_in("igrp","Dominio","index");
 		ResetpasswordView view = new ResetpasswordView();
 		/*----#start-code(index)----*/
-		model.setSign_in("igrp","login","login");
+		model.setSign_in("igrp","login","login&isPublic=0&target=_self");
 		
 		String token = Core.getParam("t");
 		
-		 this.addQueryString("target","_blank");
-		 this.addQueryString("isPublic","1");
+		
 		
 		try {
 			
@@ -63,7 +63,7 @@ public class ResetpasswordController extends Controller {
 			return redirect("igrp","Resetbyemail","index", this.queryString());
 		}
 		
-		view.btn_guardar.setLink("guardar&target=_blank&isPublic=1&t=" + token); 
+		view.btn_guardar.setLink("guardar&t=" + token); 
 		
 /*----#end-code----*/
 		view.setModel(model);
@@ -77,7 +77,7 @@ public class ResetpasswordController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Resetpassword","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(guardar)----*/
 		
     
@@ -103,8 +103,7 @@ public class ResetpasswordController extends Controller {
 			
 		}catch(Exception e) {
 			this.addQueryString("t", token);
-			this.addQueryString("target", "_blank");
-			this.addQueryString("isPublic", "1");
+		
 			Core.setMessageError(gt("Token inválido ou expirado."));
 			Core.setMessageInfo(gt("Favor solicitar um novo reset."));
 			return forward("igrp","Resetbyemail","index", this.queryString());
@@ -123,12 +122,14 @@ public class ResetpasswordController extends Controller {
 				case "db": 
 					if(db(username, pwd)) {
 						this.addQueryString("target", "_self");
+                     this.addQueryString("isPublic","0");
 						return redirect("igrp","login","login", this.queryString());
 					}
 				break;
 				case "ldap": 
 					if(ldap(username, pwd)) {
 						this.addQueryString("target", "_self");
+                       this.addQueryString("isPublic","0");
 						return redirect("igrp","login","login", this.queryString());
 					}
 				break;
@@ -136,11 +137,10 @@ public class ResetpasswordController extends Controller {
 		}
 		
 		this.addQueryString("t", token);
-		this.addQueryString("target", "_blank");
-		this.addQueryString("isPublic", "1");
+
 		
 /*----#end-code----*/
-		return this.redirect("igrp","Dominio","index", this.queryString());	
+		return this.redirect("igrp","Resetpassword","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
@@ -165,7 +165,7 @@ public class ResetpasswordController extends Controller {
 	private boolean ldap(String username, String password) {
 		boolean flag = false;
 		try {
-			Properties settings = loadIdentityServerSettings();
+			Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
 			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
@@ -221,19 +221,7 @@ public class ResetpasswordController extends Controller {
 		return flag;
 	}
 	
-	private Properties loadIdentityServerSettings() {
-		String path = new Config().getBasePathConfig() + File.separator  + "common";
-		String fileName = "main.xml";
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
+	
 	
 	public boolean validateRequest() {
 		boolean flag = false;

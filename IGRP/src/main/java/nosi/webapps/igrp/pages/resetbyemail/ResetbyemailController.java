@@ -15,6 +15,7 @@ import nosi.core.config.Config;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
+import nosi.core.config.ConfigApp;
 import java.util.List;
 import java.util.Properties;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
@@ -30,8 +31,7 @@ public class ResetbyemailController extends Controller {
 		model.setSign_in("igrp","Dominio","index");
 		ResetbyemailView view = new ResetbyemailView();
 		/*----#start-code(index)----*/
-		model.setSign_in("igrp","login","login&isPublic=0&target=_self");
-		view.btn_enviar.setLink("enviar&isPublic=1");
+		model.setSign_in("igrp","login","login&isPublic=0&target=_self");		
 		
 /*----#end-code----*/
 		view.setModel(model);
@@ -45,7 +45,7 @@ public class ResetbyemailController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","resetbyemail","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Resetbyemail","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(enviar)----*/
 		
       
@@ -60,13 +60,13 @@ public class ResetbyemailController extends Controller {
 			case "db": 
 				if(!db(email, token)) { 
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
-					return forward("igrp","Resetbyemail","index&isPublic=1&target=_blank", this.queryString()); 
+					return forward("igrp","Resetbyemail","index", this.queryString()); 
 				}
 			break;
 			case "ldap": 
 				if(!ldap(email, token)) {
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado.");
-					return forward("igrp","Resetbyemail","index&isPublic=1&target=_blank", this.queryString());
+					return forward("igrp","Resetbyemail","index", this.queryString());
 				}
 			break;
 	}
@@ -85,20 +85,17 @@ public class ResetbyemailController extends Controller {
 		} catch (IOException e) {
 			Core.setMessageError("Ocorreu um erro no envio do email. Email não foi enviado ...");
 			e.printStackTrace();
-		}
+		}	
 		
-		this.addQueryString("target","_blank");
-		this.addQueryString("isPublic","1");
 		
 /*----#end-code----*/
-		
-		return this.redirect("igrp","resetbyemail","index", this.queryString());	
+		return this.redirect("igrp","Resetbyemail","index", this.queryString());	
 	}
 	
 /*----#start-code(custom_actions)----*/
 	
 	private boolean db(String email, String token) {
-		User u = new User().find().andWhere("email", "=", email).one();
+		User u = Core.findUserByEmail(email);          
 		if(u != null) {
 			u.setPassword_reset_token(token);
 			u = u.update();
@@ -109,7 +106,7 @@ public class ResetbyemailController extends Controller {
 	private boolean ldap(String email, String token) {
 		boolean flag = false;
 		try {
-			Properties settings = loadIdentityServerSettings();
+			Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
 			URL url =  new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
 	        WSO2UserStub.disableSSL();
 	        WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
@@ -126,19 +123,7 @@ public class ResetbyemailController extends Controller {
 		return flag;
 	}
 	
-	private Properties loadIdentityServerSettings() {
-		String path = new Config().getBasePathConfig() + File.separator  + "common";
-		String fileName = "main.xml";
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath());
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
+
 	
 /*----#end-code----*/
 }

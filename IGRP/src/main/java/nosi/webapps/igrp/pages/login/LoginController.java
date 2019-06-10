@@ -1,5 +1,10 @@
 package nosi.webapps.igrp.pages.login;
 
+
+/**
+ * Marcel Iekiny Oct 4, 2017 
+ */
+/*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,6 +33,7 @@ import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
 import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
@@ -43,18 +49,14 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import nosi.webapps.igrp.dao.User;
 import service.client.WSO2UserStub;
-/**
- * Marcel Iekiny Oct 4, 2017 
- */
-/*----#start-code(packages_import)----*/
-
 /*----#end-code----*/
 
 public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private Properties settings = loadConfig("common", "main.xml");
+	private Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
+	
 
 	public Response actionLogin() throws Exception { 
 		

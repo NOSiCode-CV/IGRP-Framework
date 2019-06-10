@@ -582,7 +582,7 @@ var GENTABLE = function(name,params){
                         },
                         {
                             "color": "#ea9126",
-                            "text": "Cor 2",
+                            "text": "Color 2",
                             "value": "2"
                         },
                         {
