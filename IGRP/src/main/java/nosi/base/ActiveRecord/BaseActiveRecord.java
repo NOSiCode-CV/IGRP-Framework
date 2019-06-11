@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
@@ -14,21 +15,24 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.xml.bind.annotation.XmlTransient;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ORDERBY;
 import nosi.core.webapp.databse.helpers.ParametersHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 
 /**
  * @author: Emanuel Pereira
@@ -216,9 +220,11 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	 * @return
 	 */
 	public T andWhere(String name, String operator) {
-		if(operator.toString().equalsIgnoreCase("isnull")){
+		if(Core.isNull(operator))
+		    return (T) this;
+	    if(operator.equalsIgnoreCase("isnull")){
 			return this.andWhereIsNull(name);
-		}else if( operator.toString().equalsIgnoreCase("notnull")) {
+		}else if( operator.equalsIgnoreCase("notnull")) {
 			return this.andWhereNotNull(name);
 		}
 		return (T) this;
@@ -253,7 +259,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T andWhere(String name, String operator, String[] values) {
 		if(values!=null) {
 			values = this.normalizeStringVlaues(values);
-			String value = this.applyToInCondition(operator, values);
+			String value = this.applyToInCondition(values);
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -511,14 +517,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return values;
 	}
 	
-	private String applyToInCondition(String operator,Object[] values) {
+	private String applyToInCondition(Object[] values) {
 		return String.join(",", Arrays.toString(values)).replaceAll("\\[", "(").replaceAll("\\]", ")");			
 	}
 
 	private T whereObject(String name, String operator, Object[] values) {
 		if(values!=null) {
 			this.where("");
-			String value = this.applyToInCondition(operator, values);
+			String value = this.applyToInCondition(values);
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
 		return (T) this;
@@ -543,7 +549,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	private T andWhereObject(String name, String operator, Object[] values) {
 		if(values!=null) {
-			String value = this.applyToInCondition(operator, values);
+			String value = this.applyToInCondition(values);
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -577,7 +583,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	private T orWhereObject(String name, String operator, Object[] values) {
 		if(values!=null) {
-			String value = this.applyToInCondition(operator, values);
+			String value = this.applyToInCondition(values);
 			this.or();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -606,9 +612,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	protected void setParameters(TypedQuery<T> query) {
 		if(this.parametersMap!=null && !this.parametersMap.isEmpty()) {
-			this.parametersMap.stream().forEach(col->{
-				this.paramHelper.setParameter(query, col.getDefaultValue(), col);
-			});
+            this.parametersMap.stream().forEach(col->this.paramHelper.setParameter(query, col.getDefaultValue(), col));
 		}
 	}
 	
@@ -1128,9 +1132,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	public void showMessage() {
 		if(this.hasError()) {
-			this.error.stream().forEach(e->{
-				Core.setMessageError(e);
-			});
+            this.error.stream().forEach(Core::setMessageError);
 		}
 	}
 
@@ -1220,9 +1222,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				Object v = pk.get(value);
 				pk.setAccessible(false);
 				return this.andWhereObject(name, name, operator, v,pk.getType());
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			} catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
@@ -1243,9 +1243,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				Object v = pk.get(value);
 				pk.setAccessible(false);
 				return this.whereObject(name, name, operator, v,pk.getType());
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+            } catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
@@ -1266,9 +1264,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 				Object v = pk.get(value);
 				pk.setAccessible(false);
 				return this.orWhereObject(name, name, operator, v,pk.getType());
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+            } catch (IllegalAccessException | IllegalArgumentException e) {
 				e.printStackTrace();
 			}
 		}
