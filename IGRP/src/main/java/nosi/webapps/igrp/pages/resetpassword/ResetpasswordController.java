@@ -147,7 +147,7 @@ public class ResetpasswordController extends Controller {
 	
 	private boolean db(String username, String password) {
 		boolean flag = false;
-		User u = new User().find().andWhere("user_name", "=", username).one();
+		User u = Core.findUserByUsername(username);
 		if(u != null) {
 			u.setPass_hash(nosi.core.webapp.User.encryptToHash(username + "" + password, "SHA-256"));
 			u = u.update();

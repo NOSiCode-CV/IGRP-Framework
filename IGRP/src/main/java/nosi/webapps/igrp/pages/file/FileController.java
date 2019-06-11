@@ -31,7 +31,7 @@ public class FileController extends Controller {
 		CLob file = Core.getFile(Core.getParamInt("p_id"));
 		if(file!=null)
 			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
-		throw new Exception("File not find");
+		throw new Exception("File not found.");
 	}
 	
 	public Response actionSaveImage()  throws Exception {		
@@ -40,7 +40,7 @@ public class FileController extends Controller {
 		id = Core.saveFile("p_file_name");
 		if(id==0) {
 			id = -1;
-			p.put("msg", Core.gt("Error saving file"));
+			p.put("msg", Core.gt("Error saving file."));
 		}
 		p.put("id", id);
 		this.format = Response.FORMAT_JSON;

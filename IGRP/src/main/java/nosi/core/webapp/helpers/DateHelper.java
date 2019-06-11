@@ -148,27 +148,29 @@ public class DateHelper {
 		return age;
 	}
 
-	public static long calculteYears(String data) {
+	public static long calculateYears(String data) {
 		return calculate(data, "dd-MM-yyyy",CALCULATE_AGE);
 	}
 	
-	public static long calculteYears(String data,String formatIn) {
+	public static long calculateYears(String data,String formatIn) {
 		return calculate(data, formatIn,CALCULATE_AGE);
 	}
 	
-	public static long calculteMonths(String data) {
+	public static long calculateMonths(String data) {
 		return calculate(data, "dd-MM-yyyy",CALCULATE_MONTHS);
 	}
 	
-	public static long calculteMonths(String data,String formatIn) {
+	public static long calculateMonths(String data,String formatIn) {
 		return calculate(data, formatIn,CALCULATE_MONTHS);
 	}
 	
-	public static long calculteDays(String data) {
+	public static long calculateDays(String data) {
 		return calculate(data, "dd-MM-yyyy",CALCULATE_DAYS);
 	}
 	
-	public static long calculteDays(String data,String formatIn) {
+	public static long calculateDays(String data,String formatIn) {
 		return calculate(data, formatIn,CALCULATE_DAYS);
 	}
+
+	
 }

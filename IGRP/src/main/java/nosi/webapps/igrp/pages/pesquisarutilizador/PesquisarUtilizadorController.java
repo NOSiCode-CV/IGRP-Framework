@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -30,7 +32,7 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Natus lorem ipsum aperiam sit ipsum omnis totam na' as nominho,'5' as range_1,'Voluptatem lorem consectetur ut sed sit natus omnis deserunt sit laudantium consectetur sed labore u' as nome,'Aperiam aliqua unde deserunt perspiciatis labore amet perspiciatis stract amet elit sit mollit aperi' as tb_email,'Aperiam mollit deserunt ipsum mollit doloremque ad' as perfile,'hidden-a4f7_508a' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as ativo,'Accusantium deserunt sit omnis rem adipiscing offi' as nominho,'2' as range_1,'Consectetur officia unde adipiscing stract adipiscing aperiam deserunt unde sit ipsum laudantium acc' as nome,'Anim adipiscing lorem stract iste unde omnis lorem perspiciatis ut sit accusantium voluptatem elit u' as tb_email,'Omnis lorem unde perspiciatis magna officia magna' as perfile,'hidden-d378_4599' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.organica.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.perfil.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -73,12 +75,13 @@ public class PesquisarUtilizadorController extends Controller {
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
 			
 			int status = p.getUser()!=null?p.getUser().getStatus():0;
+			
+//			Checkbox has the id of the user if exists,otherwise will have the vallue 1 to be diferent from 0 (unchecked)
+			table1.setAtivo(p.getUser()!=null?p.getUser().getIdentityId():1);
 			if(status == 0) {
-				table1.setAtivo(1);
 				table1.setAtivo_check(0);
-			}else {
-				table1.setAtivo(status);
-				table1.setAtivo_check(status);
+			}else {				
+				table1.setAtivo_check(table1.getAtivo());
 			}
 			
 			table1.setTb_email(p.getUser().getEmail());
@@ -437,14 +440,14 @@ public class PesquisarUtilizadorController extends Controller {
   
     public Response actionChangeStatus(){
       this.format = Response.FORMAT_JSON;
-      String id = Core.getParam("p_id");
-      String status = Core.getParam("p_status_page");
+      Integer id = Core.getParamInt("p_ativo");
+      String status = Core.getParam("p_ativo_check");
       boolean response = false;
       try {
           if(id != null) {
-              User u =Core.findUserByUsername(id);
+              User u =Core.findUserById(id);
               if(u != null) {
-                  u.setStatus(Core.toInt(status));
+                  u.setStatus(status.equals("true")?1:0);
                   u = u.update();
                   if(!u.hasError())
                       response = true;

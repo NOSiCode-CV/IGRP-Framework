@@ -105,7 +105,7 @@ public class NovoUtilizadorController extends Controller {
 		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
+		if (Core.isHttpPost()) {
 			Boolean sucess;
 			switch (this.getConfig().getAutenticationType()) {
 			case "ldap":

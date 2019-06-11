@@ -3560,27 +3560,27 @@ public final class Core { // Not inherit
 		return Igrp.getMethod().equals(HttpMethod.DELETE.toString());
 	}
 	
-	public static long calculteYears(String data) {
-		return DateHelper.calculteYears(data);
+	public static long calculateYears(String data) {
+		return DateHelper.calculateYears(data);
 	}
 	
-	public static long calculteYears(String data,String formatIn) {
-		return DateHelper.calculteYears(data,formatIn);
+	public static long calculateYears(String data,String formatIn) {
+		return DateHelper.calculateYears(data,formatIn);
 	}
 	
-	public static long calculteMonths(String data) {
-		return DateHelper.calculteMonths(data);
+	public static long calculateMonths(String data) {
+		return DateHelper.calculateMonths(data);
 	}
 	
-	public static long calculteMonths(String data,String formatIn) {
-		return DateHelper.calculteMonths(data,formatIn);
+	public static long calculateMonths(String data,String formatIn) {
+		return DateHelper.calculateMonths(data,formatIn);
 	}
 	
-	public static long calculteDays(String data) {
-		return DateHelper.calculteDays(data);
+	public static long calculateDays(String data) {
+		return DateHelper.calculateDays(data);
 	}
 	
-	public static long calculteDays(String data,String formatIn) {
-		return DateHelper.calculteDays(data, formatIn);
+	public static long calculateDays(String data,String formatIn) {
+		return DateHelper.calculateDays(data, formatIn);
 	}
 }

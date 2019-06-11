@@ -56,15 +56,15 @@ public class PesquisarUtilizadorView extends View {
 		
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
-		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false");
+		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -80,34 +80,34 @@ public class PesquisarUtilizadorView extends View {
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo?"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		ativo.propertie().add("remote",new Config().getResolveUrl("igrp","PesquisarUtilizador","changeStatus")).add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		ativo_check = new CheckBoxField(model,"ativo_check");
-		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		nominho = new PlainTextField(model,"nominho");
 		nominho.setLabel(gt("Nome"));
-		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50");
+		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("showLabel","true");
 		
 		range_1 = new TextField(model,"range_1");
 		range_1.setLabel(gt("Range"));
-		range_1.propertie().add("name","p_range_1").add("type","range").add("rangeMin","0").add("rangeMax","100").add("maxlength","30");
+		range_1.propertie().add("name","p_range_1").add("type","range").add("rangeMin","0").add("rangeMax","100").add("maxlength","30").add("showLabel","true");
 		
 		nome = new PlainTextField(model,"nome");
 		nome.setLabel(gt("Username"));
-		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100");
+		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("showLabel","true");
 		
 		tb_email = new PlainTextField(model,"tb_email");
 		tb_email.setLabel(gt("Email"));
-		tb_email.propertie().add("name","p_tb_email").add("type","plaintext").add("maxlength","100");
+		tb_email.propertie().add("name","p_tb_email").add("type","plaintext").add("maxlength","100").add("showLabel","true");
 		
 		perfile = new PlainTextField(model,"perfile");
 		perfile.setLabel(gt("App/Org/Perfil"));
-		perfile.propertie().add("name","p_perfile").add("type","plaintext").add("maxlength","50");
+		perfile.propertie().add("name","p_perfile").add("type","plaintext").add("maxlength","50").add("showLabel","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
