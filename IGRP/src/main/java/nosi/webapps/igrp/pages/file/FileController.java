@@ -27,9 +27,11 @@ public class FileController extends Controller {
 	}
 	
 	/*----#start-code(custom_actions)----*/
-	public Response actionGetFile() {
+	public Response actionGetFile() throws Exception {
 		CLob file = Core.getFile(Core.getParamInt("p_id"));
-		return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
+		if(file!=null)
+			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
+		throw new Exception("File not find");
 	}
 	
 	public Response actionSaveImage()  throws Exception {		

@@ -3,6 +3,8 @@ package nosi.core.webapp.helpers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import nosi.core.webapp.Core;
 import java.sql.Timestamp;
@@ -13,6 +15,10 @@ import java.sql.Timestamp;
  */
 public class DateHelper {
 
+	private static final int CALCULATE_AGE = 1;
+	private static final int CALCULATE_MONTHS = 2;
+	private static final int CALCULATE_DAYS = 3;
+	
 	public static String convertDate(String date, String formatIn, String outputFormat) {
 		String myDateString = null;
 		if(Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
@@ -114,5 +120,55 @@ public class DateHelper {
 	
 	public static java.sql.Date utilDateToSqlDate(java.util.Date date) {
 		return new java.sql.Date(date.getTime());
+	}
+	
+	
+	private static long calculate(String data,String formatIn,int type) {
+		long age = 0;
+		try {
+			data = Core.convertDate(data, formatIn,"yyyy-MM-dd");
+			LocalDate birthDate = LocalDate.parse(data);
+			LocalDate currentDate = LocalDate.now();
+			switch (type) {
+			case CALCULATE_AGE:
+				age =  ChronoUnit.YEARS.between(birthDate, currentDate);
+				break;
+			case CALCULATE_DAYS:
+				age =  ChronoUnit.DAYS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
+				break;
+			case CALCULATE_MONTHS:
+				age =  ChronoUnit.MONTHS.between(birthDate.withDayOfMonth(1), currentDate.withDayOfMonth(1));
+				break;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return age;
+	}
+
+	public static long calculteYears(String data) {
+		return calculate(data, "dd-MM-yyyy",CALCULATE_AGE);
+	}
+	
+	public static long calculteYears(String data,String formatIn) {
+		return calculate(data, formatIn,CALCULATE_AGE);
+	}
+	
+	public static long calculteMonths(String data) {
+		return calculate(data, "dd-MM-yyyy",CALCULATE_MONTHS);
+	}
+	
+	public static long calculteMonths(String data,String formatIn) {
+		return calculate(data, formatIn,CALCULATE_MONTHS);
+	}
+	
+	public static long calculteDays(String data) {
+		return calculate(data, "dd-MM-yyyy",CALCULATE_DAYS);
+	}
+	
+	public static long calculteDays(String data,String formatIn) {
+		return calculate(data, formatIn,CALCULATE_DAYS);
 	}
 }
