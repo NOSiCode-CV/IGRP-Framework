@@ -3559,4 +3559,28 @@ public final class Core { // Not inherit
 	public static boolean isHttpDelete() {
 		return Igrp.getMethod().equals(HttpMethod.DELETE.toString());
 	}
+	
+	public static long calculteYears(String data) {
+		return DateHelper.calculteYears(data);
+	}
+	
+	public static long calculteYears(String data,String formatIn) {
+		return DateHelper.calculteYears(data,formatIn);
+	}
+	
+	public static long calculteMonths(String data) {
+		return DateHelper.calculteMonths(data);
+	}
+	
+	public static long calculteMonths(String data,String formatIn) {
+		return DateHelper.calculteMonths(data,formatIn);
+	}
+	
+	public static long calculteDays(String data) {
+		return DateHelper.calculteDays(data);
+	}
+	
+	public static long calculteDays(String data,String formatIn) {
+		return DateHelper.calculteDays(data, formatIn);
+	}
 }
