@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.oauth2openidwso2;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.core.webapp.databse.helpers.QueryInterface;
@@ -102,9 +103,17 @@ public class Oauth2openidwso2Controller extends Controller {
 				jsonObject.put("dad", app.getDad()); 
 				jsonObject.put("name", app.getName()); 
 				jsonObject.put("description", app.getDescription()); 
-				jsonObject.put("img_src", app.getImg_src()); 
 				
-				jsonObject.put("link", url);
+				String img_src = (Igrp.getInstance().getRequest().getRequestURL() + "").replace(Igrp.getInstance().getRequest().getRequestURI(), "") + Igrp.getInstance().getRequest().getContextPath() + "/images/IGRP/IGRP2.3/assets/img/iconApp/" + app.getImg_src();
+				jsonObject.put("img_src", img_src); 
+				
+				jsonObject.put("link", url); 
+				
+				Action action = app.getAction(); 
+				if(action != null)
+					jsonObject.put("action", app.getDad() + "/" + action.getPage() + "/" + action.getAction()); 
+				else 
+					jsonObject.put("action", "tutorial/DefaultPage/index"); 
 				
 				if(checkIfExists(app.getDad(), p))
 					jsonObject.put("available", "yes"); 
