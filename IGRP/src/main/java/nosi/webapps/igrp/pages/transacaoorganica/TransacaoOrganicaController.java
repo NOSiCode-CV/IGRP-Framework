@@ -69,7 +69,7 @@ public class TransacaoOrganicaController extends Controller {
 			}   
 			
 			for(Transaction t : transactions){ 
-				if(t.getApplication().getId() == app.getId()) {
+				if(t.getApplication().getId().equals(app.getId())) { 
 					TransacaoOrganica.Table_1 table = new TransacaoOrganica.Table_1(); 
 					table.setTransacao(t.getId()); 
 					table.setNome(t.getDescr()+" ("+t.getCode()+")"); 
@@ -82,11 +82,9 @@ public class TransacaoOrganicaController extends Controller {
 				}
 			}
 			
-			
 			sharesTransactions(data, model); 
 			
-			
-			data.sort(Comparator.comparing(TransacaoOrganica.Table_1::getTransacao_check).reversed());
+			data.sort(Comparator.comparing(TransacaoOrganica.Table_1::getTransacao_check).reversed()); 
 			
 			if(model.getType().equals("user") && user!=null && profile!=null) {
 				view.btn_gravar.addParameter("user_id",  user.getId())
