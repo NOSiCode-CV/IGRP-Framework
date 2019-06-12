@@ -636,7 +636,7 @@ public class EnvController extends Controller {
 				try {
 					String link = obj.getLink(); 
 					link = link.substring(0, link.indexOf("p=") + 2); 
-					link += Base64.getEncoder().encodeToString((u.getUser_name() + ":" + u.getValid_until()).getBytes());
+					link += Base64.getEncoder().encodeToString((u.getUser_name() + ":" + u.getValid_until() +  ":" + obj.getDad()).getBytes());
 					obj.setLink(link);  
 				} catch (Exception e) {
 				}
