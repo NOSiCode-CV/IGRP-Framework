@@ -87,6 +87,7 @@ public class NovoMenuController extends Controller {
 		targets.put("_blank", gt("Popup"));
 		targets.put("_newtab", gt("New tab"));
 		targets.put("modal", gt("Modal"));
+		targets.put("right_panel", gt("Right Panel"));
 		targets.put("submit", gt("Submit"));
 		targets.put("confirm", gt("Confirm"));
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
