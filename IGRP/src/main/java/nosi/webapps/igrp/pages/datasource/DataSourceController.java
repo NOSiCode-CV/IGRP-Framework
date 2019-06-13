@@ -27,7 +27,6 @@ import nosi.webapps.igrp.dao.User;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -330,9 +329,7 @@ public class DataSourceController extends Controller {
 	
 	public String getDefaultForm(List<Field> fields) {
 		IGRPForm formProcess = new IGRPForm("default_form_report");
-		fields.stream().forEach(f->{
-			formProcess.addField(f);
-		});
+		fields.stream().forEach(formProcess::addField);
 		return formProcess.toString();
 	}
 	//Transform columns to xml
@@ -343,9 +340,7 @@ public class DataSourceController extends Controller {
 			xml.setElement("data_source_id", rep.getId());
 			IGRPForm form = new IGRPForm("form");
 			IGRPTable table = new IGRPTable("table");
-			Iterator<Properties> listColumns = columns.iterator();
-			while(listColumns.hasNext()){
-				Properties p = listColumns.next();
+			for (Properties p : columns) {
 				Field f = new TextField(null,p.getProperty("tag"));
 				f.propertie().add("name",p.getProperty("tag"));
 				f.propertie().add("key",p.getProperty("key"));
