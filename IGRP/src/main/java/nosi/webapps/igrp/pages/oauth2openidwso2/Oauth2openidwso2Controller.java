@@ -2,25 +2,23 @@ package nosi.webapps.igrp.pages.oauth2openidwso2;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Response;
+/*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.core.webapp.databse.helpers.QueryInterface;
-import java.io.IOException;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
-/*----#start-code(packages_import)----*/
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import nosi.core.config.Config;
 
 /*----#end-code----*/
@@ -33,7 +31,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		/*----#start-code(index)----*/
 		
 		//view.btn_sign_in_.addParameter("target", "_blank");
-		view.btn_sign_in_.addParameter("isPublic", "1");
+		//view.btn_sign_in_.addParameter("isPublic", "1");
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -60,6 +58,21 @@ public class Oauth2openidwso2Controller extends Controller {
 		
 		return redirectToUrl(url);
 		
+		/*----#end-code----*/
+			
+	}
+	
+	public Response actionLogout() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Oauth2openidwso2 model = new Oauth2openidwso2();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(logout)----*/
+		
+		return this.redirect("igrp", "login", "logout&isPublic=0");
 		/*----#end-code----*/
 			
 	}

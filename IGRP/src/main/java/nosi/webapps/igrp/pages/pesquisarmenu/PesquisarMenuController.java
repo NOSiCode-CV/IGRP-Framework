@@ -330,17 +330,17 @@ public class PesquisarMenuController extends Controller {
 		try {
 			String []aux = input.split("/");
 			String dad = aux[0];
-			Application app = new Application().findByDad(dad);
+			Application app = Core.findApplicationByDad(dad);
 			String u = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI(), "");
 			
-			boolean isDevEnv = new Config().getEnvironment().equalsIgnoreCase("dev");
+//			boolean isDevEnv = new Config().getEnvironment().equalsIgnoreCase("dev");
 			
-			if(isDevEnv && app.getExternal() == 2 && app.getUrl() != null && !app.getUrl().isEmpty()) {
+			if(app.getExternal() == 2 && app.getUrl() != null && !app.getUrl().isEmpty()) {
 				String customDad = app.getUrl();
 				url = u + "/" + customDad + "/app/"; 
 			}
 			
-			if(isDevEnv && app.getExternal() == 1)
+			if(app.getExternal() == 1)
 				url = u + "/" + dad + "/app/"; 
 			
 		} catch (Exception e) {

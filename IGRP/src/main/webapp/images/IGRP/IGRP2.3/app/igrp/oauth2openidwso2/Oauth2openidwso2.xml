@@ -37,6 +37,9 @@
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
     <content>
         <title>OAuth2OpenIdWso2</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -58,8 +61,16 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauth2openidwso2/Oauth2openidwso2.xml</preview>
             </item>
         </toolsbar_1>
-        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
-            <fields/>
-        </box_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="logout" custom_return="true">
+                <title>Logout</title>
+                <app>igrp</app>
+                <page>Dominio</page>
+                <link>index</link>
+                <target>_blank</target>
+                <img>primary|fa-sign-out</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
+            </item>
+        </toolsbar_2>
     </content>
 </rows>
