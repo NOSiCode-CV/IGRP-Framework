@@ -189,7 +189,10 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	private String getClassPathWorkspace(TaskService task,Application app) {
-		return (this.getConfig().getBasePahtClassWorkspace(app.getDad())+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase());
+		String workSpace =  this.getConfig().getBasePahtClassWorkspace(app.getDad());
+		if(Core.isNotNull(workSpace))
+			return workSpace+File.separator+"process"+File.separator+task.getProcessDefinitionId().toLowerCase();
+		return null;
 	}
 	
 	private void saveBPMNTaskPermission(List<TaskService> tasks,Application app) {

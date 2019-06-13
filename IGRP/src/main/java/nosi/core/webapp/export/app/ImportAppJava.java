@@ -101,7 +101,7 @@ public class ImportAppJava {
 		pathWorkSpace = this.config.getBasePahtClassWorkspace(this.app.getDad())+File.separator+folderPage.toLowerCase();
 		if(c.getType().equalsIgnoreCase("hibernate-config")) {
 			path = this.config.getBasePathClass();
-			pathWorkSpace = this.config.getRawBasePathResourcesWorkspace();
+			pathWorkSpace = this.config.getPathWorkspaceResources()+ File.separator;
 		}else if(c.getType().equalsIgnoreCase("xsl-xml-json")) {
 			
 			//Get xml, json and xsl
