@@ -262,7 +262,7 @@ public class MigrationIGRPInitConfig {
 			partilha.setMenu(partilha);
 			menus.add(partilha);
 			//Profile() the type_fk is 18
-			Menu sql = new Menu("SQL Tool", 99, 1, 0, "_self", actions.get(51), app_igrp_studio, null);
+			Menu sql = new Menu("SQL Tool", 99, 1, 0, "modal", actions.get(51), app_igrp_studio, null);
 			sql.setMenu(sql);
 			menus.add(sql);
 			//Profile() the type_fk is 19
@@ -279,7 +279,7 @@ public class MigrationIGRPInitConfig {
 			GestDominio.setMenu(GestDominio);
 			menus.add(GestDominio);
 			
-			Menu wsdl2java = new Menu("WSDL2Java", 99, 1, 1, "_self", actions.get(73), app_igrp_studio, null);
+			Menu wsdl2java = new Menu("WSDL2Java", 99, 1, 1, "modal", actions.get(73), app_igrp_studio, null);
 			wsdl2java.setMenu(wsdl2java);
 			menus.add(wsdl2java);
 			

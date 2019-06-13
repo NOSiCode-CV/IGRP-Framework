@@ -55,12 +55,14 @@ public class ResetbyemailController extends Controller {
 		link += "&target=_blank&isPublic=1" + "&t=" + token; 
 		
 		String email = model.getForm_1_email_1();
-		
+		String username="";
 		switch(this.getConfig().getAutenticationType()) { 
 			case "db": 
 				if(!db(email, token)) { 
 					Core.setMessageError("Ooops ! O email inserido não foi encontrado."); 
 					return forward("igrp","Resetbyemail","index", this.queryString()); 
+				}else {
+					username= Core.findUserByEmail(email)!=null?Core.findUserByEmail(email).getName():"";
 				}
 			break;
 			case "ldap": 
@@ -71,9 +73,9 @@ public class ResetbyemailController extends Controller {
 			break;
 	}
 		
-		String msg = "" + "<p>Caro (a) utilizador, foi solicitado o reset de password da sua conta de acesso ... </p>"; 
+		String msg = "" + "<p>Caro(a) "+username+", foi solicitado o reset de password da sua conta de acesso ... </p>"; 
 		
-		String aux = EmailMessage.PdexTemplate.getCorpoFormatado("Reset de Password - Kriol", "Olá", new String[] {msg}, new String[] {"Recuperar Password"}, new String[] {link}, null);
+		String aux = EmailMessage.PdexTemplate.getCorpoFormatado("Recuperação da palavra-passe", "Excelentíssimo,", new String[] {msg}, new String[] {"Recuperar Password"}, new String[] {link}, null);
 		
 		try {
 			boolean r = EmailMessage.newInstance().setTo(email).setFrom("igrpframeworkjava@gmail.com").setSubject("Reset de Password")

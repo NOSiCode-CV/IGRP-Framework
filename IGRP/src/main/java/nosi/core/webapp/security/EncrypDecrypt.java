@@ -56,7 +56,7 @@ public class EncrypDecrypt {
 	}
 	
 	private static String getSecretKey() {
-		return SECRET_KEY;
+		return Igrp.getInstance().getRequest().getSession().getId();
 	}
 
 	public static SecretKeySpec generateSecretKey(String key) {

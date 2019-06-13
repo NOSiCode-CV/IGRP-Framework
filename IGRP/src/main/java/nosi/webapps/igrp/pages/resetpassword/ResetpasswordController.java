@@ -120,17 +120,15 @@ public class ResetpasswordController extends Controller {
 		}else {
 			switch(this.getConfig().getAutenticationType()) {
 				case "db": 
-					if(db(username, pwd)) {
-						this.addQueryString("target", "_self");
-                     this.addQueryString("isPublic","0");
-						return redirect("igrp","login","login", this.queryString());
+					if(db(username, pwd)) {						
+						return redirect("igrp","login","login&isPublic=0&target=_self", this.queryString());
 					}
 				break;
 				case "ldap": 
 					if(ldap(username, pwd)) {
-						this.addQueryString("target", "_self");
-                       this.addQueryString("isPublic","0");
-						return redirect("igrp","login","login", this.queryString());
+						
+                       
+						return redirect("igrp","login","login&isPublic=0&target=_self", this.queryString());
 					}
 				break;
 			}

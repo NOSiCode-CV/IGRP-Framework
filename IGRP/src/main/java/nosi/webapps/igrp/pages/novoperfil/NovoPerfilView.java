@@ -41,23 +41,23 @@ public class NovoPerfilView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));
-		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","").add("check","true");
+		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("switch","false").add("java-type","int").add("check","true");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","true").add("domain","").add("java-type","int").add("tags","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
@@ -69,7 +69,7 @@ public class NovoPerfilView extends View {
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
-		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","250");
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","250").add("desclabel","false");
 		
 		primeira_pagina = new ListField(model,"primeira_pagina");
 		primeira_pagina.setLabel(gt("Primeira página"));

@@ -59,22 +59,22 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Voluptatem magna rem magna sit</value>
+                    <value>Labore officia accusantium ani</value>
                 </nome>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Rem magna sit doloremque elit</value>
+                    <value>Anim accusantium doloremque of</value>
                 </codigo>
-                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="" check="true">
+                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </activo>
-                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
                 </nada>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="true" right="false" domain="" java-type="int" tags="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int" tags="false">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -150,7 +150,7 @@
                         </option>
                     </list>
                 </perfil_pai>
-                <extras name="p_extras" type="separator" maxlength="250" placeholder="" right="false">
+                <extras name="p_extras" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
                     <label>Extras</label>
                 </extras>
                 <primeira_pagina name="p_primeira_pagina" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="int">
