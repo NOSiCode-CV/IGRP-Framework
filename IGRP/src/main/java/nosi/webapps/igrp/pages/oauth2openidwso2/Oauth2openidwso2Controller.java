@@ -20,6 +20,7 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPButton;
 
 /*----#end-code----*/
 		
@@ -30,12 +31,26 @@ public class Oauth2openidwso2Controller extends Controller {
 		Oauth2openidwso2View view = new Oauth2openidwso2View();
 		/*----#start-code(index)----*/
 		
-		//view.btn_sign_in_.addParameter("target", "_blank");
-		//view.btn_sign_in_.addParameter("isPublic", "1");
+		view.btn_logout= new IGRPButton("Logout","igrp","login","logout&isPublic=0&target=_self","_self","primary|fa-sign-out","","");
 		
 		/*----#end-code----*/
 		view.setModel(model);
 		return this.renderView(view);	
+	}
+	
+	public Response actionLogout() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Oauth2openidwso2 model = new Oauth2openidwso2();
+		model.load();
+		/*----#gen-example
+		  EXAMPLES COPY/PASTE:
+		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
+		 this.addQueryString("p_id","12"); //to send a query string in the URL
+		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		/*----#start-code(logout)----*/
+		
+			return this.redirectToUrl("?r=igrp/login/logout&isPublic=0&target=_self");
+		/*----#end-code----*/
+			
 	}
 	
 	public Response actionSign_in_() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -58,21 +73,6 @@ public class Oauth2openidwso2Controller extends Controller {
 		
 		return redirectToUrl(url);
 		
-		/*----#end-code----*/
-			
-	}
-	
-	public Response actionLogout() throws IOException, IllegalArgumentException, IllegalAccessException{
-		Oauth2openidwso2 model = new Oauth2openidwso2();
-		model.load();
-		/*----#gen-example
-		  EXAMPLES COPY/PASTE:
-		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
-		/*----#start-code(logout)----*/
-		
-		return this.redirect("igrp", "login", "logout&isPublic=0");
 		/*----#end-code----*/
 			
 	}
