@@ -253,18 +253,31 @@ public class Config {
 	}
 	
 	public String getRawBasePathClassWorkspace() {
-		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +  "src"+ SEPARATOR_FOR_FILESYS +"main"+ SEPARATOR_FOR_FILESYS +"java"+ SEPARATOR_FOR_FILESYS;
+		String workSpace = this.getWorkspace();
+		if(Core.isNotNull(workSpace))
+			return workSpace + SEPARATOR_FOR_FILESYS +  "src"+ SEPARATOR_FOR_FILESYS +"main"+ SEPARATOR_FOR_FILESYS +"java"+ SEPARATOR_FOR_FILESYS;
+		return null;
 	}
 
-	public String getRawBasePathResourcesWorkspace() {
-		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +  "src"+ SEPARATOR_FOR_FILESYS +"main"+ SEPARATOR_FOR_FILESYS +"resources"+ SEPARATOR_FOR_FILESYS;
+	public String getPathWorkspaceResources() {
+		String workSpace = this.getWorkspace();
+		if(Core.isNotNull(workSpace))
+			return workSpace + SEPARATOR_FOR_FILESYS +"src"+ SEPARATOR_FOR_FILESYS + "main" + SEPARATOR_FOR_FILESYS + "resources";
+		return null;
 	}
 	
 	public String getBasePahtClassWorkspace(String app){
-		return this.getRawBasePathClassWorkspace()+ this.getBasePackage(app).replace(".", SEPARATOR_FOR_FILESYS);
+		String workSpace = this.getRawBasePathClassWorkspace();
+		if(Core.isNotNull(workSpace))
+			return workSpace+ this.getBasePackage(app).replace(".", SEPARATOR_FOR_FILESYS);
+		return null;
 	}
+	
 	public String getBasePahtClassWorkspace(String app,String page){
-		return this.getRawBasePathClassWorkspace()+ this.getBasePackage(app,page).replace(".", SEPARATOR_FOR_FILESYS);
+		String workSpace = this.getRawBasePathClassWorkspace();
+		if(Core.isNotNull(workSpace))
+			return workSpace+ this.getBasePackage(app,page).replace(".", SEPARATOR_FOR_FILESYS);
+		return null;
 	}
 
 	private String getBasePackage(String app,String page) {
@@ -327,11 +340,17 @@ public class Config {
 	}
 	
 	public String getBasePahtXslWorkspace(Action page){
-		return this.getWorkspace() + SEPARATOR_FOR_FILESYS + this.getWebapp() + SEPARATOR_FOR_FILESYS + this.getImageAppPath(page);
+		String workSpace = this.getWorkspace();
+		if(Core.isNotNull(workSpace))
+			return workSpace + SEPARATOR_FOR_FILESYS + workSpace + SEPARATOR_FOR_FILESYS + this.getImageAppPath(page);
+		return null;
 	}
 
 	public String getBasePahtXslWorkspace(Application app) {
-		return this.getWorkspace() + SEPARATOR_FOR_FILESYS + this.getWebapp() + SEPARATOR_FOR_FILESYS + this.getImageAppPath(app,"2.3");
+		String workSpace = this.getWorkspace();
+		if(Core.isNotNull(workSpace))
+			return workSpace + SEPARATOR_FOR_FILESYS + workSpace + SEPARATOR_FOR_FILESYS + this.getImageAppPath(app,"2.3");
+		return null;
 	}
 	
 	public String getWebapp() {
@@ -377,14 +396,7 @@ public class Config {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".process." + processId.toLowerCase() + "." + taskName + "Controller";
 		return basePackage;
 	}
-		
-  
-	public String getPathWorkspaceResources() {
-		if(Core.isNotNull(this.getWorkspace()))
-			return this.getWorkspace() + SEPARATOR_FOR_FILESYS +"src"+ SEPARATOR_FOR_FILESYS + "main" + SEPARATOR_FOR_FILESYS + "resources";
-		return null;
-	}
-  
+
 	public String getHeader(IHeaderConfig config) {
 		return getHeader(config,null);
 	}
