@@ -90,6 +90,14 @@ public class PageImport extends AbstractImport implements IImport{
 			ac.setTipo(page.getTipo());
 			ac = ac.insert();
 			this.addError(ac.hasError()?ac.getError().get(0):null);
+		}else {
+			ac.setNomeModulo(page.getNomeModulo());
+			ac.setIsComponent(page.getIsComponent());
+			ac.setProcessKey(page.getProcessKey());
+			ac.setTipo(page.getTipo());
+			ac.setPage_descr(page.getPage_descr());
+			ac.setStatus(page.getStatus());
+			ac.update();
 		}
 		if(!ac.hasError()) {
 			this.saveFile(page,ac);
