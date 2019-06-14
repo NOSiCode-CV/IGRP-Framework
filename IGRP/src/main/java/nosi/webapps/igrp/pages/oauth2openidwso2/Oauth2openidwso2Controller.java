@@ -32,7 +32,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		Oauth2openidwso2View view = new Oauth2openidwso2View();
 		/*----#start-code(index)----*/
 		
-		view.btn_logout= new IGRPButton("Logout","igrp","login","logout&isPublic=0&target=_self","_self","primary|fa-sign-out","","");
+		//view.btn_logout= new IGRPButton("Logout","igrp","login","logout&isPublic=0&target=_self","_self","primary|fa-sign-out","","");
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -48,8 +48,8 @@ public class Oauth2openidwso2Controller extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(logout)----*/
-		
-			return this.redirectToUrl("?r=igrp/login/logout&isPublic=0&target=_self");
+		String logoutUrl = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/logout"; 
+		return redirectToUrl(logoutUrl); 
 		/*----#end-code----*/
 			
 	}
@@ -162,7 +162,7 @@ public class Oauth2openidwso2Controller extends Controller {
 				
 				return url; 
 			//} 
-		} catch (Exception e) {
+		} catch (Exception e) { 
 		}
 		
 		return "#"; 
