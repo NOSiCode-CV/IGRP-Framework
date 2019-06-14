@@ -43,6 +43,10 @@ public final class ConfigApp {
 		return props;
 	}
 	
+	public Properties loadCommonConfig() {
+		return ConfigApp.getInstance().loadConfig("common", "main.xml");
+	}
+	
 	public Properties loadConfig(String filePath, String fileName) {
 		String path = new Config().getBasePathConfig() + File.separator + filePath;
 		return this.loadConfig(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
