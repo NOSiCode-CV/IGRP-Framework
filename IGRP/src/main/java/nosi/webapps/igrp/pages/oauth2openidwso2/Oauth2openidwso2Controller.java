@@ -20,6 +20,7 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
 import nosi.core.gui.components.IGRPButton;
 
 /*----#end-code----*/
@@ -97,10 +98,6 @@ public class Oauth2openidwso2Controller extends Controller {
 	public Response actionMyApps() throws IOException, IllegalArgumentException, IllegalAccessException{
 		String p_uid =  Core.getParam("p_uid"); 
 		
-		String url = Igrp.getInstance().getRequest().getRequestURL() + ""; 
-		
-		url = url.replace("app/webapps", "igrpoauth2sso") + "?_t=TOKEN";  
-		
 		JSONArray allApps = new JSONArray(); 
 		
 		List<Profile> p = new Application().getMyAppByEmail(p_uid); 
@@ -120,7 +117,7 @@ public class Oauth2openidwso2Controller extends Controller {
 				String img_src = (Igrp.getInstance().getRequest().getRequestURL() + "").replace(Igrp.getInstance().getRequest().getRequestURI(), "") + Igrp.getInstance().getRequest().getContextPath() + "/images/IGRP/IGRP2.3/assets/img/iconApp/" + app.getImg_src();
 				jsonObject.put("img_src", img_src); 
 				
-				jsonObject.put("link", url); 
+				jsonObject.put("link", this.createResponseOauth2OpenIdWso2()); 
 				
 				Action action = app.getAction(); 
 				if(action != null)
@@ -151,6 +148,24 @@ public class Oauth2openidwso2Controller extends Controller {
 			}
 		}
 		return flag; 
+	}
+	
+	private String createResponseOauth2OpenIdWso2() { 
+		try {
+			Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
+			//String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+			String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
+			//if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
+				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+				String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
+				url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri; 			
+				
+				return url; 
+			//} 
+		} catch (Exception e) {
+		}
+		
+		return "#"; 
 	}
 		
 
