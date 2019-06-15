@@ -48,7 +48,7 @@
 		<!-- -->
 
 		<reflections.version>0.9.11</reflections.version>
-		<apache.axis.version>1.4</apache.axis.version>
+		<apache.axis.version>1.7.9</apache.axis.version>
 		<jdt.core.compiler.version>4.6.1</jdt.core.compiler.version>
 	</properties>
 
@@ -255,11 +255,13 @@
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
-
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2 -->
 		<dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis</artifactId>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2</artifactId>
 			<version>${apache.axis.version}</version>
+			<type>pom</type>
 		</dependency>
 		<!--END Apache dependencies -->
 

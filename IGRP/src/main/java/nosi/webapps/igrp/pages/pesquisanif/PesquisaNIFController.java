@@ -7,7 +7,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF.RowList;
+//import nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF.RowList;
 import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
@@ -46,18 +46,18 @@ public class PesquisaNIFController extends Controller {
 		
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-			nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF p = Core.getBizTalkPesquisaNIF(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF(model.getNif(), model.getNome()));
-
-			List<PesquisaNIF.Table_1> data = new ArrayList<>();
-			if(p!=null){
-				for(RowList row:p.getRowList()){
-					PesquisaNIF.Table_1 pbi = new PesquisaNIF.Table_1();
-					pbi.setData_nascimento(row.getNm_contribuinte());
-					data.add(pbi);
-				}
-				PesquisaNIFView view = new PesquisaNIFView();
-				return this.renderView(view);
-			}
+////			nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF p = Core.getBizTalkPesquisaNIF(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF(model.getNif(), model.getNome()));
+//
+//			List<PesquisaNIF.Table_1> data = new ArrayList<>();
+//			if(p!=null){
+//				for(RowList row:p.getRowList()){
+//					PesquisaNIF.Table_1 pbi = new PesquisaNIF.Table_1();
+//					pbi.setData_nascimento(row.getNm_contribuinte());
+//					data.add(pbi);
+//				}
+//				PesquisaNIFView view = new PesquisaNIFView();
+//				return this.renderView(view);
+//			}
 		}
 		
 		/*----#end-code----*/

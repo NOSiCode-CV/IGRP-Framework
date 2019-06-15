@@ -7,7 +7,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento.RowList;
+//import nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento.RowList;
 import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
@@ -45,21 +45,21 @@ public class PesquisaNascimentoController extends Controller {
 
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-			nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento(model.getNome(), (model.getN_registo()!=null && !model.getN_registo().equals(""))?Integer.parseInt(model.getN_registo()):null, null));
-			List<PesquisaNascimento.Table_1> data = new ArrayList<>();
-			if(p!=null){
-				for(RowList row:p.getRowList()){
-					PesquisaNascimento.Table_1 pbi = new PesquisaNascimento.Table_1();
-					pbi.setData_facto(row.getData_nascimento());
-					pbi.setN_registo_tabela(""+row.getNumero());
-					pbi.setNome_mae(row.getNome_mae());
-					pbi.setNome_pai(row.getNome_pai());
-					pbi.setNome_tabela(row.getIdentificacao());
-					data.add(pbi);
-				}
-			}
-			PesquisaNascimentoView view = new PesquisaNascimentoView();
-			view.table_1.addData(data);
+//			nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento(model.getNome(), (model.getN_registo()!=null && !model.getN_registo().equals(""))?Integer.parseInt(model.getN_registo()):null, null));
+//			List<PesquisaNascimento.Table_1> data = new ArrayList<>();
+//			if(p!=null){
+//				for(RowList row:p.getRowList()){
+//					PesquisaNascimento.Table_1 pbi = new PesquisaNascimento.Table_1();
+//					pbi.setData_facto(row.getData_nascimento());
+//					pbi.setN_registo_tabela(""+row.getNumero());
+//					pbi.setNome_mae(row.getNome_mae());
+//					pbi.setNome_pai(row.getNome_pai());
+//					pbi.setNome_tabela(row.getIdentificacao());
+//					data.add(pbi);
+//				}
+//			}
+//			PesquisaNascimentoView view = new PesquisaNascimentoView();
+//			view.table_1.addData(data);
 			
 		}
 		

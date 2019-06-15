@@ -7,7 +7,7 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
-import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI.RowList;
+//import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI.RowList;
 import nosi.core.webapp.Igrp;
 
 /*----#end-code----*/
@@ -45,27 +45,27 @@ public class PesquisaBIController extends Controller {
 		
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-			List<PesquisaBI.Table_1> data = new ArrayList<>();
-			if(model.getBi() != 0 && Core.isNotNull(model.getNome())) {
-			nosi.core.webapp.webservices.biztalk.dao.PesquisaBI p = Core.getBizTalkPesquisaBI(new nosi.core.webapp.webservices.biztalk.dao.PesquisaBI(model.getBi(), model.getNome()));
-				if(p!=null){	
-					for(RowList row:p.getRowList()){
-						PesquisaBI.Table_1 pbi = new PesquisaBI.Table_1();
-						pbi.setBi_tabela(""+row.getNumero());
-						pbi.setData_nascimento(row.getData_nascimento());
-						pbi.setNome_mae(row.getNome_mae());
-						pbi.setNome_pai(row.getNome_pai());
-						pbi.setSexo(row.getSexo());
-						data.add(pbi);
-					}
-				}
-			}else {
-				Core.setMessageInfo(" Prenche todos os campos "); 
-				forward("igrp","PesquisaBI","index");
-			}
-			PesquisaBIView view = new PesquisaBIView();
-			view.table_1.addData(data);
-		
+//			List<PesquisaBI.Table_1> data = new ArrayList<>();
+//			if(model.getBi() != 0 && Core.isNotNull(model.getNome())) {
+//			nosi.core.webapp.webservices.biztalk.dao.PesquisaBI p = Core.getBizTalkPesquisaBI(new nosi.core.webapp.webservices.biztalk.dao.PesquisaBI(model.getBi(), model.getNome()));
+//				if(p!=null){	
+//					for(RowList row:p.getRowList()){
+//						PesquisaBI.Table_1 pbi = new PesquisaBI.Table_1();
+//						pbi.setBi_tabela(""+row.getNumero());
+//						pbi.setData_nascimento(row.getData_nascimento());
+//						pbi.setNome_mae(row.getNome_mae());
+//						pbi.setNome_pai(row.getNome_pai());
+//						pbi.setSexo(row.getSexo());
+//						data.add(pbi);
+//					}
+//				}
+//			}else {
+//				Core.setMessageInfo(" Prenche todos os campos "); 
+//				forward("igrp","PesquisaBI","index");
+//			}
+//			PesquisaBIView view = new PesquisaBIView();
+//			view.table_1.addData(data);
+//		
 		}
 		
 		/*----#end-code----*/
