@@ -1,6 +1,5 @@
 package nosi.core.webapp;
 
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,25 +37,25 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
+
 /**
  * Useful functions like addQueryString
- * 
- * @author Marcel Iekiny
- * Apr 15, 2017
+ *
+ * @author Marcel Iekiny Apr 15, 2017
  */
-public class Controller{
+public class Controller {
 	protected Config config = new Config();
 	protected ConfigApp configApp = ConfigApp.getInstance();
-	private QueryString<String,Object> queryString = new QueryString<>();
+	private QueryString<String, Object> queryString = new QueryString<>();
 	private View view;
-	
+
 	protected String format = Response.FORMAT_XML;
 	protected String encoding = Response.CHARSET_UTF_8;
 	protected boolean isNoCached = false;
 
 	private Response responseWrapper;
 	private String qs = "";
-	
+
 	public Response getResponseWrapper() {
 		return responseWrapper;
 	}
@@ -64,103 +63,106 @@ public class Controller{
 	public void setResponseWrapper(Response responseWrapper) {
 		this.responseWrapper = responseWrapper;
 	}
-	
+
 	protected void restartQueryString() {
 		queryString = new QueryString<>();
 	}
-	
+
 	/**
 	 * Get all the r Params, and in a forEach does this.addQueryString of them all
-	 * 
+	 *
 	 * @return
 	 */
-	protected QueryString<String,Object> loadQueryString() {
-		Core.getParameters().entrySet().stream().filter(p->!p.getKey().equals("r")).forEach(p->{
-			this.addQueryString(p.getKey(),p.getValue()!=null?p.getValue()[0]:"");
-		});
+	protected QueryString<String, Object> loadQueryString() {
+		Core.getParameters().entrySet().stream().filter(p -> !p.getKey().equals("r"))
+				.forEach(p -> this.addQueryString(p.getKey(), p.getValue() != null ? p.getValue()[0] : ""));
 		return this.queryString;
 	}
-	
-	public QueryString<String,Object> queryString() {
+
+	public QueryString<String, Object> queryString() {
 		return this.queryString;
 	}
-	
-	public QueryString<String,Object> addQueryString(String name,Object value) {
-		if(value instanceof Object[]) {
-    		for(Object v:(Object[])value) {
-    			this.queryString().addQueryString(name, v);
-    		}
-    	    return this.queryString();
-    	}
+
+	public QueryString<String, Object> addQueryString(String name, Object value) {
+		if (value instanceof Object[]) {
+			for (Object v : (Object[]) value) {
+				this.queryString().addQueryString(name, v);
+			}
+			return this.queryString();
+		}
 		return this.queryString().addQueryString(name, value);
 	}
-	
-	public QueryString<String,Object> removeQueryString(String key) {
+
+	public QueryString<String, Object> removeQueryString(String key) {
 		return this.queryString.removeQueryString(key);
 	}
-	
+
 	protected String[] getQueryArray(String name) {
 		return Core.getParamArray(name);
 	}
-	
+
 	protected String getQueryString(String name) {
 		return Core.getParam(name);
-	}	
+	}
 
 	protected Integer getQueryStringInteger(String name) {
 		return Core.getParamInt(name);
-	}	
-	
+	}
+
 	protected Long getQueryStringLong(String name) {
 		return Core.getParamLong(name);
 	}
 
 	protected Short getQueryStringShort(String name) {
 		return Core.getParamShort(name);
-	}	
+	}
+
 	protected Float getQueryStringFloat(String name) {
 		return Core.getParamFloat(name);
-	}	
+	}
 
 	protected Double getQueryStringDouble(String name) {
 		return Core.getParamDouble(name);
 	}
-	
-	public Controller(){this.view = null;}
-	
-	protected final Response renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout 
+
+	public Controller() {
+		this.view = null;
+	}
+
+	protected final Response renderView(View view, boolean isRenderPartial) throws IOException { // renderiza a view e
+																									// aplica ou nao um
+																									// layout
 		Response resp = new Response();
 		this.view = view;
 		view.setContext(this); // associa controller ao view
 		this.view.render();
-		if(!isRenderPartial)
+		if (!isRenderPartial)
 			this.view.addToPage(this.view.addFieldToFormHidden());
 		String result = this.view.getPage().renderContent(!isRenderPartial);
 		resp.setType(1);
 		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
 		resp.setContentType(Response.FORMAT_XML);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
-		if(this.isNoCached){
+		if (this.isNoCached) {
 			resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 			resp.setDateHeader("Expires", 0); // Proxies.
 		}
 		resp.setContent(result);
-	return resp;
+		return resp;
 	}
-	
+
 	public Response renderView(String app, String page, View v) throws IOException {
-		return this.renderView(app, page, v,null,null);
+		return this.renderView(app, page, v, null, null);
 	}
-	
-	public Response renderView(String app, String page, View v,InterfaceBPMNTask bpmn,RuntimeTask runtimeTask) throws IOException {
+
+	public Response renderView(String app, String page, View v, InterfaceBPMNTask bpmn, RuntimeTask runtimeTask)
+			throws IOException {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.view = v;
-		Action ac = new Action().find()
-				.andWhere("application.dad", "=",app)
-				.andWhere("page", "=",Page.resolvePageName(page))
-				.one();
+		Action ac = new Action().find().andWhere("application.dad", "=", app)
+				.andWhere("page", "=", Page.resolvePageName(page)).one();
 		Response resp = new Response();
 		this.view.setContext(this); // associa controller ao view
 		this.view.render();
@@ -168,30 +170,31 @@ public class Controller{
 		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
 		resp.setContentType(Response.FORMAT_XML);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
-		if(this.isNoCached){
+		if (this.isNoCached) {
 			resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 			resp.setDateHeader("Expires", 0); // Proxies.
-		}		
-		
+		}
+
 		String content = this.view.getPage().renderContent(false);
 		content = BPMNButton.removeXMLButton(content);
-		XMLWritter xml = new XMLWritter("rows",this.config.getLinkPageXsl(ac), "utf-8");
+		XMLWritter xml = new XMLWritter("rows", this.config.getLinkPageXsl(ac), "utf-8");
 		xml.addXml(this.getConfig().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
-		if(Core.isNotNull(runtimeTask)) {
+		if (Core.isNotNull(runtimeTask)) {
 			TaskServiceRest taskService = new TaskServiceRest();
 			String taskId = runtimeTask.getTask().getId();
-			if(runtimeTask.isSaveButton()) {
+			if (runtimeTask.isSaveButton()) {
 				xml.addXml(BPMNButton.generateButtonBack().toString());
-				xml.addXml(BPMNButton.generateButtonTask("igrp",ac.getApplication().getId(),"ExecucaoTarefas","process-task", taskId).toString());
+				xml.addXml(BPMNButton.generateButtonTask("igrp", ac.getApplication().getId(), "ExecucaoTarefas",
+						"process-task", taskId).toString());
 			}
-			ViewTaskDetails details = this.getTaskDetails(taskService,taskId);
-			xml.addXml(this.getTaskViewDetails(taskService,details));
+			ViewTaskDetails details = this.getTaskDetails(taskService, taskId);
+			xml.addXml(this.getTaskViewDetails(details));
 			xml.addXml(content);
-			xml.addXml(this.getDocument(runtimeTask,bpmn,ac,details.getUserName()));
-			if(m!=null){
+			xml.addXml(this.getDocument(runtimeTask, bpmn, ac, details.getUserName()));
+			if (m != null) {
 				xml.addXml(m);
 			}
 		}
@@ -200,24 +203,26 @@ public class Controller{
 		return resp;
 	}
 
-	private String getTaskViewDetails(TaskServiceRest taskService,ViewTaskDetails details) {		
+	private String getTaskViewDetails(ViewTaskDetails details) {
 		IGRPView viewTD = ViewTaskDetails.get(details);
-		return  viewTD.toString();
+		return viewTD.toString();
 	}
 
-	private ViewTaskDetails getTaskDetails(TaskServiceRest taskService,String taskId) {
+	private ViewTaskDetails getTaskDetails(TaskServiceRest taskService, String taskId) {
 		ViewTaskDetails details = new ViewTaskDetails();
 		Object obj = Core.getAttributeObject(BPMNConstants.PRM_TASK_OBJ, true);
-		if(Core.isNotNull(obj)) {	
-			TaskServiceQuery task = (TaskServiceQuery) obj;	
+		if (Core.isNotNull(obj)) {
+			TaskServiceQuery task = (TaskServiceQuery) obj;
 			List<TaskVariableDetails> v = taskService.queryHistoryTaskVariables(task.getId());
-			String prof_id = v.stream().filter(var->var.getPropertyId().equals("profile")).findFirst().get().getPropertyValue();		
+			String prof_id = v.stream().filter(var -> var.getPropertyId().equals("profile")).findFirst().get()
+					.getPropertyValue();
 			ProfileType prof = new ProfileType().findOne(Core.toInt(prof_id));
-			String userName = v.stream().filter(var->var.getPropertyId().equals("userName")).findFirst().get().getPropertyValue();
+			String userName = v.stream().filter(var -> var.getPropertyId().equals("userName")).findFirst().get()
+					.getPropertyValue();
 			details.setnProcess(task.getProcessInstanceId());
 			details.setnTask(taskId);
 			details.setProcessName(task.getProcessName());
-			details.setTaskName(task.getName());			
+			details.setTaskName(task.getName());
 			details.setEndTime(task.getEndTime());
 			details.setOrg(prof.getOrganization().getName());
 			details.setProfile(prof.getDescr());
@@ -226,7 +231,7 @@ public class Controller{
 			return details;
 		}
 		TaskService task = new TaskServiceRest().getTask(taskId);
-		if(task!=null) {
+		if (task != null) {
 			details.setnProcess(task.getProcessInstanceId());
 			details.setnTask(taskId);
 			details.setProcessName(task.getProcessName());
@@ -234,42 +239,46 @@ public class Controller{
 		}
 		return details;
 	}
-	
-	private String getDocument(RuntimeTask runtimeTak,InterfaceBPMNTask bpmn, Action action,String userName) {
-		if(bpmn==null)
-			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),runtimeTak.getTask().getProcessDefinitionKey(),runtimeTak.getTask().getTaskDefinitionKey(),null);
-		
+
+	private String getDocument(RuntimeTask runtimeTak, InterfaceBPMNTask bpmn, Action action, String userName) {
+		if (bpmn == null)
+			return BPMNHelper.addFileSeparator(action.getApplication().getDad(),
+					runtimeTak.getTask().getProcessDefinitionKey(), runtimeTak.getTask().getTaskDefinitionKey(), null);
+
 		DisplayDocmentType display = new DisplayDocmentType();
 		display.setUserName(userName);
 		display.setListDocmentType(bpmn.getInputDocumentType());
 		String previewTask = runtimeTak.getPreviewTask();
 		boolean isDetails = runtimeTak.isDetails();
-		if(isDetails)
+		if (isDetails)
 			display.setShowInputFile(false);
-		
-		if(Core.isNotNull(previewTask)) {
+
+		if (Core.isNotNull(previewTask)) {
 			try {
 				Core.setAttribute(BPMNConstants.PRM_TASK_DEFINITION, runtimeTak.getTask().getTaskDefinitionKey());
-				String packageName =  "nosi.webapps."+action.getApplication().getDad().toLowerCase()+".process."+runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
-				Class<?> c = Class.forName(packageName+"."+BPMNConstants.PREFIX_TASK+previewTask+"Controller");
+				String packageName = "nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".process."
+						+ runtimeTak.getTask().getProcessDefinitionKey().toLowerCase();
+				Class<?> c = Class.forName(packageName + "." + BPMNConstants.PREFIX_TASK + previewTask + "Controller");
 				Method method = c.getMethod("getOutputDocumentType");
 				@SuppressWarnings("unchecked")
 				List<TipoDocumentoEtapa> listDocOutput = (List<TipoDocumentoEtapa>) method.invoke(c.newInstance());
 				display.addListDocumentType(listDocOutput);
-			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return display.display();
 	}
 
-	protected final Response renderView(View view) throws IOException{ // Overload ...
+	protected final Response renderView(View view) throws IOException { // Overload ...
 		return this.renderView(view, false);
 	}
+
 	/**
 	 * Calls this.xSend
-	 * 
+	 *
 	 * @param file
 	 * @param name
 	 * @param contentType
@@ -279,8 +288,10 @@ public class Controller{
 	public final Response render(byte[] file, String name, String contentType, boolean download) {
 		return this.xSend(file, name, contentType, download);
 	}
+
 	/**
 	 * Calls this.xSend
+	 * 
 	 * @param file
 	 * @param name
 	 * @param contentType
@@ -288,12 +299,12 @@ public class Controller{
 	 * @param url
 	 * @return
 	 */
-	Response render(byte[] file, String name, String contentType, boolean download,String url) {
-		return this.xSend(file,  name,  contentType,  download, url) ;
-		
+	Response render(byte[] file, String name, String contentType, boolean download, String url) {
+		return this.xSend(file, name, contentType, download, url);
+
 	}
-	
-	protected final Response renderView(String content){
+
+	protected final Response renderView(String content) {
 		Response resp = new Response();
 		resp.setType(1);
 		resp.setCharacterEncoding(this.encoding);
@@ -301,141 +312,139 @@ public class Controller{
 		resp.setContent(content);
 		return resp;
 	}
-	
-	private final Response redirect_(String url){
+
+	private final Response redirect_(String url) {
 		Response resp = new Response();
 		resp.setType(2);
 		resp.setContentType(this.format);
 		resp.setUrl(url);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
-	return resp;
+		return resp;
 	}
-	
-	protected final Response redirect(String app, String page, String action,Model model,QueryString<String,Object> queryString) throws IOException{		
+
+	protected final Response redirect(String app, String page, String action, Model model,
+			QueryString<String, Object> queryString) throws IOException {
 		Core.setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
-		return this.redirect(app,page,action,queryString);
+		return this.redirect(app, page, action, queryString);
 	}
 
-
-	protected final Response redirect(String app, String page, String action,QueryString<String,Object> queryString) throws IOException{
-		if(queryString.getValues("dad")==null && !action.contains("dad"))
+	protected final Response redirect(String app, String page, String action, QueryString<String, Object> queryString)
+			throws IOException {
+		if (queryString.getValues("dad") == null && !action.contains("dad"))
 			queryString.addQueryString("dad", Core.getParam("dad"));
 		String jsonLookup = Core.getParam("jsonLookup");
-		if(Core.isNotNull(jsonLookup)) {
+		if (Core.isNotNull(jsonLookup)) {
 			queryString.addQueryString("jsonLookup", jsonLookup);
 		}
 		this.setQueryString(queryString);
-		Map<String,String[]> paramsName = Core.getParameters();
-		paramsName.entrySet().stream()
-				  .filter(param->param.getKey().startsWith("p_fwl_"))
-				  .filter(param->!param.getKey().equalsIgnoreCase("p_fwl_search"))
-				  .forEach(param->{
-					  qs+="&"+param.getKey()+"="+param.getValue()[0];
-				  });
+		Map<String, String[]> paramsName = Core.getParameters();
+		paramsName.entrySet().stream().filter(param -> param.getKey().startsWith("p_fwl_"))
+				.filter(param -> !param.getKey().equalsIgnoreCase("p_fwl_search"))
+				.forEach(param -> qs += "&" + param.getKey() + "=" + param.getValue()[0]);
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
-	
-	private void setQueryString(QueryString<String,Object> queryString) {
+
+	private void setQueryString(QueryString<String, Object> queryString) {
 		qs = "";
-		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(q->{
-				q.getValue().stream().forEach(q1->{
-					if(q1!=null)
-						qs += "&"+q.getKey()+"="+q1.toString();
-				});					
-			});
+		if (queryString != null && !queryString.getQueryString().isEmpty()) {
+			queryString.getQueryString().entrySet().stream().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
+					.forEach(q1 -> qs += "&" + q.getKey() + "=" + q1));
 		}
 	}
 
-	private void setQueryStringToAttributes(QueryString<String,Object> queryString) {
-		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
-			queryString.getQueryString().entrySet().stream().forEach(qs->{
-				Core.setAttribute(qs.getKey(), qs.getValue().toArray());
-			});
+	private void setQueryStringToAttributes(QueryString<String, Object> queryString) {
+		if (queryString != null && !queryString.getQueryString().isEmpty()) {
+			queryString.getQueryString().entrySet().stream()
+					.forEach(qs -> Core.setAttribute(qs.getKey(), qs.getValue().toArray()));
 		}
 	}
-	protected final Response redirect(String app, String page, String action, String qs) throws IOException{
+
+	protected final Response redirect(String app, String page, String action, String qs) throws IOException {
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
-	
-	protected final Response redirect(String r, String qs) throws IOException{
+
+	protected final Response redirect(String r, String qs) throws IOException {
 		return this.redirect_(Route.toUrl(r, qs));
 	}
-	
-	protected final Response redirect(String r){
+
+	protected final Response redirect(String r) {
 		return this.redirect_(Route.toUrl(r));
 	}
-	
-	protected final Response redirectError() throws IOException{
+
+	protected final Response redirectError() throws IOException {
 		return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
 	}
-	
-	protected final Response redirect(String app, String page, String action) throws IOException{
-		return this.redirect_(Route.toUrl(app, page,  this.addParamDad(action)));
+
+	protected final Response redirect(String app, String page, String action) throws IOException {
+		return this.redirect_(Route.toUrl(app, page, this.addParamDad(action)));
 	}
-	
-	protected final Response redirect(String app, String page, String action,Model model) throws IOException{
+
+	protected final Response redirect(String app, String page, String action, Model model) throws IOException {
 		return this.redirect(app, page, action, model, new QueryString<>());
 	}
-	
-	protected final Response redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
+
+	protected final Response redirect(String app, String page, String action, String[] paramNames, String[] paramValues)
+			throws IOException {
 		return this.redirect_(Route.toUrl(app, page, action, paramNames, paramValues));
 	}
-	
-	protected final Response redirectToUrl(String url){
+
+	protected final Response redirectToUrl(String url) {
 		Response resp = new Response();
 		resp.setType(2);
 		resp.setUrl(url);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
 		return resp;
 	}
-	
+
 	protected final Response forward(String app, String page, String action) {
 		Response resp = new Response();
 		resp.setType(3);
 		resp.setUrl(Route.toUrl(app, page, this.addParamDad(action)));
 		return resp;
 	}
-	
+
 	private String addParamDad(String action) {
-		if(!action.contains("dad")) {
-			action+="&dad="+Core.getParam("dad");
+		if (!action.contains("dad")) {
+			action += "&dad=" + Core.getParam("dad");
 		}
 		return action;
 	}
 
 	protected final Response sendFile(File file, String name, String contentType, boolean download) {
-		byte []content = null;
+		byte[] content = null;
 		try {
-			content = new byte[(int)file.length()];
+			content = new byte[(int) file.length()];
 			FileInputStream is = new FileInputStream(file);
 			is.read(content);
 			is.close();
 			return this.xSend(content, name, contentType, download);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return this.xSend(content, name, contentType, download); // send it as stream ... binary file 
+		return this.xSend(content, name, contentType, download); // send it as stream ... binary file
 	}
-	// send it as stream ... binary file 
-	public final Response xSend(byte []file, String name, String contentType, boolean download) {
-		if(file == null) throw new ServerErrorHttpException();
+
+	// send it as stream ... binary file
+	public final Response xSend(byte[] file, String name, String contentType, boolean download) {
+		if (file == null)
+			throw new ServerErrorHttpException();
 //		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();
-		if(contentType == null || contentType.isEmpty()) {
-			contentType = "application/octet-stream"; // default 
-		}else {
+		if (contentType == null || contentType.isEmpty()) {
+			contentType = "application/octet-stream"; // default
+		} else {
 			try {
 				String extension = "." + contentType.split("/")[1];
-				if(!name.contains("."))
-					name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
-			}catch(Exception e) {
+				name = (name == null || name.isEmpty()) ? "igrp-file" + extension
+						: !name.contains(".") ? name + extension : name;
+
+			} catch (Exception e) {
 				contentType = "application/octet-stream";
 				e.printStackTrace();
 			}
 		}
 		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
-		if(download)
+		if (download)
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
 		else
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
@@ -443,28 +452,29 @@ public class Controller{
 		response.setContentLength(file.length);
 		response.setContentType(contentType);
 		response.setStream(file);
-		
+
 		return response;
 	}
 
-	public final Response xSend(byte []file, String name, String contentType, boolean download,String url) {
-		if(file == null) throw new ServerErrorHttpException();
+	public final Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
+		if (file == null)
+			throw new ServerErrorHttpException();
 //		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();
-		if(contentType == null || contentType.isEmpty()) {
-			contentType = "application/octet-stream"; // default 
-		}else {
+		if (contentType == null || contentType.isEmpty()) {
+			contentType = "application/octet-stream"; // default
+		} else {
 			try {
 				String extension = "." + contentType.split("/")[1];
-				if(!name.contains("."))
+				if (!name.contains("."))
 					name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
-			}catch(Exception e) {
+			} catch (Exception e) {
 				contentType = "application/octet-stream";
 				e.printStackTrace();
 			}
 		}
 		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
-		if(download)
+		if (download)
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
 		else
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
@@ -475,63 +485,70 @@ public class Controller{
 		response.setUrl(url);
 		return response;
 	}
-	public View getView(){
+
+	public View getView() {
 		return this.view;
 	}
-	
+
 	// ... main statics methods ...
-	
-	public void initControllerNRunAction() throws IOException{
+
+	public void initControllerNRunAction() throws IOException {
 		this.resolveRoute(); // (1)
 		this.prepareResponse(); // (2)
 	}
-	
-	private void prepareResponse() throws IOException{
-		 Object obj = this.run();
-		 if(obj != null && obj instanceof Response){
-			 Igrp app = Igrp.getInstance();
-			 
-			 String appDad = app.getCurrentAppName();
-			 String pageName = app.getCurrentPageName();
-			 
-			 if(app.getCurrentActionName() != null && appDad != null && pageName != null) {
+
+	private void prepareResponse() throws IOException {
+		Object obj = this.run();
+		if (obj != null && obj instanceof Response) {
+			Igrp app = Igrp.getInstance();
+
+			String appDad = app.getCurrentAppName();
+			String pageName = app.getCurrentPageName();
+
+			if (app.getCurrentActionName() != null && appDad != null && pageName != null) {
 //				 if(!new Action().isPublicPage(appDad, pageName)) {
 //					 if(new Permission().isPermition(appDad, pageName, app.getCurrentActionName())) {
 //						 Response resp = (Response) obj;
 //						 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
 //					 }
 //				 }else {
-					 Response resp = (Response) obj;
-					 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
+				Response resp = (Response) obj;
+				Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
 //				 }
-			 }
-			 
-		 }
+			}
+
+		}
 	}
-	
-	private void resolveRoute() throws IOException{
+
+	private void resolveRoute() throws IOException {
 		Igrp app = Igrp.getInstance();
-		String r = Core.isNotNull(app.getRequest().getParameter("r"))?app.getRequest().getParameter("r").toString():"igrp/login/login";			
-		
+		String r = Core.isNotNull(app.getRequest().getParameter("r")) ? app.getRequest().getParameter("r")
+				: "igrp/login/login";
+
 		r = SecurtyCallPage.resolvePage(r);
-		
-		if(r != null){
+
+		if (r != null) {
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
-				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
-					String []aux = r.split("/");
-					app.setCurrentAppName(aux[0]);
-					app.setCurrentPageName(aux[1]);
-					app.setCurrentActionName(aux[2]);
-				}else		
-					throw new ServerErrorHttpException("The route format is invalid");
+			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {
+				String[] aux = r.split("/");
+				app.setCurrentAppName(aux[0]);
+				app.setCurrentPageName(aux[1]);
+				app.setCurrentActionName(aux[2]);
+			} else
+				throw new ServerErrorHttpException("The route format is invalid");
 		}
 		String application = "Application: " + app.getCurrentAppName();
 		String page = "Page: " + app.getCurrentPageName();
 		String action = "Action: " + app.getCurrentActionName();
-		String controllerName = "Controller: " + "nosi.webapps."  + app.getCurrentAppName().trim().toLowerCase() + ".pages." + app.getCurrentPageName() + "Controller.java";
-		String viewName = "View: " + "nosi.webapps."  + app.getCurrentAppName().trim().toLowerCase() + ".pages." + app.getCurrentPageName() + "View.java";
-		String modelName = "Model: " + "nosi.webapps."  + app.getCurrentAppName().trim().toLowerCase() + ".pages." + app.getCurrentPageName() + ".java";
-		String xsl = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath() + "/images/IGRP/IGRP2.3/app/" + app.getCurrentAppName().trim().toLowerCase() + "/" + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
+		String controllerName = "Controller: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase()
+				+ ".pages." + app.getCurrentPageName() + "Controller.java";
+		String viewName = "View: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
+				+ app.getCurrentPageName() + "View.java";
+		String modelName = "Model: " + "nosi.webapps." + app.getCurrentAppName().trim().toLowerCase() + ".pages."
+				+ app.getCurrentPageName() + ".java";
+		String xsl = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath()
+				+ "/images/IGRP/IGRP2.3/app/" + app.getCurrentAppName().trim().toLowerCase() + "/"
+				+ app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
 		app.getLog().addMessage(application);
 		app.getLog().addMessage(page);
 		app.getLog().addMessage(action);
@@ -540,76 +557,78 @@ public class Controller{
 		app.getLog().addMessage(modelName);
 		app.getLog().addMessage(xsl);
 	}
-	
-	protected Object run(){ 
+
+	protected Object run() {
 		Igrp app = Igrp.getInstance();
 		String auxAppName = "";
 		String auxPageName = "";
-		String  auxcontrollerPath="";
+		String auxcontrollerPath = "";
 		String auxActionName = "";
-		if(app!=null && app.getCurrentAppName()!=null && app.getCurrentActionName()!=null && app.getCurrentPageName()!=null ){
-			for(String aux : app.getCurrentAppName().split("-"))
+		if (app != null && app.getCurrentAppName() != null && app.getCurrentActionName() != null
+				&& app.getCurrentPageName() != null) {
+			for (String aux : app.getCurrentAppName().split("-"))
 				auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			for(String aux : app.getCurrentActionName().split("-"))
+			for (String aux : app.getCurrentActionName().split("-"))
 				auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			for(String aux : app.getCurrentPageName().split("-")){
+			for (String aux : app.getCurrentPageName().split("-")) {
 				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			}
 			auxActionName = "action" + auxActionName;
-			auxcontrollerPath = this.config.getPackage(auxAppName,auxPageName,auxActionName);
-		}else {
+			auxcontrollerPath = this.config.getPackage(auxAppName, auxPageName, auxActionName);
+		} else {
 			auxActionName = "actionIndex";
-			auxcontrollerPath = this.config.getPackage("igrp","Home",auxActionName);
+			auxcontrollerPath = this.config.getPackage("igrp", "Home", auxActionName);
 		}
-		
+
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
 	}
-	
+
 	protected Response call(String app, String page, String action) {
 		return this.call(app, page, action, null);
 	}
-	
-	public Response call(String app, String page, String action,QueryString<String,Object> queryString) {
+
+	public Response call(String app, String page, String action, QueryString<String, Object> queryString) {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		this.setQueryStringToAttributes(queryString);
-		String auxcontrollerPath = this.config.getPackage(app,page,action);
+		String auxcontrollerPath = this.config.getPackage(app, page, action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
-		Object obj = Page.loadPage(auxcontrollerPath, "action"+StringHelper.camelCaseFirst(action));
+		Object obj = Page.loadPage(auxcontrollerPath, "action" + StringHelper.camelCaseFirst(action));
 		Response resp = (Response) obj;
-		if(resp!=null) {
-			String content = resp.getContent();		
-			if(m!=null){
-				content = Core.isNotNull(content)?content.replaceAll("<messages></messages>", m):content;
+		if (resp != null) {
+			String content = resp.getContent();
+			if (m != null) {
+				content = Core.isNotNull(content) ? content.replaceAll("<messages></messages>", m) : content;
 			}
 			resp.setContent(content);
 		}
-		return  resp ;
-	}	
-	
-	protected Response forward(String app, String page, String action,Model model) {
-		return this.forward(app, page, action,model, new QueryString<>());
+		return resp;
 	}
-	
-	protected Response forward(String app, String page, String action,Model model, QueryString<String,Object> queryString) {
+
+	protected Response forward(String app, String page, String action, Model model) {
+		return this.forward(app, page, action, model, new QueryString<>());
+	}
+
+	protected Response forward(String app, String page, String action, Model model,
+			QueryString<String, Object> queryString) {
 		Core.setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
 		return this.forward(app, page, action, queryString);
 	}
-	
-	protected Response forward(String app, String page, String action, QueryString<String,Object> queryString) {
+
+	protected Response forward(String app, String page, String action, QueryString<String, Object> queryString) {
 		this.setQueryString(queryString);
 		Response resp = new Response();
 		resp.setType(3);
-		resp.setUrl(Route.toUrl(app, page, action,qs));
+		resp.setUrl(Route.toUrl(app, page, action, qs));
 		return resp;
 	}
 
 	protected final Response xSend(FileRest file, String name, String contentType, boolean download) {
 		Response response = new Response();
 		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
-		if(download)
+		if (download)
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
 		else
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
@@ -617,86 +636,85 @@ public class Controller{
 		response.setFile(file);
 		return response;
 	}
-	
+
 	public void sendResponse() {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
-		if(responseWrapper!=null) {
+		if (responseWrapper != null) {
 			try {
-				switch(responseWrapper.getType()) {
-				case 1: // render it 
-						try {
-							if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
-								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());								
-								Igrp.getInstance().getResponse().getOutputStream().flush();
-								Igrp.getInstance().getResponse().getOutputStream().close();
-								Igrp.getInstance().getResponse().flushBuffer();						         
-							}else if(responseWrapper.getFile()!=null){
-								 HttpServletResponse response = Igrp.getInstance().getResponse();
-								 String name = responseWrapper.getFile().getFileName();
-						         response.setContentType(responseWrapper.getFile().getContentType());						 
-						         response.setHeader("Content-Disposition", "attachment; filename=\""+name+"\";");
-						         response.setHeader("Cache-Control", "no-cache");  
-						         response.setContentLength(responseWrapper.getFile().getSize());						  
-						         try {
-									 ServletOutputStream sos = response.getOutputStream();
-									 BufferedInputStream bis = new BufferedInputStream(responseWrapper.getFile().getContent());
-							         int data;
-							         while((data = bis.read()) != -1) { 
-							            sos.write(data);
-							         } 
-							         bis.close();
-							         sos.close();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block 
-									e.printStackTrace();
-								}
-						         responseWrapper.getFile().getContent().close();
-							}else {
-								Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						break;
-					case 2: // redirect 
-						boolean isAbsolute = false;
-						try {
-							String url = responseWrapper.getUrl();
-							try {
-								java.net.URI uri = java.net.URI.create(url);
-								isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
-							} catch (MalformedURLException e) { // Ensure the url format is perfect ...
-								isAbsolute = false;
-							}
-							if(!Igrp.getInstance().getResponse().isCommitted()) {
-								Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url :(url.startsWith("webapps")?url:("webapps" + url)));
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						break;
-					case 3: // forward 
-						String url = responseWrapper.getUrl().replaceAll("&&","&");
-						url = url.startsWith("webapps")?("app/" + url):("app/webapps" + url);
-						try {
-							Igrp.getInstance().getRequest().getRequestDispatcher(url).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
-						} catch (ServletException | IOException e) {
-							e.printStackTrace();
-						} 
-						break;
-					case 4:
-						try {
-							Igrp.getInstance().getResponse().sendRedirect("pg_studio.jsp");
-//							Igrp.getInstance().getRequest().getRequestDispatcher("pg_studio.jsp").forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+				switch (responseWrapper.getType()) {
+				case 1: // render it
+					try {
+						if (responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
+							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+							Igrp.getInstance().getResponse().getOutputStream().flush();
 							Igrp.getInstance().getResponse().getOutputStream().close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							Igrp.getInstance().getResponse().flushBuffer();
+						} else if (responseWrapper.getFile() != null) {
+							HttpServletResponse response = Igrp.getInstance().getResponse();
+							String name = responseWrapper.getFile().getFileName();
+							response.setContentType(responseWrapper.getFile().getContentType());
+							response.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\";");
+							response.setHeader("Cache-Control", "no-cache");
+							response.setContentLength(responseWrapper.getFile().getSize());
+							try (ServletOutputStream sos = response.getOutputStream();
+									BufferedInputStream bis = new BufferedInputStream(
+											responseWrapper.getFile().getContent())) {
+								int data;
+								while ((data = bis.read()) != -1) {
+									sos.write(data);
+								}
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							responseWrapper.getFile().getContent().close();
+						} else {
+							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
 						}
-						break;
-					default:;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				case 2: // redirect
+					boolean isAbsolute = false;
+					try {
+						String url = responseWrapper.getUrl();
+						try {
+							java.net.URI uri = java.net.URI.create(url);
+							isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
+						} catch (MalformedURLException e) { // Ensure the url format is perfect ...
+							isAbsolute = false;
+						}
+						if (!Igrp.getInstance().getResponse().isCommitted()) {
+							Igrp.getInstance().getResponse().sendRedirect(
+									isAbsolute == true ? url : (url.startsWith("webapps") ? url : ("webapps" + url)));
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				case 3: // forward
+					String url = responseWrapper.getUrl().replaceAll("&&", "&");
+					url = url.startsWith("webapps") ? ("app/" + url) : ("app/webapps" + url);
+					try {
+						Igrp.getInstance().getRequest().getRequestDispatcher(url)
+								.forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+					} catch (ServletException | IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				case 4:
+					try {
+						Igrp.getInstance().getResponse().sendRedirect("pg_studio.jsp");
+//							Igrp.getInstance().getRequest().getRequestDispatcher("pg_studio.jsp").forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+						Igrp.getInstance().getResponse().getOutputStream().close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				default:
 				}
-			}catch(java.lang.NullPointerException e) {
+			} catch (java.lang.NullPointerException e) {
 				e.printStackTrace();
 			}
 		}
@@ -710,10 +728,6 @@ public class Controller{
 		this.config = config;
 	}
 
-	
-	
-	
-	//... Others methods ...
-	
-	
+	// ... Others methods ...
+
 }
