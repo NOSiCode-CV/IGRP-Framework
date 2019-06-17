@@ -277,7 +277,7 @@ public abstract class Model { // IGRP super model
 						}
 						break;
 					default:
-						m.set(this, typeName == "java.lang.String" ? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult) : null); // The field could be a Object 
+						m.set(this, typeName.equals("java.lang.String") ? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult) : null); // The field could be a Object 
 				}
 			}
 			/* Begin */
