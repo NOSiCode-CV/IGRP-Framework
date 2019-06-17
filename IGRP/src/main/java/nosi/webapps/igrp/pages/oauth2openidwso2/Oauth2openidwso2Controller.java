@@ -10,6 +10,7 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.Igrp;
 import java.io.File;
@@ -21,18 +22,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
-import nosi.core.gui.components.IGRPButton;
 
 /*----#end-code----*/
 		
 public class Oauth2openidwso2Controller extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Oauth2openidwso2 model = new Oauth2openidwso2();
 		model.load();
 		Oauth2openidwso2View view = new Oauth2openidwso2View();
-		/*----#start-code(index)----*/
-		
-		//view.btn_logout= new IGRPButton("Logout","igrp","login","logout&isPublic=0&target=_self","_self","primary|fa-sign-out","","");
+		/*----#start-code(index)----*/ 
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -47,9 +46,37 @@ public class Oauth2openidwso2Controller extends Controller {
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
-		/*----#start-code(logout)----*/
-		String logoutUrl = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/logout"; 
-		return redirectToUrl(logoutUrl); 
+		/*----#start-code(logout)----*/ 
+		
+		// First check if the session exits 
+		String sessionValue = (String)Igrp.getInstance().getRequest().getSession().getAttribute("_identity-igrp");
+		if(sessionValue != null && !sessionValue.isEmpty()) {
+			String logoutUrl = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/logout"; 
+			return redirectToUrl(logoutUrl); 
+		} 
+		
+		String oidcIdToken = (String) Core.getFromSession("_oidcIdToken", true); 
+		String oidcState = (String) Core.getFromSession("_oidcState", true); 
+		
+		if(oidcIdToken != null && !oidcIdToken.isEmpty() && oidcState != null && !oidcState.isEmpty()) {
+			Properties settings = loadConfig("common", "main.xml"); 
+			String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
+			if(r != null && r.equalsIgnoreCase("true")) {
+				String oidcLogout = settings.getProperty("ids.wso2.oauth2.endpoint.logout"); 
+				if(oidcLogout != null && !oidcLogout.isEmpty()) {
+					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
+					String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+					aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri : aux;
+					
+					return redirectToUrl(aux); 
+				}
+			}
+		}
+		
+		Core.setMessageWarning("A serious problem has occured. Please try login and if the problem persist clear your browser cache and try login again ! "); 
+		
+		return redirect("igrp", "Oauth2openidwso2", "index"); 
+		
 		/*----#end-code----*/
 			
 	}

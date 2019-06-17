@@ -7,8 +7,6 @@ package nosi.webapps.igrp.pages.login;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -35,7 +33,6 @@ import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.ldap.LdapPerson;
-import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -108,11 +105,12 @@ public class LoginController extends Controller {
 	}
 
 	public Response actionLogout() throws IOException { 
+		
 		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId(); 
 		
 		User user = Core.getCurrentUser(); 
 		String oidcIdToken = user.getOidcIdToken(); 
-		String oidcState = user.getOidcState();
+		String oidcState = user.getOidcState(); 
 		
 		user.setIsAuthenticated(0); 
 		user = user.update();
@@ -122,6 +120,7 @@ public class LoginController extends Controller {
 						gt("Ooops !!! Ocorreu um erro com registo session ..."));
 		} else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout.")); 
+		
 		
 		if (settings.getProperty("igrp.env.isNhaLogin") != null
 				&& !settings.getProperty("igrp.env.isNhaLogin").equals("true")
@@ -147,8 +146,10 @@ public class LoginController extends Controller {
 				String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
 				String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 				aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri : aux;
+				
 				return redirectToUrl(aux); 
 			}
+			
 			return redirectToUrl(createUrlForOAuth2OpenIdRequest()); 
 		}
 		
@@ -158,22 +159,6 @@ public class LoginController extends Controller {
 	// Dont delete this method
 	public Response actionGoToLogin() throws IOException {
 		return this.redirect("igrp", "login", "login");
-	}
-
-	
-
-	private Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath()
-				.replaceAll("%20", " "));
-
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
 	}
 	
 	private Response createResponseIfIsAuthenticated() {
@@ -618,11 +603,9 @@ public class LoginController extends Controller {
 
 			JSONObject jToken = new JSONObject(resultPost);
 			
-			System.out.println("token: " + jToken); 
-
 			String token = (String) jToken.get("access_token");
 			String id_token = (String) jToken.get("id_token");
-			String refresh_token = (String) jToken.get("refresh_token");
+			String refresh_token = (String) jToken.get("refresh_token"); 
 			
 			Map<String, String> m = new HashMap<String, String>(); 
 			m.put("token", token);
@@ -700,6 +683,9 @@ public class LoginController extends Controller {
 				id_token = m.get("id_token"); 
 				session_state = m.get("session_state"); 
 				refresh_token = m.get("refresh_token"); 
+				
+				Core.addToSession("_oidcIdToken", id_token); 
+				Core.addToSession("_oidcState", session_state); 
 			}
 			
 			if(token != null) {
