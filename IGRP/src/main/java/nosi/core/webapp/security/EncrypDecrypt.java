@@ -9,7 +9,10 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.webapps.igrp.dao.Application;
 
 public class EncrypDecrypt {
 
@@ -28,7 +31,7 @@ public class EncrypDecrypt {
 		try {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));
-			return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes(CHARTSET)));
+			return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes(CHARTSET)))+"=";
 		} catch (Exception e) {
 
 		}
@@ -38,11 +41,24 @@ public class EncrypDecrypt {
 	public static String decrypt(String content) {
 		String customHeader = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE")
 				: null;
-		if (customHeader != null && customHeader.equals("1") && content.split("/").length==3)
+		if (customHeader != null && customHeader.equals("1") && content.split("/").length==3 && !content.endsWith("="))
 			return content;
-		content = decrypt(content.replace(" ", "+"), getSecretKey());
+		
+		
+		final String replace = content.replace(" ", "+");
+		content = decrypt(replace.endsWith("=")?replace.substring(0, replace.length()-1):replace, getSecretKey());
 		return content;
 	}
+	
+//	private static Boolean isNotEncrypt(String[] content) {
+//		(content.split("/"
+//		if(content.length==3) {			
+//			return content[2].endsWith("=");
+//		
+//		}
+//		return false;
+//		
+//	}
 
 	public static String decrypt(String content, String secretKey) {
 		try {
