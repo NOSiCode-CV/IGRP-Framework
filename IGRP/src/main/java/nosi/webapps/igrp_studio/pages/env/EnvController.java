@@ -447,7 +447,12 @@ public class EnvController extends Controller {
 	}
 
 
-	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws Exception{
+	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
+		
+		String auxDad = (String) Core.getFromSession("_homepage"); 
+		if(auxDad != null && !auxDad.isEmpty()) 
+			app = auxDad; 
+		
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
@@ -633,18 +638,12 @@ public class EnvController extends Controller {
 			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
 			
 			for(IgrpPLSQLApp obj : allApps) { 
-				try {
-					String link = obj.getLink(); 
-					link = link.substring(0, link.indexOf("p=") + 2); 
-					link += Base64.getEncoder().encodeToString((u.getUser_name() + ":" + u.getValid_until() +  ":" + obj.getDad()).getBytes());
-					obj.setLink(link);  
-				} catch (Exception e) {
-				}
 				if(obj.getAvailable().equals("yes")) 
 					allowApps.add(obj);
-				else
+				else 
 					denyApps.add(obj);
 			}
+			
 		}catch(Exception e) {
 			//e.printStackTrace();
 		}
