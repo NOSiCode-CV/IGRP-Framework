@@ -755,7 +755,7 @@ public class PageController extends Controller {
 		Application app = Core.findApplicationById(app_id);
 		if(app!=null) {		
 			String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-			link = url+"?r="+app.getDad()+"/"+page+"/index&target=_blank&isPublic=1&lang=pt_PT";
+			link = url+"?r="+app.getDad()+"/"+page+"/index&dad="+app.getDad()+"&target=_blank&isPublic=1&lang=pt_PT";
 		}
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");

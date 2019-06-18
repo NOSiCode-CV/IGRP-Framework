@@ -24,14 +24,14 @@ public class EncrypDecrypt {
 	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 	
 	public static String encrypt(String content) {
-		return encrypt(content, getSecretKey()).replace(" ", "+");
+		return encrypt(content, getSecretKey()).replace(" ", "+")+"=";
 	}
 
 	public static String encrypt(String content, String secretKey) {
 		try {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));
-			return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes(CHARTSET)))+"=";
+			return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes(CHARTSET)));
 		} catch (Exception e) {
 
 		}
@@ -43,10 +43,8 @@ public class EncrypDecrypt {
 				: null;
 		if (customHeader != null && customHeader.equals("1") && content.split("/").length==3 && !content.endsWith("="))
 			return content;
-		
-		
-		final String replace = content.replace(" ", "+");
-		content = decrypt(replace.endsWith("=")?replace.substring(0, replace.length()-1):replace, getSecretKey());
+		final String replace = content.replace(" ", "+");	
+		content = decrypt((replace.endsWith("=")?replace.substring(0, replace.length()-1):replace), getSecretKey());
 		return content;
 	}
 	
@@ -62,6 +60,7 @@ public class EncrypDecrypt {
 
 	public static String decrypt(String content, String secretKey) {
 		try {
+			
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(secretKey));
 			return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
