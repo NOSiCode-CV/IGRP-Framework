@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" metadata-complete="true" version="3.1">
   <display-name>IGRP</display-name>
   <context-param>
     <param-name>workspace</param-name>
@@ -23,19 +23,21 @@
     </multipart-config>
   </servlet>
   <servlet>
-    <servlet-name>igrpsso</servlet-name>
+    <servlet-name>igrpoauth2sso</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpOAuth2SSO</servlet-class>
   </servlet>
-  
+  <servlet-mapping>
+    <servlet-name>igrpoauth2sso</servlet-name>
+    <url-pattern>/igrpoauth2sso</url-pattern>
+  </servlet-mapping>
   <filter>
     <filter-name>ThreadLocalFilter</filter-name>
     <filter-class>nosi.core.filter.ThreadLocalFilter</filter-class>
   </filter>
   <filter-mapping>
-	    <filter-name>ThreadLocalFilter</filter-name>
-	    <servlet-name>IGRP</servlet-name>
+    <filter-name>ThreadLocalFilter</filter-name>
+    <servlet-name>IGRP</servlet-name>
   </filter-mapping>
-  
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>nosi.core.filter.EncodingFilter</filter-class>
@@ -46,6 +48,15 @@
   </filter>
   <filter-mapping>
     <filter-name>EncodingFilter</filter-name>
+    <servlet-name>IGRP</servlet-name>
+  </filter-mapping>
+  
+   <filter>
+    <filter-name>DetectAppDadWhenSSO</filter-name>
+    <filter-class>nosi.core.filter.DetectAppDadWhenSSO</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>DetectAppDadWhenSSO</filter-name>
     <servlet-name>IGRP</servlet-name>
   </filter-mapping>
   
