@@ -757,13 +757,17 @@ if($ && $.IGRP && !$.IGRP.rules){
 				})
 				.done(function(list) {
 					
+					var isString = typeof list === 'string';
+					
 					$.each( p.targetFields ,function(i,f){
-
+					
 						var options  = [],
 						
 							itemName = $(f).attr('item-name'),
 							
-							wrapper  = $(list).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
+							responseElement = isString ? list : ( list.documentElement || false ),
+							
+							wrapper  = $(responseElement).is(itemName) ? list : $(list).find('rows content '+itemName)[0];
 
 						if (wrapper) {
 							

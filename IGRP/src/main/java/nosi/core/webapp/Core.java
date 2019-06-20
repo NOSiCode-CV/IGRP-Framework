@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.FileNameMap;
 import java.net.URLConnection;
-import java.rmi.RemoteException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +23,7 @@ import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -37,7 +36,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
-import javax.xml.bind.JAXB;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -1676,6 +1674,38 @@ public final class Core { // Not inherit
 		return xml;
 	}
 
+	public String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected) {
+		return remoteComboBoxXml(map, field, selected, null);
+	}
+	
+	public String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected, String prompt){
+		XMLWritter xml = new XMLWritter();
+		xml.startElement(field.getTagName());	
+		xml.startElement("list");
+		if (prompt != null) {
+			xml.startElement("option");
+			xml.setElement("text", prompt);
+			xml.emptyTag("value");
+			xml.endElement();
+		}
+		for ( Entry<Object, Object> m : map.entrySet()) {
+			xml.startElement("option");
+			if (selected != null)
+				for (String s : selected) {
+					if (s.equals(m.getKey())) {
+						xml.writeAttribute("selected", "selected");
+						break;
+					}
+				}
+			xml.setElement("text", m.getValue());
+			xml.setElement("value",m.getKey());
+			xml.endElement();
+		}
+		xml.endElement();
+		xml.endElement();
+		return xml.toString();
+	}
+	
 	public static void removeAttribute(String name) {
 		Igrp.getInstance().getRequest().removeAttribute(name);
 	}
