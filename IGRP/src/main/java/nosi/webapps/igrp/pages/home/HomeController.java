@@ -14,7 +14,14 @@ public class HomeController extends Controller {
 
 	public Response actionIndex() throws IOException{
 		
-		String dad=Core.getParam("dad");
+		String dad = null; 
+		
+		String _appHomeUrl = (String) Core.getFromSession("_appHomeUrl", true);
+		if(_appHomeUrl != null && !_appHomeUrl.isEmpty()) 
+			dad = _appHomeUrl; 
+		else 
+			dad = Core.getParam("dad"); 
+		
 		if(Core.isNotNull(dad) && !dad.equals("igrp")) {
 			nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
 			String page = "tutorial/DefaultPage/index&title=";
