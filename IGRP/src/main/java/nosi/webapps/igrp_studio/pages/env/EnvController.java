@@ -463,12 +463,14 @@ public class EnvController extends Controller {
 			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
 			String devUrl = properties.getProperty("igrp.env.dev.url"); 
 			
-//			If you try to open igrp_studio in a not igrp_studio enviroment
+			
+			// If you try to open igrp_studio in a not igrp_studio enviroment 
 			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
-				String qs = "?_t=" + Base64.getEncoder().encodeToString((Core.getCurrentUser().getUser_name() + ":" + Core.getCurrentUser().getValid_until()).getBytes());
+				String qs = "?app=" + env.getDad();
 				devUrl += qs;
 			return redirectToUrl(devUrl);
 			}
+			
 			//1 External ; 2 custom dad
 			if(env.getExternal() == 1 || env.getExternal() == 2) {
 				
@@ -480,49 +482,46 @@ public class EnvController extends Controller {
 						//aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 						aux = "r=" + (env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
-//					if(env.getDad().compareTo("kriol_db")==0) {
-//						return this.postToPgStudio(env);
-//					}
+					/*if(env.getDad().compareTo("kriol_db")==0) {
+						return this.postToPgStudio(env);
+					}*/
 					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
 					String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+					String uri = Igrp.getInstance().getRequest().getRequestURI();
+					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					
-				
+					Action action = env.getAction();
+					
+					if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) {
 						
-						//String warName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
-						String uri = Igrp.getInstance().getRequest().getRequestURI();
-						String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+						url += "/" + env.getDad() + "/igrpoauth2sso?app=" + env.getDad(); 
 						
-						Action action = env.getAction();
+						if(action != null) 
+							url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+						else
+							url += "&_url=tutorial/DefaultPage/index";
 						
-						User currentUser = Core.getCurrentUser(); 
+						return this.redirectToUrl(url);
+					}
+					
+					if(env.getExternal() == 2 && !deployedWarName.equals(env.getUrl())) { // Custom dad 
+						url += "/" + env.getUrl() + "/igrpoauth2sso?app=" + env.getUrl(); 
 						
-						if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) {
-							
-							url += "/" + env.getDad() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
-							
-							if(action != null) 
-								url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
-							else
-								url += "&_url=tutorial/DefaultPage/index";
-							
-							return this.redirectToUrl(url);
-						}
+						if(action != null) 
+							url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+						else
+							url += "&_url=tutorial/DefaultPage/index";
 						
-						if(env.getExternal() == 2 && !deployedWarName.equals(env.getUrl())) { // Custom dad 
-							url += "/" + env.getUrl() + "/igrpoauth2sso?_t=" + Base64.getEncoder().encodeToString((currentUser.getUser_name() + ":" + currentUser.getValid_until()).getBytes()); 
-							
-							if(action != null) 
-								url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
-							else
-								url += "&_url=tutorial/DefaultPage/index";
-							
-							return this.redirectToUrl(url);
-						}						
-					}				
+						return this.redirectToUrl(url);
+					}
+					
+				}
 				
 			}
+			
+			
 			
 			try {
 				Integer idPerfil = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");

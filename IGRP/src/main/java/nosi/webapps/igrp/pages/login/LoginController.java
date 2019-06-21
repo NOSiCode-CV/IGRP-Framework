@@ -153,7 +153,7 @@ public class LoginController extends Controller {
 			return redirectToUrl(createUrlForOAuth2OpenIdRequest()); 
 		}
 		
-		return this.redirect("igrp", "login", "login");
+		return this.redirect("igrp", "login", "login"); 
 	}
 
 	// Dont delete this method
@@ -663,7 +663,7 @@ public class LoginController extends Controller {
 		
 		String error = Core.getParam("error"); 
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
-		String authCode = Core.getParam("code"); 
+		String authCode = Core.getParam("code");  
 		
 		if(r != null && r.equalsIgnoreCase("true")) {
 			

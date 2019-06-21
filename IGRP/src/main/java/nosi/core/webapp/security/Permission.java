@@ -26,7 +26,7 @@ public class Permission {
 	public static final int MAX_AGE = 60*60*24;//24h
 	
 	public boolean isPermition(String app,String page,String action){//check permission on app		
-		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
+		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
 			if(PagesScapePermission.PAGES_SHAREDS.contains((app+"/"+page+"/"+action).toLowerCase())){
 				return true;
 			}
@@ -36,7 +36,8 @@ public class Permission {
 			}
 			return x;
 		}else if(
-					(action.equalsIgnoreCase("login") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) ||
+					(action.equalsIgnoreCase("login") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) || 
+					(action.equalsIgnoreCase("logout") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) || 
 					(action.equalsIgnoreCase("permission") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
 					(action.equalsIgnoreCase("exception") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
 					(action.equalsIgnoreCase("notFound") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")))
