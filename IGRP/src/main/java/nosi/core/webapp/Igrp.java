@@ -87,7 +87,6 @@ public final class Igrp{
 		this.user = new User();
 		this.user.init(request);
 		
-
 		
 		return this;
 	}

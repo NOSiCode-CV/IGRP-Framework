@@ -50,7 +50,7 @@
     <filter-name>EncodingFilter</filter-name>
     <servlet-name>IGRP</servlet-name>
   </filter-mapping>
-  
+  <!-- 
    <filter>
     <filter-name>DetectAppDadWhenSSO</filter-name>
     <filter-class>nosi.core.filter.DetectAppDadWhenSSO</filter-class>
@@ -59,7 +59,7 @@
     <filter-name>DetectAppDadWhenSSO</filter-name>
     <servlet-name>IGRP</servlet-name>
   </filter-mapping>
-  
+   --> 
   <servlet-mapping>
     <servlet-name>IGRP</servlet-name>
     <url-pattern>/app/*</url-pattern>

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -521,12 +522,12 @@ public class Controller {
 	}
 
 	private void resolveRoute() throws IOException {
-		Igrp app = Igrp.getInstance();
+		Igrp app = Igrp.getInstance(); 
 		String r = Core.isNotNull(app.getRequest().getParameter("r")) ? app.getRequest().getParameter("r")
 				: "igrp/login/login";
 
-		r = SecurtyCallPage.resolvePage(r);
-
+		r = SecurtyCallPage.resolvePage(r); 
+		
 		if (r != null) {
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
 			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {
@@ -537,6 +538,7 @@ public class Controller {
 			} else
 				throw new ServerErrorHttpException("The route format is invalid");
 		}
+		
 		String application = "Application: " + app.getCurrentAppName();
 		String page = "Page: " + app.getCurrentPageName();
 		String action = "Action: " + app.getCurrentActionName();
@@ -555,7 +557,19 @@ public class Controller {
 		app.getLog().addMessage(controllerName);
 		app.getLog().addMessage(viewName);
 		app.getLog().addMessage(modelName);
-		app.getLog().addMessage(xsl);
+		app.getLog().addMessage(xsl); 
+		
+		detectAppHomePageWhenSSO(); 
+		
+	} 
+	
+	private void detectAppHomePageWhenSSO() {
+		//if(!Igrp.getInstance().getUser().isAuthenticated()) {
+			String app_ = Igrp.getInstance().getRequest().getParameter("app"); 
+			if(app_ != null && !app_.isEmpty())
+				Igrp.getInstance().getRequest().getSession().setAttribute("_homepage", app_);
+		//	System.out.println("_homepage: " + app_); 
+		//}
 	}
 
 	protected Object run() {

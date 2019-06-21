@@ -38,19 +38,6 @@ public class HomeController extends Controller {
 			return redirect("igrp_studio", "env", "openApp",this.queryString());
 		}		
 		
-		String destination = Igrp.getInstance().getRequest().getParameter("_url");
-		if(destination != null ) {
-			try {
-				String []aux = destination.split("/");
-				if(aux.length != 3)
-					throw new ServerErrorHttpException();
-				new Permission().changeOrgAndProfile(aux[0]);
-			return redirect(aux[0], aux[1], aux[2]);
-			}catch(Exception e) {
-				
-			}
-		}
-		
 		try { // Eliminar 
 			new Permission().changeOrgAndProfile("igrp");
 		}catch(Exception e) {
