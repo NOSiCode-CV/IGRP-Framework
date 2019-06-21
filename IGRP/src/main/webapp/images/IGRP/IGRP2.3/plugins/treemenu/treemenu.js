@@ -48,6 +48,14 @@
 			 }
 			
 			params += '&dad='+$('body').attr('app');
+			
+			if(parent.attr('ctx_param_count')){
+				var cont  = parent.attr('ctx_param_count')*1;
+
+				for (var i = 1; i <= cont; i++) {
+					params += '&'+parent.attr('ctx_p'+i);
+				}
+			}
 
 			
 			$.ajax({
