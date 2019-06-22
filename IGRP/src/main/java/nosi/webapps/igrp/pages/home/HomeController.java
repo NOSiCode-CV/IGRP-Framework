@@ -22,6 +22,20 @@ public class HomeController extends Controller {
 		else 
 			dad = Core.getParam("dad"); 
 		
+		
+		String destination = (String) Core.getFromSession("_url", true); 
+		if(destination == null || destination.isEmpty()) destination = Core.getParam("_url");
+		if(destination != null && !destination.isEmpty()) {
+			try {
+				String []aux = destination.split("/");
+				if(aux.length != 3)
+					throw new ServerErrorHttpException(); 
+				new Permission().changeOrgAndProfile(aux[0]);
+			return redirect(aux[0], aux[1], aux[2]);
+			}catch(Exception e) {
+			}
+		}
+		
 		if(Core.isNotNull(dad) && !dad.equals("igrp")) {
 			nosi.webapps.igrp.dao.Action ac = Core.findApplicationByDad(dad).getAction();
 			String page = "tutorial/DefaultPage/index&title=";
