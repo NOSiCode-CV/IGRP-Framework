@@ -55,6 +55,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 		System.out.println("SSO entrado ... "); 
 		
 		String app = request.getParameter("app"); 
+		String _url = request.getParameter("_url"); 
 		
 		Properties settings = this.load("common", "main.xml"); 
 		
@@ -68,12 +69,19 @@ public class IgrpOAuth2SSO extends HttpServlet {
 			
 			String sessionValue = (String) request.getSession().getAttribute("_identity-igrp");
 			if(sessionValue != null && !sessionValue.isEmpty()) {
-				String auxUrl = "app/webapps?r=igrp/home/index&dad=" + app; 
+				String auxUrl = "app/webapps?r=igrp/home/index";
+				if(app != null && !app.isEmpty()) auxUrl += "&dad=" + app; 
+				if(_url != null && !_url.isEmpty()) auxUrl += "&_url=" + _url; 
+				
 				response.sendRedirect(auxUrl); 
 				return;
 			} 
 			
-			request.getSession().setAttribute("_appHomeUrl", app); 
+			if(app != null && !app.isEmpty()) 
+				request.getSession().setAttribute("_appHomeUrl", app); 
+			
+			if(_url != null && !_url.isEmpty()) 
+				request.getSession().setAttribute("_url", _url); 
 			
 			String warName = new File(this.getServletContext().getRealPath("/")).getName(); 
 			redirect_uri = redirect_uri.replace("IGRP", warName);
