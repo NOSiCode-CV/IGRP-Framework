@@ -7,6 +7,7 @@ package nosi.webapps.igrp.pages.login;
 /*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -578,7 +579,10 @@ public class LoginController extends Controller {
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id");
 			String client_secret = settings.getProperty("ids.wso2.oauth2.client_secret");
 			String endpoint = settings.getProperty("ids.wso2.oauth2.endpoint.token");
+			
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri");
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+			redirect_uri = redirect_uri.replace("IGRP", warName);
 			
 			Form postData = new Form(); 
 			postData.param("grant_type", "authorization_code"); 
@@ -782,6 +786,8 @@ public class LoginController extends Controller {
 		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
 		if(r != null && r.equalsIgnoreCase("true") && url != null && !url.isEmpty()) {
 			String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
+			String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
 

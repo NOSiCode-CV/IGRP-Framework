@@ -60,9 +60,11 @@ public class IgrpOAuth2SSO extends HttpServlet {
 				request.getSession().setAttribute("_url", _url); 
 			
 			String warName = new File(this.getServletContext().getRealPath("/")).getName(); 
-			redirect_uri = redirect_uri.replace("IGRP", warName);
+			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			
-			authorizeUrl += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=CoeDjo10&redirect_uri=" + redirect_uri;
+			System.out.println("IgrpOAuth2SSO.java Redirect Uri: " + redirect_uri);
+			
+			authorizeUrl += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
 			
 			response.sendRedirect(authorizeUrl); 
 			
