@@ -77,7 +77,8 @@ public class Oauth2openidwso2Controller extends Controller {
 				if(oidcLogout != null && !oidcLogout.isEmpty()) {
 					String aux = oidcLogout + "?id_token_hint=" + oidcIdToken + "&state=" + oidcState; 
 					String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
-					aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri : aux;
+					String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+					aux = redirect_uri != null && !redirect_uri.isEmpty() ? aux + "&post_logout_redirect_uri=" + redirect_uri.replace("IGRP", warName) : aux;
 					
 					return redirectToUrl(aux); 
 				}
