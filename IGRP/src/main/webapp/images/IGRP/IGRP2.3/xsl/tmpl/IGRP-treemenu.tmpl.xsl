@@ -325,7 +325,6 @@
         <xsl:choose>
             <xsl:when test="$parser = 'true'">
                 <xsl:attribute name="class"><xsl:value-of select="'lookup-parser'"/></xsl:attribute>
-                <xsl:apply-templates mode="contextparam" select="../context-menu"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:attribute name="class"><xsl:value-of select="$class"/></xsl:attribute>
@@ -335,6 +334,7 @@
                 </xsl:if>
             </xsl:otherwise>
         </xsl:choose>
+        <xsl:apply-templates mode="contextparam" select="../context-menu"/>
     </xsl:template>
 
     <xsl:template name="contextparam" mode="contextparam" match="context-menu">
