@@ -16,22 +16,23 @@ public class HomeController extends Controller {
 		
 		String dad = null; 
 		
-		String _appHomeUrl = (String) Core.getFromSession("_appHomeUrl", true);
+		String _appHomeUrl = (String) Core.getFromSession("_appHomeUrl", true); 
+		
 		if(_appHomeUrl != null && !_appHomeUrl.isEmpty()) 
 			dad = _appHomeUrl; 
 		else 
 			dad = Core.getParam("dad"); 
 		
-		
 		String destination = (String) Core.getFromSession("_url", true); 
 		if(destination == null || destination.isEmpty()) destination = Core.getParam("_url");
 		if(destination != null && !destination.isEmpty()) {
 			try {
+				this.addQueryString("dad", dad);
 				String []aux = destination.split("/");
 				if(aux.length != 3)
 					throw new ServerErrorHttpException(); 
-				new Permission().changeOrgAndProfile(aux[0]);
-			return redirect(aux[0], aux[1], aux[2]);
+				new Permission().changeOrgAndProfile(aux[0]); 
+			return redirect(aux[0], aux[1], aux[2], this.queryString());
 			}catch(Exception e) {
 			}
 		}
