@@ -49,14 +49,17 @@
 			
 			params += '&dad='+$('body').attr('app');
 			
-			if(parent.attr('ctx_param_count')){
-				var cont  = parent.attr('ctx_param_count')*1;
-
-				for (var i = 1; i <= cont; i++) {
-					params += '&'+parent.attr('ctx_p'+i);
+			if(p.id){
+				var a = $('li#'+p.id+' .nav-header a',parent);
+				
+				if(a[0] && a.attr('ctx_param_count')){
+					var cont  = a.attr('ctx_param_count')*1;
+	
+					for (var i = 1; i <= cont; i++) {
+						params += '&'+a.attr('ctx_p'+i);
+					}
 				}
 			}
-
 			
 			$.ajax({
 				url : $.IGRP.utils.getUrl(url)+params,
