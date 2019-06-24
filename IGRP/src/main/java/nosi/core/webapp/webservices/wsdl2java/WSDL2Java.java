@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
@@ -29,6 +30,9 @@ public class WSDL2Java {
 			}
 			packageName = new Config().getBasePackage(dad)+"."+OptionsImportExport.SERVICE.getFileName()+"."+packageName;
 			Runtime.getRuntime().exec("wsimport -Xnocompile -p "+packageName+ " -keep -verbose "+urlWsdl+" -d "+Path.getBasePath());
+			Compiler compiler = new Compiler();
+			compiler.addFileName(destinationPath);
+			compiler.compile();
 			r = true;
 		} catch (IOException e) {
 			r = false;
