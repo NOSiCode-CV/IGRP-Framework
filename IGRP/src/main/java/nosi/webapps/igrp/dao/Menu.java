@@ -205,9 +205,8 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 	
 
 	public LinkedHashMap<String,List<MenuProfile>> getMyMenu() {
-		
 		LinkedHashMap<String,List<MenuProfile>> list = new LinkedHashMap<>();
-		String currentDad = Core.getCurrentDad();
+		String currentDad = Core.getCurrentDad(); 
 		Record row = Core.query(this.getConnectionName(),sqlMenuByProfile)
 						 .union()
 						 .select(sqlMenuByUser)
@@ -252,7 +251,6 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 								
 								ms.setType(2);
 								
-								User user = Core.getCurrentUser(); 
 								//Externo
 								if(pagina.getApplication().getExternal() == 1) {
 									String _u = buildMenuUrlByDad(r.getString("dad_app_page"));
@@ -340,6 +338,111 @@ public class Menu extends IGRPBaseActiveRecord<Menu> implements Serializable{
 		}
 		return url;
 	}
+	
+	
+	
+	// To integrate with PL-SQL services as a Rest 
+	public LinkedHashMap<String,List<MenuProfile>> getMyMenu(String currentDad, Integer userId, Integer currentOrg, Integer currentProf) { 
+		LinkedHashMap<String,List<MenuProfile>> list = new LinkedHashMap<>();
+		Record row = Core.query(this.getConnectionName(),sqlMenuByProfile)
+						 .union()
+						 .select(sqlMenuByUser)
+						 .addInt("org_fk", currentOrg)
+						 .addInt("prof_type_fk", currentProf)
+						 .addString("dad", currentDad )
+						 .addInt("status", 1)
+						 .addInt("org_fk", currentOrg)
+						 .addInt("prof_type_fk", currentProf)
+						 .addString("dad", currentDad )
+						 .addInt("status", 1)
+						 .addInt("user_fk", userId)
+						 .orderByAsc("orderby")
+						 .getRecordList();
+		if(row.RowList!=null) {
+				row.RowList.forEach(r->{
+				//Get Menu Pai
+				MenuProfile ms = new MenuProfile();
+				ms.setId(r.getInt("id"));
+				ms.setOrder(r.getInt("orderby"));
+				ms.setTitle(r.getString("descr"));
+				ms.setTarget(r.getString("target"));
+				ms.setStatus(r.getShort("status"));
+				
+				Action pagina = new Action().find().andWhere("page", "=", r.getString("page")).andWhere("application.dad", "=", r.getString("dad_app_page")).one();
+				if(pagina != null) {
+					if(pagina.getTipo() == 1) { // If it is a public page ... 
+					
+						
+						ms.setType(1);
+						String aux=Igrp.getInstance().getServlet().getInitParameter("default_language");					
+						ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action") + "&dad=" + currentDad + "&isPublic=1&lang="+(Core.isNull(aux) ? "pt_PT" : aux) /*+ "&target=_blank"*/);
+					}else {
+						
+						if(!r.getString("dad_app_page").equals("tutorial") && !r.getString("dad_app_page").equals("igrp_studio") && !r.getString("dad_app_page").equals("igrp") && !r.getString("dad_app_page").equals(currentDad) 
+								&& pagina.getApplication().getExternal() != 0) { 
+							
+							// Codigo para paginas partilhadas ... dads diferentes ... (Link para SSO) ... 
+							// Authenticacao obrigatoria  
+							
+							if(new nosi.core.config.Config().getEnvironment().equalsIgnoreCase("dev")) { 
+								
+								ms.setType(2);
+								
+								//Externo
+								if(pagina.getApplication().getExternal() == 1) {
+									String _u = buildMenuUrlByDad(r.getString("dad_app_page"));
+									_u += "&app=" + r.getString("dad_app_page");
+									_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action") ;
+									ms.setLink(_u);
+								}
+								//Custom host folder 
+								if(pagina.getApplication().getExternal() == 2) {
+									
+									String deployedWarName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+									
+									if(deployedWarName.equals(pagina.getApplication().getUrl())) { 
+										ms.setType(3);
+										ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")) + "&dad=" + currentDad); 
+										
+									}else {
+										
+										String _u = buildMenuUrlByDad(pagina.getApplication().getUrl()); // Custom Dad 
+										_u += "&app=" + r.getString("dad_app_page"); 
+										_u += "&_url=" + r.getString("dad_app_page") + "/" + r.getString("page") + "/" + r.getString("action")+"&dad=" + r.getString("dad_app_page") ;
+										ms.setLink(_u);
+										
+									}
+									
+								}
+								 
+							}else {
+								ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+							}
+							
+						}else {
+							ms.setLink(EncrypDecrypt.encrypt(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action"))+"&dad="+currentDad);
+							//ms.setLink(r.getString("dad_app_page")+"/"+r.getString("page")+"/"+r.getString("action")+"&dad="+currentDad);	
+						}
+					}
+				}
+				
+				ms.setSubMenuAndSuperMenu(r.getInt("isSubMenuAndSuperMenu") == 1);
+				
+				List<MenuProfile> value = new ArrayList<>();
+				value.add(ms);
+				
+				if(list.containsKey(r.getString("descr_menu_pai"))){
+					value.addAll(list.get(r.getString("descr_menu_pai")));
+				}
+				list.put(r.getString("descr_menu_pai"), value);
+			});
+		}
+		return list;
+	} 
+	
+	
+	
+	
 	
 	
 	public static class MenuProfile{
