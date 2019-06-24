@@ -234,6 +234,10 @@ public class IGRPTable extends IGRPComponent{
 					}
 				}
 			}
+			int isPublic = Core.getParamInt("isPublic");
+			if(isPublic==1) {
+				this.xml.setElement("param", "isPublic="+isPublic);
+			}
 			if(l instanceof IGRPTable.Table && ((IGRPTable.Table)l).getHiddenButtons()!=null) {
 				this.xml.startElement("param");
 				String text= "ctx_hidden=";
@@ -276,6 +280,10 @@ public class IGRPTable extends IGRPComponent{
 							this.xml.setElement("param", TABLE_LOOKUP_ROW+"="+Core.getParam(TABLE_LOOKUP_ROW));
 						}
 					}
+				}
+				int isPublic = Core.getParamInt("isPublic");
+				if(isPublic==1) {
+					this.xml.setElement("param", "isPublic="+isPublic);
 				}
 				if(obj instanceof IGRPTable.Table && ((IGRPTable.Table)obj).getHiddenButtons()!=null) {
 					this.xml.startElement("param");
