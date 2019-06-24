@@ -154,6 +154,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app_igrp));
 			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, app_tutorial));
 			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 0, app_igrp_studio));
+			//crud is get(43)
 			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, app_igrp_studio));	
 			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, app_igrp));
 			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));			
@@ -162,44 +163,42 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Partilhageral", "index", "nosi.webapps.igrp_studio.pages.partilhageral", "igrp_studio/partilhageral/Partilhageral.xsl", "Partilha Inter-Aplicações", "Partilha Inter-Aplicações", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Modulo", "index", "nosi.webapps.igrp_studio.pages.modulo", "igrp_studio/modulo/Modulo.xsl", "Módulo", "Módulo", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Lookup_list_organica", "index", "nosi.webapps.igrp.pages", "igrp/lookup_list_organica/Lookup_list_organica.xsl", "Lookup list organica", "Lookup list organica", "2.3", 1, app_igrp));
+			//sql tool get(51)
 			actions.add(new Action("Sql_tools", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/sql_tools/Sql_tools.xsl", "SQL Tool", "SQL Tool", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("File", "index", "nosi.webapps.igrp.pages", "igrp/file/File.xsl", "File", "File", "2.3", 1, app_igrp));
 			actions.add(new Action("Etapaaccess", "index", "nosi.webapps.igrp.pages", "igrp/etapaaccess/Etapaaccess.xsl", "EtapaAccess", "EtapaAccess", "2.3", 1, app_igrp));
 			actions.add(new Action("Addfiletask", "index", "nosi.webapps.igrp.pages", "igrp/addfiletask/Addfiletask.xsl", "AddFileTask", "AddFileTask", "2.3", 1, app_igrp));
-			
+			//get(55)
 			actions.add(new Action("Video_gestao_de_aplicacao", "index", "nosi.webapps.tutorial.pages.video_gestao_de_aplicacao", "tutorial/video_gestao_de_aplicacao/Video_gestao_de_aplicacao.xsl", "video gestão de aplicação", "video gestão de aplicação", "2.3", 1, app_tutorial));
 			actions.add(new Action("Video_instalar_igrp_web", "index", "nosi.webapps.tutorial.pages.video_instalar_igrp_web", "tutorial/video_instalar_igrp_web/Video_instalar_igrp_web.xsl", "video instalar igrp web", "video instalar igrp web", "2.3", 1, app_tutorial));
 			actions.add(new Action("Video_my_first_app", "index", "nosi.webapps.tutorial.pages.video_my_first_app", "tutorial/video_my_first_app/Video_my_first_app.xsl", "video my first app", "video my first app", "2.3", 1, app_tutorial));
-			
 			actions.add(new Action("File_editor", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/file_editor/File_editor.xsl", "File Editor", "File Editor", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Gestao_tipo_documento", "index", "nosi.webapps.igrp.pages", "igrp/gestao_tipo_documento/Gestao_tipo_documento.xsl", "Gestao Tipo Documento", "Gestao Tipo Documento", "2.3", 1, app_igrp));
+			//get(60)
 			actions.add(new Action("Startprocess", "index", "nosi.webapps.igrp.pages", "igrp/startprocess/Startprocess.xsl", "Start Process", "Start Process", "2.3", 1, app_igrp));
-			
 			actions.add(new Action("DefaultPage", "index", "nosi.webapps.tutorial.pages", "tutorial/defaultpage/DefaultPage.xsl", "Default Page", "Default Page", "2.3", 1, app_tutorial));
-			
 			actions.add(new Action("Dash_board_processo", "index", "nosi.webapps.igrp.pages", "igrp/dash_board_processo/Dash_board_processo.xsl", "Dash Board Processo", "Dash Board Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("Lista_terfa_de_processo", "index", "nosi.webapps.igrp.pages", "igrp/lista_terfa_de_processo/Lista_terfa_de_processo.xsl", "Lista Tarefa de Processo", "Lista Tarefa de Processo", "2.3", 1, app_igrp));
-			
 			actions.add(new Action("Wizard_export_step_1", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_1/Wizard_export_step_1.xsl", "Export Wizard Step 1", "Export Wizard Step 1", "2.3", 1, app_igrp_studio));
+			//get(65)
 			actions.add(new Action("Wizard_export_step_2", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_2/Wizard_export_step_2.xsl", "Export Wizard Step 2", "Export Wizard Step 2", "2.3", 1, app_igrp_studio));
-			
 			Action r1 = new Action("Resetbyemail", "index", "nosi.webapps.igrp.pages", "igrp/resetbyemail/Resetbyemail.xsl", "Reset by email", "Reset by email", "2.3", 1, app_igrp);
 			r1.setTipo((short)1);
 			Action r2 = new Action("Resetpassword", "index", "nosi.webapps.igrp.pages", "igrp/resetpassword/Resetpassword.xsl", "Reset password", "Reset password", "2.3", 1, app_igrp);
 			r2.setTipo((short)1);
 			actions.add(r1);
 			actions.add(r2);
-			
 			Action r3 = new Action("Oauth2openidwso2", "index", "nosi.webapps.igrp.pages", "igrp/oauth2openidwso2/Oauth2openidwso2.xsl", "Oauth2openidwso2", "Oauth2openidwso2", "2.3", 1, app_igrp);
 			r3.setTipo((short)1);
 			actions.add(r3);
 			
 			actions.add(new Action("Pesquisa_bi_cni_passport", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xsl", "Pesquisa BI-CNI-passport", "Pesquisa BI-CNI-passport", "2.3", 1, app_igrp_studio));
+			//get(70)
 			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_nacionalidade", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nacionalidade/Pesquisa_nacionalidade.xsl", "Pesquisa nacionalidade", "Pesquisa nacionalidade", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Wsdl2java", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wsdl2java/Wsdl2java.xsl", "WSDL2java", "WSDL2java", "2.3", 1, app_igrp_studio));
-			
+			//get(74)
 			for(Action ac:actions){
 				ac.insert();
 			}
@@ -255,8 +254,7 @@ public class MigrationIGRPInitConfig {
 				//Profile() the type_fk is 16
 			Menu tempMenuOA = new Menu("OAuth Client Id", 99, 0, 0, "_self", actions.get(26), app_igrp, null);
 			tempMenuOA.setMenu(tempMenuOA);
-			menus.add(tempMenuOA);		
-			
+			menus.add(tempMenuOA);					
 			//Profile() the type_fk is 17
 			Menu partilha = new Menu("Partilha Inter-Aplicações", 99, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
 			partilha.setMenu(partilha);
@@ -268,18 +266,14 @@ public class MigrationIGRPInitConfig {
 			//Profile() the type_fk is 19
 			Menu migrate = new Menu("Migrate IGRP", 99, 1, 0, "_self", actions.get(25), app_igrp, null);
 			migrate.setMenu(migrate);
-			menus.add(migrate);
-			
+			menus.add(migrate);			
 			Menu Gestao_tipo_documento = new Menu("Gestao tipo documento", 99, 1, 0, "_self", actions.get(59), app_igrp, null);
 			Gestao_tipo_documento.setMenu(Gestao_tipo_documento);
-			menus.add(Gestao_tipo_documento);
-
-			
+			menus.add(Gestao_tipo_documento);			
 			Menu GestDominio = new Menu("Gestão de Domínio", 99, 1, 1, "_self", actions.get(3), app_igrp, null);
 			GestDominio.setMenu(GestDominio);
-			menus.add(GestDominio);
-			
-			Menu wsdl2java = new Menu("WSDL2Java", 99, 1, 1, "modal", actions.get(73), app_igrp_studio, null);
+			menus.add(GestDominio);			
+			Menu wsdl2java = new Menu("WSDL2Java", 99, 1, 0, "modal", actions.get(73), app_igrp_studio, null);
 			wsdl2java.setMenu(wsdl2java);
 			menus.add(wsdl2java);
 			

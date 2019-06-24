@@ -90,10 +90,18 @@ public class Pesquisa_caeController extends Controller {
 		return treemenu_1;
 	}
 	 public String getXml(String id,String desc_menu, String id_par, String child, String des_cae,String id_cae) {
-			String xml =	"<row>" + 
+		
+		 int isPublic = Core.getParamInt("isPublic");
+			String ParamisPublic="";
+						if(isPublic==1) {
+							ParamisPublic="<param>isPublic="+ isPublic + "</param>" ;
+						}
+		 
+		 String xml =	"<row>" + 
 							"<context-menu>"+
 							"<param>"+des_cae+"="+ desc_menu +"</param>"+
 							"<param>"+id_cae+"="+ id +"</param>"
+							+ParamisPublic
 							+ "</context-menu>"+
 								"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
 								"<treemenu_1_tmid>"+ id + "</treemenu_1_tmid>" +

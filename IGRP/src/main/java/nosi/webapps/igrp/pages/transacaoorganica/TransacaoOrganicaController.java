@@ -321,7 +321,7 @@ public class TransacaoOrganicaController extends Controller {
 					Transaction t = new Transaction().findOne(Core.toInt("" + shareTransaction.getType_fk())); 
 					
 					
-					table.setNome(t.getDescr() + " (" + t.getCode() + ")" + " [" + shareTransaction.getEnv().getDad()+ "]");
+					table.setNome(t.getDescr() + " (" + t.getCode() + ")" + " [" + shareTransaction.getOwner().getDad()+ "]");
 					
 					
 					if(type.equals("org")){

@@ -33,15 +33,16 @@ public class Pesquisa_geografiaController extends Controller {
 		return this.renderView(view);
 	}
 
+	
+	
+	
 	public Response actionRemote_treemenu_1(String p_id)
 			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 		String id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
 
 		// String[] par = Core.getParam("p_ctx_param").split(",");
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
-		+ " <treemenu_1> "
-				+ "<table>" + "<value>";
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>";
 		if (Core.isNotNull(jsonLookup)) {
 			try {
 				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
@@ -75,12 +76,12 @@ public class Pesquisa_geografiaController extends Controller {
 	String id_geo = "p_geografia_id";
 
 	public List<Pesquisa_geografia.Treemenu_1> chamarServico(String id) throws IOException, JSONException {
-		if(id.equals("238"))
-			id="100";
+		if (id.equals("238"))
+			id = "100";
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
 		String url = setting.getProperty("link.rest.pesquisa_geografia") + "?id=" + id;
 		if (id.equals("0")) {
-			url=url.replace("GeoINGT", "geografia");
+			url = url.replace("GeoINGT", "geografia");
 		}
 		String authorization = setting.getProperty("authorization.rest.pesquisa_geografia");
 		ConsumeJson json_obj = new ConsumeJson();
@@ -126,8 +127,17 @@ public class Pesquisa_geografiaController extends Controller {
 
 	public String getXml(String id, String desc_menu, String id_par, String child, String des_geo, String id_geo) {
 
-		String xml = "<row>" + "<context-menu>" + "<param>" + des_geo + "=" + desc_menu + "</param>" + "<param>"
-				+ id_geo + "=" + id + "</param>" + "</context-menu>" + "<treemenu_1_link_desc>" + desc_menu
+		int isPublic = Core.getParamInt("isPublic");
+		String ParamisPublic="";
+					if(isPublic==1) {
+						ParamisPublic="<param>isPublic="+ isPublic + "</param>" ;
+					}
+	
+		String xml = "<row>" + "<context-menu>" + 
+		"<param>" + des_geo + "=" + desc_menu + "</param>" + 
+				"<param>"+ id_geo + "=" + id + "</param>" 
+				+ParamisPublic
+				+ "</context-menu>" + "<treemenu_1_link_desc>" + desc_menu
 				+ "</treemenu_1_link_desc>" + "<treemenu_1_tmid>" + id + "</treemenu_1_tmid>" + "<treemenu_1_parent>"
 				+ id_par + "</treemenu_1_parent>" + "<treemenu_1_icon/>" + "<treemenu_1_child>" + child
 				+ "</treemenu_1_child>" + "<treemenu_1_active/>" + "</row>";

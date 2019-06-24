@@ -214,7 +214,7 @@ public class User implements Component{
 	}
 	
 	public static String generateActivationKey() {
-		return Base64.getUrlEncoder().encodeToString(((System.currentTimeMillis() + 1000*3600) + "").getBytes()); // 1h 
+		return Base64.getUrlEncoder().encodeToString(((System.currentTimeMillis() + 1000*7*24*3600) + "").getBytes()); // 7 days 
 	}
 	
 	public static String generatePasswordResetToken() {

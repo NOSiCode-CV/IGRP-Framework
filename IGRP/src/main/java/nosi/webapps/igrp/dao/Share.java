@@ -37,7 +37,7 @@ public class Share extends IGRPBaseActiveRecord<Share> implements Serializable{
 	@JoinColumn(name = "env_owner_fk")
 	private Application owner;
 	
-	private String type; // PAGE|WORKFLOW|SERVICE|REPORT 
+	private String type; // PAGE|WORKFLOW|SERVICE|REPORT|TRANS 
 	private int type_fk;
 	private int status;
 	

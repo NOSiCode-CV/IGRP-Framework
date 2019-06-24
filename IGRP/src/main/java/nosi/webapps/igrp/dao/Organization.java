@@ -153,7 +153,8 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 		HashMap<String, String> lista = new HashMap<>();
 		lista.put("", "-- Selecionar --");
 		for (Profile p : new Profile().getMyPerfile()) {
-			lista.put(p.getOrganization().getId() + "", p.getOrganization().getName());
+			if(p.getOrganization().getStatus()==1)
+				lista.put(p.getOrganization().getId() + "", p.getOrganization().getName());
 		}
 		return lista;
 	}
@@ -161,7 +162,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	public HashMap<String, String> getListOrganizations() {
 		HashMap<String, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for (Organization o : this.findAll()) {
+		for (Organization o : this.find().where("status","=",1).all()) {
 			lista.put(o.getId() + "", o.getName());
 		}
 		return lista;
@@ -170,7 +171,7 @@ public class Organization extends IGRPBaseActiveRecord<Organization> implements 
 	public HashMap<String, String> getListOrganizations(Integer app) {
 		HashMap<String, String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for (Organization o : this.find().andWhere("application.id", "=", app).all()) {
+		for (Organization o : this.find().where("status","=",1).andWhere("application.id", "=", app).all()) {
 			lista.put(o.getId() + "", o.getName());
 		}
 		return lista;

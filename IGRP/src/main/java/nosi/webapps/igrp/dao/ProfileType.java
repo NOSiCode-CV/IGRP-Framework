@@ -138,7 +138,8 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
 		for(Profile p: new Profile().getMyPerfile()){
-			lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " / "+ p.getProfileType().getDescr());
+			if(p.getProfileType().getStatus()==1)
+				lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " / "+ p.getProfileType().getDescr());
 		}
 		return lista;
 	}
@@ -146,7 +147,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	public HashMap<String, String> getListProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(ProfileType p: this.findAll()){
+		for(ProfileType p: this.find().where("status","=",1).all()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
@@ -155,7 +156,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	public HashMap<String, String> getListProfiles(int app, int organic) {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(ProfileType p: this.find().andWhere("application.id", "=",app).andWhere("organization.id", "=",organic).all()){
+		for(ProfileType p: this.find().where("status","=",1).andWhere("application.id", "=",app).andWhere("organization.id", "=",organic).all()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
@@ -176,7 +177,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	public HashMap<String,String> getListProfiles(Integer app) {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(ProfileType p: this.find().andWhere("application.id", "=",app).all()){
+		for(ProfileType p: this.find().where("status","=",1).andWhere("application.id", "=",app).all()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
