@@ -28,8 +28,6 @@ public class IgrpOAuth2SSO extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("SSO entrado ... "); 
-		
 		String app = request.getParameter("app"); 
 		String _url = request.getParameter("_url"); 
 		
@@ -61,8 +59,6 @@ public class IgrpOAuth2SSO extends HttpServlet {
 			
 			String warName = new File(this.getServletContext().getRealPath("/")).getName(); 
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
-			
-			System.out.println("IgrpOAuth2SSO.java Redirect Uri: " + redirect_uri);
 			
 			authorizeUrl += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
 			

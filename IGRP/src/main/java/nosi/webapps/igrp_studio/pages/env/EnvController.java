@@ -449,10 +449,6 @@ public class EnvController extends Controller {
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
 		
-		String auxDad = (String) Core.getFromSession("_homepage"); 
-		if(auxDad != null && !auxDad.isEmpty()) 
-			app = auxDad; 
-		
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
