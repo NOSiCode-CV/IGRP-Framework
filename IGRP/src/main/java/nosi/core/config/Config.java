@@ -342,14 +342,14 @@ public class Config {
 	public String getBasePahtXslWorkspace(Action page){
 		String workSpace = this.getWorkspace();
 		if(Core.isNotNull(workSpace))
-			return workSpace + SEPARATOR_FOR_FILESYS + workSpace + SEPARATOR_FOR_FILESYS + this.getImageAppPath(page);
+			return workSpace + SEPARATOR_FOR_FILESYS + this.getWebapp() + SEPARATOR_FOR_FILESYS + this.getImageAppPath(page);
 		return null;
 	}
 
 	public String getBasePahtXslWorkspace(Application app) {
 		String workSpace = this.getWorkspace();
 		if(Core.isNotNull(workSpace))
-			return workSpace + SEPARATOR_FOR_FILESYS + workSpace + SEPARATOR_FOR_FILESYS + this.getImageAppPath(app,"2.3");
+			return workSpace + SEPARATOR_FOR_FILESYS + this.getWebapp() + SEPARATOR_FOR_FILESYS + this.getImageAppPath(app,"2.3");
 		return null;
 	}
 	
