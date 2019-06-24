@@ -108,6 +108,9 @@ public class Oauth2openidwso2Controller extends Controller {
 		String redirect_uri = settings.getProperty("ids.wso2.oauth2.endpoint.redirect_uri"); 
 		String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 		
+		String warName = new File(Igrp.getInstance().getRequest().getServletContext().getRealPath("/")).getName(); 
+		redirect_uri = redirect_uri.replace("IGRP", warName); 
+		
 		url += "?response_type=code&client_id=" + client_id + "&scope=openid&state=TWILIGHT10&redirect_uri=" + redirect_uri;
 		
 		return redirectToUrl(url);
