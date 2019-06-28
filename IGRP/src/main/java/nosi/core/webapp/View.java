@@ -39,17 +39,15 @@ public abstract class View  implements IHeaderConfig{
 	}
 
 	protected IGRPForm addFieldToFormHidden() {
-		IGRPForm formHidden = new IGRPForm("hidden_form_igrp");	
-	
-		this.addLookupParams(formHidden);
-		this.addPersistentParams(formHidden);
-		
+		IGRPForm formHidden = new IGRPForm("hidden_form_igrp");			
 		if(IGRPForm.hiddenFields.size() >0) {
 			for(Field f:IGRPForm.hiddenFields) {
 				formHidden.addField(f);
 			}
 			IGRPForm.resetHiddenField();
 		}
+		this.addPersistentParams(formHidden);
+		this.addLookupParams(formHidden);
 		return formHidden;
 	}
 	
