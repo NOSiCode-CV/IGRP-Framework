@@ -34,14 +34,14 @@ public class DomainExport implements IExport{
 
 	@Override
 	public void add(String domainid) {
-		DomainSerializable domainS = new DomainSerializable();
+		
 		Domain domain = new Domain();
 		domain.setReadOnly(true);
-		List<Domain> listDomain= domain.find().andWhere("dominio", "=", domainid)
-											.andWhere("status", "=", "ATIVE")
-											.andWhere("application.id", "=", idApp).orderBy("ordem").all();
+		List<Domain> listDomain= domain.find().andWhere("dominio", "=", domainid)											
+											.andWhere("application.id", "=", idApp).all();
 		for(Domain dom:listDomain) {
-			Core.mapper(dom, domainS);
+			DomainSerializable domainS = new DomainSerializable();
+			Core.mapper(dom, domainS);			
 			this.domains.add(domainS);
 		}		
 		
