@@ -1674,11 +1674,11 @@ public final class Core { // Not inherit
 		return xml;
 	}
 
-	public String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected) {
+	public static String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected) {
 		return remoteComboBoxXml(map, field, selected, null);
 	}
 	
-	public String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected, String prompt){
+	public static String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected, String prompt){
 		XMLWritter xml = new XMLWritter();
 		xml.startElement(field.getTagName());	
 		xml.startElement("list");
