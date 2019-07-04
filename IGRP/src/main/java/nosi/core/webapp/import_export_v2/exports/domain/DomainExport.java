@@ -41,7 +41,8 @@ public class DomainExport implements IExport{
 											.andWhere("application.id", "=", idApp).all();
 		for(Domain dom:listDomain) {
 			DomainSerializable domainS = new DomainSerializable();
-			Core.mapper(dom, domainS);			
+			Core.mapper(dom, domainS);		
+			domainS.setDad(dom.getApplication().getDad());
 			this.domains.add(domainS);
 		}		
 		

@@ -22,7 +22,7 @@ public class DomainSerializable implements Serializable{
 	private String status = "ATIVE";
 	private int ordem = 0;
 	private DomainType domainType;
-	private String application;
+	private String dad;
 	
 	public Integer getId() {
 		return id;
@@ -68,16 +68,16 @@ public class DomainSerializable implements Serializable{
 	}
 
 	/**
-	 * @return the application
+	 * @return the dad
 	 */
-	public String getApplication() {
-		return application;
+	public String getDad() {
+		return dad;
 	}
 	/**
-	 * @param application the application to set
+	 * @param dad the dad to set
 	 */
-	public void setApplication(String application) {
-		this.application = application;
+	public void setDad(String dad) {
+		this.dad = dad;
 	}
 
 }

@@ -673,15 +673,21 @@ public class PageController extends Controller {
 		int p_id = Core.getParamInt("p_id");
 		Action ac = new Action().findOne(p_id);
 		if(ac!=null && ac.getApplication()!=null) {
+			final String dad = ac.getApplication().getDad();
 			List<String> domains = new ArrayList<>();
-			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PUB+" UNION "+DomainHeper.SQL_DOMINIO_PRIVATE)
-					.addInt("env_fk", ac.getApplication().getId())
-					.getResultList()) {
-				try {
-					domains.add(t.get("dominio").toString());
+				
+			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PRIVATE).addInt("env_fk", ac.getApplication().getId()).getResultList()) {
+				try {					
+					domains.add(t.get("dominio")+" « "+dad);
 				} catch (IllegalArgumentException e) {
 				}
 			}
+			for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,DomainHeper.SQL_DOMINIO_PUB).getResultList()) {
+				try {
+					domains.add(t.get("dominio")+"");
+				} catch (IllegalArgumentException e) {
+				}
+			}		
 			Properties p = new Properties();
 			p.put("list", domains);
 			this.format = Response.FORMAT_JSON;
@@ -692,10 +698,24 @@ public class PageController extends Controller {
 
 	public Response actionDomainsValues() throws IOException {
 		String p_id = Core.getParam("p_id");
+		
+		String [] ids=p_id.split(" « ");
 		List<Properties> list = new ArrayList<>();
 		try {
-		for (Tuple t : Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
-				.addString("dominio", p_id).getResultList()) {
+			
+	
+			List<Tuple> queryDomain;
+		
+		if(ids.length>1)
+			queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO)
+			.addString("dominio", ids[0])
+			.addInt("env_fk",Core.findApplicationByDad(ids[1]).getId()).getResultList() ;
+		else
+			queryDomain = Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, DomainHeper.SQL_ITEM_DOMINIO_PUB)
+			.addString("dominio", ids[0]==null?p_id:ids[0]).getResultList() ;
+		
+		
+		for (Tuple t : queryDomain) {
 		
 				Properties domains = new Properties();
 				domains.put("value", t.get("key").toString());

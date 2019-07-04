@@ -35,7 +35,7 @@ public class ImportTransation extends AbstractImport implements IImport{
 		if(this.transations!=null) {
 			this.transations.stream().forEach(t->{
 				if(this.application==null) {
-					this.application = new Application().findByDad(t.getDad());
+					this.application = Core.findApplicationByDad(t.getDad());
 				}
 				Transaction tran = new Transaction().find().andWhere("code", "=",t.getCode()).andWhere("application.dad", "=",t.getDad()).one();
 				if(tran==null) {

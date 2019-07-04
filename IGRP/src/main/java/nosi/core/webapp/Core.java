@@ -694,7 +694,7 @@ public final class Core { // Not inherit
 	}
 
 	/**
-	 * Find Active Domains by domain code name
+	 * Find Active Domains by domain code name and app is null
 	 * 
 	 * @param domainsName domain code name
 	 * @return {@code List< of Domains> }
@@ -704,6 +704,7 @@ public final class Core { // Not inherit
 		domain.setReadOnly(true);
 		return domain.find().where("valor !=''")
 				.andWhere("dominio", "=", domainsName)
+				.andWhere("application", "isnull")
 				.andWhere("status", "=", "ATIVE")					
 				.orderBy("ordem")
 				.all();
@@ -719,6 +720,13 @@ public final class Core { // Not inherit
 	public static List<nosi.webapps.igrp.dao.Domain> findDomainByCode(String domainsName,String codeApp) {
 		nosi.webapps.igrp.dao.Domain domain = new nosi.webapps.igrp.dao.Domain();
 		domain.setReadOnly(true);
+		if(isNullOrZero(codeApp))
+			return domain.find().where("valor !=''")
+					.andWhere("dominio", "=", domainsName)
+					.andWhere("status", "=", "ATIVE")		
+					.andWhere("application", "isnull")
+					.orderBy("ordem")
+					.all();
 		return domain.find().where("valor !=''")
 				.andWhere("dominio", "=", domainsName)
 				.andWhere("status", "=", "ATIVE")		
@@ -1499,6 +1507,20 @@ public final class Core { // Not inherit
 		if(Igrp.getInstance()!=null && Igrp.getInstance().getLog()!=null)
 			Igrp.getInstance().getLog().addMessage(msg);
 	}
+	
+	/**
+	 * send a simple email with charset  UTF-8 and mimetype html...
+	 * 
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @param msg
+	 * @param replyTo
+	 * @return true or false
+	 */
+	public static boolean mail(String from, String to, String subject, String msg, String replyTo) {
+		return mail(from, to, subject, msg, "utf-8", "html", null, replyTo, null);
+	}
 
 	/**
 	 * send a simple email ...
@@ -1530,7 +1552,7 @@ public final class Core { // Not inherit
 	 */
 	public static boolean mail(String to, String subject, String msg, String charset, String mimetype,
 			File[] attachs, String replyTo) {
-		Properties setting = ConfigApp.getInstance().loadConfig("common", "main.xml");
+		Properties setting = ConfigApp.getInstance().loadCommonConfig();
 		String email = setting.getProperty("mail.user");
 		return mail(email, to, subject, msg, charset, mimetype, attachs, replyTo, null);
 	}

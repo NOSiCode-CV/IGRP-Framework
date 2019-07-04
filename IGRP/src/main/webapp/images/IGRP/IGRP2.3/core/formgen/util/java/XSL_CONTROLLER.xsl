@@ -668,15 +668,35 @@
 	 		<xsl:for-each select="fields/*[@type='select' or @type='radiolist' or @type='checkboxlist']">	 		
 	 			<xsl:if test="@domain!=''">	
 	 			<xsl:call-template name="newlineTab2"/>		 			
-	 				<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>	 					
-	 						<xsl:choose>
-	 							<xsl:when test="@type='select'">
-	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain, $double_quotes,',',$double_quotes,$app_name,$double_quotes,',',$double_quotes,'-- Selecionar --' ,$double_quotes,');')"/>
-	 							</xsl:when>
-	 							<xsl:otherwise>
-	 								<xsl:value-of select="concat('view.',$instance_name,'.loadDomainByApp(',$double_quotes, @domain,$double_quotes,',',$double_quotes,$app_name,$double_quotes,');')"/>	
-	 							</xsl:otherwise>
+								<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+								<xsl:choose>
+									<xsl:when test="contains(@domain,'«')">								
+										<xsl:choose>
+											<xsl:when test="@type='select'">
+												<xsl:value-of
+													select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, substring-before(@domain,' « '), $double_quotes,',',$double_quotes,substring-after(@domain,' « '),$double_quotes,',',$double_quotes,'-- Selecionar --' ,$double_quotes,');')" />
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:value-of
+													select="concat('view.',$instance_name,'.loadDomainByApp(',$double_quotes,substring-before(@domain,' « '),$double_quotes,',',$double_quotes,substring-after(@domain,' « '),$double_quotes,');')" />
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:choose>
+											<xsl:when test="@type='select'">
+												<xsl:value-of
+													select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain, $double_quotes,',',$double_quotes,'-- Selecionar --' ,$double_quotes,');')" />
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:value-of
+													select="concat('view.',$instance_name,'.loadDomain(',$double_quotes, @domain,$double_quotes,');')" />
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:otherwise>
 	 						</xsl:choose>
+	 						
+
 				</xsl:if>	 			
 			</xsl:for-each>			
 	 	</xsl:for-each>

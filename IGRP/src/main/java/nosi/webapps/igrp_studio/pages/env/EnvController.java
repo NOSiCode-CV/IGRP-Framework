@@ -455,13 +455,13 @@ public class EnvController extends Controller {
 			
 			Application env = Core.findApplicationByDad(app);
 			
-			Properties properties = ConfigApp.getInstance().loadConfig("common", "main.xml");
-			String currentEnv = Igrp.getInstance().getServlet().getInitParameter("env");
+			Properties properties = ConfigApp.getInstance().loadCommonConfig();
+			String currentEnv = new Config().getEnvironment();
 			String devUrl = properties.getProperty("igrp.env.dev.url"); 
 			
 			
 			// If you try to open igrp_studio in a not igrp_studio enviroment 
-			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 
+			if(env != null && env.getDad().equalsIgnoreCase("igrp_studio") && currentEnv != null && !currentEnv.equalsIgnoreCase("dev") && devUrl != null && !devUrl.isEmpty()) { 				
 				String qs = "?app=" + env.getDad();
 				devUrl += qs;
 			return redirectToUrl(devUrl);
@@ -490,7 +490,7 @@ public class EnvController extends Controller {
 					
 					Action action = env.getAction();
 					
-					if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) {
+					if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) { //1 External 
 						
 						url += "/" + env.getDad() + "/igrpoauth2sso?app=" + env.getDad(); 
 						
