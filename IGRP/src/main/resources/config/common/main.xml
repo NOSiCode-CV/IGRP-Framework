@@ -67,12 +67,14 @@
 	<entry key="link.rest.pesquisa_nif">https://api-stage-pdex.gov.cv:8242/api_nif/1.0.0/nif</entry>
 	<entry key="link.rest.pesquisa_geografia">https://api-stage-pdex.gov.cv:8242/GeoINGT/1.0.0/select_geo_by_id</entry>
 	<entry key="link.rest.pesquisa_cae">https://api-stage-pdex.gov.cv:8242/pesquisa_cae/1.0.0/pesquisa_cae</entry>
-		
+	<entry key="link.rest.pesquisa_empresa">https://api-stage-pdex.gov.cv:8242/t/igrp.cv/pesquisa_empresa/1.0.0/operation_name_pesqu_empresa</entry>
 		
 	<!-- authorization rest pesquisas gerais -->
 	<entry key="authorization.link.rest.pesquisa_bi_cni_pass">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
 	<entry key="authorization.rest.pesquisa_nif">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
 	<entry key="authorization.rest.pesquisa_geografia">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
 	<entry key="authorization.rest.pesquisa_cae">Bearer ffed23b6-eee3-392e-a5c6-4856a4720a30</entry>
-
+	<entry key="authorization.rest.pesquisa_empresa">Bearer a7080c71-1cf4-31bb-bf43-9f375265582e</entry>
+	
+	
 </properties>
