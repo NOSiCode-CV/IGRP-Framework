@@ -18,6 +18,7 @@ import nosi.core.webapp.activit.rest.services.GroupServiceRest;
 /*----#end-code----*/
 		
 public class NovoPerfilController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoPerfil model = new NovoPerfil();
 		model.load();

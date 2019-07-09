@@ -34,6 +34,7 @@ import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.ldap.LdapPerson;
+import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;

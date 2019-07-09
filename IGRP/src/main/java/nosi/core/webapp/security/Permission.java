@@ -22,8 +22,11 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
 public class Permission {
-	public static final String ENCODE = "UTF-8";
-	public static final int MAX_AGE = 60*60*24;//24h
+	
+	public static final String ENCODE = "UTF-8"; 
+	public static final int MAX_AGE = 60*60*24;//24h 
+	
+	private ApplicationPermition applicationPermition; 
 	
 	public boolean isPermition(String app,String page,String action){//check permission on app		
 		if(Igrp.getInstance().getUser() != null && Igrp.getInstance().getUser().isAuthenticated()){
@@ -74,6 +77,7 @@ public class Permission {
 					 if(appP==null) {
 						 appP = new ApplicationPermition(app.getId(),dad, prof.getOrganization().getId(), prof.getProfileType().getId(),prof.getOrganization().getCode(),prof.getProfileType().getCode());
 					}
+					 this.applicationPermition = appP;
 					try {
 						String json = Core.toJson(appP);
 						Cookie cookie = new Cookie(dad, URLEncoder.encode( json,ENCODE));
@@ -85,17 +89,19 @@ public class Permission {
 					}
 				}
 			}
-		}		
+		}
+		
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
+		
 		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
 			ApplicationPermition appP = this.getApplicationPermition(dad);
-			
 			if(appP==null) {
 				 appP = new ApplicationPermition(app.getId(),dad, org!=null?org.getId():null, profType!=null ? profType.getId():null,prof!=null && prof.getOrganization()!=null? prof.getOrganization().getCode():null,prof!=null && prof.getProfileType()!=null?prof.getProfileType().getCode():null);
 			}
-			this.setCookie(appP);
+			this.applicationPermition = appP; 
+			this.setCookie(appP); 
 		}
 	}
 	
@@ -169,4 +175,9 @@ public class Permission {
 		}
 		return null;
 	}
+	
+	public ApplicationPermition getApplicationPermitionBeforeCookie() {
+		return applicationPermition;
+	}
+	
 }
