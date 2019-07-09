@@ -1,5 +1,5 @@
 <xsl:if test="not(#tag#/@visible)">
-    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" item-name="#[tag]#">
+    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" item-name="#[tag]#" item-type="#type#">
         <div class="" item-name="#tag#" item-type="#type#">
           <label class="container-box" >  
             <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>

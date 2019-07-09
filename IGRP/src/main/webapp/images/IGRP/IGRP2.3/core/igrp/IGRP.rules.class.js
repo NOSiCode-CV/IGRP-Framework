@@ -717,7 +717,11 @@ if($ && $.IGRP && !$.IGRP.rules){
 		remote:{
 			
 			do : function(p){
+				
 				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
+				
+				var row = p.isTable == true ? p.sourceField.parents('tr:first') : null;
+				
 				$.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
 					params  : getParam(p),
 					headers : {
@@ -731,7 +735,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 						$.each($(contents),function(i,item){
 
-							var o = $.IGRP.utils.setFieldValue(item);
+							var o = $.IGRP.utils.setFieldValue({tag : item, row : row});
 						});
 					}
 				});

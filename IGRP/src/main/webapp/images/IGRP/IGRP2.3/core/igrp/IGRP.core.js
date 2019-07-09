@@ -192,10 +192,12 @@
 				
 				$.IGRP.utils.resetFieldsSelector($(":input",o));
 			},
-			setFieldValue:function(tag,value){
+			setFieldValue:function(p){
 
 				var lookup = null,
-					label  = null;
+					label  = null,
+					tag    = p.tag,
+					value  = p.value;
 
 				if (typeof $(tag) === 'object'){
 					
@@ -209,7 +211,7 @@
 					
 				}
 
-				var formElement = $('[name="p_'+tag+'"]'),
+				var formElement = p.row ? $('[name="'+tag+'"]',p.row) : $('[name="p_'+tag+'"]'),
 
 					parent  	= $(formElement.parents('[item-name]')[0]);
 				
@@ -256,6 +258,14 @@
 							var checked = value == 1;
 
 							formElement.prop('checked', checked)
+
+						break;
+							
+						case 'textarea':
+						case 'plaintext':
+							
+
+							formElement.text(value);
 
 						break;
 

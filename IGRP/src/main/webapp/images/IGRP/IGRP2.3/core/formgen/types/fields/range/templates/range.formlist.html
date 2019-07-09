@@ -1,5 +1,5 @@
 <xsl:if test="not(#tag#/@visible)">
-    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
+    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#" item-type="#type#">
         <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
         <div class="form-group" item-name="#tag#" item-type="#type#">
             <input id="range-#tag#{position()}" range-id="range-#tag#" name="{../../../fields/#tag#/@name}_fk" class="igrp-range" type="text" data-slider-min="#[rangeMin]#" data-slider-max="#[rangeMax]#" data-slider-step="1" data-slider-value="{#tag#}" value="{#tag#}" rel="F_#parent.tag#" #[disabled]# #[readonly]# #[required]# >
