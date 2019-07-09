@@ -28,81 +28,134 @@ public class PesquisaEmpresaService {
 	}
 	
 	
-	public static List<PesquisaEmpresa> pesquisaEmpresa(String nif,String nome) {
+	public static List<PesquisaEmpresa> pesquisaEmpresa(String nif,String nome) throws IOException {
 		List<PesquisaEmpresa> empresas = new ArrayList<>();
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = resolveUrl(nif,nome);
 		
-		try {
 			String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), AUTHORIZATION);
 			
 			JSONObject obj = new JSONObject(json);
+						
 			try {
-			JSONObject Entries = obj.getJSONObject("Entries");
-			
-				JSONArray Entry = Entries.getJSONArray("Entry");
-				for(int i = 0; i < Entry.length(); i++) {
-					JSONObject local = Entry.getJSONObject(i);
+				JSONObject Entries = obj.getJSONObject("Entries");
+				 
+				try {
+					JSONArray Entry = Entries.getJSONArray("Entry");
+					for(int i = 0; i < Entry.length(); i++) {
+						JSONObject local = Entry.getJSONObject(i);
+						PesquisaEmpresa empresa = new PesquisaEmpresa();
+						
+						try {
+							empresa.setNome_firma(local.getString("nome_firma"));
+						}catch (org.json.JSONException e) {
+							empresa.setNome_firma(null);
+						}
+						
+						try {
+							empresa.setNif(""+local.getInt("nif"));
+						}catch (org.json.JSONException e) {
+							empresa.setNif(null);
+						}
+						
+						try {
+							empresa.setMatricula(local.getString("matricula"));
+						}catch (org.json.JSONException e) {
+							empresa.setMatricula(null);
+						}
+						
+						try {
+							empresa.setDt_ini_atividade(local.getString("dt_ini_atividade"));
+						}catch (org.json.JSONException e) {
+							empresa.setDt_ini_atividade(null);
+						}
+						
+						try {
+							empresa.setNatureza_juridica(local.getString("natureza_juridica"));
+						}catch (org.json.JSONException e) {
+							empresa.setNatureza_juridica(null);
+						}
+						
+						try {
+							empresa.setNatureza_juridica_desc(local.getString("natureza_juridica_desc"));
+						}catch (org.json.JSONException e) {
+							empresa.setNatureza_juridica_desc(null);
+						}
+						
+						try {
+							empresa.setTipo_entidade(local.getString("natureza_juridica_desc"));
+						}catch (org.json.JSONException e) {
+							empresa.setTipo_entidade(null);
+						}
+						
+						try {
+							empresa.setTipo_entidade_desc(local.getString("tipo_entidade_desc"));
+						}catch (org.json.JSONException e) {
+							empresa.setTipo_entidade_desc(null);
+						}
+						
+						empresas.add(empresa);
+					}	
+				}catch(Exception e) {
+					JSONObject Entry_ob = Entries.getJSONObject("Entry");
 					PesquisaEmpresa empresa = new PesquisaEmpresa();
 					
 					try {
-						empresa.setNome_firma(local.getString("nome_firma"));
-					}catch (org.json.JSONException e) {
+						empresa.setNome_firma(Entry_ob.getString("nome_firma"));
+					}catch (org.json.JSONException ed) {
 						empresa.setNome_firma(null);
 					}
 					
 					try {
-						empresa.setNif(""+local.getInt("nif"));
-					}catch (org.json.JSONException e) {
+						empresa.setNif(""+Entry_ob.getInt("nif"));
+					}catch (org.json.JSONException es) {
 						empresa.setNif(null);
 					}
 					
 					try {
-						empresa.setMatricula(local.getString("matricula"));
-					}catch (org.json.JSONException e) {
+						empresa.setMatricula(Entry_ob.getString("matricula"));
+					}catch (org.json.JSONException es) {
 						empresa.setMatricula(null);
 					}
 					
 					try {
-						empresa.setDt_ini_atividade(local.getString("dt_ini_atividade"));
-					}catch (org.json.JSONException e) {
+						empresa.setDt_ini_atividade(Entry_ob.getString("dt_ini_atividade"));
+					}catch (org.json.JSONException es) {
 						empresa.setDt_ini_atividade(null);
 					}
 					
 					try {
-						empresa.setNatureza_juridica(local.getString("natureza_juridica"));
-					}catch (org.json.JSONException e) {
+						empresa.setNatureza_juridica(Entry_ob.getString("natureza_juridica"));
+					}catch (org.json.JSONException es) {
 						empresa.setNatureza_juridica(null);
 					}
 					
 					try {
-						empresa.setNatureza_juridica_desc(local.getString("natureza_juridica_desc"));
-					}catch (org.json.JSONException e) {
+						empresa.setNatureza_juridica_desc(Entry_ob.getString("natureza_juridica_desc"));
+					}catch (org.json.JSONException es) {
 						empresa.setNatureza_juridica_desc(null);
 					}
 					
 					try {
-						empresa.setTipo_entidade(local.getString("natureza_juridica_desc"));
-					}catch (org.json.JSONException e) {
+						empresa.setTipo_entidade(Entry_ob.getString("natureza_juridica_desc"));
+					}catch (org.json.JSONException es) {
 						empresa.setTipo_entidade(null);
 					}
 					
 					try {
-						empresa.setTipo_entidade_desc(local.getString("tipo_entidade_desc"));
-					}catch (org.json.JSONException e) {
+						empresa.setTipo_entidade_desc(Entry_ob.getString("tipo_entidade_desc"));
+					}catch (org.json.JSONException es) {
 						empresa.setTipo_entidade_desc(null);
 					}
 					
 					empresas.add(empresa);
-				}	
+				}
+				
+				
 			}catch (Exception e) {
 			
 				Core.setMessageInfo("Nenhum registo encontrado");
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return empresas;
 	}
 	
