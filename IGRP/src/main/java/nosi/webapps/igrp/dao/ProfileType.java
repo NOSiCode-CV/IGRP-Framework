@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -54,7 +53,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	@OneToMany(mappedBy="profileType")
 	private List<Profile> profiles;
 	
-	@ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="firstPage",foreignKey=@ForeignKey(name="PROFILE_TYPE_ACTION_FK"))
 	private Action firstPage;
 	

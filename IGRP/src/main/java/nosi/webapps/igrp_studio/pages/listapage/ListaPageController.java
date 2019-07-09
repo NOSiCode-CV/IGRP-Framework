@@ -1,5 +1,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
@@ -80,6 +81,12 @@ public class ListaPageController extends Controller {
               	.addParam("p_env_fk", model.getApplication());
 			model.getCrud_generator().addParam("p_aplicacao",
 					model.getApplication());
+			
+			view.infopanel_1_url.setValue(new Config().getResolveUrl("igrp_studio","WebReport","index&p_env_fk="+model.getApplication()));
+			view.infopanel_1.addField(view.infopanel_1_url);
+			view.infopanel_2_url.addParam("p_env_fk", model.getApplication());
+			
+			
 		} else {
 			model.getBtn_import().addParam("tab-tabcontent_1-importar_pagina","1");
 			model.setLink_btn_nova_pagina("igrp", "Page", "index");

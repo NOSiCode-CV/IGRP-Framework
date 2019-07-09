@@ -74,7 +74,7 @@ public class PagesScapePermission {
 		PAGES_SHAREDS.add("igrp/error-page/permission".toLowerCase());
 		PAGES_SHAREDS.add("igrp/error-page/notFound".toLowerCase());
 		PAGES_SHAREDS.add("igrp/home/index".toLowerCase());
-		PAGES_SHAREDS.add("igrp/DefaultPage/index".toLowerCase());
+		PAGES_SHAREDS.add("tutorial/DefaultPage/index".toLowerCase());
 		PAGES_SHAREDS.add("igrp/ExecucaoTarefas/index".toLowerCase());
 		PAGES_SHAREDS.add("igrp/ExecucaoTarefas/Assumir_button_tabela".toLowerCase());
 		PAGES_SHAREDS.add("igrp/ExecucaoTarefas/Leberar_tarefa_button_minha_tarefas".toLowerCase());

@@ -106,7 +106,7 @@ public class ExportSqlHelper {
 
 
 	private void loadTransationData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as transation_ids,id as transation_ids_check, concat(code,' - ',descr) as descricao_transation "
+		String sql = "SELECT id as transation_ids,id as transation_ids_check, concat(descr,' (',code,')') as descricao_transation "
 				   + "FROM tbl_transaction "
 				   + "WHERE status=1 AND env_fk=:application_id";
 		model.loadTbl_transation(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
@@ -184,14 +184,14 @@ public class ExportSqlHelper {
 
 
 	private void loadReportData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as report_ids,id as report_ids_check, concat(code,' - ',name) as descricao_report "
+		String sql = "SELECT id as report_ids,id as report_ids_check, concat(name,' (',code,')') as descricao_report "
 				   + "FROM tbl_rep_template "
 				   + "WHERE env_fk=:application_id AND status=1";
 		model.loadTable_report(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,sql).addInt("application_id", model.getApplication_id()));
 	}
 
 	private void loadPageData(Wizard_export_step_2 model) {
-		String sql = "SELECT id as pagina_ids,id as pagina_ids_check,concat(page,' (',page_descr,')') as descricao_pagina "
+		String sql = "SELECT id as pagina_ids,id as pagina_ids_check,concat(page_descr,' (',page,')') as descricao_pagina "
 				   + "FROM tbl_action "
 				   + "WHERE env_fk=:application_id AND status=1 AND processkey is null";
 		if(Core.isNotNull(model.getModulo())) {

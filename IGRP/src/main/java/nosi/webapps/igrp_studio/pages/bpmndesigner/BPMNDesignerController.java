@@ -46,7 +46,7 @@ public class BPMNDesignerController extends Controller {
 		model.load();
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		view.env_fk.setValue(new Application().getListApps());
-		Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));		
+		Application app = Core.findApplicationById(Core.toInt(model.getEnv_fk()));		
 		if(app!=null) {
 			List<BPMNDesigner.Gen_table> data = new ArrayList<>();
 			for(ProcessDefinitionService process: new ProcessDefinitionServiceRest().getProcessDefinitionsAtivos(app.getDad())){
