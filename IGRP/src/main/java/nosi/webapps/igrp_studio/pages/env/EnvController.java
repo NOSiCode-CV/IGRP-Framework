@@ -45,6 +45,7 @@ import nosi.webapps.igrp.dao.User;
 /*----#end-code----*/
 		
 public class EnvController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
 		model.load();
@@ -450,8 +451,10 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app, @RParam(rParamName = "page") String page) throws Exception{ 
 		
 		String[] p = page.split("/");
-		if(new Permission().isPermition(app, p[1], p[2])) {
-			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
+		Permission permission = new Permission();
+		
+		if(permission.isPermition(app, p[1], p[2])) {
+			permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			
 			Application env = Core.findApplicationByDad(app);
 			
@@ -520,7 +523,9 @@ public class EnvController extends Controller {
 			
 			
 			try {
-				Integer idPerfil = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
+				
+				Integer idPerfil = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof"); 
+				
 				if(idPerfil != null) {
 					ProfileType prof = Core.findProfileById(idPerfil);
 					if(prof != null && prof.getFirstPage() != null) {
@@ -531,14 +536,25 @@ public class EnvController extends Controller {
 					}
 				}
 			}catch (Exception e) {
-				
 				System.err.println("EnvController line535:"+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 			
-			this.addQueryString("dad", app);
+			this.addQueryString("dad", app); 
+			
+			// De acordo com o perfil ir directo para o homepage configurado de uma app 
+			if(permission.getApplicationPermitionBeforeCookie() != null) {
+				Integer idPerfil = permission.getApplicationPermitionBeforeCookie().getProfId(); 
+				ProfileType profileType = new ProfileType().findOne(idPerfil); 
+				
+				if(profileType != null && profileType.getFirstPage() != null) 
+					return this.redirect(app, profileType.getFirstPage().getPage(), profileType.getFirstPage().getAction(), this.queryString());
+				
+			}
+			
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}
+		
 		return this.redirectError();
 	}
 	
