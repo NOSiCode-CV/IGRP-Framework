@@ -262,7 +262,8 @@ public class DataSourceController extends Controller {
 	
 	public String getDSPageOrTask(RepSource rep,String app,String page,String action,String title) {
 		XMLWritter xml = new XMLWritter();
-		xml.startElement("content uuid=\""+rep.getSource_identify()+"\"");
+		xml.startElement("content");
+		xml.writeAttribute("uuid", rep.getSource_identify());
 		xml.setElement("title", title);
 		this.addQueryString("current_app_conn", app);
 		String content = this.call(app,page,action,this.queryString()).getContent();
@@ -335,7 +336,8 @@ public class DataSourceController extends Controller {
 	//Transform columns to xml
 	private String transformToXml(RepSource rep,Set<Properties> columns) {
 		XMLWritter xml = new XMLWritter();
-		xml.startElement("content uuid=\""+rep.getSource_identify()+"\"");
+		xml.startElement("content");
+			xml.writeAttribute("uuid", rep.getSource_identify());
 			xml.setElement("title", rep.getName());
 			xml.setElement("data_source_id", rep.getId());
 			IGRPForm form = new IGRPForm("form");
