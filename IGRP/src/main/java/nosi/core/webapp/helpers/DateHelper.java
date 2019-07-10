@@ -52,7 +52,7 @@ public class DateHelper {
 			DateFormat formatter = new SimpleDateFormat(inputFormat); 
 			Date date;
 			try {
-				date = (Date)formatter.parse(data);
+				date = formatter.parse(data);
 				SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
 				String finalDate = newFormat.format(date);
 				return java.sql.Date.valueOf(finalDate);
@@ -108,7 +108,7 @@ public class DateHelper {
 		try {
 			DateFormat formatter;
 			formatter = new SimpleDateFormat(format);
-			Date date = (Date) formatter.parse(str_date);
+			Date date = formatter.parse(str_date);
 			java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
 
 			return timeStampDate;
