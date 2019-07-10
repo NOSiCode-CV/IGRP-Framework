@@ -1303,7 +1303,7 @@ $(function ($) {
 			    			span.type = element.attributes.type;
 
 			    			if (span.tag && span.tag != undefined) {
-			    				var pos 	= '[position()='+span.pos+']',
+			    				var pos 	= '['+$.WR.utils.getContentPositon(span.pos)+']',
 			    					path 	= 'rows/content'+pos+'/'+span.no+'/fields/'+span.tag+'/value';
 			    				
 			    				if (element.attributes.footer) 
@@ -1360,7 +1360,7 @@ $(function ($) {
 			    				table.td.group 	= [];
 			    				table.td.item  	= [];
 
-			    				var path = 'rows/content[position()='+table.pos+']/'+table.no+'/table/value/row';
+			    				var path = 'rows/content['+$.WR.utils.getContentPositon(table.pos)+']/'+table.no+'/table/value/row';
 
 			    				element.forEach(function(node){
 			    					var notTfoot = node.parent.parent.name != 'tfoot';
@@ -1452,7 +1452,7 @@ $(function ($) {
 			    					}
 			    				});
 
-			    				element.setHtml('<xsl:for-each select="rows/content[position()='+ul.pos+']/'+ul.no+'/table/value/row">'+ul.element+'</xsl:for-each>');
+			    				element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ul.pos)+']/'+ul.no+'/table/value/row">'+ul.element+'</xsl:for-each>');
 			    				
 			    				delete element.attributes.pos;
 				    			delete element.attributes.no;
@@ -1475,7 +1475,7 @@ $(function ($) {
 			    					}
 			    				});
 
-			    				element.setHtml('<xsl:for-each select="rows/content[position()='+ol.pos+']/'+ol.no+'/table/value/row">'+ol.element+'</xsl:for-each>');
+			    				element.setHtml('<xsl:for-each select="rows/content['+$.WR.utils.getContentPositon(ol.pos)+']/'+ol.no+'/table/value/row">'+ol.element+'</xsl:for-each>');
 			    				
 			    				delete element.attributes.pos;
 				    			delete element.attributes.no;
@@ -1491,7 +1491,7 @@ $(function ($) {
 
 			    			if (img.tag && img.tag != undefined) {
 
-			    				element.attributes.src ='{rows/content[position()='+img.pos+']/'+img.no+'/fields/'+img.tag+'/value}';
+			    				element.attributes.src ='{rows/content['+$.WR.utils.getContentPositon(img.pos)+']/'+img.no+'/fields/'+img.tag+'/value}';
 			    			
 			    				delete element.attributes.tag;
 				    			delete element.attributes.pos;
@@ -1641,6 +1641,13 @@ $(function ($) {
 					});
 					//ev.editor.fire('focus');
 				});
+			}
+		};
+
+		$.WR.utils = {
+			getContentPositon : function(pos){
+				console.log(pos);
+				return isNaN(pos+1) ? "@uuid='"+pos+"'" : 'position()='+pos;
 			}
 		};
 

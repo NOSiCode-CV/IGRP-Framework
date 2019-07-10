@@ -183,6 +183,7 @@ table th, table td{
   border-left: 1px solid #ddd;
   border-spacing: 0;
   width: auto;
+  word-break: break-all;
 }
 
 table.clean, 

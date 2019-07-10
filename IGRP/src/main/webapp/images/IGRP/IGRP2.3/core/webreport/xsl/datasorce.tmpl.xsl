@@ -6,7 +6,16 @@
   <xsl:template name='datasorce'>
     <ul class="nav nav-sidebar" id="datasorce">
       <xsl:for-each select="//rows/*[name() = 'content']">
-        <xsl:variable name="pos" select="position()"/>
+        <xsl:variable name="pos">
+        	<xsl:choose>
+        		<xsl:when test="@uuid and @uuid != ''">
+        			<xsl:value-of select="@uuid"></xsl:value-of>
+        		</xsl:when>
+        		<xsl:otherwise>
+        			<xsl:value-of select="position()"></xsl:value-of>
+        		</xsl:otherwise>
+        	</xsl:choose>
+        </xsl:variable>
         <li class="treeview head" pos="{$pos}" type="node">
           <xsl:if test="data_source_id">
             <xsl:attribute name="data-source-id">

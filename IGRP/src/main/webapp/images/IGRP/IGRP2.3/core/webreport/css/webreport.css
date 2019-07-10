@@ -27,7 +27,7 @@
     right: 20px;
     left: 50%;
     top: 8px;
-    z-index: 1049;
+    z-index: 1039;
 }
 .box.igrp-forms{
 	margin-top: 30px;
@@ -294,8 +294,13 @@ div[data-notify="container"].alert{
 	font-weight: 500;
 }
 
+#igrp-contents{
+	top: 54px;
+}
+
 #igrp-top-nav{
     padding-left: 25%;
+    position: fixed;
 }
 #side-bar-ctrl{
     left: 25%;
