@@ -211,7 +211,7 @@
 					
 				}
 
-				var formElement = p.row ? $('[name="'+tag+'"]',p.row) : $('[name="p_'+tag+'"]'),
+				var formElement = p.row ? $('[name="p_'+tag+'_fk"]',p.row) : $('[name="p_'+tag+'"]'),
 
 					parent  	= $(formElement.parents('[item-name]')[0]);
 				
