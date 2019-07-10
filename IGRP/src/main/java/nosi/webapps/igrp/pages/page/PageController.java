@@ -144,9 +144,13 @@ public class PageController extends Controller {
 				if (action != null) {
 					Core.setMessageSuccess("Página atualizada com sucesso.");
 					
-					if(model.getPrimeira_pagina()==1) {	
-						Application app2 = new Application().findOne(action.getApplication().getId());
+					Application app2 = new Application().findOne(action.getApplication().getId());
+					
+					if(model.getPrimeira_pagina()==1) {
 						app2.setAction(action);
+						app2.update();
+					}else {
+						app2.setAction(null);
 						app2.update();
 					}
 						
@@ -158,7 +162,7 @@ public class PageController extends Controller {
 			} else if (checkifexists(model)) {
 				// New page ________
 				if(model.getPage().equals("import") || model.getPage().equals("package") || model.getPage().equals("public") || model.getPage().equals("private") || model.getPage().equals("abstracts")) {
-					Core.setMessageError("Reserved code: "+model.getPage()+". Try another!");					
+					Core.setMessageError("Reserved code: "+model.getPage()+". Try another!");
 					return this.forward("igrp", "page", "index");
 				}
 				
