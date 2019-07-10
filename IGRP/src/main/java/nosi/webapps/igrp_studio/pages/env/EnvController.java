@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.helpers.ApplicationPermition;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
@@ -453,7 +454,7 @@ public class EnvController extends Controller {
 		String[] p = page.split("/");
 		Permission permission = new Permission();
 		
-		if(permission.isPermition(app, p[1], p[2])) {
+		if(permission.isPermition(p[0], p[1], p[2])) {
 			permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			
 			Application env = Core.findApplicationByDad(app);
@@ -523,9 +524,8 @@ public class EnvController extends Controller {
 			
 			
 			try {
-				
-				Integer idPerfil = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof"); 
-				
+				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
+				Integer idPerfil = applicationPermition!=null?applicationPermition.getProfId():null;				
 				if(idPerfil != null) {
 					ProfileType prof = Core.findProfileById(idPerfil);
 					if(prof != null && prof.getFirstPage() != null) {
@@ -533,6 +533,13 @@ public class EnvController extends Controller {
 						p[0] = action.getApplication().getDad();
 						p[1] = action.getPage();
 						p[2] = action.getAction();
+						if(!permission.isPermition(p[0], p[1], p[2])) {
+							p[0]="tutorial";
+							p[1]="DefaultPage";
+							p[1]="index";
+							
+						}
+							
 					}
 				}
 			}catch (Exception e) {
@@ -540,18 +547,7 @@ public class EnvController extends Controller {
 				e.printStackTrace();
 			}
 			
-			this.addQueryString("dad", app); 
-			
-			// De acordo com o perfil ir directo para o homepage configurado de uma app 
-			if(permission.getApplicationPermitionBeforeCookie() != null) {
-				Integer idPerfil = permission.getApplicationPermitionBeforeCookie().getProfId(); 
-				ProfileType profileType = new ProfileType().findOne(idPerfil); 
-				
-				if(profileType != null && profileType.getFirstPage() != null) 
-					return this.redirect(app, profileType.getFirstPage().getPage(), profileType.getFirstPage().getAction(), this.queryString());
-				
-			}
-			
+			this.addQueryString("dad", app); 		
 			return this.redirect(p[0], p[1], p[2],this.queryString());
 		}
 		

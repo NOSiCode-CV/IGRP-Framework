@@ -35,7 +35,7 @@ public class ResetpasswordController extends Controller {
 		model.setSign_in("igrp","Dominio","index");
 		ResetpasswordView view = new ResetpasswordView();
 		/*----#start-code(index)----*/
-		model.setSign_in("igrp","login","login&isPublic=0&target=_self");
+		model.setSign_in("webapps?r=igrp/login/login");
 		
 		String token = Core.getParam("t");
 		
@@ -102,8 +102,7 @@ public class ResetpasswordController extends Controller {
 				throw new Exception("Invalid or expired token."); 
 			
 		}catch(Exception e) {
-			this.addQueryString("t", token);
-		
+			this.addQueryString("t", token);		
 			Core.setMessageError(gt("Token inválido ou expirado."));
 			Core.setMessageInfo(gt("Favor solicitar um novo reset."));
 			return forward("igrp","Resetbyemail","index", this.queryString());
@@ -121,14 +120,12 @@ public class ResetpasswordController extends Controller {
 			switch(this.getConfig().getAutenticationType()) {
 				case "db": 
 					if(db(username, pwd)) {						
-						return redirect("igrp","login","login&isPublic=0&target=_self", this.queryString());
+						return redirectToUrl("webapps?r=igrp/login/login");
 					}
 				break;
 				case "ldap": 
-					if(ldap(username, pwd)) {
-						
-                       
-						return redirect("igrp","login","login&isPublic=0&target=_self", this.queryString());
+					if(ldap(username, pwd)) {	                      
+						return redirectToUrl("webapps?r=igrp/login/login");
 					}
 				break;
 			}

@@ -252,24 +252,24 @@ public class DataSourceController extends Controller {
 				return this.transformToXml(rep,columns);
 			}else if(rep.getType().equalsIgnoreCase("page")){
 				Action ac = new Action().findOne(rep.getType_fk());
-				return this.getDSPageOrTask(rep.getType(),ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr());
+				return this.getDSPageOrTask(rep,ac.getApplication().getDad(), ac.getPage(), "index",ac.getPage_descr());
 			}else if(rep.getType().equalsIgnoreCase("task")) {
-				return this.getDSPageOrTask(rep.getType(),rep.getApplication_source().getDad(), rep.getFormkey(), "index","Task: "+rep.getTaskid());
+				return this.getDSPageOrTask(rep,rep.getApplication_source().getDad(), rep.getFormkey(), "index","Task: "+rep.getTaskid());
 			}
 		}
 		return null;
 	}
 	
-	public String getDSPageOrTask(String type,String app,String page,String action,String title) {
+	public String getDSPageOrTask(RepSource rep,String app,String page,String action,String title) {
 		XMLWritter xml = new XMLWritter();
-		xml.startElement("content");
+		xml.startElement("content uuid=\""+rep.getSource_identify()+"\"");
 		xml.setElement("title", title);
 		this.addQueryString("current_app_conn", app);
 		String content = this.call(app,page,action,this.queryString()).getContent();
 		Core.removeAttribute("current_app_conn");
 		content = XMLExtractComponent.extractXML(content);
 		List<Field> list = this.getDefaultFields();
-		if(type.equalsIgnoreCase("task")) {
+		if(rep.getType().equalsIgnoreCase("task")) {
 			list = getDefaultFieldsWithProc();
 		}
 		xml.addXml(this.getDefaultForm(list));
@@ -335,7 +335,7 @@ public class DataSourceController extends Controller {
 	//Transform columns to xml
 	private String transformToXml(RepSource rep,Set<Properties> columns) {
 		XMLWritter xml = new XMLWritter();
-		xml.startElement("content");
+		xml.startElement("content uuid=\""+rep.getSource_identify()+"\"");
 			xml.setElement("title", rep.getName());
 			xml.setElement("data_source_id", rep.getId());
 			IGRPForm form = new IGRPForm("form");

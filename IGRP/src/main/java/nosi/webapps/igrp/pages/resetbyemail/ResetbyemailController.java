@@ -75,19 +75,13 @@ public class ResetbyemailController extends Controller {
 		
 		String msg = "" + "<p>Caro(a) "+username+", foi solicitado o reset de password da sua conta de acesso ... </p>"; 
 		
-		String aux = EmailMessage.PdexTemplate.getCorpoFormatado("Recuperação da palavra-passe", "Excelentíssimo,", new String[] {msg}, new String[] {"Recuperar Password"}, new String[] {link}, null);
+		String aux = EmailMessage.PdexTemplate.getCorpoFormatado("Recuperação da palavra-passe", "Excelentíssimo,", new String[] {msg}, new String[] {"Recuperar Password"}, new String[] {link},  "http://igrp.cv");
 		
-		try {
-			boolean r = EmailMessage.newInstance().setTo(email).setFrom("igrpframeworkjava@gmail.com").setSubject("Reset de Password")
-			.setMsg(aux, "utf-8", "html").send();
-			if(r)
-				Core.setMessageSuccess("Consulte a sua conta de email para confirmar a ação e assim ter acesso a sua nova password.");
-			else
-				Core.setMessageError("Ocorreu um erro no envio do email. Email não foi enviado ...");
-		} catch (IOException e) {
-			Core.setMessageError("Ocorreu um erro no envio do email. Email não foi enviado ...");
-			e.printStackTrace();
-		}	
+		boolean r = Core.mail("igrpweb@nosi.cv",email, "Reset de Password", aux,"");
+		if(r)
+			Core.setMessageSuccess("Consulte a sua conta de email para confirmar a ação e assim ter acesso a sua nova password.");
+		else
+			Core.setMessageError("Ocorreu um erro no envio do email. Email não foi enviado ...");	
 		
 		
 /*----#end-code----*/

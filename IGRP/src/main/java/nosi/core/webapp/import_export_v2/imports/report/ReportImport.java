@@ -17,88 +17,92 @@ import nosi.webapps.igrp.dao.RepTemplateSourceParam;
 import nosi.core.webapp.import_export_v2.imports.AbstractImport;
 
 /**
- * Emanuel
- * 2 Nov 2018
+ * Emanuel 2 Nov 2018
  */
-public class ReportImport  extends AbstractImport implements IImport{
+public class ReportImport extends AbstractImport implements IImport {
 
 	private List<ReportSerializable> reports;
 	private Application application;
-	
+
 	public ReportImport(Application application) {
 		this.application = application;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deserialization(String jsonContent) {
-		if(Core.isNotNull(jsonContent)) {
-			this.reports = (List<ReportSerializable>) Core.fromJsonWithJsonBuilder(jsonContent, new TypeToken<List<ReportSerializable>>() {}.getType());
+		if (Core.isNotNull(jsonContent)) {
+			this.reports = (List<ReportSerializable>) Core.fromJsonWithJsonBuilder(jsonContent,
+					new TypeToken<List<ReportSerializable>>() {
+					}.getType());
 		}
 	}
 
 	@Override
 	public void execute() {
-		if(this.reports!=null) {
-			this.reports.stream().forEach(report->{
-				RepTemplate repTemplate = new RepTemplate().find().andWhere("report_identify", "=",report.getReport_identify()).one();
-				CLob xml_content = this.getClob(report.getXml_content(),report.getDad());
-				CLob xsl_content = this.getClob(report.getXsl_content(),report.getDad());
-				if(repTemplate==null) {
+		if (this.reports != null) {
+			this.reports.stream().forEach(report -> {
+				RepTemplate repTemplate = new RepTemplate().find()
+						.andWhere("report_identify", "=", report.getReport_identify()).one();
+				CLob xml_content = this.getClob(report.getXml_content(), report.getDad());
+				CLob xsl_content = this.getClob(report.getXsl_content(), report.getDad());
+				if (repTemplate == null) {
 					repTemplate = new RepTemplate();
 					repTemplate.setCode(report.getCode());
 					repTemplate.setDt_created(report.getDt_created());
 					repTemplate.setDt_updated(report.getDt_updated());
 					repTemplate.setName(report.getName());
-					repTemplate.setReport_identify(report.getReport_identify());					
-					repTemplate.setApplication(this.application!=null?this.application:new Application().findByDad(report.getDad()));
+					repTemplate.setReport_identify(report.getReport_identify());
+					repTemplate.setApplication(
+							this.application != null ? this.application : new Application().findByDad(report.getDad()));
 					repTemplate.setUser_created(Core.getCurrentUser());
 					repTemplate.setUser_updated(Core.getCurrentUser());
 					repTemplate.setStatus(report.getStatus());
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.insert();
-					this.addError(repTemplate.hasError()?repTemplate.getError().get(0):null);
+					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
 					this.saveDataSource(report);
-					this.saveParamDataSource(report,repTemplate);
-				}else {
+					this.saveParamDataSource(report, repTemplate);
+				} else {
 					repTemplate.setCode(report.getCode());
 					repTemplate.setDt_created(report.getDt_created());
 					repTemplate.setDt_updated(report.getDt_updated());
 					repTemplate.setName(report.getName());
-					repTemplate.setReport_identify(report.getReport_identify());					
-					repTemplate.setApplication(this.application!=null?this.application:new Application().findByDad(report.getDad()));
+					repTemplate.setReport_identify(report.getReport_identify());
+					repTemplate.setApplication(
+							this.application != null ? this.application : new Application().findByDad(report.getDad()));
 					repTemplate.setUser_created(Core.getCurrentUser());
 					repTemplate.setUser_updated(Core.getCurrentUser());
 					repTemplate.setStatus(report.getStatus());
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.update();
-					this.addError(repTemplate.hasError()?repTemplate.getError().get(0):null);
+					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
 					this.saveDataSource(report);
-					this.saveParamDataSource(report,repTemplate);
+					this.saveParamDataSource(report, repTemplate);
 				}
 			});
 		}
 	}
 
 	private void saveParamDataSource(ReportSerializable report, RepTemplate repTemplate) {
-		if(report.getSourcesReportAssoc()!=null) {
-			report.getSourcesReportAssoc().stream().forEach(pds->{
+		if (report.getSourcesReportAssoc() != null) {
+			report.getSourcesReportAssoc().stream().forEach(pds -> {
 				RepTemplateSource repTS = new RepTemplateSource();
-				RepSource repSource = new RepSource().find().andWhere("source_identify", "=",pds.getSource()).one();
+				RepSource repSource = new RepSource().find().andWhere("source_identify", "=", pds.getSource()).one();
 				repTS.setRepSource(repSource);
 				repTS.setRepTemplate(repTemplate);
 				repTS = repTS.insert();
-				this.addError(repTS.hasError()?repTS.getError().get(0):null);
-				if(pds.getParams()!=null) {
-					for(ReportParamsSerializable p:pds.getParams()){
+				this.addError(repTS.hasError() ? repTS.getError().get(0) : null);
+				if (pds.getParams() != null) {
+					for (ReportParamsSerializable p : pds.getParams()) {
 						RepTemplateSourceParam param = new RepTemplateSourceParam();
 						param.setParameter(p.getParameter());
 						param.setParameter_type(p.getParameter_type());
 						param.setRepTemplateSource(repTS);
 						param = param.insert();
-						this.addError(param.hasError()?param.getError().get(0):null);
+						this.addError(param.hasError() ? param.getError().get(0) : null);
 					}
 				}
 			});
@@ -106,43 +110,67 @@ public class ReportImport  extends AbstractImport implements IImport{
 	}
 
 	private void saveDataSource(ReportSerializable report) {
-		if(report.getSources()!=null) {
-			report.getSources().stream().forEach(source->{
-				Config_env config = new Config_env().find().andWhere("connection_identify", "=",source.getConnection_name_identify()).one();
-				RepSource repSource = new RepSource();
+		if (report.getSources() != null) {
+			report.getSources().stream().forEach(source -> {
+				Config_env config = new Config_env().find()
+						.andWhere("connection_identify", "=", source.getConnection_name_identify()).one();
+
+				RepSource repSource = new RepSource().find()
+						.andWhere("source_identify", "=", source.getSource_identify()).one();
 				Application app = new Application().findByDad(source.getDad());
-				repSource.setApplication(app);
-				repSource.setApplication_source(app);
-				repSource.setConfig_env(config);
-				repSource.setDt_created(source.getDt_created());
-				repSource.setDt_updated(source.getDt_updated());
-				repSource.setSource_identify(source.getSource_identify());
-				repSource.setName(source.getName());
-				repSource.setType_query(source.getType_query());
-				repSource.setType_fk(source.getType_fk());
-				repSource.setType_name(source.getType_name());
-				repSource.setType(source.getType());
-				repSource.setTaskid(source.getTaskid());
-				repSource.setFormkey(source.getFormkey());
-				repSource.setProcessid(source.getProcessid());
-				repSource.setStatus(source.getStatus());
-				repSource.setUser_created(Core.getCurrentUser());
-				repSource.setUser_updated(Core.getCurrentUser());
-				repSource = repSource.insert();
-				this.addError(repSource.hasError()?repSource.getError().get(0):null);
+				if (repSource == null) {
+					repSource = new RepSource();
+					repSource.setApplication(app);
+					repSource.setApplication_source(app);
+					repSource.setConfig_env(config);
+					repSource.setDt_created(source.getDt_created());
+					repSource.setDt_updated(source.getDt_updated());
+					repSource.setSource_identify(source.getSource_identify());
+					repSource.setName(source.getName());
+					repSource.setType_query(source.getType_query());
+					repSource.setType_fk(source.getType_fk());
+					repSource.setType_name(source.getType_name());
+					repSource.setType(source.getType());
+					repSource.setTaskid(source.getTaskid());
+					repSource.setFormkey(source.getFormkey());
+					repSource.setProcessid(source.getProcessid());
+					repSource.setStatus(source.getStatus());
+					repSource.setUser_created(Core.getCurrentUser());
+					repSource.setUser_updated(Core.getCurrentUser());
+					repSource = repSource.insert();
+					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+				} else {
+					repSource.setApplication(app);
+					repSource.setApplication_source(app);
+					repSource.setConfig_env(config);
+					repSource.setDt_updated(source.getDt_updated());
+					repSource.setName(source.getName());
+					repSource.setType_query(source.getType_query());
+					repSource.setType_fk(source.getType_fk());
+					repSource.setType_name(source.getType_name());
+					repSource.setType(source.getType());
+					repSource.setTaskid(source.getTaskid());
+					repSource.setFormkey(source.getFormkey());
+					repSource.setProcessid(source.getProcessid());
+					repSource.setStatus(source.getStatus());
+					repSource.setUser_updated(Core.getCurrentUser());
+					repSource = repSource.update();
+					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
+				}
+
 			});
 		}
 	}
 
-	private CLob getClob(CLobSerializable report,String dad) {
-		if(report!=null) {
-			CLob clob = new CLob(report.getName(), report.getMime_type(), report.getC_lob_content(), report.getDt_created(),new Application().findByDad(dad));
+	private CLob getClob(CLobSerializable report, String dad) {
+		if (report != null) {
+			CLob clob = new CLob(report.getName(), report.getMime_type(), report.getC_lob_content(),
+					report.getDt_created(), new Application().findByDad(dad));
 			clob = clob.insert();
-			this.addError(clob.hasError()?clob.getError().get(0):null);
+			this.addError(clob.hasError() ? clob.getError().get(0) : null);
 			return clob;
 		}
 		return null;
 	}
-
 
 }
