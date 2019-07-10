@@ -81,7 +81,7 @@ public class PageController extends Controller {
 					model.setModulo(a.getNomeModulo());
 				else
 					model.setModulo(null);
-				Application app = new Application().findOne(a.getApplication().getId());	
+				Application app = Core.findApplicationById(a.getApplication().getId());	
 				if(app!=null && app.getAction()!=null)
 					model.setPrimeira_pagina(idPage.equals(app.getAction().getId())? 1:0);
 			}
@@ -144,7 +144,7 @@ public class PageController extends Controller {
 				if (action != null) {
 					Core.setMessageSuccess("Página atualizada com sucesso.");
 					
-					Application app2 = new Application().findOne(action.getApplication().getId());
+					Application app2 = Core.findApplicationById(action.getApplication().getId());
 					
 					if(model.getPrimeira_pagina()==1) {
 						app2.setAction(action);
@@ -218,7 +218,7 @@ public class PageController extends Controller {
 					}
 					Core.setMessageSuccess();
 					if(model.getPrimeira_pagina()==1) {
-						Application app2 = new Application().findOne(action.getApplication().getId());
+						Application app2 = Core.findApplicationById(action.getApplication().getId());
 						app2.setAction(action);
 						app2.update();
 					}

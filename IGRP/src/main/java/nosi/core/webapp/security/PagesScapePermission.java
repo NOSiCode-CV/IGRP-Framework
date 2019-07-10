@@ -20,9 +20,10 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp/home/index".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/exception".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/exception".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/permission".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/permission".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/error-page/notFound".toLowerCase());
-		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/notFound".toLowerCase());
-		PAGES_WIDTHOUT_LOGIN.add("igrp/login/logout".toLowerCase());	
+		PAGES_WIDTHOUT_LOGIN.add("igrp/ErrorPage/notFound".toLowerCase());	
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/detailPage".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listPage".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listService".toLowerCase());
@@ -31,6 +32,9 @@ public class PagesScapePermission {
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/listDomains".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/domainsValues".toLowerCase());
 		PAGES_WIDTHOUT_LOGIN.add("igrp/Page/getPageJson".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
+		PAGES_WIDTHOUT_LOGIN.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
+		
 	}
 
 	/**
@@ -41,6 +45,8 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/login/logout".toLowerCase()); 
 		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/exception".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/exception".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/permission".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/permission".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/error-page/notFound".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/ErrorPage/notFound".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/pesquisar-menu/myMenu".toLowerCase());
@@ -60,6 +66,7 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/listDomains".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/domainsValues".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/getPageJson".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
 	}
 	
 	static { 									
