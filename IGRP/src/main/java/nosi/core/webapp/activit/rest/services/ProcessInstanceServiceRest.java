@@ -37,8 +37,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("query/historic-process-instances?size=100000000",this.filterBody.toString());
 		if(response!=null){
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
-			try {
+			try (InputStream is = (InputStream) response.getEntity()){
 				contentResp = FileHelper.convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -66,8 +65,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().get("history/historic-process-instances", id);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
-			try {
+			try (InputStream is = (InputStream) response.getEntity()){
 				contentResp = FileHelper.convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -88,17 +86,15 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				.get("history/historic-process-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
-			try {
+			try (InputStream is = (InputStream) response.getEntity()) {
 				contentResp = FileHelper.convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
 				return this.processDefinition.getTotal(contentResp);
-			} else {
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 		}
 		return 0;
 	}
@@ -128,8 +124,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				.get("history/historic-process-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
-			try {
+			try (InputStream is = (InputStream) response.getEntity()) {
 				contentResp = FileHelper.convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -165,8 +160,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				.get("runtime/process-instances?processDefinitionKey=" + processKey + "&suspended=false");
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
-			try {
+			try (InputStream is = (InputStream) response.getEntity()){
 				contentResp = FileHelper.convertToString(is);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -183,15 +177,15 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	}
 
 	public boolean submitProcessFile(Part file, String processDefinitionId, String file_desc) throws IOException {
-		try {
-			Response response = this.getRestRequest().post("runtime/process-instances/" + processDefinitionId
-					+ "/variables?name=" + file_desc + "&type=binary&scope=local", file);
-			file.delete();
-			return response.getStatus() == 201;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		file.delete();
+//		try {
+//			Response response = this.getRestRequest().post("runtime/process-instances/" + processDefinitionId
+//					+ "/variables?name=" + file_desc + "&type=binary&scope=local", file);
+//			file.delete();
+//			return response.getStatus() == 201;
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		file.delete();
 		return false;
 	}
 
