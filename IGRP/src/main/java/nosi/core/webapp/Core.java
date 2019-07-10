@@ -576,7 +576,7 @@ public final class Core { // Not inherit
 			return current_app_conn;
 		}
 		String r = Core.getParam("r");
-		r = r != null ? (isPublic==1? r : Core.decrypt(r) ): null;
+		r = isPublic==1? r : Core.decrypt(r);
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
 	}
@@ -831,11 +831,9 @@ public final class Core { // Not inherit
 
 	public static CLob getFile(int fileId) {
 		CLob cLob = null;
-		java.sql.Connection conn = null;
 
-		try {
-			String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
-			conn = new Connection().getConnection(igrpCoreConnection);
+		String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
+		try(java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection)) {
 			String sql = "select * from tbl_clob where id = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, fileId);
@@ -849,16 +847,11 @@ public final class Core { // Not inherit
 				cLob.setId(rs.getInt("id"));
 			}
 			rs.close();
+			ps.close();
 		} catch (java.sql.SQLException e) {
 			e.printStackTrace();
 			cLob = null;
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 
 		return cLob;
 	}
@@ -963,7 +956,7 @@ public final class Core { // Not inherit
 		Object v = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getParameter(name) : null;
 		if (Core.isNull(v))
 			v = Core.getAttribute(name, true);
-		return v != null ? v.toString() : "";
+		return v != null ? v+"" : "";
 	}
 
 	/**
@@ -1585,14 +1578,14 @@ public final class Core { // Not inherit
 	
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
-			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed()
+			return IntStream.range(0, array1.length).boxed()
 					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
 		return null;
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2, Predicate<? super Integer> filter) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
-			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().filter(filter)
+			return IntStream.range(0, array1.length).boxed().filter(filter)
 					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
 		return null;
 	}
@@ -1811,8 +1804,8 @@ public final class Core { // Not inherit
 			mime_type = (mime_type == null || mime_type.trim().isEmpty()
 					? fileNameMap.getContentTypeFor(file.getPath())
 					: mime_type);
-			try {
-				return updateFile(FileHelper.convertInputStreamToByte(new FileInputStream(file)),name,mime_type,dad,id);
+			try(FileInputStream in = new FileInputStream(file)) {
+				return updateFile(FileHelper.convertInputStreamToByte(in),name,mime_type,dad,id);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1946,8 +1939,8 @@ public final class Core { // Not inherit
 			mime_type = (mime_type == null || mime_type.trim().isEmpty()
 					? fileNameMap.getContentTypeFor(file.getPath())
 					: mime_type);
-			try {
-				return saveFile(FileHelper.convertInputStreamToByte(new FileInputStream(file)),name,mime_type,dad);
+			try (FileInputStream in = new FileInputStream(file)){
+				return saveFile(FileHelper.convertInputStreamToByte(in),name,mime_type,dad);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -2108,7 +2101,7 @@ public final class Core { // Not inherit
 				.filter(p -> !p.getKey().equalsIgnoreCase("prm_page")).forEach(p -> {
 					Rows row = new Rows();
 					row.setName(p.getKey());
-					row.setValue((Object[]) p.getValue());
+					row.setValue(p.getValue());
 					customV.add(row);
 				});
 		String json = gson.toJson(customV);
@@ -2190,7 +2183,7 @@ public final class Core { // Not inherit
 				IgrpHelper.setField(obj, f, r.getValue());
 			});
 		}
-		return (Object) obj;
+		return obj;
 	}
 
 	public static void setTaskVariable(String variableName, String scope, String type, Object value) {
@@ -2806,8 +2799,7 @@ public final class Core { // Not inherit
 	public static String dateFromTo2EndDateStr(String dateStr, String separator) {
 		if (isNotNullMultiple(dateStr, separator))
 			return dateStr.substring(dateStr.indexOf(separator) + separator.length(), dateStr.length());
-		else
-			return "";
+		return "";
 	}
 
 	/**
@@ -3383,11 +3375,19 @@ public final class Core { // Not inherit
 	 */
 	public static Session getSession(String connectionName) {
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName);
-		if (sessionFactory != null && sessionFactory.isOpen())
-			return sessionFactory.getCurrentSession();
-		if(sessionFactory !=null && sessionFactory.isClosed()) {
-			 HibernateUtils.removeSessionFactory(connectionName);
-			 sessionFactory = HibernateUtils.getSessionFactory(connectionName);
+		if(sessionFactory!=null) {
+			Session s = null;
+			if(sessionFactory.isOpen()) {
+				s = sessionFactory.getCurrentSession();
+				return s;
+			}
+			sessionFactory.close();
+			HibernateUtils.removeSessionFactory(connectionName);
+			sessionFactory = HibernateUtils.getSessionFactory(connectionName); 
+			if(sessionFactory!=null) {
+				s = sessionFactory.getCurrentSession();
+				return s;
+			}
 		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}

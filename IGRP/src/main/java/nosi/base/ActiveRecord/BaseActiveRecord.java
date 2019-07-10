@@ -898,7 +898,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Transaction transaction = null;
 		List<T> list = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
+			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = this.getSession().createQuery(querySql, className);
 				if(offset > -1)
@@ -925,7 +925,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T insert() {
 		Transaction transaction = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
+			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().persist(this);
 				transaction.commit();
@@ -946,7 +946,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T update() {
 		Transaction transaction = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
+			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().merge(this);
 				transaction.commit();
@@ -970,7 +970,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			return false;
 		Transaction transaction = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
+			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				this.getSession().remove(this.getSession().find(this.className, id));
 				transaction.commit();
@@ -1025,7 +1025,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		Long count = (long) 0;
 		Transaction transaction = null;
 		try {
-			transaction = (Transaction) this.getSession().getTransaction();
+			transaction = this.getSession().getTransaction();
 			if(this.beginTransaction(transaction)) {
 				TypedQuery<T> query = (TypedQuery<T>) this.getSession().createQuery(this.getSql(),Long.class);
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
@@ -1057,14 +1057,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	@Transient	 
 	protected Session getSession() {	
-		SessionFactory sessionFactory = null;
-		if(Core.isNotNull(this.applicationName)) {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName(),this.applicationName);
-		}else {
-			sessionFactory = HibernateUtils.getSessionFactory(this.getConnectionName());
-		}
+		SessionFactory sessionFactory = getSessionFactory();
 		if(sessionFactory!=null) {
-			return sessionFactory.getCurrentSession();
+			Session s = sessionFactory.getCurrentSession();
+			return s;
 		}
 		throw new HibernateException(Core.gt("Problema de conexão. Por favor verifica o seu ficheiro hibernate."));
 	}
