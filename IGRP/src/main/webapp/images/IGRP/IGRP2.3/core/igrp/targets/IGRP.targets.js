@@ -827,9 +827,20 @@
 		};
 		
 		var download = function(p){
+			
+			p.clicked.attr("disabled","disabled");
+			
 			form.addClass('download');
 			
 			submit_notvalidate(p);
+			
+			setTimeout(function(){
+
+				p.clicked.removeAttr("disabled");
+				
+				form.removeClass('download');
+
+			},300);
 			
 			/*if(!$('#iframe-download')[0]){
 				var iframe = $('<iframe>');
