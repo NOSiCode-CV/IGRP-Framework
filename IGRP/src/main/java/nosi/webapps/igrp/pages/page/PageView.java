@@ -87,7 +87,7 @@ public class PageView extends View {
 		
 		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
-		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","true").add("desclabel","false");
+		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));

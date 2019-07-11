@@ -15,7 +15,9 @@ import nosi.webapps.igrp.pages.settings.SettingsController;
 public class SecurtyCallPage {
 
 	public static String resolvePage(String route) {
-		if(!PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(route.toLowerCase()) && !isPublic(route)) {
+		
+		final boolean public1 = isPublic(route);
+		if(!PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(route.toLowerCase()) && !public1) {
 			route= EncrypDecrypt.decrypt(route);	
 		}
 		return route;
@@ -43,6 +45,7 @@ public class SecurtyCallPage {
 	 * @return
 	 */
 	public static boolean isPublic(String route) {
+		final boolean withoutLogin = PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(route.toLowerCase());
 		String isPublic = Core.getParam("isPublic");
 		if(Core.isNotNull(isPublic) && isPublic.equals("1")) {
 			String[] c = route.split("/");
@@ -54,7 +57,7 @@ public class SecurtyCallPage {
 				return isPublicPage;
 			}
 		}
-		return false;
+		return withoutLogin;
 	}
 
 }

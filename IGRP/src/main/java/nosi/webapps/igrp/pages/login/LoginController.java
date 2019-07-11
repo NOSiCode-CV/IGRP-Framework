@@ -54,7 +54,7 @@ public class LoginController extends Controller {
 
 	/*----#start-code(custom_actions)----*/
 
-	private Properties settings = ConfigApp.getInstance().loadConfig("common", "main.xml");
+	private Properties settings = ConfigApp.getInstance().loadCommonConfig();
 	
 
 	public Response actionLogin() throws Exception { 

@@ -133,10 +133,13 @@ public class User implements Component{
 		String loginUrl = "igrp/login/login";
 		boolean isLoginPage = false;
 		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : loginUrl;
+		
+		
+		
 		if(SecurtyCallPage.isPublic(aux)) {
 			return;
 		}
-		if(aux != null && !aux.equals(loginUrl) && !PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(aux)) {
+		if(aux != null && !aux.equals(loginUrl) && !PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(aux.toLowerCase())) {
 			aux = EncrypDecrypt.decrypt(aux);
 		}
 		/* test the login page (TOO_MANY_REQUEST purpose) */

@@ -61,6 +61,10 @@ public class IGRPForm extends IGRPComponent{
 	public void addField(Field field){
 		this.fields.add(field);
 	}
+	
+	public List<Field> getFields(){
+		return this.fields;
+	}
 
 	public void addButton(IGRPButton button){
 		button.propertie.put("type",button.getType());

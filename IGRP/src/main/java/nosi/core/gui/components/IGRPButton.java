@@ -7,6 +7,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
 import static nosi.core.i18n.Translator.gt;
@@ -134,6 +135,9 @@ public class IGRPButton {
 		int isPublic = Core.getParamInt("isPublic");
 		if(isPublic==1) {
 			result = app + "/" + page + "/" + (link+target_)+"&isPublic=1";
+		}
+		else if(PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains((app + "/" + page + "/"+link).toLowerCase())) {
+			result = app + "/" + page + "/" + (link+target_);					
 		}else {
 			result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
 		}
