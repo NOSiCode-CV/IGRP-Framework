@@ -542,15 +542,22 @@
 
 		var mpsubmit  = function(p){
 			
-			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize();
+			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize(),
 			
-			if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
-				mWindow = window;
+				fields = $.IGRP.utils.getFieldsValidate(),
+				
+				valid  = formData != '' ? fields.valid() : true;
+
+			if(valid){
 			
-			$.IGRP.components.iframeNav.set({
-				url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
-				clicked:p.clicked
-			});
+				if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close').indexOf('refresh') >= 0)				
+					mWindow = window;
+				
+				$.IGRP.components.iframeNav.set({
+					url    : setTargetParameter($.IGRP.utils.getUrl(p.url)+formData),
+					clicked:p.clicked
+				});
+			}
 			
 			return false;
 		};
