@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -18,19 +20,20 @@ public class PesquisarPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Ut doloremque laudantium iste' as organica,'1' as estado,'Laudantium adipiscing totam ma' as descricao,'Labore perspiciatis mollit sed' as codigo,'1' as id "));
+		model.loadTable_1(Core.query(null,"SELECT 'Ipsum labore aliqua laudantium' as organica,'1' as estado,'Doloremque natus mollit totam' as descricao,'Magna mollit stract laudantium' as codigo,'hidden-541e_9ccd' as id "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 	
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
 		ProfileType profile_db = new ProfileType();			
-		int idOrg = Core.getParamInt("id_org");
-		int idApp = Core.getParamInt("id_app");
+		int idOrg = model.getId_org();//.getParamInt("id_org",false);
+		int idApp = model.getId_app(); // Core.getParamInt("id_app",false);
 		
 		//Preenchendo a tabela
+		if(idApp!=0 && idOrg!=0)
 		for(ProfileType p:profile_db.find()
-				.andWhere("application", "=",idApp!=0?idApp:Core.getCurrentApp())
-				.andWhere("organization", "=",idOrg!=0?idOrg:Core.getCurrentOrganization()).all()){
+				.andWhere("application", "=",idApp)
+				.andWhere("organization", "=",idOrg).all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil.Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());
@@ -64,8 +67,8 @@ public class PesquisarPerfilController extends Controller {
 		/*----#start-code(novo)----*/
       
       //NOT IN USE. setlink() in actionIndex set because getParam dosent work for a variable and param of other page
-      //this.addQueryString("p_aplicacao",Core.getParam("id_app"));
-      //this.addQueryString("p_organica",Core.getParam("id_org"));
+      this.addQueryString("p_aplicacao",Core.getParam("p_aplicacao"));
+      this.addQueryString("p_organica",Core.getParam("p_organica"));
 		/*----#end-code----*/
 		return this.redirect("igrp","NovoPerfil","index", this.queryString());	
 	}

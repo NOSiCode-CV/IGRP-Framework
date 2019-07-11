@@ -161,6 +161,14 @@ public class IGRPTable extends IGRPComponent{
 		return this.data;
 	}
 	
+	public List<Field> getFields(){
+		return this.fields;
+	}
+	
+	public List<IGRPButton> getButtons(){
+		return this.buttons;
+	}
+	
 	public void addButton(IGRPButton button){
 		button.propertie.put("type", "form");
 		this.buttons.add(button);

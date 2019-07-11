@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -27,7 +29,7 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Sed amet perspiciatis consecte' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-3f4f_fdfd' as id "));
+		model.loadOrg_table(Core.query(null,"SELECT '1' as estado,'Stract adipiscing doloremque m' as org_nome,'/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml' as mostrar_perfis,'hidden-55f7_f8d3' as id "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -173,7 +175,7 @@ public class GestaodeacessoController extends Controller {
 			table.setOrg_nome(org.getName());
 			table.setEstado(org.getStatus());
 			table.setEstado_check(org.getStatus()== 1 ? org.getStatus() : -1);       
-			table.setMostrar_perfis("igrp", "PesquisarPerfil","index&id_app=" + org.getApplication().getId() + "&id_org=" + org.getId());
+			table.setMostrar_perfis("igrp", "PesquisarPerfil","index&p_id_app=" + org.getApplication().getId() + "&p_id_org=" + org.getId());
 			table.setMostrar_perfis_desc(Core.gt("Mostrar Perfil"));
 			data.add(table);
 		}

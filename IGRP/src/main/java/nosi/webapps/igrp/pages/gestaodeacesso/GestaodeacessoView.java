@@ -54,19 +54,19 @@ public class GestaodeacessoView extends View {
 		adicionar_organica.setLabel(gt("Adicionar Organização"));
 		adicionar_organica.setValue(new Config().getResolveUrl("igrp","NovaOrganica","index"));
 
-									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel_submit").add("maxlength","30").add("request_fields","").add("refresh_submit","true");
+									adicionar_organica.propertie().add("name","p_adicionar_organica").add("type","link").add("target","right_panel_submit").add("maxlength","30").add("request_fields","").add("refresh_submit","true").add("desclabel","false");
 		
 		gestao_de_utilizadores = new LinkField(model,"gestao_de_utilizadores");
 		gestao_de_utilizadores.setLabel(gt("Gestão de utilizadores"));
 		gestao_de_utilizadores.setValue(new Config().getResolveUrl("igrp","PesquisarUtilizador","index"));
 
-									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("refresh_submit","false");
+									gestao_de_utilizadores.propertie().add("name","p_gestao_de_utilizadores").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		gestao_de_menu = new LinkField(model,"gestao_de_menu");
 		gestao_de_menu.setLabel(gt("Gestão de menu"));
 		gestao_de_menu.setValue(new Config().getResolveUrl("igrp","PesquisarMenu","index"));
 
-									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("refresh_submit","true");
+									gestao_de_menu.propertie().add("name","p_gestao_de_menu").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("refresh_submit","true").add("desclabel","false");
 		
 		id_app = new HiddenField(model,"id_app");
 		id_app.setLabel(gt(""));
@@ -74,14 +74,14 @@ public class GestaodeacessoView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		org_nome = new TextField(model,"org_nome");
 		org_nome.setLabel(gt("Nome"));
-		org_nome.propertie().add("name","p_org_nome").add("type","text").add("maxlength","30");
+		org_nome.propertie().add("name","p_org_nome").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
@@ -89,11 +89,11 @@ public class GestaodeacessoView extends View {
 
 									mostrar_perfis_desc = new LinkField(model,"mostrar_perfis_desc");
 		mostrar_perfis_desc.setLabel(gt("Mostrar perfis"));
-		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("refresh_submit","false").add("desc","true");
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","mpsubmit").add("maxlength","30").add("request_fields","").add("show_header","true").add("refresh_submit","false").add("list_source","").add("showLabel","true").add("desc","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","id");
 		
 
 

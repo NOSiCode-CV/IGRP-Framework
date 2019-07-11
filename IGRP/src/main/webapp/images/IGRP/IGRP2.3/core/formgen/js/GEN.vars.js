@@ -152,7 +152,7 @@ var VARS = {
 		site:'<link_img>'+path+'</link_img><title>Dummie XML prototype</title>'+
 				'<site>'+
 		        '<welcome_note>Oba</welcome_note>'+
-		        '<footer_note>2018 - Copyright NOSI v.180723</footer_note>'+
+		        '<footer_note>2019 - Copyright NOSI v.190711</footer_note>'+
 		        '<user_name>Hexagon</user_name>'+
 		        '<button type="specific">'+
 		            '<title>Sair</title>'+

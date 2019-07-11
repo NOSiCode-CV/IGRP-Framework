@@ -5,6 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
 
 public class PesquisarPerfilView extends View {
 
@@ -15,8 +16,11 @@ public class PesquisarPerfilView extends View {
 	public Field descricao;
 	public Field codigo;
 	public Field id;
+	public Field id_app;
+	public Field id_org;
 	public IGRPForm sectionheader_1;
 	public IGRPTable table_1;
+	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_novo;
@@ -35,6 +39,8 @@ public class PesquisarPerfilView extends View {
 
 		table_1 = new IGRPTable("table_1","");
 
+		form_1 = new IGRPForm("form_1","");
+
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("Gestão de Perfil"));
@@ -42,26 +48,34 @@ public class PesquisarPerfilView extends View {
 		
 		organica = new TextField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30");
+		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","id");
+		
+		id_app = new HiddenField(model,"id_app");
+		id_app.setLabel(gt(""));
+		id_app.propertie().add("name","p_id_app").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_app");
+		
+		id_org = new HiddenField(model,"id_org");
+		id_org.setLabel(gt(""));
+		id_org.propertie().add("name","p_id_org").add("type","hidden").add("maxlength","250").add("java-type","int").add("tag","id_org");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
@@ -103,6 +117,9 @@ public class PesquisarPerfilView extends View {
 		table_1.addField(codigo);
 		table_1.addField(id);
 
+		form_1.addField(id_app);
+		form_1.addField(id_org);
+
 		toolsbar_1.addButton(btn_novo);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_menu);
@@ -112,6 +129,7 @@ public class PesquisarPerfilView extends View {
 		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
+		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
 	}
 		
@@ -122,7 +140,9 @@ public class PesquisarPerfilView extends View {
 		estado.setValue(model);
 		descricao.setValue(model);
 		codigo.setValue(model);
-		id.setValue(model);	
+		id.setValue(model);
+		id_app.setValue(model);
+		id_org.setValue(model);	
 
 		table_1.loadModel(((PesquisarPerfil) model).getTable_1());
 		}

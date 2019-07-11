@@ -116,6 +116,7 @@ b{
 	box-shadow: 0 0px 6px rgba(0,0,0,0.1);
 }
 
+
 .content-header>h2{
   font-size: 20px;
    margin: 0;
@@ -1329,7 +1330,7 @@ label.container-box.checkbox-switch.switch .checkmark {
    box-shadow: 0 0px 6px rgba(0,0,0,0.1);
 }
 
-.box.clean {
+.box.clean, .box.sukundi{
   border:0;
   background: transparent;
   box-shadow:  none;

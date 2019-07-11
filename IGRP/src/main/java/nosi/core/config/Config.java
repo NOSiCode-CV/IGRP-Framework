@@ -35,7 +35,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "190710";
+	public final String VERSION = "190711";
 
 	public Config() {
 	
@@ -432,7 +432,7 @@ public class Config {
 			xml.setElement("footer_note", getFooterName());
 			xml.setElement("user_name", getUserName());
 			IGRPToolsBar button = new IGRPToolsBar("button");
-			IGRPButton bt = new IGRPButton("Sair", "igrp", "login", "logout&isPublic=0", "_self", "exit.png","","");			
+			IGRPButton bt = new IGRPButton("Sair", "igrp", "login", "logout", "_self", "exit.png","","");			
 			bt.setPrefix("webapps?r=");
 			button.addButton(bt);
 			xml.addXml(button.toXmlButton());
