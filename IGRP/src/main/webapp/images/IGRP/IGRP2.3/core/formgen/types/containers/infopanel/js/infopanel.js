@@ -67,6 +67,7 @@
 					isField 	   : true,
 					valuePersist   : true,
 					tag : 'url',
+					
 					type : 'action',
 					//canAddOptions  : false,
 					onChange:function(v){

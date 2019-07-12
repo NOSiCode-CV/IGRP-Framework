@@ -4507,7 +4507,7 @@ var GENERATOR = function(genparams){
                      options : options,
                      type : type
                },
-               
+               fieldType : p.fieldType,
                isField : p.isField || false,
                valuePersist : p.valuePersist || false,
                onChange:function(val){

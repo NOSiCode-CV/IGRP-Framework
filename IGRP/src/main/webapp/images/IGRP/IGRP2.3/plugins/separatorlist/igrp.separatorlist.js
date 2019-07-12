@@ -102,6 +102,7 @@ $.fn.separatorList = function(o){
 			var contentsObj = {};
 			
 			if(rowId && rowId != undefined)
+
 				inputRowId += '<input type="hidden" class="sl-row-id-edit" name="p_'+tableId+'_edit" value="'+rowId+'"/>';
 			
 			var valid = sl.events.execute('valid-row-add',{
@@ -123,6 +124,7 @@ $.fn.separatorList = function(o){
 					var tdHiddensStr = '<input type="hidden" name="'+name+'_fk_desc" value="'+text+'"/>';
 					
 					if(object.type != 'file')
+						
 						tdHiddensStr += '<input type="hidden" name="'+name+'_fk" value="'+value+'"/>';
 					
 					var tdHiddens = $(tdHiddensStr);

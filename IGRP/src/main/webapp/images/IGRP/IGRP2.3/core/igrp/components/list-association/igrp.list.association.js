@@ -66,13 +66,47 @@
 					
 						target = $('.gen-container-item[item-name="'+targetName+'"]'),
 
-						source = $(wrapper).find('.IGRP-separatorlist');
+						source = $(wrapper).find('.IGRP-separatorlist'),
+						
+						setTargetEdit = function(){
+							
+							var rowOnEdition = $( $.IGRP.components.globalModal.modalid ).data('target-row');
+							
+							if(rowOnEdition){
+								
+								var rowID = $('.sl-row-id',rowOnEdition).val();
+								
+								var tableID = target.find('.splist-table>table').attr('id');
+								
+								if(rowID){
+									
+									if( ! $('[name="p_'+tableID+'_edit"]', rowOnEdition)[0]  ){
+										
+										rowOnEdition.prepend('<input type="hidden" class="sl-row-id-edit" name="p_'+tableID+'_edit" value="'+rowID+'"/>')
+										
+									}
+									
+								}
+									
+									
+								
+							}
+
+						};
 					
 					source.on('row-add', function(e, params){
 						
 						var sourceInputRel = $('[name="p_lst_association_rel_fk"]', params.row[0]);
 						
 						sourceInputRel.val( target.data('current') );
+						
+						setTargetEdit();
+						
+					});
+					
+					source.on('row-remove', function(e, params){
+						
+						setTargetEdit();
 						
 					});
 					
@@ -151,7 +185,11 @@
 			
 			var sourceParent = options.source.parent(),
 			
-				title        = options.clicked.text() || 'Associar';
+				title        = options.clicked.text() || 'Associar',
+				
+				targetRow    = options.row;
+			
+			$( $.IGRP.components.globalModal.modalid ).data('target-row', targetRow);
 			
 			$.IGRP.components.globalModal.set({
 				
@@ -174,7 +212,7 @@
 						onClick:function(){
 							
 							$.IGRP.components.globalModal.hide();
-							
+
 							options.target.data('current', false);
 
 							return false;
@@ -184,6 +222,8 @@
 				],
 				
 				beforeHide : function(){
+					
+					$( $.IGRP.components.globalModal.modalid ).removeData('target-row');
 					
 					options.source.hide().appendTo( sourceParent );
 					
@@ -236,6 +276,8 @@
 			$('.list-association-source').each(function(i, source){
 				
 				var type = GetListType( source );
+				
+				
 				
 				if(Classes[type]){
 					

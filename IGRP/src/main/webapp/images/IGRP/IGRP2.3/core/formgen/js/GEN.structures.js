@@ -277,6 +277,7 @@ var GENSTRUCTURES = function(GEN){
 				//var value = container.GET[pr.name]();
 				var valueAttr = '';
 				var label = pr.label || '';
+				var fieldType = isAction ? 'link' : 'text';
 				
 				if(isAction){
 					
@@ -292,7 +293,7 @@ var GENSTRUCTURES = function(GEN){
 					
 				}
 				
-				rtn+='<'+tag+' name="p_'+tag+'" type="text" maxlength="4000" '+persist+'>'+
+				rtn+='<'+tag+' name="p_'+tag+'" type="'+fieldType+'" maxlength="4000" '+persist+'>'+
 						'<label>'+label+'</label>'+
 						'<value'+valueAttr+'>'+value+'</value>'+
 					 '</'+tag+'>';

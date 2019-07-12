@@ -1,6 +1,6 @@
 /*SIDE CTRL*/
 (function(){
-	
+	console.log(path)
 	$.IGRP = {
 
 		_init:false,
