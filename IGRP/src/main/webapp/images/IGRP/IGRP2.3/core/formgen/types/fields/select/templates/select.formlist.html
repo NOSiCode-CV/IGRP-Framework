@@ -5,7 +5,7 @@
       <xsl:variable name="#tag#_val" select="#tag#"/>
       <select class="form-control select2 #[change]#" id="#parent.tag#_#tag#" input-rel="{../../../fields/#tag#/@name}_fk" #[required]# #[multiple]# #[tags]# #[disabled]# #[readonly]# rel="F_#parent.tag#">
         <xsl:call-template name="setAttributes">
-          <xsl:with-param name="field" select="#path#"/>
+          <xsl:with-param name="field" select="//#path#"/>
         </xsl:call-template>
         <xsl:for-each select="//#list.path#/option">
           <option value="{value}">
@@ -20,7 +20,11 @@
           </option>
         </xsl:for-each>
       </select>
-      <input name="{../../../fields/#tag#/@name}_fk" type="hidden" value="{$#tag#_val}" />
+      <input name="{../../../fields/#tag#/@name}_fk" type="hidden" value="{$#tag#_val}">
+      	<xsl:call-template name="setAttributes">
+          <xsl:with-param name="field" select="//#path#"/>
+        </xsl:call-template>
+      </input>
     </div>
   </td>
 </xsl:if>
