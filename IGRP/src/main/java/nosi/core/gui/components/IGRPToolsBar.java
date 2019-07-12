@@ -120,4 +120,8 @@ public class IGRPToolsBar {
 		if(this.buttons!=null)
 			this.buttons = buttons;
 	}
+	
+	public List<IGRPButton> getButtons(){
+		return this.buttons;
+	}
 }

@@ -28,7 +28,10 @@ public class PesquisarPerfilController extends Controller {
 		ProfileType profile_db = new ProfileType();			
 		int idOrg = model.getId_org();//.getParamInt("id_org",false);
 		int idApp = model.getId_app(); // Core.getParamInt("id_app",false);
-		
+		String dad = Core.getCurrentDad();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			 idApp = Core.findApplicationByDad(dad).getId();
+		}
 		//Preenchendo a tabela
 		if(idApp!=0 && idOrg!=0)
 		for(ProfileType p:profile_db.find()
