@@ -131,12 +131,15 @@ $.fn.separatorList = function(o){
 
 					var nameSplited = name.split('p_');
 
-					var fieldName   = nameSplited[nameSplited.length-1]
+					var fieldName   = nameSplited[nameSplited.length-1];
+					
+					var afterAddCallback = function(){};
 
 					contentsObj[fieldName] = {
 						value:value,
 						label:text
 					}
+					
 
 					if(object.table){
 						
@@ -155,9 +158,79 @@ $.fn.separatorList = function(o){
 								});
 
 								if(object.type == 'file'){
+									
 									if (value) {
-										//row.prepend(tdcontent);
+										
 										tdcontent = '<a href="'+value+'" class="link bClick" target="_blank">'+text+'</a>';
+										
+										var readContent = function(input, callback){
+											
+											if(FileReader){
+												
+												if (input.files && input.files[0]) {   
+													
+												    var reader = new FileReader();
+												    
+												    var filename = value;
+												    
+												    filename = filename.substring(filename.lastIndexOf('\\')+1);
+												    
+												    reader.onload = function(ev) {
+												    	
+												    	if(callback)
+												    		
+												    		callback(ev);
+         
+												    }
+												    
+												    reader.readAsDataURL(input.files[0]);    
+												 } 
+											}
+
+										}
+										
+										afterAddCallback = function(td){
+
+											readContent( object.field[0], function(res){
+												
+												var hyperlink = td.find('>a'),
+												
+													result   = res.target.result;
+												
+												hyperlink.attr('href', result);
+												
+												hyperlink.on('click', function(event){
+													
+													event.preventDefault();
+													
+													var win = $.IGRP.utils.openWin({
+														url    : '',
+														width  : 980,
+														height : 520,
+														win    : 'IGRP-upload-preview'
+													});
+													
+													win.document.write('<iframe src="' + result  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+
+
+												    
+													
+													return false;
+													
+												});
+												
+												console.log(result)
+												
+												//hyperlink.data( 'image-preview' )
+												
+											} )
+											
+										}
+										
+										
+										
+										
+									
 									} else
 										tdcontent = '<input type="hidden" name="'+name+'_fk" value=""/>';
 								}
@@ -165,9 +238,14 @@ $.fn.separatorList = function(o){
 								console.log(err);
 							}
 						}
-
-						row.append('<td item-name="'+fieldName+'" field="'+fieldName+'" class="'+object.type+'">'+tdcontent+tdHiddensStr+'</td>');
-						//row.find('td').append(tdHiddens)
+						
+						var tdHTML = $('<td item-name="'+fieldName+'" field="'+fieldName+'" class="'+object.type+'">'+tdcontent+tdHiddensStr+'</td>')
+						
+						row.append(tdHTML);
+						
+						if(afterAddCallback && typeof afterAddCallback === 'function')
+							
+							afterAddCallback(tdHTML);
 					
 					}else
 						row.append(tdHiddensStr);
@@ -793,6 +871,12 @@ $.fn.separatorList = function(o){
 				$('tbody tr',sl).remove();
 				sl.events.execute('reset-all');
 			}
+			
+			$(sl).on('row-add', function(e, data){
+				
+				console.log(data);
+				
+			})
 		};
 		
 		$.each(this,function(i,sl){
