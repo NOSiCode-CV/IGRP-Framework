@@ -345,6 +345,7 @@
 			    		<xsl:when test="$type='checkbox' or $type='radio' or $type='range' or $type='number'  or $type='radiolist'">
 			    			<xsl:value-of select="'Integer'" />
 			    		</xsl:when>
+			    		<xsl:when test="$type ='file'"><xsl:value-of select="'Part'" /></xsl:when>
 			    		<xsl:when test="$type ='checkboxlist'"><xsl:value-of select="'String[]'" /></xsl:when>
 			    		<xsl:otherwise>
 			    			<xsl:value-of select="'String'" />
@@ -475,6 +476,16 @@
 							<xsl:value-of select="$newline"/>
 					  	    <xsl:value-of select="$tab"/>
 		    			<xsl:value-of select="'}'" />	
+		    		</xsl:when>
+		    		<xsl:when test="$type='Part'">
+		    			<xsl:call-template name="genMethod-Get-Set">
+		    				<xsl:with-param name="type" select="'Part'"/>
+		    				<xsl:with-param name="type_content" select="$type_content"/>
+		    				<xsl:with-param name="name" select="$name"/>
+		    				<xsl:with-param name="tab_" select="$tab_"/>
+		    				<xsl:with-param name="tab2_" select="$tab2_"/>
+		    				<xsl:with-param name="java_type_return" select="'Part'"/>
+		    			</xsl:call-template>
 		    		</xsl:when>
 		    		<xsl:otherwise>
 		    			<xsl:call-template name="genMethod-Get-Set">
