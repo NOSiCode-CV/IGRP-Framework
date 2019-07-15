@@ -3,6 +3,7 @@ package nosi.core.webapp.helpers;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.security.EncrypDecrypt;
+import nosi.core.webapp.security.PagesScapePermission;
 
 /**
  * @author Marcel Iekiny Apr 18, 2017
@@ -42,6 +43,9 @@ public class Route {
 		qs = UrlHelper.urlEncoding(qs);
 		action = Route.resolveAction(action);
 		String url = "";
+		if(PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/"+action).toLowerCase())) {
+			url = "webapps?r="+app+"/"+page+"/"+action+qs;
+		}else
 		if(isPublic==1) {
 			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
 		}

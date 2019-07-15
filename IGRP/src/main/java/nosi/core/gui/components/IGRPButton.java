@@ -125,20 +125,20 @@ public class IGRPButton {
 			link = link.replaceAll("webapps\\?r=", "");
 			return link;
 		}
-		String target_ = "";
-		String targetQuerysString = "";
+		String target_ = "";		
 		
 		if (Igrp.getInstance().getRequest().getParameter("target") != null) {
 			target_ += "&target=" + Igrp.getInstance().getRequest().getParameter("target");
 		}
-		targetQuerysString += Route.getQueryString(link);//Get Query String
+		//String targetQuerysString = target_;
+		target_ += Route.getQueryString(link);//Get Query String
 		link = Route.resolveAction(link);
 		String result = null;
 		int isPublic = Core.getParamInt("isPublic");
 		if(PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/"+link).toLowerCase())) {
 			result = app + "/" + page + "/" + (link+target_);					
 		}else if(isPublic==1) {
-			result = app + "/" + page + "/" + (link+targetQuerysString)+"&isPublic=1";
+			result = app + "/" + page + "/" + (link+target_)+"&isPublic=1";
 		}else {
 			result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
 		}

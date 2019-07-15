@@ -115,7 +115,7 @@ public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws 
         model.load();
 		
         
-        User user = Core.findUserById(Core.toInt(idUser));		
+        User user = Core.findUserById(Integer.parseInt(idUser));		
 		model.setNome(user.getName());
 		model.setUsername(user.getUser_name().toLowerCase().trim());
 		model.setEmail(user.getEmail().toLowerCase(Locale.ROOT));
