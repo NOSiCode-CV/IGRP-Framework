@@ -855,6 +855,23 @@ public final class Core { // Not inherit
 
 		return cLob;
 	}
+	
+	/**
+	 * @param fileId Id do ficheiro a ser descartado 
+	 * @return boolean true -> Success | false -> Failure 
+	 */
+	public static boolean invalidateFile(Integer fileId) {
+		boolean r = false; 
+		CLob file = new CLob().findOne(fileId);
+		if(file != null) {
+			file.invalidate(); 
+			file = file.update(); 
+			r = file != null && !file.hasError();
+		}
+		return r;
+	}
+	
+	
 
 	public static Part getFile(String name) throws IOException, ServletException {
 		Part part = Igrp.getInstance().getRequest().getPart(name);

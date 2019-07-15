@@ -36,7 +36,9 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
+	
 	private String mime_type;
 	
 	@Column(nullable=false)
@@ -59,7 +61,10 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	private Date dt_updated;
 	@ManyToOne
 	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="CLOB_USER_CREATED_FK"),nullable=true)
-	private User user = Core.getCurrentUser();
+	private User user = Core.getCurrentUser(); 
+	
+	
+	private String estado = "A"; // A -> Ativo; I -> InAtivo  
 	
 	public CLob(){}
 	
@@ -146,10 +151,25 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 		this.user = user;
 	}
 
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	@Override
 	public String toString() {
 		return "CLob [id=" + id + ", name=" + name + ", mime_type=" + mime_type + ", c_lob_content="
-				+ Arrays.toString(c_lob_content) + ", dt_created=" + dt_created + "]";
+				+ Arrays.toString(c_lob_content) + ", dt_created=" + dt_created + ", application=" + application
+				+ ", application_updated=" + application_updated + ", dt_updated=" + dt_updated + ", user=" + user
+				+ ", estado=" + estado + "]";
+	}
+	
+	public void invalidate() {
+		if(!this.estado.equals("I")) 
+			this.estado = "I";
 	}
 	
 }
