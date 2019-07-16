@@ -446,7 +446,10 @@
  			<xsl:value-of select="$tab2"/>
  			<xsl:choose>
  				<xsl:when test="@type = 'file'">
-					<xsl:value-of select="concat('private Part ',$tag_name,';')"/> 		
+					<xsl:value-of select="concat('private Part ',$tag_name,';')"/> 	
+		 			<xsl:value-of select="$newline"/>
+		 			<xsl:value-of select="$tab2"/>	
+					<xsl:value-of select="concat('private String ',$tag_name,'_fk_desc;')"/> 
 				</xsl:when>	
  				<xsl:otherwise>
 					<xsl:value-of select="concat('private Pair ',$tag_name,';')"/> 				
@@ -478,6 +481,13 @@
 			    		<xsl:with-param name="type_content" select="'Part'" />
 			    		<xsl:with-param name="type" select="'Part'" />
 			    		<xsl:with-param name="name" select="$tag_name" />
+			    		<xsl:with-param name="tab_" select="$tab2" />
+			    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
+			    	</xsl:call-template>
+			    	<xsl:call-template name="gen-method-set-get">
+			    		<xsl:with-param name="type_content" select="'String'" />
+			    		<xsl:with-param name="type" select="'String'" />
+			    		<xsl:with-param name="name" select="concat($tag_name,'_fk_desc')" />
 			    		<xsl:with-param name="tab_" select="$tab2" />
 			    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
 			    	</xsl:call-template>
