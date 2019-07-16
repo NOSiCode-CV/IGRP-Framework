@@ -95,7 +95,7 @@ public class PesquisaEmpresaService {
 						}
 						
 						try {
-							empresa.setEstado(local.getString("estado"));
+							empresa.setEstado(local.getString("estado_desc"));
 						}catch (org.json.JSONException e) {
 							empresa.setEstado(null);
 						}
@@ -161,7 +161,7 @@ public class PesquisaEmpresaService {
 					}
 					
 					try {
-						empresa.setEstado(Entry_ob.getString("estado"));
+						empresa.setEstado(Entry_ob.getString("estado_desc"));
 					}catch (org.json.JSONException es) {
 						empresa.setEstado(null);
 					}
