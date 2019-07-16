@@ -25,7 +25,7 @@ public class Pesquisa_empresaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '2' as nif_tab,'Iste totam iste perspiciatis s' as nome_da_firma_tab,'Labore officia adipiscing offi' as matriculan_reg_comercial,'Stract sed natus rem voluptate' as data_registo_data_reg_comercial,'Perspiciatis sed consectetur i' as data_inicio_atividade,'Rem omnis iste adipiscing natu' as natureza_juridica,'Unde anim natus unde stract' as natureza_juridica_desc,'Magna rem sit unde sed' as tipo_entidade,'Iste unde mollit accusantium a' as tipo_entidade_desc "));
+		model.loadTable_1(Core.query(null,"SELECT '5' as nif_tab,'Consectetur dolor voluptatem c' as nome_da_firma_tab,'Sit anim totam consectetur und' as matriculan_reg_comercial,'Stract ipsum natus omnis volup' as data_registo_data_reg_comercial,'Accusantium perspiciatis adipi' as data_inicio_atividade,'Laudantium adipiscing dolor ap' as natureza_juridica,'Aperiam anim labore aliqua mag' as natureza_juridica_desc,'Doloremque lorem voluptatem ap' as tipo_entidade,'Accusantium elit unde ut rem' as tipo_entidade_desc,'Deserunt stract magna laudanti' as estado "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.btn_pesquisar.setLink("index");
@@ -43,12 +43,15 @@ public class Pesquisa_empresaController extends Controller {
 				tab.setNif_tab(empresa.getNif());
 				tab.setNome_da_firma_tab(empresa.getNome_firma());
 				tab.setMatriculan_reg_comercial(empresa.getMatricula());
-				//tab.setData_registo_data_reg_comercial(empresa.getd);
+				
 				tab.setData_inicio_atividade(empresa.getDt_ini_atividade());
 				tab.setNatureza_juridica(empresa.getNatureza_juridica());
 				tab.setNatureza_juridica_desc(empresa.getNatureza_juridica_desc());
 				tab.setTipo_entidade(empresa.getTipo_entidade());
 				tab.setTipo_entidade_desc(empresa.getTipo_entidade_desc());
+				
+				tab.setData_registo_data_reg_comercial(empresa.getData_registo());
+				tab.setEstado(empresa.getEstado());
 				
 				lista_emp.add(tab);
 			}

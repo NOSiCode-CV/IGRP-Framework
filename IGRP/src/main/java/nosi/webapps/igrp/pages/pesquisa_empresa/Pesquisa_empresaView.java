@@ -21,7 +21,8 @@ public class Pesquisa_empresaView extends View {
 	public Field natureza_juridica_desc;
 	public Field tipo_entidade;
 	public Field tipo_entidade_desc;
-	public IGRPForm sectionheader_1;
+	public Field estado;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
@@ -31,7 +32,7 @@ public class Pesquisa_empresaView extends View {
 
 		this.setPageTitle("Pesquisa Empresa");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -86,6 +87,10 @@ public class Pesquisa_empresaView extends View {
 		tipo_entidade_desc.setLabel(gt("Tipo Entidade Desc"));
 		tipo_entidade_desc.propertie().add("name","p_tipo_entidade_desc").add("type","text").add("maxlength","30").add("showLabel","true");
 		
+		estado = new TextField(model,"estado");
+		estado.setLabel(gt("Estado"));
+		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("showLabel","true");
+		
 
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Pesquisa_empresa","pesquisar","submit_ajax","primary|fa-search","","");
@@ -111,6 +116,7 @@ public class Pesquisa_empresaView extends View {
 		table_1.addField(natureza_juridica_desc);
 		table_1.addField(tipo_entidade);
 		table_1.addField(tipo_entidade_desc);
+		table_1.addField(estado);
 
 		form_1.addButton(btn_pesquisar);
 		this.addToPage(sectionheader_1);
@@ -131,7 +137,8 @@ public class Pesquisa_empresaView extends View {
 		natureza_juridica.setValue(model);
 		natureza_juridica_desc.setValue(model);
 		tipo_entidade.setValue(model);
-		tipo_entidade_desc.setValue(model);	
+		tipo_entidade_desc.setValue(model);
+		estado.setValue(model);	
 
 		table_1.loadModel(((Pesquisa_empresa) model).getTable_1());
 		}
