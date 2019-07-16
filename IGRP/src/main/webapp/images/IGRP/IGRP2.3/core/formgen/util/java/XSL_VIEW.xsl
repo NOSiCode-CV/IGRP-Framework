@@ -330,7 +330,7 @@
 		 	<xsl:choose>			
 			  <xsl:when test="@type='circlestatbox' or @type='smallbox' or @type='statbox'
 			   or @type='quickbuttonbox' or @type='timeline' or @type='treemenu'
-			    or @type='sectionheader' or @type='box' or @type='tabcontent' or @type='panels'">			  
+			    or @type='sectionheader' or @type='box' or @type='tabcontent' or @type='panels'  or @type='paragraph'">			  
 			  	<xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 					<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
@@ -371,7 +371,7 @@
 			  <xsl:when test="@type='circlestatbox' or @type='smallbox' 
 			  or @type='statbox' or @type='quickbuttonbox' 
 			  or @type='timeline' or @type='treemenu' 
-			  or @type='sectionheader' or @type='box' or @type='tabcontent' or @type='panels'">			  
+			  or @type='sectionheader' or @type='box' or @type='tabcontent' or @type='panels' or @type='paragraph'">			  
 			  	<xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 					<xsl:with-param name="type"><xsl:value-of select="'instance'" /></xsl:with-param>

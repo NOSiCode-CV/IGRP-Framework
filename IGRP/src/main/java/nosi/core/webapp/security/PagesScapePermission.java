@@ -67,6 +67,7 @@ public class PagesScapePermission {
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/domainsValues".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("igrp/Page/getPageJson".toLowerCase());
 		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/index".toLowerCase());
+		PAGES_SCAPE_ENCRYPT.add("inps_porton/Pagamento_de_servico/pagar".toLowerCase());
 	}
 	
 	static { 									
