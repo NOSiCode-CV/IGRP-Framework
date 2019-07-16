@@ -94,6 +94,18 @@ public class PesquisaEmpresaService {
 							empresa.setTipo_entidade_desc(null);
 						}
 						
+						try {
+							empresa.setEstado(local.getString("estado"));
+						}catch (org.json.JSONException e) {
+							empresa.setEstado(null);
+						}
+						
+						try {
+							empresa.setData_registo(local.getString("data_registo"));
+						}catch (org.json.JSONException e) {
+							empresa.setData_registo(null);
+						}
+						
 						empresas.add(empresa);
 					}	
 				}catch(Exception e) {
@@ -148,6 +160,17 @@ public class PesquisaEmpresaService {
 						empresa.setTipo_entidade_desc(null);
 					}
 					
+					try {
+						empresa.setEstado(Entry_ob.getString("estado"));
+					}catch (org.json.JSONException es) {
+						empresa.setEstado(null);
+					}
+					
+					try {
+						empresa.setData_registo(Entry_ob.getString("data_registo"));
+					}catch (org.json.JSONException es) {
+						empresa.setData_registo(null);
+					}
 					empresas.add(empresa);
 				}
 				

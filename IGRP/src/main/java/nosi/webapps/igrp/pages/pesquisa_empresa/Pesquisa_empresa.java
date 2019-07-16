@@ -56,6 +56,7 @@ public class Pesquisa_empresa extends Model{
 		private String natureza_juridica_desc;
 		private String tipo_entidade;
 		private String tipo_entidade_desc;
+		private String estado;
 		public void setNif_tab(String nif_tab){
 			this.nif_tab = nif_tab;
 		}
@@ -117,6 +118,13 @@ public class Pesquisa_empresa extends Model{
 		}
 		public String getTipo_entidade_desc(){
 			return this.tipo_entidade_desc;
+		}
+
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
 		}
 
 	}

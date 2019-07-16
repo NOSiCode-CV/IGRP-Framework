@@ -12,6 +12,8 @@ public class PesquisaEmpresa {
 	private String tipo_entidade;
 	private String tipo_entidade_desc;
 	private String nif;
+	private String estado;
+	private String data_registo;
 	
 	public String getNome_firma() {
 		return nome_firma;
@@ -61,7 +63,18 @@ public class PesquisaEmpresa {
 	public void setNif(String nif) {
 		this.nif = nif;
 	}
-	
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public String getData_registo() {
+		return data_registo;
+	}
+	public void setData_registo(String data_registo) {
+		this.data_registo = data_registo;
+	}
 	@Override
 	public String toString() {
 		return "PesquisaEmpresa [nome_firma=" + nome_firma + ", matricula=" + matricula + ", dt_ini_atividade="
