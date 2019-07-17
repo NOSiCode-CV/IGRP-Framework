@@ -847,7 +847,7 @@
 				
 				form.removeClass('download');
 
-			},300);
+			},500);
 			
 			/*if(!$('#iframe-download')[0]){
 				var iframe = $('<iframe>');

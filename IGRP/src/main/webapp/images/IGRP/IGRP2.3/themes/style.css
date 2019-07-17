@@ -81,6 +81,16 @@ b{
   padding:10px;
 }
 
+.alert-info-link {
+    color: #0d2f4d;
+    background-color: #85b9eea8;
+    border-color: #85b9eea8;
+}
+
+.alert-info-link a {
+    color: darkblue;
+}
+
 .alert-dismissable .close{
   right:0;
 }

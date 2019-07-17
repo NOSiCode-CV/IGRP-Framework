@@ -299,6 +299,7 @@
       <xsl:when test="@type = 'warning'">exclamation-triangle</xsl:when>
       <xsl:when test="@type = 'success'">check-circle</xsl:when>
       <xsl:when test="@type = 'info'">info-circle</xsl:when>
+       <xsl:when test="@type = 'info-link'">chain</xsl:when>
       <xsl:otherwise>bullseye</xsl:otherwise>
     </xsl:choose>
   </xsl:template>

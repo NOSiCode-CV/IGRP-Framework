@@ -105,6 +105,7 @@ public class FlashMessage implements Serializable{
 			this.msg.put(FlashMessage.INFO, new ArrayList<String>());
 			this.msg.put(FlashMessage.WARNING, new ArrayList<String>());
 			this.msg.put(FlashMessage.DEBUG, new ArrayList<String>());
+			this.msg.put(FlashMessage.INFO_LINK, new ArrayList<String>());
 		}
 		
 		public void addMessage(String name, String msg){

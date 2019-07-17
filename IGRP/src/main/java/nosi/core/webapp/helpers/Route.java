@@ -23,9 +23,9 @@ public class Route {
 		action = resolveAction(action);
 		String url = "";
 		if(qs.contains("dad")) {
-			url = Route.getResolveUrl(app, page, action,null,Core.getParamInt("isPublic"))+qs;
+			url = Route.getResolveUrl(app, page, action+qs,null,Core.getParamInt("isPublic"));
 		}else {
-			url = Route.getResolveUrl(app, page, action)+qs;
+			url = Route.getResolveUrl(app, page, action+qs);
 		}
 		url = url.replaceAll("&&", "&");
 		return url;
@@ -46,6 +46,10 @@ public class Route {
 		if(PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/"+action).toLowerCase())) {
 			url = "webapps?r="+app+"/"+page+"/"+action+qs;
 		}else
+			//if a PAGES_SCAPE_ENCRYPT calls a redirect to a public page, must not encrypt it
+			if(qs.contains("isPublic=1")) {
+				url = "webapps?r="+app+"/"+page+"/"+action+qs+"&target=_blank";
+			}else
 		if(isPublic==1) {
 			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
 		}

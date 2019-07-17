@@ -53,12 +53,12 @@ public class IGRPMessage {
 		}
 		
 
-		// Info
+		// Info-Link
 		for(String msg : flashMessage.getMessages(FlashMessage.INFO_LINK)){
 			this.result.startElement("message");
-			this.result.writeAttribute("type", "info");
+			this.result.writeAttribute("type", "info-link");
 			String []m = msg.split("/#RESERVE#/");
-			this.result.text(StringEscapeUtils.escapeXml10("<a href=\""+m[1]+"\">"+m[0]+"</a>"));
+			this.result.text("<a href=\""+StringEscapeUtils.escapeXml11(m[1])+"\">"+m[0]+"</a>");
 			this.result.endElement();
 		}
 		
