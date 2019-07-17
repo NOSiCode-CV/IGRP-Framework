@@ -60,8 +60,8 @@ public class FileHelper {
 		return b ;
 	}
 	
-	public static String convertInputStreamToBase64(InputStream stream) throws IOException {
-		return Base64.getEncoder().encodeToString(convertInputStreamToByte(stream));
+	public static String convertInputStreamToBase64(InputStream inputStream) throws IOException {
+		return Base64.getEncoder().encodeToString(convertInputStreamToByte(inputStream));
 	}
 	
 	public static String convertInputStreamToBase64(byte[] bytes) throws IOException {
