@@ -2,22 +2,14 @@ package nosi.core.webapp.helpers;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,12 +18,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
-
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+import org.apache.commons.io.FileUtils;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.Igrp;
 
 
 public class FileHelper {
@@ -57,15 +47,15 @@ public class FileHelper {
 		return null;
 	}
 
-	public static byte[] convertInputStreamToByte(InputStream stream) throws IOException {
+	public static byte[] convertInputStreamToByte(InputStream inputStream) throws IOException {
 		 ByteArrayOutputStream output = new ByteArrayOutputStream();
 		 int length;
-		 byte[] imageBytes = new byte[stream.available()];
-	     while ((length = stream.read(imageBytes)) != -1){
+		 byte[] imageBytes = new byte[inputStream.available()];
+	     while ((length = inputStream.read(imageBytes)) != -1){
 	        output.write(imageBytes, 0, length);
 	     }
 		 byte[] b = output.toByteArray();
-	     stream.close();
+		 inputStream.close();
 	     output.close();
 		return b ;
 	}
@@ -118,6 +108,7 @@ public class FileHelper {
 		    	is.close();
 		        in.close();
 		        d.close();
+		        file.delete();
 		    }
 		   return code.toString();
 		}
@@ -125,12 +116,12 @@ public class FileHelper {
 	}
 
 	//Converte InputStream to String
-	public static String convertToString(InputStream file) throws IOException{
-		if(file!=null){   
+	public static String convertToString(InputStream inputStream) throws IOException{
+		if(inputStream!=null){   
 		    StringBuilder  code = new StringBuilder();		    
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
-		    DataInputStream in = new DataInputStream(file);   
+		    DataInputStream in = new DataInputStream(inputStream);   
 		    BufferedReader d = new BufferedReader(new InputStreamReader(in));
 		   try {
 		        while((line = d.readLine()) != null) {
@@ -140,7 +131,7 @@ public class FileHelper {
 		    }catch(Exception e) {
 		    	e.printStackTrace();
 		    } finally {
-		    	file.close();
+		    	inputStream.close();
 		        in.close();
 		        d.close();
 		    }
@@ -149,80 +140,38 @@ public class FileHelper {
 		return null;
 	}
 	//Save file in a specific directory
-	public static boolean save(String path,String file_name,String data) throws IOException{	
-		boolean isSaved = false;
-		createDiretory(path);
-			BufferedWriter bw = null;
-			FileWriter fw = null;
-			try {
-				String fileName = path+(file_name!=null?(File.separator+file_name):"");
-				File file = new File(fileName);
-				// if file doesnt exists, then create it
-				if (!file.exists()) {
-					file.createNewFile();
-				}
-				// true = append file
-				fw = new FileWriter(file.getAbsoluteFile(), false);
-				bw = new BufferedWriter(fw);
-				bw.write(data);
-				isSaved = true;
-			} catch (IOException e) {
-				isSaved = false;
-				e.printStackTrace();	
-			} finally {
-				try {	
-					if (bw != null)
-						bw.close();	
-					if (fw != null)
-						fw.close();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			}		
-		return isSaved;
+	public static boolean save(String path,String file_name,String data)  throws IOException{	
+		boolean isSaved = true;
+		String fileName = path+(file_name!=null?(File.separator+file_name):"");
+		File file = new File(fileName);	
+		try {
+			FileHelper.createDiretory(path);
+			FileUtils.writeByteArrayToFile(file,data.getBytes());
+		} catch (IOException e) {
+			isSaved = false;
+		}
+		return isSaved;				
 	}
 	
 	//Write data using default encode UTF-8
 	public static boolean save(String path,String filename,Part file) throws IOException{
-		return save(path,filename,convertToString(file));
+		return FileHelper.save(path,filename,convertToString(file));
 	}
 	
 	//Write data using default encode UTF-8
 	public static boolean saveFile(String path,String filename,Part file) throws IOException{
-		return saveFile(path, filename, file, ENCODE_UTF8,ENCODE_UTF8);
+		return FileHelper.saveFile(path, filename, file, ENCODE_UTF8,ENCODE_UTF8);
 	}
 	
 	public static boolean saveFile(String path,String filename,Part file,String encode_in,String encode_out) throws IOException{
-		createDiretory(path);
-		OutputStream out = null;
-		InputStream filecontent = file.getInputStream();
-		boolean isSaved = false;
+		boolean isSaved = true;
+		String fileName = path+(filename!=null?(File.separator+filename):"");
 		try {
-	        out = new FileOutputStream(new File(path + File.separator+ filename));
-			BufferedReader d = new BufferedReader(new InputStreamReader(filecontent,encode_in));
-			Writer       outputStreamWriter = new OutputStreamWriter(out, encode_out);
-			StringBuilder  code = new StringBuilder();
-			String         ls = System.getProperty("line.separator");
-		    String         line = null;
-	        while((line = d.readLine()) != null) {
-	            code.append(line);
-	            code.append(ls);
-	        }
-	        outputStreamWriter.write(code.toString());
-	        d.close();
-	        outputStreamWriter.close();
-	        isSaved = true;
-	    } catch (FileNotFoundException e) {
-	    	isSaved = false;
-	    	e.printStackTrace();
-	    } finally {
-	        if (out != null) {
-	            out.close();
-	        }
-	        if (filecontent != null) {
-	            filecontent.close();
-	        }
-	    }
+			FileHelper.createDiretory(path);
+			FileUtils.writeByteArrayToFile(new File(fileName),FileHelper.convertInputStreamToByte(file.getInputStream()));
+		} catch (IOException e) {
+			isSaved = false;
+		}
 		return isSaved;
 	}
 	
@@ -233,8 +182,8 @@ public class FileHelper {
 	}
 	
 	public static boolean saveImage(String path,String filename,String formatName,Part filePart,String encode_in,String encode_out) throws IOException{
-		createDiretory(path);
-		boolean isSaved = false;
+		FileHelper.createDiretory(path);
+		boolean isSaved = true;
 		BufferedImage bImage = null;
 		try {
 			 String fileName = path+(filename!=null?(File.separator+filename):"");
@@ -242,7 +191,6 @@ public class FileHelper {
 			 bImage = ImageIO.read(filePart.getInputStream());
 			 ImageIO.write(bImage, formatName,file);
 			 bImage.flush();
-			 isSaved = true;
 		}catch(IOException e) {
 			isSaved = false;
 			e.printStackTrace();
@@ -278,41 +226,17 @@ public class FileHelper {
 	
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
-		StringBuilder  code = new StringBuilder();
-		if(Core.isNotNull(fileName))
-			fileName = basePath+File.separator+fileName;
+		String  code = new String();
+		String file = fileName;
+		if(Core.isNotNull(file))
+			file = basePath+File.separator+fileName;
 		else
-			fileName = basePath;
-		if(fileExists(fileName)){
-			File file = new File(fileName);
-			file.setReadable(true);	
-			InputStream is = null;
-			DataInputStream in = null;
-			BufferedReader d = null;
-			try {			
-				is = new FileInputStream(file);				
-			    String         ls = System.getProperty("line.separator");
-			    String         line = null;
-			    in = new DataInputStream(is);   
-			    d = new BufferedReader(new InputStreamReader(in));
-			    while((line=d.readLine())!=null){
-			    	code.append(line);
-			    	code.append(ls);
-			    }
+			file = basePath;
+		if(fileExists(file)){
+			try {
+				code = FileUtils.readFileToString(new File(file),ENCODE_UTF8);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}finally {
-			    try {
-			    	if(is!=null)
-				    	is.close();
-				    if(in!=null)
-				    	in.close();
-				    if(d!=null)
-				    	d.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				file.setReadable(false);	
 			}
 		}
 		return code.toString();
@@ -321,57 +245,11 @@ public class FileHelper {
 	
 	//Read file and return your content
 	public static String readImage(String basePath,String fileName){
-		StringBuilder  code = new StringBuilder();
-		if(Core.isNotNull(fileName))
-			fileName = basePath+File.separator+fileName;
-		else
-			fileName = basePath;
-		if(fileExists(fileName)){
-			BufferedImage bImage = null;
-			try {
-				File file = new File(fileName);
-				file.setReadable(true);	
-				bImage = ImageIO.read(file);
-				code.append(bImage.toString());
-				bImage.flush();
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return code.toString();
+		return FileHelper.readFile(basePath, fileName);
 	}
 	
 	public static String readFileFromServer(String basePath,String fileName){
-		StringBuilder  code = new StringBuilder();
-		if(Core.isNotNull(fileName))
-			fileName = basePath+File.separator+fileName;
-		else
-			fileName = basePath;
-		if(fileExists(fileName)) {
-			try {
-				ServletContext context = Igrp.getInstance().getServlet().getServletContext();
-				InputStream is = context.getResourceAsStream(fileName);			
-			    String         ls = System.getProperty("line.separator");
-			    String         line = null;
-			    DataInputStream in = new DataInputStream(is);   
-			    BufferedReader d = new BufferedReader(new InputStreamReader(in));
-			    if(d!=null) {
-				    while((line=d.readLine())!=null){
-				    	code.append(line);
-				    	code.append(ls);
-				    }
-			    }
-			    if(is!=null)
-			    	is.close();
-			    if(in!=null)
-			    	in.close();
-			    if(d!=null)
-			    	d.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return code.toString();
+		return FileHelper.readFile(basePath, fileName);
 	}
 	
 	
@@ -379,7 +257,8 @@ public class FileHelper {
 		Path pathFile = Paths.get(classPath + oldName);
 		if(Files.move(pathFile, pathFile.resolveSibling(newName))!=null)
 			return true;
-		else return false;
+		else 
+			return false;
 	}
 
 	public static File saveFilesJavaControllerAndReplace(String classPath,String fileName,String content) {

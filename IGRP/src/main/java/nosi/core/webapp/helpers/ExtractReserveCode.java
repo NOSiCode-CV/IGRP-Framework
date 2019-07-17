@@ -79,21 +79,19 @@ public class ExtractReserveCode {
 	    		
 	    		boolean isGlobalReserve = code.indexOf( globalReserveHeadStart ) != -1;
 		    	
-		    	split = isGlobalReserve ? split.toUpperCase() : split;
+		    	String split_ = isGlobalReserve ? split.toUpperCase() : split;
 		    	
-		    	String content = ExtractReserveCode.getStartReseveCodeAction(split,isGlobalReserve);
+		    	String content = ExtractReserveCode.getStartReseveCodeAction(split_,isGlobalReserve);
 		      
 		    	int start = code.indexOf( content );
 		       
 		    	int end = start != -1 ? code.indexOf(ExtractReserveCode.getEndReserveCode(isGlobalReserve), start) : -1;  
 		      
-		        code = (start != -1 && end != -1)?code.substring(start + content.length(),end):"";
-
-		        code = !code.equals("") && isGlobalReserve ? code : code;   
+		        String code_ = (start != -1 && end != -1)?code.substring(start + content.length(),end):"";
 
 		        ReserveCode rc = new ReserveCode();
 		       
-		        rc.setContent(code);
+		        rc.setContent(code_);
 		       
 		        rc.setAction(action);
 		        
