@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -11,7 +12,6 @@ import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Normalizer;
@@ -94,7 +94,6 @@ import nosi.webapps.igrp.dao.Transaction;
  */
 public final class Core { // Not inherit
 
-	// TODO: ver javadoc de nao incluir no javadoc
 	public static class MimeType extends nosi.core.webapp.helpers.mime_type.MimeType {
 
 	}
@@ -186,6 +185,7 @@ public final class Core { // Not inherit
 	 * @param formatIn
 	 * @return
 	 */
+	@Deprecated
 	public static Timestamp stringToTimestamp(String date, String formatIn) {
 		return DateHelper.convertStringToTimestamp(date, formatIn);
 	}
@@ -219,7 +219,7 @@ public final class Core { // Not inherit
 	public static String defaultConnection(String dad) {
 		String result = "";
 		Config_env config_env = new Config_env().find()
-				.where("isdefault", "=", (short) 1)
+				.where("isdefault", "=", new Short((short) 1))
 				.andWhere("application.dad", "=", dad)
 				.one();
 		if (config_env != null)
@@ -576,7 +576,7 @@ public final class Core { // Not inherit
 			return current_app_conn;
 		}
 		String r = Core.getParam("r");
-		r = isPublic==1? r : Core.decrypt(r);
+		r = isPublic.intValue()==1? r : Core.decrypt(r);
 		String[] r_split = Core.isNotNull(r) ? r.split("/") : null;
 		return r_split != null ? r_split[0] : "igrp";
 	}
@@ -844,7 +844,7 @@ public final class Core { // Not inherit
 				cLob.setDt_created(rs.getDate("dt_created"));
 				cLob.setName(rs.getString("name"));
 				cLob.setMime_type(rs.getString("mime_type"));
-				cLob.setId(rs.getInt("id"));
+				cLob.setId(new Integer(rs.getInt("id")));
 			}
 			rs.close();
 			ps.close();
@@ -1014,7 +1014,7 @@ public final class Core { // Not inherit
 		String x = Core.getParam(name,isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toDouble(x) : 0;
+		return Core.isNotNull(x) ? Core.toDouble(x) : new Double(0);
 	}
 	/**
 	 * Core.getParam first
@@ -1044,7 +1044,7 @@ public final class Core { // Not inherit
 		String x = Core.getParam(name,isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toFloat(x) : 0;
+		return Core.isNotNull(x) ? Core.toFloat(x) : new Float(0);
 	}
 	
 	/**
@@ -1068,7 +1068,7 @@ public final class Core { // Not inherit
 		String x = Core.getParam(name,isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toInt(x) : 0;
+		return Core.isNotNull(x) ? Core.toInt(x) : new Integer(0);
 	}
 	
 	/**
@@ -1092,7 +1092,7 @@ public final class Core { // Not inherit
 		String x = Core.getParam(name,isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toLong(x) : 0;
+		return Core.isNotNull(x) ? Core.toLong(x) : new Long(0);
 	}
 	
 	/**
@@ -1137,7 +1137,7 @@ public final class Core { // Not inherit
 		String x = Core.getParam(name,isRemoved);
 		if (Core.isNull(x))
 			x = Core.getAttribute(name, isRemoved);
-		return Core.isNotNull(x) ? Core.toShort(x) : 0;
+		return Core.isNotNull(x) ? Core.toShort(x) : new Short((short)0);
 	}
 	
 	
@@ -1596,14 +1596,14 @@ public final class Core { // Not inherit
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
 			return IntStream.range(0, array1.length).boxed()
-					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
+					.collect(Collectors.toMap(i -> array1[Core.toInt(""+i).intValue()], i -> array2[Core.toInt(""+i).intValue()]));
 		return null;
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1, Object[] array2, Predicate<? super Integer> filter) {
 		if (array1 != null && array1.length > 0 && array2 != null && array2.length > 0)
 			return IntStream.range(0, array1.length).boxed().filter(filter)
-					.collect(Collectors.toMap(i -> array1[i], i -> array2[i]));
+					.collect(Collectors.toMap(i -> array1[Core.toInt(""+i).intValue()], i -> array2[Core.toInt(""+i).intValue()]));
 		return null;
 	}
 
@@ -1797,7 +1797,7 @@ public final class Core { // Not inherit
 	
 	public static boolean updateFile(byte[] bytes, String name, String mime_type,String dad,Integer id) {
 		CLob clob = new CLob().findOne(id);
-		if(Core.isNotNullMultiple(clob,bytes,name) && id>0) {
+		if(Core.isNotNullMultiple(clob,bytes,name) && id.intValue()>0) {
 			clob.setC_lob_content(bytes);
 			clob.setDt_updated(new Date(System.currentTimeMillis()));
 			clob.setApplication_updated(new Application().findByDad(Core.getCurrentDadParam()));
@@ -1818,11 +1818,11 @@ public final class Core { // Not inherit
 	public static boolean updateFile(File file, String name, String mime_type,String dad,Integer id) {
 		if(Core.isNotNullMultiple(file,name,dad)) {
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
-			mime_type = (mime_type == null || mime_type.trim().isEmpty()
+			String mime_type_ = (mime_type == null || mime_type.trim().isEmpty()
 					? fileNameMap.getContentTypeFor(file.getPath())
 					: mime_type);
 			try(FileInputStream in = new FileInputStream(file)) {
-				return updateFile(FileHelper.convertInputStreamToByte(in),name,mime_type,dad,id);
+				return updateFile(FileHelper.convertInputStreamToByte(in),name,mime_type_,dad,id);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1864,7 +1864,7 @@ public final class Core { // Not inherit
 	 * @param mime_type
 	 * @return in ID
 	 */
-	public static int saveFile(byte[] content, String name, String mime_type) {
+	public static Integer saveFile(byte[] content, String name, String mime_type) {
 		try {
 			if(Core.isNotNull(name)) {
 				String extension = name.substring(name.indexOf("."));
@@ -1873,12 +1873,12 @@ public final class Core { // Not inherit
 				out.write(content);
 				out.flush();
 				out.close();
-				return saveFile(file, name,mime_type, Core.getCurrentDadParam());
+				return Core.saveFile(file, name,mime_type, Core.getCurrentDadParam());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return new Integer(0);
 	}
 
 	
@@ -1898,10 +1898,10 @@ public final class Core { // Not inherit
 	 * @param part
 	 * @return {@code saveFile(part,part.getSubmittedFileName());}
 	 */
-	public static int saveFile(Part part) {
+	public static Integer saveFile(Part part) {
 		if(part!=null)
-			return saveFile(part,part.getSubmittedFileName());
-		return 0;
+			return Core.saveFile(part,part.getSubmittedFileName());
+		return new Integer(0);
 	}
 	
 	/**
@@ -1910,27 +1910,27 @@ public final class Core { // Not inherit
 	 * @param file
 	 * @return in ID
 	 */
-	public static int saveFile(File file) {
-		return saveFile(file, null, null);
+	public static Integer saveFile(File file) {
+		return Core.saveFile(file, null, null);
 	}
 
-	public static int saveFile(String parameterName) throws Exception {
+	public static Integer saveFile(String parameterName) throws Exception {
 		if (Core.isNotNull(parameterName))
-			return saveFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
+			return Core.saveFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
 		throw new Exception(gt("Parâmetro invalido"));
 	}
 
-	public static int saveFile(String parameterName, String description) throws Exception {
+	public static Integer saveFile(String parameterName, String description) throws Exception {
 		if (Core.isNotNull(parameterName))
-			return saveFile(Core.getFile(parameterName), description);
+			return Core.saveFile(Core.getFile(parameterName), description);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
 	
-	public static int saveFile(File file, String name, String mime_type) {
-		return saveFile(file, name, mime_type, Core.getCurrentDadParam());
+	public static Integer saveFile(File file, String name, String mime_type) {
+		return Core.saveFile(file, name, mime_type, Core.getCurrentDadParam());
 	}
 	
-	public static int saveFile(byte[] bytes, String name, String mime_type,String dad) {
+	public static Integer saveFile(byte[] bytes, String name, String mime_type,String dad) {
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
 			
@@ -1940,7 +1940,7 @@ public final class Core { // Not inherit
 			if(!clob.hasError())
 				return clob.getId();
 		}
-		return 0;
+		return new Integer(0);
 	}
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
@@ -1953,16 +1953,16 @@ public final class Core { // Not inherit
 	public static Integer saveFile(File file, String name, String mime_type,String dad) {
 		if(Core.isNotNullMultiple(file,name,dad)) {
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
-			mime_type = (mime_type == null || mime_type.trim().isEmpty()
+			String mime_type_ = (mime_type == null || mime_type.trim().isEmpty()
 					? fileNameMap.getContentTypeFor(file.getPath())
 					: mime_type);
 			try (FileInputStream in = new FileInputStream(file)){
-				return saveFile(FileHelper.convertInputStreamToByte(in),name,mime_type,dad);
+				return Core.saveFile(FileHelper.convertInputStreamToByte(in),name,mime_type_,dad);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		return 0;
+		return new Integer(0);
 	}
 
 	/**
@@ -1972,13 +1972,12 @@ public final class Core { // Not inherit
 	 * @param name
 	 * @return in ID
 	 */
-	public static int saveFile(Part part, String name) {
-		int result = 0;
+	public static Integer saveFile(Part part, String name) {
+		Integer result = new Integer(0);
 		if(Core.isNotNullMultiple(part,name)) {
 			try {
-				result = saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType());
+				result = Core.saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType());
 			} catch (IOException e) {
-				result = 0;
 				e.printStackTrace();
 			}finally {
 				try {
@@ -2242,75 +2241,75 @@ public final class Core { // Not inherit
 	}
 
 	public static void setTaskVariableString(String variableName, String value) {
-		setTaskVariable(variableName, "global", "string", value);
+		Core.setTaskVariable(variableName, "global", "string", value);
 	}
 
 	public static void setTaskVariableInt(String variableName, Integer value) {
-		setTaskVariable(variableName, "global", "integer", value);
+		Core.setTaskVariable(variableName, "global", "integer", value);
 	}
 
 	public static void setTaskVariableShort(String variableName, Short value) {
-		setTaskVariable(variableName, "global", "short", value);
+		Core.setTaskVariable(variableName, "global", "short", value);
 	}
 
 	public static void setTaskVariableLong(String variableName, Long value) {
-		setTaskVariable(variableName, "global", "long", value);
+		Core.setTaskVariable(variableName, "global", "long", value);
 	}
 
 	public static void setTaskVariableDouble(String variableName, Double value) {
-		setTaskVariable(variableName, "global", "double", value);
+		Core.setTaskVariable(variableName, "global", "double", value);
 	}
 
 	public static void setTaskVariableBoolean(String variableName, boolean value) {
-		setTaskVariable(variableName, "global", "boolean", value);
+		Core.setTaskVariable(variableName, "global", "boolean", new Boolean(value));
 	}
 
 	public static void setTaskVariableDate(String variableName, java.util.Date value) {
-		setTaskVariable(variableName, "global", "date", value);
+		Core.setTaskVariable(variableName, "global", "date", value);
 	}
 
 	public static void setTaskVariableBinary(String variableName, Byte[] value) {
-		setTaskVariable(variableName, "global", "binary", value);
+		Core.setTaskVariable(variableName, "global", "binary", value);
 	}
 
 	public static void setTaskVariableSerializable(String variableName, Object value) {
-		setTaskVariable(variableName, "global", "serializable", value);
+		Core.setTaskVariable(variableName, "global", "serializable", value);
 	}
 
 	public static void setTaskVariableString(String variableName, String scope, String value) {
-		setTaskVariable(variableName, "global", scope, value);
+		Core.setTaskVariable(variableName, "global", scope, value);
 	}
 
 	public static void setTaskVariableInt(String variableName, String scope, Integer value) {
-		setTaskVariable(variableName, scope, "integer", value);
+		Core.setTaskVariable(variableName, scope, "integer", value);
 	}
 
 	public static void setTaskVariableShort(String variableName, String scope, Short value) {
-		setTaskVariable(variableName, scope, "short", value);
+		Core.setTaskVariable(variableName, scope, "short", value);
 	}
 
 	public static void setTaskVariableLong(String variableName, String scope, Long value) {
-		setTaskVariable(variableName, scope, "long", value);
+		Core.setTaskVariable(variableName, scope, "long", value);
 	}
 
 	public static void setTaskVariableDouble(String variableName, String scope, Double value) {
-		setTaskVariable(variableName, scope, "double", value);
+		Core.setTaskVariable(variableName, scope, "double", value);
 	}
 
 	public static void setTaskVariableBoolean(String variableName, String scope, boolean value) {
-		setTaskVariable(variableName, scope, "boolean", value);
+		Core.setTaskVariable(variableName, scope, "boolean", new Boolean(value));
 	}
 
 	public static void setTaskVariableDate(String variableName, String scope, java.util.Date value) {
-		setTaskVariable(variableName, scope, "date", value);
+		Core.setTaskVariable(variableName, scope, "date", value);
 	}
 
 	public static void setTaskVariableBinary(String variableName, String scope, Byte[] value) {
-		setTaskVariable(variableName, scope, "binary", value);
+		Core.setTaskVariable(variableName, scope, "binary", value);
 	}
 
 	public static void setTaskVariableSerializable(String variableName, String scope, Object value) {
-		setTaskVariable(variableName, scope, "serializable", value);
+		Core.setTaskVariable(variableName, scope, "serializable", value);
 	}
 	
 	public static String getTaskVariableString(String variableName) {
@@ -2323,52 +2322,52 @@ public final class Core { // Not inherit
 
 	public static Boolean getTaskVariableBoolean(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? true : false;
+		return Core.isNotNull(v) ? new Boolean(true) : new Boolean(false);
 	}
 
 	public static Boolean getTaskVariableBoolean(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? true : false;
+		return Core.isNotNull(v) ? new Boolean(true) : new Boolean(false);
 	}
 
 	public static Double getTaskVariableDouble(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : 0;
+		return Core.isNotNull(v) ? Core.toDouble(v) : new Double(0);
 	}
 
 	public static Double getTaskVariableDouble(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toDouble(v) : 0;
+		return Core.isNotNull(v) ? Core.toDouble(v) : new Double(0);
 	}
 
 	public static Integer getTaskVariableInt(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toInt(v) : 0;
+		return Core.isNotNull(v) ? Core.toInt(v) : new Integer(0);
 	}
 
 	public static Integer getTaskVariableInt(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toInt(v) : 0;
+		return Core.isNotNull(v) ? Core.toInt(v) : new Integer(0);
 	}
 
 	public static Short getTaskVariableShort(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toShort(v) : 0;
+		return Core.isNotNull(v) ? Core.toShort(v) : new Short((short)0);
 	}
 
 	public static Short getTaskVariableShort(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toShort(v) : 0;
+		return Core.isNotNull(v) ? Core.toShort(v) : new Short((short)0);
 	}
 
 	public static Long getTaskVariableLong(String variableName) {
 		String v = Core.getTaskVariable(variableName);
-		return Core.isNotNull(v) ? Core.toLong(v) : 0;
+		return Core.isNotNull(v) ? Core.toLong(v) : new Long(0);
 	}
 
 	public static Long getTaskVariableLong(String taskDefinitionKey, String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
-		return Core.isNotNull(v) ? Core.toLong(v) : 0;
+		return Core.isNotNull(v) ? Core.toLong(v) : new Long(0);
 	}
 
 	public static java.util.Date getTaskVariableDate(String taskDefinitionKey, String variableName) {
@@ -2895,12 +2894,12 @@ public final class Core { // Not inherit
 	public static Double toDouble(String value, double defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Double.parseDouble(value);
+				return new Double(Double.parseDouble(value));
 			} catch (NumberFormatException e) {
-				return defaultValue;
+				
 			}
 		}
-		return defaultValue;
+		return new Double(defaultValue);
 	}
 
 	/**
@@ -2918,12 +2917,12 @@ public final class Core { // Not inherit
 	public static Float toFloat(String value, float defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Float.parseFloat(value);
+				return new Float(Float.parseFloat(value));
 			} catch (NumberFormatException e) {
-				return defaultValue;
+				
 			}
 		}
-		return defaultValue;
+		return new Float(defaultValue);
 	}
 
 	/**
@@ -2950,12 +2949,12 @@ public final class Core { // Not inherit
 	public static Integer toInt(String value, int defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Integer.parseInt(value);
+				return new Integer(Integer.parseInt(value));
 			} catch (NumberFormatException e) {
-				return defaultValue;
+				
 			}
 		}
-		return defaultValue;
+		return new Integer(defaultValue);
 	}
 
 	public static String toJson(Object appP) {
@@ -2977,12 +2976,12 @@ public final class Core { // Not inherit
 	public static Long toLong(String value, long defaultValue) {
 		if (Core.isNotNull(value)) {
 			try {
-				return Long.parseLong(value);
+				return new Long(Long.parseLong(value));
 			} catch (NumberFormatException e) {
-				return defaultValue;
+				
 			}
 		}
-		return defaultValue;
+		return new Long(defaultValue);
 	}
 
 	/**
@@ -3015,15 +3014,13 @@ public final class Core { // Not inherit
 	}
 
 	public static Short toShort(String value) {
-		if (Core.isInt(value))
-			return Short.parseShort(value);
-		return 0;
+		return Core.toShort(value, (short)0);
 	}
 
 	public static Short toShort(String value, short defaultValue) {
 		if (Core.isInt(value))
-			return Short.parseShort(value);
-		return defaultValue;
+			return new Short(Short.parseShort(value));
+		return new Short(defaultValue);
 	}
 	
 	public static BaseQueryInterface update(String tableName) {
@@ -3208,7 +3205,7 @@ public final class Core { // Not inherit
 		Function<N[], int[]> intToString = x -> {
 			int[] a = new int[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toInt((String) x[i]);
+				a[i] = Core.toInt((String) x[i]).intValue();
 			}
 			return a;
 		};
@@ -3227,7 +3224,7 @@ public final class Core { // Not inherit
 		Function<N[], short[]> intToString = x -> {
 			short[] a = new short[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toShort((String) x[i]);
+				a[i] = Core.toShort((String) x[i]).shortValue();
 			}
 			return a;
 		};
@@ -3246,7 +3243,7 @@ public final class Core { // Not inherit
 		Function<N[], float[]> intToString = x -> {
 			float[] a = new float[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toFloat((String) x[i]);
+				a[i] = Core.toFloat((String) x[i]).floatValue();
 			}
 			return a;
 		};
@@ -3265,7 +3262,7 @@ public final class Core { // Not inherit
 		Function<N[], double[]> intToString = x -> {
 			double[] a = new double[x.length];
 			for (int i = 0; i < x.length; i++) {
-				a[i] = Core.toDouble((String) x[i]);
+				a[i] = Core.toDouble((String) x[i]).doubleValue();
 			}
 			return a;
 		};
@@ -3474,5 +3471,65 @@ public final class Core { // Not inherit
 	
 	public static long calculateDays(String data,String formatIn) {
 		return DateHelper.calculateDays(data, formatIn);
+	}
+	
+	public static String convertInputStreamToBase64(byte[] bytes) throws IOException {
+		return FileHelper.convertInputStreamToBase64(bytes);
+	}
+	
+	public static String convertInputStreamToBase64(InputStream inputStream) throws IOException {
+		return FileHelper.convertInputStreamToBase64(inputStream);
+	}
+	
+	public static byte[] convertInputStreamToByte(InputStream inputStream) throws IOException {
+		return FileHelper.convertInputStreamToByte(inputStream);
+	}
+	
+	public static InputStream convertStringToInputStream(String content) throws IOException {
+		return FileHelper.convertStringToInputStream(content);
+	}
+
+	public static String convertPartToString(Part file) throws IOException {
+		return FileHelper.convertToString(file);
+	}
+	
+	public static String convertInputStreamToString(InputStream inputStream) throws IOException {
+		return FileHelper.convertToString(inputStream);
+	}
+
+	public static boolean createDiretory(String path) throws IOException {
+		return FileHelper.createDiretory(path);
+	}
+	
+	public static void deletePartFile(Collection<Part> files) throws IOException {
+		FileHelper.deletePartFile(files);
+	}
+	
+	public static void deletePartFile(Part file) throws IOException {
+		FileHelper.deletePartFile(file);
+	}
+	
+	public static boolean dirExists(String dirName) throws IOException {
+		return FileHelper.dirExists(dirName);
+	}
+	
+	public static boolean fileExists(String fileName) throws IOException {
+		return FileHelper.fileExists(fileName);
+	}
+
+	public static String readFileToString(String fileName) throws IOException {
+		return FileHelper.readFile(fileName, null);
+	}	
+
+	public static String readFileToString(String path,String fileName) throws IOException {
+		return FileHelper.readFile(path,fileName);
+	}
+	
+	public static boolean writeFile(String path,String fileName,Part file) throws IOException {
+		return FileHelper.save(path, fileName, file);
+	}
+	
+	public static boolean writeFile(String path,String fileName,String content) throws IOException {
+		return FileHelper.save(path, fileName, content);
 	}
 }
