@@ -137,10 +137,6 @@
     <xsl:variable name="import_model">
        	<xsl:text>import nosi.core.webapp.Model;</xsl:text>
        	<xsl:value-of select="$newline"/>
-       	<xsl:if test="count(//fields/*[@type='file']) &gt; 0">
-	       	<xsl:text>import javax.servlet.http.Part;</xsl:text>
-	       	<xsl:value-of select="$newline"/>   
-       	</xsl:if>    	
     </xsl:variable>
     
     <xsl:variable name="import_table">

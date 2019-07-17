@@ -444,17 +444,7 @@
 		 	</xsl:variable>
  			<xsl:value-of select="$newline"/>
  			<xsl:value-of select="$tab2"/>
- 			<xsl:choose>
- 				<xsl:when test="@type = 'file'">
-					<xsl:value-of select="concat('private Part ',$tag_name,';')"/> 	
-		 			<xsl:value-of select="$newline"/>
-		 			<xsl:value-of select="$tab2"/>	
-					<xsl:value-of select="concat('private Pair ',$tag_name,'_desc;')"/> 
-				</xsl:when>	
- 				<xsl:otherwise>
-					<xsl:value-of select="concat('private Pair ',$tag_name,';')"/> 				
- 				</xsl:otherwise>
- 			</xsl:choose>
+ 			<xsl:value-of select="concat('private Pair ',$tag_name,';')"/> 	
  			
 			<xsl:if test="@type = 'checkbox' or @type='radio'">				
 	 			<xsl:value-of select="$newline"/>
@@ -475,33 +465,13 @@
  			<xsl:variable name="tag_name">
 				<xsl:value-of select="name()"/>
 		 	</xsl:variable>
-		 	<xsl:choose>
- 				<xsl:when test="@type = 'file'">
-					<xsl:call-template name="gen-method-set-get">
-			    		<xsl:with-param name="type_content" select="'Part'" />
-			    		<xsl:with-param name="type" select="'Part'" />
-			    		<xsl:with-param name="name" select="$tag_name" />
-			    		<xsl:with-param name="tab_" select="$tab2" />
-			    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
-			    	</xsl:call-template>
-			    	<xsl:call-template name="gen-method-set-get">
-			    		<xsl:with-param name="type_content" select="'Pair'" />
-			    		<xsl:with-param name="type" select="'Pair'" />
-			    		<xsl:with-param name="name" select="concat($tag_name,'_desc')" />
-			    		<xsl:with-param name="tab_" select="$tab2" />
-			    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
-			    	</xsl:call-template>
-				</xsl:when>	
- 				<xsl:otherwise>
-					<xsl:call-template name="gen-method-set-get">
-			    		<xsl:with-param name="type_content" select="'Pair'" />
-			    		<xsl:with-param name="type" select="'Pair'" />
-			    		<xsl:with-param name="name" select="$tag_name" />
-			    		<xsl:with-param name="tab_" select="$tab2" />
-			    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
-			    	</xsl:call-template>	
- 				</xsl:otherwise>
- 			</xsl:choose>
+		 	<xsl:call-template name="gen-method-set-get">
+	    		<xsl:with-param name="type_content" select="'Pair'" />
+	    		<xsl:with-param name="type" select="'Pair'" />
+	    		<xsl:with-param name="name" select="$tag_name" />
+	    		<xsl:with-param name="tab_" select="$tab2" />
+	    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
+	    	</xsl:call-template>	
  			
 			
 			<xsl:if test="@type = 'checkbox' or @type='radio'">				

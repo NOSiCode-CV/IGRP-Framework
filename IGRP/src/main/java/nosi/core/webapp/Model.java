@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -307,108 +308,104 @@ public abstract class Model { // IGRP super model
 			}
 			/* End */
 		}
-		try {
-			Collection<Part> allFiles = null;			
-			try {
-				allFiles = Igrp.getInstance().getRequest().getParts();
-			} catch (ServletException e1) {
-			}
-			for (Field obj : fields) {
-				Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
-				Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
+		for (Field obj : fields) {
+			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
+			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
 
-				Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
+			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
-				List<String> aux = new ArrayList<String>();
+			List<String> aux = new ArrayList<String>();
 
-				for (Field m : c_.getDeclaredFields()) {
+			for (Field m : c_.getDeclaredFields()) {
 
-					m.setAccessible(true);
-					aux.add(m.getName());
+				m.setAccessible(true);
+				aux.add(m.getName());
 
-					String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
+				String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
 
-					if (m.getName().equals(s + "_id")) {
+				if (m.getName().equals(s + "_id")) {
 
-						String[] values1 = (String[]) Core.getParamArray("p_" + m.getName());
-						if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
-							String aux_[] = new String[values1.length - 1];
-							System.arraycopy(values1, 1, aux_, 0, aux_.length);
-							values1 = aux_;
-						}
-						String[] values2 = values1;
-
-						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
-						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
-
-					} else {
-						String[] values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
-						String[] values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
-						mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
-						// If the field is checkbox, we don't have _check_desc with value2=null so
-						// causing indexOutOfBounds here
-						List<String> list1 = values1 != null ? Arrays.asList(new String[values1.length])
-								: new ArrayList<String>();
-						mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : list1);
-
+					String[] values1 = (String[]) Core.getParamArray("p_" + m.getName());
+					if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
+						String aux_[] = new String[values1.length - 1];
+						System.arraycopy(values1, 1, aux_, 0, aux_.length);
+						values1 = aux_;
 					}
+					String[] values2 = values1;
 
-					m.setAccessible(false);
+					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
+					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+
+				} else {
+					String[] values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
+					String[] values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
+					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
+					// If the field is checkbox, we don't have _check_desc with value2=null so
+					// causing indexOutOfBounds here
+					List<String> list1 = values1 != null ? Arrays.asList(new String[values1.length])
+							: new ArrayList<String>();
+					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : list1);
+
 				}
 
-				ArrayList<Object> auxResults = new ArrayList<>();
+				m.setAccessible(false);
+			}
 
-				obj.setAccessible(true);
-				obj.set(this, auxResults);
-				obj.setAccessible(false);
+			ArrayList<Object> auxResults = new ArrayList<>();
 
-				try {
-					int row = 0;
+			obj.setAccessible(true);
+			obj.set(this, auxResults);
+			obj.setAccessible(false);
 
-					int MAX_ITERATION = 0;
+			try {
+				int row = 0;
 
-					for (List<String> list : mapFk.values()) {
-						if (MAX_ITERATION < list.size())
-							MAX_ITERATION = list.size();
-					}
+				int MAX_ITERATION = 0;
 
-					while (row < MAX_ITERATION) {
-						Object obj2 = Class.forName(c_.getName()).newInstance();
-						for (Field m : obj2.getClass().getDeclaredFields()) {
-							m.setAccessible(true);
-							if (m.getType().getName().equalsIgnoreCase("javax.servlet.http.Part") && allFiles!=null) {
-								List<Part> filesByLine = allFiles.stream()
-																.filter(f->f.getName().equalsIgnoreCase("p_"+m.getName().toLowerCase()+"_fk"))
-																.collect(Collectors.toList());
-								 try {
-									 BeanUtils.setProperty(obj2, m.getName(),filesByLine.get(row));
+				for (List<String> list : mapFk.values()) {
+					if (MAX_ITERATION < list.size())
+						MAX_ITERATION = list.size();
+				}
+				Map<String, List<Part>> allFiles = this.getFiles();
+				while (row < MAX_ITERATION) {
+					Object obj2 = Class.forName(c_.getName()).newInstance();
+					for (Field m : obj2.getClass().getDeclaredFields()) {
+						m.setAccessible(true);
+						String param = "p_"+m.getName().toLowerCase()+"_fk";
+						String key ="";
+						 String value="";
+
+						if (allFiles!=null && allFiles.containsKey(param)) {
+							List<Part> filesByLine = allFiles.get(param);
+							if(!filesByLine.isEmpty()) {
+								 try {		
+									 BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,value,filesByLine.get(row)));
 								 }catch (Exception e) {
+									 e.printStackTrace();
 									 m.setAccessible(false);
 									 continue;
 								 }
-							} else {
-								try {
-									BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(
-											mapFk.get(m.getName()).get(row), mapFkDesc.get(m.getName()).get(row)));
-								} catch (Exception e) {
-									m.setAccessible(false);
-									continue;
-								}
 							}
-							m.setAccessible(false);
+						} else {
+							try {
+								 key = mapFk.get(m.getName()).size()>=row?mapFk.get(m.getName()).get(row):"";
+								 value = mapFkDesc.get(m.getName()).size() >= row?mapFkDesc.get(m.getName()).get(row):"";
+								BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,value));
+							} catch (Exception e) {
+								m.setAccessible(false);
+								continue;
+							}
 						}
-						auxResults.add(obj2);
-						row++;
+						m.setAccessible(false);
 					}
-				} catch (ClassNotFoundException | InstantiationException e) {
-					e.printStackTrace();
-				} catch (IndexOutOfBoundsException e) {
-					continue; // go to next -- Separator list
+					auxResults.add(obj2);
+					row++;
 				}
+			} catch (ClassNotFoundException | InstantiationException e) {
+				e.printStackTrace();
+			} catch (IndexOutOfBoundsException e) {
+				continue; // go to next -- Separator list
 			}
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
 		}
 		this.loadModelFromAttribute();
 	}
@@ -456,6 +453,23 @@ public abstract class Model { // IGRP super model
 				m.setAccessible(false);
 			}
 		}
+	}
+	
+	private Map<String,List<Part>> getFiles(){
+		Map<String,List<Part>> list = new HashMap<>();
+		Collection<Part> allFiles = null;			
+		try {
+			allFiles = Igrp.getInstance().getRequest().getParts();
+			if(allFiles!=null) {
+				for(Part f:allFiles){
+					if(Core.isNotNullMultiple(f.getContentType(),f.getSubmittedFileName())) {
+						list.put(f.getName().toLowerCase(), allFiles.stream().filter(file->file.getName().equals(f.getName())).collect(Collectors.toList()));
+					}
+				}
+			}
+		} catch (ServletException | IOException e1) {
+		}
+		return list;
 	}
 
 	/*
