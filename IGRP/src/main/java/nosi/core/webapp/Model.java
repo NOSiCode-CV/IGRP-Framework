@@ -308,6 +308,7 @@ public abstract class Model { // IGRP super model
 			}
 			/* End */
 		}
+		Map<String, List<Part>> allFiles = this.getFiles();
 		for (Field obj : fields) {
 			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
 			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
@@ -324,8 +325,7 @@ public abstract class Model { // IGRP super model
 				String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
 
 				if (m.getName().equals(s + "_id")) {
-
-					String[] values1 = (String[]) Core.getParamArray("p_" + m.getName());
+					String[] values1 = Core.getParamArray("p_" + m.getName());
 					if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
 						String aux_[] = new String[values1.length - 1];
 						System.arraycopy(values1, 1, aux_, 0, aux_.length);
@@ -337,8 +337,14 @@ public abstract class Model { // IGRP super model
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
 
 				} else {
-					String[] values1 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk");
-					String[] values2 = (String[]) Core.getParamArray("p_" + m.getName() + "_fk_desc");
+					String param = "p_" + m.getName() + "_fk";
+					String[] values1 = Core.getParamArray(param);
+					if(values1==null || (values1!=null && values1.length==0)) {
+						if(allFiles!=null && allFiles.containsKey(param)) {
+							values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new);
+						}
+					}
+					String[] values2 = Core.getParamArray(param+ "_desc");
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					// If the field is checkbox, we don't have _check_desc with value2=null so
 					// causing indexOutOfBounds here
@@ -366,7 +372,6 @@ public abstract class Model { // IGRP super model
 					if (MAX_ITERATION < list.size())
 						MAX_ITERATION = list.size();
 				}
-				Map<String, List<Part>> allFiles = this.getFiles();
 				while (row < MAX_ITERATION) {
 					Object obj2 = Class.forName(c_.getName()).newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
@@ -462,7 +467,7 @@ public abstract class Model { // IGRP super model
 			allFiles = Igrp.getInstance().getRequest().getParts();
 			if(allFiles!=null) {
 				for(Part f:allFiles){
-					if(Core.isNotNullMultiple(f.getContentType(),f.getSubmittedFileName())) {
+					if(Core.isNotNull(f.getContentType())) {
 						list.put(f.getName().toLowerCase(), allFiles.stream().filter(file->file.getName().equals(f.getName())).collect(Collectors.toList()));
 					}
 				}
