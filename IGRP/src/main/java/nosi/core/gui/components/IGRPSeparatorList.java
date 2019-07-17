@@ -1,6 +1,9 @@
 package nosi.core.gui.components;
 
 import java.util.List;
+
+import javax.servlet.http.Part;
+
 import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
@@ -191,12 +194,19 @@ public class IGRPSeparatorList extends IGRPTable {
 		
 		private String key;
 		private String value;
+		private Part file;
 		
 		public Pair() {}
 		
 		public Pair(String key, String value) {
 			this.key = key;
 			this.value = value;
+		}
+		
+		public Pair(String key, String value,Part file) {
+			this.key = key;
+			this.value = value;
+			this.file = file;
 		}
 		
 		public String getKey() {
@@ -212,6 +222,14 @@ public class IGRPSeparatorList extends IGRPTable {
 			this.value = value;
 		}
 		
+		public Part getFile() {
+			return file;
+		}
+
+		public void setFile(Part file) {
+			this.file = file;
+		}
+
 		@Override
 		public String toString() {
 			return this.key + SPLIT_SEQUENCE + this.value;
