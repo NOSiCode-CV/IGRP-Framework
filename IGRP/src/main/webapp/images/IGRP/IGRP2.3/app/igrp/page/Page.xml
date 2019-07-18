@@ -61,7 +61,7 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Sit iste aperiam elit sit</value>
+                    <value>Officia anim deserunt natus sit</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -74,7 +74,7 @@
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Perspiciatis laudantium sit amet omnis</value>
+                    <value>Elit adipiscing ut magna lorem</value>
                     <rules>
                         <rule type="remote">
                             <proc>generate-link</proc>
@@ -100,8 +100,12 @@
                 </publico>
                 <public_link name="p_public_link" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true">
                     <label>Public Link</label>
-                    <value>Mollit sit laudantium natus officia</value>
+                    <value>Rem accusantium iste sit elit</value>
                 </public_link>
+                <public_link_2 name="p_public_link_2" type="text" maxlength="250" required="false" change="false" readonly="true" disabled="false" placeholder="" desclabel="false" right="true">
+                    <label>Public Link</label>
+                    <value>Deserunt sed lorem laudantium natus</value>
+                </public_link_2>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
                 </nada>

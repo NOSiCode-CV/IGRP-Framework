@@ -83,7 +83,7 @@ public class Modulo extends IGRPBaseActiveRecord<Modulo> implements Serializable
 		this.descricao = descricao;
 	}
 
-	public List<Modulo> getModuloByApp(int appId){
+	public List<Modulo> getModuloByApp(Integer appId){
 		List<Modulo> l = new ArrayList<Modulo>();
 		l = this.find().andWhere("application.id", "=", appId).all();
 		

@@ -116,16 +116,17 @@ public class IGRPFormList extends IGRPSeparatorList {
 		if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
 			val = field.getValue().toString();
 		}
-		String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
-		this.xml.text((aux.length>0?aux[0]:""));
-		
-		this.xml.endElement();
-		if(!(field instanceof HiddenField)){
-			String sufix = "_desc";	
-			this.xml.startElement(field.getTagName() + sufix);			
-			this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);			
-			this.xml.text(aux.length > 1?aux[1]:"");
+		if(val!=null) {
+			String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
+			this.xml.text((aux.length>0?aux[0]:""));
 			this.xml.endElement();
+			if(!(field instanceof HiddenField)){
+				String sufix = "_desc";	
+				this.xml.startElement(field.getTagName() + sufix);			
+				this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);			
+				this.xml.text(aux.length > 1?aux[1]:"");
+				this.xml.endElement();
+			}
 		}
 	}
 

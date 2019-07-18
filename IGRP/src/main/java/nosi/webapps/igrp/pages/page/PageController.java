@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -401,9 +399,6 @@ public class PageController extends Controller {
 						}
 					}
 				}
-				if (r && !compiler.hasError()) {// Check if not error on the compilation class
-					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
@@ -774,17 +769,20 @@ public class PageController extends Controller {
 	public Response actionGenerateLink() throws IOException, IllegalArgumentException, IllegalAccessException {
 		int app_id = Core.getParamInt("p_env_fk");
 		String page = Core.getParam("p_page");	
-		String link ="";
+		String link1 ="",link2="";
      
 		Application app = Core.findApplicationById(app_id);
 		if(app!=null) {		
 			String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-			link = url+"?r="+app.getDad()+"/"+page+"/index&dad="+app.getDad()+"&target=_blank&isPublic=1&lang=pt_PT";
+			link1 = url+"?r="+app.getDad()+"/"+page+"/index&dad="+app.getDad()+"&target=_blank&isPublic=1&lang=pt_PT";
+			link2 = url+this.config.getResolveUrl(app.getDad(),page,"index")+"&dad="+app.getDad()+"&target=_blank&isPublic=2&lang=pt_PT";
 		}
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-			xml.setElement("public_link",link);
-			xml.setElement("public_link_desc", link);
+			xml.setElement("public_link",link1);
+			xml.setElement("public_link_desc", link1);
+			xml.setElement("public_link_2",link2);
+			xml.setElement("public_link_desc_2", link2);
 		xml.endElement();
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml.toString());

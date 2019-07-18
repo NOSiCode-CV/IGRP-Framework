@@ -10,51 +10,57 @@ import nosi.core.webapp.security.PagesScapePermission;
  */
 public class Route {
 
-	public static String toUrl(String app, String page, String action, String qs) {
-		qs += getQueryString(action);
-		if (!qs.contains("target")) {
+	public static String toUrl(String app, String page, String action_, String qs) {
+		String queryString = qs+ getQueryString(action_);
+		if (!queryString.contains("target")) {
 			String target = "";
 			if (Core.getParam("target") != null) {
 				target = Core.getParam("target");
 			}
-			qs += Core.isNotNull(target) ? "&target=" + target : "";
+			queryString += Core.isNotNull(target) ? "&target=" + target : "";
 		}
-		qs = UrlHelper.urlEncoding(qs);
-		action = resolveAction(action);
+		queryString = UrlHelper.urlEncoding(queryString);
+		String action = resolveAction(action_);
 		String url = "";
-		if(qs.contains("dad")) {
-			url = Route.getResolveUrl(app, page, action+qs,null,Core.getParamInt("isPublic"));
+		if(queryString.contains("dad")) {
+			url = Route.getResolveUrl(app, page, action+queryString,null,Core.getParamInt("isPublic").intValue());
 		}else {
-			url = Route.getResolveUrl(app, page, action+qs);
+			url = Route.getResolveUrl(app, page, action+queryString);
 		}
 		url = url.replaceAll("&&", "&");
 		return url;
 	}
 
 	public static String getResolveUrl(String app,String page,String action){
-		return Route.getResolveUrl(app, page, action, Core.getCurrentDad(),Core.getParamInt("isPublic"));
+		return Route.getResolveUrl(app, page, action, Core.getCurrentDad(),Core.getParamInt("isPublic").intValue());
 	}
 
-	public static String getResolveUrl(String app,String page,String action,String dad,int isPublic){
-		String qs = Route.getQueryString(action);//Get Query String
+	public static String getResolveUrl(String app,String page,String action_,String dad,int isPublic){
+		String qs = Route.getQueryString(action_);//Get Query String
 		if(Core.isNotNull(dad)) {
 			qs+="&dad="+dad;
 		}
 		qs = UrlHelper.urlEncoding(qs);
-		action = Route.resolveAction(action);
+		String action = Route.resolveAction(action_);
 		String url = "";
 		if(PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains((app + "/" + page + "/"+action).toLowerCase())) {
 			url = "webapps?r="+app+"/"+page+"/"+action+qs;
-		}else
+		}else {
 			//if a PAGES_SCAPE_ENCRYPT calls a redirect to a public page, must not encrypt it
 			if(qs.contains("isPublic=1")) {
 				url = "webapps?r="+app+"/"+page+"/"+action+qs+"&target=_blank";
-			}else
-		if(isPublic==1) {
-			url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
-		}
-		else {
-			url = "?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
+			}else if(qs.contains("isPublic=2")) {
+				url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs+"&target=_blank";
+			}else {			
+				if(isPublic==1) {
+					url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
+				}else if(isPublic==2) {
+					url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs+"&isPublic=2&target=_blank";
+				}
+				else {
+					url = "?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
+				}
+			}
 		}
 		return url;
 	}
