@@ -2,7 +2,6 @@ package nosi.core.webapp.helpers;
 
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
 
 /**
@@ -50,15 +49,15 @@ public class Route {
 			if(qs.contains("isPublic=1")) {
 				url = "webapps?r="+app+"/"+page+"/"+action+qs+"&target=_blank";
 			}else if(qs.contains("isPublic=2")) {
-				url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs+"&target=_blank";
+				url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+"&target=_blank";
 			}else {			
 				if(isPublic==1) {
-					url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank";
+					url = "webapps?r="+app+"/"+page+"/"+action+qs+"&isPublic=1&target=_blank&dad="+dad;
 				}else if(isPublic==2) {
-					url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs+"&isPublic=2&target=_blank";
+					url = "webapps?r="+Core.encryptPublicPage(app+"/"+page+"/"+action).replace(" ", "+")+qs+"&isPublic=2&target=_blank";
 				}
 				else {
-					url = "?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
+					url = "?r="+Core.encrypt(app+"/"+page+"/"+action)+qs;
 				}
 			}
 		}

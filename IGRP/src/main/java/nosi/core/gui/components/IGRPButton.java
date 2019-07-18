@@ -140,7 +140,7 @@ public class IGRPButton {
 		}else if(isPublic==1) {
 			result = app + "/" + page + "/" + (link+target_)+"&isPublic=1";
 		}else if(isPublic==2) {
-			result = EncrypDecrypt.encrypt(app + "/" + page + "/" + link) +target_+"&isPublic=2";
+			result = EncrypDecrypt.encryptPublicPage(app + "/" + page + "/" + link) +target_+"&isPublic=2";
 		}else {
 			result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
 		}

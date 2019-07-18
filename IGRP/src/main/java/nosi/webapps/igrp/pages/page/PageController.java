@@ -32,6 +32,7 @@ import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
@@ -775,7 +776,7 @@ public class PageController extends Controller {
 		if(app!=null) {		
 			String url = Igrp.getInstance().getRequest().getRequestURL().toString();
 			link1 = url+"?r="+app.getDad()+"/"+page+"/index&dad="+app.getDad()+"&target=_blank&isPublic=1&lang=pt_PT";
-			link2 = url+this.config.getResolveUrl(app.getDad(),page,"index")+"&dad="+app.getDad()+"&target=_blank&isPublic=2&lang=pt_PT";
+			link2 = url+Route.getResolveUrl(app.getDad(),page,"index",app.getDad(), 2).replace(" ", "+");
 		}
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
