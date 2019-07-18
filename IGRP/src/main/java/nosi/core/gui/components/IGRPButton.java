@@ -6,7 +6,6 @@ import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Report;
 import nosi.core.webapp.helpers.Route;
-import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.PagesScapePermission;
 import nosi.core.webapp.security.Permission;
 import nosi.core.xml.XMLWritter;
@@ -140,9 +139,9 @@ public class IGRPButton {
 		}else if(isPublic==1) {
 			result = app + "/" + page + "/" + (link+target_)+"&isPublic=1";
 		}else if(isPublic==2) {
-			result = EncrypDecrypt.encryptPublicPage(app + "/" + page + "/" + link) +target_+"&isPublic=2";
+			result = Core.encryptPublicPage(app + "/" + page + "/" + link) +target_+"&isPublic=2";
 		}else {
-			result = !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_; 
+			result = !isGenReverse() ? Core.encrypt(app + "/" + page + "/" + link)+target_ : Core.encrypt(link)+target_; 
 		}
 		return result;
 	}
