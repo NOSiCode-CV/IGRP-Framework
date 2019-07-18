@@ -140,19 +140,29 @@ public class FileHelper {
 		return null;
 	}
 	//Save file in a specific directory
-	public static boolean save(String path,String file_name,String data)  throws IOException{	
+	public static boolean save(String path,String file_name,String data,String encode_in,String encode_out)  throws IOException{	
 		boolean isSaved = true;
 		String fileName = path+(file_name!=null?(File.separator+file_name):"");
 		File file = new File(fileName);	
 		try {
 			FileHelper.createDiretory(path);
-			FileUtils.writeByteArrayToFile(file,data.getBytes());
+			if(Core.isNotNull(encode_in))
+				FileUtils.writeByteArrayToFile(file,data.getBytes(encode_in));
+			else
+				FileUtils.writeByteArrayToFile(file,data.getBytes());
+				
 		} catch (IOException e) {
 			isSaved = false;
+			e.printStackTrace();
 		}
 		return isSaved;				
 	}
 	
+	//Save file in a specific directory
+	public static boolean save(String path,String file_name,String data)  throws IOException{	
+		return FileHelper.save(path, file_name, data, null, null);			
+	}
+		
 	//Write data using default encode UTF-8
 	public static boolean save(String path,String filename,Part file) throws IOException{
 		return FileHelper.save(path,filename,convertToString(file));
@@ -166,10 +176,11 @@ public class FileHelper {
 	public static boolean saveFile(String path,String filename,Part file,String encode_in,String encode_out) throws IOException{
 		boolean isSaved = true;
 		String fileName = path+(filename!=null?(File.separator+filename):"");
-		try {
-			FileHelper.createDiretory(path);
+		try {			
+			FileHelper.createDiretory(path);		
 			FileUtils.writeByteArrayToFile(new File(fileName),FileHelper.convertInputStreamToByte(file.getInputStream()));
 		} catch (IOException e) {
+			e.printStackTrace();
 			isSaved = false;
 		}
 		return isSaved;
@@ -203,6 +214,7 @@ public class FileHelper {
 		Path dir = Paths.get(path);
 		try {
 			if(!Files.exists(dir)){
+				FileUtils.forceMkdir(new File(path));
 				Files.createDirectories(dir);
 				return true;
 			}
@@ -296,10 +308,18 @@ public class FileHelper {
 		return r;
 	}
 	
+	//Save files json, xml and xsl of the page
+	public static boolean saveFilesPageConfig(String path,String page,String[] content) throws IOException{
+		boolean r = FileHelper.save(path,page+".xml",content[0]) && // Save xml;
+			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
+			   FileHelper.save(path,page+".json",content[2]); // save json
+		return r;
+	}
+	
 	public static boolean saveFilesJava(String path,String page,String[] content) throws IOException{
- 		return FileHelper.save(path,page+".java",content[0]+"*/") && // Save Model;	 
- 			   FileHelper.save(path,page+"View.java","/*"+content[1]+"*/") && //Save View  
- 			   FileHelper.save(path,page+"Controller.java","/*"+content[2]); // save controller
+ 		return FileHelper.save(path,page+".java",content[0]) && // Save Model;	 
+ 			   FileHelper.save(path,page+"View.java",content[1]) && //Save View  
+ 			   FileHelper.save(path,page+"Controller.java",content[2]); // save controller
   	}
 	
 	public static void deletePartFile(Part file) throws IOException{
@@ -323,7 +343,14 @@ public class FileHelper {
 			deletePartFile(file, test);
 		}
 	}
-
+	
+	public static boolean saveFilesJava(String path, String page, String[] content, String encode_in,String encode_out) throws IOException {
+		boolean r = FileHelper.save(path,page+".java",content[0],encode_in,encode_out) && // Save Model;
+				   FileHelper.save(path,page+"View.java",content[1],encode_in,encode_out) && //Save View
+				   FileHelper.save(path,page+"Controller.java",content[2],encode_in,encode_out); // save controller
+			return r;
+	}
+	
 	public static boolean saveFilesJava(String path, String page, Part[] content, String encode_in,String encode_out) throws IOException {
 		boolean r = FileHelper.saveFile(path,page+".java",content[0],encode_in,encode_out) && // Save Model;
 				   FileHelper.saveFile(path,page+"View.java",content[1],encode_in,encode_out) && //Save View
