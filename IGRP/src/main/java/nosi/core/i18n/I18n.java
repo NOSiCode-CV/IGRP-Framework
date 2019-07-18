@@ -21,7 +21,6 @@ public final class I18n implements Serializable {
 	private Locale locale;
 
 	private String name;
-	private String path;
 
 	public I18n(String name, ResourceBundle bundle) {
 		this.name = name;
