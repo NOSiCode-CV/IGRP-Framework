@@ -9,10 +9,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.Application;
 
 public class EncrypDecrypt {
 
@@ -20,7 +17,6 @@ public class EncrypDecrypt {
 	private static final String CHARTSET = "UTF-8";
 	private static final String SECRET_KEY_SPEC = "AES";
 	private static final String SECRET_KEY_ALGO = "SHA-1";
-	private static final String SECRET_KEY = "igrp.encrypt";
 	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
 	
 	public static String encrypt(String content) {
@@ -44,8 +40,7 @@ public class EncrypDecrypt {
 		if (customHeader != null && customHeader.equals("1") && content.split("/").length==3 && !content.endsWith("="))
 			return content;
 		final String replace = content.replace(" ", "+");	
-		content = decrypt((replace.endsWith("=")?replace.substring(0, replace.length()-1):replace), getSecretKey());
-		return content;
+		return decrypt((replace.endsWith("=")?replace.substring(0, replace.length()-1):replace), getSecretKey());
 	}
 	
 //	private static Boolean isNotEncrypt(String[] content) {
@@ -71,7 +66,7 @@ public class EncrypDecrypt {
 	}
 	
 	private static String getSecretKey() {
-		return Igrp.getInstance().getRequest().getSession().getId();
+		return "&igrp.nosi.encrypt/";//Igrp.getInstance().getRequest().getSession().getId();
 	}
 
 	public static SecretKeySpec generateSecretKey(String key) {

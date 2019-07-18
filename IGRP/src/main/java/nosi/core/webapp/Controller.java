@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -404,7 +403,8 @@ public class Controller {
 		return resp;
 	}
 
-	private String addParamDad(String action) {
+	private String addParamDad(String action_) {
+		String action = action_;
 		if (!action.contains("dad")) {
 			action += "&dad=" + Core.getParam("dad");
 		}
@@ -427,61 +427,65 @@ public class Controller {
 
 	// send it as stream ... binary file
 	public final Response xSend(byte[] file, String name, String contentType, boolean download) {
+		String contentType_ = contentType;
+		String name_ = name;
 		if (file == null)
 			throw new ServerErrorHttpException();
 //		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();
-		if (contentType == null || contentType.isEmpty()) {
-			contentType = "application/octet-stream"; // default
+		if (contentType_ == null || contentType_.isEmpty()) {
+			contentType_ = "application/octet-stream"; // default
 		} else {
 			try {
-				String extension = "." + contentType.split("/")[1];
-				name = (name == null || name.isEmpty()) ? "igrp-file" + extension
-						: !name.contains(".") ? name + extension : name;
+				String extension = "." + contentType_.split("/")[1];
+				name_ = (name_ == null || name_.isEmpty()) ? "igrp-file" + extension
+						: !name_.contains(".") ? name_ + extension : name_;
 
 			} catch (Exception e) {
-				contentType = "application/octet-stream";
+				contentType_ = "application/octet-stream";
 				e.printStackTrace();
 			}
 		}
 		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
 		if (download)
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name_ + "\"");
 		else
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name_ + "\"");
 		response.setType(1);
 		response.setContentLength(file.length);
-		response.setContentType(contentType);
+		response.setContentType(contentType_);
 		response.setStream(file);
 
 		return response;
 	}
 
 	public final Response xSend(byte[] file, String name, String contentType, boolean download, String url) {
+		String contentType_ = contentType;
+		String name_ = name;
 		if (file == null)
 			throw new ServerErrorHttpException();
 //		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();
-		if (contentType == null || contentType.isEmpty()) {
-			contentType = "application/octet-stream"; // default
+		if (contentType_ == null || contentType_.isEmpty()) {
+			contentType_ = "application/octet-stream"; // default
 		} else {
 			try {
-				String extension = "." + contentType.split("/")[1];
-				if (!name.contains("."))
-					name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
+				String extension = "." + contentType_.split("/")[1];
+				if (!name_.contains("."))
+					name_ = (name_ == null || name_.isEmpty() ? "igrp-file" + extension : name_ + extension);
 			} catch (Exception e) {
-				contentType = "application/octet-stream";
+				contentType_ = "application/octet-stream";
 				e.printStackTrace();
 			}
 		}
 		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
 		if (download)
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name_ + "\"");
 		else
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name_ + "\"");
 		response.setType(1);
 		response.setContentLength(file.length);
-		response.setContentType(contentType);
+		response.setContentType(contentType_);
 		response.setStream(file);
 		response.setUrl(url);
 		return response;
@@ -527,7 +531,6 @@ public class Controller {
 				: "igrp/login/login";
 
 		r = SecurtyCallPage.resolvePage(r); 
-		
 		if (r != null) {
 			String auxPattern = this.config.PATTERN_CONTROLLER_NAME;
 			if (r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)) {

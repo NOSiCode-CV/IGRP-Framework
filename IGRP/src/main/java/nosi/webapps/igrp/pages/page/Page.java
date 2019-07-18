@@ -26,6 +26,8 @@ public class Page extends Model{
 	private short publico_check;
 	@RParam(rParamName = "p_public_link")
 	private String public_link;
+	@RParam(rParamName = "p_public_link_2")
+	private String public_link_2;
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_env_fk")
@@ -148,6 +150,13 @@ public class Page extends Model{
 	}
 	public String getPublic_link(){
 		return this.public_link;
+	}
+	
+	public void setPublic_link_2(String public_link_2){
+		this.public_link_2 = public_link_2;
+	}
+	public String getPublic_link_2(){
+		return this.public_link_2;
 	}
 	
 	public void setNada(String nada){

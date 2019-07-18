@@ -137,22 +137,22 @@ public class IGRPSeparatorList extends IGRPTable {
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
 			
-					
-					String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char 
-					this.xml.text(aux.length > 0 ? aux[0] : "");
-					this.xml.endElement();
-					String sufix = "_desc";
-					if(field instanceof CheckBoxListField || field instanceof CheckBoxField || field instanceof RadioListField || field instanceof RadioField) {
-						sufix = "_check";
+					if(val!= null) {
+						String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char 
+						this.xml.text(aux.length > 0 ? aux[0] : "");
+						this.xml.endElement();
+						String sufix = "_desc";
+						if(field instanceof CheckBoxListField || field instanceof CheckBoxField || field instanceof RadioListField || field instanceof RadioField) {
+							sufix = "_check";
+						}
+						this.xml.startElement(field.getTagName() + sufix);
+						this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
+						this.xml.text(aux.length > 1 ? aux[1] : "");
+						this.xml.endElement();
+						
+						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 0 ? aux[0] : "") + "\"></hidden>");
+						this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 1 ? aux[1] : "") + "\"></hidden>");
 					}
-					this.xml.startElement(field.getTagName() + sufix);
-					this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
-					this.xml.text(aux.length > 1 ? aux[1] : "");
-					this.xml.endElement();
-					
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 0 ? aux[0] : "") + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 1 ? aux[1] : "") + "\"></hidden>");
-					
 					//this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + "p_" + this.tag_name + "_id"+ "\" type=\"hidden\" value=\"" + StringEscapeUtils.escapeXml10(aux.length > 0 ? aux[0] : (rowId++) + "")  + "\"></hidden>");
 					 
 				}

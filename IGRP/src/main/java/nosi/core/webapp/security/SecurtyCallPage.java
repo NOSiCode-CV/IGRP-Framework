@@ -15,12 +15,13 @@ import nosi.webapps.igrp.pages.settings.SettingsController;
 public class SecurtyCallPage {
 
 	public static String resolvePage(String route) {
-		
-		final boolean public1 = isPublic(route);
-		if(!PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(route.toLowerCase()) && !public1) {
-			route= EncrypDecrypt.decrypt(route);	
+		String r = route;
+		final boolean checkIsPublic = isPublic(r);
+		int isPublic = Core.getParamInt("isPublic").intValue();
+		if((!PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(r.toLowerCase()) && !checkIsPublic) || (checkIsPublic && isPublic==2)) {
+			r = EncrypDecrypt.decrypt(r);	
 		}
-		return route;
+		return r;
 	}
 
 	
@@ -46,15 +47,21 @@ public class SecurtyCallPage {
 	 */
 	public static boolean isPublic(String route) {
 		final boolean withoutLogin = PagesScapePermission.PAGES_WIDTHOUT_LOGIN.contains(route.toLowerCase());
-		String isPublic = Core.getParam("isPublic");
-		if(Core.isNotNull(isPublic) && isPublic.equals("1")) {
-			String[] c = route.split("/");
-			if(Core.isNotNull(c) && Core.isNotNullMultiple(c[0],c[1])) {
-				final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
-				if (!isPublicPage)
-					throw new NotFoundHttpException();
-				changeLanguage();//Change language in case page is public
-				return isPublicPage;
+		int isPublic = Core.getParamInt("isPublic").intValue();
+		if(isPublic ==1 || isPublic==2) {
+			String r = route;
+			if(isPublic==2) {
+				r = Core.decrypt(route);
+			}
+			if(Core.isNotNull(r)) {
+				String[] c = r.split("/");
+				if(Core.isNotNull(c) && Core.isNotNullMultiple(c[0],c[1])) {
+					final boolean isPublicPage = new Action().isPublicPage(c[0], c[1]);
+					if (!isPublicPage)
+						throw new NotFoundHttpException();
+					changeLanguage();//Change language in case page is public
+					return isPublicPage;
+				}
 			}
 		}
 		return withoutLogin;

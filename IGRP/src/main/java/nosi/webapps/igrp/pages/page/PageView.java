@@ -19,6 +19,7 @@ public class PageView extends View {
 	public Field publico;
 	public Field publico_check;
 	public Field public_link;
+	public Field public_link_2;
 	public Field nada;
 	public Field env_fk;
 	public Field componente;
@@ -88,6 +89,10 @@ public class PageView extends View {
 		public_link = new TextField(model,"public_link");
 		public_link.setLabel(gt("Public Link"));
 		public_link.propertie().add("name","p_public_link").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("desclabel","false");
+		
+		public_link_2 = new TextField(model,"public_link_2");
+		public_link_2.setLabel(gt("Public Link"));
+		public_link_2.propertie().add("name","p_public_link_2").add("type","text").add("maxlength","250").add("required","false").add("readonly","true").add("disabled","false").add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
@@ -208,6 +213,7 @@ public class PageView extends View {
 		form_1.addField(gen_auto_code);
 		form_1.addField(publico);
 		form_1.addField(public_link);
+		form_1.addField(public_link_2);
 		form_1.addField(nada);
 		form_1.addField(env_fk);
 		form_1.addField(componente);
@@ -248,6 +254,7 @@ public class PageView extends View {
 		gen_auto_code.setValue(model);
 		publico.setValue(model);
 		public_link.setValue(model);
+		public_link_2.setValue(model);
 		nada.setValue(model);
 		env_fk.setValue(model);
 		componente.setValue(model);
