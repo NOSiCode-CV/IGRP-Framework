@@ -53,11 +53,9 @@ public class SecurtyCallPage {
 		int isPublic = Core.getParamInt("isPublic").intValue();
 		if(isPublic ==1 || isPublic==2) {
 			String r = route;
-			System.out.println(r);
 			if(isPublic==2) {
 				r = Core.decryptPublicPage(route);
 			}
-			System.out.println("r="+r);
 			if(Core.isNotNull(r)) {
 				String[] c = r.split("/");
 				if(Core.isNotNull(c) && Core.isNotNullMultiple(c[0],c[1])) {
