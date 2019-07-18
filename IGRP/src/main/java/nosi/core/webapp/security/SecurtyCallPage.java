@@ -18,8 +18,11 @@ public class SecurtyCallPage {
 		String r = route;
 		final boolean checkIsPublic = isPublic(r);
 		int isPublic = Core.getParamInt("isPublic").intValue();
-		if((!PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(r.toLowerCase()) && !checkIsPublic) || (checkIsPublic && isPublic==2)) {
-			r = EncrypDecrypt.decrypt(r);	
+		if(!PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(r.toLowerCase()) && !checkIsPublic) {
+			r = Core.decrypt(r);	
+		}
+		if(checkIsPublic && isPublic==2) {
+			r = Core.decryptPublicPage(r);
 		}
 		return r;
 	}
@@ -50,9 +53,11 @@ public class SecurtyCallPage {
 		int isPublic = Core.getParamInt("isPublic").intValue();
 		if(isPublic ==1 || isPublic==2) {
 			String r = route;
+			System.out.println(r);
 			if(isPublic==2) {
-				r = Core.decrypt(route);
+				r = Core.decryptPublicPage(route);
 			}
+			System.out.println("r="+r);
 			if(Core.isNotNull(r)) {
 				String[] c = r.split("/");
 				if(Core.isNotNull(c) && Core.isNotNullMultiple(c[0],c[1])) {

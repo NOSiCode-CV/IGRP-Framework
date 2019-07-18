@@ -18,11 +18,25 @@ public class EncrypDecrypt {
 	private static final String SECRET_KEY_SPEC = "AES";
 	private static final String SECRET_KEY_ALGO = "SHA-1";
 	public static final String SECRET_KEY_ENCRYPT_DB = "igrp.conf.db";
+	private static final String SECRET_KEY_PUBLIC_PAGE = "&igrp.public.page.encrypt/";
 	
 	public static String encrypt(String content) {
 		return encrypt(content, getSecretKey()).replace(" ", "+")+"=";
 	}
 
+	public static String encryptPublicPage(String content) {
+		return encrypt(content, SECRET_KEY_PUBLIC_PAGE).replace(" ", "+")+"=";
+	}
+	
+	public static String decryptPublicPage(String content) {
+		String customHeader = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE")
+				: null;
+		if (customHeader != null && customHeader.equals("1") && content.split("/").length==3 && !content.endsWith("="))
+			return content;
+		final String replace = content.replace(" ", "+");	
+		return decrypt((replace.endsWith("=")?replace.substring(0, replace.length()-1):replace), SECRET_KEY_PUBLIC_PAGE);
+	}
+	
 	public static String encrypt(String content, String secretKey) {
 		try {
 			Cipher cipher = Cipher.getInstance(ALGO);
@@ -66,7 +80,7 @@ public class EncrypDecrypt {
 	}
 	
 	private static String getSecretKey() {
-		return "&igrp.nosi.encrypt/";//Igrp.getInstance().getRequest().getSession().getId();
+		return Igrp.getInstance().getRequest().getSession().getId();
 	}
 
 	public static SecretKeySpec generateSecretKey(String key) {
