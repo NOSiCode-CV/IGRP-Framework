@@ -1,8 +1,6 @@
 package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
@@ -23,7 +21,6 @@ import java.util.Properties;
 import java.util.Set;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
-import javax.servlet.http.Part;
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +31,7 @@ import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.webapps.igrp.dao.Action;
@@ -357,13 +355,8 @@ public class PageController extends Controller {
 		Compiler compiler = null;
 		Boolean workspace=false;
 		if (ac != null) {
-			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
-			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
-			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
-			Part fileModel = Igrp.getInstance().getRequest().getPart("p_model");
-			Part fileView = Igrp.getInstance().getRequest().getPart("p_view");
-			// System.out.println(fileView.getInputStream().toString());
-			Part fileController = Igrp.getInstance().getRequest().getPart("p_controller");
+			PageFile pageFile = new PageFile();	
+			
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
@@ -380,54 +373,44 @@ public class PageController extends Controller {
 				path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
 			}
 			path_class = this.getConfig().getBasePathClass() + path_class;
-			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
-					&& fileController != null && path_xsl != null && !path_xsl.equals("") && path_class != null
+			if (pageFile.isAllFileExists() && path_xsl != null && !path_xsl.equals("") && path_class != null
 					&& !path_class.equals("")) {
-				this.processJson(fileJson, ac);
+				this.processJson(pageFile.getFileJson(), ac);
 				
 				if(workspace)
-					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[] { fileXml, fileXsl, fileJson });
-				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
+					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
+				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 
 				if (ac.getIsComponent() == 0) {
-					r = FileHelper.saveFilesJava(path_class, ac.getPage(),new Part[] { fileModel, fileView, fileController });
+					r = FileHelper.saveFilesJava(path_class, ac.getPage(),new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() });
 					compiler = this.processCompile(path_class, ac.getPage());
 					if (r && !compiler.hasError()) {// Check if not error on the compilation class
 						if (workspace) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
-							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() }, FileHelper.ENCODE_UTF8,FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 						}
 					}
 				}
-				if (r && !compiler.hasError()) {// Check if not error on the compilation class
-					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-				}
 			}
-			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
 		String messages = "";
 		if(compiler!=null && compiler.hasError())
 			messages += ("<message type=\""+FlashMessage.ERROR+"\">" + StringEscapeUtils.escapeXml11(compiler.getErrorToJson()) + "</message>");
 		if(compiler!=null && compiler.hasWarning())
 			messages += ("<message type=\""+FlashMessage.WARNING+"\">" + StringEscapeUtils.escapeXml11(compiler.getWarningToJson()) + "</message>");
-		if(compiler!=null && !compiler.hasError()) {
+		if(compiler!=null && !compiler.hasError() && ac!=null) {
 			messages += ("<message type=\""+FlashMessage.SUCCESS+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? Core.gt("CompSuc"): Core.gt("Componente registado com sucesso"), null)))+ "</message>");
 		}
 		return this.renderView("<messages>"+messages+"</messages>");
 	}
 
-	private void deleteFilesInMemory(Part[] content) throws IOException {
-		FileHelper.deletePartFile(content[0]);
-		FileHelper.deletePartFile(content[1]);
-		FileHelper.deletePartFile(content[2]);
-	}
 
 	private Compiler processCompile(String path_class, String page) {
-		path_class = path_class + File.separator;
+		String path_class_ = path_class + File.separator;
 		Compiler compiler = new Compiler();
-		String fileName = path_class + page;
+		String fileName = path_class_ + page;
 		compiler.addFileName(fileName + ".java");
 		compiler.addFileName(fileName + "View.java");
 		compiler.addFileName(fileName + "Controller.java");
@@ -436,43 +419,41 @@ public class PageController extends Controller {
 	}
 
 	// Read json and extract transactions
-	private void processJson(Part fileJson, Action ac) throws IOException {
-		if (fileJson != null) {
-			JSONObject objJson;
-			try {
-				objJson = new JSONObject(FileHelper.convertToString(fileJson));
-				JSONArray rows = objJson.getJSONArray("rows");
-				for (int i = 0; i < rows.length(); i++) {
-					JSONArray collumns;
-					try {
-						collumns = rows.getJSONObject(i).getJSONArray("columns");
-						for (int j = 0; j < collumns.length(); j++) {
-							JSONArray containers;
-							try {
-								containers = collumns.getJSONObject(j).getJSONArray("containers");
-								for (int h = 0; h < containers.length(); h++) {
-									JSONArray fields;
-									try {
-										fields = containers.getJSONObject(h).getJSONArray("fields");
-										this.processTransactions(fields, ac);
-									} catch (JSONException e) {
-									}
-									JSONArray contextMenu;
-									try {
-										contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
-										this.processTransactions(contextMenu, ac);
-									} catch (JSONException e) {
-									}
+	private void processJson(String fileJson, Action ac) throws IOException {
+		JSONObject objJson;
+		try {
+			objJson = new JSONObject(fileJson);
+			JSONArray rows = objJson.getJSONArray("rows");
+			for (int i = 0; i < rows.length(); i++) {
+				JSONArray collumns;
+				try {
+					collumns = rows.getJSONObject(i).getJSONArray("columns");
+					for (int j = 0; j < collumns.length(); j++) {
+						JSONArray containers;
+						try {
+							containers = collumns.getJSONObject(j).getJSONArray("containers");
+							for (int h = 0; h < containers.length(); h++) {
+								JSONArray fields;
+								try {
+									fields = containers.getJSONObject(h).getJSONArray("fields");
+									this.processTransactions(fields, ac);
+								} catch (JSONException e) {
 								}
-							} catch (JSONException e) {
+								JSONArray contextMenu;
+								try {
+									contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
+									this.processTransactions(contextMenu, ac);
+								} catch (JSONException e) {
+								}
 							}
+						} catch (JSONException e) {
 						}
-					} catch (JSONException e) {
 					}
+				} catch (JSONException e) {
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -774,17 +755,20 @@ public class PageController extends Controller {
 	public Response actionGenerateLink() throws IOException, IllegalArgumentException, IllegalAccessException {
 		int app_id = Core.getParamInt("p_env_fk");
 		String page = Core.getParam("p_page");	
-		String link ="";
+		String link1 ="",link2="";
      
 		Application app = Core.findApplicationById(app_id);
 		if(app!=null) {		
 			String url = Igrp.getInstance().getRequest().getRequestURL().toString();
-			link = url+"?r="+app.getDad()+"/"+page+"/index&dad="+app.getDad()+"&target=_blank&isPublic=1&lang=pt_PT";
+			link1 = url+"?r="+app.getDad()+"/"+page+"/index&dad="+app.getDad()+"&target=_blank&isPublic=1&lang=pt_PT";
+			link2 = url+Route.getResolveUrl(app.getDad(),page,"index",app.getDad(), 2).replace(" ", "+");
 		}
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
-			xml.setElement("public_link",link);
-			xml.setElement("public_link_desc", link);
+			xml.setElement("public_link",link1);
+			xml.setElement("public_link_desc", link1);
+			xml.setElement("public_link_2",link2);
+			xml.setElement("public_link_desc_2", link2);
 		xml.endElement();
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml.toString());

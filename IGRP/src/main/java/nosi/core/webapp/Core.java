@@ -203,7 +203,34 @@ public final class Core { // Not inherit
 	public static String decrypt(String content, String secretKey) {
 		return EncrypDecrypt.decrypt(content, secretKey);
 	}
+	
+	public static String decryptPublicPage(String content) {
+		return EncrypDecrypt.decryptPublicPage(content);
+	}
 
+	/**
+	 * Encrypt a string
+	 * 
+	 * @param content
+	 */
+	public static String encrypt(String content) {
+		return EncrypDecrypt.encrypt(content);
+	}
+
+	public static String encryptPublicPage(String content) {
+		return EncrypDecrypt.encryptPublicPage(content);
+	}
+	
+	/**
+	 * Encrypt a string with a secret key
+	 * 
+	 * @param content   string content
+	 * @param secretKey string secret key
+	 */
+	public static String encrypt(String content, String secretKey) {
+		return EncrypDecrypt.encrypt(content, secretKey);
+	}
+	
 	/**
 	 * @return Return the default connection name of the current application
 	 */
@@ -301,24 +328,7 @@ public final class Core { // Not inherit
 		return new QueryDelete(connectionName, displayError, tracingError).delete(schemaName, tableName);
 	}
 
-	/**
-	 * Encrypt a string
-	 * 
-	 * @param content
-	 */
-	public static String encrypt(String content) {
-		return EncrypDecrypt.encrypt(content);
-	}
-
-	/**
-	 * Encrypt a string with a secret key
-	 * 
-	 * @param content   string content
-	 * @param secretKey string secret key
-	 */
-	public static String encrypt(String content, String secretKey) {
-		return EncrypDecrypt.encrypt(content, secretKey);
-	}
+	
 
 	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(Config_env env, String sql) {
 		QuerySelect q = new QuerySelect();

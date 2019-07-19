@@ -117,14 +117,15 @@ public class IGRPTable extends IGRPComponent{
 	}
 
 	private String decodeJson(String jsonLookup) {
+		String jsonLookup_ = jsonLookup;
 		try {
-			jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
-			if(jsonLookup.contains("%"))
-				return this.decodeJson(jsonLookup);
+			jsonLookup_ = URLDecoder.decode(jsonLookup_, "UTF-8");
+			if(jsonLookup_.contains("%"))
+				return this.decodeJson(jsonLookup_);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return jsonLookup;
+		return jsonLookup_;
 	}
 
 	private void addLookupField(String param,String value) {
