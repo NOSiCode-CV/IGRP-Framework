@@ -27,9 +27,8 @@ public class ResourceServiceRest extends GenericActivitiRest{
 				id_resource);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -38,6 +37,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return r;
 	}
@@ -46,40 +46,39 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		RestRequest request = this.getRestRequest();
 		request.setAccept_format(MediaType.APPLICATION_XML);
 		Response response = request.get("repository/deployments/" + id_deployment + "/resourcedata/", id_resource);
+		String contentResp = "";
 		if (response != null) {
 			if (response.getStatus() == 200) {
-				String contentResp = "";
-				InputStream is = (InputStream) response.getEntity();
 				try {
-					contentResp = FileHelper.convertToString(is);
+					contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				return contentResp;
 			}
+			response.close();
 		}
-		return "";
+		return contentResp;
 	}
 
 	public String getResourceData(String link) {
 		RestRequest request = this.getRestRequest();
 		String url = Credentials.getInstance().getUrl();
-		link = url.contains("https") ? link.replace("http", "https") : link;
+		String link_ = url.contains("https") ? link.replace("http", "https") : link;
 		request.setBase_url("");
-		Response response = request.get(link);
+		String contentResp = "";
+		System.out.println("link_="+link_);
+		Response response = request.get(link_);
 		if (response != null) {
 			if (response.getStatus() == 200) {
-				String contentResp = "";
-				InputStream is = (InputStream) response.getEntity();
 				try {
-					contentResp = FileHelper.convertToString(is);
+					contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				return contentResp;
 			}
+			response.close();
 		}
-		return "";
+		return contentResp;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,9 +87,8 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		Response response = this.getRestRequest().get("repository/deployments/" + id_deployment + "/resources");
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -102,6 +100,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -113,9 +112,8 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		ResourcesService resource = new ResourcesService();
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -124,6 +122,7 @@ public class ResourceServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return resource;
 	}
@@ -137,13 +136,13 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		Response response = req.get(url);
 		if (response != null) {
 			if (response.getStatus() == 200) {
-				InputStream finput = (InputStream) response.getEntity();
 				try {
-					return FileHelper.convertInputStreamToBase64(finput);
+					d = FileHelper.convertInputStreamToBase64((InputStream) response.getEntity());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
+			response.close();
 		}
 		return d;
 	}

@@ -243,7 +243,7 @@ public class IGRPTable extends IGRPComponent{
 					}
 				}
 			}
-			int isPublic = Core.getParamInt("isPublic");
+			int isPublic = Core.getParamInt("isPublic").intValue();
 			if(isPublic==1) {
 				this.xml.setElement("param", "isPublic="+isPublic);
 			}
@@ -290,7 +290,7 @@ public class IGRPTable extends IGRPComponent{
 						}
 					}
 				}
-				int isPublic = Core.getParamInt("isPublic");
+				int isPublic = Core.getParamInt("isPublic").intValue();
 				if(isPublic==1) {
 					this.xml.setElement("param", "isPublic="+isPublic);
 				}

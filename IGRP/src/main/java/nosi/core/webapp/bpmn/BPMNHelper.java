@@ -135,10 +135,10 @@ public class BPMNHelper {
 		return taskId;
 	}
 
-	public static List<TipoDocumentoEtapa> getOutputDocumentType(String currentTaskApp, String currentProcessDefinition,
-			String currentTaskDefinition, String preiviewProcessDefinition, String previewTaskDefinition) {
-		currentProcessDefinition = resolveProcessDenifition(currentProcessDefinition);
-		preiviewProcessDefinition = resolveProcessDenifition(preiviewProcessDefinition);		
+	public static List<TipoDocumentoEtapa> getOutputDocumentType(String currentTaskApp, String currentProcessDefinition_,
+			String currentTaskDefinition, String preiviewProcessDefinition_, String previewTaskDefinition) {
+		String currentProcessDefinition = resolveProcessDenifition(currentProcessDefinition_);
+		String preiviewProcessDefinition = resolveProcessDenifition(preiviewProcessDefinition_);		
 		List<TipoDocumentoEtapa> docsReport = getDocumentOutputReport(currentTaskApp,preiviewProcessDefinition,previewTaskDefinition);
 		List<TipoDocumentoEtapa> docsOthers = getDocumentOutputOthers(currentTaskApp,currentProcessDefinition,currentTaskDefinition);
 		List<TipoDocumentoEtapa> tipoDocs = new ArrayList<>();
@@ -207,8 +207,9 @@ public class BPMNHelper {
 		return tipoDocs;
 	}
 
-	private static String resolveProcessDenifition(String processDefinition) {
-		if(processDefinition.contains(":")) {
+	private static String resolveProcessDenifition(String processDefinition_) {
+		String processDefinition = processDefinition_;
+		if(processDefinition!=null && processDefinition.contains(":")) {
 			processDefinition = processDefinition.substring(0,processDefinition.indexOf(":"));
 		}
 		return processDefinition;

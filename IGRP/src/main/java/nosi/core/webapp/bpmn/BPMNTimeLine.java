@@ -95,7 +95,7 @@ public class BPMNTimeLine {
 			TaskTimeLine t = new TaskTimeLine();
 			t.setTaskId(task.getId());
 			t.setName(task.getName());
-			if(task.getTaskDefinitionKey().equalsIgnoreCase(taskS.getTaskDefinitionKey())) {
+			if(taskS!=null && task.getTaskDefinitionKey().equalsIgnoreCase(taskS.getTaskDefinitionKey())) {
 				url = "#";
 				t.setType("curent");
 			}else {

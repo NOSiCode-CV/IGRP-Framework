@@ -27,9 +27,8 @@ public class GroupServiceRest extends GenericActivitiRest{
 		Response response = this.getRestRequest().get("identity/groups", id);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -38,6 +37,7 @@ public class GroupServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return g;
 	}
@@ -48,9 +48,8 @@ public class GroupServiceRest extends GenericActivitiRest{
 		Response response = this.getRestRequest().get("identity/groups");
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -61,6 +60,7 @@ public class GroupServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -70,9 +70,8 @@ public class GroupServiceRest extends GenericActivitiRest{
 		Response response = this.getRestRequest().post("identity/groups", ResponseConverter.convertDaoToJson(group));
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -81,6 +80,7 @@ public class GroupServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return g;
 	}
@@ -91,9 +91,8 @@ public class GroupServiceRest extends GenericActivitiRest{
 				group.getId());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -102,6 +101,7 @@ public class GroupServiceRest extends GenericActivitiRest{
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return g;
 	}
@@ -114,11 +114,19 @@ public class GroupServiceRest extends GenericActivitiRest{
 			e.printStackTrace();
 		}
 		Response response = this.getRestRequest().post("identity/groups/" + idGroup + "/members", jobj.toString());
-		return response != null ? response.getStatus() : -1;
+		int r= response != null ? response.getStatus() : -1;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	public boolean delete(String id) {
 		Response response = this.getRestRequest().delete("identity/groups", id);
-		return response != null && response.getStatus() == 204;
+		boolean r = response != null && response.getStatus() == 204;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 }

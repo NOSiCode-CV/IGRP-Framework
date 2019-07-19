@@ -138,8 +138,8 @@ public class GenericActivitiIGRP {
 				f.setContent((InputStream) response.getEntity());
 				f.setSize(response.getLength());
 				f.setContentType(response.getMediaType().toString());
-				return f;
 			}
+			response.close();
 		}
 		return f;
 	}
