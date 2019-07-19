@@ -69,6 +69,7 @@ public class BPMNExport implements IExport{
 				BPMNPages p = new BPMNPages();
 				Core.mapper(ac,p);		
 				p.setDad(ac.getApplication().getDad());
+				p.setProcessKey(processKey);
 				pages.add(p);
 			});
 			bpmn.setPages(pages);

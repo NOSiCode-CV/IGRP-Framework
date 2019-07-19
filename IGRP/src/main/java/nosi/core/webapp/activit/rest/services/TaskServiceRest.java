@@ -47,9 +47,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().get("runtime/tasks", id);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -62,6 +61,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return t;
 	}
@@ -72,9 +72,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 				task.getId());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -83,6 +82,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return t;
 	}
@@ -96,10 +96,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 		if (response != null) {
 			if (response.getStatus() == 200) {
 				f.setContent((InputStream) response.getEntity());
-				f.setSize(response.getLength());
+				f.setSize(new Integer(response.getLength()));
 				f.setContentType(response.getMediaType().toString());
-				return f;
 			}
+			response.close();
 		}
 		return f;
 	}
@@ -111,9 +111,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 				.get("runtime/tasks?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -135,6 +134,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -172,9 +172,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 				.get("history/historic-task-instances?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -185,6 +184,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -196,9 +196,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 				this.filterBody.toString());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -219,6 +218,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -235,21 +235,31 @@ public class TaskServiceRest extends GenericActivitiRest {
 	}
 
 	public boolean submitTaskFile(Part file, String taskId, String file_desc) throws IOException {
+		boolean r = false;
+		Response response = null;
 		try {
-			Response response = this.getRestRequest().post(
+			response = this.getRestRequest().post(
 					"runtime/tasks/" + taskId + "/variables?name=" + file_desc + "&type=binary&scope=local", file);
 			file.delete();
-			return response.getStatus() == 201;
+			r = response!=null && response.getStatus() == 201;
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			if(response!=null) {
+				response.close();
+			}
 		}
 		file.delete();
-		return false;
+		return r;
 	}
 
 	public boolean delete(String taskId) {
 		Response response = this.getRestRequest().delete("runtime/tasks", taskId);
-		return response.getStatus() == 204;
+		boolean r = response!=null && response.getStatus() == 204;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	// Assumir tarefa
@@ -286,21 +296,22 @@ public class TaskServiceRest extends GenericActivitiRest {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		boolean r = false;
 		Response response = this.getRestRequest().post("runtime/tasks", jobj.toString(), taskId);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			this.setError(response.getStatus() != 200
 					? (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
 					: null);
-			return response.getStatus() == 200;
+			r = response.getStatus() == 200;
+			response.close();
 		}
-		return false;
+		return r;
 	}
 
 	private boolean taskAction(String taskId, String action, String assignee) {
@@ -312,21 +323,22 @@ public class TaskServiceRest extends GenericActivitiRest {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		boolean r =false;
 		Response response = this.getRestRequest().post("runtime/tasks", jobj.toString(), taskId);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			this.setError(response.getStatus() != 200
 					? (ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class)
 					: null);
-			return response.getStatus() == 200;
+			r = response.getStatus() == 200;
+			response.close();
 		}
-		return false;
+		return r;
 	}
 
 	// Adiciona variaveis para completar tarefa
@@ -348,7 +360,11 @@ public class TaskServiceRest extends GenericActivitiRest {
 	public boolean submitVariables(String taskId) {
 		Response response = this.getRestRequest().post("runtime/tasks/" + taskId + "/variables",
 				ResponseConverter.convertDaoToJson(this.variables));
-		return response.getStatus() == 201;
+		boolean r = response!=null && response.getStatus() == 201;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 
@@ -358,14 +374,14 @@ public class TaskServiceRest extends GenericActivitiRest {
 		req.setAccept_format(MediaType.APPLICATION_XML);
 		Response response = req.get("repository/process-definitions/" + processDefinitionId + "/resourcedata");
 		if (response != null) {
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				String xml = FileHelper.convertToString(is);
+				String xml = FileHelper.convertToString((InputStream) response.getEntity());
 				list = this.extractTasks(xml, false);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			response.close();
 		}
 		return list;
 	}
@@ -379,14 +395,14 @@ public class TaskServiceRest extends GenericActivitiRest {
 			req.setAccept_format(MediaType.APPLICATION_XML);
 			Response response = req.get("repository/process-definitions/" + processD.getId() + "/resourcedata");
 			if (response != null) {
-				InputStream is = (InputStream) response.getEntity();
 				try {
-					String xml = FileHelper.convertToString(is);
+					String xml = FileHelper.convertToString((InputStream) response.getEntity());
 					list = this.extractTasks(xml, false);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				response.close();
 			}
 		}
 		return list;
@@ -394,10 +410,10 @@ public class TaskServiceRest extends GenericActivitiRest {
 
 	public List<TaskService> extractTasks(String xml, boolean includeStartProcess) {
 		List<TaskService> list = new ArrayList<>();
-		xml = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey",
+		String xml_ = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "").replaceAll("activiti:formKey",
 				"formKey");
-		if (Core.isNotNull(xml)) {
-			StringReader r = new StringReader(xml);
+		if (Core.isNotNull(xml_)) {
+			StringReader r = new StringReader(xml_);
 			TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
 			if (listTasks != null && listTasks.getProcess() != null) {
 				if (includeStartProcess && listTasks.getProcess().get(0) != null
@@ -445,9 +461,8 @@ public class TaskServiceRest extends GenericActivitiRest {
 				+ "&selectOnlyFormProperties=true&taskId=" + taskId);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -458,6 +473,7 @@ public class TaskServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}

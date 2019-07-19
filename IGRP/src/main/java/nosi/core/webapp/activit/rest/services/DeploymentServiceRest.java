@@ -22,9 +22,8 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().get("repository/deployments/", id);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream)response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -33,6 +32,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -43,9 +43,8 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().get("repository/deployments?name=" + name);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -58,6 +57,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -68,9 +68,8 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().get("repository/deployments?&size=100000000&tenantId=" + idApp);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -81,6 +80,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -90,9 +90,8 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("repository/deployments?tenantId=" + idApp, file, ".bpmn20.xml");
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -101,6 +100,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		file.delete();
 		return d;
@@ -112,9 +112,8 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("repository/deployments?tenantId=" + idApp, file, fileName, contentType);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -123,6 +122,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -132,9 +132,8 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("repository/deployments?tenantId=" + idApp, file, ".bpmn20.xml");
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -143,6 +142,7 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		file.delete();
 		return d;
@@ -150,6 +150,10 @@ public class DeploymentServiceRest extends GenericActivitiRest {
 
 	public boolean delete(String id) {
 		Response response = this.getRestRequest().delete("repository/deployments", id);
-		return response != null && response.getStatus() == 204;
+		boolean r = response != null && response.getStatus() == 204;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 }

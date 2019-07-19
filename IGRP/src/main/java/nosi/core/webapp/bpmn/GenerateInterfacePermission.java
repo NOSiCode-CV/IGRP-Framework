@@ -8,7 +8,8 @@ import nosi.core.webapp.helpers.StringHelper;
  */
 public class GenerateInterfacePermission {
 
-	public static String getGenerateClassName(String proccessKey) {
+	public static String getGenerateClassName(String proccessKey_) {
+		String proccessKey = proccessKey_;
 		if(Core.isNotNull(proccessKey)) {
 			proccessKey = proccessKey.replaceAll("_", " ");
 			proccessKey = StringHelper.camelCase(proccessKey);

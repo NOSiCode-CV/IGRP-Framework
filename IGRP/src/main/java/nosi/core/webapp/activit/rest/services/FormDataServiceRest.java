@@ -50,9 +50,8 @@ public class FormDataServiceRest extends GenericActivitiRest {
 		}
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -61,6 +60,7 @@ public class FormDataServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -97,9 +97,8 @@ public class FormDataServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("form/form-data", json.toString());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -108,6 +107,7 @@ public class FormDataServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return s;
 	}

@@ -158,9 +158,9 @@ public abstract class BPMNTaskController extends Controller implements Interface
 	
 
 
-	private void saveFiles(List<Part> parts,String taskId) {
+	private void saveFiles(List<Part> parts_,String taskId) {
 		Object[] id_tp_doc = Core.getParamArray("p_formlist_documento_id_tp_doc_fk");	
-		if(id_tp_doc!=null && parts!=null) {
+		if(id_tp_doc!=null && parts_!=null) {
 			try {
 				id_tp_doc = Arrays.asList(id_tp_doc).stream().filter(value->Core.isNotNull(value)).toArray();
 				
@@ -170,7 +170,7 @@ public abstract class BPMNTaskController extends Controller implements Interface
 				Object[] input_type = Core.getParamArray("p_formlist_documento_task_documento_fk_desc");	
 				input_type = Arrays.asList(input_type).stream().filter(value->Core.isNotNull(value)).toArray();
 	
-				parts = parts.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
+				List<Part> parts = parts_.stream().filter(p->p.getName().equalsIgnoreCase("p_formlist_documento_task_documento_fk")).collect(Collectors.toList());
 
 				this.saveFiles(parts,id_tp_doc,doc_id,input_type,taskId);
 			} catch (IllegalArgumentException e) {

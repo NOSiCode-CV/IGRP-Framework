@@ -67,7 +67,8 @@ public class BPMNExecution extends Controller{
 			Core.setMessageError(formData.getError().getException());
 			return null;
 		}
-		this.saveIGRPStartProcess(st.getId(), st.getProcessDefinitionKey(), "start", "start", st.getProcessDefinitionId(), myCustomPermission);
+		if(st!=null)
+			this.saveIGRPStartProcess(st.getId(), st.getProcessDefinitionKey(), "start", "start", st.getProcessDefinitionId(), myCustomPermission);
 		return st;
 	}
 	

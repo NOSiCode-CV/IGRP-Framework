@@ -16,11 +16,11 @@ public class DateHelper {
 	
 	public static boolean compareDate(String date1,String date2,BiFunction<LocalDate, LocalDate, Boolean> compareDate) {
 		if(Core.isNotNullMultiple(date1,date2)) {
-			date1 = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
-			date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+			String date1_ = Core.convertDate(date1, "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd");
+			String date2_ = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate d1 = LocalDate.parse(date1, formatter );
-			LocalDate d2 = LocalDate.parse(date2, formatter );
+			LocalDate d1 = LocalDate.parse(date1_, formatter );
+			LocalDate d2 = LocalDate.parse(date2_, formatter );
 			return compareDate.apply(d1, d2);
 		}
 		return false;
@@ -30,10 +30,10 @@ public class DateHelper {
 		if(Core.isNotNullMultiple(date1,date2)) {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			String dt1 = df.format(date1);
-			date2 = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
+			String date2_ = Core.convertDate(date2, "dd-MM-yyyy", "yyyy-MM-dd");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate d1 = LocalDate.parse(dt1, formatter );
-			LocalDate d2 = LocalDate.parse(date2.toString(), formatter );
+			LocalDate d2 = LocalDate.parse(date2_.toString(), formatter );
 			return compareDate.apply(d1, d2);
 		}
 		return false;

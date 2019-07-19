@@ -4,6 +4,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.activit.rest.services.DeploymentServiceRest;
 //import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.mime_type.MimeType;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.webapp.import_export_v2.common.serializable.bpmn.BPMNSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
@@ -71,11 +72,17 @@ public class BpmnImport extends AbstractImport implements IImport {
 	private void savePagesBPMN(BPMNSerializable bpmn) {
 		if(bpmn.getPages()!=null) {
 			bpmn.getPages().stream().forEach(page->{
-				Action ac = new Action();
-				Core.mapper(page, ac);
-				ac.setApplication(this.application);
-				ac = ac.insert();
-				this.addError(ac.hasError()?ac.getError().get(0):null);
+				Action ac = new Action().find().where("application.dad","=",page.getDad())
+											   .andWhere("page","=",page.getPage())
+											   .andWhere("processKey","=",page.getProcessKey())
+											   .one();
+				if(ac==null) {
+					ac = new Action();
+					Core.mapper(page, ac);
+					ac.setApplication(this.application);
+					ac = ac.insert();
+					this.addError(ac.hasError()?ac.getError().get(0):null);
+				}
 			});
 		}
 	}
@@ -83,8 +90,8 @@ public class BpmnImport extends AbstractImport implements IImport {
 	private void saveBPMN(BPMNSerializable bpmn) {
 		DeploymentServiceRest deploy = new DeploymentServiceRest();
 		try {
-			deploy.create(FileHelper.convertStringToInputStream(bpmn.getXml()),this.application.getDad(), bpmn.getFileName(),Core.MimeType.APPLICATION_BIN);
-			if(deploy!=null && Core.isNotNull(deploy.getError()))
+			deploy.create(FileHelper.convertStringToInputStream(bpmn.getXml()),this.application.getDad(), bpmn.getFileName(),MimeType.APPLICATION_BIN);
+			if(Core.isNotNull(deploy.getError()))
 				this.addError(deploy.getError().getMessage());
 		} catch (IOException e) {
 			this.addError(e.getMessage());

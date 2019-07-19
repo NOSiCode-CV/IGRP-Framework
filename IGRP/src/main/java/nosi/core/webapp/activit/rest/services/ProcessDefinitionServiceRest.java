@@ -57,9 +57,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			Response response = request.get(link);
 			if (response != null) {
 				String contentResp = "";
-				InputStream is = (InputStream) response.getEntity();
 				try {
-					contentResp = FileHelper.convertToString(is);
+					contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -69,6 +68,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 				} else {
 					this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 				}
+				response.close();
 			}
 		}
 		return process;
@@ -79,9 +79,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		ProcessDefinitionService process = new ProcessDefinitionService();
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -91,7 +90,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
-		}
+			response.close();
+		}		
 		return process;
 	}
 
@@ -111,9 +111,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 				.get("repository/process-definitions?size=" + ActivitiConstants.SIZE_QUERY + this.getFilterUrl());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -124,6 +123,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -145,6 +145,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 	}
 
 	public boolean statusProcessDefinition(String id, String action, boolean includeProcessInstances) {
+		boolean r = false;
 		JSONObject jobj = new JSONObject();
 		try {
 			jobj.put("action", action);
@@ -156,16 +157,17 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().put("repository/process-definitions", jobj.toString(), id);
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
-			return response.getStatus() == 200;
+			r = response.getStatus() == 200;
+			response.close();
+			
 		}
-		return false;
+		return r;
 	}
 
 	public ProcessDefinitionService create(ProcessDefinitionService p) {
@@ -173,9 +175,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("repository/process-definitions", ResponseConverter.convertDaoToJson(p));
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -185,6 +186,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -195,9 +197,8 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 				p.getId());
 		if (response != null) {
 			String contentResp = "";
-			InputStream is = (InputStream) response.getEntity();
 			try {
-				contentResp = FileHelper.convertToString(is);
+				contentResp = FileHelper.convertToString((InputStream) response.getEntity());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -207,6 +208,7 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -222,24 +224,32 @@ public class ProcessDefinitionServiceRest extends GenericActivitiRest {
 		Response response = request.get(url);
 		if (response != null) {
 			if (response.getStatus() == 200) {
-				InputStream finput = (InputStream) response.getEntity();
 				try {
-					return FileHelper.convertInputStreamToBase64(finput);
+					d = FileHelper.convertInputStreamToBase64((InputStream) response.getEntity());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
+			response.close();
 		}
 		return d;
 	}
 	public boolean delete(String id) {
 		Response response = this.getRestRequest().delete("repository/process-definitions", id);
-		return response != null && response.getStatus() == 204;
+		boolean r= response != null && response.getStatus() == 204;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	public boolean suspend(String processDefinitionId) {
 		Response response = this.getRestRequest().put("repository/process-definitions",
 				"{\"action\":\"suspend\",\"includeProcessInstances\":\"true\"}", processDefinitionId);
-		return response.getStatus() == 200;
+		boolean r= response != null && response.getStatus() == 200;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 }

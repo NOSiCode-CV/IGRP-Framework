@@ -56,6 +56,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 			}else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -76,6 +77,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -92,8 +94,10 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 				e.printStackTrace();
 			}
 			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+				response.close();
 				return this.processDefinition.getTotal(contentResp);
 			}
+			response.close();
 			this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 		}
 		return 0;
@@ -136,6 +140,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return d;
 	}
@@ -172,6 +177,7 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 			} else {
 				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
+			response.close();
 		}
 		return list;
 	}
@@ -196,7 +202,11 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 		Response response = this.getRestRequest().post("runtime/process-instances/" + processInstanceId
 				+ "/variables?name=" + variableName + "&type=" + obj.getClass().getTypeName() + "&scope=" + scope,
 				gson.toJson(list));
-		return response.getStatus() == 201;
+		boolean r= response.getStatus() == 201;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	// Adiciona variaveis para completar tarefa
@@ -215,23 +225,39 @@ public class ProcessInstanceServiceRest extends GenericActivitiRest {
 	public boolean submitVariables(String processInstanceId) {
 		Response response = this.getRestRequest().put("runtime/process-instances/" + processInstanceId + "/variables",
 				ResponseConverter.convertDaoToJson(this.variables));
-		return response.getStatus() == 201;
+		boolean r = response!=null && response.getStatus() == 201;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	public boolean suspend(String processInstanceId) {
 		Response response = this.getRestRequest().put("runtime/process-instances/", "{\"action\":\"suspend\"}",
 				processInstanceId);
-		return response.getStatus() == 200;
+		boolean r = response!=null && response.getStatus() == 200;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	public boolean delete(String processInstanceId) {
 		Response response = this.getRestRequest().delete("runtime/process-instances/", processInstanceId);
-		return response.getStatus() == 204;
+		boolean r = response!=null && response.getStatus() == 204;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 
 	public boolean deleteVariable(String processInstanceId, String variableName) {
 		Response response = this.getRestRequest()
 				.delete("runtime/process-instances/" + processInstanceId + "/variables", variableName);
-		return response.getStatus() == 201;
+		boolean r = response!=null && response.getStatus() == 201;
+		if(response!=null) {
+			response.close();
+		}
+		return r;
 	}
 }
