@@ -48,21 +48,20 @@ public class BPMNHelper {
 					return DateHelper.convertDate(value.toString(), "dd-MM-yyyy", "dd-MM-yyyy h:mm");
 				case "long":
 					if(Core.isNotNull(value))
-						return Long.parseLong(value.toString());
-					return 0;
+						return ""+ Long.parseLong(value.toString());
 				case "double":
 					if(Core.isNotNull(value))
-						return Double.parseDouble(value.toString());
-					return 0;
+						return ""+Double.parseDouble(value.toString());
 				case "float":
 					if(Core.isNotNull(value))
-						return Float.parseFloat(value.toString());
-					return 0;
+						return ""+Float.parseFloat(value.toString());
 				case "boolean":
-					return value.toString().equals("1");
+					return ""+value.toString().equals("1");
 				case "enum":
 				case "string":
 					return value.toString();
+				default:
+					return "0";
 			}
 		}catch(NullPointerException e) {}
 		return "";
@@ -179,7 +178,7 @@ public class BPMNHelper {
 							.one();
 			 }
 			 if(taskFile!=null) {
-				 link.setLink(Core.getLinkFile(taskFile.getClob().getId()));
+				 link.setLink(Core.getLinkFile(taskFile.getClob().getId().intValue()));
 				 t.setFileId(taskFile.getClob().getId());
 			 }
  			 link.setLink_desc("Mostrar");
@@ -193,13 +192,13 @@ public class BPMNHelper {
 				.find()
 				.andWhere("processId", "=",Core.isNotNull(processDefinition)?processDefinition:"-1")
 				.andWhere("taskId", "=",Core.isNotNull(taskDefinition)?taskDefinition:"-1")
-				.andWhere("status", "=",1)
+				.andWhere("status", "=",new Integer(1))
 				.andWhere("tipo", "=","OUT")
 				.andWhere("repTemplate", "notnull")
 				.andWhere("repTemplate.application.dad", "=",taskDad)
 				.all();			
 		tipoDocs.stream().forEach(t->{
-			 t.setFileId(-1);
+			 t.setFileId(new Integer(-1));
 			 IGRPLink link = new IGRPLink(Core.getLinkReport(t.getRepTemplate().getCode()).addParam(BPMNConstants.PRM_TASK_ID, getCurrentTaskId()));
  			 link.setLink_desc("Mostrar");
 			 t.setLink(link);

@@ -136,7 +136,7 @@ public class GenericActivitiIGRP {
 		if(response!=null){
 			if(response.getStatus()==200) {
 				f.setContent((InputStream) response.getEntity());
-				f.setSize(response.getLength());
+				f.setSize(new Integer(response.getLength()));
 				f.setContentType(response.getMediaType().toString());
 			}
 			response.close();

@@ -66,7 +66,6 @@ public class ResourceServiceRest extends GenericActivitiRest{
 		String link_ = url.contains("https") ? link.replace("http", "https") : link;
 		request.setBase_url("");
 		String contentResp = "";
-		System.out.println("link_="+link_);
 		Response response = request.get(link_);
 		if (response != null) {
 			if (response.getStatus() == 200) {
