@@ -2,6 +2,8 @@ package nosi.core.webapp.import_export_v2.imports;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.Part;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.JarUnJarFile;
@@ -41,9 +43,9 @@ public class ImportHelper {
 	
 	private void importFile(Integer application_id,Part file) {
 		this.contentReads = JarUnJarFile.readJarFile(file);
-		Application application = application_id!=null?new Application().findOne(application_id):null;
-
 		if(contentReads!=null) {
+			Application application = application_id!=null?new Application().findOne(application_id):null;
+			this.contentReads = this.contentReads.entrySet().stream().collect(Collectors.toMap(k->k.getKey().toLowerCase(),v->v.getValue().toString()));
 			ApplicationImport app = new ApplicationImport(application);	
 			if(application==null) {
 				application = app.getApplication();
@@ -112,8 +114,8 @@ public class ImportHelper {
 	}
 
 	private String getJsonContent(String key) {
-		if(this.contentReads.containsKey(key))
-			return this.contentReads.get(key);
+		if(this.contentReads.containsKey(key.toLowerCase()))
+			return this.contentReads.get(key.toLowerCase());
 		return null;
 	}
 
