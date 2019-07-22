@@ -61,7 +61,7 @@ public class Import{
 	
 	private void removeJavaClass() {
 		String env = new Config().getEnvironment();
-		if(env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("prd") || env.equalsIgnoreCase("sta")) {
+		if(env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("prd") ) {
 			this.imports.stream().forEach(i->{
 				i.getFileName().forEach(f->{
 					Core.forceDelete(f);

@@ -1,7 +1,5 @@
 package nosi.webapps.igrp.pages.dominio;
 
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
@@ -13,10 +11,6 @@ import java.util.List;
 public class Dominio extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_publico")
-	private Integer publico;
-	@RParam(rParamName = "p_publico_check")
-	private Integer publico_check;
 	@RParam(rParamName = "p_aplicacao")
 	private Integer aplicacao;
 	@RParam(rParamName = "p_lst_dominio")
@@ -38,6 +32,8 @@ public class Dominio extends Model{
 	private String[] p_formlist_1_id;
 	@RParam(rParamName = "p_formlist_1_del")
 	private String[] p_formlist_1_del;
+	@RParam(rParamName = "p_formlist_1_edit")
+	private String[] p_formlist_1_edit;
 	
 	public void setP_formlist_1_id(String[] p_formlist_1_id){
 		this.p_formlist_1_id = p_formlist_1_id;
@@ -53,24 +49,18 @@ public class Dominio extends Model{
 		return this.p_formlist_1_del;
 	}
 	
+	public void setP_formlist_1_edit(String[] p_formlist_1_edit){
+		this.p_formlist_1_edit = p_formlist_1_edit;
+	}
+	public String[] getP_formlist_1_edit(){
+		return this.p_formlist_1_edit;
+	}
+	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
-	}
-	
-	public void setPublico(Integer publico){
-		this.publico = publico;
-	}
-	public Integer getPublico(){
-		return this.publico;
-	}
-	public void setPublico_check(Integer publico_check){
-		this.publico_check = publico_check;
-	}
-	public Integer getPublico_check(){
-		return this.publico_check;
 	}
 	
 	public void setAplicacao(Integer aplicacao){

@@ -55,7 +55,7 @@ public class DomainHeper {
 
 	public static boolean saveDomain(Dominio model) {
 		if (Core.isNotNull(model.getNovo_dominio())) {
-			return !(new Domain(model.getNovo_dominio(), "", "", "ATIVE", 0,getDomainType(model.getPublico()) ,Core.findApplicationById(model.getAplicacao())).insert().hasError());
+			return !(new Domain(model.getNovo_dominio(), "", "", "ATIVE", 0,getDomainType(model.getAplicacao()==null?1:0) ,Core.findApplicationById(model.getAplicacao())).insert().hasError());
 		}
 		return false;
 	}
@@ -77,7 +77,7 @@ public class DomainHeper {
 		for(Formlist_1 d:model.getFormlist_1()) {
 			if(validateDomains(d)) {
 				if(Core.isNotNull(d.getFormlist_1_id()) && Core.isNotNull(d.getFormlist_1_id().getKey())) {
-					if(!(r= update(d,(++order),model.getPublico()))) {
+					if(!(r= update(d,(++order),model.getAplicacao()==null?1:0))) {
 						break;
 					}
 				}else {
@@ -90,9 +90,14 @@ public class DomainHeper {
 	}
 
 	private static boolean insert(Dominio model,Formlist_1 formlist,int order) {
-		Domain d = new Domain(model.getLst_dominio(), formlist.getKey().getKey(),
-				formlist.getDescription().getKey(),formlist.getEstado()!=null?
-				formlist.getEstado().getKey().equals(formlist.getEstado_check()!=null?formlist.getEstado_check().getKey():null) ?"ATIVE":"INATIVE":"ATIVE",order,getDomainType(model.getPublico()),Core.findApplicationById(model.getAplicacao()));
+		Domain d = new Domain(model.getLst_dominio(),
+				formlist.getKey().getKey(),
+				formlist.getDescription().getKey(),
+//				formlist.getEstado()!=null?formlist.getEstado().getKey().equals(formlist.getEstado_check()!=null?formlist.getEstado_check().getKey():null) ?"ATIVE":"INATIVE":
+						"ATIVE",
+						order,
+						getDomainType(model.getAplicacao()==null?1:0),
+						Core.findApplicationById(model.getAplicacao()));
 		d = d.insert();
 		if (d.hasError()) {
 			d.showMessage();

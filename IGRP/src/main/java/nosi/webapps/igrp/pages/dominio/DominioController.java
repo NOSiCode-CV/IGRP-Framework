@@ -24,7 +24,7 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Stract labore dolor aperiam magna' as description,'Unde voluptatem lorem labore lorem' as key,'1' as estado,'hidden-0a30_88d5' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Laudantium sit mollit sit amet' as description,'Accusantium labore aliqua stract voluptatem' as key,'1' as estado,'hidden-9255_f66f' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -32,7 +32,7 @@ public class DominioController extends Controller {
 		view.aplicacao.setValue(DomainHeper.getApplications());
 		//view.estado.setQuery(DomainHeper.getEstadoQuery());
 		view.estado_check.setValue(1);
-		model.setPublico_check(1);
+		//model.setPublico_check(1);
 	
 		String dad = Core.getCurrentDad();		
   		 if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {	
@@ -54,7 +54,7 @@ public class DominioController extends Controller {
 		if(Core.isNotNull(model.getLst_dominio())) {        
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
 			final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
-			model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0:0);
+		//	model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?(findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0):0);
 		}
       
 		if(Core.isNotNullOrZero(app)) {
@@ -101,7 +101,7 @@ public class DominioController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar_domain)----*/
-		
+		this.addQueryString("target", "_blank");
 		if(DomainHeper.saveDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());

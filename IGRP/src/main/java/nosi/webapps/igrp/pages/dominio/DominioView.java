@@ -10,8 +10,6 @@ import nosi.core.config.Config;
 public class DominioView extends View {
 
 	public Field sectionheader_1_text;
-	public Field publico;
-	public Field publico_check;
 	public Field aplicacao;
 	public Field lst_dominio;
 	public Field novo_dominio;
@@ -22,7 +20,7 @@ public class DominioView extends View {
 	public Field estado_check;
 	public Field ordem_desc;
 	public Field ordem;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPFormList formlist_1;
 
@@ -34,7 +32,7 @@ public class DominioView extends View {
 
 		this.setPageTitle("Gestão de Dominio");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -45,17 +43,13 @@ public class DominioView extends View {
 		sectionheader_1_text.setValue(gt("Gestão de Domínio"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
-		publico = new CheckBoxField(model,"publico");
-		publico.setLabel(gt("Publico?"));
-		publico.propertie().add("name","p_publico").add("type","checkbox").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","Integer").add("switch","false").add("check","true");
-		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","Integer");
 		
 		lst_dominio = new ListField(model,"lst_dominio");
 		lst_dominio.setLabel(gt("Editar domínio"));
-		lst_dominio.propertie().add("remote",new Config().getResolveUrl("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		lst_dominio.propertie().add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
@@ -102,7 +96,6 @@ public class DominioView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 
-		form_1.addField(publico);
 		form_1.addField(aplicacao);
 		form_1.addField(lst_dominio);
 		form_1.addField(novo_dominio);
@@ -125,7 +118,6 @@ public class DominioView extends View {
 	@Override
 	public void setModel(Model model) {
 		
-		publico.setValue(model);
 		aplicacao.setValue(model);
 		lst_dominio.setValue(model);
 		novo_dominio.setValue(model);
