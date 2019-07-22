@@ -11,7 +11,6 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export_v2.common.OptionsImportExport;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.DomainType;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2View;
 import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2.Table_bpmn;
@@ -29,7 +28,7 @@ public class ExportSqlHelper {
 		this.application = Core.findApplicationById(model.getApplication_id());
 		this.showAllTable(view,false);
 		for(String type:opcoes) {
-			int t = Core.toInt(type);
+			int t = Core.toInt(type).intValue();
 			if(t==OptionsImportExport.BPMN.getValor()) {
 				view.table_bpmn.setVisible(true);
 				this.loadBPMNData(model);

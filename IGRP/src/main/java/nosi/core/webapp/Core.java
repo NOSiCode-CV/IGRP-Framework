@@ -3542,4 +3542,8 @@ public final class Core { // Not inherit
 	public static boolean writeFile(String path,String fileName,String content) throws IOException {
 		return FileHelper.save(path, fileName, content);
 	}
+	
+	public static void forceDelete(String fileNameOrDirectory) {
+		FileHelper.forceDelete(fileNameOrDirectory);
+	}
 }

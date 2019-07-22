@@ -88,5 +88,6 @@ public class ApplicationSerializable implements Serializable {
 	 */
 	public void setVersion(String version) {
 		this.version = version;
-	}
+	}	
+		
 }

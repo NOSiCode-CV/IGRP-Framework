@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=371</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=65</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -49,19 +49,19 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="seguinte">
                 <title>Seguinte</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp_studio</app>
+                <page>Wizard_export_step_2</page>
+                <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-forward</img>
-                <preview>undefined</preview>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/wizard_export_step_2/Wizard_export_step_2.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <file_name name="p_file_name" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <file_name name="p_file_name" type="text" maxlength="250" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>File Name</label>
-                    <value>Lorem elit accusantium sit mollit</value>
+                    <value>Perspiciatis consectetur sit amet doloremque</value>
                 </file_name>
                 <selecionar_opcao name="p_selecionar_opcao" type="checkboxlist" domain="" maxlength="250" required="true" change="false" readonly="false" disabled="false" child_size="6" right="false" java-type="">
                     <label>Selecionar opções</label>

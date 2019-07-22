@@ -5,7 +5,6 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
 
 public class Wizard_export_step_2View extends View {
 
@@ -20,51 +19,51 @@ public class Wizard_export_step_2View extends View {
 	public Field report_ids;
 	public Field report_ids_check;
 	public Field descricao_report;
-	public Field tipo_doc_ids;
-	public Field tipo_doc_ids_check;
-	public Field descricao_tipo_doc;
-	public Field menu_ids;
-	public Field menu_ids_check;
-	public Field descricao_menu;
-	public Field modulo_ids;
-	public Field modulo_ids_check;
-	public Field descricao_modulo;
-	public Field domain_ids;
-	public Field domain_ids_check;
-	public Field descricao_domain;
 	public Field transation_ids;
 	public Field transation_ids_check;
 	public Field descricao_transation;
-	public Field dao_ids;
-	public Field dao_ids_check;
-	public Field descricao_dao;
-	public Field conexao_ids;
-	public Field conexao_ids_check;
-	public Field descricao_conexao;
-	public Field others_class_ids;
-	public Field others_class_ids_check;
-	public Field descricao_others_class;
 	public Field services_ids;
 	public Field services_ids_check;
 	public Field descricao_services;
+	public Field domain_ids;
+	public Field domain_ids_check;
+	public Field descricao_domain;
+	public Field tipo_doc_ids;
+	public Field tipo_doc_ids_check;
+	public Field descricao_tipo_doc;
+	public Field dao_ids;
+	public Field dao_ids_check;
+	public Field descricao_dao;
+	public Field others_class_ids;
+	public Field others_class_ids_check;
+	public Field descricao_others_class;
+	public Field modulo_ids;
+	public Field modulo_ids_check;
+	public Field descricao_modulo;
+	public Field menu_ids;
+	public Field menu_ids_check;
+	public Field descricao_menu;
+	public Field conexao_ids;
+	public Field conexao_ids_check;
+	public Field descricao_conexao;
 	public Field export_type;
 	public Field application_id;
 	public Field file_name;
-	public IGRPForm sectionheader_1;
-	public IGRPForm box_paginas;
+	public IGRPSectionHeader sectionheader_1;
+	public IGRPBox box_paginas;
 	public IGRPTable table_bpmn;
 	public IGRPForm form_2;
 	public IGRPTable table_pagina;
 	public IGRPTable table_report;
-	public IGRPTable table_doc_type;
-	public IGRPTable table_menu;
-	public IGRPTable table_modulo;
-	public IGRPTable table_domain;
 	public IGRPTable tbl_transation;
-	public IGRPTable table_dao;
-	public IGRPTable table_connections;
-	public IGRPTable table_others_class;
 	public IGRPTable table_service;
+	public IGRPTable table_domain;
+	public IGRPTable table_doc_type;
+	public IGRPTable table_dao;
+	public IGRPTable table_others_class;
+	public IGRPTable table_modulo;
+	public IGRPTable table_menu;
+	public IGRPTable table_connections;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -75,9 +74,9 @@ public class Wizard_export_step_2View extends View {
 
 		this.setPageTitle("Export Wizard Step 2");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
-		box_paginas = new IGRPForm("box_paginas","Páginas");
+		box_paginas = new IGRPBox("box_paginas","Páginas");
 
 		table_bpmn = new IGRPTable("table_bpmn","BPMN");
 
@@ -87,23 +86,23 @@ public class Wizard_export_step_2View extends View {
 
 		table_report = new IGRPTable("table_report","Reports");
 
-		table_doc_type = new IGRPTable("table_doc_type","Tipo Documento");
+		tbl_transation = new IGRPTable("tbl_transation","Transactions");
 
-		table_menu = new IGRPTable("table_menu","Menu");
-
-		table_modulo = new IGRPTable("table_modulo","Módulos");
+		table_service = new IGRPTable("table_service","Serviços");
 
 		table_domain = new IGRPTable("table_domain","Domínios");
 
-		tbl_transation = new IGRPTable("tbl_transation","Transactions");
+		table_doc_type = new IGRPTable("table_doc_type","Tipo Documento");
 
 		table_dao = new IGRPTable("table_dao","Classes DAO");
 
-		table_connections = new IGRPTable("table_connections","Conexões com Base Dados");
-
 		table_others_class = new IGRPTable("table_others_class","Outras classes");
 
-		table_service = new IGRPTable("table_service","Serviços");
+		table_modulo = new IGRPTable("table_modulo","Módulos");
+
+		table_menu = new IGRPTable("table_menu","Menu");
+
+		table_connections = new IGRPTable("table_connections","Conexões com Base Dados");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -149,38 +148,27 @@ public class Wizard_export_step_2View extends View {
 		descricao_report.setLabel(gt("Descrição"));
 		descricao_report.propertie().add("name","p_descricao_report").add("type","text").add("maxlength","30").add("showLabel","true");
 		
-		tipo_doc_ids = new CheckBoxField(model,"tipo_doc_ids");
-		tipo_doc_ids.setLabel(gt(" "));
-		tipo_doc_ids.propertie().add("name","p_tipo_doc_ids").add("type","checkbox").add("maxlength","30").add("java-type","int").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
+		transation_ids = new CheckBoxField(model,"transation_ids");
+		transation_ids.setLabel(gt("   "));
+		transation_ids.propertie().add("name","p_transation_ids").add("type","checkbox").add("maxlength","30").add("java-type","String").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
 		
-		tipo_doc_ids_check = new CheckBoxField(model,"tipo_doc_ids_check");
-		tipo_doc_ids_check.propertie().add("name","p_tipo_doc_ids").add("type","checkbox").add("maxlength","30").add("java-type","int").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
+		transation_ids_check = new CheckBoxField(model,"transation_ids_check");
+		transation_ids_check.propertie().add("name","p_transation_ids").add("type","checkbox").add("maxlength","30").add("java-type","String").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
 		
-		descricao_tipo_doc = new TextField(model,"descricao_tipo_doc");
-		descricao_tipo_doc.setLabel(gt("Descrição"));
-		descricao_tipo_doc.propertie().add("name","p_descricao_tipo_doc").add("type","text").add("maxlength","30").add("showLabel","true");
+		descricao_transation = new TextField(model,"descricao_transation");
+		descricao_transation.setLabel(gt("Descrição"));
+		descricao_transation.propertie().add("name","p_descricao_transation").add("type","text").add("maxlength","30").add("showLabel","true");
 		
-		menu_ids = new CheckBoxField(model,"menu_ids");
-		menu_ids.setLabel(gt("  "));
-		menu_ids.propertie().add("name","p_menu_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
+		services_ids = new CheckBoxField(model,"services_ids");
+		services_ids.setLabel(gt(" "));
+		services_ids.propertie().add("name","p_services_ids").add("type","checkbox").add("maxlength","30").add("showLabel","true").add("java-type","String").add("switch","false").add("check","true").add("desc","true");
 		
-		menu_ids_check = new CheckBoxField(model,"menu_ids_check");
-		menu_ids_check.propertie().add("name","p_menu_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
+		services_ids_check = new CheckBoxField(model,"services_ids_check");
+		services_ids_check.propertie().add("name","p_services_ids").add("type","checkbox").add("maxlength","30").add("showLabel","true").add("java-type","String").add("switch","false").add("check","true").add("desc","true");
 		
-		descricao_menu = new TextField(model,"descricao_menu");
-		descricao_menu.setLabel(gt("Descrição"));
-		descricao_menu.propertie().add("name","p_descricao_menu").add("type","text").add("maxlength","30").add("showLabel","true");
-		
-		modulo_ids = new CheckBoxField(model,"modulo_ids");
-		modulo_ids.setLabel(gt("    "));
-		modulo_ids.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
-		
-		modulo_ids_check = new CheckBoxField(model,"modulo_ids_check");
-		modulo_ids_check.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
-		
-		descricao_modulo = new TextField(model,"descricao_modulo");
-		descricao_modulo.setLabel(gt("Descricao"));
-		descricao_modulo.propertie().add("name","p_descricao_modulo").add("type","text").add("maxlength","30").add("showLabel","true");
+		descricao_services = new TextField(model,"descricao_services");
+		descricao_services.setLabel(gt("Descrição"));
+		descricao_services.propertie().add("name","p_descricao_services").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		domain_ids = new CheckBoxField(model,"domain_ids");
 		domain_ids.setLabel(gt("   "));
@@ -193,16 +181,16 @@ public class Wizard_export_step_2View extends View {
 		descricao_domain.setLabel(gt("Descrição"));
 		descricao_domain.propertie().add("name","p_descricao_domain").add("type","text").add("maxlength","30").add("showLabel","true");
 		
-		transation_ids = new CheckBoxField(model,"transation_ids");
-		transation_ids.setLabel(gt("   "));
-		transation_ids.propertie().add("name","p_transation_ids").add("type","checkbox").add("maxlength","30").add("java-type","String").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
+		tipo_doc_ids = new CheckBoxField(model,"tipo_doc_ids");
+		tipo_doc_ids.setLabel(gt(" "));
+		tipo_doc_ids.propertie().add("name","p_tipo_doc_ids").add("type","checkbox").add("maxlength","30").add("java-type","int").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
 		
-		transation_ids_check = new CheckBoxField(model,"transation_ids_check");
-		transation_ids_check.propertie().add("name","p_transation_ids").add("type","checkbox").add("maxlength","30").add("java-type","String").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
+		tipo_doc_ids_check = new CheckBoxField(model,"tipo_doc_ids_check");
+		tipo_doc_ids_check.propertie().add("name","p_tipo_doc_ids").add("type","checkbox").add("maxlength","30").add("java-type","int").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
 		
-		descricao_transation = new TextField(model,"descricao_transation");
-		descricao_transation.setLabel(gt("Descrição"));
-		descricao_transation.propertie().add("name","p_descricao_transation").add("type","text").add("maxlength","30").add("showLabel","true");
+		descricao_tipo_doc = new TextField(model,"descricao_tipo_doc");
+		descricao_tipo_doc.setLabel(gt("Descrição"));
+		descricao_tipo_doc.propertie().add("name","p_descricao_tipo_doc").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		dao_ids = new CheckBoxField(model,"dao_ids");
 		dao_ids.setLabel(gt("  "));
@@ -215,17 +203,6 @@ public class Wizard_export_step_2View extends View {
 		descricao_dao.setLabel(gt("Descrição"));
 		descricao_dao.propertie().add("name","p_descricao_dao").add("type","text").add("maxlength","30").add("showLabel","true");
 		
-		conexao_ids = new CheckBoxField(model,"conexao_ids");
-		conexao_ids.setLabel(gt("   "));
-		conexao_ids.propertie().add("name","p_conexao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
-		
-		conexao_ids_check = new CheckBoxField(model,"conexao_ids_check");
-		conexao_ids_check.propertie().add("name","p_conexao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
-		
-		descricao_conexao = new TextField(model,"descricao_conexao");
-		descricao_conexao.setLabel(gt("Descrição"));
-		descricao_conexao.propertie().add("name","p_descricao_conexao").add("type","text").add("maxlength","30").add("showLabel","true");
-		
 		others_class_ids = new CheckBoxField(model,"others_class_ids");
 		others_class_ids.setLabel(gt("   "));
 		others_class_ids.propertie().add("name","p_others_class_ids").add("type","checkbox").add("maxlength","30").add("java-type","String").add("switch","false").add("showLabel","true").add("check","true").add("desc","true");
@@ -237,16 +214,38 @@ public class Wizard_export_step_2View extends View {
 		descricao_others_class.setLabel(gt("Descrição"));
 		descricao_others_class.propertie().add("name","p_descricao_others_class").add("type","text").add("maxlength","30").add("showLabel","true");
 		
-		services_ids = new CheckBoxField(model,"services_ids");
-		services_ids.setLabel(gt(" "));
-		services_ids.propertie().add("name","p_services_ids").add("type","checkbox").add("maxlength","30").add("showLabel","true").add("java-type","String").add("switch","false").add("check","true").add("desc","true");
+		modulo_ids = new CheckBoxField(model,"modulo_ids");
+		modulo_ids.setLabel(gt("    "));
+		modulo_ids.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
 		
-		services_ids_check = new CheckBoxField(model,"services_ids_check");
-		services_ids_check.propertie().add("name","p_services_ids").add("type","checkbox").add("maxlength","30").add("showLabel","true").add("java-type","String").add("switch","false").add("check","true").add("desc","true");
+		modulo_ids_check = new CheckBoxField(model,"modulo_ids_check");
+		modulo_ids_check.propertie().add("name","p_modulo_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
 		
-		descricao_services = new TextField(model,"descricao_services");
-		descricao_services.setLabel(gt("Descrição"));
-		descricao_services.propertie().add("name","p_descricao_services").add("type","text").add("maxlength","30").add("showLabel","true");
+		descricao_modulo = new TextField(model,"descricao_modulo");
+		descricao_modulo.setLabel(gt("Descricao"));
+		descricao_modulo.propertie().add("name","p_descricao_modulo").add("type","text").add("maxlength","30").add("showLabel","true");
+		
+		menu_ids = new CheckBoxField(model,"menu_ids");
+		menu_ids.setLabel(gt("  "));
+		menu_ids.propertie().add("name","p_menu_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
+		
+		menu_ids_check = new CheckBoxField(model,"menu_ids_check");
+		menu_ids_check.propertie().add("name","p_menu_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
+		
+		descricao_menu = new TextField(model,"descricao_menu");
+		descricao_menu.setLabel(gt("Descrição"));
+		descricao_menu.propertie().add("name","p_descricao_menu").add("type","text").add("maxlength","30").add("showLabel","true");
+		
+		conexao_ids = new CheckBoxField(model,"conexao_ids");
+		conexao_ids.setLabel(gt("   "));
+		conexao_ids.propertie().add("name","p_conexao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
+		
+		conexao_ids_check = new CheckBoxField(model,"conexao_ids_check");
+		conexao_ids_check.propertie().add("name","p_conexao_ids").add("type","checkbox").add("maxlength","30").add("switch","false").add("java-type","String").add("showLabel","true").add("check","true").add("desc","true");
+		
+		descricao_conexao = new TextField(model,"descricao_conexao");
+		descricao_conexao.setLabel(gt("Descrição"));
+		descricao_conexao.propertie().add("name","p_descricao_conexao").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		export_type = new HiddenField(model,"export_type");
 		export_type.setLabel(gt(""));
@@ -293,41 +292,41 @@ public class Wizard_export_step_2View extends View {
 		table_report.addField(report_ids_check);
 		table_report.addField(descricao_report);
 
-		table_doc_type.addField(tipo_doc_ids);
-		table_doc_type.addField(tipo_doc_ids_check);
-		table_doc_type.addField(descricao_tipo_doc);
+		tbl_transation.addField(transation_ids);
+		tbl_transation.addField(transation_ids_check);
+		tbl_transation.addField(descricao_transation);
 
-		table_menu.addField(menu_ids);
-		table_menu.addField(menu_ids_check);
-		table_menu.addField(descricao_menu);
-
-		table_modulo.addField(modulo_ids);
-		table_modulo.addField(modulo_ids_check);
-		table_modulo.addField(descricao_modulo);
+		table_service.addField(services_ids);
+		table_service.addField(services_ids_check);
+		table_service.addField(descricao_services);
 
 		table_domain.addField(domain_ids);
 		table_domain.addField(domain_ids_check);
 		table_domain.addField(descricao_domain);
 
-		tbl_transation.addField(transation_ids);
-		tbl_transation.addField(transation_ids_check);
-		tbl_transation.addField(descricao_transation);
+		table_doc_type.addField(tipo_doc_ids);
+		table_doc_type.addField(tipo_doc_ids_check);
+		table_doc_type.addField(descricao_tipo_doc);
 
 		table_dao.addField(dao_ids);
 		table_dao.addField(dao_ids_check);
 		table_dao.addField(descricao_dao);
 
-		table_connections.addField(conexao_ids);
-		table_connections.addField(conexao_ids_check);
-		table_connections.addField(descricao_conexao);
-
 		table_others_class.addField(others_class_ids);
 		table_others_class.addField(others_class_ids_check);
 		table_others_class.addField(descricao_others_class);
 
-		table_service.addField(services_ids);
-		table_service.addField(services_ids_check);
-		table_service.addField(descricao_services);
+		table_modulo.addField(modulo_ids);
+		table_modulo.addField(modulo_ids_check);
+		table_modulo.addField(descricao_modulo);
+
+		table_menu.addField(menu_ids);
+		table_menu.addField(menu_ids_check);
+		table_menu.addField(descricao_menu);
+
+		table_connections.addField(conexao_ids);
+		table_connections.addField(conexao_ids_check);
+		table_connections.addField(descricao_conexao);
 
 		form_1.addField(export_type);
 		form_1.addField(application_id);
@@ -341,15 +340,15 @@ public class Wizard_export_step_2View extends View {
 		this.addToPage(form_2);
 		this.addToPage(table_pagina);
 		this.addToPage(table_report);
-		this.addToPage(table_doc_type);
-		this.addToPage(table_menu);
-		this.addToPage(table_modulo);
-		this.addToPage(table_domain);
 		this.addToPage(tbl_transation);
-		this.addToPage(table_dao);
-		this.addToPage(table_connections);
-		this.addToPage(table_others_class);
 		this.addToPage(table_service);
+		this.addToPage(table_domain);
+		this.addToPage(table_doc_type);
+		this.addToPage(table_dao);
+		this.addToPage(table_others_class);
+		this.addToPage(table_modulo);
+		this.addToPage(table_menu);
+		this.addToPage(table_connections);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
 	}
@@ -364,24 +363,24 @@ public class Wizard_export_step_2View extends View {
 		descricao_pagina.setValue(model);
 		report_ids.setValue(model);
 		descricao_report.setValue(model);
-		tipo_doc_ids.setValue(model);
-		descricao_tipo_doc.setValue(model);
-		menu_ids.setValue(model);
-		descricao_menu.setValue(model);
-		modulo_ids.setValue(model);
-		descricao_modulo.setValue(model);
-		domain_ids.setValue(model);
-		descricao_domain.setValue(model);
 		transation_ids.setValue(model);
 		descricao_transation.setValue(model);
-		dao_ids.setValue(model);
-		descricao_dao.setValue(model);
-		conexao_ids.setValue(model);
-		descricao_conexao.setValue(model);
-		others_class_ids.setValue(model);
-		descricao_others_class.setValue(model);
 		services_ids.setValue(model);
 		descricao_services.setValue(model);
+		domain_ids.setValue(model);
+		descricao_domain.setValue(model);
+		tipo_doc_ids.setValue(model);
+		descricao_tipo_doc.setValue(model);
+		dao_ids.setValue(model);
+		descricao_dao.setValue(model);
+		others_class_ids.setValue(model);
+		descricao_others_class.setValue(model);
+		modulo_ids.setValue(model);
+		descricao_modulo.setValue(model);
+		menu_ids.setValue(model);
+		descricao_menu.setValue(model);
+		conexao_ids.setValue(model);
+		descricao_conexao.setValue(model);
 		export_type.setValue(model);
 		application_id.setValue(model);
 		file_name.setValue(model);	
@@ -389,14 +388,14 @@ public class Wizard_export_step_2View extends View {
 		table_bpmn.loadModel(((Wizard_export_step_2) model).getTable_bpmn());
 		table_pagina.loadModel(((Wizard_export_step_2) model).getTable_pagina());
 		table_report.loadModel(((Wizard_export_step_2) model).getTable_report());
-		table_doc_type.loadModel(((Wizard_export_step_2) model).getTable_doc_type());
-		table_menu.loadModel(((Wizard_export_step_2) model).getTable_menu());
-		table_modulo.loadModel(((Wizard_export_step_2) model).getTable_modulo());
-		table_domain.loadModel(((Wizard_export_step_2) model).getTable_domain());
 		tbl_transation.loadModel(((Wizard_export_step_2) model).getTbl_transation());
-		table_dao.loadModel(((Wizard_export_step_2) model).getTable_dao());
-		table_connections.loadModel(((Wizard_export_step_2) model).getTable_connections());
-		table_others_class.loadModel(((Wizard_export_step_2) model).getTable_others_class());
 		table_service.loadModel(((Wizard_export_step_2) model).getTable_service());
+		table_domain.loadModel(((Wizard_export_step_2) model).getTable_domain());
+		table_doc_type.loadModel(((Wizard_export_step_2) model).getTable_doc_type());
+		table_dao.loadModel(((Wizard_export_step_2) model).getTable_dao());
+		table_others_class.loadModel(((Wizard_export_step_2) model).getTable_others_class());
+		table_modulo.loadModel(((Wizard_export_step_2) model).getTable_modulo());
+		table_menu.loadModel(((Wizard_export_step_2) model).getTable_menu());
+		table_connections.loadModel(((Wizard_export_step_2) model).getTable_connections());
 		}
 }
