@@ -357,4 +357,13 @@ public class FileHelper {
 				   FileHelper.saveFile(path,page+"Controller.java",content[2],encode_in,encode_out); // save controller
 			return r;
 	}
+	
+	public static void forceDelete(String fileNameOrDirectory) {
+		try {
+			File file = new File(fileNameOrDirectory);
+			FileUtils.forceDelete(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -22,7 +22,7 @@ import nosi.webapps.igrp_studio.pages.wizard_export_step_2.Wizard_export_step_2;
  */
 public class ExportHelper {
 	
-	public byte[] export(Wizard_export_step_2 model) {
+	public static byte[] export(Wizard_export_step_2 model) {
 
 		String[] report_ids = Core.getParamArray("p_report_ids_check_fk");
 		String[] bpm_ids = Core.getParamArray("p_bpmn_ids_check_fk");

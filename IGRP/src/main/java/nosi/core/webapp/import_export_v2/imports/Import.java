@@ -2,6 +2,7 @@ package nosi.core.webapp.import_export_v2.imports;
 
 import java.util.ArrayList;
 import java.util.List;
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
@@ -55,8 +56,20 @@ public class Import{
 		compiler.compile();
 		this.addError(compiler.getErrors());
 		this.addWarning(compiler.getWarnings());
+		this.removeJavaClass();
 	}
 	
+	private void removeJavaClass() {
+		String env = new Config().getEnvironment();
+		if(env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("prd") || env.equalsIgnoreCase("sta")) {
+			this.imports.stream().forEach(i->{
+				i.getFileName().forEach(f->{
+					Core.forceDelete(f);
+				});
+			});
+		}
+	}
+
 	public void addError(List<ErrorCompile> errors) {
 		if(errors!=null) {
 			errors.stream().forEach(e->{

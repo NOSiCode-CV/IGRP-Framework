@@ -6,14 +6,13 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
-
 public class Wizard_export_step_1View extends View {
 
 	public Field sectionheader_1_text;
 	public Field file_name;
 	public Field selecionar_opcao;
 	public Field application_id;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -23,7 +22,7 @@ public class Wizard_export_step_1View extends View {
 
 		this.setPageTitle("Export Wizard Step 1");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -34,7 +33,7 @@ public class Wizard_export_step_1View extends View {
 		
 		file_name = new TextField(model,"file_name");
 		file_name.setLabel(gt("File Name"));
-		file_name.propertie().add("name","p_file_name").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false");
+		file_name.propertie().add("name","p_file_name").add("type","text").add("maxlength","250").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
 		
 		selecionar_opcao = new CheckBoxListField(model,"selecionar_opcao");
 		selecionar_opcao.setLabel(gt("Selecionar opções"));
