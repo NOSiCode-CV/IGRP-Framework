@@ -40,12 +40,24 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		
 		ConsumeJson json_obj = new ConsumeJson();
 		Properties setting = this.loadConfig("common", "main.xml");
-		String json="";
-		String url = setting.getProperty("link.rest.pesquisa_bi_cni_pass")+"?p_num_bi=";
-		String authorization = setting.getProperty("authorization.link.rest.pesquisa_bi_cni_pass");
 		
+		String json="";
+		String authorization="";
+		String url="";
+		boolean tipo_doc = false; 
 		try {
 			if(Core.isNotNull(model.getNumero_do_documento())) {
+				
+				if(model.getNumero_do_documento().length() == 13) {
+					url = setting.getProperty("link.rest.pesquisa_cni")+"?P_CNI=";
+					authorization = setting.getProperty("authorization.link.rest.pesquisa_cni");
+					view.emissor_tab.setVisible(false);
+				}else {
+					url = setting.getProperty("link.rest.pesquisa_bi_cni_pass")+"?p_num_bi=";
+					authorization = setting.getProperty("authorization.link.rest.pesquisa_bi_cni_pass");
+					tipo_doc=true;
+				}
+				
 				json = json_obj.getJsonFromUrl(url+model.getNumero_do_documento().replaceAll(" ", "%20"), authorization);
 				JSONObject obj = new JSONObject(json);
 				JSONObject Entries = obj.getJSONObject("Entries");
@@ -56,12 +68,18 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 					Pesquisa_bi_cni_passport.Table_1 tab_geral = new Pesquisa_bi_cni_passport.Table_1();
 					JSONObject pessoa = Entry.getJSONObject(i);
 					try {
-                    	tab_geral.setTipo_documento_tab("BI");
-						tab_geral.setN_doc_tab(pessoa.getString("BI"));
-                    	tab_geral.setBi_tab(pessoa.getString("BI"));
+						if(tipo_doc) {
+	                    	tab_geral.setTipo_documento_tab("BI");
+							tab_geral.setN_doc_tab(pessoa.getString("BI"));
+	                    	tab_geral.setBi_tab(pessoa.getString("BI"));
+						}else {
+	                    	tab_geral.setN_doc_tab(pessoa.getString("NUM_DOCUMENTO"));
+	                    	tab_geral.setTipo_documento_tab(pessoa.getString("ID_TP_DOC"));
+						}
 					}catch (org.json.JSONException e) {
 						tab_geral.setN_doc_tab(null);
                      	tab_geral.setBi_tab(null);
+                     	tab_geral.setTipo_documento_tab(null);
 					}
 					try {
 						tab_geral.setData_emissao_tab(pessoa.getString("DT_EMISSAO"));
@@ -69,7 +87,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 						tab_geral.setData_emissao_tab(null);
 					}
 					try {
-						tab_geral.setData_nascimento_tab(pessoa.getString("DT_NASC"));
+						if(tipo_doc)
+							tab_geral.setData_nascimento_tab(pessoa.getString("DT_NASC"));
+						else
+							tab_geral.setData_nascimento_tab(pessoa.getString("DATA_NASC"));
 					}catch (org.json.JSONException e) {
 						tab_geral.setData_nascimento_tab(null);
 					}
@@ -79,17 +100,26 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 						tab_geral.setEmissor_tab(null);
 					}
 					try {
-						tab_geral.setNome_mae_tab(pessoa.getString("NOME_MAE"));
+						if(tipo_doc)
+							tab_geral.setNome_mae_tab(pessoa.getString("NOME_MAE"));
+						else
+							tab_geral.setNome_mae_tab(pessoa.getString("NOME_MAE_PROPRIO")+" "+pessoa.getString("NOME_MAE_APELIDO"));
 					}catch (org.json.JSONException e) {
 						tab_geral.setNome_mae_tab(null);
 					}
 					try {
-						tab_geral.setNome_pai_tab(pessoa.getString("NOME_PAI"));
+						if(tipo_doc)
+							tab_geral.setNome_pai_tab(pessoa.getString("NOME_PAI"));
+						else
+							tab_geral.setNome_pai_tab(pessoa.getString("NOME_PAI_PROPRIO")+" "+pessoa.getString("NOME_PAI_APELIDO"));
 					}catch (org.json.JSONException e) {
 						tab_geral.setNome_pai_tab(null);
 					}
 					try {
-						tab_geral.setNome_tab(pessoa.getString("NOME"));
+						if(tipo_doc)
+							tab_geral.setNome_tab(pessoa.getString("NOME"));
+						else
+							tab_geral.setNome_tab(pessoa.getString("NOME_COMPLETO"));
 					}catch (org.json.JSONException e) {
 						tab_geral.setNome_tab(null);
 					}
@@ -99,7 +129,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 						tab_geral.setSexo_tab(null);
 					}
 					try {
-						tab_geral.setNat_conselho(pessoa.getString("NAT_CONSELHO"));
+						if(tipo_doc)
+							tab_geral.setNat_conselho(pessoa.getString("NAT_CONSELHO"));
+						else
+							tab_geral.setNat_conselho(pessoa.getString("NATURALIDADE_ID"));
 					}catch (org.json.JSONException e) {
 						tab_geral.setNat_conselho(null);
 					}
@@ -109,7 +142,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 						tab_geral.setDt_validade(null);
 					}
 					try {
-						tab_geral.setResidencia(pessoa.getString("RESIDENCIA"));
+						if(tipo_doc)
+							tab_geral.setResidencia(pessoa.getString("RESIDENCIA"));
+						else
+							tab_geral.setResidencia(pessoa.getString("LOCALIDADE"));
 					}catch (org.json.JSONException e) {
 						tab_geral.setResidencia(null);
 					}
