@@ -131,20 +131,15 @@ public class User implements Component{
 	@Override
 	public void init(HttpServletRequest request) {
 		String loginUrl = "igrp/login/login";
-		boolean isLoginPage = false;
-		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : loginUrl;
+		String aux = request.getParameter("r") != null ? request.getParameter("r").toString() : loginUrl; 
 		
+		/* test the login page (TOO_MANY_REQUEST purpose) */ 
+		boolean isLoginPage = aux.equals(loginUrl); 
 		
+		if(SecurtyCallPage.isPublic(aux) && !isLoginPage) return; 
 		
-		if(SecurtyCallPage.isPublic(aux)) {
-			return;
-		}
-		if(aux != null && !aux.equals(loginUrl) && !PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(aux.toLowerCase())) {
+		if(aux != null && !isLoginPage && !PagesScapePermission.PAGES_SCAPE_ENCRYPT.contains(aux.toLowerCase())) {
 			aux = EncrypDecrypt.decrypt(aux);
-		}
-		/* test the login page (TOO_MANY_REQUEST purpose) */
-		if(aux != null){			
-			isLoginPage = aux.equals(loginUrl); 
 		}
 		
 		if(!this.checkSessionContext() && !isLoginPage){

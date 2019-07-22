@@ -163,9 +163,9 @@ public class LoginController extends Controller {
 		return this.redirect("igrp", "login", "login");
 	}
 	
-	private Response createResponseIfIsAuthenticated() {
+	private Response createResponseIfIsAuthenticated() { 
 		
-		if (Igrp.getInstance().getUser().isAuthenticated()) {
+		if (Igrp.getInstance().getUser().isAuthenticated()) { 
 			
 			Response response = runCustomIgrpOauth2WhenAuthenticated();
 			if(response != null) return response;
