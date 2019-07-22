@@ -8,9 +8,9 @@ package nosi.webapps.igrp_studio.pages.bpmndesigner;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.Igrp;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,12 +72,14 @@ public class BPMNDesignerController extends Controller {
 	}
 
 
+	@SuppressWarnings("resource")
 	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String erros = "";
 		BPMNDesigner model = new BPMNDesigner();
 		model.load();
-		Part data = Igrp.getInstance().getRequest().getPart("p_data");
+		Part data = Core.getFile("p_data");
+		InputStream inputStream = data.getInputStream();
 		DeploymentServiceRest deploy = new DeploymentServiceRest();
 		if(Core.isNotNull(model.getEnv_fk())) {
 			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
@@ -95,7 +97,7 @@ public class BPMNDesignerController extends Controller {
 			if(index != -1) {
 			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
 			}
-			DeploymentService d = deploy.create(data.getInputStream(),app.getDad(), fileName,data.getContentType());
+			DeploymentService d = deploy.create(inputStream ,app.getDad(), fileName,data.getContentType());
 			if(d!=null && Core.isNotNull(d.getId()) && Core.isNull(erros)){
 				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 			}
