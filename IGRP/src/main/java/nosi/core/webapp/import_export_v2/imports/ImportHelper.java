@@ -1,5 +1,6 @@
 package nosi.core.webapp.import_export_v2.imports;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -110,6 +111,13 @@ public class ImportHelper {
 			imp.compile(app.getApplication());			
 		}else {
 			imp.addError(Core.gt("Ocorreu um erro ao ler o ficheiro"));
+		}
+		if(file!=null) {
+			try {
+				file.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
