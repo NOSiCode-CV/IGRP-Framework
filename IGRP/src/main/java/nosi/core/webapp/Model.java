@@ -1,7 +1,6 @@
 package nosi.core.webapp;
 
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,14 +12,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.beanutils.BeanUtils;
 import org.w3c.dom.NodeList;
-
 import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
@@ -44,11 +48,9 @@ import nosi.core.xml.DomXML;
 public abstract class Model { // IGRP super model
 
 	public static final String ATTRIBUTE_NAME_REQUEST = "model";
-	// private String scenario; // For validation fields
-	// private Map<String, ArrayList<String>> errors; // to store errors for each
-	// fields
 
 	public Model() {
+		
 	}
 
 	public void load(BaseQueryInterface query) throws IllegalArgumentException, IllegalAccessException {
@@ -297,9 +299,16 @@ public abstract class Model { // IGRP super model
 						}
 						break;
 					default:
-						m.set(this, typeName.equals("java.lang.String")
-								? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult)
-								: null); // The field could be a Object
+						if(m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) {
+							if(defaultResult==null) {
+								defaultResult = m.getAnnotation(RParam.class).defaultValue();
+							}
+							m.set(this, typeName.equals("java.lang.String")?(Core.isNotNull(defaultResult)?defaultResult:null):null);
+						}else {
+							m.set(this, typeName.equals("java.lang.String")
+									? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult)
+									: null); // The field could be a Object
+						}
 				}
 			}
 			/* Begin */
@@ -339,7 +348,7 @@ public abstract class Model { // IGRP super model
 				} else {
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
-					if(values1==null || (values1!=null && values1.length==0)) {
+					if((values1!=null && values1.length==0) || values1==null) {
 						if(allFiles!=null && allFiles.containsKey(param)) {
 							values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new);
 						}
@@ -477,65 +486,16 @@ public abstract class Model { // IGRP super model
 		return list;
 	}
 
-	/*
-	 * Load/auto-populate (end)
-	 */
-
-	// private void createErrorsPool(){
-	// this.errors = new HashMap<String, ArrayList<String>>();
-	// Class<? extends Model> c = this.getClass();
-	// for(Field m : c.getDeclaredFields())
-	// if(m.getDeclaredAnnotations().length > 0) // For just fields that contains
-	// annotations
-	// this.errors.put(m.getName(), new ArrayList<String>());
-	// }
-	/*
-	 * public String getScenario() { return scenario; }
-	 * 
-	 * public void setScenario(String scenario) { this.scenario = scenario; }
-	 * 
-	 * public Map<String, ArrayList<String>> getErrors() { return errors; }
-	 * 
-	 * public boolean validate(){ Class<? extends Model> c = this.getClass(); // use
-	 * "Curringa" for warning purpose for(Field m : c.getDeclaredFields()){
-	 * for(Annotation a : m.getDeclaredAnnotations()){ Validator validator =
-	 * Validator.createValidator(a.annotationType().getSimpleName(), a);
-	 * if(validator == null) // if dont exist validator class for the annotation
-	 * continue; validator.validateField(this, m.getName()); } } return
-	 * this.hasErrors(); }
-	 * 
-	 * public boolean hasErrors(){ boolean flag = false; if(this.errors != null){
-	 * Iterator<ArrayList<String>> i = this.errors.values().iterator();
-	 * while(i.hasNext()) if(!i.next().isEmpty()){ flag = true; break; } } return
-	 * flag; }
-	 * 
-	 * public boolean hasErrors(String fieldName){ return this.errors != null &&
-	 * this.errors.get(fieldName) != null && this.errors.get(fieldName).size() > 0;
-	 * }
-	 * 
-	 * public void addError(String fieldName, String message){ if(this.errors !=
-	 * null) if(this.errors.get(fieldName) != null)
-	 * this.errors.get(fieldName).add(message); else{ ArrayList<String> aux = new
-	 * ArrayList<String>(); aux.add(message); this.errors.put(fieldName, aux); } }
-	 * 
-	 * public ArrayList<String> getErrors(String fieldName){ return this.errors !=
-	 * null ? this.errors.get(fieldName) : null; }
-	 * 
-	 * public Object getFieldValueAsObject(String fieldName){ Object obj = null; try
-	 * { Field field = this.getClass().getDeclaredField(fieldName);
-	 * field.setAccessible(true); obj = field.get(this); field.setAccessible(false);
-	 * } catch (IllegalArgumentException | IllegalAccessException |
-	 * NoSuchFieldException | SecurityException e) { e.printStackTrace(); } return
-	 * obj; }
-	 * 
-	 * 
-	 * public Object getFieldValueAsObject(Model model,String fieldName){ Object obj
-	 * = null; try { Field field = model.getClass().getDeclaredField(fieldName);
-	 * field.setAccessible(true); obj = field.get(this); field.setAccessible(false);
-	 * } catch (IllegalArgumentException | IllegalAccessException |
-	 * NoSuchFieldException | SecurityException e) { e.printStackTrace(); } return
-	 * obj; } /* Errors/validation purpose (end)
-	 */
+	@SuppressWarnings("resource")
+	public boolean validate() {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();		
+		Set<ConstraintViolation<Model>> constraintViolations = validator.validate(this);
+		constraintViolations.stream().forEach(e->{
+			Core.setMessageError(Core.gt(e.getMessage()));
+		});
+		return constraintViolations.size()==0;
+	}
 
 	// ... Others methods ...
 }
