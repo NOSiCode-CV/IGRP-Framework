@@ -60,7 +60,7 @@
     </xsl:variable>
     
      <xsl:variable name="import_config_view">   
-        <xsl:if test="(count(//fields/*[@persist='true' or @type='link']) &gt; 0) or (count(//fields/*/rules/rule[contains(@type,'remote')]) &gt; 0)">        	 	
+        <xsl:if test="(count(//fields/*[@type='link']) &gt; 0) or (count(//fields/*/rules/rule[contains(@type,'remote')]) &gt; 0)">        	 	
         	<xsl:text>import nosi.core.config.Config;</xsl:text>
         	 <xsl:value-of select="$newline"/>
         </xsl:if>
