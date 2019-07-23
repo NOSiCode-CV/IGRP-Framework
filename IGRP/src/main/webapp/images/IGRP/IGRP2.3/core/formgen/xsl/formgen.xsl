@@ -55,13 +55,16 @@
                       <!-- <li rel="gen-plsql" xslt-path="{$path}/core/formgen/util/plsql" xslt-file="XSL-plsql.xsl" text-color="1">
                           <span>PLSQL</span>
                       </li>  -->
+                     
+                     <li rel="gen-blocky"  active-text-color="primary">
+                        <span>BLOCKLY</span>
+                      </li>
+                      
                       <li rel="gen-java" xslt-path="{$path}/core/formgen/util/java" xslt-file="XSL_GENERATOR.xsl" text-color="1">
                         <span>JAVA</span>
                       </li>
                       
-                      <!-- <li rel="gen-blocky"  active-text-color="primary">
-                        <span>BLOCKY</span>
-                      </li> -->
+                      <!--  -->
                       
                   </ul>
               </div>
@@ -272,9 +275,7 @@
                         </div>
                         
                         <div id="gen-blocky" class="gen-viewers">
-                        		<BR></BR>
-                        		<BR></BR>
-                        		
+
                               <div id="gen-blocky-view">
                               		
                               		<xsl:call-template name="IGRP-blocky"></xsl:call-template>
@@ -1240,9 +1241,7 @@
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/formlist/igrp.formlist.css?v={$version}"/>
         <script type="text/javascript" src="{$path}/plugins/colorpicker/js/bootstrap-colorpicker.js?v={$version}"/>
         <script type="text/javascript" src="{$path}/plugins/colorpicker/colorpicker.init.js?v={$version}"/>
-       
-
-		
+       		
         <style id="custom-css"></style>
 
     </xsl:template>

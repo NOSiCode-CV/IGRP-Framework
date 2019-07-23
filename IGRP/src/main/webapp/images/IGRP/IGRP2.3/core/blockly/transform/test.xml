@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="./xsl/IGRP.blockly.java.xsl" type="text/xsl"?>
+
+<main>
+    <config>
+        <app>
+            <title>app_teste</title>
+        </app>
+        <page>
+            <title>Teste_blocos</title>
+        </page>
+    </config>
+    <xml >
+        <block type="action_index" id="Hnz[u{3(`_8Vat[gOO-E" x="13" y="-13">
+            <statement name="CODE">
+                <block type="index_editar" id="?X`b|3Sr/.@HE6s#_Q0@" inline="true">
+                    <field name="find">um</field>
+                    <field name="dao">User</field>
+                    <field name="Checkbox">TRUE</field>
+                    <field name="button">salvar</field>
+                    <value name="PARAM">
+                        <block type="get-dao-User" id="h8y4`bJZ]1}B)?T_!qF8">
+                            <field name="fields">Integer::idUser</field>
+                        </block>
+                    </value>
+                    <statement name="value2">
+                        <block type="model_set" id="#l98S7iW(iSGm8Ap61}T">
+                            <field name="set_model">String::nome</field>
+                            <value name="value1">
+                                <block type="get-dao-User" id="ZOa5HdJ11^!Ps@#`w{h~">
+                                    <field name="fields">String::nome</field>
+                                </block>
+                            </value>
+                            <next>
+                                <block type="model_set" id="c#9}f7!%[GVz!@%?D5@v">
+                                    <field name="set_model">String::morada</field>
+                                    <value name="value1">
+                                        <block type="get-dao-User" id=")@s[al`M;-c}Zu]5(.1A">
+                                            <field name="fields">String::morada</field>
+                                        </block>
+                                    </value>
+                                    <next>
+                                        <block type="model_set" id="@AH:F6djB~J2-vwRQT4!">
+                                            <field name="set_model">String::estado_civil</field>
+                                            <value name="value1">
+                                                <block type="get-dao-User" id="a2C?QPXTq[OK.Gq}#F^7">
+                                                    <field name="fields">Date::data_nasc</field>
+                                                </block>
+                                            </value>
+                                            <next>
+                                                <block type="model_set" id="qX#@r24;7,FH+MOlOqT|">
+                                                    <field name="set_model">Date::data_de_registro</field>
+                                                    <value name="value1">
+                                                        <block type="get-dao-User" id="_K1HEe@/tAm2R}O_C5CI">
+                                                            <field name="fields">String::estado_civil</field>
+                                                        </block>
+                                                    </value>
+                                                    <next>
+                                                        <block type="model_set" id="J9sIO:Rx2j1{deS1qp;j">
+                                                            <field name="set_model">File::anexos</field>
+                                                            <value name="value1">
+                                                                <block type="get-dao-User" id="P)]Zk3OMKCMd#cMF26CT">
+                                                                    <field name="fields">String::beneficiario</field>
+                                                                </block>
+                                                            </value>
+                                                        </block>
+                                                    </next>
+                                                </block>
+                                            </next>
+                                        </block>
+                                    </next>
+                                </block>
+                            </next>
+                        </block>
+                    </statement>
+                    <next>
+                        <block type="listar" id="CBB]7+Txf5T@An/+feJo" inline="true">
+                            <mutation count="2"></mutation>
+                            <field name="find">todos</field>
+                            <field name="dao">User</field>
+                            <field name="table">table_2</field>
+                            <field name="ADD1WHERE">WHERE_EQ</field>
+                            <field name="ADD2WHERE">WHERE_DIF</field>
+                            <statement name="value2">
+                                <block type="row" id="-=f7w*!V-sS`Z]tb[Zgw">
+                                    <field name="coluna">String::nomeee</field>
+                                    <value name="fields_model">
+                                        <block type="get-dao-User" id="kOA[^[WP[X@Z{,aDU^~)">
+                                            <field name="fields">String::nome</field>
+                                        </block>
+                                    </value>
+                                    <next>
+                                        <block type="row" id="xSNk3I!MT;vGGJaei;:=">
+                                            <field name="coluna">String::moraadaa</field>
+                                            <value name="fields_model">
+                                                <block type="get-dao-User" id="N{%doojnWuCCR?||{GF~">
+                                                    <field name="fields">String::morada</field>
+                                                </block>
+                                            </value>
+                                            <next>
+                                                <block type="row" id="f`SQl]2U-kl.M%EemQC7">
+                                                    <field name="coluna">String::estadoooo</field>
+                                                    <value name="fields_model">
+                                                        <block type="get-dao-User" id="9yuU[D-dOi;MMV=Nu^eq">
+                                                            <field name="fields">Date::data_nasc</field>
+                                                        </block>
+                                                    </value>
+                                                </block>
+                                            </next>
+                                        </block>
+                                    </next>
+                                </block>
+                            </statement>
+                            <value name="ADD1">
+                                <block type="str-dao-User" id="]O?n!vz!;wqH+Va0imH%">
+                                    <field name="fields">String::nome</field>
+                                </block>
+                            </value>
+                            <value name="ADD1STATE2">
+                                <block type="model_get" id="_9!iFW{BUg|boCsCL#Za">
+                                    <field name="get_model">String::nome</field>
+                                </block>
+                            </value>
+                            <value name="ADD2">
+                                <block type="str-dao-User" id="ab2A4h^]e,CnRCv^b%4K">
+                                    <field name="fields">String::morada</field>
+                                </block>
+                            </value>
+                            <value name="ADD2STATE2">
+                                <block type="model_get" id="K_}#{[]Lv)Rb,wy3vL}6">
+                                    <field name="get_model">String::morada</field>
+                                </block>
+                            </value>
+                        </block>
+                    </next>
+                </block>
+            </statement>
+        </block>
+        <block type="action_editar" id="#QU?DazL+bv_dVs!Uv~O" x="813" y="87">
+            <statement name="CODE">
+                <block type="editar_dao" id="a-pr`H;eL=9`t!c%|0w!">
+                    <value name="PARAM">
+                        <block type="get-dao-User" id="(tJ}.=h:twb_Inj:]/3u">
+                            <field name="fields">Integer::idUser</field>
+                        </block>
+                    </value>
+                </block>
+            </statement>
+        </block>
+        <block type="action_salvar" id="97|lC~^hDlu!SA(=f.c+" x="63" y="388">
+            <statement name="CODE">
+                <block type="inserir_dao" id="pD2VCfhOm`Zh*%ww@h{g" inline="true">
+                    <field name="dao">User</field>
+                    <field name="find">um</field>
+                    <field name="Checkbox">TRUE</field>
+                    <value name="PARAM">
+                        <block type="get-dao-User" id="mhNu*+2SXZwgx*dyf5l[">
+                            <field name="fields">Integer::idUser</field>
+                        </block>
+                    </value>
+                    <statement name="value2">
+                        <block type="set-dao-Exame" id="4aB:oFx)||wivm1S8k+U">
+                            <field name="fields">Integer::idUser</field>
+                            <value name="value1">
+                                <block type="inserir_model" id="Kd(Q+G/sZmAei*2G{.V1">
+                                    <field name="inserir_model">String::nome</field>
+                                </block>
+                            </value>
+                            <next>
+                                <block type="get-dao-Exame" id="nw_pSfFIp%j_:Q8lf,p/">
+                                    <field name="fields">String::nome</field>
+                                    <value name="value1">
+                                        <block type="inserir_model" id="?0F7]F[|46J~Xs21OP-6">
+                                            <field name="inserir_model">String::morada</field>
+                                        </block>
+                                    </value>
+                                    <next>
+                                        <block type="set-dao-User" id="AxHk9eDN_eC1He^fI3/A">
+                                            <field name="fields">String::morada</field>
+                                            <value name="value1">
+                                                <block type="inserir_model" id="{6%j(hB)bA2{0-Fta-t0">
+                                                    <field name="inserir_model">String::estado_civil</field>
+                                                </block>
+                                            </value>
+                                            <next>
+                                                <block type="set-dao-User" id="3?h4dTNcB)Ixn8J+ByG8">
+                                                    <field name="fields">Date::data_nasc</field>
+                                                    <value name="value1">
+                                                        <block type="inserir_model" id="ubViuoQd,+%^IK]+wKI,">
+                                                            <field name="inserir_model">Date::data_de_registro</field>
+                                                        </block>
+                                                    </value>
+                                                    <next>
+                                                        <block type="set-dao-User" id="PkwtEtUQLsDDgYa0+b4#">
+                                                            <field name="fields">String::estado_civil</field>
+                                                            <value name="value1">
+                                                                <block type="inserir_model" id="*(C8GEuv-;1=96XA,Ss=">
+                                                                    <field name="inserir_model">File::anexos</field>
+                                                                </block>
+                                                            </value>
+                                                            <next>
+                                                                <block type="set-dao-User" id="|;2wfv^P.MgtRpFa{+Tj">
+                                                                    <field name="fields">String::beneficiario</field>
+                                                                    <value name="value1">
+                                                                        <block type="inserir_model" id="XhP7e}O?%GqpoIj7|Bhh">
+                                                                            <field name="inserir_model">String::nomes</field>
+                                                                        </block>
+                                                                    </value>
+                                                                </block>
+                                                            </next>
+                                                        </block>
+                                                    </next>
+                                                </block>
+                                            </next>
+                                        </block>
+                                    </next>
+                                </block>
+                            </next>
+                        </block>
+                    </statement>
+                </block>
+            </statement>
+        </block>
+    </xml>
+</main>

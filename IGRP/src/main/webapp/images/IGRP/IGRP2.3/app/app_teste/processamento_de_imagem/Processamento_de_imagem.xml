@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/processamento_de_imagem/Processamento_de_imagem.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP-Template/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Processamento_de_imagem</page>
+    <app>app_teste</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.app_teste.pages</package_db>
+        <package_html>Processamento_de_imagem</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=122</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Processamento de Imagem</title>
+        <form_4 type="form" xml-type="form" title="Contraste" gen-type="container" gen-group="">
+            <fields/>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="diminuir_cont">
+                    <title/>
+                    <app>app_teste</app>
+                    <page>Examform</page>
+                    <link>index</link>
+                    <parameter>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml?</parameter>
+                    <target>void</target>
+                    <img>primary|fa-arrow-down</img>
+                    <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+                </item>
+                <item type="form" code="" class="primary" rel="aumentar_cont">
+                    <title/>
+                    <app>app_teste</app>
+                    <page>Examform</page>
+                    <link>index</link>
+                    <parameter>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml?</parameter>
+                    <target>void</target>
+                    <img>primary|fa-arrow-up</img>
+                    <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+                </item>
+            </tools-bar>
+        </form_4>
+        <form_2 type="form" xml-type="form" title="Brilho" gen-type="container" gen-group="">
+            <fields/>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="diminuir_bril">
+                    <title/>
+                    <app>app_teste</app>
+                    <page>Examform</page>
+                    <link>index</link>
+                    <parameter>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml?</parameter>
+                    <target>void</target>
+                    <img>primary|fa-arrow-down</img>
+                    <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+                </item>
+                <item type="form" code="" class="primary" rel="aumentar_bril">
+                    <title/>
+                    <app>app_teste</app>
+                    <page>Examform</page>
+                    <link>index</link>
+                    <parameter>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml?</parameter>
+                    <target>void</target>
+                    <img>primary|fa-arrow-up</img>
+                    <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+                </item>
+            </tools-bar>
+        </form_2>
+        <form_3 type="form" xml-type="form" title="Inversão de Cores" gen-type="container" gen-group="">
+            <fields/>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="diminuir_inv">
+                    <title/>
+                    <app>app_teste</app>
+                    <page>Examform</page>
+                    <link>index</link>
+                    <parameter>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml?</parameter>
+                    <target>void</target>
+                    <img>primary|fa-arrow-down</img>
+                    <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+                </item>
+                <item type="form" code="" class="primary" rel="aumentar_inv">
+                    <title/>
+                    <app>app_teste</app>
+                    <page>Examform</page>
+                    <link>index</link>
+                    <parameter>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml?</parameter>
+                    <target>void</target>
+                    <img>primary|fa-arrow-up</img>
+                    <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+                </item>
+            </tools-bar>
+        </form_3>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <img_1 name="p_img_1" type="img" persist="true" img="" width="550" height="600" croppie="true" rounded="false" maxlength="250" placeholder="" right="false" autoupload="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </img_1>
+            </fields>
+        </form_1>
+    </content>
+</rows>

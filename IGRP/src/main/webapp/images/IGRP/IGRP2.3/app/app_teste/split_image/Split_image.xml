@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/split_image/Split_image.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP-Template/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Split_image</page>
+    <app>app_teste</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.app_teste.pages</package_db>
+        <package_html>Split_image</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=125</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>split image</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <form_1_img_12 name="p_form_1_img_12" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_12>
+                <form_1_img_11 name="p_form_1_img_11" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_11>
+                <form_1_img_2 name="p_form_1_img_2" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_2>
+                <form_1_img_1 name="p_form_1_img_1" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_1>
+                <form_1_img_10 name="p_form_1_img_10" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_10>
+                <form_1_img_9 name="p_form_1_img_9" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_9>
+                <form_1_img_7 name="p_form_1_img_7" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_7>
+                <form_1_img_8 name="p_form_1_img_8" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_8>
+                <form_1_img_5 name="p_form_1_img_5" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_5>
+                <form_1_img_13 name="p_form_1_img_13" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_13>
+                <form_1_img_6 name="p_form_1_img_6" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_6>
+                <form_1_img_16 name="p_form_1_img_16" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_16>
+                <form_1_img_15 name="p_form_1_img_15" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_15>
+                <form_1_img_3 name="p_form_1_img_3" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_3>
+                <form_1_img_4 name="p_form_1_img_4" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_4>
+                <form_1_img_14 name="p_form_1_img_14" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_1_img_14>
+            </fields>
+        </form_1>
+        <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <form_3_img_14 name="p_form_3_img_14" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_14>
+                <form_3_img_1 name="p_form_3_img_1" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_1>
+                <form_3_img_2 name="p_form_3_img_2" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_2>
+                <form_3_img_3 name="p_form_3_img_3" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_3>
+                <form_3_img_4 name="p_form_3_img_4" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_4>
+                <form_3_img_5 name="p_form_3_img_5" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_5>
+                <form_3_img_11 name="p_form_3_img_11" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_11>
+                <form_3_img_13 name="p_form_3_img_13" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_13>
+                <form_3_img_7 name="p_form_3_img_7" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_7>
+                <form_3_img_10 name="p_form_3_img_10" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_10>
+                <form_3_img_9 name="p_form_3_img_9" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_9>
+                <form_3_img_12 name="p_form_3_img_12" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_12>
+                <form_3_img_8 name="p_form_3_img_8" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_8>
+                <form_3_img_15 name="p_form_3_img_15" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_15>
+                <form_3_img_16 name="p_form_3_img_16" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_16>
+                <form_3_img_6 name="p_form_3_img_6" type="img" persist="true" img="/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" autoupload="false" maxlength="250" placeholder="" right="false">
+                    <label>Img</label>
+                    <value>/IGRP-Template/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                </form_3_img_6>
+            </fields>
+        </form_3>
+    </content>
+</rows>

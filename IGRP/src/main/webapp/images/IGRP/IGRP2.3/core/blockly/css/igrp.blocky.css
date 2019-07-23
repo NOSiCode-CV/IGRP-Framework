@@ -1,0 +1,70 @@
+/*#gen-blocky-view textarea#content_selenium {
+    
+    
+    left: auto!important;
+    right: 0;
+    visibility: visible!important;
+    width: 38.3%!important;
+    height: 88%!important;
+    margin-top: -544px;
+    display: block;
+}*/
+
+#gen-blocky-view textarea#content_selenium {
+    right: -42%;
+    visibility: visible!important;
+    width: 42.3%!important;
+    height: 100vh;
+    top: 73px;
+    -webkit-transition: width 2s; /* Safari prior 6.1 */
+  transition: width 2s;
+}
+
+#gen-blocky-view textarea#content_selenium.active {
+    right: 0;
+   -webkit-transition: width 2s; /* Safari prior 6.1 */
+  transition: width 2s;
+}
+
+#gen-blocky-view #content_blocks{
+   margin-top:-60px;
+}
+
+body:not([view="gen-blocky"]) .blocklyToolboxDiv,
+body:not([view="gen-blocky"]) .blocklyWidgetDiv,
+body:not([view="gen-blocky"]) .blocklyTooltipDiv{
+	display:none!important
+}
+
+div#active_selenium.active {
+    right: 38%;
+}
+
+div#active_selenium {
+    position: absolute;
+    padding: 10px;
+    cursor: pointer; 
+    top: 125px;
+    right: -51px;
+    background-color: #ecf55e;
+    
+    transform: rotate(-90deg);
+
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+
+

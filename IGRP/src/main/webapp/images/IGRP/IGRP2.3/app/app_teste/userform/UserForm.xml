@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/userform/UserForm.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP-Template/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>UserForm</page>
+    <app>app_teste</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>app_teste_postgresql_1</package_instance>
+        <package_db>nosi.webapps.app_teste.pages</package_db>
+        <package_html>UserForm</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=116</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>Registo de Utentes</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="list">
+                <title>List</title>
+                <app>app_teste</app>
+                <page>Examform</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-list-ul</img>
+                <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/examform/Examform.xml</preview>
+            </item>
+            <item type="specific" code="" rel="save">
+                <title>Save</title>
+                <app>app_teste</app>
+                <page>UserForm</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP-Template/images/IGRP/IGRP2.3/app/app_teste/userform/UserForm.xml</preview>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" title="Registar Utente" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Rem sit voluptatem sit accusantium</value>
+                </nome>
+                <morada name="p_morada" type="text" maxlength="2147483647" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Morada</label>
+                    <value>Magna doloremque consectetur voluptatem consectetur</value>
+                </morada>
+                <data_nascimento name="p_data_nascimento" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data Nascimento</label>
+                    <value>01-05-2010</value>
+                </data_nascimento>
+                <genero name="p_genero" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Género</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </genero>
+                <estado_civil name="p_estado_civil" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Estado Civil</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado_civil>
+                <tipo_de_beneficiario name="p_tipo_de_beneficiario" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Tipo de Beneficiário</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_beneficiario>
+                <email name="p_email" type="email" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>od@example.com</value>
+                </email>
+                <contacto name="p_contacto" type="number" min="" max="" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="">
+                    <label>Contacto</label>
+                    <value>99</value>
+                </contacto>
+                <data_do_registo name="p_data_do_registo" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data do Registo</label>
+                    <value>08-06-2016</value>
+                </data_do_registo>
+                <hidden name="p_id_user" type="hidden" java-type="int" maxlength="250" tag="id_user"/>
+            </fields>
+        </form_1>
+    </content>
+</rows>
