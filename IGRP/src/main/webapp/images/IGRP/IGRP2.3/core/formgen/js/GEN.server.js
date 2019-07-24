@@ -52,7 +52,16 @@ $(function() {
 
 			ActivateMenu($('.gen-editor-toolsbar .server-transform').first(), {
 				transform : true,
-				callback : p.callback
+				callback : function(){
+					
+					if(p  && p.callback){
+						
+						p.callback();
+					}
+					
+
+					
+				}
 			});
 
 		}
@@ -126,11 +135,24 @@ $(function() {
 
 				content = content.replaceAll(enterParam, '\n');
 				
-				if(o.part == 'controller')
+				if(o.part == 'controller'){
+
+					//GetBlocklyActionsCode(function(blocklyCodes){
+						
+						LoadReservedCodes(content, type, onFinish)
+						
 					
-					LoadReservedCodes(content, type, onFinish);
-				
-				else
+					//})
+					
+					
+					/*LoadReservedCodes(content, type, function(ncontent){
+						
+						onFinish(ncontent);
+						
+						
+					});*/
+					
+				}else
 					
 					onFinish( content );
 					
@@ -185,7 +207,6 @@ $(function() {
 
 		var tcallback = toptions.callback ? toptions.callback : function() {};
 
-
 		clicked = {
 			mode : options.mode,
 			part : options.part
@@ -204,6 +225,7 @@ $(function() {
 			menu.addClass('active');
 
 			server.activeMenu = {
+					
 				mode : options.mode,
 
 				part : options.part,
@@ -633,6 +655,7 @@ $(function() {
 	var replaceReservedContents = function(o) {
 		
 		var options = $.extend({
+			
 				content : '',
 
 				begin : {
@@ -663,6 +686,7 @@ $(function() {
 			begins = getIndicesOf(options.begin.startExpression, content),
 
 			ends = getIndicesOf(options.end.expression, content);
+
 
 		if (idx < begins.length) {
 
@@ -708,12 +732,16 @@ $(function() {
 
 					}
 				}
-				;
+				
 
 				var xslBlock = content.substring(beginIdx, endIdx),
 
-					xslContent = xslBlock.substring(xslBlock.indexOf(startCodeXp) + startCodeXp.length, xslBlock.indexOf(options.end.expression));
-
+					xslContent = xslBlock.substring(xslBlock.indexOf(startCodeXp) + startCodeXp.length, xslBlock.indexOf(options.end.expression)),
+					
+					blocklyContents = options.blockly || {},
+					
+					areaBlockly     = blocklyContents[areaName] || '';
+				
 				reservedCode = reservedCode || xslContent || '\n\t\t\n\t\t\n' + tab;
 
 				var originalContent = content.substring(beginIdx, endIdx),
@@ -721,14 +749,16 @@ $(function() {
 					actualContent = startCodeXp + reservedCode + options.end.expression;
 
 				options.returner[areaName] = {
+						
 					original : originalContent,
 
 					content : actualContent
 				};
 
 			}
-			;
-
+		
+			//$('#igrp-form-gen').trigger('')
+			
 			options.index = idx + 1;
 
 			replaceReservedContents(options);
@@ -746,12 +776,15 @@ $(function() {
 			if (options.callback)
 
 				options.callback(content);
+			
+			//console.log(content)
 
 		};
 
 	};
 
 	var LoadReservedCodes = function(content, type, callback) {
+		
 
 		var reservedURL = GEN.UTILS.preserve_url,
 
@@ -774,6 +807,7 @@ $(function() {
 			localReserved = reservedAreas[mode] && reservedAreas[mode][part] ? reservedAreas[mode][part] : false,
 
 			replaceOptions = {
+					
 				content : content,
 
 				serverJSON : null,
@@ -781,6 +815,8 @@ $(function() {
 				mode : mode,
 
 				part : part,
+				
+				//blockly : blocklyCodes,
 
 				callback : function(content) {
 
@@ -807,6 +843,7 @@ $(function() {
 
 		}else if(localReserved && localReserved['index'] && localReserved['index']['code']!=""){
 			
+			
 			replaceReservedContents(replaceOptions);
 			
 			$.IGRP.components.globalModal.hide();
@@ -815,13 +852,12 @@ $(function() {
 
 			return;
 		}
-
+		
 		$.get(reservedURL, data).then(function(json) {
 
 			var isGlobalPreservation = false;
 
-			
-			if ($.isArray(json)) {
+			if ($.isArray(json) && json[0]) {
 
 				var object = {};
 
@@ -929,7 +965,8 @@ $(function() {
 
 
 			} else {
-
+				
+				
 				replaceReservedContents(replaceOptions);
 
 			}
@@ -955,6 +992,7 @@ $(function() {
 			if (canPreserve && begin[0] && end[0]) {
 
 				preserveArea(begin, {
+					
 					beginExp : beginExp,
 
 					endExp : endExp,
@@ -1157,6 +1195,8 @@ $(function() {
 
 
 			o.index = idx + 1;
+			
+
 
 			$.ajax({
 				url : url
@@ -1248,6 +1288,8 @@ $(function() {
 
 			originalContent = originalContent.replace(areaReplaceble, '');
 
+			console.log(url);
+			
 			$.ajax({
 				url : url
 			})

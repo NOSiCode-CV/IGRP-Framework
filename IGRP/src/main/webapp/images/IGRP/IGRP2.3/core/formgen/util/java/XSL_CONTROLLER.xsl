@@ -340,8 +340,6 @@
 						</xsl:for-each>
 						
 
-
-						
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View();')"/>					
 						<xsl:call-template name="setParam"/>
 						<xsl:call-template name="setSqlCombobox_">						
@@ -354,7 +352,13 @@
 							<xsl:call-template name="setSqlCombobox"/>					
 							<xsl:call-template name="setBoxValue"/>	
 							<xsl:call-template name="end-example"/>
-						</xsl:if>						
+						</xsl:if>		
+						
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:call-template name="blockly.elements">
+							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='index']/block"/>
+						</xsl:call-template> 
+						<xsl:call-template name="newlineTab2"/>
 
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
@@ -368,6 +372,8 @@
 					</xsl:when>
 					
 					<xsl:when test="$type_render_='redirect'">
+					
+						
 						<xsl:call-template name="newlineTab2"/>														
 						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 					    <xsl:call-template name="newlineTab2"/>		
@@ -392,7 +398,15 @@
 						</xsl:for-each>
 						
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
+						
 						<xsl:call-template name="end-example"/>			
+						
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:call-template name="blockly.elements">
+							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name=$action_name_]/block"/>
+						</xsl:call-template> 
+						<xsl:call-template name="newlineTab2"/>
+				
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>
@@ -405,6 +419,8 @@
 						
 					</xsl:when>
 					<xsl:when test="$type_render_='render_message'">
+					
+					
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>

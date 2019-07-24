@@ -285,7 +285,8 @@ var GENERATOR = function(genparams){
 		    filename = GEN.DETAILS ? GEN.DETAILS.filename     : '',
 		    page     = GEN.DETAILS ? GEN.DETAILS.page         : '',
 		    app      = GEN.DETAILS ? GEN.DETAILS.app          : '',
-		    actionD  = GEN.DETAILS ? GEN.DETAILS.action_descr : '';
+		    actionD  = GEN.DETAILS ? GEN.DETAILS.action_descr : '',
+		    blocklyXML = GetDefaultBlocklyXML();
 
 		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
 		
@@ -331,7 +332,11 @@ var GENERATOR = function(genparams){
 			rtn+='</content>';
 			if(GEN.GET.service && GEN.GET.service().code)
 				rtn+=GEN.getFieldServiceMap(GEN.GET.service());
+			rtn+='<blockly>'+blocklyXML+'</blockly>';
 		rtn+='</rows>';
+		
+		
+		
 		return rtn;
 		//return $.parseXML(rtn);
 	}
@@ -4068,7 +4073,10 @@ var GENERATOR = function(genparams){
 	var genUICode = function(params){	
 
 		GEN.server.set(params);
-
+		
+		
+		
+		
 		/*//console.log(params);
 		var server = genparams.server || {},
 

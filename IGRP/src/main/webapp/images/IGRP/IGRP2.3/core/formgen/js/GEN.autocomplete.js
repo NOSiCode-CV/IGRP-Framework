@@ -12,7 +12,7 @@ $(function(){
 	
 	var SetCoreAutoComplete = function(data){
 		
-		if(data){
+		if(data && data[0]){
 			
 			data.forEach(function(d){
 				

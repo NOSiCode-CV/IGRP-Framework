@@ -501,6 +501,22 @@ var codeBlockStart = '/* Start-Code-Block (',
 
 	codeBlockEnd   = '/* End-Code-Block */';
 
+function GetDefaultBlocklyXML(){
+	try{
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
+		
+			xmlStr = new XMLSerializer().serializeToString(xml);
+	  
+		xmlStr = xmlStr.replaceAll('xmlns="http://www.w3.org/1999/xhtml"' ,'');
+	 
+		return xmlStr;
+	}catch(err){
+		return '';
+	}
+	
+	
+}
+
 function GetBlocklyXML(){
 	
 	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
