@@ -617,7 +617,6 @@ $.IGRP.on('init', function(){
 	$('li[rel="gen-blocky"]').on('click',function() {
 		
 		
-		
 		IGRPBlocklyInit();
 		
 		$('#tab_blocks').click();
@@ -627,9 +626,7 @@ $.IGRP.on('init', function(){
 			$('#refresh_bloco').click();
 			
 		}, 400)
-		
-		
-		
+
 	})
 
 })
