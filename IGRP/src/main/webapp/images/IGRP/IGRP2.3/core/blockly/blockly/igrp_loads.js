@@ -8,6 +8,8 @@ goog.provide('Blockly.Java.selenium');
 
 goog.require('Blockly.Java');
 
+var GEN = null;
+
 var blockyInit = false;
 
 var COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]];
@@ -115,7 +117,8 @@ $('#restore_bloco_igrp').on('click', function() {
 	}
 });
 
-$('#refresh_bloco').on('click', function() {		
+$('#refresh_bloco').on('click', function() {
+	
 	if (typeof (Storage) !== "undefined") {
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		localStorage.setItem(document.getElementById("content_blocks").value,Blockly.Xml.domToText(xml));
@@ -128,7 +131,7 @@ $('#refresh_bloco').on('click', function() {
 		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
 		var code = Blockly.Java.workspaceToCode(Code.workspace);
 		   content.textContent = code; 
-		alert("Bloco Atualizado");
+		console.log("Bloco Atualizado");
 		}
 	}
 });
@@ -141,8 +144,9 @@ $('#active_selenium').on('click', function() {
 
 //************************************************** GET XML FIELDS FORM ***************************************
 
-$('li[rel="gen-blocky"]').on('click',function() {
-	
+
+window.IGRPBlocklyInit = function(){
+
 	 fields_model = []; FIELDS_MEANS = {}; FIELDS_SET_MEANS = {};
 	 fields_model.push(['--','--']);
 	 fields_esp_model = []; FIELDS_ESP_MEANS = {};
@@ -471,7 +475,8 @@ $('li[rel="gen-blocky"]').on('click',function() {
 		
 		if (!blockyInit) {
 			
-			Code.init()
+			Code.init();
+			
 			blockyInit=true;
 			
 			//SetupBlockly();
@@ -485,7 +490,9 @@ $('li[rel="gen-blocky"]').on('click',function() {
 	}
 	});
 	
-});
+}
+	
+//});
 
 
 /* config xml xsl transform */
@@ -596,6 +603,38 @@ function HandleCode(code){
 	}
 	
 }
+
+$.IGRP.on('init', function(){
+	
+	GEN = VARS.getGen();
+	
+	GEN.on('ready', function(){
+		
+		IGRPBlocklyInit();
+		
+	});
+	
+	$('li[rel="gen-blocky"]').on('click',function() {
+		
+		
+		
+		IGRPBlocklyInit();
+		
+		$('#tab_blocks').click();
+		
+		setTimeout(function(){
+			
+			$('#refresh_bloco').click();
+			
+		}, 400)
+		
+		
+		
+	})
+
+})
+
+
 
 
 

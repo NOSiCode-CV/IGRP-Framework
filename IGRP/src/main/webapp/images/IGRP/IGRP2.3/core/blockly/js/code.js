@@ -76,7 +76,7 @@ Code.loadBlocks = function(defaultXml) {
  * @param {string} clickedName Name of tab clicked.
  */
 Code.tabClick = function(clickedName) {
-
+	
   if (document.getElementById('tab_blocks').className == 'tabon') {
     Code.workspace.setVisible(false);
   }

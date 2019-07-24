@@ -8,6 +8,10 @@
   text-align: left;
 }
 
+body[view="gen-blocky"] .gen-viewers-toolbar{
+	display:none;
+}
+
 /* Buttons */
 #gen-blocky-view button {
   margin: 5px;
