@@ -1,10 +1,11 @@
 package nosi.core.webapp;
 
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,6 +30,7 @@ import com.google.gson.Gson;
 import nosi.core.gui.components.IGRPChart2D;
 import nosi.core.gui.components.IGRPChart3D;
 import nosi.core.gui.components.IGRPSeparatorList;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.activit.rest.entities.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.entities.HistoricTaskService;
 import nosi.core.webapp.activit.rest.entities.TaskVariables;
@@ -286,11 +288,35 @@ public abstract class Model { // IGRP super model
 					case "java.math.BigDecimal":
 						m.set(this, Core.toBigDecimal(aux));
 						break;
-					case "java.sql.Date":
+					case "java.sql.Date":	
 						if (aux!=null && !aux.equals("0")) {
-							m.set(this, DateHelper.formatDate(aux, "dd-mm-yyyy"));
+							aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
+							m.set(this, java.sql.Date.valueOf(aux));							
 						}
-						break;
+						break;			
+					case "java.time.LocalDate":				
+						if (aux!=null && !aux.equals("0")) {
+							  String[] datePart = aux.split("-");
+							  int day = Core.toInt(datePart[0]).intValue();
+							  int month = Core.toInt(datePart[1]).intValue();
+							  int year = Core.toInt(datePart[2]).intValue();
+							  LocalDate date = LocalDate.of(year, month,day);
+							  m.set(this,date);
+						}
+						break;			
+					case "java.time.LocalTime":	
+						if (aux!=null && !aux.equals("0")) {
+							  String[] timePart = aux.split(":");
+							  int hour = Core.toInt(timePart[0]).intValue();
+							  int minute = Core.toInt(timePart[1]).intValue();
+							  int second = 0;
+							  if(timePart.length >2) {
+								  second = Core.toInt(timePart[2]).intValue();
+							  }
+							  LocalTime time = LocalTime.of(hour, minute,second);
+							  m.set(this,time);
+						}
+						break;					
 					case "javax.servlet.http.Part":
 						try {
 							m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
@@ -497,5 +523,4 @@ public abstract class Model { // IGRP super model
 		return constraintViolations.size()==0;
 	}
 
-	// ... Others methods ...
 }
