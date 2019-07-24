@@ -29,6 +29,7 @@
 						<xsl:call-template name="get-variable-type-java">
 				    		<xsl:with-param name="type" select="@type" />
 				    		<xsl:with-param name="javaType" select="@java-type" />
+   							<xsl:with-param name="multiple" select="@multiple"/>
 				    	</xsl:call-template>
 					</xsl:variable>
 					
@@ -45,6 +46,7 @@
 									<xsl:with-param name="type" select="@type" />
 						    		<xsl:with-param name="name" select="$tag_name" />
 						    		<xsl:with-param name="javaType" select="@java-type"/>
+	    							<xsl:with-param name="multiple" select="@multiple"/>
 						    	</xsl:call-template>
 							</xsl:otherwise>
 			    	</xsl:choose>
@@ -88,7 +90,7 @@
 					<xsl:value-of select="$tab"/>
 					
 					<xsl:choose>
-						<xsl:when test="@type='select' and @multiple='true'">
+						<xsl:when test="(@type='select' or @type='file') and @multiple='true'">
 							<xsl:value-of select="concat('private ',$type_field,'[] ',$tag_name,';')"/>
 						</xsl:when>
 						<xsl:otherwise>	
@@ -317,6 +319,7 @@
 				<xsl:call-template name="get-variable-type-java">
 		    		<xsl:with-param name="type" select="@type" />
 		    		<xsl:with-param name="javaType" select="@java-type" />
+		    		<xsl:with-param name="multiple" select="@multiple"/>
 		    	</xsl:call-template>
 			</xsl:variable>
 			<xsl:if test="@type != 'link'">
@@ -358,6 +361,7 @@
 	    		<xsl:with-param name="tab_" select="$tab2" />
 	    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
 	    		<xsl:with-param name="javaType" select="@java-type"/>
+	    		<xsl:with-param name="multiple" select="@multiple"/>
 	    	</xsl:call-template>
 			<xsl:value-of select="$newline"/>
 		</xsl:for-each>

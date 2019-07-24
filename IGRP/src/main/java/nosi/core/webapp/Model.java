@@ -192,150 +192,9 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if (m.getType().isArray()) {
-				String[] aux = null;
-				aux = (String[]) Core.getParamArray(
-						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
-								? m.getAnnotation(RParam.class).rParamName()
-								: m.getName() // default case use the name of field
-				);
-				if (aux != null) {
-					// Awesome !!! We need make casts for all [] primitive type ... pff
-					switch (typeName) {
-					case "[I": // Array of int
-						// m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
-						m.set(this, (int[]) IgrpHelper.convertToArray(aux, "int"));
-						break;
-					case "[J":// Array de long
-						// m.set(this, Arrays.stream(aux).mapToLong(Long::parseLong).toArray());
-						m.set(this, (long[]) IgrpHelper.convertToArray(aux, "long"));
-						break;
-					case "[D":
-						// m.set(this, Arrays.stream(aux).mapToDouble(Double::parseDouble).toArray());
-						m.set(this, (double[]) IgrpHelper.convertToArray(aux, "double"));
-						break;
-					case "[S":// Array de short
-						m.set(this, (short[]) IgrpHelper.convertToArray(aux, "short"));
-						break;
-					case "[F":
-						// m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
-						m.set(this, (float[]) IgrpHelper.convertToArray(aux, "float"));
-						break;
-					default:
-						m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object
-					}
-				} else {
-					m.set(this, aux);
-				}
+				this.loadArrayData(m,typeName);
 			} else {
-				String name = m.getAnnotation(RParam.class) != null
-						&& !m.getAnnotation(RParam.class).rParamName().equals("")
-								? m.getAnnotation(RParam.class).rParamName()
-								: m.getName();
-
-				Object o = Core.getParam(name); // default case use the name of field
-
-				String aux = "";
-				if (o != null)
-					if (o.getClass().isArray()) {
-						String[] s = (String[]) o;
-						aux = s[s.length - 1];
-					} else
-						aux = o.toString();
-
-				String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
-
-				try {
-					aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("")
-							? m.getAnnotation(RParam.class).defaultValue()
-							: "0") : aux);
-				} catch (Exception e) {
-					aux = "0";
-				}
-				switch (typeName) {
-					case "int":
-						m.setInt(this, Core.toInt(aux).intValue());
-						break;
-					case "java.lang.Integer":
-						m.set(this, Core.toInt(aux));
-						break;
-					case "float":
-						m.setFloat(this, Core.toFloat(aux).floatValue());
-						break;
-					case "java.lang.Float":
-						m.set(this, Core.toFloat(aux));
-						break;
-					case "double":
-						m.setDouble(this, Core.toDouble(aux).doubleValue());
-						break;
-					case "java.lang.Double":
-						m.set(this, Core.toDouble(aux));
-						break;
-					case "long":
-						m.setLong(this, Core.toLong(aux).longValue());
-						break;
-					case "java.lang.Long":
-						m.set(this, Core.toLong(aux));
-						break;
-					case "short":
-						m.setShort(this, Core.toShort(aux).shortValue());
-						break;
-					case "java.lang.Short":
-						m.set(this, Core.toShort(aux));
-						break;
-					case "java.math.BigInteger":
-						m.set(this, Core.toBigInteger(aux));
-						break;
-					case "java.math.BigDecimal":
-						m.set(this, Core.toBigDecimal(aux));
-						break;
-					case "java.sql.Date":	
-						if (aux!=null && !aux.equals("0")) {
-							aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
-							m.set(this, java.sql.Date.valueOf(aux));							
-						}
-						break;			
-					case "java.time.LocalDate":				
-						if (aux!=null && !aux.equals("0")) {
-							  String[] datePart = aux.split("-");
-							  int day = Core.toInt(datePart[0]).intValue();
-							  int month = Core.toInt(datePart[1]).intValue();
-							  int year = Core.toInt(datePart[2]).intValue();
-							  LocalDate date = LocalDate.of(year, month,day);
-							  m.set(this,date);
-						}
-						break;			
-					case "java.time.LocalTime":	
-						if (aux!=null && !aux.equals("0")) {
-							  String[] timePart = aux.split(":");
-							  int hour = Core.toInt(timePart[0]).intValue();
-							  int minute = Core.toInt(timePart[1]).intValue();
-							  int second = 0;
-							  if(timePart.length >2) {
-								  second = Core.toInt(timePart[2]).intValue();
-							  }
-							  LocalTime time = LocalTime.of(hour, minute,second);
-							  m.set(this,time);
-						}
-						break;					
-					case "javax.servlet.http.Part":
-						try {
-							m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
-						} catch (IOException | ServletException e) {
-							
-						}
-						break;
-					default:
-						if(m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) {
-							if(defaultResult==null) {
-								defaultResult = m.getAnnotation(RParam.class).defaultValue();
-							}
-							m.set(this, typeName.equals("java.lang.String")?(Core.isNotNull(defaultResult)?defaultResult:null):null);
-						}else {
-							m.set(this, typeName.equals("java.lang.String")
-									? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult)
-									: null); // The field could be a Object
-						}
-				}
+				this.loadData(m,typeName);
 			}
 			/* Begin */
 			if (m.isAnnotationPresent(SeparatorList.class)) {
@@ -448,6 +307,174 @@ public abstract class Model { // IGRP super model
 			}
 		}
 		this.loadModelFromAttribute();
+	}
+
+	private void loadData(Field m, String typeName) throws IllegalArgumentException, IllegalAccessException {
+
+		String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
+				? m.getAnnotation(RParam.class).rParamName()
+				: m.getName();
+
+		Object o = Core.getParam(name); // default case use the name of field
+
+		String aux = "";
+		if (o != null)
+			if (o.getClass().isArray()) {
+				String[] s = (String[]) o;
+				aux = s[s.length - 1];
+			} else
+				aux = o.toString();
+
+		String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
+
+		try {
+			aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("")
+					? m.getAnnotation(RParam.class).defaultValue()
+					: "0") : aux);
+		} catch (Exception e) {
+			aux = "0";
+		}
+		switch (typeName) {
+			case "int":
+				m.setInt(this, Core.toInt(aux).intValue());
+				break;
+			case "java.lang.Integer":
+				m.set(this, Core.toInt(aux));
+				break;
+			case "float":
+				m.setFloat(this, Core.toFloat(aux).floatValue());
+				break;
+			case "java.lang.Float":
+				m.set(this, Core.toFloat(aux));
+				break;
+			case "double":
+				m.setDouble(this, Core.toDouble(aux).doubleValue());
+				break;
+			case "java.lang.Double":
+				m.set(this, Core.toDouble(aux));
+				break;
+			case "long":
+				m.setLong(this, Core.toLong(aux).longValue());
+				break;
+			case "java.lang.Long":
+				m.set(this, Core.toLong(aux));
+				break;
+			case "short":
+				m.setShort(this, Core.toShort(aux).shortValue());
+				break;
+			case "java.lang.Short":
+				m.set(this, Core.toShort(aux));
+				break;
+			case "java.math.BigInteger":
+				m.set(this, Core.toBigInteger(aux));
+				break;
+			case "java.math.BigDecimal":
+				m.set(this, Core.toBigDecimal(aux));
+				break;
+			case "java.sql.Date":
+				if (aux != null && !aux.equals("0")) {
+					aux = DateHelper.convertDate(aux, "dd-mm-yyyy", "yyyy-mm-dd");
+					m.set(this, java.sql.Date.valueOf(aux));
+				}
+				break;
+			case "java.time.LocalDate":
+				if (aux != null && !aux.equals("0")) {
+					String[] datePart = aux.split("-");
+					int day = Core.toInt(datePart[0]).intValue();
+					int month = Core.toInt(datePart[1]).intValue();
+					int year = Core.toInt(datePart[2]).intValue();
+					LocalDate date = LocalDate.of(year, month, day);
+					m.set(this, date);
+				}
+				break;
+			case "java.time.LocalTime":
+				if (aux != null && !aux.equals("0")) {
+					String[] timePart = aux.split(":");
+					int hour = Core.toInt(timePart[0]).intValue();
+					int minute = Core.toInt(timePart[1]).intValue();
+					int second = 0;
+					if (timePart.length > 2) {
+						second = Core.toInt(timePart[2]).intValue();
+					}
+					LocalTime time = LocalTime.of(hour, minute, second);
+					m.set(this, time);
+				}
+				break;
+			case "javax.servlet.http.Part":
+				try {
+					m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
+				} catch (IOException | ServletException e) {
+	
+				}
+				break;
+			default:
+				if (m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) {
+					if (defaultResult == null) {
+						defaultResult = m.getAnnotation(RParam.class).defaultValue();
+					}
+					m.set(this, typeName.equals("java.lang.String") ? (Core.isNotNull(defaultResult) ? defaultResult : null)
+							: null);
+				} else {
+					m.set(this,
+							typeName.equals("java.lang.String")
+									? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult)
+									: null); // The field could be a Object
+				}
+		}
+	}
+
+	private void loadArrayData(Field m, String typeName) throws IllegalArgumentException, IllegalAccessException {
+		String[] aux = null;
+		aux = (String[]) Core.getParamArray(
+				m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
+						? m.getAnnotation(RParam.class).rParamName()
+						: m.getName() // default case use the name of field
+		);
+		if (aux != null) {
+			// Awesome !!! We need make casts for all [] primitive type ... pff
+			switch (typeName) {
+				case "[I": // Array of int
+					// m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
+					m.set(this, (int[]) IgrpHelper.convertToArray(aux, "int"));
+					break;
+				case "[J":// Array de long
+					// m.set(this, Arrays.stream(aux).mapToLong(Long::parseLong).toArray());
+					m.set(this, (long[]) IgrpHelper.convertToArray(aux, "long"));
+					break;
+				case "[D":
+					// m.set(this, Arrays.stream(aux).mapToDouble(Double::parseDouble).toArray());
+					m.set(this, (double[]) IgrpHelper.convertToArray(aux, "double"));
+					break;
+				case "[S":// Array de short
+					m.set(this, (short[]) IgrpHelper.convertToArray(aux, "short"));
+					break;
+				case "[F":
+					// m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
+					m.set(this, (float[]) IgrpHelper.convertToArray(aux, "float"));
+					break;
+				default:
+					m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object
+			}
+		} else {
+			if (typeName.equals("[Ljavax.servlet.http.Part;")) {
+				List<Part> files;
+				try {
+					files = Core.getFiles();
+					if (files != null) {
+						Part[] filesArray = files.stream()
+								.filter(f -> f.getName().equals(m.getAnnotation(RParam.class).rParamName()))
+								.toArray(Part[]::new);
+						if (filesArray != null) {
+							m.set(this, (Part[]) filesArray);
+						}
+					}
+				} catch (IOException | ServletException e) {
+					e.printStackTrace();
+				}
+			} else {
+				m.set(this, aux);
+			}
+		}
 	}
 
 	@SuppressWarnings("static-method")

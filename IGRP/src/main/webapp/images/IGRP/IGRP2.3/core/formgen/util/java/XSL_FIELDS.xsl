@@ -335,7 +335,20 @@
     <!-- get type java field -->
 	<xsl:template name="get-variable-type-java">
     	<xsl:param name="type"/>
-   		<xsl:param name="javaType" select="''" />     			
+   		<xsl:param name="javaType" select="''" /> 
+   		<xsl:param name="multiple" select="''" /> 
+   		
+   		<xsl:variable name="addArray">
+   			<xsl:choose>
+   				<xsl:when test="$multiple='true'">
+   					<xsl:value-of select="'[]'"/>
+   				</xsl:when>
+   				<xsl:otherwise>
+   					<xsl:value-of select="''"/>
+   				</xsl:otherwise>
+   			</xsl:choose>
+   		</xsl:variable>
+    		 			
 	    	<xsl:choose>
 	    		<xsl:when test="$javaType !=''">
 	    			<xsl:value-of select="$javaType" />
@@ -345,10 +358,10 @@
 			    		<xsl:when test="$type='checkbox' or $type='radio' or $type='range' or $type='number'  or $type='radiolist'">
 			    			<xsl:value-of select="'Integer'" />
 			    		</xsl:when>
-			    		<xsl:when test="$type ='file'"><xsl:value-of select="'javax.servlet.http.Part'" /></xsl:when>
+			    		<xsl:when test="$type ='file'"><xsl:value-of select="concat('javax.servlet.http.Part',$addArray)" /></xsl:when>
 			    		<xsl:when test="$type ='checkboxlist'"><xsl:value-of select="'String[]'" /></xsl:when>
 			    		<xsl:otherwise>
-			    			<xsl:value-of select="'String'" />
+			    			<xsl:value-of select="concat('String',$addArray)" />
 			    		</xsl:otherwise>
 	    			</xsl:choose>	
 	    		</xsl:otherwise>
@@ -386,6 +399,7 @@
     	<xsl:param name="tab_" select="$tab"/>   
     	<xsl:param name="tab2_" select="$tab2"/>   
     	<xsl:param name="javaType" select="''"/>  
+    	<xsl:param name="multiple" select="''"/>
     	
     	<xsl:variable name="variable_type">
     		<xsl:call-template name="get-java-type">
@@ -403,6 +417,7 @@
     				<xsl:with-param name="tab_" select="$tab_"/>
     				<xsl:with-param name="tab2_" select="$tab2_"/>
    					<xsl:with-param name="java_type_return" select="$javaType"/>
+	    			<xsl:with-param name="multiple" select="$multiple"/>
     			</xsl:call-template>
     		</xsl:when>
     		<xsl:otherwise>
@@ -485,6 +500,7 @@
 		    				<xsl:with-param name="tab_" select="$tab_"/>
 		    				<xsl:with-param name="tab2_" select="$tab2_"/>
 		    				<xsl:with-param name="java_type_return" select="'javax.servlet.http.Part'"/>
+		    				<xsl:with-param name="multiple" select="$multiple"/>
 		    			</xsl:call-template>
 		    		</xsl:when>
 		    		<xsl:otherwise>
@@ -495,6 +511,7 @@
 		    				<xsl:with-param name="tab_" select="$tab_"/>
 		    				<xsl:with-param name="tab2_" select="$tab2_"/>
 		    				<xsl:with-param name="java_type_return" select="$variable_type"/>
+	    					<xsl:with-param name="multiple" select="$multiple"/>
 		    			</xsl:call-template>
 		    		</xsl:otherwise>
 	    		</xsl:choose>
@@ -513,6 +530,7 @@
     	<xsl:param name="parameter" select="''"/> 
     	<xsl:param name="parameter_set" select="''"/> 
     	<xsl:param name="return" select="''"/>  
+    	<xsl:param name="multiple" select="''"/>  
     	
     		<xsl:variable name="name_">
 			<xsl:call-template name="gen-className">
@@ -522,6 +540,16 @@
 			</xsl:call-template>
     		</xsl:variable> 
     		
+    		<xsl:variable name="addArray">
+    			<xsl:choose>
+    				<xsl:when test="$multiple='true'">
+    					<xsl:value-of select="'[]'"/>
+    				</xsl:when>
+    				<xsl:otherwise>
+    					<xsl:value-of select="''"/>
+    				</xsl:otherwise>
+    			</xsl:choose>
+    		</xsl:variable>
     		<!-- Gen Method Set -->
    			<xsl:value-of select="$newline"/>
    			<xsl:value-of select="$tab_"/>   			
@@ -532,12 +560,12 @@
 		   					<xsl:value-of select="concat('public IGRPLink set',$name_,'(',$parameter,'){')" />
 							</xsl:when>
 						<xsl:otherwise>
-		   					<xsl:value-of select="concat('public void set',$name_,'(',$parameter,'){')" />
+		   					<xsl:value-of select="concat('public void set',$name_,'(',$parameter,$addArray,'){')" />
 						</xsl:otherwise>
 					</xsl:choose>   					
    				</xsl:when>
    				<xsl:otherwise>
-   					<xsl:value-of select="concat('public void set',$name_,'(',$java_type_return,' ',$name,'){')" />
+   					<xsl:value-of select="concat('public void set',$name_,'(',$java_type_return,$addArray,' ',$name,'){')" />
    				</xsl:otherwise>
    			</xsl:choose>
    			<xsl:value-of select="$newline"/>
@@ -570,7 +598,7 @@
 					<xsl:value-of select="concat('public ','IGRPLink',' get',$name_,'(){')" />		   				
 				</xsl:when>				
 				<xsl:otherwise>
-		   			<xsl:value-of select="concat('public ',$java_type_return,' get',$name_,'(){')" />
+		   			<xsl:value-of select="concat('public ',$java_type_return,$addArray,' get',$name_,'(){')" />
 				</xsl:otherwise>
 			</xsl:choose>					
    		
