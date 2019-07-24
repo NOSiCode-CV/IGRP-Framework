@@ -101,6 +101,9 @@ public final class IgrpHelper {
 								value = link.getLink();
 			    			}else {
 			    				value = ""+ m.invoke(model);
+			    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
+			    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+			    				}
 			    			}
 			    			break;
 			    		}
