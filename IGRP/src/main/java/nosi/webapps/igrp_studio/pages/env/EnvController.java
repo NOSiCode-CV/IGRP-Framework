@@ -11,6 +11,7 @@ import nosi.core.config.ConfigApp;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -19,7 +20,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -715,6 +718,113 @@ public class EnvController extends Controller {
 					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
 		}
 	}
+	
+	public Response actionRetornarxml() throws IOException, IllegalArgumentException, IllegalAccessException{
+		String app = Core.getParam("app_name");
+		String xml = new EnvController.GetFieldsDAO().GerarXML(this.config, app); 
+		this.format = Response.FORMAT_XML;
+		return this.renderView(xml);
+	}
+	
+	public static class GetFieldsDAO {
+		
+		public Map<String,String> listFilesDirectory(String path) {
+			Map<String,String> files = new HashMap<String,String>();
+			if(FileHelper.fileExists(path)){
+			File folder = new File(path);
+			   for (final File fileEntry : folder.listFiles()) {
+			       if (fileEntry.isDirectory()) {
+			           return listFilesDirectory(fileEntry.toString());
+			       } else {
+			       	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
+			       }
+			   }
+			   return files;
+			}
+			return null;
+			}
+		
+		
+		public String GerarXML(Config conf, String dad){
+			
+			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+			
+			xml += "<dao>";
+			
+			if(dad != "") {
+				
+				String x = conf.getBasePahtClassWorkspace(dad)+File.separator+"dao";
+				
+				Map<String,String> dao = listFilesDirectory(x);
+				
+				if( dao != null ) {
+					
+					for (Map.Entry<String, String> entry : dao.entrySet()) {
+						//System.out.println(entry.getKey() + "/" + entry.getValue()); 
+						 try {
+							 String nome_classe = entry.getKey().replace(".java", "");
+							 
+							Class obj = Class.forName("nosi.webapps."+dad+".dao."+ nome_classe);
+							
+							 xml += "<" +nome_classe+  ">";
+							
+							 Field[] fields = obj.getDeclaredFields();
+						        
+					         
+					         for (int i = 0; i < fields.length; i++) 
+					         {
+					        	 //System.out.println(fields[i].getName());
+					        	 
+					        	 if(!fields[i].getName().startsWith("pc") && !fields[i].getName().startsWith("class") && !fields[i].getName().startsWith("serialVersion"))
+					        	 {
+					        	 xml += "<field>"
+					        	 		+ "<nome>" +
+					        	 		fields[i].getName()
+					        	 		+ "</nome>"
+					        	 		
+					        	 		+ "<tipo>";
+					        	 
+					        	 		try {
+					        	 			String aux[] = fields[i].getType().getTypeName().split("\\."); 
+			                              
+			                              System.out.println(aux.length);
+						        	 		
+						        	 		xml += aux[aux.length - 1];
+										} catch (Exception e) {
+											xml += fields[i].getType().getTypeName();
+										}
+					        	 		 
+					        	 		xml += "</tipo>"
+					        	 		+ ""; 
+					        	 
+					        	 xml += "</field>";
+					        	 
+					        	 }
+					         }
+					         
+					         xml += "</" +nome_classe+ ">";
+					         
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+				}
+					
+				
+			}
+			
+			xml += "</dao>";
+			
+			System.out.println(xml);
+			
+			return xml;
+			
+		}
+
+	}
+
 
 
 	/*----#end-code----*/
