@@ -817,8 +817,6 @@ public class EnvController extends Controller {
 			
 			xml += "</dao>";
 			
-			System.out.println(xml);
-			
 			return xml;
 			
 		}
