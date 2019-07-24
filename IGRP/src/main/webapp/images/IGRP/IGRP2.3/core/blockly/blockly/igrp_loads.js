@@ -270,16 +270,20 @@ $('li[rel="gen-blocky"]').on('click',function() {
 	});
 	
 	all_buttons.forEach(function(button) {
-		str += '<block type ="action_'+button+'" color="180" prev-statement="" >'
-	 	+'<value name="value1" type="dummy" title="Action botão '+button+'" ></value>'
-	 	+'<value name="CODE" type="statement">'
-	 	+'</block>';
+//		str += '<block type ="action_'+button+'" color="180" prev-statement="" >'
+//	 	+'<value name="value1" type="dummy" title="Action botão '+button+'" ></value>'
+//	 	+'<value name="CODE" type="statement">'
+//	 	+'</block>';
 //		</value><next>
+		str += '<value name="'+button+'1" type="dummy" title="Action botão '+button+'" ></value>'
+	 			+'<value name="'+button+'" type="statement"></value>';
 		});
 //	all_buttons.forEach(function(button) {
 //		str += '</next></block>\n';
 //		});
-	$('#inicial_script').append(str);
+	$('#controller').append(str);
+	$('#controller').append('<value name="custom1" type="dummy" title="Custom Action" ></value>'
+ 			+'<value name="custom_actions" type="statement"></value>');
 	
 	
 	// ********************************************** GET XML FIELDS TABLE ***************************************

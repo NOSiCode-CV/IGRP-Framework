@@ -1,6 +1,16 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<xsl:include href="inc.listar.block.xsl"/>
+	
+	<xsl:template name="blockly.element.controller">
+		
+		<xsl:call-template name="blockly.getValue">
+			<xsl:with-param name="value" select="statement"></xsl:with-param>
+			<xsl:with-param name="startEndCode" select="true()"></xsl:with-param>
+		</xsl:call-template>
+
+	</xsl:template>
+	
 
 	<xsl:template name="blockly.element.model_get">
 	
@@ -722,7 +732,11 @@
 		<xsl:variable name="block-type" select="$element/@type"/>
 		
 		<xsl:choose>
-
+		
+			<xsl:when test="$block-type = 'controller'">
+				<xsl:call-template name="blockly.element.controller"></xsl:call-template>
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'listar'">
 				<xsl:call-template name="blockly.element.listar"></xsl:call-template>
 			</xsl:when>
@@ -847,8 +861,6 @@
 			<xsl:call-template name="blockly.elements">
 				<xsl:with-param name="elements" select="$element/next/*"/>
 			</xsl:call-template>
-			
-			
 		</xsl:if>
 	
 		
@@ -858,11 +870,28 @@
 	
 		<xsl:param name="elements"/>
 		
+		<xsl:param name="startEndCode" select="false()"/>
+		
 		<xsl:for-each select="$elements">
+		
+			<xsl:variable name="name_action" select="../@name"/>
+			
+			<xsl:if test="$startEndCode">
+			<xsl:text>/* Start-Code-Block (</xsl:text><xsl:value-of select="$name_action"></xsl:value-of><xsl:text>) */</xsl:text>
+			<xsl:value-of select="$newline"></xsl:value-of>
+			</xsl:if>
 			
 			<xsl:call-template name="blockly.element">
 				
 			</xsl:call-template>
+			
+			<xsl:if test="$startEndCode">
+			
+			<xsl:text>/* End-Code-Block */</xsl:text>
+			<xsl:value-of select="$newline"></xsl:value-of>
+			<xsl:value-of select="$newline"></xsl:value-of>
+			</xsl:if>
+			
 		
 		</xsl:for-each>
 	

@@ -34,11 +34,16 @@
 		</div> 
 		<xml class="igrp-blockly-config" id="toolbox" style="display: none">
 			<category id="inicial_script" name="Script Inicial" colour="#990000">
-				<block type="action_index" color ="180" prev-statement="script_inicial" >
+			<block id="controller" type="controller" title="Controller" color ="180">
 					<value name="value1" type="dummy" title="Action Index"></value>
-					<value name="CODE" type="statement" ></value>
+					<value name="index" type="statement" ></value>
 <!-- 					<next id="add_action"></next> -->
 				</block>
+<!-- 				<block type="action_index" color ="180" prev-statement="script_inicial" >
+					<value name="value1" type="dummy" title="Action Index"></value>
+					<value name="CODE" type="statement" ></value>
+					<next id="add_action"></next>
+				</block> -->
 			</category>
 			<category id="catLogic" name="Logic" colour="#990000">
  				<block type="controls_if" default="true"></block>
@@ -63,6 +68,24 @@
 					</value>
 				</block>
  				<block type="controls_whileUntil" default="true"></block>
+ 					<block type="controls_for" default="true">
+					<value name="FROM">
+						<shadow type="math_number">
+							<field name="NUM">1</field>
+						</shadow>
+					</value>
+					<value name="TO">
+						<shadow type="math_number">
+							<field name="NUM">10</field>
+						</shadow>
+					</value>
+					<value name="BY">
+						<shadow type="math_number">
+							<field name="NUM">1</field>
+						</shadow>
+					</value>
+				</block>
+ 				<block type="controls_forEach" default="true"></block>
  				<block type="controls_flow_statements" default="true"></block>
 			</category>
 			
@@ -75,6 +98,7 @@
 					<block type="text" default="true"></block>
 					<block type="text_print" default="true"></block>
 			</category>
+			<category id="catVariables" custom="VARIABLE" name="Variables" default="true"></category>
 			<category id="core" name="Core IGRP" colour="#990000">
 				<block type="core_get_msg" output="" color="1">
 					<value name="value1" type="value"  title="Core">
