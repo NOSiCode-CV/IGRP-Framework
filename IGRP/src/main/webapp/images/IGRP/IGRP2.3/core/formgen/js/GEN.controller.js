@@ -286,7 +286,9 @@ var GENERATOR = function(genparams){
 		    page     = GEN.DETAILS ? GEN.DETAILS.page         : '',
 		    app      = GEN.DETAILS ? GEN.DETAILS.app          : '',
 		    actionD  = GEN.DETAILS ? GEN.DETAILS.action_descr : '',
-		    blocklyXML = GetDefaultBlocklyXML();
+		    blocklyXML = GetDefaultBlocklyXML(),
+		    
+		    blocklyImports = GetBlocklyImports();
 
 		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
 		
@@ -332,7 +334,7 @@ var GENERATOR = function(genparams){
 			rtn+='</content>';
 			if(GEN.GET.service && GEN.GET.service().code)
 				rtn+=GEN.getFieldServiceMap(GEN.GET.service());
-			rtn+='<blockly>'+blocklyXML+'</blockly>';
+			rtn+='<blockly>'+blocklyImports+blocklyXML+'</blockly>';
 		rtn+='</rows>';
 		
 		

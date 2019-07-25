@@ -50,6 +50,9 @@
 		 		<xsl:value-of select="$import_response"/>
      		</xsl:otherwise>
      	</xsl:choose>
+     	<xsl:value-of select="$newline"></xsl:value-of>
+     	<xsl:call-template name="blockly.imports"/>
+     	
      	<xsl:call-template name="start-code">
      		<xsl:with-param name="type" select="'packages_import'"/>
      		<xsl:with-param name="url" select="$url"/>
