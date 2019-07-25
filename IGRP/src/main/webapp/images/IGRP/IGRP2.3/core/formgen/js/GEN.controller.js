@@ -2408,8 +2408,9 @@ var GENERATOR = function(genparams){
 					fieldsRes 	   	: json.service.fieldsRes
 				});
 
-				
 			}
+			
+			$('#igrp-form-gen').trigger( 'on-import', [json] );
 		}
 	}
 
@@ -2459,6 +2460,9 @@ var GENERATOR = function(genparams){
 		}
 		//console.log(page);		
 		//console.log(JSON.stringify(page));
+			
+		$('#igrp-form-gen').trigger('on-export', [page]);
+		
 		return JSON.stringify(page);
 	}
 
@@ -2483,6 +2487,8 @@ var GENERATOR = function(genparams){
 			});
 		}
 
+		
+		
 		return rtn;
 	}
 
@@ -3078,6 +3084,8 @@ var GENERATOR = function(genparams){
 			e.preventDefault();
 			$('.form-gen-save .fa-cog').removeClass("hidden");   
 			var clicked = $(this);
+			
+			//console.log( SaveBlocks )
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
 				
@@ -3098,6 +3106,8 @@ var GENERATOR = function(genparams){
 					//{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
+				
+				//$('#igrp-form-gen').trigger('on-page-save', [vParam]);
 
 				//console.log(exportJSON);
 
@@ -3230,7 +3240,6 @@ var GENERATOR = function(genparams){
 						GEN.server.compile({
 							mode : 'java',
 							then : function(results){
-				
 								results.forEach(function(r){									
 									var name = r.name.toLowerCase();
 									vParam.push({

@@ -14,6 +14,10 @@
         <xsl:value-of select="concat($newline,$tab)"/>
     </xsl:variable>
     
+    <xsl:variable name="newlineTab2">
+        <xsl:value-of select="concat($newline,$tab2)"/>
+    </xsl:variable>
+    
     
      <xsl:variable name="newlineTab3">
         <xsl:value-of select="concat($newline,$tab2,$tab)"/>

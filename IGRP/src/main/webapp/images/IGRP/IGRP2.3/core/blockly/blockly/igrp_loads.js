@@ -88,13 +88,17 @@ var GetJavaType = {
 	
 	file : 'File',
 		
-	select : 'String'
+	select : 'String',
+	
+	email : 'String'
 		
 }
 
 $(window).resize(function() {
 	calcHeight();
 });
+
+
 $('#save_bloco_igrp').on('click',function() {
 	if (typeof (Storage) !== "undefined") {
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
@@ -187,7 +191,11 @@ window.IGRPBlocklyInit = function(){
 		FIELDS_MEANS[tag] = 'get'+Uptag+'()';
 		FIELDS_SET_MEANS[tag] = 'set'+Uptag;
 		
-		var javaType = GetJavaType[type] || type;
+		var javaType = GetJavaType[type] || type || 'String';
+		
+		console.log(javaType);
+		
+		console.log(type);
 		
 		fields_esp_model.push([ tag, javaType + '::'+tag]);
 		
@@ -507,7 +515,7 @@ function GetDefaultBlocklyXML(){
 		
 			xmlStr = new XMLSerializer().serializeToString(xml);
 	  
-		xmlStr = xmlStr.replaceAll('xmlns="http://www.w3.org/1999/xhtml"' ,'');
+		xmlStr = xmlStr.replaceAll(' xmlns="http://www.w3.org/1999/xhtml"' ,'');
 	 
 		return xmlStr;
 	}catch(err){
@@ -624,9 +632,28 @@ $.IGRP.on('init', function(){
 	
 	GEN = VARS.getGen();
 	
+	var pageBlockly = null;
+	
 	GEN.on('ready', function(){
 		
 		IGRPBlocklyInit();
+		
+		
+		if(pageBlockly){
+			
+			setTimeout(function(){
+				
+				Blockly.mainWorkspace.clear();
+				
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, pageBlockly );
+				
+			},400)
+			
+			
+			//Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, pageBlockly );
+		}
+		
+		
 		
 	});
 	
@@ -643,6 +670,24 @@ $.IGRP.on('init', function(){
 			
 		}, 400)
 
+	})
+	
+	$('#igrp-form-gen').on('on-export', function(e, data){
+		
+		data.blocklyData = GetDefaultBlocklyXML();
+		
+	})
+	
+	$('#igrp-form-gen').on('on-import', function(e, data){
+		
+		if( data.blocklyData ){
+			var xml = Blockly.Xml.textToDom( data.blocklyData );
+			pageBlockly = xml;
+			//Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+		}
+		
+		
+		
 	})
 
 })
