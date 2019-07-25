@@ -20,7 +20,7 @@ import javax.validation.Payload;
  */
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PairEmailValidor.class)
+@Constraint(validatedBy = PairEmailValidator.class)
 @Documented
 public @interface PairEmail {
 	String message() default MessageValidator.MESSAGE_EMAIL;
