@@ -11,7 +11,6 @@
 
 	</xsl:template>
 	
-
 	<xsl:template name="blockly.element.model_get">
 	
 		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
@@ -58,7 +57,7 @@
 		<xsl:if test="$fieldType != 'link'">
 		
 			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
-			<xsl:text>(obj</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>);</xsl:text>
+			<xsl:text>(</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>);</xsl:text>
 			
 			</xsl:if>
 	</xsl:template>
@@ -401,6 +400,48 @@
 		</xsl:variable>
 		
 		<xsl:text>System.out.println(</xsl:text><xsl:value-of select="$valor"></xsl:value-of><xsl:text>);</xsl:text>
+
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.controls_for">
+	
+		<xsl:variable name="variavel" select="field[@name='VAR']"/>
+	
+		<xsl:variable name="de">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='FROM']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="ate">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='TO']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="incremento">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='BY']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="DO">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='DO']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:text>for(int </xsl:text><xsl:value-of select="$variavel"></xsl:value-of>
+		<xsl:text>=</xsl:text><xsl:value-of select="$de"></xsl:value-of><xsl:text>; </xsl:text>
+		<xsl:value-of select="$variavel"></xsl:value-of><xsl:text>&lt;</xsl:text>
+		<xsl:value-of select="$ate"></xsl:value-of><xsl:text>; </xsl:text>
+		<xsl:value-of select="$variavel"></xsl:value-of><xsl:text>+=</xsl:text>
+		<xsl:value-of select="$incremento"></xsl:value-of><xsl:text>){</xsl:text>
+		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$DO"></xsl:value-of>
+		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:text>}</xsl:text>
+		
 
 	</xsl:template>
 	
@@ -847,6 +888,10 @@
 			
 			<xsl:when test="$block-type = 'row'">
 				<xsl:call-template name="blockly.element.row"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'controls_for'">
+				<xsl:call-template name="blockly.element.controls_for"></xsl:call-template>
 			</xsl:when>
 		
 		
