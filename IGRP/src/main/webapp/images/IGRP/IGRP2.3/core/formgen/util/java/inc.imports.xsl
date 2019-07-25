@@ -4,7 +4,6 @@
 	
 	<xsl:key name="index2" match="block" use="field" />
 
-	
 	<xsl:template name="blockly.imports">
 		
 		<xsl:variable name="dao-imports" select="$all-blocks[contains(@type,'et-dao-')]"></xsl:variable>
@@ -31,7 +30,7 @@
 					<xsl:variable name="className" select="."></xsl:variable>
 					
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"></xsl:value-of>
-					<xsl:text>.</xsl:text><xsl:value-of select="$className"></xsl:value-of>
+					<xsl:text>.dao.</xsl:text><xsl:value-of select="$className"></xsl:value-of>
 					<xsl:text>;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 				
