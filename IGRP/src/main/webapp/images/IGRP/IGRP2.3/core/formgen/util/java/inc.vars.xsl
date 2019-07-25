@@ -5,9 +5,9 @@
     
     <xsl:variable name="all-blocks" select="//*/block"></xsl:variable>
     
-    <xsl:variable name="app-title" select="main/config/app/title"></xsl:variable>
+    <xsl:variable name="app-title" select="rows/app"></xsl:variable>
     
-    <xsl:variable name="page-title" select="main/config/page/title"></xsl:variable>
+    <xsl:variable name="page-title" select="rows/page"></xsl:variable>
 
 
     <xsl:variable name="newlineTab1">
