@@ -130,6 +130,20 @@
 				<xsl:with-param name="value" select="*[@name='value1']"/>
 			</xsl:call-template>
 		</xsl:variable>
+		
+		<xsl:variable name="otherdao2">
+			
+			<xsl:call-template name="replace-all">
+			
+				<xsl:with-param name="text" select="$otherdao"/>
+				
+				<xsl:with-param name="replace" select="'obj'"/>
+				
+				<xsl:with-param name="by" select="''"/>
+				
+			</xsl:call-template>
+			
+		</xsl:variable>
 
 		<xsl:if test="$fieldType = 'Date'">
 			<xsl:text>Core.dateToString(obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>())</xsl:text>
@@ -138,7 +152,7 @@
 		
 		<xsl:if test="$fieldType != 'Date'">
 			<xsl:text>obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>
-			<xsl:value-of select="$otherdao"/>
+			<xsl:value-of select="$otherdao2"/>
 		</xsl:if>
 		
 	</xsl:template>
@@ -766,9 +780,56 @@
 		<xsl:value-of select="$newline"></xsl:value-of>
 	</xsl:template>
 
+	<xsl:template name="blockly.element.fill_combo" >
+	
+		<xsl:variable name="combo" select="field"/>
+		
+		<xsl:variable name="options">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='value2']"/>
+				<xsl:with-param name="parent" select="."></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+				
+		<xsl:text>LinkedHashMap&lt;String, String&gt; </xsl:text>
+		<xsl:value-of select="$combo"></xsl:value-of>
+		<xsl:text> = new LinkedHashMap&lt;&gt;()</xsl:text>
+		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$combo"></xsl:value-of><xsl:text>.put(null, gt("-- Selecionar --"));</xsl:text>
+		<xsl:value-of select="$newline"></xsl:value-of>	
+		<xsl:value-of select="$options"></xsl:value-of>
+		<xsl:value-of select="$newline"></xsl:value-of>	
+		<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+		<xsl:text>.setValue(</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+		<xsl:text>);</xsl:text>	
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.option_combo" >
+		
+		<xsl:param name="parent"/>
+		
+		<xsl:variable name="nameCap">
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="field"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="combo" select="$parent/field"/>
+				
+		<xsl:value-of select="$combo"></xsl:value-of>
+		<xsl:text>.put(</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+		<xsl:text>,gt(</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+		<xsl:text>));</xsl:text>
+		<xsl:value-of select="$newline"></xsl:value-of>
+		
+	</xsl:template>
+
 	<xsl:template name="blockly.element">
 	
 		<xsl:param name="element" select="."/>
+		
+		<xsl:param name="parent"/>
 		
 		<xsl:variable name="block-type" select="$element/@type"/>
 
@@ -893,6 +954,16 @@
 			<xsl:when test="$block-type = 'controls_for'">
 				<xsl:call-template name="blockly.element.controls_for"></xsl:call-template>
 			</xsl:when>
+			
+			<xsl:when test="$block-type = 'fill_combo'">
+				<xsl:call-template name="blockly.element.fill_combo"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'option_combo'">
+				<xsl:call-template name="blockly.element.option_combo">
+					<xsl:with-param name="parent" select="$parent"></xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
 		
 		
 			<xsl:otherwise>
@@ -904,6 +975,7 @@
 		<xsl:if test="$element/next">
 			<xsl:value-of select="$newlineTab1"/>
 			<xsl:call-template name="blockly.elements">
+				<xsl:with-param name="parent" select="$parent"/>
 				<xsl:with-param name="elements" select="$element/next/*"/>
 			</xsl:call-template>
 		</xsl:if>
@@ -914,6 +986,8 @@
 	<xsl:template name="blockly.elements">
 	
 		<xsl:param name="elements"/>
+		
+		<xsl:param name="parent"/>
 		
 		<xsl:param name="startEndCode" select="false()"/>
 		
@@ -927,7 +1001,7 @@
 			</xsl:if>
 			
 			<xsl:call-template name="blockly.element">
-				
+				<xsl:with-param name="parent" select="$parent"/>
 			</xsl:call-template>
 			
 			<xsl:if test="$startEndCode">

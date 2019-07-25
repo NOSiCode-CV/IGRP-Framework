@@ -37,7 +37,7 @@
 		
 			<category id="inicial_script" name="Script Inicial" colour="#990000">
 			
-			<block id="controller" type="controller" title="Controller" color ="180">
+			<block id="controller" type="controller" title="Controller" color ="180" x="363" y="13">
 					<value name="value1" type="dummy" title="Action Index"></value>
 					<value name="index" type="statement" ></value>
 <!-- 					<next id="add_action"></next> -->
@@ -183,12 +183,12 @@
 					<value name="value2" type="statement"></value>  
 				</block>
 				
-				<block type="select" color="60" prev-statement="" next-statement="" inline="true">
+				<block type="fill_combo" color="60" prev-statement="" next-statement="" inline="true">
 					<value name="value1" type="dummy" title="Action Index preencher combo box:">
 						<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>
 					</value>
 					<value name="value2" type="statement">
-						<block type="opcao" color="60" prev-statement="" next-statement="" inline="true">
+						<block type="option_combo" color="60" prev-statement="" next-statement="" inline="true">
 							<value name="value1" type="dummy" title="Opção:">
 								<field type="field_text" name="opcao" options=""></field>
 							</value>

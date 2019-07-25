@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="IGRP.blockly.java.test.xsl" type="text/xsl"?>
+
 <main>
     <config>
         <app>
-            <title>my_first_app</title>
+            <title>app_teste</title>
         </app>
         <page>
-            <title>Home_page</title>
+            <title>Teste_blocos</title>
         </page>
     </config>
     <xml >
-        <block type="controller" id="controller" x="0" y="0">
-            <statement name="index">
-                <block type="tentar" id="45AY?I.wI~Zj}tj9SPF0">
-                    <statement name="value2">
-                        <block type="listar" id="Mk+HOuZ-!vmMJ|y]rm7L" inline="true">
-                            <mutation count="1"></mutation>
-                            <field name="find">--</field>
-                            <field name="dao">--</field>
-                            <field name="table">--</field>
-                            <field name="ADD1WHERE">WHERE_EQ</field>
-                            <statement name="value2">
-                                <block type="row" id="3CRhTV;GBirJap#+4RBI">
-                                    <field name="coluna">--</field>
+        <block type="fill_combo" id="nJN2ll(V{[i*|nOEk:C#" inline="true" x="113" y="87">
+            <field name="selecao">estado_civil</field>
+            <statement name="value2">
+                <block type="option_combo" id="EGOH=s^Q!-X(mXispl{V" inline="true">
+                    <field name="opcao">Solteiro</field>
+                    <next>
+                        <block type="option_combo" id="4iX#nO?qWPDP,4B;hIVU" inline="true">
+                            <field name="opcao">Casado</field>
+                            <next>
+                                <block type="option_combo" id="*m*=X7xd8SKF7|G.~!b)" inline="true">
+                                    <field name="opcao">Divorciado</field>
                                 </block>
-                            </statement>
-                            <value name="ADD1">
-                                <block type="get-dao-User" id="S4`P=k~vv?/@ISqE6qqi">
-                                    <field name="fields">String::nome</field>
-                                </block>
-                            </value>
-                            <value name="ADD1STATE2">
-                                <block type="text" id=")~t@b+y+/*=9*qdy-v[:">
-                                    <field name="TEXT"></field>
-                                </block>
-                            </value>
+                            </next>
                         </block>
-                    </statement>
+                    </next>
                 </block>
             </statement>
         </block>
