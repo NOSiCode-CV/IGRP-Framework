@@ -408,7 +408,7 @@ public abstract class Model { // IGRP super model
 				}
 				break;
 			default:
-				if (m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) {
+				if ((m.isAnnotationPresent(NotEmpty.class) || m.isAnnotationPresent(NotNull.class)) && m.isAnnotationPresent(RParam.class)) {
 					if (defaultResult == null) {
 						defaultResult = m.getAnnotation(RParam.class).defaultValue();
 					}
