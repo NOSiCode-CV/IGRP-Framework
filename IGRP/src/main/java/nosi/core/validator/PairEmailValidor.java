@@ -10,7 +10,7 @@ import nosi.core.webapp.Core;
  * Emanuel
  * 25 Jul 2019
  */
-public class PairEmailValidor implements ConstraintValidator<PairEmail, Pair>{
+public class PairEmailValidator implements ConstraintValidator<PairEmail, Pair>{
 
 	String regex;
 	@Override
