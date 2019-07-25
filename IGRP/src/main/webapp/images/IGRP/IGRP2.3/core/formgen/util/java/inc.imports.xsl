@@ -3,9 +3,7 @@
 	<xsl:key name="index1" match="block" use="@type" />
 	
 	<xsl:key name="index2" match="block" use="field" />
-	
-	
-	<xsl:template></xsl:template>
+
 	
 	<xsl:template name="blockly.imports">
 		
