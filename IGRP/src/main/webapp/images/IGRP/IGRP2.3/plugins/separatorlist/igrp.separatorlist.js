@@ -372,6 +372,11 @@ $.fn.separatorList = function(o){
 				name 	 : sl.name,
 				row      : row
 			});
+			
+			sl.events.execute('row-edit',{
+				row 	 : row,
+				indexRow : $(row)[0].rowIndex -1
+			});
 
 			$.each(fields,function(i,f){
 

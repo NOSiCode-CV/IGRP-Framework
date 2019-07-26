@@ -67,11 +67,11 @@
 
                 },20);
 
-                TABLE[0].events.execute('row-reset',row);
+                TABLE[0].events.execute('row-reset',vObjTr);
                 
                 TABLE.trigger('formlist:row-reset', [{
 
-                    row : row
+                    row : vObjTr
 
                 }]);
             }
