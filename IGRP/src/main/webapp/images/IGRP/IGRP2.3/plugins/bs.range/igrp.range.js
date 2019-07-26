@@ -5,10 +5,10 @@
 	$.IGRP.component('bsRange',{
 
 		render : function(rg){
-
+			
 			var ranges = rg || $('.igrp-range');
-
-			ranges.slider();
+			
+			ranges.bootstrapSlider();
 		},
 
 		renderOnEvents : function(){
@@ -38,18 +38,18 @@
 
 			        var $sl = p.row.parents('.IGRP-separatorlist:first');
 
-			        $('.igrp-range',$sl).slider('refresh');
+			        $('.igrp-range',$sl).bootstrapSlider('refresh');
 			    });
 
 			    sl.events.on('row-edit',function(p){
 			        var $row  = $(p.row),
 			        	$sl   = $(p.row).parents('.IGRP-separatorlist:first');
-			        console.log($row);
+			        
 			        $('.igrp-range',$sl).each(function(i,el){
 			        	var $el  = $(el),
 			        		val  = $(':input[name="'+$el.attr('name')+'_fk"]',$row).val();
-			        	console.log(val);
-			        	$el.val(val).slider('setValue',val,true);
+			        	
+			        	$el.val(val).bootstrapSlider('setValue',val,true);
 			        });
 			    });
 			}
@@ -57,6 +57,7 @@
 
 		init:function(){
 			com = this;
+			
 			com.render();
 
 			com.renderOnEvents();
