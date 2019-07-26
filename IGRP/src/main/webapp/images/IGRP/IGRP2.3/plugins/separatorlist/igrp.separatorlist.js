@@ -218,19 +218,11 @@ $.fn.separatorList = function(o){
 													return false;
 													
 												});
-												
-												console.log(result)
-												
-												//hyperlink.data( 'image-preview' )
-												
-											} )
+
+											});
 											
 										}
-										
-										
-										
-										
-									
+
 									} else
 										tdcontent = '<input type="hidden" name="'+name+'_fk" value=""/>';
 								}
@@ -372,11 +364,6 @@ $.fn.separatorList = function(o){
 				name 	 : sl.name,
 				row      : row
 			});
-			
-			sl.events.execute('row-edit',{
-				row 	 : row,
-				indexRow : $(row)[0].rowIndex -1
-			});
 
 			$.each(fields,function(i,f){
 
@@ -438,6 +425,10 @@ $.fn.separatorList = function(o){
 					$("form").prepend('<input type="hidden" name="p_'+sltag+'_del" value="'+rowId+'"/>');
 					//$.IGRP.utils.createHidden({ name:"p_"+sltag+"_del",value:rowId });
 				
+
+				
+				$(row).trigger('removed-from-separatorlist');
+				
 				$(row).remove();
 
 				sl.events.execute('row-remove',{
@@ -449,6 +440,8 @@ $.fn.separatorList = function(o){
 					row : row
 					
 				}]);
+				
+				
 			}
 		};
 
@@ -706,6 +699,20 @@ $.fn.separatorList = function(o){
 			//FILE FIELD
 			sl.events.declare(["file-field-add"]);
 			sl.events.on("file-field-add",function(o){
+				
+				setTimeout(function(){
+			
+					var row = o.field.next('tr');
+					
+					row.on('removed-from-separatorlist', function(){
+
+						o.field.remove();
+						
+					});
+					
+				},100)
+				
+				
 				/*return $('input[name="'+o.name+'"]').clone(true)
 					.removeAttr('class id multiple required accept').attr('name',o.name+'_fk')
 					.attr('value',o.value).hide();*/
