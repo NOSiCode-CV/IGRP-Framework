@@ -9,7 +9,7 @@ import nosi.core.webapp.security.PagesScapePermission;
  */
 public class Route {
 
-	public static String toUrl(String app, String page, String action_, String qs) {
+	public static String toUrl(String app, String page, String action_, String qs,int isPublic) {
 		String queryString = qs+ getQueryString(action_);
 		if (!queryString.contains("target")) {
 			String target = "";
@@ -21,13 +21,13 @@ public class Route {
 		queryString = UrlHelper.urlEncoding(queryString);
 		String action = resolveAction(action_);
 		String url = "";
-		if(queryString.contains("dad")) {
-			url = Route.getResolveUrl(app, page, action+queryString,null,Core.getParamInt("isPublic").intValue());
-		}else {
-			url = Route.getResolveUrl(app, page, action+queryString);
-		}
+		url = Route.getResolveUrl(app, page, action+queryString,null,isPublic);
 		url = url.replaceAll("&&", "&");
 		return url;
+	}
+	
+	public static String toUrl(String app, String page, String action_, String qs) {
+		return Route.toUrl(app, page, action_, qs, Core.getParamInt("isPublic").intValue());
 	}
 
 	public static String getResolveUrl(String app,String page,String action){

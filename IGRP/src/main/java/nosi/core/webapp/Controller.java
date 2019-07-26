@@ -344,6 +344,23 @@ public class Controller {
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
 
+
+	protected final Response redirect(String app, String page, String action, QueryString<String, Object> queryString, int isPublic)
+			throws IOException {
+		if (queryString.getValues("dad") == null && !action.contains("dad"))
+			queryString.addQueryString("dad", Core.getParam("dad"));
+		String jsonLookup = Core.getParam("jsonLookup");
+		if (Core.isNotNull(jsonLookup)) {
+			queryString.addQueryString("jsonLookup", jsonLookup);
+		}
+		this.setQueryString(queryString);
+		Map<String, String[]> paramsName = Core.getParameters();
+		paramsName.entrySet().stream().filter(param -> param.getKey().startsWith("p_fwl_"))
+				.filter(param -> !param.getKey().equalsIgnoreCase("p_fwl_search"))
+				.forEach(param -> qs += "&" + param.getKey() + "=" + param.getValue()[0]);
+		return this.redirect_(Route.toUrl(app, page, action, qs,isPublic));
+	}
+	
 	private void setQueryString(QueryString<String, Object> queryString) {
 		qs = "";
 		if (queryString != null && !queryString.getQueryString().isEmpty()) {

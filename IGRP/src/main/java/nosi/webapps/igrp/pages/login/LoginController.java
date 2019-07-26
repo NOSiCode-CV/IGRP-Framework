@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -26,7 +27,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Form;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.wso2.carbon.um.ws.service.RemoteUserStoreManagerService;
@@ -34,7 +34,6 @@ import org.wso2.carbon.um.ws.service.dao.xsd.ClaimDTO;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
 import nosi.core.ldap.LdapPerson;
-import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -569,7 +568,7 @@ public class LoginController extends Controller {
 		return null;
 	}
 	
-	private Map<String, String> oAuth2Wso2Swap() {
+	public Map<String, String> oAuth2Wso2Swap() {
 		
 		try {
 			String authCode = Core.getParam("code"); 
@@ -655,7 +654,6 @@ public class LoginController extends Controller {
 			uid.put("sub", jToken.getString("sub")); 
 			uid.put("email", jToken.getString("email")); 
 			
-			System.out.println("oidc: " + jToken); 
 
 		} catch (Exception e) {
 			e.printStackTrace(); 
@@ -664,7 +662,7 @@ public class LoginController extends Controller {
 		return uid;
 	}
 	
-	private Response oAuth2Wso2() {
+	public Response oAuth2Wso2() {
 		
 		String error = Core.getParam("error"); 
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
@@ -694,9 +692,7 @@ public class LoginController extends Controller {
 			}
 			
 			if(token != null) {
-				
 				Map<String, String> _r = oAuth2Wso2GetUserInfoByToken(token);
-				
 				if(_r != null && _r.containsKey("email") && _r.containsKey("sub")) {
 					
 					String email = _r.get("email") != null ? _r.get("email").trim().toLowerCase() : _r.get("email"); 
@@ -705,7 +701,7 @@ public class LoginController extends Controller {
 					User user = new User().find().andWhere("email", "=", email).one(); 
 					
 					if (user != null) {
-						
+						this.afterLogin(user);
 						if(createSessionLdapAuthentication(user)) {
 							try {
 								user.setValid_until(token);
@@ -737,7 +733,7 @@ public class LoginController extends Controller {
 								newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 			
 								newUser = newUser.insert(); 
-								
+								this.afterLogin(user);
 								if(newUser != null && createPerfilWhenAutoInvite(newUser) && createSessionLdapAuthentication(newUser)) { 
 									newUser.setValid_until(token);
 									newUser.setOidcIdToken(id_token);
@@ -782,6 +778,23 @@ public class LoginController extends Controller {
 		return null;
 	}
 	
+	private void afterLogin(User user) {
+		String dad = Core.getParam("dad");
+		if(Core.isNotNull(dad) && !dad.equalsIgnoreCase("igrp") && !dad.equalsIgnoreCase("igrp_studio") && !dad.equalsIgnoreCase("tutorial")) {
+			String packageName = "nosi.webapps."+dad.trim()+".AfterLogin";
+			Class<?> c;
+			try {
+				c = Class.forName(packageName);
+				if(c!=null) {
+					Method method = c.getMethod("afterLogin",User.class);
+					method.invoke(c.newInstance(), user);//after login implementation
+				}
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+
 	private Response createResponseOauth2OpenIdWso2() {
 		String r = settings.getProperty("ids.wso2.oauth2-openid.enabled"); 
 		String url = settings.getProperty("ids.wso2.oauth2.endpoint.authorize"); 
@@ -791,7 +804,6 @@ public class LoginController extends Controller {
 			redirect_uri = redirect_uri.replace("IGRP", warName); 
 			String client_id = settings.getProperty("ids.wso2.oauth2.client_id"); 
 			url += "?response_type=code&client_id=" + client_id + "&scope=openid+email+profile&state=TWILIGHT10&redirect_uri=" + redirect_uri;
-
 			return redirectToUrl(url); 
 			
 		}

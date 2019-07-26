@@ -710,7 +710,7 @@ $.fn.separatorList = function(o){
 						
 					});
 					
-				},100)
+				},100);
 				
 				
 				/*return $('input[name="'+o.name+'"]').clone(true)
