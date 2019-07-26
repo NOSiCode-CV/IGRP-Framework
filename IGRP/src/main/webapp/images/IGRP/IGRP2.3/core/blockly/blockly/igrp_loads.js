@@ -88,13 +88,19 @@ var GetJavaType = {
 	
 	file : 'File',
 		
-	select : 'String'
+	select : 'Select',
+	
+	email : 'String',
+	
+	link : 'Link'
 		
 }
 
 $(window).resize(function() {
 	calcHeight();
 });
+
+
 $('#save_bloco_igrp').on('click',function() {
 	if (typeof (Storage) !== "undefined") {
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
@@ -187,7 +193,11 @@ window.IGRPBlocklyInit = function(){
 		FIELDS_MEANS[tag] = 'get'+Uptag+'()';
 		FIELDS_SET_MEANS[tag] = 'set'+Uptag;
 		
-		var javaType = GetJavaType[type] || type;
+		var javaType = GetJavaType[type] || type || 'String';
+		
+		console.log(javaType);
+		
+		console.log(type);
 		
 		fields_esp_model.push([ tag, javaType + '::'+tag]);
 		
@@ -337,12 +347,13 @@ window.IGRPBlocklyInit = function(){
 			IGRP_BLOCKLY_DROPS.daos[daos] = fieldy_list
 			
 			$(data).find('dao>' + daos+ '>*').each(function(i, f) {
-				console.log(f)
+				//console.log(f)
 				var field = $('nome',f).text(),
 					
 					type = $('tipo',f).text();
 					
 				fieldy_list.push([field,type+'::'+field ]);
+				
 				var Upfieldy = field.charAt(0).toUpperCase()+ field.slice(1).toLowerCase();
 				FIELDY_MEANS[field] = 'set'+Upfieldy;
 				FIELDY_MEANS_GET[field] = '.get'+Upfieldy+'()';
@@ -388,7 +399,7 @@ window.IGRPBlocklyInit = function(){
 
 			
 			$('#'+daos+'').append(
-				'<block type="set-dao-'+daos+'" color="160"  prev-statement="" next-statement="">'
+				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="">'
 					+'<value name="value1" type="value" title="set'+daos+'">'
 						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
 						+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
@@ -483,6 +494,8 @@ window.IGRPBlocklyInit = function(){
 			var demoWorkspace = Blockly.mainWorkspace;
 
 			Blockly.Xml.domToWorkspace( $('#inicial_script')[0] ,demoWorkspace);
+			
+			$('#igrp-form-gen').trigger('blockly-ready');
 		}
 	},
 	error : function(data) {
@@ -501,13 +514,113 @@ var codeBlockStart = '/* Start-Code-Block (',
 
 	codeBlockEnd   = '/* End-Code-Block */';
 
+function GetBlocklyImports(){
+	
+	try{
+		
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
+		
+			listarImports = $('block[type="listar"]',xml),
+			
+			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
+			
+			fieldDaos     = $('field[name="dao"]', xml),
+			
+			Fields 		  = $('field', xml),
+			
+			fieldsImportsMap = {
+				'Date' : true,
+				'Select' : true,
+				'File' : true,
+				'Link' : true
+			}
+			
+			rtn = '';
+		
+		if(listarImports[0])
+			
+			rtn+='<import type="listar"></import>';
+				
+		if(daosImports[0] || fieldDaos[0]){
+			
+			var incs = {};
+			
+			daosImports.each(function(i, dao){
+				
+				var daoClass = $.trim($(dao).attr('type').split('et-dao-').pop());
+				
+				if(!incs[daoClass])
+					
+					incs[daoClass] = true;
+
+			});
+			
+			fieldDaos.each(function(i,fdao){
+				
+				var daoClss = $(fdao).text();
+				
+				if(!incs[daoClss])
+					
+					incs[daoClss] = true;
+				
+			});
+			
+			for(var i in incs){
+				
+				rtn+='<import type="dao">'+i+'</import>';
+				
+			}
+			
+		}
+		
+		
+		
+		var fieldsInc = {};
+		
+		Fields.each(function(i,f){
+			
+			var text = $(f).text();
+			
+			if(text.indexOf('::') >=0 ){
+				
+				var strSplit = text.split('::'),
+				
+					type     = strSplit[0],
+					
+					val 	 = strSplit[1];
+				
+				if(fieldsImportsMap[type] && !fieldsInc[type]){
+					
+					fieldsInc[type] = true;
+					
+				}
+
+			}
+			
+		});
+		
+		for(var x in fieldsInc){
+			
+			rtn+='<import type="fields">'+x+'</import>';
+			
+		}
+			
+			
+		return '<imports>'+rtn+'</imports>';
+			
+	}catch(err){
+		return '';
+	}
+	
+}
+
 function GetDefaultBlocklyXML(){
 	try{
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace),
 		
 			xmlStr = new XMLSerializer().serializeToString(xml);
 	  
-		xmlStr = xmlStr.replaceAll('xmlns="http://www.w3.org/1999/xhtml"' ,'');
+		xmlStr = xmlStr.replaceAll(' xmlns="http://www.w3.org/1999/xhtml"' ,'');
 	 
 		return xmlStr;
 	}catch(err){
@@ -624,9 +737,29 @@ $.IGRP.on('init', function(){
 	
 	GEN = VARS.getGen();
 	
+	var pageBlockly = null;
+	
 	GEN.on('ready', function(){
 		
 		IGRPBlocklyInit();
+		
+		$('#igrp-form-gen').on('blockly-ready', function(){
+			
+			if(pageBlockly){
+				
+				setTimeout(function(){
+					
+					Blockly.mainWorkspace.clear();
+					
+					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, pageBlockly );
+					
+				},400)
+				
+				
+				
+			}
+	
+		})
 		
 	});
 	
@@ -644,6 +777,26 @@ $.IGRP.on('init', function(){
 		}, 400)
 
 	})
+	
+	$('#igrp-form-gen').on('on-export', function(e, data){
+		
+		data.blocklyData = GetDefaultBlocklyXML();
+		
+	})
+	
+	$('#igrp-form-gen').on('on-import', function(e, data){
+		
+		if( data.blocklyData ){
+			var xml = Blockly.Xml.textToDom( data.blocklyData );
+			pageBlockly = xml;
+			//Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+		}
+		
+		
+		
+	})
+	
+	
 
 })
 

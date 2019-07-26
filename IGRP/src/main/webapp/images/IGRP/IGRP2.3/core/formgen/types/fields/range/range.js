@@ -37,7 +37,7 @@ var RANGEFIELD = function(type,params){
 
 		var range = $('[range-id="range-'+field.GET.tag()+'"]',$('[item-name="'+field.GET.tag()+'"]'));
 
-		$.IGRP.components['bsRange'].init(range);
+		$.IGRP.components['bsRange'].render(range);
 
 	}
 	

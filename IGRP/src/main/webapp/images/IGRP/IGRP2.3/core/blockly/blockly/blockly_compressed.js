@@ -13004,6 +13004,8 @@ Blockly.Xml.blockToDom = function(a) {
     var b = goog.dom.createDom(a.isShadow() ? "shadow" : "block");
     b.setAttribute("type", a.type);
     b.setAttribute("id", a.id);
+    
+    
     if (a.mutationToDom) {
         var c = a.mutationToDom();
         c && (c.hasChildNodes() || c.hasAttributes()) && b.appendChild(c)
@@ -13013,6 +13015,9 @@ Blockly.Xml.blockToDom = function(a) {
             if (f.name && f.EDITABLE) {
                 var g = goog.dom.createDom("field", null, f.getValue());
                 g.setAttribute("name", f.name);
+                
+                //consol.elog(f.getValue())
+                
                 b.appendChild(g)
             }
     if (c = a.getCommentText()) c = goog.dom.createDom("comment", null,

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="IGRP.blockly.java.test.xsl" type="text/xsl"?>
+
+<main>
+    <config>
+        <app>
+            <title>app_teste</title>
+        </app>
+        <page>
+            <title>Teste_blocos</title>
+        </page>
+    </config>
+    <xml >
+        <block type="fill_combo" id="nJN2ll(V{[i*|nOEk:C#" inline="true" x="113" y="87">
+            <field name="selecao">estado_civil</field>
+            <statement name="value2">
+                <block type="option_combo" id="EGOH=s^Q!-X(mXispl{V" inline="true">
+                    <field name="opcao">Solteiro</field>
+                    <next>
+                        <block type="option_combo" id="4iX#nO?qWPDP,4B;hIVU" inline="true">
+                            <field name="opcao">Casado</field>
+                            <next>
+                                <block type="option_combo" id="*m*=X7xd8SKF7|G.~!b)" inline="true">
+                                    <field name="opcao">Divorciado</field>
+                                </block>
+                            </next>
+                        </block>
+                    </next>
+                </block>
+            </statement>
+        </block>
+    </xml>
+</main>

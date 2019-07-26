@@ -2,6 +2,7 @@
 
 	<xsl:template name="blockly.getValue">
 		<xsl:param name="value"/>
+		<xsl:param name="parent"/>
 		<xsl:param name="startEndCode" select="false()"/>
 		
 		<xsl:variable name="valueElements" select="$value/block|$value/shadow"/>
@@ -10,6 +11,7 @@
 				<xsl:call-template name="blockly.elements">
 					<xsl:with-param name="elements" select="$valueElements"></xsl:with-param>
 					<xsl:with-param name="startEndCode" select="$startEndCode"></xsl:with-param>
+					<xsl:with-param name="parent" select="$parent"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>

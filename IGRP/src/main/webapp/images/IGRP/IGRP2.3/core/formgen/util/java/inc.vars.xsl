@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    
     <xsl:output method="text" encoding="UTF-8" indent="no"/>
-    
-    
+   
     <xsl:variable name="all-blocks" select="//*/block"></xsl:variable>
     
-    <xsl:variable name="app-title" select="main/config/app/title"></xsl:variable>
+    <xsl:variable name="app-title" select="rows/app"></xsl:variable>
     
-    <xsl:variable name="page-title" select="main/config/page/title"></xsl:variable>
-
+    <xsl:variable name="page-title" select="rows/page"></xsl:variable>
 
     <xsl:variable name="newlineTab1">
         <xsl:value-of select="concat($newline,$tab)"/>
+    </xsl:variable>
+    
+    <xsl:variable name="newlineTab2">
+        <xsl:value-of select="concat($newline,$tab2)"/>
     </xsl:variable>
     
     

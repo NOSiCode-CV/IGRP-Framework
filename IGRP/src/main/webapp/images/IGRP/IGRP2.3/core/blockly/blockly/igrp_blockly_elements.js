@@ -21,7 +21,10 @@
 						var arr = [];
 						
 						$('rows content '+item, XML).find('fields > *').each(function(i, field){
-							arr.push( [ field.tagName, GetJavaType[$(field).attr('type')]+'::'+ field.tagName ] )
+							
+							var type =  GetJavaType[$(field).attr('type')] || 'String';
+							
+							arr.push( [ field.tagName, type+'::'+ field.tagName ] )
 						})
 						
 						return arr;
@@ -32,7 +35,9 @@
 					
 					console.log(menus)
 					
-					block.childBlocks_[0].inputList[0].fieldRow[1].menuGenerator_ = menus;
+					console.log(block)
+					
+					//block.childBlocks_[0].inputList[0].fieldRow[1].menuGenerator_ = menus;
 					//console.log( block.childBlocks_[0].inputList.fieldRow[1] )					
 					//pega kel coluna d es table
 					//setta campos di tabel "item"
