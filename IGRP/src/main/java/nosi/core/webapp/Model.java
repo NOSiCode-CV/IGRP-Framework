@@ -192,9 +192,34 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if (m.getType().isArray()) {
-				this.loadArrayData(m,typeName);
+				String[] aux = null;
+				aux = (String[]) Core.getParamArray(
+						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
+								? m.getAnnotation(RParam.class).rParamName()
+								: m.getName() // default case use the name of field
+				);
+				this.loadArrayData(m,typeName,aux);
 			} else {
-				this.loadData(m,typeName);
+				String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
+						? m.getAnnotation(RParam.class).rParamName()
+						: m.getName();
+
+				Object o = Core.getParam(name); // default case use the name of field
+				String aux = "";
+				if (o != null)
+					if (o.getClass().isArray()) {
+						String[] s = (String[]) o;
+						aux = s[s.length - 1];
+					} else
+						aux = o.toString();
+				try {
+					aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("")
+							? m.getAnnotation(RParam.class).defaultValue()
+							: "0") : aux);
+				} catch (Exception e) {
+					aux = "0";
+				}
+				this.loadData(m,typeName,aux);
 			}
 			/* Begin */
 			if (m.isAnnotationPresent(SeparatorList.class)) {
@@ -309,31 +334,9 @@ public abstract class Model { // IGRP super model
 		this.loadModelFromAttribute();
 	}
 
-	private void loadData(Field m, String typeName) throws IllegalArgumentException, IllegalAccessException {
-
-		String name = m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
-				? m.getAnnotation(RParam.class).rParamName()
-				: m.getName();
-
-		Object o = Core.getParam(name); // default case use the name of field
-
-		String aux = "";
-		if (o != null)
-			if (o.getClass().isArray()) {
-				String[] s = (String[]) o;
-				aux = s[s.length - 1];
-			} else
-				aux = o.toString();
-
+	private void loadData(Field m, String typeName,String value) throws IllegalArgumentException, IllegalAccessException {
+		String aux = value;
 		String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
-
-		try {
-			aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("")
-					? m.getAnnotation(RParam.class).defaultValue()
-					: "0") : aux);
-		} catch (Exception e) {
-			aux = "0";
-		}
 		switch (typeName) {
 			case "int":
 				m.setInt(this, Core.toInt(aux).intValue());
@@ -380,24 +383,28 @@ public abstract class Model { // IGRP super model
 			case "java.time.LocalDate":
 				if (aux != null && !aux.equals("0")) {
 					String[] datePart = aux.split("-");
-					int day = Core.toInt(datePart[0]).intValue();
-					int month = Core.toInt(datePart[1]).intValue();
-					int year = Core.toInt(datePart[2]).intValue();
-					LocalDate date = LocalDate.of(year, month, day);
-					m.set(this, date);
+					if(datePart!=null && datePart.length > 2) {
+						int day = Core.toInt(datePart[0]).intValue();
+						int month = Core.toInt(datePart[1]).intValue();
+						int year = Core.toInt(datePart[2]).intValue();
+						LocalDate date = LocalDate.of(year, month, day);
+						m.set(this, date);
+					}
 				}
 				break;
 			case "java.time.LocalTime":
 				if (aux != null && !aux.equals("0")) {
 					String[] timePart = aux.split(":");
-					int hour = Core.toInt(timePart[0]).intValue();
-					int minute = Core.toInt(timePart[1]).intValue();
-					int second = 0;
-					if (timePart.length > 2) {
-						second = Core.toInt(timePart[2]).intValue();
+					if(timePart!=null && timePart.length > 1) {
+						int hour = Core.toInt(timePart[0]).intValue();
+						int minute = Core.toInt(timePart[1]).intValue();
+						int second = 0;
+						if (timePart.length > 2) {
+							second = Core.toInt(timePart[2]).intValue();
+						}
+						LocalTime time = LocalTime.of(hour, minute, second);
+						m.set(this, time);
 					}
-					LocalTime time = LocalTime.of(hour, minute, second);
-					m.set(this, time);
 				}
 				break;
 			case "javax.servlet.http.Part":
@@ -423,13 +430,8 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	private void loadArrayData(Field m, String typeName) throws IllegalArgumentException, IllegalAccessException {
-		String[] aux = null;
-		aux = (String[]) Core.getParamArray(
-				m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("")
-						? m.getAnnotation(RParam.class).rParamName()
-						: m.getName() // default case use the name of field
-		);
+	private void loadArrayData(Field m, String typeName,String[] value) throws IllegalArgumentException, IllegalAccessException {
+		String[] aux = value;
 		if (aux != null) {
 			// Awesome !!! We need make casts for all [] primitive type ... pff
 			switch (typeName) {
@@ -502,15 +504,21 @@ public abstract class Model { // IGRP super model
 	 * When using this.forward("app","page","index",model, this.queryString());
 	 */
 	private void loadModelFromAttribute() {
-		if (Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, false) != null) {
-			Model model = (Model) Core.getAttributeObject(ATTRIBUTE_NAME_REQUEST, true);
+		Model model = (Model)Igrp.getInstance().getRequest().getSession().getAttribute(ATTRIBUTE_NAME_REQUEST);
+		if (model != null) {
+			Igrp.getInstance().getRequest().getSession().removeAttribute(ATTRIBUTE_NAME_REQUEST);
 			for (Method m : model.getClass().getDeclaredMethods()) {
 				m.setAccessible(true);
 				for (Field f : this.getClass().getDeclaredFields()) {
 					if (m.getName().startsWith("get") && m.getName().toLowerCase().endsWith(f.getName())) {
 						f.setAccessible(true);
+						String typeName = f.getType().getName();
 						try {
-							f.set(this, m.invoke(model));
+							if(f.getType().isArray()) {
+								this.loadArrayData(f, typeName, (String[])m.invoke(model));
+							}else {
+								this.loadData(f, typeName, ""+m.invoke(model));
+							}
 						} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 							e.printStackTrace();
 						}

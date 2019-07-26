@@ -324,7 +324,7 @@ public class Controller {
 
 	protected final Response redirect(String app, String page, String action, Model model,
 			QueryString<String, Object> queryString) throws IOException {
-		Core.setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
+		Igrp.getInstance().getRequest().getSession().setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
 		return this.redirect(app, page, action, queryString);
 	}
 
@@ -647,7 +647,6 @@ public class Controller {
 
 	protected Response forward(String app, String page, String action, Model model,
 			QueryString<String, Object> queryString) {
-		Core.setAttribute(Model.ATTRIBUTE_NAME_REQUEST, model);
 		return this.forward(app, page, action, queryString);
 	}
 
