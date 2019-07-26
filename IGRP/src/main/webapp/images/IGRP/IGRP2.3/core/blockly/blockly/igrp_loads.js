@@ -524,6 +524,8 @@ function GetBlocklyImports(){
 			
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			
+			fieldDaos     = $('field[name="dao"]', xml),
+			
 			Fields 		  = $('field', xml),
 			
 			fieldsImportsMap = {
@@ -539,7 +541,7 @@ function GetBlocklyImports(){
 			
 			rtn+='<import type="listar"></import>';
 				
-		if(daosImports[0]){
+		if(daosImports[0] || fieldDaos[0]){
 			
 			var incs = {};
 			
@@ -553,6 +555,16 @@ function GetBlocklyImports(){
 
 			});
 			
+			fieldDaos.each(function(i,fdao){
+				
+				var daoClss = $(fdao).text();
+				
+				if(!incs[daoClss])
+					
+					incs[daoClss] = true;
+				
+			});
+			
 			for(var i in incs){
 				
 				rtn+='<import type="dao">'+i+'</import>';
@@ -560,6 +572,8 @@ function GetBlocklyImports(){
 			}
 			
 		}
+		
+		
 		
 		var fieldsInc = {};
 		
