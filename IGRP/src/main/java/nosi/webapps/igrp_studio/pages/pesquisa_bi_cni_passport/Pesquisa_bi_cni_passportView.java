@@ -5,9 +5,6 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class Pesquisa_bi_cni_passportView extends View {
 
@@ -25,14 +22,14 @@ public class Pesquisa_bi_cni_passportView extends View {
 	public Field nome_mae_tab;
 	public Field data_emissao_tab;
 	public Field emissor_tab;
+	public Field nic_cni_tab;
 	public Field estado_civil;
 	public Field nat_conselho;
 	public Field residencia;
 	public Field dt_validade;
 	public Field bi_tab;
-	public Field nic_cni_tab;
 	public Field passaporte_tab;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
@@ -42,7 +39,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 
 		this.setPageTitle("Pesquisa BI-CNI-passport");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -50,7 +47,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("Pesquisa BI/CNI/Passaporte"));
+		sectionheader_1_text.setValue(gt("<p>Pesquisa BI / NIC (CNI)</p>"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		tipo_documento = new ListField(model,"tipo_documento");
@@ -59,7 +56,7 @@ public class Pesquisa_bi_cni_passportView extends View {
 		
 		numero_do_documento = new TextField(model,"numero_do_documento");
 		numero_do_documento.setLabel(gt("Número do documento"));
-		numero_do_documento.propertie().add("name","p_numero_do_documento").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
+		numero_do_documento.propertie().add("name","p_numero_do_documento").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","true");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -105,6 +102,10 @@ public class Pesquisa_bi_cni_passportView extends View {
 		emissor_tab.setLabel(gt("Emissor"));
 		emissor_tab.propertie().add("name","p_emissor_tab").add("type","text").add("maxlength","30").add("showLabel","true");
 		
+		nic_cni_tab = new TextField(model,"nic_cni_tab");
+		nic_cni_tab.setLabel(gt("NIC"));
+		nic_cni_tab.propertie().add("name","p_nic_cni_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		
 		estado_civil = new HiddenField(model,"estado_civil");
 		estado_civil.setLabel(gt(""));
 		estado_civil.propertie().add("name","p_estado_civil").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","estado_civil");
@@ -124,10 +125,6 @@ public class Pesquisa_bi_cni_passportView extends View {
 		bi_tab = new HiddenField(model,"bi_tab");
 		bi_tab.setLabel(gt(""));
 		bi_tab.propertie().add("name","p_bi_tab").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","bi_tab");
-		
-		nic_cni_tab = new HiddenField(model,"nic_cni_tab");
-		nic_cni_tab.setLabel(gt(""));
-		nic_cni_tab.propertie().add("name","p_nic_cni_tab").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","nic_cni_tab");
 		
 		passaporte_tab = new HiddenField(model,"passaporte_tab");
 		passaporte_tab.setLabel(gt(""));
@@ -160,12 +157,12 @@ public class Pesquisa_bi_cni_passportView extends View {
 		table_1.addField(nome_mae_tab);
 		table_1.addField(data_emissao_tab);
 		table_1.addField(emissor_tab);
+		table_1.addField(nic_cni_tab);
 		table_1.addField(estado_civil);
 		table_1.addField(nat_conselho);
 		table_1.addField(residencia);
 		table_1.addField(dt_validade);
 		table_1.addField(bi_tab);
-		table_1.addField(nic_cni_tab);
 		table_1.addField(passaporte_tab);
 
 		form_1.addButton(btn_pesquisar);
@@ -190,12 +187,12 @@ public class Pesquisa_bi_cni_passportView extends View {
 		nome_mae_tab.setValue(model);
 		data_emissao_tab.setValue(model);
 		emissor_tab.setValue(model);
+		nic_cni_tab.setValue(model);
 		estado_civil.setValue(model);
 		nat_conselho.setValue(model);
 		residencia.setValue(model);
 		dt_validade.setValue(model);
 		bi_tab.setValue(model);
-		nic_cni_tab.setValue(model);
 		passaporte_tab.setValue(model);	
 
 		table_1.loadModel(((Pesquisa_bi_cni_passport) model).getTable_1());

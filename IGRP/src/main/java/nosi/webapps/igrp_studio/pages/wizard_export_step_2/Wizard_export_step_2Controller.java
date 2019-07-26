@@ -91,7 +91,7 @@ public class Wizard_export_step_2Controller extends Controller {
       	}
 		this.addQueryString("dad", "igrp_studio");
 		this.addQueryString("p_application_id", model.getApplication_id());
-       return this.forward("igrp_studio","Wizard_export_step_2","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+       return this.forward("igrp_studio","Wizard_export_step_2","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#end-code----*/
 			
 	}

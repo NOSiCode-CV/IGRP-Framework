@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -41,7 +41,8 @@
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Pesquisa BI/CNI/Passaporte]]>
+                        <![CDATA[<p>Pesquisa BI / NIC (CNI)</p>
+]]>
                     </value>
                 </sectionheader_1_text>
             </fields>
@@ -70,18 +71,18 @@
                         </option>
                     </list>
                 </tipo_documento>
-                <numero_do_documento name="p_numero_do_documento" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
+                <numero_do_documento name="p_numero_do_documento" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="BI / NIC. Ex: 1234567 / 19801002M001Q" right="false" desclabel="true">
                     <label>Número do documento</label>
-                    <value>Dolor lorem mollit amet sit</value>
+                    <value>Voluptatem dolor adipiscing ipsum laudantium</value>
                     <rules/>
                 </numero_do_documento>
                 <nome name="p_nome" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Perspiciatis accusantium magna labore anim</value>
+                    <value>Natus lorem stract ipsum accusantium</value>
                 </nome>
                 <data_nascimento name="p_data_nascimento" type="date" range="false" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary" desclabel="false">
                     <label>Data nascimento</label>
-                    <value>05-04-2015</value>
+                    <value>08-06-2015</value>
                 </data_nascimento>
             </fields>
             <tools-bar>
@@ -126,105 +127,107 @@
                 <emissor_tab name="p_emissor_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true">
                     <label>Emissor</label>
                 </emissor_tab>
+                <nic_cni_tab name="p_nic_cni_tab" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false" showLabel="true">
+                    <label>NIC</label>
+                </nic_cni_tab>
                 <estado_civil name="p_estado_civil" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="estado_civil"/>
                 <nat_conselho name="p_nat_conselho" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="nat_conselho"/>
                 <residencia name="p_residencia" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="residencia"/>
                 <dt_validade name="p_dt_validade" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="dt_validade"/>
                 <bi_tab name="p_bi_tab" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="bi_tab"/>
-                <nic_cni_tab name="p_nic_cni_tab" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="nic_cni_tab"/>
                 <passaporte_tab name="p_passaporte_tab" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="passaporte_tab"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <tipo_documento_tab name="p_tipo_documento_tab">Sit mollit labore unde officia</tipo_documento_tab>
-                        <n_doc_tab name="p_n_doc_tab">Sit stract anim sit sed</n_doc_tab>
-                        <nome_tab name="p_nome_tab">Voluptatem laudantium labore a</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Rem adipiscing sit laudantium</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">03-07-2010</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Sit dolor aperiam iste sed</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Amet deserunt ut aliqua dolor</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Sed unde anim iste ut</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Aliqua officia omnis aperiam p</emissor_tab>
-                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-e605_a938</estado_civil>
-                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-b406_ed6f</nat_conselho>
-                        <residencia name="p_residencia" tag="residencia">hidden-2c1b_31f0</residencia>
-                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-691a_fcb1</dt_validade>
-                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-4fc0_e3cc</bi_tab>
-                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">hidden-5074_cf63</nic_cni_tab>
-                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-1bc0_3fe6</passaporte_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Sit natus totam lorem unde</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Anim officia adipiscing sit al</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Laudantium aperiam ipsum lauda</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Officia natus perspiciatis eli</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">04-07-2013</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Amet ipsum aperiam accusantium</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Totam lorem aperiam elit ut</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Ipsum voluptatem unde labore e</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Labore omnis sed rem accusanti</emissor_tab>
+                        <nic_cni_tab name="p_nic_cni_tab">Deserunt labore rem ipsum sed</nic_cni_tab>
+                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-45f4_1b86</estado_civil>
+                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-e9f6_1c58</nat_conselho>
+                        <residencia name="p_residencia" tag="residencia">hidden-7ed7_27a7</residencia>
+                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-77ec_b3cd</dt_validade>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-a68b_a20d</bi_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-9c01_8c5f</passaporte_tab>
                     </row>
                     <row>
-                        <tipo_documento_tab name="p_tipo_documento_tab">Sed stract natus accusantium u</tipo_documento_tab>
-                        <n_doc_tab name="p_n_doc_tab">Omnis aliqua rem ut perspiciat</n_doc_tab>
-                        <nome_tab name="p_nome_tab">Elit deserunt aperiam aliqua l</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Perspiciatis lorem magna adipi</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">05-05-2010</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Laudantium accusantium deserun</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Consectetur elit lorem officia</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Sed officia natus omnis labore</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Lorem rem doloremque iste lore</emissor_tab>
-                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-22c9_9930</estado_civil>
-                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-34da_5737</nat_conselho>
-                        <residencia name="p_residencia" tag="residencia">hidden-b347_9371</residencia>
-                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-f9a1_e289</dt_validade>
-                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-418d_51a2</bi_tab>
-                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">hidden-053e_4346</nic_cni_tab>
-                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-5081_856a</passaporte_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Iste laudantium deserunt offic</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Omnis labore perspiciatis magn</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Amet unde adipiscing sed volup</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Stract dolor natus accusantium</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">07-08-2013</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Elit labore voluptatem sit off</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Natus ut officia totam anim</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Aperiam amet voluptatem totam</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Lorem laudantium elit voluptat</emissor_tab>
+                        <nic_cni_tab name="p_nic_cni_tab">Laudantium omnis sit amet omni</nic_cni_tab>
+                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-882b_a750</estado_civil>
+                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-c348_9abb</nat_conselho>
+                        <residencia name="p_residencia" tag="residencia">hidden-dd6f_5234</residencia>
+                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-a5a8_399b</dt_validade>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-630d_52c2</bi_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-e545_a0a9</passaporte_tab>
                     </row>
                     <row>
-                        <tipo_documento_tab name="p_tipo_documento_tab">Sit unde ut iste magna</tipo_documento_tab>
-                        <n_doc_tab name="p_n_doc_tab">Iste consectetur sit magna ape</n_doc_tab>
-                        <nome_tab name="p_nome_tab">Stract ut amet aliqua dolor</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Unde ipsum mollit sit omnis</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">06-06-2014</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Deserunt sit laudantium sit re</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Ut dolor unde lorem officia</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Mollit laudantium voluptatem o</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Labore amet rem totam anim</emissor_tab>
-                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-9ce3_0964</estado_civil>
-                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-bc98_7e2a</nat_conselho>
-                        <residencia name="p_residencia" tag="residencia">hidden-97af_a45b</residencia>
-                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-65f7_e809</dt_validade>
-                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-4feb_d40d</bi_tab>
-                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">hidden-f53c_09b6</nic_cni_tab>
-                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-d7cf_3655</passaporte_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Sed lorem unde rem elit</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Stract anim dolor anim dolor</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Mollit sit ipsum deserunt anim</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Accusantium voluptatem officia</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">05-01-2014</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Aperiam doloremque laudantium</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Consectetur lorem deserunt sit</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Amet deserunt totam mollit adi</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Rem dolor aliqua rem deserunt</emissor_tab>
+                        <nic_cni_tab name="p_nic_cni_tab">Iste laudantium deserunt accus</nic_cni_tab>
+                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-8b71_c0f5</estado_civil>
+                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-2a54_a6a2</nat_conselho>
+                        <residencia name="p_residencia" tag="residencia">hidden-6fb5_12d9</residencia>
+                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-26d5_5e5b</dt_validade>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-df63_44bc</bi_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-3a2b_bcac</passaporte_tab>
                     </row>
                     <row>
-                        <tipo_documento_tab name="p_tipo_documento_tab">Aliqua labore officia doloremq</tipo_documento_tab>
-                        <n_doc_tab name="p_n_doc_tab">Deserunt totam sit mollit cons</n_doc_tab>
-                        <nome_tab name="p_nome_tab">Stract amet totam laudantium o</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Laudantium stract lorem elit u</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">08-05-2015</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Doloremque adipiscing mollit l</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Anim totam anim officia perspi</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Aperiam sed rem officia omnis</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Ipsum labore rem adipiscing do</emissor_tab>
-                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-bfb7_e565</estado_civil>
-                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-82a6_3d14</nat_conselho>
-                        <residencia name="p_residencia" tag="residencia">hidden-3cbd_20ea</residencia>
-                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-14e9_f178</dt_validade>
-                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-ffe8_36a6</bi_tab>
-                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">hidden-8fce_1322</nic_cni_tab>
-                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-5a89_d5b9</passaporte_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Aliqua aperiam dolor consectet</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Perspiciatis elit anim amet an</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Lorem sed unde ipsum accusanti</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Consectetur aperiam amet unde</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">06-05-2010</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Consectetur dolor deserunt sed</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Deserunt sit anim dolor elit</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Sit stract ipsum labore elit</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Iste deserunt accusantium amet</emissor_tab>
+                        <nic_cni_tab name="p_nic_cni_tab">Magna aliqua natus adipiscing</nic_cni_tab>
+                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-e12a_190b</estado_civil>
+                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-5b63_8a3f</nat_conselho>
+                        <residencia name="p_residencia" tag="residencia">hidden-255f_00c7</residencia>
+                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-37a2_d58b</dt_validade>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-101b_a8b7</bi_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-3a9e_142b</passaporte_tab>
                     </row>
                     <row>
-                        <tipo_documento_tab name="p_tipo_documento_tab">Sit labore perspiciatis aperia</tipo_documento_tab>
-                        <n_doc_tab name="p_n_doc_tab">Sit ut sit magna deserunt</n_doc_tab>
-                        <nome_tab name="p_nome_tab">Mollit adipiscing mollit adipi</nome_tab>
-                        <sexo_tab name="p_sexo_tab">Consectetur dolor accusantium</sexo_tab>
-                        <data_nascimento_tab name="p_data_nascimento_tab">08-04-2013</data_nascimento_tab>
-                        <nome_pai_tab name="p_nome_pai_tab">Labore iste unde deserunt sit</nome_pai_tab>
-                        <nome_mae_tab name="p_nome_mae_tab">Aliqua amet aliqua sit adipisc</nome_mae_tab>
-                        <data_emissao_tab name="p_data_emissao_tab">Aliqua lorem sit rem ut</data_emissao_tab>
-                        <emissor_tab name="p_emissor_tab">Officia mollit omnis dolor des</emissor_tab>
-                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-e2da_d5f5</estado_civil>
-                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-78e6_f6c2</nat_conselho>
-                        <residencia name="p_residencia" tag="residencia">hidden-0d60_b97e</residencia>
-                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-9688_26ca</dt_validade>
-                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-e676_751b</bi_tab>
-                        <nic_cni_tab name="p_nic_cni_tab" tag="nic_cni_tab">hidden-bfa3_6e27</nic_cni_tab>
-                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-f3c6_8de5</passaporte_tab>
+                        <tipo_documento_tab name="p_tipo_documento_tab">Labore aliqua sit iste rem</tipo_documento_tab>
+                        <n_doc_tab name="p_n_doc_tab">Ut perspiciatis lorem magna ip</n_doc_tab>
+                        <nome_tab name="p_nome_tab">Consectetur rem sed consectetu</nome_tab>
+                        <sexo_tab name="p_sexo_tab">Anim accusantium elit amet ist</sexo_tab>
+                        <data_nascimento_tab name="p_data_nascimento_tab">05-05-2014</data_nascimento_tab>
+                        <nome_pai_tab name="p_nome_pai_tab">Consectetur magna sit ut deser</nome_pai_tab>
+                        <nome_mae_tab name="p_nome_mae_tab">Deserunt totam aliqua omnis co</nome_mae_tab>
+                        <data_emissao_tab name="p_data_emissao_tab">Rem iste mollit labore ipsum</data_emissao_tab>
+                        <emissor_tab name="p_emissor_tab">Officia accusantium rem labore</emissor_tab>
+                        <nic_cni_tab name="p_nic_cni_tab">Aperiam magna natus unde adipi</nic_cni_tab>
+                        <estado_civil name="p_estado_civil" tag="estado_civil">hidden-5bc7_a5f8</estado_civil>
+                        <nat_conselho name="p_nat_conselho" tag="nat_conselho">hidden-98d0_6c70</nat_conselho>
+                        <residencia name="p_residencia" tag="residencia">hidden-e4d8_76b4</residencia>
+                        <dt_validade name="p_dt_validade" tag="dt_validade">hidden-7ee6_39c2</dt_validade>
+                        <bi_tab name="p_bi_tab" tag="bi_tab">hidden-1589_5962</bi_tab>
+                        <passaporte_tab name="p_passaporte_tab" tag="passaporte_tab">hidden-66f7_79e7</passaporte_tab>
                     </row>
                 </value>
             </table>

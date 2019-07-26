@@ -278,6 +278,13 @@
 			<version>1.6.2</version>
 		</dependency>
 		<!-- Java Mail - SMTP -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>2.0.1.Final</version>
+		</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->

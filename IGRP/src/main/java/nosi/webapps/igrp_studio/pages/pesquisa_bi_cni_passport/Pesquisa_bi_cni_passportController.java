@@ -9,6 +9,8 @@ import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.core.config.Config;
+import nosi.core.config.ConfigApp;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Unde deserunt ut labore amet' as tipo_documento_tab,'Sit stract magna doloremque vo' as n_doc_tab,'Rem dolor aliqua rem elit' as nome_tab,'Consectetur rem aliqua anim do' as sexo_tab,'02-07-2011' as data_nascimento_tab,'Amet voluptatem sed lorem iste' as nome_pai_tab,'Elit aliqua omnis natus adipis' as nome_mae_tab,'Anim lorem sed unde anim' as data_emissao_tab,'Deserunt doloremque consectetu' as emissor_tab,'hidden-07ec_174f' as estado_civil,'hidden-feb0_8fe5' as nat_conselho,'hidden-9418_2646' as residencia,'hidden-428f_70c6' as dt_validade,'hidden-d94c_c7df' as bi_tab,'hidden-0c7c_08b3' as nic_cni_tab,'hidden-8ba1_1bda' as passaporte_tab "));
+		model.loadTable_1(Core.query(null,"SELECT 'Consectetur totam sit voluptat' as tipo_documento_tab,'Mollit dolor sit consectetur l' as n_doc_tab,'Officia consectetur voluptatem' as nome_tab,'Labore natus amet consectetur' as sexo_tab,'08-02-2013' as data_nascimento_tab,'Sit stract mollit natus volupt' as nome_pai_tab,'Ut lorem omnis dolor sed' as nome_mae_tab,'Dolor sit anim officia accusan' as data_emissao_tab,'Iste adipiscing anim dolor ali' as emissor_tab,'Dolor unde totam aliqua ipsum' as nic_cni_tab,'hidden-728f_1c33' as estado_civil,'hidden-54c0_49d4' as nat_conselho,'hidden-bca2_0197' as residencia,'hidden-f337_bee6' as dt_validade,'hidden-0a51_682a' as bi_tab,'hidden-3c46_a7dd' as passaporte_tab "));
 		view.tipo_documento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -39,7 +41,8 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		view.nome.setVisible(false);
 		
 		ConsumeJson json_obj = new ConsumeJson();
-		Properties setting = this.loadConfig("common", "main.xml");
+		
+		Properties setting = ConfigApp.getInstance().loadCommonConfig();
 		
 		String json="";
 		String authorization="";
@@ -48,7 +51,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		try {
 			if(Core.isNotNull(model.getNumero_do_documento())) {
 				
-				if(model.getNumero_do_documento().length() == 13) {
+				if(model.getNumero_do_documento().matches("^\\d{8}[MmFf]{1}\\d{3}[a-zA-Z]{1}$") || model.getNumero_do_documento().matches("^[PEDUpedu][Aa]\\d{6}$") ) {
 					url = setting.getProperty("link.rest.pesquisa_cni")+"?P_CNI=";
 					authorization = setting.getProperty("authorization.link.rest.pesquisa_cni");
 					view.emissor_tab.setVisible(false);
@@ -63,6 +66,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 				JSONObject Entries = obj.getJSONObject("Entries");
 				JSONArray Entry = Entries.getJSONArray("Entry");
 				
+				if(!Entries.isEmpty()){
 				List<Pesquisa_bi_cni_passport.Table_1> lista = new ArrayList<>();
 				for(int i=0 ; i<Entries.length() ; i++) {
 					Pesquisa_bi_cni_passport.Table_1 tab_geral = new Pesquisa_bi_cni_passport.Table_1();
@@ -73,13 +77,15 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 							tab_geral.setN_doc_tab(pessoa.getString("BI"));
 	                    	tab_geral.setBi_tab(pessoa.getString("BI"));
 						}else {
-	                    	tab_geral.setN_doc_tab(pessoa.getString("NUM_DOCUMENTO"));
-	                    	tab_geral.setTipo_documento_tab(pessoa.getString("ID_TP_DOC"));
+							tab_geral.setTipo_documento_tab(pessoa.getString("ID_TP_DOC"));
+	                    	tab_geral.setN_doc_tab(pessoa.getString("NUM_DOCUMENTO"));	                    	
+	                    	tab_geral.setNic_cni_tab(pessoa.getString("NUM_DOCUMENTO"));
 						}
-					}catch (org.json.JSONException e) {
+					}catch (org.json.JSONException e) {						
 						tab_geral.setN_doc_tab(null);
                      	tab_geral.setBi_tab(null);
                      	tab_geral.setTipo_documento_tab(null);
+                     	tab_geral.setNic_cni_tab(null);
 					}
 					try {
 						tab_geral.setData_emissao_tab(pessoa.getString("DT_EMISSAO"));
@@ -157,10 +163,14 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 					lista.add(tab_geral);
 				}
 				model.setTable_1(lista);
+			}else
+				Core.setMessageInfo("Nenhum registo encontrado!!");
 			}
 			}catch (Exception e) {
-				Core.setMessageInfo("Nenhum registo encontrado!!");
+				Core.setMessageError();
 		}
+		
+	
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -174,10 +184,10 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Pesquisa_bi_cni_passport","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp_studio","Pesquisa_bi_cni_passport","index",this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
-
-      return this.forward("igrp_studio","Pesquisa_bi_cni_passport","index", model, this.queryString());
+//if(1==1)
+		return this.redirect("igrp_studio","Pesquisa_bi_cni_passport","index",model,this.queryString());
 		/*----#end-code----*/
 			
 	}
@@ -192,17 +202,6 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 		return tipo_doc;
 	}
 	
-	private Properties loadConfig(String filePath, String fileName) {
-		String path = new Config().getBasePathConfig() + File.separator + filePath;
-		File file = new File(getClass().getClassLoader().getResource(path + File.separator + fileName).getPath().replaceAll("%20", " "));
-		
-		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream(file)) {
-			props.loadFromXML(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return props;
-	}
+	
 /*----#end-code----*/
 }

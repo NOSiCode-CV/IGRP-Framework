@@ -1,10 +1,5 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -79,12 +74,12 @@ public class Pesquisa_bi_cni_passport extends Model{
 		private String nome_mae_tab;
 		private String data_emissao_tab;
 		private String emissor_tab;
+		private String nic_cni_tab;
 		private String estado_civil;
 		private String nat_conselho;
 		private String residencia;
 		private String dt_validade;
 		private String bi_tab;
-		private String nic_cni_tab;
 		private String passaporte_tab;
 		public void setTipo_documento_tab(String tipo_documento_tab){
 			this.tipo_documento_tab = tipo_documento_tab;
@@ -149,6 +144,13 @@ public class Pesquisa_bi_cni_passport extends Model{
 			return this.emissor_tab;
 		}
 
+		public void setNic_cni_tab(String nic_cni_tab){
+			this.nic_cni_tab = nic_cni_tab;
+		}
+		public String getNic_cni_tab(){
+			return this.nic_cni_tab;
+		}
+
 		public void setEstado_civil(String estado_civil){
 			this.estado_civil = estado_civil;
 		}
@@ -182,13 +184,6 @@ public class Pesquisa_bi_cni_passport extends Model{
 		}
 		public String getBi_tab(){
 			return this.bi_tab;
-		}
-
-		public void setNic_cni_tab(String nic_cni_tab){
-			this.nic_cni_tab = nic_cni_tab;
-		}
-		public String getNic_cni_tab(){
-			return this.nic_cni_tab;
 		}
 
 		public void setPassaporte_tab(String passaporte_tab){

@@ -640,11 +640,11 @@ public class Controller {
 		}
 		return resp;
 	}
-
+	@Deprecated
 	protected Response forward(String app, String page, String action, Model model) {
 		return this.forward(app, page, action, model, new QueryString<>());
 	}
-
+	@Deprecated
 	protected Response forward(String app, String page, String action, Model model,
 			QueryString<String, Object> queryString) {
 		return this.forward(app, page, action, queryString);
