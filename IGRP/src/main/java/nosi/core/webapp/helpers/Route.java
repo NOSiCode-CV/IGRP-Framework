@@ -61,7 +61,6 @@ public class Route {
 				}
 			}
 		}
-		System.out.println("url go="+url);
 		return url;
 	}
 	
