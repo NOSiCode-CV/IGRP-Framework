@@ -205,7 +205,7 @@ public abstract class Model { // IGRP super model
 						: m.getName();
 
 				Object o = Core.getParam(name); // default case use the name of field
-				String aux = "";
+				String aux = null;
 				if (o != null)
 					if (o.getClass().isArray()) {
 						String[] s = (String[]) o;
@@ -215,9 +215,9 @@ public abstract class Model { // IGRP super model
 				try {
 					aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("")
 							? m.getAnnotation(RParam.class).defaultValue()
-							: "0") : aux);
+							: null) : aux);
 				} catch (Exception e) {
-					aux = "0";
+
 				}
 				this.loadData(m,typeName,aux);
 			}
