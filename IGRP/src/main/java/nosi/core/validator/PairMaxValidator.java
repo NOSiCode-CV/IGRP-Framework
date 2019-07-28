@@ -1,26 +1,29 @@
 package nosi.core.validator;
 
+import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.validator.constraints.PairMax;
 import nosi.core.webapp.Core;
 
 /**
  * emerson
  * 26/07/2019
  */
-public abstract class PairMaxValidator implements ConstraintValidator<PairMax, Pair>{
+public class PairMaxValidator implements ConstraintValidator<PairMax, Pair>{
 
+	private BigDecimal maxValue;
+	
 	@Override
 	public void initialize(PairMax constraintAnnotation) {
-		
+		this.maxValue = Core.toBigDecimal(constraintAnnotation.value());
 	}
 	 
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
-		if(pair!=null && Core.toInt(pair.getKey()) < Core.toInt(pair.getValue())) {
-			return Core.isNotNull(pair.getKey());
+		if(pair!=null) {
+			return Core.toBigDecimal(pair.getKey()).compareTo(this.maxValue) < 0;
 		}
 		return false;
 	}

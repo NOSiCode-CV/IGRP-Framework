@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.validator.constraints.PairFileNotNull;
 import nosi.core.webapp.Core;
 
 /**

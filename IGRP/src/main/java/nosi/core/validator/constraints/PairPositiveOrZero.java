@@ -1,4 +1,4 @@
-package nosi.core.validator;
+package nosi.core.validator.constraints;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -7,37 +7,37 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+
+import nosi.core.validator.MessageValidator;
+import nosi.core.validator.PairPositiveOrZeroValidator;
 
 /**
- * @author Emanuel
- * 24 Jul 2019
+ * emerson
+ * 26/07/2019
  */
-
-@NotNull(message = MessageValidator.MESSAGE_NOT_NULL)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PairFileValidator.class)
+@Constraint(validatedBy = PairPositiveOrZeroValidator.class)
 @Documented
-public @interface PairFileNotNull {
-	String message() default MessageValidator.MESSAGE_NOT_NULL;
+public @interface PairPositiveOrZero {
+	
+	String message() default MessageValidator.MESSAGE_POSITIVE_OR_ZERO;
 
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
-	
+
 	@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 	@Retention(RUNTIME)
-	@Documented
+	@Documented 
 	@interface List {
 
-		PairFileNotNull[] value();
+		PairPositiveOrZero[] value();
 	}
 }

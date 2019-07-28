@@ -5,24 +5,27 @@ package nosi.core.validator;
  */
 public class MessageValidator {
 
-	public static final String MESSAGE_EMAIL = "Please provide a valid email address";
+	public static final String MESSAGE_EMAIL = "{javax.validation.constraints.Email.message}";
 
-	public static final String MESSAGE_NOT_NULL = "Field cann't be empty";
+	public static final String MESSAGE_NOT_NULL = "{javax.validation.constraints.NotNull.message}";
 	
-	public static final String MESSAGE_PAIR_MAX = "Field cannot exced the value of ";
+	public static final String MESSAGE_MAX = "{javax.validation.constraints.Max.message}";
 	
-	public static final String MESSAGE_PAIR_MIN = "Field cannot be lower than ";
+	public static final String MESSAGE_MIN = "{javax.validation.constraints.Min.message}";
 	
-	public static final String MESSAGE_PAIR_NEGATIVE = "Field must be negative";
+	public static final String MESSAGE_NEGATIVE = "{javax.validation.constraints.Negative.message}";
 	
-	public static final String MESSAGE_PAIR_NEGATIVE_OR_ZERO = "Field must be negative or zero";
+	public static final String MESSAGE_NEGATIVE_OR_ZERO = "{javax.validation.constraints.NegativeOrZero.message}";
 	
-	public static final String MESSAGE_PAIR_SIZE = "Please insert a valid size";
+	public static final String MESSAGE_SIZE = "{javax.validation.constraints.Size.message}";
 	
-	public static final String MESSAGE_PAIR_POSITIVE = "Field must be positive";
+	public static final String MESSAGE_POSITIVE = "{javax.validation.constraints.Positive.message}";
 	
-	public static final String MESSAGE_PAIR_POSITIVE_OR_ZERO = "Field must be positive or zero";
+	public static final String MESSAGE_POSITIVE_OR_ZERO = "{javax.validation.constraints.PositiveOrZero.message}";
 
+	public static final String MESSAGE_PATTERN = "{javax.validation.constraints.Pattern.message}";
+
+	public static final String MESSAGE_DIGITS = "{javax.validation.constraints.Digits.message}";
 
 	
 }
