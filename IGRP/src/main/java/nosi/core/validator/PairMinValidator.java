@@ -13,16 +13,16 @@ import nosi.core.webapp.Core;
  */
 public class PairMinValidator implements ConstraintValidator<PairMin, Pair>{
 
-	private BigDecimal maxValue;
+	private BigDecimal minValue;
 	@Override
 	public void initialize(PairMin constraintAnnotation) {
-		this.maxValue = Core.toBigDecimal(constraintAnnotation.value());		
+		this.minValue = Core.toBigDecimal(constraintAnnotation.value());		
 	}
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
 		if(pair!=null) {
-			return Core.toBigDecimal(pair.getKey()).compareTo(this.maxValue) > 0;
+			return Validation.validateMin(pair.getKey(), this.minValue);
 		}
 		return false;
 	}

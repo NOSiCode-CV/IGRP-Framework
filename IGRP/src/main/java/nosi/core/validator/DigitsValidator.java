@@ -2,21 +2,20 @@ package nosi.core.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.validator.constraints.PairDigits;
+import nosi.core.validator.constraints.Digits;
 import nosi.core.webapp.Core;
 
 /**
  * Emanuel
  * 27 Jul 2019
  */
-public class PairDigitsValidator implements ConstraintValidator<PairDigits, Pair>{
+public class DigitsValidator implements ConstraintValidator<Digits, Number>{
 
 	int fraction = 0;
 	int integer = Integer.MAX_VALUE;
 	
 	@Override
-	public void initialize(PairDigits constraintAnnotation) {
+	public void initialize(Digits constraintAnnotation) {
 		if(constraintAnnotation.fraction() > 0) {
 			this.fraction = constraintAnnotation.fraction();
 		}
@@ -26,9 +25,9 @@ public class PairDigitsValidator implements ConstraintValidator<PairDigits, Pair
 	}
 	
 	@Override
-	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
-		if(pair!=null &&  Core.isNotNull(pair.getKey())) {
-			return Validation.validateDigits(integer, fraction, pair.getKey());
+	public boolean isValid(Number value, ConstraintValidatorContext context) {
+		if(Core.isNotNull(value)) {
+			return Validation.validateDigits(integer, fraction,""+value);
 		}
 		return false;
 	}
