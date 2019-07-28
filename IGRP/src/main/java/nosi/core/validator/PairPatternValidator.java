@@ -1,6 +1,5 @@
 package nosi.core.validator;
 
-import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
@@ -24,7 +23,7 @@ public class PairPatternValidator implements ConstraintValidator<PairPattern, Pa
 		
 		if(pair!=null){
 			if(Core.isNotNull(pair.getKey())) {
-				return Pattern.matches(regexp, pair.getKey());
+				return Validation.validatePattern(regexp, pair.getKey());
 			}
 		}
 		return false;

@@ -23,7 +23,7 @@ public class PairMaxValidator implements ConstraintValidator<PairMax, Pair>{
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
 		if(pair!=null) {
-			return Core.toBigDecimal(pair.getKey()).compareTo(this.maxValue) < 0;
+			return Validation.validateMax(pair.getKey(), this.maxValue);
 		}
 		return false;
 	}
