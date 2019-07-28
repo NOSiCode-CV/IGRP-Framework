@@ -1,4 +1,4 @@
-package nosi.core.validator;
+package nosi.core.validator.constraints;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -14,28 +14,45 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import nosi.core.validator.MessageValidator;
+import nosi.core.validator.PairSizeValidator;
+
 /**
- * @author Emanuel
- * 24 Jul 2019
+ * emerson
+ * 26/07/2019
  */
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PairEmailValidator.class)
+@Constraint(validatedBy = PairSizeValidator.class)
 @Documented
-public @interface PairEmail {
-	String message() default MessageValidator.MESSAGE_EMAIL;
-
-	Class<?>[] groups() default {};
-
-	Class<? extends Payload>[] payload() default {};
+public @interface PairSize {
 	
-	String regex() default  "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\." + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+	String message() default MessageValidator.MESSAGE_SIZE;
+
+	Class<?>[] groups() default { };
+
+	Class<? extends Payload>[] payload() default { };
+
+	/**
+	 * @return size the element must be higher or equal to
+	 */
+	int min() default 0;
+ 
+	/**
+	 * @return size the element must be lower or equal to
+	 */
+	int max() default Integer.MAX_VALUE;
+
+	/**
+	 * Defines several {@link Size} annotations on the same element.
+	 *
+	 * @see Size
+	 */
 	@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
 
-		PairEmail[] value();
+		PairSize[] value();
 	}
 }

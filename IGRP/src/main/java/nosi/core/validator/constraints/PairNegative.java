@@ -1,4 +1,4 @@
-package nosi.core.validator;
+package nosi.core.validator.constraints;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -13,20 +13,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+
+import nosi.core.validator.MessageValidator;
+import nosi.core.validator.PairNegativeValidator;
 
 /**
- * @author Emanuel
- * 24 Jul 2019
+ * emerson
+ * 26/07/2019
  */
-
-@NotNull(message = MessageValidator.MESSAGE_NOT_NULL)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PairValidator.class)
+@Constraint(validatedBy = PairNegativeValidator.class)
 @Documented
-public @interface PairNotNull {
-	String message() default MessageValidator.MESSAGE_NOT_NULL;
+public @interface PairNegative {
+	
+	String message() default MessageValidator.MESSAGE_NEGATIVE;
 
 	Class<?>[] groups() default {};
 
@@ -37,6 +38,7 @@ public @interface PairNotNull {
 	@Documented
 	@interface List {
 
-		PairNotNull[] value();
+		PairNegative[] value();
 	}
 }
+ 

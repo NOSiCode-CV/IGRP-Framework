@@ -1,4 +1,4 @@
-package nosi.core.validator;
+package nosi.core.validator.constraints;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;
@@ -11,14 +11,15 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import nosi.core.validator.MessageValidator;
+import nosi.core.validator.Patterns;
 
 /**
  * @author Emanuel
  * 24 Jul 2019
  */
 @Email(message = MessageValidator.MESSAGE_EMAIL)
-@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\." + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-		+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = MessageValidator.MESSAGE_EMAIL)
+@Pattern(regexp = Patterns.EMAIL_PATTERN, message = MessageValidator.MESSAGE_EMAIL)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})

@@ -4,19 +4,19 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.validator.constraints.PairEmail;
+import nosi.core.validator.constraints.PairPattern;
 import nosi.core.webapp.Core;
 
 /**
  * Emanuel
- * 25 Jul 2019
+ * 27 Jul 2019
  */
-public class PairEmailValidator implements ConstraintValidator<PairEmail, Pair>{
+public class PairPatternValidator implements ConstraintValidator<PairPattern, Pair> {
 
-	String regex;
+	String regexp;
 	@Override
-	public void initialize(PairEmail constraintAnnotation) {
-		this.regex = constraintAnnotation.regex();
+	public void initialize(PairPattern constraintAnnotation) {
+		this.regexp = constraintAnnotation.regexp();
 	}
 	
 	@Override
@@ -24,10 +24,11 @@ public class PairEmailValidator implements ConstraintValidator<PairEmail, Pair>{
 		
 		if(pair!=null){
 			if(Core.isNotNull(pair.getKey())) {
-				return Pattern.matches(regex, pair.getKey());
+				return Pattern.matches(regexp, pair.getKey());
 			}
 		}
 		return false;
 	}
+
 
 }

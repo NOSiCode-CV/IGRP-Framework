@@ -3550,4 +3550,12 @@ public final class Core { // Not inherit
 	public static void forceDelete(String fileNameOrDirectory) {
 		FileHelper.forceDelete(fileNameOrDirectory);
 	}
+	
+	public static int digits(Number number) {
+		return String.valueOf(number).length();
+	}
+	
+	public static int digits(String number) {
+		return String.valueOf(number).length();
+	}
 }
