@@ -27,5 +27,7 @@ public class MessageValidator {
 
 	public static final String MESSAGE_DIGITS = "{javax.validation.constraints.Digits.message}";
 
+	public static final String MESSAGE_PRESENT = "{javax.validation.constraints.FutureOrPresent.message}";
+
 	
 }

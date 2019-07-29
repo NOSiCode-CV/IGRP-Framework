@@ -2,10 +2,10 @@ package nosi.core.validator;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.regex.Pattern;
-
 import javax.servlet.http.Part;
-
 import nosi.core.webapp.Core;
 
 /**
@@ -13,6 +13,28 @@ import nosi.core.webapp.Core;
  * 28 Jul 2019
  */
 public class Validation {
+
+	public static boolean validatePresentDate(String currentDate, String dateValue) {
+		if(Core.isNotNullMultiple(currentDate,dateValue)) {
+
+			String d1[] = currentDate.split("-");
+			String d2[] = dateValue.split("-");
+			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
+				return Validation.compareDate(d1, d2) == 0;
+			}
+		}
+  		return false;
+	}
+	
+	private static int compareDate(String[]d1,String[]d2) {
+		LocalDate ldt1 = Validation.convertLocalDate(d1);
+		LocalDate ldt2 = Validation.convertLocalDate(d2);
+		return Period.between(ldt1,ldt2).getDays();
+	}
+	
+	private static LocalDate convertLocalDate(String[] d) {
+		return LocalDate.of(Core.toInt(d[2]).intValue(), Core.toInt(d[1]).intValue(),Core.toInt(d[0]).intValue());
+	}
 	
 	public static boolean validateSize(String value,int min, int max) {
 		int size = (""+value).length();
@@ -51,7 +73,6 @@ public class Validation {
 				try {
 					file.delete();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -88,4 +109,5 @@ public class Validation {
 	private static String normalizeNumber(String number) {
 		return number.replaceAll(",", ".");
 	}
+
 }
