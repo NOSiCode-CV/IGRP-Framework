@@ -26,6 +26,54 @@ public class Validation {
   		return false;
 	}
 	
+	public static boolean validatePastDate(String currentDate, String dateValue) {
+		if(Core.isNotNullMultiple(currentDate,dateValue)) {
+
+			String d1[] = currentDate.split("-");
+			String d2[] = dateValue.split("-");
+			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
+				return Validation.compareDate(d1, d2) < 0;
+			}
+		}
+  		return false;
+	}
+	
+	public static boolean validatePastOrPresentDate(String currentDate, String dateValue) {
+		if(Core.isNotNullMultiple(currentDate,dateValue)) {
+
+			String d1[] = currentDate.split("-");
+			String d2[] = dateValue.split("-");
+			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
+				return Validation.compareDate(d1, d2) <= 0;
+			}
+		}
+  		return false;
+	}
+	
+	public static boolean validateFutureDate(String currentDate, String dateValue) {
+		if(Core.isNotNullMultiple(currentDate,dateValue)) {
+
+			String d1[] = currentDate.split("-");
+			String d2[] = dateValue.split("-");
+			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
+				return Validation.compareDate(d1, d2) > 0;
+			}
+		}
+  		return false;
+	}
+	
+	public static boolean validateFutureOrPresentDate(String currentDate, String dateValue) {
+		if(Core.isNotNullMultiple(currentDate,dateValue)) {
+
+			String d1[] = currentDate.split("-");
+			String d2[] = dateValue.split("-");
+			if(Core.isNotNullMultiple(d1,d2) && d1.length==3 && d2.length==3) {
+				return Validation.compareDate(d1, d2) >= 0;
+			}
+		}
+  		return false;
+	}
+	
 	private static int compareDate(String[]d1,String[]d2) {
 		LocalDate ldt1 = Validation.convertLocalDate(d1);
 		LocalDate ldt2 = Validation.convertLocalDate(d2);
