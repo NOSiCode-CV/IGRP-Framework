@@ -68,13 +68,25 @@
 			
 			<xsl:when test="$key = 'um'">
 				
-				<xsl:text>.one(); </xsl:text>
+				<xsl:text>.findOne(</xsl:text>
 					
 			</xsl:when>
 			
 			<xsl:when test="$key = 'todos'">
 				
-				<xsl:text>.all(); </xsl:text>
+				<xsl:text>.findAll(</xsl:text>
+					
+			</xsl:when>
+			
+			<xsl:when test="$key = 'TODOSS'">
+				
+				<xsl:text>.all();</xsl:text>
+					
+			</xsl:when>
+			
+			<xsl:when test="$key = 'UMM'">
+				
+				<xsl:text>.one();</xsl:text>
 					
 			</xsl:when>
 			

@@ -8,7 +8,7 @@
 			
 			<xsl:when test="$key = 'mensagem sucesso'">
 				
-				<xsl:text>Core.setMessageSucess</xsl:text>
+				<xsl:text>Core.setMessageSuccess</xsl:text>
 					
 			</xsl:when>
 			
