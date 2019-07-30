@@ -68,13 +68,13 @@
 			
 			<xsl:when test="$key = 'um'">
 				
-				<xsl:text>.findOne(</xsl:text>
+				<xsl:text>.findOne</xsl:text>
 					
 			</xsl:when>
 			
 			<xsl:when test="$key = 'todos'">
 				
-				<xsl:text>.findAll(</xsl:text>
+				<xsl:text>.findAll</xsl:text>
 					
 			</xsl:when>
 			

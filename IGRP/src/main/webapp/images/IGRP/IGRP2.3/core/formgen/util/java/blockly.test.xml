@@ -11,13 +11,63 @@
         </page>
     </config>
     <xml >
-        <block type="row" id="yV[(;dXW}@Rt1KWX;4Yv" x="388" y="138">
-            <field name="coluna">hidden::id_user</field>
-            <value name="fields_model">
-                <block type="get-dao-User" id="306(6i:mFHb@8(qR=``}">
-                    <field name="fields">Integer::idUser</field>
+        <block type="controller" id="controller" x="188" y="-37">
+            <statement name="salvar">
+                <block type="inserir_dao" id="/O;3=MU#6L2nrBxIWkm{" inline="true">
+                    <field name="dao">User</field>
+                    <field name="find">um</field>
+                    <statement name="value2">
+                        <block type="set-dao-User" id="FjLq!hnu|i76]#zg@a:w">
+                            <field name="fields">String::nome</field>
+                            <value name="value1">
+                                <block type="model_get" id="5yo/?JxR.#%f]Bu~H[%I">
+                                    <field name="get_model">String::nome</field>
+                                </block>
+                            </value>
+                            <next>
+                                <block type="set-dao-User" id="-3{of%XXlg-(-X^:bMl2">
+                                    <field name="fields">String::morada</field>
+                                    <value name="value1">
+                                        <block type="model_get" id="yTrGWNZv}4?ZE1QO,|Ml">
+                                            <field name="get_model">String::morada</field>
+                                        </block>
+                                    </value>
+                                    <next>
+                                        <block type="set-dao-User" id="Qpq4mOc}bs#*}hy^mhOd">
+                                            <field name="fields">Date::data_nasc</field>
+                                            <value name="value1">
+                                                <block type="model_get" id="~RSd)uncoEDKmQGTR-Ti">
+                                                    <field name="get_model">Date::data_de_registro</field>
+                                                </block>
+                                            </value>
+                                            <next>
+                                                <block type="set-dao-User" id=",91MjdDN441C(N6U.=9|">
+                                                    <field name="fields">String::estado_civil</field>
+                                                    <value name="value1">
+                                                        <block type="model_get" id="a)7mE]:rTq9,17vwp~cT">
+                                                            <field name="get_model">Select::estado_civil</field>
+                                                        </block>
+                                                    </value>
+                                                    <next>
+                                                        <block type="set-dao-User" id="~H97i6~RQWshPc!^T1w]">
+                                                            <field name="fields">String::beneficiario</field>
+                                                            <value name="value1">
+                                                                <block type="model_get" id=".MgB-05yKJ.ut?GJJZoL">
+                                                                    <field name="get_model">File::anexos</field>
+                                                                </block>
+                                                            </value>
+                                                        </block>
+                                                    </next>
+                                                </block>
+                                            </next>
+                                        </block>
+                                    </next>
+                                </block>
+                            </next>
+                        </block>
+                    </statement>
                 </block>
-            </value>
+            </statement>
         </block>
     </xml>
 </main>

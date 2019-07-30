@@ -59,7 +59,7 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:if test="$fieldType = 'String'">
+		<xsl:if test="$fieldType = 'String' or $fieldType = 'Integer'">
 			<xsl:text>model.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 			<xsl:call-template name="utils.arguments"/>
 		</xsl:if>
@@ -628,15 +628,23 @@
 		
 		<xsl:variable name="Check" select="field[@name='Checkbox']"/>
 		
-			<xsl:variable name="Check_">
-			<xsl:text>Int</xsl:text>
-		</xsl:variable>
-		
 		<xsl:variable name="param">
 			<xsl:call-template name="blockly.getValue">
 				<xsl:with-param name="value" select="*[@name='PARAM']"/>
 			</xsl:call-template>
 		</xsl:variable>
+		
+		<xsl:variable name="Check_">
+			<xsl:choose>
+				<xsl:when test="$Check = 'TRUE'">
+					<xsl:text>Core.getParamInt("p_</xsl:text><xsl:value-of select="$param"></xsl:value-of><xsl:text>")</xsl:text>
+				</xsl:when>
+				<xsl:when test="$Check = 'FALSE'">
+					<xsl:text>Core.getParam("p_</xsl:text><xsl:value-of select="$param"></xsl:value-of><xsl:text>")</xsl:text>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		
 	
 		<xsl:variable name="code">
 		
@@ -649,9 +657,7 @@
 			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			 <xsl:text> obj = obj</xsl:text>
-			<xsl:value-of select="$find"></xsl:value-of>
-			<xsl:text>Core.getParam</xsl:text><xsl:value-of select="$Check_"></xsl:value-of><xsl:text>("p_</xsl:text>
-			<xsl:value-of select="$param"></xsl:value-of><xsl:text>"));</xsl:text>
+			<xsl:value-of select="$find"></xsl:value-of><xsl:text>(</xsl:text><xsl:value-of select="$Check_"></xsl:value-of><xsl:text>);</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
@@ -845,6 +851,16 @@
 		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$nameCap"></xsl:value-of>
 		<xsl:value-of select="$double_quotes"></xsl:value-of>
 		<xsl:text>));</xsl:text>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.custom.global">
+		
+		<xsl:variable name="hasLinkField" select="//*[contains(field,'Link::')]"></xsl:variable>
+		
+		<xsl:if test="$hasLinkField[1]">
+			baza bororo di link
+		</xsl:if>
 		
 	</xsl:template>
 

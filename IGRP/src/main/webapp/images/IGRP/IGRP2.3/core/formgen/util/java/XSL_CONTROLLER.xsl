@@ -120,6 +120,15 @@
 			<!--  <xsl:value-of select="document($url)/your_code"/> -->
 		</xsl:variable>	
 		
+		<xsl:call-template name="newlineTab2"/>
+			
+			<xsl:call-template name="blockly.element.custom.global"></xsl:call-template> 
+			
+			<xsl:call-template name="blockly.elements">
+				<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='custom_actions']/block"/>
+			</xsl:call-template> 
+		<xsl:call-template name="newlineTab2"/>
+		
      	<xsl:call-template name="start-code">
      		<xsl:with-param name="type" select="'custom_actions'"/>
      		<xsl:with-param name="url" select="$url"/>

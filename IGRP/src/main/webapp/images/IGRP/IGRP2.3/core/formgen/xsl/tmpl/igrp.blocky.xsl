@@ -37,7 +37,7 @@
 		
 		<xml class="igrp-blockly-config" id="toolbox" style="display: none">
 		
-			<category id="inicial_script" name="Script Inicial" visible="false" colour="#990000" style="display: none">
+			<category id="inicial_script" name="Script Inicial" visible="false" colour="180" style="display: none">
 			
 			<block id="controller" type="controller" title="Controller" color ="180" x="388" y="13">
 					<value name="value1" type="dummy" title="Action Index"></value>
@@ -53,7 +53,7 @@
 			
 			<sep></sep>
 			
-			<category id="catLogic" name="Logic" colour="#990000">
+			<category id="catLogic" name="Logic" colour="230">
 			
  				<block type="controls_if" default="true"></block>
  			
@@ -76,7 +76,7 @@
 				
 			</category>
 			
-			<category id="catLoops" name="Loops" colour="#990000">
+			<category id="catLoops" name="Loops" colour="230">
 			
 				<block type="controls_repeat_ext" default="true">
 					<value name="TIMES">
@@ -112,7 +112,7 @@
  				
 			</category>
 			
-			<category id="catMath" name="Math" colour="#990000">
+			<category id="catMath" name="Math" colour="230">
 			
 				<block type="math_number" default="true"></block>
 				
@@ -120,7 +120,7 @@
 				
 			</category>
 			
-			<category id="catText" name="Text" colour="#990000">
+			<category id="catText" name="Text" colour="230">
 			
 					<block type="text" default="true"></block>
 					
@@ -128,11 +128,11 @@
 					
 			</category>
 			
-			<category id="catVariables" custom="VARIABLE" name="Variables" default="true" colour="#990000"></category>
+			<category id="catVariables" custom="VARIABLE" name="Variables" default="true" colour="230"></category>
 			
 			<sep></sep>
 			
-			<category id="core" name="Core IGRP" colour="#990000">
+			<category id="core" name="Core IGRP" colour="1">
 			
 				<block type="core_get_msg" output="" color="1">
 					<value name="value1" type="value"  title="Core">
