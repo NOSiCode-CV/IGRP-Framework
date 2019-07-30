@@ -786,8 +786,6 @@ public class EnvController extends Controller {
 					        	 
 					        	 		try {
 					        	 			String aux[] = fields[i].getType().getTypeName().split("\\."); 
-			                              
-			                              System.out.println(aux.length);
 						        	 		
 						        	 		xml += aux[aux.length - 1];
 										} catch (Exception e) {
