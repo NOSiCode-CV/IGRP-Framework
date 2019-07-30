@@ -143,7 +143,7 @@ public class GestaodeacessoController extends Controller {
 				Core.setMessageError();
 		}else
 			Core.setMessageError();
-		 return this.forward("igrp","Gestaodeacesso","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		 return this.forward("igrp","Gestaodeacesso","index", this.queryString()); //if submit, loads the values  ----#gen-example */
 	
 		/*----#end-code----*/
 			

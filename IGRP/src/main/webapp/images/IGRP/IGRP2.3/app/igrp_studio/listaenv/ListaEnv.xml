@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -68,16 +68,25 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="" check="true" desc="true">
+                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" java-type="int" showLabel="true" check="true" desc="true">
                     <label>Ativo?</label>
+                    <rules>
+                        <rule type="remote">
+                            <proc>changeStatus</proc>
+                            <requestFields>
+                                <item>p_status</item>
+                                <item>p_id</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
                 </status>
-                <name name="p_name" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="Env" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" refresh_submit="false" desc="true">
+                <name name="p_name" type="link" target="_newtab" request_fields="" target_fields="" closerefresh="false" action="index" page="Env" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" refresh_submit="false" list_source="" showLabel="true" desc="true">
                     <label>Name</label>
                 </name>
-                <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true">
                     <label>Código</label>
                 </dad>
-                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -90,8 +99,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Voluptatem mollit rem sit laud</dad>
-                        <id name="p_id" tag="id">hidden-8f75_021f</id>
+                        <dad name="p_dad">Deserunt lorem totam natus str</dad>
+                        <id name="p_id" tag="id">hidden-6ec0_87e9</id>
                     </row>
                     <row>
                         <context-menu>
@@ -102,8 +111,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Iste lorem doloremque sit lore</dad>
-                        <id name="p_id" tag="id">hidden-a68d_2cfe</id>
+                        <dad name="p_dad">Lorem sit mollit sed dolor</dad>
+                        <id name="p_id" tag="id">hidden-c231_5732</id>
                     </row>
                     <row>
                         <context-menu>
@@ -114,8 +123,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Mollit aliqua lorem iste omnis</dad>
-                        <id name="p_id" tag="id">hidden-a74e_c454</id>
+                        <dad name="p_dad">Deserunt officia natus laudant</dad>
+                        <id name="p_id" tag="id">hidden-f029_19ed</id>
                     </row>
                     <row>
                         <context-menu>
@@ -126,8 +135,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Doloremque voluptatem aperiam</dad>
-                        <id name="p_id" tag="id">hidden-90da_3498</id>
+                        <dad name="p_dad">Unde perspiciatis omnis consec</dad>
+                        <id name="p_id" tag="id">hidden-f1e2_e8f3</id>
                     </row>
                     <row>
                         <context-menu>
@@ -138,8 +147,8 @@
                         <status_desc name="p_status_desc">1</status_desc>
                         <name name="p_name" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</name>
                         <name_desc name="p_name_desc">Name</name_desc>
-                        <dad name="p_dad">Accusantium laudantium adipisc</dad>
-                        <id name="p_id" tag="id">hidden-1cbb_ab7b</id>
+                        <dad name="p_dad">Doloremque accusantium ipsum d</dad>
+                        <id name="p_id" tag="id">hidden-c59b_680e</id>
                     </row>
                 </value>
                 <context-menu>
@@ -187,4 +196,10 @@
             </table>
         </table_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="363" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

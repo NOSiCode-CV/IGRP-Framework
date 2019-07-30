@@ -53,7 +53,7 @@ public class DominioController extends Controller {
 			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
 		if(Core.isNotNull(model.getLst_dominio())) {        
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
-			final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
+			//final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
 		//	model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?(findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0):0);
 		}
       
@@ -86,7 +86,7 @@ public class DominioController extends Controller {
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
 			Core.setMessageError();
-			return this.forward("igrp","Dominio","index", model, this.queryString());
+			return this.forward("igrp","Dominio","index", this.queryString());
 		}
 		/*----#end-code----*/
 			
@@ -101,7 +101,7 @@ public class DominioController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 return this.forward("igrp","Dominio","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
 		/*----#start-code(gravar_domain)----*/
-		this.addQueryString("target", "_blank");
+		
 		if(DomainHeper.saveDomain(model)) {
 			Core.setMessageSuccess();
 			this.addQueryString("p_aplicacao", model.getAplicacao());
@@ -109,7 +109,7 @@ public class DominioController extends Controller {
 			return this.redirect("igrp","Dominio","index", this.queryString());
 		}else {
 			Core.setMessageError();
-			return this.forward("igrp","Dominio","index", model, this.queryString());
+			return this.forward("igrp","Dominio","index", this.queryString());
 		}
 		/*----#end-code----*/
 			
