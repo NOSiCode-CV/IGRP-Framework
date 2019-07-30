@@ -32,7 +32,7 @@
 		<xsl:if test="$fieldType = 'Link'">
 			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 			<xsl:text>("</xsl:text><xsl:value-of select="$app-title"></xsl:value-of><xsl:text>","</xsl:text>
-			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>","download&amp;file_id="+obj</xsl:text>
+			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>","download&amp;file_id="+</xsl:text>
 			<xsl:value-of select="$valorA"></xsl:value-of><xsl:text>);</xsl:text>
 		</xsl:if>
 		
@@ -42,9 +42,12 @@
 			<xsl:text>(</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>);</xsl:text>
 			
 			</xsl:if>
+	
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.model_get">
+	
+		<xsl:variable name="typedad" select="../../field"/>
 		
 		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
@@ -101,6 +104,10 @@
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.getDao">
+	
+		<xsl:variable name="dad" select="../../field"/>
+		
+		<xsl:variable name="typedad" select="substring-before($dad,'::')"/>
 		
 		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
@@ -131,13 +138,18 @@
 			</xsl:call-template>
 			
 		</xsl:variable>
+		
+		<xsl:if test="$typedad = 'hidden' and $fieldType = 'Integer'" >
+			<xsl:text>""+(obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>())</xsl:text>
+			<xsl:value-of select="$otherdao"/>
+		</xsl:if>
 
 		<xsl:if test="$fieldType = 'Date'">
-			<xsl:text>Core.dateToString(obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>())</xsl:text>
+			<xsl:text>""+(obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>())</xsl:text>
 			<xsl:value-of select="$otherdao"/>
 		</xsl:if>
 		
-		<xsl:if test="$fieldType != 'Date'">
+		<xsl:if test="$fieldType = 'String'">
 			<xsl:text>obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>
 			<xsl:value-of select="$otherdao2"/>
 		</xsl:if>
@@ -457,7 +469,7 @@
 		
 		<xsl:variable name="valor">
 			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="value[@name='CORE']"/>
+				<xsl:with-param name="value" select="value[@name='value1']"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
@@ -818,6 +830,23 @@
 		<xsl:text>));</xsl:text>
 		
 	</xsl:template>
+	
+	<xsl:template name="blockly.element.delete" >
+		
+		<xsl:variable name="nameCap">
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="field"/>
+			</xsl:call-template>
+		</xsl:variable>
+				
+		<xsl:value-of select="$combo"></xsl:value-of>
+		<xsl:text>.put(</xsl:text><xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$nameCap"></xsl:value-of>
+		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:text>,gt(</xsl:text>
+		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$nameCap"></xsl:value-of>
+		<xsl:value-of select="$double_quotes"></xsl:value-of>
+		<xsl:text>));</xsl:text>
+		
+	</xsl:template>
 
 	<xsl:template name="blockly.element">
 	
@@ -953,6 +982,10 @@
 				<xsl:call-template name="blockly.element.option_combo">
 					<xsl:with-param name="parent" select="$parent"></xsl:with-param>
 				</xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'delete'">
+				<xsl:call-template name="blockly.element.delete"></xsl:call-template>
 			</xsl:when>
 		
 		

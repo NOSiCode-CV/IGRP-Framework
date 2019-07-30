@@ -107,6 +107,52 @@
 			        }   
 			    }
 			
+		},
+		
+		inserir_dao : {
+			
+			init : function(block){
+				
+				//var ParamField = new Blockly.FieldDropdown([["todos", "todos"],["um, "um"]]);
+				
+				var ParamInput = block.getInput('value1'),
+				
+					ParamField = ParamInput ? ParamInput.fieldRow[3] : null;
+					
+				console.log(ParamField)
+				
+				if(ParamField){
+					
+					var ParamValidator = function(val){
+						block.updateConnections(val)
+					}
+					
+					ParamField.setValidator(ParamValidator);
+					
+					
+				}
+				
+				//block.appendDummyInput().appendField(ParamField, "find");
+				
+				
+				
+				//var ddField = 
+				
+			},
+			
+			updateConnections: function(newValue) {
+				
+				console.log(newValue)
+				
+			  this.removeInput('PARAM', /* no error */ true);
+			  
+			  if (newValue == 'um') {
+				this.appendValueInput('PARAM').appendField('por parametro');
+				this.moveInputBefore('PARAM','value2')
+			  } 
+			  
+			}
+			
 		}
 			
 			
