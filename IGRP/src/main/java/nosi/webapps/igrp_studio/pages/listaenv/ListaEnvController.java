@@ -1,9 +1,16 @@
 package nosi.webapps.igrp_studio.pages.listaenv;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+
+/* End-Code-Block */
+
+
 /*----#start-code(packages_import)----*/
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +34,10 @@ public class ListaEnvController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml' as name,'Omnis adipiscing unde rem ipsu' as dad,'hidden-fd59_b087' as id "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as status,'/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml' as name,'Dolor deserunt rem dolor offic' as dad,'hidden-5265_6b18' as id "));
 		  ----#gen-example */
+		
+		
 		/*----#start-code(index)----*/
 
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
@@ -87,6 +96,8 @@ public class ListaEnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp_studio","ImportArquivo","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		
+		
 		/*----#start-code(importar)----*/
 		
 		/*----#end-code----*/
@@ -102,6 +113,8 @@ public class ListaEnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		
+		
 		/*----#start-code(novo)----*/
 		
 		/*----#end-code----*/
@@ -117,6 +130,8 @@ public class ListaEnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		
+		
 		/*----#start-code(editar)----*/
 		String p_id = Core.getParam("p_id");
 		if (Core.isNotNull(p_id)) {
@@ -136,6 +151,8 @@ public class ListaEnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		
+		
 		/*----#start-code(eliminar)----*/
 		String id = Core.getParam("p_id");
 		Application app = new Application();
@@ -157,6 +174,8 @@ public class ListaEnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp_studio","Env","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		
+		
 		/*----#start-code(configurar_base_dados)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -176,6 +195,8 @@ public class ListaEnvController extends Controller {
 		 this.addQueryString("p_id","12"); //to send a query string in the URL
 		 this.addQueryString("p_id",Core.getParam("p_id"));
 		 return this.forward("igrp_studio","ListaEnv","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		
+		
 		/*----#start-code(exportar)----*/
 		String id = Core.getParam("p_id");
 		if (Core.isNotNull(id)) {
@@ -254,13 +275,13 @@ public class ListaEnvController extends Controller {
 
 		this.format = Response.FORMAT_JSON;
 		String idAplicacao = Core.getParam("p_id");
-		String status = Core.getParam("p_status");
+		String status = Core.getParam("p_status_check");
 		boolean response = false;
 
 		if (Core.isNotNull(idAplicacao)) {
-			Application aplica_db = new Application().findOne(Integer.parseInt(idAplicacao));
-			if (aplica_db != null) {
-				aplica_db.setStatus(Integer.parseInt(status));
+			Application aplica_db = Core.findApplicationById(Integer.parseInt(idAplicacao));
+			if (aplica_db != null && Core.isNotNull(status)) {
+				aplica_db.setStatus(status.equals("true")?1:0);
 				if (aplica_db.update() != null)
 					response = true;
 			}

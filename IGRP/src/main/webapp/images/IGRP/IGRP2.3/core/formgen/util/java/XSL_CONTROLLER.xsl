@@ -409,7 +409,7 @@
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
 						
 						<xsl:call-template name="end-example"/>			
 						
@@ -480,7 +480,7 @@
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
 						<xsl:call-template name="end-example"/>			
 						
 					
