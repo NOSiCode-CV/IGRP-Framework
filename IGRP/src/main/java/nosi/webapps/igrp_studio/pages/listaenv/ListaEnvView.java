@@ -6,6 +6,7 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+
 public class ListaEnvView extends View {
 
 	public Field sectionheader_1_text;
@@ -15,7 +16,7 @@ public class ListaEnvView extends View {
 	public Field name_desc;
 	public Field dad;
 	public Field id;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -30,7 +31,7 @@ public class ListaEnvView extends View {
 
 		this.setPageTitle("Application builder");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		table_1 = new IGRPTable("table_1","");
 
@@ -41,10 +42,10 @@ public class ListaEnvView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		status.propertie().add("remote",new Config().getResolveUrl("igrp_studio","ListaEnv","changeStatus")).add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		status_check = new CheckBoxField(model,"status_check");
-		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","").add("check","true").add("desc","true");
+		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("switch","true").add("java-type","int").add("showLabel","true").add("check","true").add("desc","true");
 		
 		name = new LinkField(model,"name");
 		name.setLabel(gt("Name"));
@@ -52,15 +53,15 @@ public class ListaEnvView extends View {
 
 									name_desc = new LinkField(model,"name_desc");
 		name_desc.setLabel(gt("Name"));
-		name.propertie().add("name","p_name").add("type","link").add("target","_newtab").add("request_fields","").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("desc","true");
+		name.propertie().add("name","p_name").add("type","link").add("target","_newtab").add("request_fields","").add("maxlength","30").add("show_header","true").add("refresh_submit","false").add("list_source","").add("showLabel","true").add("desc","true");
 		
 		dad = new TextField(model,"dad");
 		dad.setLabel(gt("Código"));
-		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30");
+		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("showLabel","true");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","").add("showLabel","true").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

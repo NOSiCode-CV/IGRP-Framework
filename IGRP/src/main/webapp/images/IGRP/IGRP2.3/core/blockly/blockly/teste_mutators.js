@@ -321,7 +321,7 @@ Blockly.Blocks['select_ori'] = {
 	    }
 	};
 	
-		Blockly.Blocks['def_type_extra'] = {
+	Blockly.Blocks['def_type_extra'] = {
 		    init: function() {
 		        this.appendDummyInput()
 		            .appendField("Tipo")

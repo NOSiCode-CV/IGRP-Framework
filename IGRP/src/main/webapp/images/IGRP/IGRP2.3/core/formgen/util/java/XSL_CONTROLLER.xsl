@@ -120,6 +120,15 @@
 			<!--  <xsl:value-of select="document($url)/your_code"/> -->
 		</xsl:variable>	
 		
+		<xsl:call-template name="newlineTab2"/>
+			
+			<xsl:call-template name="blockly.element.custom.global"></xsl:call-template> 
+			
+			<xsl:call-template name="blockly.elements">
+				<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='custom_actions']/block"/>
+			</xsl:call-template> 
+		<xsl:call-template name="newlineTab2"/>
+		
      	<xsl:call-template name="start-code">
      		<xsl:with-param name="type" select="'custom_actions'"/>
      		<xsl:with-param name="url" select="$url"/>
@@ -400,7 +409,7 @@
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
 						
 						<xsl:call-template name="end-example"/>			
 						
@@ -471,7 +480,7 @@
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,', model, this.queryString()); //if submit, loads the values')"/>							
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
 						<xsl:call-template name="end-example"/>			
 						
 					

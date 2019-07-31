@@ -734,8 +734,20 @@ if($ && $.IGRP && !$.IGRP.rules){
 							arrField = [];
 
 						$.each($(contents),function(i,item){
+							
+							if(item.tagName.toLowerCase() == 'messages'){
+								
+								$.each($(item).find('message'),function(it,row){
 
-							var o = $.IGRP.utils.setFieldValue({tag : item, row : row});
+									$.IGRP.notify({
+										message : $(row).text(),
+										type	: $(row).attr('type')
+									});	
+									
+								});
+								
+							}else
+								var o = $.IGRP.utils.setFieldValue({tag : item, row : row});
 						});
 					}
 				});

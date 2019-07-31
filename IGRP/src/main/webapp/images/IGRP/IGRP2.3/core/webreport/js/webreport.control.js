@@ -170,10 +170,10 @@ var WRControl = {
         			vobj.addClass('table table-striped WR-table');
 
         			if(html[0]){
-        				$('tbody',vobj).append(html);
+        				$('> tbody',vobj).append(html);
 
-        				if($('thead tr',$(e).parents('table'))[0]){
-			        		$('thead',vobj).append($('thead tr',$(e).parents('table')).clone(!1));
+        				if($('> thead > tr',$(e).parents('table'))[0]){
+			        		$('> thead',vobj).append($('> thead > tr',$(e).parents('table')).clone(!1));
 			        	}
 
 			        	var page = $('<div class="page" size="'+size+'" height="'+ch+'"><div id="header"></div><div id="content"><div class="holder"></div></div><footer></footer><div id="footer"></div></div>'),
@@ -203,9 +203,9 @@ var WRControl = {
 		    }
       	});
 
-      	$('table.WR-table tbody tr td').each(function(i,f){
+      	/*$('table.WR-table tbody tr td').each(function(i,f){
     		$(f).html($(f).text());
-  		});
+  		});*/
 	},
 	pageControl : function(){
 		$("p.page").remove();

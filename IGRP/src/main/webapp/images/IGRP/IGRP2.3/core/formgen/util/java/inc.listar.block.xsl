@@ -58,7 +58,7 @@
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"></xsl:value-of>
-			<xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt;</xsl:text>
+			<xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt; </xsl:text>
 			<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table = new ArrayList&lt;</xsl:text>
 			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text>
 			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt;</xsl:text><xsl:text>();</xsl:text>

@@ -107,6 +107,92 @@
 			        }   
 			    }
 			
+		},
+		
+		inserir_dao : {
+			
+			init : function(block){
+				
+				var ParamInput = block.getInput('value1'),
+				
+					ParamField = ParamInput ? ParamInput.fieldRow[3] : null;
+					
+				console.log(ParamField)
+				
+				if(ParamField){
+					
+					var ParamValidator = function(val){
+						
+						//block.updateConnections(val)
+					}
+					
+					//ParamField.setValidator(ParamValidator);
+					
+					/*setTimeout(function(){
+						
+						ParamValidator( ParamField.getValue() );
+						
+					},200)*/
+	
+					
+					
+					
+				}
+				
+			},
+			
+			updateConnections: function(newValue) {
+				
+				console.log(newValue)
+				
+			  this.removeInput('PARAM', /* no error */ true);
+			  
+			  if (newValue == 'um') {
+				  this.appendValueInput('PARAM').appendField('parametro inteiro')
+					.appendField(new Blockly.FieldCheckbox('TRUE'), 'Checkbox');
+				this.moveInputBefore('PARAM','value2')
+			  } 
+			  
+			}
+			
+		},
+		
+		index_editar : {
+			
+			init : function(block){
+				
+				var ParamInput = block.getInput('value1'),
+				
+					ParamField = ParamInput ? ParamInput.fieldRow[3] : null;
+					
+				console.log(ParamField)
+				
+				if(ParamField){
+					
+					var ParamValidator = function(val){
+						block.updateConnections(val)
+					}
+					
+					ParamField.setValidator(ParamValidator);		
+					
+				}
+				
+			},
+			
+			updateConnections: function(newValue) {
+				
+				console.log(newValue)
+				
+			  this.removeInput('PARAM', /* no error */ true);
+			  
+			  if (newValue == 'um') {
+				this.appendValueInput('PARAM').appendField('por parametro')
+					.appendField(new Blockly.FieldCheckbox('TRUE'), 'Checkbox');
+				this.moveInputBefore('PARAM','value2')
+			  } 
+			  
+			}
+			
 		}
 			
 			

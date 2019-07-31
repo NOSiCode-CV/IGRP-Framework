@@ -296,9 +296,8 @@ public abstract class Model { // IGRP super model
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
 						String param = "p_"+m.getName().toLowerCase()+"_fk";
-						String key ="";
-						 String value="";
-
+						String key = mapFk.get(m.getName()).size()>row?mapFk.get(m.getName()).get(row):"";
+						String value = mapFkDesc.get(m.getName()).size() > row?mapFkDesc.get(m.getName()).get(row):"";
 						if (allFiles!=null && allFiles.containsKey(param)) {
 							List<Part> filesByLine = allFiles.get(param);
 							if(!filesByLine.isEmpty()) {
@@ -312,8 +311,6 @@ public abstract class Model { // IGRP super model
 							}
 						} else {
 							try {
-								 key = mapFk.get(m.getName()).size()>=row?mapFk.get(m.getName()).get(row):"";
-								 value = mapFkDesc.get(m.getName()).size() >= row?mapFkDesc.get(m.getName()).get(row):"";
 								BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,value));
 							} catch (Exception e) {
 								m.setAccessible(false);
@@ -342,7 +339,7 @@ public abstract class Model { // IGRP super model
 				m.setInt(this, Core.toInt(aux).intValue());
 				break;
 			case "java.lang.Integer":
-				m.set(this, Core.toInt(aux));
+				m.set(this, aux!=null?Core.toInt(aux):null);
 				break;
 			case "float":
 				m.setFloat(this, Core.toFloat(aux).floatValue());
@@ -354,25 +351,25 @@ public abstract class Model { // IGRP super model
 				m.setDouble(this, Core.toDouble(aux).doubleValue());
 				break;
 			case "java.lang.Double":
-				m.set(this, Core.toDouble(aux));
+				m.set(this, aux!=null?Core.toDouble(aux):null);
 				break;
 			case "long":
 				m.setLong(this, Core.toLong(aux).longValue());
 				break;
 			case "java.lang.Long":
-				m.set(this, Core.toLong(aux));
+				m.set(this,aux!=null? Core.toLong(aux):null);
 				break;
 			case "short":
 				m.setShort(this, Core.toShort(aux).shortValue());
 				break;
 			case "java.lang.Short":
-				m.set(this, Core.toShort(aux));
+				m.set(this, aux!=null?Core.toShort(aux):null);
 				break;
 			case "java.math.BigInteger":
-				m.set(this, Core.toBigInteger(aux));
+				m.set(this, aux!=null?Core.toBigInteger(aux):null);
 				break;
 			case "java.math.BigDecimal":
-				m.set(this, Core.toBigDecimal(aux));
+				m.set(this, aux!=null?Core.toBigDecimal(aux):null);
 				break;
 			case "java.sql.Date":
 				if (aux != null && !aux.equals("0")) {
