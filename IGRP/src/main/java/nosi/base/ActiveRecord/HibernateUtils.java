@@ -13,10 +13,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.BootstrapServiceRegistry;
-import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Environment;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.service.ServiceRegistry;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
@@ -63,11 +61,7 @@ public class HibernateUtils {
 		}
 		String fileName = connectionName + "." + dad;
 		if (!SESSION_FACTORY.containsKey(connectionName)) {
-			SessionFactory sessionFactory = buildSessionFactory(buildConfig(connectionName, fileName, dad).build());
-			if (sessionFactory != null)
-				SESSION_FACTORY.put(connectionName, sessionFactory);
-			else
-				return null;
+			SESSION_FACTORY.put(connectionName, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
 		}
 		return SESSION_FACTORY.get(connectionName);
 	}
@@ -81,13 +75,6 @@ public class HibernateUtils {
 			System.err.println("Initial SessionFactory creation failed." + ex);
 			Core.log(ex.getMessage());
 			throw new ExceptionInInitializerError(ex);
-		} finally {
-			if (metadataSources != null) {
-				ServiceRegistry metaServiceRegistry = metadataSources.getServiceRegistry();
-				if (metaServiceRegistry instanceof BootstrapServiceRegistry) {
-					BootstrapServiceRegistryBuilder.destroy(metaServiceRegistry);
-				}
-			}
 		}
 	}
 
@@ -108,24 +95,24 @@ public class HibernateUtils {
 			Map<String, String> configurationValues) {
 		if (configurationValues != null) {
 			Map<Object, Object> user = configurationValues.entrySet().stream()
-					.filter(key -> key.getKey().toString().equals(Environment.USER)
-							|| key.getKey().toString().equals(Environment.PASS)
-							|| key.getKey().toString().equals(Environment.URL))
+					.filter(key -> key.getKey().toString().equals(AvailableSettings.USER)
+							|| key.getKey().toString().equals(AvailableSettings.PASS)
+							|| key.getKey().toString().equals(AvailableSettings.URL))
 					.collect(Collectors.toMap(k -> k, v -> v));
 			/**
 			 * Check if connection configuration in hibernate file
 			 */
-			if (user == null || (user != null && user.size() <= 0)) {
+			if ((user != null && user.size() <= 0) || user == null) {
 				DefaultConfigHibernate defaultConfig = DefaultConfigHibernate.getInstance();
 				// Strategy used to access the JDBC Metadata
-				configurationValues.put(Environment.HBM2DDL_JDBC_METADATA_EXTRACTOR_STRATEGY,
+				configurationValues.put(AvailableSettings.HBM2DDL_JDBC_METADATA_EXTRACTOR_STRATEGY,
 						defaultConfig.getAccessStrategyJDBC().orElse("individually"));
 				// Thread session
-				configurationValues.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,
+				configurationValues.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS,
 						defaultConfig.getCurrentSessionContextClass()
 								.orElse("org.hibernate.context.internal.ThreadLocalSessionContext"));
 				// Connection provider
-				configurationValues.put(Environment.CONNECTION_PROVIDER, defaultConfig.getProvider_class());
+				configurationValues.put(AvailableSettings.CONNECTION_PROVIDER, defaultConfig.getProvider_class());
 
 				ConfigApp configApp = ConfigApp.getInstance();
 				// Load default connection database when connection name is hibernate-core-igrp
@@ -140,21 +127,21 @@ public class HibernateUtils {
 						e.printStackTrace();
 					}
 					String hibernateDialect = DatabaseConfigHelper.getHibernateDialect(config.getType_db());
-					configurationValues.put(Environment.USER, config.getUsername());
-					configurationValues.put(Environment.URL, config.getUrlConnection());
-					configurationValues.put(Environment.PASS, config.getPassword());
-					configurationValues.put(Environment.DRIVER, config.getDriverConnection());
-					configurationValues.put(Environment.DIALECT, hibernateDialect);
-					configurationValues.put(Environment.HBM2DDL_AUTO, defaultConfig.getHbm2ddlAuto().orElse("update"));
+					configurationValues.put(AvailableSettings.USER, config.getUsername());
+					configurationValues.put(AvailableSettings.URL, config.getUrlConnection());
+					configurationValues.put(AvailableSettings.PASS, config.getPassword());
+					configurationValues.put(AvailableSettings.DRIVER, config.getDriverConnection());
+					configurationValues.put(AvailableSettings.DIALECT, hibernateDialect);
+					configurationValues.put(AvailableSettings.HBM2DDL_AUTO, defaultConfig.getHbm2ddlAuto().orElse("update"));
 				} else {
 
 					Config_env config = getConfigdatabase(connectionName, dad);
 					if (config != null) {
-						configurationValues.put(Environment.USER, config.getUsername());
-						configurationValues.put(Environment.URL, config.getUrl_connection());
-						configurationValues.put(Environment.PASS, config.getPassword());
-						configurationValues.put(Environment.DRIVER, config.getDriver_connection());
-						configurationValues.put(Environment.DIALECT, config.getType_db());
+						configurationValues.put(AvailableSettings.USER, config.getUsername());
+						configurationValues.put(AvailableSettings.URL, config.getUrl_connection());
+						configurationValues.put(AvailableSettings.PASS, config.getPassword());
+						configurationValues.put(AvailableSettings.DRIVER, config.getDriver_connection());
+						configurationValues.put(AvailableSettings.DIALECT, config.getType_db());
 					}
 				}
 				if (defaultConfig.getUseConnectionPool().compareTo("true") == 0) {
@@ -177,10 +164,10 @@ public class HibernateUtils {
 								defaultConfig.getLeakDetectionThreshold());
 					} else if (defaultConfig.getProvider_class()
 							.equals("org.hibernate.connection.C3P0ConnectionProvider")) {
-						configurationValues.put(Environment.C3P0_TIMEOUT, defaultConfig.getConnectionTimeout());
-						configurationValues.put(Environment.C3P0_MIN_SIZE, defaultConfig.getMinimumPoolSize());
-						configurationValues.put(Environment.C3P0_MAX_SIZE, defaultConfig.getMaximumPoolSize());
-						configurationValues.put(Environment.C3P0_ACQUIRE_INCREMENT, defaultConfig.getIncrement());
+						configurationValues.put(AvailableSettings.C3P0_TIMEOUT, defaultConfig.getConnectionTimeout());
+						configurationValues.put(AvailableSettings.C3P0_MIN_SIZE, defaultConfig.getMinimumPoolSize());
+						configurationValues.put(AvailableSettings.C3P0_MAX_SIZE, defaultConfig.getMaximumPoolSize());
+						configurationValues.put(AvailableSettings.C3P0_ACQUIRE_INCREMENT, defaultConfig.getIncrement());
 					}
 				}
 			}
@@ -220,12 +207,6 @@ public class HibernateUtils {
 			StandardServiceRegistryBuilder.destroy(registry);
 			registry = null;
 		}
-//		if (REGISTRY_BUILDER_IGRP != null) {
-//			StandardServiceRegistryBuilder.destroy(REGISTRY_BUILDER_IGRP.build());
-//		}
-//		if (REGISTRY_BUILDER_IGRP_H2 != null) {
-//			StandardServiceRegistryBuilder.destroy(REGISTRY_BUILDER_IGRP_H2.build());
-//		}
 	}
 
 	public synchronized static void unregisterAllDrivers() {
