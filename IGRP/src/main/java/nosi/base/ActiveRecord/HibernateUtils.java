@@ -97,7 +97,7 @@ public class HibernateUtils {
 		try {
 			registryBuilder.configure(fileName + SUFIX_HIBERNATE_CONFIG);
 			registryBuilder.applySettings(getSettings(connectionName, dad,
-					(Map<String, String>) registryBuilder.getAggregatedCfgXml().getConfigurationValues()));
+					registryBuilder.getAggregatedCfgXml().getConfigurationValues()));
 		} catch (org.hibernate.internal.util.config.ConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -115,7 +115,7 @@ public class HibernateUtils {
 			/**
 			 * Check if connection configuration in hibernate file
 			 */
-			if (user == null || (user != null && user.size() <= 0)) {
+			if (user == null || user.size() <= 0) {
 				DefaultConfigHibernate defaultConfig = DefaultConfigHibernate.getInstance();
 				// Strategy used to access the JDBC Metadata
 				configurationValues.put(Environment.HBM2DDL_JDBC_METADATA_EXTRACTOR_STRATEGY,
@@ -155,6 +155,7 @@ public class HibernateUtils {
 						configurationValues.put(Environment.PASS, config.getPassword());
 						configurationValues.put(Environment.DRIVER, config.getDriver_connection());
 						configurationValues.put(Environment.DIALECT, config.getType_db());
+						configurationValues.put(Environment.HBM2DDL_AUTO, "update");
 					}
 				}
 				if (defaultConfig.getUseConnectionPool().compareTo("true") == 0) {
