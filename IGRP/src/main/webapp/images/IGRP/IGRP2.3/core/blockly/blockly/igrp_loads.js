@@ -18,7 +18,7 @@ var COMPAR= {'==': '==','!=': '!=','>=': '>=','<=': '<=','>': '>','<': '<',};
 
 var CORE_IF = [["verificar se está nulo", "verificar se está nulo"]];
 
-var CORE_MSG = [["mensagem sucesso", "mensagem sucesso"],["mensagem de erro", "Mensagem erro"]];
+var CORE_MSG = [["mensagem sucesso", "mensagem sucesso"],["mensagem de erro", "mensagem erro"]];
 
 var CORE_CONV = [["converter para inteiro", "converter para inteiro"],["converter texto para data", "converter texto para data"],["converter para texto", "converter para texto"]];
 
