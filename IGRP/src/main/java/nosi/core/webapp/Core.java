@@ -938,11 +938,7 @@ public final class Core { // Not inherit
 	public static String getLinkFile(int p_id) {
 		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
-	
-	public static String getLinkTempFile(String p_uuid) {
-		return Route.getResolveUrl("igrp", "File", "get-temp-file&p_uuid=" + p_uuid);
-	}
-	
+
 	/**
 	 * This method you can invoking using Link or Button.
 	 * 

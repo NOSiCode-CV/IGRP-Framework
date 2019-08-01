@@ -4,7 +4,7 @@
 	<session-factory>
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_igrp_mf</property>
 		<property name="hibernate.connection.password">postgres</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.connection.username">postgres</property>
@@ -55,8 +55,7 @@
 		<mapping class="nosi.webapps.igrp.dao.TipoDocumentoEtapa" />
 		<mapping class="nosi.webapps.igrp.dao.Modulo" />
 		<mapping class="nosi.webapps.igrp.dao.TaskAccess" />
-		<mapping class="nosi.webapps.igrp.dao.TempFile" />
-	
+
 		<!-- <mapping class="nosi.webapps.igrp.dao.Auditoria" /> -->
 
 		<!-- OAuth -->
