@@ -731,24 +731,19 @@ if($ && $.IGRP && !$.IGRP.rules){
 					success : function(data){
 
 						var contents = $(data).find('content >*'),
-							arrField = [];
+							arrField = [];	
 
 						$.each($(contents),function(i,item){
 							
-							if(item.tagName.toLowerCase() == 'messages'){
+							if(item.tagName.toLowerCase() != 'messages')
 								
-								$.each($(item).find('message'),function(it,row){
-
-									$.IGRP.notify({
-										message : $(row).text(),
-										type	: $(row).attr('type')
-									});	
-									
-								});
-								
-							}else
-								var o = $.IGRP.utils.setFieldValue({tag : item, row : row});
+								$.IGRP.utils.setFieldValue({tag : item, row : row});
+							
 						});
+						
+						if($(contents).find('messages message')[0])
+							
+							$.IGRP.utils.message.notify(contents);
 					}
 				});
 			}
@@ -806,6 +801,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 						}
 						
 					});
+					
+					if($(list).find('messages message')[0])
+						
+						$.IGRP.utils.message.notify(list);
 					
 				})
 				.fail(function() {

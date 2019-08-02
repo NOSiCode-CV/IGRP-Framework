@@ -214,28 +214,11 @@
 									clicked : p.clicked
 								});
 								
-							}else
+							}else{
 								p.clicked.removeAttr("disabled");
-
-							$.each($(xml).find('messages message'),function(i,row){
-
-								var type = $(row).attr('type');
-
-								if (type != 'debug' && type != 'confirm') {
-
-									type = type == 'error' ? 'danger' : type;
-
-									alert += $.IGRP.utils.message.alert({
-										type : type,
-										text : $(row).text()
-									});
-
-								}else if(type == 'debug'){
-									debug += '<li value="'+$(row).text()+'">'+
-									$.IGRP.utils.htmlDecode($(row).text())+
-									'</li>';
-								}
-							});
+								
+								$.IGRP.utils.message.handleXML(xml);
+							}
 
 						}catch(e){
 							var str = resp.response;
@@ -340,10 +323,11 @@
 					//fileName    	: 'p_igrpfile',
 					//contentType 	: 'plain/xml',
 					//format		: 'xml',
-					notify 			: true,
+					notify 			: false,
 					complete    	: function(resp){
+						console.log(resp);
 						if(resp){
-							handleXMLMessages(resp);
+							$.IGRP.utils.message.handleXML(resp.responseXML);
 							
 								if(events){
 									events.execute('success-submitpage2file',{
@@ -351,6 +335,8 @@
 									});
 								}
 						}
+						
+						p.clicked.removeAttr('disabled');
 						
 						$.IGRP.utils.loading.hide();
 					}
