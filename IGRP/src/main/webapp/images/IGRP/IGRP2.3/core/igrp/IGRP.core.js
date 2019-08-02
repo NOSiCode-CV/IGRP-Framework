@@ -530,7 +530,61 @@
 						'<a class="close" data-dismiss="alert" aria-label="Close">'+
 						'<span aria-hidden="true"><i class="fa fa-times"></i></span>'+
 						'</a>'+$.IGRP.utils.htmlDecode(p.text)+'</div>';
+				},
+				handleXML : function(xml){
+
+					try{
+
+						var alert = '',
+
+							debug = '';
+
+						$.each($(xml).find('messages message'),function(i,row){
+
+							var type = $(row).attr('type');
+
+							if (type != 'debug' && type != 'confirm') {
+
+								type = type == 'error' ? 'danger' : type;
+
+								alert += $.IGRP.utils.message.alert({
+									type : type,
+									text : $(row).text()
+								});
+
+							}else if(type == 'debug'){
+								debug += '<li value="'+$(row).text()+'">'+
+									$.IGRP.utils.htmlDecode($(row).text())+
+								'</li>';
+							}
+						});
+						
+						if(alert != '')
+							
+							$('.igrp-msg-wrapper').html(alert);
+						
+						if(debug != '')
+							
+							$('#igrp-debugger .igrp-debug-list').html(debug);
+
+					}catch(err){
+						
+						console.log(err)
+					}
+
+				},
+				notify : function(xml){
+					
+					$.each($(xml).find('messages message'),function(it,row){
+
+						$.IGRP.notify({
+							message : $(row).text(),
+							type	: $(row).attr('type')
+						});	
+						
+					});
 				}
+
 			},
 			loading : {
 				show : function(o){
@@ -954,6 +1008,8 @@
 										if(id == p.nodes.length){
 											if(p.clicked)
 												p.clicked.removeAttr("disabled");
+											
+											$.IGRP.utils.message.handleXML(p.xml);
 										}
 											
 									},
@@ -1025,6 +1081,7 @@
 						nodes  : options.nodes,
 						success: options.success
 					});
+					
 				}
 			});
 
