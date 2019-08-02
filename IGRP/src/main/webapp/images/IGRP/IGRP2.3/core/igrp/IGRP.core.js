@@ -559,13 +559,9 @@
 							}
 						});
 						
-						if(alert != '')
-							
-							$('.igrp-msg-wrapper').html(alert);
+						$('.igrp-msg-wrapper').html(alert);
 						
-						if(debug != '')
-							
-							$('#igrp-debugger .igrp-debug-list').html(debug);
+						$('#igrp-debugger .igrp-debug-list').html(debug);
 
 					}catch(err){
 						
