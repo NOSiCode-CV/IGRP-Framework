@@ -41,6 +41,12 @@
 				<xsl:text>Core.isNull</xsl:text>
 					
 			</xsl:when>
+			
+			<xsl:when test="$key = 'verificar se não está nulo'">
+				
+				<xsl:text>Core.isNotNull</xsl:text>
+					
+			</xsl:when>
 		
 		</xsl:choose>
 		

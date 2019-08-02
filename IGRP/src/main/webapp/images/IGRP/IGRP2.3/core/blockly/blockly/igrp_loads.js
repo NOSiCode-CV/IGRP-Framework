@@ -16,7 +16,7 @@ var COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">
 
 var COMPAR= {'==': '==','!=': '!=','>=': '>=','<=': '<=','>': '>','<': '<',};
 
-var CORE_IF = [["verificar se está nulo", "verificar se está nulo"]];
+var CORE_IF = [["verificar se está nulo", "verificar se está nulo"],["verificar se não está nulo", "verificar se não está nulo"]];
 
 var CORE_MSG = [["mensagem sucesso", "mensagem sucesso"],["mensagem de erro", "mensagem erro"]];
 
@@ -47,6 +47,8 @@ var TRU_FAL = [["true", "true"],["false", "false"]];
 
 var TRU_FA= {'true': 'true','false': 'false'};
 
+var daoClasses = {};
+
 var IGRP_BLOCKLY_DROPS={
 	
 	daos : {}
@@ -55,6 +57,7 @@ var IGRP_BLOCKLY_DROPS={
 
 var AppTitle, PageTitle, pagetitle;
 var fields_model = [],FIELDS_MEANS = {}, FIELDS_SET_MEANS = {};
+var key_model = [];
 var fields_esp_model = [], FIELDS_ESP_MEANS = {};
 var tables_model = [],tables_MEANS = {};
 var str = '';
@@ -157,6 +160,8 @@ window.IGRPBlocklyInit = function(){
 
 	 fields_model = []; FIELDS_MEANS = {}; FIELDS_SET_MEANS = {};
 	 fields_model.push(['--','--']);
+	 key_model= [];
+	 key_model.push(['--','--']);
 	 fields_esp_model = []; FIELDS_ESP_MEANS = {};
 	 fields_esp_model.push(['--','--']);
 	 tables_model = []; tables_MEANS = {};
@@ -190,6 +195,8 @@ window.IGRPBlocklyInit = function(){
 		var	 tag = $(field).prop('tagName');
 		var type = $(field).attr('type');
 		
+		var key  = $(field).attr('iskey');
+		
 		//fields_model.push([ tag, tag ]);
 		var Uptag = tag.charAt(0).toUpperCase()+ tag.slice(1).toLowerCase();
 		FIELDS_MEANS[tag] = 'get'+Uptag+'()';
@@ -197,13 +204,15 @@ window.IGRPBlocklyInit = function(){
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		
-		console.log(javaType);
-		
-		console.log(type);
-		
 		fields_esp_model.push([ tag, javaType + '::'+tag]);
 		
 		fields_model.push([ tag, javaType + '::'+tag]);
+		
+		if(key == "true")
+		{
+			key_model.push([ tag, tag]);
+			
+		}
 		
 		if(type == "text")
 		{
@@ -211,6 +220,8 @@ window.IGRPBlocklyInit = function(){
 			FIELDS_ESP_MEANS[tag] = {code:'', insert: '(model.get'+Uptag+'())'};
 			
 		}
+		
+
 		
 		if(type == "file")
 		{
@@ -348,6 +359,9 @@ window.IGRPBlocklyInit = function(){
 		
 		if(temdao != '')
 		{
+			
+			
+			
 			$('#toolbox').append('<category id="dao" name="DAO" colour="150"></category>');
 			
 			$('#toolbox').append('<category id="insert" name="Inserir" colour="150">'
@@ -356,12 +370,11 @@ window.IGRPBlocklyInit = function(){
 					+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 					//+'<field type="dropdown" name="find" title="ou editar" options="IGRP_BLOCKLY_DROPS.find"></field>'	
 					+'</value>'
-//					+'<value name="PARAM" type="value"  title="ou editar por parâmetro">'
-//					+'</value>'
+//					+'<value name="PARAM" type="value"  title="ou editar por parâmetro"></value>'
 					+'<value name="value2" type="statement"></value>'  
 					+'</block>'
 					+'<block type="fill_combo" color="60" prev-statement="" next-statement="" inline="true">'
-					+'<value name="value1" type="dummy" title="Index preencher combo box:">'
+					+'<value name="value1" type="dummy" title="preencher combo box:">'
 					+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
 					+'</value>'
 					+'<value name="value2" type="statement">'
@@ -372,21 +385,30 @@ window.IGRPBlocklyInit = function(){
 					+'</block>'
 					+'</value>'
 					+'</block>'
+					+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
+					+'<value name="PARAM" type="dummy">'
+					+'<field type="dropdown" name="iskey" title="enviar parâmetro" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+					+'</value>'
+					+'</block>'	
+					+'<block type="core_get_param" output="" color="60"><value name="value1" type="dummy"  title="get parâmetro">'
+					+'<field type="field_text" name="opcao" options=""></field>'
 					+'</category>'
 					+'<category id="insert" name="Editar" colour="150">'
 					+'<block type="index_editar" color ="40" prev-statement="" next-statement="" inline="true">'
 					+'<value name="value1" type="dummy" >'
 					//+'<field type="dropdown" name="find" title="Index editar" options="IGRP_BLOCKLY_DROPS.find"></field>'
-					+'<field type="dropdown" name="dao" title="Index editar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
+					+'<field type="dropdown" name="dao" title="editar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+					+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 					+'</value>'
-					+'<value name="PARAM" type="value"  title="por parâmetro">'
-					+'</value>'
+					//+'<value name="PARAM" type="value"  title="por parâmetro"></value>'
 					+'<value name="value2" type="statement"></value>' 
 					+'<value name="value3" type="dummy">'
 					+'<field type="dropdown" name="button" title="link para botão inserir" options="IGRP_BLOCKLY_DROPS.buttons"></field></value>'  
 					+'</block>'
 					+'<block type="editar_dao" color ="40" prev-statement="" next-statement="">'
-					+'<value name="PARAM" type="value" title="Editar por parâmetro:" ></value>'
+					+'<value name="PARAM" type="dummy">'
+					+'<field type="dropdown" name="iskey" title="Editar por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+					+'</value>'
 					+'</block>'	
 					+'</category>'
 					+'<category id="list" name="Listar" colour="150">'
@@ -406,18 +428,23 @@ window.IGRPBlocklyInit = function(){
 					+'</block>'
 					+'</category>'
 					+'<category id="delete" name="Apagar" colour="150">'
-					+'<block type="apagar" color="130" prev-statement="" next-statement="" inline="true">'
-					+'<value name="valor1" type="dummy">'
+					+'<block type="apagar" color="100" prev-statement="" next-statement="">'
+					+'<value name="valor1" type="value">'
 					+'<field type="dropdown" name="dao" title="Apagar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+					+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 					+'</value>'
-					+'<value name="PARAM" type="value" title="por parâmetro:" ></value>'
 					+'</block>'
 					+'</category>'
 					+'<sep></sep>');
+			
+			$('#core').append();
 		}
+		
 		
 		$(data).find('dao>*').each(function(i, f) {
 			var daos = $(f).prop('tagName');
+			
+			daoClasses[daos] = true;
 			
 			daos_list.push([ daos, daos ]);
 			DAOS_MEANS[daos] = '' + daos + '';
@@ -510,13 +537,13 @@ window.IGRPBlocklyInit = function(){
 						+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
 						+'</value>'
 					+'</block>\n');
-			$('#'+daos+'').append(
-					'<block type="str-dao-'+daos+'"color="160" output="">'
-						+'<value name="value1" type="dummy" title="'+daos+'">'
-							+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
-							+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
-						+'</value>'
-					+'</block>\n');
+//			$('#'+daos+'').append(
+//					'<block type="str-dao-'+daos+'"color="160" output="">'
+//						+'<value name="value1" type="dummy" title="'+daos+'">'
+//							+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
+//							+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
+//						+'</value>'
+//					+'</block>\n');
 	});
 			
 	imports_list.push([ "imports listar","imports para listar"]);
@@ -556,9 +583,9 @@ window.IGRPBlocklyInit = function(){
 			
 			selecao : select,
 			
-			findList : FINDLIST
+			findList : FINDLIST,
 			
-			//field_list : fieldy_list
+			keys : key_model
 					
 		});
 
@@ -670,18 +697,26 @@ function GetBlocklyImports(){
 					fieldsInc[type] = true;
 					
 				}
+				
+				
+				if(daoClasses[type]){
+					
+					fieldsInc[type] = 'dao';
+					
+				}
 
 			}
 			
 		});
 		
 		for(var x in fieldsInc){
+
+			var type = fieldsInc[x] != true ?  fieldsInc[x] : 'fields';
 			
-			rtn+='<import type="fields">'+x+'</import>';
+			rtn+='<import type="'+type+'">'+x+'</import>';
 			
 		}
-			
-			
+	
 		return '<imports>'+rtn+'</imports>';
 			
 	}catch(err){

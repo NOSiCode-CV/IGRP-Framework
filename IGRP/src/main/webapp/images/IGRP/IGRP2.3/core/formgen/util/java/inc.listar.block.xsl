@@ -125,10 +125,25 @@
 			
 			<xsl:variable name="value2Name" select="concat($value1Name,'STATE2')"/>
 			
+			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
+			
+			<xsl:variable name="valueDao2" select = "substring-after(value[@name=$value2Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
+			
 			<xsl:variable name="value1">
-				<xsl:call-template name="blockly.elements">
+			
+			<xsl:choose>
+				<xsl:when test="$valueDao != ''">
+					<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+				</xsl:when>
+				
+				<xsl:otherwise>
+					<xsl:call-template name="blockly.elements">
 					<xsl:with-param name="elements" select="$values[@name=$value1Name]/block"></xsl:with-param>
-				</xsl:call-template>
+					</xsl:call-template>
+				</xsl:otherwise>
+			
+			</xsl:choose>
+				
 			</xsl:variable>
 			
 			<xsl:variable name="operator">
@@ -138,9 +153,20 @@
 			</xsl:variable>
 			
 			<xsl:variable name="value2">
-				<xsl:call-template name="blockly.elements">
-					<xsl:with-param name="elements" select="$values[@name=$value2Name]/block"></xsl:with-param>
-				</xsl:call-template>
+			
+				<xsl:choose>
+					<xsl:when test="$valueDao2 != ''">
+						<xsl:text>"</xsl:text><xsl:value-of select="$valueDao2"></xsl:value-of><xsl:text>"</xsl:text>
+					</xsl:when>
+					
+					<xsl:otherwise>
+						<xsl:call-template name="blockly.elements">
+						<xsl:with-param name="elements" select="$values[@name=$value2Name]/block"></xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				
+				</xsl:choose>
+				
 			</xsl:variable>
 			
 			<xsl:if test="$value1 and $operator and $value2">
