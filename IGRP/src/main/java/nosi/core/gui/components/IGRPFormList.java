@@ -53,6 +53,7 @@ public class IGRPFormList extends IGRPSeparatorList {
 		this(tag_name,"");
 	}
 	
+	@Override
 	protected void genRows() {
 	
 		int rowIndex = 1; 

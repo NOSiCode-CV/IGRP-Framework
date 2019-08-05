@@ -1,12 +1,15 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -32,6 +35,9 @@ public class TempFile extends IGRPBaseActiveRecord<TempFile> implements Serializ
 	@Column(nullable=false)
 	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] content;
+	private long size;
+	@Temporal(TemporalType.DATE)
+	private Date date_created;
 	
 	public String getUuid() {
 		return uuid;
@@ -56,6 +62,19 @@ public class TempFile extends IGRPBaseActiveRecord<TempFile> implements Serializ
 	}
 	public void setContent(byte[] content) {
 		this.content = content;
+	}
+		
+	public long getSize() {
+		return size;
+	}
+	public void setSize(long size) {
+		this.size = size;
+	}
+	public Date getDate_created() {
+		return date_created;
+	}
+	public void setDate_created(Date date_created) {
+		this.date_created = date_created;
 	}
 	@Override
 	public TempFile findOne(Object value) {

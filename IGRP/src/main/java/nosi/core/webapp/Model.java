@@ -39,6 +39,8 @@ import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.TempFileHelper;
+import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.xml.DomXML;
 
 /**
@@ -50,6 +52,9 @@ import nosi.core.xml.DomXML;
 public abstract class Model { // IGRP super model
 
 	public static final String ATTRIBUTE_NAME_REQUEST = "model";
+	private static final String PAIR_TYPE = "nosi.core.gui.components.IGRPSeparatorList$Pair";
+	private static final String FILE_TYPE = "nosi.core.webapp.uploadfile.UploadFile";
+	public static final String SUFIX_UPLOADED_FILE_ID = "file_uploaded_id";
 
 	public Model() {
 		
@@ -231,6 +236,7 @@ public abstract class Model { // IGRP super model
 		for (Field obj : fields) {
 			Map<String, List<String>> mapFk = new LinkedHashMap<String, List<String>>();
 			Map<String, List<String>> mapFkDesc = new LinkedHashMap<String, List<String>>();
+			Map<String, List<String>> mapFileId = new LinkedHashMap<String, List<String>>();
 
 			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 
@@ -242,7 +248,12 @@ public abstract class Model { // IGRP super model
 				aux.add(m.getName());
 
 				String s = c_.getName().substring(c_.getName().lastIndexOf("$") + 1).toLowerCase();
-
+				String[] file_id = Core.getAttributeArray(Model.getParamFileId(m.getName()));
+			
+				if(file_id==null) {
+					file_id = Core.getParamArray(Model.getParamFileId(m.getName()));
+				}
+				mapFileId.put(m.getName(),  file_id != null ? Arrays.asList(file_id) : new ArrayList<String>());
 				if (m.getName().equals(s + "_id")) {
 					String[] values1 = Core.getParamArray("p_" + m.getName());
 					if (values1 != null && values1.length > 1 && values1[0] != null && values1[0].isEmpty()) {
@@ -295,24 +306,34 @@ public abstract class Model { // IGRP super model
 					Object obj2 = Class.forName(c_.getName()).newInstance();
 					for (Field m : obj2.getClass().getDeclaredFields()) {
 						m.setAccessible(true);
-						String param = "p_"+m.getName().toLowerCase()+"_fk";
-						String key = mapFk.get(m.getName()).size()>row?mapFk.get(m.getName()).get(row):"";
-						String value = mapFkDesc.get(m.getName()).size() > row?mapFkDesc.get(m.getName()).get(row):"";
-						if (allFiles!=null && allFiles.containsKey(param)) {
+						String param = "p_" + m.getName().toLowerCase() + "_fk";
+						String key = mapFk.get(m.getName()).size() > row ? mapFk.get(m.getName()).get(row) : "";
+						String value = mapFkDesc.get(m.getName()).size() > row ? mapFkDesc.get(m.getName()).get(row)
+								: "";
+						List<String> fileId = mapFileId.get(m.getName());
+						if (allFiles != null && allFiles.containsKey(param)) {
 							List<Part> filesByLine = allFiles.get(param);
-							if(!filesByLine.isEmpty()) {
-								 try {		
-									 BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,value,filesByLine.get(row)));
-								 }catch (Exception e) {
-									 e.printStackTrace();
-									 m.setAccessible(false);
-									 continue;
-								 }
+							if (!filesByLine.isEmpty()) {
+								try {
+									BeanUtils.setProperty(obj2, m.getName(),
+											new IGRPSeparatorList.Pair(
+													fileId != null && fileId.size() > row ? fileId.get(row) : null, key,
+													value, filesByLine.get(row)));
+								} catch (Exception e) {
+									e.printStackTrace();
+									m.setAccessible(false);
+									continue;
+								}
 							}
 						} else {
 							try {
-								BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,value));
+								if(fileId!=null && fileId.size() > row && Core.isNotNull(fileId.get(row))) {
+									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(fileId.get(row), key,value));
+								}else {
+									BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key, value));
+								}
 							} catch (Exception e) {
+								e.printStackTrace();
 								m.setAccessible(false);
 								continue;
 							}
@@ -407,6 +428,20 @@ public abstract class Model { // IGRP super model
 			case "javax.servlet.http.Part":
 				try {
 					m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
+				} catch (IOException | ServletException e) {
+	
+				}
+				break;
+			case "nosi.core.webapp.uploadfile.UploadFile":
+				try {
+					String param = Model.getParamFileId(m.getName().toLowerCase());
+					String fileId = Core.getParam(param);
+					if(Core.isNotNull(fileId)) {
+						Core.addHiddenField(Model.getParamFileId(m.getName().toLowerCase()), fileId);
+						m.set(this, new UploadFile(fileId));
+					}else {
+						m.set(this, new UploadFile(Core.getFile(m.getAnnotation(RParam.class).rParamName())));
+					}
 				} catch (IOException | ServletException e) {
 	
 				}
@@ -555,4 +590,147 @@ public abstract class Model { // IGRP super model
 		return constraintViolations.size()==0;
 	}
 
+
+	public void saveTempFile() {
+		Class<? extends Model> c = this.getClass();
+		for (Field m : c.getDeclaredFields()) {
+			if (m.isAnnotationPresent(SeparatorList.class)) {
+				this.saveTempFileSeparatorFormlist(m);
+			}else {
+				this.saveTempFileForm(m);
+			}
+		}
+	}
+
+	private void saveTempFileForm(Field m) {
+		try {
+			m.setAccessible(true);
+			if (m.getType().getName().equals(FILE_TYPE)) {
+				UploadFile file = (UploadFile) m.get(this);
+				if (file != null && file.isUploaded()) {
+					String uuid = TempFileHelper.saveTempFile(file);
+					Core.setAttribute(Model.getParamFileId(m.getName().toLowerCase()), uuid);
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		} finally {
+			m.setAccessible(false);
+		}
+	}
+
+	private void saveTempFileSeparatorFormlist(Field m) {
+		QueryString<String, String> queryString = new QueryString<>();
+		m.setAccessible(true);
+		try {
+			List<?> list = (List<?>) m.get(this);
+			if(list!=null) {
+				for(Object obj:list) {
+					Class<?> className = obj.getClass();
+					for(Method method:className.getDeclaredMethods()) {
+						if(method.getReturnType().getName().equals(PAIR_TYPE)) {
+							method.setAccessible(true);
+							try {
+								Pair pair = (Pair) method.invoke(obj);
+								String paramFileName = Model.getParamFileId(method.getName().replace("get", "").toLowerCase());
+								if(pair.getFile()!=null) {
+									if(pair.isUploaded()) {
+										String uuid = TempFileHelper.saveTempFile(pair.getFile());
+										queryString.addQueryString(paramFileName, uuid);
+									}else {
+										if(Core.isNotNull(pair.getFile().getId()) && !pair.getFile().getId().equals("-1")) {
+											queryString.addQueryString(paramFileName, pair.getFile().getId());
+										}else {
+											queryString.addQueryString(paramFileName, "-1");
+										}
+									}
+								}
+							} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+								e.printStackTrace();
+							}finally {
+								method.setAccessible(false);
+							}							
+						}
+					}
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+			e.printStackTrace();
+		}finally {
+			m.setAccessible(false);
+		}
+		if(queryString.getQueryString()!=null) {
+			queryString.getQueryString().entrySet().forEach(q->{
+				String[] value = q.getValue().stream().toArray(String[]::new);
+				Core.setAttribute(q.getKey(),value);
+			});
+		}
+	}
+	
+	public void deleteTempFile() {
+		Class<? extends Model> c = this.getClass();
+		for (Field m : c.getDeclaredFields()) {
+			if (m.isAnnotationPresent(SeparatorList.class)) {
+				this.deleteTempFileSeparatorFormlist(m);
+			}else {
+				this.deleteTempFileForm(m);
+			}
+		}
+	}
+
+	
+	private void deleteTempFileSeparatorFormlist(Field m) {
+		m.setAccessible(true);
+		try {
+			List<?> list = (List<?>) m.get(this);
+			if(list!=null) {
+				for(Object obj:list) {
+					Class<?> className = obj.getClass();
+					for(Method method:className.getDeclaredMethods()) {
+						if(method.getReturnType().getName().equals(PAIR_TYPE)) {
+							method.setAccessible(true);
+							try {
+								Pair pair = (Pair) method.invoke(obj);
+								if(pair.getFile()!=null && Core.isNotNull(pair.getFile().getId())) {
+									TempFileHelper.deleteTempFile(pair.getFile().getId());
+								}
+							} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+								e.printStackTrace();
+							}finally {
+								method.setAccessible(false);
+							}							
+						}
+					}
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+			e.printStackTrace();
+		}finally {
+			m.setAccessible(false);
+		}
+	}
+	
+	private void deleteTempFileForm(Field m) {
+		try {
+			m.setAccessible(true);
+
+			if (m.getType().getName().equals(FILE_TYPE)) {
+				UploadFile file = (UploadFile) m.get(this);
+				if (file != null) {
+					TempFileHelper.deleteTempFile(file.getId());
+				}
+			}
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		} finally {
+			m.setAccessible(false);
+		}
+	}
+	
+	public static String getParamFileId(String paramName) {
+		if(Core.isNotNull(paramName) && paramName.startsWith("p_")) {
+			return paramName+"_"+SUFIX_UPLOADED_FILE_ID;
+		}
+		return "p_"+paramName+"_"+SUFIX_UPLOADED_FILE_ID;
+	}
 }

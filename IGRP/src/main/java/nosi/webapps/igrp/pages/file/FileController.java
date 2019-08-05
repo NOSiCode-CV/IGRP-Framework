@@ -3,11 +3,12 @@ package nosi.webapps.igrp.pages.file;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.webapps.igrp.dao.CLob;
+import nosi.webapps.igrp.dao.TempFile;
+import nosi.core.webapp.helpers.TempFileHelper;
 import java.util.Properties;
 /*----#end-code----*/
 
@@ -28,18 +29,24 @@ public class FileController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	public Response actionGetFile() throws Exception {
-		CLob file = Core.getFile(Core.getParamInt("p_id"));
+		CLob file = Core.getFile(Core.getParamInt("p_id").intValue());
 		if(file!=null)
 			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
 		throw new Exception("File not found.");
 	}
 	
+	public Response actionGetTempFile() throws Exception {		
+		TempFile file = TempFileHelper.getTempFile(Core.getParam("p_uuid"));
+		if(file!=null)
+			return this.xSend(file.getContent(), file.getName(), file.getMime_type(), false);
+		throw new Exception("File not found.");
+	}
+	
 	public Response actionSaveImage()  throws Exception {		
-		int id = -1;
 		Properties p = new Properties();
-		id = Core.saveFile("p_file_name");
-		if(id==0) {
-			id = -1;
+		Integer id = Core.saveFile("p_file_name");
+		if(id.intValue()==0) {
+			id = new Integer(-1);
 			p.put("msg", Core.gt("Error saving file."));
 		}
 		p.put("id", id);

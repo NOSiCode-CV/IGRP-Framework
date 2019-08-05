@@ -306,7 +306,7 @@
   <!-- HIDDEN FIELDS -->
   <xsl:template mode="form-hidden-fields" match="*">
     <xsl:for-each select="hidden">
-      <input type="hidden" name="{@name}" id="{@name}" value="{.}">
+      <input type="hidden" name="{@name}" id="{@name}" value="{.}" class="igrp-dynamic-hiddens">
           <xsl:if test="@rel">
             <xsl:attribute name="rel">
               <xsl:value-of select="concat('F_',@rel)"/>

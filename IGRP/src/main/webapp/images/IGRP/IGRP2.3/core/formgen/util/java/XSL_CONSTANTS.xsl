@@ -73,6 +73,14 @@
         </xsl:if>
     </xsl:variable>
     
+    <xsl:variable name="import_file_upload">    
+    	<xsl:if test="count(/rows/content/*[@type='form']/fields/*[@type='file']) &gt; 0">
+        	<xsl:text>import nosi.core.webapp.uploadfile.UploadFile;</xsl:text>
+        	<xsl:value-of select="$newline"/>
+        </xsl:if>
+    </xsl:variable>
+    
+    
      <xsl:variable name="import_chart2d">   
     	<xsl:if test="count(/rows/content/*[@type='chart']/*[name()='chart_type' and .='pie']) &gt; 0">
         	<xsl:text>import nosi.core.gui.components.IGRPChart2D;</xsl:text>
