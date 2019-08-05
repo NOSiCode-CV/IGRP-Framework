@@ -494,7 +494,8 @@ public class PageController extends Controller {
 
 	// list all page of an application
 	public Response actionListPage() throws IOException {
-		int app = Core.findApplicationByDad(Core.getParam("p_dad")).getId();
+		final String dad = Core.getParam("p_dad");
+		int app = Core.findApplicationByDad(dad).getId();
 		String json = "[";
 
 		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
@@ -522,11 +523,12 @@ public class PageController extends Controller {
 			for (Action ac : actions) {
 				json += "{";
 				json += "\"action\":\"" + ac.getAction() + "\",";
-				json += "\"app\":\"" + ac.getApplication().getDad() + "\",";
+				final String dad2 = ac.getApplication().getDad();
+				json += "\"app\":\"" + dad2 + "\",";
 				json += "\"page\":\"" + ac.getPage() + "\",";
 				json += "\"id\":\"" + ac.getId() + "\",";
-				json += "\"description\":\"" + (ac.getPage_descr() != null ? ac.getPage_descr()+" ("+ac.getPage()+")" : ac.getPage())+"\",";
-				json += "\"link\":\"" + this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(),
+				json += "\"description\":\"" +(dad.equalsIgnoreCase(dad2)?"":dad2+"/")+ (ac.getPage_descr() != null ? ac.getPage_descr()+" ("+ac.getPage()+")" : ac.getPage())+"\",";
+				json += "\"link\":\"" + this.getConfig().getResolvePathPage(dad2, ac.getPage(),
 						ac.getVersion()) + "/" + ac.getPage() + ".xml\"";
 				json += "},";
 			}

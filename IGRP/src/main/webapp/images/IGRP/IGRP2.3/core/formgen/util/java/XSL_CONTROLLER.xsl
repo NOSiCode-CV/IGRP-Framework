@@ -364,13 +364,13 @@
 							<xsl:call-template name="setSqlCombobox"/>					
 							<xsl:call-template name="setBoxValue"/>	
 							<xsl:call-template name="end-example"/>
-						</xsl:if>		
+						</xsl:if>	
 						
-						<xsl:call-template name="newlineTab2"/>
+						
 						<xsl:call-template name="blockly.elements">
 							<xsl:with-param name="elements" select="//rows/blockly/xml/block/statement[@name='index']/block"/>
 						</xsl:call-template> 
-						<xsl:call-template name="newlineTab2"/>
+						
 
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>

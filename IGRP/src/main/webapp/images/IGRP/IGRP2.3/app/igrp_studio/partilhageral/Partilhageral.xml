@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -71,7 +71,7 @@
                     </list>
                     <rules/>
                 </aplicacao_origem>
-                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="true" java-type="" tags="false">
+                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="true" java-type="" tags="false">
                     <label>Tipo</label>
                     <list>
                         <option/>
@@ -92,7 +92,6 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules/>
                 </elemento>
                 <hidden name="p_app_or" type="hidden" maxlength="250" java-type="String" tag="app_or"/>
             </fields>
@@ -111,27 +110,27 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Ipsum accusantium natus ipsum totam labore iste voluptatem rem totam aliqua iste sit adipiscing ipsu</nome>
+                        <nome name="p_nome">Adipiscing sed ipsum elit totam sit unde elit ipsum iste perspiciatis anim rem anim aliqua ipsum ali</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Aliqua perspiciatis unde sed natus anim laudantium ipsum sed labore omnis lorem voluptatem amet rem</nome>
+                        <nome name="p_nome">Consectetur adipiscing aperiam totam aperiam doloremque iste magna natus totam elit natus officia ma</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Anim perspiciatis voluptatem sed unde adipiscing unde lorem sit voluptatem consectetur officia sit s</nome>
+                        <nome name="p_nome">Elit ut dolor laudantium adipiscing ipsum anim officia consectetur stract magna doloremque ut unde l</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Anim amet aperiam deserunt ut doloremque laudantium sit totam magna unde lorem rem officia mollit de</nome>
+                        <nome name="p_nome">Deserunt sed dolor amet doloremque anim ut voluptatem aliqua laudantium voluptatem laudantium adipis</nome>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <nome name="p_nome">Accusantium aliqua deserunt consectetur doloremque ipsum aperiam dolor aperiam dolor ipsum mollit vo</nome>
+                        <nome name="p_nome">Laudantium ut consectetur amet rem aperiam rem dolor sit iste stract sed consectetur voluptatem cons</nome>
                     </row>
                 </value>
             </table>
@@ -175,4 +174,10 @@
             </item>
         </toolsbar_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

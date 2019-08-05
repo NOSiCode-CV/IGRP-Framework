@@ -5,7 +5,6 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
 
 public class PartilhageralView extends View {
 
@@ -17,7 +16,7 @@ public class PartilhageralView extends View {
 	public Field estado_check;
 	public Field nome;
 	public Field aplicacao_destino;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 	public IGRPForm form_2;
@@ -29,7 +28,7 @@ public class PartilhageralView extends View {
 
 		this.setPageTitle("Partilha Página");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 

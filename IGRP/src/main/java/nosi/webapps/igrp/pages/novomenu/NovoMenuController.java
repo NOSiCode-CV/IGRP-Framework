@@ -76,6 +76,7 @@ public class NovoMenuController extends Controller {
 			model.setTarget("_self");
 			model.setOrderby(39);
 			model.setStatus(1);
+			model.setFlg_base(0);
 			if (Core.isNotNullOrZero(model.getAction_fk())) {
 				model.setTitulo(getPageTituleByID(model));
 			}
