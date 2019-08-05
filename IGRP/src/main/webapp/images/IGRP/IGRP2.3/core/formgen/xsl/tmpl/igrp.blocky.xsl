@@ -39,8 +39,8 @@
 		
 			<category id="inicial_script" name="Script Inicial" visible="false" colour="180" style="display: none">
 			
-			<block id="controller" type="controller" title="Controller" color ="180" x="388" y="13">
-					<value name="value1" type="dummy" title="Action Index"></value>
+			<block id="controller" type="controller" title="controller" color ="180" x="388" y="13">
+					<value name="value1" type="dummy" title="action index"></value>
 					<value name="index" type="statement" ></value>
  					<next id="add_action"></next> 
 				</block>

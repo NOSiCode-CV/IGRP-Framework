@@ -1,12 +1,11 @@
 package nosi.core.validator;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
-import javax.servlet.http.Part;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.uploadfile.UploadFile;
 
 /**
  * Emanuel
@@ -112,18 +111,12 @@ public class Validation {
 		return Core.toBigDecimal(value).compareTo(minValue) > 0;
 	}
 	
-	public static boolean validateFileNotNull(Part file) {
+	public static boolean validateFileNotNull(UploadFile file) {
 		boolean r = false;
 		if(file!=null) {
-			try {
-				r =  Core.isNotNullMultiple(file.getInputStream(),file.getContentType(),file.getSubmittedFileName());
-			} catch (IOException e) {
-				try {
-					file.delete();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
+			if(Core.isNotNull(file.getId()) && !file.getId().equals("-1"))
+				return true;
+			r =  Core.isNotNullMultiple(file.getInputStream(),file.getContentType(),file.getSubmittedFileName());
 		}
 		return r;
 	}

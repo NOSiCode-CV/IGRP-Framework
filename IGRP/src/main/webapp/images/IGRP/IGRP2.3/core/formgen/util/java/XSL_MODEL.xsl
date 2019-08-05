@@ -223,6 +223,7 @@
 		<xsl:value-of select="$import_list"/>	
 		<xsl:value-of select="$import_chart2d"/>	
 		<xsl:value-of select="$import_chart3d"/>	
+		<xsl:value-of select="$import_file_upload"/>
  	</xsl:template>
 
 

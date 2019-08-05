@@ -12,6 +12,18 @@
 					
 			</xsl:when>
 			
+			<xsl:when test="$key = 'WHERE_GT'">
+				
+				<xsl:text>," &gt; ",</xsl:text>
+					
+			</xsl:when>
+			
+			<xsl:when test="$key = 'LT'">
+				
+				<xsl:text>," &lt; ",</xsl:text>
+					
+			</xsl:when>
+			
 			<xsl:when test="$key = 'WHERE_DIF'">
 				
 				<xsl:text>, " &lt;&gt; ", </xsl:text>

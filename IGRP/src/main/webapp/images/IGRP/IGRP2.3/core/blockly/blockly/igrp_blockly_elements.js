@@ -93,7 +93,7 @@
 			        for (var i = 1; i <= this.itemCount_; i++) {
 			            if (!this.getInput('ADD' + i)) {
 		    	        	 var input =
-		    	        	this.appendValueInput('ADD' + i).appendField("onde:");
+		    	        	this.appendValueInput('ADD' + i).appendField("where");
 		    	        	this.appendValueInput('ADD' + i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
 		    	 			
 			            }

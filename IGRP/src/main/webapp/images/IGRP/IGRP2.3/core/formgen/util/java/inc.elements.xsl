@@ -206,10 +206,8 @@
 		
 		<xsl:variable name="fieldValue" select="substring-after(field,'::')"/>
 		
-		<xsl:variable name="childstrange" select="value[@name='value1']/block[@type='core_get_param']"/>
-		
-		<xsl:variable name="childstrangeValue" select="value[@name='value1']/block[@type='core_get_param']/field"/>
-		
+		<xsl:variable name="childstrange" select="value[@name='value1']/block/@type"/>
+			
 		<xsl:variable name="nameCap">
 			<xsl:call-template name="InitCap">
 				<xsl:with-param name="text" select="$fieldValue"/>
@@ -241,12 +239,11 @@
 					<xsl:text>);</xsl:text>
 				</xsl:when>
 				
-				<xsl:when test="$childstrange != '' ">
+				<xsl:when test="contains( $childstrange,'get_param' )" >
 				
 					<xsl:value-of select="$fieldType"></xsl:value-of>
 					<xsl:text> foreign = new </xsl:text><xsl:value-of select="$fieldType"></xsl:value-of>
-					<xsl:text>().findOne(Core.getParamInt("p_</xsl:text><xsl:value-of select="$childstrangeValue"></xsl:value-of>
-					<xsl:text>"));</xsl:text>
+					<xsl:text>().findOne(Core.getParamInt("paramkey"));</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(foreign);</xsl:text>
 					
@@ -266,16 +263,6 @@
 		
 		<xsl:value-of select="$Daosetting"></xsl:value-of>
 		
-	</xsl:template>
-	
-	<xsl:template name="blockly.element.strDao">
-	
-	<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
-		
-		<xsl:variable name="fieldValue" select="substring-after(field,'::')"/>
-		
-		<xsl:value-of select="$fieldValue"/>
-	
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.logic_operation">
@@ -896,25 +883,6 @@
 		<xsl:value-of select="$newline"></xsl:value-of>
 		
 	</xsl:template>
-	
-	<xsl:template name="blockly.element.action_button" >
-	   	
-	   	<xsl:variable name="name_button" select="substring-after(@type,'action_')"></xsl:variable>
-	   	
-	   	<xsl:variable name="code">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='CODE']"/>
-			</xsl:call-template>
-		</xsl:variable>
-	   	
-		<xsl:text>/* Start-Code-Block (</xsl:text><xsl:value-of select="$name_button"></xsl:value-of><xsl:text>) */</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:value-of select="$code"></xsl:value-of>
-		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:text>/* End-Code-Block */</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:value-of select="$newline"></xsl:value-of>
-	</xsl:template>
 
 	<xsl:template name="blockly.element.fill_combo" >
 	
@@ -960,6 +928,17 @@
 		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$nameCap"></xsl:value-of>
 		<xsl:value-of select="$double_quotes"></xsl:value-of>
 		<xsl:text>));</xsl:text>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.rediret_p" >
+		
+		<xsl:variable name="paramget" select="field[@name='param']"/>
+		
+		<xsl:variable name="button" select="field[@name='button']"/>
+
+		<xsl:text>view.btn_</xsl:text><xsl:value-of select="$button"></xsl:value-of>
+		<xsl:text>.addParameter("paramkey", Core.getParam("p_</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>"));</xsl:text>
 		
 	</xsl:template>
 	
@@ -1170,6 +1149,10 @@
 			
 			<xsl:when test="$block-type = 'enviar_p'">
 				<xsl:call-template name="blockly.element.enviar_p"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'rediret_p'">
+				<xsl:call-template name="blockly.element.rediret_p"></xsl:call-template>
 			</xsl:when>
 		
 		

@@ -257,9 +257,17 @@ $.fn.separatorList = function(o){
 
 				}
 				
-				if(edition)
+				if(edition){
+					
+					var oldrow = $('tbody tr',table).eq(rowIndex);
+					
+					var dynamicHiddens = $('.igrp-dynamic-hiddens',oldrow);
+					
+					row.prepend(dynamicHiddens);
+					
 					$('tbody tr',table).eq(rowIndex).replaceWith(row);
-				else
+					
+				}else
 					$('tbody',table).append(row);
 
 				resetForm(formFields,sl);

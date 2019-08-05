@@ -14,38 +14,23 @@ var blockyInit = false;
 
 var COMPARISON = [["==", "=="],["!=", "!="],[">=", ">="], ["<=", "<="],[">=", ">="], [">", ">"], ["<", "<"]];
 
-var COMPAR= {'==': '==','!=': '!=','>=': '>=','<=': '<=','>': '>','<': '<',};
-
 var CORE_IF = [["verificar se está nulo", "verificar se está nulo"],["verificar se não está nulo", "verificar se não está nulo"]];
 
 var CORE_MSG = [["mensagem sucesso", "mensagem sucesso"],["mensagem de erro", "mensagem erro"]];
 
 var CORE_CONV = [["converter para inteiro", "converter para inteiro"],["converter texto para data", "converter texto para data"],["converter para texto", "converter para texto"]];
 
-var CORE= {'Mensagem de sucesso': 'Core.setMessageSucess','Mensagem de erro': 'Core.setMessageError','Converter para inteiro': 'Core.toInt','Verificar se está nulo': 'Core.isNull',
-		'Converter texto para data': 'Core.ToDate', 'Converter para texto': '""+'	};
-
 var FIND = [["--", "--"],["todos", "todos"],["um", "um"]];
 
 var FINDLIST = [["--", "--"],["todos", "TODOSS"],["um", "UMM"]];
 
-var FIN= {'todos': 'all()','um': 'one()'};
-
 var TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]];
 
-var TIP= {'Inteiro': 'Integer','Data': 'Date','Texto': 'String'};
-
-var WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["like", "WHERE_LIKE"]];
-
-var WHER= {'=': ',"=",','!=': ',"<>",'};
+var WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],[">", "WHERE_GT"],["like", "WHERE_LIKE"]];
 
 var ANDOR = [["and", "and"],["or", "or"]];
 
-var ANDO= {'and': '&&','or': '||'};
-
 var TRU_FAL = [["true", "true"],["false", "false"]];
-
-var TRU_FA= {'true': 'true','false': 'false'};
 
 var daoClasses = {};
 
@@ -186,8 +171,6 @@ window.IGRPBlocklyInit = function(){
 	 AppTitle = $('rows>app', BlocklyXML).text();
 	 PageTitle = $('rows>page', BlocklyXML).text();
 	 pagetitle = PageTitle.toLowerCase();
-	 
-	 //$('#'+daos+'').append('<block type="set'+daos+'"></block>\n');
 	
 	$('rows>content>*[type]', BlocklyXML).each(function(i, element) {
 		$(element).find('>fields>*').each(function(x, field) {
@@ -197,7 +180,6 @@ window.IGRPBlocklyInit = function(){
 		
 		var key  = $(field).attr('iskey');
 		
-		//fields_model.push([ tag, tag ]);
 		var Uptag = tag.charAt(0).toUpperCase()+ tag.slice(1).toLowerCase();
 		FIELDS_MEANS[tag] = 'get'+Uptag+'()';
 		FIELDS_SET_MEANS[tag] = 'set'+Uptag;
@@ -214,93 +196,29 @@ window.IGRPBlocklyInit = function(){
 			
 		}
 		
-		if(type == "text")
-		{
-			//fields_esp_model.push([ "texto "+tag, "texto "+tag  ]);
-			FIELDS_ESP_MEANS[tag] = {code:'', insert: '(model.get'+Uptag+'())'};
-			
-		}
-		
-
-		
-		if(type == "file")
-		{
-			//fields_esp_model.push([ "ficheiro "+tag, "ficheiro "+tag ]);
-			FIELDS_ESP_MEANS[tag] = {code:'UploadedFile file = Core.upload("p_'+tag+'");\n'
-			+'int fileId = 0;\n'		
-			+'if (file != null && file.getSize() != 0) {\n'
-			+'fileId = Core.saveFile(file.getContent(), file.getSubmittedFileName(), null);\n'
-			+'}else{\n'
-			+'	Core.setMessageError("Ficheiro não foi submetido");\n'
-			+'}\n', insert:'"" + fileId'};
-			
-			imports_insert.push([ "import upload ", tag ]);
-			imports_insert_MEANS[tag] = 'import nosi.core.webapp.UploadedFile;\n';
-		}
-		
-		if(type == "date")
-		{
-			//fields_esp_model.push([ "data "+tag, "data "+tag ]);
-			FIELDS_ESP_MEANS[tag] = {code:'', insert:'Core.ToDate(model.get'+Uptag+'())'};
-			
-			imports_insert.push([ "import data ", tag ]);
-			imports_insert_MEANS[tag] = 'import java.sql.Date;\n';
-		}
-		
-		if(type == "select")
-		{
-			select.push([ tag, tag ]);
-			select_MEANS[tag] = tag; 
-	
-			
-			imports_insert.push([ "import seleção ", tag ]);
-			imports_insert_MEANS[tag] = 'import java.util.LinkedHashMap;\n'+'import static nosi.core.i18n.Translator.gt;\n';
-		}
-		
-		if(type == "link")
-		{
-			fields_esp_row.push([ "link "+tag, "link "+tag ]);
-			FIELDS_ROW_MEANS[tag] = 'row.set'+Uptag+'("'+ AppTitle+ '", "'+ PageTitle+ '", "download&file_id="+';
-			
-			imports_list.push([ "import download ", tag ]);
-			imports_list_MEANS[tag] = 'import nosi.webapps.igrp.dao.CLob;\n';
-			
-			custom_action.push([ "download "+tag, tag ]);
-			custom_action_MEANS[tag] = 
-				
-					'public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException {\n'
-					+'int fileId = Core.getParamInt("file_id");\n'
-					+'CLob c = Core.getFile(fileId);\n'
-					+'byte[] content = c.getC_lob_content();\n'
-					+'String name = c.getName();\n'
-					+'String contentType = c.getMime_type();\n'
-					+'boolean download = false;\n'
-					+'return this.xSend(content, name, contentType, download);\n'
-					+'}\n';
-		}
-		
 		})
 	});
 	
 	$('#toolbox').append(
 		'<category id="model" name="'+PageTitle+' model" colour="300">'
+		
 			 +'<block type="model_set" prev-statement="" next-statement="" color="300">'
 		 		+'<value name="value1" type="value" title="set model">'
 		 			+'<field type="dropdown" name="set_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
 				+'</value>'
 			 +'</block>'
+			 
 			 +'<block type="model_get" output="" color="300">'
 			 	+'<value name="value1" type="dummy" title="get model">'
 			 		+'<field type="dropdown" name="get_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
 			 	+'</value>'
 			 +'</block>'
+			 
 		 +'</category>'
 		 +'<sep></sep>'
 	  );
 		
-
 // ********************************************** GET XML BUTTONS FORM ***************************************
-	
 	var str='';
 	$('item[rel]', BlocklyXML).each(function(i, element) {
 		var button = $(element).attr('rel');
@@ -314,21 +232,12 @@ window.IGRPBlocklyInit = function(){
 	});
 	
 	all_buttons.forEach(function(button) {
-//		str += '<block type ="action_'+button+'" color="180" prev-statement="" >'
-//	 	+'<value name="value1" type="dummy" title="Action botão '+button+'" ></value>'
-//	 	+'<value name="CODE" type="statement">'
-//	 	+'</block>';
-//		</value><next>
-		str += '<value name="'+button+'1" type="dummy" title="Action botão '+button+'" ></value>'
+		str += '<value name="'+button+'1" type="dummy" title="action button '+button+'" ></value>'
 	 			+'<value name="'+button+'" type="statement"></value>';
 		});
-//	all_buttons.forEach(function(button) {
-//		str += '</next></block>\n';
-//		});
 	$('#controller').append(str);
-	$('#controller').append('<value name="custom1" type="dummy" title="Custom Action" ></value>'
+	$('#controller').append('<value name="custom1" type="dummy" title="custom action" ></value>'
  			+'<value name="custom_actions" type="statement"></value>');
-	
 	
 	// ********************************************** GET XML FIELDS TABLE ***************************************
 	$('rows>content>*', BlocklyXML).each(function(i, element) {
@@ -343,12 +252,12 @@ window.IGRPBlocklyInit = function(){
 		});
 	
 	// ********************************************* END XML LOAD ***********************************************
-	console.log(AppTitle)
+	
 // *******************************************GET DAO OBJECTS **********************************************/
 	$.ajax({url : '/IGRP/app/webapps?r=igrp_studio/Env/Retornarxml&app_name='+AppTitle, headers : {'x-igrp-remote' : 1},
 	method : 'GET',
 	dataType : 'xml',
-	// data: YourData,
+	
 	success : function(data) {
 		
 		console.log(data)
@@ -360,88 +269,113 @@ window.IGRPBlocklyInit = function(){
 		if(temdao != '')
 		{
 			
-			
-			
 			$('#toolbox').append('<category id="dao" name="DAO" colour="150"></category>');
 			
-			$('#toolbox').append('<category id="insert" name="Inserir" colour="150">'
-					+'<block type="inserir_dao" color ="60" prev-statement="" next-statement="" inline="true">'
-					+'<value name="value1" type="dummy" title="Inserir na DAO">'
-					+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-					//+'<field type="dropdown" name="find" title="ou editar" options="IGRP_BLOCKLY_DROPS.find"></field>'	
-					+'</value>'
-//					+'<value name="PARAM" type="value"  title="ou editar por parâmetro"></value>'
-					+'<value name="value2" type="statement"></value>'  
-					+'</block>'
-					+'<block type="fill_combo" color="60" prev-statement="" next-statement="" inline="true">'
-					+'<value name="value1" type="dummy" title="preencher combo box:">'
-					+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
-					+'</value>'
-					+'<value name="value2" type="statement">'
-					+'<block type="option_combo" color="60" prev-statement="" next-statement="" inline="true">'
-					+'<value name="value1" type="dummy" title="Opção:">'
-					+'<field type="field_text" name="opcao" options=""></field>'
-					+'</value>'
-					+'</block>'
-					+'</value>'
-					+'</block>'
-					+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
-					+'<value name="PARAM" type="dummy">'
-					+'<field type="dropdown" name="iskey" title="enviar parâmetro" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-					+'</value>'
-					+'</block>'	
-					+'<block type="core_get_param" output="" color="60"><value name="value1" type="dummy"  title="get parâmetro">'
-					+'<field type="field_text" name="opcao" options=""></field>'
+			$('#toolbox').append(
+					'<category id="insert" name="Inserir" colour="150">'
+					
+						+'<block type="inserir_dao" color ="60" prev-statement="" next-statement="" inline="true">'
+							+'<value name="value1" type="dummy" title="inserir DAO">'
+								+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement"></value>'  
+						+'</block>'
+						
+						+'<block type="fill_combo" color="60" prev-statement="" next-statement="" inline="true">'
+							+'<value name="value1" type="dummy" title="preencher combo box:">'
+								+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement">'
+							
+								+'<block type="option_combo" color="60" prev-statement="" next-statement="" inline="true">'
+									+'<value name="value1" type="dummy" title="opção:">'
+										+'<field type="field_text" name="opcao" options=""></field>'
+									+'</value>'
+								+'</block>'
+					
+							+'</value>'
+						+'</block>'
+						
+						+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
+							+'<value name="PARAM" type="dummy">'
+								+'<field type="dropdown" name="iskey" title="enviar parâmetro" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+							+'</value>'
+						+'</block>'	
+						
+						+'<block type="rediret_p" color="60" prev-statement="" next-statement="" inline="true">'
+							+'<value name="value1" type="dummy" >'
+								+'<field type="field_text" name="param" title="redirecionar parâmetro" options=""></field>'
+								+'<field type="dropdown" name="button"  title="para" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
+							+'</value>'
+						+'</block>'
+						
+						+'<block type="core_get_param" output="" color="60">'
+							+'<value name="value1" type="dummy"  title="inserir chave estrangeira">'
+							+'</value>'	
+						+'</block>'
+						
+						
+						
 					+'</category>'
+					
 					+'<category id="insert" name="Editar" colour="150">'
-					+'<block type="index_editar" color ="40" prev-statement="" next-statement="" inline="true">'
-					+'<value name="value1" type="dummy" >'
-					//+'<field type="dropdown" name="find" title="Index editar" options="IGRP_BLOCKLY_DROPS.find"></field>'
-					+'<field type="dropdown" name="dao" title="editar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-					+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-					+'</value>'
-					//+'<value name="PARAM" type="value"  title="por parâmetro"></value>'
-					+'<value name="value2" type="statement"></value>' 
-					+'<value name="value3" type="dummy">'
-					+'<field type="dropdown" name="button" title="link para botão inserir" options="IGRP_BLOCKLY_DROPS.buttons"></field></value>'  
-					+'</block>'
-					+'<block type="editar_dao" color ="40" prev-statement="" next-statement="">'
-					+'<value name="PARAM" type="dummy">'
-					+'<field type="dropdown" name="iskey" title="Editar por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-					+'</value>'
-					+'</block>'	
+					
+						+'<block type="index_editar" color ="40" prev-statement="" next-statement="" inline="true">'
+							+'<value name="value1" type="dummy" >'
+								+'<field type="dropdown" name="dao" title="editar DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement"></value>' 
+							+'<value name="value3" type="dummy">'
+								+'<field type="dropdown" name="button" title="redirecionar botão inserir" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
+							+'</value>'  
+						+'</block>'
+						
+						+'<block type="editar_dao" color ="40" prev-statement="" next-statement="">'
+							+'<value name="PARAM" type="dummy">'
+								+'<field type="dropdown" name="iskey" title="editar por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+							+'</value>'
+						+'</block>'	
+						
 					+'</category>'
+					
 					+'<category id="list" name="Listar" colour="150">'
+					
 					+'<block type="listar" color="130" mutator="where" prev-statement="" next-statement="" inline="true">'
-					+'<value name="value1" type="dummy">'
-					+'<field type="dropdown" name="find" title="Listar:" options="IGRP_BLOCKLY_DROPS.findList"></field>'
-					+'<field type="dropdown" name="dao" title="da DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-					+'<field type="dropdown" name="table" title="na tabela:" options="IGRP_BLOCKLY_DROPS.tables" igrp-on-change="IGRP_BLOCKLY_ELEMENTS.listar.onTableSet(item)"></field>'
-					+'</value>'
-					+'<value name="value2" type="statement" check="Linha" >'
-					+'<block type="row" prev-statement="Linha" next-statement="Linha" color="130">'
-					+'<value type="value" title="set Coluna" name="fields_model">'
-					+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields"></field>'
-					+'</value>'
+						+'<value name="value1" type="dummy">'
+							+'<field type="dropdown" name="find" title="listar:" options="IGRP_BLOCKLY_DROPS.findList"></field>'
+							+'<field type="dropdown" name="dao" title="DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="dropdown" name="table" title="tabela:" options="IGRP_BLOCKLY_DROPS.tables" igrp-on-change="IGRP_BLOCKLY_ELEMENTS.listar.onTableSet(item)"></field>'
+						+'</value>'
+						+'<value name="value2" type="statement" check="Linha" >'
+							+'<block type="row" prev-statement="Linha" next-statement="Linha" color="130">'
+								+'<value type="value" title="set coluna" name="fields_model">'
+									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields"></field>'
+								+'</value>'
+							+'</block>'
+						+'</value>'
 					+'</block>'
-					+'</value>'
-					+'</block>'
+					
 					+'</category>'
+					
 					+'<category id="delete" name="Apagar" colour="150">'
-					+'<block type="apagar" color="100" prev-statement="" next-statement="">'
-					+'<value name="valor1" type="value">'
-					+'<field type="dropdown" name="dao" title="Apagar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-					+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-					+'</value>'
-					+'</block>'
+					
+						+'<block type="apagar" color="100" prev-statement="" next-statement="" inline="true">'
+							+'<value name="valor1" type="value">'
+								+'<field type="dropdown" name="dao" title="apagar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+							+'</value>'
+						+'</block>'
+					
 					+'</category>'
+					
 					+'<sep></sep>');
 			
 			$('#core').append();
 		}
 		
-		
 		$(data).find('dao>*').each(function(i, f) {
+			
 			var daos = $(f).prop('tagName');
 			
 			daoClasses[daos] = true;
@@ -449,18 +383,11 @@ window.IGRPBlocklyInit = function(){
 			daos_list.push([ daos, daos ]);
 			DAOS_MEANS[daos] = '' + daos + '';
 			bloc_fields.push(daos);
-			
-			imports_list.push([ "import "+daos, daos]);
-			imports_list_MEANS[daos] = 'import nosi.webapps.'+AppTitle+'.dao.'+daos+';\n';
-			
-			imports_insert.push([ "import "+daos, daos]);
-			imports_insert_MEANS[daos] = 'import nosi.webapps.'+AppTitle+'.dao.'+daos+';\n';
 									
 			$('#dao').append('<category id="'+daos+'" name="'+daos+'" colour="150"></category>\n');
+			
 		});
 		
-		
-
 		bloc_fields.forEach(function(daos) {
 			var fieldy_list = [];
 			var FIELDY_MEANS = {};
@@ -471,7 +398,7 @@ window.IGRPBlocklyInit = function(){
 			IGRP_BLOCKLY_DROPS.daos[daos] = fieldy_list
 			
 			$(data).find('dao>' + daos+ '>*').each(function(i, f) {
-				//console.log(f)
+
 				var field = $('nome',f).text(),
 					
 					type = $('tipo',f).text();
@@ -537,17 +464,7 @@ window.IGRPBlocklyInit = function(){
 						+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
 						+'</value>'
 					+'</block>\n');
-//			$('#'+daos+'').append(
-//					'<block type="str-dao-'+daos+'"color="160" output="">'
-//						+'<value name="value1" type="dummy" title="'+daos+'">'
-//							+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
-//							+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
-//						+'</value>'
-//					+'</block>\n');
 	});
-			
-	imports_list.push([ "imports listar","imports para listar"]);
-	imports_list_MEANS['imports listar'] = 'import java.util.ArrayList;\n'+ 'import java.util.List;\n';
 	
 	 IGRP_BLOCKLY_DROPS = $.extend(IGRP_BLOCKLY_DROPS,{
 			
@@ -594,8 +511,7 @@ window.IGRPBlocklyInit = function(){
 			Code.init();
 			
 			blockyInit=true;
-			
-			//SetupBlockly();
+
 			var demoWorkspace = Blockly.mainWorkspace;
 
 			Blockly.Xml.domToWorkspace( $('#inicial_script')[0] ,demoWorkspace);
@@ -609,11 +525,6 @@ window.IGRPBlocklyInit = function(){
 	});
 	
 }
-	
-//});
-
-
-/* config xml xsl transform */
 
 var codeBlockStart = '/* Start-Code-Block (',
 
@@ -698,7 +609,6 @@ function GetBlocklyImports(){
 					
 				}
 				
-				
 				if(daoClasses[type]){
 					
 					fieldsInc[type] = 'dao';
@@ -738,7 +648,6 @@ function GetDefaultBlocklyXML(){
 		return '';
 	}
 	
-	
 }
 
 function GetBlocklyXML(){
@@ -764,7 +673,6 @@ function GetBlocklyXML(){
 	  
 	  );
 
-	  
 	  return vkbeautify.xml(MainXML); 
 }
 
@@ -839,7 +747,6 @@ function HandleCode(code){
 		});
 		
 		return response;
-		
 	}
 	
 }
@@ -864,9 +771,7 @@ $.IGRP.on('init', function(){
 					
 					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, pageBlockly );
 					
-				},400)
-				
-				
+				},400)		
 				
 			}
 	
@@ -875,7 +780,6 @@ $.IGRP.on('init', function(){
 	});
 	
 	$('li[rel="gen-blocky"]').on('click',function() {
-		
 		
 		IGRPBlocklyInit();
 		
@@ -900,19 +804,8 @@ $.IGRP.on('init', function(){
 		if( data.blocklyData ){
 			var xml = Blockly.Xml.textToDom( data.blocklyData );
 			pageBlockly = xml;
-			//Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
 		}
-		
-		
-		
+			
 	})
 	
-	
-
 })
-
-
-
-
-
-
