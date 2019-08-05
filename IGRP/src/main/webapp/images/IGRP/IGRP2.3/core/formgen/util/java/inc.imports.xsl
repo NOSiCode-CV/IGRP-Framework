@@ -12,7 +12,7 @@
 		
 		<xsl:value-of select="$newline"></xsl:value-of>
 		
-		<xsl:for-each select="//rows/blockly/imports/import">
+ 		<xsl:for-each select="//rows/blockly/imports/import[not(.=preceding::import)]"> 
 			
 			<xsl:choose>
 			
@@ -24,6 +24,17 @@
 					<xsl:value-of select="$newline"></xsl:value-of>
 				
 				</xsl:when>
+				
+				<xsl:when test="@type = 'fill_combo'">
+					
+					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
+							<xsl:value-of select="$newline"></xsl:value-of>
+							<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
+							<xsl:value-of select="$newline"></xsl:value-of>
+				
+				</xsl:when>
+				
+				
 				
 				<xsl:when test="@type = 'dao'">
 					
@@ -52,10 +63,7 @@
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Select'">
-							<xsl:text>import java.util.LinkedHashMap;</xsl:text>
-							<xsl:value-of select="$newline"></xsl:value-of>
-							<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
-							<xsl:value-of select="$newline"></xsl:value-of>
+							
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Link'">

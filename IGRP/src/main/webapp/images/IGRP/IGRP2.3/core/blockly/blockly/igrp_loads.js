@@ -43,7 +43,7 @@ var IGRP_BLOCKLY_DROPS={
 var AppTitle, PageTitle, pagetitle;
 var fields_model = [],FIELDS_MEANS = {}, FIELDS_SET_MEANS = {};
 var key_model = [];
-var fields_esp_model = [], FIELDS_ESP_MEANS = {};
+var fields_table = [], FIELDS_ESP_MEANS = {};
 var tables_model = [],tables_MEANS = {};
 var str = '';
 var buttons_model = [], buttons_MEANS = {}, target_MEANS = {}, all_buttons = [];
@@ -147,8 +147,8 @@ window.IGRPBlocklyInit = function(){
 	 fields_model.push(['--','--']);
 	 key_model= [];
 	 key_model.push(['--','--']);
-	 fields_esp_model = []; FIELDS_ESP_MEANS = {};
-	 fields_esp_model.push(['--','--']);
+	 fields_table = []; FIELDS_ESP_MEANS = {};
+	 fields_table.push(['--','--']);
 	 tables_model = []; tables_MEANS = {};
 	 tables_model.push(['--','--']);
 	 buttons_model = []; buttons_MEANS = {}; target_MEANS = {}; all_buttons = [];
@@ -173,20 +173,16 @@ window.IGRPBlocklyInit = function(){
 	 pagetitle = PageTitle.toLowerCase();
 	
 	$('rows>content>*[type]', BlocklyXML).each(function(i, element) {
+		
 		$(element).find('>fields>*').each(function(x, field) {
 			
 		var	 tag = $(field).prop('tagName');
+		
 		var type = $(field).attr('type');
 		
 		var key  = $(field).attr('iskey');
 		
-		var Uptag = tag.charAt(0).toUpperCase()+ tag.slice(1).toLowerCase();
-		FIELDS_MEANS[tag] = 'get'+Uptag+'()';
-		FIELDS_SET_MEANS[tag] = 'set'+Uptag;
-		
 		var javaType = GetJavaType[type] || type || 'String';
-		
-		fields_esp_model.push([ tag, javaType + '::'+tag]);
 		
 		fields_model.push([ tag, javaType + '::'+tag]);
 		
@@ -195,6 +191,25 @@ window.IGRPBlocklyInit = function(){
 			key_model.push([ tag, tag]);
 			
 		}
+		
+		if(type == "select")
+		{
+			select.push([ tag, tag ]);
+		}
+		
+		})
+	});
+	
+	$('rows>content>*[type="table"]', BlocklyXML).each(function(i, element) {
+		$(element).find('>fields>*').each(function(x, field) {
+			
+		var	 tag = $(field).prop('tagName');
+		
+		var type = $(field).attr('type');
+		
+		var javaType = GetJavaType[type] || type || 'String';
+		
+		fields_table.push([ tag, javaType + '::'+tag]);
 		
 		})
 	});
@@ -350,7 +365,7 @@ window.IGRPBlocklyInit = function(){
 						+'<value name="value2" type="statement" check="Linha" >'
 							+'<block type="row" prev-statement="Linha" next-statement="Linha" color="130">'
 								+'<value type="value" title="set coluna" name="fields_model">'
-									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields"></field>'
+									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields_TABLE"></field>'
 								+'</value>'
 							+'</block>'
 						+'</value>'
@@ -490,8 +505,6 @@ window.IGRPBlocklyInit = function(){
 			
 			buttons : buttons_model,
 			
-			esp_models : fields_esp_model,
-			
 			fields : fields_model,
 			
 			tables : tables_model,
@@ -502,7 +515,9 @@ window.IGRPBlocklyInit = function(){
 			
 			findList : FINDLIST,
 			
-			keys : key_model
+			keys : key_model,
+			
+			fields_TABLE : fields_table 
 					
 		});
 
@@ -538,6 +553,8 @@ function GetBlocklyImports(){
 		
 			listarImports = $('block[type="listar"]',xml),
 			
+			fillComboImports = $('block[type="fill_combo"]',xml),
+			
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			
 			fieldDaos     = $('field[name="dao"]', xml),
@@ -546,7 +563,7 @@ function GetBlocklyImports(){
 			
 			fieldsImportsMap = {
 				'Date' : true,
-				'Select' : true,
+				//'Select' : true,
 				'File' : true,
 				'Link' : true
 			}
@@ -555,7 +572,11 @@ function GetBlocklyImports(){
 		
 		if(listarImports[0])
 			
-			rtn+='<import type="listar"></import>';
+			rtn+='<import type="listar">Listar</import>';
+		
+		if(fillComboImports[0])
+			
+			rtn+='<import type="fill_combo">Select</import>';
 				
 		if(daosImports[0] || fieldDaos[0]){
 			
