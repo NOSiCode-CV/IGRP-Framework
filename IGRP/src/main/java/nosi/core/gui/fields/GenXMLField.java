@@ -46,28 +46,29 @@ public class GenXMLField {
 						if(!(field instanceof SeparatorField)){//Seprator field not contain tag value
 							getXmlValue(xml,field);
 						}
-						if(field instanceof LookupField && field.vertionLookup()==1){
-							String link = field.getLookup()+"&forLookup=true";
-							
-							for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
-								link+= "&"+param.getKey()+"="+param.getValue();
+						if(field instanceof LookupField){
+							if(field.vertionLookup()==1) {
+								String link = field.getLookup()+"&forLookup=true";
+								
+								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
+									link+= "&"+param.getKey()+"="+param.getValue();
+								}
+								xml.setElement("lookup", link);
 							}
-							xml.setElement("lookup", link);
+							else if(field.vertionLookup()==2){
+								String link = field.getLookup()+"&jsonLookup=";
+								try {
+									link += URLEncoder.encode(Core.toJson(((LookupField) field).getLookupParams()),"UTF-8");
+								} catch (UnsupportedEncodingException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
+									link+= "&"+param.getKey()+"="+param.getValue();
+								}
+								xml.setElement("lookup", link);
+							}
 						}
-						else if(field instanceof LookupField && field.vertionLookup()==2){
-							String link = field.getLookup()+"&jsonLookup=";
-							try {
-								link += URLEncoder.encode(Core.toJson(((LookupField) field).getLookupParams()),"UTF-8");
-							} catch (UnsupportedEncodingException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
-								link+= "&"+param.getKey()+"="+param.getValue();
-							}
-							xml.setElement("lookup", link);
-						}
-						
 						xml.endElement();
 					}
 				}

@@ -2004,7 +2004,6 @@ public final class Core { // Not inherit
 		return result;
 	}
 
-
 	public static void setAttribute(String name, Object value) {
 		Igrp.getInstance().getRequest().setAttribute(name, value);
 	}

@@ -59,6 +59,7 @@
 							</td>
 							<input type="hidden" class="sl-row-id" name="p_#tag#_id" value="{#tag#_id}" />
 							<gen-template name="table-rows-hiddens"/>
+							<xsl:apply-templates mode="form-hidden-fields" select="."/>		
 						</tr>
 					</xsl:for-each>
 				</tbody>

@@ -1,15 +1,15 @@
 package nosi.core.validator;
 
-import javax.servlet.http.Part;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.validator.constraints.FileNotNull;
+import nosi.core.webapp.uploadfile.UploadFile;
 
 /**
  * @author Emanuel
  * 24 Jul 2019
  */
-public class FileNotNullValidator implements ConstraintValidator<FileNotNull, Part>{
+public class FileNotNullValidator implements ConstraintValidator<FileNotNull, UploadFile>{
 
 	@Override
 	public void initialize(FileNotNull constraintAnnotation) {
@@ -17,7 +17,7 @@ public class FileNotNullValidator implements ConstraintValidator<FileNotNull, Pa
 	}
 	
 	@Override
-	public boolean isValid(Part file, ConstraintValidatorContext context) {
+	public boolean isValid(UploadFile file, ConstraintValidatorContext context) {
 		if(file!=null) {
 			return Validation.validateFileNotNull(file);
 		}
