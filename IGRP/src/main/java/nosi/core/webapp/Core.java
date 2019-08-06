@@ -1721,7 +1721,7 @@ public final class Core { // Not inherit
 		return xml;
 	}
 	
-	public RemoteXML remoteXml() {
+	public static RemoteXML remoteXml() {
 		return new RemoteXML();
 	}
 
