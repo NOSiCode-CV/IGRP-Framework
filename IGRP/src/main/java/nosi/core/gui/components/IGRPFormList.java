@@ -1,13 +1,8 @@
 package nosi.core.gui.components;
 
 import java.util.List;
-
-import nosi.core.gui.fields.CheckBoxField;
-import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.HiddenField;
-import nosi.core.gui.fields.RadioField;
-import nosi.core.gui.fields.RadioListField;
+import nosi.core.gui.fields.FileField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
 
@@ -69,12 +64,9 @@ public class IGRPFormList extends IGRPSeparatorList {
 					}
 					this.xml.endElement();
 				}
-				for(Field field:this.fields){
-					
-					String val = IgrpHelper.getValue(obj, field.getName());
-					
+				for(Field field:this.fields){					
+					String val = IgrpHelper.getValue(obj, field.getName());					
 					if(field.getName().equals(this.tag_name + "_id")) {
-						
 						if(val != null && !val.isEmpty()) {
 							this.xml.startElement(this.tag_name + "_id");
 							String []aux = val.split(SPLIT_SEQUENCE);
@@ -84,12 +76,22 @@ public class IGRPFormList extends IGRPSeparatorList {
 							this.xml.startElement(this.tag_name + "_id");
 							this.xml.text((rowIndex++) + "");
 							this.xml.endElement();
-						}
-						
+						}						
 						continue;
+					}					
+					if (val != null) {
+						String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved										
+						if (field instanceof FileField) {
+							if(aux.length > 2) {//With temp file
+								this.genHiddenFieldFile(field, aux[2]);
+								this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
+							}else {
+								this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
+							}
+						}else {
+							this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
+						}
 					}
-					
-					this.genFields(obj,field);
 				}
 				this.xml.endElement();
 			}
@@ -97,7 +99,8 @@ public class IGRPFormList extends IGRPSeparatorList {
 			this.xml.startElement("row");
 			this.xml.writeAttribute("type", "start");
 			for(Field field:this.fields){	
-				this.genFields(null,field);		
+				String val = IgrpHelper.getValue(null, field.getName());
+				this.genRowField(field,val,val);		
 			}
 			this.xml.endElement();
 		}		
@@ -105,36 +108,11 @@ public class IGRPFormList extends IGRPSeparatorList {
 			this.xml.addXml(this.rows);		
 	}
 	
-	private void genFields(Object obj,Field field) {		
-		xml.startElement(field.getTagName());
-		this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-		this.xml.writeAttribute("type",field.propertie().getProperty("type"));
-		this.xml.writeAttribute("desc","true");
-		if(field instanceof CheckBoxListField || field instanceof CheckBoxField || field instanceof RadioListField || field instanceof RadioField) {
-			this.xml.writeAttribute("check","true");
-		}
-		String val = IgrpHelper.getValue(obj, field.getName());
-		if((val==null || val.equals("")) && Core.isNotNull(field.getValue())){
-			val = field.getValue().toString();
-		}
-		if(val!=null) {
-			String []aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved char
-			this.xml.text((aux.length>0?aux[0]:""));
-			this.xml.endElement();
-			if(!(field instanceof HiddenField)){
-				String sufix = "_desc";	
-				this.xml.startElement(field.getTagName() + sufix);			
-				this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);			
-				this.xml.text(aux.length > 1?aux[1]:"");
-				this.xml.endElement();
-			}
-		}
-	}
-
 	public void setStartRow(boolean isStartRow) {
 		this.startRow = isStartRow;
 	}
 	
+	@Override
 	public void loadModel(List<?> modelList) {
 		this.data = modelList;
 	}

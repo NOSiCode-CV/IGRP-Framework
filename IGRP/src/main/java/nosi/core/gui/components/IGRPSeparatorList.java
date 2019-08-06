@@ -117,13 +117,7 @@ public class IGRPSeparatorList extends IGRPTable {
 										
 						if (field instanceof FileField) {
 							if(aux.length > 2) {//With temp file
-								this.xml.startElement("hidden");
-									this.xml.writeAttribute("tag", "hidden_1");
-									this.xml.writeAttribute("type", "hidden_1");
-									this.xml.writeAttribute("name", Model.getParamFileId(field.propertie().getProperty("name")) );
-									this.xml.writeAttribute("value", aux[2]);
-									this.xml.text(aux[2]);
-								this.xml.endElement();
+								this.genHiddenFieldFile(field, aux[2]);
 								this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
 							}else {
 								this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");
@@ -141,22 +135,35 @@ public class IGRPSeparatorList extends IGRPTable {
 		}
 	}
 
-	private void genRowField(Field field,String key,String value) {
+	protected void genHiddenFieldFile(Field field,String value) {
+		this.xml.startElement("hidden");
+			this.xml.writeAttribute("tag", "hidden_1");
+			this.xml.writeAttribute("type", "hidden_1");
+			this.xml.writeAttribute("name", Model.getParamFileId(field.propertie().getProperty("name")) );
+			this.xml.writeAttribute("value", value);
+			this.xml.text(value);
+		this.xml.endElement();
+	}
+	
+	protected void genRowField(Field field,String key,String value) {
 		String sufix = "_desc";
-		if (field instanceof CheckBoxListField || field instanceof CheckBoxField
-				|| field instanceof RadioListField || field instanceof RadioField) {
-			sufix = "_check";
-		}	
 		this.xml.startElement(field.getTagName());
 			this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+			if(field instanceof CheckBoxListField || field instanceof CheckBoxField 
+				|| field instanceof RadioListField || field instanceof RadioField) {
+				this.xml.writeAttribute("check","true");
+				sufix = "_check";
+			}
 			this.xml.text(key);
 		this.xml.endElement();
 		
-		//Description
-		this.xml.startElement(field.getTagName() + sufix);
-		this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
-		this.xml.text(value);
-		this.xml.endElement();
+		if(!(field instanceof HiddenField)) {
+			//Description
+			this.xml.startElement(field.getTagName() + sufix);
+			this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
+			this.xml.text(value);
+			this.xml.endElement();
+		}
 	}
 	
 	@Override
