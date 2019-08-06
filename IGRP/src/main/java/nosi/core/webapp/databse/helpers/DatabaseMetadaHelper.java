@@ -17,6 +17,9 @@ import nosi.webapps.igrp.dao.Config_env;
 /**
  * Emanuel
  * 10 Dec 2017
+ * 
+ * @revision 17/07/2019
+ * @author joao.augoncalves
  */
 public class DatabaseMetadaHelper {
 
@@ -31,42 +34,22 @@ public class DatabaseMetadaHelper {
 	
 	public List<String> getTables(Config_env config,String schema) {
 		List<String> list = new ArrayList<>();
-		java.sql.Connection con = this.connection.getConnection(config);
-		if(con!=null ) {			
-			ResultSet tables = null;			
-			try {
-				DatabaseMetaData metaData = con.getMetaData();
-				tables = metaData.getTables(null, schema, null, new String[]{"TABLE"});//Get All Tables on the schema database
-			    while (tables.next()) {
-			    	list.add(tables.getString(3));//Get Table Name
-			    }
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					if(tables!=null)
-						tables.close();
-					if(con!=null)
-						con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		try (java.sql.Connection con = this.connection.getConnection(config);
+				ResultSet tables = con.getMetaData().getTables(null, schema, null, new String[] { "TABLE" });) {
+			while (tables.next()) {
+				list.add(tables.getString(3));// Get Table Name
+			   }
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return list;
 	}
 	
 	public List<String> getPrimaryKeys(Config_env config,String schema,String tableName){
-		java.sql.Connection con = this.connection.getConnection(config.getName());
-		if(con != null) {
-			List<String> keys = this.getPrimaryKeys(con, schema, tableName);
-			try {
-				if(con!=null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return keys;
+		try(java.sql.Connection con = this.connection.getConnection(config.getName())) {
+			return this.getPrimaryKeys(con, schema, tableName);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -75,10 +58,7 @@ public class DatabaseMetadaHelper {
 	public List<String> getPrimaryKeys(java.sql.Connection con,String schema,String tableName){
 		List<String> keys = new ArrayList<>();
 		if(con != null) {
-			DatabaseMetaData metaData;
-			try {
-				metaData = con.getMetaData();
-				ResultSet keysR = metaData.getPrimaryKeys(null, schema, tableName);
+			try (ResultSet keysR = con.getMetaData().getPrimaryKeys(null, schema, tableName)){
 				while(keysR.next()) {
 					keys.add(keysR.getString("COLUMN_NAME").toLowerCase());
 				}
@@ -91,16 +71,10 @@ public class DatabaseMetadaHelper {
 	
 	//Get foreign key of table
 	public Map<String,String> getForeignKeys(Config_env config,String schema,String tableName){
-		java.sql.Connection con = this.connection.getConnection(config.getName());
-		if(con != null) {
-			Map<String,String> keys = this.getForeignKeys(con, schema, tableName);
-			try {
-				if(con!=null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return keys;
+		try(java.sql.Connection con = this.connection.getConnection(config.getName())) {
+			return this.getForeignKeys(con, schema, tableName);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -108,10 +82,7 @@ public class DatabaseMetadaHelper {
 	public Map<String,String> getForeignKeys(java.sql.Connection con,String schema,String tableName){
 		Map<String,String> keys = new HashMap<>();
 		if(con != null) {
-			DatabaseMetaData metaData;
-			try {
-				metaData = con.getMetaData();
-				ResultSet keysR = metaData.getImportedKeys(null, schema, tableName);
+			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)){
 				while(keysR.next()) {
 					keys.put(keysR.getString("FKCOLUMN_NAME").toLowerCase(),keysR.getString("PKTABLE_NAME").toLowerCase());
 				}
@@ -125,10 +96,7 @@ public class DatabaseMetadaHelper {
 	public List<String> getExportedKeys(java.sql.Connection con,String schema,String tableName){
 		List<String> keys = new ArrayList<>();
 		if(con != null) {
-			DatabaseMetaData metaData;
-			try {
-				metaData = con.getMetaData();
-				ResultSet keysR = metaData.getExportedKeys(null, schema, tableName);
+			try (ResultSet keysR = con.getMetaData().getExportedKeys(null, schema, tableName)){
 				while(keysR.next()) {
 					keys.add(keysR.getString("PKCOLUMN_NAME").toLowerCase());
 				}
@@ -141,15 +109,12 @@ public class DatabaseMetadaHelper {
 	
 	//Get collumns name of query
 	public List<Column> getCollumns(String connectionName,String sql) {
-		java.sql.Connection con = this.connection.getConnection(connectionName);
 		List<Column> list = new ArrayList<>();
-		if(con!=null && sql!=null) {
-			PreparedStatement st = null;
-			ResultSet rs = null;
-			try {
-			    st = con.prepareStatement(sql);
-			    rs = st.executeQuery();
-			    ResultSetMetaData metaData = rs.getMetaData();
+		if(Core.isNotNull(sql)) {
+			try(	java.sql.Connection con = this.connection.getConnection(connectionName);
+					PreparedStatement st = con.prepareStatement(sql);
+					ResultSet rs = st.executeQuery()) {
+				ResultSetMetaData metaData = rs.getMetaData();
 			    int columnsCount = metaData.getColumnCount();
 			    for(int i=1;i<=columnsCount;i++) {
 			    	Column col = new Column();
@@ -158,19 +123,8 @@ public class DatabaseMetadaHelper {
 			    }
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}finally {
-				try {
-					if(st!=null)
-			    		st.close();
-			    	if(rs!=null)
-			    		rs.close();
-					if(con!=null)
-						con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 			}
-		}		
+		}
 		return list;
 	}
 	
@@ -184,7 +138,7 @@ public class DatabaseMetadaHelper {
 	public List<Column> getCollumns(String connectionName, List<Column> parametersMap, String sql) {
 			java.sql.Connection con = this.connection.getConnection(connectionName);
 			List<Column> list = new ArrayList<>();
-			if(con!=null && sql!=null) {
+			if(con!=null && Core.isNotNull(sql)) {
 				PreparedStatement st = null;
 				ResultSet rs = null;
 				try {
@@ -277,31 +231,17 @@ public class DatabaseMetadaHelper {
 	//Get Schemas of connection datasource
 	public Map<String,String> getSchemas(Config_env config) {
 		Map<String,String> schemasMap = new HashMap<>();
-		schemasMap.put(null, "-- Escolha o Schema --");
-		java.sql.Connection con = this.connection.getConnection(config);
-		if(con!=null) {
-			ResultSet schemas = null;
-			try {				
-				DatabaseMetaData metaData = con.getMetaData();
-				schemas = metaData.getSchemas();
-			    while (schemas.next()) {
-			    	String s = schemas.getString(1);
-			    	if(!s.contains("pg_catalog") && !s.contains("information_schema")) {
-			    		schemasMap.put(s,s);
-			    	}
-			    }
-			} catch (Exception e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					if(schemas!=null)
-						schemas.close();
-					if(con!=null)
-						con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		schemasMap.put(null, Core.gt("-- Escolha o Schema --"));
+		try(java.sql.Connection con = this.connection.getConnection(config);
+			ResultSet schemas = con.getMetaData().getSchemas()) {
+			while (schemas.next()) {
+		    	String s = schemas.getString(1);
+		    	if(!s.contains("pg_catalog") && !s.contains("information_schema")) {
+		    		schemasMap.put(s,s);
+		    	}
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return schemasMap;
 	}
@@ -468,31 +408,21 @@ public class DatabaseMetadaHelper {
 	public List<Column> getCollumns(Config_env config_env, String sql) throws SQLException {
 		List<Column> list = new ArrayList<>();
 		if(config_env!=null && sql!=null) {
-			java.sql.Connection con = this.connection.getConnection(config_env);
-			if(con!=null) {
-				PreparedStatement st = null;
-			    st = con.prepareStatement(sql);
-			    ResultSet rs = st.executeQuery();
-			    ResultSetMetaData metaData = rs.getMetaData();
-			    int columnsCount = metaData.getColumnCount();
-			    for(int i=1;i<=columnsCount;i++) {
-			    	Column col = new Column();
-			    	col.setName(metaData.getColumnName(i));
-			    	list.add(col);
-			    }
-				try {
-					if(st!=null)
-			    		st.close();
-			    	if(rs!=null)
-			    		rs.close();
-					if(con!=null)
-						con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+			try(java.sql.Connection con = this.connection.getConnection(config_env);
+				PreparedStatement st = con.prepareStatement(sql);
+				ResultSet rs = st.executeQuery()) {
+				
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnsCount = metaData.getColumnCount();
+				for(int i=1;i<=columnsCount;i++) {
+					Column col = new Column();
+					col.setName(metaData.getColumnName(i));
+					list.add(col);
 				}
+			} catch (SQLException e) {
+					e.printStackTrace();
 			}
-		}		
+		}
 		return list;
 	}
-
 }
