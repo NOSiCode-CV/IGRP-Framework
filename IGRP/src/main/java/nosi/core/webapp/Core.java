@@ -70,6 +70,7 @@ import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.RemoteXML;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
@@ -1718,6 +1719,10 @@ public final class Core { // Not inherit
 		}
 		xml += "</" + tag_name + ">";
 		return xml;
+	}
+	
+	public RemoteXML remoteXml() {
+		return new RemoteXML();
 	}
 
 	public static String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected) {
