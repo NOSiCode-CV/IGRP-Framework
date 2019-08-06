@@ -569,14 +569,29 @@
 					}
 
 				},
-				notify : function(xml){
+				notify : function(xml, data){
 					
 					$.each($(xml).find('messages message'),function(it,row){
-
+						
+						var type = $(row).attr('type'),
+						
+							text = $(row).text();
+						
 						$.IGRP.notify({
-							message : $(row).text(),
-							type	: $(row).attr('type')
-						});	
+							message : text,
+							type	: type
+						});
+						
+						if(data)
+							
+							data.item.trigger('igrp-notify', [ {
+								
+								type : type,
+								
+								text : text
+								
+							} ])
+
 						
 					});
 				}

@@ -163,6 +163,22 @@
 		notify:function(p){
 			
 			var component = p.component ? $('.gen-container-item[item-name="'+p.component+'"]') : [];
+			
+			var type = function(){
+				
+				switch(p.type){
+					
+				case 'error':
+					
+					return 'danger'
+				
+				default:
+					
+					return p.type;
+				
+				}
+				
+			}();
 
 			$.IGRP.timeout.clear('clear_'+p.component);
 
@@ -170,7 +186,7 @@
 
 				var wrp = p.appendTo ? $(p.appendTo,component) : $('>.box-body',component);
 
-				var _alert = '<div class="clear clearfix alert alert-'+p.type+' alert-dismissable fade in">'+
+				var _alert = '<div class="clear clearfix alert alert-'+type+' alert-dismissable fade in">'+
 					'<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">x</a>'+
 					p.message+
 				'</div>';
@@ -205,7 +221,7 @@
 				$.notify({
 		            message: p.message
 		        },{
-		            type: p.type
+		            type: type
 		        });
 
 			}

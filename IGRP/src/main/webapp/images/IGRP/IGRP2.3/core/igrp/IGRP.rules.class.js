@@ -719,10 +719,16 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do : function(p){
 				
 				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
-				
+
 				var row = p.isTable == true ? p.sourceField.parents('tr:first') : null;
 				
-				$.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
+				if(p.sourceField[0].remoteRequest)
+					
+					p.sourceField[0].remoteRequest.abort();
+				
+				p.sourceField.addClass('remote-requesting');
+			
+				p.sourceField[0].remoteRequest = $.IGRP.request( $.IGRP.rules.getRemoteUrl(p) ,{
 					params  : getParam(p),
 					headers : {
 				       	'X-IGRP-REMOTE' : 1
@@ -740,12 +746,23 @@ if($ && $.IGRP && !$.IGRP.rules){
 								$.IGRP.utils.setFieldValue({tag : item, row : row});
 							
 						});
-						
+
 						if($(contents).find('messages message')[0])
 							
-							$.IGRP.utils.message.notify(contents);
+							$.IGRP.utils.message.notify(contents, {
+								
+								item : p.sourceField
+								
+							});
 					}
 				});
+				
+				p.sourceField[0].remoteRequest.always(function(){
+					
+					p.sourceField.removeClass('remote-requesting');
+					
+				});
+				
 			}
 		},
 
@@ -753,8 +770,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			do:function(p){
 				
 				//var param = p.sourceName+'='+$(p.sourceField).val();
-				
-				
+
 				//var url = $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 				
 				$.ajax({

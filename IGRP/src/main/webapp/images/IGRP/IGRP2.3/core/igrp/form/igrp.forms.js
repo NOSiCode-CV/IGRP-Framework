@@ -4,7 +4,7 @@
 
 		$.IGRP.events.declare(['before-change','js-change-success']);
   		
-		$.IGRP.component('form',{
+		$.IGRP.component('form', {
   			
   			lookup :{
 
@@ -171,6 +171,18 @@
 	  			}
 
   			},
+  			
+  			switch : function(){
+
+  				$('.checkbox-switch.switch>input[type="checkbox"]').on('igrp-notify', function(e,data){
+
+  					if(data.type == 'error')
+  					
+  						$(this).prop('checked', !$(this).is(':checked'))
+  					
+  				});
+  				
+  			},
 
   			texteditor:function(o){
 
@@ -311,6 +323,8 @@
   			init:function(){
   				//TEXTEDITOR
 				$.IGRP.components.form.texteditor();
+				//Switch
+				$.IGRP.components.form.switch();
 				//FIELDS ERROR 
 				$.IGRP.components.form.hasFieldsError();
 				//LOOKUP
