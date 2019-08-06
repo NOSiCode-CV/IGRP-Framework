@@ -30,6 +30,7 @@
                 </xsl:if>
               </td>
             </xsl:if>
+            <xsl:apply-templates mode="form-hidden-fields" select="."/>		
           </tr>
         </xsl:for-each>
       </tbody>
