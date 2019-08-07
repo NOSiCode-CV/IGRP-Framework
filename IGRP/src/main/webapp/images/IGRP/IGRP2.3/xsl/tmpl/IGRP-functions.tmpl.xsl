@@ -175,7 +175,11 @@
       </xsl:attribute>
     </xsl:if>
     
-    
+    <xsl:if test="$field/@temp-value and $field/@temp-value != ''">
+      <xsl:attribute name="value">
+        <xsl:value-of select="$field/@temp-value" />
+      </xsl:attribute>
+    </xsl:if>
     
   </xsl:template>
 

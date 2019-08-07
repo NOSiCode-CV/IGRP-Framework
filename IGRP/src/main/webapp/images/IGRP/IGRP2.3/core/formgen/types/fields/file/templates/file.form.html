@@ -3,10 +3,17 @@
 		#label.val#
 	</label>
 	<div class="input-group">
-        <input type="text" class="form-control not-form" readonly=""/>
+        <input type="text" class="form-control not-form" readonly="">
+        	<xsl:if test="#path#/@temp-value">
+        		<xsl:attribute name="value">
+        			<xsl:value-of select="#path#/@temp-value"/>
+        		</xsl:attribute>
+        	</xsl:if>
+        </input>
         <span class="input-group-btn">
             <span class="btn btn-#[class]# file-btn-holder">
-                <i class="fa fa-upload"></i><input id="{#path#/@name}" name="{#path#/@name}" #[required]# value="{#path#/value}" target-rend="#[targetrend]#" class="transparent #[rendvalue]#" type="file" #[multiple]# accept="#[accept]#">
+                <i class="fa fa-upload"></i>
+                <input id="{#path#/@name}" name="{#path#/@name}" #[required]# value="{#path#/value}" target-rend="#[targetrend]#" class="transparent #[rendvalue]#" type="file" #[multiple]# accept="#[accept]#">
                     <xsl:call-template name="setAttributes">
                         <xsl:with-param name="field" select="#path#"/>
                     </xsl:call-template>
