@@ -62,7 +62,7 @@ public class EnvController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		model.setStatus(1);
+		
       	model.setGen_auto_code(1); 
       	model.setImg_src("default.svg");	
 	
@@ -74,8 +74,8 @@ public class EnvController extends Controller {
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
 		//view.flg_external.setValue(0);
-		view.status.setVisible(false);
-		
+		//view.status.setVisible(false);
+		model.setStatus(1);
 		view.flg_external.setValue(new Application().getAtivesEstadoRegisto()); 
 		
 		/*----#end-code----*/
