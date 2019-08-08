@@ -141,9 +141,6 @@ public class IGRPSeparatorList extends IGRPTable {
 			this.xml.writeAttribute("type", "hidden_1");
 			this.xml.writeAttribute("name", Model.getParamFileId(field.propertie().getProperty("name")) );
 			this.xml.writeAttribute("value", value);
-			if(field instanceof FileField) {
-				this.xml.writeAttribute("temp-value", field.propertie().getProperty("temFile"));
-			}
 			this.xml.text(value);
 		this.xml.endElement();
 	}
@@ -167,9 +164,6 @@ public class IGRPSeparatorList extends IGRPTable {
 			//Description
 			this.xml.startElement(field.getTagName() + sufix);
 			this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
-			if(field instanceof FileField) {
-				this.xml.writeAttribute("temp-value", field.propertie().getProperty("temFile"));
-			}
 			this.xml.text(value);
 			this.xml.endElement();
 		}
