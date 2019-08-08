@@ -8,6 +8,9 @@ import java.util.Map;
 import nosi.core.gui.components.IGRPLink;
 import nosi.core.gui.fields.Field;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.uploadfile.UploadFile;
+import nosi.webapps.igrp.dao.TempFile;
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -100,9 +103,20 @@ public final class IgrpHelper {
 			    				IGRPLink link = (IGRPLink) m.invoke(model);
 								value = link.getLink();
 			    			}else {
-			    				value = ""+ m.invoke(model);
-			    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
-			    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+			    				if(m.getReturnType().getSimpleName().equals("UploadFile")) {
+			    					UploadFile upload = (UploadFile) m.invoke(model);
+			    					if(upload!=null) {
+			    						value = upload.getSubmittedFileName();
+			    					}else {
+			    						TempFile tempFile = TempFileHelper.getTempFile(Model.getParamFileId(name));
+			    						if(tempFile!=null)
+			    							value = tempFile.getName();
+			    					}
+			    				}else {
+				    				value = ""+ m.invoke(model);
+				    				if(m.getReturnType().getName().equals("java.time.LocalDate")) {
+				    					value = Core.convertDate(value, "yyyy-MM-dd", "dd-MM-yyyy");
+				    				}
 			    				}
 			    			}
 			    			break;

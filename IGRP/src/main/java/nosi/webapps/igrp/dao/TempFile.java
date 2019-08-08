@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -80,4 +81,11 @@ public class TempFile extends IGRPBaseActiveRecord<TempFile> implements Serializ
 	public TempFile findOne(Object value) {
 		return this.find().where("uuid","=",value).one();
 	}
+	@Override
+	public String toString() {
+		return "TempFile [uuid=" + uuid + ", name=" + name + ", mime_type=" + mime_type + ", content="
+				+ Arrays.toString(content) + ", size=" + size + ", date_created=" + date_created + "]";
+	}
+	
+	
 }
