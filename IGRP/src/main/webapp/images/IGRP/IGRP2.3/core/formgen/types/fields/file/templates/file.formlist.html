@@ -4,9 +4,9 @@
         <div class="form-group" item-name="#tag#" item-type="#type#">
             <div class="input-group">
                 <input type="text" class="form-control form-hidden" readonly="">
-                	<xsl:if test="@temp-value">
+                	<xsl:if test="#tag#/@temp-value">
 		        		<xsl:attribute name="value">
-		        			<xsl:value-of select="@temp-value"/>
+		        			<xsl:value-of select="#tag#/@temp-value"/>
 		        		</xsl:attribute>
 		        	</xsl:if>
                 </input>
