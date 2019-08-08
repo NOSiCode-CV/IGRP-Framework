@@ -914,18 +914,24 @@
 		
 		<xsl:param name="parent"/>
 		
-		<xsl:variable name="nameCap">
+	   	<xsl:variable name="valor">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="field[@name='opcao_val']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="descricao">
 			<xsl:call-template name="InitCap">
-				<xsl:with-param name="text" select="field"/>
+				<xsl:with-param name="text" select="field[@name='opcao_des']"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
 		<xsl:variable name="combo" select="$parent/field"/>
 				
 		<xsl:value-of select="$combo"></xsl:value-of>
-		<xsl:text>.put(</xsl:text><xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$nameCap"></xsl:value-of>
+		<xsl:text>.put(</xsl:text><xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$valor"></xsl:value-of>
 		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:text>,gt(</xsl:text>
-		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$nameCap"></xsl:value-of>
+		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$descricao"></xsl:value-of>
 		<xsl:value-of select="$double_quotes"></xsl:value-of>
 		<xsl:text>));</xsl:text>
 		

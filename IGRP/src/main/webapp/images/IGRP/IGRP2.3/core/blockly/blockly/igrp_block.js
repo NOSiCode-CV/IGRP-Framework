@@ -24,7 +24,7 @@ function SetupBlockly(){
 			
 			color = element.attr('color') || 180,
 			
-			title = element.attr('title') || $.trim(type.split('_').join(' ')),
+			title = element.attr('title') || '',
 			
 			rtn    = element.attr('return'),
 			
@@ -143,7 +143,9 @@ function SetupBlockly(){
 										
 									case 'field_text':
 										
-										value.appendField(new Blockly.FieldTextInput('insira o texto'), name)
+										 var textfield = field.attr('options');
+										
+										value.appendField(new Blockly.FieldTextInput(textfield), name)
 										
 									break;
 										
@@ -217,6 +219,20 @@ function SetupBlockly(){
 						IGRPElement.init(block);		
 					
 				}
+				
+				$(document).trigger('block-init', [ block ]);
+				
+				$(document).trigger('block-'+type+'-init', [ block ]);
+				
+				if(type.indexOf('get-dao-') >= 0){
+					var daoName = type.split('get-dao-').pop();
+					
+					$(document).trigger('get-dao-block-init', [ block, daoName ]);
+				}
+					
+					
+				
+			
 					
 					
 			}

@@ -180,10 +180,10 @@ Code.init = function() {
            length: 3,
            colour: '#ccc',
            snap: true},
-       media: path+'/core/blockly/blockly/media/',
-       rtl: false,
-       toolbox: toolbox,
-       zoom:
+	       media: path+'/core/blockly/blockly/media/',
+	       rtl: false,
+	       toolbox: toolbox,
+	       zoom:
            {controls: true,
             wheel: true}
       });

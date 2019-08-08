@@ -3,7 +3,6 @@
 	
 	var Contador=0;
 	
-	
 	window.IGRP_BLOCKLY_ELEMENTS = {
 			
 		listar : {
@@ -31,11 +30,11 @@
 						
 					}();
 					
-					console.log(GetJavaType)
+					//console.log(GetJavaType)
 					
-					console.log(menus)
+					//console.log(menus)
 					
-					console.log(block)
+					//console.log(block)
 					
 					//block.childBlocks_[0].inputList[0].fieldRow[1].menuGenerator_ = menus;
 					//console.log( block.childBlocks_[0].inputList.fieldRow[1] )					
@@ -51,10 +50,12 @@
 				  container.setAttribute('count', this.itemCount_);
 				  return container;
 				},
+				
 			domToMutation: function(xmlElement) {
 				this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
 				  this.updateShape_();  
 				},
+				
 			 decompose: function (workspace) {
 			        var containerBlock = workspace.newBlock('where_t');
 			        containerBlock.initSvg();
@@ -67,6 +68,7 @@
 			        }
 			        return containerBlock;
 			    },
+			    
 			    compose: function (containerBlock) {
 			        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
 			        var connections = [];
@@ -88,6 +90,7 @@
 			            Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
 			        }
 			    },
+			    
 			    updateShape_: function () {
 				    
 			        for (var i = 1; i <= this.itemCount_; i++) {
@@ -113,89 +116,75 @@
 			
 			init : function(block){
 				
-				var ParamInput = block.getInput('value1'),
-				
-					ParamField = ParamInput ? ParamInput.fieldRow[3] : null;
-					
-				console.log(ParamField)
-				
-				if(ParamField){
-					
-					var ParamValidator = function(val){
-						
-						//block.updateConnections(val)
-					}
-					
-					//ParamField.setValidator(ParamValidator);
-					
-					/*setTimeout(function(){
-						
-						ParamValidator( ParamField.getValue() );
-						
-					},200)*/
-	
-					
-					
-					
-				}
+
 				
 			},
 			
-			updateConnections: function(newValue) {
-				
-				console.log(newValue)
-				
-			  this.removeInput('PARAM', /* no error */ true);
-			  
-			  if (newValue == 'um') {
-				  this.appendValueInput('PARAM').appendField('parametro inteiro')
-					.appendField(new Blockly.FieldCheckbox('TRUE'), 'Checkbox');
-				this.moveInputBefore('PARAM','value2')
-			  } 
-			  
-			}
+
 			
 		},
-		
-		index_editar : {
-			
-			init : function(block){
-				
-				var ParamInput = block.getInput('value1'),
-				
-					ParamField = ParamInput ? ParamInput.fieldRow[3] : null;
-					
-				console.log(ParamField)
-				
-				if(ParamField){
-					
-					var ParamValidator = function(val){
-						block.updateConnections(val)
-					}
-					
-					ParamField.setValidator(ParamValidator);		
-					
-				}
-				
-			},
-			
-			updateConnections: function(newValue) {
-				
-				console.log(newValue)
-				
-			  this.removeInput('PARAM', /* no error */ true);
-			  
-			  if (newValue == 'um') {
-				this.appendValueInput('PARAM').appendField('por parametro')
-					.appendField(new Blockly.FieldCheckbox('TRUE'), 'Checkbox');
-				this.moveInputBefore('PARAM','value2')
-			  } 
-			  
-			}
-			
-		}
-			
-			
+
 	}
+	
+	//Handle Dao Blocks
+	
+	$(document).on('get-dao-block-init', function(e, block, dao){
+		
+
+		var options = IGRP_BLOCKLY_DROPS.daos[dao];
+		
+		var dropdown = new Blockly.FieldDropdown(options, function(option) {
+			
+	      this.sourceBlock_.updateShape_(option);
+	      
+	    });
+		
+		block.setColour(160);
+	    block.appendDummyInput().appendField("get "+dao)
+		    .appendField(dropdown, 'HOVER_EVENT_TYPE')
+		    .appendField(new Blockly.FieldImage(path+"/core/blockly/blockly/media/dao.svg",15,15,"*"));
+	    block.setInputsInline(true);
+	    block.setOutput(true);
+	   
+		
+		block.mutationToDom =  function() {
+		    var container = document.createElement('mutation');
+		    var itemInput = this.getFieldValue('HOVER_EVENT_TYPE');
+		    container.setAttribute('hover_type', itemInput);
+		    return container;
+		},
+
+		block.domToMutation = function(xmlElement) {
+		    var itemInput = xmlElement.getAttribute('hover_type');
+		    this.updateShape_(itemInput);
+		}
+		
+		block.updateShape_ = function(input_type) {
+				 
+		 	var strSplit = input_type.split('::'),
+	
+				type     = strSplit[0],
+				
+				val 	 = strSplit[1];
+			 
+		    var inputExists = this.getInput('value1');
+		    
+		    console.log(type);
+		    
+		    if (type && type != '--' && type != 'String' && type != 'Date' && type != 'Integer') {
+		    	
+		      if (!inputExists) {
+		    	  
+		        this.appendValueInput('value1')
+		            .setCheck();
+		      }
+		   
+		    }else
+		    	
+		      this.removeInput('value1');
+		  }
+		
+	});
+	
 	
 })();

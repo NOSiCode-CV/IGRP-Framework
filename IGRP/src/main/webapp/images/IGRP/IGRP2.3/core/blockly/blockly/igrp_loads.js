@@ -220,12 +220,14 @@ window.IGRPBlocklyInit = function(){
 			 +'<block type="model_set" prev-statement="" next-statement="" color="300">'
 		 		+'<value name="value1" type="value" title="set model">'
 		 			+'<field type="dropdown" name="set_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
+		 			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/model_icon.svg"></field>'
 				+'</value>'
 			 +'</block>'
 			 
 			 +'<block type="model_get" output="" color="300">'
 			 	+'<value name="value1" type="dummy" title="get model">'
 			 		+'<field type="dropdown" name="get_model" options="IGRP_BLOCKLY_DROPS.fields"></field>'
+			 		+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/model_icon.svg"></field>'
 			 	+'</value>'
 			 +'</block>'
 			 
@@ -297,14 +299,15 @@ window.IGRPBlocklyInit = function(){
 						+'</block>'
 						
 						+'<block type="fill_combo" color="60" prev-statement="" next-statement="" inline="true">'
-							+'<value name="value1" type="dummy" title="preencher combo box:">'
+							+'<value name="value1" type="dummy" title="preencher combo box">'
 								+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
 							+'</value>'
 							+'<value name="value2" type="statement">'
 							
 								+'<block type="option_combo" color="60" prev-statement="" next-statement="" inline="true">'
-									+'<value name="value1" type="dummy" title="opção:">'
-										+'<field type="field_text" name="opcao" options=""></field>'
+									+'<value name="value1" type="dummy" title="opção">'
+										+'<field type="field_text" name="opcao_val" options="valor"></field>'
+										+'<field type="field_text" name="opcao_des" options="descrição"></field>'
 									+'</value>'
 								+'</block>'
 					
@@ -337,8 +340,8 @@ window.IGRPBlocklyInit = function(){
 					
 						+'<block type="index_editar" color ="40" prev-statement="" next-statement="" inline="true">'
 							+'<value name="value1" type="dummy" >'
-								+'<field type="dropdown" name="dao" title="editar DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-								+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+								+'<field type="dropdown" name="dao" title="editar DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<field type="dropdown" name="iskey" title="por parâmetro" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 							+'</value>'
 							+'<value name="value2" type="statement"></value>' 
 							+'<value name="value3" type="dummy">'
@@ -348,7 +351,7 @@ window.IGRPBlocklyInit = function(){
 						
 						+'<block type="editar_dao" color ="40" prev-statement="" next-statement="">'
 							+'<value name="PARAM" type="dummy">'
-								+'<field type="dropdown" name="iskey" title="editar por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+								+'<field type="dropdown" name="iskey" title="editar por parâmetro" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 							+'</value>'
 						+'</block>'	
 						
@@ -358,14 +361,15 @@ window.IGRPBlocklyInit = function(){
 					
 					+'<block type="listar" color="130" mutator="where" prev-statement="" next-statement="" inline="true">'
 						+'<value name="value1" type="dummy">'
-							+'<field type="dropdown" name="find" title="listar:" options="IGRP_BLOCKLY_DROPS.findList"></field>'
-							+'<field type="dropdown" name="dao" title="DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-							+'<field type="dropdown" name="table" title="tabela:" options="IGRP_BLOCKLY_DROPS.tables" igrp-on-change="IGRP_BLOCKLY_ELEMENTS.listar.onTableSet(item)"></field>'
+						+'<field type="dropdown" name="table" title="tabela" options="IGRP_BLOCKLY_DROPS.tables" igrp-on-change="IGRP_BLOCKLY_ELEMENTS.listar.onTableSet(item)"></field>'
+						+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
+						+'<field type="dropdown" name="find" title="listar" options="IGRP_BLOCKLY_DROPS.findList"></field>'
 						+'</value>'
 						+'<value name="value2" type="statement" check="Linha" >'
 							+'<block type="row" prev-statement="Linha" next-statement="Linha" color="130">'
-								+'<value type="value" title="set coluna" name="fields_model">'
+								+'<value type="value" title="set" name="fields_model">'
 									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields_TABLE"></field>'
+									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 								+'</value>'
 							+'</block>'
 						+'</value>'
@@ -377,8 +381,8 @@ window.IGRPBlocklyInit = function(){
 					
 						+'<block type="apagar" color="100" prev-statement="" next-statement="" inline="true">'
 							+'<value name="valor1" type="value">'
-								+'<field type="dropdown" name="dao" title="apagar na DAO:" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-								+'<field type="dropdown" name="iskey" title="por parâmetro:" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+								+'<field type="dropdown" name="dao" title="apagar na DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<field type="dropdown" name="iskey" title="por parâmetro" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 							+'</value>'
 						+'</block>'
 					
@@ -474,10 +478,10 @@ window.IGRPBlocklyInit = function(){
 			
 			$('#'+daos+'').append(
 					'<block type="get-dao-'+daos+'" color="160" output="">'
-					 +'<value name="value1" type="value" title="get'+daos+'">'
+					 /*+'<value name="value1" type="value" title="get'+daos+'">'
 						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
 						+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
-						+'</value>'
+						+'</value>'*/
 					+'</block>\n');
 	});
 	

@@ -18,7 +18,7 @@
 					
 			</xsl:when>
 			
-			<xsl:when test="$key = 'LT'">
+			<xsl:when test="$key = 'WHERE_LT'">
 				
 				<xsl:text>," &lt; ",</xsl:text>
 					
