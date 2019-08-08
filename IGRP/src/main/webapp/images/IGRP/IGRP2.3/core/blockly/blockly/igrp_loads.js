@@ -539,7 +539,7 @@ window.IGRPBlocklyInit = function(){
 		}
 	},
 	error : function(data) {
-		alert('Error: '+data);
+		console.log('Error: '+data);
 	}
 	});
 	

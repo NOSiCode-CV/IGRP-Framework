@@ -141,7 +141,7 @@
 		
 		block.setColour(160);
 	    block.appendDummyInput().appendField("get "+dao)
-		    .appendField(dropdown, 'HOVER_EVENT_TYPE')
+		    .appendField(dropdown, 'DAO_FIELD')
 		    .appendField(new Blockly.FieldImage(path+"/core/blockly/blockly/media/dao.svg",15,15,"*"));
 	    block.setInputsInline(true);
 	    block.setOutput(true);
@@ -149,7 +149,7 @@
 		
 		block.mutationToDom =  function() {
 		    var container = document.createElement('mutation');
-		    var itemInput = this.getFieldValue('HOVER_EVENT_TYPE');
+		    var itemInput = this.getFieldValue('DAO_FIELD');
 		    container.setAttribute('hover_type', itemInput);
 		    return container;
 		},
@@ -175,8 +175,7 @@
 		    	
 		      if (!inputExists) {
 		    	  
-		        this.appendValueInput('value1')
-		            .setCheck();
+		        this.appendValueInput('value1').setCheck();
 		      }
 		   
 		    }else
