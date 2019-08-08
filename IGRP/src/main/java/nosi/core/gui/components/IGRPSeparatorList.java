@@ -36,6 +36,8 @@ public class IGRPSeparatorList extends IGRPTable {
 
 	protected static final String SPLIT_SEQUENCE = "__IGRP__";
 
+	protected static final String TEMP_VALUE = "temp-value";
+	
 	public IGRPSeparatorList(String tag_name, String title) {
 		super(tag_name, title);
 		this.properties.put("type", "separatorlist");
@@ -154,8 +156,8 @@ public class IGRPSeparatorList extends IGRPTable {
 				this.xml.writeAttribute("check","true");
 				sufix = "_check";
 			}
-			if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty("temFile"))) {
-				this.xml.writeAttribute("temp-value", field.propertie().getProperty("temFile"));
+			if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
+				this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
 			}
 			this.xml.text(key);
 		this.xml.endElement();
