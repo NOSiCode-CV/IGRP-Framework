@@ -271,7 +271,10 @@ window.IGRPBlocklyInit = function(){
 	// ********************************************* END XML LOAD ***********************************************
 	
 // *******************************************GET DAO OBJECTS **********************************************/
-	$.ajax({url : '/IGRP/app/webapps?r=igrp_studio/Env/Retornarxml&app_name='+AppTitle, headers : {'x-igrp-remote' : 1},
+	var iurlArr = path.split('/');
+	var iurl   = iurlArr[0] == '' ? iurlArr[1] : 'IGRP';
+	
+	$.ajax({url : '/'+iurl+'/app/webapps?r=igrp_studio/Env/Retornarxml&app_name='+AppTitle, headers : {'x-igrp-remote' : 1},
 	method : 'GET',
 	dataType : 'xml',
 	
