@@ -40,6 +40,9 @@ public class GenXMLField {
 							xml.startElement(field.getTagName());
 						}
 						writteAttributes(xml,field.propertie());
+						if(field instanceof FileField) {
+							xml.writeAttribute("temp-value", ""+field.getValue());
+						}
 						if(!(field instanceof HiddenField)){//Hidden field not contain tag label
 							xml.setElement("label", field.getLabel());
 						}

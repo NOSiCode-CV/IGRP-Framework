@@ -5,6 +5,8 @@ import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.TempFileHelper;
+import nosi.webapps.igrp.dao.TempFile;
 
 /**
  * @author: Emanuel Pereira
@@ -83,7 +85,11 @@ public class IGRPFormList extends IGRPSeparatorList {
 						String[] aux = val.split(SPLIT_SEQUENCE); // this symbol underscore ... will be the reserved										
 						if (field instanceof FileField) {
 							if(aux.length > 2) {//With temp file
-								this.genHiddenFieldFile(field, aux[2]);
+								TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
+								if(tempFile!=null) {
+									field.propertie().add("temFile", tempFile.getName());
+								}
+								this.genHiddenFieldFile(field, aux[2]);								
 								this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
 							}else {
 								this.genRowField(field, aux.length > 0 ? aux[0] : "", aux.length > 1 ? aux[1] : "");

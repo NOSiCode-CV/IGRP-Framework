@@ -118,4 +118,12 @@ public class UploadFile {
 	public boolean isUploaded() {
 		return Core.isNotNullMultiple(this.getSubmittedFileName(),this.getContentType(),this.getInputStream());
 	}
+
+	@Override
+	public String toString() {
+		return "UploadFile [id=" + id + ", name=" + name + ", submittedFileName=" + submittedFileName + ", contentType="
+				+ contentType + ", size=" + size + "]";
+	}
+	
+	
 }

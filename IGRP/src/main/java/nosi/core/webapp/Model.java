@@ -437,7 +437,7 @@ public abstract class Model { // IGRP super model
 					String param = Model.getParamFileId(m.getName().toLowerCase());
 					String fileId = Core.getParam(param);
 					if(Core.isNotNull(fileId)) {
-						Core.addHiddenField(Model.getParamFileId(m.getName().toLowerCase()), fileId);
+						Core.addHiddenField((""+Model.getParamFileId(m.getName().toLowerCase())).replaceFirst("p_", ""), fileId);
 						m.set(this, new UploadFile(fileId));
 					}else {
 						m.set(this, new UploadFile(Core.getFile(m.getAnnotation(RParam.class).rParamName())));
