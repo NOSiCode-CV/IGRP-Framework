@@ -154,7 +154,7 @@ public class IGRPSeparatorList extends IGRPTable {
 				this.xml.writeAttribute("check","true");
 				sufix = "_check";
 			}
-			if(field instanceof FileField) {
+			if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty("temFile"))) {
 				this.xml.writeAttribute("temp-value", field.propertie().getProperty("temFile"));
 			}
 			this.xml.text(key);
