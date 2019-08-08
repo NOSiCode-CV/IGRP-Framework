@@ -87,7 +87,9 @@ public class IGRPFormList extends IGRPSeparatorList {
 							if(aux.length > 2) {//With temp file
 								TempFile tempFile = TempFileHelper.getTempFile(aux[2]);
 								if(tempFile!=null) {
-									field.propertie().add("temFile", tempFile.getName());
+									field.propertie().add(TEMP_VALUE, tempFile.getName());
+								}else {
+									field.propertie().remove(TEMP_VALUE);
 								}
 								this.genHiddenFieldFile(field, aux[2]);								
 								this.genRowField(field, Core.getLinkTempFile(aux[2]),Core.gt(aux[1]));
