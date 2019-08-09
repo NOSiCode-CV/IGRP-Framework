@@ -1309,7 +1309,7 @@ $(function ($) {
 			    				if (element.attributes.footer) 
 			    					path = 'rows/'+span.no+'/'+span.tag;
 
-			    				span.element = '<xsl:value-of select="'+path+'"/>';
+			    				span.element = '<span class="brl" '+$.WR.element.getStyle(element)+'><xsl:value-of select="'+path+'"/></span>';
 			    				
 			    				if(span.type == 'chart'){
 
