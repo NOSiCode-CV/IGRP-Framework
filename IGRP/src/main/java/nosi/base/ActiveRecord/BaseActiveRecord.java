@@ -75,8 +75,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Expose(serialize = false) @JsonIgnore
 	private Root<T> root = null;
 	@Expose(serialize = false) @JsonIgnore
-	private ParametersHelper paramHelper;
-	@Expose(serialize = false) @JsonIgnore
 	private String tableName;
 	@Expose(serialize = false) @JsonIgnore
 	private Class<T> className;
@@ -258,8 +256,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public T andWhere(String name, String operator, String[] values) {
 		if(values!=null) {
-			values = this.normalizeStringVlaues(values);
-			String value = this.applyToInCondition(values);
+			String[] values_ = this.normalizeStringVlaues(values);
+			String value = this.applyToInCondition(values_);
 			this.and();
 			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+" "+value+" ");
 		}
@@ -438,19 +436,22 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public T having(String name, String operator, Date value) {
 		return this.havingObject(name, operator, value, Date.class);
 	}
-	
+
+	@Override
 	public T where(RestrictionImpl restriction) {
 		this.parametersMap.addAll(restriction.getParametersMap());
 		this.sql+=" WHERE ("+restriction.getRestriction()+")";
 		return (T) this;
 	}
-	
+
+	@Override
 	public T andWhere(RestrictionImpl restriction) {
 		this.parametersMap.addAll(restriction.getParametersMap());
 		this.sql+=" AND ("+restriction.getRestriction()+")";
 		return (T) this;
 	}
-	
+
+	@Override
 	public T orWhere(RestrictionImpl restriction) {
 		this.parametersMap.addAll(restriction.getParametersMap());
 		this.sql+=" OR ("+restriction.getRestriction()+")";
@@ -534,14 +535,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	private T whereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
 		if(Core.isNotNull(value)) {
 			this.where("");
-			paramName = recq.removeAlias(paramName);
+			String paramName_ = recq.removeAlias(paramName);
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(), name)+") "+operator+" :"+paramName+" ");
-				this.addParamter(name, paramName, value.toString().toUpperCase(), classType);
+				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(), name)+") "+operator+" :"+paramName_+" ");
+				this.addParamter(name, paramName_, value.toString().toUpperCase(), classType);
 			}
 			else {
-				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
-				this.addParamter(name,paramName,value,classType);
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName_+" ");
+				this.addParamter(name,paramName_,value,classType);
 			}
 		}
 		return (T) this;
@@ -558,14 +559,14 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	private T andWhereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
 		if(Core.isNotNull(value)) {
-			paramName = recq.removeAlias(paramName);
+			String paramName_ = recq.removeAlias(paramName);
 			this.and();
 			if(operator.equalsIgnoreCase("like") || StringHelper.removeSpace(operator).equalsIgnoreCase("notlike")) {
-				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+" :"+paramName+" ");
-				this.addParamter(name,paramName,value.toString().toUpperCase(),classType);				
+				this.filterWhere("UPPER("+recq.resolveColumnName(this.getAlias(),name)+") "+operator+" :"+paramName_+" ");
+				this.addParamter(name,paramName_,value.toString().toUpperCase(),classType);				
 			}else {
-				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
-				this.addParamter(name,paramName,value,classType);
+				this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName_+" ");
+				this.addParamter(name,paramName_,value,classType);
 			}
 		}
 		return (T) this;
@@ -573,10 +574,10 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	
 	private T orWhereObject(String name,String paramName,String operator,Object value,Class<?> classType) {
 		if(Core.isNotNull(value)) {
-			paramName = recq.removeAlias(paramName);
+			String paramName_ = recq.removeAlias(paramName);
 			this.or();
-			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName+" ");
-			this.addParamter(name,paramName,value,classType);
+			this.filterWhere(recq.resolveColumnName(this.getAlias(),name)+" "+operator+":"+paramName_+" ");
+			this.addParamter(name,paramName_,value,classType);
 		}
 		return (T) this;
 	}
@@ -597,13 +598,15 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		}
 		return (T) this;
 	}
-	
+
+	@Override
 	public void setConnectionName(String connectionName) {
 		this.connectionName = connectionName;
 	}
 
 	@Transient	
 	@XmlTransient
+	@Override
 	public String getConnectionName() {	
 		if(Core.isNotNullOrZero(this.applicationName) && Core.isNull(this.connectionName))
 			return this.defaultConnection(this.applicationName);
@@ -612,16 +615,16 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 
 	protected void setParameters(TypedQuery<T> query) {
 		if(this.parametersMap!=null && !this.parametersMap.isEmpty()) {
-            this.parametersMap.stream().forEach(col->this.paramHelper.setParameter(query, col.getDefaultValue(), col));
+            this.parametersMap.stream().forEach(col->ParametersHelper.setParameter(query, col.getDefaultValue(), col));
 		}
 	}
-	
+
+	@Override
 	public T find() {
 		this.whereIsCall = false;
 		this.sql = "";
 		this.parametersMap = new ArrayList<>();
 		this.error = new ArrayList<>();
-		this.paramHelper = new ParametersHelper();
 		return (T) this;
 	}
 	
@@ -801,8 +804,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@Override
 	public List<T> findAll(CriteriaQuery<T> criteria) {
 		List<T> list = null;
+		Session s = this.getSession();
 		try {
-			Session s = this.getSession();
 			if(!s.getTransaction().isActive()) {
 				s.beginTransaction();
 			}
@@ -814,6 +817,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			this.keepConnection = false;
 			this.setError(e);
 		} finally {
+			s.close();
 			this.closeSession();
 		}
 		return list;
@@ -853,8 +857,8 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	public List<T> all() {
 		this.sql =  this.generateSql()+this.sql;
 		List<T> list = null;
+		Session s = this.getSession();
 		try {
-			Session s = this.getSession();
 			if(!s.getTransaction().isActive()) {
 				s.beginTransaction();
 			}
@@ -875,6 +879,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			this.keepConnection = false;
 			this.setError(e);
 		} finally {
+			s.close();
 			this.closeSession();
 		}
 		return list;
@@ -1493,7 +1498,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		String result = "";
 		Application app = new Application().setKeepConnection(this.keepConnection).find().andWhere("dad", "=", dad).one();
 		if (app != null) {
-			Config_env config_env = new Config_env().setKeepConnection(this.keepConnection).find().andWhere("isdefault", "=", (short) 1)
+			Config_env config_env = new Config_env().setKeepConnection(this.keepConnection).find().andWhere("isdefault", "=", new Short((short) 1))
 					.andWhere("application", "=", app.getId()).one();
 			if (config_env != null)
 				result = config_env.getName();

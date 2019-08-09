@@ -16,16 +16,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.base.ActiveRecord.ResolveColumnNameQuery;
-import nosi.core.config.ConfigApp;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
@@ -47,8 +44,6 @@ public abstract class QueryHelper implements QueryInterface{
 	protected Config_env config_env;
 	protected String[] retuerningKeys;
 	protected boolean isAutoCommit = false;
-	protected nosi.core.webapp.databse.helpers.Connection connection;
-	protected ParametersHelper paramHelper;
 	private boolean showError = true;
 	private boolean showTracing = true;
 	protected ResolveColumnNameQuery recq;
@@ -61,20 +56,12 @@ public abstract class QueryHelper implements QueryInterface{
 		if(Core.isNotNull(connectionName) && connectionName instanceof Config_env) {
 			this.config_env = (Config_env) connectionName;			
 		}
-		this.connectionName = this.getMyConnectionName(connectionName);
+		this.connectionName = nosi.core.webapp.databse.helpers.Connection.getMyConnectionName(connectionName);
 	}	
 
 	public QueryHelper() {
 		this.columnsValue = new ArrayList<>();
-		this.connection = new nosi.core.webapp.databse.helpers.Connection();
-		this.paramHelper = new ParametersHelper();
 		this.recq = new ResolveColumnNameQuery(this.getClass());
-	}
-	
-	private String getMyConnectionName(Object connectionName) {
-		if(Core.isNotNull(connectionName))
-			return connectionName.toString();
-		return ConfigApp.getInstance().getH2IGRPBaseConnection();
 	}
 
 
@@ -85,10 +72,20 @@ public abstract class QueryHelper implements QueryInterface{
 		return HibernateUtils.getSessionFactory(this.getConnectionName());
 	}
 	
+	@SuppressWarnings("resource")
+	protected Session getSession() {
+		SessionFactory sessionFactory = this.getSessionFactory();
+		if(sessionFactory!=null && sessionFactory.isOpen()) {
+			return sessionFactory.getCurrentSession();
+		}
+		return null;
+	}
+	
 	public boolean isShowError() {
 		return showError;
 	}
 
+	@Override
 	public void setShowError(boolean showError) {
 		this.showError = showError;
 	}
@@ -97,10 +94,12 @@ public abstract class QueryHelper implements QueryInterface{
 		return showTracing;
 	}
 
+	@Override
 	public void setShowTracing(boolean showTracing) {
 		this.showTracing = showTracing;
 	}
 
+	@Override
 	public QueryInterface where(String condition) {
 		if(!this.whereIsCall) {
 			this.sql += " WHERE "+condition;
@@ -114,131 +113,159 @@ public abstract class QueryHelper implements QueryInterface{
 		return this;
 	}
 	
+	@Override
 	public QueryInterface where() {
 		return this.where("1=1");
 	}
 	
+	@Override
 	public QueryInterface addLong(String columnName,Long value) {
 		this.addColumn(columnName, value, Long.class);
 		return this;
 	}
 
+	@Override
 	public QueryInterface addDouble(String columnName,Double value) {
 		this.addColumn(columnName, value, Double.class);
 		return this;
 	}
 
+	@Override
 	public QueryInterface addFloat(String columnName,Float value) {
 		this.addColumn(columnName, value, Float.class);
 		return this;
 	}
 
+	@Override
 	public QueryInterface addShort(String columnName,Short value) {
 		this.addColumn(columnName, value, Short.class);
 		return this;
 	}
 
+	@Override
 	public QueryInterface addDate(String columnName,String value,String format) {
 		this.addColumn(columnName, value, java.sql.Date.class,format);
 		return this;
 	}
 	
+	@Override
 	public QueryInterface addDate(String columnName,String value) {
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
 	
+	@Override
 	public QueryInterface addDate(String columnName,java.sql.Date value) {
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
 
+	@Override
 	public QueryInterface addDate(String columnName,java.util.Date value) {
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
 
+	@Override
 	public QueryInterface addDate(String columnName,java.util.Date value,String format) {
 		this.addColumn(columnName, value, java.util.Date.class,format);
 		return this;
 	}
 	
+	@Override
 	public QueryInterface addDate(String columnName,java.sql.Date value,String format) {
 		this.addColumn(columnName, value, java.sql.Date.class,format);
 		return this;
 	}
 	
+	@Override
 	public QueryInterface add(Column col,Object value) {
 		this.addColumn(col.getName(), value,col.getType());
 		return this;
 	}
 	
+	@Override
 	public QueryInterface addString(String columnName,String value) {
 		this.addColumn(columnName, value, String.class);
 		return this;
 	}
 	
+	@Override
 	public QueryInterface addInt(String columnName,Integer value) {
 		this.addColumn(columnName, value, Integer.class);
 		return this;
 	}
 
+	@Override
 	public QueryInterface addBinaryStream(String columnName,FileInputStream value) {
 		this.addColumn(columnName, value, FileInputStream.class);
 		return this;
 	}
+	
+	@Override
 	public QueryInterface addBinaryStream(String columnName,InputStream value) {
 		this.addColumn(columnName, value, InputStream.class);
 		return this;
 	}
 
+	@Override
     public QueryInterface addObject(String columnName,Object value) {
         this.addColumn(columnName, value, Object.class);
         return this;
     }
     
+	@Override
     public QueryInterface addTimestamp(String columnName,Timestamp value) {
         this.addColumn(columnName, value, Timestamp.class);
         return this;
     }
 
+	@Override
     public QueryInterface addArray(String columnName,ArrayList<?> value) {
         this.addColumn(columnName, value, Array.class);
         return this;
     }
 
+	@Override
     public QueryInterface addAsciiStream(String columnName,InputStream value) {
         this.addColumn(columnName, value, InputStream.class);
         return this;
     }
 
+	@Override
     public QueryInterface addClob(String columnName,Clob value) {
         this.addColumn(columnName, value, Clob.class);
         return this;
     } 
 
+	@Override
     public QueryInterface addBlob(String columnName,Blob value) {
         this.addColumn(columnName, value, Blob.class);
         return this;
     } 
 
+	@Override
     public QueryInterface addByte(String columnName,byte[] value) {
         this.addColumn(columnName, value, Byte[].class);
         return this;
     }  
     
+	@Override
     public QueryInterface addByte(String columnName,byte value) {
-        this.addColumn(columnName, value, Byte.class);
+        this.addColumn(columnName, new Byte(value), Byte.class);
         return this;
     }  
     
+    @Override
     public QueryInterface addBoolean(String columnName,boolean value) {
-        this.addColumn(columnName, value, Boolean.class);
+        this.addColumn(columnName, new Boolean(value), Boolean.class);
         return this;
     }  
     
+    @Override
     public QueryInterface addBigDecimal(String columnName,BigDecimal value) {
         this.addColumn(columnName, value, BigDecimal.class);
         return this;
     }
     
+    @Override
     public QueryInterface addTime(String columnName,Time value) {
         this.addColumn(columnName, value, Time.class);
         return this;
@@ -249,9 +276,9 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 	
 	protected void addColumn(String name,Object value,Object type,String format) {
-		name = this.recq.removeAlias(name);
+		String name_ = this.recq.removeAlias(name);
 		Column c = new Column();
-		c.setName(name);
+		c.setName(name_);
 		c.setDefaultValue(value);
 		c.setType(type);
 		c.setFormat(format);
@@ -265,18 +292,19 @@ public abstract class QueryHelper implements QueryInterface{
 		 * Remove duplicate params name for sql update
 		 * UPDATE TABLE1 SET estado=:estado,date_update=:date_update WHERE id=:id AND  UPPER(estado) = :estado 
 		 */
+		String name_ = name;
 		if((this instanceof QueryUpdate|| (this.operationType!=null && this.operationType.compareTo(OperationType.UPDATE)==0)) && this.columnsValue!=null) {
 			String n = name;
 			List<Column> cols = this.columnsValue.stream().filter(col->col.getName()!=null && col.getName().equalsIgnoreCase(n)).collect(Collectors.toList());
 			if(cols!=null && cols.size()>0) {
-				name = name+"_"+cols.size();
+				name_ = name+"_"+cols.size();
 			}
 		}
-		return name;
+		return name_;
 	}
 
 
-	
+	@Override
 	public String getSql() {
 		return this.sql;
 	}
@@ -306,6 +334,7 @@ public abstract class QueryHelper implements QueryInterface{
 		this.tableName = tableName;
 	}
 
+	@Override
 	public String getConnectionName() {
 		return connectionName;
 	}
@@ -331,7 +360,7 @@ public abstract class QueryHelper implements QueryInterface{
 	}
 
 	public String getSqlInsert(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
 		String inserts = "";
 		String values = "";
 		for(DatabaseMetadaHelper.Column col:colmns) {
@@ -342,12 +371,12 @@ public abstract class QueryHelper implements QueryInterface{
 		}	
 		inserts = inserts.substring(0, inserts.length()-1);
 		values = values.substring(0, values.length()-1);
-		return "INSERT INTO "+tableName+" ("+inserts+") VALUES ("+values+")";
+		return "INSERT INTO "+tableName_+" ("+inserts+") VALUES ("+values+")";
 	}
 	
 
 	public String getSqlUpdate(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
 		String updates = "";
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement() && !col.isAfterWhere()) {
@@ -355,20 +384,20 @@ public abstract class QueryHelper implements QueryInterface{
 			}
 		}	
 		updates = Core.isNotNull(updates)?updates.substring(0, updates.length()-1):"";
-		String s = "UPDATE "+tableName +" SET "+updates;
+		String s = "UPDATE "+tableName_ +" SET "+updates;
 		return s;
 	}
 	
 	public String getSqlDelete(String schemaName, String tableName) {
-		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
-		return "DELETE FROM "+tableName;
+		String tableName_ = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
+		return "DELETE FROM "+tableName_;
 	}
 
 
 	@Override
 	public ResultSet execute() {
 		ResultSet r = new ResultSet();
-		Connection conn = this.connection.getConnection(this.getConnectionName());
+		Connection conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName());
 		if(conn!=null) {
 			try {
 				conn.setAutoCommit(this.isAutoCommit);
@@ -397,7 +426,7 @@ public abstract class QueryHelper implements QueryInterface{
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue( q.executeUpdate());
+					r.setKeyValue(new Integer(q.executeUpdate()));
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}
@@ -411,11 +440,14 @@ public abstract class QueryHelper implements QueryInterface{
 				try {
 					if(q!=null)
 						q.close();
-					if(conn!=null) 
-						conn.close();
 				} catch (SQLException e) {
 					this.setError(r, e);
 				}
+			}
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		this.columnsValue = new ArrayList<>();//restart mapped columns
@@ -427,23 +459,23 @@ public abstract class QueryHelper implements QueryInterface{
 
 	@Override
 	public String getSqlWithData() {
-		Connection conn = this.connection.getConnection(this.getConnectionName());
-		if(conn!=null) {
+		Connection conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName());
+		if (conn != null) {
 			NamedParameterStatement q = null;
-			if(this instanceof QueryInsert) {
+			if (this instanceof QueryInsert) {
 				try {
-					
-					if(this.retuerningKeys!=null) {
-						q = new NamedParameterStatement(conn ,this.getSqlExecute(),this.retuerningKeys);
-					}else {
-						q = new NamedParameterStatement(conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
+
+					if (this.retuerningKeys != null) {
+						q = new NamedParameterStatement(conn, this.getSqlExecute(), this.retuerningKeys);
+					} else {
+						q = new NamedParameterStatement(conn, this.getSqlExecute(), Statement.RETURN_GENERATED_KEYS);
 					}
-					this.setParameters(q);	
+					this.setParameters(q);
 					this.sql = q.getSql();
 				} catch (SQLException e) {
 					this.setError(null, e);
 				}
-			}else {
+			} else {
 				try {
 					q = new NamedParameterStatement(conn, this.getSql());
 					this.setParameters(q);
@@ -453,12 +485,15 @@ public abstract class QueryHelper implements QueryInterface{
 				}
 			}
 			try {
-				if(q!=null)
+				if (q != null)
 					q.close();
-				if(conn!=null) 
-					conn.close();
 			} catch (SQLException e) {
 				this.setError(null, e);
+			}
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		return this.sql;
@@ -466,22 +501,26 @@ public abstract class QueryHelper implements QueryInterface{
 	
 	protected void setParameters(NamedParameterStatement q) throws SQLException {
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {	
-			 this.paramHelper.setParameter(q,col.getDefaultValue(),col);
+			ParametersHelper.setParameter(q,col.getDefaultValue(),col);
 		}
 	}
 
+	@Override
 	public List<Tuple> getResultList() {
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
 	public Tuple getSigleResult() {
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
 	public Tuple getSingleResult(){
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
 	public <T> List<T> getResultList(Class<T> type){
 		throw new UnsupportedOperationException();
 	}

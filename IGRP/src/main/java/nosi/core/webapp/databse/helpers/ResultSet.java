@@ -47,7 +47,7 @@ public class ResultSet {
 	
 	public Integer getInt(String name) {
 		Object obj = this.getObject(name);
-		return obj!=null?Core.toInt(obj.toString()): -1;
+		return obj!=null?Core.toInt(obj.toString()): new Integer(-1);
 	}
 
 	public String getString(String name) {
@@ -57,22 +57,22 @@ public class ResultSet {
 
 	public Long getLong(String name) {
 		Object obj = this.getObject(name);
-		return obj!=null?Core.toLong(obj.toString()): -1;
+		return obj!=null?Core.toLong(obj.toString()): new Long(-1);
 	}
 
 	public Short getShort(String name) {
 		Object obj = this.getObject(name);
-		return obj!=null?Core.toShort(obj.toString()): -1;
+		return obj!=null?Core.toShort(obj.toString()): new Short((short)-1);
 	}
 	
 	public Double getDouble(String name) {
 		Object obj = this.getObject(name);
-		return obj!=null?Core.toDouble(obj.toString()): -1;
+		return obj!=null?Core.toDouble(obj.toString()): new Double(-1);
 	}
 
 	public Float getFloat(String name) {
 		Object obj = this.getObject(name);
-		return obj!=null?Core.toFloat(obj.toString()): -1;
+		return obj!=null?Core.toFloat(obj.toString()): new Float(-1);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -108,7 +108,7 @@ public class ResultSet {
 		
 		public Boolean getBoolean(String name) {
 			Object v = this.getObject(name);
-			return v!=null?(boolean)v:false;
+			return v!=null?new Boolean(""+v):new Boolean(false);
 		}
 		
 		public Integer getInt(String name) {
@@ -159,7 +159,7 @@ public class ResultSet {
 		
 		public Boolean getBoolean(int index) {
 			Object v = this.getObject(index);
-			return v!=null?(boolean)v:false;
+			return v!=null?new Boolean(""+v):new Boolean(false);
 		}
 		
 		public Integer getInt(int index) {

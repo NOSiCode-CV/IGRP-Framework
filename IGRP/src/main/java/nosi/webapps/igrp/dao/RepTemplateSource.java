@@ -73,7 +73,7 @@ public class RepTemplateSource extends IGRPBaseActiveRecord<RepTemplateSource> i
 		this.parameters = parameters;
 	}
 	
-	public List<RepTemplateSource> getAllDataSources(int id) {
+	public List<RepTemplateSource> getAllDataSources(Integer id) {
 		List<RepTemplateSource> list = this.find().andWhere("repTemplate", "=", id).all();
 		return list;
 	}	

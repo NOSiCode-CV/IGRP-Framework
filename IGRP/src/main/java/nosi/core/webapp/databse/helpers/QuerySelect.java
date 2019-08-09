@@ -7,13 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 import nosi.base.ActiveRecord.HibernateHintOption;
-import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;
 import nosi.webapps.igrp.dao.Config_env;
@@ -42,28 +40,30 @@ public class QuerySelect extends CommonFIlter{
 	//Validate sql query
 	public boolean validateQuery(Config_env config,String sql) {
 		boolean isValid = false;
-		SessionFactory session =  HibernateUtils.getSessionFactory(config);
-		if(session!=null) {
-			EntityManager em = null;
-			try {
-				sql = sql.replaceAll(":\\w+", "null");
-				Core.log("SQL Query:"+sql);
-				em = session.createEntityManager();
-				Query query = em.createNativeQuery(sql,Tuple.class);
-				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
-				query.getResultList();
-				isValid = true;
-			}catch(Exception e) {
-				isValid = false;
-				this.setError(null, e);
-			}finally {
-				if(em!=null)
-					em.close();
+		if(Core.isNotNull(sql)) {
+			this.config_env = config;
+			Session session = this.getSession();
+			if(session!=null) {
+				try {
+					session.beginTransaction();
+					String sql_ = sql.replaceAll(":\\w+", "null");
+					Core.log("SQL Query:"+sql_);
+					Query query = session.createNativeQuery(sql_,Tuple.class);
+					query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
+					query.getResultList();
+					isValid = true;
+				}catch(Exception e) {
+					isValid = false;
+					this.setError(null, e);
+				}finally {
+					session.close();
+				}
 			}
 		}
 		return isValid;
 	}
 	
+	@Override
 	public QueryInterface select(String collumns) {
 		if(Core.isNotNull(collumns)) {
 			if(!collumns.toUpperCase().contains("SELECT"))
@@ -82,18 +82,19 @@ public class QuerySelect extends CommonFIlter{
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Tuple> getResultList() {
 		List<Tuple> list = null;
-		SessionFactory session =  this.getSessionFactory();
+		Session session = this.getSession();
 		if(session!=null) {
 			try {
+				session.beginTransaction();
 				Core.log("SQL Query:"+this.getSql());
-				this.em = session .createEntityManager();
-				Query query = this.em.createNativeQuery(this.getSql(),Tuple.class);	
+				Query query = session.createNativeQuery(this.getSql(),Tuple.class);	
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
+						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
@@ -102,7 +103,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				this.close();
+				session.close();
 			}
 		}
 		return list;
@@ -113,16 +114,16 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public <T> T getSingleResult(Class<T> entity) {
 		T find = null;
-		SessionFactory session =  this.getSessionFactory();
+		Session session = this.getSession();
 		if(session!=null) {
 			try {
+				session.beginTransaction();
 				Core.log("SQL Query:"+this.getSql());
-				this.em = session.createEntityManager();
-				Query query = this.em.createQuery(this.getSql(),entity);
+				Query query = session.createQuery(this.getSql(),entity);
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
+						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
@@ -131,7 +132,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				this.close();
+				session.close();
 			}
 		}
 		return find;
@@ -141,16 +142,16 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public <T> List<T> getResultList(Class<T> entity){	
 		List<T> list = null;
-		SessionFactory session =  this.getSessionFactory();
+		Session session = this.getSession();
 		if(session!=null) {
 			try {
+				session.beginTransaction();
 				Core.log("SQL Query:"+this.getSql());
-				this.em = session.createEntityManager();
-				Query query = this.em.createQuery(this.getSql(),entity);	
+				Query query = session.createQuery(this.getSql(),entity);	
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
+						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
@@ -159,7 +160,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				this.close();
+				session.close();
 			}
 		}
 		return list;
@@ -220,16 +221,16 @@ public class QuerySelect extends CommonFIlter{
 	@Override
 	public TypedQuery<?> getTypedQuery(){
 		TypedQuery<?> query = null;
-		SessionFactory session =  this.getSessionFactory();
+		Session session = this.getSession();
 		if(session!=null) {
 			try {
+				session.beginTransaction();
 				Core.log("SQL Query:"+this.getSql());
-				this.em = session.createEntityManager();
-				query = this.em.createQuery(this.getSql(), this.className);
+				query = session.createQuery(this.getSql(), this.className);
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
 				for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 					 if(col.getDefaultValue()!=null) {
-						 this.paramHelper.setParameter(query,col.getDefaultValue(),col);					
+						 ParametersHelper.setParameter(query,col.getDefaultValue(),col);					
 					 }else {
 						 query.setParameter(col.getName(), null);
 					 }
@@ -237,7 +238,7 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				this.close();
+				session.close();
 			}
 		}
 		return query;
@@ -442,13 +443,11 @@ public class QuerySelect extends CommonFIlter{
 	}
 
 	public ResultSet executeQuery(Config_env env) {
-		Connection conn =  this.connection.getConnection(env);
-		return executeQuery(conn);
+		return executeQuery(nosi.core.webapp.databse.helpers.Connection.getConnection(env));
 	}
 	
 	public ResultSet executeQuery(String connectionName) {
-		Connection conn = this.connection.getConnection(connectionName);	
-		return executeQuery(conn);
+		return executeQuery(nosi.core.webapp.databse.helpers.Connection.getConnection(connectionName));
 	}
 	
 	public ResultSet executeQuery(Connection conn) {
@@ -480,12 +479,10 @@ public class QuerySelect extends CommonFIlter{
 				} catch (SQLException e1) {
 					this.setError(r, e1);
 				}
-				if(conn!=null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-						this.setError(r, e);
-					}
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					this.setError(r, e);
 				}
 			}		
 		}

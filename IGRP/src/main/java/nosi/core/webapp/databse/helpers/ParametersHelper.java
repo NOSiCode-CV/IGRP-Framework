@@ -13,15 +13,15 @@ import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
  */
 public class ParametersHelper {
 	
-	public void setParameter(Query query, Object value, Column col) {
-		this.setParameter(query, col.getName(), value, col);
+	public static void setParameter(Query query, Object value, Column col) {
+		setParameter(query, col.getName(), value, col);
 	}
 	
-	public <T> void setParameter(TypedQuery<T> query, Object value, Column col) {
-		this.setParameter(query, col.getColumnMap(), value, col);
+	public static <T>  void setParameter(TypedQuery<T> query, Object value, Column col) {
+		setParameter(query, col.getColumnMap(), value, col);
 	}
 	
-	private void setParameter(Query query,String columnName,Object value,Column col) {
+	private static void setParameter(Query query,String columnName,Object value,Column col) {
 		if(col.getType().equals(java.lang.Integer.class)) {
 			query.setParameter(columnName,value!=null?Core.toInt(value.toString()):null);
 		}else if(col.getType().equals(java.lang.Double.class)){
@@ -38,7 +38,7 @@ public class ParametersHelper {
 			query.setParameter(columnName, (Byte)value);
 		}else if(col.getType().equals(java.sql.Date.class)){
 			if((value instanceof String) && Core.isNotNull(value))
-				query.setParameter(columnName,value!=null?Core.ToDate(value.toString(), col.getFormat()):null);
+				query.setParameter(columnName,Core.ToDate(value.toString(), col.getFormat()));
 			else
 				query.setParameter(columnName,value);
 		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
@@ -48,7 +48,7 @@ public class ParametersHelper {
 		}
 	}
 	
-	public void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
+	public static void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
 		if(value!=null) {
 			if(col.getType().equals(java.lang.Integer.class)) {
 				query.setInt(col.getName(),Core.toInt(value.toString()));

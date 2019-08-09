@@ -19,7 +19,7 @@ public class Transaction extends CommonFIlter{
 	
 	@Override
 	public void begin() throws SQLException {
-		this.conn = this.connection.getConnection(this.getConnectionName());
+		this.conn = nosi.core.webapp.databse.helpers.Connection.getConnection(this.getConnectionName());
 		if(this.conn!=null) {
 			this.conn.setAutoCommit(false);
 		}
@@ -92,7 +92,7 @@ public class Transaction extends CommonFIlter{
 					this.setParameters(q);
 					r.setSql(q.getSql());
 					Core.log("SQL:"+q.getSql());
-					r.setKeyValue( q.executeUpdate());
+					r.setKeyValue(new Integer(q.executeUpdate()));
 				} catch (SQLException e) {
 					this.setError(r,e);
 				}

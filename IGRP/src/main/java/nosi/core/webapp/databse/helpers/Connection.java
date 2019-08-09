@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
-import org.hibernate.cfg.Environment;
+import org.hibernate.cfg.AvailableSettings;
 import nosi.base.ActiveRecord.HibernateUtils;
 import nosi.core.config.ConfigApp;
 import nosi.core.config.ConfigDBIGRP;
@@ -21,9 +21,13 @@ public class Connection {
 	public Connection() {
 		
 	}
-	
+	public static String getMyConnectionName(Object connectionName) {
+		if(Core.isNotNull(connectionName))
+			return connectionName.toString();
+		return ConfigApp.getInstance().getH2IGRPBaseConnection();
+	}
 
-	public java.sql.Connection getConnection(String connectionName){		
+	public static java.sql.Connection getConnection(String connectionName){		
 		String url = "";
 		String password = "";
 		String user = "";
@@ -37,16 +41,16 @@ public class Connection {
 					:HibernateUtils.REGISTRY_BUILDER_IGRP_H2.getAggregatedCfgXml().getConfigurationValues();
 			if(settings!=null) {
 				for(java.util.Map.Entry<String, Object> s:settings.entrySet()) {
-					if(s.getKey().equals(Environment.USER)) {
+					if(s.getKey().equals(AvailableSettings.USER)) {
 						user = s.getValue().toString();
 					}
-					if(s.getKey().equals(Environment.PASS)) {
+					if(s.getKey().equals(AvailableSettings.PASS)) {
 						password = s.getValue().toString();
 					}
-					if(s.getKey().equals(Environment.URL)) {
+					if(s.getKey().equals(AvailableSettings.URL)) {
 						url = s.getValue().toString();
 					}
-					if(s.getKey().equals(Environment.DRIVER)) {
+					if(s.getKey().equals(AvailableSettings.DRIVER)) {
 						driver = s.getValue().toString();
 					}
 				}
@@ -72,12 +76,12 @@ public class Connection {
 					.andWhere("name", "=", connectionName)
 					.andWhere("application.dad", "=",dad)
 					.one();
-			return this.getConnectionWithConfig(config);
+			return Connection.getConnectionWithConfig(config);
 		}
-		return this.getConnection(driver,url,user,password);
+		return Connection.getConnection(driver,url,user,password);
 	}
 	
-	private java.sql.Connection getConnectionWithConfig(Config_env config) {
+	private static java.sql.Connection getConnectionWithConfig(Config_env config) {
 		String url = "";
 		String password = "";
 		String user = "";
@@ -93,12 +97,12 @@ public class Connection {
 			user = Core.decrypt(config.getUsername(), EncrypDecrypt.SECRET_KEY_ENCRYPT_DB);	
 			driver = DatabaseConfigHelper.getDatabaseDriversExamples(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
 		}
-		return this.getConnection(driver,url,user,password);
+		return Connection.getConnection(driver,url,user,password);
 	}
 
 
 	
-	public java.sql.Connection getConnection(String driver,String url, String user, String password) {
+	public static java.sql.Connection getConnection(String driver,String url, String user, String password) {
 		java.sql.Connection conn = null;
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", user);
@@ -129,8 +133,8 @@ public class Connection {
 	    return null;
 	}
 	
-	public boolean validate(String url,String driver,String username,String password) {
-		java.sql.Connection conn = this.getConnection(driver, url, username, password);
+	public static boolean validate(String url,String driver,String username,String password) {
+		java.sql.Connection conn = Connection.getConnection(driver, url, username, password);
 		if(conn!=null) {
 			try {
 				conn.close();
@@ -144,7 +148,7 @@ public class Connection {
 		return false;
 	}
 	
-	public java.sql.Connection getConnection(Config_env config_env){
-		return this.getConnectionWithConfig(config_env);
+	public static java.sql.Connection getConnection(Config_env config_env){
+		return Connection.getConnectionWithConfig(config_env);
 	}
 }
