@@ -98,7 +98,7 @@ public class Sql_toolsController extends Controller {
 	
 /*----#start-code(custom_actions)----*/
 	private void addRowToTable(IGRPTable table_1, List<Tuple> list, String sql, Config_env config_env) throws SQLException {
-		List<Column> columns = new DatabaseMetadaHelper().getCollumns(config_env, sql.trim());
+		List<Column> columns = DatabaseMetadaHelper.getCollumns(config_env, sql.trim());
 		columns.stream().forEach(c -> {
 			Field field = new TextField(null, c.getName());
 			field.setLabel(c.getName());
@@ -125,9 +125,9 @@ public class Sql_toolsController extends Controller {
 		return sql.toLowerCase().startsWith("select");
 	}
 	
-	private String getRemoveSpaceSql(String sql) {
-		if(Core.isNotNull(sql)) {
-			sql = sql.replaceAll("(\r\n|\n|\t)", " ");
+	private String getRemoveSpaceSql(String sql_) {
+		if(Core.isNotNull(sql_)) {
+			String sql = sql_.replaceAll("(\r\n|\n|\t)", " ");
 			return sql.trim();
 		}
 		return "";

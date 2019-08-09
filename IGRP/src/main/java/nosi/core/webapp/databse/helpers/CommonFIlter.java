@@ -120,8 +120,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface andWhere(String name, String operator, String[] values) {
 		if(values!=null) {
-			values = this.normalizeStringVlaues(values);
-			this.applyToInCondition(name, operator, values);
+			String[] values_ = this.normalizeStringVlaues(values);
+			this.applyToInCondition(name, operator, values_);
 		}
 		return this;
 	}
@@ -210,8 +210,8 @@ public class CommonFIlter extends QueryHelper implements QueryInterface{
 	@Override
 	public QueryInterface orWhere(String name, String operator, String[] values) {
 		if(values!=null) {
-			values = this.normalizeStringVlaues(values);
-			this.applyToInCondition(name, operator, values);
+			String[] values_ = this.normalizeStringVlaues(values);
+			this.applyToInCondition(name, operator, values_);
 		}
 		return this;
 	}

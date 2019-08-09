@@ -64,13 +64,13 @@ public class DataSourceHelpers {
 	 * The columns extracted is: id, name, email
 	 * 
 	 */
-	public Set<Properties> getColumns(Config_env config,int template_id,String query) {
+	public Set<Properties> getColumns(Config_env config,Integer template_id,String query_) {
 		Set<Properties> columns = new LinkedHashSet<>();
-		Connection con = new nosi.core.webapp.databse.helpers.Connection().getConnection(config);
+		Connection con = nosi.core.webapp.databse.helpers.Connection.getConnection(config);
 		try {
 			Statement s = con.createStatement();
-			Set<String> keys = getParamsQuery(config,template_id,query);
-			query =query.replaceAll(":\\w+", "null");
+			Set<String> keys = getParamsQuery(config,template_id,query_);
+			String query =query_.replaceAll(":\\w+", "null");
 			ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 			for(int i=1;i<=rsd.getColumnCount();i++){
 				Properties p = new Properties();
@@ -169,10 +169,11 @@ public class DataSourceHelpers {
 	 *  <table>
 	 */
 	@SuppressWarnings("unchecked")
-	public String getSqlQueryToXml(String query,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
+	public String getSqlQueryToXml(String query_,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
 		this.xmlRows = new XMLWritter();
 		List<Tuple> list = null;
 		String xml = null;
+		String query = query_;
 		//Get all parameters of datasource
 		Map<String,String> parameters = this.getParams(rt.getId(), rs.getId());
 		//Reomve filtro caso nao existir
@@ -202,6 +203,7 @@ public class DataSourceHelpers {
 			}finally {
 				em.close();	
 			}
+			session.close();
 			Set<Properties> columns = this.getColumns(rs.getConfig_env(),rt.getId(), query);
 			xml = this.getSqlQueryToXml(columns, list);
 			return xml;
@@ -210,7 +212,8 @@ public class DataSourceHelpers {
 	}
 	
 	
-	private String getResolveQuery(String query,Map<String,String> parameters,Map<String, String> paramsUrl) {
+	private String getResolveQuery(String query_,Map<String,String> parameters,Map<String, String> paramsUrl) {
+		String query = query_;
 		if(paramsUrl!=null &&paramsUrl.size() > 0){
 			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";	
 			for(Map.Entry<String, String> parm:paramsUrl.entrySet()){
@@ -236,17 +239,17 @@ public class DataSourceHelpers {
 		type = Core.isNull(type)?parameters.get(column_name):type;
 		
 		if(type.equals("java.lang.Integer")) {
-			query.setParameter(param.getName(),value!=null?Core.toInt(value.toString()):0);
+			query.setParameter(param.getName(),value!=null?Core.toInt(value.toString()):null);
 		}else if(type.equals("java.lang.Double")){
-			query.setParameter(param.getName(),value!=null? Core.toDouble(value.toString()):0);
+			query.setParameter(param.getName(),value!=null? Core.toDouble(value.toString()):null);
 		}else if(type.equals("java.lang.Float")){
-			query.setParameter(param.getName(),value!=null?Core.toFloat(value.toString()):0);
+			query.setParameter(param.getName(),value!=null?Core.toFloat(value.toString()):null);
 		}else if(type.equals("java.lang.Character")){
 			query.setParameter(param.getName(), value!=null?(Character)value:"");
 		}else if(type.equals("java.lang.Long")){
-			query.setParameter(param.getName(), value!=null?Core.toLong(value.toString()):0);
+			query.setParameter(param.getName(), value!=null?Core.toLong(value.toString()):null);
 		}else if(type.equals("java.lang.Short")){
-			query.setParameter(param.getName(), value!=null?Core.toShort(value.toString()):0);
+			query.setParameter(param.getName(), value!=null?Core.toShort(value.toString()):null);
 		}else if(type.equals("java.sql.Date")){
 			if((value instanceof String) && Core.isNotNull(value))
 				query.setParameter(param.getName(),Core.ToDate(value.toString(),"yyyy-mm-dd"));
@@ -288,15 +291,12 @@ public class DataSourceHelpers {
 		if(data!=null) {			
 			Map<Properties,String> mapping = new HashMap<>();
 			Record r = new Record();
-			if(data!=null) { 
-				
-				r.RowList = new ArrayList<>();
-				data.stream().forEach(l->{
-					Record rec = new Record();
-					rec.Row = l;
-					r.RowList.add(rec);
-				});
-			}
+			r.RowList = new ArrayList<>();
+			data.stream().forEach(l->{
+				Record rec = new Record();
+				rec.Row = l;
+				r.RowList.add(rec);
+			});
 			r.RowList.forEach(t->{
 				this.xmlRows.startElement("row");
 				Iterator<Properties> listColumns = columns.iterator();

@@ -58,7 +58,7 @@ public class WebReportController extends Controller {
 		/*----#start-code(index)----*/
 
 		if(Core.isNotNull(model.getEnv_fk())){
-			int env_fk = Integer.parseInt(model.getEnv_fk());
+			Integer env_fk = Core.toInt(model.getEnv_fk());
 			view.datasorce_app.setValue(this.dsh.getListSources(env_fk));
 			RepTemplate  rep = new RepTemplate();
 			List<WebReport.Gen_table> data = new ArrayList<>(); 
@@ -80,7 +80,7 @@ public class WebReportController extends Controller {
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());
-				t1.setId(r.getId());
+				t1.setId(r.getId().intValue());
 				t1.setTitle(r.getName());
 				data.add(t1);
 			}
@@ -157,7 +157,7 @@ public class WebReportController extends Controller {
 				rts.deleteAll(rt.getId());//Delete old data source of report
 				if(data_sources!=null && data_sources.length>0){
 					for(String dts:data_sources){
-						rts = new RepTemplateSource(rt, new RepSource().findOne(Integer.parseInt(dts)));
+						rts = new RepTemplateSource(rt, new RepSource().findOne(Core.toInt(dts)));
 						rts.insert();
 					}
 				}
@@ -212,7 +212,7 @@ public class WebReportController extends Controller {
 		String xml = "";
 		if(Core.isNotNull(id)){
 			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne(Integer.parseInt(id));
+			rt = rt.findOne(Core.toInt(id));
 			String []name_array = Core.getParamArray("name_array");
 			String []value_array = Core.getParamArray("value_array");
 			//Iterate data source per template
@@ -247,7 +247,7 @@ public class WebReportController extends Controller {
           String title = Core.getParam("p_title_report");
           if(Core.isNotNullMultiple(id,code,title)){
               RepTemplate rt = new RepTemplate();
-              rt = rt.findOne(Integer.parseInt(id));
+              rt = rt.findOne(Core.toInt(id));
               rt.setCode(code);
               rt.setName(title);
               rt.setDt_updated(new Date(System.currentTimeMillis()));
@@ -265,7 +265,7 @@ public class WebReportController extends Controller {
 		String xsl = "";
 		if(Core.isNotNull(id)){
 			CLob c = new CLob();
-			c = c.findOne(Integer.parseInt(id));
+			c = c.findOne(Core.toInt(id));
 			xsl = new String(c.getC_lob_content());
 			this.format = Response.FORMAT_XSL;
 			return this.renderView(xsl);
@@ -307,14 +307,16 @@ public class WebReportController extends Controller {
 				return this.getDataForPage(rep);
 			case "task":
 				return this.getDataForTask(rep);
+			default:
+				return "";
 		}
-		return "";
 	}
 
 
 	private String getDataForTask(RepTemplateSource rep) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
+		xml.writeAttribute("uuid", rep.getRepSource().getSource_identify());
 		String processDefinitionKey = rep.getRepSource().getProcessid();
 		if(processDefinitionKey!=null) {
 			//Process_Test:01_01 => Process_Test
@@ -350,6 +352,7 @@ public class WebReportController extends Controller {
 
 
 	private String getDataForPage(RepTemplateSource rep) {
+		System.out.println("uuid="+rep.getRepSource().getSource_identify());
 		Action ac = new Action().findOne(rep.getRepSource().getType_fk());
 		if(ac!=null){
 			String actionName = "";
@@ -362,13 +365,11 @@ public class WebReportController extends Controller {
 			Core.removeAttribute("current_app_conn");
 			if(ob!=null){
 				Response resp = (Response) ob;
-				if(resp!=null){
-					String content = resp.getContent();
-					int start = content.indexOf("<content");
-					int end = content.indexOf("</rows>");
-					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
-					return content;
-				}
+				String content = resp.getContent();
+				int start = content.indexOf("<content");
+				int end = content.indexOf("</rows>");
+				content = (start!=-1 && end!=-1)?content.substring(start,end):"";
+				return content;
 			}
 		}
 		return "";
@@ -389,7 +390,7 @@ public class WebReportController extends Controller {
 		String id = Core.getParam("id");
 		String json = "";
 		if(id!=null && !id.equals("")){
-			RepTemplate rt = new RepTemplate().findOne(Integer.parseInt(id));
+			RepTemplate rt = new RepTemplate().findOne(Core.toInt(id));
 			CLob clob = new CLob().findOne(rt.getXml_content().getId());
 			String data_sources = "";
 			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(rt.getId())){
@@ -407,7 +408,7 @@ public class WebReportController extends Controller {
 	 */
 	private String processPreview(String rowsXml, RepTemplateSource rts, RepSource rs) {
 		if(rs.getType().equalsIgnoreCase("object") || rs.getType().equalsIgnoreCase("query")){
-			return this.getContentXml(rts.getRepSource().getName(),rowsXml);
+			return this.getContentXml(rs.getSource_identify(),rts.getRepSource().getName(),rowsXml);
 		}else if(rs.getType().equalsIgnoreCase("page")){
 			return this.getDataForPage(rts);
 		}else if(rs.getType().equalsIgnoreCase("task")){
@@ -422,7 +423,7 @@ public class WebReportController extends Controller {
 	 */
 	private String genXml(String contentXml,RepTemplate rt,int type){
 		String contra_prova = GUIDGenerator.getGUIDUpperCase();
-		int user_id = Core.getCurrentUser().getId();
+		Integer user_id = Core.getCurrentUser().getId();
 		User user = new User();
 		user = user.findOne(user_id);
 		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
@@ -471,9 +472,10 @@ public class WebReportController extends Controller {
 	
 	
 	//Get content xml
-	private String getContentXml(String title,String content) {
+	private String getContentXml(String uuid,String title,String content) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
+		xml.writeAttribute("uuid", uuid);
 			xml.setElement("title", title);
 			xml.addXml(content);
 			xml.addXml(ds.getDefaultForm(ds.getDefaultFields()));

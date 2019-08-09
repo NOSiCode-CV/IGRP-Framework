@@ -57,7 +57,7 @@ public class CRUDGeneratorController extends Controller {
 										.andWhere("id","=",Core.toInt(model.getData_source(),-1))
 										.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
 										.one();		
-				Map<String,String> schemasMap = this.dmh.getSchemas(config );
+				Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
 			
 				if(schemasMap.size() > 1){
 					if(schemasMap.size() == 2) {
@@ -66,7 +66,7 @@ public class CRUDGeneratorController extends Controller {
 					view.schema.setVisible(true);
 					view.schema.setValue(schemasMap);
 					if(Core.isNotNull(model.getSchema())) {
-						List<String> list = this.dmh.getTables(config,model.getSchema());
+						List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 						for(String table:list) {
 							CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
 							t.setCheck_table(i);
@@ -77,7 +77,7 @@ public class CRUDGeneratorController extends Controller {
 						}
 					}
 				}else {
-					List<String> list = this.dmh.getTables(config,null);
+					List<String> list = DatabaseMetadaHelper.getTables(config,null);
 					for(String table:list) {
 						CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
 						t.setCheck_table(i);
@@ -117,7 +117,7 @@ public class CRUDGeneratorController extends Controller {
 						.andWhere("id","=",Core.toInt(model.getData_source(),-1))
 						.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
 						.one();	
-				List<String> list = this.dmh.getTables(config,model.getSchema());
+				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 				String[] tables = Core.getParamArray("p_check_table");
 				boolean r = false;
 				if(tables!=null) {
@@ -153,7 +153,6 @@ public class CRUDGeneratorController extends Controller {
 	
 /*----#start-code(custom_actions)----*/
 	private Compiler compiler = new Compiler();
-	private DatabaseMetadaHelper dmh = new DatabaseMetadaHelper();
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
 		String pageNameForm = Page.resolvePageName(tableName)+"Form";
 		String pageNameList = Page.resolvePageName(tableName)+"List";
@@ -197,7 +196,7 @@ public class CRUDGeneratorController extends Controller {
 		boolean r = false;
 		List<DatabaseMetadaHelper.Column> columns = null;
 		try {
-			columns = this.dmh.getCollumns(config, schema, tableName);
+			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 		} catch (Exception e) {
 			// TODO: handle exception
 			Core.setMessageError(tableName+" error: "+e.getMessage());
@@ -244,8 +243,9 @@ public class CRUDGeneratorController extends Controller {
 		return !this.compiler.hasError();
 	}
 
-	private boolean saveFiles(Action page,String fileName,String content) throws IOException {
+	private boolean saveFiles(Action page,String fileName,String content_) throws IOException {
 		boolean r = false;
+		String content = content_;
 		if(content!=null) {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
 			String pathXsl = this.getConfig().getCurrentBaseServerPahtXsl(page);
@@ -261,13 +261,13 @@ public class CRUDGeneratorController extends Controller {
 		if(mvc!=null) {
 			String[] partsJavaCode = mvc.toString().split(" END ");
 			if(partsJavaCode.length > 2){
-				String model = partsJavaCode[0];
-				String view = partsJavaCode[1];
-				String controller = partsJavaCode[2];
+				String model = partsJavaCode[0]+"*/";
+				String view = "/*"+partsJavaCode[1]+"*/";
+				String controller = "/*"+partsJavaCode[2];
 				String path_class = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-				Boolean workspace= Core.isNotNull(this.getConfig().getWorkspace());
+				boolean workspace= Core.isNotNull(this.getConfig().getWorkspace());
 				String path_class_work_space = null;
 				if(workspace)
 					path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());

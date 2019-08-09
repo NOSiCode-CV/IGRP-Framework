@@ -123,7 +123,7 @@ public class DataSourceController extends Controller {
 				view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
 			}
 			view.btn_fechar.setVisible(false);
-			if(Core.isNotNull(model.getProcesso())) {
+			if(Core.isNotNull(model.getProcesso()) && app!=null) {
 				view.etapa.setValue(processRest.mapToComboBoxByProcessKey(model.getProcesso(),app.getDad()));
 			}
 		}

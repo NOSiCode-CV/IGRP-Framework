@@ -19,9 +19,9 @@ public class XMLWritter {
 	    private static String lineSeparator="";//System.getProperty("line.separator", "\n");
 	    private String identityString="";
 	    
-		public XMLWritter(String rootElement, String xslPath, String contentType){
+		public XMLWritter(String rootElement, String xslPath_, String contentType){
 			this();
-			xslPath = this.resolvePath(xslPath);
+			String xslPath = this.resolvePath(xslPath_);
 			this.xmlConstruct.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			this.xmlConstruct.append(lineSeparator);
 			this.xmlConstruct.append("<?xml-stylesheet href=\""+xslPath+"\" type=\"text/xsl\"?>");

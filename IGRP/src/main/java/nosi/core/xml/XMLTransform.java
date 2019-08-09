@@ -227,8 +227,8 @@ public class XMLTransform {
 		}
 	}
 
-	private static String getTypePrimitive(String javaType) {
-		javaType = javaType.replaceAll("class ", "");
+	private static String getTypePrimitive(String javaType_) {
+		String javaType = javaType_.replaceAll("class ", "");
 		switch (javaType) {
 			case "java.lang.Integer":
 				javaType = "int";
@@ -305,7 +305,8 @@ public class XMLTransform {
 				return new ListField(null, name);
 			case "hidden":
 				return new HiddenField(null,name);
+			default :
+					return new TextField(null, name);
 		}
-		return new TextField(null, name);
 	}
 }

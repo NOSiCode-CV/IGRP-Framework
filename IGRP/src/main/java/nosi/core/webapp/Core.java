@@ -340,7 +340,7 @@ public final class Core { // Not inherit
 	public static nosi.core.webapp.databse.helpers.ResultSet executeQuery(String connectionName, String sql) {
 		QuerySelect q = new QuerySelect();
 		q.setSql(sql);
-		return q.executeQuery(new Connection().getConnection(connectionName));
+		return q.executeQuery(Connection.getConnection(connectionName));
 	}
 
 	/**
@@ -844,7 +844,7 @@ public final class Core { // Not inherit
 		CLob cLob = null;
 
 		String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
-		try(java.sql.Connection conn = new Connection().getConnection(igrpCoreConnection)) {
+		try(java.sql.Connection conn = Connection.getConnection(igrpCoreConnection)) {
 			String sql = "select * from tbl_clob where id = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, fileId);

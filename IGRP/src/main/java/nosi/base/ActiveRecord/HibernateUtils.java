@@ -53,17 +53,25 @@ public class HibernateUtils {
 	}
 
 	public static SessionFactory getSessionFactory(String connectionName, String dad) {
-		if (connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection())) {
+		if (connectionName!=null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getBaseConnection())) {
 			return SESSION_FACTORY_IGRP;
 		}
-		if (connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
+		else if (connectionName!=null && connectionName.equalsIgnoreCase(ConfigApp.getInstance().getH2IGRPBaseConnection())) {
 			return SESSION_FACTORY_IGRP_H2;
 		}
 		String fileName = connectionName + "." + dad;
 		if (!SESSION_FACTORY.containsKey(connectionName)) {
 			SESSION_FACTORY.put(connectionName, buildSessionFactory(buildConfig(connectionName, fileName, dad).build()));
 		}
-		return SESSION_FACTORY.get(connectionName);
+		SessionFactory sessionFactory = SESSION_FACTORY.get(connectionName);
+		if(sessionFactory!=null && sessionFactory.isOpen())
+			return sessionFactory;
+		else {
+			SESSION_FACTORY.remove(connectionName);
+			sessionFactory=buildSessionFactory(buildConfig(connectionName, fileName, dad).build());
+			SESSION_FACTORY.put(connectionName,sessionFactory);
+			return sessionFactory;
+		}
 	}
 
 	private static SessionFactory buildSessionFactory(ServiceRegistry serviceRegistry) {

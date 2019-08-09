@@ -21,8 +21,9 @@ public class ResolveColumnNameQuery {
 	}
 
 
-	public String resolveColumnName(String alias,String columnName) {
-		String before=""; 	
+	public String resolveColumnName(String alias,String columnName_) {
+		String before=""; 
+		String columnName = columnName_;
 		if(columnName.contains("(")) {
 			before=columnName.substring(0,columnName.indexOf("(")+1);
 			columnName=columnName.substring(columnName.indexOf("(")+1,columnName.indexOf(")"));
@@ -41,7 +42,8 @@ public class ResolveColumnNameQuery {
 		return name;
 	}
 
-	private boolean isObjectRelation(Class<?> className,String name) {
+	private boolean isObjectRelation(Class<?> className,String name_) {
+		String name = name_;
 		int end = name.indexOf(".");
 		name = end!=-1?name.substring(0,end):name;//get first name. action.application return the action
 		for(Field f:className.getDeclaredFields()) {
