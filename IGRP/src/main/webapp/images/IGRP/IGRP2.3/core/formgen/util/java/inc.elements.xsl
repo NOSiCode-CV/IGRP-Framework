@@ -17,6 +17,8 @@
 		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		
+		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
+		
 		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='value1']/block/field,'::')"/>
 		
 		<xsl:variable name="rowValue" select="substring-after(field,'::')"/>
@@ -33,6 +35,12 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="Checkrel">
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="$rowvaluechild"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
 			
 		<xsl:variable name="rowset">
 			<xsl:choose>
@@ -45,10 +53,12 @@
 				
 				<xsl:when test="$rowtypeneto != '' ">
 					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
-					<xsl:text>(</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>);</xsl:text>
+					<xsl:text>(obj.get</xsl:text><xsl:value-of select="$Checkrel"></xsl:value-of>
+					<xsl:text>()!=null?</xsl:text><xsl:value-of select="$valorA"></xsl:value-of>
+					<xsl:text>:null);</xsl:text>
 				</xsl:when>
 				
-				<xsl:when test="$rowType = 'String' and $rowtypechild = 'Integer' ">
+				<xsl:when test="$rowType = 'String' and $rowtypechild != 'Date' and $rowtypechild != 'String' ">
 					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 					<xsl:text>(""+</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>);</xsl:text>
 				</xsl:when>

@@ -111,19 +111,7 @@
 			    }
 			
 		},
-		
-		inserir_dao : {
-			
-			init : function(block){
-				
-
-				
-			},
-			
-
-			
-		},
-
+	
 	}
 	
 	//Handle Dao Blocks
