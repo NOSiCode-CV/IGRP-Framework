@@ -573,26 +573,30 @@
 					
 					$.each($(xml).find('messages message'),function(it,row){
 						
-						var type = $(row).attr('type'),
+						var type = $(row).attr('type');
 						
-							text = $(row).text();
-						
-						$.IGRP.notify({
-							message : text,
-							type	: type
-						});
-						
-						if(data)
+						if (type != 'debug' && type != 'confirm') {
 							
-							data.item.trigger('igrp-notify', [ {
+							var text = $(row).text();
+							
+							type = type == 'error' ? 'danger' : type;
+							
+							$.IGRP.notify({
+								message : text,
+								type	: type
+							});
+							
+							if(data){
 								
-								type : type,
-								
-								text : text
-								
-							} ])
-
-						
+								data.item.trigger('igrp-notify', [ {
+									
+									type : type,
+									
+									text : text
+									
+								} ]);
+							}
+						}
 					});
 				}
 
