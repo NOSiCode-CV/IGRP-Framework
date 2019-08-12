@@ -313,7 +313,7 @@ public abstract class Model { // IGRP super model
 								try {
 									BeanUtils.setProperty(obj2, m.getName(),
 											new IGRPSeparatorList.Pair(
-													fileId != null && fileId.size() > row ? fileId.get(row) : null, key,
+													fileId != null && fileId.size() > row ? fileId.get(row) : key, key,
 													value, filesByLine.get(row)));
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -326,7 +326,7 @@ public abstract class Model { // IGRP super model
 								if(fileId!=null && fileId.size() > row && Core.isNotNull(fileId.get(row))) {
 									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(fileId.get(row), key,value));
 								}else {
-									BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key, value));
+									BeanUtils.setProperty(obj2, m.getName(), new IGRPSeparatorList.Pair(key,key, value));
 								}
 							} catch (Exception e) {
 								e.printStackTrace();

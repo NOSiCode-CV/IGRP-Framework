@@ -952,6 +952,9 @@ public final class Core { // Not inherit
 	}
 	
 	public static String getLinkTempFile(String p_uuid) {
+		if(p_uuid!=null && p_uuid.startsWith("webapps")) {
+			return p_uuid;
+		}
 		return Route.getResolveUrl("igrp", "File", "get-temp-file&p_uuid=" + p_uuid);
 	}
 	
