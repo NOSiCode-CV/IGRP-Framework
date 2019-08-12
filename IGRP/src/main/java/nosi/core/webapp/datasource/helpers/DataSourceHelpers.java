@@ -22,6 +22,7 @@ import javax.persistence.Parameter;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import nosi.base.ActiveRecord.HibernateUtils;
@@ -67,27 +68,30 @@ public class DataSourceHelpers {
 	public Set<Properties> getColumns(Config_env config,Integer template_id,String query_) {
 		Set<Properties> columns = new LinkedHashSet<>();
 		Connection con = nosi.core.webapp.databse.helpers.Connection.getConnection(config);
-		try {
-			Statement s = con.createStatement();
-			Set<String> keys = getParamsQuery(config,template_id,query_);
-			String query =query_.replaceAll(":\\w+", "null");
-			ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
-			for(int i=1;i<=rsd.getColumnCount();i++){
-				Properties p = new Properties();
-				//Set propertie true if column is a parameter
-				p.put("key", keys.contains(rsd.getColumnName(i).toLowerCase())?"true":"false");
-				p.put("name","p_"+rsd.getColumnName(i).toLowerCase());
-				p.put("tag",rsd.getColumnName(i).toLowerCase());
-				p.put("type",SqlJavaType.sqlToJava(rsd.getColumnType(i)).toString().replaceAll("class ", ""));
-				columns.add(p);
-			}
-			s.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
+		if(con!=null) {
 			try {
-				if(con!=null){con.close();}
-			} catch (SQLException e) {
+				
+				Statement s = con.createStatement();
+				Set<String> keys = getParamsQuery(config,template_id,query_);
+				String query =query_.replaceAll(":\\w+", "null");
+				ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
+				for(int i=1;i<=rsd.getColumnCount();i++){
+					Properties p = new Properties();
+					//Set propertie true if column is a parameter
+					p.put("key", keys.contains(rsd.getColumnName(i).toLowerCase())?"true":"false");
+					p.put("name","p_"+rsd.getColumnName(i).toLowerCase());
+					p.put("tag",rsd.getColumnName(i).toLowerCase());
+					p.put("type",SqlJavaType.sqlToJava(rsd.getColumnType(i)).toString().replaceAll("class ", ""));
+					columns.add(p);
+				}
+				s.close();
+				} catch (SQLException e) {
+				e.printStackTrace();
+				}finally{
+				try {
+					if(con!=null){con.close();}
+				} catch (SQLException e) {
+				}
 			}
 		}
 		return columns;
@@ -101,18 +105,19 @@ public class DataSourceHelpers {
 	 */
 	public Set<String> getParamsQuery(Config_env config,Integer template_id,String query){
 		Set<String> params = new HashSet<String>();
-		EntityManager em = HibernateUtils.getSessionFactory(config).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
+		
+		Session session = HibernateUtils.getSessionFactory(config).getCurrentSession();
+		
 		try{
-			Query q = em.createNativeQuery(query);
+			session.beginTransaction();
+			Query q = session.createNativeQuery(query);
 			for(Parameter<?> param:q.getParameters()){
 				params.add(param.getName().contains("p_")?param.getName().substring("p_".length()):param.getName());
 			}
-			t.commit();
+			session.getTransaction().commit();
 		}catch(Exception e){
 		}finally{
-			em.close();
+			session.close();
 		}
 		if(template_id!=0){
 			Map<String,String> p = this.getParams(template_id,null);
@@ -184,26 +189,25 @@ public class DataSourceHelpers {
 		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
 		query = this.getResolveQuery(query,parameters,paramsUrl);		
 		
-		SessionFactory session =  HibernateUtils.getSessionFactory(rs.getConfig_env());
-		if(session!=null) {
-			EntityManager em = session.createEntityManager();
-			EntityTransaction t =  em.getTransaction();
-			t.begin();
+		
+	
+		Session session =  HibernateUtils.getSessionFactory(rs.getConfig_env()).getCurrentSession();
+		if(session!=null) {			
 			try{
-				Query q = em.createNativeQuery(query,Tuple.class);
+				session.beginTransaction();
+				Query q = session.createNativeQuery(query,Tuple.class);
 				if(value_array!=null && value_array.length>0){
 					for(Parameter<? extends Object> param:q.getParameters()){
 						this.setMapParameterQuery(q,param,parameters,paramsUrl);
 					}
 				}
-				list = q.getResultList();
-				t.commit();
+				list = q.getResultList();				
 			}catch(Exception e){
 				e.printStackTrace();
 			}finally {
-				em.close();	
+				session.close();	
 			}
-			session.close();
+			
 			Set<Properties> columns = this.getColumns(rs.getConfig_env(),rt.getId(), query);
 			xml = this.getSqlQueryToXml(columns, list);
 			return xml;

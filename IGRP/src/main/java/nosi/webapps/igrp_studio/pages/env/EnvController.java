@@ -752,8 +752,13 @@ public class EnvController extends Controller {
 			xml += "<dao>";
 			
 			if(dad != "") {
+				String x;
+				String workSpace = conf.getRawBasePathClassWorkspace();
+				if(Core.isNotNull(workSpace))
+					x = conf.getBasePahtClassWorkspace(dad)+File.separator+"dao";
+				else
+					x= conf.getPathServerClass(dad)+File.separator+"dao";
 				
-				String x = conf.getBasePahtClassWorkspace(dad)+File.separator+"dao";
 				
 				Map<String,String> dao = listFilesDirectory(x);
 				
