@@ -44,13 +44,15 @@ public class LookupField extends TextField {
 	public Map<String,Object> getLookupParams(){
 		return this.lookupParams;
 	}
-	
+
+	@Override
 	public int vertionLookup() {
 		return this.versionLookup;
 	}
-	
+
+	@Override
 	public void setLookup(String app,String page,String action) {
-		int isPublic = Core.getParamInt("isPublic");
+		int isPublic = Core.getParamInt("isPublic").intValue();
 		if(isPublic==1)
 			this.lookup = Route.getResolveUrl(app, page, action, Core.getCurrentDad(),1).replace("?", "").replace("webapps", "");
 		else

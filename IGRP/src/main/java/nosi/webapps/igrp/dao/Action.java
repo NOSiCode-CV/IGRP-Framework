@@ -310,7 +310,8 @@ public class Action extends IGRPBaseActiveRecord<Action> implements Serializable
 		this.tipo = tipo;
 	}
 	
-	public boolean isPublicPage(String appDad, String pageId) {
+	public boolean isPublicPage(String appDad, String pageId_) {
+		String pageId = pageId_;
 		if(pageId.contains("-")) {
 			pageId = Page.resolvePageName(pageId);
 		}

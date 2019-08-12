@@ -127,7 +127,8 @@ public class Page{
 		return StringHelper.validateClassName(page);
 	}
 	
-	public static String getPageFolder(String page){
+	public static String getPageFolder(String page_){
+		String page = page_;
 		page = page.toLowerCase();
 		page = page.replaceAll("\\s+", "");
 		page = page.replaceAll("-", "");

@@ -14,17 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.persistence.Column;
-
-import nosi.core.i18n.I18n;
-import nosi.core.i18n.I18nFactory;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.ResultSet.Record;

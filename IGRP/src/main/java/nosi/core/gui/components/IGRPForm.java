@@ -84,6 +84,7 @@ public class IGRPForm extends IGRPComponent{
 		this.table = table;
 	}
 
+	@Override
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, properties);

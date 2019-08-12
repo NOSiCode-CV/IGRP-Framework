@@ -14,13 +14,13 @@ public class TextField extends AbstractField {
 		this.setName(name);
 		this.setTagName(name);
 		this.propertie.put("name","p_"+name);
-		this.propertie.put("right", false);
+		this.propertie.put("right", new Boolean(false));
 		this.propertie.put("placeholder", "");
-		this.propertie.put("disabled", false);
-		this.propertie.put("readonly", false);
-		this.propertie.put("change", false);
-		this.propertie.put("required", false);
-		this.propertie.put("maxlength", 30);
+		this.propertie.put("disabled", new Boolean(false));
+		this.propertie.put("readonly", new Boolean(false));
+		this.propertie.put("change", new Boolean(false));
+		this.propertie.put("required", new Boolean(false));
+		this.propertie.put("maxlength", new Integer(30));
 		this.setValue(model);
 	}
 

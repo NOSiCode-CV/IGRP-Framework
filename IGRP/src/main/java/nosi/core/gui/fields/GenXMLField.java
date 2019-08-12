@@ -40,7 +40,7 @@ public class GenXMLField {
 							xml.startElement(field.getTagName());
 						}
 						writteAttributes(xml,field.propertie());
-						if(field instanceof FileField) {
+						if(field instanceof FileField && Core.isNotNull(field.getValue())) {
 							xml.writeAttribute("temp-value", ""+field.getValue());
 						}
 						if(!(field instanceof HiddenField)){//Hidden field not contain tag label
@@ -63,7 +63,6 @@ public class GenXMLField {
 								try {
 									link += URLEncoder.encode(Core.toJson(((LookupField) field).getLookupParams()),"UTF-8");
 								} catch (UnsupportedEncodingException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 								for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){

@@ -885,26 +885,35 @@ public final class Core { // Not inherit
 	
 
 	public static Part getFile(String name) throws IOException, ServletException {
-		Part part = Igrp.getInstance().getRequest().getPart(name);
-		if (part != null) {
-			return part;
+		if(Core.isUploadedFiles()) {
+			Part part = Igrp.getInstance().getRequest().getPart(name);
+			if (part != null) {
+				return part;
+			}
 		}
 		return null;
 	}
 
+	public static boolean isUploadedFiles() {
+		String header1 = Igrp.getInstance().getRequest().getHeader("content-type");
+		String header2 = Igrp.getInstance().getRequest().getHeader("content-length");
+		return Core.isNotNullMultiple(header1,header2);
+	}
 	/**
 	 * @throws ServletException
 	 * @throws IOException
 	 **/
 	public static List<Part> getFiles() throws IOException, ServletException {
-		try {
-			Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
-			if (parts != null) {
-				return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
-						.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
+		if(Core.isUploadedFiles()) {
+			try {
+				Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
+				if (parts != null) {
+					return parts.stream().filter(file -> Core.isNotNull(file.getSubmittedFileName()))
+							.filter(file -> Core.isNotNull(file.getName())).collect(Collectors.toList());
+				}
+			} catch (javax.servlet.ServletException e) {
+				e.printStackTrace();
 			}
-		} catch (javax.servlet.ServletException e) {
-
 		}
 		return null;
 	}

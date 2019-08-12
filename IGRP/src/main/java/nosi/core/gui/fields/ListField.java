@@ -26,12 +26,12 @@ public class ListField extends AbstractField {
 		this.setName(name);
 		this.propertie.put("type", "select");
 		this.propertie.put("name", "p_" + name);
-		this.propertie.put("multiple", false);
-		this.propertie.put("right", false);
-		this.propertie.put("disabled", false);
-		this.propertie.put("maxlength", 30);
-		this.propertie.put("change", false);
-		this.propertie.put("required", false);
+		this.propertie.put("multiple", new Boolean(false));
+		this.propertie.put("right", new Boolean(false));
+		this.propertie.put("disabled", new Boolean(false));
+		this.propertie.put("maxlength", new Integer(30));
+		this.propertie.put("change", new Boolean(false));
+		this.propertie.put("required", new Boolean(false));
 		this.setTagName(name);
 		this.configValue(model);
 		try {
@@ -78,13 +78,17 @@ public class ListField extends AbstractField {
 		this.propertie.put("value", defaultValue);
 	}
 
+	@Override
 	public void loadDomain(String domains) {
 		this.loadDomain(domains, null);
 	}
+	
+	@Override
 	public void loadDomainByApp(String domains, String codeApp) {
 		this.loadDomain(domains,codeApp, null);
 	}
 
+	@Override
 	public void loadDomain(String domains, String prompt) {
 		Map<Object, String> map = new LinkedHashMap<>();
 		if (prompt != null)
@@ -93,7 +97,8 @@ public class ListField extends AbstractField {
 				.collect(Collectors.toMap(x -> x.getValor(), x -> gt(x.getDescription()),(oldValue, newValue) -> oldValue,LinkedHashMap::new)));	
 		this.setValue(map);
 	}
-	
+
+	@Override
 	public void loadDomain(String domains,String codeApp, String prompt) {
 		Map<Object, String> map = new LinkedHashMap<>();
 		if (prompt != null)

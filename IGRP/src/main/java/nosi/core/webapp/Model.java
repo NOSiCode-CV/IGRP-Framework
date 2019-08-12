@@ -71,6 +71,7 @@ public abstract class Model { // IGRP super model
 							if (field.getAnnotation(RParam.class) != null)
 								IgrpHelper.setField(this, field, tuple.get(field.getName()));
 						} catch (java.lang.IllegalArgumentException e) {
+							e.printStackTrace();
 						}
 					}
 				}
@@ -113,7 +114,6 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	@SuppressWarnings("static-method")
 	public <T> List<T> loadTable(BaseQueryInterface query, Class<T> className) {
 		if (query != null) {
 			List<Tuple> tuples = query.getResultList();
@@ -153,7 +153,6 @@ public abstract class Model { // IGRP super model
 		return null;
 	}
 
-	@SuppressWarnings("static-method")
 	public <T> List<T> loadFormList(BaseQueryInterface query, Class<T> className) {
 		if (query != null) {
 			List<Tuple> queryResult = query.getResultList();
@@ -171,7 +170,7 @@ public abstract class Model { // IGRP super model
 											new Pair(value.toString(), value.toString()));
 							} catch (java.lang.IllegalArgumentException | IllegalAccessException
 									| InvocationTargetException e) {
-
+								e.printStackTrace();
 							}
 						}
 						list.add(t);
@@ -211,18 +210,15 @@ public abstract class Model { // IGRP super model
 
 				Object o = Core.getParam(name); // default case use the name of field
 				String aux = null;
-				if (o != null)
+				if (o != null) {
 					if (o.getClass().isArray()) {
 						String[] s = (String[]) o;
 						aux = s[s.length - 1];
 					} else
 						aux = o.toString();
-				try {
-					aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("")
-							? m.getAnnotation(RParam.class).defaultValue()
-							: null) : aux);
-				} catch (Exception e) {
-
+				}
+				if(Core.isNull(aux) && m.getAnnotation(RParam.class)!=null && Core.isNotNull(m.getAnnotation(RParam.class).defaultValue())) {
+					aux = m.getAnnotation(RParam.class).defaultValue();
 				}
 				this.loadData(m,typeName,aux);
 			}
@@ -429,7 +425,7 @@ public abstract class Model { // IGRP super model
 				try {
 					m.set(this, Core.getFile(m.getAnnotation(RParam.class).rParamName()));
 				} catch (IOException | ServletException e) {
-	
+					e.printStackTrace();
 				}
 				break;
 			case "nosi.core.webapp.uploadfile.UploadFile":
@@ -443,7 +439,7 @@ public abstract class Model { // IGRP super model
 						m.set(this, new UploadFile(Core.getFile(m.getAnnotation(RParam.class).rParamName())));
 					}
 				} catch (IOException | ServletException e) {
-	
+					e.printStackTrace();
 				}
 				break;
 			default:
@@ -511,27 +507,29 @@ public abstract class Model { // IGRP super model
 		}
 	}
 
-	@SuppressWarnings("static-method")
 	private void loadModelFromFile() {
-		try {
-			Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
-			if (file != null) {
-				String xml = FileHelper.convertToString(file);
-				DomXML domXml = new DomXML(xml);
-				NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
-				QueryString<String, Object> queryString = new QueryString<>();
-				for (int i = 0; i < n.getLength(); i++) {
-					queryString.addQueryString(n.item(i).getNodeName(), n.item(i).getTextContent());
+		if(Core.isUploadedFiles()) {
+			try {
+				Part file = Igrp.getInstance().getRequest().getPart("p_igrpfile");
+				if (file != null) {
+					String xml = FileHelper.convertToString(file);
+					DomXML domXml = new DomXML(xml);
+					NodeList n = domXml.getDocument().getElementsByTagName("row").item(0).getChildNodes();
+					QueryString<String, Object> queryString = new QueryString<>();
+					for (int i = 0; i < n.getLength(); i++) {
+						queryString.addQueryString(n.item(i).getNodeName(), n.item(i).getTextContent());
+					}
+					queryString.getQueryString().entrySet().forEach(qs -> {
+						Core.setAttribute(qs.getKey(), qs.getValue().toArray());
+					});
 				}
-				queryString.getQueryString().entrySet().forEach(qs -> {
-					Core.setAttribute(qs.getKey(), qs.getValue().toArray());
-				});
+			} catch (ServletException | IOException e) {
+				e.printStackTrace();
 			}
-		} catch (ServletException | IOException e) {
-
 		}
 	}
 
+	
 	/**
 	 * When using this.forward("app","page","index",model, this.queryString());
 	 */
@@ -564,17 +562,20 @@ public abstract class Model { // IGRP super model
 	
 	private Map<String,List<Part>> getFiles(){
 		Map<String,List<Part>> list = new HashMap<>();
-		Collection<Part> allFiles = null;			
-		try {
-			allFiles = Igrp.getInstance().getRequest().getParts();
-			if(allFiles!=null) {
-				for(Part f:allFiles){
-					if(Core.isNotNull(f.getContentType())) {
-						list.put(f.getName().toLowerCase(), allFiles.stream().filter(file->file.getName().equals(f.getName())).collect(Collectors.toList()));
+		if(Core.isUploadedFiles()) {
+			Collection<Part> allFiles = null;			
+			try {
+				allFiles = Igrp.getInstance().getRequest().getParts();
+				if(allFiles!=null) {
+					for(Part f:allFiles){
+						if(Core.isNotNull(f.getContentType())) {
+							list.put(f.getName().toLowerCase(), allFiles.stream().filter(file->file.getName().equals(f.getName())).collect(Collectors.toList()));
+						}
 					}
 				}
+			} catch (ServletException | IOException e1) {
+				e1.printStackTrace();
 			}
-		} catch (ServletException | IOException e1) {
 		}
 		return list;
 	}
@@ -592,12 +593,14 @@ public abstract class Model { // IGRP super model
 
 
 	public void saveTempFile() {
-		Class<? extends Model> c = this.getClass();
-		for (Field m : c.getDeclaredFields()) {
-			if (m.isAnnotationPresent(SeparatorList.class)) {
-				this.saveTempFileSeparatorFormlist(m);
-			}else {
-				this.saveTempFileForm(m);
+		if(Core.isUploadedFiles()) {
+			Class<? extends Model> c = this.getClass();
+			for (Field m : c.getDeclaredFields()) {
+				if (m.isAnnotationPresent(SeparatorList.class)) {
+					this.saveTempFileSeparatorFormlist(m);
+				}else {
+					this.saveTempFileForm(m);
+				}
 			}
 		}
 	}
