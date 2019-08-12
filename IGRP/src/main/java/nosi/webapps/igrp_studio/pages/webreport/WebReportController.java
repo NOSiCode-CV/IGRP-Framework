@@ -334,25 +334,7 @@ public class WebReportController extends Controller {
 		return xml.toString();
 	}
 
-
-
-	private String getCurrentTaskId() {
-		String[] nameArray = Core.getParamArray("name_array");
-		String[] valueArray = Core.getParamArray("value_array");
-		if(nameArray.length > 0 && valueArray.length > 0) {
-			for(int i=0;i<nameArray.length;i++) {
-				if(nameArray[i].equalsIgnoreCase(BPMNConstants.PRM_TASK_ID)) {
-					return valueArray[i];
-				}
-			}
-		}
-		return null;
-	}
-
-
-
 	private String getDataForPage(RepTemplateSource rep) {
-		System.out.println("uuid="+rep.getRepSource().getSource_identify());
 		Action ac = new Action().findOne(rep.getRepSource().getType_fk());
 		if(ac!=null){
 			String actionName = "";
@@ -369,6 +351,7 @@ public class WebReportController extends Controller {
 				int start = content.indexOf("<content");
 				int end = content.indexOf("</rows>");
 				content = (start!=-1 && end!=-1)?content.substring(start,end):"";
+				content = content.replace("<content", "<content uuid=\""+rep.getRepSource().getSource_identify()+"\"");
 				return content;
 			}
 		}
@@ -384,6 +367,18 @@ public class WebReportController extends Controller {
 		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}
 
+	private String getCurrentTaskId() {
+		String[] nameArray = Core.getParamArray("name_array");
+		String[] valueArray = Core.getParamArray("value_array");
+		if(nameArray.length > 0 && valueArray.length > 0) {
+			for(int i=0;i<nameArray.length;i++) {
+				if(nameArray[i].equalsIgnoreCase(BPMNConstants.PRM_TASK_ID)) {
+					return valueArray[i];
+				}
+			}
+		}
+		return null;
+	}
 
 	//Load report, load all configuration of report
 	public Response actionLoadTemplate() throws IOException{
