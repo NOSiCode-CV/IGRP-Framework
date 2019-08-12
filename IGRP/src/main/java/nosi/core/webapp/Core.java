@@ -895,9 +895,11 @@ public final class Core { // Not inherit
 	}
 
 	public static boolean isUploadedFiles() {
-		String header1 = Igrp.getInstance().getRequest().getHeader("content-type");
-		String header2 = Igrp.getInstance().getRequest().getHeader("content-length");
-		return Core.isNotNullMultiple(header1,header2);
+		try {
+			return Igrp.getInstance().getRequest().getParts().size() > 0;
+		} catch (IOException | ServletException e) {
+			return false;
+		}
 	}
 	/**
 	 * @throws ServletException
