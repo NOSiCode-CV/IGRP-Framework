@@ -11,7 +11,7 @@ public class RadioField extends TextField {
 	public RadioField(Object model,String name) {
 		super(model,name);
 		this.propertie.put("type","radio");
-		this.propertie.put("check", true);
+		this.propertie.put("check", new Boolean(true));
 	}
 
 }

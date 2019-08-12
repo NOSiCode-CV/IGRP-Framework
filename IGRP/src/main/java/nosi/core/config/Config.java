@@ -401,8 +401,9 @@ public class Config {
 		return getHeader(config,null);
 	}
 	
-	public String getHeader(IHeaderConfig config,Action page) {
+	public String getHeader(IHeaderConfig config_,Action page) {
 		Application app = Core.getCurrentApp();
+		IHeaderConfig config = config_;
 		if(config==null) {
 			//Use default config
 			config = new IHeaderConfig() {
@@ -443,7 +444,7 @@ public class Config {
 			xml.setElement("action", "1");
 			String packageName = page!=null?page.getPackage_name():"";
 			int x = page!=null?page.getPackage_name().indexOf("."+page.getPage().toLowerCase()):-1;
-			if(x!=-1) {
+			if(x!=-1 && page!=null) {
 				packageName = page.getPackage_name().substring(0, page.getPackage_name().indexOf("."+page.getPage().toLowerCase()));
 			}
 			xml.setElement("package_db", packageName);

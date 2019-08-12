@@ -14,9 +14,9 @@ public class PlainTextField extends AbstractField {
 		this.propertie.put("type","plaintext");
 		this.setTagName(name);
 		this.propertie.put("name","p_"+name);
-		this.propertie.put("clear", false);
-		this.propertie.put("maxlength", 30);
-		this.propertie.put("right", false);
+		this.propertie.put("clear", new Boolean(false));
+		this.propertie.put("maxlength", new Integer(30));
+		this.propertie.put("right", new Boolean(false));
 		this.configValue(model);
 	}
 
