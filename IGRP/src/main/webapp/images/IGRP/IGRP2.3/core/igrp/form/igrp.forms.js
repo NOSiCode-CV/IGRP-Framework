@@ -199,6 +199,15 @@
 
   				} );
   			},
+  			
+  			ffFix : function(){
+  				
+  				if ($.browser.mozilla)
+  					
+  					$('input[type="radio"][checked="checked"], input[type="checkbox"][checked="checked"]').prop('checked', true);
+
+  				
+  			},
 
   			novalidate:function(){
 
@@ -325,6 +334,8 @@
 				$.IGRP.components.form.texteditor();
 				//Switch
 				$.IGRP.components.form.switch();
+				//FireFox Fix
+				$.IGRP.components.form.ffFix();
 				//FIELDS ERROR 
 				$.IGRP.components.form.hasFieldsError();
 				//LOOKUP
