@@ -853,6 +853,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 		return this.all();
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	public List<T> all() {
 		this.sql =  this.generateSql()+this.sql;
@@ -1026,7 +1027,7 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 	@XmlTransient
 	public Long getCount() {
 		this.sql = this.generateSqlCount()+this.sql;
-		Long count = (long) 0;
+		Long count = new Long(0);
 		Transaction transaction = null;
 		try {
 			transaction = this.getSession().getTransaction();

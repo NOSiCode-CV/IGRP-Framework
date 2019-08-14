@@ -22,7 +22,8 @@ public class QueryInsert extends QueryHelper {
 	public QueryInsert() {
 		this(Core.defaultConnection());
 	}
-	
+
+	@Override
 	public QueryHelper insert(String tableName) {
 		this.tableName = tableName;
 		return this;
