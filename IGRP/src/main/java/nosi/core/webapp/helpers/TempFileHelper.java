@@ -10,9 +10,9 @@ import nosi.webapps.igrp.dao.TempFile;
 public class TempFileHelper {
 	
 	public static String saveTempFile(UploadFile uploadFile) {
-		if(Core.isNotNull(uploadFile)) {			
+		if(Core.isNotNull(uploadFile)) {	
 			TempFile tempFile = new TempFile();
-			boolean updated = Core.isNotNull(uploadFile.getId()) && !uploadFile.getId().equals("-1");
+			boolean updated = Core.isNotNull(uploadFile.getId()) && !uploadFile.getId().equals("-1") && !uploadFile.getId().startsWith("webapps");
 			if(updated) {
 				tempFile = tempFile.findOne(uploadFile.getId());
 			}
