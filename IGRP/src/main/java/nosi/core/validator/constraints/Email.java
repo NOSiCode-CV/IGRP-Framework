@@ -9,7 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import nosi.core.validator.MessageValidator;
 import nosi.core.validator.Patterns;
@@ -18,16 +17,18 @@ import nosi.core.validator.Patterns;
  * @author Emanuel
  * 24 Jul 2019
  */
-@Email(message = MessageValidator.MESSAGE_EMAIL)
+@javax.validation.constraints.Email(message = MessageValidator.MESSAGE_EMAIL)
 @Pattern(regexp = Patterns.EMAIL_PATTERN, message = MessageValidator.MESSAGE_EMAIL)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-public @interface EmailValidator {
+public @interface Email {
 	String message() default MessageValidator.MESSAGE_EMAIL;
 
 	Class<?>[] groups() default {};
-
+	
+	String regexp() default  Patterns.EMAIL_PATTERN;
+	
 	Class<? extends Payload>[] payload() default {};
 }
