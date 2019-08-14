@@ -21,6 +21,7 @@ public class QueryUpdate extends CommonFIlter {
 		this(Core.defaultConnection());
 	}
 
+	@Override
 	public QueryHelper update(String tableName) {
 		this.tableName = tableName;
 		return this;
@@ -31,13 +32,15 @@ public class QueryUpdate extends CommonFIlter {
 		this.tableName = tableName;
 		return this;
 	}
-	
+
+	@Override
 	public QueryInterface where(String condition) {
 		this.sql += " WHERE "+condition;
 		this.whereIsCall = true;
 		return this;
 	}
-	
+
+	@Override
 	protected QueryInterface filterWhere(String condition) {
 		this.sql += condition;
 		this.whereIsCall = true;

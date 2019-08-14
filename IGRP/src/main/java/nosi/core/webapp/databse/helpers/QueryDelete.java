@@ -20,6 +20,7 @@ public class QueryDelete extends CommonFIlter{
 		this(Core.defaultConnection());
 	}
 
+	@Override
 	public QueryHelper delete(String tableName) {
 		this.tableName = tableName;
 		return this;

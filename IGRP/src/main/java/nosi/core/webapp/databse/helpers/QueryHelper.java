@@ -454,12 +454,16 @@ public abstract class QueryHelper implements QueryInterface{
 				e.printStackTrace();
 			}
 		}
-		this.columnsValue = new ArrayList<>();//restart mapped columns
-		this.sql = "";
+		this.resetQuery();
 		this.whereIsCall = false;
 		return r;
 	}
 	
+
+	protected void resetQuery() {
+		this.columnsValue = new ArrayList<>();//restart mapped columns
+		this.sql = "";
+	}
 
 	@Override
 	public String getSqlWithData() {
