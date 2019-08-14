@@ -393,6 +393,10 @@ public abstract class QueryHelper implements QueryInterface{
 		return "DELETE FROM "+tableName_;
 	}
 
+	@Override
+	public ResultSet executeTransaction() throws SQLException {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public ResultSet execute() {

@@ -103,4 +103,33 @@ public class Transaction extends CommonFIlter{
 		this.whereIsCall = false;
 		return r;
 	}
+	
+	@Override
+	public ResultSet executeTransaction() throws SQLException {
+		ResultSet r = new ResultSet();
+		if(this.conn!=null) {
+			NamedParameterStatement q = null;
+			if(this.operationType!=null && this.operationType.compareTo(OperationType.INSERT)==0) {
+					if(this.retuerningKeys!=null) {
+						q = new NamedParameterStatement(this.conn ,this.getSqlExecute(),this.retuerningKeys);
+					}else {
+						q = new NamedParameterStatement(this.conn ,this.getSqlExecute(),Statement.RETURN_GENERATED_KEYS);
+					}
+					this.setParameters(q);	
+					Core.log("SQL:"+q.getSql());
+					r.setSql(q.getSql());
+					r.setKeyValue(q.executeInsert(this.tableName));
+			}else {
+					q = new NamedParameterStatement(this.conn, this.getSqlExecute());
+					this.setParameters(q);
+					r.setSql(q.getSql());
+					Core.log("SQL:"+q.getSql());
+					r.setKeyValue(new Integer(q.executeUpdate()));
+			}
+		}
+		this.columnsValue = new ArrayList<>();//restart mapped columns
+		this.sql = "";
+		this.whereIsCall = false;
+		return r;
+	}
 }
