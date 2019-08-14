@@ -879,7 +879,6 @@ public abstract class BaseActiveRecord<T> implements ActiveRecordIterface<T>, Se
 			this.keepConnection = false;
 			this.setError(e);
 		} finally {
-			s.close();
 			this.closeSession();
 		}
 		return list;
