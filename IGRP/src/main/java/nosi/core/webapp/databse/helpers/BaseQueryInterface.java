@@ -23,6 +23,8 @@ public interface BaseQueryInterface {
 	
 	public ResultSet execute();
 	
+	public ResultSet executeTransaction() throws SQLException;
+	
 	public List<Tuple> getResultList();
 	
 	@Deprecated
