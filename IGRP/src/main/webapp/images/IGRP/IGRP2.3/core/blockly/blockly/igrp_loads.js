@@ -358,7 +358,7 @@ window.IGRPBlocklyInit = function(){
 								+'<field type="dropdown" name="iskey" title="send param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 							+'</value>'
 						+'</block>'	
-						+'<category id="foreign" name="Foreign Key" colour="150">'
+						+'<category id="foreign" name="Foreign-Key" colour="150">'
 						+'<block type="rediret_p" color="60" prev-statement="" next-statement="" inline="true">'
 							+'<value name="value1" type="dummy" >'
 								+'<field type="field_text" name="param" title="rediret foreign key" options=""></field>'
@@ -371,7 +371,7 @@ window.IGRPBlocklyInit = function(){
 							+'</value>'	
 						+'</block>'
 						+'</category>'
-						+'<category id="separator" name="Separator List" colour="150">'
+						+'<category id="separator" name="Separator-List" colour="150">'
 						+'<block type="separator" color="60"  prev-statement="" next-statement="" inline="true">'
 						+'<value name="value1" type="dummy">'
 							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
@@ -421,6 +421,8 @@ window.IGRPBlocklyInit = function(){
 						+'</value>'
 						+'<value name="value2" type="statement" >'
 						+'</value>'
+						+'<value name="delete" title="deleted by" type="value" >'
+						+'</value>'
 						+'</block>'
 						
 						+'<block type="get_row_sep" output="" color="300">'
@@ -428,7 +430,15 @@ window.IGRPBlocklyInit = function(){
 							+'<field type="dropdown" name="get_row_sep" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 						+'</value>'
-						+'</category>'		
+						+'</category>'	
+						+'<category id="graphic" name="Grafic" colour="150">'
+						+'<block type="grafico" color ="60" prev-statement="" next-statement="" inline="true">'
+							+'<value name="value1" type="dummy" title="insert DAO">'
+								+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement"></value>'  
+						+'</block>'
+						+'</category>'
 					+'</category>'
 					
 					+'<category id="update" name="Update" colour="150">'
@@ -670,6 +680,8 @@ function GetBlocklyImports(){
 			
 			separatorImports = $('block[type="separator"]',xml),
 			
+			saveseparatorImports = $('block[type="save_separator"]',xml),
+			
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			
 			fieldDaos     = $('field[name="dao"]', xml),
@@ -696,6 +708,10 @@ function GetBlocklyImports(){
 		if(separatorImports[0])
 			
 			rtn+='<import type="separator">Separator</import>';
+		
+		if(saveseparatorImports[0])
+			
+			rtn+='<import type="save_separator">saveSeparator</import>';
 				
 		if(daosImports[0] || fieldDaos[0]){
 			

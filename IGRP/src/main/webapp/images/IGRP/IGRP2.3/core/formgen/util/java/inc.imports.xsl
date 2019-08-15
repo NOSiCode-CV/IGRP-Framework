@@ -43,6 +43,15 @@
 				
 				</xsl:when>
 				
+				<xsl:when test="@type = 'save_separator'">
+					
+					<xsl:text>import java.util.stream.Collectors;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.Arrays;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+				
+				</xsl:when>
+				
 				
 				<xsl:when test="@type = 'dao'">
 					
