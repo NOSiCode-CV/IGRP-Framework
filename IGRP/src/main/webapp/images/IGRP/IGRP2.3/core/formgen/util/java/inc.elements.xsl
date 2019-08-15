@@ -2,6 +2,10 @@
 	
 	<xsl:include href="inc.listar.block.xsl"/>
 	
+	<xsl:include href="inc.separator.block.xsl"/>
+	
+	<xsl:include href="inc.if.controls.xsl"/>
+	
 	<xsl:template name="blockly.element.controller">
 		
 		<xsl:call-template name="blockly.getValue">
@@ -88,7 +92,7 @@
 	
 	<xsl:template name="blockly.element.model_get">
 	
-		<xsl:variable name="typedad" select="../../field"/>
+		<xsl:variable name="typedad" select="../../block/@type"/>
 		
 		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
@@ -102,7 +106,7 @@
 		
 		<xsl:variable name="gettingmodel">
 			<xsl:choose>
-				<xsl:when test="$fieldType = 'File'">
+				<xsl:when test="$fieldType = 'File' and contains( $typedad,'et-dao')">
 						<xsl:text>""+(Core.saveFile("p_</xsl:text><xsl:value-of select="$fieldValue"></xsl:value-of>
 						<xsl:text>"))</xsl:text>
 				</xsl:when>
@@ -581,132 +585,6 @@
 	
 	</xsl:template>
 
-	<xsl:template name="blockly.element.controls_if" >
-		
-		<xsl:variable name="valueif1">
-				<xsl:call-template name="blockly.getValue">
-					<xsl:with-param name="value" select="*[@name='IF0']"/>
-				</xsl:call-template>
-		</xsl:variable>
-			
-		<xsl:variable name="valueif2">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='DO0']"/>
-			</xsl:call-template>
-		</xsl:variable>
-
-		<xsl:text>if(</xsl:text><xsl:value-of select="$valueif1"></xsl:value-of><xsl:text>){</xsl:text>
-		<xsl:value-of select="$newlineTab1"/>
-		<xsl:value-of select="$valueif2"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
-
-		<xsl:variable name="hasMutation" select="mutation"></xsl:variable>
-		
-		<xsl:if test="$hasMutation">
-		
-			<xsl:variable name="elseif_count" select="mutation/@elseif"/>
-			
-			<xsl:variable name="haselse" select="mutation/@else"/>
-			
-			<xsl:variable name="elseif_code">
-			
-				<xsl:call-template name="MutationValue">
-				
-					<xsl:with-param name="total" select="$elseif_count"/>
-					
-					<xsl:with-param name="valueAttrName" select="'IF'"/>
-					
-					<xsl:with-param name="statement" select="'DO'"/>
-				
-				</xsl:call-template>
-				
-			</xsl:variable>
-			
-			<xsl:value-of select="$elseif_code"/>
-			
-			<xsl:if test="$haselse">
-	
-				<xsl:variable name="else">
-					<xsl:call-template name="blockly.getValue">
-						<xsl:with-param name="value" select="*[@name='ELSE']"/>
-					</xsl:call-template>
-				</xsl:variable>	
-			
-			<xsl:text>else{</xsl:text>
-			<xsl:value-of select="$newlineTab1"/>
-			<xsl:value-of select="$else"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newline"/>
-	
-			</xsl:if>
-			
-		</xsl:if>
-	
-	</xsl:template>
-	
-	<xsl:template name="MutationValue">
-	
-		<xsl:param name="total"/>
-		
-		<xsl:param name="valueAttrName" />
-			
-		<xsl:param name="statement"/>
-		
-		<xsl:param name="index" select="1"/>
-
-		<xsl:if test="$index &lt;= $total">
-		
-			<xsl:variable name="value1Name" select="concat($valueAttrName,$index)"/>
-			
-			<xsl:variable name="value2Name" select="concat($statement,$index)"/>
-			
-			<xsl:variable name="value1">
-				<xsl:call-template name="blockly.getValue">
-					<xsl:with-param name="value" select="*[@name=$value1Name]"/>
-				</xsl:call-template>
-			</xsl:variable>
-			
-			<xsl:variable name="value2">
-				<xsl:call-template name="blockly.getValue">
-					<xsl:with-param name="value" select="*[@name=$value2Name]"/>
-				</xsl:call-template>
-			</xsl:variable>
-			
-			<xsl:if test="$value1 and $value2">
-
-				<xsl:text>else if(</xsl:text>
-					
-					<xsl:value-of select="$value1"></xsl:value-of>
-				
-				<xsl:text>){</xsl:text>
-				
-				<xsl:value-of select="$newlineTab1"/>
-				<xsl:value-of select="$value2"/>
-				<xsl:value-of select="$newline"/>
-				<xsl:text>}</xsl:text>
-				<xsl:value-of select="$newline"/>
-			
-			</xsl:if>
-					
-			<xsl:call-template name="MutationValue">
-			
-				<xsl:with-param name="total" select="$total"/>
-					
-				<xsl:with-param name="valueAttrName" select="$valueAttrName"/>
-					
-				<xsl:with-param name="statement" select="$statement"/>
-				
-				<xsl:with-param name="index" select="$index + 1"/>
-				
-			</xsl:call-template>
-		
-		</xsl:if>
-		
-	</xsl:template>
-
 	<xsl:template name="blockly.element.inserir_dao" >
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
@@ -958,7 +836,7 @@
 		
 	</xsl:template>
 	
-		<xsl:template name="blockly.element.apagar" >
+	<xsl:template name="blockly.element.apagar" >
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
@@ -1022,7 +900,7 @@
 		</xsl:if>
 		
 	</xsl:template>
-
+	
 	<xsl:template name="blockly.element">
 	
 		<xsl:param name="element" select="."/>
@@ -1079,14 +957,6 @@
 			
 			<xsl:when test="contains( $block-type,'set-dao-' )">
 				<xsl:call-template name="blockly.element.setDao"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="contains( $block-type,'str-dao-' )">
-				<xsl:call-template name="blockly.element.strDao"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="contains( $block-type,'action_' )">
-				<xsl:call-template name="blockly.element.action_button"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'model_get'">
@@ -1169,6 +1039,22 @@
 			
 			<xsl:when test="$block-type = 'rediret_p'">
 				<xsl:call-template name="blockly.element.rediret_p"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'separator'">
+				<xsl:call-template name="blockly.element.separator"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'sep_row'">
+				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'save_separator'">
+				<xsl:call-template name="blockly.element.save_separator"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'get_row_sep'">
+				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
 			</xsl:when>
 		
 		

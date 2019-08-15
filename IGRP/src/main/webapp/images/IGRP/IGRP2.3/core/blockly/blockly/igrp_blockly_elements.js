@@ -30,18 +30,7 @@
 						
 					}();
 					
-					//console.log(GetJavaType)
-					
-					//console.log(menus)
-					
-					//console.log(block)
-					
-					//block.childBlocks_[0].inputList[0].fieldRow[1].menuGenerator_ = menus;
-					//console.log( block.childBlocks_[0].inputList.fieldRow[1] )					
-					//pega kel coluna d es table
-					//setta campos di tabel "item"
-				}
-				
+				}	
 				
 			},
 			

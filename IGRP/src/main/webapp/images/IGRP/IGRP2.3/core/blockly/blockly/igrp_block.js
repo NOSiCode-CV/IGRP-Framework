@@ -165,6 +165,12 @@ function SetupBlockly(){
 										value.appendField(new Blockly.FieldCheckbox('TRUE'), 'Checkbox');
 										
 									break;
+									
+									case 'text':
+										var text = field.attr('options');
+										value.appendField(text);
+										
+									break;
 								
 								}							
 								

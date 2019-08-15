@@ -28,12 +28,20 @@
 				<xsl:when test="@type = 'fill_combo'">
 					
 					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
-							<xsl:value-of select="$newline"></xsl:value-of>
-							<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
-							<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
 				
 				</xsl:when>
 				
+				<xsl:when test="@type = 'separator'">
+					
+					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+				
+				</xsl:when>
 				
 				
 				<xsl:when test="@type = 'dao'">
@@ -91,38 +99,10 @@
 					<xsl:text>;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 				</xsl:when>
-				
-				<xsl:when test="@type = 'listar'">
-					<xsl:text>import java.util.ArrayList;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import java.util.List;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-				</xsl:when>
-				
-				<xsl:when test="contains(field,'File::')">
-					<xsl:text>import nosi.core.webapp.UploadedFile;</xsl:text>
-				</xsl:when>
-				
-				<xsl:when test="contains(field,'Date::')">
-					<xsl:text>import java.sql.Date;</xsl:text>
-				</xsl:when>
-				
-				<xsl:when test="contains(field,'Select::')">
-					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
-					<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
-				</xsl:when>
-				
-				<xsl:when test="contains(field,'Link::')">
-					<xsl:text>import nosi.webapps.igrp.dao.CLob;</xsl:text>
-				</xsl:when>
-				
-			
 
 			</xsl:choose>
 			
-		</xsl:for-each> 
-		
-		
+		</xsl:for-each> 	
 		
 		<xsl:for-each select="$all-blocks/field[contains(.,'Date::')][ not(.=preceding::*) ]">
 			<xsl:value-of select="."></xsl:value-of>

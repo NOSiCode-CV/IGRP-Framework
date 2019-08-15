@@ -22,6 +22,10 @@
         <xsl:value-of select="concat($newline,$tab2,$tab)"/>
     </xsl:variable>
     
+     <xsl:variable name="newlineTab4">
+        <xsl:value-of select="concat($newline,$tab2,$tab2)"/>
+    </xsl:variable>
+    
     <!--InitCap-->
     <xsl:template name="InitCap">
         <xsl:param name="text"/>
