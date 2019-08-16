@@ -207,6 +207,7 @@
 							
 							
 							if(nodes[0]){
+								
 								$.IGRP.utils.xsl.transform({
 									xsl     : $.IGRP.utils.getXMLStylesheet(xml),
 									xml     : xml,
@@ -215,7 +216,10 @@
 								});
 								
 							}else{
+								
 								p.clicked.removeAttr("disabled");
+								
+								console.log(xml);
 								
 								$.IGRP.utils.message.handleXML(xml);
 							}
@@ -234,10 +238,6 @@
 							
 							p.clicked.removeAttr("disabled");
 						}
-
-						$('.igrp-msg-wrapper').html(alert);
-
-						$('#igrp-debugger .igrp-debug-list').html(debug);
 
 						ev.execute('submit-ajax-complete',{
 							xml : xml
