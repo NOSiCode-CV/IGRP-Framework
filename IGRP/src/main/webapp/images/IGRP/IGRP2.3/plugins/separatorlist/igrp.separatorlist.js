@@ -858,14 +858,17 @@ $.fn.separatorList = function(o){
 			}
 
 			sl.setRows = function(arr,p){
+				
 				var params = $.extend({},p);
-
+				
+				var fieldNamePrefix = params.prefix == false ? '' : 'p_';
+				
 				if(arr && arr[0]){
 					
 					arr.forEach(function(r){
 
 						for(var o in r){
-							var name   = 'p_'+o;
+							var name   = fieldNamePrefix+o;
 							var value  = r[o];
 							var f      = $('.splist-form [name="'+name+'"]',sl)[0];
 

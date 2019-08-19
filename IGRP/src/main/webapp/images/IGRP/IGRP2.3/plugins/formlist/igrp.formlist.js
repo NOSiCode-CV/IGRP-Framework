@@ -407,9 +407,7 @@
                         });
 
                        /* $(tr).find('td').each(function(x,td){
-
-
-                            
+  
                             var name = $(td).attr('item-name') || $(td).find('>.form-group').attr('item-name');
                             
                             if(name){
@@ -427,7 +425,8 @@
 
                     });
 
-
+                    console.log(arr);
+                    
                     return arr;
 
                 };
@@ -460,6 +459,8 @@
 
                             if(input.attr('type') == 'checkbox' || input.attr('type') == 'radio'){
                                 
+                            	input.prop('checked', d[name]);
+                            	
                                 setTimeout(function(){
                                     
                                     input.prop('checked', d[name]);

@@ -158,6 +158,7 @@ var GENSTRUCTURES = function(GEN){
 		if(tag){
 
 			rtn+='<'+tag+attributesStr+'>';
+				
 				if(p.label && field.xml.label) 
 					rtn+='<label>'+field.GET.label()+'</label>';
 
@@ -179,6 +180,16 @@ var GENSTRUCTURES = function(GEN){
 					rtn+=GEN.getFieldServiceMap(field.GET.service());
 
 			rtn += checkRules(field,rtn);
+			
+			var eventResponse = $(document).triggerHandler("gen-field-structure", [field]);
+			
+			if(eventResponse){
+				
+				rtn+=eventResponse;
+				
+			}
+
+			//rtn+=eventResponse;
 
 			rtn+='</'+tag+'>';
 		}

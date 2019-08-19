@@ -69,6 +69,7 @@ var Field = function(type,params){
 			},
 			xsl : field.xslOptions
 		};
+		
 
 		//console.log(field.proprieties);
 		for(var propriety in field.proprieties){
@@ -81,6 +82,9 @@ var Field = function(type,params){
 			//var value = (typeof f.proprieties[propriety] == 'object') ?  f.proprieties[propriety].value : f.proprieties[propriety];
 			//prop[name]=value;
 		}
+		
+		$(document).trigger('gen-field-export', [{ field : field, properties : prop }]);
+		
 		return prop;
 	}
 
@@ -464,6 +468,8 @@ var Field = function(type,params){
 		field.setFilesIncludes();
 
 		setFieldPropertiesValues();
+		
+		$(document).trigger('gen-field-init', [{ field:field, params : params }])
 
 	}
 

@@ -1504,6 +1504,10 @@ var GENERATOR = function(genparams){
 					if(GEN.edit.object && GEN.edit.object.SET[rel])
 
 						GEN.edit.object.SET[rel](value);
+					
+					
+					
+					//$(document).trigger('gen-edition-confirm', )
 
 				});
 
@@ -1584,8 +1588,14 @@ var GENERATOR = function(genparams){
 				else
 					GEN.edit.object.parent.Transform();*/
 				
+				$(document).trigger('gen-'+GEN.edit.object.genType+'-edition-confirm', [GEN.edit.object]);
+				
 				if(options.hide)
+					
 					$(VARS.edition.modal).modal('hide');
+				
+				
+				
 			
 			}else{
 				__tag.parent().prepend('<label for="edit-tag" generated="true" class="error form-validator-label gen-tag-exist-err">Tag existente!</label>')
@@ -1794,6 +1804,11 @@ var GENERATOR = function(genparams){
 		else
 
 			$('.modal-header ul li[rel="rules"]',modal).hide();
+		
+		
+		$(document).trigger('gen-edition', [{ object: object }]);
+		
+		$(document).trigger('gen-'+genType+'-edition', [object]);
 
 		GEN.edit.show();
 	}
@@ -3111,7 +3126,7 @@ var GENERATOR = function(genparams){
 				
 				//$('#igrp-form-gen').trigger('on-page-save', [vParam]);
 
-				//console.log(exportJSON);
+				console.log(exportJSON);
 
 				var notifyOptions = {
 					delay: 12000,
