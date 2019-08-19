@@ -71,9 +71,7 @@
 				
 				var typeData  = data.annotation.types[onEdition.type];
 				
-				$('.field-annotation-input').removeAttr('required').hide();
-				
-				$('.field-annotation-input :input[required]').removeAttr('required');
+				HideValidationFields();
 				
 				if(typeData){
 					
@@ -107,6 +105,10 @@
 								
 				}
 
+			}else{
+				
+				HideValidationFields();
+			
 			}
 	
 		});
@@ -130,6 +132,8 @@
 			validationTab.hide();
 			
 			onEdition = field;
+			
+			HideValidationFields();
 			
 			if(field.formField && annotationsList.length){
 
@@ -172,97 +176,16 @@
 
 				annotationsController[0].setRows(fieldValidations, {  
 					
-					prefix : false
+					prefix : false,
+					
+					trigger : false
 					
 				})
 				
 				validationTab.show();
 				
 			}
-			
-			/*var type = field.type,
-			
-				fieldValidations = data.annotation.types[type] || data.annotation.types.text;
-			
-			$('#igrp-validation-fl-wrapper').html('');
-				
-			if(field.formField && Object.keys(fieldValidations).length){
-				
-				validationTab.show();
-				
-				fieldValidations.forEach(function(group, gi){
-					
-					var groupType = group.type,
-					
-						inputType = groupType == 'unique' ? 'radio' : 'checkbox',
-								
-						markClass = inputType == 'radio' ? 'radiomark' : 'checkmark',
-								
-						groupFormlist = validationFormList.clone().addClass('igrp-validation-controller'),
-						
-						checkTD = groupFormlist.find('.validation-check-type'),
-						
-						_checkName = $('.validation-check-input', checkTD).attr('name'),
-						
-						checkName = function(){
-							
-							var nameSplit = _checkName.split('_fk').join('');
-							
-							console.log(nameSplit+'-'+gi+'_fk')
-							
-							return nameSplit+'-'+gi+'_fk';
-							
-						}();
-					
-					checkTD.attr('item-type', inputType).attr('item-name', checkName)
-					
-					$('[item-type]', checkTD).attr('item-type', inputType);
-					
-					$('.validation-check-input', checkTD).attr('type', inputType).attr('name',  checkName)
-					
-					$('.mark-class', checkTD).addClass(markClass);
-					
-					if(gi > 0)
-						
-						$('thead',groupFormlist).hide();
 
-					var json = field.validation && $.isArray(field.validation) && field.validation[0] ? field.validation[gi] : function(){
-						
-						var arr = [];
-						
-						for(var annotationName in group.list){
-							
-							var object = {
-								annotation : annotationName,
-								message    : ""
-							}
-							
-							object['check-'+gi] = false;
-							
-							arr.push(object)
-							
-						}
-						
-						return arr;
-						
-					}();
-					
-					groupFormlist.IGRP_formlist();
-
-					setTimeout(function(){
-
-						$('#igrp-validation-fl-wrapper').append(groupFormlist);
-						
-						groupFormlist[0]._import(json);
-						
-					},300)
-	
-				});
-				
-			}else
-				
-				validationTab.hide();
-			*/
 		});
 		
 		$(document).on('change','.validation-check-input', function(){
@@ -337,6 +260,13 @@
 		})
 		
 	};
+	
+	function HideValidationFields(){
+		
+		$('.field-annotation-input').removeAttr('required').hide();
+		
+		$('.field-annotation-input :input[required]').removeAttr('required');
+	}
 	
 	function GetAnnotationData( annotation, typeData){
 		

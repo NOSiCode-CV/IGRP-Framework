@@ -863,6 +863,8 @@ $.fn.separatorList = function(o){
 				
 				var fieldNamePrefix = params.prefix == false ? '' : 'p_';
 				
+				var triggerChange = params.trigger == false ? false : true;
+				
 				if(arr && arr[0]){
 					
 					arr.forEach(function(r){
@@ -873,8 +875,10 @@ $.fn.separatorList = function(o){
 							var f      = $('.splist-form [name="'+name+'"]',sl)[0];
 
 							setFormFieldValue(f,value);
+							
+							if(triggerChange)
 								
-							$(f).trigger('change');	
+								$(f).trigger('change');	
 						}
 
 						var values  = getFormFieldsValue(getFormFields(sl),sl);
