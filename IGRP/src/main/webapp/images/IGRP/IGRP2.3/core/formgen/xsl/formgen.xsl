@@ -57,7 +57,7 @@
                       </li>  -->
                      
                      <li rel="gen-blocky"  active-text-color="primary">
-                        <span>BLOCKLY</span>
+                        <span>BLOCKLY (BETA)</span>
                       </li>
                       
                       <li rel="gen-java" xslt-path="{$path}/core/formgen/util/java" xslt-file="XSL_GENERATOR.xsl" text-color="1">

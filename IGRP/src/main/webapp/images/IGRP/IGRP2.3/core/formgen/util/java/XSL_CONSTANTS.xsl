@@ -595,7 +595,9 @@
     		<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
     	
     	</xsl:if>
-    	
+    	<xsl:if test="name()='placeholder'">    	
+    		<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',gt(',$double_quotes,.,$double_quotes,')',')')"/>   	
+    	</xsl:if>
     </xsl:template>
         
     <xsl:template name="newlineTab2">
