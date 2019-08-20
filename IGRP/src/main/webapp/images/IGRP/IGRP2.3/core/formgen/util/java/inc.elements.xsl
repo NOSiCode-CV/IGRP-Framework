@@ -707,18 +707,12 @@
 		<xsl:variable name="paramvalue" select="substring-after(value[@name='PARAM']/block/field,'::')"/>
 		
 		<xsl:variable name="paramType" select="substring-before(value[@name='PARAM']/block/field,'::')"/>
-		
-		<xsl:variable name="param">
-			
-				<xsl:text>int param = Core.getParamInt("p_</xsl:text><xsl:value-of select="$paramGet"></xsl:value-of><xsl:text>");</xsl:text>
-			
-		</xsl:variable>
 
 		<xsl:variable name="code_edit">
 			
 			<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:value-of select="$param"></xsl:value-of>
+			<xsl:text>int param = Core.getParamInt("param_id");</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
@@ -754,7 +748,7 @@
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:text>this.addQueryString("isEdit", "true");</xsl:text>
 		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:text>this.addQueryString("p_</xsl:text><xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>", Core.getParam("p_</xsl:text>
+		<xsl:text>this.addQueryString("param_id", Core.getParam("p_</xsl:text>
 		<xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>"));</xsl:text>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		
@@ -782,19 +776,25 @@
 				<xsl:with-param name="parent" select="."></xsl:with-param>
 			</xsl:call-template>
 		</xsl:variable>
-				
-		<xsl:text>LinkedHashMap&lt;String, String&gt; </xsl:text>
-		<xsl:value-of select="$combo"></xsl:value-of>
-		<xsl:text> = new LinkedHashMap&lt;&gt;();</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:value-of select="$combo"></xsl:value-of><xsl:text>.put(null, gt("-- Selecionar --"));</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>	
-		<xsl:value-of select="$options"></xsl:value-of>
-		<xsl:value-of select="$newline"></xsl:value-of>	
-		<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
-		<xsl:text>.setValue(</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
-		<xsl:text>);</xsl:text>	
-		<xsl:value-of select="$newline"></xsl:value-of>
+		
+		<xsl:variable name="code">
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:text>LinkedHashMap&lt;String, String&gt; </xsl:text>
+			<xsl:value-of select="$combo"></xsl:value-of>
+			<xsl:text> = new LinkedHashMap&lt;&gt;();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:value-of select="$combo"></xsl:value-of><xsl:text>.put(null, gt("-- Selecionar --"));</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:value-of select="$options"></xsl:value-of>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+			<xsl:text>.setValue(</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+			<xsl:text>);</xsl:text>	
+			<xsl:value-of select="$newline"></xsl:value-of>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$code"></xsl:value-of>
 		
 	</xsl:template>
 	
@@ -836,6 +836,14 @@
 		
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.corre_get_param" >
+		
+		<xsl:variable name="paramget" select="field[@name='param']"/>
+
+		<xsl:text>Core.getParam("</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>")</xsl:text>
+		
+	</xsl:template>
+	
 	<xsl:template name="blockly.element.apagar" >
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
@@ -869,6 +877,77 @@
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newline"></xsl:value-of>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.grafico" >
+		
+		<xsl:variable name="dao" select="field[@name='dao']"/>
+		
+		<xsl:variable name="grafico" select="field[@name='grafico']"/>
+		
+		<xsl:variable name="checkbox" select="field[@name='3D']"/>
+		
+		<xsl:variable name="graficoup">
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="$grafico"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="eixox">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='eixoX']"/>
+				<xsl:with-param name="parent" select="."></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="eixoy">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='eixoY']"/>
+				<xsl:with-param name="parent" select="."></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		
+			<xsl:variable name="eixoz">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='eixoZ']"/>
+				<xsl:with-param name="parent" select="."></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		
+	<xsl:value-of select="$newlineTab1"></xsl:value-of>
+	<xsl:text>List&lt;</xsl:text><xsl:value-of select="$graficoup"></xsl:value-of>
+	<xsl:text>&gt; </xsl:text><xsl:value-of select="$grafico"></xsl:value-of>
+	<xsl:text> = new ArrayList &lt;&gt;();</xsl:text>
+	<xsl:value-of select="$newlineTab1"></xsl:value-of>
+	<xsl:value-of select="$dao"></xsl:value-of><xsl:text> p = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>();</xsl:text>
+	<xsl:value-of select="$newlineTab1"></xsl:value-of>
+	<xsl:text>p.startExamples();</xsl:text>
+	<xsl:value-of select="$newlineTab1"></xsl:value-of>
+	<xsl:text>p.get</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>().stream().forEach(obj->{</xsl:text>
+	<xsl:value-of select="$newlineTab2"></xsl:value-of>
+	<xsl:value-of select="$graficoup"></xsl:value-of><xsl:text> c = new </xsl:text><xsl:value-of select="$graficoup"></xsl:value-of><xsl:text>();</xsl:text>
+	<xsl:value-of select="$newlineTab2"></xsl:value-of>
+	<xsl:text>c.setEixoX(</xsl:text><xsl:value-of select="$eixox"></xsl:value-of><xsl:text>);</xsl:text>
+	<xsl:value-of select="$newlineTab2"></xsl:value-of>
+	<xsl:text>c.setEixoY(</xsl:text><xsl:value-of select="$eixoy"></xsl:value-of><xsl:text>);</xsl:text>
+	<xsl:choose>
+			<xsl:when test="$checkbox = 'TRUE'">
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					<xsl:text>c.setEixoZ(</xsl:text><xsl:value-of select="$eixoz"></xsl:value-of><xsl:text>);</xsl:text>
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			</xsl:when>
+			
+			<xsl:otherwise>
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			</xsl:otherwise>
+	</xsl:choose>
+	<xsl:value-of select="$grafico"></xsl:value-of><xsl:text>.add(c);</xsl:text>
+	<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:text>});</xsl:text>
+	<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:text>model.set</xsl:text>
+	<xsl:value-of select="$graficoup"></xsl:value-of><xsl:text>(</xsl:text><xsl:value-of select="$grafico"></xsl:value-of><xsl:text>);</xsl:text>
+	<xsl:value-of select="$newlineTab1"></xsl:value-of>
+	
 		
 	</xsl:template>
 	
@@ -1055,6 +1134,14 @@
 			
 			<xsl:when test="$block-type = 'get_row_sep'">
 				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'corre_get_param'">
+				<xsl:call-template name="blockly.element.corre_get_param"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'grafico'">
+				<xsl:call-template name="blockly.element.grafico"></xsl:call-template>
 			</xsl:when>
 		
 		

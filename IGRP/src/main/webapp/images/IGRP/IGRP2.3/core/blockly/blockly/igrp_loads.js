@@ -46,16 +46,17 @@ var form_id = [];
 var key_model = [];
 var fields_table = [];
 var fields_separator = [];
-var tables_model = [],tables_MEANS = {};
+var chart = [];
+var tables_model = [];
 var separator_model = [];
 var str = '';
-var buttons_model = [], buttons_MEANS = {}, target_MEANS = {}, all_buttons = [];
-var daos_list = [], DAOS_MEANS = {}, bloc_fields = [];
-var imports_insert = [], imports_insert_MEANS = {};
-var imports_list = [], imports_list_MEANS = {};
-var fields_esp_row = [], FIELDS_ROW_MEANS = {};
-var custom_action = [], custom_action_MEANS = {};
-var select = [], select_MEANS = {};
+var buttons_model = [], all_buttons = [];
+var daos_list = [], bloc_fields = [];
+var imports_insert = [];
+var imports_list = [];
+var fields_esp_row = [];
+var custom_action = [];
+var select = [];
 
 //CALCULAR ALTURA DA PÁGINA BLOCKY
 
@@ -148,6 +149,8 @@ window.IGRPBlocklyInit = function(){
 
 	 fields_model = []; 
 	 fields_model.push(['--','--']);
+	 chart = []; 
+	 chart.push(['--','--']);
 	 form_id = []; 
 	 form_id.push(['--','--']);
 	 key_model= [];
@@ -160,19 +163,20 @@ window.IGRPBlocklyInit = function(){
 	 separator_model = []; 
 	 tables_model.push(['--','--']);
 	 separator_model.push(['--','--']);
-	 buttons_model = []; buttons_MEANS = {}; target_MEANS = {}; all_buttons = [];
+	 buttons_model = [];
 	 buttons_model.push([ '--', '--' ]);
-	 daos_list = []; DAOS_MEANS = {}; bloc_fields = [];
+	 all_buttons = [];
+	 daos_list = [];
 	 daos_list.push([ '--', '--' ]);
-	 imports_insert = []; imports_insert_MEANS = {};
+	 imports_insert = [];
 	 imports_insert.push([ '--', '--' ]);
-	 imports_list = []; imports_list_MEANS = {};
+	 imports_list = [];
 	 imports_list.push([ '--', '--' ]);
-	 fields_esp_row = []; FIELDS_ROW_MEANS = {};
+	 fields_esp_row = [];
 	 fields_esp_row.push([ '--', '--' ]);
-	 custom_action = []; custom_action_MEANS = {}; 
+	 custom_action = []; 
 	 custom_action.push([ '--', '--' ]);
-	 select = []; select_MEANS = {};
+	 select = [];
 	 select.push([ '--', '--' ]);
 	
 	var BlocklyXML = $.parseXML(VARS.getGen().getXML());
@@ -180,6 +184,30 @@ window.IGRPBlocklyInit = function(){
 	 AppTitle = $('rows>app', BlocklyXML).text();
 	 PageTitle = $('rows>page', BlocklyXML).text();
 	 pagetitle = PageTitle.toLowerCase();
+	 
+	// ********************************************** GET XML FIELDS  ***************************************
+		$('rows>content>*', BlocklyXML).each(function(i, element) {
+			
+			if($(element).attr('type')== 'table')
+				{
+					var table = $(element).prop('tagName');
+					tables_model.push([ table, table ]);
+				}
+			
+				
+			if($(element).attr('type')== 'separatorlist')
+			{
+				var separator = $(element).prop('tagName');
+				separator_model.push([ separator, separator ]);
+			}
+			
+			if($(element).attr('type')== 'chart')
+			{
+				var char = $(element).prop('tagName');
+				chart.push([ char, char ]);
+			}
+			
+			});
 	
 	$('rows>content>*[type]', BlocklyXML).each(function(i, element) {
 		
@@ -193,7 +221,16 @@ window.IGRPBlocklyInit = function(){
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		
-		fields_model.push([ tag, javaType + '::'+tag]);
+		if(tag == "hidden")
+		{
+			var tagg = $(field).attr('tag');
+			form_id.push([ tagg, tagg ]);
+			fields_model.push([ tagg, javaType + '::'+tagg]);
+		}
+		else
+		{
+			fields_model.push([ tag, javaType + '::'+tag]);
+		}
 		
 		if(key == "true")
 		{
@@ -206,11 +243,7 @@ window.IGRPBlocklyInit = function(){
 			select.push([ tag, tag ]);
 		}
 		
-		if(tag == "hidden")
-		{
-			var tagg = $(field).attr('tag');
-			form_id.push([ tagg, tagg ]);
-		}
+		
 		
 		})
 	});
@@ -271,8 +304,7 @@ window.IGRPBlocklyInit = function(){
 		var page_target = $(element).find('>page').text();
 		
 		buttons_model.push([ button, button ]);
-		buttons_MEANS[button] = button;
-		target_MEANS[button] = page_target;
+		
 		all_buttons.push(button);
 		
 	});
@@ -284,24 +316,6 @@ window.IGRPBlocklyInit = function(){
 	$('#controller').append(str);
 	$('#controller').append('<value name="custom1" type="dummy" title="custom action" ></value>'
  			+'<value name="custom_actions" type="statement"></value>');
-	
-	// ********************************************** GET XML FIELDS TABLE ***************************************
-	$('rows>content>*', BlocklyXML).each(function(i, element) {
-		
-		if($(element).attr('type')== 'table')
-			{
-				var table = $(element).prop('tagName');
-				tables_model.push([ table, table ]);
-			}
-		
-			
-		if($(element).attr('type')== 'separatorlist')
-		{
-			var separator = $(element).prop('tagName');
-			separator_model.push([ separator, separator ]);
-		}
-		
-		});
 	
 	
 	// ********************************************* END XML LOAD ***********************************************
@@ -424,19 +438,20 @@ window.IGRPBlocklyInit = function(){
 						+'<value name="delete" title="deleted by" type="value" >'
 						+'</value>'
 						+'</block>'
-						
 						+'<block type="get_row_sep" output="" color="300">'
 						+'<value type="dummy" title="get row separator" name="fields_model">'
 							+'<field type="dropdown" name="get_row_sep" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 						+'</value>'
 						+'</category>'	
-						+'<category id="graphic" name="Grafic" colour="150">'
-						+'<block type="grafico" color ="60" prev-statement="" next-statement="" inline="true">'
-							+'<value name="value1" type="dummy" title="insert DAO">'
-								+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+						+'<category id="chart" name="Chart" colour="150">'
+						+'<block type="grafico" color ="60" prev-statement="" next-statement="" >'
+							+'<value name="value1" type="dummy" title="fill chart">'
+								+'<field type="dropdown" name="grafico" options="IGRP_BLOCKLY_DROPS.chart_model"></field>'
+								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							+'</value>'
-							+'<value name="value2" type="statement"></value>'  
+							+'<value name="eixoX"  title="Eixo X" type="value"></value>'
+							+'<value name="eixoY"  title="Eixo Y" type="value"></value>' 
 						+'</block>'
 						+'</category>'
 					+'</category>'
@@ -446,7 +461,6 @@ window.IGRPBlocklyInit = function(){
 						+'<block type="index_editar" color ="40" prev-statement="" next-statement="" inline="true">'
 							+'<value name="value1" type="dummy" >'
 								+'<field type="dropdown" name="dao" title="update DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-								+'<field type="dropdown" name="iskey" title="by param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 							+'</value>'
 							+'<value name="value2" type="statement"></value>' 
 							+'<value name="value3" type="dummy">'
@@ -513,7 +527,6 @@ window.IGRPBlocklyInit = function(){
 			daoClasses[daos] = true;
 			
 			daos_list.push([ daos, daos ]);
-			DAOS_MEANS[daos] = '' + daos + '';
 			bloc_fields.push(daos);
 									
 			$('#dao').append('<category id="'+daos+'" name="'+daos+'" colour="150"></category>\n');
@@ -585,7 +598,7 @@ window.IGRPBlocklyInit = function(){
 				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="">'
 					+'<value name="value1" type="value" title="set'+daos+'">'
 						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
-						+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
+						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 					+'</value>'
 				+'</block>\n');
 			
@@ -640,7 +653,9 @@ window.IGRPBlocklyInit = function(){
 			
 			fields_TABLE : fields_table,
 			
-			fields_SEP : fields_separator 
+			fields_SEP : fields_separator,
+			
+			chart_model : chart
 					
 		});
 
@@ -682,6 +697,8 @@ function GetBlocklyImports(){
 			
 			saveseparatorImports = $('block[type="save_separator"]',xml),
 			
+			graficoImports = $('block[type="grafico"]',xml),
+			
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			
 			fieldDaos     = $('field[name="dao"]', xml),
@@ -712,6 +729,10 @@ function GetBlocklyImports(){
 		if(saveseparatorImports[0])
 			
 			rtn+='<import type="save_separator">saveSeparator</import>';
+		
+		if(graficoImports[0])
+			
+			rtn+='<import type="grafico">Grafico</import>';
 				
 		if(daosImports[0] || fieldDaos[0]){
 			

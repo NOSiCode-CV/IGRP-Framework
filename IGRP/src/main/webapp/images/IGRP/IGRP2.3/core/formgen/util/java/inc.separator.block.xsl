@@ -57,14 +57,17 @@
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>String isEdit = Core.getParam( "isEdit" );</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
+			<xsl:text>int param = Core.getParamInt("param_id");</xsl:text>
+			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>if ( Core.isNotNull( isEdit ) ) {</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:value-of select="$dao"></xsl:value-of>
 			<xsl:text> obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>().findOne(model.get</xsl:text>
-			<xsl:value-of select="$id_model"></xsl:value-of><xsl:text>());</xsl:text>
+			<xsl:text>().findOne(param);</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>if ( Core.isNotNull( obj ) &amp;&amp;  !obj.hasError() ) {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$id_model"></xsl:value-of><xsl:text>(""+param);</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:value-of select="$sep_model"></xsl:value-of>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
@@ -98,19 +101,13 @@
 			<xsl:text>});</xsl:text> 
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text> 
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>}</xsl:text> 
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>view.btn_</xsl:text><xsl:value-of select="$button"></xsl:value-of><xsl:text>.addParameter("param", param);</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>view.btn_</xsl:text><xsl:value-of select="$button"></xsl:value-of>
-			<xsl:text>.setLink( "</xsl:text>
-			<xsl:value-of select="$button"></xsl:value-of><xsl:text>&amp;param_id="+ model.get</xsl:text> 
-			<xsl:value-of select="$id_model"></xsl:value-of><xsl:text>());</xsl:text> 
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>}</xsl:text> 
-			<xsl:text>else {</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>Core.setMessageError( "Person not found id="+ model.get</xsl:text> 
-			<xsl:value-of select="$id_model"></xsl:value-of> <xsl:text>());</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>}</xsl:text> 
+			<xsl:text>.addParameter("isEdit", "true");</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>}</xsl:text> 
 			<xsl:value-of select="$newline"></xsl:value-of>
@@ -146,11 +143,23 @@
 		</xsl:variable>
 		
 		<xsl:variable name="rowset">
-		
-			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
-			<xsl:text>( new Pair(doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of>
-			<xsl:text>(),doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>()) );</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:choose>
+				<xsl:when test="$rowtypechild = 'Date'">
+					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+					<xsl:text>( new Pair(""+doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of>
+					<xsl:text>(),""+doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>()) );</xsl:text>
+					<xsl:value-of select="$newlineTab4"></xsl:value-of>
+				</xsl:when>
+
+				<xsl:otherwise>
+					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+					<xsl:text>( new Pair(doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of>
+					<xsl:text>(),doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>()) );</xsl:text>
+					<xsl:value-of select="$newlineTab4"></xsl:value-of>
+				</xsl:otherwise>
+			
+			</xsl:choose>
+			
 		</xsl:variable>
 		
 		<xsl:value-of select="$rowset"></xsl:value-of>
@@ -236,26 +245,42 @@
 	
 	
 		<xsl:variable name="code">
-	
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>String isEdit = Core.getParam( "isEdit" );</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:value-of select="$dao"></xsl:value-of><xsl:text> obj = null; </xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>if ( Core.isNull( isEdit ) ) {</xsl:text>
+
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text> obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>();</xsl:text>
+			<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:value-of select="$dao"></xsl:value-of>
+			<xsl:text> obj  = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+			<xsl:text>();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			 <xsl:text> obj = obj.findOne(Core.getParamInt("param"));</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:value-of select="$insercao"></xsl:value-of>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>obj = obj.insert();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>} else {</xsl:text>
+			<xsl:text>if (obj != null){</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>().findOne( model.get</xsl:text>
-			<xsl:value-of select="$id_model"></xsl:value-of> <xsl:text>());</xsl:text>	
-			<xsl:text>obj = obj.update(); </xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:text>}</xsl:text>
+			<xsl:text>if (Core.isNull(isEdit)) {</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>obj.insert();</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>Core.setMessageSuccess();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>}else{</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>obj.update();</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>Core.setMessageSuccess();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>}
+			}else{</xsl:text> 
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>Core.setMessageError();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>if ( obj!= null &amp;&amp; !obj.hasError() ) {</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
@@ -281,9 +306,9 @@
 			<xsl:text>_id().getKey()::equals)){</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> doc = new </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
-			<xsl:text>();</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>doc.set</xsl:text><xsl:value-of select="$id_dad"></xsl:value-of><xsl:text>(obj);</xsl:text>
+			<xsl:text>().findOne( Core.toInt(row.get</xsl:text>
+			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey()) );</xsl:text>
+			
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:value-of select="$sep_insercao"></xsl:value-of> 
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
@@ -304,8 +329,9 @@
 			<xsl:text>else {</xsl:text>	
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> doc = new </xsl:text>
-			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text>().findOne( row.get</xsl:text>
-			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey() );</xsl:text>
+			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text>();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>doc.set</xsl:text><xsl:value-of select="$id_dad"></xsl:value-of><xsl:text>(obj);</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>		
 			<xsl:value-of select="$sep_insercao"></xsl:value-of> 
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
@@ -325,7 +351,10 @@
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>} catch ( Exception e ) {}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>}</xsl:text>	
+			<xsl:text>}else </xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Core.setMessageError( "Error registring/updating person." );</xsl:text>
+			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_del();</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
@@ -352,19 +381,9 @@
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>if ( Core.isNotNull( isEdit ) )</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>return this.forward( "</xsl:text><xsl:value-of select="$app-title"></xsl:value-of><xsl:text>", "</xsl:text>
 			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>", "index" );</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>else {</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>Core.setMessageError( "Error registring/updating person." );</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>return this.forward( "</xsl:text><xsl:value-of select="$app-title"></xsl:value-of><xsl:text>", "</xsl:text>
-			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>", "index" );</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
 		</xsl:variable>
 		
@@ -395,7 +414,6 @@
 		</xsl:variable>
 		
 		<xsl:variable name="rowset">
-		
 			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 			<xsl:text>().getValue()</xsl:text>
 		</xsl:variable>

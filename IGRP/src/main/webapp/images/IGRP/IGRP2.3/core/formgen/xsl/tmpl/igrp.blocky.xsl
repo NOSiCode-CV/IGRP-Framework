@@ -8,7 +8,7 @@
 						<tr id="tabRow" height="1em">
 							<td id="tab_blocks" class="tabon">Blocks</td>
 							<td class="tabmax">
-								<button id="refresh_bloco" type="button">Refresh Workspace</button>
+<!-- 								<button id="refresh_bloco" type="button">Refresh Workspace</button> -->
 								<button id="save_bloco_igrp" type="button">Salvar Bloco</button>
 								<button id="restore_bloco_igrp" type="button">Restaurar Bloco</button>
 <!-- 								<button onclick="saveCode()">Salvar Java Code</button> -->
@@ -169,9 +169,15 @@
 						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_if"></field>
 					</value>
 				</block>
-<!-- 				<block type="edit" output="" title="isEdit" color="1"></block> -->
+				
+				<block type="corre_get_param" output="" color="1">
+					<value name="value1" type="dummy"  title="Core get param">
+						<field type="field_text" name="param" options="enter the parameter's name"></field>
+					</value>
+				</block>
+				
 			</category>
-<!-- 						<field type="checkbox" name="checkbox" title="inteiro:"></field> -->
+
 			<sep></sep>
 			
 		</xml>

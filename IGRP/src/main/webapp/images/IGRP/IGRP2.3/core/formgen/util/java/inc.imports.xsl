@@ -52,6 +52,15 @@
 				
 				</xsl:when>
 				
+				<xsl:when test="@type = 'grafico'">
+					
+					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+				
+				</xsl:when>
+				
 				
 				<xsl:when test="@type = 'dao'">
 					

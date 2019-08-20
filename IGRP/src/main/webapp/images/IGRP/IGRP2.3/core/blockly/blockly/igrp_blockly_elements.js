@@ -100,7 +100,47 @@
 			    }
 			
 		},
-	
+		
+grafico : {
+			
+			init : function(block){
+				
+				 var checkbox = new Blockly.FieldCheckbox("FALSE", function(pxchecked) {
+					 
+				      			this.sourceBlock_.updateShape_(pxchecked);     			
+				 });
+				
+				block.appendDummyInput().appendField("3D").appendField(checkbox, '3D');	
+			
+				block.mutationToDom =  function() {
+					    var container = document.createElement('mutation');
+					    var pxchecked = (this.getFieldValue('3D') == 'TRUE');
+					    container.setAttribute('pxchecked', pxchecked);
+					    return container;
+				},
+				
+				block.domToMutation = function(xmlElement) {
+				    var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true');
+				    this.updateShape_(pxchecked);
+				 },
+				 
+				 block.updateShape_ = function(pxchecked) {
+				    if (pxchecked) {
+				      block.appendValueInput("eixoZ").appendField("Eixo Z");
+				    } else {
+				      if (this.childBlocks_.length > 0) {
+				        for (var i = 0; i < block.childBlocks_.length; i++) {
+				          if (block.childBlocks_[i].type == 'px') {
+				           block.childBlocks_[i].unplug();
+				            break;
+				          }
+				        }
+				      }
+				      this.removeInput('eixoZ');
+				    }
+				 }
+			}
+		},
 	}
 	
 	//Handle Dao Blocks
