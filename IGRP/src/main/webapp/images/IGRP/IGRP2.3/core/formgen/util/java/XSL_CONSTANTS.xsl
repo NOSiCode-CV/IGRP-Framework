@@ -612,21 +612,28 @@
 		<xsl:for-each select="validations/validation">
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tabValidation"/>
+			<xsl:variable name="annotationName">
+				<xsl:value-of select="annotation"/>
+			</xsl:variable>
 			<xsl:choose>
 				<xsl:when test="$prefix!=''">
-					<xsl:value-of select="concat('@',$prefix,translate(annotation,'@',''),'(')"/>
+					<xsl:value-of select="concat('@',$prefix,translate($annotationName,'@',''),'(')"/>
 				</xsl:when>
 				<xsl:otherwise>					
 					<xsl:value-of select="concat(annotation,'(')"/>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:call-template name="apply-validations"/>
+			<xsl:call-template name="apply-validations">
+				<xsl:with-param name="annotationName" select="$annotationName"/>
+			</xsl:call-template>
 			<xsl:value-of select="')'"/>
 		</xsl:for-each>
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 	
 	<xsl:template name="apply-validations">
+		<xsl:param name="annotationName"/>
+		
 		<xsl:for-each select="*">
 			<xsl:if test="local-name() != 'annotation'">
 				<xsl:choose>
@@ -635,6 +642,9 @@
 					</xsl:when>
 					<xsl:when test="local-name() = 'numeric'">
 						<xsl:value-of select="concat('fraction','=',.)"/>
+					</xsl:when>
+					<xsl:when test="local-name() = 'value' and $annotationName='@Pattern'">
+						<xsl:value-of select="concat('regexp','=',$double_quotes,.,$double_quotes)"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="concat(local-name(),'=',$double_quotes,.,$double_quotes)"/>
