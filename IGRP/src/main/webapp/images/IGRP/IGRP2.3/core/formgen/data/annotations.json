@@ -259,8 +259,8 @@
                         "@Pattern": {
                             "inputs": {
                                 "integer": false,
-                                "max": true,
-                                "min": true,
+                                "max": false,
+                                "min": false,
                                 "numeric": false,
                                 "value": {
                                     "required": true
@@ -432,8 +432,8 @@
                         "@Pattern": {
                             "inputs": {
                                 "integer": false,
-                                "max": true,
-                                "min": true,
+                                "max": false,
+                                "min": false,
                                 "numeric": false,
                                 "value": {
                                     "required": true
@@ -516,8 +516,8 @@
                         "@Pattern": {
                             "inputs": {
                                 "integer": false,
-                                "max": true,
-                                "min": true,
+                                "max": false,
+                                "min": false,
                                 "numeric": false,
                                 "value": {
                                     "required": true
@@ -596,7 +596,7 @@
                     "type": "unique"
                 }
             ],
-            "upload": [
+            "file": [
                 {
                     "list": {
                         "@FileNotNull": {
