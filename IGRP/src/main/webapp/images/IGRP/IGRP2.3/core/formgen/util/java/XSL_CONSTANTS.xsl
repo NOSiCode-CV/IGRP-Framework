@@ -627,7 +627,18 @@
 	<xsl:template name="apply-validations">
 		<xsl:for-each select="*">
 			<xsl:if test="local-name() != 'annotation'">
-				<xsl:value-of select="concat(local-name(),'=',$double_quotes,.,$double_quotes)"/>
+				<xsl:choose>
+					<xsl:when test="local-name() = 'min' or local-name() = 'max' or local-name() = 'integer'">
+						<xsl:value-of select="concat(local-name(),'=',.)"/>
+					</xsl:when>
+					<xsl:when test="local-name() = 'numeric'">
+						<xsl:value-of select="concat('fraction','=',.)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="concat(local-name(),'=',$double_quotes,.,$double_quotes)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 				<xsl:if test="position()!=last()">
 					<xsl:value-of select="','"/>
 				</xsl:if>
