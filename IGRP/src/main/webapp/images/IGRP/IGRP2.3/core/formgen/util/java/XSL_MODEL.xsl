@@ -78,6 +78,8 @@
 					</xsl:choose>
 			 	</xsl:variable>
 	            <xsl:if test="not(@name=preceding::node()/@name)">		
+	            	<xsl:call-template name="validation-field"/>
+	            	
 					<xsl:value-of select="$tab"/>
 					<xsl:variable name="type_field">
 						<xsl:call-template name="get-variable-type-java">
@@ -138,6 +140,9 @@
 			<xsl:value-of select="$tab"/>
 			<xsl:if test="@type = 'formlist' or @type = 'separatorlist'">
 				<xsl:value-of select="concat('@SeparatorList(name = ',$tableName,'.class)')"/>
+				<xsl:value-of select="$newline"/>			
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="'@Valid'"/>
 				<xsl:value-of select="$newline"/>			
 				<xsl:value-of select="$tab"/>
 			</xsl:if>
@@ -224,6 +229,7 @@
 		<xsl:value-of select="$import_chart2d"/>	
 		<xsl:value-of select="$import_chart3d"/>	
 		<xsl:value-of select="$import_file_upload"/>
+		<xsl:value-of select="$import_validations_annotations"/>
  	</xsl:template>
 
 
@@ -444,6 +450,10 @@
  		
  		
  		<xsl:for-each select="fields/*">
+ 			<xsl:call-template name="validation-field">
+    			<xsl:with-param name="prefix" select="'Pair'"/>
+    			<xsl:with-param name="tabValidation" select="$tab2"/>
+    		</xsl:call-template>
  			<xsl:variable name="tag_name">
 				<xsl:value-of select="name()"/>
 		 	</xsl:variable>

@@ -392,24 +392,28 @@
 					    					    	
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="start-example"/>						
-						<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
+						<xsl:value-of select="concat(' ',' this.addQueryString(',$double_quotes,'p_id',$double_quotes,',',$double_quotes,'12',$double_quotes,'); //to send a query string in the URL')"/>							
 						<xsl:call-template name="newlineTab2"/>	
 										
 						<xsl:for-each select="//content/*[@type='table']">
 		 					<xsl:for-each select="fields/*[@iskey='true']">	
 		 					<xsl:choose>
 		 						<xsl:when test="@type='hidden'">
-		 							<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_',@tag,$double_quotes,',','Core.getParam(',$double_quotes,'p_',@tag,$double_quotes,'));')"/>					
+		 							<xsl:value-of select="concat(' ',' this.addQueryString(',$double_quotes,'p_',@tag,$double_quotes,',','Core.getParam(',$double_quotes,'p_',@tag,$double_quotes,'));')"/>					
 								</xsl:when>
 		 						<xsl:otherwise>
-		 							<xsl:value-of select="concat(' ','this.addQueryString(',$double_quotes,'p_',local-name(),$double_quotes,',','Core.getParam(',$double_quotes,'p_',local-name(),$double_quotes,'));')"/>				
+		 							<xsl:value-of select="concat(' ',' this.addQueryString(',$double_quotes,'p_',local-name(),$double_quotes,',','Core.getParam(',$double_quotes,'p_',local-name(),$double_quotes,'));')"/>				
 								</xsl:otherwise>
 		 					</xsl:choose>	 	
 		 					<xsl:call-template name="newlineTab2"/>			 						
 	 						</xsl:for-each> 	 			
 						</xsl:for-each>
 						
-						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
+						<xsl:value-of select="concat('  return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString()); //if submit, loads the values')"/>							
+						
+						<xsl:call-template name="newlineTab2"/>
+						<xsl:value-of select="'  Use model.validate() to validate your model'"/>
+						<xsl:call-template name="newlineTab2"/>
 						
 						<xsl:call-template name="end-example"/>			
 						

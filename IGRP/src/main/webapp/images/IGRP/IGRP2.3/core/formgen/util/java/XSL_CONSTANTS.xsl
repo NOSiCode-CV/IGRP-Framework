@@ -222,6 +222,17 @@
         <xsl:text>import nosi.webapps.</xsl:text>
     </xsl:variable>
     
+    <xsl:variable name="import_validations_annotations">    	
+    	<xsl:if test="count(/rows/content/*[@type = 'formlist' or @type = 'separatorlist'])  &gt; 0">
+    		<xsl:text>import javax.validation.Valid;</xsl:text>
+    	</xsl:if>
+    	<xsl:if test="count(//validations/validation)  &gt; 0">
+       		<xsl:value-of select="$newline"/>
+   			<xsl:value-of select="'import nosi.core.validator.constraints.*;'"/>
+       		<xsl:value-of select="$newline"/>
+    	</xsl:if>
+    </xsl:variable>
+    
     <xsl:variable name="preserve_url" select="rows/plsql/preserve_url"/>
     <xsl:variable name="begin_reserve_code_controller_actions" select="'/*---- Insert your actions here... ----*/'"/>
     <xsl:variable name="begin_reserve_code_controller_import" select="'/*---- Import your packages here... ----*/'"/>
@@ -592,4 +603,35 @@
         <xsl:value-of select="$tab2"/>  
     </xsl:template>    
 
+	<!-- Validation Field -->
+	<xsl:template name="validation-field">	
+		<xsl:param name="prefix" select="''"/>	
+		<xsl:param name="tabValidation" select="$tab"/>
+		<xsl:for-each select="validations/validation">
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tabValidation"/>
+			<xsl:choose>
+				<xsl:when test="$prefix!=''">
+					<xsl:value-of select="concat('@',$prefix,translate(annotation,'@',''),'(')"/>
+				</xsl:when>
+				<xsl:otherwise>					
+					<xsl:value-of select="concat(annotation,'(')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:call-template name="apply-validations"/>
+			<xsl:value-of select="')'"/>
+		</xsl:for-each>
+		<xsl:value-of select="$newline"/>
+	</xsl:template>
+	
+	<xsl:template name="apply-validations">
+		<xsl:for-each select="*">
+			<xsl:if test="local-name() != 'annotation'">
+				<xsl:value-of select="concat(local-name(),'=',$double_quotes,.,$double_quotes)"/>
+				<xsl:if test="position()!=last()">
+					<xsl:value-of select="','"/>
+				</xsl:if>
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
 </xsl:stylesheet>
