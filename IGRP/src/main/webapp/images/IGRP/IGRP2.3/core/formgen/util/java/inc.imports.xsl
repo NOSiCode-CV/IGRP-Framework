@@ -8,68 +8,65 @@
 		
 		<xsl:variable name="dao-imports" select="$all-blocks[contains(@type,'et-dao-')]"></xsl:variable>
 		
-		<xsl:text>/* Start-Code-Block (import) */</xsl:text>
-		
-		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:text>/* Start-Code-Block (import) */</xsl:text>		
+	
 		
  		<xsl:for-each select="//rows/blockly/imports/import[not(.=preceding::import)]"> 
 			
 			<xsl:choose>
 			
 				<xsl:when test="@type = 'listar'">
-					
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.ArrayList;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
+					
 				
 				</xsl:when>
 				
 				<xsl:when test="@type = 'fill_combo'">
-					
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
+					
 				
 				</xsl:when>
 				
 				<xsl:when test="@type = 'separator'">
-					
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
+					
 				
 				</xsl:when>
 				
 				<xsl:when test="@type = 'save_separator'">
-					
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.stream.Collectors;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.Arrays;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-				
+									
 				</xsl:when>
 				
 				<xsl:when test="@type = 'grafico'">
-					
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.ArrayList;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-				
+									
 				</xsl:when>
 				
 				
 				<xsl:when test="@type = 'dao'">
 					
 					<xsl:variable name="className" select="."></xsl:variable>
-					
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"></xsl:value-of>
 					<xsl:text>.dao.</xsl:text><xsl:value-of select="$className"></xsl:value-of>
 					<xsl:text>;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
+					
 				
 				</xsl:when>
 				
@@ -79,13 +76,13 @@
 					
 					<xsl:choose>
 						<xsl:when test="$fieldType = 'File'">
-							<xsl:text>import nosi.core.webapp.UploadedFile;</xsl:text>
 							<xsl:value-of select="$newline"></xsl:value-of>
+							<xsl:text>import nosi.core.webapp.UploadedFile;</xsl:text>
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Date'">
-							<xsl:text>import java.sql.Date;</xsl:text>
 							<xsl:value-of select="$newline"></xsl:value-of>
+							<xsl:text>import java.sql.Date;</xsl:text>
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Select'">
@@ -93,8 +90,8 @@
 						</xsl:when>
 						
 						<xsl:when test="$fieldType = 'Link'">
-							<xsl:text>import nosi.webapps.igrp.dao.CLob;</xsl:text>
 							<xsl:value-of select="$newline"></xsl:value-of>
+							<xsl:text>import nosi.webapps.igrp.dao.CLob;</xsl:text>							
 						</xsl:when>
 					</xsl:choose>
 				
@@ -129,9 +126,7 @@
 		 -->
 		
 		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:text>/* End-Code-Block */</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
-		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:text>/* End-Code-Block */</xsl:text>		
 		
 	</xsl:template>
 
