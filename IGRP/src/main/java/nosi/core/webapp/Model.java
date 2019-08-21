@@ -304,17 +304,19 @@ public abstract class Model { // IGRP super model
 						m.setAccessible(true);
 						String param = "p_" + m.getName().toLowerCase() + "_fk";
 						String key = mapFk.get(m.getName()).size() > row ? mapFk.get(m.getName()).get(row) : "";
-						String value = mapFkDesc.get(m.getName()).size() > row ? mapFkDesc.get(m.getName()).get(row)
-								: "";
+						String value = mapFkDesc.get(m.getName()).size() > row ? mapFkDesc.get(m.getName()).get(row): "";
 						List<String> fileId = mapFileId.get(m.getName());
 						if (allFiles != null && allFiles.containsKey(param)) {
 							List<Part> filesByLine = allFiles.get(param);
 							if (!filesByLine.isEmpty()) {
 								try {
-									BeanUtils.setProperty(obj2, m.getName(),
-											new IGRPSeparatorList.Pair(
-													fileId != null && fileId.size() > row ? fileId.get(row) : key, key,
-													value, filesByLine.get(row)));
+									String id = "-1";
+									if(("p_"+m.getName().toLowerCase()+"_fk").equalsIgnoreCase(key)) {
+										id = fileId != null && fileId.size() > row ? fileId.get(row) : id;
+									}else {
+										id = fileId != null && fileId.size() > row ? fileId.get(row) : key;
+									}
+									BeanUtils.setProperty(obj2, m.getName(),new IGRPSeparatorList.Pair(id, key,value, filesByLine.get(row)));
 								} catch (Exception e) {
 									e.printStackTrace();
 									m.setAccessible(false);

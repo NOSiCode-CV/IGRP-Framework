@@ -142,8 +142,10 @@ public class IGRPSeparatorList extends IGRPTable {
 			this.xml.writeAttribute("tag", "hidden_1");
 			this.xml.writeAttribute("type", "hidden_1");
 			this.xml.writeAttribute("name", Model.getParamFileId(field.propertie().getProperty("name")) );
-			this.xml.writeAttribute("value", value);
-			this.xml.text(value);
+			if(!field.propertie().getProperty("name").equals(value+"_fk")) {
+				this.xml.writeAttribute("value", value);
+				this.xml.text(value);
+			}
 		this.xml.endElement();
 	}
 	

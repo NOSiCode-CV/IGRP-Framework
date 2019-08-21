@@ -882,7 +882,6 @@ public final class Core { // Not inherit
 		return r;
 	}
 	
-	
 
 	public static Part getFile(String name) throws IOException, ServletException {
 		if(Core.isUploadedFiles()) {
@@ -896,7 +895,8 @@ public final class Core { // Not inherit
 
 	public static boolean isUploadedFiles() {
 		try {
-			return Igrp.getInstance().getRequest().getParts().size() > 0;
+			return Core.isNotNull(Igrp.getInstance().getRequest().getHeader("content-type")) && 
+					Igrp.getInstance().getRequest().getParts().size() > 0;
 		} catch (IOException | ServletException e) {
 			return false;
 		}
