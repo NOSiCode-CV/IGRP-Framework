@@ -84,13 +84,17 @@
 			
 			if(val && onEdition){				
 				
-				var typeData  = data.annotation.types[onEdition.type];
+				var typeData  = data.annotation.types[onEdition.type] || data.annotation.types.text;
 				
 				HideValidationFields();
+				
+				console.log(typeData)
 				
 				if(typeData){
 					
 					var annotationData = GetAnnotationData( val, typeData );
+					
+					console.log(annotationData.inputs);
 				
 					for(var inputName in annotationData.inputs){
 						
@@ -199,7 +203,7 @@
 					
 					trigger : false
 					
-				})
+				});
 				
 				validationTab.show();
 				
