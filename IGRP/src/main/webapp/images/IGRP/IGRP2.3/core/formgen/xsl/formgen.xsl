@@ -451,8 +451,8 @@
                               <ul>
                                   <li class="active" rel="properties">Properties</li>
                                   <li rel="style">Style</li>
-                                  <li rel="validation">Validation</li>
                                   <li rel="rules">Rules</li>
+                                   <li rel="validation">Validation</li>
                                   <li rel="xsl">XSL</li>
                                   <li rel="copy" gen-type="container">Copy From</li>
                               </ul>
@@ -478,12 +478,14 @@
                                   </div>
                               </div>
 
-							  <div rel="validation" class="gen-properties-setts-holder">
-                                  <xsl:call-template name="igrp-field-validation"/>
-                              </div>
+							  
                               
                               <div rel="rules" class="gen-properties-setts-holder">
                                   <xsl:call-template name="rules-list"/>
+                              </div>
+                              
+                              <div rel="validation" class="gen-properties-setts-holder">
+                                  <xsl:call-template name="igrp-field-validation"/>
                               </div>
 
                               <div rel="xsl" class="gen-properties-setts-holder">
