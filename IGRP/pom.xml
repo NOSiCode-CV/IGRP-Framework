@@ -336,6 +336,13 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.12</version>
 				</plugin>
+				 <!-- Database migrations plugin -->
+                <plugin>
+                    <groupId>org.javalite</groupId>
+                    <artifactId>db-migrator-maven-plugin</artifactId>
+                    <version>1.4.13</version>
+                </plugin>
+                <!-- FIM Database migrations plugin -->
 			</plugins>
 		</pluginManagement>
 	</build>

@@ -200,6 +200,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Wsdl2java", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wsdl2java/Wsdl2java.xsl", "WSDL2java", "WSDL2java", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_empresa", "index", "nosi.webapps.igrp.pages", "igrp/pesquisa_empresa/Pesquisa_empresa.xsl", "Pesquisa Empresa", "Pesquisa Empresa", "2.3", 1, app_igrp));
 			//get(75)
+			actions.add(new Action("Daogenerator", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/daogenerator/Daogenerator.xsl", "DAOGenerator", "DAOGenerator", "2.3", 1, app_igrp_studio));
 			
 			for(Action ac:actions){
 				ac.insert();
