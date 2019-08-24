@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/daogenerator/Daogenerator.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <title>Dummie XML prototype</title>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Daogenerator</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>Daogenerator</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=98</preserve_url>
+    </plsql>
+    <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
+    <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
+    <content>
+        <title>DAOGenerator</title>
+        <form_1 type="form" xml-type="form" title="DAO Generator" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" tags="false" domain="" maxlength="250" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </aplicacao>
+                <data_source name="p_data_source" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules>
+                        <rule type="remote_combobox">
+                            <proc>index</proc>
+                            <requestFields>
+                                <item>p_aplicacao</item>
+                                <item>p_data_source</item>
+                            </requestFields>
+                        </rule>
+                    </rules>
+                </data_source>
+                <schema name="p_schema" type="select" multiple="false" tags="false" domain="" maxlength="250" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Schema</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </schema>
+                <add_datasource_botton name="p_add_datasource_botton" type="link" target="mpsubmit" request_fields="" target_fields="" closerefresh="false" refresh_submit="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-file-text-o" maxlength="250" placeholder="" desclabel="false" right="false">
+                    <label>Add datasource</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</value>
+                </add_datasource_botton>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" title="Escolha as tabelas" gen-type="container" gen-group="true">
+            <fields>
+                <check_table name="p_check_table" type="checkbox" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" java-type="int" switch="false" check="true" desc="true">
+                    <label/>
+                </check_table>
+                <table_name name="p_table_name" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                    <label>Table Name</label>
+                </table_name>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Unde consectetur omnis rem ist</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Natus voluptatem doloremque om</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Sed amet sit sit unde</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Officia totam sit unde officia</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Consectetur omnis natus labore</table_name>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gerar_dao" custom_return="true">
+                <title>Gerar DAO</title>
+                <app>igrp_studio</app>
+                <page>Daogenerator</page>
+                <link>index</link>
+                <target>submit_ajax</target>
+                <img>success|fa-gears</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/daogenerator/Daogenerator.xml</preview>
+            </item>
+        </toolsbar_1>
+    </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
+</rows>
