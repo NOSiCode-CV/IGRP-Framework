@@ -26,7 +26,15 @@ public class Connection {
 			return connectionName.toString();
 		return ConfigApp.getInstance().getH2IGRPBaseConnection();
 	}
-
+	
+	public static java.sql.Connection getConnection(String connectionName, String dad){
+		Config_env config = new Config_env().find()
+				.andWhere("name", "=", connectionName)
+				.andWhere("application.dad", "=",dad)
+				.one();
+		return Connection.getConnectionWithConfig(config);
+	}
+	
 	public static java.sql.Connection getConnection(String connectionName){		
 		String url = "";
 		String password = "";

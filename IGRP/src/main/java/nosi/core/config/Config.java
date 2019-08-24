@@ -35,7 +35,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "190820";
+	public final String VERSION = "190824";
 
 	public Config() {
 	
@@ -205,6 +205,10 @@ public class Config {
 		HashMap<String,String> versions = new HashMap<>();
 		versions.put("2.3", "2.3");
 		return versions;
+	}
+	//caminho onde guarda a classe DAO
+	public String getPathDAO(String dad) {
+		return this.getRawBasePathClassWorkspace()+"nosi"+ SEPARATOR_FOR_FILESYS + "webapps" + SEPARATOR_FOR_FILESYS + dad + SEPARATOR_FOR_FILESYS + "dao"+ SEPARATOR_FOR_FILESYS;
 	}
 	
 	public String getLinkPageXsl(Action ac) {

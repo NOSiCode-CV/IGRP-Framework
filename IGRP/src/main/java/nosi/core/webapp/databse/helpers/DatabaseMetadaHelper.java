@@ -59,16 +59,27 @@ public class DatabaseMetadaHelper {
 	}
 
 	// Get foreign key of table
-	public static Map<String, String> getForeignKeys(Config_env config, String schema, String tableName) {
-		try (java.sql.Connection con = Connection.getConnection(config.getName())) {
-			return getForeignKeys(con, schema, tableName);
+	public Map<String, String> getForeignKeys(Config_env config, String schema, String tableName,String dad) {
+		try (java.sql.Connection con = Connection.getConnection(config.getName(), dad)) {
+			return getForeignKeysTableName(con, schema, tableName);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	// Get foreign key of constrain name
+	public Map<String, String> getForeignKeysConstrainName(Config_env config, String schema, String tableName,String dad) {
+		try (java.sql.Connection con = Connection.getConnection(config.getName(), dad)) {
+			return getForeignKeysConstrainName(con, schema, tableName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 
-	public static Map<String, String> getForeignKeys(java.sql.Connection con, String schema, String tableName) {
+	public static Map<String, String> getForeignKeysTableName(java.sql.Connection con, String schema, String tableName) {
 		Map<String, String> keys = new HashMap<>();
 		if (con != null) {
 			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
@@ -82,6 +93,22 @@ public class DatabaseMetadaHelper {
 		}
 		return keys;
 	}
+	
+	public static Map<String, String> getForeignKeysConstrainName(java.sql.Connection con, String schema, String tableName) {
+		Map<String, String> keys = new HashMap<>();
+		if (con != null) {
+			try (ResultSet keysR = con.getMetaData().getImportedKeys(null, schema, tableName)) {
+				while (keysR.next()) {
+					keys.put(keysR.getString("FKCOLUMN_NAME").toLowerCase(),
+							keysR.getString("FK_NAME").toLowerCase());
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return keys;
+	}
+	
 
 	public static List<String> getExportedKeys(java.sql.Connection con, String schema, String tableName) {
 		List<String> keys = new ArrayList<>();
@@ -153,7 +180,7 @@ public class DatabaseMetadaHelper {
 		String justTablename = tableName;
 		try (java.sql.Connection con = Connection.getConnection(config)) {
 			List<String> pkeys = getPrimaryKeys(con, schema, tableName);
-			Map<String, String> fkeys = getForeignKeys(con, schema, tableName);
+			Map<String, String> fkeys = getForeignKeysTableName(con, schema, tableName);
 			justTablename = (schema != null && !schema.equals("")) ? schema + "." + tableName : tableName;
 			String sql = "SELECT * FROM " + justTablename;
 			try (PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
