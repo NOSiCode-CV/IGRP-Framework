@@ -219,8 +219,6 @@
 								
 								p.clicked.removeAttr("disabled");
 								
-								console.log(xml);
-								
 								$.IGRP.utils.message.handleXML(xml);
 							}
 

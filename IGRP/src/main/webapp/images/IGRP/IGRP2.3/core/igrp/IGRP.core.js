@@ -264,9 +264,8 @@
 						case 'textarea':
 						case 'plaintext':
 							
-
-							formElement.text(value);
-
+							formElement.text(value).val(value);
+							
 						break;
 
 						default:
@@ -559,9 +558,12 @@
 							}
 						});
 						
-						$('.igrp-msg-wrapper').html(alert);
 						
-						$('#igrp-debugger .igrp-debug-list').html(debug);
+						if(alert != '')
+							$('.igrp-msg-wrapper').html(alert);
+						
+						if(debug != '')
+							$('#igrp-debugger .igrp-debug-list').html(debug);
 
 					}catch(err){
 						
