@@ -1,34 +1,40 @@
 package nosi.core.webapp.helpers.dao_helper;
 
+import java.io.IOException;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.webapps.igrp.dao.Config_env;
+import nosi.webapps.igrp_studio.pages.daogenerator.DaogeneratorController;
 
 /**
  * Isaias.Nunes
  * Aug 22, 2019
  */
 public class GerarClasse {
-	public String gerarCode(String dad_name,String tbl_name, String clas_dao_name,List<DatabaseMetadaHelper.Column> columns, String schema,Config_env config) {
+	public String gerarCode(String dad_name,String tbl_name, String clas_dao_name,List<DatabaseMetadaHelper.Column> columns, String schema,Config_env config) throws IOException {
 		
 		//definição das variaveis
 		String content_import="";
 		String content_package="";
 		String content="";
+		int cont = 0;
 		//package
 		content_package = "package nosi.webapps."+dad_name+".dao;\n\n";
 		
 		//import
-		content_import = content_import +"import nosi.webapps.igrp.dao.IGRPBaseActiveRecord;\n" +
+		content_import = content_import +"import nosi.base.ActiveRecord.BaseActiveRecord;\n" +
 							"import java.io.Serializable;\n" +
 							"import javax.persistence.Column;\n" +
 							"import javax.persistence.Entity;\n" +
 						    "import javax.persistence.Id;\n" +
 						    "import javax.persistence.GenerationType;\n" +
 						    "import javax.persistence.GeneratedValue;\n" + 
+						    "import javax.persistence.NamedQuery;\n"+
 						    "import javax.persistence.Table;\n\n";
 		
 		//autor
@@ -37,10 +43,10 @@ public class GerarClasse {
 		" * "+ Core.getCurrentDateSql()+"\n" + 
 		"*/\n\n";
 		
-		//
 		content = content + "@Entity\n" + 
-		"@Table(name=\""+ tbl_name +"\")\n";
-		content = content + "public class "+ clas_dao_name + " extends IGRPBaseActiveRecord<" + clas_dao_name + "> implements Serializable{\n\n";
+		"@Table(name=\""+ tbl_name +"\",schema=\""+schema+"\")\n"+
+		"@NamedQuery(name=\""+clas_dao_name+".findAll\", query=\"SELECT b FROM "+clas_dao_name+" b\")\n";
+		content = content + "public class "+ clas_dao_name + " extends BaseActiveRecord<" + clas_dao_name + "> implements Serializable{\n\n";
 		content = content + "\tprivate static final long serialVersionUID = 1L;\n\n";
 		
 		String content_variaveis = "";
@@ -60,10 +66,23 @@ public class GerarClasse {
 				content_import = content_import +"import javax.persistence.ManyToOne;\n" +
 									"import javax.persistence.JoinColumn;\n" +
 									"import javax.persistence.ForeignKey;\n\n";
-			}else
+				//vereficar se a classe com dependencia existe
+				if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
+					boolean gerar = new DaogeneratorController().processGenerate(config, this.resolveName(fk_table_name.get(cl.getName())), schema, fk_table_name.get(cl.getName()), dad_name);
+					if(gerar) {
+						Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
+					}
+				}
+			}else {
 				content_variaveis = content_variaveis + "\t@Column(nullable="+( cl.isNullable() ? "true" : "false") +",length="+ cl.getSize()  +")\n"+
 						"\tprivate "+ this.resolveType(cl) +" " +cl.getName()+";\n";
-			
+				if(this.resolveType(cl).equalsIgnoreCase("Date")) {
+					cont +=1;
+					if(cont == 1) {
+						content_import = content_import + "import java.sql.Date;\n";
+					}
+				}
+			}
 		}
 		content_variaveis = content_variaveis +"\n";
 		
@@ -111,6 +130,9 @@ public class GerarClasse {
 		    case Types.DOUBLE:
 		    case Types.DECIMAL:
 		    	result = "Double";
+		    	break;
+		    case Types.BOOLEAN:
+		    	result = "boolean";
 		    	break;
 		    case Types.DATE:
 		        result = "Date";
