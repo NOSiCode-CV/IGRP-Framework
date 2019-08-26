@@ -86,7 +86,7 @@ public class DaogeneratorController extends Controller {
 							for(String id_ch : cbh.getChekedIds()) {
 								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
 								String dad_name = new Application().findOne(Core.toInt(model.getAplicacao())).getDad();
-									r = this.generateDAO(config,model.getSchema(),tableName, dad_name);
+								r = this.generateDAO(config,model.getSchema(),tableName, dad_name);
 							}
 							
 							if(r) {
@@ -95,8 +95,6 @@ public class DaogeneratorController extends Controller {
 							else {
 								Core.setMessageError();
 							}
-							
-							
 						}
 					}
 					/* --  FIM ACTION GERAR  --*/
@@ -132,7 +130,7 @@ public class DaogeneratorController extends Controller {
 	
 
 	//resolver o problema do nome da tabela
-	private String resolveDAOName(String tabela_name) {
+	public String resolveDAOName(String tabela_name) {
 		String dao_name_class = "";
 		for(String aux : tabela_name.split("_")){
 			dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1);
@@ -141,7 +139,7 @@ public class DaogeneratorController extends Controller {
 	}
 	
 	
-	private boolean generateDAO(Config_env config,String schema, String tableName, String dad_name){ 
+	public boolean generateDAO(Config_env config,String schema, String tableName, String dad_name){ 
 		boolean flag = false;
 		String dao_name_class = this.resolveDAOName(tableName);
 		flag = this.processGenerate(config, dao_name_class, schema,tableName, dad_name);
@@ -149,13 +147,16 @@ public class DaogeneratorController extends Controller {
 	}
 	
 
-	private boolean processGenerate(Config_env config, String dao_name_class, String schema, String tableName, String dad_name) {
+	public boolean processGenerate(Config_env config, String dao_name_class, String schema, String tableName, String dad_name) {
 		boolean flag = false;
 		boolean flag_compile = false;
 		List<DatabaseMetadaHelper.Column> columns = null;
 		
 		try {
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
+			
+			//Salvar os files de classe DAO vazio
+			flag = this.saveFiles(dao_name_class+".java", "", dad_name);
 			
 			//Gerar conteúdo da classe DAO
 			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config);
@@ -164,11 +165,15 @@ public class DaogeneratorController extends Controller {
 			flag = this.saveFiles(dao_name_class+".java", content, dad_name);
 			
 			//compilar as classes DAO
-			this.compiler.addFileName(this.config.getPathDAO(dad_name)+File.separator+dao_name_class+".java");
-			flag_compile = this.processCompiler();
-			if(!flag_compile) {
-				Core.setMessageWarning("Ups... Erro na compilação");
+			Compiler compiler = new Compiler();
+			compiler.addFileName(this.config.getPathDAO(dad_name)+File.separator+dao_name_class+".java");
+			compiler.compile();
+			flag_compile = compiler.hasError();
+			
+			if(flag_compile) {
+				Core.setMessageWarning("Ups... Erro na compilação na classe "+dao_name_class);
 			}
+			
 		} catch (Exception e) {
 			Core.setMessageError(tableName+" error: "+e.getMessage());
 			return false;
@@ -177,22 +182,12 @@ public class DaogeneratorController extends Controller {
 		return flag;
 	}
 	
-	private boolean saveFiles(String fileName,String content,String dad_name) throws IOException {
+	public boolean saveFiles(String fileName,String content,String dad_name) throws IOException {
 		boolean flag = false;
 		if(Core.isNotNull(content)) {
 			flag = FileHelper.save(this.config.getPathDAO(dad_name), fileName, content);
 		}
 		return flag;
 	}
-	
-	
-	private Compiler compiler = new Compiler();
-	
-	//para poder compilar classe DAO
-	private boolean processCompiler() {
-		this.compiler.compile();
-		return !this.compiler.hasError();
-	}
-	
 /*----#end-code----*/
 }
