@@ -177,6 +177,21 @@
                 }
             ],
             "date": [
+            	{
+                    "list": {
+                        "@NotNull": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": false
+                            },
+                            "label": "NotNull"
+                        }
+                    },
+                    "type": "multi"
+                },
                 {
                     "list": {
                         "@Future": {
