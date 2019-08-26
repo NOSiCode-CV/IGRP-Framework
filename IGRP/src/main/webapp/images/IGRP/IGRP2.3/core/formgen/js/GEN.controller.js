@@ -1531,7 +1531,7 @@ var GENERATOR = function(genparams){
 					//RULES
 					if(GEN.edit.object.formField || $.inArray(GEN.edit.object.type,acceptsRules) !== -1){
 						
-						var slist = $('.IGRP-separatorlist',$(VARS.edition.dialog))[0];
+						var slist = $('#gen-rules-holder.IGRP-separatorlist',$(VARS.edition.dialog))[0];
 						// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
 						var isTable = GEN.edit.object.parent.type == 'table' || GEN.edit.object.parent.type == 'formlist' ? true : false;
 						

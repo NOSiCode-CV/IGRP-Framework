@@ -88,8 +88,6 @@
 				
 				HideValidationFields();
 				
-				console.log(typeData)
-				
 				if(typeData){
 					
 					var annotationData = GetAnnotationData( val, typeData );

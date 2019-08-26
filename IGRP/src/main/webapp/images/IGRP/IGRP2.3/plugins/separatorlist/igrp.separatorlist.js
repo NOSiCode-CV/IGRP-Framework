@@ -495,11 +495,27 @@ $.fn.separatorList = function(o){
 					sl.events.execute('before-dialog-hide',{
 						content:content
 					});
+					
+					sl.resetForm();
 
 				},
 				buttons:[
-					{ text:btnText, class:'primary',onClick:function(e){ addRow(sl,e);return false; } },
-					{ text:btnText+' e Fechar', class:'success',onClick:function(e){ if(addRow(sl,e))$.IGRP.components.globalModal.hide();return false;} }
+					{ 
+						text:btnText, 
+						class:'primary',
+						onClick:function(e){ 
+							addRow(sl,e);return false; 
+						} 
+					},
+					{ 
+						text:btnText+' e Fechar', 
+						class:'success',
+						onClick:function(e){ 
+							if(addRow(sl,e))
+								$.IGRP.components.globalModal.hide();
+							return false;
+						} 
+					}
 				]
 			});
 
@@ -916,6 +932,7 @@ $.fn.separatorList = function(o){
 				"row-edit",
 				"dialog-open",
 				"before-dialog-hide",
+				"dialog-hide",
 				"form-reset",
 				"reset-all"
 			]);
