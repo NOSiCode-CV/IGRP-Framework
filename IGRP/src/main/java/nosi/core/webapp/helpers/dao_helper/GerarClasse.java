@@ -27,13 +27,14 @@ public class GerarClasse {
 		content_package = "package nosi.webapps."+dad_name+".dao;\n\n";
 		
 		//import
-		content_import = content_import +"import nosi.webapps.igrp.dao.IGRPBaseActiveRecord;\n" +
+		content_import = content_import +"import nosi.base.ActiveRecord.BaseActiveRecord;\n" +
 							"import java.io.Serializable;\n" +
 							"import javax.persistence.Column;\n" +
 							"import javax.persistence.Entity;\n" +
 						    "import javax.persistence.Id;\n" +
 						    "import javax.persistence.GenerationType;\n" +
 						    "import javax.persistence.GeneratedValue;\n" + 
+						    "import javax.persistence.NamedQuery;\n"+
 						    "import javax.persistence.Table;\n\n";
 		
 		//autor
@@ -42,10 +43,10 @@ public class GerarClasse {
 		" * "+ Core.getCurrentDateSql()+"\n" + 
 		"*/\n\n";
 		
-		//
 		content = content + "@Entity\n" + 
-		"@Table(name=\""+ tbl_name +"\",schema=\""+schema+"\")\n";
-		content = content + "public class "+ clas_dao_name + " extends IGRPBaseActiveRecord<" + clas_dao_name + "> implements Serializable{\n\n";
+		"@Table(name=\""+ tbl_name +"\",schema=\""+schema+"\")\n"+
+		"@NamedQuery(name=\""+clas_dao_name+".findAll\", query=\"SELECT b FROM "+clas_dao_name+" b\")\n";
+		content = content + "public class "+ clas_dao_name + " extends BaseActiveRecord<" + clas_dao_name + "> implements Serializable{\n\n";
 		content = content + "\tprivate static final long serialVersionUID = 1L;\n\n";
 		
 		String content_variaveis = "";
