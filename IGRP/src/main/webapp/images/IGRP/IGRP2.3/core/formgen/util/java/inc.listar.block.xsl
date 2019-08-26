@@ -55,7 +55,6 @@
 			<xsl:text>List = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
 			<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of>
 			<xsl:value-of select="$findValue"></xsl:value-of>
-			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"></xsl:value-of>
 			<xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt; </xsl:text>
@@ -84,12 +83,6 @@
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>(</xsl:text>
 			<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table);</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<!--  <xsl:text>} catch (Exception e) {</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>e.printStackTrace();</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>}</xsl:text>-->
 		
 		</xsl:variable>
 		

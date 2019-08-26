@@ -51,14 +51,23 @@
 				</xsl:when>
 				
 				<xsl:when test="@type = 'grafico'">
-					<xsl:value-of select="$newline"></xsl:value-of>
+				
+					<xsl:variable name="pagelow">
+						<xsl:call-template name="LowerCase">
+							<xsl:with-param name="text" select="$page-title"/>
+						</xsl:call-template>
+					</xsl:variable>
+					
 					<xsl:text>import java.util.ArrayList;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
-									
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"></xsl:value-of>
+					<xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"></xsl:value-of>
+					<xsl:text>.</xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.Chart_1;</xsl:text>
+	
 				</xsl:when>
-				
-				
+	
 				<xsl:when test="@type = 'dao'">
 					
 					<xsl:variable name="className" select="."></xsl:variable>
@@ -79,16 +88,6 @@
 							<xsl:value-of select="$newline"></xsl:value-of>
 							<xsl:text>import nosi.core.webapp.UploadedFile;</xsl:text>
 						</xsl:when>
-						
-						<xsl:when test="$fieldType = 'Date'">
-							<xsl:value-of select="$newline"></xsl:value-of>
-							<xsl:text>import java.sql.Date;</xsl:text>
-						</xsl:when>
-						
-						<xsl:when test="$fieldType = 'Select'">
-							
-						</xsl:when>
-						
 						<xsl:when test="$fieldType = 'Link'">
 							<xsl:value-of select="$newline"></xsl:value-of>
 							<xsl:text>import nosi.webapps.igrp.dao.CLob;</xsl:text>							

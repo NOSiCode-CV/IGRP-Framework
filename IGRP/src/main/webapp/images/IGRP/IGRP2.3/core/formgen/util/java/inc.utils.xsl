@@ -9,6 +9,8 @@
 		<xsl:param name="code"/>
 		<xsl:param name="exceptionCode"/>
 		
+		<xsl:value-of select="$newlineTab1"/>
+
 		<xsl:text>try{</xsl:text>
 		
 		<xsl:value-of select="$newlineTab1"/>
@@ -33,7 +35,7 @@
 		
 		<xsl:value-of select="$code"/>
 		
-		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		
 		<xsl:text>}catch(Exception e){</xsl:text>
 		
@@ -49,12 +51,12 @@
 			
 			<xsl:value-of select="$exceptionCode"/>
 			
-			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$newlineTab1"/>
 			
 		</xsl:if>
 	
 		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 	</xsl:template>
 	
 	<xsl:template name="utils.arguments">
