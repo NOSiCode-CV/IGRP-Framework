@@ -267,3 +267,20 @@ Blockly.Blocks['where'] = {
 		},
 };
 
+Blockly.Blocks['insert_t'] = {
+		init : function() {
+			this.appendDummyInput().appendField("add insert");
+			this.appendStatementInput("SCRIPT");
+			this.setNextStatement(true);
+			this.setColour(230);
+		},
+};
+Blockly.Blocks['separatori'] = {
+		init : function() {
+			this.appendDummyInput().appendField("separator");
+			this.setPreviousStatement(true);
+			this.setNextStatement(true);
+			this.setColour(230);
+		},
+};
+

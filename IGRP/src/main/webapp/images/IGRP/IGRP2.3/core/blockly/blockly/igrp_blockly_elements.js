@@ -101,7 +101,81 @@
 			
 		},
 		
-grafico : {
+inserir_dao : {
+			
+			init : function(block){
+				
+				block.itemCount_ = 0;
+				block.updateShape_();
+				
+			},
+			
+			mutationToDom: function() {
+				  var container = document.createElement('mutation');
+				  container.setAttribute('count', this.itemCount_);
+				  return container;
+				},
+				
+			domToMutation: function(xmlElement) {
+				this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
+				  this.updateShape_();  
+				},
+				
+			 decompose: function (workspace) {
+			        var containerBlock = workspace.newBlock('insert_t');
+			        containerBlock.initSvg();
+			        var connection = containerBlock.getInput('SCRIPT').connection;	        
+			        for (var i = 0; i < this.itemCount_; i++) { 
+				            var itemBlock = workspace.newBlock('separatori');
+				            itemBlock.initSvg();
+				            connection.connect(itemBlock.previousConnection);
+				            connection = itemBlock.nextConnection;
+			        }
+			        return containerBlock;
+			    },
+			    
+			    compose: function (containerBlock) {
+			        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+			        var connections = [];
+			        while (itemBlock) {
+			            connections.push(itemBlock.valueConnection_);
+			            itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+			        }
+			      for (var i = 1; i < this.itemCount_; i++) {
+			            var connection = this.getInput('SEPARATOR'+i).connection.targetConnection;
+			            if (connection && connections.indexOf(connection) == -1) {
+			                connection.disconnect();
+			            }
+			        }
+			        this.itemCount_ = connections.length;
+			         Contador = this.itemCount_;
+			         
+			        this.updateShape_();
+			        for (var i = 0; i < this.itemCount_; i++) {
+			            Blockly.Mutator.reconnect(connections[i], this, 'SEPARATOR'+i);
+			        }
+			    },
+			    
+			    updateShape_: function () {
+				    
+			        for (var i = 1; i <= this.itemCount_; i++) {
+			            if (!this.getInput('SEPARATOR'+i)) {
+		    	        	 var input =
+		    	        	this.appendDummyInput('SEPARATORIL'+i).appendField("save separator");
+		    	        	this.appendStatementInput('SEPARATOR'+i);
+	
+			            }
+			        }
+			        while (this.getInput('SEPARATOR'+i)) {
+			            this.removeInput('SEPARATOR'+i);
+			            this.removeInput('SEPARATORIL'+i); 
+			            i++;
+			        }   
+			    }
+			
+		},
+		
+	grafico : {
 			
 			init : function(block){
 				

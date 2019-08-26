@@ -8,9 +8,9 @@
 						<tr id="tabRow" height="1em">
 							<td id="tab_blocks" class="tabon">Blocks</td>
 							<td class="tabmax">
-<!-- 								<button id="refresh_bloco" type="button">Refresh Workspace</button> -->
-								<button id="save_bloco_igrp" type="button">Salvar Bloco</button>
-								<button id="restore_bloco_igrp" type="button">Restaurar Bloco</button>
+								<button id="refresh_bloco" type="button">Refresh Workspace</button>
+								<button id="save_bloco_igrp" type="button">Save Blocks</button>
+								<button id="restore_bloco_igrp" type="button">Restore Blocks</button>
 <!-- 								<button onclick="saveCode()">Salvar Java Code</button> -->
 								<input type="file" id="load" style="display: none;" />
 								<button id="trashButton" class="notext" title="...">
@@ -172,7 +172,7 @@
 				
 				<block type="corre_get_param" output="" color="1">
 					<value name="value1" type="dummy"  title="Core get param">
-						<field type="field_text" name="param" options="enter the parameter's name"></field>
+						<field type="field_text" name="param" options=""></field>
 					</value>
 				</block>
 				
