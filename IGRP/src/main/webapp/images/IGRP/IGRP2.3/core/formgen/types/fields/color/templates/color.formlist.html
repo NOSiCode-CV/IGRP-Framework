@@ -5,7 +5,7 @@
       <div class="input-group form-color-picker" format="#[format]#">
         <input type="text" value="{#tag#}" format="#[format]#" class="form-control" #[required]# #[disabled]# #[readonly]# id="#parent.tag#_#tag#" name="{#path#/@name}" placeholder="#[placeholder]#">
         	<xsl:call-template name="setAttributes">
-            	<xsl:with-param name="field" select="#path#"/>
+            	<xsl:with-param name="field" select="//#path#"/>
         	</xsl:call-template>
         </input>
         <span class="input-group-addon"><i></i></span>
