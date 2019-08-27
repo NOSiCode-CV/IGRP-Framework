@@ -47,7 +47,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		
 		getRemoteUrl : function(p){
 			
-			var remote  = $(':input[name="'+p.sourceName+'"]').attr('remote'),
+			var remote  = $(':input[name="'+p.sourceName+'"]').attr('igrp-remote'),
 				url 	= remote && remote != undefined ? remote : $.IGRP.utils.getUrl(p.procedure)+'dad='+$('body').attr('app');
 			
 			return url;
