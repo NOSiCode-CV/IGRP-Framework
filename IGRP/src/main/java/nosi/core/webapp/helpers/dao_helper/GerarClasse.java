@@ -69,6 +69,13 @@ public class GerarClasse {
 				//vereficar se a classe com dependencia existe
 				if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
 					boolean gerar = new DaogeneratorController().processGenerate(config, this.resolveName(fk_table_name.get(cl.getName())), schema, fk_table_name.get(cl.getName()), dad_name);
+					/*content_import = content_import + "import javax.persistence.OneToMany;\n"
+													+ "import javax.persistence.FetchType;\n"
+													+ "import javax.persistence.CascadeType;\n"
+													+ "import java.util.List;\n\n";
+					
+					content_variaveis = content_variaveis + "\t@OneToMany(cascade = CascadeType.REMOVE, mappedBy=\""+cl.getName()+"\",fetch=FetchType.EAGER)\n" + 
+					"\tprivate List<"+clas_dao_name+"> "+clas_dao_name.toLowerCase()+";";*/
 					if(gerar) {
 						Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
 					}
@@ -79,7 +86,7 @@ public class GerarClasse {
 				if(this.resolveType(cl).equalsIgnoreCase("Date")) {
 					cont +=1;
 					if(cont == 1) {
-						content_import = content_import + "import java.sql.Date;\n";
+						content_import = content_import + "import java.util.Date;\n";
 					}
 				}
 			}
@@ -110,7 +117,8 @@ public class GerarClasse {
 	}
 	
 	private String resolveType(DatabaseMetadaHelper.Column column) {
-		String result="";
+		String result="String";
+		System.out.println();
 		switch (column.getTypeSql()) {
 		    case Types.VARCHAR:
 		    case Types.NVARCHAR:
@@ -131,7 +139,7 @@ public class GerarClasse {
 		    case Types.DECIMAL:
 		    	result = "Double";
 		    	break;
-		    case Types.BOOLEAN:
+		    case Types.BIT:
 		    	result = "boolean";
 		    	break;
 		    case Types.DATE:
