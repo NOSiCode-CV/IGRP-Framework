@@ -74,7 +74,7 @@ public class DaogeneratorController extends Controller {
 						list_tb.add(tb);
 					}
 					model.setTable_1(list_tb);
-										
+					
 					//action gerar --- put here to aproveitar a list_table
 					String[] rows_id = Core.getParamArray("p_check_table_fk");
 					String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
@@ -139,7 +139,7 @@ public class DaogeneratorController extends Controller {
 	}
 	
 	
-	public boolean generateDAO(Config_env config,String schema, String tableName, String dad_name){ 
+	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name){ 
 		boolean flag = false;
 		String dao_name_class = this.resolveDAOName(tableName);
 		flag = this.processGenerate(config, dao_name_class, schema,tableName, dad_name);
