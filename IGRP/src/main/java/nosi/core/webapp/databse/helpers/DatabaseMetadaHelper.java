@@ -194,6 +194,7 @@ public class DatabaseMetadaHelper {
 					col.setSize(metaData.getColumnDisplaySize(i));
 					col.setNullable(metaData.isNullable(i) > 0);
 					col.setAutoIncrement(metaData.isAutoIncrement(i));
+					col.setColumnTypeName​(metaData.getColumnTypeName(i));
 					col.setName(metaData.getColumnName(i));
 					col.setPrimaryKey(pkeys != null && pkeys.contains(col.getName()));
 					if (fkeys != null && fkeys.containsKey(col.getName())) {
@@ -262,6 +263,7 @@ public class DatabaseMetadaHelper {
 		private String columnMap;
 		private String connectionName;
 		private String format = "yyyy-mm-dd";
+		private String ColumnTypeName​;
 		private boolean afterWhere = false;
 
 		public String getSchemaName() {
@@ -366,6 +368,14 @@ public class DatabaseMetadaHelper {
 
 		public void setConnectionName(String connectionName) {
 			this.connectionName = connectionName;
+		}
+
+		public String getColumnTypeName​() {
+			return ColumnTypeName​;
+		}
+
+		public void setColumnTypeName​(String columnTypeName​) {
+			ColumnTypeName​ = columnTypeName​;
 		}
 
 		public String getFormat() {

@@ -11,6 +11,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.bpmn.RuntimeTask;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -208,7 +209,7 @@ public class Config {
 	}
 	//caminho onde guarda a classe DAO
 	public String getPathDAO(String dad) {
-		return this.getRawBasePathClassWorkspace()+"nosi"+ SEPARATOR_FOR_FILESYS + "webapps" + SEPARATOR_FOR_FILESYS + dad + SEPARATOR_FOR_FILESYS + "dao"+ SEPARATOR_FOR_FILESYS;
+		return Path.getRootPath() + SEPARATOR_FOR_FILESYS + dad + SEPARATOR_FOR_FILESYS + "dao"+ SEPARATOR_FOR_FILESYS;
 	}
 	
 	public String getLinkPageXsl(Action ac) {
