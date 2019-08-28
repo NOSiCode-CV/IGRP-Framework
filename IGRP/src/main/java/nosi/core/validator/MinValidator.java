@@ -20,10 +20,10 @@ public class MinValidator implements ConstraintValidator<Min, Number>{
 	
 	@Override
 	public boolean isValid(Number value, ConstraintValidatorContext context) {
-		if(value!=null) {
+		if(Core.isNotNull(value)) {
 			return Validation.validateMin(""+value, this.minValue);
 		}
-		return false;
+		return true;
 	}
 
 }

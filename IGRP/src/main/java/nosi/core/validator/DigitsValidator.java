@@ -29,7 +29,7 @@ public class DigitsValidator implements ConstraintValidator<Digits, Number>{
 		if(Core.isNotNull(value)) {
 			return Validation.validateDigits(integer, fraction,""+value);
 		}
-		return false;
+		return true;
 	}
 	
 	

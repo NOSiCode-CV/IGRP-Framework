@@ -3,6 +3,7 @@ package nosi.core.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.validator.constraints.PositiveOrZero;
+import nosi.core.webapp.Core;
 
 /**
  * emerson
@@ -17,10 +18,10 @@ public class PositiveOrZeroValidator implements ConstraintValidator<PositiveOrZe
 	
 	@Override
 	public boolean isValid(Number value, ConstraintValidatorContext context) {
-		if(value!=null) {
+		if(Core.isNotNull(value)) {
 			return Validation.validatePositiveOrZero(""+value);
 		}
-		return false;
+		return true;
 	}
  
 }

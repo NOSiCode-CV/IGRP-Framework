@@ -3,6 +3,7 @@ package nosi.core.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.validator.constraints.Size;
+import nosi.core.webapp.Core;
 
 /**
  * emerson
@@ -25,10 +26,10 @@ public class SizeValidator implements ConstraintValidator<Size, String>{
 	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if(value != null) {
+		if(Core.isNotNull(value)) {
 			return Validation.validateSize(value, min, max);
 		}
-		return false;
+		return true;
 	}
 
 } 

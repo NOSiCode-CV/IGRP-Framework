@@ -21,10 +21,10 @@ public class MaxValidator implements ConstraintValidator<Max, Number>{
 	 
 	@Override
 	public boolean isValid(Number value, ConstraintValidatorContext context) {
-		if(value!=null) {
+		if(Core.isNotNull(value)) {
 			return Validation.validateMax(""+value, this.maxValue);
 		}
-		return false;
+		return true;
 	}
 
 }

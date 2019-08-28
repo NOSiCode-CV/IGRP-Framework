@@ -30,7 +30,7 @@ public class PairDigitsValidator implements ConstraintValidator<PairDigits, Pair
 		if(pair!=null &&  Core.isNotNull(pair.getKey())) {
 			return Validation.validateDigits(integer, fraction, pair.getKey());
 		}
-		return false;
+		return true;
 	}
 	
 	

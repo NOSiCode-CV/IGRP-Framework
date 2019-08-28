@@ -21,8 +21,11 @@ public class PairFutureOrPresentValidator implements ConstraintValidator<PairFut
 	
 	
 	@Override
-	public boolean isValid(Pair pair, ConstraintValidatorContext context) {		
-		return pair!=null?Validation.validateFutureOrPresentDate(this.currentDate,pair.getKey()):false;
+	public boolean isValid(Pair pair, ConstraintValidatorContext context) {	
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
+			return  Validation.validateFutureOrPresentDate(this.currentDate,pair.getKey());
+		}
+		return true;
 	}
 
 }

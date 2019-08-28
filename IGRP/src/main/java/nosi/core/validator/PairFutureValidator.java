@@ -22,7 +22,10 @@ public class PairFutureValidator implements ConstraintValidator<PairFuture, Pair
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {		
-		return pair!=null?Validation.validateFutureDate(this.currentDate,pair.getKey()):false;
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
+			return  Validation.validateFutureDate(this.currentDate,pair.getKey());
+		}
+		return true;
 	}
 
 }

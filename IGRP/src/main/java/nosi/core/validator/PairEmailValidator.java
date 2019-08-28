@@ -21,7 +21,7 @@ public class PairEmailValidator implements ConstraintValidator<PairEmail, Pair>{
 		if(pair!=null){
 			return Validation.validatePattern(regexp, pair.getKey());
 		}
-		return false;
+		return true;
 	}
 
 }
