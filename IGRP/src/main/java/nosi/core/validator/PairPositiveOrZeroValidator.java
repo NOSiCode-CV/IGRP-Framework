@@ -4,6 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.validator.constraints.PairPositiveOrZero;
+import nosi.core.webapp.Core;
 
 /**
  * emerson
@@ -18,10 +19,10 @@ public class PairPositiveOrZeroValidator implements ConstraintValidator<PairPosi
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
-		if(pair!=null) {
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
 			return Validation.validatePositiveOrZero(pair.getKey());
 		}
-		return false;
+		return true;
 	}
  
 }

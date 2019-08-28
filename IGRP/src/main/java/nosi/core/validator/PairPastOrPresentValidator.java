@@ -22,7 +22,10 @@ public class PairPastOrPresentValidator implements ConstraintValidator<PairPastO
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {		
-		return pair!=null?Validation.validatePastOrPresentDate(this.currentDate,pair.getKey()):false;
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
+			return  Validation.validatePastOrPresentDate(this.currentDate,pair.getKey());
+		}
+		return true;
 	}
 
 }

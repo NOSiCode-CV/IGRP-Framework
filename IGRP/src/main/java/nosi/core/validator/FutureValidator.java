@@ -20,8 +20,11 @@ public class FutureValidator implements ConstraintValidator<Future, String>{
 	
 	
 	@Override
-	public boolean isValid(String dateValue, ConstraintValidatorContext context) {		
-		return Validation.validateFutureDate(this.currentDate,dateValue);
+	public boolean isValid(String dateValue, ConstraintValidatorContext context) {	
+		if(Core.isNotNull(dateValue)) {
+			return Validation.validateFutureDate(this.currentDate,dateValue);
+		}
+		return true;
 	}
 
 }

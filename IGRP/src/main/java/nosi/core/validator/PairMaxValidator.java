@@ -22,10 +22,10 @@ public class PairMaxValidator implements ConstraintValidator<PairMax, Pair>{
 	 
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
-		if(pair!=null) {
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
 			return Validation.validateMax(pair.getKey(), this.maxValue);
 		}
-		return false;
+		return true;
 	}
 
 }

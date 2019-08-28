@@ -21,7 +21,10 @@ public class PairPresentValidator implements ConstraintValidator<PairPresent, Pa
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {		
-		return pair!=null?Validation.validatePresentDate(this.currentDate,pair.getKey()):false;
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
+			return  Validation.validatePresentDate(this.currentDate,pair.getKey());
+		}
+		return true;
 	}
 
 }

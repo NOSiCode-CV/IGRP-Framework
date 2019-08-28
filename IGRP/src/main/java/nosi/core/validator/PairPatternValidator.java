@@ -21,12 +21,10 @@ public class PairPatternValidator implements ConstraintValidator<PairPattern, Pa
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
 		
-		if(pair!=null){
-			if(Core.isNotNull(pair.getKey())) {
-				return Validation.validatePattern(regexp, pair.getKey());
-			}
+		if(pair!=null && Core.isNotNull(pair.getKey())){
+			return Validation.validatePattern(regexp, pair.getKey());
 		}
-		return false;
+		return true;
 	}
 
 

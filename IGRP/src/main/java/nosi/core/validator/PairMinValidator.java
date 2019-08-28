@@ -21,10 +21,10 @@ public class PairMinValidator implements ConstraintValidator<PairMin, Pair>{
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
-		if(pair!=null) {
+		if(pair!=null && Core.isNotNull(pair.getKey())) {
 			return Validation.validateMin(pair.getKey(), this.minValue);
 		}
-		return false;
+		return true;
 	}
 
 }

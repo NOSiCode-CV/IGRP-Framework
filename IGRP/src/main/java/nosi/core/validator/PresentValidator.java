@@ -20,7 +20,9 @@ public class PresentValidator implements ConstraintValidator<Present, String>{
 	
 	@Override
 	public boolean isValid(String dateValue, ConstraintValidatorContext context) {		
-		return Validation.validatePresentDate(this.currentDate,dateValue);
+		if(Core.isNotNull(dateValue))
+			return Validation.validatePresentDate(this.currentDate,dateValue);
+		return true;
 	}
 
 }

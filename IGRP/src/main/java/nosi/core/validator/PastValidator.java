@@ -21,7 +21,10 @@ public class PastValidator implements ConstraintValidator<Past, String>{
 	
 	@Override
 	public boolean isValid(String dateValue, ConstraintValidatorContext context) {		
-		return Validation.validatePastDate(this.currentDate,dateValue);
+		if(Core.isNotNull(dateValue)) {
+			return  Validation.validatePastDate(this.currentDate,dateValue);
+		}
+		return true;
 	}
 
 }

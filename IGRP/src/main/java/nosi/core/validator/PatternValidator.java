@@ -3,6 +3,7 @@ package nosi.core.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import nosi.core.validator.constraints.Pattern;
+import nosi.core.webapp.Core;
 
 /**
  * Emanuel
@@ -18,7 +19,9 @@ public class PatternValidator implements ConstraintValidator<Pattern, String> {
 	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		return Validation.validatePattern(regexp,value);
+		if(Core.isNotNull(value))
+			return Validation.validatePattern(regexp,value);
+		return true;
 	}
 
 
