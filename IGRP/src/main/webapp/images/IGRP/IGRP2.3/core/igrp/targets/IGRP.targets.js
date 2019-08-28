@@ -284,11 +284,16 @@
 		
 		//submit not validate
 		var submit_notvalidate = function(p){
-			$.IGRP.targets.submit.action({
+			
+			p.valid = true;
+			
+			submitpage2file(p);
+			
+			/*$.IGRP.targets.submit.action({
 				url 	 : p.url,
 				validate : false,
 				clicked  : p.clicked
-			});
+			});*/
 
 			return false;
 		};
@@ -301,9 +306,10 @@
 			
 			var sform     	= $.IGRP.utils.getForm(),
 				fields    	= $.IGRP.utils.getFieldsValidate(sform),
-				events 		= p.clicked[0].events;;
+				events 		= p.clicked[0].events,
+				valid   	= p.valid ? p.valid : fields.valid();
 
-			if (fields.valid()) {
+			if (valid) {
 				
 				$.IGRP.utils.loading.show();
 
