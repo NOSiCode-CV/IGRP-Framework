@@ -9,7 +9,7 @@ import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.webapps.igrp.dao.Config_env;
-import nosi.webapps.igrp_studio.pages.daogenerator.DaogeneratorController;
+import nosi.webapps.igrp_studio.pages.crudgenerator.CRUDGeneratorController;
 
 /**
  * Isaias.Nunes
@@ -68,7 +68,7 @@ public class GerarClasse {
 									"import javax.persistence.ForeignKey;\n\n";
 				//vereficar se a classe com dependencia existe
 				if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
-					boolean gerar = new DaogeneratorController().processGenerate(config, this.resolveName(fk_table_name.get(cl.getName())), schema, fk_table_name.get(cl.getName()), dad_name);
+					boolean gerar = new CRUDGeneratorController().processGenerate(config, this.resolveName(fk_table_name.get(cl.getName())), schema, fk_table_name.get(cl.getName()), dad_name);
 					/*content_import = content_import + "import javax.persistence.OneToMany;\n"
 													+ "import javax.persistence.FetchType;\n"
 													+ "import javax.persistence.CascadeType;\n"

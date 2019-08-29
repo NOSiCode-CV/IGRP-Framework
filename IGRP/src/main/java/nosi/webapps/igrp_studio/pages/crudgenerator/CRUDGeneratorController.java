@@ -21,6 +21,7 @@ import nosi.core.webapp.databse.helpers.*;
 import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.dao_helper.GerarClasse;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -95,10 +96,12 @@ public class CRUDGeneratorController extends Controller {
 								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
 								String dad_name = new Application().findOne(Core.toInt(model.getAplicacao())).getDad();
 								r = this.generateDAO(config,model.getSchema(),tableName, dad_name);
+								
 							}
 							
 							if(r) {
 								Core.setMessageSuccess("Classe DAO gerado sucesso!");
+								
 							}
 							else {
 								Core.setMessageError();
@@ -195,7 +198,7 @@ public class CRUDGeneratorController extends Controller {
 	
 	
 	
-	/* METODO USADOS PARA GERAR CRUD */
+	/********************* METODO USADOS PARA GERAR CRUD *********************/
 	private Compiler compiler = new Compiler();
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
 		String pageNameForm = Page.resolvePageName(tableName)+"Form";
@@ -335,12 +338,12 @@ public class CRUDGeneratorController extends Controller {
 		}
 		return false;
 	}
-	/* FIM METODO USADOS PARA GERAR CRUD */
+	/********************* FIM METODO USADOS PARA GERAR CRUD *********************/
 	
 	
 	
 	
-	/* METODO USADOS PARA GERAR DAO */
+	/********************* METODO USADOS PARA GERAR DAO *********************/
 	
 
 	//resolver o problema do nome da tabela
@@ -353,7 +356,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 	
-	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name){ 
+	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name) throws IOException{ 
 		boolean flag = false;
 		String dao_name_class = this.resolveDAOName(tableName);
 		flag = this.processGenerate(config, dao_name_class, schema,tableName, dad_name);
@@ -367,16 +370,25 @@ public class CRUDGeneratorController extends Controller {
 		List<DatabaseMetadaHelper.Column> columns = null;
 		
 		try {
+			
+			//Mas antes temos de vereficar se a classe é nova ou nao
+			if(!Core.fileExists( this.config.getPathDAO(dad_name)+dao_name_class+".java")) {
+				//Aqui guarda novo configuracao de hibernate
+				String package_name = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
+				SaveMapeamentoDAO.loadCfg(config.getName()+"."+config.getApplication().getDad()+".cfg.xml",package_name,dao_name_class);
+			}
+			
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 			
+			
 			//Salvar os files de classe DAO vazio
-			flag = this.saveFiles(dao_name_class+".java", "", dad_name);
+			flag = this.saveFiles(dao_name_class+".java", "", this.config.getPathDAO(dad_name));
 			
 			//Gerar conteudo da classe DAO
 			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config);
 			
 			//Salvar os files de classe DAO
-			flag = this.saveFiles(dao_name_class+".java", content, dad_name);
+			flag = this.saveFiles(dao_name_class+".java", content, this.config.getPathDAO(dad_name));
 			
 			//compilar as classes DAO
 			Compiler compiler = new Compiler();
@@ -396,15 +408,15 @@ public class CRUDGeneratorController extends Controller {
 		return flag;
 	}
 	
-	public boolean saveFiles(String fileName,String content,String dad_name) throws IOException {
+	public boolean saveFiles(String fileName,String content,String path) throws IOException {
 		boolean flag = false;
 		if(Core.isNotNull(content)) {
-			flag = FileHelper.save(this.config.getPathDAO(dad_name), fileName, content);
+			flag = FileHelper.save(path, fileName, content);
 		}
 		return flag;
 	}
 	
-	/* FIM MÉ°TODO USADOS PARA GERAR DAO */
+	/******************** FIM METODO USADOS PARA GERAR DAO *******************/
 	
 	
 	/*----#end-code----*/
