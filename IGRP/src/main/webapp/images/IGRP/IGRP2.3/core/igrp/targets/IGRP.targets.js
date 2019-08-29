@@ -288,12 +288,6 @@
 			p.valid = true;
 			
 			submitpage2file(p);
-			
-			/*$.IGRP.targets.submit.action({
-				url 	 : p.url,
-				validate : false,
-				clicked  : p.clicked
-			});*/
 
 			return false;
 		};
@@ -829,7 +823,11 @@
 			
 			form.addClass('download');
 			
-			submit_notvalidate(p);
+			$.IGRP.targets.submit.action({
+				url 	 : p.url,
+				validate : false,
+				clicked  : p.clicked
+			});
 			
 			setTimeout(function(){
 
@@ -838,20 +836,6 @@
 				form.removeClass('download');
 
 			},500);
-			
-			/*if(!$('#iframe-download')[0]){
-				var iframe = $('<iframe>');
-
-				iframe.attr({
-					src  : p.url,
-					id   : 'iframe-download',
-					name : 'iframe-download',
-					class: 'hidden'
-				});
-
-				$('body').append(iframe);
-			}else
-				$('#iframe-download').attr('src',p.url);*/
 		};
 
 		changesrc.showContents = function(holder){
