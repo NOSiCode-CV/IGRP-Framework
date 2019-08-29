@@ -19,7 +19,6 @@ public class PairNotNullValidator implements ConstraintValidator<PairNotNull, Pa
 	
 	@Override
 	public boolean isValid(Pair pair, ConstraintValidatorContext context) {
-		System.out.println("cheching...");
 		return pair!=null && Core.isNotNull(pair.getKey());
 	}
 
