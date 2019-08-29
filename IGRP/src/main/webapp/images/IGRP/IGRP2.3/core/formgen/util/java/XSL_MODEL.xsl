@@ -9,7 +9,7 @@
     	...
 	-->
     <xsl:template name="gen-get-set-model">
-    	<xsl:for-each select="/rows/content/*[@type != 'treemenu'  and @type != 'table' and @type != 'formlist']">
+    	<xsl:for-each select="/rows/content/*[@type != 'treemenu'  and @type != 'table' and @type != 'formlist' and @type !='separatorlist']">
     		<xsl:for-each select="fields/*">
     			<xsl:variable name="tag_name">
 					<xsl:choose>
@@ -65,7 +65,7 @@
     	...
 	-->
     <xsl:template name="declare-variables-model">
-    	<xsl:for-each select="/rows/content/*[@type != 'treemenu' and @type != 'table' and @type != 'formlist']">
+    	<xsl:for-each select="/rows/content/*[@type != 'treemenu' and @type != 'table' and @type != 'formlist' and @type !='separatorlist']">
     		<xsl:for-each select="fields/*">
     			<xsl:variable name="tag_name">
 					<xsl:choose>
