@@ -283,7 +283,7 @@
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:call-template name="setBoxUrl"/>
 						<xsl:for-each select="//rows/content/*[@type!='table']/fields/*">  
-							<xsl:if test="@action and @app and @page and @custom_action='' and ../../@type != 'formlist'"> 
+							<xsl:if test="@action and @app and @page and @custom_action='' and ../../@type != 'formlist' and ../../@type != 'separatorlist'"> 
 								<xsl:variable name="name_">
 				    			<xsl:call-template name="CamelCaseWord">
 							        <xsl:with-param name="text">
