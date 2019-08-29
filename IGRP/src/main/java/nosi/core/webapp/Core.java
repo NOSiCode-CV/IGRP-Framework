@@ -3423,7 +3423,7 @@ public final class Core { // Not inherit
 		SessionFactory sessionFactory = HibernateUtils.getSessionFactory(connectionName);
 		if(sessionFactory!=null) {
 			Session s = null;
-			if(sessionFactory.isOpen()) {
+			if(sessionFactory.isOpen() && sessionFactory.getCurrentSession()!=null && sessionFactory.getCurrentSession().isOpen()) {
 				s = sessionFactory.getCurrentSession();
 				return s;
 			}
