@@ -10,6 +10,7 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.bpmn.RuntimeTask;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.import_export_v2.common.Path;
 import nosi.core.xml.XMLWritter;
@@ -36,7 +37,7 @@ public class Config {
 	public final String PATTERN_CONTROLLER_NAME = "(([a-zA-Z]|_)+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";	
 	private final String SEPARATOR_FOR_HTTP = "/";
 	private final String SEPARATOR_FOR_FILESYS = File.separator;
-	public final String VERSION = "190826";
+	public final String VERSION = "190829";
 
 	public Config() {
 	
@@ -115,6 +116,24 @@ public class Config {
 	public String getBasePathClass(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
+	
+	//caminho onde guarda a classe DAO
+	public String getPathDAO(String dad) {
+		return Path.getRootPath() + dad + SEPARATOR_FOR_FILESYS + "dao"+ SEPARATOR_FOR_FILESYS;
+	}
+	
+	//caminho onde guarda ficheiro de conexao
+	public String getPathConexao() {
+		Config config = new Config();
+		String basePath = config.getWorkspace();
+		if(Core.isNotNull(basePath) && FileHelper.dirExists(basePath)) {
+			basePath = config.getPathWorkspaceResources() + SEPARATOR_FOR_FILESYS;
+		}else {
+			basePath = config.getBasePathClass()+ SEPARATOR_FOR_FILESYS;
+		}
+		return basePath;
+	}
+	
 	
 	public String getPathOfImagesFolder() {
 		String APP_LINK_IMAGE = this.getLinkImgBase();
@@ -206,10 +225,6 @@ public class Config {
 		HashMap<String,String> versions = new HashMap<>();
 		versions.put("2.3", "2.3");
 		return versions;
-	}
-	//caminho onde guarda a classe DAO
-	public String getPathDAO(String dad) {
-		return Path.getRootPath() + SEPARATOR_FOR_FILESYS + dad + SEPARATOR_FOR_FILESYS + "dao"+ SEPARATOR_FOR_FILESYS;
 	}
 	
 	public String getLinkPageXsl(Action ac) {
