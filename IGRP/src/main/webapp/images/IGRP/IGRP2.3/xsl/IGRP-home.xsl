@@ -5,10 +5,10 @@
   
     <html>
       <head>
-        <xsl:call-template name="IGRP-head"/>
-       
-		<style>.col-xs-12.col-sm-12.col-md-12.col-lg-12 {box-shadow: 1px 0 10px 0px #ddd; background: white;}
-.igrp-home-search-res {   padding-top: 50px;   }</style>
+        <xsl:call-template name="IGRP-head"/>       
+		<style>.col-xs-12.col-sm-12.col-md-12.col-lg-12 {box-shadow: 1px 0 10px 0px #ddd; background: white; padding-bottom: 15px;}
+.igrp-home-search-res {padding-top: 50px;  margin-bottom: 0px !important;   } #igrp-apps-1 {
+    margin-bottom: 0px;}</style>
       </head>
       <body class="{$bodyClass} old-v fluid sidebar-off">
         <xsl:call-template name="IGRP-topmenu"/>
@@ -23,7 +23,7 @@
                     <nav class="navbar navbar-default" role="navigation">
                       <div class="container-fluid">
                         <div class="form-group" id="searcher" style="position: initial;">                        
-                        <div class="input-group" style="position:absolute;display: table;float:right;margin-left: 45%;margin-top: 11px;width: 47%;z-index: 2;border-bottom: 1px solid #ddd;line-height: 0px;margin-right: 9px;">
+                        <div class="input-group" style="position:absolute;display: table;float:right;margin-left: 45%;margin-top: 10px;width: 47%;z-index: 2;border-bottom: 1px solid #ddd;line-height: 0px;margin-right: 9px;">
   						  <span class="input-group-btn">
                             <button type="button" class="btn btn-default" style="">
                               <i class="fa fa-search"></i>

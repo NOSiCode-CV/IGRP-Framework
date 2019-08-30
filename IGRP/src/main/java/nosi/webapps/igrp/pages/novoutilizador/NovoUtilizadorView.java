@@ -15,7 +15,7 @@ public class NovoUtilizadorView extends View {
 	public Field aplicacao;
 	public Field organica;
 	public Field perfil;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -25,7 +25,7 @@ public class NovoUtilizadorView extends View {
 
 		this.setPageTitle("Convidar Utilizador");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -36,19 +36,19 @@ public class NovoUtilizadorView extends View {
 		
 		email = new TextAreaField(model,"email");
 		email.setLabel(gt("E-mail(s)"));
-		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("desclabel","false");
+		email.propertie().add("name","p_email").add("type","textarea").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ...")).add("desclabel","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("remote",new Config().getResolveUrl("igrp","NovoUtilizador","index")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		aplicacao.propertie().add("remote",new Config().getResolveUrl("igrp","NovoUtilizador","GetXMLOrganizations")).add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Organização"));
-		organica.propertie().add("remote",new Config().getResolveUrl("igrp","NovoUtilizador","index")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
+		organica.propertie().add("remote",new Config().getResolveUrl("igrp","NovoUtilizador","GetXMLProfile")).add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("disabled","false").add("domain","").add("java-type","int").add("tags","false");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));

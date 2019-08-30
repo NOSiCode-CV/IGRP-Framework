@@ -12,7 +12,7 @@ $(function(){
 
         appsHolder = $('#igrp-apps-1'),
 
-        searchResults = $('<div id="igrp-apps-1" class="igrp-home-search-res"></div>').insertAfter(appsHolder);
+        searchResults = $('<div id="igrp-apps-1" class="igrp-home-search-res" style="display: none;"></div>').insertAfter(appsHolder);
 
         console.log( $.IGRP )
     

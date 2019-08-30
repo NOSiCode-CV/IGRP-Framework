@@ -1,21 +1,25 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class NovoUtilizador extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_email")
 	private String email;
+
 	@RParam(rParamName = "p_nada")
 	private String nada;
+
 	@RParam(rParamName = "p_aplicacao")
 	private int aplicacao;
+
 	@RParam(rParamName = "p_organica")
 	private int organica;
+
 	@RParam(rParamName = "p_perfil")
 	private int perfil;
 	

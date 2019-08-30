@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -61,7 +61,7 @@
             <fields>
                 <email name="p_email" type="textarea" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="user@nosi.cv; maria.rosario@nosi.cv; steve.jobs@nosi.cv ; ..." right="false" desclabel="false">
                     <label>E-mail(s)</label>
-                    <value>Voluptatem natus ipsum perspiciatis aperiam mollit laudantium magna stract sit accusantium sed unde</value>
+                    <value>Doloremque unde perspiciatis sit aliqua lorem officia sed amet aperiam sed iste aliqua adipiscing lo</value>
                 </email>
                 <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
@@ -89,7 +89,7 @@
                     </list>
                     <rules>
                         <rule type="remote_combobox">
-                            <proc>index</proc>
+                            <proc>GetXMLOrganizations</proc>
                             <requestFields>
                                 <item>p_aplicacao</item>
                             </requestFields>
@@ -119,7 +119,7 @@
                     </list>
                     <rules>
                         <rule type="remote_combobox">
-                            <proc>index</proc>
+                            <proc>GetXMLProfile</proc>
                             <requestFields>
                                 <item>p_aplicacao</item>
                                 <item>p_organica</item>
@@ -152,4 +152,10 @@
             </fields>
         </form_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

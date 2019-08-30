@@ -1739,11 +1739,11 @@ public final class Core { // Not inherit
 		return new RemoteXML();
 	}
 
-	public static String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected) {
+	public static String remoteComboBoxXml(Map<?,?> map,Field field, String[] selected) {
 		return remoteComboBoxXml(map, field, selected, null);
 	}
 	
-	public static String remoteComboBoxXml(Map<Object, Object> map,Field field, String[] selected, String prompt){
+	public static String remoteComboBoxXml(Map<?,?> map,Field field, String[] selected, String prompt){
 		XMLWritter xml = new XMLWritter();
 		xml.startElement(field.getTagName());	
 		xml.startElement("list");
@@ -1753,11 +1753,11 @@ public final class Core { // Not inherit
 			xml.emptyTag("value");
 			xml.endElement();
 		}
-		for ( Entry<Object, Object> m : map.entrySet()) {
+		for ( Entry<?,?> m : map.entrySet()) {
 			xml.startElement("option");
 			if (selected != null)
 				for (String s : selected) {
-					if (s.equals(m.getKey())) {
+					if (s.equals(""+m.getKey())) {
 						xml.writeAttribute("selected", "selected");
 						break;
 					}

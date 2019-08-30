@@ -6,6 +6,8 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapPerson;
@@ -101,8 +103,10 @@ public class NovoUtilizadorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoUtilizador","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","NovoUtilizador","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 
 		if (Core.isHttpPost()) {
@@ -129,6 +133,8 @@ public class NovoUtilizadorController extends Controller {
 		return this.redirect("igrp","NovoUtilizador","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	private Boolean db(NovoUtilizador model) throws IllegalArgumentException, IllegalAccessException {
@@ -505,7 +511,7 @@ public class NovoUtilizadorController extends Controller {
 	}
 
 	private Properties loadIdentityServerSettings() {
-		return this.configApp.loadConfig("common", "main.xml");
+		return this.configApp.loadCommonConfig();
 	}
 
 	private void sendEmailToInvitedUser(User u, NovoUtilizador model) {
@@ -604,6 +610,19 @@ public class NovoUtilizadorController extends Controller {
 
 		System.out.println("size(): " + map.size());
 
+	}
+	public Response actionGetXMLOrganizations() {	
+
+		this.format = Response.FORMAT_XML;
+		return this.renderView(Core.remoteComboBoxXml(new Organization().getListOrganizations(Core.getParamInt("p_aplicacao")),new NovoUtilizadorView().organica,null) );
+
+	}
+	
+	public Response actionGetXMLProfile() {
+		
+		this.format = Response.FORMAT_XML;
+		return this.renderView( Core.remoteComboBoxXml(new ProfileType().getListProfiles(Core.getParamInt("p_aplicacao"),Core.getParamInt("p_organica")),new NovoUtilizadorView().perfil,null));
+				
 	}
 
 	/*----#end-code----*/

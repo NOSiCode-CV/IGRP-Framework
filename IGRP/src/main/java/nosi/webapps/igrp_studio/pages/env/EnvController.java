@@ -19,8 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -473,58 +472,61 @@ public class EnvController extends Controller {
 				devUrl += qs;
 			return redirectToUrl(devUrl);
 			}
+			String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
+			if(env.getExternal() == 0 && !deployedWarName.equals("IGRP")) { // Custom dad 
+				String uri = Igrp.getInstance().getRequest().getRequestURI();
+				String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");				
+				Action action = env.getAction();
 			
+				url += "/IGRP/igrpoauth2sso?app=" + env.getDad(); 
+				if(action != null) 
+					url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+				else
+					url += "&_url=tutorial/DefaultPage/index";
+				
+				return this.redirectToUrl(url);			
+			}
 			//1 External ; 2 custom dad
 			if(env.getExternal() == 1 || env.getExternal() == 2) {
 				
 				if(env.getExternal() != 2 && env.getUrl() != null && !env.getUrl().isEmpty()) {
+					//App is not custom dad and has a URL
 					String aux = env.getUrl();
 					Action action = env.getAction();
 					if(action != null && env.getExternal() != 1) {
-						aux = aux.replace(URI.create(aux).getQuery(), ""); 
-						//aux += "r=" + new EncrypDecrypt().encrypt(env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
+						aux = aux.replace(URI.create(aux).getQuery(), ""); 				
 						aux = "r=" + (env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction());
 					}
-					/*if(env.getDad().compareTo("kriol_db")==0) {
-						return this.postToPgStudio(env);
-					}*/
+					
 					return this.redirectToUrl(aux.contains("http")||aux.startsWith("/")?aux:"http://"+aux);
 				}else {
 					
-					String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 					String uri = Igrp.getInstance().getRequest().getRequestURI();
 					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
 					
 					Action action = env.getAction();
 					
-					if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) { //1 External 
-						
+					if(env.getExternal() == 1 && !deployedWarName.equals(env.getDad())) { //1 External 						
 						url += "/" + env.getDad() + "/igrpoauth2sso?app=" + env.getDad(); 
-						
 						if(action != null) 
 							url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
 						else
 							url += "&_url=tutorial/DefaultPage/index";
 						
-						return this.redirectToUrl(url);
-					}
+						return this.redirectToUrl(url);			
 					
+					} 
 					if(env.getExternal() == 2 && !deployedWarName.equals(env.getUrl())) { // Custom dad 
 						url += "/" + env.getUrl() + "/igrpoauth2sso?app=" + env.getUrl(); 
-						
 						if(action != null) 
 							url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
 						else
 							url += "&_url=tutorial/DefaultPage/index";
 						
-						return this.redirectToUrl(url);
-					}
-					
-				}
-				
-			}
-			
-			
+						return this.redirectToUrl(url);			
+					}												
+				}				
+			}			
 			
 			try {
 				final ApplicationPermition applicationPermition = permission.getApplicationPermitionBeforeCookie();
@@ -729,12 +731,12 @@ public class EnvController extends Controller {
 	public static class GetFieldsDAO {
 		
 		public Map<String,String> listFilesDirectory(String path) {
-			Map<String,String> files = new HashMap<String,String>();
+			Map<String,String> files = new LinkedHashMap<String,String>();
 			if(FileHelper.fileExists(path)){
 			File folder = new File(path);
 			   for (final File fileEntry : folder.listFiles()) {
 			       if (fileEntry.isDirectory()) {
-			           return listFilesDirectory(fileEntry.toString());
+			           files.putAll(listFilesDirectory(fileEntry.toString()));
 			       } else {
 			       	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
 			       }
@@ -767,9 +769,11 @@ public class EnvController extends Controller {
 					for (Map.Entry<String, String> entry : dao.entrySet()) {
 						//System.out.println(entry.getKey() + "/" + entry.getValue()); 
 						 try {
+							 
+							 String path=entry.getValue().substring(entry.getValue().indexOf("nosi"+File.separator+"webapps"+File.separator)).replace(".java", "").replace(File.separator, ".");
 							 String nome_classe = entry.getKey().replace(".java", "");
 							 
-							Class obj = Class.forName("nosi.webapps."+dad+".dao."+ nome_classe);
+							Class<?> obj = Class.forName(path);
 							
 							 xml += "<" +nome_classe+  ">";
 							
