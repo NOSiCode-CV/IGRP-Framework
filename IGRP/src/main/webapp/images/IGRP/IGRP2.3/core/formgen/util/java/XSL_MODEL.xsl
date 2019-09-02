@@ -36,9 +36,9 @@
 					<xsl:choose>
 							<xsl:when test="@type='select' and @multiple='true'">
 								<xsl:call-template name="gen-method-set-get">
-									<xsl:with-param name="type" select="concat($type_field_, '[]')" />
+									<xsl:with-param name="type" select="$type_field_" />
 						    		<xsl:with-param name="name" select="$tag_name" />
-						    		<xsl:with-param name="javaType" select="concat($type_field_, '[]')"/>
+						    		<xsl:with-param name="javaType" select="$type_field_"/>
 						    	</xsl:call-template>
 							</xsl:when>
 							<xsl:otherwise>

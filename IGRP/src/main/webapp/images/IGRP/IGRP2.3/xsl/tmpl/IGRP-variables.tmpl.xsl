@@ -1,10 +1,10 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
  
   <!-- Bootstrap Version -->
-  <xsl:variable name="bs-v" select="'3.3.7'"/>
+  <xsl:variable name="bs-v" select="'3.4.1'"/>
   
   <!-- jQuery Version -->
-  <xsl:variable name="jq-v" select="'3.3.1'"/>
+  <xsl:variable name="jq-v" select="'3.4.1'"/>
   
   <!-- target is blank? popup -->
   <xsl:variable name="hasMenu">
