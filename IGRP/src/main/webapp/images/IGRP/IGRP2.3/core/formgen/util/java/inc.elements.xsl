@@ -4,6 +4,8 @@
 	
 	<xsl:include href="inc.separator.block.xsl"/>
 	
+	<xsl:include href="inc.formlist.block.xsl"/>
+	
 	<xsl:include href="inc.if.controls.xsl"/>
 	
 	<xsl:include href="inc.default.blocks.xsl"/>
@@ -819,16 +821,32 @@
 				<xsl:call-template name="blockly.element.separator"></xsl:call-template>
 			</xsl:when>
 			
+			<xsl:when test="$block-type = 'formlist'">
+				<xsl:call-template name="blockly.element.formlist"></xsl:call-template>
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'sep_row'">
 				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'form_row'">
+				<xsl:call-template name="blockly.element.form_row"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'save_separator'">
 				<xsl:call-template name="blockly.element.save_separator"></xsl:call-template>
 			</xsl:when>
 			
+			<xsl:when test="$block-type = 'save_formlist'">
+				<xsl:call-template name="blockly.element.save_formlist"></xsl:call-template>
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'get_row_sep'">
 				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'get_row_form'">
+				<xsl:call-template name="blockly.element.get_row_form"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'corre_get_param'">

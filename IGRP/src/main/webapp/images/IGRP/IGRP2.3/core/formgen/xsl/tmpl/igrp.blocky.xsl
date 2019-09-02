@@ -31,7 +31,7 @@
 		</table>
 		<div id="content_blocks" class="content"></div>
 		<div id="box_selenium">
-		<div id="active_selenium">Mostrar Código Java</div>
+		<div id="active_selenium">Mostrar Código XML</div>
 		<textarea id="content_selenium" class="content" wrap="off"></textarea>
 		</div> 
 		

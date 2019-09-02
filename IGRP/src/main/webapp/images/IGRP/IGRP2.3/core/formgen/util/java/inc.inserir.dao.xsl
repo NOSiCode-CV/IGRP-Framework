@@ -6,52 +6,103 @@
 	   	
 	   	<xsl:variable name="insercao">
 			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='value2']"/>
+				<xsl:with-param name="value" select="statement[@name='value2']"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:variable name="param" select="field[@name='param_id']"/>
+		<xsl:variable name="operator">
+			<xsl:call-template name="utils.meaning">
+				<xsl:with-param name="key" select="field[@name='where_signal']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="valueDao" select = "substring-after(value[@name='where1']/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
+		
+		<xsl:variable name="id_dao">
+			
+			<xsl:choose>
+			
+				<xsl:when test="$valueDao != ''">
+					<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+				</xsl:when>
+				
+				<xsl:otherwise>
+					<xsl:text></xsl:text>
+				</xsl:otherwise>
+				
+			</xsl:choose>
+				
+		</xsl:variable>
+		
+		<xsl:variable name="param_id" select="field[@name='param_id']"/>
+		
+		<xsl:variable name="param">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="value[@name='where2']"/>
+			</xsl:call-template>
+		</xsl:variable>
 		
 		<xsl:variable name="hasMutation" select="mutation"></xsl:variable>
 		
 		<xsl:variable name="code">
 		
-			<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Session session = null;</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Transaction transaction = null;</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>try{</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>session = Core.getSession(Core.defaultConnection());</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>transaction = session.getTransaction();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>transaction.begin();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:value-of select="$dao"></xsl:value-of>
 			<xsl:text> obj  = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
 			<xsl:text>();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			 <xsl:text> obj = obj.findOne(Core.getParamInt("</xsl:text><xsl:value-of select="$param"></xsl:value-of><xsl:text>"));</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text> obj = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+			<xsl:text>.class, Core.getParamInt("</xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>"));</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:value-of select="$insercao"></xsl:value-of>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>if (obj != null){</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>if (Core.isNull(isEdit)) {</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>obj.insert();</xsl:text>
+			<xsl:value-of select="$insercao"></xsl:value-of>		
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>Core.setMessageSuccess();</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>}else{</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>obj.update();</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>Core.setMessageSuccess();</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>session.persist( obj );	</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
 			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+			<xsl:text>transaction.commit();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+			<xsl:text>Core.setMessageSuccess();</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text> }else{</xsl:text> 
+			<xsl:text>}catch ( Exception e ) {</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>Core.setMessageError();</xsl:text>
+			<xsl:text>Core.setMessageError(e.getMessage());</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>if (transaction != null)</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>transaction.rollback();</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>}finally {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>if (session != null &amp;&amp; session.isOpen()) {</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>		
+			<xsl:text>session.close();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>					
+			
 			<xsl:if test="$hasMutation">
 			
 				<xsl:variable name="separatorix">
@@ -69,21 +120,11 @@
 				<xsl:value-of select="$separatorix"></xsl:value-of>
 				
 			</xsl:if>
+
 		</xsl:variable>
 		
-		<xsl:call-template name="utils.try">
-			
-			<xsl:with-param name="code" select="$code"></xsl:with-param>
-			
-			<xsl:with-param name="exceptionCode">
-				<xsl:value-of select="$newlineTab1"></xsl:value-of>
-				<xsl:text>e.printStackTrace();</xsl:text>
-				<xsl:value-of select="$newlineTab1"></xsl:value-of>
-				<xsl:text>Core.setMessageError();</xsl:text>
-			</xsl:with-param>
-			
-		</xsl:call-template>
-		
+		<xsl:value-of select="$code"></xsl:value-of>	
+	
 	</xsl:template>
 	
 	<xsl:template name="separadorplate" >

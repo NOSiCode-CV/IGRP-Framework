@@ -64,8 +64,7 @@
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>List &lt;</xsl:text><xsl:value-of select="$page-title"></xsl:value-of>
 			<xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt; </xsl:text>
-			<xsl:text> separatorlistDocs = model.get</xsl:text>
-			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>(); </xsl:text> 
+			<xsl:text> separatorlistDocs =new ArrayList&lt;&gt;(); </xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>docsList.forEach( doc-> {</xsl:text> 
 			<xsl:value-of select="$newlineTab4"></xsl:value-of>
@@ -222,7 +221,15 @@
 	
 		<xsl:variable name="code">
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Session session = Core.getSession(Core.defaultConnection());</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Transaction transaction = null;</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>try {</xsl:text><xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>transaction = session.getTransaction();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>transaction.begin();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>for ( </xsl:text>
 			<xsl:value-of select="$page-title"></xsl:value-of>
 			<xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of>
@@ -245,19 +252,15 @@
 			<xsl:value-of select="$newlineTab5"></xsl:value-of>
 			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> doc = new </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
 			<xsl:text>().findOne( Core.toInt(row.get</xsl:text>
-			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey()) );</xsl:text>
+			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey())).keepConnection();</xsl:text>
 			<xsl:value-of select="concat($newlineTab5,$sep_insercao)"></xsl:value-of> 
 			<xsl:value-of select="$newlineTab5"></xsl:value-of>
 			<xsl:text>if ( doc != null &amp;&amp; !doc.hasError()){</xsl:text>
 			<xsl:value-of select="$newlineTab6"></xsl:value-of>
-			<xsl:text>doc = doc.update();</xsl:text>
-			<xsl:value-of select="$newlineTab6"></xsl:value-of>
-			<xsl:text>Core.setMessageSuccess( "Document updated." );</xsl:text>
-			<xsl:value-of select="$newlineTab5"></xsl:value-of>
-			<xsl:text>}else</xsl:text>
-			<xsl:value-of select="$newlineTab6"></xsl:value-of>
-			<xsl:text>Core.setMessageError( "Error updating document!" );</xsl:text>
+			<xsl:text>session.update(doc);	</xsl:text>
 			<xsl:value-of select="$newlineTab4"></xsl:value-of>
+			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>}</xsl:text>
@@ -277,14 +280,14 @@
 				<xsl:value-of select="$newlineTab4"></xsl:value-of>	
 				<xsl:text>if ( Core.isNotNull( doc ) &amp;&amp; !doc.hasError()){</xsl:text>
 				<xsl:value-of select="$newlineTab5"></xsl:value-of>	
-				<xsl:text>doc.insert();</xsl:text>
+				<xsl:text>session.persist( doc );</xsl:text>
 				<xsl:value-of select="$newlineTab5"></xsl:value-of>
-				<xsl:text>Core.setMessageSuccess( "Document registred." );</xsl:text>	
-				<xsl:value-of select="$newlineTab4"></xsl:value-of>	
-				<xsl:text>}else</xsl:text>	
+				<xsl:text>transaction.commit();</xsl:text>
 				<xsl:value-of select="$newlineTab5"></xsl:value-of>
-				<xsl:text>Core.setMessageError( "Error registring document!" );</xsl:text>
+				<xsl:text>Core.setMessageSuccess();</xsl:text>
 				<xsl:value-of select="$newlineTab4"></xsl:value-of>
+				<xsl:text>}</xsl:text>
+				<xsl:value-of select="$newlineTab3"></xsl:value-of>
 				<xsl:text>}</xsl:text>
 			
 			</xsl:when>	
@@ -294,7 +297,23 @@
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>} catch ( Exception e ) {}</xsl:text>
+			<xsl:text>} catch ( Exception e ) {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>Core.setMessageError();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>if (transaction != null)</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>transaction.rollback();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>}finally {</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>if (session != null) {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>		
+			<xsl:text>session.close();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>					
+			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>			
+			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_del();</xsl:text>

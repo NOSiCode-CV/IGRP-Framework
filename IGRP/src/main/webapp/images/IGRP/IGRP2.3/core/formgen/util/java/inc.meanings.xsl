@@ -5,6 +5,37 @@
 		<xsl:param name="key"/>
 		
 		<xsl:choose>
+		
+			<xsl:when test="$key = 'andWhere'">
+				<xsl:text>.andWhere</xsl:text>	
+			</xsl:when>
+			<xsl:when test="$key = 'andWhereIsNull'">
+				<xsl:text>.andWhereIsNull</xsl:text>	
+			</xsl:when>
+			<xsl:when test="$key = 'andWhereIsNotNull'">
+				<xsl:text>.andWhereIsNotNull</xsl:text>		
+			</xsl:when>
+			<xsl:when test="$key = 'andWhereBetween'">
+				<xsl:text>.andWhereBetween</xsl:text>	
+			</xsl:when>
+			<xsl:when test="$key = 'orWhere'">
+				<xsl:text>.orWhere</xsl:text>	
+			</xsl:when>
+			<xsl:when test="$key = 'orWhereIsNull'">
+				<xsl:text>.orWhereIsNull</xsl:text>	
+			</xsl:when>
+			<xsl:when test="$key = 'orWhereIsNotNull'">
+				<xsl:text>.orWhereIsNotNull</xsl:text>		
+			</xsl:when>
+			<xsl:when test="$key = 'orWhereBetween'">
+				<xsl:text>.orWhereBetween</xsl:text>	
+			</xsl:when>
+			<xsl:when test="$key = 'having'">
+				<xsl:text>.having</xsl:text>		
+			</xsl:when>
+			<xsl:when test="$key = 'where'">
+				<xsl:text>.where</xsl:text>	
+			</xsl:when>
 			
 			<xsl:when test="$key = 'WHERE_EQUAL'">
 				

@@ -116,6 +116,8 @@
 			
 			<xsl:variable name="operatorName" select="concat('ADD',$index,'WHERE')"/>
 			
+			<xsl:variable name="filterName" select="concat('ADD',$index,'FILTER')"/>
+			
 			<xsl:variable name="value2Name" select="concat($value1Name,'STATE2')"/>
 			
 			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
@@ -145,6 +147,12 @@
 				</xsl:call-template>
 			</xsl:variable>
 			
+			<xsl:variable name="filter">
+				<xsl:call-template name="utils.meaning">
+					<xsl:with-param name="key" select="field[@name=$filterName]"/>
+				</xsl:call-template>
+			</xsl:variable>
+			
 			<xsl:variable name="value2">
 			
 				<xsl:choose>
@@ -164,7 +172,7 @@
 			
 			<xsl:if test="$value1 and $operator and $value2">
 
-				<xsl:text>.andWhere(</xsl:text>
+				<xsl:value-of select="$filter"/><xsl:text>(</xsl:text>
 					
 					<xsl:value-of select="concat($value1,$operator,$value2)"></xsl:value-of>
 				

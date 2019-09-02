@@ -85,15 +85,16 @@
 			        for (var i = 1; i <= this.itemCount_; i++) {
 			            if (!this.getInput('ADD' + i)) {
 		    	        	 var input =
-		    	        	this.appendValueInput('ADD' + i).appendField("where");
-		    	        	this.appendValueInput('ADD' + i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
+		    	        	this.appendValueInput('ADD' + i).appendField(new Blockly.FieldDropdown(FILTER),'ADD'+i+'FILTER');
+		    	        	this.appendValueInput('ADD'+i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
 		    	 			
 			            }
 			        }
 			        while (this.getInput('ADD' + i)) {
 			            this.removeInput('ADD' + i);
-			            this.removeInput('ADD' + i+'WHERE');
-			            this.removeInput('ADD' + i+'STATE2');
+			            this.removeInput('ADD'+i+'FILTER');
+			            this.removeInput('ADD'+i+'WHERE');
+			            this.removeInput('ADD'+i+'STATE2');
 			            
 			            i++;
 			        }   
@@ -101,7 +102,7 @@
 			
 		},
 		
-inserir_dao : {
+		inserir_dao : {
 			
 			init : function(block){
 				
