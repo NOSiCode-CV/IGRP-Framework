@@ -234,7 +234,7 @@ function SetupBlockly(){
 					var daoName = type.split('get-dao-').pop();
 					
 					$(document).trigger('get-dao-block-init', [ block, daoName ]);
-				}	
+				}		
 					
 			}
 		};

@@ -1,30 +1,28 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:template name="blockly.element.separator" >
+	<xsl:template name="blockly.element.formlist" >
 	
-	<xsl:variable name="mutation" select="mutation/@count"/>
+		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
 		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
 		
-		<xsl:variable name="andWheres">
-			
-			<xsl:call-template name="listar.andWheres">
-			
-				<xsl:with-param name="total" select="$mutation"/>
-				
-				<xsl:with-param name="valueAttrName" select="'ADD'"/>
-				
-				<xsl:with-param name="values" select="value"/>
-			
-			</xsl:call-template>
-			
-		</xsl:variable>
+		<xsl:variable name="where1" select="substring-after(value[@name='where1']/block/field,'::')"/>
 		
 		<xsl:variable name="table" select="field[@name='table']"/>
 		
 		<xsl:variable name="table_up">
 	       	<xsl:call-template name="InitCap">
 	       		<xsl:with-param name="text" select="$table"/>
+	       	</xsl:call-template>
+	   	</xsl:variable>
+	   	
+	   	<xsl:variable name="button" select="field[@name='button']"/>
+	   	
+	   	<xsl:variable name="model_low" select="field[@name='id_model']"/>
+	   	
+	   	<xsl:variable name="id_model">
+	       	<xsl:call-template name="InitCap">
+	       		<xsl:with-param name="text" select="field[@name='id_model']"/>
 	       	</xsl:call-template>
 	   	</xsl:variable>
 	   	
@@ -41,13 +39,26 @@
 				<xsl:with-param name="text" select="$rowvaluechildID"/>
 			</xsl:call-template>
 		</xsl:variable>
+		
+		<xsl:variable name="where2">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='where2']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="sep_model">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='set_model']"/>
+			</xsl:call-template>
+		</xsl:variable>
 	
 		<xsl:variable name="code">
 		
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>List &lt; </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
 			<xsl:text>&gt; docsList = new </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
-			<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of><xsl:text>.all();</xsl:text>
+			<xsl:text>().find().andWhere( "</xsl:text><xsl:value-of select="$where1"></xsl:value-of>
+			<xsl:text>", "=",</xsl:text><xsl:value-of select="$where2"></xsl:value-of><xsl:text>).all();</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>if ( Core.isNotNull( docsList ) ) {</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
@@ -77,11 +88,13 @@
 
 		</xsl:variable>
 		
+		
 		<xsl:value-of select="$code"></xsl:value-of>
 		
+
 	</xsl:template>
 
-	<xsl:template name="blockly.element.sep_row">
+	<xsl:template name="blockly.element.form_row">
 	
 		<xsl:variable name="rowType" select="substring-before(field,'::')"/>
 		
@@ -129,19 +142,35 @@
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
-	<xsl:template name="blockly.element.save_separator" >
+	<xsl:template name="blockly.element.save_formlist" >
+	
+		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
 		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
 		
 		<xsl:variable name="table" select="field[@name='table']"/>
 		
-		<xsl:variable name="typedad" select="../../@type"/>
+		<xsl:variable name="exist_insert" select="value[@name='id_dad']"/>
+		
+		<xsl:variable name="id_dad_low" select="substring-after(value[@name='id_dad']/block/field,'::')"/>
 		
 		<xsl:variable name="table_up">
 	       	<xsl:call-template name="InitCap">
 	       		<xsl:with-param name="text" select="$table"/>
 	       	</xsl:call-template>
 	   	</xsl:variable>
+	   	
+	   	<xsl:variable name="id_dad">
+	       	<xsl:call-template name="InitCap">
+	       		<xsl:with-param name="text" select="$id_dad_low"/>
+	       	</xsl:call-template>
+	   	</xsl:variable>
+		
+		<xsl:variable name="insercao">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="statement[@name='insert_dao']"/>
+			</xsl:call-template>
+		</xsl:variable>
 	   	
 	   	<xsl:variable name="sep_insercao_obj">
 			<xsl:call-template name="blockly.getValue">
@@ -182,34 +211,24 @@
 			</xsl:call-template>
 			
 		</xsl:variable>
+		
+		<xsl:variable name="id_model">
+	       	<xsl:call-template name="InitCap">
+	       		<xsl:with-param name="text" select="field[@name='id_model']"/>
+	       	</xsl:call-template>
+	   	</xsl:variable>
+	
 	
 		<xsl:variable name="code">
-		
-			<xsl:choose>
-				
-				<xsl:when test="$typedad != 'inserir_dao' ">
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					<xsl:text>Session session = null;</xsl:text>
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					<xsl:text>Transaction transaction = null;</xsl:text>
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					<xsl:text>try{</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>session = Core.getSession(Core.defaultConnection());</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>transaction = session.getTransaction();</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>transaction.begin();</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
-				</xsl:when>
-					
-				<xsl:otherwise>
-					<xsl:text></xsl:text>
-				</xsl:otherwise>
-
-			</xsl:choose>
-			
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Session session = Core.getSession(Core.defaultConnection());</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>Transaction transaction = null;</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>try {</xsl:text><xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>transaction = session.getTransaction();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>transaction.begin();</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>for ( </xsl:text>
 			<xsl:value-of select="$page-title"></xsl:value-of>
@@ -245,60 +264,56 @@
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>}</xsl:text>
-			<xsl:text>else{</xsl:text>	
-			<xsl:value-of select="$newlineTab4"></xsl:value-of>
-			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> doc = new </xsl:text>
-			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text>();</xsl:text>
-			<xsl:value-of select="$newlineTab4"></xsl:value-of>
-<!-- 			<xsl:text>doc.set</xsl:text><xsl:value-of select="$id_dad"></xsl:value-of><xsl:text>(obj);</xsl:text> -->
-			<xsl:value-of select="$newlineTab4"></xsl:value-of>		
-			<xsl:value-of select="$sep_insercao"></xsl:value-of> 
-			<xsl:value-of select="$newlineTab4"></xsl:value-of>	
-			<xsl:text>if ( Core.isNotNull( doc ) &amp;&amp; !doc.hasError()){</xsl:text>
-			<xsl:value-of select="$newlineTab5"></xsl:value-of>	
-			<xsl:text>session.persist( doc );</xsl:text>
-			<xsl:value-of select="$newlineTab4"></xsl:value-of>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>}</xsl:text>
+			
+			<xsl:choose>
+			
+			<xsl:when test="$exist_insert != ''">
+			
+				<xsl:text>else{</xsl:text>	
+				<xsl:value-of select="$newlineTab4"></xsl:value-of>
+				<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> doc = new </xsl:text>
+				<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text>();</xsl:text>
+				<xsl:value-of select="$newlineTab4"></xsl:value-of>
+				<xsl:text>doc.set</xsl:text><xsl:value-of select="$id_dad"></xsl:value-of><xsl:text>(obj);</xsl:text>
+				<xsl:value-of select="$newlineTab4"></xsl:value-of>		
+				<xsl:value-of select="$sep_insercao"></xsl:value-of> 
+				<xsl:value-of select="$newlineTab4"></xsl:value-of>	
+				<xsl:text>if ( Core.isNotNull( doc ) &amp;&amp; !doc.hasError()){</xsl:text>
+				<xsl:value-of select="$newlineTab5"></xsl:value-of>	
+				<xsl:text>session.persist( doc );</xsl:text>
+				<xsl:value-of select="$newlineTab5"></xsl:value-of>
+				<xsl:text>transaction.commit();</xsl:text>
+				<xsl:value-of select="$newlineTab5"></xsl:value-of>
+				<xsl:text>Core.setMessageSuccess();</xsl:text>
+				<xsl:value-of select="$newlineTab4"></xsl:value-of>
+				<xsl:text>}</xsl:text>
+				<xsl:value-of select="$newlineTab3"></xsl:value-of>
+				<xsl:text>}</xsl:text>
+			
+			</xsl:when>	
+			
+			</xsl:choose>
+			
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text>
-
-			<xsl:choose>
-				
-				<xsl:when test="$typedad != 'inserir_dao' ">
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					<xsl:text>transaction.commit();</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					<xsl:text>Core.setMessageSuccess();</xsl:text>
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					<xsl:text>}catch ( Exception e ) {</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>Core.setMessageError(e.getMessage());</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>if (transaction != null)</xsl:text>
-					<xsl:value-of select="$newlineTab3"></xsl:value-of>
-					<xsl:text>transaction.rollback();</xsl:text>
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					<xsl:text>}finally {</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					<xsl:text>if (session != null &amp;&amp; session.isOpen()) {</xsl:text>
-					<xsl:value-of select="$newlineTab3"></xsl:value-of>		
-					<xsl:text>session.close();</xsl:text>
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-					<xsl:text>}</xsl:text>
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-					<xsl:text>}</xsl:text>
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>		
-				</xsl:when>
-					
-				<xsl:otherwise>
-					<xsl:text></xsl:text>
-					
-				</xsl:otherwise>
-
-			</xsl:choose>
-
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>} catch ( Exception e ) {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>Core.setMessageError();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>if (transaction != null)</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>transaction.rollback();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>}finally {</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>if (session != null) {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>		
+			<xsl:text>session.close();</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>					
+			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>			
+			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:value-of select="$newline"></xsl:value-of>
 			<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_del();</xsl:text>
@@ -326,14 +341,13 @@
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newline"></xsl:value-of>
-		
 		</xsl:variable>
 		
 		<xsl:value-of select="$code"></xsl:value-of>
 		
 	</xsl:template>	
 	
-	<xsl:template name="blockly.element.get_row_sep">
+	<xsl:template name="blockly.element.get_row_form">
 	
 		<xsl:variable name="rowType" select="substring-before(field,'::')"/>
 		
@@ -356,12 +370,15 @@
 		</xsl:variable>
 		
 		<xsl:variable name="rowset">
-			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().getValue()</xsl:text>
+			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+			<xsl:text>().getValue()</xsl:text>
 		</xsl:variable>
 		
 		<xsl:value-of select="$rowset"></xsl:value-of>
 	
 	</xsl:template>	
 	
+
+
 </xsl:stylesheet>
 		

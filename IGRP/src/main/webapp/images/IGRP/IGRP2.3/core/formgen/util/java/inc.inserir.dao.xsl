@@ -79,6 +79,23 @@
 			<xsl:text>session.persist( obj );	</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
 			<xsl:text>}</xsl:text>
+			<xsl:if test="$hasMutation">
+			
+				<xsl:variable name="separatorix">
+					
+					<xsl:call-template name="separadorplate">
+					
+						<xsl:with-param name="total" select="mutation/@count"/>
+						
+						<xsl:with-param name="valueseparator" select="'SEPARATOR'"/>
+					
+					</xsl:call-template>
+					
+				</xsl:variable>
+				
+				<xsl:value-of select="$separatorix"></xsl:value-of>
+				
+			</xsl:if>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
 			<xsl:text>transaction.commit();</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
@@ -102,24 +119,6 @@
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>					
-			
-			<xsl:if test="$hasMutation">
-			
-				<xsl:variable name="separatorix">
-					
-					<xsl:call-template name="separadorplate">
-					
-						<xsl:with-param name="total" select="mutation/@count"/>
-						
-						<xsl:with-param name="valueseparator" select="'SEPARATOR'"/>
-					
-					</xsl:call-template>
-					
-				</xsl:variable>
-				
-				<xsl:value-of select="$separatorix"></xsl:value-of>
-				
-			</xsl:if>
 
 		</xsl:variable>
 		
