@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.transform.TransformerConfigurationException;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
@@ -96,7 +97,6 @@ public class CRUDGeneratorController extends Controller {
 								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
 								String dad_name = new Application().findOne(Core.toInt(model.getAplicacao())).getDad();
 								r = this.generateDAO(config,model.getSchema(),tableName, dad_name);
-								
 							}
 							
 							if(r) {
@@ -350,7 +350,7 @@ public class CRUDGeneratorController extends Controller {
 	public String resolveDAOName(String tabela_name) {
 		String dao_name_class = "";
 		for(String aux : tabela_name.split("_")){
-			dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1).toUpperCase();
 		}
 		return dao_name_class;
 	}
@@ -368,7 +368,6 @@ public class CRUDGeneratorController extends Controller {
 		boolean flag = false;
 		boolean flag_compile = false;
 		List<DatabaseMetadaHelper.Column> columns = null;
-		
 		try {
 			
 			//Mas antes temos de vereficar se a classe é nova ou nao
@@ -380,7 +379,7 @@ public class CRUDGeneratorController extends Controller {
 			
 			columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 			
-			
+
 			//Salvar os files de classe DAO vazio
 			flag = this.saveFiles(dao_name_class+".java", "", this.config.getPathDAO(dad_name));
 			
