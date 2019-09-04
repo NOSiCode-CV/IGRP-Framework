@@ -835,6 +835,7 @@ var GENSTRUCTURES = function(GEN){
 						
 						case 'remote_combobox':
 						case 'remote':
+						case 'remote_list':
 						
 							var proc          = a.gen_rule_procedure,
 

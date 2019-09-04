@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
-
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.webapps.igrp.dao.Config_env;
@@ -67,22 +65,30 @@ public class GerarClasse {
 									"import javax.persistence.JoinColumn;\n" +
 									"import javax.persistence.ForeignKey;\n\n";
 				//vereficar se a classe com dependencia existe
-				if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
-					boolean gerar = new CRUDGeneratorController().processGenerate(config, this.resolveName(fk_table_name.get(cl.getName())), schema, fk_table_name.get(cl.getName()), dad_name);
-					/*content_import = content_import + "import javax.persistence.OneToMany;\n"
-													+ "import javax.persistence.FetchType;\n"
-													+ "import javax.persistence.CascadeType;\n"
-													+ "import java.util.List;\n\n";
-					
-					content_variaveis = content_variaveis + "\t@OneToMany(cascade = CascadeType.REMOVE, mappedBy=\""+cl.getName()+"\",fetch=FetchType.EAGER)\n" + 
-					"\tprivate List<"+clas_dao_name+"> "+clas_dao_name.toLowerCase()+";";*/
-					if(gerar) {
-						Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
-					}
+				//if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
+				//}
+				
+				boolean gerar = new CRUDGeneratorController().generateDAO(config, schema, fk_table_name.get(cl.getName()), dad_name);
+				
+				/*
+				if(gerar) {
+					Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
 				}
+                */
 			}else {
 				content_variaveis = content_variaveis + "\t@Column(nullable="+( cl.isNullable() ? "true" : "false") +",length="+ cl.getSize()  +")\n"+
 						"\tprivate "+ this.resolveType(cl) +" " +cl.getName()+";\n";
+				
+				/*if(ge.isGerar_list()) {
+					//annotation OneToMany
+					content_import = content_import + "import javax.persistence.OneToMany;\n"
+													+ "import javax.persistence.FetchType;\n"
+													+ "import javax.persistence.CascadeType;\n"
+													+ "import java.util.List;\n\n";
+					content_variaveis = content_variaveis + "\t@OneToMany(cascade = CascadeType.REMOVE, mappedBy=\""+ge.getVariavel_tabela()+"\",fetch=FetchType.EAGER)\n" + 
+															"\tprivate List<"+ge.getTabela()+"> "+ge.getTabela().toLowerCase()+"s;";
+					
+				}*/
 				if(this.resolveType(cl).equalsIgnoreCase("Date")) {
 					cont +=1;
 					if(cont == 1) {
@@ -104,10 +110,10 @@ public class GerarClasse {
 						"\t}\n";
 			}else {
 				Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName(fk_table_name.get(cl.getName())) + " get"+this.resolveName(cl.getName())+"() {\n" + 
+				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName(fk_table_name.get(cl.getName()).toUpperCase()) + " get"+this.resolveName(cl.getName())+"() {\n" + 
 						"\t\treturn "+fk_table_name.get(cl.getName())+";\n" + 
 						"\t}\n" + 
-						"\tpublic void set"+this.resolveName(fk_table_name.get(cl.getName()))+"("+ this.resolveName(fk_table_name.get(cl.getName())) +" "+fk_table_name.get(cl.getName())+") {\n" + 
+						"\tpublic void set"+this.resolveName(fk_table_name.get(cl.getName()))+"("+ this.resolveName(fk_table_name.get(cl.getName()).toUpperCase()) +" "+fk_table_name.get(cl.getName())+") {\n" + 
 						"\t\tthis."+fk_table_name.get(cl.getName())+" = "+fk_table_name.get(cl.getName())+";\n" + 
 						"\t}\n";
 			}
@@ -118,7 +124,6 @@ public class GerarClasse {
 	
 	private String resolveType(DatabaseMetadaHelper.Column column) {
 		String result="String";
-		System.out.println();
 		switch (column.getTypeSql()) {
 		    case Types.VARCHAR:
 		    case Types.NVARCHAR:
@@ -152,7 +157,7 @@ public class GerarClasse {
 	private String resolveName(String name) {
 		String nome = "";
 		for(String aux : name.split("_")){
-			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toUpperCase();
 		}
 		return nome;
 	}

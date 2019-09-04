@@ -139,10 +139,10 @@ public class Validation {
 						number += numberSplit[i];
 					}
 				}
-				return Core.digits(number) == integer && Core.digits(numberSplit[numberSplit.length-1]) == fraction;
+				return Core.digits(number) <= integer && Core.digits(numberSplit[numberSplit.length-1]) <= fraction;
 			}
 		}else {
-			return Core.digits(value) == integer;
+			return Core.digits(value) <= integer;
 		}
 		return false;
 	}
