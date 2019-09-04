@@ -639,7 +639,7 @@ window.IGRPBlocklyInit = function(){
 			
 		});
 		
-		bloc_fields.forEach(function(daos) {
+		bloc_fields.forEach(function(daos) { 
 			var fieldy_list = [];
 			var FIELDY_MEANS = {};
 			var FIELDY_MEANS_GET = {};
