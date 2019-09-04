@@ -169,6 +169,7 @@ window.IGRPBlocklyInit = function(){
 	 fields_formlist = []; 
 	 fields_formlist.push(['--','--']);
 	 tables_model = []; 
+	 bloc_fields = []; 
 	 separator_model = []; 
 	 tables_model.push(['--','--']);
 	 separator_model.push(['--','--']);
@@ -784,9 +785,11 @@ window.IGRPBlocklyInit = function(){
 			
 			var toolbox = $('#toolbox')[0];
 			
-			console.log(toolbox)
+			console.log(toolbox) 
 			
 			Blockly.mainWorkspace.updateToolbox(toolbox);
+			
+			SetupBlockly();
 			
 		}
 	},
