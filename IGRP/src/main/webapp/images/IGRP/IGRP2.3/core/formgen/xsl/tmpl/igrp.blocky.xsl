@@ -132,53 +132,47 @@
 			
 			<sep></sep>
 			
-			<category id="core" name="Core IGRP" colour="1">
+<!-- 			<category id="core" name="Core IGRP" colour="1"> -->
 			
-				<block type="core_get_msg" output="" color="1">
-					<value name="value1" type="value"  title="Core">
-						<field type="dropdown" name="core_get" options="IGRP_BLOCKLY_DROPS.core_msg"></field>
-					</value>
-				</block>
+<!-- 				<block type="core_get_msg" output="" color="1"> -->
+<!-- 					<value name="value1" type="value"  title="Core"> -->
+<!-- 						<field type="dropdown" name="core_get" options="IGRP_BLOCKLY_DROPS.core_msg"></field> -->
+<!-- 					</value> -->
+<!-- 				</block> -->
 				
-				<block type="core_set_msg" prev-statement="" color ="1">
-					<value name="CORE" type="value" title="Core">
-						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_msg"></field>
-					</value>
-				</block>
+<!-- 				<block type="core_set_msg" prev-statement="" color ="1"> -->
+<!-- 					<value name="CORE" type="value" title="Core"> -->
+<!-- 						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_msg"></field> -->
+<!-- 					</value> -->
+<!-- 				</block> -->
 				
-				<block type="core_get_conv" output="" color="1">
-					<value name="value1" type="value"  title="Core">
-						<field type="dropdown" name="core_get" options="IGRP_BLOCKLY_DROPS.core_conv"></field>
-					</value>
-				</block>
+<!-- 				<block type="core_get_conv" output="" color="1"> -->
+<!-- 					<value name="value1" type="value"  title="Core"> -->
+<!-- 						<field type="dropdown" name="core_get" options="IGRP_BLOCKLY_DROPS.core_conv"></field> -->
+<!-- 					</value> -->
+<!-- 				</block> -->
 				
-				<block type="core_set_conv" prev-statement="" color ="1">
-					<value name="CORE" type="value" title="Core">
-						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_conv"></field>
-					</value>
-				</block>
+<!-- 				<block type="core_set_conv" prev-statement="" color ="1"> -->
+<!-- 					<value name="CORE" type="value" title="Core"> -->
+<!-- 						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_conv"></field> -->
+<!-- 					</value> -->
+<!-- 				</block> -->
 				
-				<block type="core_get_if" output="" color="1">
-					<value name="value1" type="value"  title="Core">
-						<field type="dropdown" name="core_get" options="IGRP_BLOCKLY_DROPS.core_if"></field>
-					</value>
-				</block>
+<!-- 				<block type="core_get_if" output="" color="1"> -->
+<!-- 					<value name="value1" type="value"  title="Core"> -->
+<!-- 						<field type="dropdown" name="core_get" options="IGRP_BLOCKLY_DROPS.core_if"></field> -->
+<!-- 					</value> -->
+<!-- 				</block> -->
 				
-				<block type="core_set_if" prev-statement="" color ="1">
-					<value name="CORE" type="value" title="Core">
-						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_if"></field>
-					</value>
-				</block>
+<!-- 				<block type="core_set_if" prev-statement="" color ="1"> -->
+<!-- 					<value name="CORE" type="value" title="Core"> -->
+<!-- 						<field type="dropdown" name="core_set" options="IGRP_BLOCKLY_DROPS.core_if"></field> -->
+<!-- 					</value> -->
+<!-- 				</block> -->
 				
-				<block type="corre_get_param" output="" color="1">
-					<value name="value1" type="dummy"  title="Core get param">
-						<field type="field_text" name="param" options=""></field>
-					</value>
-				</block>
-				
-			</category>
+<!-- 			</category> -->
 
-			<sep></sep>
+<!-- 			<sep></sep> -->
 			
 		</xml>
 		<!-- import required blockly and blocks -->

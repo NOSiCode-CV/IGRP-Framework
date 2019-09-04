@@ -310,7 +310,7 @@ window.IGRPBlocklyInit = function(){
 		{
 	
 			$('#toolbox').append(
-				'<category id="model" name="Model '+PageTitle+'" colour="300">'
+				'<category id="model" name="Model '+PageTitle+'" colour="300" class="blocly-dynamic">'
 				
 					 +'<block type="model_set" prev-statement="" next-statement="" color="300">'
 				 		+'<value name="value1" type="value" title="set model">'
@@ -326,15 +326,21 @@ window.IGRPBlocklyInit = function(){
 					 	+'</value>'
 					 +'</block>'
 					 
+					+'<block type="corre_get_param" output="" color="300">' 
+						+'<value name="value1" type="dummy"  title="get parameter">'
+							+'<field type="field_text" name="param" options=""></field>'
+						+'</value>'
+					+'</block>'
+					 
 				 +'</category>'
-				 +'<sep></sep>'
+				 +'<sep class="blocly-dynamic"></sep>'
 			  );
 		}
 	
 	if(addcombo!=0)
 	{
 	$('#toolbox').append(
-		'<category id="combo" name="Combo-box" colour="100">'
+		'<category id="combo" name="Combo-box" colour="100" class="blocly-dynamic">'
 		+'<block type="fill_combo" color="100" prev-statement="" next-statement="" inline="true">'
 			+'<value name="value1" type="dummy" title="fill combo-box">'
 				+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
@@ -351,7 +357,7 @@ window.IGRPBlocklyInit = function(){
 			+'</value>'
 		+'</block>'
 		+'</category>'
-		+'<sep></sep>'
+		+'<sep class="blocly-dynamic"></sep>'
 		);
 	}
 		
@@ -371,12 +377,12 @@ window.IGRPBlocklyInit = function(){
 	});
 	
 	all_buttons.forEach(function(button) {
-		str += '<value name="'+button+'1" type="dummy" title="action '+button+'" ></value>'
-	 			+'<value name="'+button+'" type="statement"></value>';
+		str += '<value name="'+button+'1" type="dummy" title="action '+button+'" class="blocly-dynamic"></value>'
+	 			+'<value name="'+button+'" type="statement" class="blocly-dynamic"></value>';
 		});
 	$('#controller').append(str);
-	$('#controller').append('<value name="custom1" type="dummy" title="custom action" ></value>'
- 			+'<value name="custom_actions" type="statement"></value>');
+	$('#controller').append('<value name="custom1" type="dummy" title="custom action" class="blocly-dynamic"></value>'
+ 			+'<value name="custom_actions" type="statement" class="blocly-dynamic"></value>');
 	
 	
 	// ********************************************* END XML LOAD ***********************************************
@@ -401,7 +407,7 @@ window.IGRPBlocklyInit = function(){
 		{
 			
 			$('#toolbox').append(
-					'<category id="dao" name="DAO" colour="160">'
+					'<category id="dao" name="DAO" colour="160" class="blocly-dynamic">'
 							+'<block type="inserir_dao" mutator="separatori" color ="160" prev-statement="" next-statement="" inline="true">'
 								+'<value type="dummy" title="insert DAO">'
 									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
@@ -425,12 +431,12 @@ window.IGRPBlocklyInit = function(){
 						+'</value>'
 					+'</block>'
 						
-					+'</category><sep></sep>');
+					+'</category><sep class="blocly-dynamic"></sep>');
 				
 				if(addforeign!=0)
 				{
 				$('#toolbox').append(
-					'<category id="foreign" name="Primary-Key" colour="60">'
+					'<category id="foreign" name="Primary-Key" colour="60" class="blocly-dynamic">'
 						
 					+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
 						+'<value name="PARAM" type="dummy">'
@@ -448,13 +454,13 @@ window.IGRPBlocklyInit = function(){
 					+'</value>'
 					+'</block>'
 					+'</category>'
-					+'<sep></sep>'
+					+'<sep class="blocly-dynamic"></sep>'
 					);
 				}
 				
 				if(addchart!=0)
 				{
-				$('#toolbox').append('<category id="dashboard" name="Dashboard" colour="120">'
+				$('#toolbox').append('<category id="dashboard" name="Dashboard" colour="120" class="blocly-dynamic">'
 						+'<category id="chart" name="Chart" colour="150">'
 						+'<block type="grafico" color ="120" prev-statement="" next-statement="" >'
 							+'<value name="value1" type="dummy" title="fill chart">'
@@ -466,38 +472,39 @@ window.IGRPBlocklyInit = function(){
 						+'</block>'
 						+'</category>'
 						+'</category>'
-						+'<sep></sep>'
+						+'<sep class="blocly-dynamic"></sep>'
 						);
 				}
 				
 				if(addbutton!=0)
 				{
 				$('#model').append(	
-						'<block type="rediret_p" color="300" prev-statement="" next-statement="" inline="true">'
+						'<block type="rediret_p" color="300" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
 							+'<value name="value1" type="dummy" >'
 							+'<field type="field_text" name="param" title="add parameter" options=""></field>'
 							+'<field type="dropdown" name="button"  title=" in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							+'</value>'
 						+'</block>'
 				
-						+'<block type="add_isedit" prev-statement="" next-statement="" color="300">'
+						+'<block type="add_isedit" prev-statement="" next-statement="" color="300" class="blocly-dynamic">'
 							+'<value name="value3" type="dummy">'
 							+'<field type="dropdown" name="button" title="add parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							+'</value>'
 						+'</block>'
 						
-						+'<block type="core_get_param" output="" color="300">'
+						+'<block type="core_get_param" output="" color="300" class="blocly-dynamic">'
 							+'<value name="value1" type="dummy"  title="insert foreign-key">'
 							+'<field type="field_text" name="param" options=""></field>'
 							+'</value>'	
 						+'</block>'
+							
 						);
 				}
 				
 				if(addseparator!=0)
 				{
 				$('#toolbox').append(	
-					'<category id="separator" name="Separator-List" colour="80">'
+					'<category id="separator" name="Separator-List" colour="80" class="blocly-dynamic">'
 						+'<block type="separator" mutator="where" color="80"  prev-statement="" next-statement="" inline="true">'
 						+'<value name="id_separator" type="value">'
 						+'<field type="dropdown" name="table" title="list" options="IGRP_BLOCKLY_DROPS.separators"></field>'
@@ -514,10 +521,10 @@ window.IGRPBlocklyInit = function(){
 						+'</value>'
 					+'</block>'
 					+'<block type="save_separator" color="80"  prev-statement="" next-statement="" inline="true">'
-						+'<value name="id_dad" type="value">'
+						+'<value type="dummy">'
 						+'<field type="dropdown" name="table" title=" insert" options="IGRP_BLOCKLY_DROPS.separators"></field>'
 						+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						+'<field type="text" options="by obj:"></field>'	
+//						+'<field type="text" options="by obj:"></field>'	
 						+'</value>'
 						+'<value name="value2" type="statement" >'
 						+'</value>'
@@ -533,14 +540,14 @@ window.IGRPBlocklyInit = function(){
 					+'</block>'
 					
 					+'</category>'
-					+'<sep></sep>'
+					+'<sep class="blocly-dynamic"></sep>'
 						);
 				}
 				
 				if(addformlist!=0)
 				{
 				$('#toolbox').append(	
-					'<category id="formlist" name="Form-List" colour="200">'
+					'<category id="formlist" name="Form-List" colour="200" class="blocly-dynamic">'
 						+'<block type="formlist" color="200"  prev-statement="" next-statement="" inline="true">'
 						+'<value name="where1" type="value">'
 						+'<field type="dropdown" name="table" title="list form-list" options="IGRP_BLOCKLY_DROPS.formlists"></field>'
@@ -582,14 +589,14 @@ window.IGRPBlocklyInit = function(){
 					+'</block>'
 					
 					+'</category>'
-					+'<sep></sep>'
+					+'<sep class="blocly-dynamic"></sep>'
 						);
 				}
 				
 				if(addtable!=0)
 				{
 				$('#toolbox').append(
-				'<category id="table" name="Table" colour="140">'
+				'<category id="table" name="Table" colour="140" class="blocly-dynamic">'
 				
 				+'<block type="listar" color="140" mutator="where" prev-statement="" next-statement="" inline="true">'
 					+'<value name="value1" type="dummy">'
@@ -613,7 +620,7 @@ window.IGRPBlocklyInit = function(){
 					+'</value>'
 				+'</block>'
 				+'</category>'
-				+'<sep></sep>'
+				+'<sep class="blocly-dynamic"></sep>'
 				);
 				}
 	}
@@ -693,7 +700,7 @@ window.IGRPBlocklyInit = function(){
 
 			
 			$('#'+daos+'').append(
-				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="">'
+				'<block type="set-dao-'+daos+'" igrp="tete" color="160"  prev-statement="" next-statement="" class="blocly-dynamic">'
 					+'<value name="value1" type="value" title="set '+daos+'">'
 						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
 						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
@@ -701,7 +708,7 @@ window.IGRPBlocklyInit = function(){
 				+'</block>\n');
 			
 			$('#'+daos+'').append(
-					'<block type="get-dao-'+daos+'" color="160" output="">'
+					'<block type="get-dao-'+daos+'" color="160" output="" class="blocly-dynamic">'
 					 /*+'<value name="value1" type="value" title="get'+daos+'">'
 						+'<field type="dropdown" name="fields" options="IGRP_BLOCKLY_DROPS.daos.'+daos+'"></field>'
 						+'<field type="image" name="img" src="https://image.flaticon.com/icons/svg/149/149206.svg"></field>'
@@ -773,6 +780,14 @@ window.IGRPBlocklyInit = function(){
 			Blockly.Xml.domToWorkspace( $('#inicial_script')[0] ,demoWorkspace);
 			
 			$('#igrp-form-gen').trigger('blockly-ready');
+		}else{
+			
+			var toolbox = $('#toolbox')[0];
+			
+			console.log(toolbox)
+			
+			Blockly.mainWorkspace.updateToolbox(toolbox);
+			
 		}
 	},
 	error : function(data) {
@@ -1066,6 +1081,8 @@ $.IGRP.on('init', function(){
 	});
 	
 	$('li[rel="gen-blocky"]').on('click',function() {
+		
+		$('.blocly-dynamic').remove();
 		
 		IGRPBlocklyInit();
 		

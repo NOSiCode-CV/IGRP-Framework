@@ -80,7 +80,8 @@
 					
 				<xsl:when test="$rowType = 'String' and $rowtypechild = 'Date' ">
 					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
-					<xsl:text>(Core.dateToString(</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>,"dd-MM-yyyy")); </xsl:text>
+					<xsl:text>(</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>!=null?</xsl:text>
+					<xsl:text>Core.dateToString(</xsl:text><xsl:value-of select="$valorA"></xsl:value-of><xsl:text>,"dd-MM-yyyy"):null); </xsl:text>
 				</xsl:when>
 				
 				<xsl:otherwise>
