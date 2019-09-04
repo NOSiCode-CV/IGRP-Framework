@@ -157,7 +157,7 @@ public class GerarClasse {
 	private String resolveName(String name) {
 		String nome = "";
 		for(String aux : name.split("_")){
-			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toUpperCase();
+			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
 		}
 		return nome;
 	}

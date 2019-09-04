@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -47,7 +47,7 @@
                     <label>Value</label>
                     <value/>
                 </infopanel_1_val>
-                <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
+                <infopanel_1_url name="p_infopanel_1_url" type="link" maxlength="4000" persist="true">
                     <label/>
                     <value type="action">
                         <app>igrp_studio</app>
@@ -75,7 +75,7 @@
                     <label>Value</label>
                     <value></value>
                 </infopanel_2_val>
-                <infopanel_2_url name="p_infopanel_2_url" type="text" maxlength="4000" persist="true">
+                <infopanel_2_url name="p_infopanel_2_url" type="link" maxlength="4000" persist="true">
                     <label/>
                     <value type="action">
                         <app>igrp_studio</app>
@@ -103,7 +103,7 @@
                     <label>Value</label>
                     <value></value>
                 </infopanel_3_val>
-                <infopanel_3_url name="p_infopanel_3_url" type="text" maxlength="4000" persist="true">
+                <infopanel_3_url name="p_infopanel_3_url" type="link" maxlength="4000" persist="true">
                     <label/>
                     <value type="action">
                         <app>igrp_studio</app>
@@ -182,7 +182,7 @@
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</value>
                 </btn_import>
                 <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false">
-                    <label>CRUD generator</label>
+                    <label>CRUD/DAO generator</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
                 </crud_generator>
                 <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false">
@@ -220,9 +220,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Consectetur ipsum totam natus</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-ae42_fb08</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-106a_3a45</nome_page>
+                        <descricao_page name="p_descricao_page">Voluptatem perspiciatis stract</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-6e17_9e12</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-7308_c51e</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -231,9 +231,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Lorem doloremque deserunt aper</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-e088_a6aa</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-8ab3_f552</nome_page>
+                        <descricao_page name="p_descricao_page">Laudantium magna ipsum laudant</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-a0e4_266b</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-e773_5638</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -242,9 +242,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Mollit elit laudantium labore</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-bcfc_d5fa</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-c194_9b94</nome_page>
+                        <descricao_page name="p_descricao_page">Rem ipsum officia lorem sit</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-b75d_8b63</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-fa52_6acd</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -253,9 +253,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sit omnis rem natus aliqua</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-2b8c_67ac</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-f60b_6b61</nome_page>
+                        <descricao_page name="p_descricao_page">Voluptatem elit sed ut natus</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-5e63_3f5a</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-2c48_bdd9</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -264,9 +264,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Officia magna sit amet laudant</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-7b08_0280</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-dbd3_5d70</nome_page>
+                        <descricao_page name="p_descricao_page">Dolor doloremque elit aperiam</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-3c42_180a</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-6ee4_73d2</nome_page>
                     </row>
                 </value>
                 <context-menu>
@@ -354,7 +354,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-4063_b60e</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-1e48_f64b</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -364,7 +364,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-f928_0695</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-385a_2b3b</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -374,7 +374,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-f3b1_b9b3</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-a8e7_5159</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -384,7 +384,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-03a4_1bb6</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-9557_36d0</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -394,7 +394,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-00b4_1738</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-1556_425d</env_fk>
                     </row>
                 </value>
                 <context-menu>
@@ -412,4 +412,10 @@
             </table>
         </table_2>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

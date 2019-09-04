@@ -42,8 +42,8 @@ public class ListaPageView extends View {
 	public IGRPForm infopanel_1;
 	public IGRPForm infopanel_2;
 	public IGRPForm infopanel_3;
-	public IGRPForm box_2;
-	public IGRPForm box_1;
+	public IGRPBox box_2;
+	public IGRPBox box_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 	public IGRPTable table_2;
@@ -67,9 +67,9 @@ public class ListaPageView extends View {
 
 		infopanel_3 = new IGRPForm("infopanel_3","");
 
-		box_2 = new IGRPForm("box_2","");
+		box_2 = new IGRPBox("box_2","");
 
-		box_1 = new IGRPForm("box_1","");
+		box_1 = new IGRPBox("box_1","");
 
 		form_1 = new IGRPForm("form_1","Page builder");
 
@@ -90,7 +90,7 @@ public class ListaPageView extends View {
 		infopanel_1_url = new LinkField(model,"infopanel_1_url");
 		infopanel_1_url.setLabel(gt(""));
 		infopanel_1_url.setValue(new Config().getResolveUrl("igrp_studio","WebReport","index"));
-		infopanel_1_url.propertie().add("name","p_infopanel_1_url").add("type","text").add("maxlength","4000");
+		infopanel_1_url.propertie().add("name","p_infopanel_1_url").add("type","link").add("maxlength","4000");
 		
 		infopanel_1_bg = new TextField(model,"infopanel_1_bg");
 		infopanel_1_bg.setLabel(gt("Background"));
@@ -115,7 +115,7 @@ public class ListaPageView extends View {
 		infopanel_2_url = new LinkField(model,"infopanel_2_url");
 		infopanel_2_url.setLabel(gt(""));
 		infopanel_2_url.setValue(new Config().getResolveUrl("igrp_studio","BPMNDesigner","index"));
-		infopanel_2_url.propertie().add("name","p_infopanel_2_url").add("type","text").add("maxlength","4000");
+		infopanel_2_url.propertie().add("name","p_infopanel_2_url").add("type","link").add("maxlength","4000");
 		
 		infopanel_2_bg = new TextField(model,"infopanel_2_bg");
 		infopanel_2_bg.setLabel(gt("Background"));
@@ -140,7 +140,7 @@ public class ListaPageView extends View {
 		infopanel_3_url = new LinkField(model,"infopanel_3_url");
 		infopanel_3_url.setLabel(gt(""));
 		infopanel_3_url.setValue(new Config().getResolveUrl("igrp_studio","ListaEnv","index"));
-		infopanel_3_url.propertie().add("name","p_infopanel_3_url").add("type","text").add("maxlength","4000");
+		infopanel_3_url.propertie().add("name","p_infopanel_3_url").add("type","link").add("maxlength","4000");
 		
 		infopanel_3_bg = new TextField(model,"infopanel_3_bg");
 		infopanel_3_bg.setLabel(gt("Background"));
@@ -162,25 +162,25 @@ public class ListaPageView extends View {
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250").add("desclabel","false");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","250").add("placeholder",gt("")).add("desclabel","false");
 		
 		btn_import = new LinkField(model,"btn_import");
 		btn_import.setLabel(gt("Importar"));
 		btn_import.setValue(new Config().getResolveUrl("igrp_studio","ImportArquivo","index"));
 
-									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
+									btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		crud_generator = new LinkField(model,"crud_generator");
-		crud_generator.setLabel(gt("CRUD generator"));
+		crud_generator.setLabel(gt("CRUD/DAO generator"));
 		crud_generator.setValue(new Config().getResolveUrl("igrp_studio","CRUDGenerator","index"));
 
-									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
+									crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
 		link_btn_nova_pagina.setLabel(gt("Nova página"));
 		link_btn_nova_pagina.setValue(new Config().getResolveUrl("igrp","Page","index"));
 
-									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30").add("request_fields","").add("refresh_submit","false").add("desclabel","false");
+									link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("maxlength","30").add("placeholder",gt("")).add("request_fields","").add("refresh_submit","false").add("desclabel","false");
 		
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Estado"));

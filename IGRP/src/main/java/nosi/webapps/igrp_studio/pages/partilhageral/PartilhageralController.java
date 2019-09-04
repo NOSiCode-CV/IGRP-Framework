@@ -7,10 +7,7 @@ import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
-
 /* End-Code-Block */
-
-
 /*----#start-code(packages_import)----*/
 import java.util.Optional;
 import java.util.ArrayList;
@@ -34,7 +31,7 @@ public class PartilhageralController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Rem doloremque dolor ut sit anim laudantium aliqua omnis doloremque laudantium ut magna laudantium l' as nome "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as estado,'Deserunt anim laudantium omnis sed unde magna stract omnis anim natus doloremque consectetur aperiam' as nome "));
 		view.aplicacao_origem.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.elemento.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.aplicacao_destino.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -160,10 +157,10 @@ public class PartilhageralController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Partilhageral","index",this.queryString()); //if submit, loads the values  ----#gen-example */
-		
-		
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","Partilhageral","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(partilhar)----*/
 
 		if (Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {

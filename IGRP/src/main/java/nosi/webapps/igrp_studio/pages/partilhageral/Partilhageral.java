@@ -8,14 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Partilhageral extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_aplicacao_origem")
 	private String aplicacao_origem;
+
 	@RParam(rParamName = "p_elemento")
 	private String elemento;
+
 	@RParam(rParamName = "p_app_or")
 	private String app_or;
+
 	@RParam(rParamName = "p_aplicacao_destino")
 	private String aplicacao_destino;
 	

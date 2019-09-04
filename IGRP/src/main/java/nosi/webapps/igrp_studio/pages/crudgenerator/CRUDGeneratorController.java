@@ -350,7 +350,7 @@ public class CRUDGeneratorController extends Controller {
 	public String resolveDAOName(String tabela_name) {
 		String dao_name_class = "";
 		for(String aux : tabela_name.split("_")){
-			dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1).toUpperCase();
+			dao_name_class += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
 		}
 		return dao_name_class;
 	}
