@@ -202,7 +202,6 @@
          	 <i class="fa fa-navicon pull-right"></i>
         </div>
      
-
         <div class="igrp-sidebar-menu-search-wrapper">
           <input 
             type="text" 
@@ -214,8 +213,7 @@
             search-item-wrapper=".treeview-menu" />
         </div>
         
-        <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" >
-    </i>
+        <i class="fa fa-search pull-left igrp-sidebar-menu-search-wrapper-icon" ></i>
 
         <ul class="nav nav-sidebar">
           <xsl:for-each select="$menus/menu">

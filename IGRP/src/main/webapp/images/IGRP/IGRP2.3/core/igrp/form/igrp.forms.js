@@ -200,6 +200,12 @@
   				} );
   			},
   			
+  			file : function(){
+  				
+  				$('input[type="file"][temp-store="true"]').addClass('not-form');
+  				
+  			},
+  			
   			ffFix : function(){
   				
   				if ($.browser.mozilla)
@@ -334,6 +340,8 @@
 				$.IGRP.components.form.texteditor();
 				//Switch
 				$.IGRP.components.form.switch();
+				//Switch
+				$.IGRP.components.form.file();
 				//FireFox Fix
 				$.IGRP.components.form.ffFix();
 				//FIELDS ERROR 

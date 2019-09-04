@@ -179,6 +179,7 @@
       <xsl:attribute name="value">
         <xsl:value-of select="$field/@temp-value" />
       </xsl:attribute>
+      <xsl:attribute name="temp-store">true</xsl:attribute>
     </xsl:if>
     
   </xsl:template>
