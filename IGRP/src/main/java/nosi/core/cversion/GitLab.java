@@ -1,6 +1,8 @@
 package nosi.core.cversion;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
@@ -118,6 +120,32 @@ public class GitLab {
 		}
 		return success; 
 	} 
+	
+	public void generateGitIgnoreForJava() {
+		FileWriter out = null;
+		try {
+			File f = new File(".gitignore"); 
+			out = new FileWriter(f); 
+			String content = "### Java ###" + System.lineSeparator() + 
+					"# Compiled class file " + System.lineSeparator() + 
+					"*.class\n\n" + 
+					"### Java-Web ###" + System.lineSeparator() + 
+					"## ignoring target file " + System.lineSeparator() + 
+					"target/";
+			out.write(content);
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(out != null)
+					out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public String getUri() {
 		return uri;
@@ -130,7 +158,6 @@ public class GitLab {
 	public String getDirPath() {
 		return dirPath;
 	}
-
 	public void setDirPath(String dirPath) {
 		this.dirPath = dirPath;
 	}

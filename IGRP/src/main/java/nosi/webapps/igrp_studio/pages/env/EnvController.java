@@ -8,6 +8,8 @@ import nosi.core.webapp.Response;
 import java.io.File;
 import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
+import nosi.core.cversion.GitLab;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -33,6 +35,7 @@ import java.util.zip.CheckedOutputStream;
 import org.apache.commons.io.IOUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.ApplicationPermition;
@@ -141,7 +144,7 @@ public class EnvController extends Controller {
 			if(app2 != null){
 				Core.setMessageError(Core.gt("ENV1"));
 				app = null;
-			}else
+			}else 
 				app = app.insert();
 			
 			if(app != null){
@@ -152,12 +155,17 @@ public class EnvController extends Controller {
 				
 				if(autoDeploy && !appAutoDeploy(app.getDad())) 
 					Core.setMessageWarning(Core.gt("Ocorreu um erro ao tenta fazer o autodeploy da aplicação.")); 				
-				Core.setMessageSuccess();				
+			
+				Core.setMessageSuccess();	
+
+				loadOrInitializeGitRepository(app.getDad());
+				
 				return this.redirect("igrp_studio", "env","index");				
 			}else{
 				Core.setMessageError();
 			}
 		}
+		
 		return this.forward("igrp_studio", "env", "index");
 		/*----#end-code----*/
 			
@@ -310,8 +318,13 @@ public class EnvController extends Controller {
 			aplica_db.setTemplate(model.getTemplates());	
 			aplica_db = aplica_db.update();
 			if(aplica_db != null){
-				Core.setMessageSuccess();
+				
+				Core.setMessageSuccess(); 
+				
+				loadOrInitializeGitRepository(aplica_db.getDad());
+				
 				return redirect("igrp_studio", "env","editar&p_id=" + idAplicacao);
+				
 			}else{
 				Core.setMessageError();
 				return this.forward("igrp_studio", "env","editar&p_id=" + idAplicacao);
@@ -830,6 +843,41 @@ public class EnvController extends Controller {
 			
 		}
 
+	}
+	
+	public void loadOrInitializeGitRepository(String dad) { 
+		
+		Config conf = new Config();
+		if(conf.getEnvironment() != null && conf.getEnvironment().equalsIgnoreCase("dev")) {
+			
+			String gitUri = null;
+			String username = null;
+			String password = null;
+			String path = conf.getPathOfImagesFolder() + File.separator + "tig" + File.separator + dad; 
+			
+			try {
+				gitUri = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.uri").one().getValue(); 
+				username = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.username").one().getValue();
+				password = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.password").one().getValue();
+			} catch (Exception e) {
+				e.printStackTrace(); 
+			}
+			
+			GitLab gitLab = new GitLab();
+			gitLab.setUri(gitUri);
+			gitLab.setUsername(username);
+			gitLab.setPassword(password);
+			gitLab.setDirPath(path); 
+			
+			boolean r = gitLab.loadFromGitDir(); 
+			
+			if(!r) 
+				gitLab.cloneRepository(); 
+			
+			gitLab.closeGitConnection(); 
+			
+		}
+		
 	}
 
 
