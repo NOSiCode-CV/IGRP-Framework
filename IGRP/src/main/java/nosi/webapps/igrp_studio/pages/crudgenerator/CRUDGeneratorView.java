@@ -20,6 +20,7 @@ public class CRUDGeneratorView extends View {
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
+	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_gerar;
 	public IGRPButton btn_gerar_dao;
 
@@ -62,11 +63,12 @@ public class CRUDGeneratorView extends View {
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
 		btn_gerar = new IGRPButton("CRUD","igrp_studio","CRUDGenerator","gerar","submit_ajax","success|fa-gear","","");
 		btn_gerar.propertie.add("type","specific").add("rel","gerar");
 
-		btn_gerar_dao = new IGRPButton("DAO ","igrp_studio","CRUDGenerator","gerar_dao","submit_ajax","info|fa-gears","","");
+		btn_gerar_dao = new IGRPButton("DAO","igrp_studio","CRUDGenerator","gerar_dao","submit_ajax","danger|fa-gears","","");
 		btn_gerar_dao.propertie.add("type","specific").add("rel","gerar_dao");
 
 		
@@ -85,11 +87,13 @@ public class CRUDGeneratorView extends View {
 		table_1.addField(table_name);
 
 
+
 		toolsbar_1.addButton(btn_gerar);
-		toolsbar_1.addButton(btn_gerar_dao);
+		toolsbar_2.addButton(btn_gerar_dao);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_2);
 	}
 		
 	@Override

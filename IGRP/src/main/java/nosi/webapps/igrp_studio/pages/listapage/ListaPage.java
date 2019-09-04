@@ -10,50 +10,77 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaPage extends Model{		
+
 	@RParam(rParamName = "p_infopanel_1_title")
 	private String infopanel_1_title;
+
 	@RParam(rParamName = "p_infopanel_1_val")
 	private String infopanel_1_val;
+
 	@RParam(rParamName = "p_infopanel_1_url")
-	private String infopanel_1_url;
+	private IGRPLink infopanel_1_url;
+	@RParam(rParamName = "p_infopanel_1_url_desc")
+	private String infopanel_1_url_desc;
+
 	@RParam(rParamName = "p_infopanel_1_bg")
 	private String infopanel_1_bg;
+
 	@RParam(rParamName = "p_infopanel_1_icn")
 	private String infopanel_1_icn;
+
 	@RParam(rParamName = "p_infopanel_2_title")
 	private String infopanel_2_title;
+
 	@RParam(rParamName = "p_infopanel_2_val")
 	private String infopanel_2_val;
+
 	@RParam(rParamName = "p_infopanel_2_url")
-	private String infopanel_2_url;
+	private IGRPLink infopanel_2_url;
+	@RParam(rParamName = "p_infopanel_2_url_desc")
+	private String infopanel_2_url_desc;
+
 	@RParam(rParamName = "p_infopanel_2_bg")
 	private String infopanel_2_bg;
+
 	@RParam(rParamName = "p_infopanel_2_icn")
 	private String infopanel_2_icn;
+
 	@RParam(rParamName = "p_infopanel_3_title")
 	private String infopanel_3_title;
+
 	@RParam(rParamName = "p_infopanel_3_val")
 	private String infopanel_3_val;
+
 	@RParam(rParamName = "p_infopanel_3_url")
-	private String infopanel_3_url;
+	private IGRPLink infopanel_3_url;
+	@RParam(rParamName = "p_infopanel_3_url_desc")
+	private String infopanel_3_url_desc;
+
 	@RParam(rParamName = "p_infopanel_3_bg")
 	private String infopanel_3_bg;
+
 	@RParam(rParamName = "p_infopanel_3_icn")
 	private String infopanel_3_icn;
+
 	@RParam(rParamName = "p_application")
 	private String application;
+
 	@RParam(rParamName = "p_modulo")
 	private String[] modulo;
+
 	@RParam(rParamName = "p_nada")
 	private String nada;
+
 	@RParam(rParamName = "p_btn_import")
 	private IGRPLink btn_import;
 	@RParam(rParamName = "p_btn_import_desc")
 	private String btn_import_desc;
+
 	@RParam(rParamName = "p_crud_generator")
 	private IGRPLink crud_generator;
 	@RParam(rParamName = "p_crud_generator_desc")
 	private String crud_generator_desc;
+
 	@RParam(rParamName = "p_link_btn_nova_pagina")
 	private IGRPLink link_btn_nova_pagina;
 	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
@@ -91,10 +118,25 @@ public class ListaPage extends Model{
 		return this.infopanel_1_val;
 	}
 	
-	public void setInfopanel_1_url(String infopanel_1_url){
-		this.infopanel_1_url = infopanel_1_url;
+	public IGRPLink setInfopanel_1_url(String app,String page,String action){
+		this.infopanel_1_url = new IGRPLink(app,page,action);
+		return this.infopanel_1_url;
 	}
-	public String getInfopanel_1_url(){
+	public IGRPLink getInfopanel_1_url(){
+		return this.infopanel_1_url;
+	}
+	public void setInfopanel_1_url_desc(String infopanel_1_url_desc){
+		this.infopanel_1_url_desc = infopanel_1_url_desc;
+	}
+	public String getInfopanel_1_url_desc(){
+		return this.infopanel_1_url_desc;
+	}
+	public IGRPLink setInfopanel_1_url(String link){
+		this.infopanel_1_url = new IGRPLink(link);
+		return this.infopanel_1_url;
+	}
+	public IGRPLink setInfopanel_1_url(Report link){
+		this.infopanel_1_url = new IGRPLink(link);
 		return this.infopanel_1_url;
 	}
 	
@@ -126,10 +168,25 @@ public class ListaPage extends Model{
 		return this.infopanel_2_val;
 	}
 	
-	public void setInfopanel_2_url(String infopanel_2_url){
-		this.infopanel_2_url = infopanel_2_url;
+	public IGRPLink setInfopanel_2_url(String app,String page,String action){
+		this.infopanel_2_url = new IGRPLink(app,page,action);
+		return this.infopanel_2_url;
 	}
-	public String getInfopanel_2_url(){
+	public IGRPLink getInfopanel_2_url(){
+		return this.infopanel_2_url;
+	}
+	public void setInfopanel_2_url_desc(String infopanel_2_url_desc){
+		this.infopanel_2_url_desc = infopanel_2_url_desc;
+	}
+	public String getInfopanel_2_url_desc(){
+		return this.infopanel_2_url_desc;
+	}
+	public IGRPLink setInfopanel_2_url(String link){
+		this.infopanel_2_url = new IGRPLink(link);
+		return this.infopanel_2_url;
+	}
+	public IGRPLink setInfopanel_2_url(Report link){
+		this.infopanel_2_url = new IGRPLink(link);
 		return this.infopanel_2_url;
 	}
 	
@@ -161,10 +218,25 @@ public class ListaPage extends Model{
 		return this.infopanel_3_val;
 	}
 	
-	public void setInfopanel_3_url(String infopanel_3_url){
-		this.infopanel_3_url = infopanel_3_url;
+	public IGRPLink setInfopanel_3_url(String app,String page,String action){
+		this.infopanel_3_url = new IGRPLink(app,page,action);
+		return this.infopanel_3_url;
 	}
-	public String getInfopanel_3_url(){
+	public IGRPLink getInfopanel_3_url(){
+		return this.infopanel_3_url;
+	}
+	public void setInfopanel_3_url_desc(String infopanel_3_url_desc){
+		this.infopanel_3_url_desc = infopanel_3_url_desc;
+	}
+	public String getInfopanel_3_url_desc(){
+		return this.infopanel_3_url_desc;
+	}
+	public IGRPLink setInfopanel_3_url(String link){
+		this.infopanel_3_url = new IGRPLink(link);
+		return this.infopanel_3_url;
+	}
+	public IGRPLink setInfopanel_3_url(Report link){
+		this.infopanel_3_url = new IGRPLink(link);
 		return this.infopanel_3_url;
 	}
 	

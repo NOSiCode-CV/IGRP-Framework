@@ -474,12 +474,12 @@ public class EnvController extends Controller {
 			}
 			String deployedWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName();
 			
-			if(env.getExternal() == 0 && !deployedWarName.equals("IGRP") && !env.getDad().equals("igrp_studio") && !env.getDad().equals("tutorial")) { // Custom dad 
+			if(env.getExternal() == 0 && !deployedWarName.equals("IGRP-Template") && !deployedWarName.equals("IGRP") && !env.getDad().equals("igrp_studio") && !env.getDad().equals("tutorial")) { // Custom dad 
 				
 				String uri = Igrp.getInstance().getRequest().getRequestURI();
 				String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");				
-				Action action = env.getAction();
-				
+				Action action = env.getAction();				
+					
 				url += "/IGRP/igrpoauth2sso?app=" + env.getDad(); 
 				if(action != null) 
 					url += "&_url=" + action.getApplication().getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();

@@ -143,27 +143,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Officia aperiam adipiscing mag</table_name>
+                        <table_name name="p_table_name">Consectetur ut natus deserunt</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Omnis doloremque mollit sit ac</table_name>
+                        <table_name name="p_table_name">Unde rem unde labore elit</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Dolor ipsum officia anim unde</table_name>
+                        <table_name name="p_table_name">Elit omnis ut voluptatem natus</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Omnis accusantium dolor volupt</table_name>
+                        <table_name name="p_table_name">Iste voluptatem labore sed per</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Natus anim dolor deserunt stra</table_name>
+                        <table_name name="p_table_name">Ut deserunt anim ut doloremque</table_name>
                     </row>
                 </value>
             </table>
@@ -178,16 +178,18 @@
                 <img>success|fa-gear</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
             </item>
+        </toolsbar_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gerar_dao" custom_return="true">
-                <title>DAO </title>
+                <title>DAO</title>
                 <app>igrp_studio</app>
-                <page>CRUDGenerator</page>
+                <page>ListaEnv</page>
                 <link>index</link>
                 <target>submit_ajax</target>
-                <img>info|fa-gears</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</preview>
+                <img>danger|fa-gears</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
             </item>
-        </toolsbar_1>
+        </toolsbar_2>
     </content>
     <blockly>
         <imports></imports>
