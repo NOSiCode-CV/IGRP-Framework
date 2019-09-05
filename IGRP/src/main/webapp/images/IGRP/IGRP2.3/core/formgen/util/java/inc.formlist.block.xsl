@@ -10,9 +10,6 @@
 		
 		<xsl:variable name="table" select="field[@name='table']"/>
 		
-		
-		
-		
 		<xsl:variable name="table_up">
 	       	<xsl:call-template name="InitCap">
 	       		<xsl:with-param name="text" select="$table"/>

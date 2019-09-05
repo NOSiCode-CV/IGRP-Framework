@@ -71,10 +71,12 @@
 			<xsl:text>separatorlistDocs.add(row);</xsl:text> 
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>});</xsl:text> 
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"></xsl:value-of> 
+			<xsl:text>( separatorlistDocs);</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text> 
-			<xsl:value-of select="$newline"></xsl:value-of>
-
+			
 		</xsl:variable>
 		
 		<xsl:value-of select="$code"></xsl:value-of>
@@ -223,9 +225,9 @@
 			<xsl:value-of select="$newlineTab4"></xsl:value-of>
 			<xsl:text> &amp;&amp; Core.isNotNull( row.get</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey())){</xsl:text>
 			<xsl:value-of select="$newlineTab5"></xsl:value-of>
-			<xsl:text> doc = new </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
-			<xsl:text>().findOne( Core.toInt(row.get</xsl:text>
-			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey())).keepConnection();</xsl:text>
+			<xsl:text> doc = session.find(</xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
+			<xsl:text>.class, Core.toInt(row.get</xsl:text>
+			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text>_id().getKey()));</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>}</xsl:text>
 			<xsl:value-of select="concat($newlineTab3,$sep_insercao)"></xsl:value-of> 

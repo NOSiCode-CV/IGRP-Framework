@@ -85,7 +85,7 @@ var GetJavaType = {
 	
 	number : 'Integer',
 	
-	date : 'Date',
+	date : 'String',
 	
 	file : 'File',
 		
@@ -135,7 +135,7 @@ $('#refresh_bloco').on('click', function() {
 	if (typeof (Storage) !== "undefined") {
 		if (localStorage.data !== null) {
 		var xml = Blockly.Xml.textToDom(localStorage.getItem(IGRPblockly));
-		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+		Blockly.Xml.domToWorkspace(xml,Blockly.mainWorkspace);
 		var code = Blockly.Java.workspaceToCode(Code.workspace);
 		   content.textContent = code; 
 		console.log("Bloco Atualizado");
@@ -332,6 +332,18 @@ window.IGRPBlocklyInit = function(){
 							+'<field type="field_text" name="param" options=""></field>'
 						+'</value>'
 					+'</block>'
+					
+					 +'<block type="set_custom_line" prev-statement="" next-statement="" color="300">'
+				 		+'<value name="value1" type="dummy" title="custom line code">'
+				 			+'<field type="field_text" name="param" options=""></field>'
+						+'</value>'
+					 +'</block>'
+					 
+					 +'<block type="get_custom_line" output="" color="300">'
+					 	+'<value name="value1" type="dummy" title="custom line code">'
+					 		+'<field type="field_text" name="param" options=""></field>'
+					 	+'</value>'
+					 +'</block>'
 					 
 				 +'</category>'
 				 +'<sep class="blocly-dynamic"></sep>'
@@ -425,12 +437,14 @@ window.IGRPBlocklyInit = function(){
 							+'<value name="value2" type="statement"></value>' 
 						+'</block>'
 						
-						+'<block type="instance_dao" color ="160" prev-statement="" next-statement="">'
-						+'<value name="findone" type="value" >'
-							+'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-							+'<field type="text" options="or find by:"></field>'
-						+'</value>'
-					+'</block>'
+//						+'<block type="instance_dao" color ="160" prev-statement="" next-statement="">'
+//							+'<value name="findone" type="value" >'
+//								+'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+//								+'<field type="text" options="or find by:"></field>'
+//							+'</value>'
+//						+'</block>'
+//					
+//						+'<block type="dao_obj" color ="160" output="" title="obj"></block>'
 						
 					+'</category><sep class="blocly-dynamic"></sep>');
 				
@@ -1073,7 +1087,7 @@ $.IGRP.on('init', function(){
 					
 					Blockly.mainWorkspace.clear();
 					
-					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, pageBlockly );
+					Blockly.Xml.domToWorkspace(pageBlockly, Blockly.mainWorkspace);
 					
 				},400)		
 				
