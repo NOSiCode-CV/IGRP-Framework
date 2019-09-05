@@ -1,7 +1,7 @@
 var NUMBERFIELD = function(type,params){
 	Field.call(this,type,params);
 
-	var GEN = VARS.getGen();
+	var GEN = VARS.getGen(),
 		field 		= this,
 		proprieties = params.properties;
 
@@ -10,13 +10,15 @@ var NUMBERFIELD = function(type,params){
 		field.setPropriety({
 			name :'min',
 			label:'Min value',
-			value:''
+			value:'',
+			type : 'number'
 		});
 
 		field.setPropriety({
 			name :'max',
 			label:'Max value',
-			value:''
+			value:'',
+			type : 'number'
 		});
 
 	}
