@@ -6,6 +6,7 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.config.Config;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -81,8 +82,6 @@ public class CRUDGeneratorController extends Controller {
 					}
 					model.setTable_1(list_tb);
 					
-					
-
 					//action gerar --- put here to aproveitar a list_table
 					String[] rows_id = Core.getParamArray("p_check_table_fk");
 					String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
@@ -142,33 +141,40 @@ public class CRUDGeneratorController extends Controller {
 						.andWhere("application", "=",Core.toInt(model.getAplicacao(),-1))
 						.one();	
 				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
-				String[] tables = Core.getParamArray("p_check_table_fk");
+				
+				String[] rows_id = Core.getParamArray("p_check_table_fk");
+				String[] p_checkbox_check = Core.getParamArray( "p_check_table_check_fk" );
+				
 				boolean r = false;
-				if(tables!=null) {
-					for(String table:tables) {
-						String tableName = list.get(Integer.parseInt(table)-1);		                      
-						try {
-							r = this.generateCRUD(config,model.getSchema(),tableName);
-						} catch (TransformerConfigurationException | URISyntaxException e) {
-							// TODO Auto-generated catch block							
-							e.printStackTrace();
+				if(Core.isNotNull(p_checkbox_check) && Core.isNotNull(rows_id)) {
+					CheckBoxHelper cbh = Core.extractCheckBox(rows_id, p_checkbox_check);
+					if(cbh!=null) {
+						for(String table:cbh.getChekedIds()) {
+							String tableName = list.get(Integer.parseInt(table)-1);		                      
+							try {
+								r = this.generateCRUD(config,model.getSchema(),tableName);
+							} catch (TransformerConfigurationException | URISyntaxException e) {
+								// TODO Auto-generated catch block							
+								e.printStackTrace();
+							}
+						}
+						if(r) {
+							Core.setMessageSuccess();
+	                      	return this.forward("igrp_studio","CRUDGenerator","index&p_aplicacao="+model.getAplicacao());
+						}
+						else {
+							Core.setMessageError();
+							return this.forward("igrp_studio","CRUDGenerator","index");
+						}
+						}
+						else
+						{
+							Core.setMessageWarning("Escolha uma tabela.");
+							
 						}
 					}
-					if(r) {
-						Core.setMessageSuccess();
-                      	return this.forward("igrp_studio","CRUDGenerator","index&p_aplicacao="+model.getAplicacao());
-					}
-					else {
-						Core.setMessageError();
-						return this.forward("igrp_studio","CRUDGenerator","index");
-					}
-					}
-					else
-					{
-						Core.setMessageWarning("Escolha uma tabela.");
-						
-					}
-				}
+				
+			}
 		}
 		this.addQueryString("dao_boo","false");
 		/*----#end-code----*/
@@ -358,8 +364,8 @@ public class CRUDGeneratorController extends Controller {
 	
 	public boolean  generateDAO(Config_env config,String schema, String tableName, String dad_name) throws IOException{ 
 		boolean flag = false;
-		String dao_name_class = this.resolveDAOName(tableName);
-		flag = this.processGenerate(config, dao_name_class, schema,tableName, dad_name);
+		String dao_name_class = resolveDAOName(tableName);
+		flag = processGenerate(config, dao_name_class, schema,tableName, dad_name);
 		return flag;
 	}
 	
@@ -371,7 +377,7 @@ public class CRUDGeneratorController extends Controller {
 		try {
 			
 			//Mas antes temos de vereficar se a classe é nova ou nao
-			if(!Core.fileExists( this.config.getPathDAO(dad_name)+dao_name_class+".java")) {
+			if(!Core.fileExists(new  Config().getPathDAO(dad_name)+dao_name_class+".java")) {
 				//Aqui guarda novo configuracao de hibernate
 				String package_name = "nosi.webapps." + config.getApplication().getDad().toLowerCase() + ".dao";
 				SaveMapeamentoDAO.loadCfg(config.getName()+"."+config.getApplication().getDad()+".cfg.xml",package_name,dao_name_class);
@@ -381,17 +387,17 @@ public class CRUDGeneratorController extends Controller {
 			
 
 			//Salvar os files de classe DAO vazio
-			flag = this.saveFiles(dao_name_class+".java", "", this.config.getPathDAO(dad_name));
+			flag = saveFiles(dao_name_class+".java", "", new Config().getPathDAO(dad_name));
 			
 			//Gerar conteudo da classe DAO
 			String content = new GerarClasse().gerarCode(dad_name,tableName,dao_name_class, columns,schema,config);
 			
 			//Salvar os files de classe DAO
-			flag = this.saveFiles(dao_name_class+".java", content, this.config.getPathDAO(dad_name));
+			flag = saveFiles(dao_name_class+".java", content, new Config().getPathDAO(dad_name));
 			
 			//compilar as classes DAO
 			Compiler compiler = new Compiler();
-			compiler.addFileName(this.config.getPathDAO(dad_name)+File.separator+dao_name_class+".java");
+			compiler.addFileName(new Config().getPathDAO(dad_name)+File.separator+dao_name_class+".java");
 			compiler.compile();
 			flag_compile = compiler.hasError();
 			
