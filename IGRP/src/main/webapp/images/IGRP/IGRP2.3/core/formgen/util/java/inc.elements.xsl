@@ -198,11 +198,17 @@
 		
 			<xsl:choose>
 				
-				<xsl:when test="contains( $childblocktype,'get_param' )" >
+				<xsl:when test="contains( $childblocktype,'param_foreign' )" >
+				
+					<xsl:variable name="valorparam">
+						<xsl:call-template name="blockly.getValue">
+							<xsl:with-param name="value" select="value[@name='value1']/block/value[@name='value1']"/>
+						</xsl:call-template>
+					</xsl:variable>
 		
 					<xsl:value-of select="$fieldType"></xsl:value-of>
 					<xsl:text> foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"></xsl:value-of>
-					<xsl:text>.class,Core.getParamInt("</xsl:text><xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>"));</xsl:text>
+					<xsl:text>.class,</xsl:text><xsl:value-of select="$valorparam"></xsl:value-of><xsl:text>);</xsl:text>
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(foreign);</xsl:text>
 					
@@ -589,6 +595,7 @@
 						<xsl:when test="$rowtypechildZ = 'Date'">
 								<xsl:value-of select="$newlineTab2"></xsl:value-of>
 								<xsl:text>c.setEixoZ(""+</xsl:text><xsl:value-of select="$eixoz"></xsl:value-of><xsl:text>);</xsl:text>
+				
 						</xsl:when>
 						<xsl:otherwise>
 								<xsl:value-of select="$newlineTab2"></xsl:value-of>
@@ -600,6 +607,7 @@
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			</xsl:otherwise>
 	</xsl:choose>
+	<xsl:value-of select="$newlineTab2"></xsl:value-of>
 	<xsl:value-of select="$grafico"></xsl:value-of><xsl:text>.add(c);</xsl:text>
 	<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:text>});</xsl:text>
 	<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:text>model.set</xsl:text>
