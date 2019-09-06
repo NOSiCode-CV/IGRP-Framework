@@ -358,37 +358,37 @@ public abstract class Model { // IGRP super model
 				m.setInt(this, Core.toInt(aux).intValue());
 				break;
 			case "java.lang.Integer":
-				m.set(this, aux!=null?Core.toInt(aux):null);
+				m.set(this, Core.isNotNull(aux)?Core.toInt(aux):null);
 				break;
 			case "float":
 				m.setFloat(this, Core.toFloat(aux).floatValue());
 				break;
 			case "java.lang.Float":
-				m.set(this, Core.toFloat(aux));
+				m.set(this, Core.isNotNull(aux)?Core.toFloat(aux):null);
 				break;
 			case "double":
 				m.setDouble(this, Core.toDouble(aux).doubleValue());
 				break;
 			case "java.lang.Double":
-				m.set(this, aux!=null?Core.toDouble(aux):null);
+				m.set(this, Core.isNotNull(aux)?Core.toDouble(aux):null);
 				break;
 			case "long":
 				m.setLong(this, Core.toLong(aux).longValue());
 				break;
 			case "java.lang.Long":
-				m.set(this,aux!=null? Core.toLong(aux):null);
+				m.set(this,Core.isNotNull(aux)?Core.toLong(aux):null);
 				break;
 			case "short":
 				m.setShort(this, Core.toShort(aux).shortValue());
 				break;
 			case "java.lang.Short":
-				m.set(this, aux!=null?Core.toShort(aux):null);
+				m.set(this, Core.isNotNull(aux)?Core.toShort(aux):null);
 				break;
 			case "java.math.BigInteger":
-				m.set(this, aux!=null?Core.toBigInteger(aux):null);
+				m.set(this, Core.isNotNull(aux)?Core.toBigInteger(aux):null);
 				break;
 			case "java.math.BigDecimal":
-				m.set(this, aux!=null?Core.toBigDecimal(aux):null);
+				m.set(this, Core.isNotNull(aux)?Core.toBigDecimal(aux):null);
 				break;
 			case "java.sql.Date":
 				if (aux != null && !aux.equals("0")) {
