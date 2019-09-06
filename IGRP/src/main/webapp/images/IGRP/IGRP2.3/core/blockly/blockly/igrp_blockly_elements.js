@@ -91,9 +91,164 @@
 		    }
 		
 		},
+		
+	combo_dao : {
+			
+			init : function(block){
+				
+				block.itemCount_ = 0;
+				block.updateShape_();
+			},
+			
+		mutationToDom: function() {
+			  var container = document.createElement('mutation');
+			  container.setAttribute('count', this.itemCount_);
+			  return container;
+			},
+			
+		domToMutation: function(xmlElement) {
+			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
+			  this.updateShape_();  
+			},
+				
+		 decompose: function (workspace) {
+		        var containerBlock = workspace.newBlock('where_t');
+		        containerBlock.initSvg();
+		        var connection = containerBlock.getInput('SCRIPT').connection;	        
+		        for (var i = 0; i < this.itemCount_; i++) { 
+			            var itemBlock = workspace.newBlock('where');
+			            itemBlock.initSvg();
+			            connection.connect(itemBlock.previousConnection);
+			            connection = itemBlock.nextConnection;
+		        }
+		        return containerBlock;
+		    },
+		    
+		 compose: function (containerBlock) {
+			 
+		        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+		        var connections = [];
+		        while (itemBlock) {
+		            connections.push(itemBlock.valueConnection_);
+		            itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+		        }
+		      for (var i = 1; i < this.itemCount_; i++) {
+		            var connection = this.getInput('ADD' + i).connection.targetConnection;
+		            if (connection && connections.indexOf(connection) == -1) {
+		                connection.disconnect();
+		            }
+		        }
+		        this.itemCount_ = connections.length;
+		         Contador = this.itemCount_;
+		         
+		        this.updateShape_();
+		        for (var i = 0; i < this.itemCount_; i++) {
+		            Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+		        }
+		    },
+		    
+		 updateShape_: function () {
+			    
+		        for (var i = 1; i <= this.itemCount_; i++) {
+		            if (!this.getInput('ADD' + i)) {
+	    	        	 var input =
+	    	        	this.appendValueInput('ADD' + i).appendField(new Blockly.FieldDropdown(FILTER),'ADD'+i+'FILTER');
+	    	        	 
+	    	        	this.appendValueInput('ADD'+i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
+	    	 			
+		            }
+		        }
+		        while (this.getInput('ADD' + i)) {
+		            this.removeInput('ADD' + i);
+		            this.removeInput('ADD'+i+'FILTER');
+		            this.removeInput('ADD'+i+'WHERE');
+		            this.removeInput('ADD'+i+'STATE2');
+		            
+		            i++;
+		        }   
+		    }
+		
+		},
 			    		    
 	   separator : {
 			
+		init : function(block){
+			
+			block.itemCount_ = 0;
+			block.updateShape_();
+			
+		},
+		
+		mutationToDom: function() {
+			  var container = document.createElement('mutation');
+			  container.setAttribute('count', this.itemCount_);
+			  return container;
+			},
+			
+		domToMutation: function(xmlElement) {
+			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
+			  this.updateShape_();  
+			},
+			
+		 decompose: function (workspace) {
+		        var containerBlock = workspace.newBlock('where_t');
+		        containerBlock.initSvg();
+		        var connection = containerBlock.getInput('SCRIPT').connection;	        
+		        for (var i = 0; i < this.itemCount_; i++) { 
+			            var itemBlock = workspace.newBlock('where');
+			            itemBlock.initSvg();
+			            connection.connect(itemBlock.previousConnection);
+			            connection = itemBlock.nextConnection;
+		        }
+		        return containerBlock;
+		    },
+		    
+	    compose: function (containerBlock) {
+	        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
+	        var connections = [];
+	        while (itemBlock) {
+	            connections.push(itemBlock.valueConnection_);
+	            itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+	        }
+	      for (var i = 1; i < this.itemCount_; i++) {
+	            var connection = this.getInput('ADD' + i).connection.targetConnection;
+	            if (connection && connections.indexOf(connection) == -1) {
+	                connection.disconnect();
+	            }
+	        }
+	        this.itemCount_ = connections.length;
+	         Contador = this.itemCount_;
+	         
+	        this.updateShape_();
+	        for (var i = 0; i < this.itemCount_; i++) {
+	            Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+	        }
+	    },
+	    
+	    updateShape_: function () {
+		    
+	        for (var i = 1; i <= this.itemCount_; i++) {
+	            if (!this.getInput('ADD' + i)) {
+    	        	 var input =
+    	        	this.appendValueInput('ADD' + i).appendField(new Blockly.FieldDropdown(FILTER),'ADD'+i+'FILTER');
+    	        	this.appendValueInput('ADD'+i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
+    	 			
+	            }
+	        }
+	        while (this.getInput('ADD' + i)) {
+	            this.removeInput('ADD' + i);
+	            this.removeInput('ADD'+i+'FILTER');
+	            this.removeInput('ADD'+i+'WHERE');
+	            this.removeInput('ADD'+i+'STATE2');
+	            
+	            i++;
+	        }   
+	    }
+		
+	},
+	
+	formlist : {
+		
 		init : function(block){
 			
 			block.itemCount_ = 0;
