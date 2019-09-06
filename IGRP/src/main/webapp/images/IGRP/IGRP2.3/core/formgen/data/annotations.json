@@ -188,6 +188,18 @@
                                 "value": false
                             },
                             "label": "NotNull"
+                        },
+                        "@Pattern": {
+                            "inputs": {
+                                "integer": false,
+                                "max": false,
+                                "min": false,
+                                "numeric": false,
+                                "value": {
+                                    "required": true
+                                }
+                            },
+                            "label": "Pattern"
                         }
                     },
                     "type": "multi"
