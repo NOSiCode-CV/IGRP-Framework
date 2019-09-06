@@ -461,4 +461,20 @@ thead th[show-label="false"]>span{
 	display:none;
 }
 
+.table-info-holder{
+	display: flex;
+    flex-wrap: wrap;
+}
+
+.table-info-holder>div{
+	padding:5px 5px 0 0
+}
+
+.table-info-th{
+	font-weight: 500;
+}
+
+.table-info-group-main{
+	font-size:16px;
+}
 

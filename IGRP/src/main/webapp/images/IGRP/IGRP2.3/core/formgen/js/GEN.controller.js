@@ -1339,9 +1339,9 @@ var GENERATOR = function(genparams){
 
 				var inputType = null;
 
-				if( objectProperties && objectProperties['type'])
+				if( objectProperties && objectProperties['inputType'])
 					
-					inputType = objectProperties['type']
+					inputType = objectProperties['inputType']
 				
 				else
 					

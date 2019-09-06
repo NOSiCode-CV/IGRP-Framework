@@ -69,6 +69,68 @@
 	           });
 			}
 		},
+		
+		configGroups : function(op){
+			
+			var o = $.extend({
+				thSelector : 'th[group-in != ""]',
+				parent : 'body'
+			}, op);
+			
+			var rows = $('table.table[id] tbody tr', o.parent);
+			
+			rows.each(function(trIndex, tr){
+				
+				var table = $(tr).parents('table');
+				
+				var tdContent;
+
+				$(o.thSelector, table).each(function(i, th){
+					
+					var thName    = $(this).attr('td-name'),
+					
+						groupName = $(this).attr('group-in'),
+						
+						tdHolder = $('td[item-name="'+groupName+'"]', tr),
+						
+						tdInfo   = $('td[item-name="'+thName+'"]',tr);
+					
+					if(tdHolder[0] && tdInfo[0]){
+						
+						$(th).removeClass('is-grouped');
+						
+						var infoHolder = $('<div class="table-info-holder" item-name="'+thName+'">'+
+												'<div class="table-info-th '+$(th).attr('class')+'">'+$(th).html()+'</div>'+
+												'<div class="table-info-td '+tdInfo.attr('class')+'">'+tdInfo.html()+'</div>'+
+										   '</div>'),
+							tdMainHolder;
+										   
+					
+						if(!tdHolder.find('.table-info-group-main')[0]){
+							
+							tdMainHolder = $('<div class="table-info-group-main"></div>');
+							
+							tdHolder.append( tdMainHolder );
+							
+							tdHolder.find('>*').appendTo( tdMainHolder );
+						}
+						
+				
+						tdHolder.append( infoHolder );
+						
+						$(th).addClass('is-grouped');
+						
+						tdInfo.addClass('is-grouped');
+						
+					}
+
+				});			
+				
+			});
+			
+			rows.parents('table').find('.is-grouped').remove();
+			
+		},
 
 		dataTable : function(op){
 
@@ -382,6 +444,8 @@
 			
 			com = this;
 
+			com.configGroups();
+			
 			com.dataTable();
 			
 			com.setEvents();
@@ -411,6 +475,33 @@
 	    }	    
 	    return "en_US";
 	}
+	
+	$.extend({
+	    replaceTag: function (currentElem, newTagObj, keepProps) {
+	        var $currentElem = $(currentElem);
+	        var i, $newTag = $(newTagObj).clone();
+	        if (keepProps) {//{{{
+	            newTag = $newTag[0];
+	            newTag.className = currentElem.className;
+	            $.extend(newTag.classList, currentElem.classList);
+	            $.extend(newTag.attributes, currentElem.attributes);
+	        }//}}}
+	        $currentElem.wrapAll($newTag);
+	        $currentElem.contents().unwrap();
+	        // return node; (Error spotted by Frank van Luijn)
+	        return this; // Suggested by ColeLawrence
+	    }
+	});
+
+	$.fn.extend({
+	    replaceTag: function (newTagObj, keepProps) {
+	        // "return" suggested by ColeLawrence
+	        return this.each(function() {
+	            jQuery.replaceTag(this, newTagObj, keepProps);
+	        });
+	    }
+	});
+	
 })();
 
 

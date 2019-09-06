@@ -11,14 +11,14 @@ var NUMBERFIELD = function(type,params){
 			name :'min',
 			label:'Min value',
 			value:'',
-			type : 'number'
+			inputType : 'number'
 		});
 
 		field.setPropriety({
 			name :'max',
 			label:'Max value',
 			value:'',
-			type : 'number'
+			inputType : 'number'
 		});
 
 	}
