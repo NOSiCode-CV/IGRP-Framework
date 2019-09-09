@@ -85,7 +85,7 @@ var GetJavaType = {
 	
 	number : 'Integer',
 	
-	date : 'Date',
+	date : 'String',
 	
 	file : 'File',
 		
@@ -135,7 +135,7 @@ $('#refresh_bloco').on('click', function() {
 	if (typeof (Storage) !== "undefined") {
 		if (localStorage.data !== null) {
 		var xml = Blockly.Xml.textToDom(localStorage.getItem(IGRPblockly));
-		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+		Blockly.Xml.domToWorkspace(xml,Blockly.mainWorkspace);
 		var code = Blockly.Java.workspaceToCode(Code.workspace);
 		   content.textContent = code; 
 		console.log("Bloco Atualizado");
@@ -332,6 +332,27 @@ window.IGRPBlocklyInit = function(){
 							+'<field type="field_text" name="param" options=""></field>'
 						+'</value>'
 					+'</block>'
+					
+					+'<block type="param_foreign" output="" color="300" class="blocly-dynamic">'
+						+'<value name="value1" type="value"  title="get foreign-key">'
+						+'</value>'	
+					+'</block>'
+					
+					+'<category id="model" name="Custom Code" colour="300" class="blocly-dynamic">'
+					
+						 +'<block type="set_custom_line" prev-statement="" next-statement="" color="300">'
+					 		+'<value name="value1" type="dummy" title="custom code">'
+					 			+'<field type="field_text" name="param" options=""></field>'
+							+'</value>'
+						 +'</block>'
+						 
+						 +'<block type="get_custom_line" output="" color="300">'
+						 	+'<value name="value1" type="dummy" title="custom code">'
+						 		+'<field type="field_text" name="param" options=""></field>'
+						 	+'</value>'
+						 +'</block>'
+					 
+					 +'</category>'
 					 
 				 +'</category>'
 				 +'<sep class="blocly-dynamic"></sep>'
@@ -347,14 +368,27 @@ window.IGRPBlocklyInit = function(){
 				+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
 			+'</value>'
 			+'<value name="value2" type="statement">'
-			
 				+'<block type="option_combo" color="100" prev-statement="" next-statement="" inline="true">'
 					+'<value name="value1" type="dummy" title="option">'
 						+'<field type="field_text" name="opcao_val" options="key"></field>'
 						+'<field type="field_text" name="opcao_des" options="value"></field>'
 					+'</value>'
 				+'</block>'
-	
+			+'</value>'
+		+'</block>'
+		
+		+'<block type="combo_dao" color="100" mutator="where" prev-statement="" next-statement="" inline="true">'
+			+'<value name="value1" type="dummy">'
+				+'<field type="dropdown" name="selecao" title="fill combo-box" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
+				+'<field type="dropdown" name="dao" title="with DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+			+'</value>'
+			+'<value name="key_val" type="statement" check="Linha">'
+				+'<block type="option_dao" prev-statement="Linha" next-statement="Linha" color="100" inline="true">'
+					+'<value type="value" title="key" name="key_val">'
+					+'</value>'
+					+'<value type="value" title="value" name="value_val">'
+				+'</value>'
+				+'</block>'
 			+'</value>'
 		+'</block>'
 		+'</category>'
@@ -398,7 +432,7 @@ window.IGRPBlocklyInit = function(){
 	
 	success : function(data) {
 		
-		console.log(data)
+		//console.log(data)
 		
 		var temdao = '';
 		
@@ -410,7 +444,7 @@ window.IGRPBlocklyInit = function(){
 			$('#toolbox').append(
 					'<category id="dao" name="DAO" colour="160" class="blocly-dynamic">'
 							+'<block type="inserir_dao" mutator="separatori" color ="160" prev-statement="" next-statement="" inline="true">'
-								+'<value type="dummy" title="insert DAO">'
+								+'<value type="dummy" title="save DAO">'
 									+'<field type="dropdown" name="dao" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 									+'<field type="field_text" name="param_id" title="or update by parameter:" options=""></field>'
 								+'</value>'
@@ -425,12 +459,14 @@ window.IGRPBlocklyInit = function(){
 							+'<value name="value2" type="statement"></value>' 
 						+'</block>'
 						
-						+'<block type="instance_dao" color ="160" prev-statement="" next-statement="">'
-						+'<value name="findone" type="value" >'
-							+'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-							+'<field type="text" options="or find by:"></field>'
-						+'</value>'
-					+'</block>'
+//						+'<block type="instance_dao" color ="160" prev-statement="" next-statement="">'
+//							+'<value name="findone" type="value" >'
+//								+'<field type="dropdown" name="dao" title="declarate obj in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+//								+'<field type="text" options="or find by:"></field>'
+//							+'</value>'
+//						+'</block>'
+//					
+//						+'<block type="dao_obj" color ="160" output="" title="obj"></block>'
 						
 					+'</category><sep class="blocly-dynamic"></sep>');
 				
@@ -492,12 +528,6 @@ window.IGRPBlocklyInit = function(){
 							+'<field type="dropdown" name="button" title="add parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							+'</value>'
 						+'</block>'
-						
-						+'<block type="core_get_param" output="" color="300" class="blocly-dynamic">'
-							+'<value name="value1" type="dummy"  title="insert foreign-key">'
-							+'<field type="field_text" name="param" options=""></field>'
-							+'</value>'	
-						+'</block>'
 							
 						);
 				}
@@ -507,39 +537,38 @@ window.IGRPBlocklyInit = function(){
 				$('#toolbox').append(	
 					'<category id="separator" name="Separator-List" colour="80" class="blocly-dynamic">'
 						+'<block type="separator" mutator="where" color="80"  prev-statement="" next-statement="" inline="true">'
-						+'<value name="id_separator" type="value">'
-						+'<field type="dropdown" name="table" title="list" options="IGRP_BLOCKLY_DROPS.separators"></field>'
-						+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						+'<field type="text" options="set Id separator"></field>'
-						+'</value>'
-						+'<value name="value2" type="statement" >'
-							+'<block type="sep_row" prev-statement="" next-statement="" color="80">'
-								+'<value type="value" title="set" name="fields_model">'
-									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
-									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
-								+'</value>'
-							+'</block>'
-						+'</value>'
-					+'</block>'
-					+'<block type="save_separator" color="80"  prev-statement="" next-statement="" inline="true">'
-						+'<value type="dummy">'
-						+'<field type="dropdown" name="table" title=" insert" options="IGRP_BLOCKLY_DROPS.separators"></field>'
-						+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-//						+'<field type="text" options="by obj:"></field>'	
-						+'</value>'
-						+'<value name="value2" type="statement" >'
-						+'</value>'
-						+'<value name="delete" title="delete row by" type="value" >'
-						+'</value>'
-					+'</block>'
-					
-					+'<block type="get_row_sep" output="" color="300">'
-						+'<value type="dummy" title="get row separator" name="fields_model">'
-							+'<field type="dropdown" name="get_row_sep" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
-						+'</value>'
-					+'</block>'
-					
+							+'<value name="id_separator" type="value">'
+							+'<field type="dropdown" name="table" title="list" options="IGRP_BLOCKLY_DROPS.separators"></field>'
+							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="text" options="set Id separator"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement" >'
+								+'<block type="sep_row" prev-statement="" next-statement="" color="80">'
+									+'<value type="value" title="set" name="fields_model">'
+										+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
+										+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
+									+'</value>'
+								+'</block>'
+							+'</value>'
+						+'</block>'
+						+'<block type="save_separator" color="80"  prev-statement="" next-statement="" inline="true">'
+							+'<value type="dummy">'
+							+'<field type="dropdown" name="table" title=" save" options="IGRP_BLOCKLY_DROPS.separators"></field>'
+							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+	//						+'<field type="text" options="by obj:"></field>'	
+							+'</value>'
+							+'<value name="value2" type="statement" >'
+							+'</value>'
+							+'<value name="delete" title="delete row by" type="value" >'
+							+'</value>'
+						+'</block>'
+						
+						+'<block type="get_row_sep" output="" color="300">'
+							+'<value type="dummy" title="get row separator" name="fields_model">'
+								+'<field type="dropdown" name="get_row_sep" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
+							+'</value>'
+						+'</block>'
 					+'</category>'
 					+'<sep class="blocly-dynamic"></sep>'
 						);
@@ -549,46 +578,38 @@ window.IGRPBlocklyInit = function(){
 				{
 				$('#toolbox').append(	
 					'<category id="formlist" name="Form-List" colour="200" class="blocly-dynamic">'
-						+'<block type="formlist" color="200"  prev-statement="" next-statement="" inline="true">'
-						+'<value name="where1" type="value">'
-						+'<field type="dropdown" name="table" title="list form-list" options="IGRP_BLOCKLY_DROPS.formlists"></field>'
-						+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						+'<field type="text" options="where"></field>'
-						+'</value>'
-						+'<value name="where2" type="value">'
-						+'<field type="dropdown" name="where_signal" options="IGRP_BLOCKLY_DROPS.where"></field>'
-						+'</value>'
-						+'<value name="value2" type="statement" >'
-						+'<block type="sep_form" prev-statement="" next-statement="" color="200">'
-							+'<value type="value" title="set" name="fields_model">'
-								+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields_FORM"></field>'
+						+'<block type="formlist" mutator="where" color="200"  prev-statement="" next-statement="" inline="true">'
+							+'<value name="id_formlist" type="value">'
+							+'<field type="dropdown" name="table" title="list" options="IGRP_BLOCKLY_DROPS.formlist"></field>'
+							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="text" options="set Id formlist"></field>'
+							+'</value>'
+							+'<value name="value2" type="statement" >'
+								+'<block type="form_row" prev-statement="" next-statement="" color="200">'
+									+'<value type="value" title="set" name="fields_model">'
+										+'<field type="dropdown" name="form_field" options="IGRP_BLOCKLY_DROPS.fields_FORM"></field>'
+										+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
+									+'</value>'
+								+'</block>'
+							+'</value>'
+						+'</block>'
+						+'<block type="save_formlist" color="200"  prev-statement="" next-statement="" inline="true">'
+							+'<value type="dummy">'
+							+'<field type="dropdown" name="table" title=" save" options="IGRP_BLOCKLY_DROPS.formlist"></field>'
+							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
+							+'</value>'
+							+'<value name="value2" type="statement" >'
+							+'</value>'
+							+'<value name="delete" title="delete row by" type="value" >'
+							+'</value>'
+						+'</block>'
+						
+						+'<block type="get_row_form" output="" color="300">'
+							+'<value type="dummy" title="get row separator" name="fields_model">'
+								+'<field type="dropdown" name="get_row_form" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 							+'</value>'
 						+'</block>'
-						+'</value>'
-						+'<value name="id_separator" type="value"  title="set Id separator"></value>'
-					+'</block>'
-					
-					
-					+'<block type="save_formlist" color="200"  prev-statement="" next-statement="" inline="true">'
-						+'<value name="id_dad" type="value">'
-						+'<field type="dropdown" name="table" title=" insert or update formlist" options="IGRP_BLOCKLY_DROPS.formlists"></field>'
-						+'<field type="dropdown" name="dao_sep" title="in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						+'<field type="text" options="by obj:"></field>'	
-						+'</value>'
-						+'<value name="value2" type="statement" >'
-						+'</value>'
-						+'<value name="delete" title="delete row by" type="value" >'
-						+'</value>'
-					+'</block>'
-					
-					+'<block type="get_row_form" output="" color="300">'
-						+'<value type="dummy" title="get row formlist" name="fields_model">'
-							+'<field type="dropdown" name="get_row_form" options="IGRP_BLOCKLY_DROPS.fields_FORM"></field>'
-							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
-						+'</value>'
-					+'</block>'
-					
 					+'</category>'
 					+'<sep class="blocly-dynamic"></sep>'
 						);
@@ -822,6 +843,8 @@ function GetBlocklyImports(){
 			
 			graficoImports = $('block[type="grafico"]',xml),
 			
+			combodaoImports = $('block[type="combo_dao"]',xml),
+			
 			daosImports   = $('block[type*="set-dao-"], block[type*="get-dao-"]',xml),
 			
 			fieldDaos     = $('field[name="dao"]', xml),
@@ -860,6 +883,10 @@ function GetBlocklyImports(){
 		if(inserirImports[0])
 			
 			rtn+='<import type="inserir_dao">Inserir Daos</import>';
+		
+		if(combodaoImports[0])
+			
+			rtn+='<import type="combo_dao">Combo Dao</import>';
 				
 		if(daosImports[0] || fieldDaos[0]){
 			
@@ -1073,7 +1100,7 @@ $.IGRP.on('init', function(){
 					
 					Blockly.mainWorkspace.clear();
 					
-					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, pageBlockly );
+					Blockly.Xml.domToWorkspace(pageBlockly, Blockly.mainWorkspace);
 					
 				},400)		
 				

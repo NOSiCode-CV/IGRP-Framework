@@ -20,7 +20,13 @@
 					<xsl:text>import java.util.ArrayList;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
+				</xsl:when>
 				
+				<xsl:when test="@type = 'combo_dao'">
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.List;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.LinkedHashMap;</xsl:text>
 				</xsl:when>
 				
 				<xsl:when test="@type = 'fill_combo'">

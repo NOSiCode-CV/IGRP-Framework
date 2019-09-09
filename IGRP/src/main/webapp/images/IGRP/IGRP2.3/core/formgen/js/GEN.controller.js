@@ -1331,7 +1331,7 @@ var GENERATOR = function(genparams){
 			var objectProperties = object.getPropertyOptions && object.getPropertyOptions(p) ? object.getPropertyOptions(p) : object.propertiesOptions[p] || null;
 		
 			//if( object.isEditable(p) && p != 'type' && p != 'name'){
-			
+	
 			
 			if( object.isEditable(p) && p != 'type' && p != 'name'){
 				
@@ -1339,36 +1339,44 @@ var GENERATOR = function(genparams){
 
 				var inputType = null;
 
-				switch(typeof object.proprieties[p]){
-					case 'string':
-						inputType = objectProperties && objectProperties.inputType ? objectProperties.inputType : 'text';
-					break;
-					case 'number':
-						inputType = 'number';
-					break;
-					case 'boolean':
-						inputType = 'checkbox';
-					break;
-	
-					case 'object':
-	
-						if(objectProperties && objectProperties.type && objectProperties.type == 'formlist')
-							inputType = 'formlist';
-						
-						else if(object.proprieties[p].options)
-							inputType = 'select';
-						else if(object.proprieties[p].list)
-							inputType = 'list';
-						else if (object.proprieties[p].setter)
-							inputType = 'custom';
-						else if(object.proprieties[p].changeEvent)
-							inputType = 'event';
-						else if(objectProperties && objectProperties.type && objectProperties.type == 'separatorlist')
-							inputType = objectProperties.type;
-						else 
-							inputType = 'text';
-					break;
-				}
+				if( objectProperties && objectProperties['inputType'])
+					
+					inputType = objectProperties['inputType']
+				
+				else
+					
+					switch(typeof object.proprieties[p]){
+						case 'string':
+							inputType = objectProperties && objectProperties.inputType ? objectProperties.inputType : 'text';
+						break;
+						case 'number':
+							inputType = 'number';
+						break;
+						case 'boolean':
+							inputType = 'checkbox';
+						break;
+		
+						case 'object':
+		
+							if(objectProperties && objectProperties.type && objectProperties.type == 'formlist')
+								inputType = 'formlist';
+							
+							else if(object.proprieties[p].options)
+								inputType = 'select';
+							else if(object.proprieties[p].list)
+								inputType = 'list';
+							else if (object.proprieties[p].setter)
+								inputType = 'custom';
+							else if(object.proprieties[p].changeEvent)
+								inputType = 'event';
+							else if(objectProperties && objectProperties.type && objectProperties.type == 'separatorlist')
+								inputType = objectProperties.type;
+							else 
+								inputType = 'text';
+						break;
+					}	
+				
+		
 
 				input = GEN.getSetter({
 					type      : inputType,

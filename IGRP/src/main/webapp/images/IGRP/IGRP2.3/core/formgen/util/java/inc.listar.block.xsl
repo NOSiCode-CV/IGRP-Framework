@@ -112,33 +112,38 @@
 
 		<xsl:if test="$index &lt;= $total">
 		
+			<xsl:variable name="filterName" select="concat('ADD',$index,'FILTER')"/>
+		
 			<xsl:variable name="value1Name" select="concat($valueAttrName,$index)"/>
 			
 			<xsl:variable name="operatorName" select="concat('ADD',$index,'WHERE')"/>
-			
-			<xsl:variable name="filterName" select="concat('ADD',$index,'FILTER')"/>
 			
 			<xsl:variable name="value2Name" select="concat($value1Name,'STATE2')"/>
 			
 			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
 			
-			<xsl:variable name="valueDao2" select = "substring-after(value[@name=$value2Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
+			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
+			
+			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
+			
+			<xsl:variable name="filter">
+				<xsl:call-template name="utils.meaning">
+					<xsl:with-param name="key" select="field[@name=$filterName]"/>
+				</xsl:call-template>
+			</xsl:variable>
 			
 			<xsl:variable name="value1">
+				<xsl:choose>
+					<xsl:when test="$valueDao != ''">
+						<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+					</xsl:when>
 			
-			<xsl:choose>
-				<xsl:when test="$valueDao != ''">
-					<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
-				</xsl:when>
-				
-				<xsl:otherwise>
-					<xsl:call-template name="blockly.elements">
-					<xsl:with-param name="elements" select="$values[@name=$value1Name]/block"></xsl:with-param>
-					</xsl:call-template>
-				</xsl:otherwise>
-			
-			</xsl:choose>
-				
+					<xsl:otherwise>
+						<xsl:call-template name="blockly.elements">
+						<xsl:with-param name="elements" select="$values[@name=$value1Name]/block"></xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>	
 			</xsl:variable>
 			
 			<xsl:variable name="operator">
@@ -147,27 +152,20 @@
 				</xsl:call-template>
 			</xsl:variable>
 			
-			<xsl:variable name="filter">
-				<xsl:call-template name="utils.meaning">
-					<xsl:with-param name="key" select="field[@name=$filterName]"/>
+			<xsl:variable name="valor2_">
+				<xsl:call-template name="blockly.elements">
+					<xsl:with-param name="elements" select="$values[@name=$value2Name]/block"></xsl:with-param>
 				</xsl:call-template>
 			</xsl:variable>
-			
+								
 			<xsl:variable name="value2">
-			
-				<xsl:choose>
-					<xsl:when test="$valueDao2 != ''">
-						<xsl:text>"</xsl:text><xsl:value-of select="$valueDao2"></xsl:value-of><xsl:text>"</xsl:text>
-					</xsl:when>
-					
-					<xsl:otherwise>
-						<xsl:call-template name="blockly.elements">
-						<xsl:with-param name="elements" select="$values[@name=$value2Name]/block"></xsl:with-param>
-						</xsl:call-template>
-					</xsl:otherwise>
-				
-				</xsl:choose>
-				
+				<xsl:call-template name="convert_blocks">
+					<xsl:with-param name="value" select="$valor2_"></xsl:with-param>
+					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
+					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>
+					<xsl:with-param name="neto" select="neto"></xsl:with-param>
+					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
+				</xsl:call-template>		
 			</xsl:variable>
 			
 			<xsl:if test="$value1 and $operator and $value2">
