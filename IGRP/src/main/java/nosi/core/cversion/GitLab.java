@@ -90,10 +90,12 @@ public class GitLab {
 		return success; 
 	} 
 	
-	public boolean addToStagedChanges(File f) {
+	public boolean addToStagedChanges(File ...files) {
 		boolean success = true;
 		try {
-			this.git.add().addFilepattern(f.getPath()).call(); 
+			if(files != null)
+				for(File f: files)
+					this.git.add().addFilepattern(f.getPath()).call(); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			success = false; 

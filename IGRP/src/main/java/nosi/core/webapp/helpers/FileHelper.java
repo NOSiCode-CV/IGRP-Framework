@@ -310,9 +310,9 @@ public class FileHelper {
 	
 	//Save files json, xml and xsl of the page
 	public static boolean saveFilesPageConfig(String path,String page,String[] content) throws IOException{
-		boolean r = FileHelper.save(path,page+".xml",content[0]) && // Save xml;
-			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
-			   FileHelper.save(path,page+".json",content[2]); // save json
+		boolean r = FileHelper.save(path,page+".xml",content[0]) && // Save xml; 
+			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl 
+			   FileHelper.save(path,page+".json",content[2]); // save json 
 		return r;
 	}
 	

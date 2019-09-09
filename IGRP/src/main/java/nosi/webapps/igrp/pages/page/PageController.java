@@ -38,12 +38,15 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.pages.dominio.DomainHeper;
+import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.cversion.GitLab;
 
 
 /*----#end-code----*/
 		
 public class PageController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		model.load();
@@ -242,7 +245,7 @@ public class PageController extends Controller {
 /*----#start-code(custom_actions)----*/
 
 	private boolean checkifexists(Page model) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		return Core.isNull(new Action().find().andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
 				.andWhere("page", "=", nosi.core.gui.page.Page.getPageName(model.getPage())).one());
 
@@ -353,9 +356,10 @@ public class PageController extends Controller {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
 		Compiler compiler = null;
+		PageFile pageFile = null;
 		Boolean workspace=false;
 		if (ac != null) {
-			PageFile pageFile = new PageFile();	
+			 pageFile = new PageFile();	
 			
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
@@ -380,7 +384,10 @@ public class PageController extends Controller {
 				if(workspace)
 					FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
 				boolean r = FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() });
-
+				
+				System.out.println("path_xsl: " + path_xsl); 
+				System.out.println("path_class: " + path_class); 
+				
 				if (ac.getIsComponent() == 0) {
 					r = FileHelper.saveFilesJava(path_class, ac.getPage(),new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() });
 					compiler = this.processCompile(path_class, ac.getPage());
@@ -403,6 +410,10 @@ public class PageController extends Controller {
 		if(compiler!=null && !compiler.hasError() && ac!=null) {
 			messages += ("<message type=\""+FlashMessage.SUCCESS+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? Core.gt("CompSuc"): Core.gt("Componente registado com sucesso"), null)))+ "</message>");
 		}
+		
+		if(ac != null && pageFile != null) 
+			saveCommitNPush(ac.getApplication().getDad(), ac.getPage(), pageFile); 
+		
 		return this.renderView("<messages>"+messages+"</messages>");
 	}
 
@@ -774,6 +785,76 @@ public class PageController extends Controller {
 		xml.endElement();
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml.toString());
+	} 
+	
+	
+	public void saveCommitNPush(String dad, String pageName, PageFile pageFile) {
+		Config conf = new Config();  
+		if(conf.getEnvironment() != null && conf.getEnvironment().equalsIgnoreCase("dev")) {
+			String basePath = conf.getPathOfImagesFolder() + File.separator + "tig" + File.separator + dad + File.separator + "IGRP-Template" + File.separator; 
+			String xslPath = basePath + "src/main/webapp/images/IGRP/IGRP2.3/app/" + dad; 
+			String javaPath = basePath + "src/main/java/nosi/webapps/" + dad + "/pages"; 
+			try {
+				
+				boolean isJavaOk = FileHelper.saveFilesJava(javaPath, pageName,new String[] { pageFile.getFileModel(), pageFile.getFileView(), pageFile.getFileController() }, FileHelper.ENCODE_UTF8,FileHelper.ENCODE_UTF8);
+				boolean isXslOk = FileHelper.saveFilesPageConfig(xslPath, pageName, new String[] { pageFile.getFileXml(), pageFile.getFileXsl(), pageFile.getFileJson() }); 
+				
+				
+				if(isJavaOk && isXslOk) {
+					
+					
+					String gitUri = null;
+					String username = null;
+					String password = null;
+					String path = conf.getPathOfImagesFolder() + File.separator + "tig" + File.separator + dad; 
+					
+					try {
+						gitUri = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.uri").one().getValue(); 
+						username = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.username").one().getValue();
+						password = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", dad + ".git.password").one().getValue();
+					} catch (Exception e) {
+						e.printStackTrace(); 
+					}
+					
+					GitLab gitLab = new GitLab();
+					gitLab.setUri(gitUri);
+					gitLab.setUsername(username);
+					gitLab.setPassword(password);
+					gitLab.setDirPath(path); 
+					
+					if(gitLab.loadFromGitDir()) {
+						String authorName = ""; 
+						String authorEmail = ""; 
+						String msg = ""; 
+						
+						File m = new File(javaPath + File.separator + pageName +".java"); 
+						File v = new File(javaPath + File.separator + pageName +"View.java"); 
+						File c = new File(javaPath + File.separator + pageName +"Controller.java"); 
+						
+						File json = new File(xslPath + File.separator + pageName +".json"); 
+						File xml = new File(xslPath + File.separator + pageName +".xml"); 
+						File xsl = new File(xslPath + File.separator + pageName +".xsl"); 
+						
+						boolean success = gitLab.addToStagedChanges(m, v, c, json, xml, xsl); 
+						if(success) { 
+							boolean isCommitSuccess = gitLab.commit(authorName, authorEmail, msg); 
+							if(isCommitSuccess) {
+								gitLab.push(); 
+							}
+						}
+					}
+					
+					gitLab.closeGitConnection(); 
+					
+					
+				}
+				
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
 	/*----#end-code----*/
 }
