@@ -43,17 +43,11 @@
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import org.hibernate.Session;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.ArrayList;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.Map;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import java.util.HashMap;</xsl:text>
-						
-				
+					<xsl:text>import java.util.HashMap;</xsl:text>		
 				</xsl:when>
 				
 				<xsl:when test="@type = 'formlist'">
@@ -62,12 +56,7 @@
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.List;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import org.hibernate.Session;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import org.hibernate.Transaction;</xsl:text>
-					<xsl:value-of select="$newline"></xsl:value-of>
-					<xsl:text>import java.util.ArrayList;</xsl:text>	
-				
+					<xsl:text>import java.util.ArrayList;</xsl:text>
 				</xsl:when>
 				
 				<xsl:when test="@type = 'inserir_dao'">
@@ -84,6 +73,10 @@
 					<xsl:text>import java.util.stream.Collectors;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.Arrays;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import org.hibernate.Transaction;</xsl:text>
 									
 				</xsl:when>
 				

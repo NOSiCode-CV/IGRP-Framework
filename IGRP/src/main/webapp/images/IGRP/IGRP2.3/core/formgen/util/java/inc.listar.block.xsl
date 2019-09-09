@@ -49,7 +49,7 @@
 		</xsl:variable>
 	
 		<xsl:variable name="code">
-
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
 			<xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of>
 			<xsl:text>List = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
@@ -82,18 +82,13 @@
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>(</xsl:text>
 			<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table);</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-		
 		</xsl:variable>
 		
-		<xsl:call-template name="utils.try">
-			
+		<xsl:call-template name="utils.try">	
 			<xsl:with-param name="code" select="$code"></xsl:with-param>
-			
 			<xsl:with-param name="exceptionCode">
 				<xsl:value-of select="$newlineTab1"></xsl:value-of>
 				<xsl:text>e.printStackTrace();</xsl:text>
-				<xsl:value-of select="$newline"></xsl:value-of>
 			</xsl:with-param>
 			
 		</xsl:call-template>

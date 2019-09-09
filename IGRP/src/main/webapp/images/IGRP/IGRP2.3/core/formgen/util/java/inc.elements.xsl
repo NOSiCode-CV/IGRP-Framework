@@ -205,12 +205,18 @@
 							<xsl:with-param name="value" select="value[@name='value1']/block/value[@name='value1']"/>
 						</xsl:call-template>
 					</xsl:variable>
+					
+					<xsl:variable name="paramlow">
+				       	<xsl:call-template name="LowerCase">
+				       		<xsl:with-param name="text" select="$fieldType"/>
+				       	</xsl:call-template>
+				   	</xsl:variable>
 		
-					<xsl:value-of select="$fieldType"></xsl:value-of>
-					<xsl:text> foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"></xsl:value-of>
+					<xsl:value-of select="$fieldType"></xsl:value-of><xsl:text> </xsl:text>
+					<xsl:value-of select="$paramlow"></xsl:value-of><xsl:text> = session.find(</xsl:text><xsl:value-of select="$fieldType"></xsl:value-of>
 					<xsl:text>.class,</xsl:text><xsl:value-of select="$valorparam"></xsl:value-of><xsl:text>);</xsl:text>
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
-					<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(foreign);</xsl:text>
+					<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"></xsl:value-of><xsl:text>);</xsl:text>
 					
 				</xsl:when>
 					
@@ -495,26 +501,28 @@
 			</xsl:call-template>
 		</xsl:variable>
 	
-	<xsl:value-of select="$dao"></xsl:value-of><xsl:text> obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-	<xsl:text>().findOne(Core.getParamInt("p_</xsl:text><xsl:value-of select="$paramGet"></xsl:value-of><xsl:text>"));</xsl:text>
-	<xsl:value-of select="$newline"></xsl:value-of>	
-	<xsl:text>if (obj != null &amp;&amp;  !obj.hasError()) {</xsl:text>
-	<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-	<xsl:text>boolean del = obj.delete(</xsl:text><xsl:value-of select="$getDelete"></xsl:value-of><xsl:text>);</xsl:text>
-	<xsl:value-of select="$newlineTab1"></xsl:value-of>	 
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+		<xsl:value-of select="$dao"></xsl:value-of><xsl:text> obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+		<xsl:text>().findOne(Core.getParamInt("p_</xsl:text><xsl:value-of select="$paramGet"></xsl:value-of><xsl:text>"));</xsl:text>
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+		<xsl:text>if (obj != null &amp;&amp;  !obj.hasError()) {</xsl:text>
+		<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+		<xsl:text>boolean del = obj.delete(</xsl:text><xsl:value-of select="$getDelete"></xsl:value-of><xsl:text>);</xsl:text>
+		<xsl:value-of select="$newlineTab2"></xsl:value-of>	 
 		<xsl:text>if (del == true)</xsl:text>
+		<xsl:value-of select="$newlineTab3"></xsl:value-of>
 		<xsl:text>Core.setMessageSuccess("Deleted from DB successfully!");</xsl:text>
+		<xsl:value-of select="$newlineTab2"></xsl:value-of>
+		<xsl:text>else</xsl:text>
+		<xsl:value-of select="$newlineTab3"></xsl:value-of>
+		<xsl:text>Core.setMessageError("Error deleting person from DB!");</xsl:text>
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>else</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-				<xsl:text>Core.setMessageError("Error deleting person from DB!");</xsl:text>
-				<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		<xsl:text>} else {</xsl:text>
-		<xsl:value-of select="$newlineTab1"></xsl:value-of>
+		<xsl:value-of select="$newlineTab2"></xsl:value-of>
 		<xsl:text>Core.setMessageError(obj.getError().toString());</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		
 	</xsl:template>
 	
@@ -895,8 +903,8 @@
 				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'form_row'">
-				<xsl:call-template name="blockly.element.form_row"></xsl:call-template>
+			<xsl:when test="$block-type = 'sep_form'">
+				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'save_separator'">

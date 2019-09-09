@@ -242,13 +242,22 @@ window.IGRPBlocklyInit = function(){
 		
 		var key  = $(field).attr('iskey');
 		
+		var domain = $(field).attr('domain');
+		
+		var tagg = $(field).attr('tag');
+		
 		var javaType = GetJavaType[type] || type || 'String';
 		
 		if(tag == "hidden")
 		{
-			var tagg = $(field).attr('tag');
 			form_id.push([ tagg, tagg ]);
 			fields_model.push([ tagg, javaType + '::'+tagg]);
+			addmodel++;
+		}
+		
+		else if(type == "select" && domain !="")
+		{
+			fields_model.push([ tag, 'SelectDom*'+domain+'::'+tag]);
 			addmodel++;
 		}
 		else
@@ -266,12 +275,15 @@ window.IGRPBlocklyInit = function(){
 		
 		if(type == "select")
 		{
-			var domain = $(field).attr('domain');
 			if(domain == "")
 				{
 				select.push([ tag, tag ]);
 				addcombo++;
-				}	
+				}
+			else{
+				
+				
+			}
 		}
 		
 		
@@ -302,10 +314,32 @@ window.IGRPBlocklyInit = function(){
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		
-		fields_separator.push([ tag, javaType + '::'+tag]);
+		var domain = $(field).attr('domain');
+		
+		if(type == "select" && domain !="")
+		{
+			fields_separator.push([tag, 'SelectDom*'+domain+'::'+tag]);
+		}
+		else
+			fields_separator.push([ tag, javaType + '::'+tag]);
 		
 		})
 	});
+	
+	$('rows>content>*[type="formlist"]', BlocklyXML).each(function(i, element) {
+		$(element).find('>fields>*').each(function(x, field) {
+			
+		var	 tag = $(field).prop('tagName');
+		
+		var type = $(field).attr('type');
+		
+		var javaType = GetJavaType[type] || type || 'String';
+		
+		fields_formlist.push([ tag, javaType + '::'+tag]);
+		
+		})
+	});
+	
 	
 	if(addmodel !=0)
 		{
@@ -580,14 +614,14 @@ window.IGRPBlocklyInit = function(){
 					'<category id="formlist" name="Form-List" colour="200" class="blocly-dynamic">'
 						+'<block type="formlist" mutator="where" color="200"  prev-statement="" next-statement="" inline="true">'
 							+'<value name="id_formlist" type="value">'
-							+'<field type="dropdown" name="table" title="list" options="IGRP_BLOCKLY_DROPS.formlist"></field>'
-							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="dropdown" name="table" title="list" options="IGRP_BLOCKLY_DROPS.formlists"></field>'
+							+'<field type="dropdown" name="dao_form" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							+'<field type="text" options="set Id formlist"></field>'
 							+'</value>'
 							+'<value name="value2" type="statement" >'
-								+'<block type="form_row" prev-statement="" next-statement="" color="200">'
+								+'<block type="sep_form" prev-statement="" next-statement="" color="200">'
 									+'<value type="value" title="set" name="fields_model">'
-										+'<field type="dropdown" name="form_field" options="IGRP_BLOCKLY_DROPS.fields_FORM"></field>'
+										+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.fields_FORM"></field>'
 										+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 									+'</value>'
 								+'</block>'
@@ -595,7 +629,7 @@ window.IGRPBlocklyInit = function(){
 						+'</block>'
 						+'<block type="save_formlist" color="200"  prev-statement="" next-statement="" inline="true">'
 							+'<value type="dummy">'
-							+'<field type="dropdown" name="table" title=" save" options="IGRP_BLOCKLY_DROPS.formlist"></field>'
+							+'<field type="dropdown" name="table" title=" save" options="IGRP_BLOCKLY_DROPS.formlists"></field>'
 							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
 							+'</value>'
 							+'<value name="value2" type="statement" >'
@@ -839,6 +873,8 @@ function GetBlocklyImports(){
 			
 			separatorImports = $('block[type="separator"]',xml),
 			
+			formlistImports = $('block[type="formlist"]',xml),
+			
 			saveseparatorImports = $('block[type="save_separator"]',xml),
 			
 			graficoImports = $('block[type="grafico"]',xml),
@@ -871,6 +907,10 @@ function GetBlocklyImports(){
 		if(separatorImports[0])
 			
 			rtn+='<import type="separator">Separator</import>';
+
+		if(formlistImports[0])
+			
+			rtn+='<import type="formlist">Formlist</import>';
 		
 		if(saveseparatorImports[0])
 			

@@ -2,20 +2,16 @@
 
 	<xsl:template name="blockly.element.separator" >
 	
-	<xsl:variable name="mutation" select="mutation/@count"/>
+		<xsl:variable name="mutation" select="mutation/@count"/>
 		
 		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
 		
 		<xsl:variable name="andWheres">
 			
 			<xsl:call-template name="listar.andWheres">
-			
 				<xsl:with-param name="total" select="$mutation"/>
-				
 				<xsl:with-param name="valueAttrName" select="'ADD'"/>
-				
 				<xsl:with-param name="values" select="value"/>
-			
 			</xsl:call-template>
 			
 		</xsl:variable>
@@ -93,9 +89,17 @@
 		
 		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
 		
+		<xsl:variable name="ValueChildobj">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="value[@name='fields_model']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
 		<xsl:variable name="ValueChild">
-			<xsl:call-template name="InitCap">
-				<xsl:with-param name="text" select="$rowvaluechild"/>
+			<xsl:call-template name="replace-all">
+				<xsl:with-param name="text" select="$ValueChildobj"/>
+				<xsl:with-param name="replace" select="'obj.'"/>
+				<xsl:with-param name="by" select="'doc.'"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
@@ -105,22 +109,40 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="valorpairobj">
+			<xsl:call-template name="convert_blocks">
+					<xsl:with-param name="value" select="$ValueChild"></xsl:with-param>
+					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
+					<xsl:with-param name="to" select="$rowType"></xsl:with-param>
+					<xsl:with-param name="neto" select="rowtypeneto"></xsl:with-param>
+					<xsl:with-param name="valuechild" select="$rowvaluechild"></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="valorpair">
+			<xsl:call-template name="replace-all">
+				<xsl:with-param name="text" select="$valorpairobj"/>
+				<xsl:with-param name="replace" select="'obj.'"/>
+				<xsl:with-param name="by" select="'doc.'"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
 		<xsl:variable name="rowset">
-			<xsl:choose>
-				<xsl:when test="$rowtypechild = 'Date'">
-					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
-					<xsl:text>( new Pair(""+doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of>
-					<xsl:text>(),""+doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>()) );</xsl:text>
-					
-				</xsl:when>
-
-				<xsl:otherwise>
-					<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
-					<xsl:text>( new Pair(doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of>
-					<xsl:text>(),doc.get</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>()) );</xsl:text>
-				</xsl:otherwise>
+		
+		<xsl:choose>
+			<xsl:when test="contains($valorpair,'findDomain')">
+				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+				<xsl:text>( new Pair(</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>,</xsl:text>
+				<xsl:value-of select="$valorpair"></xsl:value-of><xsl:text>) );</xsl:text>
+			</xsl:when>
 			
-			</xsl:choose>
+			<xsl:otherwise>
+				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+				<xsl:text>( new Pair(</xsl:text><xsl:value-of select="$valorpair"></xsl:value-of><xsl:text>,</xsl:text>
+				<xsl:value-of select="$valorpair"></xsl:value-of><xsl:text>) );</xsl:text>
+			</xsl:otherwise>
+		
+		</xsl:choose>
 			
 		</xsl:variable>
 		
@@ -322,7 +344,7 @@
 		</xsl:variable>
 		
 		<xsl:variable name="rowset">
-			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().getValue()</xsl:text>
+			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().getKey()</xsl:text>
 		</xsl:variable>
 		
 		<xsl:value-of select="$rowset"></xsl:value-of>
