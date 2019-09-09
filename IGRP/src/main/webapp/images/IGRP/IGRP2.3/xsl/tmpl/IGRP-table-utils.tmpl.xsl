@@ -82,13 +82,15 @@
   <xsl:template name="table-context-menu" mode="table-context-menu" match="context-menu">
    
     <xsl:param name="use-fa" select="'true'"/>
+    <xsl:param name="view"/>
 
-    <div class="list-group table-context-menu clearfix table-ctx-holder" use-fa="{$use-fa}" >
+    <div class="list-group {$view} table-context-menu clearfix table-ctx-holder" use-fa="{$use-fa}" >
         <xsl:for-each select="item">
           <li id="CTX_ID_{position()}" class="operationTable " ctx-type="{@type}" trel="{@rel}">
             <xsl:call-template name="table-ctx-item">
               <xsl:with-param name="use-fa" select="$use-fa"/>
               <xsl:with-param name="class" select="'list-group-item'"/>
+              <xsl:with-param name="view" select="$view"/>
             </xsl:call-template>
           </li>
         </xsl:for-each>
@@ -169,6 +171,7 @@
     <xsl:param name="size" select="'normal'"/>
     <xsl:param name="class" select="'btn'"/>
     <xsl:param name="ctx-params" select="''"/>
+    <xsl:param name="view"/>
 
     <a class="{$class}" target="{target}">
       <xsl:choose>
@@ -183,6 +186,10 @@
           </xsl:attribute>
         </xsl:otherwise>
       </xsl:choose>
+      
+      <xsl:if test="$view = 'lavel-menu'">
+        <xsl:attribute name="title"><xsl:value-of select="title"/></xsl:attribute>
+      </xsl:if>
       
       <xsl:call-template name="page-nav">
         <xsl:with-param name="action" select="link"/>
@@ -202,9 +209,11 @@
       </xsl:if>
 
 
-      <span class="ctx-title">
-        <xsl:value-of select="title"/>
-      </span>
+      <xsl:if test="$view != 'lavel-menu'">
+        <span class="ctx-title">
+          <xsl:value-of select="title"/>
+        </span>
+      </xsl:if>
       
     </a>
   </xsl:template>
