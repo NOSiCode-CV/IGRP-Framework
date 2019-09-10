@@ -2,11 +2,23 @@
 
 	<xsl:template name="blockly.element.formlist" >
 	
-		<xsl:variable name="dao" select="field[@name='dao']"/>
+		<xsl:variable name="mutation" select="mutation/@count"/>
 		
-		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
+		<xsl:variable name="dao_form" select="field[@name='dao_form']"/>
 		
-		<xsl:variable name="where1" select="substring-after(value[@name='where1']/block/field,'::')"/>
+		<xsl:variable name="andWheres">
+			
+			<xsl:call-template name="listar.andWheres">
+			
+				<xsl:with-param name="total" select="$mutation"/>
+				
+				<xsl:with-param name="valueAttrName" select="'ADD'"/>
+				
+				<xsl:with-param name="values" select="value"/>
+			
+			</xsl:call-template>
+			
+		</xsl:variable>
 		
 		<xsl:variable name="table" select="field[@name='table']"/>
 		
@@ -16,49 +28,26 @@
 	       	</xsl:call-template>
 	   	</xsl:variable>
 	   	
-	   	<xsl:variable name="button" select="field[@name='button']"/>
-	   	
-	   	<xsl:variable name="model_low" select="field[@name='id_model']"/>
-	   	
-	   	<xsl:variable name="id_model">
-	       	<xsl:call-template name="InitCap">
-	       		<xsl:with-param name="text" select="field[@name='id_model']"/>
-	       	</xsl:call-template>
-	   	</xsl:variable>
-	   	
 	   	<xsl:variable name="sep_row">
 			<xsl:call-template name="blockly.getValue">
 				<xsl:with-param name="value" select="*[@name='value2']"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:variable name="rowvaluechildID" select="substring-after(value[@name='id_separator']/block/field,'::')"/>
+		<xsl:variable name="rowvaluechildID" select="substring-after(value[@name='id_formlist']/block/field,'::')"/>
 		
 		<xsl:variable name="ChildID">
 			<xsl:call-template name="InitCap">
 				<xsl:with-param name="text" select="$rowvaluechildID"/>
 			</xsl:call-template>
 		</xsl:variable>
-		
-		<xsl:variable name="where2">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='where2']"/>
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<xsl:variable name="sep_model">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='set_model']"/>
-			</xsl:call-template>
-		</xsl:variable>
 	
 		<xsl:variable name="code">
 		
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>List &lt; </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
-			<xsl:text>&gt; docsList = new </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
-			<xsl:text>().find().andWhere( "</xsl:text><xsl:value-of select="$where1"></xsl:value-of>
-			<xsl:text>", "=",</xsl:text><xsl:value-of select="$where2"></xsl:value-of><xsl:text>).all();</xsl:text>
+			<xsl:text>List &lt;</xsl:text><xsl:value-of select="$dao_form"></xsl:value-of>
+			<xsl:text>&gt; docsList = new </xsl:text><xsl:value-of select="$dao_form"></xsl:value-of>
+			<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of><xsl:text>.all();</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>if ( Core.isNotNull( docsList ) ) {</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
@@ -79,18 +68,18 @@
 			<xsl:value-of select="$ChildID"></xsl:value-of><xsl:text>()));</xsl:text>
 			<xsl:value-of select="concat($newlineTab4,$sep_row)"></xsl:value-of>
 			<xsl:value-of select="$newlineTab4"></xsl:value-of>
-			<xsl:text>separatorlistDocs.add( row );</xsl:text> 
+			<xsl:text>separatorlistDocs.add(row);</xsl:text> 
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:text>});</xsl:text> 
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"></xsl:value-of> 
+			<xsl:text>( separatorlistDocs);</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text> 
-			<xsl:value-of select="$newline"></xsl:value-of>
-
+			
 		</xsl:variable>
 		
-		
 		<xsl:value-of select="$code"></xsl:value-of>
-		
 
 	</xsl:template>
 

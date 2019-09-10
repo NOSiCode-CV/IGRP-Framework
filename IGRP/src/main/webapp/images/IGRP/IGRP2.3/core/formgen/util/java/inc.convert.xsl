@@ -75,8 +75,6 @@
 				<xsl:when test=" $from = 'String' and $to = 'Date' ">
 					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
 				</xsl:when>  
-				
-				
 						
 				<xsl:when test=" $from = 'File' and $to = 'Integer' ">
 					<xsl:text>Core.saveFile("p_</xsl:text><xsl:value-of select="$valuechild"></xsl:value-of><xsl:text>,"dd-MM-yyyy"):null</xsl:text>
@@ -84,6 +82,27 @@
 				
 				<xsl:when test=" $from = 'File' and $to = 'String' ">
 					<xsl:text>""+(Core.saveFile("p_</xsl:text><xsl:value-of select="$valuechild"></xsl:value-of><xsl:text>,"dd-MM-yyyy")):null</xsl:text>
+				</xsl:when> 
+				
+				<xsl:when test="contains( $to ,'SelectDom*') ">
+				
+				<xsl:choose>
+				
+					<xsl:when test="contains( $to ,' « ') ">
+						<xsl:variable name="domainvalue" select="substring-before(substring-after($to,'SelectDom*'),' « ') "/>
+						<xsl:text>Core.findDomainDescByKey("</xsl:text><xsl:value-of select="$domainvalue"></xsl:value-of><xsl:text>",</xsl:text>
+						<xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					</xsl:when>
+
+					<xsl:otherwise>
+						<xsl:variable name="domainvalue2" select="substring-after($to,'SelectDom*') "/>
+						<xsl:text>Core.findDomainDescByKey("</xsl:text><xsl:value-of select="$domainvalue2"></xsl:value-of><xsl:text>",</xsl:text>
+						<xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					
+					</xsl:otherwise>
+				
+				</xsl:choose> 
+				
 				</xsl:when> 
 				
 				<xsl:otherwise>

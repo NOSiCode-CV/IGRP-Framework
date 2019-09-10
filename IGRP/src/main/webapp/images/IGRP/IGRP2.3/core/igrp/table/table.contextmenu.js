@@ -67,16 +67,19 @@
 					},p);
 
 
+					var level = $(menu).hasClass('lavel-menu');
+
+
 					hld.each(function(i,hl){
 						
-						var holder = $(hl);
+						var holder = $(hl),
+							event  = level ? "mouseenter" : "contextmenu";
 
-						holder.on("contextmenu",settings.scope,settings.onContext);
+						holder.on(event,settings.scope,settings.onContext);
 
 						if(settings.onItem && typeof settings.onItem  == 'function')
 							holder.on('click',settings.menu,settings.onItem);
-					})
-					
+					});
 
 				}
 			},

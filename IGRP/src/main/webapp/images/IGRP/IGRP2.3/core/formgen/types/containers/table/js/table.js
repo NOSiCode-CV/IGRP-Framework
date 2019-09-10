@@ -139,7 +139,18 @@ var GENTABLE = function(name,params){
 			value:false,
 			editable:false,
 			xslValue:function(){
-				var rtn = !container.GET.ctxInlineTmpl() ? '<xsl:apply-templates select="'+container.GET.path()+'/table/context-menu'+'" mode="table-context-menu"/>' : '';
+				
+				var rtn = '';
+				
+				if(!container.GET.ctxInlineTmpl()){
+					
+					rtn = '<xsl:apply-templates select="'+container.GET.path()+'/table/context-menu'+'" mode="table-context-menu">';
+					
+					if(container.GET.ctxType() == 'hover')
+						rtn += '<xsl:with-param name="view" select="\'lavel-menu\'"/>';
+
+					rtn += '</xsl:apply-templates>';
+				}
 				
 				return rtn;
 			}
@@ -212,11 +223,12 @@ var GENTABLE = function(name,params){
 				value:'inl',
 				options:[
 					{value:'ctx',label:'Right Click'},
-					{value:'inl',label:'Inline'}
+					{value:'inl',label:'Inline'},
+					{value:'hover',label:'Hover'}
 				]
 			},
 			onChange:function(v){
-				var ismenu = v == 'ctx' ? true : false;
+				var ismenu = v == 'ctx' || v == 'hover' ? true : false;
 				container.SET.ctxInlineTmpl(!ismenu);
 			},
 			onEditionStart : function(v){
