@@ -56,6 +56,8 @@
 										ctxMenu : vCtxMenu
 
 									});
+									
+									$('table tbody tr').removeClass('ctx-open');
 
 									row.addClass('ctx-open');
 
@@ -113,8 +115,15 @@
 					vBoxWidth   = 0, 
 					vBoxHeight  = 0,
 					vTabOffsetL = vTable.offset().left;  
-				 	vTop 		= e.currentTarget.offsetTop + parseInt(e.currentTarget.offsetHeight/2),
+				 	vTop 		= e.currentTarget.offsetTop,
+				 	addTop 		= parseInt(e.currentTarget.offsetHeight/2),
 				 	vLeft       = e.pageX - vTabOffsetL;
+				 	
+				if(vCtxMenu.hasClass('lavel-menu')){
+					if(vTable.hasClass('dataTable'))
+						vTop += addTop;
+				}else
+					vTop += addTop;
 
 				vBoxWidth	= $(vCtxMenu).width();
 				vBoxHeight	= $(vCtxMenu).height();
