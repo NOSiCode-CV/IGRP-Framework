@@ -80,6 +80,13 @@
 									
 				</xsl:when>
 				
+				<xsl:when test="@type = 'save_formlist'">
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import org.hibernate.Session;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import org.hibernate.Transaction;</xsl:text>			
+				</xsl:when>
+				
 				<xsl:when test="@type = 'grafico'">
 				
 					<xsl:variable name="pagelow">
