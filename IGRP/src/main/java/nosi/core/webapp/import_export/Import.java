@@ -229,7 +229,7 @@ public class Import {
 					for(FileImportAppOrPage f : aux.un_jar_files) { 
 						//System.out.println("XSL: " + page.getXsl_src());
 						//System.out.println("Nome: " + f.getNome());
-						if(f.getNome() != null && page.getXsl_src() != null && f.getNome().contains(page.getXsl_src())) {
+						if(f.getNome() != null && page.getXsl_src() != null && f.getOrder()==2) { // Marcos: tirei porque nao fazia sentido e nao funcionava. Coloquei order=2 f.getNome().contains(page.getXsl_src())
 							nextIteration = false;
 							break;
 						}

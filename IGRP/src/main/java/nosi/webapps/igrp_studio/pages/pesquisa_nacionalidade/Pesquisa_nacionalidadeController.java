@@ -43,6 +43,8 @@ public class Pesquisa_nacionalidadeController extends Controller {
 		ConsumeJson json_obj = new ConsumeJson();
 		String json  = json_obj.getJsonFromUrl(url, authorization);
 		List<Pesquisa_nacionalidade.Treemenu_1> list_nac = new ArrayList<>();
+		if(Core.isNull(json))
+			return list_nac;
 		JSONObject obj = new JSONObject(json);
 		JSONObject Entries = obj.getJSONObject("Entries");
 		try {

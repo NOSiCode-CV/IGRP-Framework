@@ -23,7 +23,7 @@
                     <nav class="navbar navbar-default" role="navigation">
                       <div class="container-fluid">
                         <div class="form-group" id="searcher" style="position: initial;">                        
-                        <div class="input-group" style="position:absolute;display: table;float:right;margin-left: 45%;margin-top: 10px;width: 47%;z-index: 2;border-bottom: 1px solid #ddd;line-height: 0px;margin-right: 9px;">
+                        <div class="input-group" style="position:fixed; display: table;float:right;right: 4%;margin-top: 10px;width: 47%;z-index: 2;border-bottom: 1px solid #ddd;line-height: 0px;">
   						  <span class="input-group-btn">
                             <button type="button" class="btn btn-default" style="">
                               <i class="fa fa-search"></i>
