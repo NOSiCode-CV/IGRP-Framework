@@ -920,7 +920,7 @@
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'get_row_form'">
-				<xsl:call-template name="blockly.element.get_row_form"></xsl:call-template>
+				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'corre_get_param'">

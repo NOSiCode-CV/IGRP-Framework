@@ -248,14 +248,7 @@ window.IGRPBlocklyInit = function(){
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		
-		if(tag == "hidden")
-		{
-			form_id.push([ tagg, tagg ]);
-			fields_model.push([ tagg, javaType + '::'+tagg]);
-			addmodel++;
-		}
-		
-		else if(type == "select" && domain !="")
+		if(type == "select" && domain !="")
 		{
 			fields_model.push([ tag, 'SelectDom*'+domain+'::'+tag]);
 			addmodel++;
@@ -266,6 +259,13 @@ window.IGRPBlocklyInit = function(){
 			addmodel++;
 		}
 		
+		if(tag == "hidden")
+		{
+			form_id.push([ tagg, tagg ]);
+			fields_model.push([ tagg, javaType + '::'+tagg]);
+			addmodel++;
+		}
+		
 		if(key == "true")
 		{
 			key_model.push([ tag, tag]);
@@ -273,20 +273,11 @@ window.IGRPBlocklyInit = function(){
 			
 		}
 		
-		if(type == "select")
+		if(type == "select" && domain== "")
 		{
-			if(domain == "")
-				{
-				select.push([ tag, tag ]);
-				addcombo++;
-				}
-			else{
-				
-				
-			}
+			select.push([ tag, tag ]);
+			addcombo++;		
 		}
-		
-		
 		
 		})
 	});
@@ -335,7 +326,14 @@ window.IGRPBlocklyInit = function(){
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		
-		fields_formlist.push([ tag, javaType + '::'+tag]);
+		var domain = $(field).attr('domain');
+		
+		if(type == "select" && domain !="")
+		{
+			fields_formlist.push([tag, 'SelectDom*'+domain+'::'+tag]);
+		}
+		else
+			fields_formlist.push([ tag, javaType + '::'+tag]);
 		
 		})
 	});
@@ -639,8 +637,8 @@ window.IGRPBlocklyInit = function(){
 						+'</block>'
 						
 						+'<block type="get_row_form" output="" color="300">'
-							+'<value type="dummy" title="get row separator" name="fields_model">'
-								+'<field type="dropdown" name="get_row_form" options="IGRP_BLOCKLY_DROPS.fields_SEP"></field>'
+							+'<value type="dummy" title="get row formlist" name="fields_model">'
+								+'<field type="dropdown" name="get_row_sep" options="IGRP_BLOCKLY_DROPS.fields_FORM"></field>'
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 							+'</value>'
 						+'</block>'
@@ -877,6 +875,8 @@ function GetBlocklyImports(){
 			
 			saveseparatorImports = $('block[type="save_separator"]',xml),
 			
+			saveformlistImports = $('block[type="save_formlist"]',xml),
+			
 			graficoImports = $('block[type="grafico"]',xml),
 			
 			combodaoImports = $('block[type="combo_dao"]',xml),
@@ -915,6 +915,10 @@ function GetBlocklyImports(){
 		if(saveseparatorImports[0])
 			
 			rtn+='<import type="save_separator">saveSeparator</import>';
+		
+		if(saveformlistImports[0])
+			
+			rtn+='<import type="save_formlist">saveFormlist</import>';
 		
 		if(graficoImports[0])
 			

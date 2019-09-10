@@ -56,6 +56,8 @@
 										ctxMenu : vCtxMenu
 
 									});
+									
+									$('table tbody tr').removeClass('ctx-open');
 
 									row.addClass('ctx-open');
 
@@ -76,6 +78,12 @@
 							event  = level ? "mouseenter" : "contextmenu";
 
 						holder.on(event,settings.scope,settings.onContext);
+						
+						if(level){
+							holder.on('mouseleave',function(e){
+								$.IGRP.components.contextMenu.hide( $('.table-context-menu'));
+							});
+						}
 
 						if(settings.onItem && typeof settings.onItem  == 'function')
 							holder.on('click',settings.menu,settings.onItem);
@@ -113,8 +121,15 @@
 					vBoxWidth   = 0, 
 					vBoxHeight  = 0,
 					vTabOffsetL = vTable.offset().left;  
-				 	vTop 		= e.currentTarget.offsetTop + parseInt(e.currentTarget.offsetHeight/2),
+				 	vTop 		= e.currentTarget.offsetTop,
+				 	addTop 		= parseInt(e.currentTarget.offsetHeight/2),
 				 	vLeft       = e.pageX - vTabOffsetL;
+				 	
+				if(vCtxMenu.hasClass('lavel-menu')){
+					if(vTable.hasClass('dataTable'))
+						vTop += addTop;
+				}else
+					vTop += addTop;
 
 				vBoxWidth	= $(vCtxMenu).width();
 				vBoxHeight	= $(vCtxMenu).height();

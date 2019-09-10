@@ -1,23 +1,16 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_bi_cni_passport;
 
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.databse.helpers.ResultSet;
-import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.webservices.rest.ConsumeJson;
-import nosi.core.config.Config;
 import nosi.core.config.ConfigApp;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -66,7 +59,7 @@ public class Pesquisa_bi_cni_passportController extends Controller {
 				JSONObject Entries = obj.getJSONObject("Entries");
 				JSONArray Entry = Entries.getJSONArray("Entry");
 				
-				if(!Entries.isEmpty()){
+				if(Entry!=null && Entries!=null){
 				List<Pesquisa_bi_cni_passport.Table_1> lista = new ArrayList<>();
 				for(int i=0 ; i<Entries.length() ; i++) {
 					Pesquisa_bi_cni_passport.Table_1 tab_geral = new Pesquisa_bi_cni_passport.Table_1();

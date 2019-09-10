@@ -136,12 +136,6 @@ table td.min-width{
   box-shadow: 0px 4px 5px 2px #ddd;
 }
 
-table tbody tr.ctx-open{
-  -webkit-box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-  box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
-  z-index: 1;
-}
-
 
 /* IGRP TABLE FILTER */
 .igrp-table-filter{
