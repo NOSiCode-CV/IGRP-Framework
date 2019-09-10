@@ -78,6 +78,12 @@
 							event  = level ? "mouseenter" : "contextmenu";
 
 						holder.on(event,settings.scope,settings.onContext);
+						
+						if(level){
+							holder.on('mouseleave',function(e){
+								$.IGRP.components.contextMenu.hide( $('.table-context-menu'));
+							});
+						}
 
 						if(settings.onItem && typeof settings.onItem  == 'function')
 							holder.on('click',settings.menu,settings.onItem);
