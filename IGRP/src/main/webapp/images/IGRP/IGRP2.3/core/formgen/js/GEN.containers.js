@@ -1507,7 +1507,15 @@ var CONTAINER = function(name,params){
 
 									}catch(err){
 
-										console.log(err)
+										console.log(err);
+										
+										var errorHolder = $('<div style="padding:15px">Error Transformig Component Template. Please Edit this component XSL!</div>');
+
+										addHolderClass( errorHolder[0], dz );
+
+										addHolderAttr(errorHolder[0],'gen-item-id',f.GET.id());
+
+										$(dropZone)[method](errorHolder);
 									
 									}
 									
