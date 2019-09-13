@@ -118,27 +118,28 @@
 
 					vTableHeight= vTable.height(),
 					vTableWidth	= vTable.width(),
-					vBoxWidth   = 0, 
-					vBoxHeight  = 0,
+					vBoxWidth   = $(vCtxMenu).width(), 
+					vBoxHeight  = $(vCtxMenu).height(),
 					vTabOffsetL = vTable.offset().left;  
 				 	vTop 		= e.currentTarget.offsetTop,
 				 	addTop 		= parseInt(e.currentTarget.offsetHeight/2),
 				 	vLeft       = e.pageX - vTabOffsetL;
 				 	
+				 
 				if(vCtxMenu.hasClass('lavel-menu')){
-					if(vTable.hasClass('dataTable'))
-						vTop += addTop;
-				}else
+					
+					vTop = vTable.hasClass('dataTable') ? vTop + addTop : vTop - vBoxHeight;	
+					
+				}else{
 					vTop += addTop;
-
-				vBoxWidth	= $(vCtxMenu).width();
-				vBoxHeight	= $(vCtxMenu).height();
+					
+					if(vTop + vBoxHeight >= vTableHeight)
+				 		vTop -= vBoxHeight;
+				}
+					
 
 			 	if(vLeft + vBoxWidth > vTableWidth)
 			 		vLeft -= vBoxWidth;
-
-			 	if(vTop + vBoxHeight >= vTableHeight)
-			 		vTop -= vBoxHeight;
 
 				if(!vTable.attr("data-view") || (vTable.attr("data-view") && vTable.attr("data-view") == "list")){
 					vCtxMenu

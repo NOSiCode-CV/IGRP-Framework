@@ -88,7 +88,10 @@ public class QuerySelect extends CommonFIlter{
 		Session session = this.getSession();
 		if(session!=null) {
 			try {
-				session.beginTransaction();
+				org.hibernate.Transaction transaction = session.getTransaction();
+				if(!transaction.isActive()) {
+					transaction.begin();
+				}
 				Core.log("SQL Query:"+this.getSql());
 				Query query = session.createNativeQuery(this.getSql(),Tuple.class);	
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
@@ -103,7 +106,8 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				session.close();
+				if(!this.keepConnection)
+					session.close();
 			}
 		}
 		return list;
@@ -117,7 +121,10 @@ public class QuerySelect extends CommonFIlter{
 		Session session = this.getSession();
 		if(session!=null) {
 			try {
-				session.beginTransaction();
+				org.hibernate.Transaction transaction = session.getTransaction();
+				if(!transaction.isActive()) {
+					transaction.begin();
+				}
 				Core.log("SQL Query:"+this.getSql());
 				Query query = session.createQuery(this.getSql(),entity);
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
@@ -132,7 +139,8 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				session.close();
+				if(!this.keepConnection)
+					session.close();
 			}
 		}
 		return find;
@@ -145,7 +153,10 @@ public class QuerySelect extends CommonFIlter{
 		Session session = this.getSession();
 		if(session!=null) {
 			try {
-				session.beginTransaction();
+				org.hibernate.Transaction transaction = session.getTransaction();
+				if(!transaction.isActive()) {
+					transaction.begin();
+				}
 				Core.log("SQL Query:"+this.getSql());
 				Query query = session.createQuery(this.getSql(),entity);	
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
@@ -160,7 +171,8 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				session.close();
+				if(!this.keepConnection)
+					session.close();
 			}
 		}
 		return list;
@@ -224,7 +236,10 @@ public class QuerySelect extends CommonFIlter{
 		Session session = this.getSession();
 		if(session!=null) {
 			try {
-				session.beginTransaction();
+				org.hibernate.Transaction transaction = session.getTransaction();
+				if(!transaction.isActive()) {
+					transaction.begin();
+				}
 				Core.log("SQL Query:"+this.getSql());
 				query = session.createQuery(this.getSql(), this.className);
 				query.setHint(HibernateHintOption.HINTNAME, HibernateHintOption.HINTVALUE);
@@ -238,7 +253,8 @@ public class QuerySelect extends CommonFIlter{
 			}catch(Exception e) {
 				this.setError(null, e);
 			}finally {
-				session.close();
+				if(!this.keepConnection)
+					session.close();
 			}
 		}
 		return query;

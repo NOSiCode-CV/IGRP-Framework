@@ -134,7 +134,7 @@ public class NovoMenuController extends Controller {
 			int app = Core.isNotNullOrZero(model.getEnv_fk()) ? model.getEnv_fk() : Core.getParamInt("p_app");
 			menu.setDescr(model.getTitulo());
 			menu.setApplication(Core.findApplicationById(app));
-			menu.setFlg_base(model.getFlg_base());
+			menu.setFlg_base(Core.isNotNull(model.getFlg_base()) ? 1 : 0);
 			menu.setOrderby(model.getOrderby());
 			menu.setStatus(model.getStatus());
 			menu.setTarget(model.getTarget());
