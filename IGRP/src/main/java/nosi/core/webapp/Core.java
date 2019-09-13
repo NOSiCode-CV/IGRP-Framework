@@ -839,7 +839,10 @@ public final class Core { // Not inherit
 	}
 
 
-
+	/** 
+	 * @param fileId 
+	 * @return
+	 */
 	public static CLob getFile(int fileId) {
 		CLob cLob = null;
 
@@ -867,6 +870,38 @@ public final class Core { // Not inherit
 		return cLob;
 	}
 	
+	/** 
+	 * @param uid Uid do ficheiro a ser descartado 
+	 * @return nosi.webapps.igrp.dao.Clob 
+	 */
+	public static CLob getFileByUid(String uid) {
+		CLob cLob = null;
+
+		String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
+		try(java.sql.Connection conn = Connection.getConnection(igrpCoreConnection)) {
+			String sql = "select * from tbl_clob where uid = ?";
+			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, uid);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				cLob = new CLob();
+				cLob.setC_lob_content(rs.getBytes("c_lob_content"));
+				cLob.setDt_created(rs.getDate("dt_created"));
+				cLob.setName(rs.getString("name"));
+				cLob.setMime_type(rs.getString("mime_type"));
+				cLob.setId(new Integer(rs.getInt("id")));
+				cLob.setUid(rs.getString("uid"));
+			}
+			rs.close();
+			ps.close();
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+			cLob = null;
+		} 
+
+		return cLob;
+	}
+	
 	/**
 	 * @param fileId Id do ficheiro a ser descartado 
 	 * @return boolean true -> Success | false -> Failure 
@@ -874,6 +909,21 @@ public final class Core { // Not inherit
 	public static boolean invalidateFile(Integer fileId) {
 		boolean r = false; 
 		CLob file = new CLob().findOne(fileId);
+		if(file != null) {
+			file.invalidate(); 
+			file = file.update(); 
+			r = file != null && !file.hasError();
+		}
+		return r;
+	}
+	
+	/**
+	 * @param uid Uid do ficheiro a ser descartado 
+	 * @return boolean true -> Success | false -> Failure 
+	 */
+	public static boolean invalidateFile(String uid) {
+		boolean r = false; 
+		CLob file = new CLob().find().andWhere("uid", "=", "").one();
 		if(file != null) {
 			file.invalidate(); 
 			file = file.update(); 
@@ -1966,8 +2016,8 @@ public final class Core { // Not inherit
 	public static Integer saveFile(byte[] bytes, String name, String mime_type,String dad) {
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
-			
 			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
+			clob.generateUid();
 			clob = clob.insert();
 			clob.showMessage();
 			if(!clob.hasError())
@@ -1975,6 +2025,21 @@ public final class Core { // Not inherit
 		}
 		return new Integer(0);
 	}
+	
+	public static String saveFileNGetUid(byte[] bytes, String name, String mime_type, String dad) {
+		Application app = new Application().findByDad(dad);
+		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
+			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
+			clob.generateUid();
+			clob = clob.insert();
+			clob.showMessage();
+			if(!clob.hasError())
+				return clob.getUid(); 
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
