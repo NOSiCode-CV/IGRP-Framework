@@ -238,6 +238,14 @@
 							datatable.destroy();
 	            	});
 					
+					$.IGRP.events.on('element-transform',function(p){
+
+	            	 	var table = $('.table:not(.IGRP_formlist)',p.content);
+	            	 	
+		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') == $(t).attr('id'))
+		        			datatable.destroy();
+		        	});
+					
 				});
 
 			}
@@ -413,29 +421,28 @@
             });
 			
 			$.IGRP.events.on('element-transform',function(p){
-		        if($('.table:not(.IGRP_formlist)',p.content)[0]){
-		            var table = p.content.find('table'),
-						id    = table.attr('id');
 
-					if($.IGRP.components.contextMenu)
+			        if($('.table:not(.IGRP_formlist)',p.content)[0]){
+			        	
+			            var table = p.content.find('table'),
+							id    = table.attr('id');
 
-						$.IGRP.components.contextMenu.set( p.content );
+						if($.IGRP.components.contextMenu)
 
-					if(table.hasClass('igrp-data-table')){
-						
-						$.IGRP.components.tableCtrl.dataTable({
+							$.IGRP.components.contextMenu.set( p.content );
 
-							selector : 'table#'+id+'.igrp-data-table'
+						if(table.hasClass('igrp-data-table')){
+							
+							$.IGRP.components.tableCtrl.dataTable({
 
-						});
-					}
-					
-					if(table.hasClass('ordertable'))
-		            	$.IGRP.components.tableCtrl.ordertable('#'+id);
+								selector : 'table#'+id+'.igrp-data-table'
 
-					if ($.IGRP.components.tableCtrl.pagination)
-						$.IGRP.components.tableCtrl.pagination('ul[filter-name="p_'+id+'_filter"]');
-		        }
+							});
+						}
+
+						if ($.IGRP.components.tableCtrl.pagination)
+							$.IGRP.components.tableCtrl.pagination('ul[filter-name="p_'+id+'_filter"]');
+			        }
 		    });
 
 		},
