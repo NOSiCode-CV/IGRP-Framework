@@ -137,6 +137,9 @@ table td.min-width{
   box-shadow: 0px 4px 5px 2px #ddd;
 }
 
+.lavel-menu li > a.btn{
+  border-radius:2px !important
+}
 
 /* IGRP TABLE FILTER */
 .igrp-table-filter{

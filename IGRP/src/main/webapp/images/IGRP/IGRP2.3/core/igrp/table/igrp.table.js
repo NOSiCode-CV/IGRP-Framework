@@ -446,6 +446,59 @@
 		    });
 
 		},
+		
+		operation : {
+			isNum : function(v){
+                return isNaN(v) ? 0 : v*1;
+            },
+			sum : {
+	            allrow : function(p){
+	                p.obj.each(function(i,tr){
+	                    var val = 0;
+	                    $(p.field,tr).each(function(io,o){
+	                        val += com.operation.isNum($(o).val());
+	                    });
+	                    $(p.result,tr).val(val);
+	                });
+	            },
+
+	            row : function(p){
+	                var total = 0;
+	                $(p.field,p.obj).each(function(io,o){
+	                    total += com.operation.isNum($(o).val());
+	                });
+	                if (p.result)
+	                    $(p.result,p.tr).val(total);
+
+	                return total;
+	            },
+	            col : function(p){
+	                var total = 0;
+	                p.obj.each(function(i,tr){
+	                    total += com.operation.isNum($(p.field,$(tr)).val());
+	                });
+
+	                if (p.result[0]){
+	                    $(':input',p.result).val(total);
+	                    $('p',p.result).html(total);
+	                }
+
+	                return total;
+	            },
+	            allcol : function(p){
+	                var total = {};
+	                p.obj.each(function(i,tr){
+	                    total[i] = com.operation.sum.col({
+	                        obj     : p.obj,
+	                        field   : $(p.field,'td:eq('+i+')'),
+	                        result  : p.result
+	                    });
+	                });
+
+	                return total;
+	            }
+	        }
+		},
 
 		init:function(){
 			

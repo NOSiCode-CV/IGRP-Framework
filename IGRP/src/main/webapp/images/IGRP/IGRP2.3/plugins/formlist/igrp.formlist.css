@@ -178,3 +178,11 @@
     bottom: -12px;
     top: auto;
 }
+
+.IGRP_formlist.totalcol [type="number"][total-col="true"]{
+	text-align: right;
+}
+
+.IGRP_formlist.totalcol .total-col p{
+	padding:0 28px;
+}

@@ -129,6 +129,10 @@
           
                     resetFildsRow(pObj.pObjt);
                 }
+                
+                if(TABLE.hasClass('totalcol')){
+                    $('[type="number"][total-col="true"]',TABLE).change();
+                }
 
 
               /*}else
@@ -564,6 +568,22 @@
             	
         }
     });
+    
+	$(document).on('change','.IGRP_formlist.totalcol [type="number"][total-col="true"]',function(){
+	        
+	        var $table = $(this).parents('table'),
+	            name   = $(this).parents('.form-group').attr('item-name');
+	
+	        if($.IGRP.components.tableCtrl.operation){
+	
+	            $.IGRP.components.tableCtrl.operation.sum.col({
+	                obj   : $('tbody tr',$table),
+	                field : ':input[name="p_'+name+'_fk"]',
+	                result: $('#total-col-'+name,$table)
+	            });
+	        }
+	
+	    });
 
     /*$('.IGRP_formlist [item-type="plaintext"]').each(function(){
 
