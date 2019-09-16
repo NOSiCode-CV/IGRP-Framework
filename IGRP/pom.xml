@@ -25,10 +25,10 @@
 		<junit.version>4.12</junit.version>
 		<!-- End Test properties -->
 		<tomee.classifier>plus</tomee.classifier>
-		<hibernate.version>5.4.1.Final</hibernate.version>
+		<hibernate.version>5.4.4.Final</hibernate.version>
 		<jersey.version>2.29</jersey.version>
 		<mysql.version>8.0.16</mysql.version>
-		<postgres.version>42.2.6</postgres.version>
+		<postgres.version>42.2.7</postgres.version>
 		<h2.version>1.4.199</h2.version>
 		<oracle.version></oracle.version>
 		<sqlserver.version>7.2.2.jre8</sqlserver.version>

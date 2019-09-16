@@ -29,7 +29,12 @@ public class FileController extends Controller {
 	
 	/*----#start-code(custom_actions)----*/
 	public Response actionGetFile() throws Exception {
-		CLob file = Core.getFile(Core.getParamInt("p_id").intValue());
+		String uuid= Core.getParam("uuid");		
+		CLob file;
+		if(Core.isNotNull(uuid))
+			 file = Core.getFileByUuid(uuid);
+		else
+			 file = Core.getFile(Core.getParamInt("p_id").intValue());
 		if(file!=null)
 			return this.xSend(file.getC_lob_content(), file.getName(), file.getMime_type(), false);
 		throw new Exception("File not found.");

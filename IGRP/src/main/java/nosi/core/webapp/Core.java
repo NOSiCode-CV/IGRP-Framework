@@ -871,17 +871,17 @@ public final class Core { // Not inherit
 	}
 	
 	/** 
-	 * @param uid Uid do ficheiro a ser descartado 
+	 * @param uuid Uuid do ficheiro a ser descartado 
 	 * @return nosi.webapps.igrp.dao.Clob 
 	 */
-	public static CLob getFileByUid(String uid) {
+	public static CLob getFileByUuid(String uuid) {
 		CLob cLob = null;
 
 		String igrpCoreConnection = ConfigApp.getInstance().getBaseConnection();
 		try(java.sql.Connection conn = Connection.getConnection(igrpCoreConnection)) {
-			String sql = "select * from tbl_clob where uid = ?";
+			String sql = "select * from tbl_clob where uuid = ?";
 			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, uid);
+			ps.setString(1, uuid);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				cLob = new CLob();
@@ -890,7 +890,7 @@ public final class Core { // Not inherit
 				cLob.setName(rs.getString("name"));
 				cLob.setMime_type(rs.getString("mime_type"));
 				cLob.setId(new Integer(rs.getInt("id")));
-				cLob.setUid(rs.getString("uid"));
+				cLob.setUuid(rs.getString("uuid"));
 			}
 			rs.close();
 			ps.close();
@@ -918,12 +918,12 @@ public final class Core { // Not inherit
 	}
 	
 	/**
-	 * @param uid Uid do ficheiro a ser descartado 
+	 * @param uuid Uuid do ficheiro a ser descartado 
 	 * @return boolean true -> Success | false -> Failure 
 	 */
-	public static boolean invalidateFile(String uid) {
+	public static boolean invalidateFile(String uuid) {
 		boolean r = false; 
-		CLob file = new CLob().find().andWhere("uid", "=", "").one();
+		CLob file = new CLob().find().andWhere("uuid", "=", "").one();
 		if(file != null) {
 			file.invalidate(); 
 			file = file.update(); 
@@ -987,7 +987,7 @@ public final class Core { // Not inherit
 
 
 	/**
-	 * Link for get file
+	 * Link to get file
 	 * 
 	 * 
 	 * @param p_id Unique file id
@@ -995,6 +995,17 @@ public final class Core { // Not inherit
 	 */
 	public static String getLinkFile(String p_id) {
 		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
+	}
+	
+	/**
+	 * Link to a get file
+	 * 
+	 * 
+	 * @param uuid Unique file id
+	 * @return link
+	 */
+	public static String getLinkFileByUuid(String uuid) {
+		return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid);
 	}
 
 	public static String getLinkFile(int p_id) {
@@ -1963,6 +1974,31 @@ public final class Core { // Not inherit
 		}
 		return new Integer(0);
 	}
+	
+	/**
+	 * Insert a file to the Igrp core DataBase and return an UUId ...
+	 * 
+	 * @param content   byte[]
+	 * @param name
+	 * @param mime_type
+	 * @return String UUID
+	 */
+	public static String saveFileNGetUuid(byte[] content, String name, String mime_type) {
+		try {
+			if(Core.isNotNull(name)) {
+				String extension = name.substring(name.indexOf("."));
+				File file = File.createTempFile(name, extension);
+				FileOutputStream out = new FileOutputStream(file);
+				out.write(content);
+				out.flush();
+				out.close();
+				return Core.saveFileNGetUuid(file, name,mime_type, Core.getCurrentDadParam());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	
 	/**Insert a Part to the Igrp core DataBase and return an Id ...
@@ -1987,6 +2023,28 @@ public final class Core { // Not inherit
 		return new Integer(0);
 	}
 	
+	/**Insert a Part to the Igrp core DataBase and return an UUId ...
+	 * 
+	 * {@code  	 
+				try {
+				List<Part> parts = Core.getFiles();
+				for(int i=0;i<parts.size();i++) {
+				String desription = "";
+				int fileId = Core.saveFile(parts.get(i));
+				}
+				} catch (ServletException e) {
+				e.printStackTrace();
+				}}
+	 *			
+	 * @param part
+	 * @return {@code saveFile(part,part.getSubmittedFileName());}
+	 */
+	public static String saveFileNGetUuid(Part part) {
+		if(part!=null)
+			return Core.saveFileNGetUuid(part,part.getSubmittedFileName());
+		return "";
+	}
+	
 	/**
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
@@ -1996,10 +2054,26 @@ public final class Core { // Not inherit
 	public static Integer saveFile(File file) {
 		return Core.saveFile(file, null, null);
 	}
+	
+	/**
+	 * Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param file
+	 * @return String UUID
+	 */
+	public static String saveFileNGetUuid(File file) {
+		return Core.saveFileNGetUuid(file, null, null);
+	}
 
 	public static Integer saveFile(String parameterName) throws Exception {
 		if (Core.isNotNull(parameterName))
 			return Core.saveFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+	
+	public static String saveFileNGetUuid(String parameterName) throws Exception {
+		if (Core.isNotNull(parameterName))
+			return Core.saveFileNGetUuid(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
 		throw new Exception(gt("Parâmetro invalido"));
 	}
 
@@ -2009,8 +2083,18 @@ public final class Core { // Not inherit
 		throw new Exception(gt("Parâmetro invalido"));
 	}
 	
+	public static String saveFileNGetUuid(String parameterName, String description) throws Exception {
+		if (Core.isNotNull(parameterName))
+			return Core.saveFileNGetUuid(Core.getFile(parameterName), description);
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+	
 	public static Integer saveFile(File file, String name, String mime_type) {
 		return Core.saveFile(file, name, mime_type, Core.getCurrentDadParam());
+	}
+	
+	public static String saveFileNGetUuid(File file, String name, String mime_type) {
+		return Core.saveFileNGetUuid(file, name, mime_type, Core.getCurrentDadParam());
 	}
 	
 	public static Integer saveFile(byte[] bytes, String name, String mime_type,String dad) {
@@ -2026,7 +2110,7 @@ public final class Core { // Not inherit
 		return new Integer(0);
 	}
 	
-	public static String saveFileNGetUid(byte[] bytes, String name, String mime_type, String dad) {
+	public static String saveFileNGetUuid(byte[] bytes, String name, String mime_type, String dad) {
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
 			CLob clob = new CLob(name, mime_type,bytes , new Date(System.currentTimeMillis()), app);
@@ -2034,7 +2118,7 @@ public final class Core { // Not inherit
 			clob = clob.insert();
 			clob.showMessage();
 			if(!clob.hasError())
-				return clob.getUid(); 
+				return clob.getUuid(); 
 		}
 		return null;
 	}
@@ -2062,6 +2146,29 @@ public final class Core { // Not inherit
 		}
 		return new Integer(0);
 	}
+	
+	/**
+	 * Insert a file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @return String UUID
+	 */
+	public static String saveFileNGetUuid(File file, String name, String mime_type,String dad) {
+		if(Core.isNotNullMultiple(file,name,dad)) {
+			FileNameMap fileNameMap = URLConnection.getFileNameMap();
+			String mime_type_ = (mime_type == null || mime_type.trim().isEmpty()
+					? fileNameMap.getContentTypeFor(file.getPath())
+					: mime_type);
+			try (FileInputStream in = new FileInputStream(file)){
+				return Core.saveFileNGetUuid(FileHelper.convertInputStreamToByte(in),name,mime_type_,dad);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+	}
 
 	/**
 	 * Insert a Part file to the Igrp core DataBase and return an Id ...
@@ -2075,6 +2182,30 @@ public final class Core { // Not inherit
 		if(Core.isNotNullMultiple(part,name)) {
 			try {
 				result = Core.saveFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					part.delete();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	/**
+	 * Insert a Part file to the Igrp core DataBase and return an Id ...
+	 * 
+	 * @param part
+	 * @param name
+	 * @return String UUID
+	 */
+	public static String saveFileNGetUuid(Part part, String name) {
+		String result ="";
+		if(Core.isNotNullMultiple(part,name)) {
+			try {
+				result = Core.saveFileNGetUuid(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}finally {

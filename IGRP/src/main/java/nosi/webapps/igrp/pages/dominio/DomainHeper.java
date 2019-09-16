@@ -55,7 +55,7 @@ public class DomainHeper {
 
 	public static boolean saveDomain(Dominio model) {
 		if (Core.isNotNull(model.getNovo_dominio())) {
-			return !(new Domain(model.getNovo_dominio(), "", "", "ATIVE", 0,getDomainType(model.getAplicacao()==null?1:0) ,Core.findApplicationById(model.getAplicacao())).insert().hasError());
+			return !(new Domain(model.getNovo_dominio(), "", "", "ATIVE", 0,getDomainType(model.getAplicacao()==null?1:0) ,Core.isNullOrZero(model.getAplicacao())?null:Core.findApplicationById(model.getAplicacao())).insert().hasError());
 		}
 		return false;
 	}
@@ -97,7 +97,7 @@ public class DomainHeper {
 						"ATIVE",
 						order,
 						getDomainType(model.getAplicacao()==null?1:0),
-						Core.findApplicationById(model.getAplicacao()));
+						Core.isNullOrZero(model.getAplicacao())?null:Core.findApplicationById(model.getAplicacao()));
 		d = d.insert();
 		if (d.hasError()) {
 			d.showMessage();

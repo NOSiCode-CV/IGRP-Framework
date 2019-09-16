@@ -1477,3 +1477,8 @@ new rows / columns style
 .IGRP-gen-table-colors{
 	border:1px solid #EAEAEA!important;
 }
+
+	.list-group.lavel-menu.table-context-menu.clearfix.table-ctx-holder.gen-ctx-menu.ui-sortable.open:hover li.operationTable >a{
+	margin-right:18px;
+		margin-left:18px;
+	}

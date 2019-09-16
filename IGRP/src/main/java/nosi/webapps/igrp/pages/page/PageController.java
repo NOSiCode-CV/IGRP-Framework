@@ -411,8 +411,8 @@ public class PageController extends Controller {
 			messages += ("<message type=\""+FlashMessage.SUCCESS+"\">" + StringEscapeUtils.escapeXml10(Core.toJson(new MapErrorCompile(ac.getIsComponent() == 0 ? Core.gt("CompSuc"): Core.gt("Componente registado com sucesso"), null)))+ "</message>");
 		}
 		
-		if(ac != null && pageFile != null) 
-			saveCommitNPush(ac.getApplication().getDad(), ac.getPage(), pageFile); 
+//		if(ac != null && pageFile != null) 
+//			saveCommitNPush(ac.getApplication().getDad(), ac.getPage(), pageFile); 
 		
 		return this.renderView("<messages>"+messages+"</messages>");
 	}

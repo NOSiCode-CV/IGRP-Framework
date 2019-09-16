@@ -66,7 +66,7 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	
 	private String estado = "A"; // A -> Ativo; I -> InAtivo  
 	
-	private String uid;
+	private String uuid;
 	
 	public CLob(){}
 	
@@ -162,15 +162,15 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 	}
 	
 	public void generateUid() {
-		this.uid = java.util.UUID.randomUUID().toString().replaceAll("-", "");
+		this.uuid = java.util.UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
-	public String getUid() {
-		return uid;
+	public String getUuid() {
+		return uuid;
 	}
 
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class CLob extends IGRPBaseActiveRecord<CLob> implements Serializable{
 		return "CLob [id=" + id + ", name=" + name + ", mime_type=" + mime_type + ", c_lob_content="
 				+ Arrays.toString(c_lob_content) + ", dt_created=" + dt_created + ", application=" + application
 				+ ", application_updated=" + application_updated + ", dt_updated=" + dt_updated + ", user=" + user
-				+ ", estado=" + estado + ", uid=" + uid + "]";
+				+ ", estado=" + estado + ", uuid=" + uuid + "]";
 	}
 
 	public void invalidate() {
