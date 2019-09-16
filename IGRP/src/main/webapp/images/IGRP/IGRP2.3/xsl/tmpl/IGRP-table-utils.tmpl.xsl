@@ -83,13 +83,20 @@
    
     <xsl:param name="use-fa" select="'true'"/>
     <xsl:param name="view"/>
+    
+    <xsl:variable name="vclass">
+      <xsl:choose>
+        <xsl:when test="$view = 'lavel-menu'">btn</xsl:when>
+        <xsl:otherwise>list-group-item</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
     <div class="list-group {$view} table-context-menu clearfix table-ctx-holder" use-fa="{$use-fa}" >
         <xsl:for-each select="item">
           <li id="CTX_ID_{position()}" class="operationTable " ctx-type="{@type}" trel="{@rel}">
             <xsl:call-template name="table-ctx-item">
               <xsl:with-param name="use-fa" select="$use-fa"/>
-              <xsl:with-param name="class" select="'list-group-item'"/>
+              <xsl:with-param name="class" select="$vclass"/>
               <xsl:with-param name="view" select="$view"/>
             </xsl:call-template>
           </li>
