@@ -49,23 +49,23 @@ public class DominioView extends View {
 		
 		lst_dominio = new ListField(model,"lst_dominio");
 		lst_dominio.setLabel(gt("Editar domínio"));
-		lst_dominio.propertie().add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		lst_dominio.propertie().add("remote",new Config().getResolveUrl("igrp","Dominio","index")).add("remote",new Config().getResolveUrl("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
-		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
+		novo_dominio.propertie().add("name","p_novo_dominio").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("dad_name Ex: igrp_types_doc")).add("desclabel","false");
 		
 		app = new HiddenField(model,"app");
 		app.setLabel(gt(""));
 		app.propertie().add("name","p_app").add("type","hidden").add("maxlength","250").add("java-type","Integer").add("tag","app");
 		
 		description = new TextField(model,"description");
-		description.setLabel(gt("Nome"));
-		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false").add("desc","true");
+		description.setLabel(gt("Descrição"));
+		description.propertie().add("name","p_description").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Yes")).add("desclabel","false").add("desc","true");
 		
 		key = new TextField(model,"key");
-		key.setLabel(gt("Valor"));
-		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false").add("desc","true");
+		key.setLabel(gt("Chave"));
+		key.propertie().add("name","p_key").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("Y")).add("desclabel","false").add("desc","true");
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Ativo?"));

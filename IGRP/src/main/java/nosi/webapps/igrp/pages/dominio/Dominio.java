@@ -7,20 +7,26 @@ import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.validation.Valid;
 public class Dominio extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_aplicacao")
 	private Integer aplicacao;
+
 	@RParam(rParamName = "p_lst_dominio")
 	private String lst_dominio;
+
 	@RParam(rParamName = "p_novo_dominio")
 	private String novo_dominio;
+
 	@RParam(rParamName = "p_app")
 	private Integer app;
 	
 	@SeparatorList(name = Formlist_1.class)
+	@Valid
 	private List<Formlist_1> formlist_1 = new ArrayList<>();	
 	public void setFormlist_1(List<Formlist_1> formlist_1){
 		this.formlist_1 = formlist_1;
@@ -94,10 +100,14 @@ public class Dominio extends Model{
 
 	public static class Formlist_1{
 		private Pair formlist_1_id;
+
 		private Pair description;
+
 		private Pair key;
+
 		private Pair estado;
 		private Pair estado_check;
+
 		private Pair ordem;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;

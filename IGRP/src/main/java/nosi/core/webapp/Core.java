@@ -838,8 +838,8 @@ public final class Core { // Not inherit
 		return "9";
 	}
 
-
-	/** 
+@Deprecated
+	/** Use getFileByUuid(
 	 * @param fileId 
 	 * @return
 	 */
@@ -923,7 +923,7 @@ public final class Core { // Not inherit
 	 */
 	public static boolean invalidateFile(String uuid) {
 		boolean r = false; 
-		CLob file = new CLob().find().andWhere("uuid", "=", "").one();
+		CLob file = new CLob().find().andWhere("uuid", "=",uuid).one();
 		if(file != null) {
 			file.invalidate(); 
 			file = file.update(); 
@@ -986,7 +986,8 @@ public final class Core { // Not inherit
 	}
 
 
-	/**
+	@Deprecated
+	/**Use getLinkFileByUuid()
 	 * Link to get file
 	 * 
 	 * 
@@ -1007,7 +1008,12 @@ public final class Core { // Not inherit
 	public static String getLinkFileByUuid(String uuid) {
 		return Route.getResolveUrl("igrp", "File", "get-file&uuid=" + uuid);
 	}
-
+	@Deprecated
+	/**Use getLinkFileByUuid()
+	 * 
+	 * @param p_id
+	 * @return
+	 */
 	public static String getLinkFile(int p_id) {
 		return Route.getResolveUrl("igrp", "File", "get-file&p_id=" + p_id);
 	}
@@ -1837,12 +1843,14 @@ public final class Core { // Not inherit
 	}
 	
 
-	/**
-	 * update a file to the Igrp core DataBase and return true or false ...
+	@Deprecated
+	/** Deprecated use updateFile with uuid
 	 * 
-	 * @param content in byte
+	 * @param content
 	 * @param name
-	 * @return true|false
+	 * @param mime_type
+	 * @param id
+	 * @return
 	 */
 	public static boolean updateFile(byte[] content, String name, String mime_type, Integer id) {
 		try {
@@ -1860,35 +1868,141 @@ public final class Core { // Not inherit
 		}
 		return false;
 	}
+	
+	/**update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param content
+	 * @param name
+	 * @param mime_type
+	 * @param uuid
+	 * @return true|false
+	 */
+	
+	public static boolean updateFile(byte[] content, String name, String mime_type, String uuid) {
+		try {
+			if(Core.isNotNull(name)) {
+				String extension = name.substring(name.indexOf("."));
+				File file = File.createTempFile(name, extension);
+				FileOutputStream out = new FileOutputStream(file);
+				out.write(content);
+				out.flush();
+				out.close();
+				return updateFile(file, name,mime_type, Core.getCurrentDadParam(),uuid);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 
-	/**
-	 * update a file to the Igrp core DataBase and return true or false ...
+	@Deprecated
+	/** Deprecated use updateFile with uuid
 	 * 
 	 * @param file
 	 * @param id
-	 * @return true|false
+	 * @return
 	 */
 	public static boolean updateFile(File file,Integer id) {
 		return updateFile(file, null, null,id);
 	}
-
+	
+	/**
+	 * update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param file
+	 * @param uuid
+	 * @return true|false
+	 */
+	public static boolean updateFile(File file,String uuid) {
+		return updateFile(file, null, null,uuid);
+	}
+	@Deprecated
+	/** Deprecated use updateFile with uuid
+	 * 
+	 * @param parameterName
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean updateFile(String parameterName,Integer id) throws Exception {
 		if (Core.isNotNull(parameterName))
 			return updateFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName(),id);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
-
+	/** by UUID - update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param parameterName
+	 * @param uuid
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean updateFile(String parameterName,String uuid) throws Exception {
+		if (Core.isNotNull(parameterName))
+			return updateFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName(),uuid);
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+	@Deprecated
+	/** Deprecated use updateFile with uuid
+	 * 
+	 * @param parameterName
+	 * @param description
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean updateFile(String parameterName, String description,Integer id) throws Exception {
 		if (Core.isNotNull(parameterName))
 			return updateFile(Core.getFile(parameterName), description,id);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
-	
+	/** by UUID - update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param parameterName
+	 * @param description
+	 * @param uuid
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean updateFile(String parameterName, String description,String uuid) throws Exception {
+		if (Core.isNotNull(parameterName))
+			return updateFile(Core.getFile(parameterName), description,uuid);
+		throw new Exception(gt("Parâmetro invalido"));
+	}
+	@Deprecated
+	/** Deprecated use updateFile with uuid
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @param id
+	 * @return
+	 */
 	public static boolean updateFile(File file, String name, String mime_type,Integer id) {
 		return updateFile(file, name, mime_type, Core.getCurrentDadParam(),id);
 	}
+	/** by UUID - update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @param uuid
+	 * @return
+	 */
+	public static boolean updateFile(File file, String name, String mime_type,String uuid) {
+		return updateFile(file, name, mime_type, Core.getCurrentDadParam(),uuid);
+	}
 	
+	@Deprecated
+	/** Deprecated use updateFile with uuid
+	 * 
+	 * @param bytes
+	 * @param name
+	 * @param mime_type
+	 * @param dad
+	 * @param id
+	 * @return
+	 */
 	public static boolean updateFile(byte[] bytes, String name, String mime_type,String dad,Integer id) {
 		CLob clob = new CLob().findOne(id);
 		if(Core.isNotNullMultiple(clob,bytes,name) && id.intValue()>0) {
@@ -1902,12 +2016,37 @@ public final class Core { // Not inherit
 		}
 		return false;
 	}
-	/**
-	  * update a file to the Igrp core DataBase and return true or false ...
+	/** update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param bytes
+	 * @param name
+	 * @param mime_type
+	 * @param dad
+	 * @param uuid
+	 * @return true|false
+	 */
+	public static boolean updateFile(byte[] bytes, String name, String mime_type,String dad,String uuid) {
+		CLob clob = getFileByUuid(uuid);
+		if(Core.isNotNullMultiple(clob,bytes,name,uuid)) {
+			clob.setC_lob_content(bytes);
+			clob.setDt_updated(new Date(System.currentTimeMillis()));
+			clob.setApplication_updated(new Application().findByDad(Core.getCurrentDadParam()));
+			clob.setName(name);
+			clob.setMime_type(mime_type);
+			clob = clob.update();
+			return !clob.hasError();
+		}
+		return false;
+	}
+	@Deprecated
+	/** Deprecated use updateFile with uuid
 	 * 
 	 * @param file
 	 * @param name
-	 * @return true|false
+	 * @param mime_type
+	 * @param dad
+	 * @param id
+	 * @return
 	 */
 	public static boolean updateFile(File file, String name, String mime_type,String dad,Integer id) {
 		if(Core.isNotNullMultiple(file,name,dad)) {
@@ -1923,19 +2062,70 @@ public final class Core { // Not inherit
 		}
 		return false;
 	}
+	/**update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @param dad
+	 * @param uuid
+	 * @return true|false
+	 */
+	public static boolean updateFile(File file, String name, String mime_type,String dad,String uuid) {
+		if(Core.isNotNullMultiple(file,name,dad)) {
+			FileNameMap fileNameMap = URLConnection.getFileNameMap();
+			String mime_type_ = (mime_type == null || mime_type.trim().isEmpty()
+					? fileNameMap.getContentTypeFor(file.getPath())
+					: mime_type);
+			try(FileInputStream in = new FileInputStream(file)) {
+				return updateFile(FileHelper.convertInputStreamToByte(in),name,mime_type_,dad,uuid);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 
-	/**
-	 * update a Part of file to the Igrp core DataBase and return true or false ...
+	@Deprecated
+	/** Deprecated use updateFile with uuid
 	 * 
 	 * @param part
 	 * @param name
-	 * @return true|false
+	 * @param id
+	 * @return
 	 */
 	public static boolean updateFile(Part part, String name,Integer id) {
 		boolean result = false;
 		if(Core.isNotNullMultiple(part,name)) {
 			try {
 				result = updateFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType(),id);
+			} catch (IOException e) {
+				result = false;
+				e.printStackTrace();
+			}finally {
+				try {
+					part.delete();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	
+	/** update a Part of file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param part
+	 * @param name
+	 * @param uuid
+	 * @return true|false
+	 */
+
+	public static boolean updateFile(Part part, String name,String uuid) {
+		boolean result = false;
+		if(Core.isNotNullMultiple(part,name)) {
+			try {
+				result = updateFile(FileHelper.convertInputStreamToByte(part.getInputStream()),name,part.getContentType(),uuid);
 			} catch (IOException e) {
 				result = false;
 				e.printStackTrace();
@@ -2000,8 +2190,9 @@ public final class Core { // Not inherit
 		return "";
 	}
 
-	
-	/**Insert a Part to the Igrp core DataBase and return an Id ...
+	@Deprecated
+	/**Use saveFileNGetUuid()
+	 * Insert a Part to the Igrp core DataBase and return an Id ...
 	 * 
 	 * {@code  	 
 				try {
@@ -2045,7 +2236,8 @@ public final class Core { // Not inherit
 		return "";
 	}
 	
-	/**
+	@Deprecated
+	/**Use saveFileNGetUuid()
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
 	 * @param file
@@ -2064,7 +2256,13 @@ public final class Core { // Not inherit
 	public static String saveFileNGetUuid(File file) {
 		return Core.saveFileNGetUuid(file, null, null);
 	}
-
+	@Deprecated
+	/**Use saveFileNGetUuid()
+	 * 
+	 * @param parameterName
+	 * @return
+	 * @throws Exception
+	 */
 	public static Integer saveFile(String parameterName) throws Exception {
 		if (Core.isNotNull(parameterName))
 			return Core.saveFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
@@ -2076,7 +2274,14 @@ public final class Core { // Not inherit
 			return Core.saveFileNGetUuid(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
 		throw new Exception(gt("Parâmetro invalido"));
 	}
-
+	@Deprecated
+	/**Use saveFileNGetUuid()
+	 * 
+	 * @param parameterName
+	 * @param description
+	 * @return
+	 * @throws Exception
+	 */
 	public static Integer saveFile(String parameterName, String description) throws Exception {
 		if (Core.isNotNull(parameterName))
 			return Core.saveFile(Core.getFile(parameterName), description);
@@ -2088,7 +2293,14 @@ public final class Core { // Not inherit
 			return Core.saveFileNGetUuid(Core.getFile(parameterName), description);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
-	
+	@Deprecated
+	/**Use saveFileNGetUuid()
+	 * 
+	 * @param file
+	 * @param name
+	 * @param mime_type
+	 * @return
+	 */
 	public static Integer saveFile(File file, String name, String mime_type) {
 		return Core.saveFile(file, name, mime_type, Core.getCurrentDadParam());
 	}
@@ -2096,7 +2308,15 @@ public final class Core { // Not inherit
 	public static String saveFileNGetUuid(File file, String name, String mime_type) {
 		return Core.saveFileNGetUuid(file, name, mime_type, Core.getCurrentDadParam());
 	}
-	
+	@Deprecated
+	/**Use saveFileNGetUuid()
+	 * 
+	 * @param bytes
+	 * @param name
+	 * @param mime_type
+	 * @param dad
+	 * @return
+	 */
 	public static Integer saveFile(byte[] bytes, String name, String mime_type,String dad) {
 		Application app = new Application().findByDad(dad);
 		if(Core.isNotNullMultiple(bytes,name,dad) && app!=null) {
@@ -2124,7 +2344,8 @@ public final class Core { // Not inherit
 	}
 	
 	
-	/**
+	@Deprecated
+	/**Use saveFileNGetUuid()
 	 * Insert a file to the Igrp core DataBase and return an Id ...
 	 * 
 	 * @param file
@@ -2170,7 +2391,8 @@ public final class Core { // Not inherit
 		return "";
 	}
 
-	/**
+	@Deprecated
+	/**Use saveFileNGetUuid()
 	 * Insert a Part file to the Igrp core DataBase and return an Id ...
 	 * 
 	 * @param part

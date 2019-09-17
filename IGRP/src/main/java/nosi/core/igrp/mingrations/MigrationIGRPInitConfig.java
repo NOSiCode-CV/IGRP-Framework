@@ -201,6 +201,9 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Pesquisa_empresa", "index", "nosi.webapps.igrp.pages", "igrp/pesquisa_empresa/Pesquisa_empresa.xsl", "Pesquisa Empresa", "Pesquisa Empresa", "2.3", 1, app_igrp));
 			//get(75)
 			actions.add(new Action("Daogenerator", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/daogenerator/Daogenerator.xsl", "DAOGenerator", "DAOGenerator", "2.3", 1, app_igrp_studio));
+			actions.add(new Action("Detalhes_dashboard_processo", "index", "nosi.webapps.igrp.pages", "igrp/detalhes_dashboard_processo/Detalhes_dashboard_processo.xsl", "Detalhes dashboard processo", "Detalhes dashboard processo", "2.3", 1, app_igrp));
+			
+			
 			
 			for(Action ac:actions){
 				ac.insert();
