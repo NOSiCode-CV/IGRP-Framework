@@ -411,7 +411,7 @@ var GENTABLE = function(name,params){
 					
 					field.parent.GET.fields().forEach(function(f){
 						
-						if(f.GET.tag() != field.GET.tag()){
+						if(f.GET.tag() != field.GET.tag() && f.GET.type() !== 'hidden'){
 							
 							if(f.GET.group_in && !f.GET.group_in())
 								
