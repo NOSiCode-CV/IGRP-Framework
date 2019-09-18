@@ -373,13 +373,13 @@ window.IGRPBlocklyInit = function(){
 					+'<category id="model" name="Custom Code" colour="300" class="blocly-dynamic">'
 					
 						 +'<block type="set_custom_line" prev-statement="" next-statement="" color="300">'
-					 		+'<value name="value1" type="dummy" title="custom code">'
+					 		+'<value name="value1" type="value" title="custom code">'
 					 			+'<field type="field_text" name="param" options=""></field>'
 							+'</value>'
 						 +'</block>'
 						 
 						 +'<block type="get_custom_line" output="" color="300">'
-						 	+'<value name="value1" type="dummy" title="custom code">'
+						 	+'<value name="value1" type="value" title="custom code">'
 						 		+'<field type="field_text" name="param" options=""></field>'
 						 	+'</value>'
 						 +'</block>'
@@ -389,6 +389,9 @@ window.IGRPBlocklyInit = function(){
 				 +'</category>'
 				 +'<sep class="blocly-dynamic"></sep>'
 			  );
+			
+			
+			
 		}
 	
 	if(addcombo!=0)
