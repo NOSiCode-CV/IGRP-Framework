@@ -722,24 +722,24 @@
 		
 		<xsl:if test="$hasLinkField[1]">
 		
-			<xsl:text>public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException {</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>int fileId = Core.getParamInt("file_id");</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>CLob c = Core.getFile(fileId);</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>byte[] content = c.getC_lob_content();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>String name = c.getName();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>String contentType = c.getMime_type();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>boolean download = false;</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>return this.xSend(content, name, contentType, download);</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+<!-- 			<xsl:text>public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException {</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>int fileId = Core.getParamInt("file_id");</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>CLob c = Core.getFile(fileId);</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>byte[] content = c.getC_lob_content();</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>String name = c.getName();</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>String contentType = c.getMime_type();</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>boolean download = false;</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>return this.xSend(content, name, contentType, download);</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
+<!-- 			<xsl:text>}</xsl:text> -->
+<!-- 			<xsl:value-of select="$newlineTab1"></xsl:value-of> -->
 			
 		</xsl:if>
 		

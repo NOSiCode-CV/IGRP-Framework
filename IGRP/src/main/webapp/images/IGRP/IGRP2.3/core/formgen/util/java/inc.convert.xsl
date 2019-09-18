@@ -26,14 +26,16 @@
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				
+				<xsl:when test="$from = 'String' and $to != 'Date' and $to != 'String' and $to != 'Link' ">	
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+				</xsl:when>
+				
 				<xsl:when test="$from = 'Integer' and $to = 'String'">	
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
 				</xsl:when>
 		
-				<xsl:when test="$from = 'Integer' and $to = 'Link'">	
-					<xsl:text>"</xsl:text><xsl:value-of select="$app-title"></xsl:value-of><xsl:text>","</xsl:text>
-					<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>","download&amp;file_id="+</xsl:text>
-					<xsl:value-of select="$value"></xsl:value-of>
+				<xsl:when test="$from = 'String' and $to = 'Link'">	
+					<xsl:text>Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				
 				<xsl:when test="$neto != '' ">
@@ -47,7 +49,7 @@
 				</xsl:when>
 				
 				<xsl:when test="$from = 'hidden' and $to = 'Integer'">
-				<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				
 				<xsl:when test="$from = 'Date' and $to = 'Integer'">
@@ -75,13 +77,17 @@
 				<xsl:when test=" $from = 'String' and $to = 'Date' ">
 					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
 				</xsl:when>  
-						
-				<xsl:when test=" $from = 'File' and $to = 'Integer' ">
-					<xsl:text>Core.saveFile("p_</xsl:text><xsl:value-of select="$valuechild"></xsl:value-of><xsl:text>,"dd-MM-yyyy"):null</xsl:text>
-				</xsl:when> 
 				
 				<xsl:when test=" $from = 'File' and $to = 'String' ">
-					<xsl:text>""+(Core.saveFile("p_</xsl:text><xsl:value-of select="$valuechild"></xsl:value-of><xsl:text>,"dd-MM-yyyy")):null</xsl:text>
+					<xsl:text>Core.saveFileNGetUuid("p_</xsl:text><xsl:value-of select="$valuechild"></xsl:value-of><xsl:text>")</xsl:text>
+				</xsl:when> 
+				
+				<xsl:when test=" $from = 'File' and $to = 'Integer' ">
+					<xsl:text>"The type in the DAO Class to save File must be a String"</xsl:text>
+				</xsl:when> 
+				
+				<xsl:when test=" $from = 'File' and $to = 'Date' ">
+					<xsl:text>"The type in the DAO Class to save File must be a String"</xsl:text>
 				</xsl:when> 
 				
 				<xsl:when test="contains( $to ,'SelectDom*') ">
@@ -98,7 +104,6 @@
 						<xsl:variable name="domainvalue2" select="substring-after($to,'SelectDom*') "/>
 						<xsl:text>Core.findDomainDescByKey("</xsl:text><xsl:value-of select="$domainvalue2"></xsl:value-of><xsl:text>",</xsl:text>
 						<xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
-					
 					</xsl:otherwise>
 				
 				</xsl:choose> 
