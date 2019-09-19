@@ -1,44 +1,59 @@
 package nosi.webapps.igrp.pages.novomenu;
 
-
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class NovoMenu extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_env_fk")
 	private int env_fk;
+
 	@RParam(rParamName = "p_action_fk")
 	private int action_fk;
+
 	@RParam(rParamName = "p_detalhes")
 	private String detalhes;
+
 	@RParam(rParamName = "p_titulo")
 	private String titulo;
+
 	@RParam(rParamName = "p_status")
-	private Integer status;
+	private int status;
 	@RParam(rParamName = "p_status_check")
-	private Integer status_check;
+	private int status_check;
+
 	@RParam(rParamName = "p_extra")
 	private String extra;
+
 	@RParam(rParamName = "p_self_id")
 	private int self_id;
+
 	@RParam(rParamName = "p_orderby")
 	private int orderby;
+
 	@RParam(rParamName = "p_target")
 	private String target;
+
 	@RParam(rParamName = "p_link")
 	private String link;
+
 	@RParam(rParamName = "p_flg_base")
-	private Integer flg_base;
+	private int flg_base;
 	@RParam(rParamName = "p_flg_base_check")
-	private Integer flg_base_check;
+	private int flg_base_check;
+
 	@RParam(rParamName = "p_area")
 	private String area;
+
 	@RParam(rParamName = "p_img_src")
 	private String img_src;
+
 	@RParam(rParamName = "p_id")
 	private int id;
+
 	@RParam(rParamName = "p_app")
 	private int app;
 	
@@ -77,16 +92,16 @@ public class NovoMenu extends Model{
 		return this.titulo;
 	}
 	
-	public void setStatus(Integer status){
+	public void setStatus(int status){
 		this.status = status;
 	}
-	public Integer getStatus(){
+	public int getStatus(){
 		return this.status;
 	}
-	public void setStatus_check(Integer status_check){
+	public void setStatus_check(int status_check){
 		this.status_check = status_check;
 	}
-	public Integer getStatus_check(){
+	public int getStatus_check(){
 		return this.status_check;
 	}
 	
@@ -125,16 +140,16 @@ public class NovoMenu extends Model{
 		return this.link;
 	}
 	
-	public void setFlg_base(Integer flg_base){
+	public void setFlg_base(int flg_base){
 		this.flg_base = flg_base;
 	}
-	public Integer getFlg_base(){
+	public int getFlg_base(){
 		return this.flg_base;
 	}
-	public void setFlg_base_check(Integer flg_base_check){
+	public void setFlg_base_check(int flg_base_check){
 		this.flg_base_check = flg_base_check;
 	}
-	public Integer getFlg_base_check(){
+	public int getFlg_base_check(){
 		return this.flg_base_check;
 	}
 	

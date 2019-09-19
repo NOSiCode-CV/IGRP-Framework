@@ -158,7 +158,7 @@ public class EnvController extends Controller {
 			
 				Core.setMessageSuccess();	
 
-				loadOrInitializeGitRepository(app.getDad());
+				//loadOrInitializeGitRepository(app.getDad());
 				
 				return this.redirect("igrp_studio", "env","index");				
 			}else{

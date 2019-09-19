@@ -74,6 +74,7 @@ import nosi.core.webapp.helpers.RemoteXML;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.core.webapp.security.Permission;
+import nosi.core.webapp.uploadfile.UploadFile;
 import nosi.core.webapp.webservices.soap.SoapClient;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ActivityEcexuteType;
@@ -688,7 +689,7 @@ public final class Core { // Not inherit
 	 * @return {@code Organization String Code}
 	 */
 	public static String getCurrentOrganizationCode() {
-		return new Permission().getCurrentPerfilCode();
+		return new Permission().getCurrentOrganizationCode();
 	}
 	
 
@@ -2273,6 +2274,12 @@ public final class Core { // Not inherit
 		if (Core.isNotNull(parameterName))
 			return Core.saveFileNGetUuid(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName());
 		throw new Exception(gt("Parâmetro invalido"));
+	}
+	
+	public static String saveFileNGetUuid(UploadFile upFile) throws Exception {
+		if (Core.isNotNull(upFile))
+			return Core.saveFileNGetUuid(upFile.getBytes(), upFile.getSubmittedFileName(),null);
+		throw new Exception(gt("UploadFile invalido"));
 	}
 	@Deprecated
 	/**Use saveFileNGetUuid()

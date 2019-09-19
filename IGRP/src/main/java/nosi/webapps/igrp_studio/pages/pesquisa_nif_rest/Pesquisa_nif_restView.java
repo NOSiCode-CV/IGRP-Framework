@@ -6,8 +6,6 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 
 public class Pesquisa_nif_restView extends View {
 
@@ -22,7 +20,7 @@ public class Pesquisa_nif_restView extends View {
 	public Field dt_nascimento;
 	public Field nome_pai;
 	public Field nome_mae;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
@@ -32,7 +30,7 @@ public class Pesquisa_nif_restView extends View {
 
 		this.setPageTitle("Pesquisa NIF");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -49,39 +47,39 @@ public class Pesquisa_nif_restView extends View {
 		
 		nif = new NumberField(model,"nif");
 		nif.setLabel(gt("NIF"));
-		nif.propertie().add("name","p_nif").add("type","number").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","Integer").add("desclabel","false");
+		nif.propertie().add("remote",new Config().getResolveUrl("igrp_studio","Pesquisa_nif_rest","index")).add("name","p_nif").add("type","number").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("java-type","Integer").add("desclabel","false").add("min","").add("max","");
 		
 		nome_form = new TextField(model,"nome_form");
 		nome_form.setLabel(gt("Nome"));
-		nome_form.propertie().add("name","p_nome_form").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("desclabel","false");
+		nome_form.propertie().add("name","p_nome_form").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		n_documento_form = new NumberField(model,"n_documento_form");
 		n_documento_form.setLabel(gt("Nº Documento"));
-		n_documento_form.propertie().add("name","p_n_documento_form").add("type","number").add("min","").add("max","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("java-type","").add("desclabel","false");
+		n_documento_form.propertie().add("remote",new Config().getResolveUrl("igrp_studio","Pesquisa_nif_rest","index")).add("name","p_n_documento_form").add("type","number").add("min","").add("max","").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("java-type","").add("desclabel","false");
 		
 		nif_tab = new TextField(model,"nif_tab");
 		nif_tab.setLabel(gt("NIF"));
-		nif_tab.propertie().add("name","p_nif_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		nif_tab.propertie().add("name","p_nif_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_tab = new TextField(model,"nome_tab");
 		nome_tab.setLabel(gt("Nome"));
-		nome_tab.propertie().add("name","p_nome_tab").add("type","text").add("maxlength","30").add("showLabel","true");
+		nome_tab.propertie().add("name","p_nome_tab").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		documento_tab = new NumberField(model,"documento_tab");
 		documento_tab.setLabel(gt("Documento"));
-		documento_tab.propertie().add("name","p_documento_tab").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","String").add("showLabel","true");
+		documento_tab.propertie().add("name","p_documento_tab").add("type","number").add("min","").add("max","").add("maxlength","30").add("total_footer","false").add("java-type","String").add("showLabel","true").add("group_in","");
 		
 		dt_nascimento = new TextField(model,"dt_nascimento");
 		dt_nascimento.setLabel(gt("Dt. Nascimento"));
-		dt_nascimento.propertie().add("name","p_dt_nascimento").add("type","text").add("maxlength","30").add("showLabel","true");
+		dt_nascimento.propertie().add("name","p_dt_nascimento").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_pai = new TextField(model,"nome_pai");
 		nome_pai.setLabel(gt("Nome pai"));
-		nome_pai.propertie().add("name","p_nome_pai").add("type","text").add("maxlength","30").add("showLabel","true");
+		nome_pai.propertie().add("name","p_nome_pai").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_mae = new TextField(model,"nome_mae");
 		nome_mae.setLabel(gt("Nome mãe"));
-		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30").add("showLabel","true");
+		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 
 

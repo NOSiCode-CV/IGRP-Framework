@@ -6,6 +6,8 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 
 import nosi.core.webapp.webservices.rest.ConsumeJson;
@@ -26,7 +28,7 @@ public class Pesquisa_nif_restController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Iste sit stract unde laudantiu' as nif_tab,'Anim voluptatem ut accusantium' as nome_tab,'14' as documento_tab,'Dolor accusantium anim omnis u' as dt_nascimento,'Natus doloremque iste sit volu' as nome_pai,'Consectetur natus totam laudan' as nome_mae "));
+		model.loadTable_1(Core.query(null,"SELECT 'Perspiciatis anim sit doloremq' as nif_tab,'Sit aperiam rem mollit labore' as nome_tab,'21' as documento_tab,'Aliqua voluptatem totam consec' as dt_nascimento,'Mollit officia dolor natus ut' as nome_pai,'Elit ipsum sit natus aperiam' as nome_mae "));
 		view.tipo_contribuinte.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -54,10 +56,10 @@ public class Pesquisa_nif_restController extends Controller {
 		
 			if(Core.isNotNullOrZero(model.getNif()) || Core.isNotNull(model.getNome_form())) {
 				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), authorization);
-				JSONObject obj = new JSONObject(json);
-				JSONObject Entries = obj.getJSONObject("Entries");
+				
 				try {
-
+					JSONObject obj = new JSONObject(json);
+					JSONObject Entries = obj.getJSONObject("Entries");
 					JSONArray Entry = Entries.getJSONArray("Entry");
 					List<Pesquisa_nif_rest.Table_1> list_nif = new ArrayList<>();
 						for(int i = 0; i < Entry.length(); i++) {
@@ -111,8 +113,10 @@ public class Pesquisa_nif_restController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","Pesquisa_nif_rest","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","Pesquisa_nif_rest","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
 		return this.forward("igrp_studio","Pesquisa_nif_rest","index", model, this.queryString());
@@ -120,6 +124,8 @@ public class Pesquisa_nif_restController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	public HashMap<String, String> getMyContribuinte(){

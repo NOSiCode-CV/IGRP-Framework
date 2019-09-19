@@ -1,10 +1,5 @@
 package nosi.webapps.igrp_studio.pages.pesquisa_nif_rest;
 
-import java.math.BigInteger;
-import java.math.BigDecimal;
-import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPLink;
-import nosi.core.webapp.Report;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -13,14 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pesquisa_nif_rest extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_tipo_contribuinte")
 	private String tipo_contribuinte;
+
 	@RParam(rParamName = "p_nif")
 	private Integer nif;
+
 	@RParam(rParamName = "p_nome_form")
 	private String nome_form;
+
 	@RParam(rParamName = "p_n_documento_form")
 	private Integer n_documento_form;
 	

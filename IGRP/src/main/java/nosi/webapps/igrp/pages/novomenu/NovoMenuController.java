@@ -1,9 +1,13 @@
 package nosi.webapps.igrp.pages.novomenu;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Action;
@@ -116,8 +120,10 @@ public class NovoMenuController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoMenu","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","NovoMenu","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		int id = model.getId();
 
@@ -134,7 +140,7 @@ public class NovoMenuController extends Controller {
 			int app = Core.isNotNullOrZero(model.getEnv_fk()) ? model.getEnv_fk() : Core.getParamInt("p_app");
 			menu.setDescr(model.getTitulo());
 			menu.setApplication(Core.findApplicationById(app));
-			menu.setFlg_base(Core.isNotNull(model.getFlg_base()) ? 1 : 0);
+			menu.setFlg_base(model.getFlg_base());
 			menu.setOrderby(model.getOrderby());
 			menu.setStatus(model.getStatus());
 			menu.setTarget(model.getTarget());
@@ -198,6 +204,8 @@ public class NovoMenuController extends Controller {
 		return this.redirect("igrp","NovoMenu","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	private String getPageTituleByID(NovoMenu model) {
 		// System.out.println(model.getAction_fk());
