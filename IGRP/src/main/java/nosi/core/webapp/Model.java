@@ -266,6 +266,9 @@ public abstract class Model { // IGRP super model
 					String param = "p_" + m.getName() + "_fk";
 					String[] values1 = Core.getParamArray(param);
 					if((values1!=null && values1.length==0) || values1==null) {
+						values1 =  Core.getParamArray("p_" + m.getName());
+					}
+					if((values1!=null && values1.length==0) || values1==null) {
 						if(allFiles!=null && allFiles.containsKey(param)) {
 							values1 = allFiles.get(param).stream().map(f->f.getName()).toArray(String[]::new);
 						}
