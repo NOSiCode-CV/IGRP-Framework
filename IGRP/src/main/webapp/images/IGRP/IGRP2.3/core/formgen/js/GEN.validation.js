@@ -2,9 +2,47 @@
 	
 	var data, editionModal, validationTab, annotationsController, annotationsSelect, validationContents, validationsList, validationFormList, clonableTr, onEdition;
 
+	function SetFormFieldEvents(field){
+		
+		
+		
+	};
+	
 	function Config(){
 
 		if(annotationsController[0] && annotationsController[0].events){
+			
+			$(document).on('gen-edition-show', function(e,params){
+				
+				$('[rel="readonly"] .propriety-setter.checker', params.modal).on('change', function(){
+					
+					var checked = $(this).is(':checked');
+					
+					if(checked){
+
+						annotationsController[0].setRows([
+							
+							{
+								annotation : "@NotNull"
+							}
+
+						],{  
+							
+							prefix : false,
+							
+							trigger : false
+							
+						});
+						
+					}else{
+						
+						$('tbody tr td[item-name="annotation"] [name="annotation_fk"][value="@NotNull"]',annotationsController).parents('tr').remove();
+						
+					}
+						
+				});
+				
+			});
 			
 			annotationsController[0].events.on('row-add', function(o){
 				
@@ -14,8 +52,10 @@
 			
 			//validate unique groups
 			annotationsController[0].events.on('valid-row-add', function(o){
-
+	
 				var valid 		    = true,
+				
+					_data  		    = annotationsController[0].toJSON(),
 				
 					annotationField = o.values.annotation.field,
 				
@@ -70,6 +110,37 @@
 					}
 					
 				}
+				
+				
+				var addedAnnotation = o.values.annotation.value[0];
+				
+				for(var x = 0; x < _data.length; x++){
+					
+					var item = _data[x];
+					
+					if(item.annotation == addedAnnotation){
+						
+						valid = false;
+						
+						$.IGRP.notify({
+							
+							message   : 'Validation Already Set!',
+							
+							type      : 'warning',
+							
+							component : 'field_validations',
+							
+							appendTo  : '.validations-message'
+								
+						});
+						
+						break;
+					}
+						
+					
+				}
+				//annotationsController[0].toJSON().
+				
 				
 				return valid;
 			});
@@ -194,6 +265,7 @@
 				annotationsSelect.trigger('change');
 				
 				annotationsController[0].resetAll();
+			
 
 				annotationsController[0].setRows(fieldValidations, {  
 					
@@ -204,6 +276,9 @@
 				});
 				
 				validationTab.show();
+				
+				/* dynamically set annotations */
+				SetFormFieldEvents( field );
 				
 			}
 
@@ -278,7 +353,7 @@
 	
 			return rtn;
 
-		})
+		});
 		
 	};
 	
