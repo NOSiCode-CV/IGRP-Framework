@@ -7,69 +7,44 @@
 		$(document).on('gen-edition-show', function(e,params){
 
 			$('[rel="required"] .propriety-setter.checker', params.modal).on('change', function(){
-
 				
 				var checked = $(this).is(':checked');
 				
-				if(checked){
-
-					annotationsController[0].setRows([
-						
-						{
-							annotation : "@NotNull"
-						}
-
-					],{  
-						
+				if(checked)
+					annotationsController[0].setRows([{annotation : "@NotNull"}],{  
 						prefix : false,
-						
 						trigger : false
-						
 					});
-					
-				}else{
+				else
 					
 					$('tbody tr td[item-name="annotation"] [name="annotation_fk"][value="@NotNull"]',annotationsController).parents('tr').remove();
-					
-				}
 					
 			});
 			
 		});
-		
 		
 	};
 	
 	function SetMinMaxValidation(){
 		
 		$(document).on('gen-edition-show', function(e,params){
-			
-			$('[rel="readonly"] .propriety-setter.checker', params.modal).on('change', function(){
-				
-				var checked = $(this).is(':checked');
-				
-				if(checked){
 
-					annotationsController[0].setRows([
-						
-						{
-							annotation : "@NotNull"
-						}
-
-					],{  
-						
+			$('.propriety-setter[name="edit-min"]', params.modal).on('blur', function(){
+				
+				var val = $(this).val() ? $(this).val()*1 : null;
+				
+				if(val){
+					
+					annotationsController[0].setRows([{
+						annotation : "@Min",
+						value      : val
+					}],{  
 						prefix : false,
-						
 						trigger : false
-						
 					});
 					
-				}else{
-					
-					$('tbody tr td[item-name="annotation"] [name="annotation_fk"][value="@NotNull"]',annotationsController).parents('tr').remove();
-					
 				}
-					
+				
 			});
 			
 		});
@@ -82,7 +57,7 @@
 			
 			SetNotNullWhenRequired();
 			
-			SetMinMaxValidation();
+			//SetMinMaxValidation();
 			
 			annotationsController[0].events.on('row-add', function(o){
 				
@@ -151,8 +126,7 @@
 					
 				}
 				
-				
-				var addedAnnotation = o.values.annotation.value[0];
+				/*var addedAnnotation = o.values.annotation.value[0];
 				
 				for(var x = 0; x < _data.length; x++){
 					
@@ -178,7 +152,7 @@
 					}
 						
 					
-				}
+				}*/
 				//annotationsController[0].toJSON().
 				
 				

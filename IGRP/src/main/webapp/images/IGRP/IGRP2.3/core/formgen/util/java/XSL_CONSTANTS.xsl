@@ -628,6 +628,23 @@
 			</xsl:call-template>
 			<xsl:value-of select="')'"/>
 		</xsl:for-each>
+		
+		<xsl:if test="@min or @max">
+		
+			<xsl:if test="@min and @min!=''">
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="concat('@',$prefix,'Min(value=',$double_quotes,@min,$double_quotes,')')"/>
+			</xsl:if>
+			
+			<xsl:if test="@max and @max!=''">
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="concat('@',$prefix,'Max(value=',$double_quotes,@max,$double_quotes,')')"/>
+			</xsl:if>
+			
+		</xsl:if>
+		
 		<xsl:value-of select="$newline"/>
 	</xsl:template>
 	
