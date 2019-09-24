@@ -2,47 +2,87 @@
 	
 	var data, editionModal, validationTab, annotationsController, annotationsSelect, validationContents, validationsList, validationFormList, clonableTr, onEdition;
 
-	function SetFormFieldEvents(field){
+	function SetNotNullWhenRequired(field){
 		
+		$(document).on('gen-edition-show', function(e,params){
+
+			$('[rel="required"] .propriety-setter.checker', params.modal).on('change', function(){
+
+				
+				var checked = $(this).is(':checked');
+				
+				if(checked){
+
+					annotationsController[0].setRows([
+						
+						{
+							annotation : "@NotNull"
+						}
+
+					],{  
+						
+						prefix : false,
+						
+						trigger : false
+						
+					});
+					
+				}else{
+					
+					$('tbody tr td[item-name="annotation"] [name="annotation_fk"][value="@NotNull"]',annotationsController).parents('tr').remove();
+					
+				}
+					
+			});
+			
+		});
 		
 		
 	};
+	
+	function SetMinMaxValidation(){
+		
+		$(document).on('gen-edition-show', function(e,params){
+			
+			$('[rel="readonly"] .propriety-setter.checker', params.modal).on('change', function(){
+				
+				var checked = $(this).is(':checked');
+				
+				if(checked){
+
+					annotationsController[0].setRows([
+						
+						{
+							annotation : "@NotNull"
+						}
+
+					],{  
+						
+						prefix : false,
+						
+						trigger : false
+						
+					});
+					
+				}else{
+					
+					$('tbody tr td[item-name="annotation"] [name="annotation_fk"][value="@NotNull"]',annotationsController).parents('tr').remove();
+					
+				}
+					
+			});
+			
+		});
+		
+	}
 	
 	function Config(){
 
 		if(annotationsController[0] && annotationsController[0].events){
 			
-			$(document).on('gen-edition-show', function(e,params){
-				
-				$('[rel="readonly"] .propriety-setter.checker', params.modal).on('change', function(){
-					
-					var checked = $(this).is(':checked');
-					
-					if(checked){
-
-						annotationsController[0].setRows([
-							
-							{
-								annotation : "@NotNull"
-							}
-
-						],{  
-							
-							prefix : false,
-							
-							trigger : false
-							
-						});
-						
-					}else{
-						
-						$('tbody tr td[item-name="annotation"] [name="annotation_fk"][value="@NotNull"]',annotationsController).parents('tr').remove();
-						
-					}
-						
-				});
-				
-			});
+			SetNotNullWhenRequired();
+			
+			SetMinMaxValidation();
 			
 			annotationsController[0].events.on('row-add', function(o){
 				
@@ -277,8 +317,6 @@
 				
 				validationTab.show();
 				
-				/* dynamically set annotations */
-				SetFormFieldEvents( field );
 				
 			}
 
