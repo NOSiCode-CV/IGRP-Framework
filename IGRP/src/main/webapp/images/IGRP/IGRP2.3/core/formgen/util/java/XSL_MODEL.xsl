@@ -391,7 +391,7 @@
    		
    		<xsl:variable name="chartType">
    			<xsl:choose>
-   				<xsl:when test="chart_type='pie'">
+   				<xsl:when test="chart_type='pie' or chart_type='semipie' or chart_type='funnel' or chart_type='pyramid'">
    					<xsl:value-of select="'IGRPChart2D'"/>
    				</xsl:when>
    				<xsl:otherwise>
