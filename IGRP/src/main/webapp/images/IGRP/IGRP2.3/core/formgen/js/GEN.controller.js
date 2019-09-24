@@ -1817,6 +1817,11 @@ var GENERATOR = function(genparams){
 		$(document).trigger('gen-edition', [{ object: object }]);
 		
 		$(document).trigger('gen-'+genType+'-edition', [object]);
+		
+		$(document).trigger('gen-edition-show', {
+			onEdition : object,
+			modal : modal
+		});
 
 		GEN.edit.show();
 	}
