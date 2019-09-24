@@ -26,10 +26,6 @@
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				
-				<xsl:when test="$from = 'String' and $to != 'Date' and $to != 'String' and $to != 'Link' ">	
-					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
-				</xsl:when>
-				
 				<xsl:when test="$from = 'Integer' and $to = 'String'">	
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
 				</xsl:when>
@@ -79,7 +75,7 @@
 				</xsl:when>  
 				
 				<xsl:when test=" $from = 'File' and $to = 'String' ">
-					<xsl:text>Core.saveFileNGetUuid("p_</xsl:text><xsl:value-of select="$valuechild"></xsl:value-of><xsl:text>")</xsl:text>
+					<xsl:text>Core.saveFileNGetUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when> 
 				
 				<xsl:when test=" $from = 'File' and $to = 'Integer' ">
