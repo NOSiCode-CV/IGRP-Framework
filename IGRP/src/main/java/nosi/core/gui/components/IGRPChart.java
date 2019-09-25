@@ -112,6 +112,7 @@ public class IGRPChart extends IGRPComponent{
 		return this;
 	}
 	
+	@Override
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, this.properties);
@@ -123,7 +124,6 @@ public class IGRPChart extends IGRPComponent{
 		try {
 			this.genChart();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			Core.log("ERROR:" + e.getLocalizedMessage());
 			e.printStackTrace();
 		}
@@ -165,7 +165,7 @@ public class IGRPChart extends IGRPComponent{
 			}
 		}
 
-		if(valuesXY!=null && !valuesXY.isEmpty())
+		if(!valuesXY.isEmpty())
 			this.generateRowsValueXY(valuesXY);
 		else
 			this.generateRowsValueXYZ();
@@ -216,7 +216,7 @@ public class IGRPChart extends IGRPComponent{
 				try {
 					labels.add(t.get(0)!=null?t.get(0).toString():"");
 					String key = t.get(0)!=null?t.get(0).toString():"";
-					Object v = Core.toDouble(t.get(1)!=null?t.get(0).toString():"0.0");
+					Object v = Core.toDouble(t.get(1)!=null?t.get(1).toString():"0");
 					if(valuesXY.containsKey(key)) {
 						v=valuesXY.get(key);
 					}
@@ -245,12 +245,11 @@ public class IGRPChart extends IGRPComponent{
 			values2.add(t.get(1)!=null?t.get(1).toString():"");
 			LinkedHashMap<String, String> key = new LinkedHashMap<>();
 			key.put(t.get(0)!=null?t.get(0).toString():"",t.get(1)!=null?t.get(1).toString():"");						
-			double v = Core.toDouble(t.get(2)!=null?t.get(2).toString():"0.0");
+			double v = Core.toDouble(t.get(2)!=null?t.get(2).toString():"0").doubleValue();
 			if(result.containsKey(key)) {
-				v+=result.get(key);
-				result.remove(key);
+				v +=result.remove(key).doubleValue();
 			}
-			result.put(key ,v);
+			result.put(key,new Double(v));
 		});
 		this.xml.startElement("value");
 		values2.stream().forEach(v2->{
