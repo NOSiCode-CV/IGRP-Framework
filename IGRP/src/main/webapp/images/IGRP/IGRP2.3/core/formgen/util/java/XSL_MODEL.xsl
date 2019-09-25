@@ -153,8 +153,8 @@
 	    		<xsl:with-param name="name" select="name()" />
 	    	</xsl:call-template>
 			<xsl:value-of select="$newline"/>	
-
-		<!-- 	
+			
+			
 			<xsl:if test="@type = 'formlist' or @type = 'separatorlist'">
 			
 				<xsl:value-of select="$tab"/> 
@@ -201,8 +201,7 @@
 		    		<xsl:with-param name="javaType" select="'String[]'"/>
 		    	</xsl:call-template>
 	    	
-			</xsl:if> 
-			-->
+			</xsl:if>
 			<xsl:value-of select="$newline"/>
 			
 			
@@ -391,7 +390,7 @@
    		
    		<xsl:variable name="chartType">
    			<xsl:choose>
-   				<xsl:when test="chart_type='pie' or chart_type='semipie' or chart_type='funnel' or chart_type='pyramid'">
+   				<xsl:when test="chart_type='pie'">
    					<xsl:value-of select="'IGRPChart2D'"/>
    				</xsl:when>
    				<xsl:otherwise>
@@ -446,17 +445,10 @@
  		<xsl:value-of select="concat('public static class ',$tableName,'{')"/>
  		
  		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="$tab2"/>
 		<xsl:value-of select="concat('private Pair ',name(), '_id',';')"/>
  		
- 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat('private Pair ',name(), '_del',';')"/>
  		
- 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat('private Pair ',name(), '_edit',';')"/>
-		
  		<xsl:for-each select="fields/*">
  			<xsl:call-template name="validation-field">
     			<xsl:with-param name="prefix" select="'Pair'"/>
@@ -484,23 +476,6 @@
 	   		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
 	    </xsl:call-template>
  				
- 		<xsl:call-template name="gen-method-set-get">
-	   		<xsl:with-param name="type_content" select="'Pair'" />
-	   		<xsl:with-param name="type" select="'Pair'" />
-	   		<xsl:with-param name="name" select="concat(name(), '_del')" />
-	   		<xsl:with-param name="tab_" select="$tab2" />
-	   		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
-	    </xsl:call-template>
-	    
-    	<xsl:call-template name="gen-method-set-get">
-	   		<xsl:with-param name="type_content" select="'Pair'" />
-	   		<xsl:with-param name="type" select="'Pair'" />
-	   		<xsl:with-param name="name" select="concat(name(), '_edit')" />
-	   		<xsl:with-param name="tab_" select="$tab2" />
-	   		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
-	    </xsl:call-template>
-	    
-	    
  		<xsl:for-each select="fields/*">
  			<xsl:variable name="tag_name">
 				<xsl:value-of select="name()"/>
