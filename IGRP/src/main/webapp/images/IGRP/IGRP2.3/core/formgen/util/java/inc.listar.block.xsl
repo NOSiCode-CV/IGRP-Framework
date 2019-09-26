@@ -34,7 +34,7 @@
 	       	</xsl:call-template>
 	   	</xsl:variable>
 		
-		<xsl:variable name="table" select="field[@name='table']"/>
+		<xsl:variable name="table" select="substring-after(@type,'listar_')"/>
 		
 		<xsl:variable name="table_up">
 	       	<xsl:call-template name="InitCap">

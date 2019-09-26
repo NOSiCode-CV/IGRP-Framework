@@ -38,6 +38,7 @@
 				</xsl:when>
 				
 				<xsl:when test="@type = 'separator'">
+					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
@@ -69,14 +70,30 @@
 				</xsl:when>
 				
 				<xsl:when test="@type = 'save_separator'">
+				
+					<xsl:variable name="pagelow">
+						<xsl:call-template name="LowerCase">
+							<xsl:with-param name="text" select="$page-title"/>
+						</xsl:call-template>
+					</xsl:variable>
+					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.stream.Collectors;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.ArrayList;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.Arrays;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import java.util.List;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import org.hibernate.Session;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import org.hibernate.Transaction;</xsl:text>
+					<xsl:value-of select="$newline"></xsl:value-of>
+					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"></xsl:value-of>
+					<xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"></xsl:value-of>
+					<xsl:text>.</xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text>
+					<xsl:text>Separatorlist_1;</xsl:text>
 									
 				</xsl:when>
 				
@@ -113,7 +130,6 @@
 					<xsl:text>.dao.</xsl:text><xsl:value-of select="$className"></xsl:value-of>
 					<xsl:text>;</xsl:text>
 					
-				
 				</xsl:when>
 				
 				<xsl:when test="@type = 'fields'">

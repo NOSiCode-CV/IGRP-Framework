@@ -22,6 +22,9 @@
 		
 			<xsl:choose>
 			
+			
+			
+			
 				<xsl:when test="$from = 'String' and $to = 'Integer'">	
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
@@ -46,6 +49,14 @@
 				
 				<xsl:when test="$from = 'hidden' and $to = 'Integer'">
 					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+				</xsl:when>
+				
+				<xsl:when test="$from = 'Double' and $to = 'String'">
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
+				</xsl:when>
+				
+				<xsl:when test="$from = 'String' and $to = 'Double'">
+					<xsl:text>Core.toDouble(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
 				</xsl:when>
 				
 				<xsl:when test="$from = 'Date' and $to = 'Integer'">

@@ -46,6 +46,11 @@ function SetupBlockly(){
 		
 			IGRPElement = IGRP_BLOCKLY_ELEMENTS[type] || false;
 		
+			if( type.indexOf('listar_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.listar;
+				
+		
 		Blockly.Blocks[type] = {
 				
 			init : function() {
@@ -101,6 +106,8 @@ function SetupBlockly(){
 									
 									title = field.attr('title');
 								
+					
+								
 								if(title)
 									
 									value.appendField(title)
@@ -109,7 +116,10 @@ function SetupBlockly(){
 									
 									case 'dropdown':
 										
+					
 										var fieldValue = eval( field.attr('options') );
+										
+			
 										
 										if(fieldValue){
 											
