@@ -33,9 +33,7 @@ public class NovoMenuController extends Controller {
 		/*----#start-code(index)----*/
 
 		int id = model.getId();
-		
-	
-		if (Core.isNotNullOrZero(id)) {
+      if (Core.isNotNullOrZero(id)) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
 
@@ -196,7 +194,7 @@ public class NovoMenuController extends Controller {
 		if (Core.isNotNullOrZero(id)) {
 			return this.forward("igrp", "NovoMenu", "index");
 		} else if (Core.isNotNullOrZero(model.getEnv_fk())) {
-			this.addQueryString("app", model.getEnv_fk());
+			this.addQueryString("p_app", model.getEnv_fk());
 			return this.redirect("igrp", "NovoMenu", "index", this.queryString());
 		}
 

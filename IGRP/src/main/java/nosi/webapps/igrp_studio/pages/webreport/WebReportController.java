@@ -75,8 +75,9 @@ public class WebReportController extends Controller {
 							}
 						}
 					}
-				}
-				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+";";
+				}			
+
+				String link = "Core.getLinkReport(\""+r.getCode()+"\")"+params+"; //or Core.getLinkReport(\""+r.getCode()+"\",new Report()"+params+");";
 				t1.setDescricao(link);
 				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
 				t1.setLink_desc(r.getCode());

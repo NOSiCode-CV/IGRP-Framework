@@ -554,7 +554,7 @@ body.shown .io-help {
     left: 20px;
 }
 #igrp-contents .io-import-export{
-    left: 35px;
+       left: 77px;
 }
 .io-help, .io-legal, .io-import-export {
     bottom: 25px;
@@ -565,7 +565,7 @@ body.shown .io-help {
 }
 
 body:not(.sidebar-off) #igrp-contents .io-import-export{
-    left:calc(25% + 35px);
+    left:calc(25% + 77px);
 }
 
 .io-import {
@@ -768,6 +768,6 @@ textarea.error-log:hover {
 #igrp-contents #js-drop-zone{
     width: 100%;
     position: relative;
-    height: calc(100vh -55px) !important;
+    height: calc(100vh - 55px) !important;
     display: table;
 }

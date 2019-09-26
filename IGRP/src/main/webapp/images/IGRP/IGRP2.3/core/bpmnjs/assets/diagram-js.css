@@ -242,9 +242,9 @@ svg.new-parent {
 
 .djs-palette {
   position: absolute;
-  left: 20px;
-  top: 20px;
-
+  left: 0px;
+  top: 10px;
+padding-top:10px;
   width: 46px;
 }
 

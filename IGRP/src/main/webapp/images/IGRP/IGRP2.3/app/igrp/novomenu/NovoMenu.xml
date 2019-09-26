@@ -52,7 +52,7 @@
                 <app>igrp</app>
                 <page>NovoMenu</page>
                 <link>index</link>
-                <target>submit_ajax</target>
+                <target>submit</target>
                 <img>primary|fa-save</img>
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xml</preview>
             </item>
@@ -120,7 +120,7 @@
                 </detalhes>
                 <titulo name="p_titulo" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Título</label>
-                    <value>Aliqua labore totam amet consectetur</value>
+                    <value>Iste dolor lorem aperiam anim</value>
                 </titulo>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
@@ -153,7 +153,7 @@
                 </self_id>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int" desclabel="false">
                     <label>Posição</label>
-                    <value>16</value>
+                    <value>27</value>
                 </orderby>
                 <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="" tags="false">
                     <label>Target</label>
@@ -179,7 +179,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Link (Procedure)</label>
-                    <value>Stract amet totam anim lorem</value>
+                    <value>Voluptatem perspiciatis accusa</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Público?</label>
