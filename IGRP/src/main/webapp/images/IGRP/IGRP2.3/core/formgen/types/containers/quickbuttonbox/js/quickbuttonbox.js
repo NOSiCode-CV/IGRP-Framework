@@ -29,7 +29,7 @@
 				name      :'title',
 				label     :'Title',
 				value     :'Box Title',
-				isField   : true
+				isField   : true,
 				valuePersist : true
 			});
 
@@ -71,7 +71,7 @@
 					},
 					size:'12'
 				},
-				isField   : true
+				isField   : true,
 				valuePersist : true
 				
 			});
@@ -79,7 +79,7 @@
 			GEN.setImgAttr(container,{
 				name:'icn',
 				value:'fa-check',
-				isField   : true
+				isField   : true,
 				valuePersist : true
 			});
 
