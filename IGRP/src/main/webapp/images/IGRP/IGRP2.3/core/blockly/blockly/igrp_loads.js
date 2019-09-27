@@ -209,18 +209,17 @@ window.IGRPBlocklyInit = function(){
 				
 			var	 tag = $(field).prop('tagName');
 			
-			var type = $(field).attr('type');
+			var type = $(field).attr('java-type') || $(field).attr('type');
 			
 			var javaType = GetJavaType[type] || type || 'String';
 			
+				
 			fields_table.push([ tag, javaType + '::'+tag]);
 			
-			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );
+			IGRP_BLOCKLY_DROPS.tablesTest[element.tagName].push( [ tag, javaType + '::'+tag] );	
 			
 			})
-			
-			
-			
+	
 		});
 	 
 	// ********************************************** GET XML FIELDS  ***************************************
@@ -320,7 +319,7 @@ window.IGRPBlocklyInit = function(){
 			
 		var	 tag = $(field).prop('tagName');
 		
-		var type = $(field).attr('type');
+		var type = $(field).attr('java-type') || $(field).attr('type');
 		
 		var key  = $(field).attr('iskey');
 		
@@ -369,7 +368,7 @@ window.IGRPBlocklyInit = function(){
 			
 		var	 tag = $(field).prop('tagName');
 		
-		var type = $(field).attr('type');
+		var type = $(field).attr('java-type') || $(field).attr('type');
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		
@@ -390,7 +389,7 @@ window.IGRPBlocklyInit = function(){
 			
 		var	 tag = $(field).prop('tagName');
 		
-		var type = $(field).attr('type');
+		var type = $(field).attr('java-type') || $(field).attr('type');
 		
 		var javaType = GetJavaType[type] || type || 'String';
 		

@@ -208,10 +208,6 @@ function SetupBlockly(){
 				
 				if(mutateValue){
 					
-					console.log(mutateValue.split(','))
-					
-					console.log([ mutateValue.split(',')] )
-					
 					block.setMutator(new Blockly.Mutator( mutateValue.split(',') ));
 					
 				}

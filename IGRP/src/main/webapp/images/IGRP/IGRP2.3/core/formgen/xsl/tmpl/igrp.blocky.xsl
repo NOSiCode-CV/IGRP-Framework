@@ -8,7 +8,7 @@
 						<tr id="tabRow" height="1em">
 							<td id="tab_blocks" class="tabon">Blocks</td>
 							<td class="tabmax">
-								<button id="refresh_bloco" type="button">Refresh Workspace</button>
+ 								<button id="refresh_bloco" type="button">Refresh Workspace</button> 
 								<button id="save_bloco_igrp" type="button">Save Blocks</button>
 								<button id="restore_bloco_igrp" type="button">Restore Blocks</button>
 <!-- 								<button onclick="saveCode()">Salvar Java Code</button> -->
@@ -128,7 +128,7 @@
 					
 			</category>
 			
-			<category id="catVariables" custom="VARIABLE" name="Variables" default="true" colour="230"></category>
+<!-- 			<category id="catVariables" custom="VARIABLE" name="Variables" default="true" colour="230"></category> -->
 			
 			<sep></sep>
 			
