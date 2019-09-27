@@ -431,6 +431,13 @@
 
 							$.IGRP.components.contextMenu.set( p.content );
 
+						
+						com.configGroups({
+							
+							parent : p.content
+							
+						});
+						
 						if(table.hasClass('igrp-data-table')){
 							
 							$.IGRP.components.tableCtrl.dataTable({
