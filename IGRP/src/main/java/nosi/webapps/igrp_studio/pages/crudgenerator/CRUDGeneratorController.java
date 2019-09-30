@@ -4,6 +4,8 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
+import java.io.StringReader;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.config.Config;
@@ -14,10 +16,16 @@ import nosi.core.gui.page.Page;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.TransformerConfigurationException;
+
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
 import nosi.core.webapp.helpers.CheckBoxHelper;
@@ -421,8 +429,7 @@ public class CRUDGeneratorController extends Controller {
 		return flag;
 	}
 	
-	/******************** FIM METODO USADOS PARA GERAR DAO *******************/
-	
+	/******************** FIM METODO USADOS PARA GERAR DAO *******************/ 
 	
 	/*----#end-code----*/
 }

@@ -115,47 +115,51 @@ public class LookupListPageController extends Controller {
 		 return this.forward("igrp","LookupListPage","index", this.queryString()); //if submit, loads the values
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
-		ResultSet result  = new ResultSet();
-		if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
-			this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
-	
-			if(model.getFormlist_1() !=null) {
-				 Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
-					.where("processid=:processid AND taskid=:taskid")
-					.addString("processid", model.getProcessid())
-					.addString("taskid", model.getTaskid())
-					.execute();
-				 String[] p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
-				 if(p_checkbox_fk!=null) {
-					 List<String> listCheckBox = Arrays.asList(p_checkbox_fk);
-					 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk"));
-					 List<String> listObrigatorio = Arrays.asList(Core.getParamArray("p_obrigatorio_fk"));
-					 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk"));
-					 for(int i=0;i<listCheckBox.size();i++) {
-							if(Core.isNotNull(listCheckBox.get(i)) && Core.isNotNull(listTypeDoc.get(i))) {
-								int required = 0;
-								try {
-									required = Core.toInt(listObrigatorio.get(i));
-								}catch(IndexOutOfBoundsException e) {
-									required = 0;
+		try {
+			ResultSet result  = new ResultSet();
+			if(Core.isNotNull(model.getTaskid()) && Core.isNotNull(model.getProcessid()) && Core.isNotNull(model.getEnv_fk())) {
+				this.addQueryString("p_general_id", model.getTaskid()).addQueryString("p_process_id", model.getProcessid()).addQueryString("p_env_fk", model.getEnv_fk());
+		
+				if(model.getFormlist_1() !=null) {
+					 Core.delete(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG, "tbl_tipo_documento_etapa")
+						.where("processid=:processid AND taskid=:taskid")
+						.addString("processid", model.getProcessid())
+						.addString("taskid", model.getTaskid())
+						.execute();
+					 String[] p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
+					 if(p_checkbox_fk!=null) {
+						 List<String> listCheckBox = Arrays.asList(p_checkbox_fk);
+						 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk"));
+						 List<String> listObrigatorio = Arrays.asList(Core.getParamArray("p_obrigatorio_fk"));
+						 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk"));
+						 for(int i=0;i<listCheckBox.size();i++) {
+								if(Core.isNotNull(listCheckBox.get(i)) && Core.isNotNull(listTypeDoc.get(i))) {
+									int required = 0;
+									try {
+										required = Core.toInt(listObrigatorio.get(i));
+									}catch(IndexOutOfBoundsException e) {
+										required = 0;
+									}
+									if(listTypeDoc.get(i).equalsIgnoreCase("tp")) {
+										result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"tipo_documento_fk");
+									}else {
+										result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"report_fk");
+									}
 								}
-								if(listTypeDoc.get(i).equalsIgnoreCase("tp")) {
-									result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"tipo_documento_fk");
-								}else {
-									result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"report_fk");
-								}
-							}
+						 }
 					 }
-				 }
+				}
+			}else {
+				result.setError("Error...");
 			}
-		}else {
-			result.setError("Error...");
-		}
-		if(!result.hasError()) {
-			Core.setMessageSuccess();
-		}
-		else {
-			Core.setMessageError(result.getError()+":"+result.getSql());
+			if(!result.hasError()) {
+				Core.setMessageSuccess();
+			}
+			else {
+				Core.setMessageError(result.getError()+":"+result.getSql());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		/*----#end-code----*/
 		return this.redirect("igrp","LookupListPage","index", this.queryString());	
