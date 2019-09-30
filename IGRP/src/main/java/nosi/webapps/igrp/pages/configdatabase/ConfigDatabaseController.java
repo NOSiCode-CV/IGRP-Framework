@@ -2,11 +2,14 @@ package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
+import java.io.StringReader;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.dao_helper.SaveMapeamentoDAO;
 import nosi.core.webapp.security.EncrypDecrypt;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -14,9 +17,16 @@ import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.io.File;
+
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.json.JSONObject;
+
+import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import static nosi.core.i18n.Translator.gt;
@@ -320,8 +330,9 @@ public class ConfigDatabaseController extends Controller {
 			if (check) {
 				config = config.update();
 				
-				if (config != null) {
-					this.editConfigHibernateFile(config);
+				if (config != null) { // Editar aqui ... 
+					boolean success = updateHibernateConfigFileOfApp(config, model); 
+					System.out.println("Hibernate File .cfg updat status success = " + success);
 					Core.setMessageSuccess();
                     Core.setMessageInfo(gt(new ConfigDatabaseView().nome_de_conexao.getLabel())+": " + config.getName());
                     this.addQueryString("p_aplicacao",model.getAplicacao()); 
@@ -335,6 +346,7 @@ public class ConfigDatabaseController extends Controller {
 		return this.redirect("igrp","ConfigDatabase","index", this.queryString());	
 	}
 
+	/*
 	private void editConfigHibernateFile(Config_env config) throws IOException {
 		String oldConnName = Core.getParam("conn_name");
 		String oldAppName = Core.getParam("app_name");
@@ -346,7 +358,7 @@ public class ConfigDatabaseController extends Controller {
 			FileHelper.renameFile(pathWS + File.separator, oldConnName+"."+oldAppName+".cfg.xml", config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml");
 		}
 	}
-	
+	*/
 	private String getHibernateConfig(Config_env config,String package_) {
 		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 				"<!DOCTYPE hibernate-configuration PUBLIC\r\n" + 
@@ -387,5 +399,68 @@ public class ConfigDatabaseController extends Controller {
 				"</hibernate-configuration>";
 		return content;
 	}
+	
+	
+	
+	private boolean updateHibernateConfigFileOfApp(Config_env config, ConfigDatabase dados) {
+		boolean success = false;
+		try {
+			String fileName = config.getName()+"."+config.getApplication().getDad().toLowerCase() + ".cfg.xml"; 
+			String path = new Config().getPathConexao() ;
+			String cfgFileContent = SaveMapeamentoDAO.getHibernateConfig(path + File.separator + fileName); 
+			cfgFileContent = processHibernateConfigFileXml(cfgFileContent, config); 
+			if(cfgFileContent != null && !cfgFileContent.isEmpty()) 
+				success = this.saveFiles(fileName, cfgFileContent, path); 
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		}
+		return success;
+	}
+	
+	private String processHibernateConfigFileXml(String xmlInput, Config_env config) {
+		String xmlOutput = null; 
+		try {
+		//   Document originalDoc = new SAXReader().read(new StringReader("<root><given></given></root>")); 
+			Document doc = new SAXReader().read(new StringReader(xmlInput)); 
+			Element root = doc.getRootElement();
+
+			    // iterate through child elements of root
+			    Iterator<Element> i = root.elementIterator("session-factory"); 
+			    if(i.hasNext()) { 
+			    	Element element = (Element) i.next(); 
+			    	   Iterator<Element> j = element.elementIterator(); 
+			    	   while(j.hasNext()) { 
+			    		   Element property = (Element) j.next(); 
+			    		   String attr_name = property.attributeValue("name");
+			    		   if(attr_name != null) {
+			    			   if(attr_name.equals("hibernate.connection.url")) 
+			    				   property.setText(Core.decrypt(config.getUrl_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			    			   if(attr_name.equals("hibernate.connection.username")) 
+			    				   property.setText(Core.decrypt(config.getUsername(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			    			   if(attr_name.equals("hibernate.connection.password")) 
+			    				   property.setText(Core.decrypt(config.getPassword(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			    			   if(attr_name.equals("hibernate.connection.driver_class")) 
+			    				   property.setText(Core.decrypt(config.getDriver_connection(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB));
+			    			   if(attr_name.equals("hibernate.dialect")) 
+			    				   property.setText(DatabaseConfigHelper.getHibernateDialect(Core.decrypt(config.getType_db(),EncrypDecrypt.SECRET_KEY_ENCRYPT_DB)));
+			    		   }
+			    	   }
+			    }
+			    xmlOutput = doc.asXML();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return xmlOutput;
+	}
+	
+	private boolean saveFiles(String fileName,String content,String path) throws IOException {
+		boolean flag = false;
+		if(Core.isNotNull(content)) {
+			flag = FileHelper.save(path, fileName, content);
+		}
+		return flag;
+	}
+	
 	/*----#end-code----*/
 }
