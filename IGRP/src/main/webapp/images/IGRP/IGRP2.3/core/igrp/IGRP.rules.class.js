@@ -94,8 +94,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 								rule      : r
 							});
 
-
 							if(satisfyRule) 
+								
 								$.IGRP.rules.execute(r,field);
 						}
 							
@@ -172,7 +172,10 @@ if($ && $.IGRP && !$.IGRP.rules){
 					
 
 					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
+						
 						validateAndExecute($(this),rule);
+						
+						console.log(this);
 						
 					});
 
@@ -296,6 +299,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 			satisfy:function(r){
 
 				return !isNaN(r.fieldValue*1)?(r.fieldValue == r.rule.value):(r.fieldValue.toLowerCase() == r.rule.value.toLowerCase());
+				
 			},
 			opposite:'diff'
 		},
@@ -983,6 +987,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				var a = o.conditions.actions;
 				
+				console.log(a)
+				
 				if(a && a[0])
 					
 					a.forEach(function(act){	
@@ -1008,7 +1014,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 				oactions.forEach(function(a){
 					
-					a.action = actionsList[a.action] && actionsList[a.action].opposite ? actionsList[a.action].opposite : null;
+					a.action = actionsList[a.action] && actionsList[a.action].opposite ? actionsList[a.action].opposite : a.action;
 					
 				});
 				

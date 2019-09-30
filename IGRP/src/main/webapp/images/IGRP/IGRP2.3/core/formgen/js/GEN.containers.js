@@ -1198,8 +1198,8 @@ var CONTAINER = function(name,params){
 				containersIDs:[container.GET.id()]
 			}));
 
-			//console.log(tXML);
-			//console.log(tXSL)
+			console.log(tXML);
+			console.log(tXSL)
 			/*}catch(err){
 				console.log(err);
 			}*/
@@ -3023,6 +3023,7 @@ var CONTAINER = function(name,params){
 	};
 
 	container.clone = function(){
+		
 		var row = container.getRow(),
 
 			col = container.getColumn(),
@@ -3035,7 +3036,9 @@ var CONTAINER = function(name,params){
 
 		});
 
-		params.proprieties.tag = container.incrementTag('container',container.type);
+		params.proprieties.tag = container.incrementTag('container', container.type);
+		
+		params.id = container.type+(new Date()).getTime();
 
 		var clone = {
 			name   : container.type,
