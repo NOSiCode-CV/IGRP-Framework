@@ -1086,6 +1086,21 @@ public final class Core { // Not inherit
 			v = Core.getAttribute(name, isRemoved);
 		return v != null ? v.toString() : "";
 	}
+	
+	/**
+	 * @param name The name of parameter in queryString 
+	 * @return The value of parameter as String 
+	 */
+	public static String getReportParam(String name) {
+		String []name_array = Core.getParamArray("name_array"); 
+		String []value_array = Core.getParamArray("value_array"); 
+		if(name_array == null || value_array == null) return ""; 
+		for(int i = 0; i < name_array.length; i++) {
+			if(name_array[i].equals(name)) 
+				return value_array[i];
+		}
+		return "";
+	}
 
 	/**
 	 * {@code String[] value = Igrp.getInstance().getRequest().getParameterValues(name);}
