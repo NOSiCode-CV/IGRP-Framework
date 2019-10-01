@@ -179,10 +179,52 @@
     top: auto;
 }
 
-.IGRP_formlist.totalcol [type="number"][total-col="true"]{
+.IGRP_formlist.totalcol [type="number"][total-col="true"],
+.IGRP_formlist.totalrow [type="number"][total-row="true"],
+.IGRP_formlist.totalrow .total-row,
+.IGRP_formlist.totalrow .total-row input{
 	text-align: right;
 }
 
+.IGRP_formlist.totalrow .total-row input{
+	border:none;
+	outline: none;
+	-webkit-box-shadow:none;
+    box-shadow: none;
+}
+
 .IGRP_formlist.totalcol .total-col p{
-	padding:0 28px;
+	padding:0 28px 0 0;
+}
+
+table.IGRP_formlist tfoot{
+	background-color:transparent !important;
+}
+
+.IGRP_formlist.totalrow td.total-row,
+table.IGRP_formlist tfoot td:not(.notbackground),
+.IGRP_formlist.totalrow .total-row input{
+	background-color:#ececec !important;
+	font-weight: bold;
+}
+
+.IGRP_formlist.totalrow .total-row input{
+	padding: 0;
+}
+
+table.IGRP_formlist tfoot td:first-child{
+  position: relative;
+  padding-left: 30px;
+}
+
+table.IGRP_formlist tfoot td:first-child::after{
+  content: 'Total';
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  margin-top: -9px;
+}
+
+.IGRP_formlist.totalcol tfoot td:nth-last-child(2) p{
+	padding:0 15px 0 0;
 }

@@ -584,6 +584,21 @@
 	        }
 	
 	    });
+	
+	    $(document).on('change','.IGRP_formlist.totalrow [type="number"][total-row="true"]',function(){
+	        
+	        var $tr = $(this).parents('tr:first');
+	
+	        if($.IGRP.components.tableCtrl.operation){
+	
+	            $.IGRP.components.tableCtrl.operation.sum.row({
+	                obj   : $tr,
+	                field : ':input[type="number"][total-row="true"]',
+	                result: $('.total-row :input',$tr)
+	            });
+	        }
+	
+	    });
 
     /*$('.IGRP_formlist [item-type="plaintext"]').each(function(){
 

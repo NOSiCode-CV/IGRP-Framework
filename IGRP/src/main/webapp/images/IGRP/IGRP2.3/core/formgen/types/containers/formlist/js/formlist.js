@@ -43,7 +43,8 @@
 	var tableOrderIncludes = [
 		{path : '/core/formgen/js/jquery-ui.min.js'}
 	],
-	tableOrderInc  = false;
+	tableOrderInc  = false,
+	addColField    = null;
 
 	container.sortableOptions.onOver = function(){
 		$('tbody',container.holder).hide();
@@ -67,10 +68,52 @@
 				label:'Total col',
 				value: false,
 				onChange:function(v){
+
+					if(!v){
+						container.GET.fields().forEach(function(f){
+
+							if(f.GET.type() == 'number'){
+
+								if(f.GET.total_col())
+									v  = true;
+							}
+						});
+					}
+
 					container.SET.tableFooter(v);
 					container.SET.totalcol(v);
 				},
 				xslValue : 'total-col="true"'
+			});
+
+			field.setPropriety({
+				name:'total_row',
+				label:'Total row',
+				value: false,
+				onChange:function(v){
+
+					if(!v){
+						container.GET.fields().forEach(function(f){
+
+							if(f.GET.type() == 'number'){
+								
+								if(f.GET.total_row())
+									v  = true;
+							}
+						});
+					}
+
+					container.SET.addTotalRow(v);
+					container.SET.totalrow(v);
+				},
+				xslValue : 'total-row="true"'
+			});
+
+			field.setPropriety({
+				name    :'totalrow',
+				value   :false,
+				editable:false,
+				xslValue:'total-row'
 			});
 		}
 	
@@ -94,6 +137,58 @@
 	}
 
 	container.onDrawEnd = function(){
+		
+		container.setPropriety({
+			name:'addTotalRow',
+			value:false,
+			editable:false,
+			onChange: function(v){
+
+				if(v){
+					if(addColField === null){
+						var name = container.GET.tag()+'_total',
+							f 	 = GEN.getDeclaredField('number');
+
+						addColField = new f.field('number',{
+							properties:{
+								label 	 : 'Total',
+								tag   	 : name,
+								name  	 : 'p_'+name,
+								readonly : true,
+								totalrow : true,
+								total_col: true
+							}
+						});
+
+						container.SET.fields([addColField]);
+					}
+				}else{
+					if(addColField != null){
+						container.removeField(addColField.GET.id());
+						addColField = null;
+					}
+				}
+			},
+			xslValue : function(){
+				
+				return '';
+			}
+		});
+
+		var v = false;
+
+		container.GET.fields().forEach(function(f){
+
+			if(f.GET.type() == 'number'){
+				
+				if(f.GET.total_row())
+					v  = true;
+			}
+		});
+
+		container.SET.addTotalRow(v);
+		container.SET.totalrow(v);
+		
 		$('.IGRP_formlist',container.holder).IGRP_formlist();
 		
 		if(container.GET.ordertable())
@@ -191,12 +286,19 @@
 			editable:false,
 			xslValue:getTableFooter
 		});
-		
+
 		container.setPropriety({
 			name:'totalcol',
 			value:false,
 			editable:false,
 			xslValue:'totalcol'
+		});
+
+		container.setPropriety({
+			name:'totalrow',
+			value:false,
+			editable:false,
+			xslValue:'totalrow'
 		});
 	}
 	
@@ -209,14 +311,17 @@
 				var fValue = table+"[@total='yes']/"+f.GET.tag();
 			var align  =  f.GET.align ? f.GET.align() : 'right';
 			rtn+=' <xsl:if test="'+fValue+'"><td class="total-col" align="'+align+'" id="total-col-'+f.GET.tag()+'">';
-				rtn+='<xsl:if test="not('+fValue+'/@visible)"><p><xsl:value-of select="'+fValue+'"/></p></xsl:if>'+
-				'<input type="hidden" name="{'+fValue+'/@name}_fk_desc" value="{'+fValue+'}"/>'+
+			
+			if(f.GET.total_col && f.GET.total_col())
+				rtn+='<xsl:if test="not('+fValue+'/@visible)"><p><xsl:value-of select="'+fValue+'"/></p></xsl:if>';
+
+			rtn+='<input type="hidden" name="{'+fValue+'/@name}_fk_desc" value="{'+fValue+'}"/>'+
 				'<input type="hidden" name="{'+fValue+'/@name}_fk" value="{'+fValue+'_desc}"/>'
 			rtn+='</td></xsl:if>';
 			}
 		});
 		
-		rtn+='<xsl:if test="not('+table+'[position() = 1]/@nodelete) or not('+table+'[position() = 1]/@noupdate)" gen-preserve="last"><td></td></xsl:if>'
+		rtn+='<xsl:if test="not('+table+'[position() = 1]/@nodelete) or not('+table+'[position() = 1]/@noupdate)" gen-preserve="last"><td class="notbackground"></td></xsl:if>'
 
 		rtn+='</tr></tfoot>'
 

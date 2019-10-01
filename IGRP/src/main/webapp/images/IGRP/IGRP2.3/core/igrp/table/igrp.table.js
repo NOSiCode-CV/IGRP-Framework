@@ -475,7 +475,7 @@
 	                    total += com.operation.isNum($(o).val());
 	                });
 	                if (p.result)
-	                    $(p.result,p.tr).val(total);
+	                    $(p.result,p.tr).val(total).trigger('change');
 
 	                return total;
 	            },

@@ -389,7 +389,7 @@ var GENTABLE = function(name,params){
 		if(field.GET.type() == 'number'){
 			field.setPropriety({
 				name:'total_footer',
-				label:'Total Row',
+				label:'Total Col',
 				value: false,
 				onChange:function(v){
 					container.SET.tableFooter(v)
