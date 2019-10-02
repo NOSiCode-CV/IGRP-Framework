@@ -1125,7 +1125,6 @@ $(function ($) {
 			},
 			type : {
 				table	: function(p){
-					console.log(p);
 					$.WR.element.modal(p);
 					return null;
 				},
@@ -1630,6 +1629,9 @@ $(function ($) {
 
 							if(element.parentType == 'chart')
 								element.type = element.parentType;
+							
+							if(element.type == 'img')
+								element.parentType = 'image';
 
 							html = $.WR.element.type[element.parentType](element);
 
