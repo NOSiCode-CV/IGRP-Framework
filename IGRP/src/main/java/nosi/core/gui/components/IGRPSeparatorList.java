@@ -150,26 +150,31 @@ public class IGRPSeparatorList extends IGRPTable {
 	}
 	
 	protected void genRowField(Field field,String key,String value) {
-		String sufix = "_desc";
-		this.xml.startElement(field.getTagName());
-			this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-			if(field instanceof CheckBoxListField || field instanceof CheckBoxField 
-				|| field instanceof RadioListField || field instanceof RadioField) {
-				this.xml.writeAttribute("check","true");
-				sufix = "_check";
-			}
-			if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
-				this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
-			}
-			this.xml.text(key);
-		this.xml.endElement();
 		
-		if(!(field instanceof HiddenField)) {
-			//Description
-			this.xml.startElement(field.getTagName() + sufix);
-			this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
-			this.xml.text(value);
+		if(!field.getName().contains("_check")) {
+			
+			String sufix = "_desc";
+			this.xml.startElement(field.getTagName());
+				this.xml.writeAttribute("name", field.propertie().getProperty("name"));
+				if(field instanceof CheckBoxListField || field instanceof CheckBoxField 
+					|| field instanceof RadioListField || field instanceof RadioField) {
+					this.xml.writeAttribute("check","true");
+					sufix = "_check";
+				}
+				if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
+					this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
+				}
+				this.xml.text(key);
 			this.xml.endElement();
+			
+			if(!(field instanceof HiddenField)) {
+				//Description 
+				this.xml.startElement(field.getTagName() + sufix);
+				this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
+				this.xml.text(value);
+				this.xml.endElement();
+			}
+			
 		}
 	}
 	
