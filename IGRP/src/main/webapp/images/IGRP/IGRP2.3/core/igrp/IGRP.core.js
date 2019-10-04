@@ -976,6 +976,8 @@
 							$(i).attr('href',href.split('../../xsl/tmpl/').pop(''));
 
 						});
+						
+						console.log(p)
 
 						//get nodes xsl
 						if(p.nodes){
@@ -993,6 +995,8 @@
 								var xslt = $.IGRP.utils.xsl.getStyleSheet(nodeElement,includesArr);
 
 								var itemHTML = $('.gen-container-item[item-name="'+n+'"]');
+								
+								var oldStyle = itemHTML.attr('style') || '';
 
 								itemHTML.XMLTransform({
 									xml     	 : p.xml,
@@ -1001,7 +1005,14 @@
 									xslBasePath  : path+'/xsl/tmpl',
 									method 	     : 'replace',
 									complete     : function(e,c){
-										var content = $('.gen-container-item[item-name="'+n+'"]');
+										
+										var content = $('.gen-container-item[item-name="'+n+'"]'),
+										
+											currentStyle = content.attr('style') || '',
+											
+											style 		 = oldStyle+currentStyle;
+											
+										content.attr('style', style);
 										
 										id += 1;
 										
