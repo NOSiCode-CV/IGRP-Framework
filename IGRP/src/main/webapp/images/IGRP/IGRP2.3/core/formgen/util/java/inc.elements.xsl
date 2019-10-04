@@ -393,65 +393,6 @@
 		<xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>"));</xsl:text>
 		
 	</xsl:template>
-
-	<xsl:template name="blockly.element.fill_combo" >
-	
-		<xsl:variable name="combo" select="field"/>
-		
-		<xsl:variable name="options">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='value2']"/>
-				<xsl:with-param name="parent" select="."></xsl:with-param>
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<xsl:variable name="code">
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-			<xsl:text>LinkedHashMap&lt;String, String&gt; </xsl:text>
-			<xsl:value-of select="$combo"></xsl:value-of>
-			<xsl:text> = new LinkedHashMap&lt;&gt;();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:value-of select="$combo"></xsl:value-of><xsl:text>.put(null, gt("-- Selecionar --"));</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-			<xsl:value-of select="$options"></xsl:value-of>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-			<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
-			<xsl:text>.setValue(</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
-			<xsl:text>);</xsl:text>	
-			<xsl:value-of select="$newline"></xsl:value-of>
-			
-		</xsl:variable>
-		
-		<xsl:value-of select="$code"></xsl:value-of>
-		
-	</xsl:template>
-	
-	<xsl:template name="blockly.element.option_combo" >
-		
-		<xsl:param name="parent"/>
-		
-	   	<xsl:variable name="valor">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="field[@name='opcao_val']"/>
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<xsl:variable name="descricao">
-			<xsl:call-template name="InitCap">
-				<xsl:with-param name="text" select="field[@name='opcao_des']"/>
-			</xsl:call-template>
-		</xsl:variable>
-		
-		<xsl:variable name="combo" select="$parent/field"/>
-				
-		<xsl:value-of select="$combo"></xsl:value-of>
-		<xsl:text>.put(</xsl:text><xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$valor"></xsl:value-of>
-		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:text>,gt(</xsl:text>
-		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$descricao"></xsl:value-of>
-		<xsl:value-of select="$double_quotes"></xsl:value-of>
-		<xsl:text>));</xsl:text>
-		
-	</xsl:template>
 	
 	<xsl:template name="blockly.element.rediret_p" >
 		
@@ -697,6 +638,77 @@
 		
 	</xsl:template>
 	
+	<xsl:template name="blockly.element.fill_combo" >
+	
+		<xsl:variable name="combo" select="field"/>
+		
+		<xsl:variable name="checkbox" select="field[@name='selecionar']"/>
+		
+		<xsl:variable name="options">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='value2']"/>
+				<xsl:with-param name="parent" select="."></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="code">
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:text>LinkedHashMap&lt;String, String&gt; </xsl:text>
+			<xsl:value-of select="$combo"></xsl:value-of>
+			<xsl:text> = new LinkedHashMap&lt;&gt;();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			
+			<xsl:choose>
+			
+				<xsl:when test="$checkbox = 'TRUE'">
+				
+					<xsl:value-of select="$combo"></xsl:value-of><xsl:text>.put(null, gt("-- Selecionar --"));</xsl:text>
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+				
+				</xsl:when>
+			
+			</xsl:choose>
+			
+			<xsl:value-of select="$options"></xsl:value-of>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+			<xsl:text>.setValue(</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+			<xsl:text>);</xsl:text>	
+			<xsl:value-of select="$newline"></xsl:value-of>
+			
+		</xsl:variable>
+		
+		<xsl:value-of select="$code"></xsl:value-of>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.option_combo" >
+		
+		<xsl:param name="parent"/>
+		
+	   	<xsl:variable name="valor">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="field[@name='opcao_val']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="descricao">
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="field[@name='opcao_des']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="combo" select="$parent/field"/>
+				
+		<xsl:value-of select="$combo"></xsl:value-of>
+		<xsl:text>.put(</xsl:text><xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$valor"></xsl:value-of>
+		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:text>,gt(</xsl:text>
+		<xsl:value-of select="$double_quotes"></xsl:value-of><xsl:value-of select="$descricao"></xsl:value-of>
+		<xsl:value-of select="$double_quotes"></xsl:value-of>
+		<xsl:text>));</xsl:text>
+		
+	</xsl:template>
+	
 	<xsl:template name="blockly.element.combo_dao" >
 	
 		<xsl:variable name="mutation" select="mutation/@count"/>
@@ -704,6 +716,8 @@
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
 		<xsl:variable name="combo" select="field[@name='selecao']"/>
+		
+		<xsl:variable name="checkbox" select="field[@name='selecionar']"/>
 		
 		<xsl:variable name="andWheres">
 			
@@ -733,19 +747,44 @@
 		</xsl:variable>
 
 		<xsl:variable name="code">
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>List &lt;</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of>
-			<xsl:text>List = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of>
-			<xsl:text>.all();</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+		
+		<xsl:choose>
 			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-			<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
-			<xsl:text>.setValue(</xsl:text><xsl:value-of select="$options_dao"></xsl:value-of>
-			<xsl:text>);</xsl:text>	
-			<xsl:value-of select="$newline"></xsl:value-of>
+				<xsl:when test="$checkbox = 'TRUE'">
+				
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					<xsl:text>List &lt;</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+					<xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of>
+					<xsl:text>List = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+					<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of>
+					<xsl:text>.all();</xsl:text>
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+					<xsl:text>.setValue(Core.toMap(</xsl:text><xsl:value-of select="$options_dao"></xsl:value-of>
+					<xsl:text>,"-- Selecionar --");</xsl:text>	
+					<xsl:value-of select="$newline"></xsl:value-of>
+				
+				</xsl:when>
+				
+				<xsl:otherwise>
+				
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					<xsl:text>List &lt;</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+					<xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of>
+					<xsl:text>List = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+					<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of>
+					<xsl:text>.all();</xsl:text>
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
+					<xsl:text>.setValue(Core.toMap(</xsl:text><xsl:value-of select="$options_dao"></xsl:value-of>
+					<xsl:text>);</xsl:text>	
+					<xsl:value-of select="$newline"></xsl:value-of>
+				
+				</xsl:otherwise>
+			
+			</xsl:choose>
+			
+			
 		</xsl:variable>
 		
 		<xsl:value-of select="$code"></xsl:value-of>
@@ -770,8 +809,8 @@
 		
 		<xsl:variable name="combo" select="$parent/field"/>
 				
-		<xsl:text>Core.toMap(</xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List, "</xsl:text><xsl:value-of select="$valor1"></xsl:value-of><xsl:text>","</xsl:text>
-		<xsl:value-of select="$valor2"></xsl:value-of><xsl:text>")</xsl:text>
+		<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List, "</xsl:text><xsl:value-of select="$valor1"></xsl:value-of><xsl:text>","</xsl:text>
+		<xsl:value-of select="$valor2"></xsl:value-of><xsl:text>"</xsl:text>
 		
 	</xsl:template>
 	
