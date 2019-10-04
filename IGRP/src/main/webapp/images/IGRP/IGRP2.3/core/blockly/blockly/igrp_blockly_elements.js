@@ -172,31 +172,7 @@
 		    }
 		
 		},
-		
-		
-		listar : $.extend({
-			
-			init : function(block){
-				
-				block.itemCount_ = 0;
-				block.updateShape_();
-				
-//				this.onTableSet = function(item){		
-//					var XML = $.parseXML(VARS.getGen().getXML());	
-//					var menus = function(){
-//						var arr = [];
-//						$('rows content '+item, XML).find('fields > *').each(function(i, field){	
-//							var type =  GetJavaType[$(field).attr('type')] || 'String';
-//							arr.push( [ field.tagName, type+'::'+ field.tagName ] )
-//						})
-//						return arr
-//					}();
-//				}	
-			}
-			
-		}, ListMutationSettings),
-		
-			    		    
+				    		    
 	  separator :$.extend({
 			
 		init : function(block){
@@ -226,19 +202,31 @@
 		init : function(block){
 			
 			block.itemCount_ = 0;
+			
 			block.updateShape_();
+			
+			var checkbox = new Blockly.FieldCheckbox("FALSE", function(pxchecked) {
+				
+				this.sourceBlock_.updateShape_(pxchecked);
+			
+			});	
 			
 		},
 		
 		mutationToDom: function() {
 			  var container = document.createElement('mutation');
 			  container.setAttribute('count', this.itemCount_);
-			  return container;
+			   var pxchecked = (this.getFieldValue('EDIT') == 'TRUE');
+			   container.setAttribute('pxchecked', pxchecked);
+			    return container;
 			},
 			
 		domToMutation: function(xmlElement) {
+			
+			 var pxchecked = (xmlElement.getAttribute('pxchecked') == 'true');
+			    
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
-			  this.updateShape_();  
+			this.updateShape_(pxchecked);
 			},
 			
 		 decompose: function (workspace) {
@@ -267,16 +255,22 @@
 		                connection.disconnect();
 		            }
 		        }
+		      
 		        this.itemCount_ = connections.length;
 		         Contador = this.itemCount_;
-		         
+		        
 		        this.updateShape_();
+		        
 		        for (var i = 0; i < this.itemCount_; i++) {
 		            Blockly.Mutator.reconnect(connections[i], this, 'SEPARATOR'+i);
 		        }
 		    },
 		    
-		    updateShape_: function () {
+		    updateShape_: function (pxchecked) {
+		    	
+			    var block = this;
+			    
+			    pxchecked = typeof pxchecked === 'undefined' ? this.getFieldValue('EDIT') == 'TRUE' : pxchecked;
 			    
 		        for (var i = 1; i <= this.itemCount_; i++) {
 		            if (!this.getInput('SEPARATOR'+i)) {
@@ -290,7 +284,24 @@
 		            this.removeInput('SEPARATOR'+i);
 		            this.removeInput('SEPARATORIL'+i); 
 		            i++;
-		        }   
+		        } 
+		        
+		        this.removeInput('param_id');
+		        
+		        
+		        
+		        if (pxchecked) {
+				      block.appendValueInput("param_id").appendField("by:");
+				} else {
+			      if (this.childBlocks_.length > 0) {
+			        for (var i = 0; i < block.childBlocks_.length; i++) {
+			          if (block.childBlocks_[i].type == 'px') {
+			           block.childBlocks_[i].unplug();
+			            break;
+			          }
+			        }
+			      }
+				}
 		    }
 		
 		},
@@ -335,9 +346,11 @@
 				 }
 			}
 		},
-		
+	
 	
 	}
+	
+	
 	
 	//Handle Dao Blocks
 	

@@ -104,8 +104,7 @@
 	   	<xsl:variable name="setting">
 			<xsl:call-template name="blockly.getValue">
 				<xsl:with-param name="value" select="*[@name='value1']"/>
-			</xsl:call-template>
-			
+			</xsl:call-template>	
 		</xsl:variable>
 		
 		<xsl:variable name="modelset">
@@ -129,6 +128,14 @@
 	
 	<xsl:template name="blockly.element.getDao">
 	
+		<xsl:variable name="dao" select="substring-after(@type,'get-dao-')"/>
+		
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
+		</xsl:variable>
+	
 		<xsl:variable name="dad" select="../../field"/>
 		
 		<xsl:variable name="typedad" select="substring-before($dad,'::')"/>
@@ -137,6 +144,8 @@
 		
 		<xsl:variable name="fieldValue" select="substring-after(field,'::')"/>
 		
+		<xsl:variable name="otherdaofield" select="substring-after(value/block/field,'::')"/>
+		
 		<xsl:variable name="nameCap">
 			<xsl:call-template name="InitCap">
 				<xsl:with-param name="text" select="$fieldValue"/>
@@ -144,31 +153,40 @@
 		</xsl:variable>
 		
 		<xsl:variable name="otherdao">
-			<xsl:call-template name="blockly.getValue">
-				<xsl:with-param name="value" select="*[@name='value1']"/>
+			<xsl:call-template name="InitCap">
+				<xsl:with-param name="text" select="$otherdaofield"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:variable name="otherdao2">
-			
-			<xsl:call-template name="replace-all">
-			
-				<xsl:with-param name="text" select="$otherdao"/>
-				
-				<xsl:with-param name="replace" select="'obj'"/>
-				
-				<xsl:with-param name="by" select="''"/>
-				
-			</xsl:call-template>
-			
-		</xsl:variable>
+		<xsl:choose>
 		
-			<xsl:text>obj.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>
-			<xsl:value-of select="$otherdao2"/>
+			<xsl:when test="$otherdao != '' ">
+				<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/>
+				<xsl:text>()!=null?</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text>
+				<xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().get</xsl:text>
+				<xsl:value-of select="$otherdao"></xsl:value-of>
+				<xsl:text>():null</xsl:text>
+			</xsl:when>
+			
+			<xsl:otherwise>
+			
+				<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>
+			
+			</xsl:otherwise>
+		
+		</xsl:choose>		
 		
 	</xsl:template>
 	
 	<xsl:template name="blockly.element.setDao">
+	
+		<xsl:variable name="dao" select="substring-after(@type,'set-dao-')"/>
+		
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
+		</xsl:variable>
 		
 		<xsl:variable name="fieldType" select="substring-before(field,'::')"/>
 		
@@ -221,7 +239,7 @@
 						<xsl:value-of select="$paramlow"></xsl:value-of><xsl:text> = session.find(</xsl:text><xsl:value-of select="$fieldType"></xsl:value-of>
 						<xsl:text>.class, Core.toInt(</xsl:text><xsl:value-of select="$valorparam"></xsl:value-of><xsl:text>));</xsl:text>
 						<xsl:value-of select="$newlineTab1"></xsl:value-of>
-						<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"></xsl:value-of><xsl:text>);</xsl:text>
+						<xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"></xsl:value-of><xsl:text>);</xsl:text>
 					</xsl:when>
 					
 					<xsl:otherwise>
@@ -229,17 +247,16 @@
 						<xsl:value-of select="$paramlow"></xsl:value-of><xsl:text> = session.find(</xsl:text><xsl:value-of select="$fieldType"></xsl:value-of>
 						<xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam"></xsl:value-of><xsl:text>);</xsl:text>
 						<xsl:value-of select="$newlineTab1"></xsl:value-of>
-						<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"></xsl:value-of><xsl:text>);</xsl:text>
+						<xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"></xsl:value-of><xsl:text>);</xsl:text>
 					</xsl:otherwise>
 				   	
 				   	</xsl:choose>
 		
-				
 				</xsl:when>
 					
 				<xsl:otherwise>
 				
-					<xsl:text>obj.set</xsl:text><xsl:value-of select="$nameCap"/>
+					<xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/>
 						<xsl:text>(</xsl:text>
 							<xsl:call-template name="convert_blocks">
 								<xsl:with-param name="value" select="$valorA"></xsl:with-param>
@@ -313,7 +330,11 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
-		<xsl:variable name="param" select="field[@name='param_id']"/>
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
+	   	</xsl:variable>
 		
 		<xsl:variable name="button" select="field[@name='button']"/>
 	   	
@@ -323,6 +344,14 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
+		<xsl:variable name="param">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='param_id']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		
+		
 		<xsl:variable name="code_edit">
 			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
@@ -330,10 +359,10 @@
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:value-of select="$dao"></xsl:value-of><xsl:text> obj = new </xsl:text> <xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>().findOne(Core.getParamInt("</xsl:text><xsl:value-of select="$param"></xsl:value-of><xsl:text>"));</xsl:text>
+			<xsl:value-of select="$dao"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+			<xsl:text>().findOne(</xsl:text><xsl:value-of select="$param"></xsl:value-of><xsl:text>);</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>if (obj!=null) {</xsl:text>
+			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text>!=null) {</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:value-of select="$edicao"></xsl:value-of>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
@@ -492,6 +521,12 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
+		</xsl:variable>
+		
 		<xsl:variable name="findone">
 			<xsl:call-template name="blockly.getValue">
 				<xsl:with-param name="value" select="value[@name='findone']"/>
@@ -499,7 +534,8 @@
 		</xsl:variable>
 		
 		<xsl:variable name="code">
-		<xsl:value-of select="$dao"></xsl:value-of><xsl:text> obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+		<xsl:value-of select="$dao"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$daolow"/>
+		<xsl:text> = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
 		<xsl:text>()</xsl:text>
 		
 		<xsl:choose>
@@ -522,6 +558,12 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
+		</xsl:variable>
+		
 		<xsl:variable name="paramGet" select="field[@name='iskey']"/>
 		
 		<xsl:variable name="getDelete">
@@ -532,12 +574,12 @@
 		</xsl:variable>
 	
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-		<xsl:value-of select="$dao"></xsl:value-of><xsl:text> obj = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
+		<xsl:value-of select="$dao"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text> = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
 		<xsl:text>().findOne(Core.getParamInt("p_</xsl:text><xsl:value-of select="$paramGet"></xsl:value-of><xsl:text>"));</xsl:text>
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-		<xsl:text>if (obj != null &amp;&amp;  !obj.hasError()) {</xsl:text>
+		<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text> != null &amp;&amp;  !</xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.hasError()) {</xsl:text>
 		<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-		<xsl:text>boolean del = obj.delete(</xsl:text><xsl:value-of select="$getDelete"></xsl:value-of><xsl:text>);</xsl:text>
+		<xsl:text>boolean del = </xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.delete(</xsl:text><xsl:value-of select="$getDelete"></xsl:value-of><xsl:text>);</xsl:text>
 		<xsl:value-of select="$newlineTab2"></xsl:value-of>	 
 		<xsl:text>if (del == true)</xsl:text>
 		<xsl:value-of select="$newlineTab3"></xsl:value-of>
@@ -549,7 +591,7 @@
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		<xsl:text>} else {</xsl:text>
 		<xsl:value-of select="$newlineTab2"></xsl:value-of>
-		<xsl:text>Core.setMessageError(obj.getError().toString());</xsl:text>
+		<xsl:text>Core.setMessageError(</xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.getError().toString());</xsl:text>
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		<xsl:text>}</xsl:text>
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
@@ -604,7 +646,7 @@
 	<xsl:value-of select="$newlineTab1"></xsl:value-of>
 	<xsl:value-of select="$dao"></xsl:value-of><xsl:text> p = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>();</xsl:text>
 	<xsl:value-of select="$newlineTab1"></xsl:value-of>
-	<xsl:text>p.findAll().stream().forEach(obj->{</xsl:text>
+	<xsl:text>p.findAll().stream().forEach(</xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text>->{</xsl:text>
 	<xsl:value-of select="$newlineTab2"></xsl:value-of>
 	<xsl:value-of select="$graficoup"></xsl:value-of><xsl:text> c = new </xsl:text><xsl:value-of select="$graficoup"></xsl:value-of><xsl:text>();</xsl:text>
 	<xsl:choose>

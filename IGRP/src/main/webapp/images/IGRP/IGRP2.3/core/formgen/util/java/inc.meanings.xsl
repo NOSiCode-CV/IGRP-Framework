@@ -49,9 +49,21 @@
 					
 			</xsl:when>
 			
+			<xsl:when test="$key = 'WHERE_GTE'">
+				
+				<xsl:text>," &gt;= ",</xsl:text>
+					
+			</xsl:when>
+			
 			<xsl:when test="$key = 'WHERE_LT'">
 				
 				<xsl:text>," &lt; ",</xsl:text>
+					
+			</xsl:when>
+			
+			<xsl:when test="$key = 'WHERE_LTE'">
+				
+				<xsl:text>," &lt;= ",</xsl:text>
 					
 			</xsl:when>
 			
@@ -153,7 +165,13 @@
 			
 			<xsl:when test="$key = 'WHERE_LIKE'">
 				
-				<xsl:text>,"LIKE",</xsl:text>
+				<xsl:text>,"like",</xsl:text>
+					
+			</xsl:when>
+			
+			<xsl:when test="$key = 'WHERE_LIKE'">
+				
+				<xsl:text>,"notlike",</xsl:text>
 					
 			</xsl:when>
 			

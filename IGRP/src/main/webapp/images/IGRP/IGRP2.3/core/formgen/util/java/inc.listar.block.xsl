@@ -63,7 +63,7 @@
 			<xsl:text>if (</xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List != null){</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab"></xsl:value-of>
 			<xsl:text>for(</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text> obj : </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List){</xsl:text>
+			<xsl:text> </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text> : </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List){</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab2"></xsl:value-of>
 			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text>
 			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text> row = new </xsl:text>

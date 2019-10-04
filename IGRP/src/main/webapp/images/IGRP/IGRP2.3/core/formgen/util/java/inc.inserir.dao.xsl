@@ -3,6 +3,12 @@
 	<xsl:template name="blockly.element.inserir_dao" >
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
+		
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
+		</xsl:variable>
 	   	
 	   	<xsl:variable name="insercao">
 			<xsl:call-template name="blockly.getValue">
@@ -34,13 +40,19 @@
 				
 		</xsl:variable>
 		
-		<xsl:variable name="param_id" select="field[@name='param_id']"/>
-		
 		<xsl:variable name="param">
 			<xsl:call-template name="blockly.getValue">
 				<xsl:with-param name="value" select="value[@name='where2']"/>
 			</xsl:call-template>
 		</xsl:variable>
+		
+		<xsl:variable name="param_id">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="value[@name='param_id']"/>
+			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="checkbox" select="field[@name='EDIT']"/>
 		
 		<xsl:variable name="hasMutation" select="mutation"></xsl:variable>
 		
@@ -59,24 +71,37 @@
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>transaction.begin();</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text> obj  = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>();</xsl:text>
+			<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text>  = new </xsl:text>
+			<xsl:value-of select="$dao"></xsl:value-of><xsl:text>();</xsl:text>
+			
+			<xsl:choose>
+				<xsl:when test="$checkbox = 'TRUE'">
+				
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
+					<xsl:value-of select="$newlineTab3"></xsl:value-of>
+					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text>
+					<xsl:value-of select="$dao"></xsl:value-of>
+					<xsl:text>.class, </xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>);</xsl:text>
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					<xsl:text>}</xsl:text>
+					
+				</xsl:when>
+				
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+			
+			
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text> obj = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>.class, Core.getParamInt("</xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>"));</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>if (obj != null){</xsl:text>
+			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text> != null){</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
 			<xsl:value-of select="$insercao"></xsl:value-of>		
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>session.persist( obj );	</xsl:text>
+			<xsl:text>session.persist(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>);</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
 			<xsl:text>}</xsl:text>
 			<xsl:if test="$hasMutation">
@@ -103,7 +128,7 @@
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			<xsl:text>}catch ( Exception e ) {</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>Core.setMessageError(e.getMessage());</xsl:text>
+			<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>if (transaction != null)</xsl:text>
 			<xsl:value-of select="$newlineTab3"></xsl:value-of>

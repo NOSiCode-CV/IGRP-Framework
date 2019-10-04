@@ -119,8 +119,6 @@ function SetupBlockly(){
 					
 										var fieldValue = eval( field.attr('options') );
 										
-			
-										
 										if(fieldValue){
 											
 											var onChange = field.attr('igrp-on-change'),
@@ -172,12 +170,28 @@ function SetupBlockly(){
 									break;
 									
 									case 'checkbox':
-										value.appendField(new Blockly.FieldCheckbox('TRUE'), 'Checkbox');
+										
+										var checkfield = field.attr('options'),
+											
+											updateShape = field.attr('update-shape') == 'true';
+										
+										var Field = new Blockly.FieldCheckbox(checkfield, function(v){
+											
+											if(updateShape){
+												
+												this.sourceBlock_.updateShape_(v);
+											}
+											
+										})
+										
+										value.appendField(Field, name);
 										
 									break;
 									
 									case 'text':
+										
 										var text = field.attr('options');
+										
 										value.appendField(text);
 										
 									break;
