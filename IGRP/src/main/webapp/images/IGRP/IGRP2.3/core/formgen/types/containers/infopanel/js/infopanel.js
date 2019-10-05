@@ -50,7 +50,7 @@
 					name : 'title',
 					label : 'Title',
 					isField: true, 
-					valuePersist: true
+					valuePersist: false
 				};
 
 				container.setPropriety({
@@ -58,14 +58,14 @@
 					label   : 'Value',
 					value   : ""+Math.floor((Math.random() * 99) + 1),
 					isField : true,
-					valuePersist : true
+					valuePersist : false
 				});
 				
 
 				GEN.setBtnActionAttr(container,{
 					value 		   : params.proprieties && params.proprieties.action ? params.proprieties.action : '',					
 					isField 	   : true,
-					valuePersist   : true,
+					valuePersist   : false,
 					tag : 'url',
 					
 					type : 'action',
@@ -115,14 +115,14 @@
 						size:'12'
 					},
 					isField   : true,
-					valuePersist : true
+					valuePersist : false
 				});
 
 				GEN.setImgAttr(container,{
 					name:'icn',
 					value:'fa-info',
 					isField   : true,
-					valuePersist : true
+					valuePersist : false
 				});
 
 

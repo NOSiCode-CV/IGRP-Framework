@@ -436,7 +436,9 @@ ul#list-reports {
 }
 
 @media (max-width: 768px) {
- 
+ .pull-right {
+    float: none !important;
+	}
   body:not(.sidebar-off):not([has-menu="false"]){
     overflow: hidden;
   }
@@ -917,11 +919,13 @@ body.sidebar-off .navbar-brand {
 /*GLOBAL*/
 
 body[has-menu="false"] .container-fluid{
-  padding:15px 0
+  padding:15px 0;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 body[has-menu="false"] #igrp-contents{
-  padding: 0
+  padding: 0;
 }
 
 body[has-menu="false"] .container-fluid>.row{
@@ -1073,13 +1077,20 @@ html#igrp-login body{
   padding-left: 35px;
 }
 
+@media (max-width: 1025px) {
+  .content>.row{
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+}
 
-@media (max-width: 668px) {
+@media (max-width: 778px) {
   .content>.row{
     padding-right: 20px;
     padding-left: 20px;
   }
 }
+
 
 @media (max-width: 560px) {
   .content>.row{
@@ -1192,7 +1203,6 @@ label.container-box.checkbox-switch.switch .checkmark {
 .container-box input {
   position: absolute;
   opacity: 0; 
-  
   left:18px;
   top:5px;
   /* Double-sized Checkboxes */

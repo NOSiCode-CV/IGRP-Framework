@@ -905,7 +905,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 * @param fileId Id do ficheiro a ser descartado 
-	 * @return boolean true -> Success | false -> Failure 
+	 * @return boolean  {@code true -> Success | false -> Failure  }  
 	 */
 	public static boolean invalidateFile(Integer fileId) {
 		boolean r = false; 
@@ -920,7 +920,7 @@ public final class Core { // Not inherit
 	
 	/**
 	 * @param uuid Uuid do ficheiro a ser descartado 
-	 * @return boolean true -> Success | false -> Failure 
+	 * @return boolean  {@code true -> Success | false -> Failure  }  
 	 */
 	public static boolean invalidateFile(String uuid) {
 		boolean r = false; 

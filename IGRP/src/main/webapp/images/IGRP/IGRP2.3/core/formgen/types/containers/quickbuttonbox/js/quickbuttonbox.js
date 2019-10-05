@@ -30,7 +30,7 @@
 				label     :'Title',
 				value     :'Box Title',
 				isField   : true,
-				valuePersist : true
+				valuePersist : false
 			});
 
 			container.setPropriety({
@@ -72,7 +72,7 @@
 					size:'12'
 				},
 				isField   : true,
-				valuePersist : true
+				valuePersist : false
 				
 			});
 
@@ -80,7 +80,7 @@
 				name:'icn',
 				value:'fa-check',
 				isField   : true,
-				valuePersist : true
+				valuePersist : false
 			});
 
 

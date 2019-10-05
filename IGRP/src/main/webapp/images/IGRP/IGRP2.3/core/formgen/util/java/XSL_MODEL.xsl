@@ -347,7 +347,7 @@
 				<xsl:value-of select="concat('private ','IGRPLink',' ',$tag_name,';')"/>		
 	 			<xsl:value-of select="$newline"/>
 	 			<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_desc;')"/>
+				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_desc= ',$double_quotes,./label,$double_quotes,';')"/>
 			</xsl:if>
  		</xsl:for-each>
  		<xsl:for-each select="fields/*">

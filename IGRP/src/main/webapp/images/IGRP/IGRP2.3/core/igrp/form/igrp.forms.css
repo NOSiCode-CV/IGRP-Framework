@@ -17,8 +17,8 @@
 	min-height: 62px
 }
 
-label {
-	
+.checkbox label, .radio label {
+    display: block;
 }
 .form-group > label,
 .form-link {
@@ -146,7 +146,7 @@ form [item-type="plaintext"]{
 .igrp-forms .form-group[item-type="date"],
 .igrp-forms .form-group[item-type="file"],
 .igrp-forms .form-group[item-type="color"]{
-	height: 62px;
+	min-height: 62px;
 }
 
 .igrp-forms td .form-group[item-type], *[role="form"] td .form-group{
