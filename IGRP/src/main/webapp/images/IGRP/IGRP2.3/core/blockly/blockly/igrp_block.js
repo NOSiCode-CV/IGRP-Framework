@@ -53,6 +53,10 @@ function SetupBlockly(){
 			if( type.indexOf('separator_') == 0 )
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.separator;
+			
+			if( type.indexOf('forrmlist_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.formlist;
 				
 		
 		Blockly.Blocks[type] = {

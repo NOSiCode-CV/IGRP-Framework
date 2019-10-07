@@ -2,6 +2,8 @@
 
 	<xsl:template name="blockly.element.formlist" >
 	
+		<xsl:variable name="table" select="substring-after(@type,'forrmlist_')"/>
+	
 		<xsl:variable name="mutation" select="mutation/@count"/>
 		
 		<xsl:variable name="dao_form" select="field[@name='dao_form']"/>
@@ -25,8 +27,6 @@
 			</xsl:call-template>
 			
 		</xsl:variable>
-		
-		<xsl:variable name="table" select="field[@name='table']"/>
 		
 		<xsl:variable name="table_up">
 	       	<xsl:call-template name="InitCap">
@@ -139,15 +139,15 @@
 	
 	<xsl:template name="blockly.element.save_formlist" >
 	
-		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
+		<xsl:variable name="table" select="substring-after(@type,'save_forlist_')"/>
+	
+		<xsl:variable name="dao_sep" select="field[@name='dao_form']"/>
 			
 		<xsl:variable name="daolow">
 	       	<xsl:call-template name="LowerCase">
 	       		<xsl:with-param name="text" select="$dao_sep"/>
 	       	</xsl:call-template>
 		</xsl:variable>
-		
-		<xsl:variable name="table" select="field[@name='table']"/>
 		
 		<xsl:variable name="typedad" select="../../@type"/>
 		
@@ -216,6 +216,25 @@
 			<xsl:text>session.persist(</xsl:text><xsl:value-of select="$daolow"/><xsl:text>);</xsl:text>
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+			<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_del();</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>if ( Core.isNotNull( deletedIdsArray ) ) {</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>for ( String docId : deletedIdsArray ) {</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>if ( Core.isNotNull( docId ) &amp;&amp; !docId.isEmpty() ) {</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
+			<xsl:text>.class, Core.toInt(docId));</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>session.delete(</xsl:text><xsl:value-of select="$daolow"></xsl:value-of><xsl:text>);</xsl:text>
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:text>}</xsl:text>
+			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:text>}</xsl:text>
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
 			<xsl:choose>
@@ -252,27 +271,6 @@
 				</xsl:otherwise>
 
 			</xsl:choose>
-
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_del();</xsl:text>
-			<xsl:value-of select="$newline"></xsl:value-of>
-			<xsl:text>if ( Core.isNotNull( deletedIdsArray ) ) {</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>for ( String docId : deletedIdsArray ) {</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>if ( Core.isNotNull( docId ) &amp;&amp; !docId.isEmpty() ) {</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:value-of select="$dao_sep"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao_sep"></xsl:value-of>
-			<xsl:text>().findOne(Core.toInt(docId));</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:value-of select="$daolow"/><xsl:text>.delete(</xsl:text><xsl:value-of select="$delete"></xsl:value-of><xsl:text>);</xsl:text>
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		
 		</xsl:variable>
 		

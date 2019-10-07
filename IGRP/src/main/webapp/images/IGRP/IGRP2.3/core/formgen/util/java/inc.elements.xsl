@@ -1005,23 +1005,23 @@
 				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'get_row_sep'">
+			<xsl:when test="contains($block-type, 'get_row_sep_')">
 				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'formlist'">
+			<xsl:when test="contains($block-type,'forrmlist_')">
 				<xsl:call-template name="blockly.element.formlist"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'save_formlist'">
+			<xsl:when test="contains($block-type, 'save_forlist_')">
 				<xsl:call-template name="blockly.element.save_formlist"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'sep_form'">
+			<xsl:when test="contains($block-type, 'sep_form_')">
 				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'get_row_form'">
+			<xsl:when test="contains($block-type, 'get_row_form_')">
 				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
 			</xsl:when>
 			
