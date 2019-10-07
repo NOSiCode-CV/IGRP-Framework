@@ -86,7 +86,7 @@
 					 					<xsl:variable name="_app" select="concat($double_quotes,value/app,$double_quotes)"/>
 					 					<xsl:variable name="_page" select="concat($double_quotes,value/page,$double_quotes)"/>
 					 					<xsl:variable name="_action" select="concat($double_quotes,value/action,$double_quotes)"/>
-					 					<xsl:value-of select="concat('new Config().getResolveUrl(',$_app,',',$_page,',',$_action,')')"/>
+					 					<xsl:value-of select="concat('Core.getIGRPLink(',$_app,',',$_page,',',$_action,')')"/>
 					 				</xsl:when>
 					 				<xsl:otherwise>
 					 					<xsl:value-of select="concat('gt(',$double_quotes,normalize-space(value),$double_quotes,')')"/>
@@ -106,7 +106,7 @@
 					 		<xsl:variable name="_action" select="concat($double_quotes,@action,$double_quotes)"/>
 
 							<xsl:variable name="linkUrl">
-								<xsl:value-of select="concat('new Config().getResolveUrl(',$_app,',',$_page,',',$_action,')')"/>
+								<xsl:value-of select="concat('Core.getIGRPLink(',$_app,',',$_page,',',$_action,')')"/>
 							</xsl:variable>
 							
 							<xsl:value-of select="concat($tag_name,'.setValue(',$linkUrl,')')"/>;
@@ -181,7 +181,7 @@
 							<xsl:variable name="page_" select="/rows/page" />
 							<xsl:for-each select="./rules/rule"> 
 								<xsl:variable name="action_" select="./proc" />
-								<xsl:value-of select="concat('.add(',$double_quotes,'remote',$double_quotes,',', 'new Config().getResolveUrl(',$double_quotes, $app_, $double_quotes, ',', $double_quotes, $page_, $double_quotes, ',', $double_quotes, $action_, $double_quotes ,')',')')"/>
+								<xsl:value-of select="concat('.add(',$double_quotes,'remote',$double_quotes,',', 'Core.getIGRPLink(',$double_quotes, $app_, $double_quotes, ',', $double_quotes, $page_, $double_quotes, ',', $double_quotes, $action_, $double_quotes ,')',')')"/>
 		    				</xsl:for-each>
 						</xsl:if>
 						
