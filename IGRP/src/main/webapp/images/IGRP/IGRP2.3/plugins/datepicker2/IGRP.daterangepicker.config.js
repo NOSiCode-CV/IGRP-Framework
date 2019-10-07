@@ -106,6 +106,11 @@
 			$(document).on('formlist:init', function(o,e){
                 com.init( {parent : $(e)} );
             });
+			
+			$.IGRP.events.on('element-transform',function(p){
+		        if($(selector,p.content)[0])
+		        	com.init( {parent : $(selector,p.content)} );
+			});
 		}
 
 	},true);
