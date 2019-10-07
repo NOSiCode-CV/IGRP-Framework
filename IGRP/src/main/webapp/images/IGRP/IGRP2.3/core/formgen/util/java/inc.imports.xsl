@@ -77,6 +77,12 @@
 						</xsl:call-template>
 					</xsl:variable>
 					
+					<xsl:variable name="separator">
+						<xsl:call-template name="InitCap">
+							<xsl:with-param name="text" select="."/>
+						</xsl:call-template>
+					</xsl:variable>
+					
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import java.util.stream.Collectors;</xsl:text>
 					<xsl:value-of select="$newline"></xsl:value-of>
@@ -93,7 +99,7 @@
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"></xsl:value-of>
 					<xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"></xsl:value-of>
 					<xsl:text>.</xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text>
-					<xsl:text>Separatorlist_1;</xsl:text>
+					<xsl:value-of select="$separator"></xsl:value-of><xsl:text>;</xsl:text>
 									
 				</xsl:when>
 				

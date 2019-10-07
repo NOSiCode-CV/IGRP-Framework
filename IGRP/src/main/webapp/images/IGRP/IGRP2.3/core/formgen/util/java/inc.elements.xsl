@@ -852,14 +852,6 @@
 		<xsl:variable name="block-type" select="$element/@type"/>
 
 		<xsl:choose>
-		
-			<xsl:when test="$block-type = 'controller'">
-				<xsl:call-template name="blockly.element.controller"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="contains( $block-type,'listar_' )">
-				<xsl:call-template name="blockly.element.listar"></xsl:call-template>
-			</xsl:when>
 			
 			<xsl:when test="$block-type = 'logic_operation'">
 				<xsl:call-template name="blockly.element.logic_operation"></xsl:call-template>
@@ -893,22 +885,6 @@
 				<xsl:call-template name="blockly.element.controls_if"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="contains( $block-type,'get-dao-' )">
-				<xsl:call-template name="blockly.element.getDao"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="contains( $block-type,'set-dao-' )">
-				<xsl:call-template name="blockly.element.setDao"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'model_get'">
-				<xsl:call-template name="blockly.element.model_get"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'model_set'">
-				<xsl:call-template name="blockly.element.model_set"></xsl:call-template>
-			</xsl:when>
-			
 			<xsl:when test="$block-type = 'controls_repeat_ext'">
 				<xsl:call-template name="blockly.element.controls_repeat_ext"></xsl:call-template>
 			</xsl:when>
@@ -933,12 +909,24 @@
 				<xsl:call-template name="blockly.element.text"></xsl:call-template>
 			</xsl:when>
 			
+			<xsl:when test="$block-type = 'controls_for'">
+				<xsl:call-template name="blockly.element.controls_for"></xsl:call-template>
+			</xsl:when>
+			
 			<xsl:when test="$block-type = 'text_print'">
 				<xsl:call-template name="blockly.element.text_print"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="contains( $block-type,'core' )">
-				<xsl:call-template name="blockly.element.core"></xsl:call-template>
+			<xsl:when test="$block-type = 'controller'">
+				<xsl:call-template name="blockly.element.controller"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="contains( $block-type,'get-dao-' )">
+				<xsl:call-template name="blockly.element.getDao"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="contains( $block-type,'set-dao-' )">
+				<xsl:call-template name="blockly.element.setDao"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'inserir_dao'">
@@ -953,28 +941,16 @@
 				<xsl:call-template name="blockly.element.index_editar"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="contains( $block-type,'rowtable' )">
-				<xsl:call-template name="blockly.element.row"></xsl:call-template>
+			<xsl:when test="$block-type = 'model_get'">
+				<xsl:call-template name="blockly.element.model_get"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'controls_for'">
-				<xsl:call-template name="blockly.element.controls_for"></xsl:call-template>
+			<xsl:when test="$block-type = 'model_set'">
+				<xsl:call-template name="blockly.element.model_set"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'fill_combo'">
-				<xsl:call-template name="blockly.element.fill_combo"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'option_combo'">
-				<xsl:call-template name="blockly.element.option_combo">
-					<xsl:with-param name="parent" select="$parent"></xsl:with-param>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'option_dao'">
-				<xsl:call-template name="blockly.element.option_dao">
-					<xsl:with-param name="parent" select="$parent"></xsl:with-param>
-				</xsl:call-template>
+			<xsl:when test="contains( $block-type,'core' )">
+				<xsl:call-template name="blockly.element.core"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'apagar'">
@@ -989,32 +965,60 @@
 				<xsl:call-template name="blockly.element.rediret_p"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'separator'">
+			<xsl:when test="contains( $block-type,'listar_' )">
+				<xsl:call-template name="blockly.element.listar"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="contains( $block-type,'rowtable' )">
+				<xsl:call-template name="blockly.element.row"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'fill_combo'">
+				<xsl:call-template name="blockly.element.fill_combo"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'option_combo'">
+				<xsl:call-template name="blockly.element.option_combo">
+					<xsl:with-param name="parent" select="$parent"></xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'combo_dao'">
+				<xsl:call-template name="blockly.element.combo_dao"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'option_dao'">
+				<xsl:call-template name="blockly.element.option_dao">
+					<xsl:with-param name="parent" select="$parent"></xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="contains( $block-type,'separator_')">
 				<xsl:call-template name="blockly.element.separator"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="contains( $block-type,'save_sepator_')">
+				<xsl:call-template name="blockly.element.save_separator"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="contains( $block-type,'sep_row_')">
+				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'get_row_sep'">
+				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'formlist'">
 				<xsl:call-template name="blockly.element.formlist"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'sep_row'">
-				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'sep_form'">
-				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'save_separator'">
-				<xsl:call-template name="blockly.element.save_separator"></xsl:call-template>
-			</xsl:when>
-			
 			<xsl:when test="$block-type = 'save_formlist'">
 				<xsl:call-template name="blockly.element.save_formlist"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'get_row_sep'">
-				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
+			<xsl:when test="$block-type = 'sep_form'">
+				<xsl:call-template name="blockly.element.sep_row"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'get_row_form'">
@@ -1047,10 +1051,6 @@
 			
 			<xsl:when test="$block-type = 'get_custom_line'">
 				<xsl:call-template name="blockly.element.get_custom_line"></xsl:call-template>
-			</xsl:when>
-			
-			<xsl:when test="$block-type = 'combo_dao'">
-				<xsl:call-template name="blockly.element.combo_dao"></xsl:call-template>
 			</xsl:when>
 		
 			<xsl:otherwise>
