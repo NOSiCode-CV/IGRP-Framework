@@ -421,7 +421,7 @@
 		
 	</xsl:template>
 	
-	<xsl:template name="blockly.element.corre_get_param" >
+	<xsl:template name="blockly.element.core_get_param" >
 		
 		<xsl:variable name="paramget" select="field[@name='param']"/>
 
@@ -1025,8 +1025,8 @@
 				<xsl:call-template name="blockly.element.get_row_sep"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'corre_get_param'">
-				<xsl:call-template name="blockly.element.corre_get_param"></xsl:call-template>
+			<xsl:when test="$block-type = 'core_get_param'">
+				<xsl:call-template name="blockly.element.core_get_param"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'grafico'">

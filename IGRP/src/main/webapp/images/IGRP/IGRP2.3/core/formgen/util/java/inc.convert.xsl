@@ -34,6 +34,14 @@
 					<xsl:text></xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.split(";")</xsl:text>
 				</xsl:when>
 				
+				<xsl:when test="$from = 'checkboxlist' and $to = 'String'">	
+					<xsl:text>String.join(";",</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+				</xsl:when>
+				
+				<xsl:when test="$from = 'String' and $to = 'checkboxlist'">	
+					<xsl:text></xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.split(";")</xsl:text>
+				</xsl:when>
+				
 				<xsl:when test="$from = 'Integer' and $to = 'String'">	
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
 				</xsl:when>

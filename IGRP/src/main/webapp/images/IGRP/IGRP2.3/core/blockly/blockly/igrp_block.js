@@ -49,6 +49,10 @@ function SetupBlockly(){
 			if( type.indexOf('listar_') == 0 )
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.listar;
+			
+			if( type.indexOf('separator_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.separator;
 				
 		
 		Blockly.Blocks[type] = {
@@ -251,6 +255,7 @@ function SetupBlockly(){
 				$(document).trigger('block-'+type+'-init', [ block ]);
 				
 				if(type.indexOf('get-dao-') >= 0){
+					
 					var daoName = type.split('get-dao-').pop();
 					
 					$(document).trigger('get-dao-block-init', [ block, daoName ]);
@@ -258,8 +263,6 @@ function SetupBlockly(){
 					
 			}
 		};
-		
-		
 		
 		Blockly.Java[type] = function(block) {
 			
