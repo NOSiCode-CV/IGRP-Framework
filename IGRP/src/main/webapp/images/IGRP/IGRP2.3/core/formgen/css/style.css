@@ -1429,9 +1429,19 @@ new rows / columns style
 	height:160px;
 	background:white;
 	z-index:10;
-	padding:10px 30px;
+	padding:15px 30px;
 	overflow:auto;
 }
+
+.gen-editor-errors .gen-editor-errors-close{
+	position: absolute;
+    right: 0;
+    top: 0;
+    font-size:16px;
+    cursor:pointer;
+	border:0
+}
+
 .gen-editor-errors table{
 	width:100%;
 }

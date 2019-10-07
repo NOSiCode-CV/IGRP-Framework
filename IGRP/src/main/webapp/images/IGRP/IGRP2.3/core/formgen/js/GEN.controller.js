@@ -3466,7 +3466,7 @@ var GENERATOR = function(genparams){
 					
 					editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
 					
-					errorsW    = $('<div class="gen-editor-errors col-sm-10"><table><tbody/></table></div>');
+					errorsW    = $('<div class="gen-editor-errors col-sm-10"><div class="btn btn-default btn-sm gen-editor-errors-close" onclick="__GEN.removeEditorsErrors(true)"><i class="fa fa-times"></i></div><table><tbody/></table></div>');
 				
 				editor.addClass('has-error');
 				
