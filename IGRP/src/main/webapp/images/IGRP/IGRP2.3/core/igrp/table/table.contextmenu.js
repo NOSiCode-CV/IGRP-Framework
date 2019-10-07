@@ -26,7 +26,16 @@
 					var scope       = params.scope ? params.scope : '.IGRP_contextmenu tbody tr';
 					var menu        = params.menu  ? params.menu  : '.table-context-menu';
 					var setPosition = params.setPosition ? params.setPosition : $.IGRP.components.contextMenu.setPosition;
-				
+					var table       = hld.find('table');
+					
+					table.each(function(ti,tb){
+						
+						//if( $('tbody tr', tb)[0] )
+							
+						$(tb).addClass('igrp-right-click-actions');
+						
+					});
+					
 					var settings = $.extend({
 						scope     : scope,
 						menu      : menu,

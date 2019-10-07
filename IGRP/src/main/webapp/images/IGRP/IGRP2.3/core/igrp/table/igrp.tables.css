@@ -509,3 +509,21 @@ thead th[show-label="false"]>span{
 	font-size:16px;
 }
 
+table.igrp-right-click-actions>tbody>tr{
+	position:relative;
+	transform: scale(1);
+}
+table.igrp-right-click-actions>tbody>tr:after{
+	content:"\f142";
+	width:5px;
+	font:normal normal normal 14px/1 FontAwesome;
+	height:5px;
+	display:block;
+	top:50%;
+	margin-top:-7px;
+	right:10px;
+	float:right;
+	position:absolute;
+	color:#d7d7d7
+}
+

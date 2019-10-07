@@ -28,7 +28,7 @@ var PLAINTEXT = function(type,params){
 			name    :'disable_output_escaping',
 			label : 'Html Content',
 			value   :false,
-			xslValue:'disable-output-escaping="true"',
+			xslValue:'disable-output-escaping="yes"',
 			onEditionStart : function(){
 				
 				var setHTMLClss = function(){
