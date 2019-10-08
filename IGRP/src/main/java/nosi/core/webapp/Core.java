@@ -871,8 +871,8 @@ public final class Core { // Not inherit
 		return cLob;
 	}
 	
-	/** 
-	 * @param uuid Uuid do ficheiro a ser descartado 
+	/** Retrieve the file 
+	 * @param uuid Uuid  
 	 * @return nosi.webapps.igrp.dao.Clob 
 	 */
 	public static CLob getFileByUuid(String uuid) {
@@ -901,6 +901,19 @@ public final class Core { // Not inherit
 		} 
 
 		return cLob;
+	}
+	
+	/** Returns the filename saved
+	 * @param uuid Uuid 
+	 * @return FileName 
+	 */
+	public static String getFileNameByUuid(String uuid) {
+		String fileName="";
+		CLob file = new CLob().find().andWhere("uuid", "=",uuid).one();
+		if(file != null) {
+			fileName=file.getName();
+			}
+		return fileName;
 	}
 	
 	/**
