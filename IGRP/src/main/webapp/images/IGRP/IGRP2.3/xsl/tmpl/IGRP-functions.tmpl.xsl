@@ -12,6 +12,7 @@
       <xsl:param name="img-folder" select="''"/>
       <xsl:param name="size" select="'normal'"/>
       <xsl:param name="btnClass"  select="'btn'"/>
+      <xsl:param name="text-class"  select="''"/>
       <xsl:param name="classes"  select="'btn'"/>
 
       <xsl:choose>
@@ -26,6 +27,7 @@
                   <xsl:with-param name="list" select="substring-after($list,$delimiter)"/>
                   <xsl:with-param name="delimiter" select="$delimiter"/>
                   <xsl:with-param name="use-fa" select="$use-fa"/>
+                  <xsl:with-param name="text-class" select="$text-class"/>
                   <xsl:with-param name="img-folder" select="$img-folder"/>
               </xsl:call-template>
           </xsl:when>
@@ -33,7 +35,7 @@
               <xsl:if test="$list != ''">
                 <xsl:choose>
                   <xsl:when test="$use-fa = 'true'">
-                    <div class="icon-item-holder">
+                    <div class="icon-item-holder text-{$text-class}">
                       <i class="fa {$list}"></i>
                     </div>
                   </xsl:when>

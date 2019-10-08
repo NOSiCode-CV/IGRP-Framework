@@ -222,9 +222,11 @@ var GENTABLE = function(name,params){
 			value:{
 				value:'inl',
 				options:[
+					
 					{value:'ctx',label:'Right Click'},
 					{value:'inl',label:'Inline'},
-					{value:'hover',label:'Hover'}
+					{value:'hover',label:'Hover'},
+					{value:'dropdown',label:'Dropdown'},
 				]
 			},
 			onChange:function(v){
@@ -309,9 +311,11 @@ var GENTABLE = function(name,params){
 			},
 
 			xslValue:function(){
+				var ctxType = "'"+container.GET.ctxType()+"'"
 					return '<xsl:if test="//'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><td class="igrp-table-ctx-td" >'+
 							'<xsl:apply-templates select="../../context-menu'+'" mode="table-context-inline">'+
 								'<xsl:with-param name="row-params" select="context-menu"/>'+
+								'<xsl:with-param name="type" select="'+ctxType+'"/>'+
 							'</xsl:apply-templates>'+
 						'</td></xsl:if>';
 			}

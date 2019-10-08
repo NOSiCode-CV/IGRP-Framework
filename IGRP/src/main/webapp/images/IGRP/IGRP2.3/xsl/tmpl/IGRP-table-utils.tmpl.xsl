@@ -105,7 +105,9 @@
   </xsl:template>
   <!-- CONTEXT MENU INLINE -->
   <xsl:template name="table-context-inline" mode="table-context-inline" match="context-menu">
+    
     <xsl:param name="row-params" select="../value/row/context-menu"/>
+    <xsl:param name="type"/>
     <xsl:param name="use-fa" select="'true'"/>
 
     <xsl:variable name="ctx_hidden" select="$row-params/param[contains(text(), 'ctx_hidden')]"/>
@@ -131,45 +133,104 @@
       </xsl:call-template>
     </xsl:variable>
 
-    <ul class="clearfix table-ctx-holder">
-      <xsl:for-each select="item">
-        <xsl:variable name="rowCtxHiddenTitle">
-          <xsl:call-template name="ctxHiddenTitle">
-            <xsl:with-param name="vText" select="$ctxHiddenContent"/>
-            <xsl:with-param name="ctx" select="@rel"/>
-            <xsl:with-param name="item" select="string-length($ctxHiddenTotal)"/>
-          </xsl:call-template>
-        </xsl:variable>
-
-        <xsl:variable name="ctx_holder">
-          <xsl:choose>
-            <xsl:when test="@type = 'report'">
-              <xsl:value-of select="$ctx_param_report"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="$ctx_param"/>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:variable>
-
-        <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}">
-          <xsl:choose>
-            <xsl:when test="$rowCtxHiddenTitle != @rel">
-            	<xsl:attribute name="title"><xsl:value-of select="title"/></xsl:attribute>
-                <xsl:call-template name="table-ctx-item">
-                  <xsl:with-param name="use-fa" select="$use-fa"/>
-                  <xsl:with-param name="size" select="'xs'"/>
-                  <xsl:with-param name="ctx-params" select="$ctx_holder"/>
-                </xsl:call-template>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:attribute name="invisible">true</xsl:attribute>
-            </xsl:otherwise>
-          </xsl:choose>
-        </li>
-
-      </xsl:for-each>
-    </ul>
+	<xsl:choose>
+		<xsl:when test="$type = 'dropdown'">
+			
+			<div class="dropdown pull-right igrp-table-dd-ctx">
+				<button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			    	<span class="caret"></span>
+			  	</button>
+			  	<ul class="dropdown-menu table-ctx-holder" >
+				    <xsl:for-each select="item">
+				        <xsl:variable name="rowCtxHiddenTitle">
+				          <xsl:call-template name="ctxHiddenTitle">
+				            <xsl:with-param name="vText" select="$ctxHiddenContent"/>
+				            <xsl:with-param name="ctx" select="@rel"/>
+				            <xsl:with-param name="item" select="string-length($ctxHiddenTotal)"/>
+				          </xsl:call-template>
+				        </xsl:variable>
+				
+				        <xsl:variable name="ctx_holder">
+				          <xsl:choose>
+				            <xsl:when test="@type = 'report'">
+				              <xsl:value-of select="$ctx_param_report"/>
+				            </xsl:when>
+				            <xsl:otherwise>
+				              <xsl:value-of select="$ctx_param"/>
+				            </xsl:otherwise>
+				          </xsl:choose>
+				        </xsl:variable>
+				
+				        <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}">
+				          <xsl:choose>
+				            <xsl:when test="$rowCtxHiddenTitle != @rel">
+				            	<xsl:attribute name="title"><xsl:value-of select="title"/></xsl:attribute>
+				                <xsl:call-template name="table-ctx-item">
+				                  <xsl:with-param name="use-fa" select="$use-fa"/>
+				                  <xsl:with-param name="size" select="'xs'"/>
+				                  <xsl:with-param name="ctx-params" select="$ctx_holder"/>
+				                  <xsl:with-param name="class" select="''"></xsl:with-param>
+				                  <xsl:with-param name="text-class" select="@class"></xsl:with-param>
+				                </xsl:call-template>
+				            </xsl:when>
+				            <xsl:otherwise>
+				              <xsl:attribute name="invisible">true</xsl:attribute>
+				            </xsl:otherwise>
+				          </xsl:choose>
+				        </li>
+				
+				      </xsl:for-each>
+			  	</ul>
+			</div>
+			
+		</xsl:when>
+		<xsl:otherwise>
+		
+			<ul class="clearfix table-ctx-holder">
+		      <xsl:for-each select="item">
+		        <xsl:variable name="rowCtxHiddenTitle">
+		          <xsl:call-template name="ctxHiddenTitle">
+		            <xsl:with-param name="vText" select="$ctxHiddenContent"/>
+		            <xsl:with-param name="ctx" select="@rel"/>
+		            <xsl:with-param name="item" select="string-length($ctxHiddenTotal)"/>
+		          </xsl:call-template>
+		        </xsl:variable>
+		
+		        <xsl:variable name="ctx_holder">
+		          <xsl:choose>
+		            <xsl:when test="@type = 'report'">
+		              <xsl:value-of select="$ctx_param_report"/>
+		            </xsl:when>
+		            <xsl:otherwise>
+		              <xsl:value-of select="$ctx_param"/>
+		            </xsl:otherwise>
+		          </xsl:choose>
+		        </xsl:variable>
+		
+		        <li id="CTX_ID_{position()}" class="operationTable " trel="{@rel}">
+		          <xsl:choose>
+		            <xsl:when test="$rowCtxHiddenTitle != @rel">
+		            	<xsl:attribute name="title"><xsl:value-of select="title"/></xsl:attribute>
+		                <xsl:call-template name="table-ctx-item">
+		                  <xsl:with-param name="use-fa" select="$use-fa"/>
+		                  <xsl:with-param name="size" select="'xs'"/>
+		                  <xsl:with-param name="ctx-params" select="$ctx_holder"/>
+		                </xsl:call-template>
+		            </xsl:when>
+		            <xsl:otherwise>
+		              <xsl:attribute name="invisible">true</xsl:attribute>
+		            </xsl:otherwise>
+		          </xsl:choose>
+		        </li>
+		
+		      </xsl:for-each>
+		    </ul>
+		
+		</xsl:otherwise>
+	</xsl:choose>
+    
+  
+  
   </xsl:template>
   <!-- TABLE CTX ITEMS -->
   <xsl:template name="table-ctx-item">
@@ -177,6 +238,7 @@
     <xsl:param name="use-fa" select="'true'"/>
     <xsl:param name="size" select="'normal'"/>
     <xsl:param name="class" select="'btn'"/>
+    <xsl:param name="text-class" select="''"/>
     <xsl:param name="ctx-params" select="''"/>
     <xsl:param name="view"/>
 
@@ -212,12 +274,13 @@
           <xsl:with-param name="img-folder" select="'tools-bar'"/>
           <xsl:with-param name="size" select="$size"/>
           <xsl:with-param name="btnClass" select="$class"/>
+          <xsl:with-param name="text-class" select="$text-class"/>
         </xsl:call-template>
       </xsl:if>
 
 
       <xsl:if test="$view != 'lavel-menu'">
-        <span class="ctx-title">
+        <span class="ctx-title text-{$text-class}">
           <xsl:value-of select="title"/>
         </span>
       </xsl:if>
