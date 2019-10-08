@@ -541,6 +541,8 @@
 	
 	<xsl:template name="blockly.element.grafico" >
 	
+		<xsl:variable name="grafico" select="substring-after(@type,'grafico_')"/>
+	
 		<xsl:variable name="rowtypechildX" select="substring-before(value[@name='eixoX']/block/field,'::')"/>
 		
 		<xsl:variable name="rowtypechildY" select="substring-before(value[@name='eixoY']/block/field,'::')"/>
@@ -549,14 +551,18 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
-		<xsl:variable name="grafico" select="field[@name='grafico']"/>
-		
 		<xsl:variable name="checkbox" select="field[@name='3D']"/>
 		
 		<xsl:variable name="graficoup">
 			<xsl:call-template name="InitCap">
 				<xsl:with-param name="text" select="$grafico"/>
 			</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:variable name="daolow">
+	       	<xsl:call-template name="LowerCase">
+	       		<xsl:with-param name="text" select="$dao"/>
+	       	</xsl:call-template>
 		</xsl:variable>
 		
 		<xsl:variable name="eixox">
@@ -761,7 +767,7 @@
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
 					<xsl:text>.setValue(Core.toMap(</xsl:text><xsl:value-of select="$options_dao"></xsl:value-of>
-					<xsl:text>,"-- Selecionar --");</xsl:text>	
+					<xsl:text>,"-- Selecionar --"));</xsl:text>	
 					<xsl:value-of select="$newline"></xsl:value-of>
 				
 				</xsl:when>
@@ -777,7 +783,7 @@
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					<xsl:text>view.</xsl:text><xsl:value-of select="$combo"></xsl:value-of>
 					<xsl:text>.setValue(Core.toMap(</xsl:text><xsl:value-of select="$options_dao"></xsl:value-of>
-					<xsl:text>);</xsl:text>	
+					<xsl:text>));</xsl:text>	
 					<xsl:value-of select="$newline"></xsl:value-of>
 				
 				</xsl:otherwise>
@@ -1029,7 +1035,7 @@
 				<xsl:call-template name="blockly.element.core_get_param"></xsl:call-template>
 			</xsl:when>
 			
-			<xsl:when test="$block-type = 'grafico'">
+			<xsl:when test="contains($block-type, 'grafico_')">
 				<xsl:call-template name="blockly.element.grafico"></xsl:call-template>
 			</xsl:when>
 			

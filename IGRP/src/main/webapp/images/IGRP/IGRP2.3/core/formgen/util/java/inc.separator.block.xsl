@@ -138,6 +138,13 @@
 				<xsl:value-of select="$valorpair"></xsl:value-of><xsl:text>) );</xsl:text>
 			</xsl:when>
 			
+			<xsl:when test="$rowType = 'File'">		
+				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
+				<xsl:text>( new Pair(Core.getLinkFileByUuid(</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of>
+				<xsl:text>),</xsl:text><xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>!=null? Core.getFileNameByUuid(</xsl:text>
+				<xsl:value-of select="$ValueChild"></xsl:value-of><xsl:text>):""));</xsl:text>
+			</xsl:when>
+			
 			<xsl:otherwise>
 				<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 				<xsl:text>( new Pair(</xsl:text><xsl:value-of select="$valorpair"></xsl:value-of><xsl:text>,</xsl:text>
@@ -335,11 +342,17 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:variable name="rowset">
-			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().getKey()</xsl:text>
-		</xsl:variable>
+		<xsl:choose>
 		
-		<xsl:value-of select="$rowset"></xsl:value-of>
+		<xsl:when test="$rowType = 'File'">
+			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().getFile()</xsl:text>
+		</xsl:when>
+		
+		<xsl:otherwise>
+			<xsl:text>row.get</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().getKey()</xsl:text>
+		</xsl:otherwise>
+		
+		</xsl:choose>
 	
 	</xsl:template>	
 	

@@ -351,6 +351,82 @@ window.IGRPBlocklyInit = function(){
 			
 		}
 	 
+	//*********************************************** FILL_COMBO ***************************************************
+		
+		if(addcombo!=0)
+		{
+			
+		$('#toolbox').append(
+				
+			'<category id="combo" name="Choose-List" colour="100" class="blocly-dynamic">'
+				
+			+'<block type="fill_combo" color="100" prev-statement="" next-statement="" inline="true">'
+			
+				+'<value name="value1" type="dummy" title="fill">'
+				
+					+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
+					
+					+'<field type="checkbox" name="selecionar" title="selecionar?" options="FALSE"></field>'
+					
+				+'</value>'
+				
+				+'<value name="value2" type="statement">'
+				
+					+'<block type="option_combo" color="100" prev-statement="" next-statement="" inline="true">'
+					
+						+'<value name="value1" type="dummy" title="option">'
+						
+							+'<field type="field_text" name="opcao_val" options="key"></field>'
+							
+							+'<field type="field_text" name="opcao_des" options="value"></field>'
+							
+						+'</value>'
+						
+					+'</block>'
+					
+				+'</value>'
+				
+			+'</block>'
+			
+			+'<block type="combo_dao" color="100" mutator="where" prev-statement="" next-statement="" inline="true" >'
+			
+			+'<value name="value1" type="dummy">'
+			
+				+'<field type="dropdown" name="selecao" title="fill" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
+				
+				+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
+				
+				+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+				
+				+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+				
+				+'<field type="checkbox" name="selecionar" title="selecionar?" options="FALSE"></field>'
+			+'</value>'
+			+'<value name="key_val" type="statement" check="Linha">'
+			
+				+'<block type="option_dao" prev-statement="Linha" next-statement="Linha" color="100" inline="true">'
+				
+					+'<value type="value" title="key" name="key_val">'
+					
+					+'</value>'
+					
+					+'<value type="value" title="value" name="value_val">'
+					
+				+'</value>'
+				
+				+'</block>'
+				
+			+'</value>'
+			
+			+'</block>'	
+			
+			+'</category>'
+			
+			+'<sep class="blocly-dynamic"></sep>'
+			
+			);
+		}
+		
 	    //********************************************** ACTION-BUTTONS ******************************************
 	 
 	 var str='';
@@ -667,7 +743,6 @@ window.IGRPBlocklyInit = function(){
 			}
 		
 		})
-		
 	
 		if($(element).attr('type')== 'formlist')
 		{
@@ -688,7 +763,6 @@ window.IGRPBlocklyInit = function(){
 					
 					);
 			}
-			
 			
 			var getFormlistBlock = function(){
 				
@@ -784,94 +858,65 @@ window.IGRPBlocklyInit = function(){
 						);
 		}
 		
-		if($(element).attr('type')== 'chart')
+	});
+		
+		//*********************************************** GRAFICO ***************************************************
+
+	$('rows>content>*[type="chart"]', BlocklyXML).each(function(i, element){
+		
+	if($(element).attr('type')== 'chart')
+		
 		{
 			var char = $(element).prop('tagName');
 			
 			chart.push([ char, char ]);
 			
 			addchart++;
+			
+			if(addchart == 1)
+			{
+			
+			$('#toolbox').append(
+					
+					'<category id="dashboard" name="Dashboard" colour="80" class="blocly-dynamic"></category>'
+					
+					+'<sep class="blocly-dynamic"></sep>'
+					
+					);
+			}
+			
+			$('#dashboard').append(	
+					
+					'<category id="'+char+'" name="'+char+'" colour="120" class="blocly-dynamic">'
+					
+					+'<block type="grafico_'+char+'" color ="120" prev-statement="" next-statement="" >'
+					
+						+'<value name="value1" type="dummy" >'
+						
+							+'<field type="text" options="fill '+char+'"></field>'
+							
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
+							
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
+							
+							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							
+						+'</value>'
+						
+						+'<value name="eixoX"  title="Eixo X" type="value"></value>'
+						
+						+'<value name="eixoY"  title="Eixo Y" type="value"></value>'
+						
+					+'</block>'
+					
+					+'</category>'
+					
+				+'</category>'
+			
+				);
 		}
 	
 	});
-	
-	
-	//*********************************************** FILL_COMBO ***************************************************
-
-	
-	if(addcombo!=0)
-	{
-		
-	$('#toolbox').append(
-			
-		'<category id="combo" name="Choose-List" colour="100" class="blocly-dynamic">'
-			
-		+'<block type="fill_combo" color="100" prev-statement="" next-statement="" inline="true">'
-		
-			+'<value name="value1" type="dummy" title="fill">'
-			
-				+'<field type="dropdown" name="selecao" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
-				
-				+'<field type="checkbox" name="selecionar" title="selecionar?" options="FALSE"></field>'
-				
-			+'</value>'
-			
-			+'<value name="value2" type="statement">'
-			
-				+'<block type="option_combo" color="100" prev-statement="" next-statement="" inline="true">'
-				
-					+'<value name="value1" type="dummy" title="option">'
-					
-						+'<field type="field_text" name="opcao_val" options="key"></field>'
-						
-						+'<field type="field_text" name="opcao_des" options="value"></field>'
-						
-					+'</value>'
-					
-				+'</block>'
-				
-			+'</value>'
-			
-		+'</block>'
-		
-		+'<block type="combo_dao" color="100" mutator="where" prev-statement="" next-statement="" inline="true" >'
-		
-		+'<value name="value1" type="dummy">'
-		
-			+'<field type="dropdown" name="selecao" title="fill" options="IGRP_BLOCKLY_DROPS.selecao"></field>'
-			
-			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
-			
-			+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
-			
-			+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-			
-			+'<field type="checkbox" name="selecionar" title="selecionar?" options="FALSE"></field>'
-		+'</value>'
-		+'<value name="key_val" type="statement" check="Linha">'
-		
-			+'<block type="option_dao" prev-statement="Linha" next-statement="Linha" color="100" inline="true">'
-			
-				+'<value type="value" title="key" name="key_val">'
-				
-				+'</value>'
-				
-				+'<value type="value" title="value" name="value_val">'
-				
-			+'</value>'
-			
-			+'</block>'
-			
-		+'</value>'
-		
-		+'</block>'	
-		
-		+'</category>'
-		
-		+'<sep class="blocly-dynamic"></sep>'
-		
-		);
-	}
 	
        // *******************************************GET DAO OBJECTS *****************************************
 	
@@ -1014,40 +1059,6 @@ window.IGRPBlocklyInit = function(){
 					);
 				}
 				
-				if(addchart!=0)
-				{
-				$('#toolbox').append('<category id="dashboard" name="Dashboard" colour="120" class="blocly-dynamic">'
-						
-							+'<category id="chart" name="Chart" colour="150">'
-							
-							+'<block type="grafico" color ="120" prev-statement="" next-statement="" >'
-							
-								+'<value name="value1" type="dummy" title="fill">'
-								
-									+'<field type="dropdown" name="grafico" options="IGRP_BLOCKLY_DROPS.chart_model"></field>'
-									
-									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
-									
-									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
-									
-									+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-									
-								+'</value>'
-								
-								+'<value name="eixoX"  title="Eixo X" type="value"></value>'
-								
-								+'<value name="eixoY"  title="Eixo Y" type="value"></value>'
-								
-							+'</block>'
-							
-							+'</category>'
-							
-						+'</category>'
-						
-						+'<sep class="blocly-dynamic"></sep>'
-						);
-				}
-				
 				if(addbutton!=0)
 				{
 				$('#model').append(	
@@ -1075,12 +1086,6 @@ window.IGRPBlocklyInit = function(){
 						+'</block>'
 							
 						);
-				}
-				
-
-				if(addformlist!=0)
-				{
-			
 				}
 				
 	}
@@ -1247,7 +1252,7 @@ function GetBlocklyImports(){
 			
 			saveformlistImports = $('block[type*="save_forlist"]',xml),
 			
-			graficoImports = $('block[type="grafico"]',xml),
+			graficoImports = $('block[type*="grafico_"]',xml),
 			
 			combodaoImports = $('block[type="combo_dao"]',xml),
 			
@@ -1291,25 +1296,31 @@ function GetBlocklyImports(){
 				
 			})
 			
-			
 		}
 		
 		if(saveformlistImports[0]){
 			
 			saveformlistImports.each(function(i, form){
 				
-				var blockType =$.trim($(form).attr('type').split('save_sepator_').pop());
+				var blockType =$.trim($(form).attr('type').split('save_forlist_').pop());
 				
 				rtn+='<import type="save_formlist">'+blockType+'</import>';
 				
 			})
-			
-			
+				
 		}
 		
-		if(graficoImports[0])
+		if(graficoImports[0]){
 			
-			rtn+='<import type="grafico">Graficos</import>';
+			graficoImports.each(function(i, grap){
+				
+				var blockType =$.trim($(grap).attr('type').split('grafico_').pop());
+				
+				rtn+='<import type="grafico">'+blockType+'</import>';
+				
+			})
+				
+		}
 		
 		if(inserirImports[0])
 			

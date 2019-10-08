@@ -112,6 +112,12 @@
 				
 				<xsl:when test="@type = 'grafico'">
 				
+				<xsl:variable name="grafico">
+						<xsl:call-template name="InitCap">
+							<xsl:with-param name="text" select="."/>
+						</xsl:call-template>
+					</xsl:variable>
+				
 					<xsl:variable name="pagelow">
 						<xsl:call-template name="LowerCase">
 							<xsl:with-param name="text" select="$page-title"/>
@@ -124,7 +130,8 @@
 					<xsl:value-of select="$newline"></xsl:value-of>
 					<xsl:text>import nosi.webapps.</xsl:text><xsl:value-of select="$app-title"></xsl:value-of>
 					<xsl:text>.pages.</xsl:text><xsl:value-of select="$pagelow"></xsl:value-of>
-					<xsl:text>.</xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.Chart_1;</xsl:text>
+					<xsl:text>.</xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text>
+					<xsl:value-of select="$grafico"></xsl:value-of><xsl:text>;</xsl:text>
 	
 				</xsl:when>
 	

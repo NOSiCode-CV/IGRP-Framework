@@ -57,6 +57,10 @@ function SetupBlockly(){
 			if( type.indexOf('forrmlist_') == 0 )
 				
 				IGRPElement = IGRP_BLOCKLY_ELEMENTS.formlist;
+			
+			if( type.indexOf('grafico_') == 0 )
+				
+				IGRPElement = IGRP_BLOCKLY_ELEMENTS.grafico;
 				
 		
 		Blockly.Blocks[type] = {
@@ -235,15 +239,19 @@ function SetupBlockly(){
 				}
 					
 				if(color)	
+					
 					block.setColour(color);
 				
 				if(coment)	
+					
 					block.setTooltip(coment);
 				
 				if(IGRPElement) {
 					
 					for(var method in IGRPElement){
+						
 						if(method != 'init')
+							
 							block[method] = IGRPElement[method];
 						
 					}
