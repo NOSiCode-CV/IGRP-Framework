@@ -321,6 +321,7 @@ var GENERATOR = function(genparams){
 					});
 				}else{
 					GEN.getContainers().forEach(function(c){
+					
 						if(c.getXML) {
 
 							rtn+= $(c.getXML()).getXMLStr();
@@ -1568,8 +1569,7 @@ var GENERATOR = function(genparams){
 											settings   : GEN.edit.copyProperties,
 											plsql      : GEN.edit.copyData
 										} : false;
-
-										
+			
 						GEN.edit.object.copy(copyOptions);
 
 					}
@@ -5515,7 +5515,9 @@ var GENERATOR = function(genparams){
 	}
 
 	GEN.configSortable = function(placeholder){
-
+		
+		//if(!placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy'))
+		
 		placeholder.sortable({
 			delay: 150,
 			connectWith: '.gen-container-placeholder',
@@ -5526,11 +5528,27 @@ var GENERATOR = function(genparams){
 			handle: '.container-mover',
 			tolerance:'pointer',
 			helper:function(){ return $('<div></div>') },
-	
+			sort:function(e,ui){
+				
+				if(placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy')){
+					ui.placeholder.hide();
+					//return false;
+				}else{
+					ui.placeholder.show();
+				}
+					
+				
+			},
 			receive:function(e,ui){
+				if(placeholder.parents('.gen-container-holder').first().hasClass('gen-container-copy')){
+					console.log(ui)
+					return false;
+				}
+					
+					
 				
 				if(ui.helper && ui.helper.hasClass('gen-declared-containers')){
-
+					
 					//NEW ELEMENT DROP
 					var liHolder = ui.helper;
 					var column   = $(e.target).parents(VARS.layout.columns);
@@ -5595,7 +5613,7 @@ var GENERATOR = function(genparams){
 				console.log('remove')
 			},
 			change : function(e,ui){
-
+				
 				if(ui.sender && ui.sender.find('>.gen-declared-containers').length <= 1){
 
 					var senderCol = $(ui.sender.parents('.gen-column')[0]);

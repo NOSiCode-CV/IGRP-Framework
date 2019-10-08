@@ -37,7 +37,13 @@ var GENBOX = function(name,tparams){
 		
 		container.setContents(tparams.contents);
 		
-		container.Transform = function(){ return false; }
+		container.Transform = function(){ 
+			
+			container.holder.find('.c-holder-loading').hide();
+			
+			return false; 
+			
+		}
 	}
 
 	container.XSLToString = function(e) {
@@ -83,9 +89,28 @@ var GENBOX = function(name,tparams){
 		return rtn;
 	}
 
-	container.setContents = function(contents){
+	container.setContents = function(contents, clear){
 		//var params = p ? p : tparams;
 		var holder = $($('> .container-contents > .box > .box-body',container.holder)[0]);
+		
+		updateContents();
+		
+		if(clear == true){
+			
+			var contentsContainers = holder.find('.gen-container-holder');
+
+			$.each(contentsContainers,function(i,c){
+		   		var cId   = $(c).attr('id');
+		   		var cType = $(c).attr('type');
+
+		   		if(cId) GEN.removeContainer(cId);
+		   		
+		    });
+
+			holder.html('');
+			
+		}
+			
 		
 		if(contents && contents[0]) {
 			//var contents = contents;
@@ -97,7 +122,7 @@ var GENBOX = function(name,tparams){
 				}
 			});
 		}else
-			__GEN.layout.addRow({ parent:holder });			
+			__GEN.layout.addRow({ parent:holder });
 	}
 
 	var updateContents = function(){

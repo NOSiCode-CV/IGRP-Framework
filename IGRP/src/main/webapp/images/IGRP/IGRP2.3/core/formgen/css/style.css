@@ -182,9 +182,22 @@ a, button {
 	font-weight: 500
 }
 
-
 .gen-c-copy-i{
+	display:none;
+}
+
+.gen-container-copy>.box-tools>.gen-c-copy-i{
 	float: left;
+	font-weight:bold;
+	position:relative;
+	top:5px;
+	display:block;
+	cursor:help;
+	left:2px;
+}
+
+.gen-c-copy-i:before{
+	/*content:"\f069"*/
 }
 
 .container-contents{

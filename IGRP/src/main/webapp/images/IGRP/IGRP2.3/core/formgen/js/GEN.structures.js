@@ -454,9 +454,6 @@ var GENSTRUCTURES = function(GEN){
 						target += '_submit';
 					
 				}
-					
-				
-				console.log(item)
 
 				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+'>'+
 	                    '<title>'+item.GET.label()+'</title>'+

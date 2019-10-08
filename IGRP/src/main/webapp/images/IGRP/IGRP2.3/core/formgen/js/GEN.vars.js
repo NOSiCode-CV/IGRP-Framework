@@ -177,7 +177,7 @@ var VARS = {
 		return '<div id="'+c.id+'" type="'+c.GET.type()+'" class="'+VARS.class.containersHolder+'">'+
 					//header
 				    '<div class="box-tools gen-container-setts gen-settings-holder">'+
-				    	'<span class="gen-c-copy-i"></span>'+
+				    	'<span class="gen-c-copy-i"  title="Container Copied">*</span>'+
 				    	'<span class="c-holder-loading"></span>'+
 
 				    	'<span class="c-type">'+c.GET.tag()+'</span>'+
