@@ -10,7 +10,8 @@
    var bpmLookup     = $('[input-rel="form_1_formkey"]'),
       lookupHref     = bpmLookup.attr('href'),
       hrefAfterApp   = lookupHref,
-      pdid           = null;
+      pdid           = null,
+      proceid        = null;
 
    $.IGRP.component('bpmn',{
       importXML : function(l){
@@ -104,8 +105,13 @@
                         xml       : $(data).find('rows content gen_table table').getXMLDocument(),
                         complete  : function(){
                            try{
-                              if(bpmn.id != null)
-                                 com.importXML(bpmn.new);
+                        	   if(bpmn.id != null){
+                                   com.importXML(bpmn.new);
+
+                                   setTimeout(function() {
+                                      $('#camunda-id').val(proceid);
+                                   }, 100);
+                                }
                            }catch(e){console.log(e);null;}
 
                            com.lookupSetHref(param);
@@ -171,6 +177,9 @@
 
          if (bpmn.app)
             com.lookupSetHref('p_env_fk='+bpmn.app);
+         
+         if(!bpmn.id && !proceid)
+             proceid = 'process_'+Math.floor(Date.now() / 1000);
 
             //bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);
 
