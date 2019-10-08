@@ -2984,6 +2984,8 @@ var CONTAINER = function(name,params){
 		var objects = type == 'container'   ? GEN.getContainers() : 
 					  type == 'contents'    ? container.contents  :
 					  container.contextMenu ? FIELDS.concat(container.contextMenu.getFields()) : FIELDS;
+					  
+		objects = type == 'field' && container.incrementFieldsType && container.incrementFieldsType == 'contents' ?  container.contents : objects;
 		
 		var rtn = name+'_'+index;
 

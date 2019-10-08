@@ -19,6 +19,8 @@ var GENTABCONTENT = function(name,tparams){
 
 	container.xslValidation = false;
 
+	container.incrementFieldsType = 'contents';
+	
 	//container.xml.genType = 'menu';
 
 	container.canRecieveFields = false;//container does not recieve any field
@@ -246,12 +248,16 @@ var GENTABCONTENT = function(name,tparams){
 	var newBtn = function(p){
 		var btn = null;
 		var f   = GEN.getDeclaredField('button');
-
+		
 		if(f) {
+			
 			var btnParams = p ? $.extend({},p) : {};
 
-			if(btnParams) delete btnParams.rows;
+			if(btnParams) 
+				
+				delete btnParams.rows;
 			
+
 			btn = new f.field(f.type,btnParams);
 
 			btn.parent = container;
@@ -288,6 +294,7 @@ var GENTABCONTENT = function(name,tparams){
 		var btn = newBtn(_params);
 		
 		if(btn){
+			
 			var idx = _params && _params.properties && _params.properties.rel ? _params.proprieties.rel.split('-')[1] : contentsIdx;
 
 			//var activeClass = idx == 1 ? 'active' : '';

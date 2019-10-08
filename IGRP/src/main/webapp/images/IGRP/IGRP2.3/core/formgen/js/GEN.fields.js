@@ -459,6 +459,7 @@ var Field = function(type,params){
 
 		if(!field.proprieties.tag || $.trim(field.proprieties.tag) == ''){
 			var tag = field.parent.proprieties.tag+'_'+type;
+			
 			field.SET.tag(field.parent.incrementTag('field',tag));
 		}
 		field.onInit();
