@@ -20,13 +20,14 @@ public class LookupListPageView extends View {
 	public Field tipo;
 	public Field nome;
 	public Field descricao_documento;
+	public Field type_doc_desc;
 	public Field type_doc;
 	public Field descricao;
 	public Field nome_pagina;
 	public Field id;
 	public Field taskid;
 	public Field processid;
-	public IGRPForm tabcontent_1;
+	public IGRPTabContent tabcontent_1;
 	public IGRPForm form_1;
 	public IGRPFormList formlist_1;
 	public IGRPTable table_1;
@@ -40,7 +41,7 @@ public class LookupListPageView extends View {
 
 		this.setPageTitle("Lista de Pagina Para Lookup");
 			
-		tabcontent_1 = new IGRPForm("tabcontent_1","");
+		tabcontent_1 = new IGRPTabContent("tabcontent_1","");
 
 		form_1 = new IGRPForm("form_1","Filtro");
 
@@ -52,11 +53,11 @@ public class LookupListPageView extends View {
 
 		associar_pagina = new TextField(model,"associar_pagina");
 		associar_pagina.setLabel(gt("Associar Página"));
-		associar_pagina.propertie().add("name","p_associar_pagina").add("type","button").add("request_fields","").add("maxlength","50");
+		associar_pagina.propertie().add("name","p_associar_pagina").add("type","button").add("request_fields","").add("refresh_submit","false").add("maxlength","50");
 		
 		associar_documentos = new TextField(model,"associar_documentos");
 		associar_documentos.setLabel(gt("Associar Documentos"));
-		associar_documentos.propertie().add("name","p_associar_documentos").add("type","button").add("request_fields","").add("maxlength","50");
+		associar_documentos.propertie().add("name","p_associar_documentos").add("type","button").add("request_fields","").add("refresh_submit","false").add("maxlength","50");
 		
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
@@ -64,25 +65,25 @@ public class LookupListPageView extends View {
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
-		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false");
+		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Code"));
-		page.propertie().add("name","p_page").add("type","text").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false");
+		page.propertie().add("name","p_page").add("type","text").add("maxlength","100").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		checkbox = new CheckBoxField(model,"checkbox");
 		checkbox.setLabel(gt(" "));
-		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("check","true").add("desc","true");
+		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		checkbox_check = new CheckBoxField(model,"checkbox_check");
-		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("check","true").add("desc","true");
+		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		obrigatorio = new CheckBoxField(model,"obrigatorio");
 		obrigatorio.setLabel(gt("Obrigatório?"));
-		obrigatorio.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("check","true").add("desc","true");
+		obrigatorio.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		obrigatorio_check = new CheckBoxField(model,"obrigatorio_check");
-		obrigatorio_check.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("check","true").add("desc","true");
+		obrigatorio_check.propertie().add("name","p_obrigatorio").add("type","checkbox").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		tipo = new ListField(model,"tipo");
 		tipo.setLabel(gt("Tipo"));
@@ -90,11 +91,11 @@ public class LookupListPageView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("desc","true");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("placeholder",gt("")).add("desclabel","false").add("desc","true");
 		
 		descricao_documento = new TextField(model,"descricao_documento");
 		descricao_documento.setLabel(gt("Descrição"));
-		descricao_documento.propertie().add("name","p_descricao_documento").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("desc","true");
+		descricao_documento.propertie().add("name","p_descricao_documento").add("type","text").add("maxlength","30").add("required","false").add("readonly","false").add("disabled","true").add("placeholder",gt("")).add("desclabel","false").add("desc","true");
 		
 		type_doc = new HiddenField(model,"type_doc");
 		type_doc.setLabel(gt(""));
@@ -102,15 +103,15 @@ public class LookupListPageView extends View {
 		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Título"));
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
+		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		nome_pagina = new TextField(model,"nome_pagina");
 		nome_pagina.setLabel(gt("Code"));
-		nome_pagina.propertie().add("name","p_nome_pagina").add("type","text").add("maxlength","30");
+		nome_pagina.propertie().add("name","p_nome_pagina").add("type","text").add("maxlength","30").add("showLabel","true").add("group_in","");
 		
 		id = new HiddenField(model,"id");
 		id.setLabel(gt(""));
-		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("showLabel","true").add("group_in","").add("java-type","").add("tag","id");
 		
 		taskid = new HiddenField(model,"taskid");
 		taskid.setLabel(gt(""));

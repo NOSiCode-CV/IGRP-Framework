@@ -43,7 +43,7 @@ public class Pesquisa_nif_restView extends View {
 		
 		tipo_contribuinte = new ListField(model,"tipo_contribuinte");
 		tipo_contribuinte.setLabel(gt("Tipo contribuinte"));
-		tipo_contribuinte.propertie().add("name","p_tipo_contribuinte").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","false").add("java-type","");
+		tipo_contribuinte.propertie().add("name","p_tipo_contribuinte").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","true").add("disabled","true").add("java-type","");
 		
 		nif = new NumberField(model,"nif");
 		nif.setLabel(gt("NIF"));

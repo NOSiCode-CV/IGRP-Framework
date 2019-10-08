@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import nosi.core.config.ConfigApp;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import nosi.webapps.igrp.services.rest.pesquisa_cae.pojo.Cae;
 
@@ -35,16 +36,23 @@ public class PesquisaCae {
 			JSONObject obj = new JSONObject(json);
 			JSONObject Entries = obj.getJSONObject("Entries");
 			try {
-				JSONArray Entry = Entries.getJSONArray("Entry");
-				for(int i = 0; i < Entry.length(); i++) {
-					JSONObject local = Entry.getJSONObject(i);
-					Cae cae = new Cae();
-					cae.setCodigo(local.getString("codigo".toUpperCase()));
-					cae.setDescricao(local.getString("descricao".toUpperCase()));
-					cae.setId(local.getInt("id".toUpperCase()));
-					caes.add(cae );
-				}	
+				JSONArray Entry = Entries.optJSONArray("Entry");
+				if(Entry!=null) {
+					for(int i = 0; i < Entry.length(); i++) {					
+						JSONObject local = Entry.getJSONObject(i);
+						listCae(caes, local);
+					}	
+				}else {
+					JSONObject local = Entries.optJSONObject("Entry");
+					if(local!=null)
+						listCae(caes, local);
+					else
+						Core.setMessageInfo("Nenhum resultado encontrado");					
+					
+				}					
+				
 			}catch (Exception e) {
+				Core.setMessageError();
 				
 			}
 		} catch (IOException e) {
@@ -52,6 +60,14 @@ public class PesquisaCae {
 			e.printStackTrace();
 		}
 		return caes;
+	}
+
+	private static void listCae(List<Cae> caes, JSONObject local) {
+		Cae cae = new Cae();				
+		cae.setCodigo(local.getString("codigo".toUpperCase()));
+		cae.setDescricao(local.getString("descricao".toUpperCase()));
+		cae.setId(local.getInt("id".toUpperCase()));
+		caes.add(cae );
 	}
 
 	private static String resolveUrl(String id) {

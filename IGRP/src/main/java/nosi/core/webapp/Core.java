@@ -1958,6 +1958,19 @@ public final class Core { // Not inherit
 			return updateFile(Core.getFile(parameterName), Core.getFile(parameterName).getSubmittedFileName(),uuid);
 		throw new Exception(gt("Parâmetro invalido"));
 	}
+	
+	/** by UUID - update a file to the Igrp core DataBase and return true or false ...
+	 * 
+	 * @param 
+	 * @param uuid
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean updateFile(UploadFile upFile,String uuid) throws Exception {
+		if (Core.isNotNull(upFile) && upFile.isUploaded())
+			return updateFile(upFile.getBytes(), upFile.getSubmittedFileName(),null,uuid);
+		throw new Exception(gt("UploadFile invalido"));
+	}
 	@Deprecated
 	/** Deprecated use updateFile with uuid
 	 * 
@@ -2292,7 +2305,7 @@ public final class Core { // Not inherit
 	}
 	
 	public static String saveFileNGetUuid(UploadFile upFile) throws Exception {
-		if (Core.isNotNull(upFile))
+		if (Core.isNotNull(upFile) && upFile.isUploaded())
 			return Core.saveFileNGetUuid(upFile.getBytes(), upFile.getSubmittedFileName(),null);
 		throw new Exception(gt("UploadFile invalido"));
 	}

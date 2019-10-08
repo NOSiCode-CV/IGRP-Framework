@@ -9,13 +9,16 @@ import nosi.core.webapp.Response;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
-
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import nosi.core.webapp.webservices.rest.ConsumeJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 /*----#end-code----*/
@@ -28,7 +31,7 @@ public class Pesquisa_nif_restController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'Perspiciatis anim sit doloremq' as nif_tab,'Sit aperiam rem mollit labore' as nome_tab,'21' as documento_tab,'Aliqua voluptatem totam consec' as dt_nascimento,'Mollit officia dolor natus ut' as nome_pai,'Elit ipsum sit natus aperiam' as nome_mae "));
+		model.loadTable_1(Core.query(null,"SELECT 'Ut unde natus mollit lorem' as nif_tab,'Ut accusantium omnis anim rem' as nome_tab,'3' as documento_tab,'Lorem voluptatem magna accusan' as dt_nascimento,'Mollit ut dolor ut rem' as nome_pai,'Omnis voluptatem laudantium de' as nome_mae "));
 		view.tipo_contribuinte.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
@@ -38,6 +41,7 @@ public class Pesquisa_nif_restController extends Controller {
     	  	
 		view.btn_pesquisar.setLink("index"); 
 		view.n_documento_form.setVisible(false);
+      view.tipo_contribuinte.setVisible(false);
 		view.tipo_contribuinte.setValue(getMyContribuinte());
 		if(Core.isNull(model.getTipo_contribuinte()))
 			model.setTipo_contribuinte("sing");	
@@ -48,58 +52,39 @@ public class Pesquisa_nif_restController extends Controller {
 		if(Core.isNotNullOrZero(model.getNif())) {
 			url = setting.getProperty("link.rest.pesquisa_nif")+"?NUM_NIF=" + model.getNif();
 		}else if(Core.isNotNull(model.getNome_form()) && (Core.isNullOrZero(model.getNif()))) {
-			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase();
+			url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + 
+		URLEncoder.encode(model.getNome_form().toUpperCase(Locale.ROOT).trim(), StandardCharsets.UTF_8.toString());
+			
 		}
       //else if(Core.isNotNull(model.getNome_form()) && (Core.isNotNull(model.getNif()) && model.getNif() != 0)){
 		//	url = setting.getProperty("link.rest.pesquisa_nif")+"?NM_CONTRIBUINTE=" + model.getNome_form().toUpperCase() + "&NUM_NIF=" +  model.getNif();
 		//}
 		
 			if(Core.isNotNullOrZero(model.getNif()) || Core.isNotNull(model.getNome_form())) {
-				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), authorization);
+				String json = json_obj.getJsonFromUrl(url, authorization);
 				
 				try {
 					JSONObject obj = new JSONObject(json);
 					JSONObject Entries = obj.getJSONObject("Entries");
-					JSONArray Entry = Entries.getJSONArray("Entry");
+					JSONArray Entry = Entries.optJSONArray("Entry");
 					List<Pesquisa_nif_rest.Table_1> list_nif = new ArrayList<>();
+					if(Entry!=null)
 						for(int i = 0; i < Entry.length(); i++) {
 							JSONObject pessoa = Entry.getJSONObject(i);
-							Pesquisa_nif_rest.Table_1 tab_nif = new Pesquisa_nif_rest.Table_1();
-							try {
-								tab_nif.setDocumento_tab(pessoa.getInt("NU_BI")+"");
-							}catch (org.json.JSONException e) {
-								tab_nif.setDocumento_tab(null);
-							}
-							try {
-								tab_nif.setDt_nascimento(pessoa.getString("DT_NASC"));
-							}catch (org.json.JSONException e) {
-								tab_nif.setDt_nascimento(null);
-							}
-							try {
-								tab_nif.setNif_tab(pessoa.getInt("NU_NIF")+"");
-							}catch (org.json.JSONException e) {
-								tab_nif.setNif_tab(null);
-							}
-							try {
-								tab_nif.setNome_mae(pessoa.getString("NM_MAE"));
-							}catch (org.json.JSONException e) {
-								tab_nif.setNome_mae(null);
-							}
-							try {
-								tab_nif.setNome_pai(pessoa.getString("NM_PAI"));
-							}catch (org.json.JSONException e) {
-								tab_nif.setNome_pai(null);
-							}
-							try {
-								tab_nif.setNome_tab(pessoa.getString("NM_CONTRIBUINTE"));
-							}catch (org.json.JSONException e) {
-								tab_nif.setNome_tab(null);
-							}						
-							list_nif.add(tab_nif);
-						model.setTable_1(list_nif);
+							listNif(list_nif, pessoa);						
+						}
+					else {
+						JSONObject pessoa = Entries.optJSONObject("Entry");
+						if(pessoa!=null)
+							listNif(list_nif, pessoa);				
+						else
+							Core.setMessageInfo("Nenhum registo encontrado");
 					}
+						model.setTable_1(list_nif);
+						Core.setMessageSuccess();
 				}catch (Exception e) {
-					Core.setMessageInfo("Nenhum registo encontrado");
+					Core.setMessageError();
+					
 				}
 			}
 		/*----#end-code----*/
@@ -119,7 +104,7 @@ public class Pesquisa_nif_restController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
-		return this.forward("igrp_studio","Pesquisa_nif_rest","index", model, this.queryString());
+		return this.forward("igrp_studio","Pesquisa_nif_rest","index");
 		/*----#end-code----*/
 			
 	}
@@ -139,7 +124,40 @@ public class Pesquisa_nif_restController extends Controller {
 		contri.put("sing", "Singular");
 		return contri;
 	}
-
+	private void listNif(List<Pesquisa_nif_rest.Table_1> list_nif, JSONObject pessoa) {
+		Pesquisa_nif_rest.Table_1 tab_nif = new Pesquisa_nif_rest.Table_1();
+		try {
+			tab_nif.setDocumento_tab(pessoa.get("NU_BI")+"");
+		}catch (org.json.JSONException e) {
+			tab_nif.setDocumento_tab(null);
+		}
+		try {
+			tab_nif.setDt_nascimento(pessoa.getString("DT_NASC"));
+		}catch (org.json.JSONException e) {
+			tab_nif.setDt_nascimento(null);
+		}
+		try {
+			tab_nif.setNif_tab(pessoa.get("NU_NIF")+"");
+		}catch (org.json.JSONException e) {
+			tab_nif.setNif_tab(null);
+		}
+		try {
+			tab_nif.setNome_mae(pessoa.getString("NM_MAE"));
+		}catch (org.json.JSONException e) {
+			tab_nif.setNome_mae(null);
+		}
+		try {
+			tab_nif.setNome_pai(pessoa.getString("NM_PAI"));
+		}catch (org.json.JSONException e) {
+			tab_nif.setNome_pai(null);
+		}
+		try {
+			tab_nif.setNome_tab(pessoa.getString("NM_CONTRIBUINTE"));
+		}catch (org.json.JSONException e) {
+			tab_nif.setNome_tab(null);
+		}						
+		list_nif.add(tab_nif);
+	}
 	
 /*----#end-code----*/
 }

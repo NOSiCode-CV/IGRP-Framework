@@ -103,26 +103,29 @@ public class Pesquisa_geografiaController extends Controller {
 		if (Core.isNotNull(Entry)) {
 			for (int i = 0; i < Entry.length(); i++) {
 				JSONObject local = Entry.getJSONObject(i);
-				Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
-				tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
-				tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
-				tab_geo.setTreemenu_1_child("1");
-				list_geo.add(tab_geo);
+				addListget(list_geo, local);
 			}
 		} else {
 			JSONObject local = Entries.optJSONObject("Entry");
-			if (Core.isNotNull(local)) {
-				Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
-				tab_geo.setTreemenu_1_tmid("" + local.get("id"));
-				tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
-				tab_geo.setTreemenu_1_child("1");
-				list_geo.add(tab_geo);
-			}
+			addListget(list_geo, local);
 
 		}
 		list_geo.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_1::getTreemenu_1_link_desc));
 
 		return list_geo;
+	}
+
+
+
+
+	private void addListget(List<Pesquisa_geografia.Treemenu_1> list_geo, JSONObject local) {
+		if (Core.isNotNull(local)) {
+			Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
+			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
+			tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
+			tab_geo.setTreemenu_1_child("1");
+			list_geo.add(tab_geo);
+		}
 	}
 
 	public String getXml(String id, String desc_menu, String id_par, String child, String des_geo, String id_geo) {

@@ -8,24 +8,32 @@ import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.validation.Valid;
 public class LookupListPage extends Model{		
+
 	@RParam(rParamName = "p_associar_pagina")
 	private String associar_pagina;
+
 	@RParam(rParamName = "p_associar_documentos")
 	private String associar_documentos;
+
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
+
 	@RParam(rParamName = "p_page_descr")
 	private String page_descr;
+
 	@RParam(rParamName = "p_page")
 	private String page;
+
 	@RParam(rParamName = "p_taskId")
 	private String taskid;
+
 	@RParam(rParamName = "p_processId")
 	private String processid;
 	
 	@SeparatorList(name = Formlist_1.class)
+	@Valid
 	private List<Formlist_1> formlist_1 = new ArrayList<>();	
 	public void setFormlist_1(List<Formlist_1> formlist_1){
 		this.formlist_1 = formlist_1;
@@ -37,6 +45,8 @@ public class LookupListPage extends Model{
 	private String[] p_formlist_1_id;
 	@RParam(rParamName = "p_formlist_1_del")
 	private String[] p_formlist_1_del;
+	@RParam(rParamName = "p_formlist_1_edit")
+	private String[] p_formlist_1_edit;
 	
 	public void setP_formlist_1_id(String[] p_formlist_1_id){
 		this.p_formlist_1_id = p_formlist_1_id;
@@ -52,6 +62,13 @@ public class LookupListPage extends Model{
 		return this.p_formlist_1_del;
 	}
 	
+	public void setP_formlist_1_edit(String[] p_formlist_1_edit){
+		this.p_formlist_1_edit = p_formlist_1_edit;
+	}
+	public String[] getP_formlist_1_edit(){
+		return this.p_formlist_1_edit;
+	}
+	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
@@ -59,24 +76,7 @@ public class LookupListPage extends Model{
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
-	@RParam(rParamName = "p_table_1_id")
-	private String[] p_table_1_id;
-	@RParam(rParamName = "p_table_1_del")
-	private String[] p_table_1_del;
-	
-	public void setP_table_1_id(String[] p_table_1_id){
-		this.p_table_1_id = p_table_1_id;
-	}
-	public String[] getP_table_1_id(){
-		return this.p_table_1_id;
-	}
-	
-	public void setP_table_1_del(String[] p_table_1_del){
-		this.p_table_1_del = p_table_1_del;
-	}
-	public String[] getP_table_1_del(){
-		return this.p_table_1_del;
-	}
+
 	
 	public void setAssociar_pagina(String associar_pagina){
 		this.associar_pagina = associar_pagina;
@@ -156,13 +156,19 @@ public class LookupListPage extends Model{
 	}
 	public static class Formlist_1{
 		private Pair formlist_1_id;
+
 		private Pair checkbox;
 		private Pair checkbox_check;
+
 		private Pair obrigatorio;
 		private Pair obrigatorio_check;
+
 		private Pair tipo;
+
 		private Pair nome;
+
 		private Pair descricao_documento;
+
 		private Pair type_doc;
 		public void setFormlist_1_id(Pair formlist_1_id){
 			this.formlist_1_id = formlist_1_id;

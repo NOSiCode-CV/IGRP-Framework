@@ -2,9 +2,12 @@ package nosi.webapps.igrp.pages.lookuplistpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.util.List;
 import nosi.webapps.igrp.dao.Action;
@@ -24,7 +27,8 @@ public class LookupListPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT 'descricao' as descricao,'nome_pagina' as nome_pagina,'id' as id "));
+		model.loadFormlist_1(Core.query(null,"SELECT '1' as checkbox,'1' as obrigatorio,'2' as tipo,'Aperiam sit stract adipiscing' as nome,'Elit sed stract natus ipsum' as descricao_documento,'hidden-9e80_17d3' as type_doc "));
+		model.loadTable_1(Core.query(null,"SELECT 'Omnis rem aliqua omnis deserun' as descricao,'Voluptatem sit ut anim amet' as nome_pagina,'hidden-0d66_5528' as id "));
 		view.env_fk.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.tipo.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -111,8 +115,9 @@ public class LookupListPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","LookupListPage","index", this.queryString()); //if submit, loads the values
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","LookupListPage","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		try {
@@ -171,8 +176,9 @@ public class LookupListPageController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Dominio","index", this.queryString()); //if submit, loads the values
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Dominio","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
@@ -180,6 +186,8 @@ public class LookupListPageController extends Controller {
 		return this.redirect("igrp","Dominio","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
 		if(p_checkbox_fk!=null && Core.toInt(p_checkbox_fk,-1)!=-1) {
