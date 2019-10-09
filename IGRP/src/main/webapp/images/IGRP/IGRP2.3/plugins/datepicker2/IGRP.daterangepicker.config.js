@@ -108,8 +108,10 @@
             });
 			
 			$.IGRP.events.on('element-transform',function(p){
+				
 		        if($(selector,p.content)[0])
-		        	com.init( {parent : $(selector,p.content)} );
+		        	com.set($(selector,p.content));
+		        
 			});
 		}
 
