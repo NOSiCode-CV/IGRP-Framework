@@ -159,7 +159,7 @@ public class IGRPSeparatorList extends IGRPTable {
 				if(field instanceof CheckBoxListField || field instanceof CheckBoxField 
 					|| field instanceof RadioListField || field instanceof RadioField) {
 					this.xml.writeAttribute("check","true");
-					sufix = "_check";
+					sufix = this instanceof IGRPFormList ? "_check" : sufix;
 				}
 				if(field instanceof FileField && Core.isNotNull(field.propertie().getProperty(TEMP_VALUE))) {
 					this.xml.writeAttribute(TEMP_VALUE, field.propertie().getProperty(TEMP_VALUE));
