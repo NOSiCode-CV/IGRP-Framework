@@ -109,9 +109,11 @@
 			
 			$.IGRP.events.on('element-transform',function(p){
 				
-		        if($(selector,p.content)[0])
-		        	com.set($(selector,p.content));
-		        
+		        if($(selector,p.content)[0]){
+		        	$.each($(selector,p.content),function(){
+		        		com.set($(this));
+					});
+		        }
 			});
 		}
 
