@@ -176,7 +176,7 @@
                                 var resp = respdata.response ? $.parseJSON(respdata.response) : null;
                             
                                 if(resp){
-                                	var id = resp.id * 1;
+                                	var id = resp.id;
 
                                 	if(id === -1){
                                 		p.obj.attr('src','');
@@ -190,6 +190,12 @@
                                     	$.IGRP.utils.createHidden({
                                     		name  : 'p_'+p.name,
 											value : id,
+											class :'submittable'
+                                    	});
+                                    	
+                                    	$.IGRP.utils.createHidden({
+                                    		name  : 'p_uuid_'+p.name,
+											value : resp.uuid,
 											class :'submittable'
                                     	});
                                     }
