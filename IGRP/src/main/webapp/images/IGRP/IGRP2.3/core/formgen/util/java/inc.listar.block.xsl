@@ -153,6 +153,7 @@
 								
 			<xsl:variable name="value2">
 				<xsl:call-template name="convert_blocks">
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 					<xsl:with-param name="value" select="$valor2_"></xsl:with-param>
 					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>

@@ -31,7 +31,7 @@
 		
 		<xsl:variable name="rowvaluechild" select="substring-after(value[@name='fields_model']/block/field,'::')"/>
 		
-		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='value1']/block/field,'::')"/>
+		<xsl:variable name="rowtypeneto" select="substring-before(value[@name='fields_model']/block/value[@name='dao_rela']/block/field,'::')"/>
 		
 		<xsl:variable name="rowValue" select="substring-after(field,'::')"/>
 		
@@ -52,6 +52,7 @@
 			<xsl:text>row.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 			<xsl:text>(</xsl:text>
 				<xsl:call-template name="convert_blocks">
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 					<xsl:with-param name="value" select="$valorA"></xsl:with-param>
 					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$rowType"></xsl:with-param>
@@ -112,6 +113,7 @@
 			<xsl:text>model.set</xsl:text><xsl:value-of select="$nameCap"></xsl:value-of>
 			<xsl:text>(</xsl:text>
 				<xsl:call-template name="convert_blocks">
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 					<xsl:with-param name="value" select="$setting"></xsl:with-param>
 					<xsl:with-param name="from" select="$modeltypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$modelType"></xsl:with-param>
@@ -152,29 +154,27 @@
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:variable name="otherdao">
-			<xsl:call-template name="InitCap">
-				<xsl:with-param name="text" select="$otherdaofield"/>
+		<xsl:variable name="otherdao_obj">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="*[@name='dao_rela']"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:choose>
+<!-- 		<xsl:variable name="otherdao"> -->
+<!-- 			<xsl:call-template name="InitCap"> -->
+<!-- 				<xsl:with-param name="text" select="$otherdaofield"/> -->
+<!-- 			</xsl:call-template> -->
+<!-- 		</xsl:variable> -->
+
+		<xsl:variable name="otherdao">
+			<xsl:call-template name="replace-all">
+				<xsl:with-param name="text" select="$otherdao_obj"/>
+				<xsl:with-param name="replace" select="substring-before($otherdao_obj,'.')"/>
+				<xsl:with-param name="by" select="''"/>
+			</xsl:call-template>
+		</xsl:variable>
 		
-			<xsl:when test="$otherdao != '' ">
-				<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/>
-				<xsl:text>()!=null?</xsl:text><xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text>
-				<xsl:value-of select="$nameCap"></xsl:value-of><xsl:text>().get</xsl:text>
-				<xsl:value-of select="$otherdao"></xsl:value-of>
-				<xsl:text>():null</xsl:text>
-			</xsl:when>
-			
-			<xsl:otherwise>
-			
-				<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text>
-			
-			</xsl:otherwise>
-		
-		</xsl:choose>		
+		<xsl:value-of select="$daolow"/><xsl:text>.get</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>()</xsl:text><xsl:value-of select="$otherdao"/>		
 		
 	</xsl:template>
 	
@@ -259,6 +259,7 @@
 					<xsl:value-of select="$daolow"></xsl:value-of><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/>
 						<xsl:text>(</xsl:text>
 							<xsl:call-template name="convert_blocks">
+								<xsl:with-param name="daolow" select="$daolow"></xsl:with-param>
 								<xsl:with-param name="value" select="$valorA"></xsl:with-param>
 								<xsl:with-param name="from" select="$fieldTypechild"></xsl:with-param>
 								<xsl:with-param name="to" select="$fieldType"></xsl:with-param>
@@ -310,7 +311,7 @@
 				</xsl:when>
 				
 				<xsl:when test="$core_param != ''">
-					<xsl:text>Core.getParamInt("p_</xsl:text><xsl:value-of select="$core_param"></xsl:value-of><xsl:text>")</xsl:text>
+					<xsl:text>Core.getParamInt("</xsl:text><xsl:value-of select="$core_param"></xsl:value-of><xsl:text>")</xsl:text>
 				</xsl:when>
 			
 			</xsl:choose>

@@ -113,6 +113,7 @@
 		
 		<xsl:variable name="valorpairobj">
 			<xsl:call-template name="convert_blocks">
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
 					<xsl:with-param name="value" select="$ValueChild"></xsl:with-param>
 					<xsl:with-param name="from" select="$rowtypechild"></xsl:with-param>
 					<xsl:with-param name="to" select="$rowType"></xsl:with-param>

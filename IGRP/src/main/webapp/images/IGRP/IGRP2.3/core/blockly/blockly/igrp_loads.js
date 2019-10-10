@@ -160,7 +160,9 @@ $('#refresh_bloco').on('click', function() {
 		
 		Blockly.Xml.domToWorkspace(xml,Blockly.mainWorkspace);
 		
-		var code = Blockly.Java.workspaceToCode(Code.workspace);
+		var code = '';//Blockly.Java.workspaceToCode(Code.workspace);
+		
+		console.log(code);
 		
 		content.textContent = code; 
 		   
@@ -515,7 +517,17 @@ window.IGRPBlocklyInit = function(){
 					
 								+'<value type="value" title="set" name="fields_model">'
 								
-									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+table+'"></field>'
+									/*+(function(){
+										var rtn = '';
+										IGRP_BLOCKLY_DROPS.tablesTest[table].forEach(function(ff){
+											
+											rtn+='<field type="text" name="coluna" options="'+ff[0]+'"></field>'
+											
+										})
+										
+										return rtn;
+									}())*/
+									+'<field type="dropdown"  name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+table+'"></field>'
 									
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 									

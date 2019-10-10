@@ -1,6 +1,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<xsl:template name="convert_blocks">
+	
+		<xsl:param name="daolow"/>
 		
 		<xsl:param name="value"/>
 		
@@ -51,7 +53,6 @@
 				</xsl:when>
 				
 				<xsl:when test=" $from = 'File' and $to = 'String' ">
-				
 					<xsl:value-of select="$value"></xsl:value-of><xsl:text>!= null &amp;&amp; </xsl:text>
 					<xsl:value-of select="$value"></xsl:value-of>
 					<xsl:text>.isUploaded()? Core.saveFileNGetUuid(</xsl:text><xsl:value-of select="$value"></xsl:value-of>
@@ -68,6 +69,26 @@
 				
 				<xsl:when test="$from = 'double' and $to = 'String'">
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
+				</xsl:when>
+				
+				<xsl:when test=" $neto != '' ">
+				
+				<xsl:choose>
+				
+					<xsl:when test="$neto = 'Integer' and $to = 'String'">
+						<xsl:value-of select="$value"/><xsl:text>!=null? ""+</xsl:text>
+						<xsl:value-of select="$value"></xsl:value-of>
+						<xsl:text>:null</xsl:text>
+					</xsl:when>
+					
+					<xsl:otherwise>
+						<xsl:value-of select="$value"/><xsl:text>!=null?</xsl:text>
+						<xsl:value-of select="$value"></xsl:value-of>
+						<xsl:text>:null</xsl:text>
+					</xsl:otherwise>
+				
+				</xsl:choose>
+					
 				</xsl:when>
 				
 				<xsl:when test="$from = 'String' and $to = 'double'">

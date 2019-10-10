@@ -11,6 +11,9 @@ goog.require('Blockly.FieldDate');
 
 goog.require('Blockly.FieldCheckbox');
 
+/*goog.require('Blockly.FieldLabelSerializable');
+ 
+console.log('dskj')*/
 
 function SetupBlockly(){
 	
@@ -116,7 +119,9 @@ function SetupBlockly(){
 									
 									name = field.attr('name'),
 									
-									title = field.attr('title');
+									title = field.attr('title'),
+									
+									editable = field.attr('editable') == 'false' ? false : true;
 								
 					
 								
@@ -163,11 +168,37 @@ function SetupBlockly(){
 										
 									case 'field_text':
 										
-										 var textfield = field.attr('options');
+										 var textfield = field.attr('options'),
+										 	
+										 	fieldObject = new Blockly.FieldTextInput(textfield);
+										 
+										// fieldObject.EDITABLE = editable;
+										 
+										 console.log(fieldObject)
 										
-										value.appendField(new Blockly.FieldTextInput(textfield), name)
+										value.appendField(fieldObject, name)
 										
 									break;
+										 
+									case 'field_label':
+										
+										 var textfield = field.attr('options'),
+										 	
+										 	fieldObject = new Blockly.FieldLabel(textfield);
+										 
+										 	
+										 fieldObject.setValue('tesdasds');
+										 
+										 fieldObject.setText('lorem')
+										// fieldObject.EDITABLE = editable;
+										 
+										 console.log(fieldObject)
+										
+										value.appendField(fieldObject, name)
+										
+									break;
+										 
+									
 										
 									case 'image':
 										
