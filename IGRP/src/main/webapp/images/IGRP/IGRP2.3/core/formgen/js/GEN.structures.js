@@ -456,9 +456,9 @@ var GENSTRUCTURES = function(GEN){
 					
 				}
 				
-				if(f.GET.refresh_components && f.GET.refresh_components()){
+				if(item.GET.refresh_components && item.GET.refresh_components()){
 					
-					var comps = f.GET.refresh_components();
+					var comps = item.GET.refresh_components();
 					
 					refresh_components = 'refresh_components="'+comps.join(',')+'"';
 					
