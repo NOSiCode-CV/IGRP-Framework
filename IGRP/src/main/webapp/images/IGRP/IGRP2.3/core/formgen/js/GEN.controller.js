@@ -5148,6 +5148,55 @@ var GENERATOR = function(genparams){
 		});
 		
 		field.setPropriety({
+			name    :'refresh_components',
+			label   :'Reload Components',
+			order   : 3,
+			
+			value   :{
+				value : '',
+				multiple : true,
+				options : function(){
+					
+					var comArr = [];
+					
+					GEN.getContainers().forEach(function(com){
+						
+						comArr.push({
+							value : com.GET.tag(),
+							label : com.GET.tag()
+						})
+						
+					})
+					
+					return comArr;
+					
+				}
+			},
+			onEditionStart : function(o){
+				
+				var toggle = function(v){
+					
+					var _target = v || field.GET.target(),
+					
+						action  = _target == 'submit_ajax' ? 'show' : 'hide'; 
+					
+					o.input[action]();
+					
+				};
+				
+				$('#gen-edition-modal select[name="edit-target"]').on('change', function(){
+					
+					toggle( $(this).val() );
+					
+				});
+				
+				toggle();
+
+			}
+
+		});
+		
+		field.setPropriety({
 			name    :'refresh_submit',
 			label   :'Submit',
 			value   :false,
@@ -5188,7 +5237,7 @@ var GENERATOR = function(genparams){
 				{"name":"","event":"change","condition":"equal","value":"right_panel","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},
 				{"name":"","event":"change","condition":"equal","value":"mpsubmit","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},
 				{"name":"","event":"change","condition":"equal","value":"right_panel_submit","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false}
-				]});
+			]});
 			targetRulesSet = true;
 		}
 

@@ -27,6 +27,8 @@
     <xsl:param name="outline"/>
     <xsl:param name="position"/>
     <xsl:param name="fixed-btn-class" select="'btn-default'"/>
+    
+    <xsl:variable name="refresh_components" select="@refresh_components"></xsl:variable>
 
    <xsl:variable name="btn-class">
       <xsl:choose>
@@ -49,7 +51,7 @@
       </xsl:choose>
     </xsl:variable>
 
-    <a target="{$target}" use-fa="{$use-fa}" position="{./@rel}">
+    <a target="{$target}" use-fa="{$use-fa}" position="{./@rel}" refresh-components="{$refresh_components}">
       
       <xsl:variable name="outlineClss">
         <xsl:if test="$outline = 'true'"><xsl:value-of select="' btn-outline'"/></xsl:if>
