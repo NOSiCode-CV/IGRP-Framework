@@ -1033,41 +1033,45 @@ window.IGRPBlocklyInit = function(){
 					
 				{
 					
-				$('#toolbox').append(
+					$('#toolbox').append(
 						
-					'<category id="foreign" name="Primary-Key" colour="60" class="blocly-dynamic">'
+						'<category id="foreign" name="Primary-Key" colour="60" class="blocly-dynamic">'
+							
+							
+						+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
 						
+							+'<value name="PARAM" type="dummy">'
+							
+								+'<field type="dropdown" name="iskey" title="send primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+								
+							+'</value>'
+							
+						+'</block>'	
 						
-					+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
+						+'<block type="editar_dao" color ="60" title="send parameter isEdit" prev-statement="" next-statement=""></block>'
+						
+						+'</category>'
+						
+						+'<sep class="blocly-dynamic"></sep>'
 					
-						+'<value name="PARAM" type="dummy">'
+					);
+				
+					$('#dao').append(
+					
+						'<block type="apagar" color="160" prev-statement="" next-statement="" inline="true">'
 						
-							+'<field type="dropdown" name="iskey" title="send primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+						+'<value name="valor1" type="value">'
+						
+							+'<field type="dropdown" name="dao" title="delete in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							
+							+'<field type="dropdown" name="iskey" title="where param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+							
+							+'<field type="text" options="="></field>'
 							
 						+'</value>'
 						
-					+'</block>'	
-					
-					+'<block type="editar_dao" color ="60" title="send parameter isEdit" prev-statement="" next-statement=""></block>'
-					
-					+'<block type="apagar" color="60" prev-statement="" next-statement="" inline="true">'
-					
-					+'<value name="valor1" type="value">'
-					
-						+'<field type="dropdown" name="dao" title="delete in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+						+'</block>'
 						
-						+'<field type="dropdown" name="iskey" title="where param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-						
-						+'<field type="text" options="="></field>'
-						
-					+'</value>'
-					
-					+'</block>'
-					
-					+'</category>'
-					
-					+'<sep class="blocly-dynamic"></sep>'
-					
 					);
 				}
 				
@@ -1079,7 +1083,7 @@ window.IGRPBlocklyInit = function(){
 						
 							+'<value name="value1" type="dummy" >'
 							
-							+'<field type="field_text" name="param" title="add parameter" options=""></field>'
+							+'<field type="field_text" name="param" title="send parameter" options=""></field>'
 							
 							+'<field type="dropdown" name="button"  title=" in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							
@@ -1091,10 +1095,22 @@ window.IGRPBlocklyInit = function(){
 						
 							+'<value name="value3" type="dummy">'
 							
-							+'<field type="dropdown" name="button" title="add parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
+							+'<field type="dropdown" name="button" title="send parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							
 							+'</value>'
 							
+						+'</block>'
+						
+						+'<block type="param_dao" color="300" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
+						
+							+'<value name="value1" type="dummy" >'
+							
+								+'<field type="field_text" name="param" title="send parameter" options=""></field>'
+							
+							+'</value>'
+							
+							+'<value type="value" name="dao_field"  title=" = "></value>'
+						
 						+'</block>'
 							
 						);

@@ -311,7 +311,7 @@
 				</xsl:when>
 				
 				<xsl:when test="$core_param != ''">
-					<xsl:text>Core.getParamInt("</xsl:text><xsl:value-of select="$core_param"></xsl:value-of><xsl:text>")</xsl:text>
+					<xsl:text>Core.getParamInt("p_</xsl:text><xsl:value-of select="$core_param"></xsl:value-of><xsl:text>")</xsl:text>
 				</xsl:when>
 			
 			</xsl:choose>
@@ -386,12 +386,27 @@
 	
 	<xsl:template name="blockly.element.enviar_p" >
 	
-		
 		<xsl:variable name="paramkey" select="field[@name='iskey']"/>
 				
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
-		<xsl:text>this.addQueryString("</xsl:text><xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>", Core.getParam("p_</xsl:text>
+		<xsl:text>this.addQueryString("p_</xsl:text><xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>", Core.getParam("p_</xsl:text>
 		<xsl:value-of select="$paramkey"></xsl:value-of><xsl:text>"));</xsl:text>
+		
+	</xsl:template>
+	
+	<xsl:template name="blockly.element.param_dao" >
+	
+		<xsl:variable name="param" select="field[@name='param']"/>
+		
+		<xsl:variable name="valor">
+			<xsl:call-template name="blockly.getValue">
+				<xsl:with-param name="value" select="value[@name='dao_field']"/>
+			</xsl:call-template>
+		</xsl:variable>
+				
+		<xsl:value-of select="$newlineTab1"></xsl:value-of>
+		<xsl:text>this.addQueryString("p_</xsl:text><xsl:value-of select="$param"></xsl:value-of><xsl:text>",</xsl:text>
+		<xsl:value-of select="$valor"></xsl:value-of><xsl:text>);</xsl:text>
 		
 	</xsl:template>
 	
@@ -402,7 +417,7 @@
 		<xsl:variable name="button" select="field[@name='button']"/>
 		<xsl:value-of select="$newlineTab1"></xsl:value-of>
 		<xsl:text>view.btn_</xsl:text><xsl:value-of select="$button"></xsl:value-of>
-		<xsl:text>.addParameter("</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>", Core.getParam("</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>"));</xsl:text>
+		<xsl:text>.addParameter("p_</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>", Core.getParam("p_</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>"));</xsl:text>
 		
 	</xsl:template>
 	
@@ -426,7 +441,7 @@
 		
 		<xsl:variable name="paramget" select="field[@name='param']"/>
 
-		<xsl:text>Core.getParamInt("</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>")</xsl:text>
+		<xsl:text>Core.getParamInt("p_</xsl:text><xsl:value-of select="$paramget"></xsl:value-of><xsl:text>")</xsl:text>
 		
 	</xsl:template>
 	
@@ -966,6 +981,10 @@
 			
 			<xsl:when test="$block-type = 'enviar_p'">
 				<xsl:call-template name="blockly.element.enviar_p"></xsl:call-template>
+			</xsl:when>
+			
+			<xsl:when test="$block-type = 'param_dao'">
+				<xsl:call-template name="blockly.element.param_dao"></xsl:call-template>
 			</xsl:when>
 			
 			<xsl:when test="$block-type = 'rediret_p'">
