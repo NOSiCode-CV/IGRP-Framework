@@ -3,7 +3,9 @@
 }
 
 .IGRP-separatorlist > .box-table-contents{
-	padding-top: 0
+	padding-top: 0;
+	overflow-x: auto;
+    overflow-y: inherit;
 }
 
 .IGRP-separatorlist .splist-form{

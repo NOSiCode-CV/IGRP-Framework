@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuOrganica extends Model{		
+
 	@RParam(rParamName = "p_env_fk")
 	private int env_fk;
+
 	@RParam(rParamName = "p_id")
 	private int id;
+
 	@RParam(rParamName = "p_type")
 	private String type;
 	

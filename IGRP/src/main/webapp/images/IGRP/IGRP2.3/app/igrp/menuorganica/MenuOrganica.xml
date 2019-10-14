@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -50,45 +50,45 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Menu «--» Profile" gen-type="container" gen-group="true">
             <fields>
-                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" check="true" desc="true">
+                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" java-type="int" showLabel="true" group_in="" check="true" desc="true">
                     <label></label>
                 </menu>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Nome</label>
                 </descricao>
-                <app name="p_app" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="app"/>
+                <app name="p_app" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="app"/>
             </fields>
             <table>
                 <value>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Voluptatem aperiam deserunt si</descricao>
-                        <app name="p_app" tag="app">hidden-fed5_4aff</app>
+                        <descricao name="p_descricao">Stract anim unde sit labore</descricao>
+                        <app name="p_app" tag="app">hidden-35d9_85b0</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sit natus sit iste anim</descricao>
-                        <app name="p_app" tag="app">hidden-927d_5d7a</app>
+                        <descricao name="p_descricao">Ipsum adipiscing natus ipsum a</descricao>
+                        <app name="p_app" tag="app">hidden-ab0f_bcbd</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sit natus ipsum dolor doloremq</descricao>
-                        <app name="p_app" tag="app">hidden-6178_a68d</app>
+                        <descricao name="p_descricao">Ut anim perspiciatis sit conse</descricao>
+                        <app name="p_app" tag="app">hidden-0e4b_4c51</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Iste natus magna perspiciatis</descricao>
-                        <app name="p_app" tag="app">hidden-f68d_f16e</app>
+                        <descricao name="p_descricao">Deserunt ut natus sit laudanti</descricao>
+                        <app name="p_app" tag="app">hidden-c5c3_1143</app>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Labore unde labore sed aliqua</descricao>
-                        <app name="p_app" tag="app">hidden-7773_e645</app>
+                        <descricao name="p_descricao">Sit perspiciatis officia rem i</descricao>
+                        <app name="p_app" tag="app">hidden-89b1_3d0d</app>
                     </row>
                 </value>
             </table>
@@ -116,4 +116,10 @@
             </fields>
         </form_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>
