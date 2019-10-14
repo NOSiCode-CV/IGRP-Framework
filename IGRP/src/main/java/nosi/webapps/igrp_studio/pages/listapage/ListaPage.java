@@ -386,7 +386,7 @@ public class ListaPage extends Model{
 	public static class Table_2 extends IGRPTable.Table{
 		private String my_app_img;
 		private IGRPLink my_aplicacao;
-		private String my_aplicacao_desc;
+		private String my_aplicacao_desc= "Aplicação";
 		private Integer env_fk;
 		public void setMy_app_img(String my_app_img){
 			this.my_app_img = my_app_img;
