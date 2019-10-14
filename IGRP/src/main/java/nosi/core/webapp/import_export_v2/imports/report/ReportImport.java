@@ -6,7 +6,9 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.import_export_v2.common.serializable.report.CLobSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportParamsSerializable;
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSerializable;
+import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSourcesSerializable;
 import nosi.core.webapp.import_export_v2.imports.IImport;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Config_env;
@@ -119,47 +121,43 @@ public class ReportImport extends AbstractImport implements IImport {
 						.andWhere("source_identify", "=", source.getSource_identify()).one();
 				Application app = new Application().findByDad(source.getDad());
 				if (repSource == null) {
+					
 					repSource = new RepSource();
-					repSource.setApplication(app);
-					repSource.setApplication_source(app);
-					repSource.setConfig_env(config);
 					repSource.setDt_created(source.getDt_created());
-					repSource.setDt_updated(source.getDt_updated());
 					repSource.setSource_identify(source.getSource_identify());
-					repSource.setName(source.getName());
-					repSource.setType_query(source.getType_query());
-					repSource.setType_fk(source.getType_fk());
-					repSource.setType_name(source.getType_name());
-					repSource.setType(source.getType());
-					repSource.setTaskid(source.getTaskid());
-					repSource.setFormkey(source.getFormkey());
-					repSource.setProcessid(source.getProcessid());
-					repSource.setStatus(source.getStatus());
-					repSource.setUser_created(Core.getCurrentUser());
-					repSource.setUser_updated(Core.getCurrentUser());
+					repSource.setUser_created(Core.getCurrentUser());					
+					mapper(source, config, repSource, app);
 					repSource = repSource.insert();
 					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
 				} else {
-					repSource.setApplication(app);
-					repSource.setApplication_source(app);
-					repSource.setConfig_env(config);
-					repSource.setDt_updated(source.getDt_updated());
-					repSource.setName(source.getName());
-					repSource.setType_query(source.getType_query());
-					repSource.setType_fk(source.getType_fk());
-					repSource.setType_name(source.getType_name());
-					repSource.setType(source.getType());
-					repSource.setTaskid(source.getTaskid());
-					repSource.setFormkey(source.getFormkey());
-					repSource.setProcessid(source.getProcessid());
-					repSource.setStatus(source.getStatus());
-					repSource.setUser_updated(Core.getCurrentUser());
+					mapper(source, config, repSource, app);
 					repSource = repSource.update();
 					this.addError(repSource.hasError() ? repSource.getError().get(0) : null);
 				}
 
 			});
 		}
+	}
+
+	private void mapper(ReportSourcesSerializable source, Config_env config, RepSource repSource, Application app) {
+		repSource.setApplication(app);
+		repSource.setApplication_source(app);
+		repSource.setConfig_env(config);					
+		repSource.setDt_updated(source.getDt_updated());				
+		repSource.setName(source.getName());
+		repSource.setType_query(source.getType_query());
+		if(source.getType_name().equals("Page") && source.getType_query()!=null) {
+			String[] appPage = source.getType_query().split("::");
+			repSource.setType_fk(new Action().findByPage(appPage[1],appPage[0]).getId());
+		}else
+			repSource.setType_fk(source.getType_fk());
+		repSource.setType_name(source.getType_name());
+		repSource.setType(source.getType());
+		repSource.setTaskid(source.getTaskid());
+		repSource.setFormkey(source.getFormkey());
+		repSource.setProcessid(source.getProcessid());
+		repSource.setStatus(source.getStatus());			
+		repSource.setUser_updated(Core.getCurrentUser());
 	}
 
 	private CLob getClob(CLobSerializable report, String dad) {

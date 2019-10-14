@@ -160,7 +160,9 @@ $('#refresh_bloco').on('click', function() {
 		
 		Blockly.Xml.domToWorkspace(xml,Blockly.mainWorkspace);
 		
-		var code = Blockly.Java.workspaceToCode(Code.workspace);
+		var code = '';//Blockly.Java.workspaceToCode(Code.workspace);
+		
+		console.log(code);
 		
 		content.textContent = code; 
 		   
@@ -302,22 +304,6 @@ window.IGRPBlocklyInit = function(){
 				 	+'</value>'
 				 	
 				 +'</block>'
-				 
-				+'<block type="core_get_param" output="" color="300">' 
-				
-					+'<value name="value1" type="dummy"  title="get parameter">'
-					
-						+'<field type="field_text" name="param" options=""></field>'
-						
-					+'</value>'
-					
-				+'</block>'
-				
-				+'<block type="param_foreign" output="" color="300" class="blocly-dynamic">'
-				
-					+'<value name="value1" type="value"  title="get foreign-key"></value>'	
-					
-				+'</block>'
 				
 				+'<category id="model" name="Custom Code" colour="300" class="blocly-dynamic">'
 				
@@ -515,7 +501,17 @@ window.IGRPBlocklyInit = function(){
 					
 								+'<value type="value" title="set" name="fields_model">'
 								
-									+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+table+'"></field>'
+									/*+(function(){
+										var rtn = '';
+										IGRP_BLOCKLY_DROPS.tablesTest[table].forEach(function(ff){
+											
+											rtn+='<field type="text" name="coluna" options="'+ff[0]+'"></field>'
+											
+										})
+										
+										return rtn;
+									}())*/
+									+'<field type="dropdown"  name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+table+'"></field>'
 									
 									+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 									
@@ -998,6 +994,12 @@ window.IGRPBlocklyInit = function(){
 								+'</value>'
 								
 							+'</block>'
+							
+							+'<block type="param_foreign" output="" color="160" class="blocly-dynamic">'
+							
+							+'<value name="value1" type="value"  title="get foreign-key"></value>'	
+							
+							+'</block>'
 						
 					// +'<block type="instance_dao" color ="160" prev-statement=""
 							
@@ -1017,57 +1019,17 @@ window.IGRPBlocklyInit = function(){
 						
 					+'</category><sep class="blocly-dynamic"></sep>');
 				
-				if(addforeign!=0)
-					
-				{
-					
-				$('#toolbox').append(
-						
-					'<category id="foreign" name="Primary-Key" colour="60" class="blocly-dynamic">'
-						
-						
-					+'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
-					
-						+'<value name="PARAM" type="dummy">'
-						
-							+'<field type="dropdown" name="iskey" title="send primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-							
-						+'</value>'
-						
-					+'</block>'	
-					
-					+'<block type="editar_dao" color ="60" title="send parameter isEdit" prev-statement="" next-statement=""></block>'
-					
-					+'<block type="apagar" color="60" prev-statement="" next-statement="" inline="true">'
-					
-					+'<value name="valor1" type="value">'
-					
-						+'<field type="dropdown" name="dao" title="delete in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
-						
-						+'<field type="dropdown" name="iskey" title="where param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
-						
-						+'<field type="text" options="="></field>'
-						
-					+'</value>'
-					
-					+'</block>'
-					
-					+'</category>'
-					
-					+'<sep class="blocly-dynamic"></sep>'
-					
-					);
-				}
-				
 				if(addbutton!=0)
 				{
-				$('#model').append(	
+				$('#toolbox').append(
 						
-						'<block type="rediret_p" color="300" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
+						'<category id="parameters" name="Parameters" colour="60" class="blocly-dynamic">'	
+						
+						+'<block type="rediret_p" color="60" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
 						
 							+'<value name="value1" type="dummy" >'
 							
-							+'<field type="field_text" name="param" title="add parameter" options=""></field>'
+							+'<field type="field_text" name="param" title="send parameter" options=""></field>'
 							
 							+'<field type="dropdown" name="button"  title=" in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							
@@ -1075,17 +1037,80 @@ window.IGRPBlocklyInit = function(){
 							
 						+'</block>'
 				
-						+'<block type="add_isedit" prev-statement="" next-statement="" color="300" class="blocly-dynamic">'
+						+'<block type="add_isedit" prev-statement="" next-statement="" color="60" class="blocly-dynamic">'
 						
 							+'<value name="value3" type="dummy">'
 							
-							+'<field type="dropdown" name="button" title="add parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
+							+'<field type="dropdown" name="button" title="send parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 							
 							+'</value>'
 							
 						+'</block>'
+						
+						+'<block type="param_dao" color="60" prev-statement="" next-statement="" inline="true" class="blocly-dynamic">'
+						
+							+'<value name="value1" type="dummy" >'
+							
+								+'<field type="field_text" name="param" title="send parameter" options=""></field>'
+							
+							+'</value>'
+							
+							+'<value type="value" name="dao_field"  title=" = "></value>'
+						
+						+'</block>'
+						
+						+'<block type="core_get_param" output="" color="60">' 
+						
+						+'<value name="value1" type="dummy"  title="get parameter">'
+						
+							+'<field type="field_text" name="param" options=""></field>'
+							
+						+'</value>'
+						
+						+'</block>'
+						
+						+'<sep class="blocly-dynamic"></sep>'
 							
 						);
+				}
+				
+				if(addforeign!=0)
+					
+				{
+					
+					$('#parameters').append(
+							
+						'<block type="enviar_p" color ="60" prev-statement="" next-statement="">'
+						
+							+'<value name="PARAM" type="dummy">'
+							
+								+'<field type="dropdown" name="iskey" title="send primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+								
+							+'</value>'
+							
+						+'</block>'	
+						
+						+'<block type="editar_dao" color ="60" title="send parameter isEdit" prev-statement="" next-statement=""></block>'
+						
+					);
+				
+					$('#dao').append(
+					
+						'<block type="apagar" color="160" prev-statement="" next-statement="" inline="true">'
+						
+						+'<value name="valor1" type="value">'
+						
+							+'<field type="dropdown" name="dao" title="delete in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							
+							+'<field type="dropdown" name="iskey" title="where param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
+							
+							+'<field type="text" options="="></field>'
+							
+						+'</value>'
+						
+						+'</block>'
+						
+					);
 				}
 				
 	}

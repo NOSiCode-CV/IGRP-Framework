@@ -10,6 +10,7 @@ import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSource
 import nosi.core.webapp.import_export_v2.common.serializable.report.ReportSourcesSerializable;
 import nosi.core.webapp.import_export_v2.exports.Export;
 import nosi.core.webapp.import_export_v2.exports.IExport;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 
@@ -90,6 +91,11 @@ public class ReportExport implements IExport{
 				Core.mapper(s.getRepSource(), e);
 				e.setUsername_created(s.getRepSource().getUser_created()!=null?s.getRepSource().getUser_created().getUser_name():"");
 				e.setUsername_updated(s.getRepSource().getUser_updated()!=null?s.getRepSource().getUser_updated().getUser_name():"");
+				if(s.getRepSource().getType_name().equals("Page") && s.getRepSource().getType_query()!=null) {
+					final Action findAction = new Action().findOne(s.getRepSource().getType_fk());
+					e.setType_query(findAction.getApplication().getDad()+"::"+findAction.getPage());
+				}
+					
 				e.setDad(s.getRepSource().getApplication().getDad());
 				e.setConnection_name_identify(s.getRepSource().getConfig_env()!=null?s.getRepSource().getConfig_env().getConnection_identify():"");
 				list.add(e);

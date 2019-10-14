@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pesquisa_empresa extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_nif")
 	private String nif;
+
 	@RParam(rParamName = "p_nome_da_firma")
 	private String nome_da_firma;
 	
@@ -47,6 +50,7 @@ public class Pesquisa_empresa extends Model{
 
 
 	public static class Table_1 extends IGRPTable.Table{
+		private String estado;
 		private String nif_tab;
 		private String nome_da_firma_tab;
 		private String matriculan_reg_comercial;
@@ -56,7 +60,13 @@ public class Pesquisa_empresa extends Model{
 		private String natureza_juridica_desc;
 		private String tipo_entidade;
 		private String tipo_entidade_desc;
-		private String estado;
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
+		}
+
 		public void setNif_tab(String nif_tab){
 			this.nif_tab = nif_tab;
 		}
@@ -118,13 +128,6 @@ public class Pesquisa_empresa extends Model{
 		}
 		public String getTipo_entidade_desc(){
 			return this.tipo_entidade_desc;
-		}
-
-		public void setEstado(String estado){
-			this.estado = estado;
-		}
-		public String getEstado(){
-			return this.estado;
 		}
 
 	}

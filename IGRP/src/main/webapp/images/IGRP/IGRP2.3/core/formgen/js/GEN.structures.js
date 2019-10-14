@@ -440,7 +440,8 @@ var GENSTRUCTURES = function(GEN){
 					_class = item.GET.class && item.GET.class() ? item.GET.class() : 'default',
 					customReturn = item.GET.custom_return ? item.GET.custom_return() : false,
 					customReturnAttr = customReturn ? 'custom_return="true"' : '';
-					target = item.GET.target();
+					target = item.GET.target(),
+					refresh_components = '';
 
 				if(item.GET.target_fields && item.GET.target_fields())
 					target += '|'+item.GET.target_fields();
@@ -454,8 +455,16 @@ var GENSTRUCTURES = function(GEN){
 						target += '_submit';
 					
 				}
+				
+				if(item.GET.refresh_components && item.GET.refresh_components()){
+					
+					var comps = item.GET.refresh_components();
+					
+					refresh_components = 'refresh_components="'+comps.join(',')+'"';
+					
+				}
 
-				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+'>'+
+				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' '+refresh_components+'>'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
@@ -493,16 +502,25 @@ var GENSTRUCTURES = function(GEN){
 				params = '',
 				actionLINK = f.action ? f.action.link : '',
 				customReturn = f.GET.custom_return ? f.GET.custom_return() : false,
-				customReturnAttr = customReturn ? 'custom_return="true"' : '';
+				customReturnAttr = customReturn ? 'custom_return="true"' : '',
+				refresh_components = '';
 
 			if(f.GET.target_fields && f.GET.target_fields())
 				target += '|'+f.GET.target_fields();
 
 			else if(f.GET.closerefresh && f.GET.closerefresh())
 				target += '|refresh';
+			
+			if(f.GET.refresh_components && f.GET.refresh_components()){
+				
+				var comps = f.GET.refresh_components();
+				
+				refresh_components = 'refresh_components="'+comps.join(',')+'"';
+				
+			}
 
 				//console.log(params);
-			rtn+='<item type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+'>'+
+			rtn+='<item  type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' '+refresh_components+'>'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+

@@ -579,19 +579,25 @@
 				
 				val 	 = strSplit[1];
 			 
-		    var inputExists = this.getInput('value1');
+		    var inputExists = this.getInput('dao_rela');
 		    
 		    
 		    if (type && type != '--' && type != 'String' && type != 'Date' && type != 'Integer') {
 		    	
 		      if (!inputExists) {
 		    	  
-		        this.appendValueInput('value1').setCheck();
+		        this.appendValueInput('dao_rela').setCheck();
 		      }
 		   
 		    }else
 		    	
-		      this.removeInput('value1');
+		    try{
+		    	this.removeInput('dao_rela');
+		    }catch(err){
+		    	
+		    }
+		      
+		    
 		  }
 		
 	});

@@ -197,13 +197,20 @@
 							alert = '',
 
 							debug = '',
+							
+							refresh_components = p.clicked.attr('refresh-components'),
 
-							nodes 	 = [];
+							nodes 	 = refresh_components ? refresh_components.split(',') : [];
+							
+							/*if(refresh_components){
+								
+								console.log('daskl')
+							}
 
 							$('.table, .IGRP-highcharts',sform).each(function(id,el){
 								
 								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-							});
+							});*/
 							
 							
 							if(nodes[0]){
@@ -212,7 +219,12 @@
 									xsl     : $.IGRP.utils.getXMLStylesheet(xml),
 									xml     : xml,
 									nodes   : nodes,
-									clicked : p.clicked
+									clicked : p.clicked,
+									complete: function(res){
+
+										$.IGRP.events.execute('submit-complete',{})
+										
+									}
 								});
 								
 							}else{
@@ -220,6 +232,8 @@
 								p.clicked.removeAttr("disabled");
 								
 								$.IGRP.utils.message.handleXML(xml);
+								
+								$.IGRP.events.execute('submit-complete',{})
 							}
 
 						}catch(e){

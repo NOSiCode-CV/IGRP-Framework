@@ -183,6 +183,7 @@ public class MigrationIGRPInitConfig {
 			//get(65)
 			actions.add(new Action("Wizard_export_step_2", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wizard_export_step_2/Wizard_export_step_2.xsl", "Export Wizard Step 2", "Export Wizard Step 2", "2.3", 1, app_igrp_studio));
 			Action r1 = new Action("Resetbyemail", "index", "nosi.webapps.igrp.pages", "igrp/resetbyemail/Resetbyemail.xsl", "Reset by email", "Reset by email", "2.3", 1, app_igrp);
+			//4 Public page
 			r1.setTipo((short)1);
 			Action r2 = new Action("Resetpassword", "index", "nosi.webapps.igrp.pages", "igrp/resetpassword/Resetpassword.xsl", "Reset password", "Reset password", "2.3", 1, app_igrp);
 			r2.setTipo((short)1);
@@ -195,8 +196,12 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Pesquisa_bi_cni_passport", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_bi_cni_passport/Pesquisa_bi_cni_passport.xsl", "Pesquisa BI-CNI-passport", "Pesquisa BI-CNI-passport", "2.3", 1, app_igrp_studio));
 			//get(70)
 			actions.add(new Action("Pesquisa_nif_rest", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nif_rest/Pesquisa_nif_rest.xsl", "Pesquisa NIF", "Pesquisa NIF", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("Pesquisa_nacionalidade", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nacionalidade/Pesquisa_nacionalidade.xsl", "Pesquisa nacionalidade", "Pesquisa nacionalidade", "2.3", 1, app_igrp_studio));
+			Action geo = new Action("Pesquisa_geografia", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_geografia/Pesquisa_geografia.xsl", "Pesquisa Geografia", "Pesquisa Geografia", "2.3", 1, app_igrp_studio);
+			geo.setTipo((short)1);
+			actions.add(geo);			
+			Action nac = new Action("Pesquisa_nacionalidade", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/pesquisa_nacionalidade/Pesquisa_nacionalidade.xsl", "Pesquisa nacionalidade", "Pesquisa nacionalidade", "2.3", 1, app_igrp_studio);
+			nac.setTipo((short)1);
+			actions.add(nac);
 			actions.add(new Action("Wsdl2java", "index", "nosi.webapps.igrp_studio.pages", "igrp_studio/wsdl2java/Wsdl2java.xsl", "WSDL2java", "WSDL2java", "2.3", 1, app_igrp_studio));
 			actions.add(new Action("Pesquisa_empresa", "index", "nosi.webapps.igrp.pages", "igrp/pesquisa_empresa/Pesquisa_empresa.xsl", "Pesquisa Empresa", "Pesquisa Empresa", "2.3", 1, app_igrp));
 			//get(75)

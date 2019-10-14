@@ -4,11 +4,8 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import java.io.StringReader;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
-import nosi.core.config.Config;
 /* Start-Code-Block (import) */
 /* End-Code-Block */
 /*----#start-code(packages_import)----*/
@@ -19,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import nosi.core.config.Config;
 import javax.xml.transform.TransformerConfigurationException;
-
+import java.io.StringReader;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -48,7 +45,7 @@ public class CRUDGeneratorController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Iste unde mollit perspiciatis' as table_name "));
+		model.loadTable_1(Core.query(null,"SELECT '1' as check_table,'Ipsum aliqua iste stract lauda' as table_name "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.data_source.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.schema.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
@@ -196,7 +193,7 @@ public class CRUDGeneratorController extends Controller {
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
 		  this.addQueryString("p_id","12"); //to send a query string in the URL
-		  return this.forward("igrp_studio","CRUDGenerator","index",this.queryString()); //if submit, loads the values
+		  return this.forward("igrp_studio","ListaEnv","index",this.queryString()); //if submit, loads the values
 		  Use model.validate() to validate your model
 		  ----#gen-example */
 		/*----#start-code(gerar_dao)----*/

@@ -94,7 +94,6 @@ $.fn.XMLTransform = function(params) {
  		var i       = p.index > 0 ? p.index : 0;
  		var content = p.content ? p.content : "";
 
-
  		if(i < p.includes.length){
 
  			var includeFile = p.includes[i].global ? tmplSplitter+p.includes[i].name : p.includes[i].name;
@@ -103,14 +102,22 @@ $.fn.XMLTransform = function(params) {
  			
  			if(!baseWay) 
  				includeFile=tmplSplitter+'/'+includeFile;
-
- 			$.ajax({
- 				url:includeFile,
- 				cache:true,
- 				success:function(data){
- 					var contents = data.documentElement;
-					
-					for(var x = 0; x < contents.childNodes.length;x++){
+ 			
+ 			includeFile = includeFile.split('?v=')[0];
+ 			
+ 			if(!__XSLTemplatesInc[ includeFile ])
+ 			
+	 			__XSLTemplatesInc[ includeFile ] = {
+	 				
+	 				request : null
+	 					
+	 			}
+ 			
+ 			var AfterLoadCallback = function(data){
+ 				
+ 				var contents = $(data).clone()[0];
+ 				
+ 				for(var x = 0; x < contents.childNodes.length;x++){
 						if(contents.childNodes[x].tagName && contents.childNodes[x].tagName != 'xsl:include' && contents.childNodes[x].tagName != 'xsl:import'){
 							IEincludes.push(contents.childNodes[x]);
 						}
@@ -126,14 +133,57 @@ $.fn.XMLTransform = function(params) {
 				 			});
 						}
 					});	
-					
-					__XSLTemplatesInc[includeFile.split('?v=')[0]] = data;
+ 				
+ 			};
+ 			
 
- 				},
- 				error:function(e){
- 					errorHandler(e)
- 				}
- 			});
+ 			if(__XSLTemplatesInc[ includeFile ].data){
+
+ 				AfterLoadCallback( __XSLTemplatesInc[ includeFile ].data );
+ 				
+ 			}else{
+ 			
+	 			if(__XSLTemplatesInc[ includeFile ].request)
+	 				
+	 				__XSLTemplatesInc[ includeFile ].request.then(function(data){
+	 					
+	 					var contents = data.documentElement,
+	 					
+	 						clone    = $(data.documentElement).clone(true)[0];
+	 					
+	 					AfterLoadCallback( clone );
+	 					
+						__XSLTemplatesInc[ includeFile ].data = clone;
+	 					
+	 				});
+	 		
+	 			else
+ 				
+ 				__XSLTemplatesInc[ includeFile ].request = $.ajax({
+	 				url:includeFile,
+	 				cache:true,
+	 				success:function(data){
+	 					
+	 					var contents = data.documentElement,
+	 					
+	 						clone    = $(data.documentElement).clone(true)[0];
+	 					
+	 					AfterLoadCallback( clone );
+	 					
+						__XSLTemplatesInc[ includeFile ].data = clone;
+						
+						__XSLTemplatesInc[ includeFile ].request = false;
+
+						
+	 				},
+	 				error:function(e){
+	 					errorHandler(e)
+	 				}
+	 			});
+ 				
+ 			}
+ 			
+	 			
 			
 
  		}else{

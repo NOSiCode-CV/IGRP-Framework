@@ -1454,6 +1454,7 @@ label.container-box.checkbox-switch.switch .checkmark {
 .box .box-body {
   border-radius:0;
   padding: 10px;
+
 }
 
 .box[collapsed="true"] .box-body,

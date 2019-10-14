@@ -39,15 +39,15 @@
         <title>Page builder</title>
         <infopanel_1 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000" persist="true">
+                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000">
                     <label>Title</label>
                     <value>Report designer</value>
                 </infopanel_1_title>
-                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000" persist="true">
+                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000">
                     <label>Value</label>
                     <value/>
                 </infopanel_1_val>
-                <infopanel_1_url name="p_infopanel_1_url" type="link" maxlength="4000" persist="true">
+                <infopanel_1_url name="p_infopanel_1_url" type="link" maxlength="4000">
                     <label/>
                     <value type="action">
                         <app>igrp_studio</app>
@@ -55,11 +55,11 @@
                         <action>index</action>
                     </value>
                 </infopanel_1_url>
-                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
+                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000">
                     <label>Background</label>
                     <value>cp-black</value>
                 </infopanel_1_bg>
-                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000" persist="true">
+                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000">
                     <label>Icon</label>
                     <value>fa-file-text</value>
                 </infopanel_1_icn>
@@ -67,15 +67,15 @@
         </infopanel_1>
         <infopanel_2 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <infopanel_2_title name="p_infopanel_2_title" type="text" maxlength="4000" persist="true">
+                <infopanel_2_title name="p_infopanel_2_title" type="text" maxlength="4000">
                     <label>Title</label>
                     <value>BPMN designer</value>
                 </infopanel_2_title>
-                <infopanel_2_val name="p_infopanel_2_val" type="text" maxlength="4000" persist="true">
+                <infopanel_2_val name="p_infopanel_2_val" type="text" maxlength="4000">
                     <label>Value</label>
                     <value></value>
                 </infopanel_2_val>
-                <infopanel_2_url name="p_infopanel_2_url" type="link" maxlength="4000" persist="true">
+                <infopanel_2_url name="p_infopanel_2_url" type="link" maxlength="4000">
                     <label/>
                     <value type="action">
                         <app>igrp_studio</app>
@@ -83,11 +83,11 @@
                         <action>index</action>
                     </value>
                 </infopanel_2_url>
-                <infopanel_2_bg name="p_infopanel_2_bg" type="text" maxlength="4000" persist="true">
+                <infopanel_2_bg name="p_infopanel_2_bg" type="text" maxlength="4000">
                     <label>Background</label>
                     <value>cp-lavendar</value>
                 </infopanel_2_bg>
-                <infopanel_2_icn name="p_infopanel_2_icn" type="text" maxlength="4000" persist="true">
+                <infopanel_2_icn name="p_infopanel_2_icn" type="text" maxlength="4000">
                     <label>Icon</label>
                     <value>fa-sitemap</value>
                 </infopanel_2_icn>
@@ -95,15 +95,15 @@
         </infopanel_2>
         <infopanel_3 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <infopanel_3_title name="p_infopanel_3_title" type="text" maxlength="4000" persist="true">
+                <infopanel_3_title name="p_infopanel_3_title" type="text" maxlength="4000">
                     <label>Title</label>
                     <value>Application builder</value>
                 </infopanel_3_title>
-                <infopanel_3_val name="p_infopanel_3_val" type="text" maxlength="4000" persist="true">
+                <infopanel_3_val name="p_infopanel_3_val" type="text" maxlength="4000">
                     <label>Value</label>
                     <value></value>
                 </infopanel_3_val>
-                <infopanel_3_url name="p_infopanel_3_url" type="link" maxlength="4000" persist="true">
+                <infopanel_3_url name="p_infopanel_3_url" type="link" maxlength="4000">
                     <label/>
                     <value type="action">
                         <app>igrp_studio</app>
@@ -111,11 +111,11 @@
                         <action>index</action>
                     </value>
                 </infopanel_3_url>
-                <infopanel_3_bg name="p_infopanel_3_bg" type="text" maxlength="4000" persist="true">
+                <infopanel_3_bg name="p_infopanel_3_bg" type="text" maxlength="4000">
                     <label>Background</label>
                     <value>cp-starrynight</value>
                 </infopanel_3_bg>
-                <infopanel_3_icn name="p_infopanel_3_icn" type="text" maxlength="4000" persist="true">
+                <infopanel_3_icn name="p_infopanel_3_icn" type="text" maxlength="4000">
                     <label>Icon</label>
                     <value>fa-folder-open</value>
                 </infopanel_3_icn>
@@ -177,15 +177,15 @@
                 <nada name="p_nada" type="separator" maxlength="250" placeholder="" right="false" desclabel="false">
                     <label></label>
                 </nada>
-                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ImportArquivo" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false">
+                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ImportArquivo" app="igrp_studio" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false" refresh_components="">
                     <label>Importar</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xml</value>
                 </btn_import>
-                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false">
+                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false" refresh_components="">
                     <label>CRUD/DAO generator</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xml</value>
                 </crud_generator>
-                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false">
+                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Page" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="false" custom_action="" action_type="false" request_fields="" refresh_submit="false" desclabel="false" refresh_components="">
                     <label>Nova página</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xml</value>
                 </link_btn_nova_pagina>
@@ -193,7 +193,7 @@
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <status_page name="p_status_page" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="true" java-type="Integer" showLabel="true" check="true" desc="true">
+                <status_page name="p_status_page" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="true" java-type="Integer" showLabel="true" group_in="" check="true" desc="true">
                     <label>Estado</label>
                     <rules>
                         <rule type="remote">
@@ -205,11 +205,11 @@
                         </rule>
                     </rules>
                 </status_page>
-                <descricao_page name="p_descricao_page" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true">
+                <descricao_page name="p_descricao_page" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false" showLabel="true" group_in="">
                     <label>Título (código)</label>
                 </descricao_page>
-                <id_page name="p_id_page" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" tag="id_page"/>
-                <nome_page name="p_nome_page" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" tag="nome_page"/>
+                <id_page name="p_id_page" type="hidden" maxlength="30" iskey="true" java-type="" showLabel="true" group_in="" tag="id_page"/>
+                <nome_page name="p_nome_page" type="hidden" maxlength="30" iskey="false" java-type="" showLabel="true" group_in="" tag="nome_page"/>
             </fields>
             <table>
                 <value>
@@ -220,9 +220,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Voluptatem perspiciatis stract</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-6e17_9e12</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-7308_c51e</nome_page>
+                        <descricao_page name="p_descricao_page">Amet stract rem sed voluptatem</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-9a93_f1fc</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-b432_5383</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -231,9 +231,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Laudantium magna ipsum laudant</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-a0e4_266b</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-e773_5638</nome_page>
+                        <descricao_page name="p_descricao_page">Consectetur sed aperiam unde e</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-2838_8e21</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-880e_59cb</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -242,9 +242,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Rem ipsum officia lorem sit</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-b75d_8b63</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-fa52_6acd</nome_page>
+                        <descricao_page name="p_descricao_page">Perspiciatis omnis elit aliqua</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-8041_f9d2</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-6d6e_9d96</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -253,9 +253,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Voluptatem elit sed ut natus</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-5e63_3f5a</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-2c48_bdd9</nome_page>
+                        <descricao_page name="p_descricao_page">Magna labore perspiciatis sit</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-d487_1a8e</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-9201_8f55</nome_page>
                     </row>
                     <row>
                         <context-menu>
@@ -264,9 +264,9 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Dolor doloremque elit aperiam</descricao_page>
-                        <id_page name="p_id_page" tag="id_page">hidden-3c42_180a</id_page>
-                        <nome_page name="p_nome_page" tag="nome_page">hidden-6ee4_73d2</nome_page>
+                        <descricao_page name="p_descricao_page">Iste amet omnis aliqua rem</descricao_page>
+                        <id_page name="p_id_page" tag="id_page">hidden-110c_d5e4</id_page>
+                        <nome_page name="p_nome_page" tag="nome_page">hidden-515a_1d10</nome_page>
                     </row>
                 </value>
                 <context-menu>
@@ -300,15 +300,15 @@
                         <img>danger|fa-trash</img>
                         <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</preview>
                     </item>
-                    <item type="specific" code="" class="info" rel="gerar_codigo">
+                    <item type="specific" code="" class="info" rel="gerar_codigo" refresh_components="">
                         <title>Gerar Código</title>
                         <app>igrp_studio</app>
-                        <page>Env</page>
+                        <page>ListaEnv</page>
                         <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml?</parameter>
-                        <target>_blank</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml?</parameter>
+                        <target>_newtab</target>
                         <img>info|fa-gears</img>
-                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xml</preview>
+                        <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</preview>
                     </item>
                     <item type="specific" code="" class="grey" rel="download">
                         <title>Download</title>
@@ -336,13 +336,13 @@
         </toolsbar_2>
         <table_2 type="table" xml-type="table" title="Minhas Aplicações" gen-type="container" gen-group="true">
             <fields>
-                <my_app_img name="p_my_app_img" type="img" persist="true" img="/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="right" lookup_parser="false" iskey="false" autoupload="false" showLabel="true">
+                <my_app_img name="p_my_app_img" type="img" persist="true" img="/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="right" lookup_parser="false" iskey="false" autoupload="false" showLabel="true" group_in="">
                     <label></label>
                 </my_app_img>
-                <my_aplicacao name="p_my_aplicacao" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" refresh_submit="false" showLabel="true" list_source="" desc="true">
+                <my_aplicacao name="p_my_aplicacao" type="link" target="_self" request_fields="" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" custom_action="" action_type="false" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" show_header="true" refresh_submit="false" showLabel="true" list_source="" refresh_components="" group_in="" desc="true">
                     <label>Aplicação</label>
                 </my_aplicacao>
-                <env_fk name="p_env_fk" type="hidden" maxlength="30" iskey="true" java-type="Integer" showLabel="true" tag="env_fk"/>
+                <env_fk name="p_env_fk" type="hidden" maxlength="30" iskey="true" java-type="Integer" showLabel="true" group_in="" tag="env_fk"/>
             </fields>
             <table>
                 <value>
@@ -354,7 +354,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-1e48_f64b</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-a524_c447</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -364,7 +364,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-385a_2b3b</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-a6a3_54cd</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -374,7 +374,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-a8e7_5159</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-3e3e_fd08</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -384,7 +384,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-9557_36d0</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-2ece_49ab</env_fk>
                     </row>
                     <row>
                         <context-menu>
@@ -394,7 +394,7 @@
                         <my_app_img name="p_my_app_img">/IGRP/images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</my_app_img>
                         <my_aplicacao name="p_my_aplicacao" desc="true">/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xml</my_aplicacao>
                         <my_aplicacao_desc name="p_my_aplicacao_desc">Aplicação</my_aplicacao_desc>
-                        <env_fk name="p_env_fk" tag="env_fk">hidden-1556_425d</env_fk>
+                        <env_fk name="p_env_fk" tag="env_fk">hidden-31ed_57cb</env_fk>
                     </row>
                 </value>
                 <context-menu>

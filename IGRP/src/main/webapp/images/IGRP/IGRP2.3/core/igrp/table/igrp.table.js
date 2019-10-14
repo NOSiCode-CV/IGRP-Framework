@@ -235,13 +235,22 @@
 					$.IGRP.events.on('submit-ajax',function(o){
 						
 						if(o.valid)
+							
 							datatable.destroy();
 	            	});
+					
+					/*$.IGRP.events.on('before-element-transform',function(p){
+
+						if( $(t).parents('.gen-container-item').first().attr('item-name') == p.itemName )
+							
+							datatable.destroy();
+							
+		        	});*/
 					
 					$.IGRP.events.on('element-transform',function(p){
 
 	            	 	var table = $('.table:not(.IGRP_formlist)',p.content);
-	            	 	
+
 		        		if(table[0] && table.hasClass('igrp-data-table') && table.attr('id') == $(t).attr('id'))
 		        			datatable.destroy();
 		        	});
@@ -373,8 +382,52 @@
 			return response;
 			
 		},
+		
+		resetTableConfigurations : function(contents){
+			
+			contents.each(function(i,tholder){
+				
+				var tableHolder = $(tholder);
+				
+				if($('.table:not(.IGRP_formlist)',tableHolder)[0]){
+					
+		        	
+		            var table = tableHolder.find('table'),
+		            
+						id    = table.attr('id');
 
+					if($.IGRP.components.contextMenu)
+
+						$.IGRP.components.contextMenu.set( tableHolder );
+
+					
+					com.configGroups({
+						
+						parent : tableHolder
+						
+					});
+					
+					if(table.hasClass('igrp-data-table')){
+
+						$.IGRP.components.tableCtrl.dataTable({
+
+							selector : 'table#'+id+'.igrp-data-table'
+
+						});
+					}
+
+					if ($.IGRP.components.tableCtrl.pagination)
+						$.IGRP.components.tableCtrl.pagination('ul[filter-name="p_'+id+'_filter"]');
+		        }
+				
+			})
+			
+			
+		},
+		
 		setEvents : function(){
+			
+			var _self = this;
 
 			//CheckAll
 			$(document).on('change', 'table .IGRP_checkall', function() {
@@ -420,37 +473,21 @@
 
             });
 			
-			$.IGRP.events.on('element-transform',function(p){
-
-			        if($('.table:not(.IGRP_formlist)',p.content)[0]){
-			        	
-			            var table = p.content.find('table'),
-							id    = table.attr('id');
-
-						if($.IGRP.components.contextMenu)
-
-							$.IGRP.components.contextMenu.set( p.content );
-
-						
-						com.configGroups({
-							
-							parent : p.content
-							
-						});
-						
-						if(table.hasClass('igrp-data-table')){
-							
-							$.IGRP.components.tableCtrl.dataTable({
-
-								selector : 'table#'+id+'.igrp-data-table'
-
-							});
-						}
-
-						if ($.IGRP.components.tableCtrl.pagination)
-							$.IGRP.components.tableCtrl.pagination('ul[filter-name="p_'+id+'_filter"]');
-			        }
-		    });
+			/*$.IGRP.events.on('element-transform',function(p){
+	
+				var tableHolder = p.content;
+				
+				_self.resetTableConfigurations(tableHolder);
+				
+		    });*/
+			
+			$.IGRP.events.on('submit-complete',function(p){
+				
+				var content = p && p.item && p.item[0] ? p.item : $('.gen-container-item.box-table-contents');
+				
+				_self.resetTableConfigurations(content);
+				
+			})
 
 		},
 		

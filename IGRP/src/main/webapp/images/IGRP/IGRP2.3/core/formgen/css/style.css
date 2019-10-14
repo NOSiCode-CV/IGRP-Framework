@@ -163,6 +163,20 @@ a, button {
 	margin-left: 35px;
 	margin-right: 35px
 }
+
+@media (max-width: 768px) {
+.content>.gen-rows-holder{
+	margin-left: 20px;
+	margin-right: 20px
+}
+}
+
+@media (max-width: 425px) {
+.content>.gen-rows-holder{
+	margin-left: 10px;
+	margin-right: 10px
+}
+}
 #igrp-contents>.content>.gen-rows-holder:first-of-type>.row:first-of-type{
 	margin-top: 35px;
 }

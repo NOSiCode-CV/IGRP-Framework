@@ -902,6 +902,12 @@
 			}
 		};
 		$.IGRP.utils.xsl = {
+				
+			files : {
+				
+				
+				
+			},
 
 			getStyleSheet : function(nodes,includes){
 				var xsl = $.parseXML('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">'+
@@ -976,13 +982,13 @@
 							$(i).attr('href',href.split('../../xsl/tmpl/').pop(''));
 
 						});
-						
-						console.log(p)
 
 						//get nodes xsl
 						if(p.nodes){
 							
 							var id = 0;
+							
+							var count = 0;
 							
 							p.nodes.forEach(function(n,i){
 								
@@ -997,6 +1003,14 @@
 								var itemHTML = $('.gen-container-item[item-name="'+n+'"]');
 								
 								var oldStyle = itemHTML.attr('style') || '';
+								
+								$.IGRP.events.execute('before-element-transform',{
+									//content  : content,
+									itemName : n,
+									xml 	 : p.xml,
+									xsl      : xslt,
+									index    : id
+								});
 
 								itemHTML.XMLTransform({
 									xml     	 : p.xml,
@@ -1038,8 +1052,15 @@
 												p.clicked.removeAttr("disabled");
 											
 											$.IGRP.utils.message.handleXML(p.xml);
-										}
 											
+											if(p.complete){
+												
+												p.complete();
+												
+											}
+										}
+										
+										
 									},
 									error: function(e){
 										

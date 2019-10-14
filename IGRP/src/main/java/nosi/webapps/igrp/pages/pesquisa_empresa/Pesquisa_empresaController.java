@@ -4,16 +4,16 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.net.URLEncoder;
 import nosi.core.webapp.webservices.rest.PesquisaEmpresaService;
 import nosi.core.webapp.webservices.rest.pesquisa_geral.PesquisaEmpresa;
 
@@ -28,7 +28,7 @@ public class Pesquisa_empresaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadTable_1(Core.query(null,"SELECT '5' as nif_tab,'Consectetur dolor voluptatem c' as nome_da_firma_tab,'Sit anim totam consectetur und' as matriculan_reg_comercial,'Stract ipsum natus omnis volup' as data_registo_data_reg_comercial,'Accusantium perspiciatis adipi' as data_inicio_atividade,'Laudantium adipiscing dolor ap' as natureza_juridica,'Aperiam anim labore aliqua mag' as natureza_juridica_desc,'Doloremque lorem voluptatem ap' as tipo_entidade,'Accusantium elit unde ut rem' as tipo_entidade_desc,'Deserunt stract magna laudanti' as estado "));
+		model.loadTable_1(Core.query(null,"SELECT 'S' as estado,'0' as nif_tab,'Totam stract sit labore perspi' as nome_da_firma_tab,'Voluptatem sit aliqua elit nat' as matriculan_reg_comercial,'Deserunt officia sit iste dolo' as data_registo_data_reg_comercial,'Magna perspiciatis consectetur' as data_inicio_atividade,'Doloremque iste officia aperia' as natureza_juridica,'Anim stract aperiam elit lorem' as natureza_juridica_desc,'Consectetur omnis stract ipsum' as tipo_entidade,'Stract deserunt omnis elit ist' as tipo_entidade_desc "));
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		view.btn_pesquisar.setLink("index");
@@ -76,8 +76,10 @@ public class Pesquisa_empresaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","Pesquisa_empresa","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","Pesquisa_empresa","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(pesquisar)----*/
 		
 		
@@ -85,6 +87,8 @@ public class Pesquisa_empresaController extends Controller {
 		return this.redirect("igrp","Pesquisa_empresa","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 

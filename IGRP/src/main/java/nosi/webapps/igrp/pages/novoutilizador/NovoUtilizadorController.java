@@ -228,30 +228,38 @@ public class NovoUtilizadorController extends Controller {
 	private User checkGetUserLdap(String email, Properties settings) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		User userLdap = null;
-
+		
 		try {
 			URL url = new URL(settings.getProperty("ids.wso2.RemoteUserStoreManagerService-wsdl-url"));
+			
+	
 			WSO2UserStub.disableSSL();
 			WSO2UserStub stub = new WSO2UserStub(new RemoteUserStoreManagerService(url));
 			stub.applyHttpBasicAuthentication(settings.getProperty("ids.wso2.admin-usn"),
 					settings.getProperty("ids.wso2.admin-pwd"), 2);
 
 			List<ClaimDTO> result;
-			try {
-				result = stub.getOperations().getUserClaimValues(email, "");
-			} catch (Exception e) {
+			
 				// TODO Auto-generated catch block				
-				if(email.endsWith("cv"))
+				if(email.endsWith("cv")) {
 					try {
 						result = stub.getOperations().getUserClaimValues("gov.cv/"+email, "");
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						
-						result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
+					} catch (Exception e1) {						
+						try {
+							result = stub.getOperations().getUserClaimValues(email, "");
+						} catch (Exception e) {
+							result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
+						}
 					}
-				else
+				}else {
+					try {
+						result = stub.getOperations().getUserClaimValues(email, "");
+					} catch (Exception e) {
 					result = stub.getOperations().getUserClaimValues("porton.gov/"+email, "");
-			}
+					}
+				}
+					
+			
 			
 
 			LdapPerson ldapPerson = new LdapPerson();
