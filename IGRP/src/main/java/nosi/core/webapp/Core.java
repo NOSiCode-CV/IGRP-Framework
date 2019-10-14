@@ -3879,14 +3879,14 @@ public final class Core { // Not inherit
 	public static CheckBoxHelper extractCheckBox(String[] array_checks, String[] array__checks_checked) {
 		return new CheckBoxHelper(array_checks, array__checks_checked);
 	}
-	
+
 	/**
 	 * @param id 
 	 * @param level (6 -> zona, 5 -> cidade, 4 -> freguesia, 3 -> concelho, 2 -> ilha, 1 -> pais) 
 	 * @return (keys: zona_id, zona, freguesia_id, freguesia, cidade, cidade_id, concelho, concelho_id, pais, pais_id, ...) 
 	 */
 	public static Map<String, Object> geoGetParentsById(String id, String level){
-		return new Geografia().geoGetParentsById(id, level); 
+		return new Geografia().geoGetParentsById(id, level);
 	}
 
  	/**

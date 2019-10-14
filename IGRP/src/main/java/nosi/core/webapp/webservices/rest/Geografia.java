@@ -35,12 +35,8 @@ public class Geografia {
 		r.put("ilha_id", null);r.put("ilha", null);
 		r.put("pais_id", null);r.put("pais", null);
 		try {
-			
-			System.out.println("Anguelo: " + this.url);
 			String params = "?id=" + id + "&nivel=" + level; 
-			System.out.println(" this.authorization " +  this.authorization);
 			String json = new ConsumeJson().getJsonFromUrl(this.url + params, this.authorization); 
-			System.out.println("Anguelo: " + json);
 			JSONObject jsonObject = new JSONObject(json);
 			jsonObject = jsonObject.getJSONObject("Entries");
 			jsonObject = jsonObject.getJSONObject("Entry");
@@ -50,8 +46,6 @@ public class Geografia {
 			r.put("concelho_id", jsonObject.optNumber("concelho_id"));r.put("concelho", jsonObject.optString("concelho"));
 			r.put("ilha_id", jsonObject.optNumber("ilha_id"));r.put("ilha", jsonObject.optString("ilha"));
 			r.put("pais_id", jsonObject.optNumber("pais_id"));r.put("pais", jsonObject.optString("pais"));
-			
-			System.out.println("AnguelojsonObject: " + jsonObject.toString());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
