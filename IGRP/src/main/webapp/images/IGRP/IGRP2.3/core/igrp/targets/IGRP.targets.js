@@ -204,22 +204,13 @@
 
 							nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
 							
-							if( !hasRefreshAttr ){
-								
-								alert('daskodas')
-								
+							if( !hasRefreshAttr )
+							
 								$('.table, .IGRP-highcharts',sform).each(function(id,el){
 									
 									nodes.push($(el).parents('.gen-container-item').attr('item-name'));
 									
 								});
-							}
-							
-							/*
-							$('.table, .IGRP-highcharts',sform).each(function(id,el){
-								
-								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-							});*/
 
 							if(nodes[0]){
 								
