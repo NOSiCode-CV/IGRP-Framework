@@ -16,7 +16,7 @@ import nosi.core.config.ConfigApp;
 public class Geografia {
 	
 	private String url;
-	private String authorization = "Bearer 5ff22806-3531-3945-a7d9-2405903f5d67";
+	private String authorization = "Bearer c50a872a-fb44-34c4-8075-820feffe7de7";
 	
 	public Geografia() { 
 		Properties properties =  ConfigApp.getInstance().loadCommonConfig();
@@ -54,4 +54,20 @@ public class Geografia {
 		return r; 
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getAuthorization() {
+		return authorization;
+	}
+
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
+	}
+	
 }
