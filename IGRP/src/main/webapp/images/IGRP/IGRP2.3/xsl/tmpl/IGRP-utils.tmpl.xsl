@@ -51,11 +51,17 @@
       </xsl:choose>
     </xsl:variable>
 
-    <a target="{$target}" use-fa="{$use-fa}" position="{./@rel}" refresh-components="{$refresh_components}">
+    <a target="{$target}" use-fa="{$use-fa}" position="{./@rel}">
       
       <xsl:variable name="outlineClss">
         <xsl:if test="$outline = 'true'"><xsl:value-of select="' btn-outline'"/></xsl:if>
       </xsl:variable>
+      
+      <xsl:if test="$refresh_components"> 
+        <xsl:attribute name="refresh-components">
+        	<xsl:value-of select="$refresh_components"></xsl:value-of>
+        </xsl:attribute>
+      </xsl:if>
 
       <xsl:if test="img!=''"> 
         <xsl:attribute name="has-img">true</xsl:attribute>

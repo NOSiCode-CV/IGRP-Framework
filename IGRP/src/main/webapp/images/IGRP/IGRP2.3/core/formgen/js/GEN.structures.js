@@ -460,11 +460,11 @@ var GENSTRUCTURES = function(GEN){
 					
 					var comps = item.GET.refresh_components();
 					
-					refresh_components = 'refresh_components="'+comps.join(',')+'"';
+					refresh_components = comps.join(',');
 					
 				}
 
-				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' '+refresh_components+'>'+
+				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
@@ -515,12 +515,12 @@ var GENSTRUCTURES = function(GEN){
 				
 				var comps = f.GET.refresh_components();
 				
-				refresh_components = 'refresh_components="'+comps.join(',')+'"';
+				refresh_components = comps.join(',');
 				
 			}
 
 				//console.log(params);
-			rtn+='<item  type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' '+refresh_components+'>'+
+			rtn+='<item  type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+' refresh_components="'+refresh_components+'">'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+

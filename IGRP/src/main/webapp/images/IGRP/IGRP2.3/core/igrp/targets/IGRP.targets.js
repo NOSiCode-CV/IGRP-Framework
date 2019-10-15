@@ -198,21 +198,20 @@
 
 							debug = '',
 							
-							refresh_components = p.clicked.attr('refresh-components'),
+							hasRefreshAttr = p.clicked[0].hasAttribute("refresh-components"),
+							
+							refresh_components = hasRefreshAttr ? p.clicked.attr("refresh-components") : null;
 
-							nodes 	 = refresh_components ? refresh_components.split(',') : [];
+							nodes 	 = hasRefreshAttr && refresh_components != '' ? refresh_components.split(',') : [];
 							
-							/*if(refresh_components){
-								
-								console.log('daskl')
-							}
+							if( !hasRefreshAttr )
+							
+								$('.table, .IGRP-highcharts',sform).each(function(id,el){
+									
+									nodes.push($(el).parents('.gen-container-item').attr('item-name'));
+									
+								});
 
-							$('.table, .IGRP-highcharts',sform).each(function(id,el){
-								
-								nodes.push($(el).parents('.gen-container-item').attr('item-name'));
-							});*/
-							
-							
 							if(nodes[0]){
 								
 								$.IGRP.utils.xsl.transform({
