@@ -3,24 +3,38 @@
 	<xsl:template name="blockly.element.controls_if" >
 		
 		<xsl:variable name="valueif1">
+		
 				<xsl:call-template name="blockly.getValue">
+				
 					<xsl:with-param name="value" select="*[@name='IF0']"/>
+					
 				</xsl:call-template>
+				
 		</xsl:variable>
 			
 		<xsl:variable name="valueif2">
+		
 			<xsl:call-template name="blockly.getValue">
+			
 				<xsl:with-param name="value" select="*[@name='DO0']"/>
+				
 			</xsl:call-template>
+			
 		</xsl:variable>
 		
-		<xsl:value-of select="$newline"/>
-		<xsl:text>if(</xsl:text><xsl:value-of select="$valueif1"></xsl:value-of><xsl:text>){</xsl:text>
 		<xsl:value-of select="$newlineTab1"/>
+		
+		<xsl:text>if(</xsl:text><xsl:value-of select="$valueif1"></xsl:value-of><xsl:text>){</xsl:text>
+		
+		<xsl:value-of select="$newlineTab2"/>
+		
 		<xsl:value-of select="$valueif2"/>
-		<xsl:value-of select="$newline"/>
+		
+		<xsl:value-of select="$newlineTab1"/>
+		
 		<xsl:text>}</xsl:text>
-		<xsl:value-of select="$newline"/>
+		
+		<xsl:value-of select="$newlineTab1"/>
 
 		<xsl:variable name="hasMutation" select="mutation"></xsl:variable>
 		
@@ -49,17 +63,27 @@
 			<xsl:if test="$haselse">
 	
 				<xsl:variable name="else">
+				
 					<xsl:call-template name="blockly.getValue">
+					
 						<xsl:with-param name="value" select="*[@name='ELSE']"/>
+						
 					</xsl:call-template>
+					
 				</xsl:variable>	
 			
 			<xsl:text>else{</xsl:text>
-			<xsl:value-of select="$newlineTab1"/>
+			
+			<xsl:value-of select="$newlineTab2"/>
+			
 			<xsl:value-of select="$else"/>
-			<xsl:value-of select="$newline"/>
+			
+			<xsl:value-of select="$newlineTab1"/>
+			
 			<xsl:text>}</xsl:text>
-			<xsl:value-of select="$newline"/>
+			
+			<xsl:value-of select="$newlineTab1"/>
+			
 	
 			</xsl:if>
 			
@@ -84,15 +108,23 @@
 			<xsl:variable name="value2Name" select="concat($statement,$index)"/>
 			
 			<xsl:variable name="value1">
+			
 				<xsl:call-template name="blockly.getValue">
+				
 					<xsl:with-param name="value" select="*[@name=$value1Name]"/>
+					
 				</xsl:call-template>
+				
 			</xsl:variable>
 			
 			<xsl:variable name="value2">
+			
 				<xsl:call-template name="blockly.getValue">
+				
 					<xsl:with-param name="value" select="*[@name=$value2Name]"/>
+					
 				</xsl:call-template>
+				
 			</xsl:variable>
 			
 			<xsl:if test="$value1 and $value2">
@@ -103,11 +135,16 @@
 				
 				<xsl:text>){</xsl:text>
 				
-				<xsl:value-of select="$newlineTab1"/>
+				<xsl:value-of select="$newlineTab2"/>
+				
 				<xsl:value-of select="$value2"/>
-				<xsl:value-of select="$newline"/>
+				
+				<xsl:value-of select="$newlineTab1"/>
+				
 				<xsl:text>}</xsl:text>
-				<xsl:value-of select="$newline"/>
+				
+				<xsl:value-of select="$newlineTab1"/>
+				
 			
 			</xsl:if>
 					

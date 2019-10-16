@@ -84,13 +84,13 @@
 			    },
 			    
 			 updateShape_: function () {
+				 
+				 	console.log(this)
 				    
 			        for (var i = 1; i <= this.itemCount_; i++) {
 			        	
 			            if (!this.getInput('ADD' + i)) {
 			            	
-		    	        	 var input =
-		    	        		 
 		    	        	this.appendValueInput('ADD' + i).appendField(new Blockly.FieldDropdown(FILTER),'ADD'+i+'FILTER');
 		    	        	 
 		    	        	this.appendValueInput('ADD'+i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');

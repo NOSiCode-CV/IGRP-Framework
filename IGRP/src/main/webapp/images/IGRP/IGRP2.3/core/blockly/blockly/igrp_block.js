@@ -11,10 +11,6 @@ goog.require('Blockly.FieldDate');
 
 goog.require('Blockly.FieldCheckbox');
 
-/*goog.require('Blockly.FieldLabelSerializable');
- 
-console.log('dskj')*/
-
 function SetupBlockly(){
 	
 	$('.igrp-blockly-config').find('block').not('[default="true"]').each(function(indx, el){
@@ -317,36 +313,68 @@ function SetupBlockly(){
 }
 
 Blockly.Blocks['where_t'] = {
+		
 		init : function() {
+			
 			this.appendDummyInput().appendField("where");
+			
+			//.appendField(new Blockly.FieldCheckbox(false), 'FILL');
+			
 			this.appendStatementInput("SCRIPT");
+			
 			this.setNextStatement(true);
+			
 			this.setColour(230);
+			
 		},
+		
 };
+
 Blockly.Blocks['where'] = {
+		
 		init : function() {
+			
 			this.appendDummyInput().appendField("where");
+			
 			this.setPreviousStatement(true);
+			
 			this.setNextStatement(true);
+			
 			this.setColour(230);
+			
 		},
+		
 };
 
 Blockly.Blocks['insert_t'] = {
+		
 		init : function() {
+			
 			this.appendDummyInput().appendField("add insert");
+			
 			this.appendStatementInput("SCRIPT");
+			
 			this.setNextStatement(true);
+			
 			this.setColour(230);
+			
 		},
+		
 };
+
 Blockly.Blocks['separatori'] = {
+		
 		init : function() {
+			
 			this.appendDummyInput().appendField("separator");
+			
 			this.setPreviousStatement(true);
+			
 			this.setNextStatement(true);
+			
 			this.setColour(230);
+			
 		},
+		
 };
 

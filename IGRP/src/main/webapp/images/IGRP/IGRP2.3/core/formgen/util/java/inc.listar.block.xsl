@@ -8,9 +8,27 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
+		<xsl:variable name="fill" select="field[@name='FILL']"/>
+		
+		<xsl:variable name="table" select="@id"/>
+		
+		<xsl:variable name="dao_low">
+		
+	       	<xsl:call-template name="LowerCase">
+	       	
+	       		<xsl:with-param name="text" select="$dao"/>
+	       		
+	       	</xsl:call-template>
+	       	
+	   	</xsl:variable>
+	   	
+	   	<xsl:variable name="daofilter" select="concat($dao_low,'filter')"/>
+		
 		<xsl:variable name="andWheres">
 			
 			<xsl:call-template name="listar.andWheres">
+			
+				<xsl:with-param name="daofilter" select="$daofilter"/>
 			
 				<xsl:with-param name="total" select="$mutation"/>
 				
@@ -23,70 +41,151 @@
 		</xsl:variable>
 		
 		<xsl:variable name="findValue">
+		
 			<xsl:call-template name="utils.meaning">
+			
 				<xsl:with-param name="key" select="$find"/>
+				
 			</xsl:call-template>
+			
 		</xsl:variable>
 		
-		<xsl:variable name="dao_low">
-	       	<xsl:call-template name="LowerCase">
-	       		<xsl:with-param name="text" select="$dao"/>
-	       	</xsl:call-template>
-	   	</xsl:variable>
-		
-		<xsl:variable name="table" select="substring-after(@type,'listar_')"/>
-		
 		<xsl:variable name="table_up">
+		
 	       	<xsl:call-template name="InitCap">
+	       	
 	       		<xsl:with-param name="text" select="$table"/>
+	       		
 	       	</xsl:call-template>
+	       	
 	   	</xsl:variable>
 	   	
 	   	<xsl:variable name="row">
+	   	
 			<xsl:call-template name="blockly.getValue">
+
 				<xsl:with-param name="value" select="*[@name='value2']"/>
+				
 			</xsl:call-template>
+			
 		</xsl:variable>
-	
+			
 		<xsl:variable name="code">
+		
+				<xsl:if test="$fill = 'TRUE'">
+				
+					<xsl:variable name="searchs_total">
+					
+						<xsl:for-each select="*[contains(@name,'STATE2')]">
+						
+							<xsl:variable name="searchs">
+							
+								<xsl:call-template name="blockly.getValue">
+								
+									<xsl:with-param name="value" select="."/>
+										
+								</xsl:call-template>
+							
+							</xsl:variable>
+							
+							<xsl:value-of select="concat('Core.isNotNullOrZero(',$searchs,')||')"></xsl:value-of>	
+						
+						</xsl:for-each>
+					
+					</xsl:variable>
+					
+					<xsl:variable name="ifs">
+				
+						<xsl:text>if(</xsl:text><xsl:value-of select="$searchs_total"/><xsl:text>){</xsl:text>
+					
+					</xsl:variable>	
+					
+					<xsl:variable name="searchs_tot">
+		
+						<xsl:call-template name="replace-all">
+						
+							<xsl:with-param name="text" select="$ifs"/>
+							
+							<xsl:with-param name="replace" select="'||)'"/>
+							
+							<xsl:with-param name="by" select="')'"/>
+							
+						</xsl:call-template>
+						
+					</xsl:variable>
+					
+					<xsl:if test="$mutation &gt;= '1'">
+					
+						<xsl:value-of select="$searchs_tot"></xsl:value-of>
+						
+					</xsl:if>
+					
+				</xsl:if>
+		
+			<xsl:value-of select="$newlineTab1"/>
+			
+			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
+			
+			<xsl:value-of select="$andWheres"/>
+			
+			<xsl:value-of select="$newlineTab1"/>
+			
+			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$dao"/><xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"/><xsl:text>List = </xsl:text><xsl:value-of select="$daofilter"></xsl:value-of><xsl:value-of select="$findValue"></xsl:value-of>
+			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of>
-			<xsl:text>List = new </xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text>().find()</xsl:text><xsl:value-of select="$andWheres"></xsl:value-of>
-			<xsl:value-of select="$findValue"></xsl:value-of>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"></xsl:value-of>
-			<xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt; </xsl:text>
-			<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table = new ArrayList&lt;&gt;</xsl:text><xsl:text>();</xsl:text>
+			
+			<xsl:text>List&lt;</xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>&gt; </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table = new ArrayList&lt;&gt;</xsl:text><xsl:text>();</xsl:text>
+			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of> 
-			<xsl:text>if (</xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List != null){</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab"></xsl:value-of>
-			<xsl:text>for(</xsl:text><xsl:value-of select="$dao"></xsl:value-of>
-			<xsl:text> </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text> : </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List){</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab2"></xsl:value-of>
-			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text>
-			<xsl:value-of select="$table_up"></xsl:value-of><xsl:text> row = new </xsl:text>
-			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up">
-			</xsl:value-of><xsl:text>();</xsl:text> 
-			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab2"></xsl:value-of>
+			
+			<xsl:text>if(</xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List != null){</xsl:text>
+			
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			
+			<xsl:text>for(</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text> : </xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>List){</xsl:text>
+			
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			
+			<xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text> row = new </xsl:text><xsl:value-of select="$page-title"></xsl:value-of><xsl:text>.</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>();</xsl:text> 
+			
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			
 			<xsl:value-of select="$row"></xsl:value-of>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab2"></xsl:value-of> 
+			
+			<xsl:value-of select="$newlineTab3"></xsl:value-of>
+			
 			<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table.add(row);</xsl:text>
-			<xsl:value-of select="$newlineTab1"></xsl:value-of><xsl:value-of select="$tab"></xsl:value-of>
+			
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			
 			<xsl:text>}</xsl:text>
+			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			
 			<xsl:text>}</xsl:text>
+			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>(</xsl:text>
-			<xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table);</xsl:text>
+			
+			<xsl:text>model.set</xsl:text><xsl:value-of select="$table_up"></xsl:value-of><xsl:text>(</xsl:text><xsl:value-of select="$dao_low"></xsl:value-of><xsl:text>Table);</xsl:text>
+			
+			<xsl:if test="$fill = 'TRUE' and $mutation &gt;= '1' ">
+			
+				<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			
+				<xsl:text>}</xsl:text>
+				
+			</xsl:if>
+		
 		</xsl:variable>
 		
-		<xsl:call-template name="utils.try">	
+		<xsl:call-template name="utils.try">
+			
 			<xsl:with-param name="code" select="$code"></xsl:with-param>
+			
 			<xsl:with-param name="exceptionCode">
-				<xsl:value-of select="$newlineTab1"></xsl:value-of>
+				
 				<xsl:text>e.printStackTrace();</xsl:text>
+				
 			</xsl:with-param>
 			
 		</xsl:call-template>
@@ -95,6 +194,8 @@
 	
 	<xsl:template name="listar.andWheres">
 	
+		<xsl:param name="daofilter"/>
+	
 		<xsl:param name="total"/>
 		
 		<xsl:param name="valueAttrName" />
@@ -102,7 +203,7 @@
 		<xsl:param name="values"/>
 		
 		<xsl:param name="index" select="1"/>
-
+		
 		<xsl:if test="$index &lt;= $total">
 		
 			<xsl:variable name="filterName" select="concat('ADD',$index,'FILTER')"/>
@@ -120,61 +221,98 @@
 			<xsl:variable name="wheretype" select="substring-before(value[@name=$value1Name]/block/field,'::')"/>
 			
 			<xsl:variable name="filter">
+			
 				<xsl:call-template name="utils.meaning">
+				
 					<xsl:with-param name="key" select="field[@name=$filterName]"/>
+					
 				</xsl:call-template>
+				
 			</xsl:variable>
 			
 			<xsl:variable name="value1">
+			
 				<xsl:choose>
+				
 					<xsl:when test="$valueDao != ''">
+					
 						<xsl:text>"</xsl:text><xsl:value-of select="$valueDao"></xsl:value-of><xsl:text>"</xsl:text>
+						
 					</xsl:when>
 			
 					<xsl:otherwise>
+					
 						<xsl:call-template name="blockly.elements">
+						
 						<xsl:with-param name="elements" select="$values[@name=$value1Name]/block"></xsl:with-param>
+						
 						</xsl:call-template>
+						
 					</xsl:otherwise>
+					
 				</xsl:choose>	
+				
 			</xsl:variable>
 			
 			<xsl:variable name="operator">
+			
 				<xsl:call-template name="utils.meaning">
+				
 					<xsl:with-param name="key" select="field[@name=$operatorName]"/>
+					
 				</xsl:call-template>
+				
 			</xsl:variable>
 			
 			<xsl:variable name="valor2_">
+			
 				<xsl:call-template name="blockly.elements">
+				
 					<xsl:with-param name="elements" select="$values[@name=$value2Name]/block"></xsl:with-param>
+					
 				</xsl:call-template>
+				
 			</xsl:variable>
 								
 			<xsl:variable name="value2">
+			
 				<xsl:call-template name="convert_blocks">
+				
 					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+					
 					<xsl:with-param name="value" select="$valor2_"></xsl:with-param>
+					
 					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
+					
 					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>
+					
 					<xsl:with-param name="neto" select="neto"></xsl:with-param>
+					
 					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
-				</xsl:call-template>		
+					
+				</xsl:call-template>
+						
 			</xsl:variable>
 			
 			<xsl:if test="$value1 and $operator and $value2">
-
-				<xsl:value-of select="$filter"/><xsl:text>(</xsl:text>
-					
-					<xsl:value-of select="concat($value1,$operator,$value2)"></xsl:value-of>
-				
-				<xsl:text>)</xsl:text>
-				
-				<xsl:value-of select="$newlineTab2"/>
 			
+				<xsl:value-of select="$newlineTab1"/>
+			
+				<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+
+				<xsl:value-of select="$newlineTab2"/>
+				
+				<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="concat($value1,$operator,$value2)"/><xsl:text>);</xsl:text>
+				
+				<xsl:value-of select="$newlineTab1"/>
+				
+				<xsl:text>}</xsl:text>
+				
 			</xsl:if>
 					
 			<xsl:call-template name="listar.andWheres">
+			
+				<xsl:with-param name="daofilter" select="$daofilter"/>
 			
 				<xsl:with-param name="total" select="$total"/>
 					
