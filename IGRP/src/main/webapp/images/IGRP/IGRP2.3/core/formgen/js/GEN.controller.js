@@ -5176,7 +5176,8 @@ var GENERATOR = function(genparams){
 				
 				var toggle = function(v){
 					
-					var _target = v || field.GET.target(),
+					//var _target = v || ( field.GET.target ?  field.GET.target : null),
+					var _target = v || ( field.GET.target ?  field.GET.target() : null),
 					
 						action  = _target == 'submit_ajax' ? 'show' : 'hide'; 
 					
