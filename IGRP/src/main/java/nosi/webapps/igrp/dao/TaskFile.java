@@ -42,6 +42,10 @@ public class TaskFile extends IGRPBaseActiveRecord<TaskFile> implements Serializ
 	@Column(name="task_id",nullable=false,length=20)
 	private String taskId;
 	
+	private String estado = "A"; // A -> Ativo; I -> InAtivo  
+
+	private String uuid;
+	
 	public TaskFile() {
 		
 	}
@@ -84,11 +88,34 @@ public class TaskFile extends IGRPBaseActiveRecord<TaskFile> implements Serializ
 	public void setTaskId(String taskId) {
 		this.taskId = taskId;
 	}
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public void generateUid() {
+		this.uuid = java.util.UUID.randomUUID().toString().replaceAll("-", "");
+	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
 	@Override
 	public String toString() {
-		return "TaskFile [id=" + id + ", clob=" + clob + ", tipo_doc_task=" + tipo_doc_task + ", taskId=" + taskId
-				+ "]";
+		return "TaskFile [id=" + id + ", clob=" + clob + ", tipo_doc_task=" + tipo_doc_task + ", taskId=" + taskId+",estado=" + estado + ", uuid=" + uuid +"]";
+	}
+	
+	public void invalidate() {
+		if(!this.estado.equals("I")) 
+			this.estado = "I";
 	}
 
 	

@@ -31,7 +31,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=81</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=984</preserve_url>
     </plsql>
     <slide-menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-slide-menu.xml?v=2" />
     <top_menu file="/IGRP/images/IGRP/IGRP2.3/xml/IGRP-top_menu.xml?v=2" />
@@ -51,17 +51,17 @@
             <fields>
                 <nif name="p_nif" type="number" min="" max="" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false" java-type="String">
                     <label>Nif</label>
-                    <value>40</value>
+                    <value>125</value>
                     <rules/>
                 </nif>
                 <nome_da_firma name="p_nome_da_firma" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
                     <label>Nome da Firma</label>
-                    <value>Magna consectetur magna natus adipiscing</value>
+                    <value>Deserunt aperiam dolor adipiscing labore</value>
                     <rules/>
                 </nome_da_firma>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar">
+                <item type="form" code="" class="primary" rel="pesquisar" refresh_components="table_1">
                     <title>Pesquisar</title>
                     <app>igrp</app>
                     <page>Pesquisa_empresa</page>
@@ -75,101 +75,139 @@
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <nif_tab name="p_nif_tab" type="number" min="" max="" maxlength="30" showLabel="true" align="left" lookup_parser="true" iskey="false" total_footer="false" java-type="String">
-                    <label>Nif</label>
-                </nif_tab>
-                <nome_da_firma_tab name="p_nome_da_firma_tab" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="true" iskey="false">
-                    <label>Nome da Firma</label>
-                </nome_da_firma_tab>
-                <matriculan_reg_comercial name="p_matriculan_reg_comercial" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>Matricula(Nº Reg. COmercial)</label>
-                </matriculan_reg_comercial>
-                <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>DATA REGISTO (Data Reg. Comercial)</label>
-                </data_registo_data_reg_comercial>
-                <data_inicio_atividade name="p_data_inicio_atividade" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>Data Início Atividade</label>
-                </data_inicio_atividade>
-                <natureza_juridica name="p_natureza_juridica" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>Natureza Juridica</label>
-                </natureza_juridica>
-                <natureza_juridica_desc name="p_natureza_juridica_desc" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>Natureza Juridica Desc</label>
-                </natureza_juridica_desc>
-                <tipo_entidade name="p_tipo_entidade" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>Tipo Entidade</label>
-                </tipo_entidade>
-                <tipo_entidade_desc name="p_tipo_entidade_desc" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
-                    <label>Tipo Entidade Desc</label>
-                </tipo_entidade_desc>
-                <estado name="p_estado" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false">
+                <estado name="p_estado" type="color" format="hex" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
                     <label>Estado</label>
                 </estado>
+                <nif_tab name="p_nif_tab" type="number" min="" max="" maxlength="30" showLabel="true" align="left" lookup_parser="true" iskey="false" total_footer="false" java-type="String" group_in="">
+                    <label>Nif</label>
+                </nif_tab>
+                <nome_da_firma_tab name="p_nome_da_firma_tab" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="true" iskey="false" group_in="">
+                    <label>Nome da Firma</label>
+                </nome_da_firma_tab>
+                <matriculan_reg_comercial name="p_matriculan_reg_comercial" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Matricula(Nº Reg. COmercial)</label>
+                </matriculan_reg_comercial>
+                <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>DATA REGISTO (Data Reg. Comercial)</label>
+                </data_registo_data_reg_comercial>
+                <data_inicio_atividade name="p_data_inicio_atividade" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Data Início Atividade</label>
+                </data_inicio_atividade>
+                <natureza_juridica name="p_natureza_juridica" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Natureza Juridica</label>
+                </natureza_juridica>
+                <natureza_juridica_desc name="p_natureza_juridica_desc" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Natureza Juridica Desc</label>
+                </natureza_juridica_desc>
+                <tipo_entidade name="p_tipo_entidade" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Tipo Entidade</label>
+                </tipo_entidade>
+                <tipo_entidade_desc name="p_tipo_entidade_desc" type="text" maxlength="30" showLabel="true" align="left" lookup_parser="false" iskey="false" group_in="">
+                    <label>Tipo Entidade Desc</label>
+                </tipo_entidade_desc>
             </fields>
             <table>
                 <value>
                     <row>
-                        <nif_tab name="p_nif_tab">6</nif_tab>
-                        <nome_da_firma_tab name="p_nome_da_firma_tab">Deserunt voluptatem labore sit</nome_da_firma_tab>
-                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Rem ipsum labore sed deserunt</matriculan_reg_comercial>
-                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Mollit laudantium ut elit pers</data_registo_data_reg_comercial>
-                        <data_inicio_atividade name="p_data_inicio_atividade">Voluptatem ut officia sed omni</data_inicio_atividade>
-                        <natureza_juridica name="p_natureza_juridica">Doloremque amet sit unde dolor</natureza_juridica>
-                        <natureza_juridica_desc name="p_natureza_juridica_desc">Omnis ut unde omnis sit</natureza_juridica_desc>
-                        <tipo_entidade name="p_tipo_entidade">Unde anim rem magna adipiscing</tipo_entidade>
-                        <tipo_entidade_desc name="p_tipo_entidade_desc">Perspiciatis sit magna sit des</tipo_entidade_desc>
-                        <estado name="p_estado">Omnis perspiciatis natus adipi</estado>
-                    </row>
-                    <row>
-                        <nif_tab name="p_nif_tab">1</nif_tab>
-                        <nome_da_firma_tab name="p_nome_da_firma_tab">Ipsum deserunt sit aliqua pers</nome_da_firma_tab>
-                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Consectetur sit elit officia s</matriculan_reg_comercial>
-                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Ut doloremque labore voluptate</data_registo_data_reg_comercial>
-                        <data_inicio_atividade name="p_data_inicio_atividade">Doloremque ut accusantium offi</data_inicio_atividade>
-                        <natureza_juridica name="p_natureza_juridica">Unde laudantium aliqua anim am</natureza_juridica>
-                        <natureza_juridica_desc name="p_natureza_juridica_desc">Elit iste aperiam doloremque e</natureza_juridica_desc>
-                        <tipo_entidade name="p_tipo_entidade">Ipsum lorem officia laudantium</tipo_entidade>
-                        <tipo_entidade_desc name="p_tipo_entidade_desc">Rem stract voluptatem sit moll</tipo_entidade_desc>
-                        <estado name="p_estado">Anim stract anim accusantium a</estado>
-                    </row>
-                    <row>
-                        <nif_tab name="p_nif_tab">17</nif_tab>
-                        <nome_da_firma_tab name="p_nome_da_firma_tab">Laudantium accusantium sit omn</nome_da_firma_tab>
-                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Dolor sit aliqua anim rem</matriculan_reg_comercial>
-                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Natus magna iste accusantium s</data_registo_data_reg_comercial>
-                        <data_inicio_atividade name="p_data_inicio_atividade">Voluptatem ipsum elit officia</data_inicio_atividade>
-                        <natureza_juridica name="p_natureza_juridica">Anim omnis magna dolor adipisc</natureza_juridica>
-                        <natureza_juridica_desc name="p_natureza_juridica_desc">Sit mollit totam aliqua perspi</natureza_juridica_desc>
-                        <tipo_entidade name="p_tipo_entidade">Elit aliqua adipiscing magna e</tipo_entidade>
-                        <tipo_entidade_desc name="p_tipo_entidade_desc">Doloremque stract magna totam</tipo_entidade_desc>
-                        <estado name="p_estado">Iste sit totam stract officia</estado>
-                    </row>
-                    <row>
-                        <nif_tab name="p_nif_tab">6</nif_tab>
-                        <nome_da_firma_tab name="p_nome_da_firma_tab">Perspiciatis anim amet unde an</nome_da_firma_tab>
-                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Perspiciatis rem sit dolor mag</matriculan_reg_comercial>
-                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Sit officia laudantium stract</data_registo_data_reg_comercial>
-                        <data_inicio_atividade name="p_data_inicio_atividade">Amet accusantium laudantium ac</data_inicio_atividade>
-                        <natureza_juridica name="p_natureza_juridica">Aliqua accusantium aperiam und</natureza_juridica>
-                        <natureza_juridica_desc name="p_natureza_juridica_desc">Dolor sit stract sed accusanti</natureza_juridica_desc>
-                        <tipo_entidade name="p_tipo_entidade">Sit mollit omnis anim lorem</tipo_entidade>
-                        <tipo_entidade_desc name="p_tipo_entidade_desc">Elit stract aliqua aperiam str</tipo_entidade_desc>
-                        <estado name="p_estado">Consectetur unde iste officia</estado>
-                    </row>
-                    <row>
+                        <estado name="p_estado">I</estado>
                         <nif_tab name="p_nif_tab">26</nif_tab>
-                        <nome_da_firma_tab name="p_nome_da_firma_tab">Sit sit dolor doloremque natus</nome_da_firma_tab>
-                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Totam rem mollit rem aperiam</matriculan_reg_comercial>
-                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Unde accusantium doloremque si</data_registo_data_reg_comercial>
-                        <data_inicio_atividade name="p_data_inicio_atividade">Sed aperiam totam laudantium s</data_inicio_atividade>
-                        <natureza_juridica name="p_natureza_juridica">Mollit sit amet mollit totam</natureza_juridica>
-                        <natureza_juridica_desc name="p_natureza_juridica_desc">Consectetur elit rem laudantiu</natureza_juridica_desc>
-                        <tipo_entidade name="p_tipo_entidade">Totam aperiam omnis perspiciat</tipo_entidade>
-                        <tipo_entidade_desc name="p_tipo_entidade_desc">Aliqua laudantium adipiscing d</tipo_entidade_desc>
-                        <estado name="p_estado">Consectetur dolor lorem ut dol</estado>
+                        <nome_da_firma_tab name="p_nome_da_firma_tab">Laudantium magna sit aliqua do</nome_da_firma_tab>
+                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Rem elit magna mollit voluptat</matriculan_reg_comercial>
+                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Rem omnis accusantium lorem de</data_registo_data_reg_comercial>
+                        <data_inicio_atividade name="p_data_inicio_atividade">Aperiam lorem mollit deserunt</data_inicio_atividade>
+                        <natureza_juridica name="p_natureza_juridica">Sit natus omnis stract ipsum</natureza_juridica>
+                        <natureza_juridica_desc name="p_natureza_juridica_desc">Ut natus iste ut deserunt</natureza_juridica_desc>
+                        <tipo_entidade name="p_tipo_entidade">Labore anim amet sit aliqua</tipo_entidade>
+                        <tipo_entidade_desc name="p_tipo_entidade_desc">Deserunt lorem elit iste amet</tipo_entidade_desc>
+                    </row>
+                    <row>
+                        <estado name="p_estado">S</estado>
+                        <nif_tab name="p_nif_tab">9</nif_tab>
+                        <nome_da_firma_tab name="p_nome_da_firma_tab">Magna adipiscing unde accusant</nome_da_firma_tab>
+                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Amet laudantium natus sit laud</matriculan_reg_comercial>
+                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Magna totam accusantium elit a</data_registo_data_reg_comercial>
+                        <data_inicio_atividade name="p_data_inicio_atividade">Sit accusantium aliqua laudant</data_inicio_atividade>
+                        <natureza_juridica name="p_natureza_juridica">Stract sit iste dolor omnis</natureza_juridica>
+                        <natureza_juridica_desc name="p_natureza_juridica_desc">Sit unde sit amet rem</natureza_juridica_desc>
+                        <tipo_entidade name="p_tipo_entidade">Anim voluptatem consectetur se</tipo_entidade>
+                        <tipo_entidade_desc name="p_tipo_entidade_desc">Anim aperiam sit dolor rem</tipo_entidade_desc>
+                    </row>
+                    <row>
+                        <estado name="p_estado">ELQ</estado>
+                        <nif_tab name="p_nif_tab">0</nif_tab>
+                        <nome_da_firma_tab name="p_nome_da_firma_tab">Dolor deserunt aperiam omnis p</nome_da_firma_tab>
+                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Unde stract natus amet deserun</matriculan_reg_comercial>
+                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Doloremque doloremque ut iste</data_registo_data_reg_comercial>
+                        <data_inicio_atividade name="p_data_inicio_atividade">Dolor labore amet unde aliqua</data_inicio_atividade>
+                        <natureza_juridica name="p_natureza_juridica">Magna dolor natus sed mollit</natureza_juridica>
+                        <natureza_juridica_desc name="p_natureza_juridica_desc">Magna voluptatem mollit omnis</natureza_juridica_desc>
+                        <tipo_entidade name="p_tipo_entidade">Sit consectetur elit officia t</tipo_entidade>
+                        <tipo_entidade_desc name="p_tipo_entidade_desc">Laudantium consectetur deserun</tipo_entidade_desc>
+                    </row>
+                    <row>
+                        <estado name="p_estado">A</estado>
+                        <nif_tab name="p_nif_tab">1</nif_tab>
+                        <nome_da_firma_tab name="p_nome_da_firma_tab">Laudantium officia rem lorem i</nome_da_firma_tab>
+                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Ipsum sed consectetur aperiam</matriculan_reg_comercial>
+                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Natus rem perspiciatis natus c</data_registo_data_reg_comercial>
+                        <data_inicio_atividade name="p_data_inicio_atividade">Voluptatem lorem dolor iste vo</data_inicio_atividade>
+                        <natureza_juridica name="p_natureza_juridica">Anim dolor perspiciatis laudan</natureza_juridica>
+                        <natureza_juridica_desc name="p_natureza_juridica_desc">Mollit accusantium elit iste o</natureza_juridica_desc>
+                        <tipo_entidade name="p_tipo_entidade">Aliqua anim officia perspiciat</tipo_entidade>
+                        <tipo_entidade_desc name="p_tipo_entidade_desc">Deserunt natus ut aperiam rem</tipo_entidade_desc>
+                    </row>
+                    <row>
+                        <estado name="p_estado">ELQ</estado>
+                        <nif_tab name="p_nif_tab">9</nif_tab>
+                        <nome_da_firma_tab name="p_nome_da_firma_tab">Amet natus perspiciatis labore</nome_da_firma_tab>
+                        <matriculan_reg_comercial name="p_matriculan_reg_comercial">Doloremque aliqua elit volupta</matriculan_reg_comercial>
+                        <data_registo_data_reg_comercial name="p_data_registo_data_reg_comercial">Aliqua labore mollit laudantiu</data_registo_data_reg_comercial>
+                        <data_inicio_atividade name="p_data_inicio_atividade">Doloremque totam sed mollit ip</data_inicio_atividade>
+                        <natureza_juridica name="p_natureza_juridica">Rem stract voluptatem aliqua u</natureza_juridica>
+                        <natureza_juridica_desc name="p_natureza_juridica_desc">Ut omnis anim laudantium ut</natureza_juridica_desc>
+                        <tipo_entidade name="p_tipo_entidade">Elit doloremque deserunt adipi</tipo_entidade>
+                        <tipo_entidade_desc name="p_tipo_entidade_desc">Unde ut sit rem sit</tipo_entidade_desc>
                     </row>
                 </value>
+                <legend_color>
+                    <item>
+                        <label>Ativo</label>
+                        <value>A</value>
+                        <color>#33d348</color>
+                    </item>
+                    <item>
+                        <label>Suspenso</label>
+                        <value>S</value>
+                        <color>#fdff00</color>
+                    </item>
+                    <item>
+                        <label>Em Liquidação</label>
+                        <value>ELQ</value>
+                        <color>#1faac1</color>
+                    </item>
+                    <item>
+                        <label>Cancelado</label>
+                        <value>CAN</value>
+                        <color>#e01dd9</color>
+                    </item>
+                    <item>
+                        <label>Inativo</label>
+                        <value>I</value>
+                        <color>#f00045</color>
+                    </item>
+                    <item>
+                        <label>Cessado</label>
+                        <value>CES</value>
+                        <color>#e97f00</color>
+                    </item>
+                </legend_color>
             </table>
         </table_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

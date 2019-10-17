@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.Connection;
 import nosi.core.webapp.databse.helpers.DatabaseConfigHelper;
@@ -26,6 +29,7 @@ public class GerarClasse {
 		String content_package="";
 		String content="";
 		int cont = 0;
+		boolean isBigint=true,isBigDec=true;
 		int cont_import = 0;
 		String tipo_db = this.decreptyCode(config.getType_db());
 		
@@ -54,35 +58,44 @@ public class GerarClasse {
 		"*/\n\n";
 
 		content = content + "@Entity\n" + 
-		"@Table(name=\""+ tbl_name +"\",schema=\""+schema+"\")\n";
-		if(tipo_db.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
-			content = content + "@SequenceGenerator(name = \""+seq+"\",sequenceName =\""+seq+"\", initialValue = 1, allocationSize = 1)\n";
-			content_import = content_import + "import javax.persistence.SequenceGenerator;\n";
-		}
+		"@Table(name=\""+ tbl_name +"\",schema=\""+schema+"\")\n";		
 		content = content + "@NamedQuery(name=\""+clas_dao_name+".findAll\", query=\"SELECT b FROM "+clas_dao_name+" b\")\n";
 		content = content + "public class "+ clas_dao_name + " extends BaseActiveRecord<" + clas_dao_name + "> implements Serializable{\n\n";
 		content = content + "\tprivate static final long serialVersionUID = 1L;\n\n";
 		
 		String content_variaveis = "";
 		for(DatabaseMetadaHelper.Column cl : columns) {
+			
+			System.out.println("tudo "+cl.toString()+" ctypedname "+cl.getColumnTypeName​()+" cname "+cl.getConnectionName()+" map"+cl.getColumnMap());
+			
+			if(isBigint && this.resolveType(cl).equalsIgnoreCase("BigInteger")) {
+					content_import = content_import + "import java.math.BigInteger;\n";
+					isBigint=false;
+				
+			}else if(isBigDec && this.resolveType(cl).equalsIgnoreCase("BigDecimal")) {					
+					content_import = content_import + "import java.math.BigDecimal;\n";
+					isBigDec=false;					
+			}
 			if(cl.isPrimaryKey()) {
 				content_variaveis = content_variaveis + "\t@Id\n";
 				if(tipo_db.equalsIgnoreCase(DatabaseConfigHelper.ORACLE)) {
-					content_variaveis = content_variaveis + "\t@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = \""+seq+"\")\n";
+					content_import = content_import + "import javax.persistence.SequenceGenerator;\n";
+					content_variaveis = content_variaveis +   "\t@SequenceGenerator(name = \""+seq+"Gen\",sequenceName =\""+seq+"\", initialValue = 1, allocationSize = 1)\n";
+					content_variaveis = content_variaveis + "\t@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = \""+seq+"Gen\")\n";
 				}else {
-					content_variaveis = content_variaveis +  "\t@GeneratedValue(strategy=GenerationType.IDENTITY)\n";
+					content_variaveis = content_variaveis +  "\t@GeneratedValue(strategy=GenerationType.AUTO)\n";
 				}
 						
 						
-				content_variaveis = content_variaveis +   "\t@Column(nullable="+( cl.isNullable() ? "true" : "false") +")\n"
-						 + "\tprivate "+ this.resolveType(cl) +" " +cl.getName()+";\n";
+				content_variaveis = content_variaveis +   "\t@Column(name=\""+cl.getName()+"\", nullable="+( cl.isNullable() ? "true" : "false") +")\n"
+						 + "\tprivate "+ this.resolveType(cl) +" " +this.resolveName1Dw(cl.getName())+";\n";
 			}else if(cl.isForeignKey()) {
 				cont_import +=1;
 				Map<String, String> fk_constrain_name = new DatabaseMetadaHelper().getForeignKeysConstrainName(config, schema, tbl_name,dad_name);
 				String tabela_relacional = cl.getTableRelation();
 				content_variaveis = content_variaveis + "\t@ManyToOne\n"
 						+ "\t@JoinColumn(name=\""+ cl.getName() +"\", foreignKey=@ForeignKey(name=\""+ fk_constrain_name.get(cl.getName())+"\"), nullable="+( cl.isNullable() ? "true" : "false") +")\n"+
-						"\tprivate "+ this.resolveName(tabela_relacional) +" " +tabela_relacional+";\n";
+						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +tabela_relacional+";\n";
 				if(cont_import == 1) {
 					content_import = content_import +"import javax.persistence.ManyToOne;\n" +
 							"import javax.persistence.JoinColumn;\n" +
@@ -101,8 +114,28 @@ public class GerarClasse {
 				}
                 */
 			}else {
-				content_variaveis = content_variaveis + "\t@Column(nullable="+( cl.isNullable() ? "true" : "false") +",length="+ cl.getSize()  +")\n"+
-						"\tprivate "+ this.resolveType(cl) +" " +cl.getName()+";\n";
+				
+				
+				if(this.resolveType(cl).equalsIgnoreCase("Date")) {
+					cont +=1;
+					String temporalType="DATE";
+					if(cont == 1) {
+						content_import = content_import + "import java.util.Date;\nimport javax.persistence.Temporal;\r\n" + 
+								"import javax.persistence.TemporalType;\n";
+					}
+					if(cl.getTypeSql()==Types.TIMESTAMP || cl.getTypeSql()==Types.TIMESTAMP_WITH_TIMEZONE)
+						temporalType="TIMESTAMP";
+					else if(cl.getTypeSql()==Types.TIME || cl.getTypeSql()==Types.TIME_WITH_TIMEZONE)
+						temporalType="TIME";
+					content_variaveis = content_variaveis + "\t@Temporal(TemporalType."+temporalType+")\n";
+				}else if(this.resolveType(cl).equalsIgnoreCase("byte[]")) {
+					content_variaveis = content_variaveis + "\t@javax.persistence.Lob\r\n" +
+							"\t@org.hibernate.annotations.Type(type=\"org.hibernate.type.BinaryType\")\n";
+					
+				}
+			
+				content_variaveis = content_variaveis +  "\t@Column(name=\""+cl.getName()+"\",nullable="+( cl.isNullable() ? "true" : "false") +",length="+ cl.getSize()  +")\n"+
+						"\tprivate "+ this.resolveType(cl) +" " +this.resolveName1Dw(cl.getName())+";\n";
 				
 				/*if(ge.isGerar_list()) {
 					//annotation OneToMany
@@ -114,12 +147,7 @@ public class GerarClasse {
 															"\tprivate List<"+ge.getTabela()+"> "+ge.getTabela().toLowerCase()+"s;";
 					
 				}*/
-				if(this.resolveType(cl).equalsIgnoreCase("Date")) {
-					cont +=1;
-					if(cont == 1) {
-						content_import = content_import + "import java.util.Date;\n";
-					}
-				}
+				
 			}
 		}
 		content_variaveis = content_variaveis +"\n";
@@ -127,22 +155,23 @@ public class GerarClasse {
 		String content_setAndGet = "";
 		for(DatabaseMetadaHelper.Column cl : columns) {
 			if(!cl.isForeignKey()) {
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveType(cl) + " get"+this.resolveName(cl.getName())+"() {\n" + 
-						"\t\treturn "+cl.getName()+";\n" + 
+				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveType(cl) + " get"+this.resolveName1Up(cl.getName())+"() {\n" + 
+						"\t\treturn "+this.resolveName1Dw(cl.getName())+";\n" + 
 						"\t}\n" + 
-						"\tpublic void set"+this.resolveName(cl.getName())+"("+ this.resolveType(cl) +" "+cl.getName()+") {\n" + 
-						"\t\tthis."+cl.getName()+" = "+cl.getName()+";\n" + 
+						"\tpublic void set"+this.resolveName1Up(cl.getName())+"("+ this.resolveType(cl) +" "+this.resolveName1Dw(cl.getName())+") {\n" + 
+						"\t\tthis."+this.resolveName1Dw(cl.getName())+" = "+this.resolveName1Dw(cl.getName())+";\n" + 
 						"\t}\n";
 			}else {
 				Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName(fk_table_name.get(cl.getName()).toUpperCase()) + " get"+this.resolveName(cl.getName())+"() {\n" + 
-						"\t\treturn "+fk_table_name.get(cl.getName())+";\n" + 
+				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(fk_table_name.get(cl.getName())) + " get"+this.resolveName1Up(cl.getName())+"() {\n" + 
+						"\t\treturn "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+";\n" + 
 						"\t}\n" + 
-						"\tpublic void set"+this.resolveName(fk_table_name.get(cl.getName()))+"("+ this.resolveName(fk_table_name.get(cl.getName()).toUpperCase()) +" "+fk_table_name.get(cl.getName())+") {\n" + 
-						"\t\tthis."+fk_table_name.get(cl.getName())+" = "+fk_table_name.get(cl.getName())+";\n" + 
+						"\tpublic void set"+this.resolveName1Up(fk_table_name.get(cl.getName()))+"("+ this.resolveName1Up(fk_table_name.get(cl.getName())) +" "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+") {\n" + 
+						"\t\tthis."+this.resolveName1Dw(fk_table_name.get(cl.getName()))+" = "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+";\n" + 
 						"\t}\n";
 			}
 		}
+		
 		String content_total = content_package + content_import + content + content_variaveis + content_setAndGet +"}";
 		return content_total;
 	}
@@ -154,37 +183,68 @@ public class GerarClasse {
 		    case Types.NVARCHAR:
 		    case Types.CHAR:
 		    case Types.NCHAR:
+		    case Types.LONGVARCHAR:
+		    case Types.LONGNVARCHAR:
 		    case Types.STRUCT:
 		    	result = "String";
-		    	break;
-		    case Types.NUMERIC:
+		    	break;		    
 		    case Types.SMALLINT:
-		    case Types.INTEGER:
-		    case Types.BIGINT:
+		    case Types.INTEGER:	
+		    case Types.TINYINT:
 		        result = "Integer";
+		        break;		        
+		    case Types.BIGINT:
+		        result = "BigInteger";
 		        break;
+		    case Types.NUMERIC:
+		    case Types.DECIMAL:		  
+		    	 result = "BigDecimal";
+			        break;		   
 		    case Types.REAL:
+		    	 result = "Float";
+			        break;			        
 		    case Types.FLOAT:
-		    case Types.DOUBLE:
-		    case Types.DECIMAL:
+		    case Types.DOUBLE:		   	
 		    	result = "Double";
 		    	break;
 		    case Types.BIT:
-		    	result = "boolean";
-		    	break;
+		    case Types.BOOLEAN:
+		    	result = "Boolean";
+		    	break;		   
+		    case Types.TIME:
+		    case Types.TIME_WITH_TIMEZONE:		
+		    case Types.TIMESTAMP:
+		    case Types.TIMESTAMP_WITH_TIMEZONE:		       
 		    case Types.DATE:
 		        result = "Date";
 		        break;
+		    case Types.BINARY: 
+		    case Types.VARBINARY:    
+		    case Types.LONGVARBINARY: 
+		    case Types.BLOB: 
+		    case Types.CLOB: 
+		    	result="byte[]";	        
+		        break;
+		    default:
+		    	result=column.getType().toString().split(" ")[1];
 		}
 		return result;
 	}
 	
-	private String resolveName(String name) {
+	private String resolveName1Up(String name) {
 		String nome = "";
 		for(String aux : name.split("_")){
 			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
 		}
 		return nome;
+	}
+	
+	private String resolveName1Dw(String name) {
+		String nome = "";
+		for(String aux : name.split("_")){
+			nome += aux.substring(0, 1).toUpperCase() + aux.substring(1).toLowerCase();
+		}
+		return StringUtils.uncapitalize(nome);
 	}
 	
 	private String decreptyCode(String type) {
@@ -209,7 +269,7 @@ public class GerarClasse {
 				"on seqs.sequence_owner = deps.referenced_owner " + 
 				"and seqs.sequence_name = deps.referenced_name " + 
 				"where tabs.table_name='" + tablename+"' or tabs.table_name='"+tablename.toUpperCase()+"'";
-		java.sql.Connection con = Connection.getConnection(config);
+			java.sql.Connection con = Connection.getConnection(config);
 		
 			PreparedStatement st = con.prepareStatement(sql); 
 			ResultSet rs = st.executeQuery();
