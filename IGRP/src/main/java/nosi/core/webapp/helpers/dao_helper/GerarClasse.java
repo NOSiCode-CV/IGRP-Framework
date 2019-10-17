@@ -78,12 +78,11 @@ public class GerarClasse {
 						 + "\tprivate "+ this.resolveType(cl) +" " +cl.getName()+";\n";
 			}else if(cl.isForeignKey()) {
 				cont_import +=1;
-				Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
 				Map<String, String> fk_constrain_name = new DatabaseMetadaHelper().getForeignKeysConstrainName(config, schema, tbl_name,dad_name);
-				
+				String tabela_relacional = cl.getTableRelation();
 				content_variaveis = content_variaveis + "\t@ManyToOne\n"
 						+ "\t@JoinColumn(name=\""+ cl.getName() +"\", foreignKey=@ForeignKey(name=\""+ fk_constrain_name.get(cl.getName())+"\"), nullable="+( cl.isNullable() ? "true" : "false") +")\n"+
-						"\tprivate "+ this.resolveName(fk_table_name.get(cl.getName())) +" " +fk_table_name.get(cl.getName())+";\n";
+						"\tprivate "+ this.resolveName(tabela_relacional) +" " +tabela_relacional+";\n";
 				if(cont_import == 1) {
 					content_import = content_import +"import javax.persistence.ManyToOne;\n" +
 							"import javax.persistence.JoinColumn;\n" +
@@ -94,8 +93,8 @@ public class GerarClasse {
 				//if(!Core.fileExists(new Config().getPathDAO(dad_name) + this.resolveName(fk_table_name.get(cl.getName()))+".java")) {
 				//}
 				
-				new CRUDGeneratorController().generateDAO(config, schema, fk_table_name.get(cl.getName()), dad_name);
-				System.out.println("nome de kes tabela dependente "+ fk_table_name.get(cl.getName())); 
+				new CRUDGeneratorController().generateDAO(config, schema, tabela_relacional, dad_name);
+				System.out.println("nome de kes tabela dependente "+ tabela_relacional); 
 				/*
 				if(gerar) {
 					Core.setMessageInfo("Também foi gerado classe dependente '"+ this.resolveName(fk_table_name.get(cl.getName())) +"'.");
@@ -209,7 +208,7 @@ public class GerarClasse {
 				"join all_sequences seqs " + 
 				"on seqs.sequence_owner = deps.referenced_owner " + 
 				"and seqs.sequence_name = deps.referenced_name " + 
-				"where tabs.table_name='" + tablename+"'";
+				"where tabs.table_name='" + tablename+"' or tabs.table_name='"+tablename.toUpperCase()+"'";
 		java.sql.Connection con = Connection.getConnection(config);
 		
 			PreparedStatement st = con.prepareStatement(sql); 
