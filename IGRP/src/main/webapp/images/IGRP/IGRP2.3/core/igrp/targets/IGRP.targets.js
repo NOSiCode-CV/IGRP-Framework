@@ -447,7 +447,25 @@
 		};
 		//new tab
 		var _newtab      = function(p){
-			window.open(p.url,'_blank');
+			var name = '_blank';
+
+			if($(p.clicked)[0]){
+
+				var element = $(p.clicked).parents('li');
+
+				if(element[0]){
+					var col = $('td:first',element.parents('tr:first'));
+					
+					name = element.is('[id]') ? element.attr('id') : element.attr('trel');
+					
+					name = col[0] ? name+col.attr('data-row') : name;
+				}
+				else
+					name = $(p.clicked).attr('position');
+			}
+				
+			window.open(p.url,name);
+			
 			return false;
 		};
 		//blank (popup)

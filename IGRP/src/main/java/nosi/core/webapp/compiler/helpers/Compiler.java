@@ -49,8 +49,7 @@ public class Compiler {
 		if (this.dirs != null) {
 			this.dirs.stream().forEach(dir -> {
 				files += dir + " ";
-			});
-			listFilesDirectory(this.config.getPathLib());
+			});		
 			String pathTomcat = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 			int index = pathTomcat.indexOf("webapps");
 			if (index != -1) {
@@ -61,6 +60,7 @@ public class Compiler {
 				listFilesDirectory(pathTomcat.substring(0, index)+"igrplib/");
 		
 			}
+			listFilesDirectory(this.config.getPathLib());
 			CompilationProgress progress = null;
 			final String buildArgs = " -encoding UTF-8 " + files + " -cp " + System.getProperty("path.separator") + jars
 					+ this.config.getBasePathClass() + System.getProperty("path.separator") + " -classpath "

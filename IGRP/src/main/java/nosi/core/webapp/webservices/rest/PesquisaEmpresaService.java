@@ -33,11 +33,12 @@ public class PesquisaEmpresaService {
 		ConsumeJson json_obj = new ConsumeJson();
 		String url = resolveUrl(nif,nome);
 		
-			String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), AUTHORIZATION);
 			
-			JSONObject obj = new JSONObject(json);
 						
 			try {
+				String json = json_obj.getJsonFromUrl(url.replaceAll(" ", "%20"), AUTHORIZATION);
+				
+				JSONObject obj = new JSONObject(json);
 				JSONObject Entries = obj.getJSONObject("Entries");
 				 
 				try {
@@ -46,15 +47,22 @@ public class PesquisaEmpresaService {
 						JSONObject local = Entry.getJSONObject(i);
 						extracted(empresas, local);
 					}	
+					Core.setMessageSuccess();
 				}catch(Exception e) {
-					JSONObject Entry_ob = Entries.getJSONObject("Entry");
-					extracted(empresas, Entry_ob);
+					JSONObject Entry_ob = Entries.optJSONObject("Entry");
+					if(Entry_ob!=null) {
+						extracted(empresas, Entry_ob);
+						Core.setMessageSuccess();
+					}else
+						Core.setMessageInfo("Nenhum registo encontrado");
 				}
 				
 				
 			}catch (Exception e) {			
 				Core.setMessageInfo("Nenhum registo encontrado");
 			}
+			
+			
 		return empresas;
 	}
 
@@ -122,7 +130,7 @@ public class PesquisaEmpresaService {
 		}
 		
 		empresas.add(empresa);
-		Core.setMessageSuccess();
+		
 	}
 	
 	
