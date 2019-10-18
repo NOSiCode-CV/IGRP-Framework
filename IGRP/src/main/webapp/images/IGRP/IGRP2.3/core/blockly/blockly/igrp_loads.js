@@ -166,8 +166,6 @@ $('#refresh_bloco').on('click', function() {
 		
 		var code = '';//Blockly.Java.workspaceToCode(Code.workspace);
 		
-		console.log(code);
-		
 		content.textContent = code; 
 		   
 		console.log("Bloco Atualizado");
@@ -503,16 +501,6 @@ $('#active_selenium').on('click', function() {
 				+'<value type="value" name="dao_field"  title=" = "></value>'
 			
 			+'</block>'
-			
-			+'<block type="core_get_param" output="" color="60">' 
-			
-			+'<value name="value1" type="dummy"  title="get parameter">'
-			
-				+'<field type="field_text" name="param" options=""></field>'
-				
-			+'</value>'
-			
-			+'</block>'
 				
 			);
 		}
@@ -597,9 +585,6 @@ $('#active_selenium').on('click', function() {
 				var first = true;
 				
 				IGRP_BLOCKLY_DROPS.tablesTest[table].forEach(function(f, fi){
-					
-					
-					console.log(f)
 
 					rtn+= '<block type="rowtable'+f[0]+'" id="'+f[1]+'" prev-statement="Linha" next-statement="Linha" color="140">'
 					
@@ -625,8 +610,10 @@ $('#active_selenium').on('click', function() {
 			}
 				
 			$('#table').append(
+					
+					'<category id="'+table+'" name="'+table+'" colour="140" class="blocly-dynamic">'
 			
-						'<block type="listar_'+table+'" id="'+table+'" color="140" mutator="where" prev-statement="" next-statement="" inline="true">'
+						+'<block type="listar_'+table+'" id="'+table+'" color="140" mutator="where" prev-statement="" next-statement="" inline="true">'
 						
 							+'<value name="value1" type="dummy">'
 							
@@ -651,6 +638,8 @@ $('#active_selenium').on('click', function() {
 							+'</value>'
 						
 					+'</block>'
+					
+					+'</category>'
 
 					);
 			}
@@ -708,7 +697,7 @@ $('#active_selenium').on('click', function() {
 					
 					);
 			}
-			
+					
 			var getSeparatorBlock = function(){
 				
 				var rtn = '';
@@ -717,11 +706,13 @@ $('#active_selenium').on('click', function() {
 				
 				IGRP_BLOCKLY_DROPS.tablesTest[separator].forEach(function(f, fi){
 					
-					rtn+= '<block type="sep_row_'+separator+'" prev-statement="" next-statement="" color="80">'
+					rtn+= '<block type="sep_row_'+f[0]+'" id="'+f[1]+'" prev-statement="" next-statement="" color="80">'
 					
-							+'<value type="value" title="set" name="fields_model">'
+							+'<value type="value" name="fields_model">'
 							
-								+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+separator+'"></field>'
+								+'<field type="text" options="Set '+f[0]+'"></field>'
+							
+								//+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+separator+'"></field>'
 								
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 								
@@ -858,7 +849,7 @@ $('#active_selenium').on('click', function() {
 					
 					);
 			}
-			
+				
 			var getFormlistBlock = function(){
 				
 				var rtn = '';
@@ -867,11 +858,13 @@ $('#active_selenium').on('click', function() {
 				
 				IGRP_BLOCKLY_DROPS.tablesTest[formlist].forEach(function(f, fi){
 					
-					rtn+= '<block type="sep_form_'+formlist+'" prev-statement="" next-statement="" color="200">'
+					rtn+= '<block type="sep_form_'+f[0]+'" id="'+f[1]+'" prev-statement="" next-statement="" color="200">'
 					
-							+'<value type="value" title="set" name="fields_model">'
+							+'<value type="value" name="fields_model">'
 							
-								+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+formlist+'"></field>'
+								+'<field type="text" options="Set '+f[0]+'"></field>'
+							
+								//+'<field type="dropdown" name="coluna" options="IGRP_BLOCKLY_DROPS.tablesTest.'+formlist+'"></field>'
 								
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/row_icon.svg"></field>'
 								
@@ -1038,9 +1031,9 @@ $('#active_selenium').on('click', function() {
 					
 					'<category id="dao" name="DAO" colour="160" class="blocly-dynamic">'
 					
-							+'<block type="index_editar" color ="160" prev-statement="" next-statement="" inline="true">'
+							+'<block type="index_editar" color ="160" mutator="where" prev-statement="" next-statement="" inline="true">'
 							
-							+'<value name="param_id" type="value" >'
+							+'<value type="dummy" >'
 							
 							+'<field type="text" options="fill model"></field>'
 							
@@ -1050,7 +1043,7 @@ $('#active_selenium').on('click', function() {
 							
 								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 								
-								+'<field type="text" title="by:" options=""></field>'
+							//+'<field type="text" title="by:" options=""></field>'
 								
 							+'</value>'
 							

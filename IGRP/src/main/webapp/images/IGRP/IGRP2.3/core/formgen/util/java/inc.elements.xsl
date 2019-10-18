@@ -310,21 +310,21 @@
 				   	
 				   	<xsl:when test="$type_param != 'Integer'">
 				   	
-					   	<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, Core.toInt(</xsl:text><xsl:value-of select="$valorparam"/><xsl:text>));</xsl:text>
+					   	<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, Core.toInt(</xsl:text><xsl:value-of select="$valorparam"/><xsl:text>));</xsl:text>
 						
 						<xsl:value-of select="$newlineTab1"></xsl:value-of>
 						
-						<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>);</xsl:text>
+						<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign);</xsl:text>
 					
 					</xsl:when>
 					
 					<xsl:otherwise>
 					
-						<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam"/><xsl:text>);</xsl:text>
+						<xsl:value-of select="$fieldType"/><xsl:text> </xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign = session.find(</xsl:text><xsl:value-of select="$fieldType"/><xsl:text>.class, </xsl:text><xsl:value-of select="$valorparam"/><xsl:text>);</xsl:text>
 						
 						<xsl:value-of select="$newlineTab1"></xsl:value-of>
 						
-						<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>);</xsl:text>
+						<xsl:value-of select="$daolow"/><xsl:text>.set</xsl:text><xsl:value-of select="$nameCap"/><xsl:text>(</xsl:text><xsl:value-of select="$paramlow"/><xsl:text>_foreign);</xsl:text>
 					
 					</xsl:otherwise>
 				   	
@@ -438,6 +438,8 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
+		<xsl:variable name="mutation" select="mutation/@count"/>
+		
 		<xsl:variable name="daolow">
 		
 	       	<xsl:call-template name="LowerCase">
@@ -447,6 +449,24 @@
 	       	</xsl:call-template>
 	       	
 	   	</xsl:variable>
+	   	
+	   	<xsl:variable name="daofilter" select="concat($daolow,'filter')"/>
+	   	
+	   	<xsl:variable name="andWheres">
+			
+			<xsl:call-template name="listar.andWheres">
+			
+				<xsl:with-param name="daofilter" select="$daofilter"/>
+			
+				<xsl:with-param name="total" select="$mutation"/>
+				
+				<xsl:with-param name="valueAttrName" select="'ADD'"/>
+				
+				<xsl:with-param name="values" select="value"/>
+			
+			</xsl:call-template>
+			
+		</xsl:variable>
 		
 		<xsl:variable name="button" select="field[@name='button']"/>
 	   	
@@ -484,9 +504,15 @@
 			
 			<xsl:text>if (Core.isNotNull(isEdit)) {</xsl:text>
 			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
+			<xsl:value-of select="$newlineTab2"/>
 			
-			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().findOne(</xsl:text><xsl:value-of select="$param"/><xsl:text>);</xsl:text>
+			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daofilter"/><xsl:text> = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>().find();</xsl:text>
+			
+			<xsl:value-of select="$andWheres"/>
+			
+			<xsl:value-of select="$newlineTab2"/>
+			
+			<xsl:value-of select="$dao"/><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = </xsl:text><xsl:value-of select="$daofilter"></xsl:value-of><xsl:text>.one();</xsl:text>
 			
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			

@@ -142,9 +142,9 @@
 
 	<xsl:template name="blockly.element.sep_row">
 	
-		<xsl:variable name="rowType" select="substring-before(field,'::')"/>
+		<xsl:variable name="rowType" select="substring-before(@id,'::')"/>
 		
-		<xsl:variable name="rowValue" select="substring-after(field,'::')"/>
+		<xsl:variable name="rowValue" select="substring-after(@id,'::')"/>
 		
 		<xsl:variable name="rowtypechild" select="substring-before(value[@name='fields_model']/block/field,'::')"/>
 		

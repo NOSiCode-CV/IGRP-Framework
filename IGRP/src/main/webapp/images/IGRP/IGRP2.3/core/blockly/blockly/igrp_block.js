@@ -155,10 +155,6 @@ function SetupBlockly(){
 											value.appendField(  dropDown, name );
 
 										}
-
-										else
-											
-											console.log(field)
 										
 									break;
 										

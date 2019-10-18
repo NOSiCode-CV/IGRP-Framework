@@ -214,6 +214,8 @@
 			
 			<xsl:variable name="value2Name" select="concat($value1Name,'STATE2')"/>
 			
+			<xsl:variable name="value3Name" select="concat($value1Name,'STATE3')"/>
+			
 			<xsl:variable name="valueDao" select = "substring-after(value[@name=$value1Name]/block[contains(@type,'et-dao-')]/field,'::')"></xsl:variable>
 			
 			<xsl:variable name="wheretypechild" select="substring-before(value[@name=$value2Name]/block/field,'::')"/>
@@ -242,11 +244,7 @@
 			
 					<xsl:otherwise>
 					
-						<xsl:call-template name="blockly.elements">
-						
-						<xsl:with-param name="elements" select="$values[@name=$value1Name]/block"></xsl:with-param>
-						
-						</xsl:call-template>
+						<xsl:text>"This field must be a DAO's Field!"</xsl:text>
 						
 					</xsl:otherwise>
 					
@@ -294,21 +292,79 @@
 						
 			</xsl:variable>
 			
-			<xsl:if test="$value1 and $operator and $value2">
+			<xsl:variable name="valor3_">
 			
-				<xsl:value-of select="$newlineTab1"/>
+				<xsl:call-template name="blockly.elements">
+				
+					<xsl:with-param name="elements" select="$values[@name=$value3Name]/block"></xsl:with-param>
+					
+				</xsl:call-template>
+				
+			</xsl:variable>
+								
+			<xsl:variable name="value3">
 			
-				<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+				<xsl:call-template name="convert_blocks">
+				
+					<xsl:with-param name="daolow" select="daolow"></xsl:with-param>
+					
+					<xsl:with-param name="value" select="$valor3_"></xsl:with-param>
+					
+					<xsl:with-param name="from" select="$wheretypechild"></xsl:with-param>
+					
+					<xsl:with-param name="to" select="$wheretype"></xsl:with-param>
+					
+					<xsl:with-param name="neto" select="neto"></xsl:with-param>
+					
+					<xsl:with-param name="valuechild" select="valuechild"></xsl:with-param>
+					
+				</xsl:call-template>
+						
+			</xsl:variable>
+			
+			<xsl:choose>
+			
+				<xsl:when test="$filter ='.andWhere' or $filter ='.orWhere' or $filter ='.having' or $filter ='.where'">
+				
+					<xsl:value-of select="$newlineTab1"/>
+				
+					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+	
+					<xsl:value-of select="$newlineTab2"/>
+					
+					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"/>
+					
+					<xsl:text>}</xsl:text>
+				
+				</xsl:when>
+				
+				<xsl:when test="$filter ='.andWhereIsNull' or $filter ='.andWhereIsNotNull' or $filter ='.orWhereIsNull' or $filter ='.orWhereIsNotNull' ">
+				
+					<xsl:value-of select="$newlineTab1"/>
+				
+					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>);</xsl:text>
+	
+				</xsl:when>
+				
+				<xsl:when test="$filter ='.andWhereBetween' or $filter ='.orWhereBetween'">
+				
+					<xsl:value-of select="$newlineTab1"/>
+				
+					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>) &amp;&amp; Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value3"/><xsl:text>)){</xsl:text>
+	
+					<xsl:value-of select="$newlineTab2"/>
+					
+					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>,</xsl:text><xsl:value-of select="$value2"/><xsl:text>,</xsl:text><xsl:value-of select="$value3"/><xsl:text>);</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"/>
+					
+					<xsl:text>}</xsl:text>
+				
+				</xsl:when>
 
-				<xsl:value-of select="$newlineTab2"/>
-				
-				<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="concat($value1,$operator,$value2)"/><xsl:text>);</xsl:text>
-				
-				<xsl:value-of select="$newlineTab1"/>
-				
-				<xsl:text>}</xsl:text>
-				
-			</xsl:if>
+			</xsl:choose>
 					
 			<xsl:call-template name="listar.andWheres">
 			

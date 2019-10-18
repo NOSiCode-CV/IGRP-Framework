@@ -2,171 +2,41 @@
 	
 	var ListMutationSettings = {
 			
-			mutationToDom: function() {
-				
-				  var container = document.createElement('mutation');
-				  
-				  container.setAttribute('count', this.itemCount_);
-				  
-				  return container;
-				  
-				},
-				
-			domToMutation: function(xmlElement) {
-				
-				this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
-				
-				  this.updateShape_();  
-				  
-				},
-					
-			 decompose: function (workspace) {
-				 
-			        var containerBlock = workspace.newBlock('where_t');
-			        
-			        containerBlock.initSvg();
-			        
-			        var connection = containerBlock.getInput('SCRIPT').connection;	  
-			        
-			        for (var i = 0; i < this.itemCount_; i++) { 
-			        	
-				            var itemBlock = workspace.newBlock('where');
-				            
-				            itemBlock.initSvg();
-				            
-				            connection.connect(itemBlock.previousConnection);
-				            
-				            connection = itemBlock.nextConnection;
-				            
-			        }
-			        
-			        return containerBlock;
-			    },
-			    
-			 compose: function (containerBlock) {
-				 
-			        var itemBlock = containerBlock.getInputTargetBlock('SCRIPT');
-			        
-			        var connections = [];
-			        
-			        while (itemBlock) {
-			        	
-			            connections.push(itemBlock.valueConnection_);
-			            
-			            itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
-			            
-			        }
-			        
-			      for (var i = 1; i < this.itemCount_; i++) {
-			    	  
-			            var connection = this.getInput('ADD' + i).connection.targetConnection;
-			            
-			            if (connection && connections.indexOf(connection) == -1) {
-			            	
-			                connection.disconnect();
-			                
-			            }
-			            
-			        }
-			      
-			        this.itemCount_ = connections.length;
-			        
-			         Contador = this.itemCount_;
-			         
-			        this.updateShape_();
-			        
-			        for (var i = 0; i < this.itemCount_; i++) {
-			        	
-			            Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
-			            
-			        }
-			        
-			    },
-			    
-			 updateShape_: function () {
-				 
-				 	console.log(this)
-				    
-			        for (var i = 1; i <= this.itemCount_; i++) {
-			        	
-			            if (!this.getInput('ADD' + i)) {
-			            	
-		    	        	this.appendValueInput('ADD' + i).appendField(new Blockly.FieldDropdown(FILTER),'ADD'+i+'FILTER');
-		    	        	 
-		    	        	this.appendValueInput('ADD'+i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
-		    	 			
-			            }
-			            
-			        }
-			        
-			        while (this.getInput('ADD' + i)) {
-			        	
-			            this.removeInput('ADD' + i);
-			            
-			            this.removeInput('ADD'+i+'FILTER');
-			            
-			            this.removeInput('ADD'+i+'WHERE');
-			            
-			            this.removeInput('ADD'+i+'STATE2');
-			            
-			            i++;
-			            
-			        }   
-			        
-			    }	
-			    
-	}
-	
-	window.IGRP_BLOCKLY_ELEMENTS = {
-			
-		listar : $.extend({
-			
-			init : function(block){
-				
-				block.itemCount_ = 0;
-				
-				block.updateShape_();
-	
-//				this.onTableSet = function(item){		
-//					var XML = $.parseXML(VARS.getGen().getXML());	
-//					var menus = function(){
-//						var arr = [];
-//						$('rows content '+item, XML).find('fields > *').each(function(i, field){	
-//							var type =  GetJavaType[$(field).attr('type')] || 'String';
-//							arr.push( [ field.tagName, type+'::'+ field.tagName ] )
-//						})
-//						return arr
-//					}();
-//				}	
-			}
-			
-		}, ListMutationSettings),
-		
-	combo_dao : {
-			
-			init : function(block){
-				
-				block.itemCount_ = 0;
-				
-				block.updateShape_();
-				
-			},
-			
 		mutationToDom: function() {
 			
 			  var container = document.createElement('mutation');
 			  
 			  container.setAttribute('count', this.itemCount_);
 			  
+			  for(var x=1; x <= this.itemCount_; x++){
+				  
+				  var itemInput = this.getFieldValue('ADD'+x+'FILTER');
+				  
+				  container.setAttribute('mutation-'+x, itemInput)
+				  
+			  }
+
 			  return container;
 			  
 			},
 			
 		domToMutation: function(xmlElement) {
+			console.log(xmlElement)
+			var arr = [];
 			
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
 			
-			  this.updateShape_();  
+			//var itemInput = xmlElement.getAttribute('mutation-'+this.itemCount);
+			
+			for(var x = 1; x <= this.itemCount_; x++){
+				
+				arr.push( xmlElement.getAttribute('mutation-'+x) );
+				
+				console.log(xmlElement.getAttribute('mutation-'+x))
+				
+			}
+			console.log(arr);
+			this.updateShape_(arr);  
 			  
 			},
 				
@@ -176,7 +46,7 @@
 		        
 		        containerBlock.initSvg();
 		        
-		        var connection = containerBlock.getInput('SCRIPT').connection;	
+		        var connection = containerBlock.getInput('SCRIPT').connection;	  
 		        
 		        for (var i = 0; i < this.itemCount_; i++) { 
 		        	
@@ -191,7 +61,6 @@
 		        }
 		        
 		        return containerBlock;
-		        
 		    },
 		    
 		 compose: function (containerBlock) {
@@ -219,10 +88,10 @@
 		            }
 		            
 		        }
+		      
 		        this.itemCount_ = connections.length;
 		        
 		         Contador = this.itemCount_;
-		         
 		         
 		        this.updateShape_();
 		        
@@ -234,40 +103,168 @@
 		        
 		    },
 		    
-		    
-		 updateShape_: function () {
-			    
+		 updateShape_: function (arr) {
+			 
+			// console.log("ok")
+			 
+			 console.log(arr)
+			 
+			 	var _block = this;
+				 
+			 	var appendMutationFields = function(v,id){
+			 		
+			 		
+			 		if(v == 'andWhere' || v == 'orWhere' || v == 'where' || v == 'having'  )	
+            		{
+			 			
+			 			_block.getInput('ADD'+ id).setVisible(true);
+			 			
+			 			_block.getInput('ADD'+ id +'SIGNAL').setVisible(true);
+			 			
+			 			_block.getInput('ADD'+ id +'STATE2').setVisible(true);
+			 			
+			 			_block.getInput('ADD'+ id +'STATE3').setVisible(false);
+			 			
+
+            		}
+			 		
+			 		if(v == 'andWhereBetween' || v == 'orWhereBetween' )	
+            		{
+			 			
+			 			_block.getInput('ADD'+ id).setVisible(true);
+			 			
+			 			_block.getInput('ADD'+ id +'SIGNAL').setVisible(false);
+			 			
+			 			_block.getInput('ADD'+ id +'STATE2').setVisible(true);
+			 			
+			 			_block.getInput('ADD'+ id +'STATE3').setVisible(true);
+			 			
+            		}
+			 		
+			 		if(v == 'andWhereIsNull' || v == 'andWhereIsNotNull' || v == 'orWhereIsNull' || v == 'orWhereIsNotNull' )	
+            		{
+			 			
+			 			_block.getInput('ADD'+ id).setVisible(true);
+			 			
+			 			_block.getInput('ADD'+ id +'SIGNAL').setVisible(false);
+			 			
+			 			_block.getInput('ADD'+ id +'STATE2').setVisible(false);
+			 			
+			 			_block.getInput('ADD'+ id +'STATE3').setVisible(false);
+			 			
+
+            		}
+			 		
+			 	}
+			 
+			 
+			 var getDDField = function(idx){
+			 		
+			 		return new Blockly.FieldDropdown(FILTER, function(input_type){
+	            		
+	            		appendMutationFields(input_type,idx)
+	            
+	            	})
+			 	}
+			 
 		        for (var i = 1; i <= this.itemCount_; i++) {
 		        	
 		            if (!this.getInput('ADD' + i)) {
 		            	
-	    	        	 var input =
-	    	        		 
-	    	        	this.appendValueInput('ADD' + i).appendField(new Blockly.FieldDropdown(FILTER),'ADD'+i+'FILTER');
-	    	        	 
-	    	        	 
-	    	        	this.appendValueInput('ADD'+i+'STATE2').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE');
-	    	 			
+		             	var fdpFilter = new getDDField(i);
+		             	
+		             	this.appendValueInput('ADD' + i).appendField(fdpFilter,'ADD'+i+'FILTER').setVisible(true);
+	    	        	
+	    	        	this.appendDummyInput('ADD' + i+'SIGNAL').appendField(new Blockly.FieldDropdown(WHERE),'ADD'+i+'WHERE').setVisible(true);
+	    	        	
+	    	        	this.appendValueInput('ADD'+ i +'STATE2').setVisible(true);
+	    	        	
+	    	        	this.appendValueInput('ADD'+ i +'STATE3').setVisible(false);
+	    	        	
 		            }
+		            
 		        }
+		        
+		        if(arr && arr[0])
+			        arr.forEach(function(v,x){
+			        	
+			        	appendMutationFields(v,x+1);
+			        	
+			        })
 		        
 		        while (this.getInput('ADD' + i)) {
 		        	
 		            this.removeInput('ADD' + i);
 		            
-		            this.removeInput('ADD'+i+'FILTER');
+		            this.removeInput('ADD'+i+'STATE1');
 		            
-		            this.removeInput('ADD'+i+'WHERE');
+		            this.removeInput('ADD'+i+'SIGNAL');
 		            
 		            this.removeInput('ADD'+i+'STATE2');
 		            
+		            this.removeInput('ADD'+i+'STATE3');
+		            
 		            i++;
 		            
-		        } 
+		        }   
 		        
-		    }
+		        
+		        
+		    }	
+		    
+	}
+	
+	window.IGRP_BLOCKLY_ELEMENTS = {
+			
+		listar : $.extend({
+			
+			init : function(block){
+				
+				block.itemCount_ = 0;
+				
+				block.updateShape_();
+	
+//				this.onTableSet = function(item){		
+//					var XML = $.parseXML(VARS.getGen().getXML());	
+//					var menus = function(){
+//						var arr = [];
+//						$('rows content '+item, XML).find('fields > *').each(function(i, field){	
+//							var type =  GetJavaType[$(field).attr('type')] || 'String';
+//							arr.push( [ field.tagName, type+'::'+ field.tagName ] )
+//						})
+//						return arr
+//					}();
+//				}	
+			}
+			
+		}, ListMutationSettings),
 		
-		},
+		
+	combo_dao :$.extend({
+		
+		init : function(block){
+			
+			block.itemCount_ = 0;
+			
+			block.updateShape_();
+			
+		}
+			
+	  }, ListMutationSettings),
+	  
+	  
+	  index_editar :$.extend({
+			
+			init : function(block){
+				
+				block.itemCount_ = 0;
+				
+				block.updateShape_();
+				
+			}
+				
+		  }, ListMutationSettings),
+	  
 				    		    
 	  separator :$.extend({
 			
@@ -506,23 +503,14 @@
 				           block.childBlocks_[i].unplug();
 				           
 				            break;
-				            
-				          }
-				          
-				        }
-				        
+				          }   
+				        } 
 				      }
-				      
-				      this.removeInput('eixoZ');
-				      
+				      this.removeInput('eixoZ'); 
 				    }
-				    
-				 }
-				 
+				 } 
 			}
-		
 		},
-	
 	}
 	
 	//Handle Dao Blocks
