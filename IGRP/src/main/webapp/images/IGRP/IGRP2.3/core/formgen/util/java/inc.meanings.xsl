@@ -18,9 +18,9 @@
 				
 			</xsl:when>
 			
-			<xsl:when test="$key = 'andWhereIsNotNull'">
+			<xsl:when test="$key = 'andWhereNotNull'">
 			
-				<xsl:text>.andWhereIsNotNull</xsl:text>	
+				<xsl:text>.andWhereNotNull</xsl:text>	
 					
 			</xsl:when>
 			
@@ -42,9 +42,9 @@
 				
 			</xsl:when>
 			
-			<xsl:when test="$key = 'orWhereIsNotNull'">
+			<xsl:when test="$key = 'orWhereNotNull'">
 			
-				<xsl:text>.orWhereIsNotNull</xsl:text>
+				<xsl:text>.orWhereNotNull</xsl:text>
 	
 			</xsl:when>
 			

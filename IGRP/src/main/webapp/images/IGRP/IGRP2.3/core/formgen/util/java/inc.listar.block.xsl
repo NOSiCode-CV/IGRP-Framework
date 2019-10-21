@@ -340,7 +340,7 @@
 				
 				</xsl:when>
 				
-				<xsl:when test="$filter ='.andWhereIsNull' or $filter ='.andWhereIsNotNull' or $filter ='.orWhereIsNull' or $filter ='.orWhereIsNotNull' ">
+				<xsl:when test="$filter ='.andWhereIsNull' or $filter ='.andWhereNotNull' or $filter ='.orWhereIsNull' or $filter ='.orWhereNotNull' ">
 				
 					<xsl:value-of select="$newlineTab1"/>
 				

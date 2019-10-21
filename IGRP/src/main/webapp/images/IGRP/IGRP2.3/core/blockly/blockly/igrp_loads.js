@@ -32,9 +32,9 @@ var TIPO = [["Inteiro", "Inteiro"],["Data", "Data"],["Texto", "Texto"]];
 
 var WHERE = [["=", "WHERE_EQ"],["!=", "WHERE_DIF"],["<", "WHERE_LT"],["<=", "WHERE_LTE"],[">", "WHERE_GT"],[">=", "WHERE_GTE"],["like", "WHERE_LIKE"],["notlike", "WHERE_NOTLIKE"]];
 
-var FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereIsNotNull", "andWhereIsNotNull"],["andWhereBetween", "andWhereBetween"],
+var FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["andWhereNotNull", "andWhereNotNull"],["andWhereBetween", "andWhereBetween"],
 			  
-				["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereIsNotNull", "orWhereIsNotNull"],["orWhereBetween", "orWhereBetween"],
+				["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],["orWhereBetween", "orWhereBetween"],
 			  
 				["having", "having"],["where", "where"]];
 
@@ -627,7 +627,7 @@ $('#active_selenium').on('click', function() {
 								
 								+'<field type="dropdown" name="find" title="list" options="IGRP_BLOCKLY_DROPS.findList"></field>'
 								
-								+'<field type="checkbox" name="FILL" title="fill on load?" options="FALSE"></field>'
+								+'<field type="checkbox" name="FILL" title="empty table?" options="FALSE"></field>'
 							
 							+'</value>'
 							
