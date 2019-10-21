@@ -1975,7 +1975,7 @@ public final class Core { // Not inherit
 	
 	/** by UUID - update a file to the Igrp core DataBase and return true or false ...
 	 * 
-	 * @param 
+	 * @param upFile UploadFile
 	 * @param uuid
 	 * @return
 	 * @throws Exception
@@ -3882,8 +3882,8 @@ public final class Core { // Not inherit
 
 	/**
 	 * @param id 
-	 * @param level (6 -> zona, 5 -> cidade, 4 -> freguesia, 3 -> concelho, 2 -> ilha, 1 -> pais) 
-	 * @return (keys: zona_id, zona, freguesia_id, freguesia, cidade, cidade_id, concelho, concelho_id, pais, pais_id, ...) 
+	 * @param level {@code level (6 -> zona, 5 -> cidade, 4 -> freguesia, 3 -> concelho, 2 -> ilha, 1 -> pais)} 
+	 * @return keys: zona_id, zona, freguesia_id, freguesia, cidade, cidade_id, concelho, concelho_id, pais, pais_id, ... 
 	 */
 	public static Map<String, Object> geoGetParentsById(String id, String level){
 		return new Geografia().geoGetParentsById(id, level);
