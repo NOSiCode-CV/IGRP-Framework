@@ -5,7 +5,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 
 public class DominioView extends View {
 
@@ -49,7 +49,7 @@ public class DominioView extends View {
 		
 		lst_dominio = new ListField(model,"lst_dominio");
 		lst_dominio.setLabel(gt("Editar domínio"));
-		lst_dominio.propertie().add("remote",new Config().getResolveUrl("igrp","Dominio","index")).add("remote",new Config().getResolveUrl("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
+		lst_dominio.propertie().add("remote",Core.getIGRPLink("igrp","Dominio","index")).add("remote",Core.getIGRPLink("igrp","Dominio","index")).add("name","p_lst_dominio").add("type","select").add("multiple","false").add("tags","false").add("domain","").add("maxlength","250").add("required","false").add("disabled","false").add("java-type","");
 		
 		novo_dominio = new TextField(model,"novo_dominio");
 		novo_dominio.setLabel(gt("Novo domínio"));
@@ -69,10 +69,10 @@ public class DominioView extends View {
 		
 		estado = new CheckBoxField(model,"estado");
 		estado.setLabel(gt("Ativo?"));
-		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
+		estado.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		estado_check = new CheckBoxField(model,"estado_check");
-		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","2").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
+		estado_check.propertie().add("name","p_estado").add("type","checkbox").add("maxlength","10").add("required","false").add("readonly","false").add("disabled","false").add("java-type","int").add("check","true").add("desc","true");
 		
 		ordem = new HiddenField(model,"ordem");
 		ordem.setLabel(gt(""));
@@ -82,10 +82,10 @@ public class DominioView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_guardar_item_domain = new IGRPButton("Guardar","igrp","Dominio","guardar_item_domain","submit_ajax","primary|fa-save","","");
-		btn_guardar_item_domain.propertie.add("type","specific").add("rel","guardar_item_domain");
+		btn_guardar_item_domain.propertie.add("type","specific").add("rel","guardar_item_domain").add("refresh_components","formlist_1");
 
 		btn_gravar_domain = new IGRPButton("Adicionar","igrp","Dominio","gravar_domain","submit","success|fa-plus-square","","");
-		btn_gravar_domain.propertie.add("type","specific").add("rel","gravar_domain");
+		btn_gravar_domain.propertie.add("type","specific").add("rel","gravar_domain").add("refresh_components","");
 
 		
 	}

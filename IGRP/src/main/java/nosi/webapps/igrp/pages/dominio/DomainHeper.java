@@ -20,9 +20,9 @@ public class DomainHeper {
 	// private static final String SQL_SIM_NAO = "SELECT 'ATIVE' as ID,'Ativo' as NAME UNION SELECT 'INATIVE' as ID,'Inativo' as NAME ";
 	 public static final String SQL_DOMINIO_PRIVATE = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk=:env_fk";  //"AND domain_type='"+DomainType.PRIVATE+"'";
 	 public static final String SQL_DOMINIO_PUB = "SELECT DISTINCT dominio as id, dominio FROM tbl_domain WHERE env_fk is null"; // AND domain_type='"+DomainType.PUBLIC+"' OR domain_type is null ";		 		
-	 public static final String SQL_ITEM_DOMINIO = "SELECT id as formlist_1_id,description,valor as key,case WHEN (status='ATIVE' OR status='') then 1 else 0 END as estado,ordem FROM tbl_domain "
+	 public static final String SQL_ITEM_DOMINIO = "SELECT id as formlist_1_id,description,valor as key,case WHEN (status='ATIVE' OR status='') then 1 else -1 END as estado, 1 as estado_check, ordem FROM tbl_domain "
 	 		+ "WHERE dominio=:dominio AND env_fk=:env_fk";    //description is not null AND description!=''
-	 public static final String SQL_ITEM_DOMINIO_PUB = "SELECT id as formlist_1_id,description,valor as key,case WHEN (status='ATIVE' OR status='') then 1 else 0 END as estado,ordem FROM tbl_domain "
+	 public static final String SQL_ITEM_DOMINIO_PUB = "SELECT id as formlist_1_id,description,valor as key,case WHEN (status='ATIVE' OR status='') then 1 else -1 END as estado,1 as estado_check, ordem FROM tbl_domain "
 		 		+ "WHERE dominio=:dominio AND env_fk is null";   
 	 public static Map<Object, Object> getApplications() {
 		return new Application().getListApps();

@@ -26,7 +26,7 @@ public class DominioController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		model.loadFormlist_1(Core.query(null,"SELECT 'Natus omnis accusantium ipsum sed' as description,'Labore voluptatem elit aperiam labore' as key,'1' as estado,'hidden-a5c8_eb74' as ordem "));
+		model.loadFormlist_1(Core.query(null,"SELECT 'Voluptatem aliqua totam ipsum amet' as description,'Lorem mollit aliqua iste sit' as key,'1' as estado,'hidden-16ff_7b90' as ordem "));
 		view.aplicacao.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		view.lst_dominio.setQuery(Core.query(null,"SELECT 'id' as ID,'name' as NAME "));
 		  ----#gen-example */
@@ -53,7 +53,8 @@ public class DominioController extends Controller {
 			view.lst_dominio.setValue(mapDom);
 		}else
 			view.lst_dominio.setQuery(domainQuery, gt("-- Selecione ou adicione um domínio ++"));	     
-		if(Core.isNotNull(model.getLst_dominio())) {        
+		if(Core.isNotNull(model.getLst_dominio())) {  
+			
 			model.loadFormlist_1(DomainHeper.getDomainItemQuery(model.getLst_dominio(),app));
 			//final List<Domain> findDomainByCode = Core.findDomainByCode(model.getLst_dominio(),app);
 		//	model.setPublico(findDomainByCode!=null && !findDomainByCode.isEmpty() && findDomainByCode.size()>0?(findDomainByCode.get(0).getDomainType().equals(DomainType.PUBLIC)?1:0):0);
