@@ -55,6 +55,8 @@ public class Pesquisa_geografia extends Model{
 		private String treemenu_1_icon;
 		private String treemenu_1_child;
 		private String treemenu_1_active;
+		private String nivel; 
+		
 		public IGRPLink setTreemenu_1_link(String app,String page,String action){
 			this.treemenu_1_link = new IGRPLink(app,page,action);
 			return this.treemenu_1_link;
@@ -111,7 +113,13 @@ public class Pesquisa_geografia extends Model{
 		public String getTreemenu_1_active(){
 			return this.treemenu_1_active;
 		}
-
+		public String getNivel() {
+			return nivel;
+		}
+		public void setNivel(String nivel) {
+			this.nivel = nivel;
+		}
+		
 	}
 
 	public void loadTreemenu_1(BaseQueryInterface query) {

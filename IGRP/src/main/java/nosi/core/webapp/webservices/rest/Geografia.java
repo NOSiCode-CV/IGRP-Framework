@@ -18,6 +18,18 @@ public class Geografia {
 	private String url;
 	private String authorization = "Bearer c50a872a-fb44-34c4-8075-820feffe7de7";
 	
+	public static final class Nivel{
+		
+		private Nivel() {}
+		
+		public static int ZONA = 6;
+		public static int CIDADE = 5;
+		public static int FREGUESIA = 4;
+		public static int CONCELHO = 3;
+		public static int ILHA = 2;
+		public static int PAIS = 1;
+	}
+	
 	public Geografia() { 
 		Properties properties =  ConfigApp.getInstance().loadCommonConfig();
 		this.url = properties.getProperty("link.rest.pesquisa_geografia");

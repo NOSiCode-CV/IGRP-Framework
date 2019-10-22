@@ -53,7 +53,7 @@ public class Pesquisa_nacionalidadeController extends Controller {
 				JSONObject local = Entry.getJSONObject(i);
 				Pesquisa_nacionalidade.Treemenu_1 tab_nac = new Pesquisa_nacionalidade.Treemenu_1();
 				tab_nac.setTreemenu_1_tmid(local.getString("id"));
-				tab_nac.setTreemenu_1_child("1");
+				tab_nac.setTreemenu_1_child("0");
 				try{
 					tab_nac.setTreemenu_1_link_desc(local.getString("nacionalidade"));
 					list_nac.add(tab_nac);
