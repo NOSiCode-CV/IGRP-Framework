@@ -302,12 +302,6 @@
 					<xsl:text>transaction.begin();</xsl:text>
 					
 				</xsl:when>
-				
-				<xsl:otherwise>
-				
-					<xsl:text></xsl:text>
-					
-				</xsl:otherwise>
 
 			</xsl:choose>
 			

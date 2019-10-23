@@ -163,35 +163,11 @@ function SetupBlockly(){
 										 var textfield = field.attr('options'),
 										 	
 										 	fieldObject = new Blockly.FieldTextInput(textfield);
-										 
-										// fieldObject.EDITABLE = editable;
-										 
-										 console.log(fieldObject)
 										
-										value.appendField(fieldObject, name)
+										 	value.appendField(fieldObject, name)
 										
 									break;
-										 
-									case 'field_label':
-										
-										 var textfield = field.attr('options'),
-										 	
-										 	fieldObject = new Blockly.FieldLabel(textfield);
-										 
-										 	
-										 fieldObject.setValue('tesdasds');
-										 
-										 fieldObject.setText('lorem')
-										// fieldObject.EDITABLE = editable;
-										 
-										 console.log(fieldObject)
-										
-										value.appendField(fieldObject, name)
-										
-									break;
-										 
-									
-										
+								
 									case 'image':
 										
 										var fWidth = field.attr('field-width') || 15,
@@ -255,11 +231,9 @@ function SetupBlockly(){
 					
 					block.setNextStatement(true, element.attr('next-statement'));
 				
-				if(mutateValue){
+				if(mutateValue)
 					
 					block.setMutator(new Blockly.Mutator( mutateValue.split(',') ));
-					
-				}
 					
 				if(color)	
 					
@@ -362,7 +336,7 @@ Blockly.Blocks['separatori'] = {
 		
 		init : function() {
 			
-			this.appendDummyInput().appendField("separator");
+			this.appendDummyInput().appendField("insert");
 			
 			this.setPreviousStatement(true);
 			

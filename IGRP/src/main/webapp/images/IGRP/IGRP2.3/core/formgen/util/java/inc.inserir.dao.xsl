@@ -4,6 +4,8 @@
 		
 		<xsl:variable name="dao" select="field[@name='dao']"/>
 		
+		<xsl:variable name="typedad" select="../../@type"/>
+		
 		<xsl:variable name="daolow">
 		
 	       	<xsl:call-template name="LowerCase">
@@ -76,40 +78,48 @@
 		
 		<xsl:variable name="code">
 		
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:choose>
 			
-			<xsl:text>Session session = null;</xsl:text>
+				<xsl:when test="$typedad != 'inserir_dao' ">
 			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>Session session = null;</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>Transaction transaction = null;</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>try{</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+				
+					<xsl:text>if (model.validate()) {</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>session = Core.getSession(Core.defaultConnection());</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>transaction = session.getTransaction();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>transaction.begin();</xsl:text>
+				
+				</xsl:when>
+
+			</xsl:choose>
 			
-			<xsl:text>Transaction transaction = null;</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			
-			<xsl:text>try{</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
+			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 		
-			<xsl:text>if (model.validate()) {</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>session = Core.getSession(Core.defaultConnection());</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>transaction = session.getTransaction();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>transaction.begin();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
 			<xsl:value-of select="$dao"></xsl:value-of><xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text>  = new </xsl:text><xsl:value-of select="$dao"/><xsl:text>();</xsl:text>
 			
 			<xsl:choose>
-			
+		
 				<xsl:when test="$checkbox = 'TRUE'">
 				
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
@@ -133,9 +143,9 @@
 					<xsl:text>}</xsl:text>
 					
 				</xsl:when>
-				
-			</xsl:choose>
 			
+			</xsl:choose>
+		
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			
 			<xsl:text>if (</xsl:text><xsl:value-of select="$daolow"/><xsl:text> != null){</xsl:text>
@@ -170,66 +180,74 @@
 				
 			</xsl:if>
 			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+			<xsl:choose>
 			
-			<xsl:text>transaction.commit();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-			
-			<xsl:text>Core.setMessageSuccess();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			
-			<xsl:text>}</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			
-			<xsl:text>else if (!model.validate())</xsl:text>
-					
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>Core.setMessageError();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			
-			<xsl:text>}catch ( Exception e ) {</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>if (transaction != null)</xsl:text>
-			
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>
-			
-			<xsl:text>transaction.rollback();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>
-			
-			<xsl:text>}finally {</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>
-			
-			<xsl:text>if (session != null &amp;&amp; session.isOpen()) {</xsl:text>
-			
-			<xsl:value-of select="$newlineTab3"></xsl:value-of>	
+				<xsl:when test="$typedad != 'inserir_dao' ">
 				
-			<xsl:text>session.close();</xsl:text>
-			
-			<xsl:value-of select="$newlineTab2"></xsl:value-of>	
-			
-			<xsl:text>}</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
-			
-			<xsl:text>}</xsl:text>
-			
-			<xsl:value-of select="$newlineTab1"></xsl:value-of>					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+					
+					<xsl:text>transaction.commit();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+					
+					<xsl:text>Core.setMessageSuccess();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>}</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>else if (!model.validate())</xsl:text>
+							
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>Core.setMessageError();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>}catch ( Exception e ) {</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>Core.setMessageError("Error: "+ e.getMessage());</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>if (transaction != null)</xsl:text>
+					
+					<xsl:value-of select="$newlineTab3"></xsl:value-of>
+					
+					<xsl:text>transaction.rollback();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:text>}finally {</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>
+					
+					<xsl:text>if (session != null &amp;&amp; session.isOpen()) {</xsl:text>
+					
+					<xsl:value-of select="$newlineTab3"></xsl:value-of>	
+						
+					<xsl:text>session.close();</xsl:text>
+					
+					<xsl:value-of select="$newlineTab2"></xsl:value-of>	
+					
+					<xsl:text>}</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+					
+					<xsl:text>}</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+				
+				</xsl:when>
+	
+			</xsl:choose>				
 
 		</xsl:variable>
-		
+			
 		<xsl:value-of select="$code"></xsl:value-of>	
 	
 	</xsl:template>

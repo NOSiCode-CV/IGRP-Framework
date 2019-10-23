@@ -21,21 +21,17 @@
 			},
 			
 		domToMutation: function(xmlElement) {
-			console.log(xmlElement)
+
 			var arr = [];
 			
 			this.itemCount_ = parseInt(xmlElement.getAttribute('count'), 10);
-			
-			//var itemInput = xmlElement.getAttribute('mutation-'+this.itemCount);
 			
 			for(var x = 1; x <= this.itemCount_; x++){
 				
 				arr.push( xmlElement.getAttribute('mutation-'+x) );
 				
-				console.log(xmlElement.getAttribute('mutation-'+x))
-				
 			}
-			console.log(arr);
+
 			this.updateShape_(arr);  
 			  
 			},
@@ -48,7 +44,7 @@
 		        
 		        var connection = containerBlock.getInput('SCRIPT').connection;	  
 		        
-		        for (var i = 0; i < this.itemCount_; i++) { 
+		        for (var i = 1; i <= this.itemCount_; i++) { 
 		        	
 			            var itemBlock = workspace.newBlock('where');
 			            
@@ -77,25 +73,23 @@
 		            
 		        }
 		        
-		      for (var i = 1; i < this.itemCount_; i++) {
+		      for (var i = 1; i <= this.itemCount_; i++) {
 		    	  
 		            var connection = this.getInput('ADD' + i).connection.targetConnection;
 		            
 		            if (connection && connections.indexOf(connection) == -1) {
 		            	
-		                connection.disconnect();
+		                //connection.disconnect();
 		                
 		            }
 		            
 		        }
 		      
 		        this.itemCount_ = connections.length;
-		        
-		         Contador = this.itemCount_;
 		         
 		        this.updateShape_();
 		        
-		        for (var i = 0; i < this.itemCount_; i++) {
+		        for (var i = 1; i <= this.itemCount_; i++) {
 		        	
 		            Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
 		            
@@ -104,10 +98,6 @@
 		    },
 		    
 		 updateShape_: function (arr) {
-			 
-			// console.log("ok")
-			 
-			 console.log(arr)
 			 
 			 	var _block = this;
 				 
@@ -168,7 +158,7 @@
 			 	}
 			 
 		        for (var i = 1; i <= this.itemCount_; i++) {
-		        	
+
 		            if (!this.getInput('ADD' + i)) {
 		            	
 		             	var fdpFilter = new getDDField(i);
@@ -186,6 +176,7 @@
 		        }
 		        
 		        if(arr && arr[0])
+		        	
 			        arr.forEach(function(v,x){
 			        	
 			        	appendMutationFields(v,x+1);
@@ -375,7 +366,7 @@
 		            
 		            if (connection && connections.indexOf(connection) == -1) {
 		            	
-		                connection.disconnect();
+		                //connection.disconnect();
 		                
 		            }
 		            
@@ -387,7 +378,7 @@
 		        
 		        this.updateShape_();
 		        
-		        for (var i = 0; i < this.itemCount_; i++) {
+		        for (var i = 1; i <= this.itemCount_; i++) {
 		        	
 		            Blockly.Mutator.reconnect(connections[i], this, 'SEPARATOR'+i);
 		            
@@ -404,10 +395,8 @@
 		        for (var i = 1; i <= this.itemCount_; i++) {
 		        	
 		            if (!this.getInput('SEPARATOR'+i)) {
-		            	
-	    	        	 var input =
 	    	        		 
-	    	        	this.appendDummyInput('SEPARATORIL'+i).appendField("save separator");
+	    	        	this.appendDummyInput('SEPARATORIL'+i).appendField("add insert");
 	    	        	 
 	    	        	this.appendStatementInput('SEPARATOR'+i);
 
@@ -428,9 +417,14 @@
 		        this.removeInput('param_id');
 		        
 		        if (pxchecked) {
+		        	
 				      block.appendValueInput("param_id").appendField("by:");
 				      
+				      block.moveInputBefore("param_id", "value2");
+				     
 				} else {
+					
+				  this.removeInput('param_id');
 					
 			      if (this.childBlocks_.length > 0) {
 			    	  
@@ -515,8 +509,7 @@
 	
 	//Handle Dao Blocks
 	
-	$(document).on('get-dao-block-init', function(e, block, dao){
-		
+	$(document).on('get-dao-block-init', function(e, block, dao){	
 
 		var options = IGRP_BLOCKLY_DROPS.daos[dao];
 		

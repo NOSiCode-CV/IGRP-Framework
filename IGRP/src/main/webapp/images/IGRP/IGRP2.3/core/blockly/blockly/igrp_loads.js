@@ -81,6 +81,12 @@ var GetJavaType = {
 	link : 'Link',
 	
 	checkbox : 'Integer',
+	
+	img: 'Image',
+	
+	lookup: 'String',
+	
+	password: 'String'
 		
 }
 
@@ -245,7 +251,8 @@ $('#active_selenium').on('click', function() {
 				
 				addmodel++;
 			}
-			else if(persist != "true")
+			//else if(persist != "true" || )
+			else
 			{
 				fields_model.push([ tag, javaType + '::'+tag]);
 				
@@ -285,7 +292,7 @@ $('#active_selenium').on('click', function() {
 				
 			'<category id="model" name="Model '+PageTitle+'" colour="300" class="blocly-dynamic">'
 			
-				 +'<block type="model_set" prev-statement="" next-statement="" color="300">'
+				 +'<block type="model_set" prev-statement="" next-statement="" coment="teste" color="300">'
 				 
 			 		+'<value name="value1" type="value" title="set model">'
 			 		
@@ -324,6 +331,8 @@ $('#active_selenium').on('click', function() {
 				+'<value name="value1" type="dummy"  title="get parameter">'
 				
 					+'<field type="field_text" name="param" options=""></field>'
+					
+					+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/get-icon.svg"></field>'
 					
 				+'</value>'
 				
@@ -476,6 +485,8 @@ $('#active_selenium').on('click', function() {
 				
 				+'<field type="dropdown" name="button"  title=" in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
 				
+				+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
+				
 				+'</value>'
 				
 			+'</block>'
@@ -485,6 +496,8 @@ $('#active_selenium').on('click', function() {
 				+'<value name="value3" type="dummy">'
 				
 				+'<field type="dropdown" name="button" title="send parameter isEdit in button" options="IGRP_BLOCKLY_DROPS.buttons"></field>'
+				
+				+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
 				
 				+'</value>'
 				
@@ -498,7 +511,13 @@ $('#active_selenium').on('click', function() {
 				
 				+'</value>'
 				
-				+'<value type="value" name="dao_field"  title=" = "></value>'
+				+'<value type="value" name="dao_field"  title="="></value>'
+				
+				+'<value type="dummy">'
+				
+				+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
+				
+				+'</value>'
 			
 			+'</block>'
 				
@@ -518,6 +537,8 @@ $('#active_selenium').on('click', function() {
 					+'<value name="value1" type="dummy" >'
 					
 						+'<field type="dropdown" name="return" title ="return" options="IGRP_BLOCKLY_DROPS.returns"></field>'
+						
+						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/custom-icon.svg"></field>'
 						
 						+'<field type="text" name="param" options="page:"></field>'
 						
@@ -618,6 +639,8 @@ $('#active_selenium').on('click', function() {
 							+'<value name="value1" type="dummy">'
 							
 								+'<field type="dropdown" name="table" title="'+table+'"></field>'
+								
+								//+'<field type="comment" options="This block is used to list datas from a DAO class in one table."></field>'
 								
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/left-arrow.svg"></field>'
 								
@@ -1089,7 +1112,11 @@ $('#active_selenium').on('click', function() {
 							
 							+'<block type="param_foreign" output="" color="160" class="blocly-dynamic">'
 							
-							+'<value name="value1" type="value"  title="get foreign-key"></value>'	
+							+'<value name="value1" type="value"  title="get foreign-key">'
+							
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/foreign-icon.svg"></field>'
+							
+							+'</value>'	
 							
 							+'</block>'
 						
@@ -1127,11 +1154,23 @@ $('#active_selenium').on('click', function() {
 							
 								+'<field type="dropdown" name="iskey" title="send primary-key" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 								
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
+								
 							+'</value>'
 							
 						+'</block>'	
 						
-						+'<block type="editar_dao" color ="60" title="send parameter isEdit" prev-statement="" next-statement=""></block>'
+						+'<block type="editar_dao" color ="60" prev-statement="" next-statement="">'
+							
+							+'<value type="dummy">'
+							
+								+'<field type="text" options="send parameter isEdit"></field>'
+							
+								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/send-icon.svg"></field>'
+							
+							+'</value>'
+						
+						+'</block>'
 						
 					);
 				
@@ -1141,7 +1180,11 @@ $('#active_selenium').on('click', function() {
 						
 						+'<value name="valor1" type="value">'
 						
-							+'<field type="dropdown" name="dao" title="delete in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="text" options="delete"></field>'
+						
+							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/delete-icon.svg"></field>'
+						
+							+'<field type="dropdown" name="dao" title="in DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							
 							+'<field type="dropdown" name="iskey" title="where param" options="IGRP_BLOCKLY_DROPS.keys"></field>'
 							

@@ -199,6 +199,8 @@
 					<value name="value1" type="value" title="custom code">
 				 		
 				 		<field type="field_text" name="param" options=""></field>
+				 		
+				 		<field type="image" name="img" src="{$path}/core/blockly/blockly/media/temp-icon.svg"></field>
 				 			
 					</value>
 						
@@ -209,6 +211,8 @@
 					 <value name="value1" type="value" title="custom code">
 					 	
 					 		<field type="field_text" name="param" options=""></field>
+					 		
+					 		<field type="image" name="img" src="{$path}/core/blockly/blockly/media/temp-icon.svg"></field>
 					 		
 					 </value>
 					 	
