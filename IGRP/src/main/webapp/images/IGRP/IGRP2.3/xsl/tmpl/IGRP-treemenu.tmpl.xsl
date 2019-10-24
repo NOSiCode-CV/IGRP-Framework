@@ -109,6 +109,7 @@
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
+                                                	<xsl:apply-templates mode="contextparam" select="../context-menu"/>
                                                     <!-- <xsl:call-template name="setTarget">
                                                         <xsl:with-param name="parser" select="$parser"/>
                                                     </xsl:call-template>  -->
@@ -161,7 +162,7 @@
                                                                         </xsl:when>
                                                                         <xsl:otherwise>
                                                                             <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
-                                                                                
+                                                                                <xsl:apply-templates mode="contextparam" select="../context-menu"/>
                                                                                 <!-- <xsl:call-template name="setTarget">
                                                                                     <xsl:with-param name="parser" select="$parser"/>
                                                                                 </xsl:call-template>  -->
@@ -402,6 +403,7 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <a class="form-link">
+                                        	<xsl:apply-templates mode="contextparam" select="../context-menu"/>
                                             <!-- <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
                                             </xsl:call-template>  -->
