@@ -20,7 +20,7 @@ import nosi.core.webapp.webservices.rest.ConsumeJson;
 /*----#end-code----*/
 
 public class Pesquisa_geografiaController extends Controller {
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		Pesquisa_geografia model = new Pesquisa_geografia();
 		model.load();
 		Pesquisa_geografiaView view = new Pesquisa_geografiaView();
@@ -42,19 +42,19 @@ public class Pesquisa_geografiaController extends Controller {
 	}
 
 	public Response actionRemote_treemenu_1(String p_id)
-			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+			throws IOException {
 		String id = Core.getParam("p_id");
 		String jsonLookup = Core.getParam("jsonLookup");
 		
-		// String[] par = Core.getParam("p_ctx_param").split(","); 
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>";
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + " <treemenu_1> " + "<table>" + "<value>"; 
+		
 		if (Core.isNotNull(jsonLookup)) {
 			try {
 				jsonLookup = URLDecoder.decode(jsonLookup, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-
+			
 			Properties params = (Properties) Core.fromJson(jsonLookup, Properties.class); 
 			
 			this.p_nivel = Core.toInt(params.getProperty("p_nivel")); 
@@ -63,19 +63,22 @@ public class Pesquisa_geografiaController extends Controller {
 				if (p1.getValue().equals("treemenu_1_tmid"))
 					id_geo = p1.getKey().toString();
 				else if (p1.getValue().equals("treemenu_1_link_desc"))
-					des_geo = p1.getKey().toString();
-//				else if (p1.getValue().equals("treemenu_1_link"))
-//					ds_geo=p1.getKey().toString();	
+					des_geo = p1.getKey().toString(); 
 			});
 		}
-		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id);
+		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id); 
 		
 		for (Pesquisa_geografia.Treemenu_1 li : lista) { 
-			List<Pesquisa_geografia.Treemenu_1> childs = chamarServico(li.getTreemenu_1_tmid());
-			if(childs != null && !childs.isEmpty()) 
-				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo, li.getNivel());
+			int aux = -1; 
+			try {
+				aux = Core.toBigDecimal(li.getNivel()).intValue(); 
+			} catch (Exception e) {} 
+			
+			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) 
+				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo); 
 			else 
-				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo, li.getNivel());
+				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo); 
+				
 			}
 		xml += "</value>" + "</table>" + "</treemenu_1>";
 		
@@ -132,43 +135,37 @@ public class Pesquisa_geografiaController extends Controller {
 			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
 			tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
 			tab_geo.setNivel(local.getString("nivel")); 
-			tab_geo.setTreemenu_1_child("1");
-			list_geo.add(tab_geo);
+			tab_geo.setTreemenu_1_child("1"); 
+			int aux = 0; 
+			try {
+				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
+			} catch (Exception e) {} 		
+			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) 
+				tab_geo.setTreemenu_1_child("0"); 
+			list_geo.add(tab_geo); 
 		}
 	}
 
-	public String getXml(String id, String desc_menu, String id_par, String child, String des_geo, String id_geo, String level) {
-		
-		int isPublic = Core.getParamInt("isPublic");
+	public String getXml(String id, String desc_menu, String id_par, String child, String des_geo, String id_geo) { 
+		int isPublic = Core.getParamInt("isPublic"); 
 		String ParamisPublic="";
-		if(isPublic==1) {
+		if(isPublic==1) { 
 			ParamisPublic="<param>isPublic="+ isPublic + "</param>"; 
-		}
-		
-		int aux = -1; 
-		try {
-			aux = Core.toBigDecimal(level).intValue(); 
-		} catch (Exception e) { 
-		}
-		
-		System.out.println(aux + " - " + this.p_nivel + " - " + level); 
-		if(aux == this.p_nivel) { 
-			System.out.println("Detetado igual ... "); 
-		}
-		
+		} 
 		String xml = "<row>" + "<context-menu>" + 
-		"<param>" + des_geo + "=" + desc_menu + "</param>" + 
+				"<param>" + des_geo + "=" + desc_menu + "</param>" + 
+				"<param>p_nivel=" + this.p_nivel + "</param>" + 
 				"<param>"+ id_geo + "=" + id + "</param>" + ParamisPublic + "</context-menu>" + 
 				"<treemenu_1_link_desc>" + desc_menu + "</treemenu_1_link_desc>" + 
 				"<treemenu_1_tmid>" + id + "</treemenu_1_tmid>" + 
 				"<treemenu_1_parent>" + id_par + "</treemenu_1_parent>" + 
 				"<treemenu_1_icon/>" + 
-				// "<treemenu_1_link>#</treemenu_1_link>" + 
+				//"<treemenu_1_link>#</treemenu_1_link>" + 
 				"<treemenu_1_child>" + child + "</treemenu_1_child>" + 
 				"<treemenu_1_active/>" + 
-				"</row>";
-		return xml;
-	}
+				"</row>"; 
+		return xml; 
+	} 
 	
 	private int p_nivel = 0;
 
