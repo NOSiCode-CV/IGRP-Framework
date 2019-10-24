@@ -109,9 +109,9 @@
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
-                                                    <xsl:call-template name="setTarget">
+                                                    <!-- <xsl:call-template name="setTarget">
                                                         <xsl:with-param name="parser" select="$parser"/>
-                                                    </xsl:call-template>
+                                                    </xsl:call-template>  -->
 
                                                     <xsl:call-template name="setTooltip">
                                                         <xsl:with-param name="tooltip" select="$tooltip"/>
@@ -162,9 +162,9 @@
                                                                         <xsl:otherwise>
                                                                             <a class="form-link" text="{../*[name() = concat($name,'_link_desc')]}">
                                                                                 
-                                                                                <xsl:call-template name="setTarget">
+                                                                                <!-- <xsl:call-template name="setTarget">
                                                                                     <xsl:with-param name="parser" select="$parser"/>
-                                                                                </xsl:call-template>
+                                                                                </xsl:call-template>  -->
 
                                                                                 <xsl:call-template name="setTooltip">
                                                                                     <xsl:with-param name="tooltip" select="$tooltip"/>
@@ -402,9 +402,9 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <a class="form-link">
-                                            <xsl:call-template name="setTarget">
+                                            <!-- <xsl:call-template name="setTarget">
                                                 <xsl:with-param name="parser" select="$parser"/>
-                                            </xsl:call-template>
+                                            </xsl:call-template>  -->
 
                                             <xsl:call-template name="setTooltip">
                                                 <xsl:with-param name="tooltip" select="$tooltip"/>
