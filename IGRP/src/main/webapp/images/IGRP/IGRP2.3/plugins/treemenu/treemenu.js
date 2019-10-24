@@ -36,16 +36,16 @@
 			if (active)
 				params += '&p_active='+active;
 			
-			if(parser){
+			/*if(parser){
 				var lookup = $('.lookup-parser:first',parent);
-				if(lookup[0]){
+				if(lookup[0]){*/
 					
 					var jsonLookup = $('#jsonLookup');
 					
 					if(jsonLookup[0])
 						params += '&jsonLookup='+jsonLookup.val();
-				}
-			 }
+				/*}
+			 }*/
 			
 			params += '&dad='+$('body').attr('app');
 			
