@@ -669,7 +669,7 @@
 				}
 
 				p.categories.forEach(function(e,i){
-					thead += '<th class="nod_'+i+'">'+e+'</th>';
+					thead += '<th class="nod_'+i+' text-right">'+e+'</th>';
 				});
 
 				p.data.forEach(function(arr,pos){
@@ -677,8 +677,8 @@
 					tbody += '<tr z="'+labels+'">';
 					tbody += '<td><span class="chart-label">'+labels+'</span></td>';
 					arr.forEach(function(e,i){
-						tbody += '<td class="'+clickable+'" x="'+p.categories[i]+'" y="'+e+'">'+
-						'<span>'+e+'</span></td>';
+						tbody += '<td class="'+clickable+' text-right" x="'+p.categories[i]+'" y="'+e+'">'+
+						'<span>'+Highcharts.numberFormat(e, 0)+'</span></td>';
 					});
 					tbody += '</tr>';
 				});
