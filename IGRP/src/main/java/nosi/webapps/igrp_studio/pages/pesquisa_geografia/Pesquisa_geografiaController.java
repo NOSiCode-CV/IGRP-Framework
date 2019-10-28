@@ -140,8 +140,9 @@ public class Pesquisa_geografiaController extends Controller {
 			try {
 				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
 			} catch (Exception e) {} 		
-			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) 
+			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) {
 				tab_geo.setTreemenu_1_child("0"); 
+			}
 			list_geo.add(tab_geo); 
 		}
 	}
@@ -160,7 +161,7 @@ public class Pesquisa_geografiaController extends Controller {
 				"<treemenu_1_tmid>" + id + "</treemenu_1_tmid>" + 
 				"<treemenu_1_parent>" + id_par + "</treemenu_1_parent>" + 
 				"<treemenu_1_icon/>" + 
-				"<treemenu_1_link></treemenu_1_link>" + 
+				(child.equals("1") ? "" : "<treemenu_1_link></treemenu_1_link>" ) + 
 				"<treemenu_1_child>" + child + "</treemenu_1_child>" + 
 				"<treemenu_1_active/>" + 
 				"</row>"; 
