@@ -134,7 +134,9 @@ public class Pesquisa_geografiaController extends Controller {
 			Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
 			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
 			tab_geo.setTreemenu_1_link_desc(local.getString("nome"));
-			tab_geo.setNivel(local.getString("nivel")); 
+			try {
+				tab_geo.setNivel(local.getString("nivel"));
+				}catch (Exception e) {}
 			tab_geo.setTreemenu_1_child("1"); 
 			int aux = 0; 
 			try {
