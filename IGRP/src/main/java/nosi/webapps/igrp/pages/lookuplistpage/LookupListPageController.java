@@ -2,6 +2,7 @@ package nosi.webapps.igrp.pages.lookuplistpage;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.helpers.CheckBoxHelper;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
@@ -12,12 +13,16 @@ import nosi.core.webapp.Response;
 import java.util.List;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.RepTemplate;
+import nosi.webapps.igrp.dao.TipoDocumento;
+import nosi.webapps.igrp.dao.TipoDocumentoEtapa;
 import nosi.webapps.igrp.pages.lookuplistpage.LookupListPage.Formlist_1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import nosi.core.config.ConfigDBIGRP;
 /*----#end-code----*/
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
 		
 public class LookupListPageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -54,50 +59,73 @@ public class LookupListPageController extends Controller {
 		if(Core.isNull(model.getProcessid()) && Core.isNull(model.getTaskid())) {			
           view.associar_documentos.setVisible(false);
 		}else {
-			model.loadFormlist_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as checkbox, "
-					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
-					"       THEN id " + 
-					"       ELSE 0 " + 
-					"  END as checkbox_check, 1 as obrigatorio, "
-					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND required=1 AND processid=:processid AND taskid=:taskid AND status=:status) " + 
-					"       THEN 1 " + 
-					"       ELSE 0 " + 
-					"  END as obrigatorio_check, "
-					+ "nome as nome,descricao as descricao_documento,(SELECT tipo FROM tbl_tipo_documento_etapa te WHERE te.tipo_documento_fk = tp.id AND processid=:processid AND taskid=:taskid AND status=:status) as tipo"
-					+ ",'tp' as type_doc,'' as formlist_1_id FROM tbl_tipo_documento tp")					
-					.where("tp.status=:status AND tp.env_fk=:env_fk")
-					.orderByAsc("nome","descricao_documento")
-					.addString("processid", model.getProcessid())
-					.addString("taskid", model.getTaskid())
-					.addInt("status",1)
-					.addInt("env_fk", Core.toInt(model.getEnv_fk()))					
-					);
 			
-			List<Formlist_1> list1 = model.getFormlist_1();
-			model.loadFormlist_1(Core.query(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"SELECT id as checkbox, "
-					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.report_fk = rep_t.id AND processid=:processid AND taskid=:taskid AND status=:status) " + 
-					"       THEN id " + 
-					"       ELSE 0 " + 
-					"  END as checkbox_check, 1 as obrigatorio, "
-					+ "CASE WHEN EXISTS (SELECT id FROM tbl_tipo_documento_etapa te WHERE te.report_fk = rep_t.id AND required=1 AND processid=:processid AND taskid=:taskid AND status=:status) " + 
-					"       THEN 1 " + 
-					"       ELSE 0 " + 
-					"  END as obrigatorio_check, "
-					+ "code as nome,name as descricao_documento,(SELECT tipo FROM tbl_tipo_documento_etapa te WHERE te.report_fk = rep_t.id AND processid=:processid AND taskid=:taskid AND status=:status) as tipo"
-					+ ",'rep' as type_doc,'' as formlist_1_id FROM tbl_rep_template rep_t")					
-					.where("rep_t.status=:status AND rep_t.env_fk=:env_fk")
-					.orderByAsc("nome","descricao_documento")
-					.addString("processid", model.getProcessid())
-					.addString("taskid", model.getTaskid())
-					.addInt("status",1)
-					.addInt("env_fk", Core.toInt(model.getEnv_fk()))
-			);
-			if(model.getFormlist_1()!=null) {
-				list1.addAll(model.getFormlist_1());
+			List<LookupListPage.Formlist_1> formList = new ArrayList<LookupListPage.Formlist_1>(); 
+			
+			List<TipoDocumento> tipoDocumentos = new TipoDocumento().find()
+											.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
+											.andWhere("status", "=", 1)
+											.orderByAsc("descricao").all(); 
+			
+			if(tipoDocumentos != null) {
+				for(TipoDocumento tipoDocumento : tipoDocumentos) {
+					LookupListPage.Formlist_1 row = new LookupListPage.Formlist_1();
+					row.setDescricao_documento(new Pair(tipoDocumento.getDescricao(), tipoDocumento.getDescricao()));
+					row.setFormlist_1_id(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
+					row.setNome(new Pair(tipoDocumento.getNome(), tipoDocumento.getNome())); 
+					row.setCheckbox(new Pair(tipoDocumento.getId() + "", "-1")); 
+					row.setObrigatorio(new Pair(tipoDocumento.getId() + "", "-1")); 
+					
+					TipoDocumentoEtapa tipoDocumentoEtapas = new TipoDocumentoEtapa().find()
+																	.andWhere("processId", "=", model.getProcessid())
+																	.andWhere("tipoDocumento", "=", tipoDocumento)
+																	.andWhere("taskId", "=", model.getTaskid())
+																	.andWhere("status", "=", 1)
+																	.one(); 
+					if(tipoDocumentoEtapas != null) {
+						row.setCheckbox(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
+						row.setObrigatorio(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
+						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
+					}
+					
+					formList.add(row);
+				}
 			}
-			model.setFormlist_1(list1);
+					
+			List<RepTemplate> repTemplates = new RepTemplate().find()
+													.andWhere("application.id", "=", Core.toInt(model.getEnv_fk()))
+													.andWhere("status", "=", 1)
+													.orderByAsc("name").all(); 
+			
+			if(repTemplates != null) {
+				for(RepTemplate repTemplate : repTemplates) {
+					LookupListPage.Formlist_1 row = new LookupListPage.Formlist_1();
+					row.setDescricao_documento(new Pair(repTemplate.getName(), repTemplate.getName()));
+					row.setFormlist_1_id(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
+					row.setNome(new Pair(repTemplate.getCode(), repTemplate.getCode())); 
+					row.setCheckbox(new Pair(repTemplate.getId() + "", "-1")); 
+					row.setObrigatorio(new Pair(repTemplate.getId() + "", "-1")); 
+					
+					TipoDocumentoEtapa tipoDocumentoEtapas = new TipoDocumentoEtapa().find() 
+							.andWhere("processId", "=", model.getProcessid()) 
+							.andWhere("repTemplate", "=", repTemplate) 
+							.andWhere("taskId", "=", model.getTaskid()) 
+							.andWhere("status", "=", 1) 
+							.one(); 
+					if(tipoDocumentoEtapas != null) {
+						row.setCheckbox(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
+						row.setObrigatorio(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
+						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
+					}
+					
+					formList.add(row);
+				}
+			}
+			
+			model.setFormlist_1(formList);
 			
 		}
+		
 		view.id.setParam(true);
 		view.env_fk.setLabel("Aplicação");
         view.tipo.setQuery(Core.query(null,"SELECT 'IN' as ID,'Input' as NAME UNION SELECT 'OUT' as ID,'Output' as NAME "),"--- Selecionar Tipo Documento ---");
@@ -131,26 +159,34 @@ public class LookupListPageController extends Controller {
 						.addString("processid", model.getProcessid())
 						.addString("taskid", model.getTaskid())
 						.execute();
-					 String[] p_checkbox_fk = Core.getParamArray("p_checkbox_fk");
-					 if(p_checkbox_fk!=null) {
-						 List<String> listCheckBox = Arrays.asList(p_checkbox_fk);
-						 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk"));
-						 List<String> listObrigatorio = Arrays.asList(Core.getParamArray("p_obrigatorio_fk"));
-						 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk"));
-						 for(int i=0;i<listCheckBox.size();i++) {
-								if(Core.isNotNull(listCheckBox.get(i)) && Core.isNotNull(listTypeDoc.get(i))) {
-									int required = 0;
-									try {
-										required = Core.toInt(listObrigatorio.get(i));
-									}catch(IndexOutOfBoundsException e) {
-										required = 0;
-									}
-									if(listTypeDoc.get(i).equalsIgnoreCase("tp")) {
-										result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"tipo_documento_fk");
-									}else {
-										result = this.saveOrUpdate(listCheckBox.get(i),required,listTipo.get(i),model,"report_fk");
-									}
-								}
+					
+				 	 CheckBoxHelper cb = Core.extractCheckBox(Core.getParamArray("p_checkbox_fk"), Core.getParamArray("p_checkbox_check_fk"));
+				 	 List<String> p_checkbox_fk = cb.getChekedIds();
+					 
+					 if(p_checkbox_fk != null) {
+						 
+						 List<String> listTypeDoc = Arrays.asList(Core.getParamArray("p_type_doc_fk")); 
+						 List<String> listTipo = Arrays.asList(Core.getParamArray("p_tipo_fk")); 
+						 
+						 CheckBoxHelper cb_ = Core.extractCheckBox(Core.getParamArray("p_obrigatorio_fk"), Core.getParamArray("p_obrigatorio_check_fk"));	
+						 List<String> listObrigatorio = cb_.getChekedIds();
+						 
+						 int j = 0; 
+						 for(int i=0; i < listTipo.size(); i++) { 
+							 
+							int required = 0;
+							try {
+								required = Core.toInt(listObrigatorio.get(i));
+							}catch(IndexOutOfBoundsException e) {
+								required = 0;
+							}
+							
+							if(listTipo.get(i).equalsIgnoreCase("IN")) {
+								result = this.saveOrUpdate(p_checkbox_fk.get(j++),required,listTipo.get(i),model,"tipo_documento_fk");
+							}else 
+								if(listTipo.get(i).equalsIgnoreCase("OUT")) { 
+									result = this.saveOrUpdate(p_checkbox_fk.get(j++),required,listTipo.get(i),model,"report_fk");
+							}
 						 }
 					 }
 				}
@@ -190,7 +226,7 @@ public class LookupListPageController extends Controller {
 		
 /*----#start-code(custom_actions)----*/
 	private ResultSet saveOrUpdate(String p_checkbox_fk,int p_obrigatorio_fk,String p_tipo_fk,LookupListPage model,String relation_type_id) {
-		if(p_checkbox_fk!=null && Core.toInt(p_checkbox_fk,-1)!=-1) {
+		if(p_checkbox_fk != null && Core.toInt(p_checkbox_fk,-1) != -1) { 
 			return  Core.insert(ConfigDBIGRP.FILE_NAME_HIBERNATE_IGRP_CONFIG,"tbl_tipo_documento_etapa")
 					.addInt("status", 1)
 					.addInt(relation_type_id,Core.toInt(p_checkbox_fk))
