@@ -36,7 +36,7 @@ var FILTER = [["andWhere", "andWhere"],["andWhereIsNull", "andWhereIsNull"],["an
 			  
 				["orWhere", "orWhere"],["orWhereIsNull", "orWhereIsNull"],["orWhereNotNull", "orWhereNotNull"],["orWhereBetween", "orWhereBetween"],
 			  
-				["having", "having"],["where", "where"]];
+				["having", "having"],["where", "where"],["whereIn", "whereIn"],["whereNotIn", "whereNotIn"]];
 
 var ANDOR = [["and", "and"],["or", "or"]];
 
@@ -536,9 +536,9 @@ $('#active_selenium').on('click', function() {
 				
 					+'<value name="value1" type="dummy" >'
 					
-						+'<field type="dropdown" name="return" title ="return" options="IGRP_BLOCKLY_DROPS.returns"></field>'
-						
 						+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/custom-icon.svg"></field>'
+					
+						+'<field type="dropdown" name="return" title ="return" options="IGRP_BLOCKLY_DROPS.returns"></field>'
 						
 						+'<field type="text" name="param" options="page:"></field>'
 						
@@ -766,7 +766,7 @@ $('#active_selenium').on('click', function() {
 							
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 							
-							+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							
 							+'<field type="text" options="set Id separator"></field>'
 							
@@ -790,7 +790,7 @@ $('#active_selenium').on('click', function() {
 								
 								+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 								
-								+'<field type="dropdown" name="dao_sep" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+								+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 								
 							+'</value>'
 							
@@ -918,7 +918,7 @@ $('#active_selenium').on('click', function() {
 							
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 							
-							+'<field type="dropdown" name="dao_form" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
+							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'
 							
 							+'<field type="text" options="set Id formlist"></field>'
 						
@@ -942,7 +942,7 @@ $('#active_selenium').on('click', function() {
 							
 							+'<field type="image" name="img" src="'+path+'/core/blockly/blockly/media/dao.svg"></field>'
 							
-							+'<field type="dropdown" name="dao_form" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
+							+'<field type="dropdown" name="dao" title="DAO" options="IGRP_BLOCKLY_DROPS.dao_list"></field>'	
 							
 						+'</value>'
 						

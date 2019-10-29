@@ -61,7 +61,7 @@ public class Route {
 				}
 			}
 		}
-		return url;
+		return url.replaceAll("&&", "&");
 	}
 	
 	public static String getQueryString(String action) {

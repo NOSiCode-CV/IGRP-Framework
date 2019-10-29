@@ -54,6 +54,18 @@
 					
 			</xsl:when>
 			
+			<xsl:when test="$key = 'whereIn'">
+			
+				<xsl:text>.whereIn</xsl:text>
+	
+			</xsl:when>
+			
+			<xsl:when test="$key = 'whereNotIn'">
+			
+				<xsl:text>.whereNotIn</xsl:text>
+					
+			</xsl:when>
+			
 			<xsl:when test="$key = 'having'">
 			
 				<xsl:text>.having</xsl:text>	

@@ -6,7 +6,7 @@
 	
 		<xsl:variable name="mutation" select="mutation/@count"/>
 		
-		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
+		<xsl:variable name="dao_sep" select="field[@name='dao']"/>
 		
 		<xsl:variable name="dao_seplow">
 		
@@ -225,7 +225,7 @@
 	
 	<xsl:template name="blockly.element.save_separator" >
 		
-		<xsl:variable name="dao_sep" select="field[@name='dao_sep']"/>
+		<xsl:variable name="dao_sep" select="field[@name='dao']"/>
 		
 		<xsl:variable name="table" select="substring-after(@type,'save_sepator_')"/>
 		
@@ -305,9 +305,9 @@
 
 			</xsl:choose>
 			
-				<xsl:value-of select="$newlineTab2"></xsl:value-of>
+				<xsl:value-of select="$newlineTab2"/>
 				
-				<xsl:text>List&lt;String&gt; editList = new ArrayList&lt;&gt;();</xsl:text>
+				<xsl:text>List&lt;String&gt; </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList = new ArrayList&lt;&gt;();</xsl:text>
 						
 				<xsl:value-of select="$newlineTab2"></xsl:value-of>
 				
@@ -315,7 +315,7 @@
 				
 				<xsl:value-of select="$newlineTab3"></xsl:value-of>
 				
-				<xsl:text>editList =  new ArrayList&lt;&gt;(Arrays.asList(model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_edit()));</xsl:text>
+				<xsl:value-of select="$dao_seplow"/><xsl:text>editList =  new ArrayList&lt;&gt;(Arrays.asList(model.getP_</xsl:text><xsl:value-of select="$table"></xsl:value-of><xsl:text>_edit()));</xsl:text>
 				
 				<xsl:value-of select="$newlineTab2"></xsl:value-of>
 				
@@ -337,7 +337,7 @@
 				
 				<xsl:value-of select="$newlineTab4"></xsl:value-of>
 				
-				<xsl:text>if(!editList.isEmpty() &amp;&amp; editList.remove(row.get</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id().getKey())) {</xsl:text>
+				<xsl:text>if(!</xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList.isEmpty() &amp;&amp; </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>editList.remove(row.get</xsl:text><xsl:value-of select="$table_up"/><xsl:text>_id().getKey())) {</xsl:text>
 				
 				<xsl:value-of select="$newlineTab5"></xsl:value-of>
 				
@@ -373,15 +373,15 @@
 				
 				<xsl:value-of select="$newlineTab1"></xsl:value-of>	
 				
-				<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"/><xsl:text>_del();</xsl:text>
+				<xsl:text>String [] </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"/><xsl:text>_del();</xsl:text>
 				
 				<xsl:value-of select="$newlineTab1"></xsl:value-of>
 				
-				<xsl:text>if ( Core.isNotNull( deletedIdsArray ) ) {</xsl:text>
+				<xsl:text>if ( Core.isNotNull(</xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>deletedIdsArray ) ) {</xsl:text>
 				
 				<xsl:value-of select="$newlineTab1"></xsl:value-of>
 				
-				<xsl:text>for ( String docId : deletedIdsArray ) {</xsl:text>
+				<xsl:text>for ( String docId : </xsl:text><xsl:value-of select="$dao_seplow"/><xsl:text>deletedIdsArray ) {</xsl:text>
 				
 				<xsl:value-of select="$newlineTab2"></xsl:value-of>
 				

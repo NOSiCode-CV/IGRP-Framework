@@ -453,7 +453,7 @@
                                   <li rel="style">Style</li>
                                   <li rel="validation">Validation</li>
                                   <li rel="rules">Rules</li>
-                                   
+<!--                                    <li rel="doc">DOC</li> -->
                                   <li rel="xsl">XSL</li>
                                   <li rel="copy" gen-type="container">Copy From</li>
                               </ul>
@@ -482,6 +482,10 @@
 							  <div rel="validation" class="gen-properties-setts-holder">
                                   <xsl:call-template name="igrp-field-validation"/>
                               </div>
+                              
+<!--                                <div rel="doc" class="gen-properties-setts-holder"> -->
+<!--                                   doc -->
+<!--                               </div> -->
                               
                               <div rel="rules" class="gen-properties-setts-holder">
                                   <xsl:call-template name="rules-list"/>
@@ -521,7 +525,10 @@
                               </div>
                               
                               <div class="modal-buttons text-right">
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
+                              	<span class="igrp-doc pull-left">
+                              		<a href="#" target="_newtab"><i class="fa fa-info-circle"/> Doc </a>	
+                              	</span>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> 
                               	<button type="button" class="btn btn-primary"  id="gen-edit-confirm">Confirm <i class="fa fa-check"/></button>
                           	</div>
                           </div>

@@ -42,7 +42,8 @@ public class BasicSecurityFilter implements Filter {
 		// Content Security Policy (CSP)
 		
 		// Access-Control-Allow-Origin
-		
+		request.setCharacterEncoding("UTF-8");       
+        response.setCharacterEncoding("UTF-8");
 		// pass the request along the filter chain 
 		chain.doFilter(request, response);
 	}
