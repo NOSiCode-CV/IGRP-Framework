@@ -27,7 +27,7 @@ public class ThreadLocalFilter implements Filter {
 		// TODO Auto-generated method stub 
 		 Igrp.set();
 	      try {
-	    	// pass the request along the filter chain 
+	    	// pass the request along the filter chain 	    	
 	        chain.doFilter(request, response);
 	      } finally {
 	    	  Igrp.remove();

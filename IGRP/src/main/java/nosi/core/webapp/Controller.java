@@ -4,9 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -316,6 +319,7 @@ public class Controller {
 	private final Response redirect_(String url) {
 		Response resp = new Response();
 		resp.setType(2);
+		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
 		resp.setContentType(this.format);
 		resp.setUrl(url);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
@@ -330,23 +334,18 @@ public class Controller {
 
 	protected final Response redirect(String app, String page, String action, QueryString<String, Object> queryString)
 			throws IOException {
-		if (queryString.getValues("dad") == null && !action.contains("dad"))
-			queryString.addQueryString("dad", Core.getParam("dad"));
-		String jsonLookup = Core.getParam("jsonLookup");
-		if (Core.isNotNull(jsonLookup)) {
-			queryString.addQueryString("jsonLookup", jsonLookup);
-		}
-		this.setQueryString(queryString);
-		Map<String, String[]> paramsName = Core.getParameters();
-		paramsName.entrySet().stream().filter(param -> param.getKey().startsWith("p_fwl_"))
-				.filter(param -> !param.getKey().equalsIgnoreCase("p_fwl_search"))
-				.forEach(param -> qs += "&" + param.getKey() + "=" + param.getValue()[0]);
+		redirectAddQueryStrFuncion(action, queryString);
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}
 
 
 	protected final Response redirect(String app, String page, String action, QueryString<String, Object> queryString, int isPublic)
 			throws IOException {
+		redirectAddQueryStrFuncion(action, queryString);
+		return this.redirect_(Route.toUrl(app, page, action, qs,isPublic));
+	}
+
+	private void redirectAddQueryStrFuncion(String action, QueryString<String, Object> queryString) {
 		if (queryString.getValues("dad") == null && !action.contains("dad"))
 			queryString.addQueryString("dad", Core.getParam("dad"));
 		String jsonLookup = Core.getParam("jsonLookup");
@@ -357,15 +356,23 @@ public class Controller {
 		Map<String, String[]> paramsName = Core.getParameters();
 		paramsName.entrySet().stream().filter(param -> param.getKey().startsWith("p_fwl_"))
 				.filter(param -> !param.getKey().equalsIgnoreCase("p_fwl_search"))
-				.forEach(param -> qs += "&" + param.getKey() + "=" + param.getValue()[0]);
-		return this.redirect_(Route.toUrl(app, page, action, qs,isPublic));
+				.forEach(param -> {				
+						qs += "&" + param.getKey() + "=" + param.getValue()[0];					
+				});
 	}
 	
 	private void setQueryString(QueryString<String, Object> queryString) {
 		qs = "";
 		if (queryString != null && !queryString.getQueryString().isEmpty()) {
 			queryString.getQueryString().entrySet().stream().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
-					.forEach(q1 -> qs += "&" + q.getKey() + "=" + q1));
+					.forEach(q1 -> {
+						try {
+							qs += "&" + q.getKey() + "=" +  (Core.isNotNull(q1)? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):"");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}));
 		}
 	}
 

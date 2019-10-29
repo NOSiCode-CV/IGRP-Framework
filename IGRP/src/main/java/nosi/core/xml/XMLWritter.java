@@ -55,7 +55,7 @@ public class XMLWritter {
 		public void text(String text){
 			this.closeLarger();
 		
-			this.xmlConstruct.append(StringEscapeUtils.escapeXml10(text));
+			this.xmlConstruct.append(StringEscapeUtils.escapeXml11(text));
 		}
 		
 		public void emptyTag (String tag) {
@@ -64,7 +64,7 @@ public class XMLWritter {
 		}
 
 		public void writeAttribute(String key,String value){
-			this.xmlConstruct.append(" "+key+"=\""+StringEscapeUtils.escapeXml10(value)+"\"");
+			this.xmlConstruct.append(" "+key+"=\""+StringEscapeUtils.escapeXml11(value)+"\"");
 		}
 
 		public void setElement(String tag,String value){
