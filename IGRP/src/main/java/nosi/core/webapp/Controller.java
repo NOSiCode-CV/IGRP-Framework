@@ -367,7 +367,7 @@ public class Controller {
 			queryString.getQueryString().entrySet().stream().forEach(q -> q.getValue().stream().filter(q1 -> q1 != null)
 					.forEach(q1 -> {
 						try {
-							qs += "&" + q.getKey() + "=" +  (Core.isNotNull(q1)? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):"");
+							qs += "&" + q.getKey() + "=" +  (Core.isNotNull(q1) && q1 instanceof String? URLEncoder.encode((String) q1, StandardCharsets.UTF_8.toString()):q1);
 						} catch (UnsupportedEncodingException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
