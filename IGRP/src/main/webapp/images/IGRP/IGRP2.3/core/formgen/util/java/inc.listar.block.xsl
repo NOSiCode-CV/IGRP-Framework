@@ -340,6 +340,22 @@
 				
 				</xsl:when>
 				
+				<xsl:when test="$filter ='.whereIn' or $filter ='.whereNotIn'">
+				
+					<xsl:value-of select="$newlineTab1"/>
+				
+					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+	
+					<xsl:value-of select="$newlineTab2"/>
+					
+					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:text>,</xsl:text><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
+					
+					<xsl:value-of select="$newlineTab1"/>
+					
+					<xsl:text>}</xsl:text>
+				
+				</xsl:when>
+				
 				<xsl:when test="$filter ='.andWhereIsNull' or $filter ='.andWhereNotNull' or $filter ='.orWhereIsNull' or $filter ='.orWhereNotNull' ">
 				
 					<xsl:value-of select="$newlineTab1"/>

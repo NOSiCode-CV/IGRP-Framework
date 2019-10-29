@@ -6,7 +6,7 @@
 	
 		<xsl:variable name="mutation" select="mutation/@count"/>
 		
-		<xsl:variable name="dao_form" select="field[@name='dao_form']"/>
+		<xsl:variable name="dao_form" select="field[@name='dao']"/>
 		
 		<xsl:variable name="daolow">
 		
@@ -203,7 +203,7 @@
 	
 		<xsl:variable name="table" select="substring-after(@type,'save_forlist_')"/>
 	
-		<xsl:variable name="dao_sep" select="field[@name='dao_form']"/>
+		<xsl:variable name="dao_sep" select="field[@name='dao']"/>
 			
 		<xsl:variable name="daolow">
 		
@@ -315,15 +315,15 @@
 			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>	
 			
-			<xsl:text>String [] deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"/><xsl:text>_del();</xsl:text>
+			<xsl:text>String [] </xsl:text><xsl:value-of select="$daolow"/><xsl:text>deletedIdsArray = model.getP_</xsl:text><xsl:value-of select="$table"/><xsl:text>_del();</xsl:text>
 			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
-			<xsl:text>if ( Core.isNotNull( deletedIdsArray ) ) {</xsl:text>
+			<xsl:text>if ( Core.isNotNull( </xsl:text><xsl:value-of select="$daolow"/><xsl:text>deletedIdsArray ) ) {</xsl:text>
 			
 			<xsl:value-of select="$newlineTab1"></xsl:value-of>
 			
-			<xsl:text>for ( String docId : deletedIdsArray ) {</xsl:text>
+			<xsl:text>for ( String docId : </xsl:text><xsl:value-of select="$daolow"/><xsl:text>deletedIdsArray ) {</xsl:text>
 			
 			<xsl:value-of select="$newlineTab2"></xsl:value-of>
 			
