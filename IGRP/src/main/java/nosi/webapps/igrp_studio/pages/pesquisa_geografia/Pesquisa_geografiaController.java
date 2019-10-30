@@ -19,7 +19,8 @@ import nosi.core.webapp.webservices.rest.ConsumeJson;
 
 /*----#end-code----*/
 
-public class Pesquisa_geografiaController extends Controller {
+public class Pesquisa_geografiaController extends Controller { 
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		Pesquisa_geografia model = new Pesquisa_geografia();
 		model.load();
@@ -34,7 +35,9 @@ public class Pesquisa_geografiaController extends Controller {
 		if(params != null)
 			this.p_nivel = Core.toInt(params.getProperty("p_nivel"));
 		
-		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238")); 
+		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view)); 
+		
+		view.treemenu_1_link.setVisible(false); 
 		
 		/*----#end-code----*/
 		view.setModel(model);
@@ -66,7 +69,7 @@ public class Pesquisa_geografiaController extends Controller {
 					des_geo = p1.getKey().toString(); 
 			});
 		}
-		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id); 
+		List<Pesquisa_geografia.Treemenu_1> lista = chamarServico(id, null); 
 		
 		for (Pesquisa_geografia.Treemenu_1 li : lista) { 
 			int aux = -1; 
@@ -90,7 +93,7 @@ public class Pesquisa_geografiaController extends Controller {
 	String des_geo = "p_geografia_des";
 	String id_geo = "p_geografia_id";
 
-	public List<Pesquisa_geografia.Treemenu_1> chamarServico(String id) throws IOException, JSONException {
+	public List<Pesquisa_geografia.Treemenu_1> chamarServico(String id, Pesquisa_geografiaView view) throws IOException, JSONException {
 		if (id.equals("238"))
 			id = "100";
 		Properties setting = this.configApp.loadConfig("common", "main.xml");
@@ -117,11 +120,11 @@ public class Pesquisa_geografiaController extends Controller {
 		if (Core.isNotNull(Entry)) {
 			for (int i = 0; i < Entry.length(); i++) {
 				JSONObject local = Entry.getJSONObject(i);
-				addListget(list_geo, local);
+				addListget(list_geo, local, view);
 			}
 		} else {
 			JSONObject local = Entries.optJSONObject("Entry");
-			addListget(list_geo, local);
+			addListget(list_geo, local, view);
 
 		}
 		list_geo.sort(Comparator.comparing(Pesquisa_geografia.Treemenu_1::getTreemenu_1_link_desc));
@@ -129,7 +132,7 @@ public class Pesquisa_geografiaController extends Controller {
 		return list_geo;
 	}
 
-	private void addListget(List<Pesquisa_geografia.Treemenu_1> list_geo, JSONObject local) {
+	private void addListget(List<Pesquisa_geografia.Treemenu_1> list_geo, JSONObject local, Pesquisa_geografiaView view) {
 		if (Core.isNotNull(local)) {
 			Pesquisa_geografia.Treemenu_1 tab_geo = new Pesquisa_geografia.Treemenu_1();
 			tab_geo.setTreemenu_1_tmid("" + Core.toBigDecimal(local.getString("id")).toBigInteger());
@@ -139,10 +142,15 @@ public class Pesquisa_geografiaController extends Controller {
 			int aux = 0; 
 			try {
 				aux = Core.toBigDecimal(tab_geo.getNivel()).intValue(); 
-			} catch (Exception e) {} 		
-			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) {
-				tab_geo.setTreemenu_1_child("0"); 
+			} catch (Exception e) {} 
+			
+			if(view != null && this.p_nivel != 0 && aux != 0) {  
+				if(aux < this.p_nivel) 
+					view.treemenu_1_link.setVisible(false); 
+				if(aux == this.p_nivel) 
+					tab_geo.setTreemenu_1_child("0"); 
 			}
+			
 			list_geo.add(tab_geo); 
 		}
 	}
