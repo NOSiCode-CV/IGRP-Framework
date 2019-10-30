@@ -25,6 +25,7 @@ import nosi.core.config.ConfigDBIGRP;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 		
 public class LookupListPageController extends Controller {
+	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		LookupListPage model = new LookupListPage();
 		model.load();
@@ -74,7 +75,7 @@ public class LookupListPageController extends Controller {
 					row.setFormlist_1_id(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
 					row.setNome(new Pair(tipoDocumento.getNome(), tipoDocumento.getNome())); 
 					row.setCheckbox(new Pair(tipoDocumento.getId() + "", "-1")); 
-					row.setObrigatorio(new Pair(tipoDocumento.getId() + "", "-1")); 
+					row.setObrigatorio(new Pair("1", "0")); 
 					
 					TipoDocumentoEtapa tipoDocumentoEtapas = new TipoDocumentoEtapa().find()
 																	.andWhere("processId", "=", model.getProcessid())
@@ -84,7 +85,8 @@ public class LookupListPageController extends Controller {
 																	.one(); 
 					if(tipoDocumentoEtapas != null) {
 						row.setCheckbox(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
-						row.setObrigatorio(new Pair(tipoDocumento.getId() + "", tipoDocumento.getId() + "")); 
+						if(tipoDocumentoEtapas.getRequired() != 0)
+							row.setObrigatorio(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
 						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
 					}
 					
@@ -104,7 +106,7 @@ public class LookupListPageController extends Controller {
 					row.setFormlist_1_id(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
 					row.setNome(new Pair(repTemplate.getCode(), repTemplate.getCode())); 
 					row.setCheckbox(new Pair(repTemplate.getId() + "", "-1")); 
-					row.setObrigatorio(new Pair(repTemplate.getId() + "", "-1")); 
+					row.setObrigatorio(new Pair("1", "0")); 
 					
 					TipoDocumentoEtapa tipoDocumentoEtapas = new TipoDocumentoEtapa().find() 
 							.andWhere("processId", "=", model.getProcessid()) 
@@ -114,9 +116,10 @@ public class LookupListPageController extends Controller {
 							.one(); 
 					if(tipoDocumentoEtapas != null) {
 						row.setCheckbox(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
-						row.setObrigatorio(new Pair(repTemplate.getId() + "", repTemplate.getId() + "")); 
+						if(tipoDocumentoEtapas.getRequired() != 0)
+							row.setObrigatorio(new Pair(tipoDocumentoEtapas.getRequired() + "", tipoDocumentoEtapas.getRequired() + "")); 
 						row.setTipo(new Pair(tipoDocumentoEtapas.getTipo(), tipoDocumentoEtapas.getTipo()));
-					}
+					} 
 					
 					formList.add(row);
 				}
@@ -172,20 +175,13 @@ public class LookupListPageController extends Controller {
 						 List<String> listObrigatorio = cb_.getChekedIds();
 						 
 						 int j = 0; 
+						 int z = 0; 
 						 for(int i=0; i < listTipo.size(); i++) { 
-							 
-							int required = 0;
-							try {
-								required = Core.toInt(listObrigatorio.get(i));
-							}catch(IndexOutOfBoundsException e) {
-								required = 0;
-							}
-							
-							if(listTipo.get(i).equalsIgnoreCase("IN")) {
-								result = this.saveOrUpdate(p_checkbox_fk.get(j++),required,listTipo.get(i),model,"tipo_documento_fk");
+							if(listTipo.get(i).equalsIgnoreCase("IN")) { 
+								result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "tipo_documento_fk");
 							}else 
 								if(listTipo.get(i).equalsIgnoreCase("OUT")) { 
-									result = this.saveOrUpdate(p_checkbox_fk.get(j++),required,listTipo.get(i),model,"report_fk");
+									result = this.saveOrUpdate(p_checkbox_fk.get(j++), this.proccessCheckBoxObrigatorio(z < listObrigatorio.size() ? listObrigatorio.get(z++) : "0"), listTipo.get(i), model, "report_fk");
 							}
 						 }
 					 }
@@ -236,8 +232,18 @@ public class LookupListPageController extends Controller {
 					.addString("tipo", p_tipo_fk)
 					.execute();
 		}
-		return new ResultSet();
-		
+		return new ResultSet(); 
 	}
+	
+	private int proccessCheckBoxObrigatorio(String v) { 
+		int required = 0;
+		try {
+			required = Core.toInt(v);
+		}catch(IndexOutOfBoundsException e) {
+			required = 0;
+		}
+		return required;
+	}
+	
 	/*----#end-code----*/
 }
