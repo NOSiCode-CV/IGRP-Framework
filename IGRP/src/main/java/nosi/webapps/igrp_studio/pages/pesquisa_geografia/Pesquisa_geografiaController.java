@@ -35,7 +35,7 @@ public class Pesquisa_geografiaController extends Controller {
 		if(params != null)
 			this.p_nivel = Core.toInt(params.getProperty("p_nivel"));
 		
-		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view)); 
+		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view));
 		
 		view.treemenu_1_link.setVisible(false); 
 		
