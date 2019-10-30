@@ -35,7 +35,7 @@ public class Pesquisa_geografiaController extends Controller {
 		if(params != null)
 			this.p_nivel = Core.toInt(params.getProperty("p_nivel"));
 		
-		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view));
+		model.setTreemenu_1(this.chamarServico(Core.isNotNull(id) ? id : "238", view)); 
 		
 		view.treemenu_1_link.setVisible(false); 
 		
@@ -78,9 +78,9 @@ public class Pesquisa_geografiaController extends Controller {
 			} catch (Exception e) {} 
 			
 			if(this.p_nivel != 0 && aux != 0 && aux >= this.p_nivel) 
-				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo); 
+				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, "0", des_geo, id_geo,this.p_nivel); 
 			else 
-				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo); 
+				xml += getXml(li.getTreemenu_1_tmid() + "", li.getTreemenu_1_link_desc(), id, li.getTreemenu_1_child(), des_geo, id_geo,this.p_nivel); 
 				
 			}
 		xml += "</value>" + "</table>" + "</treemenu_1>";
@@ -150,14 +150,14 @@ public class Pesquisa_geografiaController extends Controller {
 				if(aux < this.p_nivel) 
 					view.treemenu_1_link.setVisible(false); 
 				if(aux == this.p_nivel) 
-					tab_geo.setTreemenu_1_child("0"); 
+					tab_geo.setTreemenu_1_child("0");
 			}
 			
 			list_geo.add(tab_geo); 
 		}
 	}
 
-	public String getXml(String id, String desc_menu, String id_par, String child, String des_geo, String id_geo) { 
+	public String getXml(String id, String desc_menu, String id_par, String child, String des_geo, String id_geo, int p_nivel) { 
 		int isPublic = Core.getParamInt("isPublic"); 
 		String ParamisPublic="";
 		if(isPublic==1) { 
@@ -172,6 +172,7 @@ public class Pesquisa_geografiaController extends Controller {
 				"<treemenu_1_parent>" + id_par + "</treemenu_1_parent>" + 
 				"<treemenu_1_icon/>" + 
 				(child.equals("1") ? "" : "<treemenu_1_link></treemenu_1_link>" ) + 
+				(p_nivel == 0 ? "<treemenu_1_link></treemenu_1_link>" : "" ) + 
 				"<treemenu_1_child>" + child + "</treemenu_1_child>" + 
 				"<treemenu_1_active/>" + 
 				"</row>"; 
