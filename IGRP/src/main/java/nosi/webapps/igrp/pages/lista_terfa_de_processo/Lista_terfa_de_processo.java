@@ -1,8 +1,8 @@
 package nosi.webapps.igrp.pages.lista_terfa_de_processo;
 
-
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.databse.helpers.BaseQueryInterface;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,9 @@ public class Lista_terfa_de_processo extends Model{
 		private String data_inicio;
 		private String data_fim;
 		private String estado;
+		private String processdefinitionkey;
+		private String taskdefinitionkey;
+		private String prm_taskid;
 		public void setN_tarefa(String n_tarefa){
 			this.n_tarefa = n_tarefa;
 		}
@@ -58,6 +61,27 @@ public class Lista_terfa_de_processo extends Model{
 		}
 		public String getEstado(){
 			return this.estado;
+		}
+
+		public void setProcessdefinitionkey(String processdefinitionkey){
+			this.processdefinitionkey = processdefinitionkey;
+		}
+		public String getProcessdefinitionkey(){
+			return this.processdefinitionkey;
+		}
+
+		public void setTaskdefinitionkey(String taskdefinitionkey){
+			this.taskdefinitionkey = taskdefinitionkey;
+		}
+		public String getTaskdefinitionkey(){
+			return this.taskdefinitionkey;
+		}
+
+		public void setPrm_taskid(String prm_taskid){
+			this.prm_taskid = prm_taskid;
+		}
+		public String getPrm_taskid(){
+			return this.prm_taskid;
 		}
 
 	}

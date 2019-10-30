@@ -51,6 +51,7 @@ public class DetalhesProcessoController extends Controller {
 		//Get Diagram in runtime
 		String content = processDefinitionRest.getProcessDiagram(processId);
 		if(content!=null) {
+			System.out.println(content);
 			view.img_1.setValue("data:image/png;base64,"+content);
 		}else {
 			//Get Diagram on historic
