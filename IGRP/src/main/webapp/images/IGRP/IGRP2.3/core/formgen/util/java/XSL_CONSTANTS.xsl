@@ -68,7 +68,7 @@
     
     <xsl:variable name="import_HashMap">    
     	<xsl:if test="count(/rows/content/*[@type='table']/fields/*[@type='color']) &gt; 0">
-        	<xsl:text>import java.util.HashMap;</xsl:text>
+        	<xsl:text>import java.util.LinkedHashMap;</xsl:text>
         	<xsl:value-of select="$newline"/>
         </xsl:if>
     </xsl:variable>

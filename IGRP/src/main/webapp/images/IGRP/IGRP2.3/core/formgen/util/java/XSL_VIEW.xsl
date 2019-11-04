@@ -182,24 +182,25 @@
 		 		
 		 		<xsl:value-of select="$tab2"/>
 		 		<xsl:variable name="tbColorsName" select="concat(name(),'_colors')"/>
+		 		<xsl:variable name="tbName" select="name()"/>
 		 		<xsl:variable name="mapDeclaration">
 		 			<xsl:text>Map</xsl:text><xsl:value-of select="$lt"/>
 		 			<xsl:text>Object, Map</xsl:text><xsl:value-of select="$lt"/>
 		 			<xsl:text>String, String</xsl:text><xsl:value-of select="$gt"/><xsl:value-of select="$gt"/>
 		 			<xsl:value-of select="concat(' ',$tbColorsName)"/>
-		 			<xsl:text>= new HashMap</xsl:text><xsl:value-of select="$lt"/><xsl:value-of select="$gt"/><xsl:text>();</xsl:text>
+		 			<xsl:text>= new LinkedHashMap</xsl:text><xsl:value-of select="$lt"/><xsl:value-of select="$gt"/><xsl:text>();</xsl:text>
 		 		</xsl:variable>
 		 		
 		 		<xsl:value-of select="$mapDeclaration"/>
 		 		
 		 		<xsl:for-each select="table/legend_color/item">
-		 			<xsl:variable name="color_name" select="concat('color_',value)"></xsl:variable>
+		 			<xsl:variable name="color_name" select="concat('color_',value,'_',$tbName)"></xsl:variable>
 		 			<xsl:variable name="color_desc">
 			 			<xsl:text>Map</xsl:text><xsl:value-of select="$lt"/>
 			 			<xsl:text>String, String</xsl:text>
 			 			<xsl:value-of select="$gt"/>
 			 			<xsl:value-of select="concat(' ',$color_name)"/>
-			 			<xsl:text> = new HashMap</xsl:text><xsl:value-of select="$lt"/><xsl:value-of select="$gt"/><xsl:text>();</xsl:text>
+			 			<xsl:text> = new LinkedHashMap</xsl:text><xsl:value-of select="$lt"/><xsl:value-of select="$gt"/><xsl:text>();</xsl:text>
 			 		</xsl:variable>
 			 		
 			 		<xsl:value-of select="$newline"/>
