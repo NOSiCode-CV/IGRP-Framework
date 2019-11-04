@@ -100,7 +100,8 @@ public class XMLTransform {
 		if(component!=null) {
 			columns.stream().forEach(column->{
 				Field f = XMLTransform.getGenFiled(component,column);
-				if(component instanceof IGRPForm) {
+				f.setLabel(f.getLabel().replaceAll("_", " "));
+				if(component instanceof IGRPForm) {					
 					((IGRPForm) component).addField(f);
 				}else if(component instanceof IGRPTable) {
 					((IGRPTable) component).addField(f);

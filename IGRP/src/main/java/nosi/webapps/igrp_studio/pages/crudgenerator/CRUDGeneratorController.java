@@ -99,7 +99,7 @@ public class CRUDGeneratorController extends Controller {
 							boolean r = false;
 							for(String id_ch : cbh.getChekedIds()) {
 								String tableName = list_table.get(Integer.parseInt(id_ch)-1);
-								String dad_name = new Application().findOne(Core.toInt(model.getAplicacao())).getDad();
+								String dad_name = Core.findApplicationById(Core.toInt(model.getAplicacao())).getDad();
 								r = this.generateDAO(config,model.getSchema(),tableName, dad_name);
 							}
 							
@@ -349,11 +349,7 @@ public class CRUDGeneratorController extends Controller {
 		}
 		return false;
 	}
-	/********************* FIM METODO USADOS PARA GERAR CRUD *********************/
-	
-	
-	
-	
+	/********************* FIM METODO USADOS PARA GERAR CRUD *********************/	
 	/********************* METODO USADOS PARA GERAR DAO *********************/
 	
 

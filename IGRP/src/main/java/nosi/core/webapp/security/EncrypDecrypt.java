@@ -38,7 +38,7 @@ public class EncrypDecrypt {
 		return decrypt((replace.endsWith("=")?replace.substring(0, replace.length()-1):replace), SECRET_KEY_PUBLIC_PAGE);
 	}
 	
-	public static String encrypt(String content, String secretKey) {
+	public static String encryptURL(String content, String secretKey) {
 		try {
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));			
@@ -48,6 +48,18 @@ public class EncrypDecrypt {
 		}
 		return content;
 	}
+	
+	public static String encrypt(String content, String secretKey) {
+		try {
+			Cipher cipher = Cipher.getInstance(ALGO);
+			cipher.init(Cipher.ENCRYPT_MODE, generateSecretKey(secretKey));			
+			return new String(Base64.getEncoder().encode(cipher.doFinal(content.getBytes(CHARTSET))),CHARTSET);
+		} catch (Exception e) {
+
+		}
+		return content;
+	}
+	
 	
 	public static String decrypt(String content) {
 		String customHeader = Igrp.getInstance() != null ? Igrp.getInstance().getRequest().getHeader("X-IGRP-REMOTE")
@@ -59,11 +71,22 @@ public class EncrypDecrypt {
 	}
 
 
-	public static String decrypt(String content, String secretKey) {
+	public static String decryptURL(String content, String secretKey) {
 		try {			
 			Cipher cipher = Cipher.getInstance(ALGO);
 			cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(secretKey));			
 			return new String(cipher.doFinal(Base64.getUrlDecoder().decode(content.getBytes(StandardCharsets.UTF_8))),CHARTSET);
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+	
+	public static String decrypt(String content, String secretKey) {
+		try {			
+			Cipher cipher = Cipher.getInstance(ALGO);
+			cipher.init(Cipher.DECRYPT_MODE, generateSecretKey(secretKey));			
+			return new String(cipher.doFinal(Base64.getDecoder().decode(content.getBytes(StandardCharsets.UTF_8))),CHARTSET);
 		} catch (Exception e) {
 
 		}
