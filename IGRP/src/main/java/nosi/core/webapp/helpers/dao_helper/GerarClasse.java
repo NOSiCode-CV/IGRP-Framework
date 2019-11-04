@@ -95,7 +95,7 @@ public class GerarClasse {
 				String tabela_relacional = cl.getTableRelation();
 				content_variaveis = content_variaveis + "\t@ManyToOne\n"
 						+ "\t@JoinColumn(name=\""+ cl.getName() +"\", foreignKey=@ForeignKey(name=\""+ fk_constrain_name.get(cl.getName())+"\"), nullable="+( cl.isNullable() ? "true" : "false") +")\n"+
-						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +tabela_relacional+";\n";
+						"\tprivate "+ this.resolveName1Up(tabela_relacional) +" " +this.resolveName1Dw(tabela_relacional)+";\n";
 				if(cont_import == 1) {
 					content_import = content_import +"import javax.persistence.ManyToOne;\n" +
 							"import javax.persistence.JoinColumn;\n" +
@@ -163,7 +163,7 @@ public class GerarClasse {
 						"\t}\n";
 			}else {
 				Map<String, String> fk_table_name = new DatabaseMetadaHelper().getForeignKeys(config, schema, tbl_name,dad_name);
-				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(fk_table_name.get(cl.getName())) + " get"+this.resolveName1Up(cl.getName())+"() {\n" + 
+				content_setAndGet = content_setAndGet + "\tpublic " + this.resolveName1Up(fk_table_name.get(cl.getName())) + " get"+this.resolveName1Up(fk_table_name.get(cl.getName()))+"() {\n" + 
 						"\t\treturn "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+";\n" + 
 						"\t}\n" + 
 						"\tpublic void set"+this.resolveName1Up(fk_table_name.get(cl.getName()))+"("+ this.resolveName1Up(fk_table_name.get(cl.getName())) +" "+this.resolveName1Dw(fk_table_name.get(cl.getName()))+") {\n" + 
