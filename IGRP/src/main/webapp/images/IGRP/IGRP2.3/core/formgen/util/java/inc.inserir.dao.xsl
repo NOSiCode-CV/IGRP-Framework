@@ -90,6 +90,10 @@
 					
 					<xsl:text>Transaction transaction = null;</xsl:text>
 					
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>			
+					
+					<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
+					
 					<xsl:value-of select="$newlineTab1"></xsl:value-of>
 					
 					<xsl:text>try{</xsl:text>
@@ -121,10 +125,6 @@
 			<xsl:choose>
 		
 				<xsl:when test="$checkbox = 'TRUE'">
-				
-					<xsl:value-of select="$newlineTab2"></xsl:value-of>
-					
-					<xsl:text>String isEdit = Core.getParam("isEdit");</xsl:text>
 					
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					
@@ -132,11 +132,7 @@
 					
 					<xsl:value-of select="$newlineTab3"></xsl:value-of>
 					
-					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text>
-					
-					<xsl:value-of select="$dao"></xsl:value-of>
-					
-					<xsl:text>.class, </xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>);</xsl:text>
+					<xsl:text> </xsl:text><xsl:value-of select="$daolow"/><xsl:text> = session.find(</xsl:text><xsl:value-of select="$dao"></xsl:value-of><xsl:text>.class, </xsl:text><xsl:value-of select="$param_id"></xsl:value-of><xsl:text>);</xsl:text>
 					
 					<xsl:value-of select="$newlineTab2"></xsl:value-of>
 					
@@ -240,11 +236,35 @@
 					
 					<xsl:text>}</xsl:text>
 					
-					<xsl:value-of select="$newlineTab1"></xsl:value-of>	
+					<xsl:value-of select="$newlineTab1"></xsl:value-of>
+					
+					<xsl:choose>
+		
+						<xsl:when test="$checkbox = 'TRUE'">
+							
+							<xsl:value-of select="$newlineTab1"></xsl:value-of>
+							
+							<xsl:text>if(Core.isNotNull(isEdit)) {</xsl:text>
+							
+							<xsl:value-of select="$newlineTab2"></xsl:value-of>
+							
+							<xsl:text>this.addQueryString("isEdit", "true");</xsl:text>
+							
+							<xsl:value-of select="$newlineTab2"></xsl:value-of>
+							
+							<xsl:text>return this.forward("</xsl:text><xsl:value-of select="$app-title"/><xsl:text>","</xsl:text><xsl:value-of select="$page-title"/><xsl:text>","index",this.queryString());</xsl:text>
+							
+							<xsl:value-of select="$newlineTab1"></xsl:value-of>
+							
+							<xsl:text>}</xsl:text>
+							
+						</xsl:when>
+					
+					</xsl:choose>		
 				
 				</xsl:when>
 	
-			</xsl:choose>				
+			</xsl:choose>			
 
 		</xsl:variable>
 			

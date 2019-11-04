@@ -563,7 +563,7 @@
 		    var inputExists = this.getInput('dao_rela');
 		    
 		    
-		    if (type && type != '--' && type != 'String' && type != 'Date' && type != 'Integer') {
+		    if (type && type != '--' && type != 'String' && type != 'Date' && type != 'Integer' && type != 'BigInteger') {
 		    	
 		      if (!inputExists) {
 		    	  

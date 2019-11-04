@@ -40,6 +40,12 @@
 					
 				</xsl:when>
 				
+				<xsl:when test="$from = 'String' and $to = 'BigInteger'">
+					
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					
+				</xsl:when>
+				
 				<xsl:when test="$from = 'String' and $to = 'String[]'">	
 				
 					<xsl:text></xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>.split(";")</xsl:text>
@@ -112,6 +118,12 @@
 					
 				</xsl:when>
 				
+				<xsl:when test="$from = 'hidden' and $to = 'BigInteger'">
+				
+					<xsl:text>Core.toInt(</xsl:text><xsl:value-of select="$value"></xsl:value-of><xsl:text>)</xsl:text>
+					
+				</xsl:when>
+				
 				<xsl:when test=" $from = 'hidden' and $to = 'Date' ">
 				
 					<xsl:text>Core.formatDate(</xsl:text><xsl:value-of select="$value"/><xsl:text>, "dd-mm-yyyy", "yyyy-mm-dd")</xsl:text>
@@ -136,13 +148,25 @@
 					
 				</xsl:when>
 				
+				<xsl:when test="$from = 'BigInteger' and $to = 'String'">	
+				
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
+					
+				</xsl:when>
+				
+				<xsl:when test="$from = 'BigInteger' and $to = 'hidden'">	
+				
+					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
+					
+				</xsl:when>
+				
 				<xsl:when test="$from = 'double' and $to = 'String'">
 				
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
 					
 				</xsl:when>
 				
-					<xsl:when test="$from = 'int' and $to = 'String'">	
+				<xsl:when test="$from = 'int' and $to = 'String'">	
 				
 					<xsl:text>""+</xsl:text><xsl:value-of select="$value"></xsl:value-of>
 					

@@ -241,25 +241,21 @@ $('#active_selenium').on('click', function() {
 			
 			var tagg = $(field).attr('tag');
 			
+			var multiple = $(field).attr('multiple');
+			
 			var persist = $(field).attr('persist');
 			
 			var javaType = GetJavaType[type] || type || 'String';
 			
-			if(type == "select" && domain !="")
+			if(multiple =="true")
 			{
-				fields_model.push([ tag, 'SelectDom*'+domain+'::'+tag]);
 				
-				addmodel++;
-			}
-			//else if(persist != "true" || )
-			else
-			{
-				fields_model.push([ tag, javaType + '::'+tag]);
+				fields_model.push([ tag, 'String[]'+'::'+tag]);
 				
 				addmodel++;
 			}
 			
-			if(tag == "hidden")
+			else if(tag == "hidden")
 			{
 				form_id.push([ tagg, tagg ]);
 				
@@ -267,7 +263,14 @@ $('#active_selenium').on('click', function() {
 				
 				addmodel++;
 			}
-			
+
+			else if(tag != "hidden" && multiple !="true")
+			{
+				fields_model.push([ tag, javaType + '::'+tag]);
+				
+				addmodel++;
+			}
+
 			if(key == "true")
 			{
 				key_model.push([ tag, tag]);
