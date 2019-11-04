@@ -210,7 +210,7 @@
 					
 			</xsl:when>
 			
-			<xsl:when test="$key = 'WHERE_LIKE'">
+			<xsl:when test="$key = 'WHERE_NOTLIKE'">
 				
 				<xsl:text>,"notlike",</xsl:text>
 					

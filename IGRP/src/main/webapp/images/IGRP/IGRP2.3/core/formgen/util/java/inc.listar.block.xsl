@@ -326,18 +326,42 @@
 			
 				<xsl:when test="$filter ='.andWhere' or $filter ='.orWhere' or $filter ='.having' or $filter ='.where'">
 				
-					<xsl:value-of select="$newlineTab1"/>
-				
-					<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
-	
-					<xsl:value-of select="$newlineTab2"/>
+					<xsl:choose>
 					
-					<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
+					<xsl:when test="contains($operator,'like')">
 					
-					<xsl:value-of select="$newlineTab1"/>
+						<xsl:value-of select="$newlineTab1"/>
 					
-					<xsl:text>}</xsl:text>
-				
+						<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+		
+						<xsl:value-of select="$newlineTab2"/>
+						
+						<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:text>"%"+</xsl:text><xsl:value-of select="$value2"/><xsl:text>.trim()+"%");</xsl:text>
+						
+						<xsl:value-of select="$newlineTab1"/>
+						
+						<xsl:text>}</xsl:text>
+					
+					</xsl:when>
+					
+					<xsl:otherwise>
+					
+						<xsl:value-of select="$newlineTab1"/>
+					
+						<xsl:text>if(Core.isNotNullOrZero(</xsl:text><xsl:value-of select="$value2"/><xsl:text>)){</xsl:text>
+		
+						<xsl:value-of select="$newlineTab2"/>
+						
+						<xsl:value-of select="$daofilter"/><xsl:value-of select="$filter"/><xsl:text>(</xsl:text><xsl:value-of select="$value1"/><xsl:value-of select="$operator"/><xsl:value-of select="$value2"/><xsl:text>);</xsl:text>
+						
+						<xsl:value-of select="$newlineTab1"/>
+						
+						<xsl:text>}</xsl:text>
+					
+					</xsl:otherwise>
+					
+					</xsl:choose>
+					
 				</xsl:when>
 				
 				<xsl:when test="$filter ='.whereIn' or $filter ='.whereNotIn'">
