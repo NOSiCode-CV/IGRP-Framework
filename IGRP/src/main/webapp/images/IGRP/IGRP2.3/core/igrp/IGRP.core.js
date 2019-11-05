@@ -500,15 +500,16 @@
 			},
 			ffoxDisableOutputEscaping: function(){
 
-				var doe = $('.disable-output-escaping');
+				var doe = $('.disable-output-escaping').not('.set');
 
-				if($.browser &&  $.browser.mozilla)
+				if($.browser && $.browser.mozilla){
 
 					doe.each(function(i,d){
 						
 						$(d).html( $(d).text() );
 
 					});
+				}
 
 				doe.addClass('set');
 
