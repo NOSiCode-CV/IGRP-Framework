@@ -11,12 +11,13 @@ public class NovaOrganicaView extends View {
 	public Field sectionheader_1_text;
 	public Field nome;
 	public Field codigo;
+	public Field plsql_codigo;
 	public Field ativo;
 	public Field ativo_check;
 	public Field nada;
 	public Field aplicacao;
 	public Field organizacao_pai;
-	public IGRPForm sectionheader_1;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -26,7 +27,7 @@ public class NovaOrganicaView extends View {
 
 		this.setPageTitle("Registar Organica");
 			
-		sectionheader_1 = new IGRPForm("sectionheader_1","");
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 
 		form_1 = new IGRPForm("form_1","");
 
@@ -37,19 +38,23 @@ public class NovaOrganicaView extends View {
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","60").add("required","true").add("readonly","false").add("disabled","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","60").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false");
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","100").add("required","true").add("readonly","false").add("disabled","false").add("placeholder",gt("ex: org2")).add("desclabel","false");
+		
+		plsql_codigo = new TextField(model,"plsql_codigo");
+		plsql_codigo.setLabel(gt("PL/SQL (código)"));
+		plsql_codigo.propertie().add("name","p_plsql_codigo").add("type","text").add("maxlength","250").add("required","false").add("readonly","false").add("disabled","false").add("placeholder",gt("")).add("desclabel","false");
 		
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
-		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","").add("check","true");
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("readonly","false").add("disabled","false").add("switch","true").add("java-type","int").add("check","true");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30");
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder",gt("")).add("desclabel","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
@@ -63,7 +68,7 @@ public class NovaOrganicaView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","NovaOrganica","gravar","submit","primary|fa-save","","");
-		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar").add("refresh_components","");
 
 		
 	}
@@ -76,6 +81,7 @@ public class NovaOrganicaView extends View {
 
 		form_1.addField(nome);
 		form_1.addField(codigo);
+		form_1.addField(plsql_codigo);
 		form_1.addField(ativo);
 		form_1.addField(nada);
 		form_1.addField(aplicacao);
@@ -92,6 +98,7 @@ public class NovaOrganicaView extends View {
 		
 		nome.setValue(model);
 		codigo.setValue(model);
+		plsql_codigo.setValue(model);
 		ativo.setValue(model);
 		nada.setValue(model);
 		aplicacao.setValue(model);

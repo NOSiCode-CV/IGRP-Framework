@@ -6,6 +6,8 @@ import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -62,14 +64,18 @@ public class NovoPerfilController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovoPerfil","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","NovoPerfil","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		ProfileType pt = new ProfileType();
 
 		pt.setCode(model.getCodigo() + "." + Core.findApplicationById(model.getAplicacao()).getDad());
 		pt.setDescr(model.getNome());
 		pt.setOrganization(Core.findOrganizationById(model.getOrganica()));
+		pt.setPlsql_code(model.getPlsql_codigo());
+		
 		/*
 		 * if(model.getPerfil_pai()!=0){ pt.setProfiletype(new
 		 * ProfileType().findOne(model.getPerfil())); }
@@ -82,12 +88,8 @@ public class NovoPerfilController extends Controller {
 			System.out.println("Código perfil duplicado");
 			return this.forward("igrp", "NovoPerfil", "index", this.queryString());
 		}
-		else {
-			System.out.println("das");
-					
+		else 
 			pt = pt.insert();	
-		}
-		
 	
 		if (pt != null && !pt.hasError()) {
 			/*
@@ -113,6 +115,8 @@ public class NovoPerfilController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 
 	private Boolean insertProfile(ProfileType pt) throws IOException {
@@ -136,6 +140,7 @@ public class NovoPerfilController extends Controller {
 		model.setCodigo(p.getCode());
 		model.setNome(p.getDescr());
 		model.setAplicacao(p.getApplication().getId());
+		model.setPlsql_codigo(p.getPlsql_code()); 
 		if (p.getOrganization() != null) {
 			model.setOrganica(p.getOrganization().getId());
 		}
@@ -178,6 +183,7 @@ public class NovoPerfilController extends Controller {
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getNome());
 			p.setOrganization(Core.findOrganizationById(model.getOrganica()));
+			p.setPlsql_code(model.getPlsql_codigo()); 
 			/*
 			 * if(model.getPerfil_pai()!=0){ p.setProfiletype(new
 			 * ProfileType().findOne(model.getPerfil())); }

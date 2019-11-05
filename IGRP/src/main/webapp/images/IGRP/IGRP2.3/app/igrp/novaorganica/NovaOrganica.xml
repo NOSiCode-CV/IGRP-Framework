@@ -5,7 +5,7 @@
     <title>Dummie XML prototype</title>
     <site>
         <welcome_note>Oba</welcome_note>
-        <footer_note>2018 - Copyright NOSI v.180723</footer_note>
+        <footer_note>2019 - Copyright NOSI v.190711</footer_note>
         <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
@@ -47,7 +47,7 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar">
+            <item type="specific" code="" rel="gravar" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>NovaOrganica</page>
@@ -59,19 +59,23 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Accusantium aliqua natus aperiam mollit</value>
+                    <value>Natus accusantium deserunt anim sit</value>
                 </nome>
-                <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false">
+                <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="ex: org2" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Officia iste consectetur unde ipsum</value>
+                    <value>Laudantium amet sed amet ut</value>
                 </codigo>
-                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="" check="true">
+                <plsql_codigo name="p_plsql_codigo" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>PL/SQL (código)</label>
+                    <value>Perspiciatis labore adipiscing ut aliqua</value>
+                </plsql_codigo>
+                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" switch="true" java-type="int" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </ativo>
-                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false" desclabel="false">
                     <label></label>
                 </nada>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="" tags="false">
@@ -121,4 +125,10 @@
             </fields>
         </form_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

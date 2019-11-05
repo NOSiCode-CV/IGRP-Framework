@@ -1,9 +1,13 @@
 package nosi.webapps.igrp.pages.novaorganica;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -52,8 +56,10 @@ public class NovaOrganicaController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp","NovaOrganica","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp","NovaOrganica","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			
@@ -73,6 +79,7 @@ public class NovaOrganicaController extends Controller {
 			organization.setUser(u);
 			organization.setStatus(model.getAtivo());
 			organization.setName(model.getNome());
+			organization.setPlsql_code(model.getPlsql_codigo());
 			organization = organization.insert();
 			if (organization != null && !organization.hasError()) {
 				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
@@ -90,6 +97,8 @@ public class NovaOrganicaController extends Controller {
 		return this.redirect("igrp","NovaOrganica","index", this.queryString());	
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
@@ -101,6 +110,7 @@ public class NovaOrganicaController extends Controller {
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());
 		model.setAplicacao("" + organization.getApplication().getId());
+		model.setPlsql_codigo(organization.getPlsql_code());
 
 		/*
 		 * if(organization.getOrganization()!=null){
@@ -137,6 +147,7 @@ public class NovaOrganicaController extends Controller {
 			organization.setCode(model.getCodigo());
 			organization.setName(model.getNome());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
+			organization.setPlsql_code(model.getPlsql_codigo());
 			/*
 			 * if(model.getOrganica_pai()!=0){ organization.setOrganization(new
 			 * Organization().findOne(model.getOrganica_pai())); }
