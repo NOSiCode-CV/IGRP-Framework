@@ -63,15 +63,15 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.insert();
-					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
-					this.saveDataSource(report);
-					this.saveParamDataSource(report, repTemplate);
+//					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
+//					this.saveDataSource(report);
+//					this.saveParamDataSource(report, repTemplate);
 				} else {
 					repTemplate.setCode(report.getCode());
 					repTemplate.setDt_created(report.getDt_created());
 					repTemplate.setDt_updated(report.getDt_updated());
 					repTemplate.setName(report.getName());
-					repTemplate.setReport_identify(report.getReport_identify());
+					//repTemplate.setReport_identify(report.getReport_identify());
 					repTemplate.setApplication(
 							this.application != null ? this.application : new Application().findByDad(report.getDad()));
 					repTemplate.setUser_created(Core.getCurrentUser());
@@ -80,10 +80,10 @@ public class ReportImport extends AbstractImport implements IImport {
 					repTemplate.setXml_content(xml_content);
 					repTemplate.setXsl_content(xsl_content);
 					repTemplate = repTemplate.update();
-					this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
-					this.saveDataSource(report);
-					this.saveParamDataSource(report, repTemplate);
 				}
+				this.addError(repTemplate.hasError() ? repTemplate.getError().get(0) : null);
+				this.saveDataSource(report);
+				this.saveParamDataSource(report, repTemplate);
 			});
 		}
 	}
@@ -91,20 +91,29 @@ public class ReportImport extends AbstractImport implements IImport {
 	private void saveParamDataSource(ReportSerializable report, RepTemplate repTemplate) {
 		if (report.getSourcesReportAssoc() != null) {
 			report.getSourcesReportAssoc().stream().forEach(pds -> {
-				RepTemplateSource repTS = new RepTemplateSource();
 				RepSource repSource = new RepSource().find().andWhere("source_identify", "=", pds.getSource()).one();
-				repTS.setRepSource(repSource);
-				repTS.setRepTemplate(repTemplate);
-				repTS = repTS.insert();
-				this.addError(repTS.hasError() ? repTS.getError().get(0) : null);
+				RepTemplateSource repTS = new RepTemplateSource().find().andWhere("repSource", "=", repSource)
+						.andWhere("repTemplate", "=", repTemplate)
+						.one();
+				if(repTS==null) {
+					repTS = new RepTemplateSource();
+					repTS.setRepSource(repSource);
+					repTS.setRepTemplate(repTemplate);
+					repTS = repTS.insert();
+					this.addError(repTS.hasError() ? repTS.getError().get(0) : null);
+				}
 				if (pds.getParams() != null) {
 					for (ReportParamsSerializable p : pds.getParams()) {
-						RepTemplateSourceParam param = new RepTemplateSourceParam();
-						param.setParameter(p.getParameter());
-						param.setParameter_type(p.getParameter_type());
-						param.setRepTemplateSource(repTS);
-						param = param.insert();
-						this.addError(param.hasError() ? param.getError().get(0) : null);
+						if (new RepTemplateSourceParam().find().andWhere("parameter", "=", p.getParameter())
+								.andWhere("parameter_type", "=", p.getParameter_type())
+								.andWhere("repTemplateSource", "=", repTS).getCount() == 0) {
+							RepTemplateSourceParam param = new RepTemplateSourceParam();
+							param.setParameter(p.getParameter());
+							param.setParameter_type(p.getParameter_type());
+							param.setRepTemplateSource(repTS);
+							param = param.insert();
+							this.addError(param.hasError() ? param.getError().get(0) : null);
+						}
 					}
 				}
 			});
