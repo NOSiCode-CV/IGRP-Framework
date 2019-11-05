@@ -18,9 +18,10 @@
 			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name,
 			parser		= parent.attr('parser') && parent.attr('parser') == 'true' ? true : false;
 
-			xslParams.name 		= name;
-			xslParams.target  	= parent.attr('target');
-			xslParams.parser  	= parser;
+			xslParams.name 				= name;
+			xslParams.target  			= parent.attr('target');
+			xslParams.target_fields  	= parent.attr('target_fields');
+			xslParams.parser  			= parser;
 
 			if (parent.attr('tooltip') && parent.attr('tooltip') != undefined)
 				xslParams.tooltip = parent.attr('tooltip');
