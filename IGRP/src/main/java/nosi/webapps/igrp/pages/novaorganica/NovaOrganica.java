@@ -4,20 +4,30 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 public class NovaOrganica extends Model{		
+
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+
 	@RParam(rParamName = "p_nome")
 	private String nome;
+
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
+
+	@RParam(rParamName = "p_plsql_codigo")
+	private String plsql_codigo;
+
 	@RParam(rParamName = "p_ativo")
 	private int ativo;
 	@RParam(rParamName = "p_ativo_check")
 	private int ativo_check;
+
 	@RParam(rParamName = "p_nada")
 	private String nada;
+
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+
 	@RParam(rParamName = "p_organizacao_pai")
 	private String organizacao_pai;
 	
@@ -40,6 +50,13 @@ public class NovaOrganica extends Model{
 	}
 	public String getCodigo(){
 		return this.codigo;
+	}
+	
+	public void setPlsql_codigo(String plsql_codigo){
+		this.plsql_codigo = plsql_codigo;
+	}
+	public String getPlsql_codigo(){
+		return this.plsql_codigo;
 	}
 	
 	public void setAtivo(int ativo){

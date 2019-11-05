@@ -51,6 +51,7 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 	private String template;
 	private int externo;
 	private String url;
+	private String plsql_code;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "action_fk", foreignKey = @ForeignKey(name = "ENV_ACTION_FK"))
@@ -426,6 +427,22 @@ public class Application extends IGRPBaseActiveRecord<Application> implements Se
 		return new Application().find().andWhere("dad", "=", dad).one();
 	}
 	
+	public int getExterno() {
+		return externo;
+	}
+
+	public void setExterno(int externo) {
+		this.externo = externo;
+	}
+
+	public String getPlsql_code() {
+		return plsql_code;
+	}
+
+	public void setPlsql_code(String plsql_code) {
+		this.plsql_code = plsql_code;
+	}
+
 	public LinkedHashMap<String, String> getAtivesEstadoRegisto() {
 		 LinkedHashMap<String, String> m = new  LinkedHashMap<String, String>();
 		 m.put(null, "--- Selecionar ---");

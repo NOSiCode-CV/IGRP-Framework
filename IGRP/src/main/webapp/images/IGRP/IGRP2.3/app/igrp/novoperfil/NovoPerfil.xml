@@ -47,7 +47,7 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gravar" custom_return="true">
+            <item type="specific" code="" rel="gravar" custom_return="true" refresh_components="">
                 <title>Gravar</title>
                 <app>igrp</app>
                 <page>NovoPerfil</page>
@@ -61,12 +61,16 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Nome</label>
-                    <value>Stract sit natus ut adipiscing</value>
+                    <value>Magna anim officia magna ipsum</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desclabel="false">
                     <label>Código</label>
-                    <value>Omnis labore magna adipiscing</value>
+                    <value>Doloremque voluptatem unde ape</value>
                 </codigo>
+                <plsql_codigo name="p_plsql_codigo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" desclabel="false" right="false">
+                    <label>PL/SQL (código)</label>
+                    <value>Labore officia amet laudantium mollit</value>
+                </plsql_codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" switch="false" java-type="int" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
@@ -177,4 +181,10 @@
             </fields>
         </form_1>
     </content>
+    <blockly>
+        <imports></imports>
+        <xml>
+            <block type="controller" id="controller" x="388" y="13"></block>
+        </xml>
+    </blockly>
 </rows>

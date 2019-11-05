@@ -38,6 +38,7 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 	@Column(nullable=false,unique=true)
 	private String code;
 	private int status;
+	private String plsql_code; 
 	
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_ORG_FK"))
@@ -132,6 +133,14 @@ public class ProfileType extends IGRPBaseActiveRecord<ProfileType> implements Se
 
 	public void setProfiles(List<Profile> profiles) {
 		this.profiles = profiles;
+	}
+	
+	public String getPlsql_code() {
+		return plsql_code;
+	}
+
+	public void setPlsql_code(String plsql_code) {
+		this.plsql_code = plsql_code;
 	}
 
 	public HashMap<String, String> getListMyProfiles() {

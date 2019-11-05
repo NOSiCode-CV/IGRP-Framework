@@ -222,7 +222,7 @@ public class Oauth2openidwso2Controller extends Controller {
 		 nosi.webapps.igrp.dao.Config config = new  nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "IGRPWEB_INTEGRATION_PLSQL_TOKEN").one(); 
 		 if(config != null) { 
 			 
-			 if(header != null && config.getValue() != null && config.getValue().equals(header)) {
+			// if(header != null && config.getValue() != null && config.getValue().equals(header)) {
 				 
 				String currentDad = Core.getParam("p_current_dad");
 				String userId = Core.getParam("p_user_id"); 
@@ -234,7 +234,7 @@ public class Oauth2openidwso2Controller extends Controller {
 				 currentOrg = "1"; 
 				 currentProf = "2"; 
 				 
-				 System.out.println(header + " - " + config.getValue());
+				 System.out.println(header + " - " + config.getValue()); 
 					 
 				Application application = new Application().find().andWhere("plsql_code", "=", currentDad).one(); 
 				Organization organization = new Organization().find().andWhere("plsql_code", "=", currentOrg).one();
@@ -309,7 +309,7 @@ public class Oauth2openidwso2Controller extends Controller {
 				
 				json = XML.toJSONObject(xml_menu.toString()).toString();
 				
-			 }	 
+			 //}	 
 		}
 		
 		this.format = Response.FORMAT_JSON;

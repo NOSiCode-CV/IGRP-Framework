@@ -1,9 +1,13 @@
 package nosi.webapps.igrp_studio.pages.env;
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.databse.helpers.ResultSet;
+import nosi.core.webapp.databse.helpers.QueryInterface;
 import java.io.IOException;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+/* Start-Code-Block (import) */
+/* End-Code-Block */
 /*----#start-code(packages_import)----*/
 import java.io.File;
 import nosi.core.config.Config;
@@ -50,7 +54,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 /*----#end-code----*/
 		
-public class EnvController extends Controller {
+public class EnvController extends Controller { 
 	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
@@ -64,11 +68,9 @@ public class EnvController extends Controller {
 		  ----#gen-example */
 		/*----#start-code(index)----*/
 		
-		
       	model.setGen_auto_code(1); 
       	model.setImg_src("default.svg");	
 	
-		
 		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
@@ -91,8 +93,10 @@ public class EnvController extends Controller {
 		/*----#gen-example
 		  EXAMPLES COPY/PASTE:
 		  INFO: Core.query(null,... change 'null' to your db connection name, added in Application Builder.
-		 this.addQueryString("p_id","12"); //to send a query string in the URL
-		 return this.forward("igrp_studio","ListaPage","index", model, this.queryString()); //if submit, loads the values  ----#gen-example */
+		  this.addQueryString("p_id","12"); //to send a query string in the URL
+		  return this.forward("igrp_studio","ListaPage","index",this.queryString()); //if submit, loads the values
+		  Use model.validate() to validate your model
+		  ----#gen-example */
 		/*----#start-code(gravar)----*/ 
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -108,6 +112,7 @@ public class EnvController extends Controller {
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());	
 			app.setExternal(Core.toInt(model.getFlg_external()).intValue());
+			app.setPlsql_code(model.getPlsql_codigo());
 			
 			boolean autoDeploy = false;
 			
@@ -171,6 +176,8 @@ public class EnvController extends Controller {
 			
 	}
 	
+		
+		
 /*----#start-code(custom_actions)----*/
 	
 	private boolean appAutoDeploy(String appDad) {
@@ -279,6 +286,7 @@ public class EnvController extends Controller {
 		model.setImg_src(aplica_db.getImg_src());
 		model.setStatus(aplica_db.getStatus());
 		model.setTemplates(aplica_db.getTemplate());
+		model.setPlsql_codigo(aplica_db.getPlsql_code());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			
@@ -286,6 +294,7 @@ public class EnvController extends Controller {
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());	
 			aplica_db.setExternal(Core.toInt(model.getFlg_external()).intValue());
+			aplica_db.setPlsql_code(model.getPlsql_codigo());
 			
 			if(aplica_db.getExternal() == 2) {
 				aplica_db.setUrl(model.getHost().trim());
