@@ -13,7 +13,7 @@
 }
 
 .box-tm .nav-list .tree-toggler{
-	padding: 10px 15px;
+	padding: 5px 15px;
 	position: relative;
 	cursor: pointer;
 	border-bottom: 1px solid #eaeaea;
@@ -22,6 +22,7 @@
 .box-tm .nav-list .tree-toggler > span{
 	display: block;
 	padding-left: 25px;
+	margin-top: 8px;
 }
 
 .box-tm .nav-list .tree-toggler a{
