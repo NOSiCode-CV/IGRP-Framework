@@ -500,7 +500,7 @@
 			},
 			ffoxDisableOutputEscaping: function(){
 
-				var doe = $('.disable-output-escaping').not('.set');
+				var doe = $('.disable-output-escaping, .ff-fix').not('.set');
 
 				if($.browser && $.browser.mozilla){
 
