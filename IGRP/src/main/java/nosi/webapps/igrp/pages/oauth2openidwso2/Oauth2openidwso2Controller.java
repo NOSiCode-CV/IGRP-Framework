@@ -12,8 +12,10 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Menu.MenuProfile;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.core.webapp.databse.helpers.QueryInterface;
 import nosi.core.webapp.Igrp;
 
@@ -212,86 +214,107 @@ public class Oauth2openidwso2Controller extends Controller {
 	
 	
 	
-	public Response actionMyMenus() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionMyMenus() throws IOException, IllegalArgumentException, IllegalAccessException{	
 		
-		String currentDad = Core.getParam("p_current_dad");
-		String userId = Core.getParam("p_user_id"); 
-		String currentOrg = Core.getParam("p_current_org");
-		String currentProf = Core.getParam("p_current_prof"); 
+		String json = "{}"; // empty json 
 		
-		 currentDad = "igrp";
-		 userId = "2"; 
-		 currentOrg = "1";
-		 currentProf = "2";
-		
-		XMLWritter xml_menu = new XMLWritter();
-		xml_menu.startElement("menus");
-		
-		LinkedHashMap<String, List<MenuProfile>> allMenus = new Menu().getMyMenu(currentDad, Core.toInt(userId), Core.toInt(currentOrg), Core.toInt(currentProf)); 
-			
-			if (allMenus != null) {
-				for (Entry<String, List<MenuProfile>> m : allMenus.entrySet()) {
-					xml_menu.startElement("menu");
-					xml_menu.setElement("title", gt(m.getKey()));
+		 String header = Igrp.getInstance().getRequest().getHeader("Authorization"); 
+		 nosi.webapps.igrp.dao.Config config = new  nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "IGRPWEB_INTEGRATION_PLSQL_TOKEN").one(); 
+		 if(config != null) { 
+			 
+			 if(header != null && config.getValue() != null && config.getValue().equals(header)) {
+				 
+				String currentDad = Core.getParam("p_current_dad");
+				String userId = Core.getParam("p_user_id"); 
+				String currentOrg = Core.getParam("p_current_org");
+				String currentProf = Core.getParam("p_current_prof"); 
+				
+				 currentDad = "igrp"; 
+				 userId = "2";  // email 
+				 currentOrg = "1"; 
+				 currentProf = "2"; 
+				 
+				 System.out.println(header + " - " + config.getValue());
+					 
+				Application application = new Application().find().andWhere("plsql_code", "=", currentDad).one(); 
+				Organization organization = new Organization().find().andWhere("plsql_code", "=", currentOrg).one();
+				ProfileType profileType = new ProfileType().find().andWhere("plsql_code", "=", currentProf).one(); 
+				User user = new User().find().andWhere("email", "=", userId).one(); 
+				
+				XMLWritter xml_menu = new XMLWritter();
+				xml_menu.startElement("menus");
+						
+				LinkedHashMap<String, List<MenuProfile>> allMenus = new Menu().getMyMenu(currentDad, Core.toInt(userId), Core.toInt(currentOrg), Core.toInt(currentProf)); 
 					
-					for (MenuProfile main : m.getValue()) {
-						if (main.isSubMenuAndSuperMenu()) {
+					if (allMenus != null) {
+						for (Entry<String, List<MenuProfile>> m : allMenus.entrySet()) {
+							xml_menu.startElement("menu");
+							xml_menu.setElement("title", gt(m.getKey()));
 							
-							if(main.getType() == 1) { // menu para uma pagina externa e publica 
-								String aux = buildMenuUrlByDad( main.getLink());
-								if(aux != null)
-									xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
-								else 
+							for (MenuProfile main : m.getValue()) {
+								if (main.isSubMenuAndSuperMenu()) {
+									
+									if(main.getType() == 1) { // menu para uma pagina externa e publica 
+										String aux = buildMenuUrlByDad( main.getLink());
+										if(aux != null)
+											xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
+										else 
+											xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+									}
+									else if(main.getType() == 2) { // Fazer sso obrigatorio 
+										xml_menu.setElement("link", main.getLink()); 
+									}
+									else if(main.getType() == 3) {
+										xml_menu.setElement("link", "webapps?r=" + main.getLink());
+									}
+									else {
+										xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+									}
+									
+									xml_menu.setElement("target", main.getTarget());
+								}
+								xml_menu.setElement("order", "" + main.getOrder());
+								xml_menu.startElement("submenu");
+								xml_menu.writeAttribute("title", gt(main.getTitle()));
+								xml_menu.writeAttribute("id", "" + main.getId());
+								
+								if(main.getType() == 1) { // menu para uma pagina externa e publica 
+									String aux = buildMenuUrlByDad( main.getLink());
+									if(aux != null)
+										xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
+									else 
+										xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+								}
+								else if(main.getType() == 2) { // Fazer sso obrigatorio 
+									xml_menu.setElement("link", main.getLink()); 
+								} else if(main.getType() == 3) {
+									xml_menu.setElement("link", "webapps?r=" + main.getLink());
+								}
+								else {
 									xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
+								}
+								
+								xml_menu.setElement("title", gt(main.getTitle()));
+								xml_menu.setElement("target", main.getTarget());
+								xml_menu.setElement("id", "" + main.getId());
+								xml_menu.setElement("status", "" + main.getStatus());
+								xml_menu.setElement("order", "" + main.getOrder());
+								xml_menu.endElement();
 							}
-							else if(main.getType() == 2) { // Fazer sso obrigatorio 
-								xml_menu.setElement("link", main.getLink()); 
-							}
-							else if(main.getType() == 3) {
-								xml_menu.setElement("link", "webapps?r=" + main.getLink());
-							}
-							else {
-								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-							}
-							
-							xml_menu.setElement("target", main.getTarget());
+							xml_menu.endElement();
 						}
-						xml_menu.setElement("order", "" + main.getOrder());
-						xml_menu.startElement("submenu");
-						xml_menu.writeAttribute("title", gt(main.getTitle()));
-						xml_menu.writeAttribute("id", "" + main.getId());
-						
-						if(main.getType() == 1) { // menu para uma pagina externa e publica 
-							String aux = buildMenuUrlByDad( main.getLink());
-							if(aux != null)
-								xml_menu.setElement("link", aux + "webapps?r=" + main.getLink()); 
-							else 
-								xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-						}
-						else if(main.getType() == 2) { // Fazer sso obrigatorio 
-							xml_menu.setElement("link", main.getLink()); 
-						} else if(main.getType() == 3) {
-							xml_menu.setElement("link", "webapps?r=" + main.getLink());
-						}
-						else {
-							xml_menu.setElement("link", "webapps?r=" + main.getLink()); 
-						}
-						
-						xml_menu.setElement("title", gt(main.getTitle()));
-						xml_menu.setElement("target", main.getTarget());
-						xml_menu.setElement("id", "" + main.getId());
-						xml_menu.setElement("status", "" + main.getStatus());
-						xml_menu.setElement("order", "" + main.getOrder());
-						xml_menu.endElement();
 					}
-					xml_menu.endElement();
-				}
-			}
-			
-		xml_menu.endElement();
+					
+				xml_menu.endElement();
+				
+				json = XML.toJSONObject(xml_menu.toString()).toString();
+				
+			 }	 
+		}
+		
 		this.format = Response.FORMAT_JSON;
 		
-		return this.renderView(XML.toJSONObject(xml_menu.toString()).toString());
+		return this.renderView(json);
 	}
 	
 	
